@@ -19,4 +19,8 @@ public class PersonService
 	{      
         return personRepository.findAll();
 	}
+	public List<Person> SavePersons(List<Person> plst) 
+	{      
+        return personRepository.saveAll(plst);
+	}
 }

@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title id='Description'>This example shows how to create a Grid from JSON data.</title>
+    <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+    <link rel="stylesheet" href="/css/jqx.black.css" type="text/css" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
+    <meta name="viewport" content="width=device-width, initial-scale=1 maximum-scale=1 minimum-scale=1" />	
+    <script src="/vendor/jquery/jquery.min.js"></script>
+	     <script src="/js/jqwidgets/jqxcore.js"></script> 
+	  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+	  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
+	  <script src="/js/jqwidgets/jqxmenu.js"></script> 
+	  <script src="/js/jqwidgets/jqxgrid.js"></script> 
+	  <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
+	  <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
+	  <script src="/js/jqwidgets/jqxdata.js"></script> 
+	   <script src="/js/jqwidgets/demos.js"></script> 
+    <script type="text/javascript">
+        $(document).ready(function () {
+        	 var source =
+             {
+                 datatype: "jsonp",
+                 datafields: [
+                     { name: 'countryName', type: 'string' },
+                     { name: 'name', type: 'string' },
+                     { name: 'population', type: 'float' },
+                     { name: 'continentCode', type: 'string' }
+                 ],
+                 url: "http://api.geonames.org/searchJSON"
+             };
+
+             var dataAdapter = new $.jqx.dataAdapter(source, 
+                 {
+                     formatData: function (data) {
+                         $.extend(data, {
+                             featureClass: "P",
+                             style: "full",
+                             maxRows: 50,
+                             username: "jqwidgets"
+                         });
+
+                         return data;
+                     }
+                 }
+             );
+
+             $("#grid").jqxGrid(
+             {
+                 width: getWidth('Grid'),
+                 source: dataAdapter,
+                 theme:'black',
+                 columnsresize: true,
+                 columns: [
+                     { text: 'Country Name', datafield: 'countryName', width: 200 },
+                     { text: 'City', datafield: 'name', width: 170 },
+                     { text: 'Population', datafield: 'population', cellsformat: 'f', width: 170 },
+                     { text: 'Continent Code', datafield: 'continentCode', minwidth: 110 }
+                 ]
+             });
+        });
+    </script>
+</head>
+<body class='default'>
+        <div id="grid"></div>
+
+
+<div style="position: absolute; bottom: 5px; right: 5px;">
+<a href="https://www.jqwidgets.com/" alt="https://www.jqwidgets.com/"><img alt="https://www.jqwidgets.com/" title="https://www.jqwidgets.com/" src="https://www.jqwidgets.com/wp-content/design/i/logo-jqwidgets.png"/></a>
+</div>
+</body>
+</html>
