@@ -1,32 +1,48 @@
-﻿
+
 :root {
-    --jqx-primary-rgb: 51, 173, 255;
+	--jqx-primary-color:#fff;
+    --jqx-primary-rgb: 113, 157, 240;
     --jqx-primary: rgb(var(--jqx-primary-rgb));
-    --jqx-background: #252526;
-    --jqx-background-color: #E7E7E7;
-    --jqx-surface:#252526;
-    --jqx-surface-color: #969690;
-    --jqx-border: #414141;
-    --jqx-background-hover-rgb: 60, 60, 60;
+    --jqx-background: #272e48;
+    --jqx-background-color: #8A99B5;
+    --jqx-surface:#40566f;
+    --jqx-surface-color: #BDD1F8;
+    --jqx-border: #464D5C;
+    --jqx-background-hover-rgb: 48, 66, 86;
     --jqx-background-hover: rgb(var(--jqx-background-hover-rgb));
-    --jqx-background-color-hover: rgba(255,255,255,.54);
+    --jqx-background-color-hover: rgba(255, 255, 255,.95);
     --jqx-scrollbar-background: #3E3E42;
     --jqx-scrollbar-border: #1E1E1E;
     --jqx-scrollbar-thumb-background: #686868;
     --jqx-scrollbar-thumb-border: #3E3E42;
-    --jqx-scrollbar-thumb-background-hover: #9E9E9E;
-    --jqx-scrollbar-thumb-border-hover: #9E9E9E;
+    --jqx-scrollbar-thumb-background-hover: #304256;
+    --jqx-scrollbar-thumb-border-hover: #304256;
     --jqx-scrollbar-thumb-background-pressed: #f5f5f5;
     --jqx-scrollbar-thumb-border-pressed: #f5f5f5;
     --jqx-scrollbar-button-color-hover: #333;
-    --jqx-scrollbar-button-background-hover: #9E9E9E;
-    --jqx-scrollbar-button-border-hover: #9E9E9E;
+    --jqx-scrollbar-button-background-hover: #304256;
+    --jqx-scrollbar-button-border-hover: #304256;
     --jqx-scrollbar-button-color-pressed: #333;
     --jqx-scrollbar-button-background-pressed: #f5f5f5;
     --jqx-scrollbar-button-border-pressed: #f5f5f5;
 
 }
+/* Scrollbar Styling */
+::-webkit-scrollbar {
+    width: 10px;
+}
+ .jqx-cell {
+  padding: 20px 0px 20px 10px
+}
+::-webkit-scrollbar-track {
+    background-color: #1A233A;
+}
 
+::-webkit-scrollbar-thumb {
+    -webkit-border-radius: 10px;
+    border-radius: 10px;
+    background: #40566f; 
+}
 .jqx-icon-search-dark,
 .jqx-icon-close-dark {
     background-image: none;
@@ -1461,9 +1477,10 @@
 
 .jqx-widget-dark .jqx-grid-column-header-dark {
     border-color: var(--jqx-border);
-    font-size: 12px;
+    font-size: .8rem;
+    letter-spacing: 1px;
     color: var(--jqx-surface-color);
-    font-weight: 500;
+    font-weight: 600;
 }
 .jqx-widget-dark .jqx-grid-cell-dark {
     border-color: var(--jqx-border);
@@ -1642,7 +1659,7 @@
     background: var(--jqx-background);
     color: var(--jqx-background-color);
     border: none;
-    border-radius: 0;
+    border-radius: .2rem;
     box-sizing:border-box;
     box-shadow: none;
     border-bottom: 1px solid var(--jqx-border);

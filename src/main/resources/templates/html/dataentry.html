@@ -451,7 +451,7 @@
         </div>
         <!---Container Fluid-->
       </div>
-      <div class="NewsBack" style="position: fixed; bottom: 0px; left: 0px; width: 100%;  border: 2px; border-color: black;">
+      <div class="NewsBack" style="z-index: 100; position: fixed; bottom: 0px; left: 0px; width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
 				<div class="marquee-sibling">
 					NEWS
@@ -498,6 +498,9 @@
   <script src="/js/jqwidgets/jqxgrid.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
+  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
+  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
   <script src="/js/jqwidgets/jqxdata.js"></script> 
   <script>
 			$(function (){
@@ -527,6 +530,9 @@
 		                width: '100%',
 		                columnsresize: true,
 		                theme:'dark',
+		                pageable: true,
+		                pagesize: 10,
+		                autoheight: true,
 		                source: dataAdapter,
 		                columns: [
 		                  { text: 'Name', datafield: 'name', width: '25%' },

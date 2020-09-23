@@ -59,6 +59,7 @@ a:focus {
 	display: none;
 	width: 2.75rem;
 	height: 2.75rem;
+	z-index: 101;
 	text-align: center;
 	color: #fff;
 	border-color: #2C6DE9!important;
