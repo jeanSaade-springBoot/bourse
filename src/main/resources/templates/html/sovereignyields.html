@@ -232,7 +232,7 @@
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="content">
         <!-- TopBar -->
-        <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-4 static-top">
+        <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-1 static-top">
           <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
             <i class="fa fa-bars"></i>
           </button>
@@ -421,25 +421,29 @@
 
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
+          <div class="d-sm-flex align-items-center justify-content-between mb-1">
             <h1 class="h3 mb-0 text-gray-800">Sovereign Yields</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/bourse/home">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">Sovereign Yields</li>
             </ol>
           </div>
-		<div class="col-lg-12">
+		<div class="col-lg-6">
               <!-- Form Basic -->
               <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
-                  <h6 class="m-0 font-weight-bold text-primary">Form</h6>
+                 <div class="col-lg-4" style="padding: 0;">
+                  <h6 class="m-0 font-weight-bold text-primary">Sovereign Data Entry</h6>
+                  </div>
+                   <div class="col-lg-3">
+                    <div id="countryDropDown"> </div>
+                   </div>
                 </div>
                 <div class="card-body" style="  padding-top: 0;
 											    padding-right: 1.25rem;
 											    padding-bottom: 1.25rem;
 											    padding-left: 1.25rem;">
                   <form onsubmit="submitData()">
-                  <div id="countryDropDown"> </div>
                   <div class="form-group" style=" margin-top: 1rem;">
                       <label for="exampleFormControlTextarea1">Enter Data below</label>
                       <textarea class="form-control" id="data" rows="3"></textarea>
@@ -503,6 +507,7 @@
   <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
   <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
   <script src="/js/jqwidgets/jqxlistbox.js"></script> 
   <script src="/js/jqwidgets/jqxdata.js"></script> 
@@ -549,6 +554,7 @@
 		                theme:'dark',
 		                pageable: true,
 		                pagesize: 10,
+		                filterable: true,
 		                autoheight: true,
 		                source: dataAdapter,
 		                columns: [
