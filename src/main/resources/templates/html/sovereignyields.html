@@ -35,9 +35,9 @@
       </li>
       <hr class="sidebar-divider">
       <li class="nav-item active">
-        <a class="nav-link" href="/bourse/dataentry">
+        <a class="nav-link" href="/bourse/sovereignyields">
           <i class="fas fa-database"></i>
-          <span>Data Entry</span></a>
+          <span>Sovereign Yields</span></a>
       </li>
       <hr class="sidebar-divider">
       <div class="sidebar-heading">
@@ -422,10 +422,10 @@
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Data entry</h1>
+            <h1 class="h3 mb-0 text-gray-800">Sovereign Yields</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/bourse/home">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Data entry</li>
+              <li class="breadcrumb-item active" aria-current="page">Sovereign Yields</li>
             </ol>
           </div>
 		<div class="col-lg-12">
@@ -434,9 +434,13 @@
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
                   <h6 class="m-0 font-weight-bold text-primary">Form</h6>
                 </div>
-                <div class="card-body">
+                <div class="card-body" style="  padding-top: 0;
+											    padding-right: 1.25rem;
+											    padding-bottom: 1.25rem;
+											    padding-left: 1.25rem;">
                   <form onsubmit="submitData()">
-                 <div class="form-group">
+                  <div id="countryDropDown"> </div>
+                  <div class="form-group" style=" margin-top: 1rem;">
                       <label for="exampleFormControlTextarea1">Enter Data below</label>
                       <textarea class="form-control" id="data" rows="3"></textarea>
                     </div>
@@ -510,18 +514,31 @@
 			});
 			 $(document).ready(function () {
 
+				  
+		            var dropDownSource = [
+	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/united-states.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA' },
+	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/germany.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>GER</span></div>", title: 'GER' },
+	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/france.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>FRA</span></div>", title: 'FRA' },
+	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/united-kingdom.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>UKK</span></div>", title: 'UKK' },
+	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/italy.png'/><span style='float: left; font-size: 13px; margin-top: 0.3rem;font-family: inherit;'>ITA</span></div>", title: 'ITA' },
+	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/spain.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>SPN</span></div>", title: 'SPN' }
+	                ];
+	                // Create a jqxDropDownList
+	                $("#countryDropDown").jqxDropDownList({ source: dropDownSource, theme:'dark', selectedIndex: 0, width: '100', height: '40px'});
+	                
 		            // prepare the data
 		            var source =
 		            {
 		                datatype: "json",
 		                datafields: [
-		                    { name: 'name', type: 'string' },
-		                    { name: 'address', type: 'string' },
-		                    { name: 'comment', type: 'int' },
-		                    { name: 'description', type: 'string' }
+		                    { name: 'referDate', type: 'string' },
+		                    { name: 'thirteeYrFactor', type: 'string' },
+		                    { name: 'tenYrFactor', type: 'string' },
+		                    { name: 'fiveYrFactor', type: 'string' },
+		                    { name: 'twoYrFactor', type: 'string' }
 		                ],
 		                id: 'id',
-		                url: '/bourse/getpersons'
+		                url: '/bourse/getsovereignyields'
 		            };
 		            var dataAdapter = new $.jqx.dataAdapter(source);
 
@@ -535,13 +552,15 @@
 		                autoheight: true,
 		                source: dataAdapter,
 		                columns: [
-		                  { text: 'Name', datafield: 'name', width: '25%' },
-		                  { text: 'Address', datafield: 'address', width: '25%' },
-		                  { text: 'Comment', datafield: 'comment', width: '25%' },
-		                  { text: 'description', datafield: 'description', width: '25%' }
+		                  { text: 'Date', datafield: 'referDate', width: '20%' },
+		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '20%' },
+		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '20%' },
+		                  { text: '5yr', datafield: 'fiveYrFactor', width: '20%' },
+		                  { text: '2yr', datafield: 'twoYrFactor', width: '20%' }
 		              ]
 		            });
 		            
+		          
 		        });
 			function submitData()
 			{

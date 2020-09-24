@@ -1605,8 +1605,8 @@
 .jqx-maskedinput-dark,
 .jqx-datetimeinput-dark
  {
-    background: var(--jqx-surface);
-    border-color: var(--jqx-surface);
+    background: #272e48;
+    border-color: #272e48;
     border-radius: 0;
     color: var(--jqx-surface-color);
     box-shadow: none;
@@ -1760,8 +1760,8 @@ input[type="password"] {
 .jqx-dropdownlist-state-selected-dark,
 .jqx-combobox-state-selected-dark {
     color: var(--jqx-primary);
-    background: var(--jqx-primary-color);
-    border-color: var(--jqx-primary-color);
+/*     background: var(--jqx-primary-color); */
+/*     border-color: var(--jqx-primary-color); */
 }
 
 
