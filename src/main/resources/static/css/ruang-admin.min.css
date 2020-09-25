@@ -30,6 +30,7 @@ a:focus {
 .padding-botton-0 {
     padding-bottom: 0!important;
 }
+
 @-webkit-keyframes blinker {
   from {opacity: 1.0;}
   to {opacity: 0.0;}
