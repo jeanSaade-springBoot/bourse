@@ -32,10 +32,24 @@
           <span>Dashboard</span></a>
       </li>
       <hr class="sidebar-divider">
-      <li class="nav-item active">
-        <a class="nav-link" href="/bourse/sovereignyields">
-          <i class="fas fa-database"></i>
-          <span>Sovereign Yields</span></a>
+      <div class="sidebar-heading">
+        Admin Section
+      </div>
+        <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMonitoring"
+          aria-expanded="true" aria-controls="collapseMonitoring">
+          <i class="fas fa-pen"></i>
+          <span>Data Entry</span>
+        </a>
+        <div id="collapseMonitoring" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+          <div class="submenu py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Data Entry</h6>
+            <a class="collapse-item" href="/bourse/sovereignyields" >Sovereign Yields</a>
+            <a class="collapse-item" href="/bourse/sovereignyields" >Skews</a>
+            <a class="collapse-item" href="/bourse/sovereignyields" >Precious Metals</a>
+            <a class="collapse-item" href="/bourse/sovereignyields" >Fixed Income Future</a>
+          </div>
+        </div>
       </li>
       <hr class="sidebar-divider">
       <div class="sidebar-heading">
@@ -431,7 +445,7 @@
           <div class="card-columns col-12">
             <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Monitoring</h5>
+      <h5 class="card-title card-title-color">Monitoring</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Fast Chart</li>
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Any 2</li>
@@ -442,7 +456,7 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Analytics</h5>
+      <h5 class="card-title card-title-color">Analytics</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Return Function</li>
   <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span>Implied Vs Realized (Hi/lo)</li>
@@ -453,7 +467,7 @@
   </div>
               <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Skews</h5>
+      <h5 class="card-title card-title-color">Skews</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Global Skew View</li>
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Skew Vs Implied</li>
@@ -463,7 +477,7 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Volumes</h5>
+      <h5 class="card-title card-title-color">Volumes</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Race Chart</li>
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Week After Week </li>
@@ -473,7 +487,7 @@
   </div>
               <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Normalized Space</h5>
+      <h5 class="card-title card-title-color">Normalized Space</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Create Normalized Vols</li>
   <li><span class="fa-li"><i class="fas fa-table"></i></span>Durations And Dv01</li>
@@ -483,7 +497,7 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Inter-markets</h5>
+      <h5 class="card-title card-title-color">Inter-markets</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"><i class="fas fa-bars"></i></span>Weightings</li>
   <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span>Straddle Ratios</li>
@@ -493,7 +507,7 @@
   </div>
               <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Paper-watch</h5>
+      <h5 class="card-title card-title-color">Paper-watch</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Call/put Warning Indicator</li>
 </ul>
@@ -501,7 +515,7 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">The Math Box</h5>
+      <h5 class="card-title card-title-color">The Math Box</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>One Serie</li>
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Two Series</li>
@@ -510,7 +524,7 @@
   </div>
               <div class="card">
     <div class="card-body">
-      <h5 class="card-title">At A Glance</h5>
+      <h5 class="card-title card-title-color">At A Glance</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Futures</li>
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Implied Vols</li>
@@ -523,7 +537,7 @@
   </div>
   <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Check An Option Strategy</h5>
+      <h5 class="card-title card-title-color">Check An Option Strategy</h5>
       <ul class="fa-ul">
    <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Fly Your Futures</li>
   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Condors</li>
@@ -533,7 +547,7 @@
   </div>
     <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Live Option Flows</h5>
+      <h5 class="card-title blink">Live Option Flows</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"></span>Flow Search Engine</li>
   <li><span class="fa-li"></span>Historical Flow</li>
@@ -542,7 +556,7 @@
   </div>
     <div class="card">
     <div class="card-body">
-      <h5 class="card-title">Schedule Meetings</h5>
+      <h5 class="card-title blink">Schedule Meetings</h5>
       <ul class="fa-ul">
   <li><span class="fa-li"></span>Host A Meeting</li>
   <li><span class="fa-li"></span>Join A Meeting</li>
