@@ -34,10 +34,24 @@
           <span>Dashboard</span></a>
       </li>
       <hr class="sidebar-divider">
-      <li class="nav-item active">
-        <a class="nav-link" href="/bourse/sovereignyields">
-          <i class="fas fa-database"></i>
-          <span>Sovereign Yields</span></a>
+      <div class="sidebar-heading">
+        Admin Section
+      </div>
+        <li class="nav-item">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMonitoring"
+          aria-expanded="true" aria-controls="collapseMonitoring">
+          <i class="fas fa-pen"></i>
+          <span>Data Entry</span>
+        </a>
+        <div id="collapseMonitoring" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+          <div class="submenu py-2 collapse-inner rounded">
+            <h6 class="collapse-header">Data Entry</h6>
+            <a class="collapse-item" href="/bourse/sovereignyields" >Sovereign Yields</a>
+            <a class="collapse-item" href="/bourse/sovereignyields" >Skews</a>
+            <a class="collapse-item" href="/bourse/sovereignyields" >Precious Metals</a>
+            <a class="collapse-item" href="/bourse/sovereignyields" >Fixed Income Future</a>
+          </div>
+        </div>
       </li>
       <hr class="sidebar-divider">
       <div class="sidebar-heading">
@@ -428,15 +442,15 @@
               <li class="breadcrumb-item active" aria-current="page">Sovereign Yields</li>
             </ol>
           </div>
-		<div class="col-lg-6">
+		<div class="col-lg-12">
               <!-- Form Basic -->
               <div class="card mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
                  <div class="col-lg-4" style="padding: 0;">
                   <h6 class="m-0 font-weight-bold text-primary">Sovereign Data Entry</h6>
                   </div>
-                   <div class="col-lg-3">
-                    <div id="countryDropDown"> </div>
+                   <div class="col-lg-2">
+                    <div id="countryDropDown" style="float: right;"> </div>
                    </div>
                 </div>
                 <div class="card-body" style="  padding-top: 0;
