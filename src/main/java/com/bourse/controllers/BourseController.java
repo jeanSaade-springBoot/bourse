@@ -26,6 +26,7 @@ import com.bourse.dto.PersonReqDTO;
 import com.bourse.service.PersonService;
 import com.bourse.service.SkewsService;
 import com.bourse.service.SovereignYieldsService;
+import com.bourse.util.SovereignUtil;
 @RestController
 @RequestMapping(value = "bourse")
 public class BourseController {
@@ -87,85 +88,11 @@ public class BourseController {
     }
 	@PostMapping(value = "savesovereigndata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveSovereignData(@RequestBody DataDTO dataDTO){
-		
 
 	    String str= dataDTO.getExcelData();
 	    List<SovereignData> sovereignDataList = new ArrayList();
 	     
-	     String[] lines = str.split("\n");
-	    
-	     ArrayList<String> usaValues = new ArrayList<String>();
-	     ArrayList<String> gerValues = new ArrayList<String>();
-	     ArrayList<String> fraValues = new ArrayList<String>();
-	     ArrayList<String> ukkValues = new ArrayList<String>();
-	     ArrayList<String> itaValues = new ArrayList<String>();
-	     ArrayList<String> spnValues = new ArrayList<String>();
-	     
-	     for(String st : lines)
-	     {
-	    	 String[] strColumn =  st.split("\t");
-	    	 usaValues.add(strColumn[0]);
-	    	 gerValues.add(strColumn[1]);
-	    	 fraValues.add(strColumn[2]);
-	    	 ukkValues.add(strColumn[3]);
-	    	 itaValues.add(strColumn[4]);
-	    	 spnValues.add(strColumn[5]);
-	     }
-
-    	 SovereignData sovereignUSAData = SovereignData.builder().thirteeYrFactor(usaValues.get(0))
-									 				.tenYrFactor(usaValues.get(1))
-									 				.fiveYrFactor(usaValues.get(2))
-									 				.twoYrFactor(usaValues.get(3))
-									 				.referDate(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()))
-									 				.subgroupId((long) 1)
-									 				.build();
-    	 
-    	 SovereignData sovereignGERData = SovereignData.builder().thirteeYrFactor(gerValues.get(0))
-	 				.tenYrFactor(gerValues.get(1))
-	 				.fiveYrFactor(gerValues.get(2))
-	 				.twoYrFactor(gerValues.get(3))
-	 				.referDate(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()))
-	 				.subgroupId((long) 2)
-	 				.build();
-    	 
-    	 SovereignData sovereignFRAData = SovereignData.builder().thirteeYrFactor(fraValues.get(0))
-	 				.tenYrFactor(fraValues.get(1))
-	 				.fiveYrFactor(fraValues.get(2))
-	 				.twoYrFactor(fraValues.get(3))
-	 				.referDate(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()))
-	 				.subgroupId((long) 3)
-	 				.build();
-    	 
-    	 SovereignData sovereignUKKData = SovereignData.builder().thirteeYrFactor(ukkValues.get(0))
-	 				.tenYrFactor(ukkValues.get(1))
-	 				.fiveYrFactor(ukkValues.get(2))
-	 				.twoYrFactor(ukkValues.get(3))
-	 				.referDate(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()))
-	 				.subgroupId((long) 4)
-	 				.build();
-    	 
-    	 SovereignData sovereignITAData = SovereignData.builder().thirteeYrFactor(itaValues.get(0))
-	 				.tenYrFactor(itaValues.get(1))
-	 				.fiveYrFactor(itaValues.get(2))
-	 				.twoYrFactor(itaValues.get(3))
-	 				.referDate(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()))
-	 				.subgroupId((long) 5)
-	 				.build();
-    	 
-    	 SovereignData sovereignSPNData = SovereignData.builder().thirteeYrFactor(spnValues.get(0))
-	 				.tenYrFactor(spnValues.get(1))
-	 				.fiveYrFactor(spnValues.get(2))
-	 				.twoYrFactor(spnValues.get(3))
-	 				.referDate(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()))
-	 				.subgroupId((long) 6)
-	 				.build();
-    	 
-    	 sovereignDataList.add(sovereignUSAData);
-    	 sovereignDataList.add(sovereignGERData);
-    	 sovereignDataList.add(sovereignFRAData);
-    	 sovereignDataList.add(sovereignUKKData);
-    	 sovereignDataList.add(sovereignITAData);
-    	 sovereignDataList.add(sovereignSPNData);
+	    sovereignDataList = SovereignUtil.buildExcelData(str);
     	 
 	     sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
 		return new ResponseEntity<>(HttpStatus.OK);
