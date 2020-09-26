@@ -47,7 +47,7 @@
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data Entry</h6>
             <a class="collapse-item" href="/bourse/sovereignyields" >Sovereign Yields</a>
-            <a class="collapse-item" href="/bourse/sovereignyields" >Skews</a>
+            <a class="collapse-item" href="/bourse/skews" >Skews</a>
             <a class="collapse-item" href="/bourse/sovereignyields" >Precious Metals</a>
             <a class="collapse-item" href="/bourse/sovereignyields" >Fixed Income Future</a>
           </div>
@@ -558,13 +558,14 @@
 		                datatype: "json",
 		                datafields: [
 		                    { name: 'referDate', type: 'string' },
-		                    { name: 'thirteeYrFactor', type: 'string' },
-		                    { name: 'tenYrFactor', type: 'string' },
-		                    { name: 'fiveYrFactor', type: 'string' },
-		                    { name: 'twoYrFactor', type: 'string' }
+		                    { name: 'fifteenPercentPFactor', type: 'string' },
+		                    { name: 'twentyfivePercentPFactor', type: 'string' },
+		                    { name: 'ATMFactor', type: 'string' },
+		                    { name: 'twentyfivePercentCFactor', type: 'string' },
+		                    { name: 'fifteenPercentCFactor', type: 'string' }
 		                ],
 		                id: 'id',
-		                url: '/bourse/getsovereignyields'
+		                url: '/bourse/getskews'
 		            };
 		            var dataAdapter = new $.jqx.dataAdapter(source);
 
@@ -580,10 +581,11 @@
 		                source: dataAdapter,
 		                columns: [
 		                  { text: 'Date', datafield: 'referDate', width: '20%' },
-		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '20%' },
-		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '20%' },
-		                  { text: '5yr', datafield: 'fiveYrFactor', width: '20%' },
-		                  { text: '2yr', datafield: 'twoYrFactor', width: '20%' }
+		                  { text: '15% P', datafield: 'fifteenPercentPFactor', width: '20%' },
+		                  { text: '25% P', datafield: 'twentyfivePercentPFactor', width: '20%' },
+		                  { text: 'ATM', datafield: 'ATMFactor', width: '20%' },
+		                  { text: '25% C', datafield: 'twentyfivePercentCFactor', width: '20%' },
+		                  {text: '15% C', datafield: 'fifteenPercentCFactor', width: '20%' }
 		              ]
 		            });
 		            
@@ -596,7 +598,7 @@
 	       	  $.ajax({
 	    	        type: "POST",
 	    	        contentType: "application/json",
-	    	        url: "/bourse/savesovereigndata",
+	    	        url: "/bourse/saveskewsdata",
 	    	        data: JSON.stringify(dataDTO),
 	    	        dataType: 'json',
 	    	        async:true,
@@ -609,7 +611,6 @@
 	    	        error: function (e) {
 	    	        	debugger;
 						  console.log("ERROR : ", e);
-	
 	    	        }
 	    	    });
 			}
