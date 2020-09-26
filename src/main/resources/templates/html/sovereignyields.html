@@ -541,18 +541,18 @@
 			 $(document).ready(function () {
 
 				  
-		            var dropDownSource = [
-	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/united-states.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA' },
-	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/germany.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>GER</span></div>", title: 'GER' },
-	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/france.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>FRA</span></div>", title: 'FRA' },
-	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/united-kingdom.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>UKK</span></div>", title: 'UKK' },
-	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/italy.png'/><span style='float: left; font-size: 13px; margin-top: 0.3rem;font-family: inherit;'>ITA</span></div>", title: 'ITA' },
-	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/spain.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>SPN</span></div>", title: 'SPN' }
-	                ];
-	                // Create a jqxDropDownList
-	                $("#countryDropDown").jqxDropDownList({ source: dropDownSource, theme:'dark', selectedIndex: 0, width: '100', height: '40px'});
+// 		            var dropDownSource = [
+// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/united-states.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA' },
+// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/germany.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>GER</span></div>", title: 'GER' },
+// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/france.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>FRA</span></div>", title: 'FRA' },
+// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/united-kingdom.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>UKK</span></div>", title: 'UKK' },
+// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/italy.png'/><span style='float: left; font-size: 13px; margin-top: 0.3rem;font-family: inherit;'>ITA</span></div>", title: 'ITA' },
+// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/spain.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>SPN</span></div>", title: 'SPN' }
+// 	                ];
+// 	                // Create a jqxDropDownList
+// 	                $("#countryDropDown").jqxDropDownList({ source: dropDownSource, theme:'dark', selectedIndex: 0, width: '100', height: '40px'});
 	                
-		            // prepare the data
+// 		            // prepare the data
 		            var source =
 		            {
 		                datatype: "json",
@@ -561,13 +561,16 @@
 		                    { name: 'thirteeYrFactor', type: 'string' },
 		                    { name: 'tenYrFactor', type: 'string' },
 		                    { name: 'fiveYrFactor', type: 'string' },
-		                    { name: 'twoYrFactor', type: 'string' }
+		                    { name: 'twoYrFactor', type: 'string' },
+		                    { name: 'subgroupId', type: 'string' }
 		                ],
 		                id: 'id',
 		                url: '/bourse/getsovereignyields'
 		            };
 		            var dataAdapter = new $.jqx.dataAdapter(source);
-
+		            var imagerenderer = function (row, datafield, value) {
+		                return '<img style="margin: .4rem; margin-left: 1rem;" height="24" width="24" src="/img/flag/' + value + '.png"/>';
+		            }
 		            $("#grid").jqxGrid(
 		            {
 		                width: '100%',
@@ -579,11 +582,12 @@
 		                autoheight: true,
 		                source: dataAdapter,
 		                columns: [
-		                  { text: 'Date', datafield: 'referDate', width: '20%' },
-		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '20%' },
-		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '20%' },
-		                  { text: '5yr', datafield: 'fiveYrFactor', width: '20%' },
-		                  { text: '2yr', datafield: 'twoYrFactor', width: '20%' }
+		                  { text: 'Sub-groups', datafield: 'subgroupId', width: '10%', cellsrenderer: imagerenderer },
+		                  { text: 'Date', datafield: 'referDate', width: '18%' },
+		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '18%' },
+		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '18%' },
+		                  { text: '5yr', datafield: 'fiveYrFactor', width: '18%' },
+		                  { text: '2yr', datafield: 'twoYrFactor', width: '18%' }
 		              ]
 		            });
 		            
