@@ -39,4 +39,9 @@ public class SovereignYieldsService
         sovereignYieldsRepository.deleteById(id);
 	}
 	
+	public List<SovereignData> findSovereignBySubGroup(long id) 
+	{      
+        return sovereignYieldsRepository.findSovereignBysubgroupId(id);
+	}
+	
 }

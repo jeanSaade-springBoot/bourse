@@ -153,6 +153,11 @@ public class BourseController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "findsovereignbysubgroup/{subgroupId}")
+	public ResponseEntity<List<SovereignData>> findSovereignBySubGroup(@PathVariable("subgroupId") long subgroupId) {
+	return new ResponseEntity<>(sovereignYieldsService.findSovereignBySubGroup(subgroupId),HttpStatus.OK);
+	}
+	
 	
 	
 	
