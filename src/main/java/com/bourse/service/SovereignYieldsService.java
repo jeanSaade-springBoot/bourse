@@ -23,4 +23,20 @@ public class SovereignYieldsService
 	{      
         return sovereignYieldsRepository.saveAll(plst);
 	}
+	
+	public SovereignData findSovereignById(long id) 
+	{      
+        return sovereignYieldsRepository.findById(id);
+	}
+	
+	public SovereignData UpdateSovereignById(SovereignData sovereignData) 
+	{      
+        return sovereignYieldsRepository.save(sovereignData);
+	}
+	
+	public void deleteSovereignById(long id) 
+	{      
+        sovereignYieldsRepository.deleteById(id);
+	}
+	
 }

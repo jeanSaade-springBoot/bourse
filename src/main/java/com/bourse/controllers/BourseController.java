@@ -10,7 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -97,6 +99,8 @@ public class BourseController {
 	     sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
 		return new ResponseEntity<>(HttpStatus.OK);
     }
+	
+
 	@PostMapping(value = "saveskewsdata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SkewsData>>  saveSkews(@RequestBody DataDTO dataDTO){
 		
@@ -130,4 +134,26 @@ public class BourseController {
     public  ResponseEntity<List<SkewsData>>  getSkews(){
 		return new ResponseEntity<>(skewsService.getAllSkewsDatas(), HttpStatus.OK);
     }
+	
+	@GetMapping(value = "findsovereignById/{id}")
+	public SovereignData findSovereignById(@PathVariable("id") long id) {
+	return sovereignYieldsService.findSovereignById(id);
+	}
+	
+	@PostMapping(value = "updatesovereignbyid")
+	public SovereignData UpdateSovereignById(@RequestBody SovereignData sovereignData) {
+	SovereignData originalObject = sovereignYieldsService.findSovereignById(sovereignData.getId());
+	SovereignData SovereignDataToUpdate = SovereignUtil.buildUpdateObject(originalObject,sovereignData);
+	return sovereignYieldsService.UpdateSovereignById(SovereignDataToUpdate);
+	}
+	
+	@DeleteMapping(value = "deletesovereignbyid/{id}")
+	public  ResponseEntity deletesovereignbyid(@PathVariable("id") long id) {
+		sovereignYieldsService.deleteSovereignById(id);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	
+	
+	
 }
