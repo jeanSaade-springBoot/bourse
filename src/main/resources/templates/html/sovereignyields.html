@@ -476,7 +476,37 @@
            </div>
           <div class="col-lg-12">
              <div id="grid">
-           </div>
+           </div> 
+           <div id="popupWindow">
+            <div>Edit</div>
+            <div style="overflow: hidden;">
+                <table>
+                    <tr>
+                  <td align="left">  <div id="subgroupdropDownSource" style="float: right;"> </div></td>
+                    </tr>
+                    <tr>
+                        <td align="right">30yr long :</td>
+                        <td align="left"><input id="thirteeYrFactor" /></td>
+                    </tr>
+                     <tr>
+                        <td align="right">10yr bench :</td>
+                        <td align="left"><input id=tenYrFactor /></td>
+                    </tr>
+                     <tr>
+                        <td align="right">5yr :</td>
+                        <td align="left"><input id="fiveYrFactor" /></td>
+                    </tr>
+                     <tr>
+                        <td align="right">2yr :</td>
+                        <td align="left"><input id="twoYrFactor" /></td>
+                    </tr>
+                    <tr>
+                        <td align="right"></td>
+                        <td style="padding-top: 10px;" align="right"><input style="margin-right: 5px;" type="button" id="Save" value="Save" /><input id="Cancel" type="button" value="Cancel" /></td>
+                    </tr>
+                </table>
+            </div>
+       </div>
         </div>
         <!---Container Fluid-->
       </div>
@@ -532,6 +562,8 @@
   <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
   <script src="/js/jqwidgets/jqxlistbox.js"></script> 
   <script src="/js/jqwidgets/jqxdata.js"></script> 
+  <script src="/js/jqwidgets/jqxwindow.js"></script>
+  <script src="/js/jqwidgets/jqxinput.js"></script>
   <script>
 			$(function (){
 
@@ -571,6 +603,27 @@
 		            var imagerenderer = function (row, datafield, value) {
 		                return '<img style="margin: .4rem; margin-left: 1rem;" height="24" width="24" src="/img/flag/' + value + '.png"/>';
 		            }
+		            
+		            var subgroupSource = [
+                       { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/1.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA' },
+	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/2.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>GER</span></div>", title: 'GER' },
+	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/3.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>FRA</span></div>", title: 'FRA' },
+ 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/4.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>UKK</span></div>", title: 'UKK' },
+ 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/5.png'/><span style='float: left; font-size: 13px; margin-top: 0.3rem;font-family: inherit;'>ITA</span></div>", title: 'ITA' },
+ 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/6.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>SPN</span></div>", title: 'SPN' }
+	                ];
+ 	                //Create a jqxDropDownList
+ 	                $("#subgroupdropDownSource").jqxDropDownList({ source: subgroupSource, theme:'dark', selectedIndex: 0, width: '100', height: '40px'});
+	                
+		             $("#thirteeYrFactor").jqxInput({ theme: 'dark' }); 
+		             $("#thirteeYrFactor").width(150);
+		             $("#fiveYrFactor").jqxInput({ theme: 'dark' }); 
+		             $("#fiveYrFactor").width(150);
+		             $("#twoYrFactor").jqxInput({ theme: 'dark' }); 
+		             $("#twoYrFactor").width(150);
+		             $("#tenYrFactor").jqxInput({ theme: 'dark' }); 
+		             $("#tenYrFactor").width(150);
+		             
 		            $("#grid").jqxGrid(
 		            {
 		                width: '100%',
@@ -582,15 +635,100 @@
 		                autoheight: true,
 		                source: dataAdapter,
 		                columns: [
-		                  { text: 'Sub-groups', datafield: 'subgroupId', width: '10%', cellsrenderer: imagerenderer },
-		                  { text: 'Date', datafield: 'referDate', width: '18%' },
-		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '18%' },
-		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '18%' },
-		                  { text: '5yr', datafield: 'fiveYrFactor', width: '18%' },
-		                  { text: '2yr', datafield: 'twoYrFactor', width: '18%' }
+		                  { text: 'Sub-groups', datafield: 'subgroupId', width: '8%', cellsrenderer: imagerenderer },
+		                  { text: 'Date', datafield: 'referDate', width: '16%' },
+		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '16%' },
+		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '16%' },
+		                  { text: '5yr', datafield: 'fiveYrFactor', width: '16%' },
+		                  { text: '2yr', datafield: 'twoYrFactor', width: '16%' },
+		                  { text: 'Edit', datafield: 'Edit',width:'5%', columntype: 'button', cellsrenderer: function () {
+		                      return "Edit";
+		                   }, buttonclick: function (row) {
+		                      // open the popup window when the user clicks a button.
+		                      editrow = row;
+		                      var offset = $("#grid").offset();
+		                      $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+		                      // get the clicked row's data and initialize the input fields.
+		                      var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
+
+		                      $("#subgroupdropDownSource").jqxDropDownList('selectIndex',dataRecord.subgroupId-1);
+		                      $("#thirteeYrFactor").val(dataRecord.thirteeYrFactor);
+		                      $("#tenYrFactor").val(dataRecord.tenYrFactor);
+		                      $("#fiveYrFactor").val(dataRecord.fiveYrFactor);
+		                      $("#twoYrFactor").val(dataRecord.twoYrFactor);
+		                      // show the popup window.
+		                      $("#popupWindow").jqxWindow('open');
+		                  }
+		                  },
+		                  { text: '', datafield: 'Delete', width:'7%', columntype: 'button', cellsrenderer: function () {
+		                      return "Delete";
+		                   }, buttonclick: function (row) {
+		                     
+		                	   var selectedrowindex = $("#grid").jqxGrid('getselectedrowindex');
+		                        var rowscount = $("#grid").jqxGrid('getdatainformation').rowscount;
+		                        if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
+		                            var id = $("#grid").jqxGrid('getrowid', selectedrowindex);
+		                            $.ajax({
+		                                type : "DELETE",
+		                                url : "/bourse/deletesovereignbyid/" + id,
+		                                success: function (result) {       
+		                                       console.log(result);                
+		                                },
+		                                error: function (e) {
+		                                    console.log(e);
+		                                }
+		                            });
+		                            var commit = $("#grid").jqxGrid('deleterow', id);
+		                        }
+		                  }
+		                  }
 		              ]
 		            });
-		            
+		            // initialize the popup window and buttons.
+            $("#popupWindow").jqxWindow({
+                width: 250, theme:'dark', resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+            });
+            $("#popupWindow").on('open', function () {
+                $("#firstName").jqxInput('selectAll');
+            });
+         
+            $("#Cancel").jqxButton({ theme: 'dark' });
+            $("#Save").jqxButton({ theme: 'dark' });
+            // update the edited row when the user clicks the 'Save' button.
+            $("#Save").click(function () {
+                if (editrow >= 0) {
+                	 var rowID = $('#grid').jqxGrid('getrowid', editrow);
+                      
+                	var row = { id : rowID,
+                    		    subgroupId:$("#subgroupdropDownSource").jqxDropDownList('getSelectedIndex')+1,
+                    		    thirteeYrFactor: $("#thirteeYrFactor").val(),
+                    			tenYrFactor: $("#tenYrFactor").val(),
+                    			fiveYrFactor: $("#fiveYrFactor").val(),
+                    			twoYrFactor: $("#twoYrFactor").val()
+                    			};
+                	debugger;
+      	       	  $.ajax({
+      	    	        type: "POST",
+      	    	        contentType: "application/json",
+      	    	        url: "/bourse/updatesovereignbyid",
+      	    	        data: JSON.stringify(row),
+      	    	        dataType: 'json',
+      	    	        async:true,
+      	    	        cache: false,
+      	    	        timeout: 600000,
+      	    	        success: function (data) {
+      	    	        
+                        $('#grid').jqxGrid('updaterow', rowID, data);
+                        $("#popupWindow").jqxWindow('hide');
+      	   },
+      	    	        error: function (e) {
+      	    	        	
+      						  console.log("ERROR : ", e);
+      	
+      	    	        }
+      	    	    });
+                }
+            });
 		          
 		        });
 			function submitData()
@@ -607,11 +745,11 @@
 	    	        cache: false,
 	    	        timeout: 600000,
 	    	        success: function (data) {
-	    	        	debugger;
+	    	        	
 	    	        alert("success")
 	   },
 	    	        error: function (e) {
-	    	        	debugger;
+	    	        	
 						  console.log("ERROR : ", e);
 	
 	    	        }
