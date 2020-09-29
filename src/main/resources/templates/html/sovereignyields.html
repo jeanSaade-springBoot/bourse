@@ -477,7 +477,7 @@
           <div class="col-lg-12">
              <div id="grid">
            </div> 
-           <div id="popupWindow">
+           <div id="popupWindow" style="display:none;">
             <div>Edit</div>
             <div style="overflow: hidden;">
                 <table>
@@ -485,24 +485,24 @@
                   <td align="left">  <div id="subgroupdropDownSource" style="float: right;"> </div></td>
                     </tr>
                     <tr>
-                        <td align="right">30yr long :</td>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">30yr long :</td>
                         <td align="left"><input id="thirteeYrFactor" /></td>
                     </tr>
                      <tr>
-                        <td align="right">10yr bench :</td>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">10yr bench :</td>
                         <td align="left"><input id=tenYrFactor /></td>
                     </tr>
                      <tr>
-                        <td align="right">5yr :</td>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">5yr :</td>
                         <td align="left"><input id="fiveYrFactor" /></td>
                     </tr>
                      <tr>
-                        <td align="right">2yr :</td>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">2yr :</td>
                         <td align="left"><input id="twoYrFactor" /></td>
                     </tr>
                     <tr>
-                        <td align="right"></td>
-                        <td style="padding-top: 10px;" align="right"><input style="margin-right: 5px;" type="button" id="Save" value="Save" /><input id="Cancel" type="button" value="Cancel" /></td>
+                        <td style="padding-top: 1.5rem;" align="right"><input class="btn btn-primary mr-1 mb-1" style="margin-right: 5px;color:white;" type="button" id="Save" value="Save" /></td>
+                        <td style="padding-top: 1.5rem;padding-bottom: 1.5rem;" align="right"><input id="Cancel" type="button" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" /></td>
                     </tr>
                 </table>
             </div>
@@ -570,7 +570,7 @@
 				$('.simple-marquee-container').SimpleMarquee();
 				
 			});
-			 $(document).ready(function () {
+		 $(document).ready(function () {
 
 				  
 // 		            var dropDownSource = [
@@ -631,23 +631,48 @@
 		                theme:'dark',
 		                pageable: true,
 		                pagesize: 10,
+		                showtoolbar: true,
 		                filterable: true,
 		                autoheight: true,
 		                source: dataAdapter,
+		                rendertoolbar: function (toolbar) {
+		                    var me = this;
+		                    var container = $("<div ></div>");
+		                    toolbar.append(container);
+		                    container.append('<div id="subGrpDropDown" style="margin-left:.5rem;background:#40566f;border:0px"> </div>');
+		                    var subgroupFilterSource = [
+		                        { html: "<div style='height: 20px; float: left;'><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>ALL</span></div>", title: 'ALL',value:'/bourse/getsovereignyields' },
+		                        { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/1.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA',value:'/bourse/findsovereignbysubgroup/1' },
+			 	                { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/2.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>GER</span></div>", title: 'GER',value:'/bourse/findsovereignbysubgroup/2' },
+		 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/3.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>FRA</span></div>", title: 'FRA',value:'/bourse/findsovereignbysubgroup/3' },
+		  	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/4.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>UKK</span></div>", title: 'UKK',value:'/bourse/findsovereignbysubgroup/4' },
+		  	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/5.png'/><span style='float: left; font-size: 13px; margin-top: 0.3rem;font-family: inherit;'>ITA</span></div>", title: 'ITA',value:'/bourse/findsovereignbysubgroup/5' },
+		  	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/6.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>SPN</span></div>", title: 'SPN',value:'/bourse/findsovereignbysubgroup/6' }
+		 	                ];
+							$("#subGrpDropDown").jqxDropDownList({ source: subgroupFilterSource, theme:'dark', selectedIndex: 0, width: '100', height: '40px'});
+							$("#subGrpDropDown").on('select', function (event) {
+								 var item = event.args.item;
+			                        if (item) {
+									 source.url=item.value;
+									 dataAdapter = new $.jqx.dataAdapter(source);
+									 $('#grid').jqxGrid({source:dataAdapter});
+			                        }
+				            });
+		                },
 		                columns: [
-		                  { text: 'Sub-groups', datafield: 'subgroupId', width: '8%', cellsrenderer: imagerenderer },
+		                  { text: 'Sub-groups',filterable: false, datafield: 'subgroupId', width: '8%', cellsrenderer: imagerenderer },
 		                  { text: 'Date', datafield: 'referDate', width: '16%' },
 		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '16%' },
 		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '16%' },
 		                  { text: '5yr', datafield: 'fiveYrFactor', width: '16%' },
 		                  { text: '2yr', datafield: 'twoYrFactor', width: '16%' },
-		                  { text: 'Edit', datafield: 'Edit',width:'5%', columntype: 'button', cellsrenderer: function () {
+		                  { text: '', datafield: 'Edit',width:'5%', columntype: 'button', cellsrenderer: function () {
 		                      return "Edit";
 		                   }, buttonclick: function (row) {
 		                      // open the popup window when the user clicks a button.
 		                      editrow = row;
 		                      var offset = $("#grid").offset();
-		                      $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+		                      $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 120, y: parseInt(offset.top) - 90 } });
 		                      // get the clicked row's data and initialize the input fields.
 		                      var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
 
@@ -686,14 +711,11 @@
 		            });
 		            // initialize the popup window and buttons.
             $("#popupWindow").jqxWindow({
-                width: 250, theme:'dark', resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-            });
-            $("#popupWindow").on('open', function () {
-                $("#firstName").jqxInput('selectAll');
+                width:300, theme:'dark', resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
             });
          
-            $("#Cancel").jqxButton({ theme: 'dark' });
-            $("#Save").jqxButton({ theme: 'dark' });
+            $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
+            $("#Save").jqxButton({ theme: 'dark',height:38,width:93 });
             // update the edited row when the user clicks the 'Save' button.
             $("#Save").click(function () {
                 if (editrow >= 0) {
@@ -729,7 +751,7 @@
       	    	    });
                 }
             });
-		          
+
 		        });
 			function submitData()
 			{
@@ -755,6 +777,7 @@
 	    	        }
 	    	    });
 			}
+			
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
 </body>
