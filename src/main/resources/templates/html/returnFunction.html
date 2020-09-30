@@ -13,6 +13,7 @@
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="/css/ruang-admin.min.css" rel="stylesheet">
   <link href="/css/marquee.css" rel="stylesheet">
+  <link href="/css/apexchart.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -433,137 +434,44 @@
 
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+          <div class="d-sm-flex align-items-center justify-content-between ">
+            <h1 class="h3 mb-0 text-gray-800">Return Function</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="./">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+              <li class="breadcrumb-item active" aria-current="page">Return Function</li>
             </ol>
           </div>
 
           <div class="row mb-3">
-          <div class="card-columns col-12">
-            <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Monitoring</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Fast Chart</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Any 2</li>
-  <li><span class="fa-li"><i class="fas fa-bars"></i></span>Situation Room</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Euribor Curves</li>
-</ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Analytics</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Return Function</li>
-  <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span>Implied Vs Realized (Hi/lo)</li>
-  <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span>Implied Vs Realized (Close)</li>
-  <li><span class="fa-li"><i class="fas fa-table"></i></span>Gamma Rents</li>
-</ul>
-    </div>
-  </div>
-              <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Skews</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Global Skew View</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Skew Vs Implied</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Skew Vs Futures</li>
-</ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Volumes</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Race Chart</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Week After Week </li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Moving Average</li>
-</ul>
-    </div>
-  </div>
-              <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Normalized Space</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Create Normalized Vols</li>
-  <li><span class="fa-li"><i class="fas fa-table"></i></span>Durations And Dv01</li>
-  <li><span class="fa-li"><i class="fas fa-bars"></i></span>List of CTDs </li>
-</ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Inter-markets</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-bars"></i></span>Weightings</li>
-  <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span>Straddle Ratios</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Implied Vol Ratios</li>
- </ul>
-    </div>
-  </div>
-              <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Paper-watch</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Call/put Warning Indicator</li>
-</ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">The Math Box</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>One Serie</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Two Series</li>
-</ul>
-    </div>
-  </div>
-              <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">At A Glance</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Futures</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Implied Vols</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Ranges And Realized</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Yields And Curves</li>
-   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Precious Metals</li>
-    <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Excess Liquidity</li>
-</ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Check An Option Strategy</h5>
-      <ul class="fa-ul">
-   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Fly Your Futures</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Condors</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Vertical Spreads</li>
-</ul>
-    </div>
-  </div>
-    <div class="card">
-    <div class="card-body">
-      <h5 class="card-title blink">Live Option Flows</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"></span>Flow Search Engine</li>
-  <li><span class="fa-li"></span>Historical Flow</li>
-</ul>
-    </div>
-  </div>
-    <div class="card">
-    <div class="card-body">
-      <h5 class="card-title blink">Schedule Meetings</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"></span>Host A Meeting</li>
-  <li><span class="fa-li"></span>Join A Meeting</li>
-</ul>
-    </div>
-  </div>
-</div>
+			 <div class="bd-example bd-example-tabs col-12">
+			 <nav>
+				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+				    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Yields & Liquidity</a>
+				    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Precious Metals</a>
+				    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Normalized Vols</a>
+				  </div>
+				</nav>
+				<div class="tab-content" id="nav-tabContent">
+				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+					<p>
+					  <a class="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"  onclick="drawGraph()">Germany</a>
+					</p>
+					<div class="row">
+					  <div class="col">
+					    <div class="collapse multi-collapse" id="multiCollapseExample1">
+					      <div class="card card-body">
+					     chi
+					     
+					      </div>
+					        <div id="chart"></div>
+					    </div>
+					  </div>
+					</div>
+					 </div>
+				  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+				</div>
+			</div>
           </div>
          
 
@@ -632,13 +540,124 @@
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="/js/ruang-admin.min.js"></script>
+  <script src="/js/apexcharts.js"></script>
   <script>
 			$(function (){
-
 				$('.simple-marquee-container').SimpleMarquee();
-				
 			});
+      
+			function drawGraph(){
+				debugger;
+				 var options = {
+			                series: [{
+			                name: 'Cash Flow',
+			                data: [0.03,-0.03, 0.04, 0.01, -0.01, 0.081, -0.22, -0.25, 0.11, -0.065, -0.022, 0.21, 0.23,
+			                  -0.19, 0.45, -0.09, -0.15, -0.25, 0.20, -0.16, -0.43, 0.20, 0.22, 0.24, -0.028, 0.26, -0.17
+			                  , -0.19, -0.05, 0.35, 0.30, 0.48, -0.09
+			                ]
+			              }],
+			                chart: {
+			                type: 'bar',
+			                height: 350
+			              },
+			              plotOptions: {
+			                bar: {
+			                  colors: {
+			                    ranges: [{
+			                      from: -1000,
+			                      to: 0,
+			                      color: '#ef403c'
+			                    },
+			                    {
+				                      from: 0,
+				                      to: 1000,
+				                      color: '#00b746'
+				                    }]
+			                  },
+			                  columnWidth: '80%',
+			                }
+			              },
+			              dataLabels: {
+			                enabled: false,
+			              },
+			              yaxis: {
+			                title: {
+			                  text: 'Growth',
+			                }
+			              },
+			              xaxis: {
+			                type: 'datetime',
+			                categories: [
+			                  '2011-01-01', '2011-02-01', '2011-03-01', '2011-04-01', '2011-05-01', '2011-06-01',
+			                  '2011-07-01', '2011-08-01', '2011-09-01', '2011-10-01', '2011-11-01', '2011-12-01',
+			                  '2012-01-01', '2012-02-01', '2012-03-01', '2012-04-01', '2012-05-01', '2012-06-01',
+			                  '2012-07-01', '2012-08-01', '2012-09-01', '2012-10-01', '2012-11-01', '2012-12-01',
+			                  '2013-01-01', '2013-02-01', '2013-03-01', '2013-04-01', '2013-05-01', '2013-06-01',
+			                  '2013-07-01', '2013-08-01', '2013-09-01'
+			                ],
+			                labels: {
+			                  rotate: -90
+			                }
+			              }
+			              };
 
+			              var chart = new ApexCharts(document.querySelector("#chart"), options);
+			              chart.render();
+			}
+	              
+	/*               var options = {
+	                series: [],
+	                chart: {
+	                height: 350,
+	                type: 'bar',
+	              },
+	              plotOptions: {
+		                bar: {
+		                  colors: {
+		                    ranges: [{
+		                      from: -1000,
+		                      to: 0,
+		                      color: '#ef403c'
+		                    },
+		                    {
+			                      from: 0,
+			                      to: 1000,
+			                      color: '#00b746'
+			                    }]
+		                  },
+		                  columnWidth: '80%',
+		                }
+		              },
+	              dataLabels: {
+	                enabled: false
+	              },
+	              title: {
+	                text: 'Ajax Example',
+	              },
+	              noData: {
+	                text: 'Loading...'
+	              },
+	              xaxis: {
+	                type: 'category',
+	                tickPlacement: 'on',
+	                labels: {
+	                  rotate: -45,
+	                  rotateAlways: true
+	                }
+	              }
+	              };
+
+	              var chart = new ApexCharts(document.querySelector("#chart"), options);
+	              chart.render();
+	            
+	            
+	              $.getJSON('http://my-json-server.typicode.com/apexcharts/apexcharts.js/yearly', function(response) {
+	              chart.updateSeries([{
+	                name: 'Sales',
+	                data: response
+	              }])
+	            }); */
+	            
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
 </body>

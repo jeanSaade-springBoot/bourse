@@ -55,7 +55,7 @@ public class BourseController {
 		return new ModelAndView("html/index");
     }
 	@RequestMapping( value =  "/sovereignyields")
-    public ModelAndView dataEntrePage(ModelMap model)
+    public ModelAndView dataEntryPage(ModelMap model)
     {
 		return new ModelAndView("html/sovereignyields");
     }
@@ -63,6 +63,16 @@ public class BourseController {
     public ModelAndView skewsDataEntrePage(ModelMap model)
     {
 		return new ModelAndView("html/skews");
+    }
+	@RequestMapping( value =  "/preciousmetals")
+    public ModelAndView dataEntryPreciousMetalsPage(ModelMap model)
+    {
+		return new ModelAndView("html/preciousMetals");
+    }
+	@RequestMapping( value =  "/returnfunction")
+    public ModelAndView returnFunctionPage(ModelMap model)
+    {
+		return new ModelAndView("html/returnFunction");
     }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
