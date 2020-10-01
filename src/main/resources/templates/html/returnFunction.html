@@ -461,18 +461,20 @@
 					    <div class="collapse multi-collapse" id="multiCollapseExample1">
 					      <div class="card">
 					      <div class="list-group list-group-horizontal" id="list-tab" role="tablist">
-						      <a class="list-group-item list-group-item-action" id="list-10YRyLD-list" data-toggle="list" href="#" role="tab" aria-controls="10yrYLD"  onclick="drawGraph()">10yr YLD</a>
-						      <a class="list-group-item list-group-item-action" id="list-5yrYLD-list" data-toggle="list" href="#" role="tab" aria-controls="5yrYLD">5yr YLD</a>
-						      <a class="list-group-item list-group-item-action" id="list-2yrYLD-list" data-toggle="list" href="#" role="tab" aria-controls="2yrYLD">2yr YLD</a>
-						      <a class="list-group-item list-group-item-action" id="list-2s10sCurve-list" data-toggle="list" href="#" role="tab" aria-controls="2s10sCurve">2s/10s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-10YRyLD-list" data-toggle="list" href="#" role="tab" aria-controls="10yrYLD"  onclick="drawGraph(2,'10','chart')">10yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-5yrYLD-list" data-toggle="list" href="#" role="tab" aria-controls="5yrYLD"  onclick="drawGraph(2,'5','fiveFactorchart')">5yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-2yrYLD-list" data-toggle="list" href="#" role="tab" aria-controls="2yrYLD"  onclick="drawGraph(2,'2','TwoFactorchart')">2yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-2s10sCurve-list" data-toggle="list" href="#" role="tab" aria-controls="2s10sCurve" onclick="drawGraph(2,'2over10','fiveFactorchart')">2s/10s Curve</a>
 						      <a class="list-group-item list-group-item-action" id="list-2s5sCurve-list" data-toggle="list" href="#" role="tab" aria-controls="2s5sCurve">2s/5s Curve</a>
 						      <a class="list-group-item list-group-item-action" id="list-5s10sCurve-list" data-toggle="list" href="#" role="tab" aria-controls="5s10sCurve">5s/10s Curve</a>
 						    </div>
 					      </div>
 					    
 					    </div>
-					    
 				         <div id="chart"></div>
+				         <div id="fiveFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
+				         <div id="TwoFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
+				         <div id="2over10Chart" class="chart-box" style="display: block; min-height: 365px;"></div>
 					  </div>
 					</div>
 					 </div>
@@ -553,121 +555,95 @@
 			$(function (){
 				$('.simple-marquee-container').SimpleMarquee();
 			});
-      
-			function drawGraph(){
-				 var options = {
-			                series: [{
-			                name: 'Cash Flow',
-			                data: [0.03,-0.03, 0.04, 0.01, -0.01, 0.081, -0.22, -0.25, 0.11, -0.065, -0.022, 0.21, 0.23,
-			                  -0.19, 0.45, -0.09, -0.15, -0.25, 0.20, -0.16, -0.43, 0.20, 0.22, 0.24, -0.028, 0.26, -0.17
-			                  , -0.19, -0.05, 0.35, 0.30, 0.48, -0.09
-			                ]
-			              }],
-			                chart: {
-			                type: 'bar',
-			                height: 350
-			              },
-			              grid: {
-			            	  borderColor: '#464D5C',
-			            	},
-			              plotOptions: {
-			                bar: {
-			                  colors: {
-			                    ranges: [{
-			                      from: -1000,
-			                      to: 0,
-			                      color: '#ef403c'
-			                    },
-			                    {
-				                      from: 0,
-				                      to: 1000,
-				                      color: '#00b746'
-				                    }]
-			                  },
-			                  columnWidth: '80%',
-			                }
-			              },
-			              dataLabels: {
-			                enabled: false,
-			              },
-			              yaxis: {
-			                title: {
-			                  text: 'Growth',
-			                }
-			              },
-			              xaxis: {
-			                type: 'datetime',
-			                categories: [
-			                  '2011-01-01', '2011-02-01', '2011-03-01', '2011-04-01', '2011-05-01', '2011-06-01',
-			                  '2011-07-01', '2011-08-01', '2011-09-01', '2011-10-01', '2011-11-01', '2011-12-01',
-			                  '2012-01-01', '2012-02-01', '2012-03-01', '2012-04-01', '2012-05-01', '2012-06-01',
-			                  '2012-07-01', '2012-08-01', '2012-09-01', '2012-10-01', '2012-11-01', '2012-12-01',
-			                  '2013-01-01', '2013-02-01', '2013-03-01', '2013-04-01', '2013-05-01', '2013-06-01',
-			                  '2013-07-01', '2013-08-01', '2013-09-01'
-			                ],
-			                labels: {
-			                  rotate: -90
-			                }
-			              }
-			              };
+			function drawGraph(subgroupId,factor,chartId){
+				debugger;
+				var title;
+				if(factor=="10")
+				{
+					$("#chart").css("display","block");
+					$("#fiveFactorchart").css("display","none");
+					$("#TwoFactorchart").css("display","none");
+					title='German 10-yr Benchmark YIELD';
+					
+				}else
+					if(factor=="5")
+					{
+						$("#chart").css("display","none");
+						$("#fiveFactorchart").css("display","block");
+						$("#TwoFactorchart").css("display","none");
+						$("#2over10Chart").css("display","none");
+						title='German 5-yr Benchmark YIELD';
+					}else
+						if(factor=="2")
+						{
+							$("#chart").css("display","none");
+							$("#fiveFactorchart").css("display","none");
+							$("#TwoFactorchart").css("display","block");
+							$("#2over10Chart").css("display","none");
+							title='German 2-yr Benchmark YIELD';
+						}	
+						else
+							if(factor=="2over10")
+							{
+								$("#chart").css("display","none");
+								$("#fiveFactorchart").css("display","none");
+								$("#TwoFactorchart").css("display","none");
+								$("#2over10Chart").css("display","block");
+								title='German 2\'s/10\'s yield CURVE';
+							}
+				
+					            var options = {
+					                series: [],
+					                chart: {
+					                height: 350,
+					                type: 'bar',
+					              },
+					              plotOptions: {
+						                bar: {
+						                  colors: {
+						                    ranges: [{
+						                      from: -1000,
+						                      to: 0,
+						                      color: '#ef403c'
+						                    },
+						                    {
+							                      from: 0,
+							                      to: 1000,
+							                      color: '#00b746'
+							                    }]
+						                  },
+						                  columnWidth: '80%',
+						                }
+						              },
+					              dataLabels: {
+					                enabled: false
+					              },
+					              title: {
+					                text: title,
+					              },
+					              noData: {
+					                text: 'Loading...'
+					              },
+					              xaxis: {
+					                type: 'datetime',
+					                tickPlacement: 'on',
+					                labels: {
+						                  rotate: -90
+						                }
+					              }
+					              };
 
-			              var chart = new ApexCharts(document.querySelector("#chart"), options);
-			              chart.render();
-			}
-	              
-	/*               var options = {
-	                series: [],
-	                chart: {
-	                height: 350,
-	                type: 'bar',
-	              },
-	              plotOptions: {
-		                bar: {
-		                  colors: {
-		                    ranges: [{
-		                      from: -1000,
-		                      to: 0,
-		                      color: '#ef403c'
-		                    },
-		                    {
-			                      from: 0,
-			                      to: 1000,
-			                      color: '#00b746'
-			                    }]
-		                  },
-		                  columnWidth: '80%',
-		                }
-		              },
-	              dataLabels: {
-	                enabled: false
-	              },
-	              title: {
-	                text: 'Ajax Example',
-	              },
-	              noData: {
-	                text: 'Loading...'
-	              },
-	              xaxis: {
-	                type: 'category',
-	                tickPlacement: 'on',
-	                labels: {
-	                  rotate: -45,
-	                  rotateAlways: true
-	                }
-	              }
-	              };
-
-	              var chart = new ApexCharts(document.querySelector("#chart"), options);
-	              chart.render();
-	            
-	            
-	              $.getJSON('http://my-json-server.typicode.com/apexcharts/apexcharts.js/yearly', function(response) {
-	              chart.updateSeries([{
-	                name: 'Sales',
-	                data: response
-	              }])
-	            }); */
-	            
+					              var chart = new ApexCharts(document.querySelector("#"+chartId+""), options);
+					              chart.render();
+					              
+					              $.getJSON('http://localhost:9091/bourse/findgraphdatabysubroupidandfactor/2/'+factor, function(response) {
+					            	 chart.updateSeries([{
+					                name: 'value',
+					                data: response
+					              }])
+					            }); 
+							}
+		
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
 </body>

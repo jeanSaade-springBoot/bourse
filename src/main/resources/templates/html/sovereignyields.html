@@ -482,7 +482,7 @@
             <div style="overflow: hidden;">
                 <table>
                     <tr>
-                  <td align="left">  <div id="subgroupdropDownSource" style="float: right;"> </div></td>
+                  <td align="right">  <div id="subgroupdropDownSource" style="float: left; margin-left: .5rem;"> </div></td>
                     </tr>
                     <tr>
                         <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">30yr long :</td>
@@ -500,9 +500,13 @@
                         <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">2yr :</td>
                         <td align="left"><input id="twoYrFactor" /></td>
                     </tr>
+                     <tr>
+                      <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">Recalculate :</td>
+                     <td align="left">  <div id="recalculatedropDown" style="float: right;"> </div></td>
+                    </tr>
                     <tr>
-                        <td style="padding-top: 1.5rem;" align="right"><input class="btn btn-primary mr-1 mb-1" style="margin-right: 5px;color:white;" type="button" id="Save" value="Save" /></td>
-                        <td style="padding-top: 1.5rem;padding-bottom: 1.5rem;" align="right"><input id="Cancel" type="button" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" /></td>
+                        <td style="padding-top: 1.5rem;padding-bottom: 1.5rem;" align="left"><input class="btn btn-primary mr-1 mb-1" style="margin-right: 5px;color:white;" type="button" id="Save" value="Save" /></td>
+                        <td style="padding-top: 1.5rem;padding-bottom: 1.5rem;" align="left"><input id="Cancel" type="button" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" /></td>
                     </tr>
                 </table>
             </div>
@@ -573,16 +577,13 @@
 		 $(document).ready(function () {
 
 				  
-// 		            var dropDownSource = [
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/united-states.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA' },
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/germany.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>GER</span></div>", title: 'GER' },
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/france.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>FRA</span></div>", title: 'FRA' },
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/united-kingdom.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>UKK</span></div>", title: 'UKK' },
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/italy.png'/><span style='float: left; font-size: 13px; margin-top: 0.3rem;font-family: inherit;'>ITA</span></div>", title: 'ITA' },
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/spain.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>SPN</span></div>", title: 'SPN' }
-// 	                ];
-// 	                // Create a jqxDropDownList
-// 	                $("#countryDropDown").jqxDropDownList({ source: dropDownSource, theme:'dark', selectedIndex: 0, width: '100', height: '40px'});
+			 var dropDownSource = [
+                 "now",
+                 "after 3 hours",
+                 "after 6 hours"
+		        ];
+ 	                // Create a jqxDropDownList
+	                $("#recalculatedropDown").jqxDropDownList({ source: dropDownSource, theme:'dark', selectedIndex: 0, width: '100%', height: '40px',dropDownHeight:'100px'});
 	                
 // 		            // prepare the data
 		            var source =
@@ -711,7 +712,7 @@
 		            });
 		            // initialize the popup window and buttons.
             $("#popupWindow").jqxWindow({
-                width:300, theme:'dark', resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+                width:900, theme:'dark', resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
             });
          
             $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
