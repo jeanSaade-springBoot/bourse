@@ -30,7 +30,9 @@ a:focus {
 .padding-botton-0 {
     padding-bottom: 0!important;
 }
-
+a.collapse-item.active {
+    background: rgba(90,141,238,.15);
+}
 @-webkit-keyframes blinker {
   from {opacity: 1.0;}
   to {opacity: 0.0;}
@@ -758,7 +760,7 @@ h5.card-title.blink {
 
 .sidebar .nav-item .collapse .collapse-inner .collapse-item.active,
 .sidebar .nav-item .collapsing .collapse-inner .collapse-item.active {
-	color: #3a3b45;
+    color: #5A8DEE;
 	font-weight: 800
 }
 
@@ -1135,7 +1137,7 @@ border-color: #464D5C!important;
 }
 
 .sidebar-light .nav-item.active .nav-link {
-	color: #8A99B5;
+	color: #5A8DEE;
 }
 
 .sidebar-light .nav-item.active .nav-link i {

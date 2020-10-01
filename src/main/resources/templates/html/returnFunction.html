@@ -27,7 +27,7 @@
         <div class="sidebar-brand-text mx-3">libvol</div>
       </a>
       <hr class="sidebar-divider my-0">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="/bourse/home">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -72,16 +72,16 @@
           </div>
         </div>
       </li>
-	   <li class="nav-item">
+	   <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAnalytics"
           aria-expanded="true" aria-controls="collapseAnalytics">
           <i class="fas fa-chart-bar"></i>
           <span>Analytics</span>
         </a>
-        <div id="collapseAnalytics" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+        <div id="collapseAnalytics" class="collapse show" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Analytics</h6>
-            <a class="collapse-item" href="/bourse/returnfunction">Return Function</a>
+            <a class="collapse-item active" href="/bourse/returnfunction">Return Function</a>
             <a class="collapse-item" href="">Implied Vs Realized (Hi/lo)</a>
             <a class="collapse-item" href="">Implied Vs Realized (Close)</a>
             <a class="collapse-item" href="">Gamma Rents</a>
@@ -437,7 +437,7 @@
           <div class="d-sm-flex align-items-center justify-content-between ">
             <h1 class="h3 mb-0 text-gray-800">Return Function</h1>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="./">Home</a></li>
+              <li class="breadcrumb-item"><a href="/bourse/home">Home</a></li>
               <li class="breadcrumb-item active" aria-current="page">Return Function</li>
             </ol>
           </div>
@@ -453,18 +453,26 @@
 				</nav>
 				<div class="tab-content" id="nav-tabContent">
 				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-					<p>
-					  <a class="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"  onclick="drawGraph()">Germany</a>
+					<p class="mt-2" style=" margin-bottom: .5rem;">
+					  <a class="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >Germany</a>
 					</p>
 					<div class="row">
 					  <div class="col">
 					    <div class="collapse multi-collapse" id="multiCollapseExample1">
-					      <div class="card card-body">
-					     chi
-					     
+					      <div class="card">
+					      <div class="list-group list-group-horizontal" id="list-tab" role="tablist">
+						      <a class="list-group-item list-group-item-action" id="list-10YRyLD-list" data-toggle="list" href="#" role="tab" aria-controls="10yrYLD"  onclick="drawGraph()">10yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-5yrYLD-list" data-toggle="list" href="#" role="tab" aria-controls="5yrYLD">5yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-2yrYLD-list" data-toggle="list" href="#" role="tab" aria-controls="2yrYLD">2yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-2s10sCurve-list" data-toggle="list" href="#" role="tab" aria-controls="2s10sCurve">2s/10s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-2s5sCurve-list" data-toggle="list" href="#" role="tab" aria-controls="2s5sCurve">2s/5s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-5s10sCurve-list" data-toggle="list" href="#" role="tab" aria-controls="5s10sCurve">5s/10s Curve</a>
+						    </div>
 					      </div>
-					        <div id="chart"></div>
+					    
 					    </div>
+					    
+				         <div id="chart"></div>
 					  </div>
 					</div>
 					 </div>
@@ -547,7 +555,6 @@
 			});
       
 			function drawGraph(){
-				debugger;
 				 var options = {
 			                series: [{
 			                name: 'Cash Flow',
@@ -560,6 +567,9 @@
 			                type: 'bar',
 			                height: 350
 			              },
+			              grid: {
+			            	  borderColor: '#464D5C',
+			            	},
 			              plotOptions: {
 			                bar: {
 			                  colors: {
