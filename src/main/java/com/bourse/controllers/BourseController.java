@@ -24,6 +24,7 @@ import com.bourse.domain.Person;
 import com.bourse.domain.SkewsData;
 import com.bourse.domain.SovereignData;
 import com.bourse.dto.DataDTO;
+import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.PersonReqDTO;
 import com.bourse.service.PersonService;
 import com.bourse.service.SkewsService;
@@ -157,6 +158,13 @@ public class BourseController {
 	public ResponseEntity<List<SovereignData>> findSovereignBySubGroup(@PathVariable("subgroupId") long subgroupId) {
 	return new ResponseEntity<>(sovereignYieldsService.findSovereignBySubGroup(subgroupId),HttpStatus.OK);
 	}
+	
+	
+	@GetMapping(value = "findgraphdataForFiveBySubroupId/{subgroupId}")
+	public ResponseEntity<List<DataGraphDTO>> findGraphDataForFiveBySubroupId(@PathVariable("subgroupId") long subgroupId) {
+	return new ResponseEntity<>(sovereignYieldsService.findGraphDataForFiveBySubroupId(subgroupId),HttpStatus.OK);
+	}
+
 	
 	
 	

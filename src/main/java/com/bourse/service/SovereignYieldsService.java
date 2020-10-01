@@ -7,6 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.SovereignData;
+import com.bourse.dto.DataGraphDTO;
 import com.bourse.repositories.SovereignYieldsRepository;
 
 @Service
@@ -43,5 +44,13 @@ public class SovereignYieldsService
 	{      
         return sovereignYieldsRepository.findSovereignBysubgroupId(id);
 	}
+	
+	public List<DataGraphDTO> findGraphDataForFiveBySubroupId(long id) 
+	{      
+        return sovereignYieldsRepository.findGraphDataForFiveBySubroupId(id);
+	}
+	
+	
+	
 	
 }
