@@ -93,12 +93,13 @@ public class SovereignUtil {
 	
 	public static SovereignData buildUpdateObject(SovereignData originalObject,SovereignData sovereignData)
 	{
+		originalObject.setReferDate(new SimpleDateFormat("dd-MM-yyyy HH:mm:ss").format(new Date()));
 		originalObject.setFiveYrFactor(sovereignData.getFiveYrFactor());
 		originalObject.setTenYrFactor(sovereignData.getTenYrFactor());
 		originalObject.setThirteeYrFactor(sovereignData.getThirteeYrFactor());
 		originalObject.setTwoYrFactor(sovereignData.getTwoYrFactor());
 		originalObject.setSubgroupId(sovereignData.getSubgroupId());
-		return sovereignData;
+		return originalObject;
 	}
 
 }

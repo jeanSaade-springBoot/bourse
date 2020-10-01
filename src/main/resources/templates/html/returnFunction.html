@@ -13,8 +13,7 @@
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="/css/ruang-admin.min.css" rel="stylesheet">
   <link href="/css/marquee.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-  <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link href="/css/apexchart.css" rel="stylesheet">
 </head>
 
 <body id="page-top">
@@ -37,16 +36,16 @@
       <div class="sidebar-heading">
         Admin Section
       </div>
-        <li class="nav-item active">
+        <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataEntry"
           aria-expanded="true" aria-controls="collapseDataEntry">
           <i class="fas fa-pen"></i>
           <span>Data Entry</span>
         </a>
-        <div id="collapseDataEntry" class="collapse show" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+        <div id="collapseDataEntry" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data Entry</h6>
-            <a class="collapse-item active" href="/bourse/sovereignyields" >Sovereign Yields</a>
+            <a class="collapse-item" href="/bourse/sovereignyields" >Sovereign Yields</a>
             <a class="collapse-item" href="/bourse/skews" >Skews</a>
             <a class="collapse-item" href="/bourse/preciousmetals" >Precious Metals</a>
             <a class="collapse-item" href="/bourse/sovereignyields" >Fixed Income Future</a>
@@ -73,16 +72,16 @@
           </div>
         </div>
       </li>
-	   <li class="nav-item">
+	   <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAnalytics"
           aria-expanded="true" aria-controls="collapseAnalytics">
           <i class="fas fa-chart-bar"></i>
           <span>Analytics</span>
         </a>
-        <div id="collapseAnalytics" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+        <div id="collapseAnalytics" class="collapse show" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Analytics</h6>
-            <a class="collapse-item" href="/bourse/returnfunction">Return Function</a>
+            <a class="collapse-item active" href="/bourse/returnfunction">Return Function</a>
             <a class="collapse-item" href="">Implied Vs Realized (Hi/lo)</a>
             <a class="collapse-item" href="">Implied Vs Realized (Close)</a>
             <a class="collapse-item" href="">Gamma Rents</a>
@@ -435,82 +434,81 @@
 
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
-          <div class="d-sm-flex align-items-center justify-content-between mb-1">
-            <h1 class="h3 mb-0 text-gray-800">Sovereign Yields</h1>
+          <div class="d-sm-flex align-items-center justify-content-between ">
+            <h1 class="h3 mb-0 text-gray-800">Return Function</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/bourse/home">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Sovereign Yields</li>
+              <li class="breadcrumb-item active" aria-current="page">Return Function</li>
             </ol>
           </div>
-		<div class="col-lg-12">
-              <!-- Form Basic -->
-            <div class="collapse show" id="collapseExample">
-   <div class="card mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
-                 <div class="col-lg-4" style="padding: 0;">
-                  <h6 class="m-0 font-weight-bold text-primary">Sovereign Data Entry</h6>
-                  </div>
-                   <div class="col-lg-2">
-                    <div id="countryDropDown" style="float: right;"> </div>
-                   </div>
-                </div>
-                <div class="card-body" style="  padding-top: 0;
-											    padding-right: 1.25rem;
-											    padding-bottom: 1.25rem;
-											    padding-left: 1.25rem;">
-                  <form onsubmit="submitData()">
-                  <div class="form-group" style=" margin-top: 1rem;">
-                      <label for="exampleFormControlTextarea1">Enter Data below</label>
-                      <textarea class="form-control" id="data" rows="3"></textarea>
-                    </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
-                    </form>
+
+          <div class="row mb-3">
+			 <div class="bd-example bd-example-tabs col-12">
+			 <nav>
+				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+				    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Yields & Liquidity</a>
+				    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Precious Metals</a>
+				    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Normalized Vols</a>
+				  </div>
+				</nav>
+				<div class="tab-content" id="nav-tabContent">
+				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+					<p class="mt-2" style=" margin-bottom: .5rem;">
+					  <a class="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >Germany</a>
+					</p>
+					<div class="row">
+					  <div class="col">
+					    <div class="collapse multi-collapse" id="multiCollapseExample1">
+					      <div class="card">
+					      <div class="list-group list-group-horizontal" id="list-tab" role="tablist">
+						      <a class="list-group-item list-group-item-action" id="list-10YRyLD-list" data-toggle="list" href="#" role="tab" aria-controls="10yrYLD"  onclick="drawGraph()">10yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-5yrYLD-list" data-toggle="list" href="#" role="tab" aria-controls="5yrYLD">5yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-2yrYLD-list" data-toggle="list" href="#" role="tab" aria-controls="2yrYLD">2yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-2s10sCurve-list" data-toggle="list" href="#" role="tab" aria-controls="2s10sCurve">2s/10s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-2s5sCurve-list" data-toggle="list" href="#" role="tab" aria-controls="2s5sCurve">2s/5s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-5s10sCurve-list" data-toggle="list" href="#" role="tab" aria-controls="5s10sCurve">5s/10s Curve</a>
+						    </div>
+					      </div>
+					    
+					    </div>
+					    
+				         <div id="chart"></div>
+					  </div>
+					</div>
+					 </div>
+				  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+				</div>
+			</div>
           </div>
-     </div>
-</div>
-<p>
-  <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
-   Collapse Data Entry Section
-  </a>
-</p>
-           </div>
-          <div class="col-lg-12">
-             <div id="grid">
-           </div> 
-           <div id="popupWindow" style="display:none;">
-            <div>Edit</div>
-            <div style="overflow: hidden;">
-                <table>
-                    <tr>
-                  <td align="left">  <div id="subgroupdropDownSource" style="float: right;"> </div></td>
-                    </tr>
-                    <tr>
-                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">30yr long :</td>
-                        <td align="left"><input id="thirteeYrFactor" /></td>
-                    </tr>
-                     <tr>
-                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">10yr bench :</td>
-                        <td align="left"><input id=tenYrFactor /></td>
-                    </tr>
-                     <tr>
-                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">5yr :</td>
-                        <td align="left"><input id="fiveYrFactor" /></td>
-                    </tr>
-                     <tr>
-                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">2yr :</td>
-                        <td align="left"><input id="twoYrFactor" /></td>
-                    </tr>
-                    <tr>
-                        <td style="padding-top: 1.5rem;" align="right"><input class="btn btn-primary mr-1 mb-1" style="margin-right: 5px;color:white;" type="button" id="Save" value="Save" /></td>
-                        <td style="padding-top: 1.5rem;padding-bottom: 1.5rem;" align="right"><input id="Cancel" type="button" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" /></td>
-                    </tr>
-                </table>
+         
+
+          <!-- Modal Logout -->
+          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to logout?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                  <a href="login.html" class="btn btn-primary">Logout</a>
+                </div>
+              </div>
             </div>
-       </div>
+          </div>
+
         </div>
         <!---Container Fluid-->
       </div>
-      <div class="NewsBack" style="z-index: 100; position: fixed; bottom: 0px; left: 0px; width: 100%;  border: 2px; border-color: black;">
+      <div class="NewsBack" style="position: fixed; bottom: 0px; left: 0px; width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
 				<div class="marquee-sibling">
 					NEWS
@@ -547,237 +545,129 @@
 
   <script src="/vendor/jquery/jquery.min.js"></script>
   <script src="/js/marquee.js"></script>
-  <script src="/js/ruang-admin.min.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/jqwidgets/jqxcore.js"></script> 
-  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
-  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
-  <script src="/js/jqwidgets/jqxmenu.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
-  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
-  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
-  <script src="/js/jqwidgets/jqxdata.js"></script> 
-  <script src="/js/jqwidgets/jqxwindow.js"></script>
-  <script src="/js/jqwidgets/jqxinput.js"></script>
+  <script src="/js/ruang-admin.min.js"></script>
+  <script src="/js/apexcharts.js"></script>
   <script>
 			$(function (){
-
 				$('.simple-marquee-container').SimpleMarquee();
-				
 			});
-		 $(document).ready(function () {
+      
+			function drawGraph(){
+				 var options = {
+			                series: [{
+			                name: 'Cash Flow',
+			                data: [0.03,-0.03, 0.04, 0.01, -0.01, 0.081, -0.22, -0.25, 0.11, -0.065, -0.022, 0.21, 0.23,
+			                  -0.19, 0.45, -0.09, -0.15, -0.25, 0.20, -0.16, -0.43, 0.20, 0.22, 0.24, -0.028, 0.26, -0.17
+			                  , -0.19, -0.05, 0.35, 0.30, 0.48, -0.09
+			                ]
+			              }],
+			                chart: {
+			                type: 'bar',
+			                height: 350
+			              },
+			              grid: {
+			            	  borderColor: '#464D5C',
+			            	},
+			              plotOptions: {
+			                bar: {
+			                  colors: {
+			                    ranges: [{
+			                      from: -1000,
+			                      to: 0,
+			                      color: '#ef403c'
+			                    },
+			                    {
+				                      from: 0,
+				                      to: 1000,
+				                      color: '#00b746'
+				                    }]
+			                  },
+			                  columnWidth: '80%',
+			                }
+			              },
+			              dataLabels: {
+			                enabled: false,
+			              },
+			              yaxis: {
+			                title: {
+			                  text: 'Growth',
+			                }
+			              },
+			              xaxis: {
+			                type: 'datetime',
+			                categories: [
+			                  '2011-01-01', '2011-02-01', '2011-03-01', '2011-04-01', '2011-05-01', '2011-06-01',
+			                  '2011-07-01', '2011-08-01', '2011-09-01', '2011-10-01', '2011-11-01', '2011-12-01',
+			                  '2012-01-01', '2012-02-01', '2012-03-01', '2012-04-01', '2012-05-01', '2012-06-01',
+			                  '2012-07-01', '2012-08-01', '2012-09-01', '2012-10-01', '2012-11-01', '2012-12-01',
+			                  '2013-01-01', '2013-02-01', '2013-03-01', '2013-04-01', '2013-05-01', '2013-06-01',
+			                  '2013-07-01', '2013-08-01', '2013-09-01'
+			                ],
+			                labels: {
+			                  rotate: -90
+			                }
+			              }
+			              };
 
-				  
-// 		            var dropDownSource = [
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/united-states.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA' },
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/germany.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>GER</span></div>", title: 'GER' },
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/france.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>FRA</span></div>", title: 'FRA' },
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/united-kingdom.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>UKK</span></div>", title: 'UKK' },
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/italy.png'/><span style='float: left; font-size: 13px; margin-top: 0.3rem;font-family: inherit;'>ITA</span></div>", title: 'ITA' },
-// 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/spain.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>SPN</span></div>", title: 'SPN' }
-// 	                ];
-// 	                // Create a jqxDropDownList
-// 	                $("#countryDropDown").jqxDropDownList({ source: dropDownSource, theme:'dark', selectedIndex: 0, width: '100', height: '40px'});
-	                
-// 		            // prepare the data
-		            var source =
-		            {
-		                datatype: "json",
-		                datafields: [
-		                    { name: 'referDate', type: 'string' },
-		                    { name: 'thirteeYrFactor', type: 'string' },
-		                    { name: 'tenYrFactor', type: 'string' },
-		                    { name: 'fiveYrFactor', type: 'string' },
-		                    { name: 'twoYrFactor', type: 'string' },
-		                    { name: 'subgroupId', type: 'string' }
-		                ],
-		                id: 'id',
-		                url: '/bourse/getsovereignyields'
-		            };
-		            var dataAdapter = new $.jqx.dataAdapter(source);
-		            var imagerenderer = function (row, datafield, value) {
-		                return '<img style="margin: .4rem; margin-left: 1rem;" height="24" width="24" src="/img/flag/' + value + '.png"/>';
-		            }
-		            
-		            var subgroupSource = [
-                       { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/1.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA' },
-	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/2.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>GER</span></div>", title: 'GER' },
-	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/3.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>FRA</span></div>", title: 'FRA' },
- 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/4.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>UKK</span></div>", title: 'UKK' },
- 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/5.png'/><span style='float: left; font-size: 13px; margin-top: 0.3rem;font-family: inherit;'>ITA</span></div>", title: 'ITA' },
- 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/6.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>SPN</span></div>", title: 'SPN' }
-	                ];
- 	                //Create a jqxDropDownList
- 	                $("#subgroupdropDownSource").jqxDropDownList({ source: subgroupSource, theme:'dark', selectedIndex: 0, width: '100', height: '40px'});
-	                
-		             $("#thirteeYrFactor").jqxInput({ theme: 'dark' }); 
-		             $("#thirteeYrFactor").width(150);
-		             $("#fiveYrFactor").jqxInput({ theme: 'dark' }); 
-		             $("#fiveYrFactor").width(150);
-		             $("#twoYrFactor").jqxInput({ theme: 'dark' }); 
-		             $("#twoYrFactor").width(150);
-		             $("#tenYrFactor").jqxInput({ theme: 'dark' }); 
-		             $("#tenYrFactor").width(150);
-		             
-		            $("#grid").jqxGrid(
-		            {
-		                width: '100%',
-		                columnsresize: true,
-		                theme:'dark',
-		                pageable: true,
-		                pagesize: 10,
-		                showtoolbar: true,
-		                filterable: true,
-		                autoheight: true,
-		                source: dataAdapter,
-		                rendertoolbar: function (toolbar) {
-		                    var me = this;
-		                    var container = $("<div ></div>");
-		                    toolbar.append(container);
-		                    container.append('<div id="subGrpDropDown" style="margin-left:.5rem;background:#40566f;border:0px"> </div>');
-		                    var subgroupFilterSource = [
-		                        { html: "<div style='height: 20px; float: left;'><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>ALL</span></div>", title: 'ALL',value:'/bourse/getsovereignyields' },
-		                        { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/1.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA',value:'/bourse/findsovereignbysubgroup/1' },
-			 	                { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/2.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>GER</span></div>", title: 'GER',value:'/bourse/findsovereignbysubgroup/2' },
-		 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/3.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>FRA</span></div>", title: 'FRA',value:'/bourse/findsovereignbysubgroup/3' },
-		  	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/4.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>UKK</span></div>", title: 'UKK',value:'/bourse/findsovereignbysubgroup/4' },
-		  	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/5.png'/><span style='float: left; font-size: 13px; margin-top: 0.3rem;font-family: inherit;'>ITA</span></div>", title: 'ITA',value:'/bourse/findsovereignbysubgroup/5' },
-		  	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/6.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>SPN</span></div>", title: 'SPN',value:'/bourse/findsovereignbysubgroup/6' }
-		 	                ];
-							$("#subGrpDropDown").jqxDropDownList({ source: subgroupFilterSource, theme:'dark', selectedIndex: 0, width: '100', height: '40px'});
-							$("#subGrpDropDown").on('select', function (event) {
-								 var item = event.args.item;
-			                        if (item) {
-									 source.url=item.value;
-									 dataAdapter = new $.jqx.dataAdapter(source);
-									 $('#grid').jqxGrid({source:dataAdapter});
-			                        }
-				            });
-		                },
-		                columns: [
-		                  { text: 'Sub-groups',filterable: false, datafield: 'subgroupId', width: '8%', cellsrenderer: imagerenderer },
-		                  { text: 'Date', datafield: 'referDate', width: '16%' },
-		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '16%' },
-		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '16%' },
-		                  { text: '5yr', datafield: 'fiveYrFactor', width: '16%' },
-		                  { text: '2yr', datafield: 'twoYrFactor', width: '16%' },
-		                  { text: '', datafield: 'Edit',width:'5%', columntype: 'button', cellsrenderer: function () {
-		                      return "Edit";
-		                   }, buttonclick: function (row) {
-		                      // open the popup window when the user clicks a button.
-		                      editrow = row;
-		                      var offset = $("#grid").offset();
-		                      $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 120, y: parseInt(offset.top) - 90 } });
-		                      // get the clicked row's data and initialize the input fields.
-		                      var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
-
-		                      $("#subgroupdropDownSource").jqxDropDownList('selectIndex',dataRecord.subgroupId-1);
-		                      $("#thirteeYrFactor").val(dataRecord.thirteeYrFactor);
-		                      $("#tenYrFactor").val(dataRecord.tenYrFactor);
-		                      $("#fiveYrFactor").val(dataRecord.fiveYrFactor);
-		                      $("#twoYrFactor").val(dataRecord.twoYrFactor);
-		                      // show the popup window.
-		                      $("#popupWindow").jqxWindow('open');
-		                  }
-		                  },
-		                  { text: '', datafield: 'Delete', width:'7%', columntype: 'button', cellsrenderer: function () {
-		                      return "Delete";
-		                   }, buttonclick: function (row) {
-		                     
-		                	   var selectedrowindex = $("#grid").jqxGrid('getselectedrowindex');
-		                        var rowscount = $("#grid").jqxGrid('getdatainformation').rowscount;
-		                        if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
-		                            var id = $("#grid").jqxGrid('getrowid', selectedrowindex);
-		                            $.ajax({
-		                                type : "DELETE",
-		                                url : "/bourse/deletesovereignbyid/" + id,
-		                                success: function (result) {       
-		                                       console.log(result);                
-		                                },
-		                                error: function (e) {
-		                                    console.log(e);
-		                                }
-		                            });
-		                            var commit = $("#grid").jqxGrid('deleterow', id);
-		                        }
-		                  }
-		                  }
-		              ]
-		            });
-		            // initialize the popup window and buttons.
-            $("#popupWindow").jqxWindow({
-                width:300, theme:'dark', resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-            });
-         
-            $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
-            $("#Save").jqxButton({ theme: 'dark',height:38,width:93 });
-            // update the edited row when the user clicks the 'Save' button.
-            $("#Save").click(function () {
-                if (editrow >= 0) {
-                	 var rowID = $('#grid').jqxGrid('getrowid', editrow);
-                      
-                	var row = { id : rowID,
-                    		    subgroupId:$("#subgroupdropDownSource").jqxDropDownList('getSelectedIndex')+1,
-                    		    thirteeYrFactor: $("#thirteeYrFactor").val(),
-                    			tenYrFactor: $("#tenYrFactor").val(),
-                    			fiveYrFactor: $("#fiveYrFactor").val(),
-                    			twoYrFactor: $("#twoYrFactor").val()
-                    			};
-                	debugger;
-      	       	  $.ajax({
-      	    	        type: "POST",
-      	    	        contentType: "application/json",
-      	    	        url: "/bourse/updatesovereignbyid",
-      	    	        data: JSON.stringify(row),
-      	    	        dataType: 'json',
-      	    	        async:true,
-      	    	        cache: false,
-      	    	        timeout: 600000,
-      	    	        success: function (data) {
-      	    	        
-                        $('#grid').jqxGrid('updaterow', rowID, data);
-                        $("#popupWindow").jqxWindow('hide');
-      	   },
-      	    	        error: function (e) {
-      	    	        	
-      						  console.log("ERROR : ", e);
-      	
-      	    	        }
-      	    	    });
-                }
-            });
-
-		        });
-			function submitData()
-			{
-			  var dataDTO = {}
-			  dataDTO["excelData"] = $("#data").val();
-	       	  $.ajax({
-	    	        type: "POST",
-	    	        contentType: "application/json",
-	    	        url: "/bourse/savesovereigndata",
-	    	        data: JSON.stringify(dataDTO),
-	    	        dataType: 'json',
-	    	        async:true,
-	    	        cache: false,
-	    	        timeout: 600000,
-	    	        success: function (data) {
-	    	        	
-	    	        alert("success")
-	   },
-	    	        error: function (e) {
-	    	        	
-						  console.log("ERROR : ", e);
-	
-	    	        }
-	    	    });
+			              var chart = new ApexCharts(document.querySelector("#chart"), options);
+			              chart.render();
 			}
-			
+	              
+	/*               var options = {
+	                series: [],
+	                chart: {
+	                height: 350,
+	                type: 'bar',
+	              },
+	              plotOptions: {
+		                bar: {
+		                  colors: {
+		                    ranges: [{
+		                      from: -1000,
+		                      to: 0,
+		                      color: '#ef403c'
+		                    },
+		                    {
+			                      from: 0,
+			                      to: 1000,
+			                      color: '#00b746'
+			                    }]
+		                  },
+		                  columnWidth: '80%',
+		                }
+		              },
+	              dataLabels: {
+	                enabled: false
+	              },
+	              title: {
+	                text: 'Ajax Example',
+	              },
+	              noData: {
+	                text: 'Loading...'
+	              },
+	              xaxis: {
+	                type: 'category',
+	                tickPlacement: 'on',
+	                labels: {
+	                  rotate: -45,
+	                  rotateAlways: true
+	                }
+	              }
+	              };
+
+	              var chart = new ApexCharts(document.querySelector("#chart"), options);
+	              chart.render();
+	            
+	            
+	              $.getJSON('http://my-json-server.typicode.com/apexcharts/apexcharts.js/yearly', function(response) {
+	              chart.updateSeries([{
+	                name: 'Sales',
+	                data: response
+	              }])
+	            }); */
+	            
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
 </body>
