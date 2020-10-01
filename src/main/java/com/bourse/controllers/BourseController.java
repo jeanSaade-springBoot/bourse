@@ -170,9 +170,9 @@ public class BourseController {
 	}
 	
 	
-	@GetMapping(value = "findgraphdataForFiveBySubroupId/{subgroupId}")
-	public ResponseEntity<List<DataGraphDTO>> findGraphDataForFiveBySubroupId(@PathVariable("subgroupId") long subgroupId) {
-	return new ResponseEntity<>(sovereignYieldsService.findGraphDataForFiveBySubroupId(subgroupId),HttpStatus.OK);
+	@GetMapping(value = "findgraphdatabysubroupidandfactor/{subgroupId}/{factor}")
+	public ResponseEntity<List<DataGraphDTO>> findGraphDataForFiveBySubroupId(@PathVariable("subgroupId") long subgroupId,@PathVariable("factor") String factor) {
+	return new ResponseEntity<>(sovereignYieldsService.findGraphDataBySubroupIdAndFactorCalculation(subgroupId,factor),HttpStatus.OK);
 	}
 
 	
