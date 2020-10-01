@@ -668,7 +668,7 @@
 					              var chart = new ApexCharts(document.querySelector("#"+chartId+""), options);
 					              chart.render();
 					              
-					              $.getJSON('https://bourseproject.herokuapp.com/bourse/sovereignyields/bourse/findgraphdatabysubroupidandfactor/2/'+factor, function(response) {
+					              $.getJSON('/bourse/findgraphdatabysubroupidandfactor/2/'+factor, function(response) {
 					            	 chart.updateSeries([{
 					                name: 'value',
 					                data: response
