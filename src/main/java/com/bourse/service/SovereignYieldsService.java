@@ -4,6 +4,7 @@ package com.bourse.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.SovereignData;
@@ -18,7 +19,7 @@ public class SovereignYieldsService
 	
 	public List<SovereignData> getAllSovereignDatas()
 	{      
-        return sovereignYieldsRepository.findAll();
+        return sovereignYieldsRepository.findAll(Sort.by("id").descending());
 	}
 	public List<SovereignData> SaveSovereignDatas(List<SovereignData> plst) 
 	{      

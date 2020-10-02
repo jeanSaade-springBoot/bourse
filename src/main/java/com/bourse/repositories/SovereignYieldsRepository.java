@@ -29,7 +29,7 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
 	 
 	 
 	 @Query(value = "select STR_TO_DATE(refer_date,'%d-%m-%Y') as x,\r\n" + 
-						"      two_yr_factor/five_yr_factor as y  \r\n" + 
+						"     ROUND(two_yr_factor/five_yr_factor,3) as y  \r\n" + 
 						"  from `sovereign_data`\r\n" + 
 						"  where subgroup_id=:subGroupId "
 						+ "order by STR_TO_DATE(refer_date,'%d-%m-%Y')",
@@ -37,7 +37,7 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
 	 public List<DataGraphDTO> findGraphDataForTwoOverFiveBySubroupId(@Param("subGroupId") long subGroupId);
 	 
 	 @Query(value = "select STR_TO_DATE(refer_date,'%d-%m-%Y') as x,\r\n" + 
-				"       two_yr_factor/ten_yr_factor as y\r\n" + 
+				"       ROUND(two_yr_factor/ten_yr_factor,3) as y\r\n" + 
 				"  from `sovereign_data`\r\n" + 
 				"  where subgroup_id=:subGroupId "
 				+ "order by STR_TO_DATE(refer_date,'%d-%m-%Y')",
@@ -45,7 +45,7 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
      public List<DataGraphDTO> findGraphDataForTwoOverTenBySubroupId(@Param("subGroupId") long subGroupId);
 	 
 	 @Query(value = "select STR_TO_DATE(refer_date,'%d-%m-%Y') as x,\r\n" + 
-				"       five_yr_factor/ten_yr_factor as y\r\n" + 
+				"       ROUND(five_yr_factor/ten_yr_factor,3) as y\r\n" + 
 				"  from `sovereign_data`\r\n" + 
 				"  where subgroup_id=:subGroupId "
 				+ "order by STR_TO_DATE(refer_date,'%d-%m-%Y')",
@@ -53,7 +53,7 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
      public List<DataGraphDTO> findGraphDataForFiveOverTenBySubroupId(@Param("subGroupId") long subGroupId);
 	 
 	 @Query(value = "select STR_TO_DATE(refer_date,'%d-%m-%Y') as x ,\r\n" + 
-				"      ten_yr_factor/thirtee_yr_factor as y \r\n" + 
+				"      ROUND(ten_yr_factor/thirtee_yr_factor,3) as y \r\n" + 
 				"  from `sovereign_data`\r\n" + 
 				"  where subgroup_id=:subGroupId "
 				+ "order by STR_TO_DATE(refer_date,'%d-%m-%Y')",
@@ -61,7 +61,7 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
     public List<DataGraphDTO> findGraphDataForTenOverThirteeBySubroupId(@Param("subGroupId") long subGroupId);
 	 
 	 @Query(value = "select STR_TO_DATE(refer_date,'%d-%m-%Y') as x ,\r\n" + 
-				"    five_yr_factor/thirtee_yr_factor as y  \r\n" + 
+				"    ROUND(five_yr_factor/thirtee_yr_factor,3) as y  \r\n" + 
 				"  from `sovereign_data`\r\n" + 
 				"  where subgroup_id=:subGroupId "
 				+ "order by STR_TO_DATE(refer_date,'%d-%m-%Y')",
