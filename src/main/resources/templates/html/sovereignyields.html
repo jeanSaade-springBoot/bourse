@@ -26,7 +26,7 @@
 <body id="page-top">
   <div id="wrapper">
     <!-- Sidebar -->
-    <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+    <ul class="navbar-nav sidebar sidebar-light accordion toggled" id="accordionSidebar">
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon">
          <!--  <img src="img/logo/logo2.png"> -->
@@ -49,7 +49,7 @@
           <i class="fas fa-pen"></i>
           <span>Data Entry</span>
         </a>
-        <div id="collapseDataEntry" class="collapse show" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+        <div id="collapseDataEntry" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data Entry</h6>
             <a class="collapse-item active" href="/bourse/sovereignyields" >Sovereign Yields</a>
@@ -451,19 +451,24 @@
 		<div class="col-lg-12">
               <!-- Form Basic -->
             <div class="collapse show" id="collapseExample">
-   <div class="card mb-4">
+  			 <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
-                 <div class="col-lg-4" style="padding: 0;">
-                  <h6 class="m-0 font-weight-bold text-primary">Sovereign Data Entry</h6>
+                 <div class="col-3" style="padding: 0;">
+                  <h6 class="m-0 font-weight-bold text-primary">Data Input - Soverign Yields</h6>
                   </div>
-                   <div class="col-lg-2">
-                    <div id="countryDropDown" style="float: right;"> </div>
+                   <div class="col-3">
+                     <div id='dateInput'></div>
                    </div>
+                   <div class="col-3">
+                   <div id='dateInputAudit'></div>
+                   </div>
+                   <div class="col-3"></div>
                 </div>
                 <div class="card-body" style="  padding-top: 0;
 											    padding-right: 1.25rem;
 											    padding-bottom: 1.25rem;
 											    padding-left: 1.25rem;">
+                 <div style=" display: flex;">
                  <div class="col-5">
                   <form onsubmit="submitData()">
                   <div class="form-group" style=" margin-top: 1rem;">
@@ -492,19 +497,48 @@
 		                      <textarea class="form-control" id="data" rows="4"></textarea>
 		                    </div>
                      </div>
-                    <button type="submit" class="btn btn-primary">Save</button>
+<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
                     </form>
+                 </div>
+                 <div class="col-1"></div>
+                    <div class="col-6">
+                    <nav style="padding-top: 1.5rem;">
+					  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+					    <a class="nav-item nav-link active" id="nav-yields-tab" data-toggle="tab" href="#nav-yields" role="tab" aria-controls="nav-yields" aria-selected="true">Yields</a>
+					    <a class="nav-item nav-link" id="nav-curves-tab" data-toggle="tab" href="#nav-curves" role="tab" aria-controls="nav-curves" aria-selected="false">Curves</a>
+					    <a class="nav-item nav-link" id="nav-crosses-tab" data-toggle="tab" href="#nav-crosses" role="tab" aria-controls="nav-crosses" aria-selected="false">Crosses</a>
+					  </div>
+					</nav>
+					<div class="tab-content" id="nav-tabContent">
+					  <div class="tab-pane fade show active" id="nav-yields" role="tabpanel" aria-labelledby="nav-yields-tab">  <div id="auditGrid"></div></div>
+					  <div class="tab-pane fade" id="nav-curves" role="tabpanel" aria-labelledby="nav-curves-tab">...</div>
+					  <div class="tab-pane fade" id="nav-crosses" role="tabpanel" aria-labelledby="nav-crosses-tab">...</div>
+					</div>
                  </div>
           </div>
      </div>
 </div>
-<p>
+</div>
+           <p>
   <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
    Collapse Data Entry Section
   </a>
 </p>
-           </div>
           <div class="col-lg-12">
+          <div class="accordion" id="accordionFilter">
+  <div class="card">
+      <h2 class="mb-0">
+        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
+          Collapsible Group Item #1
+        </button>
+      </h2>
+     <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
+	<div class="card-body">
+	hi iam filter section 
+	</div>
+	</div> 
+	</div>
+	</div>
              <div id="grid">
            </div> 
            <div id="popupWindow" style="display:none;">
@@ -598,6 +632,8 @@
   <script src="/js/jqwidgets/jqxdata.js"></script> 
   <script src="/js/jqwidgets/jqxwindow.js"></script>
   <script src="/js/jqwidgets/jqxinput.js"></script>
+   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
+    <script src="/js/jqwidgets/jqxcalendar.js"></script>
   <script>
 			$(function (){
 
@@ -605,8 +641,44 @@
 				
 			});
 		 $(document).ready(function () {
-
-				  
+			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });
+			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });  
+			 var auditGridSource =
+	            {
+	                datatype: "json",
+	                datafields: [
+	                    { name: 'usa', type: 'string' },
+	                    { name: 'germany', type: 'string' },
+	                    { name: 'france', type: 'string' },
+	                    { name: 'uk', type: 'string' },
+	                    { name: 'italy', type: 'string' },
+	                    { name: 'spain', type: 'string' }
+	                ],
+	                id: 'id',
+	                url: ''
+	            };
+	             var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+	            // initialize jqxGrid
+	            $("#auditGrid").jqxGrid(
+	            {
+	                width: '100%',
+	                source: dataAdapter,  
+	                theme:'dark',
+	                autoheight: true,
+	                altrows: true,
+	                enabletooltips: true,
+	                selectionmode: 'multiplecellsadvanced',
+	                columns: [
+	                	  { text: '', datafield: 'subgroupId', width: '4%'},
+		                  { text: 'USA', datafield: 'USA', width: '16%' },
+		                  { text: 'Germany', datafield: 'Germany', width: '16%' },
+		                  { text: 'France', datafield: 'france', width: '16%' },
+		                  { text: 'UK', datafield: 'uk', width: '16%' },
+		                  { text: 'Italy', datafield: 'italy', width: '16%' },
+		                  { text: 'Spain', datafield: 'spain', width: '16%' }
+	                ]
+	            });
+			 
 			 var dropDownSource = [
                  "now",
                  "after 3 hours",
@@ -662,7 +734,6 @@
 		                theme:'dark',
 		                pageable: true,
 		                pagesize: 10,
-		                showtoolbar: true,
 		                filterable: true,
 		                autoheight: true,
 		                source: dataAdapter,
@@ -670,7 +741,7 @@
 		                    var me = this;
 		                    var container = $("<div ></div>");
 		                    toolbar.append(container);
-		                    container.append('<div id="subGrpDropDown" style="margin-left:.5rem;background:#40566f;border:0px"> </div>');
+// 		                    container.append('<div id="subGrpDropDown" style="margin-left:.5rem;background:#40566f;border:0px"> </div>');
 		                    var subgroupFilterSource = [
 		                        { html: "<div style='height: 20px; float: left;'><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>ALL</span></div>", title: 'ALL',value:'/bourse/getsovereignyields' },
 		                        { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/1.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA',value:'/bourse/findsovereignbysubgroup/1' },

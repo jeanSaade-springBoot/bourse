@@ -2042,7 +2042,7 @@ input[type="text"].jqx-input-dark:-ms-input-placeholder, input[type="text"].jqx-
     left: 0px;
     top: 0px;
     height: calc(100% - 4px);
-    border: 2px solid var(--jqx-background);
+/*     border: 2px solid var(--jqx-background); */
 }
 .jqx-calendar-cell-year-dark,
 .jqx-calendar-cell-decade-dark {
