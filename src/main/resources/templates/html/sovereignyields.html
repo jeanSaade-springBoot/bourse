@@ -16,7 +16,13 @@
   <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
   <link href="/css/jqx.dark.css" rel="stylesheet">
 </head>
+<style>
+.col-2 {
+    max-width: 14%;
+}
 
+
+</style>
 <body id="page-top">
   <div id="wrapper">
     <!-- Sidebar -->
@@ -458,13 +464,37 @@
 											    padding-right: 1.25rem;
 											    padding-bottom: 1.25rem;
 											    padding-left: 1.25rem;">
+                 <div class="col-5">
                   <form onsubmit="submitData()">
                   <div class="form-group" style=" margin-top: 1rem;">
-                      <label for="exampleFormControlTextarea1">Enter Data below</label>
-                      <textarea class="form-control" id="data" rows="3"></textarea>
-                    </div>
+                      <div  style=" display: flex;">
+                         <div class="col-1"></div>
+						    <div class="col-2"><img height="48" width="48" src="/img/flag/united-states.png">
+						    </div>
+						   <div class="col-2"><img  height="48" width="48" src="/img/flag/germany.png">
+						    </div>
+						 <div class="col-2"><img height="48" width="48" src="/img/flag/france.png">
+						    </div>
+						   <div class="col-2"><img height="48" width="48" src="/img/flag/united-kingdom.png">
+						    </div>
+						    <div class="col-2"><img height="48" width="48" src="/img/flag/italy.png">
+						    </div>
+						    <div class="col-2"><img height="48" width="48" src="/img/flag/spain.png">
+						    </div>
+						</div>
+		                   <div style=" display: flex;">
+		                      <div class="col-1" style="padding: 0;padding-right: .14rem;">
+								<div>30yr</div>
+								<div>10yr</div>
+								<div>5yr</div>
+								<div>2yr</div>
+								</div>
+		                      <textarea class="form-control" id="data" rows="4"></textarea>
+		                    </div>
+                     </div>
                     <button type="submit" class="btn btn-primary">Save</button>
                     </form>
+                 </div>
           </div>
      </div>
 </div>
