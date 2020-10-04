@@ -268,9 +268,16 @@ button {
 
 button:focus {
 	outline: 1px dotted;
-	outline: 5px auto -webkit-focus-ring-color
+	outline: 0px auto -webkit-focus-ring-color
 }
-
+.md-accordion .card .mb-0 button:not(.collapsed) .rotate-icon {
+    -webkit-transform: rotate(180deg);
+    transform: rotate(180deg);
+    padding-right: .5rem;
+}
+.md-accordion .card .fa-angle-down {
+   padding-left: .5rem;
+}
 button,
 input,
 optgroup,
@@ -4187,8 +4194,9 @@ input[type=submit].btn-block {
 	height: 1rem;
 	pointer-events: none;
 	content: "";
-	background-color: #fff;
-	border: #b7b9cc solid 1px
+	border: #b7b9cc solid 1px;
+	background-color: #304256;
+    border-color: #5A627D;
 }
 
 .custom-control-label::after {
@@ -10719,7 +10727,9 @@ button.bg-dark:hover {
 }
 
 .text-primary {
-	color:#8A99B5!important
+	color: #8A99B5!important;
+    background-color: #272E48;
+    border: 0px;
 }
 
 a.text-primary:focus,

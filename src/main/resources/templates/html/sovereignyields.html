@@ -468,7 +468,7 @@
 											    padding-right: 1.25rem;
 											    padding-bottom: 1.25rem;
 											    padding-left: 1.25rem;">
-                 <div style=" display: flex;">
+                 <div   class="row">
                  <div class="col-5">
                   <form onsubmit="submitData()">
                   <div class="form-group" style=" margin-top: 1rem;">
@@ -525,16 +525,138 @@
   </a>
 </p>
           <div class="col-lg-12">
-          <div class="accordion" id="accordionFilter">
+<div class="card-header accordion md-accordion" id="accordionFilter" style="padding: .2rem .25rem;">
   <div class="card">
-      <h2 class="mb-0">
-        <button class="btn btn-link" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
-          Collapsible Group Item #1
+      <h6 class="mb-0">
+        <button class="collapsed m-0 font-weight-bold text-primary" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
+        Filters  <i class="fas fa-angle-down rotate-icon"></i>
         </button>
-      </h2>
+      </h6>
      <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
 	<div class="card-body">
-	hi iam filter section 
+		<div class="row">
+		 <div class="col-2">
+		 <div class="form-group">
+                      <h4 class="card-title">Countries</h4>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckUSA">
+                        <label class="custom-control-label" for="CheckUSA">USA</label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckGermany">
+                        <label class="custom-control-label" for="CheckGermany">Germany</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckFrance">
+                        <label class="custom-control-label" for="CheckFrance">France</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckUKK">
+                        <label class="custom-control-label" for="CheckUKK">UK</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckItaly">
+                        <label class="custom-control-label" for="CheckItaly">Italy</label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckSpain">
+                        <label class="custom-control-label" for="CheckSpain">Spain</label>
+                      </div>
+                    </div>
+		 </div>
+	     <div class="col-2">
+	         <div class="form-group">
+                      <h4 class="card-title">Yields</h4>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check30Y">
+                        <label class="custom-control-label" for="Check30Y">30Y</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check10Y">
+                        <label class="custom-control-label" for="Check10Y">10Y</label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check5Y">
+                        <label class="custom-control-label" for="Check5Y">5Y</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check2Y">
+                        <label class="custom-control-label" for="Check2Y">2Y</label>
+                      </div>
+                    </div>
+	     </div>
+	     <div class="col-2">
+	           <div class="form-group">
+                      <h4 class="card-title">Curves</h4>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check2over5">
+                        <label class="custom-control-label" for="Check2over5">2's/5's</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check2over10">
+                        <label class="custom-control-label" for="Check2over10">2's/10's</label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check5over10">
+                        <label class="custom-control-label" for="Check5over10">5's/10's</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check5over30">
+                        <label class="custom-control-label" for="Check5over30">5's/30's</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check10over30">
+                        <label class="custom-control-label" for="Check10over30">10's/30's</label>
+                      </div>
+                    </div>
+	     </div>
+	     <div class="col-2">
+	          <div class="form-group">
+                      <h4 class="card-title">Crosses</h4>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckFRAGER">
+                        <label class="custom-control-label" for="CheckFRAGER">FRA-GER</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckITAGER">
+                        <label class="custom-control-label" for="CheckITAGER">ITA-GER</label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckSPNGER">
+                        <label class="custom-control-label" for="CheckSPNGER">SPN-GER</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckUKGER">
+                        <label class="custom-control-label" for="CheckUKGER">UK-GER</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckUSAGER">
+                        <label class="custom-control-label" for="CheckUSAGER">USA-GER</label>
+                      </div>
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckUSAUK">
+                        <label class="custom-control-label" for="CheckUSAUK">USA-UK</label>
+                      </div>
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckITAFRA">
+                        <label class="custom-control-label" for="CheckITAFRA">ITA-FRA</label>
+                      </div>
+                        <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckITASPN">
+                        <label class="custom-control-label" for="CheckITASPN">ITA-SPN</label>
+                      </div>
+                    </div>
+	     </div>
+	     <div class="col-2">
+	     <h4 class="card-title">Average</h4>
+	     </div>
+		</div>
+		<div class="row">
+		<div class='col-12 d-flex justify-content-end'>
+		<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Filter" />
+		<input id="Cancelfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+		</div>
+		</div>
 	</div>
 	</div> 
 	</div>
@@ -669,6 +791,25 @@
 	                enabletooltips: true,
 	                selectionmode: 'multiplecellsadvanced',
 	                columns: [
+	                	{ text: '', datafield: 'Edit',width:'5%', columntype: 'button', cellsrenderer: function () {
+		                      return "Edit";
+		                   }, buttonclick: function (row) {
+		                      // open the popup window when the user clicks a button.
+		                      editrow = row;
+		                      var offset = $("#grid").offset();
+		                      $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 120, y: parseInt(offset.top) - 90 } });
+		                      // get the clicked row's data and initialize the input fields.
+		                      var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
+
+		                      $("#subgroupdropDownSource").jqxDropDownList('selectIndex',dataRecord.subgroupId-1);
+		                      $("#thirteeYrFactor").val(dataRecord.thirteeYrFactor);
+		                      $("#tenYrFactor").val(dataRecord.tenYrFactor);
+		                      $("#fiveYrFactor").val(dataRecord.fiveYrFactor);
+		                      $("#twoYrFactor").val(dataRecord.twoYrFactor);
+		                      // show the popup window.
+		                      $("#popupWindow").jqxWindow('open');
+		                  }
+		                  },  
 	                	  { text: '', datafield: 'subgroupId', width: '4%'},
 		                  { text: 'USA', datafield: 'USA', width: '16%' },
 		                  { text: 'Germany', datafield: 'Germany', width: '16%' },
@@ -762,32 +903,13 @@
 				            });
 		                },
 		                columns: [
-		                  { text: 'Sub-groups',filterable: false, datafield: 'subgroupId', width: '8%', cellsrenderer: imagerenderer },
-		                  { text: 'Date', datafield: 'referDate', width: '16%' },
-		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '16%' },
-		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '16%' },
-		                  { text: '5yr', datafield: 'fiveYrFactor', width: '16%' },
-		                  { text: '2yr', datafield: 'twoYrFactor', width: '16%' },
-		                  { text: '', datafield: 'Edit',width:'5%', columntype: 'button', cellsrenderer: function () {
-		                      return "Edit";
-		                   }, buttonclick: function (row) {
-		                      // open the popup window when the user clicks a button.
-		                      editrow = row;
-		                      var offset = $("#grid").offset();
-		                      $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 120, y: parseInt(offset.top) - 90 } });
-		                      // get the clicked row's data and initialize the input fields.
-		                      var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
-
-		                      $("#subgroupdropDownSource").jqxDropDownList('selectIndex',dataRecord.subgroupId-1);
-		                      $("#thirteeYrFactor").val(dataRecord.thirteeYrFactor);
-		                      $("#tenYrFactor").val(dataRecord.tenYrFactor);
-		                      $("#fiveYrFactor").val(dataRecord.fiveYrFactor);
-		                      $("#twoYrFactor").val(dataRecord.twoYrFactor);
-		                      // show the popup window.
-		                      $("#popupWindow").jqxWindow('open');
-		                  }
-		                  },
-		                  { text: '', datafield: 'Delete', width:'7%', columntype: 'button', cellsrenderer: function () {
+		                  { text: 'Sub-groups',filterable: false, datafield: 'subgroupId', width: '16.6%', cellsrenderer: imagerenderer },
+		                  { text: 'Date', datafield: 'referDate', width: '16.6%' },
+		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '16.6%' },
+		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '16.6%' },
+		                  { text: '5yr', datafield: 'fiveYrFactor', width: '16.6%' },
+		                  { text: '2yr', datafield: 'twoYrFactor', width: '16.6%' }
+		              /*     { text: '', datafield: 'Delete', width:'7%', columntype: 'button', cellsrenderer: function () {
 		                      return "Delete";
 		                   }, buttonclick: function (row) {
 		                     
@@ -808,7 +930,7 @@
 		                            var commit = $("#grid").jqxGrid('deleterow', id);
 		                        }
 		                  }
-		                  }
+		                  } */
 		              ]
 		            });
 		            // initialize the popup window and buttons.
@@ -818,6 +940,8 @@
          
             $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
             $("#Save").jqxButton({ theme: 'dark',height:38,width:93 });
+            $("#Cancelfilter").jqxButton({ theme: 'dark',height:30,width:74  });
+            $("#filter").jqxButton({ theme: 'dark',height:30,width:74 });
             // update the edited row when the user clicks the 'Save' button.
             $("#Save").click(function () {
                 if (editrow >= 0) {
