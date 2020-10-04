@@ -647,13 +647,27 @@
                       </div>
                     </div>
 	     </div>
-	     <div class="col-2">
-	     <h4 class="card-title">Average</h4>
+	     <div class="col-3">
+	            <div class="form-group">
+                      <h4 class="card-title">Average</h4>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="CheckWeeklyAvgPrice">
+                        <label class="custom-control-label" for="CheckWeeklyAvgPrice">Weekly Avg Price (C)</label>
+                      </div>
+                       <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check100dMovAvg">
+                        <label class="custom-control-label" for="Check100dMovAvg">100d MovAvg (C)</label>
+                      </div>
+                      <div class="custom-control custom-checkbox">
+                        <input type="checkbox" class="custom-control-input" id="Check200dMovAvg">
+                        <label class="custom-control-label" for="Check200dMovAvg">200d MovAvg (C)</label>
+                      </div>
+                    </div>
 	     </div>
 		</div>
 		<div class="row">
 		<div class='col-12 d-flex justify-content-end'>
-		<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Filter" />
+		<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
 		<input id="Cancelfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 		</div>
 		</div>
@@ -810,13 +824,13 @@
 		                      $("#popupWindow").jqxWindow('open');
 		                  }
 		                  },  
-	                	  { text: '', datafield: 'subgroupId', width: '4%'},
-		                  { text: 'USA', datafield: 'USA', width: '16%' },
-		                  { text: 'Germany', datafield: 'Germany', width: '16%' },
-		                  { text: 'France', datafield: 'france', width: '16%' },
-		                  { text: 'UK', datafield: 'uk', width: '16%' },
-		                  { text: 'Italy', datafield: 'italy', width: '16%' },
-		                  { text: 'Spain', datafield: 'spain', width: '16%' }
+	                	  { text: '', datafield: 'subgroupId', width: '5%'},
+		                  { text: 'USA', datafield: 'USA', width: '15%' },
+		                  { text: 'Germany', datafield: 'Germany', width: '15%' },
+		                  { text: 'France', datafield: 'france', width: '15%' },
+		                  { text: 'UK', datafield: 'uk', width: '15%' },
+		                  { text: 'Italy', datafield: 'italy', width: '15%' },
+		                  { text: 'Spain', datafield: 'spain', width: '15%' }
 	                ]
 	            });
 			 

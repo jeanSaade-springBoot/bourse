@@ -189,7 +189,7 @@
     color: var(--jqx-background-color);
     background-color: var(--jqx-background);
     border-color: var(--jqx-border);
-    text-transform: uppercase;
+/*     text-transform: uppercase; */
 	text-overflow: ellipsis;
 	overflow: hidden;
 	white-space: nowrap;
