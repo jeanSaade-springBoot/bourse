@@ -68,6 +68,15 @@ public class SovereignYieldsService
 	}
 	
 	
+	public List<SovereignData> findSovereignByReferDate(String referDate) 
+	{      
+        return sovereignYieldsRepository.findSovereignByReferDate(referDate);
+	}
+	
+	
+	
+	
+	
 	
 	
 	
