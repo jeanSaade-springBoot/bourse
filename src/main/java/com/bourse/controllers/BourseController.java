@@ -25,6 +25,7 @@ import com.bourse.domain.SkewsData;
 import com.bourse.domain.SovereignData;
 import com.bourse.dto.DataDTO;
 import com.bourse.dto.DataGraphDTO;
+import com.bourse.dto.DataInputDTO;
 import com.bourse.dto.PersonReqDTO;
 import com.bourse.service.PersonService;
 import com.bourse.service.SkewsService;
@@ -100,12 +101,12 @@ public class BourseController {
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 	@PostMapping(value = "savesovereigndata", produces = MediaType.APPLICATION_JSON_VALUE)
-    public  ResponseEntity<List<SovereignData>>  saveSovereignData(@RequestBody DataDTO dataDTO){
+    public ResponseEntity<List<SovereignData>>  saveSovereignData(@RequestBody DataInputDTO dataDTO){
 
-	    String str= dataDTO.getExcelData();
+	    //String str= dataDTO.getExcelData();
 	    List<SovereignData> sovereignDataList = new ArrayList();
 	     
-	    sovereignDataList = SovereignUtil.buildExcelData(str);
+	   // sovereignDataList = SovereignUtil.buildExcelData(str);
     	 
 	     sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
 		return new ResponseEntity<>(HttpStatus.OK);

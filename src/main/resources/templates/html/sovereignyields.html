@@ -849,7 +849,7 @@
                  "after 6 hours"
 		        ];
  	                // Create a jqxDropDownList
-	                $("#recalculatedropDown").jqxDropDownList({ source: dropDownSource, theme:'dark', selectedIndex: 0, width: '150', height: '40px',dropDownHeight:'100px'});
+	                $("#recalculatedropDown").jqxDropDownList({ source: dropDownSource, theme:'dark',  width: '150', height: '40px',dropDownHeight:'100px'});
 	                
 // 		            // prepare the data
 		            var source =
@@ -1012,6 +1012,60 @@
 				  $("#dataInputGrid").css("display","none"); 
                });
             
+            $("#loadData").click(function () {
+            	var dataToBeInserted = [];
+            	var usaObject=["1"];
+            	var germanyObject=["2"];
+            	var franceObject=["3"];
+            	var ukObject=["4"];
+            	var italyObject=["5"];
+            	var spainObject=["6"];
+
+            	var rows = $('#dataInputGrid').jqxGrid('getrows');
+            	for (i = 0; i < rows.length; i++) {
+            	   usaObject.push(rows[i].usa);
+            	   germanyObject.push(rows[i].germany);
+            	   franceObject.push(rows[i].france);
+            	   ukObject.push(rows[i].uk);
+            	   italyObject.push(rows[i].italy);
+            	   spainObject.push(rows[i].spain);
+            	}
+
+            	var listObject=["usaObject","germanyObject","franceObject","ukObject","italyObject","spainObject"];
+            	 
+            	 for (i = 0; i < listObject.length; i++) {
+
+            	     var value = eval(listObject[i]);
+            		 	dataToBeInserted.push({
+            			   "subgroupId":value[0],
+            			   "thirteeYrFactor":value[1],
+            			   "tenYrFactor":value[2],
+            			   "fiveYrFactor":value[3],
+            			   "twoYrFactor":value[4],
+            			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+            			});
+            	 }
+             	  $.ajax({
+  	    	        type: "POST",
+  	    	        contentType: "application/json",
+  	    	        url: "/bourse/savesovereigndata",
+  	    	        data: JSON.stringify(dataToBeInserted),
+  	    	        dataType: 'json',
+  	    	        async:true,
+  	    	        cache: false,
+  	    	        timeout: 600000,
+  	    	        success: function (data) {
+  	    	        	
+  	    	        alert("success")
+  	            },
+  	    	        error: function (e) {
+  	    	        	
+  						  console.log("ERROR : ", e);
+  	
+  	    	        }
+  	    	    });
+             });
+          
             
 		        });
 			function submitData()
