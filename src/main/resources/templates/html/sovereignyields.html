@@ -771,6 +771,7 @@
   <script src="/js/jqwidgets/jqxgrid.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
   <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
@@ -778,8 +779,8 @@
   <script src="/js/jqwidgets/jqxdata.js"></script> 
   <script src="/js/jqwidgets/jqxwindow.js"></script>
   <script src="/js/jqwidgets/jqxinput.js"></script>
-   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
-    <script src="/js/jqwidgets/jqxcalendar.js"></script>
+  <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
+  <script src="/js/jqwidgets/jqxcalendar.js"></script>
   <script>
 			$(function (){
 
@@ -966,6 +967,7 @@
             $("#filter").jqxButton({ theme: 'dark',height:30,width:74 });
             $("#CancelData").jqxButton({ theme: 'dark',height:30,width:74  });
             $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
+            
             // update the edited row when the user clicks the 'Save' button.
             $("#Save").click(function () {
                 if (editrow >= 0) {
@@ -1002,6 +1004,13 @@
                 }
             });
 
+            $("#CancelData").click(function () {
+            	  $("#dataformInput").css("display","block");
+				  $("#dataInputButtons").css("display","none"); 
+				  $("#dataInputGrid").css("display","none"); 
+               });
+            
+            
 		        });
 			function submitData()
 			{
@@ -1033,9 +1042,9 @@
 				  if($("#data").val()!="")
 					  {
 					  $("#dataformInput").css("display","none");
+					  $("#dataInputGrid").css("display","block"); 
 					  $("#dataInputButtons").css("display","block"); 
-					  
-					  
+			
 					  var localdata = [];
 
 					  var dataIput =$("#data").val()
@@ -1108,6 +1117,9 @@
 			                width: '100%',
 			                source: dataAdapter,  
 			                theme:'dark',
+			                editable: true,
+			                enabletooltips: true,
+			                selectionmode: 'multiplecellsadvanced',
 			                autoheight: true,
 			                columns: [ 
 			                	  { text: '', datafield: 'factor',cellclassname: 'factorBold', width: '10%'},
