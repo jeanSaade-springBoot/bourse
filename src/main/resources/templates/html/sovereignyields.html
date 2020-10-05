@@ -20,7 +20,10 @@
 .col-2 {
      max-width: 14.8%;
 }
-
+.factorBold{
+    font-weight:bold;
+    color: white!important;
+}
 
 </style>
 <body id="page-top">
@@ -470,7 +473,7 @@
 											    padding-left: 1.25rem;">
                  <div   class="row">
                  <div class="col-5">
-                  <form onsubmit="submitData()">
+                  <form  id="dataformInput">
                   <div class="form-group" style=" margin-top: 1rem;">
                       <div  style=" display: flex;">
                          <div class="col-1"></div>
@@ -499,6 +502,13 @@
                      </div>
 <!--                     <button type="submit" class="btn btn-primary">Save</button> -->
                     </form>
+                   <div id="dataInputGrid" style="margin-top: 1.5rem;"> </div>
+			       <div class="row" id="dataInputButtons" style="display:none;">
+					<div class='col-12 d-flex justify-content-end mt-2'>
+					<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadData" value="Load " />
+					<input id="CancelData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+					</div>
+				  </div>
                  </div>
                  <div class="col-1"></div>
                     <div class="col-6">
@@ -801,9 +811,6 @@
 	                source: dataAdapter,  
 	                theme:'dark',
 	                autoheight: true,
-	                altrows: true,
-	                enabletooltips: true,
-	                selectionmode: 'multiplecellsadvanced',
 	                columns: [
 	                	{ text: '', datafield: 'Edit',width:'5%', columntype: 'button', cellsrenderer: function () {
 		                      return "Edit";
@@ -824,7 +831,7 @@
 		                      $("#popupWindow").jqxWindow('open');
 		                  }
 		                  },  
-	                	  { text: '', datafield: 'subgroupId', width: '5%'},
+	                	  { text: '', datafield: 'factor', width: '5%'},
 		                  { text: 'USA', datafield: 'USA', width: '15%' },
 		                  { text: 'Germany', datafield: 'Germany', width: '15%' },
 		                  { text: 'France', datafield: 'france', width: '15%' },
@@ -957,6 +964,8 @@
             $("#Save").jqxButton({ theme: 'dark',height:38,width:93 });
             $("#Cancelfilter").jqxButton({ theme: 'dark',height:30,width:74  });
             $("#filter").jqxButton({ theme: 'dark',height:30,width:74 });
+            $("#CancelData").jqxButton({ theme: 'dark',height:30,width:74  });
+            $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
             // update the edited row when the user clicks the 'Save' button.
             $("#Save").click(function () {
                 if (editrow >= 0) {
@@ -1018,6 +1027,101 @@
 	    	        }
 	    	    });
 			}
+			
+			 var datatextarea = document.getElementById("data");
+			 datatextarea.addEventListener("blur", function() {
+				  if($("#data").val()!="")
+					  {
+					  $("#dataformInput").css("display","none");
+					  $("#dataInputButtons").css("display","block"); 
+					  
+					  
+					  var localdata = [];
+
+					  var dataIput =$("#data").val()
+					  var dataInputRows = dataIput.split(/\r?\n/);
+					  for (i = 0; i < dataInputRows.length; i++) {
+					    if(dataInputRows[i]!="")
+					    {
+					      var rowData = dataInputRows[i].split(/\r?\t/);
+					  	if(i == 0)
+					  		localdata.push({
+					  			"factor": "30yr",
+					  			"usa": rowData[0],
+					  			"germany":  rowData[1],
+					  			"france": rowData[2],
+					  			"uk": rowData[3],
+					  			"italy":  rowData[4],
+					  			"spain": rowData[5]
+					  		});
+					      if(i == 1)
+					  		localdata.push({
+					  			"factor": "10yr",
+					  			"usa": rowData[0],
+					  			"germany":  rowData[1],
+					  			"france": rowData[2],
+					  			"uk": rowData[3],
+					  			"italy":  rowData[4],
+					  			"spain": rowData[5]
+					  		});
+					  	if(i == 2)
+					  		localdata.push({
+					  			"factor": "5yr",
+					  			"usa": rowData[0],
+					  			"germany":  rowData[1],
+					  			"france": rowData[2],
+					  			"uk": rowData[3],
+					  			"italy":  rowData[4],
+					  			"spain": rowData[5]
+					  		});
+					  	if(i == 3)
+					  		localdata.push({
+					  			"factor": "2yr",
+					  			"usa": rowData[0],
+					  			"germany":  rowData[1],
+					  			"france": rowData[2],
+					  			"uk": rowData[3],
+					  			"italy":  rowData[4],
+					  			"spain": rowData[5]
+					  		});
+					    }
+					  }
+					  
+					  var auditGridSource =
+			            {
+			                datatype: "json",
+			                datafields: [
+			                	{ name: 'factor', type: 'string' },
+			                    { name: 'usa', type: 'string' },
+			                    { name: 'germany', type: 'string' },
+			                    { name: 'france', type: 'string' },
+			                    { name: 'uk', type: 'string' },
+			                    { name: 'italy', type: 'string' },
+			                    { name: 'spain', type: 'string' }
+			                ],
+			                localData:localdata
+			            };
+			             var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+			            // initialize jqxGrid
+			            $("#dataInputGrid").jqxGrid(
+			            {
+			                width: '100%',
+			                source: dataAdapter,  
+			                theme:'dark',
+			                autoheight: true,
+			                columns: [ 
+			                	  { text: '', datafield: 'factor',cellclassname: 'factorBold', width: '10%'},
+				                  { text: '<img height="48" width="48" src="/img/flag/united-states.png">', datafield: 'usa', width: '15%' },
+				                  { text: '<img height="48" width="48" src="/img/flag/germany.png">', datafield: 'germany', width: '15%' },
+				                  { text: '<img height="48" width="48" src="/img/flag/france.png">', datafield: 'france', width: '15%' },
+				                  { text: '<img height="48" width="48" src="/img/flag/united-kingdom.png">', datafield: 'uk', width: '15%' },
+				                  { text: '<img height="48" width="48" src="/img/flag/italy.png">', datafield: 'italy', width: '15%' },
+				                  { text: '<img height="48" width="48" src="/img/flag/spain.png">', datafield: 'spain', width: '15%' }
+			                ]
+			            });
+					  
+					  }
+				});
 			
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
