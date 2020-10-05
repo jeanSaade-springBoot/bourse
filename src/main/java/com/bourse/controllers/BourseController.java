@@ -101,10 +101,10 @@ public class BourseController {
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 	@PostMapping(value = "savesovereigndata", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<SovereignData>>  saveSovereignData(@RequestBody DataInputDTO dataDTO){
+    public ResponseEntity<List<SovereignData>>  saveSovereignData(@RequestBody List<SovereignData> sovereignDataList){
 
 	    //String str= dataDTO.getExcelData();
-	    List<SovereignData> sovereignDataList = new ArrayList();
+	  //  List<SovereignData> sovereignDataList = new ArrayList();
 	     
 	   // sovereignDataList = SovereignUtil.buildExcelData(str);
     	 
