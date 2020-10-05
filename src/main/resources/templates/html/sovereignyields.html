@@ -782,6 +782,7 @@
   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
   <script>
+ 		 var datatextarea = document.getElementById("data");
 			$(function (){
 
 				$('.simple-marquee-container').SimpleMarquee();
@@ -1005,6 +1006,7 @@
             });
 
             $("#CancelData").click(function () {
+            	  datatextarea.value="";
             	  $("#dataformInput").css("display","block");
 				  $("#dataInputButtons").css("display","none"); 
 				  $("#dataInputGrid").css("display","none"); 
@@ -1037,7 +1039,7 @@
 	    	    });
 			}
 			
-			 var datatextarea = document.getElementById("data");
+			
 			 datatextarea.addEventListener("blur", function() {
 				  if($("#data").val()!="")
 					  {
