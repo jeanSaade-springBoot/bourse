@@ -8,6 +8,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.SovereignData;
+import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.repositories.SovereignYieldsRepository;
 
@@ -72,6 +73,12 @@ public class SovereignYieldsService
 	{      
         return sovereignYieldsRepository.findSovereignByReferDate(referDate);
 	}
+	
+	public List<CurveSoveriegnDTO> findSoveriegnCurvesByReferDate(String referDate) 
+	{      
+        return sovereignYieldsRepository.findSoveriegnCurvesByReferDate(referDate);
+	}
+	
 	
 	
 	

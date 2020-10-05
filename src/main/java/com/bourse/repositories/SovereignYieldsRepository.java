@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 import com.bourse.domain.SovereignData;
+import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
 public interface SovereignYieldsRepository extends JpaRepository<SovereignData, Long> {
 	
@@ -84,5 +85,16 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
 				+ "order by STR_TO_DATE(refer_date,'%d-%m-%Y')",
 			      nativeQuery = true)
      public List<DataGraphDTO> findGraphDataForTenBySubroupId(@Param("subGroupId") long subGroupId);
+	 
+	 @Query(value = "select subgroup_id as subGroupId,\r\n" + 
+	 		"       ROUND((TRIM(TRAILING '%' FROM five_yr_factor) - TRIM(TRAILING '%' FROM two_yr_factor)),4) as twooverfive,\r\n" + 
+	 		"       ROUND((TRIM(TRAILING '%' FROM ten_yr_factor) - TRIM(TRAILING '%' FROM two_yr_factor)),4) as twooverten, \r\n" + 
+	 		"	   ROUND((TRIM(TRAILING '%' FROM ten_yr_factor) - TRIM(TRAILING '%' FROM five_yr_factor)),4) as fiveoverten,\r\n" + 
+	 		"        ROUND((TRIM(TRAILING '%' FROM thirtee_yr_factor) - TRIM(TRAILING '%' FROM five_yr_factor)),4) as fiveoverthirtee,\r\n" + 
+	 		"	   ROUND((TRIM(TRAILING '%' FROM thirtee_yr_factor) - TRIM(TRAILING '%' FROM ten_yr_factor)),4) as tenoverthirtee\r\n" + 
+	 		"  from bourse.sovereign_data where refer_date =:referDate",
+			      nativeQuery = true)
+  public List<CurveSoveriegnDTO> findSoveriegnCurvesByReferDate(@Param("referDate") String referDate);
+
 
 }
