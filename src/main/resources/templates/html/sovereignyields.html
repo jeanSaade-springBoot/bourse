@@ -24,7 +24,34 @@
     font-weight:bold;
     color: white!important;
 }
-
+.edit{
+    margin: .5rem;
+    color: white;
+    background-color: #719DF0!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+ 
+}
+.update{
+    margin: .5rem;
+    color: white;
+    background-color: #39DA8A!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
+.cancel{
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0rem;
+    color: white;
+    background-color:#506B8B!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+}
 </style>
 <body id="page-top">
   <div id="wrapper">
@@ -782,6 +809,7 @@
   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
   <script>
+         var selectedRow=this;
  		 var datatextarea = document.getElementById("data");
 			$(function (){
 
@@ -790,36 +818,80 @@
 			});
 		 $(document).ready(function () {
 			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });
-			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });  
+			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
+			   
+			    $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
+	            $("#Save").jqxButton({ theme: 'dark',height:38,width:93 });
+	            $("#Cancelfilter").jqxButton({ theme: 'dark',height:30,width:74  });
+	            $("#filter").jqxButton({ theme: 'dark',height:30,width:74 });
+	            $("#CancelData").jqxButton({ theme: 'dark',height:30,width:74  });
+	            $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
+	          
+	            
 			 var auditGridSource =
-	            {
-	                datatype: "json",
-	                datafields: [
-	                    { name: 'usa', type: 'string' },
-	                    { name: 'germany', type: 'string' },
-	                    { name: 'france', type: 'string' },
-	                    { name: 'uk', type: 'string' },
-	                    { name: 'italy', type: 'string' },
-	                    { name: 'spain', type: 'string' }
-	                ],
-	                id: 'id',
-	                url: ''
+	            {       localData:[{
+                    "factor": "30yr",
+                    "usa": "1.10%",
+                    "germany": "1.10%",
+                    "france": "1.10%",
+                    "uk": "1.10%",
+                    "italy": "1.10%",
+                    "spain": "1.10%"
+                  },{
+	                    "factor": "10yr",
+	                    "usa": "",
+	                    "germany": "",
+	                    "france": "",
+	                    "uk": "",
+	                    "italy": "",
+	                    "spain": ""
+	                  },
+	                  {
+		                    "factor": "5yr",
+		                    "usa": "",
+		                    "germany": "",
+		                    "france": "",
+		                    "uk": "",
+		                    "italy": "",
+		                    "spain": ""
+		                  },
+		                  {
+			                    "factor": "2yr",
+			                    "usa": "",
+			                    "germany": "",
+			                    "france": "",
+			                    "uk": "",
+			                    "italy": "",
+			                    "spain": ""
+			                  }],
+              datatype: "array",
+              datafields: [
+                	{name:'factor', type: 'string' },
+                    { name: 'usa', type: 'string' },
+                    { name: 'germany', type: 'string' },
+                    { name: 'france', type: 'string' },
+                    { name: 'uk', type: 'string' },
+                    { name: 'italy', type: 'string' },
+                    { name: 'spain', type: 'string' }
+                ]
 	            };
 	             var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 	            // initialize jqxGrid
+	            var eventName = "onclick";
 	            $("#auditGrid").jqxGrid(
 	            {
 	                width: '100%',
 	                source: dataAdapter,  
 	                theme:'dark',
 	                autoheight: true,
-	                columns: [
-	                	{ text: '', datafield: 'Edit',width:'5%', columntype: 'button', cellsrenderer: function () {
-		                      return "Edit";
-		                   }, buttonclick: function (row) {
-		                      // open the popup window when the user clicks a button.
-		                      editrow = row;
-		                      var offset = $("#grid").offset();
+	                editable: true,
+	                selectionmode: 'none',
+	                editmode: 'selectedrow',
+	                columns: [ 
+	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
+		                	     // open the popup window when the user clicks a button.
+		   					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ", event)' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                    /*   var offset = $("#grid").offset();
 		                      $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 120, y: parseInt(offset.top) - 90 } });
 		                      // get the clicked row's data and initialize the input fields.
 		                      var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
@@ -830,16 +902,16 @@
 		                      $("#fiveYrFactor").val(dataRecord.fiveYrFactor);
 		                      $("#twoYrFactor").val(dataRecord.twoYrFactor);
 		                      // show the popup window.
-		                      $("#popupWindow").jqxWindow('open');
+		                      $("#popupWindow").jqxWindow('open'); */
 		                  }
 		                  },  
-	                	  { text: '', datafield: 'factor', width: '5%'},
-		                  { text: 'USA', datafield: 'USA', width: '15%' },
-		                  { text: 'Germany', datafield: 'Germany', width: '15%' },
-		                  { text: 'France', datafield: 'france', width: '15%' },
-		                  { text: 'UK', datafield: 'uk', width: '15%' },
-		                  { text: 'Italy', datafield: 'italy', width: '15%' },
-		                  { text: 'Spain', datafield: 'spain', width: '15%' }
+	                	  { text: '',editable:false,  datafield: 'factor', width: '8%'},
+		                  { text: 'USA', datafield: 'usa', width: '11.6%' },
+		                  { text: 'Germany', datafield: 'germany', width: '11.6%' },
+		                  { text: 'France', datafield: 'france', width: '11.6%' },
+		                  { text: 'UK', datafield: 'uk', width: '11.6%' },
+		                  { text: 'Italy', datafield: 'italy', width: '11.6%' },
+		                  { text: 'Spain', datafield: 'spain', width: '11.6%' }
 	                ]
 	            });
 			 
@@ -962,13 +1034,7 @@
                 width:900, theme:'dark', resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
             });
          
-            $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
-            $("#Save").jqxButton({ theme: 'dark',height:38,width:93 });
-            $("#Cancelfilter").jqxButton({ theme: 'dark',height:30,width:74  });
-            $("#filter").jqxButton({ theme: 'dark',height:30,width:74 });
-            $("#CancelData").jqxButton({ theme: 'dark',height:30,width:74  });
-            $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
-            
+         
             // update the edited row when the user clicks the 'Save' button.
             $("#Save").click(function () {
                 if (editrow >= 0) {
@@ -1055,8 +1121,10 @@
   	    	        cache: false,
   	    	        timeout: 600000,
   	    	        success: function (data) {
-  	    	        	
-  	    	        alert("success")
+  	    	        	debugger;
+  	    	        	 source.url='/bourse/getsovereignyields';
+  	    	        	 dataAdapter = new $.jqx.dataAdapter(source);
+						 $('#grid').jqxGrid({source:dataAdapter});
   	            },
   	    	        error: function (e) {
   	    	        	
@@ -1092,8 +1160,23 @@
 	    	        }
 	    	    });
 			}
-			
-			
+			 function Edit(row, event) {
+				    selectedRow.editrow = row;
+				   
+			    	$("#auditGrid").jqxGrid('beginrowedit', row);
+			    	$("#edit"+row).css("display","none");
+					$("#actionButtons"+row).css("display","contents"); 
+			    	if (event) {
+			    		if (event.preventDefault) {
+			    			event.preventDefault();
+			    		}
+			    	}
+			    	return false;
+			    }
+			  function Cancel(row, event) {
+				   selectedRow.editrow = row;
+			    	$("#auditGrid").jqxGrid('endrowedit', row, true);
+			 }
 			 datatextarea.addEventListener("blur", function() {
 				  if($("#data").val()!="")
 					  {
