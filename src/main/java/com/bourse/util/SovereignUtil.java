@@ -6,6 +6,7 @@ import java.util.Date;
 import java.util.List;
 
 import com.bourse.domain.SovereignData;
+import com.bourse.domain.SovereignDataCorrected;
 
 public class SovereignUtil {
 	
@@ -99,6 +100,19 @@ public class SovereignUtil {
 		originalObject.setThirteeYrFactor(sovereignData.getThirteeYrFactor());
 		originalObject.setTwoYrFactor(sovereignData.getTwoYrFactor());
 		originalObject.setSubgroupId(sovereignData.getSubgroupId());
+		return originalObject;
+	}
+	
+	public static SovereignDataCorrected buildUpdateObjectCorrected(SovereignDataCorrected originalObject,SovereignDataCorrected sovereignData)
+	{
+		originalObject.setReferDate(sovereignData.getReferDate());
+		originalObject.setYieldFactor(sovereignData.getYieldFactor());
+		originalObject.setYieldValueFRANCE(sovereignData.getYieldValueFRANCE());
+		originalObject.setYieldValueGERMANY(sovereignData.getYieldValueGERMANY());
+		originalObject.setYieldValueITALY(sovereignData.getYieldValueITALY());
+		originalObject.setYieldValueSPAIN(sovereignData.getYieldValueSPAIN());
+		originalObject.setYieldValueUK(sovereignData.getYieldValueUK());
+		originalObject.setYieldValueUSA(sovereignData.getYieldValueUSA());
 		return originalObject;
 	}
 
