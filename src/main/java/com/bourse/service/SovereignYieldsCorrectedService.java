@@ -1,6 +1,7 @@
 package com.bourse.service;
 
 
+import java.time.LocalDate;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,12 @@ public class SovereignYieldsCorrectedService
 	{      
         return sovereignYieldsCorrectedRepository.save(sovereignDataCorrected);
 	}
+	
+	public List<SovereignDataCorrected> getSovereignYieldsByDate(LocalDate referDate) 
+	{      
+        return sovereignYieldsCorrectedRepository.findByReferDate(referDate);
+	}
+	
 	
 	
 }
