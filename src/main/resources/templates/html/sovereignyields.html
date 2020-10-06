@@ -810,6 +810,9 @@
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
   <script>
          var selectedRow=this;
+         var auditGridSource;
+         var date;
+         var filterDate;
  		 var datatextarea = document.getElementById("data");
 			$(function (){
 
@@ -828,9 +831,9 @@
 	            $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
 	          
 	            
-			 var auditGridSource =
-	            {       localData:[{
-                    "factor": "30yr",
+			  auditGridSource =
+	            {       localdata:[{
+                    "yieldFactor": "30yr",
                     "usa": "1.10%",
                     "germany": "1.10%",
                     "france": "1.10%",
@@ -838,7 +841,7 @@
                     "italy": "1.10%",
                     "spain": "1.10%"
                   },{
-	                    "factor": "10yr",
+	                    "yieldFactor": "10yr",
 	                    "usa": "",
 	                    "germany": "",
 	                    "france": "",
@@ -847,7 +850,7 @@
 	                    "spain": ""
 	                  },
 	                  {
-		                    "factor": "5yr",
+		                    "yieldFactor": "5yr",
 		                    "usa": "",
 		                    "germany": "",
 		                    "france": "",
@@ -856,7 +859,7 @@
 		                    "spain": ""
 		                  },
 		                  {
-			                    "factor": "2yr",
+			                    "yieldFactor": "2yr",
 			                    "usa": "",
 			                    "germany": "",
 			                    "france": "",
@@ -864,16 +867,17 @@
 			                    "italy": "",
 			                    "spain": ""
 			                  }],
-              datatype: "array",
+              datatype: "json",
               datafields: [
-                	{name:'factor', type: 'string' },
-                    { name: 'usa', type: 'string' },
-                    { name: 'germany', type: 'string' },
-                    { name: 'france', type: 'string' },
-                    { name: 'uk', type: 'string' },
-                    { name: 'italy', type: 'string' },
-                    { name: 'spain', type: 'string' }
-                ]
+            	  { name: 'yieldFactor', type: 'string' },
+                  { name: 'yieldValueUSA', type: 'string' },
+                  { name: 'yieldValueGERMANY', type: 'string' },
+                  { name: 'yieldValueFRANCE', type: 'string' },
+                  { name: 'yieldValueUK', type: 'string' },
+                  { name: 'yieldValueITALY', type: 'string' },
+                  { name: 'yieldValueSPAIN', type: 'string' }
+                ],
+			 url:''
 	            };
 	             var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 	            // initialize jqxGrid
@@ -905,13 +909,13 @@
 		                      $("#popupWindow").jqxWindow('open'); */
 		                  }
 		                  },  
-	                	  { text: '',editable:false,  datafield: 'factor', width: '8%'},
-		                  { text: 'USA', datafield: 'usa', width: '11.6%' },
-		                  { text: 'Germany', datafield: 'germany', width: '11.6%' },
-		                  { text: 'France', datafield: 'france', width: '11.6%' },
-		                  { text: 'UK', datafield: 'uk', width: '11.6%' },
-		                  { text: 'Italy', datafield: 'italy', width: '11.6%' },
-		                  { text: 'Spain', datafield: 'spain', width: '11.6%' }
+	                	  { text: '',editable:false,  datafield: 'yieldFactor', width: '8%'},
+		                  { text: 'USA', datafield: 'yieldValueUSA', width: '11.6%' },
+		                  { text: 'Germany', datafield: 'yieldValueGERMANY', width: '11.6%' },
+		                  { text: 'France', datafield: 'yieldValueFRANCE', width: '11.6%' },
+		                  { text: 'UK', datafield: 'yieldValueUK', width: '11.6%' },
+		                  { text: 'Italy', datafield: 'yieldValueITALY', width: '11.6%' },
+		                  { text: 'Spain', datafield: 'yieldValueSPAIN', width: '11.6%' }
 	                ]
 	            });
 			 
@@ -929,14 +933,15 @@
 		                datatype: "json",
 		                datafields: [
 		                    { name: 'referDate', type: 'string' },
-		                    { name: 'thirteeYrFactor', type: 'string' },
-		                    { name: 'tenYrFactor', type: 'string' },
-		                    { name: 'fiveYrFactor', type: 'string' },
-		                    { name: 'twoYrFactor', type: 'string' },
-		                    { name: 'subgroupId', type: 'string' }
+		                    { name: 'yieldFactor', type: 'string' },
+		                    { name: 'yieldValueUSA', type: 'string' },
+		                    { name: 'yieldValueGERMANY', type: 'string' },
+		                    { name: 'yieldValueFRANCE', type: 'string' },
+		                    { name: 'yieldValueUK', type: 'string' },
+		                    { name: 'yieldValueITALY', type: 'string' },
+		                    { name: 'yieldValueSPAIN', type: 'string' }
 		                ],
-		                id: 'id',
-		                url: '/bourse/getsovereignyields'
+		                url: '/libvol/getsovereignyields'
 		            };
 		            var dataAdapter = new $.jqx.dataAdapter(source);
 		            var imagerenderer = function (row, datafield, value) {
@@ -999,12 +1004,13 @@
 				            });
 		                },
 		                columns: [
-		                  { text: 'Sub-groups',filterable: false, datafield: 'subgroupId', width: '16.6%', cellsrenderer: imagerenderer },
-		                  { text: 'Date', datafield: 'referDate', width: '16.6%' },
-		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '16.6%' },
-		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '16.6%' },
-		                  { text: '5yr', datafield: 'fiveYrFactor', width: '16.6%' },
-		                  { text: '2yr', datafield: 'twoYrFactor', width: '16.6%' }
+		                  { text: 'Date', datafield: 'referDate', width: '14.28%' },
+		                  { text: 'USA', datafield: 'yieldValueUSA', width: '14.28%' },
+		                  { text: 'Germany', datafield: 'yieldValueGERMANY', width: '14.28%' },
+		                  { text: 'France', datafield: 'yieldValueFRANCE', width: '14.28%' },
+		                  { text: 'UK', datafield: 'yieldValueUK', width: '14.28%' },
+		                  { text: 'Italy', datafield: 'yieldValueITALY', width: '14.28%' },
+		                  { text: 'Spain', datafield: 'yieldValueSPAIN', width: '14.28%' },
 		              /*     { text: '', datafield: 'Delete', width:'7%', columntype: 'button', cellsrenderer: function () {
 		                      return "Delete";
 		                   }, buttonclick: function (row) {
@@ -1080,41 +1086,26 @@
             
             $("#loadData").click(function () {
             	var dataToBeInserted = [];
-            	var usaObject=["1"];
-            	var germanyObject=["2"];
-            	var franceObject=["3"];
-            	var ukObject=["4"];
-            	var italyObject=["5"];
-            	var spainObject=["6"];
-
+                
             	var rows = $('#dataInputGrid').jqxGrid('getrows');
+            	debugger;
             	for (i = 0; i < rows.length; i++) {
-            	   usaObject.push(rows[i].usa);
-            	   germanyObject.push(rows[i].germany);
-            	   franceObject.push(rows[i].france);
-            	   ukObject.push(rows[i].uk);
-            	   italyObject.push(rows[i].italy);
-            	   spainObject.push(rows[i].spain);
+            	   dataToBeInserted.push({
+        			   "yieldFactor":rows[i].yieldFactor,
+        			   "yieldValueUSA":rows[i].yieldValueUSA,
+        			   "yieldValueGERMANY":rows[i].yieldValueGERMANY,
+        			   "yieldValueFRANCE":rows[i].yieldValueFRANCE,
+        			   "yieldValueUK":rows[i].yieldValueUK,
+        			   "yieldValueITALY":rows[i].yieldValueITALY,
+        			   "yieldValueSPAIN":rows[i].yieldValueSPAIN,
+        			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'yyyy-MM-dd')
+        			});
             	}
 
-            	var listObject=["usaObject","germanyObject","franceObject","ukObject","italyObject","spainObject"];
-            	 
-            	 for (i = 0; i < listObject.length; i++) {
-
-            	     var value = eval(listObject[i]);
-            		 	dataToBeInserted.push({
-            			   "subgroupId":value[0],
-            			   "thirteeYrFactor":value[1],
-            			   "tenYrFactor":value[2],
-            			   "fiveYrFactor":value[3],
-            			   "twoYrFactor":value[4],
-            			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
-            			});
-            	 }
              	  $.ajax({
   	    	        type: "POST",
   	    	        contentType: "application/json",
-  	    	        url: "/bourse/savesovereigndata",
+  	    	        url: "/libvol/savedata",
   	    	        data: JSON.stringify(dataToBeInserted),
   	    	        dataType: 'json',
   	    	        async:true,
@@ -1122,7 +1113,7 @@
   	    	        timeout: 600000,
   	    	        success: function (data) {
   	    	        	debugger;
-  	    	        	 source.url='/bourse/getsovereignyields';
+  	    	        	 source.url='/libvol/getsovereignyields';
   	    	        	 dataAdapter = new $.jqx.dataAdapter(source);
 						 $('#grid').jqxGrid({source:dataAdapter});
   	            },
@@ -1161,16 +1152,25 @@
 	    	    });
 			}
 			 function Edit(row, event) {
-				    selectedRow.editrow = row;
-				   
-			    	$("#auditGrid").jqxGrid('beginrowedit', row);
+				     selectedRow.editrow = row;
+				     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'yyyy-MM-dd')
+				     if(auditGridSource.url=='' || date!=filterDate)
+				     { 
+				    	filterDate=date;
+					    delete auditGridSource.localdata;
+					     auditGridSource.url='/libvol/getsovereignyieldsbydate/'+date;
+						 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+						 $('#auditGrid').jqxGrid({source:dataAdapter});
+						 debugger;
+				     }
+					$("#auditGrid").jqxGrid('beginrowedit', row);
 			    	$("#edit"+row).css("display","none");
 					$("#actionButtons"+row).css("display","contents"); 
 			    	if (event) {
 			    		if (event.preventDefault) {
 			    			event.preventDefault();
 			    		}
-			    	}
+			    	} 
 			    	return false;
 			    }
 			  function Cancel(row, event) {
@@ -1194,62 +1194,62 @@
 					      var rowData = dataInputRows[i].split(/\r?\t/);
 					  	if(i == 0)
 					  		localdata.push({
-					  			"factor": "30yr",
-					  			"usa": rowData[0],
-					  			"germany":  rowData[1],
-					  			"france": rowData[2],
-					  			"uk": rowData[3],
-					  			"italy":  rowData[4],
-					  			"spain": rowData[5]
+					  			"yieldFactor": "30yr",
+					  			"yieldValueUSA": rowData[0],
+					  			"yieldValueGERMANY":  rowData[1],
+					  			"yieldValueFRANCE": rowData[2],
+					  			"yieldValueUK": rowData[3],
+					  			"yieldValueITALY":  rowData[4],
+					  			"yieldValueSPAIN": rowData[5]
 					  		});
 					      if(i == 1)
 					  		localdata.push({
-					  			"factor": "10yr",
-					  			"usa": rowData[0],
-					  			"germany":  rowData[1],
-					  			"france": rowData[2],
-					  			"uk": rowData[3],
-					  			"italy":  rowData[4],
-					  			"spain": rowData[5]
+					  			"yieldFactor": "10yr",
+					  			"yieldValueUSA": rowData[0],
+					  			"yieldValueGERMANY":  rowData[1],
+					  			"yieldValueFRANCE": rowData[2],
+					  			"yieldValueUK": rowData[3],
+					  			"yieldValueITALY":  rowData[4],
+					  			"yieldValueSPAIN": rowData[5]
 					  		});
 					  	if(i == 2)
 					  		localdata.push({
-					  			"factor": "5yr",
-					  			"usa": rowData[0],
-					  			"germany":  rowData[1],
-					  			"france": rowData[2],
-					  			"uk": rowData[3],
-					  			"italy":  rowData[4],
-					  			"spain": rowData[5]
+					  			"yieldFactor": "5yr",
+					  			"yieldValueUSA": rowData[0],
+					  			"yieldValueGERMANY":  rowData[1],
+					  			"yieldValueFRANCE": rowData[2],
+					  			"yieldValueUK": rowData[3],
+					  			"yieldValueITALY":  rowData[4],
+					  			"yieldValueSPAIN": rowData[5]
 					  		});
 					  	if(i == 3)
 					  		localdata.push({
-					  			"factor": "2yr",
-					  			"usa": rowData[0],
-					  			"germany":  rowData[1],
-					  			"france": rowData[2],
-					  			"uk": rowData[3],
-					  			"italy":  rowData[4],
-					  			"spain": rowData[5]
+					  			"yieldFactor": "2yr",
+					  			"yieldValueUSA": rowData[0],
+					  			"yieldValueGERMANY":  rowData[1],
+					  			"yieldValueFRANCE": rowData[2],
+					  			"yieldValueUK": rowData[3],
+					  			"yieldValueITALY":  rowData[4],
+					  			"yieldValueSPAIN": rowData[5]
 					  		});
 					    }
 					  }
 					  
-					  var auditGridSource =
+					  var dataInputGridSource =
 			            {
 			                datatype: "json",
 			                datafields: [
-			                	{ name: 'factor', type: 'string' },
-			                    { name: 'usa', type: 'string' },
-			                    { name: 'germany', type: 'string' },
-			                    { name: 'france', type: 'string' },
-			                    { name: 'uk', type: 'string' },
-			                    { name: 'italy', type: 'string' },
-			                    { name: 'spain', type: 'string' }
+			                	{ name: 'yieldFactor', type: 'string' },
+			                    { name: 'yieldValueUSA', type: 'string' },
+			                    { name: 'yieldValueGERMANY', type: 'string' },
+			                    { name: 'yieldValueFRANCE', type: 'string' },
+			                    { name: 'yieldValueUK', type: 'string' },
+			                    { name: 'yieldValueITALY', type: 'string' },
+			                    { name: 'yieldValueSPAIN', type: 'string' }
 			                ],
 			                localData:localdata
 			            };
-			             var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+			             var dataAdapter = new $.jqx.dataAdapter(dataInputGridSource);
 			            // initialize jqxGrid
 			            $("#dataInputGrid").jqxGrid(
 			            {
@@ -1261,13 +1261,13 @@
 			                selectionmode: 'multiplecellsadvanced',
 			                autoheight: true,
 			                columns: [ 
-			                	  { text: '', datafield: 'factor',cellclassname: 'factorBold', width: '10%'},
-				                  { text: '<img height="48" width="48" src="/img/flag/united-states.png">', datafield: 'usa', width: '15%' },
-				                  { text: '<img height="48" width="48" src="/img/flag/germany.png">', datafield: 'germany', width: '15%' },
-				                  { text: '<img height="48" width="48" src="/img/flag/france.png">', datafield: 'france', width: '15%' },
-				                  { text: '<img height="48" width="48" src="/img/flag/united-kingdom.png">', datafield: 'uk', width: '15%' },
-				                  { text: '<img height="48" width="48" src="/img/flag/italy.png">', datafield: 'italy', width: '15%' },
-				                  { text: '<img height="48" width="48" src="/img/flag/spain.png">', datafield: 'spain', width: '15%' }
+			                	  { text: '', datafield: 'yieldFactor',cellclassname: 'factorBold', width: '10%'},
+				                  { text: '<img height="48" width="48" src="/img/flag/united-states.png">', datafield: 'yieldValueUSA', width: '15%' },
+				                  { text: '<img height="48" width="48" src="/img/flag/germany.png">', datafield: 'yieldValueGERMANY', width: '15%' },
+				                  { text: '<img height="48" width="48" src="/img/flag/france.png">', datafield: 'yieldValueFRANCE', width: '15%' },
+				                  { text: '<img height="48" width="48" src="/img/flag/united-kingdom.png">', datafield: 'yieldValueUK', width: '15%' },
+				                  { text: '<img height="48" width="48" src="/img/flag/italy.png">', datafield: 'yieldValueITALY', width: '15%' },
+				                  { text: '<img height="48" width="48" src="/img/flag/spain.png">', datafield: 'yieldValueSPAIN', width: '15%' }
 			                ]
 			            });
 					  

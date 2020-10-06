@@ -1546,7 +1546,7 @@
 .jqx-combobox-dark, .jqx-input-dark {
     border-color: var(--jqx-border);
     color: var(--jqx-background-color);
-    background-color: var(--jqx-background);
+    background-color: #151b3c;
 }
 
 .jqx-combobox-content-dark,

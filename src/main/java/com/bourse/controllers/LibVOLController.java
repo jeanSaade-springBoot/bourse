@@ -45,11 +45,11 @@ public class LibVOLController {
 		return new ResponseEntity<>(sovereignYieldsCorrectedService.getAllSovereignData(), HttpStatus.OK);
     }
 	
-	@GetMapping(value = "getsovereignyieldsbydate/{referDate}", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<List<SovereignDataCorrected>>  getSovereignYieldsByDate(@PathVariable("referDate") String referDate){
+	@GetMapping(value = "getsovereignyieldsbydate/{referDate}")
+    public  List<SovereignDataCorrected>  getSovereignYieldsByDate(@PathVariable("referDate") String referDate){
 		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd"); 
 		 LocalDate localDate = LocalDate.parse(referDate, formatter);
-		return new ResponseEntity<>(sovereignYieldsCorrectedService.getSovereignYieldsByDate(localDate), HttpStatus.OK);
+		return sovereignYieldsCorrectedService.getSovereignYieldsByDate(localDate);
     }
 	
 	@PostMapping(value = "editsovereignyields", produces = "application/json;charset=UTF-8")
