@@ -906,6 +906,20 @@
 			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });
 			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
 			   
+			 $('#dateInputAudit').on('change', function (event) 
+				 {   date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				    filterDate=date;
+				    delete auditGridSource.localdata;
+				     auditGridSource.url='/bourse/getauditdata/'+date;
+					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+					 $('#auditGrid').jqxGrid({source:dataAdapter});
+					 
+				    delete curvesGridSource.localdata;
+				     curvesGridSource.url='/bourse/getcurvedata/'+date;
+					 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+					 $('#curvesGrid').jqxGrid({source:dataAdapter});
+				 }); 
+			 
 			    $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
 	            $("#Save").jqxButton({ theme: 'dark',height:38,width:93 });
 	            $("#Cancelfilter").jqxButton({ theme: 'dark',height:30,width:74  });
