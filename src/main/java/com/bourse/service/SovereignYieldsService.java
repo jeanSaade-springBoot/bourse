@@ -100,14 +100,16 @@ public class SovereignYieldsService
 		List<AuditProcedureDTO> auditProcedureDTOLst = (List<AuditProcedureDTO>) query.getResultList();
 		return auditProcedureDTOLst;
 	}
+	
+	public List<AuditProcedureDTO> getCurveData(String referDate)
+	{
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("getCurves",AuditProcedureDTO.class);
+		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
+		query.setParameter("referDate",referDate );
+		// "06-10-2020"
+		query.execute();
+		List<AuditProcedureDTO> auditProcedureDTOLst = (List<AuditProcedureDTO>) query.getResultList();
+		return auditProcedureDTOLst;
+	}
 
-	
-	
-	
-	
-	
-	
-	
-	
-	
 }

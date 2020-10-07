@@ -186,4 +186,9 @@ public class BourseController {
 	return new ResponseEntity<>(sovereignYieldsService.getAuditData(referDate),HttpStatus.OK);
 	} 
 	
+	@GetMapping(value = "getcurvedata/{referDate}")
+	public ResponseEntity<List<AuditProcedureDTO>> getCurveData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(sovereignYieldsService.getCurveData(referDate),HttpStatus.OK);
+	} 
+	
 }
