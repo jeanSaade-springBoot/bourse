@@ -109,7 +109,7 @@ public class SovereignYieldsService
 		// "06-10-2020"
 		query.execute();
 		List<AuditProcedureDTO> auditProcedureDTOLst = (List<AuditProcedureDTO>) query.getResultList();
-		return auditProcedureDTOLst;
+		return auditProcedureDTOLst; 
 	}
 
 }
