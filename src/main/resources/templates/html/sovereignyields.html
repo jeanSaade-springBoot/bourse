@@ -979,30 +979,6 @@
 		                filterable: true,
 		                autoheight: true,
 		                source: dataAdapter,
-		                rendertoolbar: function (toolbar) {
-		                    var me = this;
-		                    var container = $("<div ></div>");
-		                    toolbar.append(container);
-// 		                    container.append('<div id="subGrpDropDown" style="margin-left:.5rem;background:#40566f;border:0px"> </div>');
-		                    var subgroupFilterSource = [
-		                        { html: "<div style='height: 20px; float: left;'><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>ALL</span></div>", title: 'ALL',value:'/bourse/getsovereignyields' },
-		                        { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/1.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>USA</span></div>", title: 'USA',value:'/bourse/findsovereignbysubgroup/1' },
-			 	                { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/2.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>GER</span></div>", title: 'GER',value:'/bourse/findsovereignbysubgroup/2' },
-		 	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/3.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>FRA</span></div>", title: 'FRA',value:'/bourse/findsovereignbysubgroup/3' },
-		  	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/4.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>UKK</span></div>", title: 'UKK',value:'/bourse/findsovereignbysubgroup/4' },
-		  	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/5.png'/><span style='float: left; font-size: 13px; margin-top: 0.3rem;font-family: inherit;'>ITA</span></div>", title: 'ITA',value:'/bourse/findsovereignbysubgroup/5' },
-		  	                    { html: "<div style='height: 20px; float: left;'><img style='float: left; margin-right: .5rem;' src='/img/flag/6.png'/><span style='float: left; font-size: 13px;margin-top: 0.3rem; font-family: inherit;'>SPN</span></div>", title: 'SPN',value:'/bourse/findsovereignbysubgroup/6' }
-		 	                ];
-							$("#subGrpDropDown").jqxDropDownList({ source: subgroupFilterSource, theme:'dark', selectedIndex: 0, width: '100', height: '40px'});
-							$("#subGrpDropDown").on('select', function (event) {
-								 var item = event.args.item;
-			                        if (item) {
-									 source.url=item.value;
-									 dataAdapter = new $.jqx.dataAdapter(source);
-									 $('#grid').jqxGrid({source:dataAdapter});
-			                        }
-				            });
-		                },
 		                columns: [
 		                  { text: 'Date', datafield: 'referDate', width: '14.28%' },
 		                  { text: 'USA', datafield: 'yieldValueUSA', width: '14.28%' },
@@ -1163,6 +1139,7 @@
 						 $('#auditGrid').jqxGrid({source:dataAdapter});
 						 debugger;
 				     }
+				     debugger;
 					$("#auditGrid").jqxGrid('beginrowedit', row);
 			    	$("#edit"+row).css("display","none");
 					$("#actionButtons"+row).css("display","contents"); 

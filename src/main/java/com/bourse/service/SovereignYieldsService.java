@@ -3,11 +3,17 @@ package com.bourse.service;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.SovereignData;
+import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.repositories.SovereignYieldsRepository;
@@ -15,6 +21,9 @@ import com.bourse.repositories.SovereignYieldsRepository;
 @Service
 public class SovereignYieldsService 
 {
+	@PersistenceContext
+    private EntityManager entityManager;
+	
 	@Autowired
 	SovereignYieldsRepository sovereignYieldsRepository;
 	
@@ -78,6 +87,20 @@ public class SovereignYieldsService
 	{      
         return sovereignYieldsRepository.findSoveriegnCurvesByReferDate(referDate);
 	}
+	
+	
+	
+	public List<AuditProcedureDTO> getAuditData(String referDate)
+	{
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("getAuditData",AuditProcedureDTO.class);
+		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
+		query.setParameter("referDate",referDate );
+		// "06-10-2020"
+		query.execute();
+		List<AuditProcedureDTO> auditProcedureDTOLst = (List<AuditProcedureDTO>) query.getResultList();
+		return auditProcedureDTOLst;
+	}
+
 	
 	
 	

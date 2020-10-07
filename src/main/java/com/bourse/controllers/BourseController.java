@@ -23,6 +23,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.bourse.domain.Person;
 import com.bourse.domain.SkewsData;
 import com.bourse.domain.SovereignData;
+import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataDTO;
 import com.bourse.dto.DataGraphDTO;
@@ -178,6 +179,11 @@ public class BourseController {
 	@GetMapping(value = "findsoveriegncurvesbyreferdate/{referDate}")
 	public ResponseEntity<List<CurveSoveriegnDTO>> findSoveriegnCurvesByReferDate(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(sovereignYieldsService.findSoveriegnCurvesByReferDate(referDate),HttpStatus.OK);
+	} 
+	
+	@GetMapping(value = "getauditdata/{referDate}")
+	public ResponseEntity<List<AuditProcedureDTO>> getAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(sovereignYieldsService.getAuditData(referDate),HttpStatus.OK);
 	} 
 	
 }
