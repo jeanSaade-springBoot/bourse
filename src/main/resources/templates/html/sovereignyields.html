@@ -25,13 +25,13 @@
     color: white!important;
 }
 .edit{
-    margin: .5rem 3.25rem;
+    margin: .5rem;
     color: white;
     background-color: #719DF0!important;
     border-color: var(--jqx-border);
     border-radius: 4px;
     border: 1px solid transparent;
-        padding: 1px 3px;
+        padding: 1px 42px;
  
 }
 .update{
@@ -551,7 +551,7 @@
 					</nav>
 					<div class="tab-content" id="nav-tabContent">
 					  <div class="tab-pane fade show active" id="nav-yields" role="tabpanel" aria-labelledby="nav-yields-tab">  <div id="auditGrid"></div></div>
-					  <div class="tab-pane fade" id="nav-curves" role="tabpanel" aria-labelledby="nav-curves-tab">...</div>
+					  <div class="tab-pane fade" id="nav-curves" role="tabpanel" aria-labelledby="nav-curves-tab"> <div id="curvesGrid"></div></div>
 					  <div class="tab-pane fade" id="nav-crosses" role="tabpanel" aria-labelledby="nav-crosses-tab">...</div>
 					</div>
                  </div>
@@ -814,6 +814,7 @@
   <script>
          var selectedRow=this;
          var auditGridSource;
+         var curvesGridSource;
          var date;
          var filterDate;
          var auditDefaultData=[{
@@ -851,6 +852,50 @@
 		                    "italy": "",
 		                    "spain": ""
 		                  }];
+         
+         curvesDefaultData=[{
+             "factor": "10/30",
+             "usa": "",
+             "germany": "",
+             "france": "",
+             "uk": "",
+             "italy": "",
+             "spain": ""
+           },{
+                 "factor": "5/30",
+                 "usa": "",
+                 "germany": "",
+                 "france": "",
+                 "uk": "",
+                 "italy": "",
+                 "spain": ""
+               },
+               {
+	                    "factor": "5/10",
+	                    "usa": "",
+	                    "germany": "",
+	                    "france": "",
+	                    "uk": "",
+	                    "italy": "",
+	                    "spain": ""
+	                  },
+	                  {
+		                    "factor": "2/10",
+		                    "usa": "",
+		                    "germany": "",
+		                    "france": "",
+		                    "uk": "",
+		                    "italy": "",
+		                    "spain": ""
+		                  } ,{
+		                    "factor": "2/5",
+		                    "usa": "",
+		                    "germany": "",
+		                    "france": "",
+		                    "uk": "",
+		                    "italy": "",
+		                    "spain": ""
+		                  }];
  		 var datatextarea = document.getElementById("data");
 			$(function (){
 
@@ -868,7 +913,6 @@
 	            $("#CancelData").jqxButton({ theme: 'dark',height:30,width:74  });
 	            $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
 	          
-	            
 			  auditGridSource =
 	            {    
 	            localdata:auditDefaultData,
@@ -923,7 +967,44 @@
 		                  { text: 'Spain', datafield: 'spain', width: '11.6%' }
 	                ]
 	            });
-			 
+	            
+	            curvesGridSource =
+		            {    
+		            localdata:curvesDefaultData,
+		            datatype: "json",
+	                datafields: [
+	                	{name:'factor', type: 'string' },
+	                    { name: 'usa', type: 'string' },
+	                    { name: 'germany', type: 'string' },
+	                    { name: 'france', type: 'string' },
+	                    { name: 'uk', type: 'string' },
+	                    { name: 'italy', type: 'string' },
+	                    { name: 'spain', type: 'string' }
+	                ],
+	                url:''
+		            };
+		             var dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+		            // initialize jqxGrid
+		            var eventName = "onclick";
+		            $("#curvesGrid").jqxGrid(
+		            {
+		                width: '100%',
+		                source: dataAdapter,  
+		                theme:'dark',
+		                autoheight: true,
+		                editable: true,
+		                selectionmode: 'none',
+		                editmode: 'selectedrow',
+		                columns: [
+		                	  { text: '',editable:false,  datafield: 'factor', width: '14.28%'},
+			                  { text: 'USA', datafield: 'usa', width: '14.28%' },
+			                  { text: 'Germany', datafield: 'germany', width: '14.28%' },
+			                  { text: 'France', datafield: 'france', width: '14.28%' },
+			                  { text: 'UK', datafield: 'uk', width: '14.28%' },
+			                  { text: 'Italy', datafield: 'italy', width: '14.28%' },
+			                  { text: 'Spain', datafield: 'spain', width: '14.28%' }
+		                ]
+		            });
 			 var dropDownSource = [
                  "now",
                  "after 3 hours",
@@ -1155,10 +1236,14 @@
 					     auditGridSource.url='/bourse/getauditdata/'+date;
 						 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 						 $('#auditGrid').jqxGrid({source:dataAdapter});
-						
+						 
+					    delete curvesGridSource.localdata;
+					    curvesGridSource.url='/bourse/getcurvedata/'+date;
+						 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+						 $('#curvesGrid').jqxGrid({source:dataAdapter});
 				     } 
 				     setTimeout(function(){
-				    	 if(($('#auditGrid').jqxGrid('getrows')[0].usa!=null)&&
+				    	  if(($('#auditGrid').jqxGrid('getrows')[0].usa!=null)&&
 				    		 ($('#auditGrid').jqxGrid('getrows')[0].germany!=null)&&
 				    		 ($('#auditGrid').jqxGrid('getrows')[0].france!=null)&&
 				    		 ($('#auditGrid').jqxGrid('getrows')[0].uk!=null)&&
@@ -1290,7 +1375,7 @@
 					    }
 					  }
 					  
-					  var auditGridSource =
+					  var dataInputGridSource =
 			            {
 			                datatype: "json",
 			                datafields: [
@@ -1304,7 +1389,7 @@
 			                ],
 			                localData:localdata
 			            };
-			             var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+			             var dataAdapter = new $.jqx.dataAdapter(dataInputGridSource);
 			            // initialize jqxGrid
 			            $("#dataInputGrid").jqxGrid(
 			            {
