@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.domain.SovereignData;
 import com.bourse.dto.AuditProcedureDTO;
+import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.repositories.SovereignYieldsRepository;
@@ -106,10 +107,19 @@ public class SovereignYieldsService
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("getCurves",AuditProcedureDTO.class);
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate",referDate );
-		// "06-10-2020"
 		query.execute();
 		List<AuditProcedureDTO> auditProcedureDTOLst = (List<AuditProcedureDTO>) query.getResultList();
 		return auditProcedureDTOLst; 
+	}
+	
+	public List<CrossAuditProcedureDTO> getCrossAuditData(String referDate)
+	{
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("getAuditCross",CrossAuditProcedureDTO.class);
+		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
+		query.setParameter("referDate",referDate );
+		query.execute();
+		List<CrossAuditProcedureDTO> crossAuditProcedureDTO = (List<CrossAuditProcedureDTO>) query.getResultList();
+		return crossAuditProcedureDTO; 
 	}
 
 }

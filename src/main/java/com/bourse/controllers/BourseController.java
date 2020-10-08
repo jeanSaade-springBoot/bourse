@@ -24,6 +24,7 @@ import com.bourse.domain.Person;
 import com.bourse.domain.SkewsData;
 import com.bourse.domain.SovereignData;
 import com.bourse.dto.AuditProcedureDTO;
+import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataDTO;
 import com.bourse.dto.DataGraphDTO;
@@ -189,6 +190,11 @@ public class BourseController {
 	@GetMapping(value = "getcurvedata/{referDate}")
 	public ResponseEntity<List<AuditProcedureDTO>> getCurveData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(sovereignYieldsService.getCurveData(referDate),HttpStatus.OK);
+	} 
+	
+	@GetMapping(value = "getcrossauditdata/{referDate}")
+	public ResponseEntity<List<CrossAuditProcedureDTO>> getCrossAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(sovereignYieldsService.getCrossAuditData(referDate),HttpStatus.OK);
 	} 
 	
 }

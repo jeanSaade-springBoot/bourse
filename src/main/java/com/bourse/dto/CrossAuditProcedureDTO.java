@@ -13,17 +13,11 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor
-public class AuditProcedureDTO {
+public class CrossAuditProcedureDTO {
 	
 	@Id
     private Long id;
 	private String factor;
-	private String USA;
-	private String GERMANY;
-	private String FRANCE;
-	private String UK;
-	private String ITALY;
-	private String SPAIN;
 	
 	private String FRA_GER;
 	private String ITA_GER;
