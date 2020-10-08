@@ -43,6 +43,9 @@
     border-radius: 10px;
     background: #40566f; 
 }
+.jqx-widget.jqx-widget-dark.jqx-widget-content.jqx-widget-content-dark.jqx-tree.jqx-tree-dark {
+    border: 0px;
+}
 .jqx-icon-search-dark,
 .jqx-icon-close-dark {
     background-image: none;
@@ -1015,9 +1018,9 @@
 .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-dark,
 .jqx-radiobutton-dark[checked] .jqx-radiobutton-default-dark
  {
-    color: var(--jqx-primary-color);
-    background-color: var(--jqx-primary);
-    border-color: var(--jqx-primary);
+    border: #b7b9cc solid 1px;
+    background-color: #304256;
+    border-color: #5A627D;
 }
 .jqx-menu-item-disabled-dark {
     color: inherit;
@@ -1548,7 +1551,6 @@
     color: #ffffff;
     background-color: #151b3c;
 }
-
 .jqx-combobox-content-dark,
 .jqx-datetimeinput-content-dark
  {

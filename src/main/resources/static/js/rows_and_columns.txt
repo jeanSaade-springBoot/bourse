@@ -1,0 +1,197 @@
+﻿[
+    {
+        "columns": [
+            {
+                "text": "",
+                "datafield": "referDate",
+                "width": "25%"
+            },
+            {
+                "text": "USA 30YR",
+                "datafield": "thirteeYrFactor",
+                "width": "25%"
+            },
+            {
+                "text": "USA 10YR",
+                "datafield": "tenYrFactor",
+                "width": "25%"
+            },
+            {
+                "text": "USA 5YR",
+                "datafield": "fiveYrFactor",
+                "width": "25%"
+            },
+            {
+                "text": "USA 2YR",
+                "datafield": "twoYrFactor",
+                "width": "25%"
+            }
+        ]
+    },
+    {
+        "rows": [
+					{
+					"id": 160,
+					"thirteeYrFactor": "1.10%",
+					"tenYrFactor": "0.29%",
+					"fiveYrFactor": "-0.30%",
+					"twoYrFactor": "-0.51%",
+					"referDate": "06-10-2020",
+					"subgroupId": 6
+					},
+					{
+					"id": 159,
+					"thirteeYrFactor": "1.84%",
+					"tenYrFactor": "0.99%",
+					"fiveYrFactor": "0.37%",
+					"twoYrFactor": "0.18%",
+					"referDate": "06-10-2020",
+					"subgroupId": 5
+					},
+					{
+					"id": 158,
+					"thirteeYrFactor": "0.75%",
+					"tenYrFactor": "0.18%",
+					"fiveYrFactor": "-0.13%",
+					"twoYrFactor": "-0.16%",
+					"referDate": "06-10-2020",
+					"subgroupId": 4
+					},
+					{
+					"id": 157,
+					"thirteeYrFactor": "0.47%",
+					"tenYrFactor": "-0.22%",
+					"fiveYrFactor": "0.60%",
+					"twoYrFactor": "0.64%",
+					"referDate": "06-10-2020",
+					"subgroupId": 3
+					},
+					{
+					"id": 156,
+					"thirteeYrFactor": "-0.04%",
+					"tenYrFactor": "-0.49%",
+					"fiveYrFactor": "-0.69%",
+					"twoYrFactor": "-0.70%",
+					"referDate": "06-10-2020",
+					"subgroupId": 2
+					},
+					{
+					"id": 155,
+					"thirteeYrFactor": "1.44%",
+					"tenYrFactor": "0.69%",
+					"fiveYrFactor": "0.27%",
+					"twoYrFactor": "0.13%",
+					"referDate": "06-10-2020",
+					"subgroupId": 1
+					},
+					{
+					"id": 154,
+					"thirteeYrFactor": "1.10%",
+					"tenYrFactor": "0.29%",
+					"fiveYrFactor": "-0.30%",
+					"twoYrFactor": "-0.51%",
+					"referDate": "05-10-2020",
+					"subgroupId": 6
+					},
+					{
+					"id": 153,
+					"thirteeYrFactor": "1.84%",
+					"tenYrFactor": "0.99%",
+					"fiveYrFactor": "0.37%",
+					"twoYrFactor": "0.18%",
+					"referDate": "05-10-2020",
+					"subgroupId": 5
+					},
+					{
+					"id": 152,
+					"thirteeYrFactor": "    0.75%",
+					"tenYrFactor": "    0.18%",
+					"fiveYrFactor": "    -0.13%",
+					"twoYrFactor": "   -0.16%",
+					"referDate": "05-10-2020",
+					"subgroupId": 4
+					},
+					{
+					"id": 151,
+					"thirteeYrFactor": "    0.47%",
+					"tenYrFactor": "   -0.22%",
+					"fiveYrFactor": "    0.60%",
+					"twoYrFactor": "    0.64%",
+					"referDate": "05-10-2020",
+					"subgroupId": 3
+					},
+					{
+					"id": 150,
+					"thirteeYrFactor": "-0.04%",
+					"tenYrFactor": "-0.49%",
+					"fiveYrFactor": "-0.69%",
+					"twoYrFactor": "-0.70%",
+					"referDate": "05-10-2020",
+					"subgroupId": 2
+					},
+					{
+					"id": 149,
+					"thirteeYrFactor": "1.44%",
+					"tenYrFactor": "0.69%",
+					"fiveYrFactor": "0.27%",
+					"twoYrFactor": "0.13%",
+					"referDate": "05-10-2020",
+					"subgroupId": 1
+					},
+					{
+					"id": 148,
+					"thirteeYrFactor": "1.10%",
+					"tenYrFactor": "0.29%",
+					"fiveYrFactor": "-0.30%",
+					"twoYrFactor": "-0.51%",
+					"referDate": "07-10-2020",
+					"subgroupId": 6
+					},
+					{
+					"id": 147,
+					"thirteeYrFactor": "1.84%",
+					"tenYrFactor": "0.99%",
+					"fiveYrFactor": "0.37%",
+					"twoYrFactor": "0.18%",
+					"referDate": "07-10-2020",
+					"subgroupId": 5
+					},
+					{
+					"id": 146,
+					"thirteeYrFactor": "    0.75%",
+					"tenYrFactor": "    0.18%",
+					"fiveYrFactor": "    -0.13%",
+					"twoYrFactor": "   -0.16%",
+					"referDate": "07-10-2020",
+					"subgroupId": 4
+					},
+					{
+					"id": 145,
+					"thirteeYrFactor": "    0.47%",
+					"tenYrFactor": "   -0.22%",
+					"fiveYrFactor": "    0.60%",
+					"twoYrFactor": "    0.64%",
+					"referDate": "07-10-2020",
+					"subgroupId": 3
+					},
+					{
+					"id": 144,
+					"thirteeYrFactor": "-0.04%",
+					"tenYrFactor": "-0.49%",
+					"fiveYrFactor": "-0.69%",
+					"twoYrFactor": "-0.70%",
+					"referDate": "07-10-2020",
+					"subgroupId": 2
+					},
+					{
+					"id": 143,
+					"thirteeYrFactor": "1.44%",
+					"tenYrFactor": "0.69%",
+					"fiveYrFactor": "0.27%",
+					"twoYrFactor": "0.13%",
+					"referDate": "07-10-2020",
+					"subgroupId": 1
+					}
+					]
+    }
+]
