@@ -24,14 +24,5 @@ public class AuditProcedureDTO {
 	private String UK;
 	private String ITALY;
 	private String SPAIN;
-	
-	private String FRA_GER;
-	private String ITA_GER;
-	private String SPN_GER;
-	private String UK_GER;
-	private String USA_GER;
-	private String USA_UK;
-	private String ITA_FRA;
-	private String ITA_SPN;
 
 }
