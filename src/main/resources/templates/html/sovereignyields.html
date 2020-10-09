@@ -551,8 +551,8 @@
 					</nav>
 					<div class="tab-content" id="nav-tabContent">
 					  <div class="tab-pane fade show active" id="nav-yields" role="tabpanel" aria-labelledby="nav-yields-tab">  <div id="auditGrid"></div></div>
-					  <div class="tab-pane fade" id="nav-curves" role="tabpanel" aria-labelledby="nav-curves-tab"> <div id="curvesGrid"></div></div>
-					  <div class="tab-pane fade" id="nav-crosses" role="tabpanel" aria-labelledby="nav-crosses-tab">...</div>
+					  <div class="tab-pane fade" id="nav-curves" role="tabpanel" aria-labelledby="nav-curves-tab"> <div id="curvesGrid"></div> </div>
+					  <div class="tab-pane fade" id="nav-crosses" role="tabpanel" aria-labelledby="nav-crosses-tab"> <div id="crossesGrid"></div> </div>
 					</div>
                  </div>
           </div>
@@ -573,7 +573,7 @@
         </button>
       </h6>
      <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
-	<div class="card-body">
+  	 <div class="card-body">
 		<div class="row">
 		 <div class="col-2">
 	     <div id='USATree' style='visibility: hidden; '>
@@ -850,6 +850,7 @@
          var selectedRow=this;
          var auditGridSource;
          var curvesGridSource;
+         var crossesGridSource;  
          var date;
          var filterDate;
          var auditDefaultData=[{
@@ -931,6 +932,56 @@
 		                    "italy": "",
 		                    "spain": ""
 		                  }];
+         crossesDefaultData=[
+        	 {
+        		 "id": 1,
+        		 "factor": "30",
+        		 "fra_GER": "",
+        		 "ita_GER": "",
+        		 "ita_FRA": "",
+        		 "uk_GER": "",
+        		 "ita_SPN": "",
+        		 "usa_GER": "",
+        		 "usa_UK": "",
+        		 "spn_GER": ""
+        		 },
+        		 {
+        		 "id": 2,
+        		 "factor": "10",
+        		 "fra_GER": "",
+        		 "ita_GER": "",
+        		 "ita_FRA": "",
+        		 "uk_GER": "",
+        		 "ita_SPN": "",
+        		 "usa_GER": "",
+        		 "usa_UK": "",
+        		 "spn_GER": ""
+        		 },
+        		 {
+        		 "id": 3,
+        		 "factor": "5",
+        		 "fra_GER": "",
+        		 "ita_GER": "",
+        		 "ita_FRA": "",
+        		 "uk_GER": "",
+        		 "ita_SPN": "",
+        		 "usa_GER": "",
+        		 "usa_UK": "",
+        		 "spn_GER": ""
+        		 },
+        		 {
+        		 "id": 4,
+        		 "factor": "2",
+        		 "fra_GER": "",
+        		 "ita_GER": "",
+        		 "ita_FRA": "",
+        		 "uk_GER": "",
+        		 "ita_SPN": "",
+        		 "usa_GER": "",
+        		 "usa_UK": "",
+        		 "spn_GER": ""
+        		 }
+        		 ];
  		 var datatextarea = document.getElementById("data");
 			$(function (){
 
@@ -953,6 +1004,11 @@
 				     curvesGridSource.url='/bourse/getcurvedata/'+date;
 					 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
 					 $('#curvesGrid').jqxGrid({source:dataAdapter});
+					 
+					 delete crossesGridSource.localdata;
+					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
+					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+					 $('#crossesGrid').jqxGrid({source:dataAdapter});
 				 }); 
 			 
 			    $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
@@ -1066,6 +1122,49 @@
 			                  { text: 'Spain', datafield: 'spain', width: '14.28%' }
 		                ]
 		            });
+		            
+		            crossesGridSource =
+		            {    
+		            localdata:crossesDefaultData,
+		            datatype: "json",
+	                datafields: [
+	                	{name:'factor', type: 'string' },
+	                    { name: 'fra_GER', type: 'string' },
+	                    { name: 'ita_GER', type: 'string' },
+	                    { name: 'ita_FRA', type: 'string' },
+	                    { name: 'uk_GER', type: 'string' },
+	                    { name: 'ita_SPN', type: 'string' },
+	                    { name: 'usa_GER', type: 'string' },
+	                    { name: 'usa_UK', type: 'string' },
+	                    { name: 'spn_GER', type: 'string' }
+	                ],
+	                url:''
+		            };
+		             var dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+		            // initialize jqxGrid
+		            var eventName = "onclick";
+		            $("#crossesGrid").jqxGrid(
+		            {
+		                width: '100%',
+		                source: dataAdapter,  
+		                theme:'dark',
+		                autoheight: true,
+		                editable: true,
+		                selectionmode: 'none',
+		                editmode: 'selectedrow',
+		                columns: [
+		                	  { text: '',editable:false,  datafield: 'factor', width: '11.11%'},
+			                  { text: 'FRA_GER', datafield: 'fra_GER', width: '11.11%' },
+			                  { text: 'ITA_GER', datafield: 'ita_GER', width: '11.11%' },
+			                  { text: 'ita_FRA', datafield: 'ita_FRA', width: '11.11%' },
+			                  { text: 'uk_GER', datafield: 'uk_GER', width: '11.11%' },
+			                  { text: 'ita_SPN', datafield: 'ita_SPN', width: '11.11%' },
+			                  { text: 'usa_GER', datafield: 'usa_GER', width: '11.11%' },
+			                  { text: 'usa_UK', datafield: 'usa_UK', width: '11.11%' },
+			                  { text: 'spn_GER', datafield: 'spn_GER', width: '11.11%' }
+		                ]
+		            });
+		            
 			 var dropDownSource = [
                  "now",
                  "after 3 hours",
@@ -1352,6 +1451,11 @@
 					    curvesGridSource.url='/bourse/getcurvedata/'+date;
 						 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
 						 $('#curvesGrid').jqxGrid({source:dataAdapter});
+						 
+						 delete crossesGridSource.localdata;
+						 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
+						 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+						 $('#crossesGrid').jqxGrid({source:dataAdapter});
 				     } 
 				     setTimeout(function(){
 				    	  if(($('#auditGrid').jqxGrid('getrows')[0].usa!=null)&&

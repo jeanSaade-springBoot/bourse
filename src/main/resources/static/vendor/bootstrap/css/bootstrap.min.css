@@ -2817,16 +2817,18 @@ fieldset:disabled a.btn {
 
 .btn-secondary {
 	color: #fff;
-	background-color: #757575;
-	border-color: #757575;
 	-webkit-box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2)!important;
 	box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2)!important;
-	border-radius: .25rem
+	border-radius: .25rem;
+	border: 1px solid rgba(0, 0, 0, .125);
+    background-color: #272E48;
+    border-color: #464D5C;
+    color: #8A99B5;
 }
 
 .btn-secondary:hover {
 	color: #fff;
-	background-color: #616161;
+	background-color: #40566f;
 	border-color: #616161
 }
 
