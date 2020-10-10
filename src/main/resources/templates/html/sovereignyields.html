@@ -764,7 +764,7 @@
 		<div class="row">
 		<div class='col-12 d-flex justify-content-end'>
 		<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
-		<input id="Cancelfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+		<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 		</div>
 		</div>
 	</div>
@@ -1045,7 +1045,7 @@
 			 
 			    $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
 	            $("#Save").jqxButton({ theme: 'dark',height:38,width:93 });
-	            $("#Cancelfilter").jqxButton({ theme: 'dark',height:30,width:74  });
+	            $("#Clearfilter").jqxButton({ theme: 'dark',height:30,width:74  });
 	            $("#filter").jqxButton({ theme: 'dark',height:30,width:74 });
 	            $("#CancelData").jqxButton({ theme: 'dark',height:30,width:74  });
 	            $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
@@ -1385,7 +1385,24 @@
 				  $("#dataInputButtons").css("display","none"); 
 				  $("#dataInputGrid").css("display","none"); 
                });
-            
+            $("#Clearfilter").click(function () {
+             $("#jqxCheckBoxFRA-GER").jqxCheckBox({checked: false });
+   			 $("#jqxCheckBoxITA-GER").jqxCheckBox({ checked: false });
+   			 $("#jqxCheckBoxSPN-GER").jqxCheckBox({checked: false });
+   			 $("#jqxCheckBoxUK-GER").jqxCheckBox({checked: false });
+   			 $("#jqxCheckBoxUSA-GER").jqxCheckBox({ checked: false });
+   			 $("#jqxCheckBoxUSA-UK").jqxCheckBox({checked: false });
+   			 $("#jqxCheckBoxITA-FRA").jqxCheckBox({ checked: false });
+   			 $("#jqxCheckBoxITA-SPN").jqxCheckBox({ checked: false });
+   		    
+   		     $('#USATree').jqxTree('uncheckAll');
+   		     $('#GermanyTree').jqxTree('uncheckAll');
+	   		  $('#FranceTree').jqxTree('uncheckAll');
+	   		  $('#UKTree').jqxTree('uncheckAll');
+	   		  $('#ItalyTree').jqxTree('uncheckAll');
+	   		  $('#SpainTree').jqxTree('uncheckAll');
+	   		  
+            });
             $("#loadData").click(function () {
             	var dataToBeInserted = [];
             	var usaObject=["1"];
