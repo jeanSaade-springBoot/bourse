@@ -79,6 +79,11 @@ public class BourseController {
     {
 		return new ModelAndView("html/returnFunction");
     }
+	@RequestMapping( value =  "/any2")
+    public ModelAndView anyTwoPage(ModelMap model)
+    {
+		return new ModelAndView("html/any2");
+    }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
 		

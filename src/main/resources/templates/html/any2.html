@@ -26,6 +26,16 @@
     border-color: #464D5C;
     color: #ffffff;
   }
+  .edit{
+    margin: .5rem;
+    color: white;
+    background-color: #719DF0!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+        padding: 1px 42px;
+ 
+}
   </style>
 </head>
 
@@ -75,11 +85,11 @@
           <i class="fas fa-desktop"></i>
           <span>Monitoring</span>
         </a>
-        <div id="collapseMonitoring" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+        <div id="collapseMonitoring" class="collapse show" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Monitoring</h6>
             <a class="collapse-item" href="">Fast Chart</a>
-            <a class="collapse-item" href="/bourse/any2">Any 2</a>
+            <a class="collapse-item active" href="/bourse/any2">Any 2</a>
             <a class="collapse-item" href="">Situation Room</a>
             <a class="collapse-item" href="">Euribor Curves</a>
           </div>
@@ -91,11 +101,11 @@
           <i class="fas fa-chart-bar"></i>
           <span>Analytics</span>
         </a>
-        <div id="collapseAnalytics" class="collapse show" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+        <div id="collapseAnalytics" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Analytics</h6>
-            <a class="collapse-item active" href="/bourse/returnfunction">Return Function</a>
-            <a class="collapse-item" href="">Implied Vs Realized (Hi/lo)</a>
+            <a class="collapse-item " href="/bourse/returnfunction">Return Function</a>
+            <a class="collapse-item" href="/bourse/any2">Implied Vs Realized (Hi/lo)</a>
             <a class="collapse-item" href="">Implied Vs Realized (Close)</a>
             <a class="collapse-item" href="">Gamma Rents</a>
           </div>
@@ -448,10 +458,10 @@
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between ">
-            <h1 class="h3 mb-0 text-gray-800">Return Function</h1>
+            <h1 class="h3 mb-0 text-gray-800">Monitoring</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/bourse/home">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Return Function</li>
+              <li class="breadcrumb-item active" aria-current="page">Monitoring</li>
             </ol>
           </div>
 
@@ -459,14 +469,16 @@
 			 <div class="bd-example bd-example-tabs col-12">
 			 <nav>
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Yields & Liquidity</a>
-				    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Precious Metals</a>
-				    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Normalized Vols</a>
+				    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Fast Chart</a>
+				    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Any2</a>
+				    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Situation room</a>
 				  </div>
 				</nav>
 				<div class="tab-content" id="nav-tabContent">
 				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-					<p class="mt-2" style=" margin-bottom: .5rem;">
+				...
+					 </div>
+				  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">	<p class="mt-2" style=" margin-bottom: .5rem;">
 					  <a class="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >Germany</a>
 					</p>
 					<div class="row">
@@ -491,7 +503,10 @@
 					     </div>
 						  <div id="chart"></div>
 					 	  <div id="chartLine" class="chart-box" style="display: block; min-height: 365px;"></div>
-						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+						   <div class="col-12" style="justify-content: center;    text-align: center;" >
+							      <input class="edit" type="button" onclick="Edit(0, event)" id="edit0" value="Split">
+							  </div>
+						   <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
 							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
@@ -601,9 +616,7 @@
 						  </div>
 						</div>
 					  </div>
-					</div>
-					 </div>
-				  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+					</div></div>
 				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
 				</div>
 			</div>
@@ -777,25 +790,17 @@
 					                series: [],
 					                chart: {
 					                height: 300,
-					                type: 'bar',
+					                type: 'area',
 					              },
-					              plotOptions: {
-						                bar: {
-						                  colors: {
-						                    ranges: [{
-						                      from: -1000,
-						                      to: 0,
-						                      color: '#ef403c'
-						                    },
-						                    {
-							                      from: 0,
-							                      to: 1000,
-							                      color: '#00b746'
-							                    }]
-						                  },
-						                  columnWidth: '80%',
-						                }
-						              },
+					              fill: {
+					            	    type: "gradient",
+					            	    gradient: {
+					            	      shadeIntensity: 1,
+					            	      opacityFrom: 0.7,
+					            	      opacityTo: 0.9,
+					            	      stops: [0, 90, 100]
+					            	    }
+					            	  },
 					              dataLabels: {
 					                enabled: false
 					              },

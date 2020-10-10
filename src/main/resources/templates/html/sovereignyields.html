@@ -106,7 +106,7 @@
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Monitoring</h6>
             <a class="collapse-item" href="">Fast Chart</a>
-            <a class="collapse-item" href="">Any 2</a>
+            <a class="collapse-item" href="/bourse/any2">Any 2</a>
             <a class="collapse-item" href="">Situation Room</a>
             <a class="collapse-item" href="">Euribor Curves</a>
           </div>
@@ -738,6 +738,29 @@
             </div>
 	     </div>
 		</div>
+		<div class="col-12 mt-4">
+			<h6 class="mb-0">
+	       Crosses
+	      </h6>
+	      	<div class="row mt-2">
+		      	<div id='jqxCheckBoxFRA-GER' style='margin-left: 10px; float: left;'>
+	                FRA-GER</div>
+	            <div id='jqxCheckBoxITA-GER' style='margin-left: 10px; float: left;'>
+	                <span>ITA-GER</span></div>
+	            <div id='jqxCheckBoxSPN-GER' style='margin-left: 10px; float: left;'>
+	                <span>SPN-GER</span></div>
+	                <div id='jqxCheckBoxUK-GER' style='margin-left: 10px; float: left;'>
+	                UK-GER</div>
+	            <div id='jqxCheckBoxUSA-GER' style='margin-left: 10px; float: left;'>
+	                <span>USA-GER</span></div>
+	            <div id='jqxCheckBoxUSA-UK' style='margin-left: 10px; float: left;'>
+	                <span>USA-UK</span></div>
+	                <div id='jqxCheckBoxITA-FRA' style='margin-left: 10px; float: left;'>
+	                ITA-FRA</div>
+	            <div id='jqxCheckBoxITA-SPN' style='margin-left: 10px; float: left;'>
+	                <span>ITA-SPN</span></div>
+	      	</div>
+		</div>
 		<div class="row">
 		<div class='col-12 d-flex justify-content-end'>
 		<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
@@ -991,7 +1014,16 @@
 		 $(document).ready(function () {
 			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });
 			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
-			   
+			 
+			 $("#jqxCheckBoxFRA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
+			 $("#jqxCheckBoxITA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
+			 $("#jqxCheckBoxSPN-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
+			 $("#jqxCheckBoxUK-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
+			 $("#jqxCheckBoxUSA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
+			 $("#jqxCheckBoxUSA-UK").jqxCheckBox({ theme:'dark', width: 120, height: 25});
+			 $("#jqxCheckBoxITA-FRA").jqxCheckBox({ theme:'dark', width: 120, height: 25});
+			 $("#jqxCheckBoxITA-SPN").jqxCheckBox({ theme:'dark', width: 120, height: 25});
+			 
 			 $('#dateInputAudit').on('change', function (event) 
 				 {   date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				    filterDate=date;
