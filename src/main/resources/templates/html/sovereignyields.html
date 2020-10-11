@@ -761,11 +761,19 @@
 	                <span>ITA-SPN</span></div>
 	      	</div>
 		</div>
-		<div class="row">
-		<div class='col-12 d-flex justify-content-end'>
-		<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
-		<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+		<div class="row col-12 mt-5">
+			 <div class="btn-group mr-2 col-12" role="group" aria-label="Second group">
+							       <label style="margin-right: 1.5rem;">From</label>
+							         <div id='dateInputFrom'></div>
+							       <label style="margin-right: 1.5rem;    margin-left: 1.5rem;">To</label>
+							         <div id='dateInputTo'></div>
+							  </div>
 		</div>
+		<div class="row">
+			<div class='col-12 d-flex justify-content-end'>
+			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
+			<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			</div>
 		</div>
 	</div>
 	</div> 
@@ -1014,6 +1022,8 @@
 		 $(document).ready(function () {
 			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });
 			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
+			 $("#dateInputFrom").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });
+			 $("#dateInputTo").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
 			 
 			 $("#jqxCheckBoxFRA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
 			 $("#jqxCheckBoxITA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
