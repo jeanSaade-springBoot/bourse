@@ -30,6 +30,7 @@ import com.bourse.dto.DataDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.DataInputDTO;
 import com.bourse.dto.PersonReqDTO;
+import com.bourse.dto.UpdateDataDTO;
 import com.bourse.service.PersonService;
 import com.bourse.service.SkewsService;
 import com.bourse.service.SovereignYieldsService;
@@ -158,6 +159,16 @@ public class BourseController {
 	SovereignData originalObject = sovereignYieldsService.findSovereignById(sovereignData.getId());
 	SovereignData SovereignDataToUpdate = SovereignUtil.buildUpdateObject(originalObject,sovereignData);
 	return sovereignYieldsService.UpdateSovereignById(SovereignDataToUpdate);
+	}
+	
+	@PostMapping(value = "updatethirteeyrfactorsovereignbysubgroupidanddate")
+	public boolean updatethirteeyrfactorSovereignBysubgroupIdAndDate(@RequestBody List<UpdateDataDTO> updateDataDTO) {
+	
+	for (int i=0; i<updateDataDTO.size(); i++)
+	{
+		sovereignYieldsService.updatethirteeyrfactorSovereignBysubgroupIdAndDate(updateDataDTO.get(i).getSubgroupId(), updateDataDTO.get(i).getReferdate(), updateDataDTO.get(i).getValue());
+	}
+	return true;
 	}
 	
 	@DeleteMapping(value = "deletesovereignbyid/{id}")

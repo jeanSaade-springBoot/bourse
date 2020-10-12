@@ -10,6 +10,7 @@ import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.SovereignData;
@@ -89,7 +90,10 @@ public class SovereignYieldsService
         return sovereignYieldsRepository.findSoveriegnCurvesByReferDate(referDate);
 	}
 	
-	
+	public void updatethirteeyrfactorSovereignBysubgroupIdAndDate(String subgroupId,String referdate,String value)
+	{      
+         sovereignYieldsRepository.updatethirteeyrfactorSovereignBysubgroupIdAndDate(subgroupId, referdate, value);
+	}
 	
 	public List<AuditProcedureDTO> getAuditData(String referDate)
 	{

@@ -3,6 +3,7 @@ import java.util.List;
 
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -95,6 +96,10 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
 	 		"  from bourse.sovereign_data where refer_date =:referDate",
 			      nativeQuery = true)
   public List<CurveSoveriegnDTO> findSoveriegnCurvesByReferDate(@Param("referDate") String referDate);
-
+	 
+	 @Modifying
+	 @Query(value = "update sovereign_data set thirtee_yr_factor = :value where subgroupId = :subgroupId and referdate = :referdate ",
+				      nativeQuery = true)
+	  public void  updatethirteeyrfactorSovereignBysubgroupIdAndDate(@Param("subgroupId") String subgroupId,@Param("referdate") String referdate ,@Param(value = "value") String value);
 
 }
