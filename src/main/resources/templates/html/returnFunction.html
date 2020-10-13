@@ -456,17 +456,30 @@
           </div>
 
           <div class="row mb-3">
-			 <div class="bd-example bd-example-tabs col-12">
+			 <div class="bd-example bd-example-tabs col-12 row">
+			<div class="col-8"> 
 			 <nav>
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+				   <a class="nav-item nav-link" id="nav-impliedVols-tab" data-toggle="tab" href="#nav-impliedVols" role="tab" aria-controls="nav-impliedVols" aria-selected="true">Implied Vols</a>
+				    <a class="nav-item nav-link" id="nav-futures-tab" data-toggle="tab" href="#nav-futures" role="tab" aria-controls="nav-futures" aria-selected="true">Futures</a>
 				    <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-home" role="tab" aria-controls="nav-home" aria-selected="true">Yields & Liquidity</a>
 				    <a class="nav-item nav-link" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Precious Metals</a>
 				    <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Normalized Vols</a>
 				  </div>
 				</nav>
-				<div class="tab-content" id="nav-tabContent">
+				</div>
+				<div class="col-4"> 
+				   <div id="timeperiod" style="float: left; border-radius: 0.2rem;"> </div>
+				   <div id='plotUnderline' style='margin-left: 30px; float: left;'>
+                   <span>Plot Underlying</span></div>
+                     <input id="update" type="button" style="float: right;color: white;" class="btn btn-primary mr-1 mb-1" value="Update" />
+                   </div>
+                 
+				<div class="tab-content col-12" id="nav-tabContent">
+				  <div class="tab-pane fade" id="nav-impliedVols" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
+				  <div class="tab-pane fade" id="nav-futures" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
 				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-					<p class="mt-2" style=" margin-bottom: .5rem;">
+					<p style="margin: 0;border-radius: .2rem;padding: .5rem;">
 					  <a class="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >Germany</a>
 					</p>
 					<div class="row">
@@ -477,18 +490,14 @@
 						      <a class="list-group-item list-group-item-action" id="list-10YRyLD-list" data-toggle="list" href="#list-10YRyLD" role="tab" aria-controls="10yrYLD"  onclick="drawGraph(2,'10','chart','German 10-yr Benchmark YIELD')">10yr YLD</a>
 						      <a class="list-group-item list-group-item-action" id="list-5yrYLD-list" data-toggle="list" href="#list-5YRyLD" role="tab" aria-controls="5yrYLD"  onclick="drawGraph(2,'5','fiveFactorchart','German 5-yr Benchmark YIELD')">5yr YLD</a>
 						      <a class="list-group-item list-group-item-action" id="list-2yrYLD-list" data-toggle="list" href="#list-2YRyLD" role="tab" aria-controls="2yrYLD"  onclick="drawGraph(2,'2','TwoFactorchart','German 2-yr Benchmark YIELD')">2yr YLD</a>
-						      <a class="list-group-item list-group-item-action" id="list-2s10sCurve-list" data-toggle="list" href="#list-2over10" role="tab" aria-controls="2s10sCurve" onclick="drawGraph(2,'2over10','twoOvertTenChart','German 2's/10's yield CURVE')">2s/10s Curve</a>
-						      <a class="list-group-item list-group-item-action" id="list-2s5sCurve-list" data-toggle="list" href="#list-2over5" role="tab" aria-controls="2s5sCurve" onclick="drawGraph(2,'2over5','twoOverFiveChart','German 2's/5's yield CURVE')">2s/5s Curve</a>
-						      <a class="list-group-item list-group-item-action" id="list-5s10sCurve-list" data-toggle="list" href="#list-5over10" role="tab" aria-controls="5s10sCurve" onclick="drawGraph(2,'5over10','fiveOverTenChart','German 5's/10's yield CURVE')">5s/10s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-2s10sCurve-list" data-toggle="list" href="#list-2over10" role="tab" aria-controls="2s10sCurve" onclick="drawGraph(2,'2over10','twoOvertTenChart','German 2\'s/10\'s yield CURVE')">2s/10s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-2s5sCurve-list" data-toggle="list" href="#list-2over5" role="tab" aria-controls="2s5sCurve" onclick="drawGraph(2,'2over5','twoOverFiveChart','German 2\'s/5\'s yield CURVE')">2s/5s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-5s10sCurve-list" data-toggle="list" href="#list-5over10" role="tab" aria-controls="5s10sCurve" onclick="drawGraph(2,'5over10','fiveOverTenChart','German 5\'s/10\'s yield CURVE')">5s/10s Curve</a>
 						    </div>
 					      </div>
 					    </div>
 					    <div class="tab-content" id="nav-tabContent">
 						  <div class="tab-pane" id="list-10YRyLD" role="tabpanel" aria-labelledby="list-10yr-list">
-						   <div class="row col-12 mt-2">
-						     <div id='plotUnderline' style='margin-left: 10px; float: left;'>
-                              <span>Plot Underlying</span></div>
-					     </div>
 						  <div id="chart"></div>
 					 	  <div id="chartLine" class="chart-box" style="display: block; min-height: 365px;"></div>
 						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
@@ -677,19 +686,35 @@
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
   <script src="/js/ruang-admin.min.js"></script>
+  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  <script src="/js/jqwidgets/jqxdropdownlist.js"></script>
+  <script src="/js/jqwidgets/jqxlistbox.js"></script>  
+  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
   <script src="/js/apexcharts.js"></script>
   <script>
-  $(document).ready(function () {  
-	  $("#plotUnderline").jqxCheckBox({  theme:'dark', width: 120, height: 25, checked: false});
-	  $("#plotUnderline").on('change', function (event) {
-	      var checked = event.args.checked;
-	      if (checked) {
+  $(document).ready(function () { 
+	  var dropDownSource = [
+          "T-1",
+          "T-5",
+          "T-7",
+          "T-22",
+          "T-30",
+          "Weekly",
+          "Monthly"
+	        ];
+	  $("#timeperiod").jqxDropDownList({ source: dropDownSource, theme:'dark', selectedIndex: 0, width: '100',dropDownHeight:'220px', height: '30px'});
+      $("#update").jqxButton({ theme: 'dark',height:30,width:74  });
+      $("#update").click(function () {
+    	  var checked = $('#plotUnderline').jqxCheckBox('checked'); 
+    	  if (checked) {
 	    	  chartWithLine('chartLine');
 	      }
 	      else {
 	    	  drawGraph(2,'10','chart','German 10-yr Benchmark YIELD');
 	      }
-	  });
+      });
+	  $("#plotUnderline").jqxCheckBox({  theme:'dark', width: 120, height: 25, checked: false});
+	
   });
 			$(function (){
 				$('.simple-marquee-container').SimpleMarquee();
