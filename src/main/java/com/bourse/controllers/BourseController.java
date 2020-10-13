@@ -215,7 +215,7 @@ public class BourseController {
 	return new ResponseEntity<>(sovereignYieldsService.getCrossAuditData(referDate),HttpStatus.OK);
 	} 
 	
-	@GetMapping(value = "getgraphdata")
+	@PostMapping(value = "getgraphdata")
 	public ResponseEntity<List<GraphResponseDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
 	} 
