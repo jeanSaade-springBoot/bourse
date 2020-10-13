@@ -18,6 +18,8 @@ import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
+import com.bourse.dto.GraphReqDTO;
+import com.bourse.dto.GraphResponseDTO;
 import com.bourse.repositories.SovereignYieldsRepository;
 
 @Service
@@ -97,10 +99,9 @@ public class SovereignYieldsService
 	
 	public List<AuditProcedureDTO> getAuditData(String referDate)
 	{
-		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("getAuditData",AuditProcedureDTO.class);
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_yield",AuditProcedureDTO.class);
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate",referDate );
-		// "06-10-2020"
 		query.execute();
 		List<AuditProcedureDTO> auditProcedureDTOLst = (List<AuditProcedureDTO>) query.getResultList();
 		return auditProcedureDTOLst;
@@ -108,7 +109,7 @@ public class SovereignYieldsService
 	
 	public List<AuditProcedureDTO> getCurveData(String referDate)
 	{
-		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("getCurves",AuditProcedureDTO.class);
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_curve",AuditProcedureDTO.class);
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate",referDate );
 		query.execute();
@@ -118,12 +119,35 @@ public class SovereignYieldsService
 	
 	public List<CrossAuditProcedureDTO> getCrossAuditData(String referDate)
 	{
-		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("getAuditCross",CrossAuditProcedureDTO.class);
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_cross",CrossAuditProcedureDTO.class);
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate",referDate );
 		query.execute();
 		List<CrossAuditProcedureDTO> crossAuditProcedureDTO = (List<CrossAuditProcedureDTO>) query.getResultList();
 		return crossAuditProcedureDTO; 
+	}
+	
+	public List<GraphResponseDTO> getGraphData(GraphReqDTO graphReqDTO)
+	{
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
+		query.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+		query.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross() );
+		
+		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+		query.setParameter("fromDate",graphReqDTO.getFromdate() );
+		
+		query.registerStoredProcedureParameter("toDateDate", String.class, ParameterMode.IN);
+		query.setParameter("toDateDate",graphReqDTO.getTodate() );
+		
+		query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+		query.setParameter("factor",graphReqDTO.getFactor() );
+		
+		query.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+		query.setParameter("country",graphReqDTO.getCountry() );
+		
+		query.execute();
+		List<GraphResponseDTO> graphResponseDTO = (List<GraphResponseDTO>) query.getResultList();
+		return graphResponseDTO; 
 	}
 
 }

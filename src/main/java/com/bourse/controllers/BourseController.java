@@ -29,6 +29,8 @@ import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.DataInputDTO;
+import com.bourse.dto.GraphReqDTO;
+import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.PersonReqDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.service.PersonService;
@@ -211,6 +213,11 @@ public class BourseController {
 	@GetMapping(value = "getcrossauditdata/{referDate}")
 	public ResponseEntity<List<CrossAuditProcedureDTO>> getCrossAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(sovereignYieldsService.getCrossAuditData(referDate),HttpStatus.OK);
+	} 
+	
+	@GetMapping(value = "getgraphdata")
+	public ResponseEntity<List<GraphResponseDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
+	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
 	} 
 	
 }
