@@ -479,7 +479,10 @@
 				  <div class="tab-pane fade" id="nav-impliedVols" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
 				  <div class="tab-pane fade" id="nav-futures" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
 				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-					<p style="margin: 0;border-radius: .2rem;padding: .5rem;">
+					<p style="margin: 0;border-radius: .2rem;padding-top: 0.2rem;
+														    padding-right: 0.5rem;
+														    padding-bottom: 0.5rem;
+														    padding-left: 0.5rem;">
 					  <a class="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >Germany</a>
 					</p>
 					<div class="row">
@@ -705,13 +708,8 @@
 	  $("#timeperiod").jqxDropDownList({ source: dropDownSource, theme:'dark', selectedIndex: 0, width: '100',dropDownHeight:'220px', height: '30px'});
       $("#update").jqxButton({ theme: 'dark',height:30,width:74  });
       $("#update").click(function () {
-    	  var checked = $('#plotUnderline').jqxCheckBox('checked'); 
-    	  if (checked) {
-	    	  chartWithLine('chartLine');
-	      }
-	      else {
-	    	  drawGraph(2,'10','chart','German 10-yr Benchmark YIELD');
-	      }
+    	  var items = document.getElementsByClassName("list-group-item active");
+    	  items[0].onclick()
       });
 	  $("#plotUnderline").jqxCheckBox({  theme:'dark', width: 120, height: 25, checked: false});
 	
@@ -794,10 +792,78 @@
 			}
 			
 			function drawGraph(subgroupId,factor,chartId,title){
-				$("#chart").css("display","block");
-				$("#chartLine").css("display","none");
+				
 				var title;
-	
+				$("#"+chartId).html("");
+				var checked = $('#plotUnderline').jqxCheckBox('checked'); 
+		    	  if (checked) {
+
+			        var options = {
+			          series: [],
+			          chart: {
+			          height: 300,
+			          type: 'line',
+			        },
+			        colors: ["#00b746", "#FFFFFF"],
+			        plotOptions: {
+		                bar: {
+		                  colors: {
+		                    ranges: [{
+		                      from: -1000,
+		                      to: 0,
+		                      color: '#ef403c'
+		                    },
+		                    {
+			                      from: 0,
+			                      to: 1000,
+			                      color: '#00b746'
+			                    }]
+		                  },
+		                  columnWidth: '80%',
+		                }
+		              },
+			        stroke: {
+			          width: [0, 4]
+			        },
+			        markers: {
+			            size: 6,
+			        },
+			        title: {
+			          text: title
+			        },
+			        dataLabels: {
+			          enabled: false
+			        },
+			        xaxis: {
+			          type: 'datetime'
+			        },
+			         yaxis: [{
+			          labels: {
+			        	    formatter: function (value) {
+			        	      return value.toFixed(3) + "%";
+			        	    }
+			        	  },
+			        
+			        }, {
+			          opposite: true
+			        }]
+			        };
+
+			        var chart = new ApexCharts(document.querySelector("#"+chartId+""), options);
+			        $.getJSON('/bourse/findgraphdatabysubroupidandfactor/2/'+factor, function(response) {
+			              chart.updateSeries([{
+					          name: '',
+					          type: 'column',
+					          data: response
+					        }, {
+					          name: '',
+					          type: 'line',
+					          data: response
+					        }])
+		              }); 
+			        chart.render();
+				}
+				else{
 					            var options = {
 					                series: [],
 					                chart: {
@@ -837,19 +903,14 @@
 						                  rotate: -90
 						                }
 					              },
-					              animations: {
-					                  enabled: true,
-					                  easing: 'easeinout',
-					                  speed: 800,
-					                  animateGradually: {
-					                      enabled: true,
-					                      delay: 150
-					                  },
-					                  dynamicAnimation: {
-					                      enabled: true,
-					                      speed: 350
-					                  }
-					              }
+					              yaxis: [{
+							          labels: {
+							        	    formatter: function (value) {
+							        	      return value.toFixed(3) + " %";
+							        	    }
+							        	  },
+							        
+							        }]
 					              };
 
 					              var chart = new ApexCharts(document.querySelector("#"+chartId+""), options);
@@ -863,6 +924,7 @@
 					              }); 
 					           
 					              chart.render();
+				              }
 							}
 		
 		</script>
