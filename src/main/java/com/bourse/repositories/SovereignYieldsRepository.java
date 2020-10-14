@@ -15,6 +15,7 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
 	public SovereignData findById(long id);
 	public List<SovereignData> findSovereignBysubgroupId(long subGroupId);
 	public List<SovereignData> findSovereignByReferDate(String referDate);
+	public SovereignData findSovereignByReferDateAndSubgroupId(String referDate, long subGroupId);
 	 
 	/*
 	 * @Query(value = "select i from ExchangeBestDeals i where i.type = 2")

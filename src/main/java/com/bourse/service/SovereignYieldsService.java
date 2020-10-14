@@ -11,7 +11,11 @@ import javax.persistence.StoredProcedureQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.repository.query.Param;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 
 import com.bourse.domain.SovereignData;
 import com.bourse.dto.AuditProcedureDTO;
@@ -20,6 +24,7 @@ import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphResponseDTO;
+import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.SovereignYieldsRepository;
 
 @Service
@@ -58,6 +63,25 @@ public class SovereignYieldsService
 	public List<SovereignData> findSovereignBySubGroup(long id) 
 	{      
         return sovereignYieldsRepository.findSovereignBysubgroupId(id);
+	}
+	
+	
+	public void updateAuditData(List<UpdateDataDTO> updateDataDTOlst) 
+	{
+		SovereignData sovereignData;
+		for(UpdateDataDTO updateDataDTO:updateDataDTOlst)
+		{
+			sovereignData = sovereignYieldsRepository.findSovereignByReferDateAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getSubgroupId()));
+		    if(updateDataDTO.getFatcor().contains("30"))
+		    	sovereignData.setThirteeYrFactor(updateDataDTO.getValue());
+		    if(updateDataDTO.getFatcor().contains("5"))
+		    	sovereignData.setFiveYrFactor(updateDataDTO.getValue());
+		    if(updateDataDTO.getFatcor().contains("10"))
+		    	sovereignData.setTenYrFactor(updateDataDTO.getValue());
+		    if(updateDataDTO.getFatcor().contains("2"))
+		    	sovereignData.setTwoYrFactor(updateDataDTO.getValue());
+		    sovereignYieldsRepository.save(sovereignData);
+		}
 	}
 	
 	public List<DataGraphDTO> findGraphDataBySubroupIdAndFactorCalculation(long id,String factor) 

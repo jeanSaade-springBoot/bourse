@@ -173,6 +173,16 @@ public class BourseController {
 	return true;
 	}
 	
+	@PostMapping(value = "updateauditdata")
+	public ResponseEntity<Boolean> updateAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{
+	
+		sovereignYieldsService.updateAuditData(updateDataDTOlst);
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	
+	
+	
 	@DeleteMapping(value = "deletesovereignbyid/{id}")
 	public  ResponseEntity deletesovereignbyid(@PathVariable("id") long id) {
 		sovereignYieldsService.deleteSovereignById(id);
