@@ -136,8 +136,8 @@ public class SovereignYieldsService
 		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
 		query.setParameter("fromDate",graphReqDTO.getFromdate() );
 		
-		query.registerStoredProcedureParameter("toDateDate", String.class, ParameterMode.IN);
-		query.setParameter("toDateDate",graphReqDTO.getTodate() );
+		query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+		query.setParameter("toDate",graphReqDTO.getTodate() );
 		
 		query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
 		query.setParameter("factor",graphReqDTO.getFactor() );
