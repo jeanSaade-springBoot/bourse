@@ -18,13 +18,19 @@
   <link href="/css/jqx.dark.css" rel="stylesheet">
   <style>
   .inputdate{
-    width: 17%;
+    width: 22%;
     margin: 0 .5rem;
     text-align: center;
         border: 1px solid rgba(0, 0, 0, .125);
     background-color: #272E48!important;
     border-color: #464D5C;
     color: #ffffff;
+  }
+  .selected-country{
+    border-bottom: 1px solid #5a8deefc;
+    box-shadow: 0px 1px 1px 0 #5a8dee99;
+    color: white!important;
+    font-weight: bold;
   }
   </style>
 </head>
@@ -479,48 +485,49 @@
 				  <div class="tab-pane fade" id="nav-impliedVols" role="tabpanel" aria-labelledby="nav-profile-tab">...</div>
 				  <div class="tab-pane fade" id="nav-futures" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
 				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-					<p style="margin: 0;border-radius: .2rem;padding-top: 0.2rem;
-														    padding-right: 0.5rem;
-														    padding-bottom: 0.5rem;
-														    padding-left: 0.5rem;">
-					  <a class="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >Germany</a>
-					</p>
+				
+					<div class="list-group list-group-horizontal" id="list-tab" role="tablist" style="margin-bottom: .2rem;">
+						 <a class="list-group-item list-group-item-action" id="usa" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >USA</a>
+						 <a class="list-group-item list-group-item-action" id="germany" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >Germany</a>
+						 <a class="list-group-item list-group-item-action" id="france" data-toggle="collapse" href="#multiCollapseExample3" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >France</a>
+					</div>
+					
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse" id="multiCollapseExample1">
+					  <div class="accordion" id="countryContainer">
+					    <div class="collapse multi-collapse" id="multiCollapseExample1" data-parent="#countryContainer">
 					      <div class="card">
 					      <div class="list-group list-group-horizontal" id="list-tab" role="tablist">
-						      <a class="list-group-item list-group-item-action" id="list-10YRyLD-list" data-toggle="list" href="#list-10YRyLD" role="tab" aria-controls="10yrYLD"  onclick="drawGraph(2,'10','chart','German 10-yr Benchmark YIELD')">10yr YLD</a>
-						      <a class="list-group-item list-group-item-action" id="list-5yrYLD-list" data-toggle="list" href="#list-5YRyLD" role="tab" aria-controls="5yrYLD"  onclick="drawGraph(2,'5','fiveFactorchart','German 5-yr Benchmark YIELD')">5yr YLD</a>
-						      <a class="list-group-item list-group-item-action" id="list-2yrYLD-list" data-toggle="list" href="#list-2YRyLD" role="tab" aria-controls="2yrYLD"  onclick="drawGraph(2,'2','TwoFactorchart','German 2-yr Benchmark YIELD')">2yr YLD</a>
-						      <a class="list-group-item list-group-item-action" id="list-2s10sCurve-list" data-toggle="list" href="#list-2over10" role="tab" aria-controls="2s10sCurve" onclick="drawGraph(2,'2over10','twoOvertTenChart','German 2\'s/10\'s yield CURVE')">2s/10s Curve</a>
-						      <a class="list-group-item list-group-item-action" id="list-2s5sCurve-list" data-toggle="list" href="#list-2over5" role="tab" aria-controls="2s5sCurve" onclick="drawGraph(2,'2over5','twoOverFiveChart','German 2\'s/5\'s yield CURVE')">2s/5s Curve</a>
-						      <a class="list-group-item list-group-item-action" id="list-5s10sCurve-list" data-toggle="list" href="#list-5over10" role="tab" aria-controls="5s10sCurve" onclick="drawGraph(2,'5over10','fiveOverTenChart','German 5\'s/10\'s yield CURVE')">5s/10s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-10YRyLD-list" data-toggle="list" href="#usa-10YRyLD" role="tab" aria-controls="10yrYLD"  onclick="drawGraph(1,'yield','10yr','usa-10yr-chart','USA 10-yr Benchmark YIELD',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">10yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-5yrYLD-list" data-toggle="list" href="#usa-5YRyLD" role="tab" aria-controls="5yrYLD"  onclick="drawGraph(1,'yield','5yr','usa-fiveFactorchart','USA 5-yr Benchmark YIELD',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">5yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-2yrYLD-list" data-toggle="list" href="#usa-2YRyLD" role="tab" aria-controls="2yrYLD"  onclick="drawGraph(1,'yield','2yr','usa-TwoFactorchart','USA 2-yr Benchmark YIELD',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">2yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="list-2s10sCurve-list" data-toggle="list" href="#usa-2over10" role="tab" aria-controls="2s10sCurve" onclick="drawGraph(1,'curve','2over10','usa-twoOvertTenChart','USA 2\'s/10\'s yield CURVE',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">2s/10s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-2s5sCurve-list" data-toggle="list" href="#usa-2over5" role="tab" aria-controls="2s5sCurve" onclick="drawGraph(1,'curve','2over5','usa-twoOverFiveChart','USA 2\'s/5\'s yield CURVE',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">2s/5s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="list-5s10sCurve-list" data-toggle="list" href="#usa-5over10" role="tab" aria-controls="5s10sCurve" onclick="drawGraph(1,'curve','5over10','usa-fiveOverTenChart','USA 5\'s/10\'s yield CURVE',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">5s/10s Curve</a>
 						    </div>
 					      </div>
-					    </div>
-					    <div class="tab-content" id="nav-tabContent">
-						  <div class="tab-pane" id="list-10YRyLD" role="tabpanel" aria-labelledby="list-10yr-list">
-						  <div id="chart"></div>
+					       <div class="tab-content" id="nav-tabContent">
+						  <div class="tab-pane" id="usa-10YRyLD" role="tabpanel" aria-labelledby="usa-10yr-list">
+						  <div id="usa-10yr-chart" class="chart-box" style="display: block; min-height: 365px;"></div>
 					 	       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							    <button type="button" id="button-usa-10yr-chart-yearBackward"  class="btn btn-secondary" onclick="navigationGraph(1,'yield','10yr','usa-10yr-chart','USA 10-yr Benchmark YIELD','yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" id="button-usa-10yr-chart-monthBackward" class="btn btn-secondary" onclick="navigationGraph(1,'yield','10yr','usa-10yr-chart','USA 10-yr Benchmark YIELD','monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
 							  </div>
 							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
 							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
+							       <input id="dateFrom-usa-10yr-chart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
+							       <input id="dateTo-usa-10yr-chart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							  </div>
 							  <div class="btn-group" role="group" aria-label="Third group">
-							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
-								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							   <button type="button" id="button-usa-10yr-chart-monthForward" class="btn btn-secondary" onclick="navigationGraph(1,'yield','10yr','usa-10yr-chart','USA 10-yr Benchmark YIELD','monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
+							   <button type="button" id="button-usa-10yr-chart-yearForward" class="btn btn-secondary" onclick="navigationGraph(1,'yield','10yr','usa-10yr-chart','USA 10-yr Benchmark YIELD','yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
 							  </div>
 							</div>
 						  </div>
-						  <div class="tab-pane" id="list-5YRyLD" role="tabpanel" aria-labelledby="list-profile-list">
-						  <div id="fiveFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						  <div class="tab-pane" id="usa-5YRyLD" role="tabpanel" aria-labelledby="usa-profile-list">
+						  <div id="usa-fiveFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
 						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
@@ -528,9 +535,9 @@
 							  </div>
 							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
 							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
+							       <input id="dateFrom-usa-fiveFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
+							       <input id="dateTo-usa-fiveFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							  </div>
 							  <div class="btn-group" role="group" aria-label="Third group">
 							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
@@ -538,7 +545,8 @@
 							  </div>
 							</div>
 						  </div>
-						  <div class="tab-pane" id="list-2YRyLD" role="tabpanel" aria-labelledby="list-messages-list"><div id="TwoFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						  <div class="tab-pane" id="usa-2YRyLD" role="tabpanel" aria-labelledby="usa-messages-list">
+						  <div id="usa-TwoFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
 						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
@@ -546,9 +554,9 @@
 							  </div>
 							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
 							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
+							       <input id="dateFrom-usa-TwoFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
+							       <input id="dateTo-usa-TwoFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							  </div>
 							  <div class="btn-group" role="group" aria-label="Third group">
 							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
@@ -556,7 +564,8 @@
 							  </div>
 							</div>
 						  </div>
-						  <div class="tab-pane" id="list-2over10" role="tabpanel" aria-labelledby="list-settings-list"> <div id="twoOvertTenChart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						  <div class="tab-pane" id="usa-2over10" role="tabpanel" aria-labelledby="usa-settings-list"> 
+						  <div id="usa-twoOvertTenChart" class="chart-box" style="display: block; min-height: 365px;"></div>
 						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
@@ -564,9 +573,9 @@
 							  </div>
 							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
 							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
+							       <input id="dateFrom-usa-twoOvertTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
+							       <input id="dateTo-usa-twoOvertTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							  </div>
 							  <div class="btn-group" role="group" aria-label="Third group">
 							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
@@ -574,7 +583,8 @@
 							  </div>
 							</div>
 						  </div>
-						  <div class="tab-pane" id="list-2over5" role="tabpanel" aria-labelledby="list-settings-list"><div id="twoOverFiveChart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						  <div class="tab-pane" id="usa-2over5" role="tabpanel" aria-labelledby="usa-settings-list">
+						  <div id="usa-twoOverFiveChart" class="chart-box" style="display: block; min-height: 365px;"></div>
 						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
@@ -582,9 +592,9 @@
 							  </div>
 							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
 							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
+							       <input id="dateFrom-usa-twoOverFiveChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
+							       <input id="dateTo-usa-twoOverFiveChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							  </div>
 							  <div class="btn-group" role="group" aria-label="Third group">
 							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
@@ -592,7 +602,8 @@
 							  </div>
 							</div>
 						  </div>
-						  <div class="tab-pane" id="list-5over10" role="tabpanel" aria-labelledby="list-settings-list"><div id="fiveOverTenChart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						  <div class="tab-pane" id="usa-5over10" role="tabpanel" aria-labelledby="usa-settings-list">
+						  <div id="usa-fiveOverTenChart" class="chart-box" style="display: block; min-height: 365px;"></div>
 						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
@@ -600,9 +611,9 @@
 							  </div>
 							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
 							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
+							       <input id="dateFrom-usa-fiveOverTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
+							       <input id="dateTo-usa-fiveOverTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							  </div>
 							  <div class="btn-group" role="group" aria-label="Third group">
 							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
@@ -611,6 +622,264 @@
 							</div>
 						  </div>
 						</div>
+					    </div>
+					    <div class="collapse multi-collapse" id="multiCollapseExample2" data-parent="#countryContainer">
+					      <div class="card">
+					      <div class="list-group list-group-horizontal" id="germany-tab" role="tablist">
+						      <a class="list-group-item list-group-item-action" id="germany-10YRyLD-list" data-toggle="list" href="#germany-10YRyLD" role="tab" aria-controls="10yrYLD"  onclick="drawGraph(2,'yield','10yr','german-chart','German 10-yr Benchmark YIELD',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">10yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="germany-5yrYLD-list" data-toggle="list" href="#germany-5YRyLD" role="tab" aria-controls="5yrYLD"  onclick="drawGraph(2,'yield','5yr','german-fiveFactorchart','German 5-yr Benchmark YIELD',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">5yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="germany-2yrYLD-list" data-toggle="list" href="#germany-2YRyLD" role="tab" aria-controls="2yrYLD"  onclick="drawGraph(2,'yield','2yr','german-TwoFactorchart','German 2-yr Benchmark YIELD',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">2yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="germany-2s10sCurve-list" data-toggle="list" href="#germany-2over10" role="tab" aria-controls="2s10sCurve" onclick="drawGraph(2,'curve','2over10','german-twoOvertTenChart','German 2\'s/10\'s yield CURVE',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">2s/10s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="germany-2s5sCurve-list" data-toggle="list" href="#germany-2over5" role="tab" aria-controls="2s5sCurve" onclick="drawGraph(2,'curve','2over5','german-twoOverFiveChart','German 2\'s/5\'s yield CURVE',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">2s/5s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="germany-5s10sCurve-list" data-toggle="list" href="#germany-5over10" role="tab" aria-controls="5s10sCurve" onclick="drawGraph(2,'curve','5over10','german-fiveOverTenChart','German 5\'s/10\'s yield CURVE',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">5s/10s Curve</a>
+						    </div>
+					      </div>
+					       <div class="tab-content" id="nav-tabContent">
+						  <div class="tab-pane" id="germany-10YRyLD" role="tabpanel" aria-labelledby="germany-10yr-list">
+						  <div id="german-chart" class="chart-box" style="display: block; min-height: 365px;"></div>
+					 	       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-german-chart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-german-chart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						  <div class="tab-pane" id="germany-5YRyLD" role="tabpanel" aria-labelledby="germany-profile-list">
+						  <div id="german-fiveFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input  id="dateFrom-german-fiveFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-german-fiveFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						  <div class="tab-pane" id="germany-2YRyLD" role="tabpanel" aria-labelledby="germany-messages-list">
+						  <div id="german-TwoFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-german-TwoFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-german-TwoFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						  <div class="tab-pane" id="germany-2over10" role="tabpanel" aria-labelledby="germany-settings-list">
+						   <div id="german-twoOvertTenChart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-german-twoOvertTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-german-twoOvertTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						  <div class="tab-pane" id="germany-2over5" role="tabpanel" aria-labelledby="germany-settings-list">
+						  <div id="german-twoOverFiveChart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-german-twoOverFiveChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-german-twoOverFiveChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						  <div class="tab-pane" id="germany-5over10" role="tabpanel" aria-labelledby="germany-settings-list">
+						  <div id="german-fiveOverTenChart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-german-fiveOverTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-german-fiveOverTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					    </div>
+					    <div class="collapse multi-collapse" id="multiCollapseExample3" data-parent="#countryContainer">
+					      <div class="card">
+					      <div class="list-group list-group-horizontal" id="france-tab" role="tablist">
+						      <a class="list-group-item list-group-item-action" id="france-10YRyLD-list" data-toggle="list" href="#france-10YRyLD" role="tab" aria-controls="10yrYLD"  onclick="drawGraph(3,'yield','10yr','france-chart','France 10-yr Benchmark YIELD',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">10yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="france-5yrYLD-list" data-toggle="list" href="#france-5YRyLD" role="tab" aria-controls="5yrYLD"  onclick="drawGraph(3,'yield','5yr','france-fiveFactorchart','France 5-yr Benchmark YIELD',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">5yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="france-2yrYLD-list" data-toggle="list" href="#france-2YRyLD" role="tab" aria-controls="2yrYLD"  onclick="drawGraph(3,'yield','2yr','france-TwoFactorchart','France 2-yr Benchmark YIELD',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">2yr YLD</a>
+						      <a class="list-group-item list-group-item-action" id="france-2s10sCurve-list" data-toggle="list" href="#france-2over10" role="tab" aria-controls="2s10sCurve" onclick="drawGraph(3,'curve','2over10','france-twoOvertTenChart','France 2\'s/10\'s yield CURVE',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">2s/10s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="france-2s5sCurve-list" data-toggle="list" href="#france-2over5" role="tab" aria-controls="2s5sCurve" onclick="drawGraph(3,'curve','2over5','france-twoOverFiveChart','France 2\'s/5\'s yield CURVE',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">2s/5s Curve</a>
+						      <a class="list-group-item list-group-item-action" id="france-5s10sCurve-list" data-toggle="list" href="#france-5over10" role="tab" aria-controls="5s10sCurve" onclick="drawGraph(3,'curve','5over10','france-fiveOverTenChart','France 5\'s/10\'s yield CURVE',formatDate(new Date().setMonth(new Date().getMonth() -1)),formatDate(new Date()))">5s/10s Curve</a>
+						    </div>
+					      </div>
+					       <div class="tab-content" id="nav-tabContent">
+						  <div class="tab-pane" id="france-10YRyLD" role="tabpanel" aria-labelledby="france-10yr-list">
+						  <div id="france-chart" class="chart-box" style="display: block; min-height: 365px;"></div>
+					 	       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-france-chart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-france-chart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						  <div class="tab-pane" id="france-5YRyLD" role="tabpanel" aria-labelledby="france-profile-list">
+						  <div id="france-fiveFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-france-fiveFactorchart"  type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-france-fiveFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						  <div class="tab-pane" id="france-2YRyLD" role="tabpanel" aria-labelledby="france-messages-list">
+						  <div id="france-TwoFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-france-TwoFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-france-TwoFactorchart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						  <div class="tab-pane" id="france-2over10" role="tabpanel" aria-labelledby="france-settings-list"> 
+						  <div id="france-twoOvertTenChart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-france-twoOvertTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-france-twoOvertTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						  <div class="tab-pane" id="france-2over5" role="tabpanel" aria-labelledby="france-settings-list">
+						  <div id="france-twoOverFiveChart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-france-twoOverFiveChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-france-twoOverFiveChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						  <div class="tab-pane" id="france-5over10" role="tabpanel" aria-labelledby="france-settings-list"><div id="france-fiveOverTenChart" class="chart-box" style="display: block; min-height: 365px;"></div>
+						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-france-fiveOverTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateFrom-france-fiveOverTenChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
+								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
+						</div>
+					    </div>
+					    </div>
+					   
 					  </div>
 					</div>
 					 </div>
@@ -694,7 +963,30 @@
   <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
   <script src="/js/apexcharts.js"></script>
   <script>
+  
+  var monthDate=new Date(); 
+  monthDate.setMonth(monthDate.getMonth() - 1);
+  
+  var date=new Date();
   $(document).ready(function () { 
+	  $("#button-usa-10yr-chart-yearForward").prop('disabled', true); 
+	  $("#button-usa-10yr-chart-monthForward").prop('disabled', true); 
+	  
+	  $("#usa").click(function() {
+		  $("#usa").addClass("selected-country");
+		  $("#germany").removeClass("selected-country");
+		  $("#france").removeClass("selected-country");
+		});
+	  $("#germany").click(function() {
+		  $("#usa").removeClass("selected-country");
+		  $("#germany").addClass("selected-country");
+		  $("#france").removeClass("selected-country");
+		});
+	  $("#france").click(function() {
+		  $("#usa").removeClass("selected-country");
+		  $("#germany").removeClass("selected-country");
+		  $("#france").addClass("selected-country");
+		});
 	  var dropDownSource = [
           "T-1",
           "T-5",
@@ -707,20 +999,98 @@
 	  $("#timeperiod").jqxDropDownList({ source: dropDownSource, theme:'dark', selectedIndex: 0, width: '100',dropDownHeight:'220px', height: '30px'});
       $("#update").jqxButton({ theme: 'dark',height:30,width:74  });
       $("#update").click(function () {
+    	  debugger;
     	  var items = document.getElementsByClassName("list-group-item active");
-    	  items[0].onclick()
+    	  for (i = 0; i < items.length; i++) {
+    	  items[i].onclick();
+    	  }
       });
 	  $("#plotUnderline").jqxCheckBox({  theme:'dark', width: 120, height: 25, checked: false});
 	
   });
+  
+		  function formatDate(date) {
+			    var d = new Date(date),
+			        month = '' + (d.getMonth() + 1),
+			        day = '' + d.getDate(),
+			        year = d.getFullYear();
+		
+			    if (month.length < 2) 
+			        month = '0' + month;
+			    if (day.length < 2) 
+			        day = '0' + day;
+		
+			    return [year, month, day].join('-');
+			}
+		  function checkDateMonth(monthDate,date)
+		  {    var d = new Date(monthDate);
+			   d.setMonth(monthDate.getMonth() + 1);
+			   
+			   if(d<date)
+				   return true;
+			   else
+				   return false;
+		  }
+		  function checkDateYear(monthDate,date)
+		  {    var d = new Date(monthDate);
+			   d.setFullYear(monthDate.getFullYear() + 1);
+			   
+			   if(d<date)
+				   return true;
+			   else
+				   return false;
+		  }
 			$(function (){
 				$('.simple-marquee-container').SimpleMarquee();
 			});
-	
-			function drawGraph(subgroupId,factor,chartId,title){
+			function navigationGraph(subgroupId,value,factor,chartId,title,condition){
+				
+				if(condition=="yearBackward")
+				{ 
+				monthDate.setFullYear(monthDate.getFullYear() - 1);
+				drawGraph(subgroupId,value,factor,chartId,title,formatDate(monthDate),formatDate(date));
+				}else
+					if(condition=="monthBackward")
+				  {   
+				    monthDate.setMonth(monthDate.getMonth() - 1);
+					drawGraph(subgroupId,value,factor,chartId,title,formatDate(monthDate),formatDate(date));
+					}
+					else
+						if(condition=="monthForward")
+					  {   
+					    monthDate.setMonth(monthDate.getMonth() + 1);
+					    drawGraph(subgroupId,value,factor,chartId,title,formatDate(monthDate),formatDate(date));
+						}
+						else
+							if(condition=="yearForward")
+						  {   
+							monthDate.setFullYear(monthDate.getFullYear() + 1);
+							drawGraph(subgroupId,value,factor,chartId,title,formatDate(monthDate),formatDate(date));
+							}
+
+					if   (checkDateMonth(monthDate,date))
+					   {
+						  $("#button-"+chartId+"-monthForward").prop('disabled', false);
+						}
+						else
+						{
+							$("#button-"+chartId+"-monthForward").prop('disabled', true);
+						}
+					
+					if   (checkDateYear(monthDate,date))
+					   {
+						  $("#button-"+chartId+"-yearForward").prop('disabled', false);
+						}
+						else
+						{
+							$("#button-"+chartId+"-yearForward").prop('disabled', true);
+						} 
+			}
+			function drawGraph(subgroupId,value,factor,chartId,title,fromdate,todate){
 				
 				var title;
 				$("#"+chartId).html("");
+				
 				var checked = $('#plotUnderline').jqxCheckBox('checked'); 
 		    	  if (checked) {
 
@@ -776,22 +1146,22 @@
 			        };
 
 			        var dataParam = { 
-					        		"yieldCurveCross" : "yield",
-					        		"fromdate":"2010-10-06",
-					        		"todate":"2021-10-06",
-					        		"factor":"2",
-					        		"country":"2"
+					        		"yieldCurveCross" : value,
+					        		"fromdate":fromdate,
+					        		"todate":todate,
+					        		"factor":factor,
+					        		"country":subgroupId
 		                			};
 			        
 			  	       	  $.ajax({
-			  	       	        type: "GET",
+			  	       	        type: "POST",
 		      	    	        contentType:  "application/json; charset=utf-8",
-		      	    	        url: "https://bourseproject.herokuapp.com/bourse/getgraphdata",
+		      	    	        url: "/bourse/getgraphdata",
 		      	    	        data: JSON.stringify(dataParam),
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	        	debugger;
+		      	    	        
 		      	    	          chart.updateSeries([{
 							          name: '',
 							          type: 'column',
@@ -809,17 +1179,6 @@
 		      	    	        }
 		      	    	    });	
 			        var chart = new ApexCharts(document.querySelector("#"+chartId+""), options);
-			     /*    $.getJSON('/bourse/findgraphdatabysubroupidandfactor/2/'+factor, function(response) {
-			              chart.updateSeries([{
-					          name: '',
-					          type: 'column',
-					          data: response
-					        }, {
-					          name: '',
-					          type: 'line',
-					          data: response
-					        }])
-		              });  */
 			        chart.render();
 				}
 				else{
@@ -872,18 +1231,40 @@
 							        }]
 					              };
 
+						        var dataParam = { 
+								        		"yieldCurveCross" : value,
+								        		"fromdate":fromdate,
+								        		"todate":todate,
+								        		"factor":factor,
+								        		"country":subgroupId
+					                			};
+						        
+						  	       	  $.ajax({
+						  	       	        type: "POST",
+					      	    	        contentType:  "application/json; charset=utf-8",
+					      	    	        url: "/bourse/getgraphdata",
+					      	    	        data: JSON.stringify(dataParam),
+					      	    	        dataType: 'json',
+					      	    	        timeout: 600000,
+					      	    	        success: function (response) {
+					      	    	        
+					      	    	        	 chart.updateSeries([{
+										                name: 'value',
+										                data: response,
+										              }])
+					      	   },
+					      	    	        error: function (e) {
+					      	    	        	
+					      						  console.log("ERROR : ", e);
+					      	
+					      	    	        }
+					      	    	    });	
 					              var chart = new ApexCharts(document.querySelector("#"+chartId+""), options);
-					            
-					              
-					              $.getJSON('/bourse/findgraphdatabysubroupidandfactor/2/'+factor, function(response) {
-						              chart.updateSeries([{
-						                name: 'value',
-						                data: response,
-						              }])
-					              }); 
-					           
 					              chart.render();
 				              }
+		    	  
+		    	               $("#dateFrom-"+chartId).val(fromdate);
+		    	               $("#dateTo-"+chartId).val(todate);
 							}
 		
 		</script>
