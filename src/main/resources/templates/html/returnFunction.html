@@ -716,80 +716,7 @@
 			$(function (){
 				$('.simple-marquee-container').SimpleMarquee();
 			});
-			function  chartWithLine(chartId)
-			{
-				$("#chart").css("display","none");
-				$("#chartLine").css("display","block");
-				title='German 10-yr Benchmark YIELD';
-					
-				
-		        var options = {
-		          series: [],
-		          chart: {
-		          height: 300,
-		          type: 'line',
-		        },
-		        colors: ["#00b746", "#FFFFFF"],
-		        plotOptions: {
-	                bar: {
-	                  colors: {
-	                    ranges: [{
-	                      from: -1000,
-	                      to: 0,
-	                      color: '#ef403c'
-	                    },
-	                    {
-		                      from: 0,
-		                      to: 1000,
-		                      color: '#00b746'
-		                    }]
-	                  },
-	                  columnWidth: '80%',
-	                }
-	              },
-		        stroke: {
-		          width: [0, 4]
-		        },
-		        markers: {
-		            size: 6,
-		        },
-		        title: {
-		          text: title
-		        },
-		        dataLabels: {
-		          enabled: false
-		        },
-		        xaxis: {
-		          type: 'datetime'
-		        },
-		       /*  yaxis: [{
-		          title: {
-		            text: 'Website Blog',
-		          },
-		        
-		        }, {
-		          opposite: true,
-		          title: {
-		            text: 'Social Media'
-		          }
-		        }] */
-		        };
-
-		        var chart = new ApexCharts(document.querySelector("#"+chartId+""), options);
-		        $.getJSON('/bourse/findgraphdatabysubroupidandfactor/2/2', function(response) {
-		              chart.updateSeries([{
-				          name: '',
-				          type: 'column',
-				          data: response
-				        }, {
-				          name: '',
-				          type: 'line',
-				          data: response
-				        }])
-	              }); 
-		        chart.render();
-			}
-			
+	
 			function drawGraph(subgroupId,factor,chartId,title){
 				
 				var title;
@@ -848,8 +775,41 @@
 			        }]
 			        };
 
+			        var dataParam = { 
+					        		"yieldCurveCross" : "yield",
+					        		"fromdate":"2010-10-06",
+					        		"todate":"2021-10-06",
+					        		"factor":"2",
+					        		"country":"2"
+		                			};
+			        
+			  	       	  $.ajax({
+			  	       	        type: "GET",
+		      	    	        contentType:  "application/json; charset=utf-8",
+		      	    	        url: "https://bourseproject.herokuapp.com/bourse/getgraphdata",
+		      	    	        data: JSON.stringify(dataParam),
+		      	    	        dataType: 'json',
+		      	    	        timeout: 600000,
+		      	    	        success: function (response) {
+		      	    	        	debugger;
+		      	    	          chart.updateSeries([{
+							          name: '',
+							          type: 'column',
+							          data: response
+							        }, {
+							          name: '',
+							          type: 'line',
+							          data: response
+							        }])
+		      	   },
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    });	
 			        var chart = new ApexCharts(document.querySelector("#"+chartId+""), options);
-			        $.getJSON('/bourse/findgraphdatabysubroupidandfactor/2/'+factor, function(response) {
+			     /*    $.getJSON('/bourse/findgraphdatabysubroupidandfactor/2/'+factor, function(response) {
 			              chart.updateSeries([{
 					          name: '',
 					          type: 'column',
@@ -859,7 +819,7 @@
 					          type: 'line',
 					          data: response
 					        }])
-		              }); 
+		              });  */
 			        chart.render();
 				}
 				else{
