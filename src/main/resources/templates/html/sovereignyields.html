@@ -747,7 +747,22 @@
 	</div> 
 	</div>
 	</div>
-	
+		<div id="alertDate-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        Please Select a date smaller then Today's date.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
 
 	<div id="alert-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm">
@@ -765,6 +780,7 @@
 		    </div>
 		  </div>
 	 </div>
+	 
              <div id="grid">
            </div> 
            <div id="popupWindow" style="display:none;">
@@ -1504,6 +1520,7 @@
 	   		  
             });
             $("#loadData").click(function () {
+            	var date = new Date();
             	var dataToBeInserted = [];
             	var usaObject=["1"];
             	var germanyObject=["2"];
@@ -1536,8 +1553,8 @@
             			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
             			});
             	 }
-            	 
-           	  $.ajax({
+            	 if($("#dateInput").jqxDateTimeInput('getDate')<date)
+           	     {$.ajax({
 	    	        contentType: "application/json",
 	    	        url: "/bourse/checkifcansave/"+$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
 	    	        dataType: 'json',
@@ -1585,7 +1602,10 @@
 	
 	    	        }
 	    	    });
-            
+           	     }
+            	 else {
+            		 $('#alertDate-modal').modal('show'); 
+            	 }
              });
           
             
