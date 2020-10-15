@@ -185,6 +185,14 @@ public class BourseController {
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	
+	@GetMapping(value = "checkifcansave/{referDate}")
+	public ResponseEntity<Boolean> CheckIfCanSave(@PathVariable String referDate) 
+	{
+	
+		boolean checkifcanSave= sovereignYieldsService.CheckIfCanSave(referDate);
+		return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
+	}
+	
 	
 	
 	@DeleteMapping(value = "deletesovereignbyid/{id}")

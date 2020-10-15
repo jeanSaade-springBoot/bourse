@@ -179,5 +179,12 @@ public class SovereignYieldsService
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation");
 		query.execute();
 	}
+	
+	public boolean CheckIfCanSave(String referDate)
+	{
+		long cnt = sovereignYieldsRepository.countByReferDate(referDate);
+		boolean returnvalue = (cnt == 0) ? true : false;
+		return returnvalue;
+	}
 
 }

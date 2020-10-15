@@ -12,6 +12,7 @@ import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
 public interface SovereignYieldsRepository extends JpaRepository<SovereignData, Long> {
 	
+	public long countByReferDate(String referDate);
 	public SovereignData findById(long id);
 	public List<SovereignData> findSovereignBysubgroupId(long subGroupId);
 	public List<SovereignData> findSovereignByReferDate(String referDate);
