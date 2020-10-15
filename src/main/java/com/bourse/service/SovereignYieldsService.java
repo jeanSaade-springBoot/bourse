@@ -173,5 +173,11 @@ public class SovereignYieldsService
 		List<GraphResponseDTO> graphResponseDTO = (List<GraphResponseDTO>) query.getResultList();
 		return graphResponseDTO; 
 	}
+	
+	public void doCaclulation()
+	{
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation");
+		query.execute();
+	}
 
 }

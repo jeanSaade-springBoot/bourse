@@ -109,11 +109,14 @@ public class BourseController {
 	    	 sovereignDataList.add(sovereignData);
 	     }
 	     sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
+	     sovereignYieldsService.doCaclulation();
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 	@PostMapping(value = "savesovereigndata")
     public List<SovereignData>  saveSovereignData(@RequestBody List<SovereignData> sovereignDataList){
-	  return sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
+	    List<SovereignData> sovereignDataLst= sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
+	  sovereignYieldsService.doCaclulation();
+	  return sovereignDataLst;
     }
 	
 
@@ -178,6 +181,7 @@ public class BourseController {
 	{
 	
 		sovereignYieldsService.updateAuditData(updateDataDTOlst);
+		sovereignYieldsService.doCaclulation();
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	
@@ -228,6 +232,12 @@ public class BourseController {
 	@PostMapping(value = "getgraphdata")
 	public ResponseEntity<List<GraphResponseDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
+	} 
+	
+	@PostMapping(value = "docalculation")
+	public ResponseEntity<Boolean> doCalculation() {
+		sovereignYieldsService.doCaclulation();
+	return new ResponseEntity<>(true,HttpStatus.OK);
 	} 
 	
 }
