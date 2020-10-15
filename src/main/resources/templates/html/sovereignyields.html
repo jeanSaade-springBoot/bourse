@@ -1622,37 +1622,37 @@
 					 	dataToBeUpdated.push({
 	         			   "subgroupId":"1",
 	         			   "value":updatedData.usa,
-	         			   "factor":updatedData.factor,
+	         			   "fatcor":updatedData.factor,
 	         			   "referdate": date
 	         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"2",
 		         			   "value":updatedData.germany,
-		         			   "factor":updatedData.factor,
+		         			   "fatcor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"3",
 		         			   "value":updatedData.france,
-		         			   "factor":updatedData.factor,
+		         			   "fatcor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"4",
 		         			   "value":updatedData.uk,
-		         			   "factor":updatedData.factor,
+		         			   "fatcor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"5",
 		         			   "value":updatedData.italy,
-		         			   "factor":updatedData.factor,
+		         			   "fatcor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"6",
 		         			   "value":updatedData.spain,
-		         			   "factor":updatedData.factor,
+		         			   "fatcor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						
@@ -1660,14 +1660,23 @@
 		      	       	  $.ajax({
 		      	    	        type: "POST",
 		      	    	        contentType: "application/json",
-		      	    	        url: "/bourse/updatethirteeyrfactorsovereignbysubgroupidanddate",
+		      	    	        url: "/bourse/updateauditdata",
 		      	    	        data: JSON.stringify(dataToBeUpdated),
 		      	    	        dataType: 'json',
 		      	    	        async:true,
 		      	    	        cache: false,
 		      	    	        timeout: 600000,
 		      	    	        success: function (data) {
-		      	    	        alert("hi")
+		      	    	       // alert("hi")
+		      	    	        	 delete curvesGridSource.localdata;
+		      					    curvesGridSource.url='/bourse/getcurvedata/'+date;
+		      						 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+		      						 $('#curvesGrid').jqxGrid({source:dataAdapter});
+		      						 
+		      						 delete crossesGridSource.localdata;
+		      						 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
+		      						 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+		      						 $('#crossesGrid').jqxGrid({source:dataAdapter});
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
