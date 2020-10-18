@@ -575,64 +575,18 @@
      <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
   	 <div class="card-body">
 		<div class="row">
-		 <div class="col-2">
+	<!-- 	 <div class="col-2">
 	     <div id='USATree'></div>
-		 </div>
+		 </div> -->
 	     <div class="col-2">
-	          <div id='GermanyTree' style='visibility: hidden; '>
-                <ul>
-                   <li item-checked='false' >Germany
-                        <ul>
-                            <li>YIELDS
-                                <ul>
-                                    <li>30Y</li>
-                                    <li>10Y</li>
-                                    <li>5Y</li>
-                                    <li>2Y</li>
-                                </ul>
-                            </li>
-                            <li>CURVES
-                                <ul>
-                                    <li>2's/5's</li>
-                                    <li>2's/10's</li>
-                                    <li>5's/10's</li>
-                                    <li>5's/30's</li>
-									<li>10's/30's</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+	          <div id='GermanyTree'>
             </div>
 	     </div>
 	     <div class="col-2">
-	              <div id='FranceTree' style='visibility: hidden; '>
-                <ul>
-                   <li item-checked='false' >France
-                        <ul>
-                            <li>YIELDS
-                                <ul>
-                                    <li>30Y</li>
-                                    <li>10Y</li>
-                                    <li>5Y</li>
-                                    <li>2Y</li>
-                                </ul>
-                            </li>
-                            <li>CURVES
-                                <ul>
-                                    <li>2's/5's</li>
-                                    <li>2's/10's</li>
-                                    <li>5's/10's</li>
-                                    <li>5's/30's</li>
-									<li>10's/30's</li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </li>
-                </ul>
+	              <div id='FranceTree'>
             </div>
 	     </div>
-	     <div class="col-2">
+	    <!--  <div class="col-2">
 	         <div id='UKTree' style='visibility: hidden; '>
                 <ul>
                    <li item-checked='false' >UK
@@ -712,7 +666,7 @@
                     </li>
                 </ul>
             </div>
-	     </div>
+	     </div> -->
 		</div>
 		<div class="col-12 mt-4">
 			<h6 class="mb-0">
@@ -721,7 +675,7 @@
 	      	<div class="row mt-2">
 		      	<div id='jqxCheckBoxFRA-GER' style='margin-left: 10px; float: left;'>
 	                FRA-GER</div>
-	            <div id='jqxCheckBoxITA-GER' style='margin-left: 10px; float: left;'>
+	          <!--   <div id='jqxCheckBoxITA-GER' style='margin-left: 10px; float: left;'>
 	                <span>ITA-GER</span></div>
 	            <div id='jqxCheckBoxSPN-GER' style='margin-left: 10px; float: left;'>
 	                <span>SPN-GER</span></div>
@@ -734,7 +688,7 @@
 	                <div id='jqxCheckBoxITA-FRA' style='margin-left: 10px; float: left;'>
 	                ITA-FRA</div>
 	            <div id='jqxCheckBoxITA-SPN' style='margin-left: 10px; float: left;'>
-	                <span>ITA-SPN</span></div>
+	                <span>ITA-SPN</span></div> -->
 	      	</div>
 		</div>
 		<div class="row">
@@ -1017,6 +971,59 @@
         		 "spn_GER": ""
         		 }
         		 ];
+      	 var germanyTreeData = [
+    		   {
+    			   "id": "1",
+    			   "parentid": "-1",
+    			   "text": "Germany",
+    			  "value": ""
+    			},
+    			 {
+    			   "id": "2",
+    			   "parentid": "1",
+    			   "text": "YIELDS",
+    			  "value": ""
+    			},
+                {   "id": "3",
+                    "parentid": "2",
+                    "text": "30Y",
+                    "value": "yield-30"
+                }, {
+                   "id": "4",
+                    "parentid": "2",
+                    "text": "10Y",
+                    "value": "yield-10"
+                }
+                ,  {
+                    "id": "7",
+                    "parentid": "1",
+                    "text": "CURVES",
+                    "value": ""
+                }, {
+                    "id": "8",
+                    "parentid": "7",
+                    "text": "2's/5's",
+                    "value": "curve-2/5"
+                    }];
+      	var franceTreeData = [
+  		   {
+  			   "id": "1",
+  			   "parentid": "-1",
+  			   "text": "France",
+  			  "value": ""
+  			}
+  		   ,{
+                  "id": "7",
+                  "parentid": "1",
+                  "text": "CURVES",
+                  "value": ""
+              }, {
+                  "id": "8",
+                  "parentid": "7",
+                  "text": "2's/5's",
+                  "value": "curve-2/5"
+                  }];
+      	
     	 var usaTreeData = [
   		   {
   			   "id": "1",
@@ -1076,13 +1083,13 @@
 			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
 			 
 			 $("#jqxCheckBoxFRA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
-			 $("#jqxCheckBoxITA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
+/* 			 $("#jqxCheckBoxITA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
 			 $("#jqxCheckBoxSPN-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
 			 $("#jqxCheckBoxUK-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
 			 $("#jqxCheckBoxUSA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
 			 $("#jqxCheckBoxUSA-UK").jqxCheckBox({ theme:'dark', width: 120, height: 25});
 			 $("#jqxCheckBoxITA-FRA").jqxCheckBox({ theme:'dark', width: 120, height: 25});
-			 $("#jqxCheckBoxITA-SPN").jqxCheckBox({ theme:'dark', width: 120, height: 25});
+			 $("#jqxCheckBoxITA-SPN").jqxCheckBox({ theme:'dark', width: 120, height: 25}); */
 			 
 			 $('#dateInputAudit').on('change', function (event) 
 				 {   date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
@@ -1110,7 +1117,7 @@
 	            $("#CancelData").jqxButton({ theme: 'dark',height:30,width:74  });
 	            $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
 	          
-	            var usaTreesource =
+	         /*    var usaTreesource =
                 {
                     datatype: "json",
                     datafields: [
@@ -1126,17 +1133,47 @@
 	            usadataAdapter.dataBind();
 	            var usarecords = usadataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
                 $('#USATree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: usarecords, width: '100%'});
-                
-	            $('#GermanyTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
-	            $('#GermanyTree').css('visibility', 'visible');
-	            $('#FranceTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
-	            $('#FranceTree').css('visibility', 'visible');
-	            $('#UKTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
+               */
+                var germanyTreesource =
+                {
+                    datatype: "json",
+                    datafields: [
+                        { name: 'id' },
+                        { name: 'parentid' },
+                        { name: 'text' },
+                        { name: 'value' }
+                    ],
+                    id: 'id',
+                    localdata: germanyTreeData
+                };  
+                var germanydataAdapter = new $.jqx.dataAdapter(germanyTreesource);
+                germanydataAdapter.dataBind();
+	            var germanyrecords = germanydataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
+	            $('#GermanyTree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: germanyrecords, width: '100%'});
+	              
+	            var franceTreesource =
+                {
+                    datatype: "json",
+                    datafields: [
+                        { name: 'id' },
+                        { name: 'parentid' },
+                        { name: 'text' },
+                        { name: 'value' }
+                    ],
+                    id: 'id',
+                    localdata: franceTreeData
+                };  
+                var francedataAdapter = new $.jqx.dataAdapter(franceTreesource);
+                francedataAdapter.dataBind();
+	            var francerecords = francedataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
+	            $('#FranceTree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: francerecords, width: '100%'});
+	              
+	          /*    $('#UKTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
 	            $('#UKTree').css('visibility', 'visible');
 	            $('#ItalyTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
 	            $('#ItalyTree').css('visibility', 'visible');
 	            $('#SpainTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
-	            $('#SpainTree').css('visibility', 'visible');
+	            $('#SpainTree').css('visibility', 'visible'); */
 			  auditGridSource =
 	            {    
 	            localdata:auditDefaultData,
@@ -1473,25 +1510,73 @@
             $("#filter").click(function () {
             	debugger;
             	var jsonfilter=[];
+            	var allItems=[];
             	var json=[];
             	var gridColumns = [];
-            	var itemsUsa = $('#USATree').jqxTree('getCheckedItems');
-            	for (i = 0; i < itemsUsa.length; i++) {
-            		if(itemsUsa[i].value!="")
-            		jsonfilter.push(itemsUsa[i].value);
+            	var yields=[];
+            	var curves=[];
+            	var itemsGermany = $('#GermanyTree').jqxTree('getCheckedItems');
+            	var itemsFrance = $('#FranceTree').jqxTree('getCheckedItems');
+            	
+            	for (i = 0; i < itemsGermany.length; i++) {
+            		if(itemsGermany[i].value!="")
+           			{
+            			if(itemsGermany[i].value.split("-")[0]=="yield")
+            				yields.push(itemsGermany[i].value.split("-")[1]);
+            			else
+            			if(itemsGermany[i].value.split("-")[0]=="curve")
+            				curves.push(itemsGermany[i].value.split("-")[1]);
+           			allItems.push(itemsGermany[i].value);
+           			}
             	}
+            	if(itemsGermany.length>0)
+            	{
+            		jsonfilter.push({
+            		   "country":"Germany",
+         			   "yield":yields,
+         			   "curve":curves
+         			});
+            		 yields=[];
+                	 curves=[];
+            	}
+            	for (i = 0; i < itemsFrance.length; i++) {
+            		if(itemsFrance[i].value!="")
+           			{
+            			if(itemsFrance[i].value.split("-")[0]=="yield")
+            				yields.push(itemsFrance[i].value.split("-")[1]);
+            			else
+            			if(itemsFrance[i].value.split("-")[0]=="curve")
+            				curves.push(itemsFrance[i].value.split("-")[1]);
+           			allItems.push(itemsFrance[i].value);
+           			}
+            	}
+            	if(itemsFrance.length>0)
+            	{
+            		jsonfilter.push({
+            		   "country":"France",
+         			   "yield":yields,
+         			   "curve":curves
+         			});
+            		 yields=[];
+                	 curves=[];
+            	}
+            	
             	if($('#jqxCheckBoxFRA-GER').jqxCheckBox('checked')==true)
-            		jsonfilter.push("FRA-GER");
-            	if($('#jqxCheckBoxITA-GER').jqxCheckBox('checked')==true)
+            		jsonfilter.push({
+            			"country":"cross",
+            			"FRA-GER":2
+         			});
+         		   allItems.push("FRA-GER");	
+            	/* if($('#jqxCheckBoxITA-GER').jqxCheckBox('checked')==true)
             		jsonfilter.push("ITA-GER");
             	if($('#jqxCheckBoxSPN-GER').jqxCheckBox('checked')==true)
-            		jsonfilter.push("SPN-GER");
+            		jsonfilter.push("SPN-GER"); */
             	
-            	for (j = 0; j < jsonfilter.length; j++) {
+            	for (j = 0; j < allItems.length; j++) {
             		gridColumns.push({
-         			   "text":jsonfilter[j],
-         			   "datafield":jsonfilter[j],
-         			   "width":(jsonfilter.length < 10) ?  100/jsonfilter.length+"%" : "10%"
+         			   "text":allItems[j],
+         			   "datafield":allItems[j],
+         			   "width":(allItems.length < 10) ?  100/allItems.length+"%" : "10%"
          			});
             	}
             	debugger;
@@ -1503,20 +1588,20 @@
             
             $("#Clearfilter").click(function () {
              $("#jqxCheckBoxFRA-GER").jqxCheckBox({checked: false });
-   			 $("#jqxCheckBoxITA-GER").jqxCheckBox({ checked: false });
+   		/* 	 $("#jqxCheckBoxITA-GER").jqxCheckBox({ checked: false });
    			 $("#jqxCheckBoxSPN-GER").jqxCheckBox({checked: false });
    			 $("#jqxCheckBoxUK-GER").jqxCheckBox({checked: false });
    			 $("#jqxCheckBoxUSA-GER").jqxCheckBox({ checked: false });
    			 $("#jqxCheckBoxUSA-UK").jqxCheckBox({checked: false });
    			 $("#jqxCheckBoxITA-FRA").jqxCheckBox({ checked: false });
-   			 $("#jqxCheckBoxITA-SPN").jqxCheckBox({ checked: false });
+   			 $("#jqxCheckBoxITA-SPN").jqxCheckBox({ checked: false }); */
    		    
-   		     $('#USATree').jqxTree('uncheckAll');
-   		     $('#GermanyTree').jqxTree('uncheckAll');
+   		     //$('#USATree').jqxTree('uncheckAll');
+   		      $('#GermanyTree').jqxTree('uncheckAll');
 	   		  $('#FranceTree').jqxTree('uncheckAll');
-	   		  $('#UKTree').jqxTree('uncheckAll');
+	   		/*   $('#UKTree').jqxTree('uncheckAll');
 	   		  $('#ItalyTree').jqxTree('uncheckAll');
-	   		  $('#SpainTree').jqxTree('uncheckAll');
+	   		  $('#SpainTree').jqxTree('uncheckAll'); */
 	   		  
             });
             $("#loadData").click(function () {
