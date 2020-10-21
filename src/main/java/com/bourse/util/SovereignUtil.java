@@ -3,10 +3,18 @@ package com.bourse.util;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SovereignDataCorrected;
+import com.bourse.dto.QueryColumnsDTO;
+import com.bourse.dto.SearchFilterDTO;
+import com.bourse.dto.SovereignYiledCurveSearchDTO;
+import com.bourse.dto.SoveriegnCrossSearchDTO;
+import com.bourse.enums.CrossCountryEnum;
+import com.bourse.enums.CurvesEnum;
+import com.bourse.enums.SubGroupEnum;
 
 public class SovereignUtil {
 	
@@ -114,6 +122,138 @@ public class SovereignUtil {
 		originalObject.setYieldValueUK(sovereignData.getYieldValueUK());
 		originalObject.setYieldValueUSA(sovereignData.getYieldValueUSA());
 		return originalObject;
+	}
+	
+	
+	public static QueryColumnsDTO buildDynamicGridQuery(SearchFilterDTO searchFilterDTO)
+	{
+
+		 
+		 List<SovereignYiledCurveSearchDTO> sovereignYiledCurveSearchDTOlst =searchFilterDTO.getSovereignYiledCurveSearchDTOlst();
+		 List<SoveriegnCrossSearchDTO> soveriegnCrossSearchDTOlst =searchFilterDTO.getSovereignCrossSearchDTOlst();
+		 
+		 String fromDate = searchFilterDTO.getFromDate();
+		 String toDate = searchFilterDTO.getToDate();
+		 String forUsetables = "",forUseWhere = "",forUseSelect = "";
+		 String query ="",columName = "";
+		 int counter=1;
+		 int columnsId=1;
+		 HashMap<Integer,String>  colHash= new HashMap<Integer, String>();
+		 if(sovereignYiledCurveSearchDTOlst!=null)
+		 for( SovereignYiledCurveSearchDTO curveYieldInst :sovereignYiledCurveSearchDTOlst)
+		 {
+			 if(counter == 1)
+			 {
+				 forUseSelect = "select s"+counter+".refer_date ";
+				 colHash.put(columnsId, "refer_date");
+				 columnsId++;
+				 
+				 forUsetables = " From ";
+			 }
+			 
+			 if(curveYieldInst.getYieldLst()!=null)
+			 for(String yield : curveYieldInst.getYieldLst())
+			 {
+					 if(counter == 1)
+					 {
+						 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+						 		+ "\n            and '"+toDate+"' and s"+counter+".factor = '"+yield+"')\n";
+					 }
+					 else
+						 forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+					 		+ "\n          and '"+toDate+"' and s"+counter+".factor = '"+yield+"')\n";
+					 
+					 
+					 forUsetables = forUsetables + "bourse.tmp_audit_yields ";
+    				 forUsetables = forUsetables + " s"+counter+" ,";
+				 	 forUseSelect = forUseSelect+", \n"+ 
+					                         " s"+counter+"."+SubGroupEnum.getCountryBySubGroupID(curveYieldInst.getGroupId()) +
+							         " as '"+SubGroupEnum.getCountryBySubGroupID(curveYieldInst.getGroupId())+"_"+yield+"'";
+				 	colHash.put(columnsId, SubGroupEnum.getCountryBySubGroupID(curveYieldInst.getGroupId())+"_"+yield);
+				 	 columnsId++;
+					 
+					 counter = counter+1;	 
+			 }
+			 
+			 if(curveYieldInst.getCurveLst()!=null)
+			 for(String curv : curveYieldInst.getCurveLst())
+			 {
+					 if(counter == 1)
+					 {
+						 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+						 		+ "\n            and '"+toDate+"' and s"+counter+".factor = '"+curv+"')\n";
+					 }
+					 else
+						 forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+					 		+ "\n          and '"+toDate+"' and s"+counter+".factor = '"+curv+"')\n";
+					 
+					 
+					 forUsetables = forUsetables + "bourse.tmp_audit_curve ";
+					 forUsetables = forUsetables + " s"+counter+" ,";
+					 forUseSelect = forUseSelect+", \n"+ " s"+counter+"."+SubGroupEnum.getCountryBySubGroupID(curveYieldInst.getGroupId()) +
+							         " as '"+SubGroupEnum.getCountryBySubGroupID(curveYieldInst.getGroupId())+"_"+curv+"'";
+					 colHash.put(columnsId, SubGroupEnum.getCountryBySubGroupID(curveYieldInst.getGroupId())+"_"+curv);
+					 columnsId++;
+					 counter = counter+1;	 
+			 }
+			 
+
+		 }
+		 
+		 if(soveriegnCrossSearchDTOlst!=null)
+		 for( SoveriegnCrossSearchDTO crossInst :soveriegnCrossSearchDTOlst)
+		 {
+			 if(counter == 1)
+			 {
+				 forUseSelect = "select  s"+counter+".refer_date ";
+				 colHash.put(columnsId, "refer_date");
+				 columnsId++;
+				 forUsetables = " From ";
+			 }
+			 if(crossInst.getCrossGroupValue()!=null)
+			 for(String yield : crossInst.getCrossGroupValue())
+			 {
+					 if(counter == 1)
+					 {
+						 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+						 		+ "\n            and '"+toDate+"' and s"+counter+".factor = '"+yield+"') \n";
+					 }
+					 else
+						 forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+					 		+ "\n          and '"+toDate+"' and s"+counter+".factor = '"+yield+"') \n";
+					 
+					 
+					 forUsetables = forUsetables + "bourse.tmp_audit_cross ";
+					 forUsetables = forUsetables + " s"+counter+" ,";
+					 forUseSelect = forUseSelect+", \n"+ " s"+counter+"."+CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId()) +
+							         " as '"+CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId())+"_"+yield+"'";
+					 colHash.put(columnsId, CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId())+"_"+yield);
+					 columnsId++;
+					 counter = counter+1;	 
+			 }
+			 
+			 
+
+		 }
+		 
+		 for(int i=1; i<counter;i++)
+		 {
+			 if(i<counter-1)
+				 forUseWhere = forUseWhere+"            and s"+i+".refer_date =  s"+(i+1)+".refer_date \n";
+		 }
+		 if(forUsetables.substring(forUsetables.length() - 1).equalsIgnoreCase(","))
+			 forUsetables = forUsetables.substring(0, forUsetables.length() - 1);
+		 
+		 colHash.put(columnsId,"id");
+		 query = forUseSelect+",(@row_number:=@row_number + 1) AS id \n"
+				 +forUsetables+", (SELECT @row_number:=0) AS t  \n"
+				 +forUseWhere;
+		 
+		 QueryColumnsDTO queryColumnsDTO = QueryColumnsDTO.builder()
+				 .colHash(colHash)
+				 .query(query)
+				 .build();
+		return queryColumnsDTO;
 	}
 
 }

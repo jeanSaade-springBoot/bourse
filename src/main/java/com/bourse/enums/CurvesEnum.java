@@ -15,5 +15,19 @@ public enum CurvesEnum {
 	    this.id              = id ;
 	    this.factor          = factor ;
 	  }
+	
+	public static String getCrossByID(int id) {
+        switch (id) {
+            case 1:
+                return TWO_OVER_FIVE.factor;
+            case 2:
+                return TWO_OVER_TEN.factor;
+            case 3:
+                return FIVE_OVER_TEN.factor;
+            case 4:
+                return TEN_OVER_THIRTEE.factor;
+        }
+        return OTHER.factor;
+    }
 
 }

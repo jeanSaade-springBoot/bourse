@@ -1,11 +1,16 @@
 package com.bourse.service;
 
 
+import java.sql.ResultSet;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,10 +27,14 @@ import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
+import com.bourse.dto.DynamicGridResultClassDTO;
 import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphResponseDTO;
+import com.bourse.dto.QueryColumnsDTO;
+import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.SovereignYieldsRepository;
+import com.bourse.util.SovereignUtil;
 
 @Service
 public class SovereignYieldsService 
@@ -151,11 +160,11 @@ public class SovereignYieldsService
 		return crossAuditProcedureDTO; 
 	}
 	
-	public List<GraphResponseDTO> getGraphData(GraphReqDTO graphReqDTO)
+	public List<List<GraphResponseDTO>> getGraphData(GraphReqDTO graphReqDTO)
 	{
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		query.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
-		query.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross() );
+		query.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross1() );
 		
 		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
 		query.setParameter("fromDate",graphReqDTO.getFromdate() );
@@ -164,14 +173,38 @@ public class SovereignYieldsService
 		query.setParameter("toDate",graphReqDTO.getTodate() );
 		
 		query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
-		query.setParameter("factor",graphReqDTO.getFactor() );
+		query.setParameter("factor",graphReqDTO.getFactor1() );
 		
 		query.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
-		query.setParameter("country",graphReqDTO.getCountry() );
+		query.setParameter("country",graphReqDTO.getCountry1() );
 		
 		query.execute();
-		List<GraphResponseDTO> graphResponseDTO = (List<GraphResponseDTO>) query.getResultList();
-		return graphResponseDTO; 
+		List<List<GraphResponseDTO>> l1 = new ArrayList<>();
+		
+		List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+		l1.add(graphResponseDTOlst1);
+		
+		if(graphReqDTO.getYieldCurveCross2()!=null)
+		{
+			query.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross2() );
+			
+			query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query.setParameter("factor",graphReqDTO.getFactor2() );
+			
+			query.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query.setParameter("country",graphReqDTO.getCountry2() );
+			query.execute();
+			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query.getResultList();
+			l1.add(graphResponseDTOlst2);
+		}
+		
+		return l1; 
 	}
 	
 	public void doCaclulation()
@@ -185,6 +218,75 @@ public class SovereignYieldsService
 		long cnt = sovereignYieldsRepository.countByReferDate(referDate);
 		boolean returnvalue = (cnt == 0) ? true : false;
 		return returnvalue;
+	}
+	
+	public HashMap<String,List> getGridData( SearchFilterDTO searchFilterDTO)
+	{
+		QueryColumnsDTO queryColumnsDTO = SovereignUtil.buildDynamicGridQuery(searchFilterDTO);
+		String queryStr = queryColumnsDTO.getQuery();
+		HashMap<Integer,String>  colHash= new HashMap<Integer, String>(); 
+		colHash = queryColumnsDTO.getColHash();
+	
+
+		String sql = "select s1.refer_date From bourse.tmp_audit_yields  s1 ";
+
+	
+		
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("GetDynnamicGridData");
+		query.registerStoredProcedureParameter("sqlQuery", String.class, ParameterMode.IN);
+		query.setParameter("sqlQuery",queryStr );
+		List<Object[]> lstdata = query.getResultList();
+
+		
+		int i=1;
+		HashMap<String,List> hashData = new HashMap<String, List>();
+		HashMap<String,String> hashRows = new HashMap<String, String>();
+		List lstRowsDt = new ArrayList<String>();
+		List lstRowsConfig = new ArrayList<String>();
+		int id=1;
+		for(Object[] obj : lstdata)
+		{ 
+			for(Object dataIter :obj)
+			{
+				System.out.println("i: "+i+" colHash.get(i): "+colHash.get(i)+" dataIter.toString(): "+dataIter.toString());
+				
+				if(colHash.get(i).equals("id"))
+					hashRows.put(colHash.get(i), String.valueOf(id));
+				else
+					hashRows.put(colHash.get(i), String.valueOf(dataIter));
+				i++;
+			}
+			lstRowsDt.add(hashRows);
+			hashRows = new HashMap<String, String>();
+			i=1;
+			id = id+1;
+		}
+		hashData.put("rows", lstRowsDt);
+		lstRowsConfig = buildColumns(colHash);
+		hashData.put("columns", lstRowsConfig);
+		return hashData;
+	}
+	
+	public List buildColumns(HashMap<Integer,String>  colHash)
+	{
+		Iterator it = colHash.entrySet().iterator();
+		HashMap<String,String> configColumns = new HashMap<String, String>(); 
+		List lstRowsDt = new ArrayList<String>();
+		HashMap<String,List> hashData = new HashMap<String, List>();
+		 while (it.hasNext()) {
+			    HashMap.Entry pair = (HashMap.Entry)it.next();
+			    String colsName = pair.getValue().toString();
+		        System.out.println(pair.getKey() + " = " + colsName);
+		        it.remove(); // avoids a ConcurrentModificationException
+		        configColumns.put("text",colsName);
+		        configColumns.put("datafield",colsName);
+		        configColumns.put("width","33.333333333333336%");
+		        lstRowsDt.add(configColumns);
+		        colsName = null;
+		        configColumns = new HashMap<String, String>(); 
+		    }
+		 hashData.put("columns", lstRowsDt);
+		return lstRowsDt;
 	}
 
 }

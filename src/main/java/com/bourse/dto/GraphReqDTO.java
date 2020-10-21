@@ -11,10 +11,15 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GraphReqDTO {
 	
-	private String country;
-	private String factor;
+	private String country1;
+	private String factor1;
+	private String yieldCurveCross1;
+	
+	private String country2;
+	private String factor2;
+	private String yieldCurveCross2;
+	
 	private String fromdate;
 	private String todate;
-	private String yieldCurveCross;
 
 }

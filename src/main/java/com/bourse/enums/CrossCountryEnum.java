@@ -19,5 +19,27 @@ public enum CrossCountryEnum {
 	    this.id              = id ;
 	    this.crossDesc          = crossDesc ;
 	  }
+	
+	public static String getCrossByID(int id) {
+        switch (id) {
+            case 1:
+                return FRA_GER.crossDesc;
+            case 2:
+                return ITA_GER.crossDesc;
+            case 3:
+                return SPN_GER.crossDesc;
+            case 4:
+                return UK_GER.crossDesc;
+            case 5:
+            	return USA_GER.crossDesc;
+            case 6:
+            	return USA_UK.crossDesc;
+            case 7:
+            	return ITA_FRA.crossDesc;
+            case 8:
+            	return ITA_SPN.crossDesc;
+        }
+        return OTHER.crossDesc;
+    }
 
 }

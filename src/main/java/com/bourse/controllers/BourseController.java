@@ -3,6 +3,7 @@ package com.bourse.controllers;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,12 @@ import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.DataInputDTO;
+import com.bourse.dto.DynamicGridResultClassDTO;
+import com.bourse.dto.DynamicGridRows;
 import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.PersonReqDTO;
+import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.service.PersonService;
 import com.bourse.service.SkewsService;
@@ -238,7 +242,7 @@ public class BourseController {
 	} 
 	
 	@PostMapping(value = "getgraphdata")
-	public ResponseEntity<List<GraphResponseDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
+	public ResponseEntity<List<List<GraphResponseDTO>>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
 	} 
 	
@@ -247,5 +251,11 @@ public class BourseController {
 		sovereignYieldsService.doCaclulation();
 	return new ResponseEntity<>(true,HttpStatus.OK);
 	} 
+	
+
+	@GetMapping(value = "getgriddata")
+	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody SearchFilterDTO searchFilterDTO) {
+		return new ResponseEntity<>(sovereignYieldsService.getGridData(searchFilterDTO),HttpStatus.OK);
+	}
 	
 }
