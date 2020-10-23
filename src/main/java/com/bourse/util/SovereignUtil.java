@@ -125,10 +125,9 @@ public class SovereignUtil {
 	}
 	
 	
-	public static QueryColumnsDTO buildDynamicGridQuery(SearchFilterDTO searchFilterDTO)
+	public static QueryColumnsDTO buildDynamicGridQuery(SearchFilterDTO searchFilterDTO,boolean onServer)
 	{
-
-		 
+		 String tableSchema = onServer==true?"":"bourse.";
 		 List<SovereignYiledCurveSearchDTO> sovereignYiledCurveSearchDTOlst =searchFilterDTO.getSovereignYiledCurveSearchDTOlst();
 		 List<SoveriegnCrossSearchDTO> soveriegnCrossSearchDTOlst =searchFilterDTO.getSovereignCrossSearchDTOlst();
 		 
@@ -164,7 +163,7 @@ public class SovereignUtil {
 					 		+ "\n          and '"+toDate+"' and s"+counter+".factor = '"+yield+"')\n";
 					 
 					 
-					 forUsetables = forUsetables + "bourse.tmp_audit_yields ";
+					 forUsetables = forUsetables + tableSchema+"tmp_audit_yields ";
     				 forUsetables = forUsetables + " s"+counter+" ,";
 				 	 forUseSelect = forUseSelect+", \n"+ 
 					                         " s"+counter+"."+SubGroupEnum.getCountryBySubGroupID(curveYieldInst.getGroupId()) +
@@ -188,7 +187,7 @@ public class SovereignUtil {
 					 		+ "\n          and '"+toDate+"' and s"+counter+".factor = '"+curv+"')\n";
 					 
 					 
-					 forUsetables = forUsetables + "bourse.tmp_audit_curve ";
+					 forUsetables = forUsetables + tableSchema+"tmp_audit_curve ";
 					 forUsetables = forUsetables + " s"+counter+" ,";
 					 forUseSelect = forUseSelect+", \n"+ " s"+counter+"."+SubGroupEnum.getCountryBySubGroupID(curveYieldInst.getGroupId()) +
 							         " as '"+SubGroupEnum.getCountryBySubGroupID(curveYieldInst.getGroupId())+"_"+curv+"'";
@@ -223,7 +222,7 @@ public class SovereignUtil {
 					 		+ "\n          and '"+toDate+"' and s"+counter+".factor = '"+yield+"') \n";
 					 
 					 
-					 forUsetables = forUsetables + "bourse.tmp_audit_cross ";
+					 forUsetables = forUsetables + tableSchema+"tmp_audit_cross ";
 					 forUsetables = forUsetables + " s"+counter+" ,";
 					 forUseSelect = forUseSelect+", \n"+ " s"+counter+"."+CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId()) +
 							         " as '"+CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId())+"_"+yield+"'";
@@ -247,7 +246,8 @@ public class SovereignUtil {
 		 colHash.put(columnsId,"id");
 		 query = forUseSelect+",(@row_number:=@row_number + 1) AS id \n"
 				 +forUsetables+", (SELECT @row_number:=0) AS t  \n"
-				 +forUseWhere;
+				 +forUseWhere
+				 +" order by STR_TO_DATE(s1.refer_date,'%d-%m-%Y') desc";
 		 
 		 QueryColumnsDTO queryColumnsDTO = QueryColumnsDTO.builder()
 				 .colHash(colHash)

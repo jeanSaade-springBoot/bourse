@@ -1,7 +1,6 @@
 package com.bourse.service;
 
 
-import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -10,29 +9,23 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
-import org.springframework.data.repository.query.Param;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 
 import com.bourse.domain.SovereignData;
 import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
-import com.bourse.dto.DynamicGridResultClassDTO;
 import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
+import com.bourse.repositories.ConfigurationRepository;
 import com.bourse.repositories.SovereignYieldsRepository;
 import com.bourse.util.SovereignUtil;
 
@@ -44,6 +37,9 @@ public class SovereignYieldsService
 	
 	@Autowired
 	SovereignYieldsRepository sovereignYieldsRepository;
+	
+	@Autowired
+	ConfigurationRepository configurationRepository;
 	
 	public List<SovereignData> getAllSovereignDatas()
 	{      
@@ -163,30 +159,15 @@ public class SovereignYieldsService
 	public List<List<GraphResponseDTO>> getGraphData(GraphReqDTO graphReqDTO)
 	{
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
-		query.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
-		query.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross1() );
-		
-		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
-		query.setParameter("fromDate",graphReqDTO.getFromdate() );
-		
-		query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
-		query.setParameter("toDate",graphReqDTO.getTodate() );
-		
-		query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
-		query.setParameter("factor",graphReqDTO.getFactor1() );
-		
-		query.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
-		query.setParameter("country",graphReqDTO.getCountry1() );
-		
-		query.execute();
+		StoredProcedureQuery query1 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		List<List<GraphResponseDTO>> l1 = new ArrayList<>();
-		
-		List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
-		l1.add(graphResponseDTOlst1);
-		
-		if(graphReqDTO.getYieldCurveCross2()!=null)
+		if(graphReqDTO.getYieldCurveCross1()!=null)
 		{
-			query.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross2() );
+			System.out.println(graphReqDTO.getYieldCurveCross1() +"\n"+
+					graphReqDTO.getFactor1()+"\n"+
+					graphReqDTO.getCountry1());
+			query.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross1() );
 			
 			query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
 			query.setParameter("fromDate",graphReqDTO.getFromdate() );
@@ -195,13 +176,45 @@ public class SovereignYieldsService
 			query.setParameter("toDate",graphReqDTO.getTodate() );
 			
 			query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
-			query.setParameter("factor",graphReqDTO.getFactor2() );
+			query.setParameter("factor",graphReqDTO.getFactor1() );
 			
 			query.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
-			query.setParameter("country",graphReqDTO.getCountry2() );
+			query.setParameter("country",graphReqDTO.getCountry1() );
+			
 			query.execute();
-			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query.getResultList();
+			
+			
+			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+			l1.add(graphResponseDTOlst1);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		if(graphReqDTO.getYieldCurveCross2()!=null)
+		{
+			System.out.println(graphReqDTO.getYieldCurveCross2() +"\n"+
+					graphReqDTO.getFactor2()+"\n"+
+					graphReqDTO.getCountry2());
+			
+			query1.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query1.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross2() );
+			
+			query1.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query1.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query1.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query1.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query1.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query1.setParameter("factor",graphReqDTO.getFactor2() );
+			
+			query1.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query1.setParameter("country",graphReqDTO.getCountry2() );
+			query1.execute();
+			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query1.getResultList();
 			l1.add(graphResponseDTOlst2);
+			entityManager.clear();
+			entityManager.close();
 		}
 		
 		return l1; 
@@ -222,16 +235,13 @@ public class SovereignYieldsService
 	
 	public HashMap<String,List> getGridData( SearchFilterDTO searchFilterDTO)
 	{
-		QueryColumnsDTO queryColumnsDTO = SovereignUtil.buildDynamicGridQuery(searchFilterDTO);
+        boolean onServer = isOnServer("live");
+		QueryColumnsDTO queryColumnsDTO = SovereignUtil.buildDynamicGridQuery(searchFilterDTO,onServer);
 		String queryStr = queryColumnsDTO.getQuery();
 		HashMap<Integer,String>  colHash= new HashMap<Integer, String>(); 
 		colHash = queryColumnsDTO.getColHash();
 	
 
-		String sql = "select s1.refer_date From bourse.tmp_audit_yields  s1 ";
-
-	
-		
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("GetDynnamicGridData");
 		query.registerStoredProcedureParameter("sqlQuery", String.class, ParameterMode.IN);
 		query.setParameter("sqlQuery",queryStr );
@@ -297,6 +307,12 @@ public class SovereignYieldsService
 		    }
 		 hashData.put("columns", lstRowsDt);
 		return lstRowsDt;
+	}
+	
+	public Boolean isOnServer(String env)
+	{
+		long l=1;
+		return configurationRepository.countByEnvironement(env)==l?true:false;
 	}
 
 }
