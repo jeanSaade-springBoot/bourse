@@ -17,8 +17,8 @@
   <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
   <link href="/css/jqx.dark.css" rel="stylesheet">
   <style>
-  .inputdate{
-    width: 17%;
+   .inputdate{
+    width: 22%;
     margin: 0 .5rem;
     text-align: center;
         border: 1px solid rgba(0, 0, 0, .125);
@@ -35,6 +35,12 @@
     border: 1px solid transparent;
         padding: 1px 42px;
  
+}
+.col-2 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 13.66667%;
+    flex: 0 0 13.66667%;
+    max-width: 13.66667%;
 }
   </style>
 </head>
@@ -479,144 +485,268 @@
 				...
 					 </div>
 				  <div class="tab-pane fade" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">	<p class="mt-2" style=" margin-bottom: .5rem;">
-					  <a class="" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1" >Germany</a>
+					  <a class="" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors</a>
 					</p>
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse" id="multiCollapseExample1">
-					      <div class="card">
-					      <div class="list-group list-group-horizontal" id="list-tab" role="tablist">
-						      <a class="list-group-item list-group-item-action" id="list-10YRyLD-list" data-toggle="list" href="#list-10YRyLD" role="tab" aria-controls="10yrYLD"  onclick="drawGraph(2,'10','chart','German 10-yr Benchmark YIELD')">10yr YLD</a>
-						      <a class="list-group-item list-group-item-action" id="list-5yrYLD-list" data-toggle="list" href="#list-5YRyLD" role="tab" aria-controls="5yrYLD"  onclick="drawGraph(2,'5','fiveFactorchart','German 5-yr Benchmark YIELD')">5yr YLD</a>
-						      <a class="list-group-item list-group-item-action" id="list-2yrYLD-list" data-toggle="list" href="#list-2YRyLD" role="tab" aria-controls="2yrYLD"  onclick="drawGraph(2,'2','TwoFactorchart','German 2-yr Benchmark YIELD')">2yr YLD</a>
-						      <a class="list-group-item list-group-item-action" id="list-2s10sCurve-list" data-toggle="list" href="#list-2over10" role="tab" aria-controls="2s10sCurve" onclick="drawGraph(2,'2over10','twoOvertTenChart','German 2's/10's yield CURVE')">2s/10s Curve</a>
-						      <a class="list-group-item list-group-item-action" id="list-2s5sCurve-list" data-toggle="list" href="#list-2over5" role="tab" aria-controls="2s5sCurve" onclick="drawGraph(2,'2over5','twoOverFiveChart','German 2's/5's yield CURVE')">2s/5s Curve</a>
-						      <a class="list-group-item list-group-item-action" id="list-5s10sCurve-list" data-toggle="list" href="#list-5over10" role="tab" aria-controls="5s10sCurve" onclick="drawGraph(2,'5over10','fiveOverTenChart','German 5's/10's yield CURVE')">5s/10s Curve</a>
+					    <div class="collapse multi-collapse" id="collapseFilter">
+				<div class="row">
+				<div class="col-5">
+                  <form  id="dataformInput">
+                  <div class="form-group" style=" margin-top: 0">
+                      <div  style=" display: flex;">
+                         <div class="col-1"></div>
+						    <div class="col-2"><img height="48" width="48" src="/img/flag/united-states.png">
 						    </div>
-					      </div>
-					    </div>
-					    <div class="tab-content" id="nav-tabContent">
-						  <div class="tab-pane" id="list-10YRyLD" role="tabpanel" aria-labelledby="list-10yr-list">
-						   <div class="row col-12 mt-2">
-						     <div id='plotUnderline' style='margin-left: 10px; float: left;'>
-                              <span>Plot Underlying</span></div>
-					     </div>
-						  <div id="chart"></div>
-					 	  <div id="chartLine" class="chart-box" style="display: block; min-height: 365px;"></div>
-						   <div class="col-12" style="justify-content: center;    text-align: center;" >
-							      <input class="edit" type="button" onclick="Edit(0, event)" id="edit0" value="Split">
-							  </div>
-						   <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
-							  </div>
-							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
-							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
-							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
-							  </div>
-							  <div class="btn-group" role="group" aria-label="Third group">
-							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
-								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
-							  </div>
-							</div>
-						  </div>
-						  <div class="tab-pane" id="list-5YRyLD" role="tabpanel" aria-labelledby="list-profile-list">
-						  <div id="fiveFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
-						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
-							  </div>
-							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
-							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
-							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
-							  </div>
-							  <div class="btn-group" role="group" aria-label="Third group">
-							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
-								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
-							  </div>
-							</div>
-						  </div>
-						  <div class="tab-pane" id="list-2YRyLD" role="tabpanel" aria-labelledby="list-messages-list"><div id="TwoFactorchart" class="chart-box" style="display: block; min-height: 365px;"></div>
-						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
-							  </div>
-							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
-							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
-							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
-							  </div>
-							  <div class="btn-group" role="group" aria-label="Third group">
-							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
-								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
-							  </div>
-							</div>
-						  </div>
-						  <div class="tab-pane" id="list-2over10" role="tabpanel" aria-labelledby="list-settings-list"> <div id="twoOvertTenChart" class="chart-box" style="display: block; min-height: 365px;"></div>
-						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
-							  </div>
-							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
-							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
-							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
-							  </div>
-							  <div class="btn-group" role="group" aria-label="Third group">
-							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
-								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
-							  </div>
-							</div>
-						  </div>
-						  <div class="tab-pane" id="list-2over5" role="tabpanel" aria-labelledby="list-settings-list"><div id="twoOverFiveChart" class="chart-box" style="display: block; min-height: 365px;"></div>
-						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
-							  </div>
-							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
-							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
-							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
-							  </div>
-							  <div class="btn-group" role="group" aria-label="Third group">
-							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
-								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
-							  </div>
-							</div>
-						  </div>
-						  <div class="tab-pane" id="list-5over10" role="tabpanel" aria-labelledby="list-settings-list"><div id="fiveOverTenChart" class="chart-box" style="display: block; min-height: 365px;"></div>
-						       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
-							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" class="btn btn-secondary"><i class="fas fa-angle-double-left"></i> 1 Month</button>
-							  </div>
-							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
-							       <label>From</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Mar-20" disabled>
-							       <label>To</label>
-							       <input type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" value="Oct-20" disabled>
-							  </div>
-							  <div class="btn-group" role="group" aria-label="Third group">
-							    <button type="button" class="btn btn-secondary">1 Year <i class="fas fa-angle-double-right"></i></button>
-								<button type="button" class="btn btn-secondary">1 Month <i class="fas fa-angle-double-right"></i></button>
-							  </div>
-							</div>
-						  </div>
+						   <div class="col-2"><img  height="48" width="48" src="/img/flag/germany.png">
+						    </div>
+						 <div class="col-2"><img height="48" width="48" src="/img/flag/france.png">
+						    </div>
+						   <div class="col-2"><img height="48" width="48" src="/img/flag/united-kingdom.png">
+						    </div>
+						    <div class="col-2"><img height="48" width="48" src="/img/flag/italy.png">
+						    </div>
+						    <div class="col-2"><img height="48" width="48" src="/img/flag/spain.png">
+						    </div>
 						</div>
+		                   <div style=" display: flex;">
+		                      <div class="col-2"  style=" max-width: 10% ;padding: 0 ;">
+		                      	<div>30yr</div>
+								<div>10yr</div>
+								<div>5yr</div>
+								<div>2yr</div>
+								</div>
+		                    <div class="col-2">
+									<div id='jqxCheckBoxUSA-30' style='float: left;'></div>
+									<div id='jqxCheckBoxUSA-10' style='float: left;'></div>
+									<div id='jqxCheckBoxUSA-5' style='float: left;'></div>
+									<div id='jqxCheckBoxUSA-2' style='float: left;'></div>
+								</div>
+								 <div class="col-2">
+									<div id='jqxCheckBoxGermany-30' style='float: left;'></div>
+									<div id='jqxCheckBoxGermany-10' style='float: left;'></div>
+									<div id='jqxCheckBoxGermany-5' style='float: left;'></div>
+									<div id='jqxCheckBoxGermany-2' style='float: left;'></div>
+								</div>
+								 <div class="col-2">
+								    <div id='jqxCheckBoxFrance-30' style='float: left;'></div>
+									<div id='jqxCheckBoxFrance-10' style='float: left;'></div>
+									<div id='jqxCheckBoxFrance-5' style='float: left;'></div>
+									<div id='jqxCheckBoxFrance-2' style='float: left;'></div>
+								</div>
+								 <div class="col-2">
+								    <div id='jqxCheckBoxUk-30' style='float: left;'></div>
+									<div id='jqxCheckBoxUk-10' style='float: left;'></div>
+									<div id='jqxCheckBoxUk-5' style='float: left;'></div>
+									<div id='jqxCheckBoxUk-2' style='float: left;'></div>
+								</div>
+								 <div class="col-2">
+								    <div id='jqxCheckBoxItaly-30' style='float: left;'></div>
+									<div id='jqxCheckBoxItaly-10' style='float: left;'></div>
+									<div id='jqxCheckBoxItaly-5' style='float: left;'></div>
+									<div id='jqxCheckBoxItaly-2' style='float: left;'></div>
+								</div>
+								 <div class="col-2">
+								    <div id='jqxCheckBoxSpain-30' style='float: left;'></div>
+									<div id='jqxCheckBoxSpain-10' style='float: left;'></div>
+									<div id='jqxCheckBoxSpain-5' style='float: left;'></div>
+									<div id='jqxCheckBoxSpain-2' style='float: left;'></div>
+								</div>
+		                    </div>
+		                      <div style=" display: flex;     margin-top: 1rem;">
+		                      <div class="col-2"  style=" max-width: 10% ;padding: 0 ;">
+		                      	<div>10's/30's</div>
+								<div>5's/30's</div>
+								<div>5's/10's</div>
+								<div>2's/10's</div>
+								<div>2's/5's</div>
+								</div>
+		                    <div class="col-2">
+									<div id='jqxCheckBoxUSA-10over30' style='float: left;'></div>
+									<div id='jqxCheckBoxUSA-5over30' style='float: left;'></div>
+									<div id='jqxCheckBoxUSA-5over10' style='float: left;'></div>
+									<div id='jqxCheckBoxUSA-2over10' style='float: left;'></div>
+									<div id='jqxCheckBoxUSA-2over5' style='float: left;'></div>
+								</div>
+								 <div class="col-2">
+									<div id='jqxCheckBoxGermany-10over30' style='float: left;'></div>
+									<div id='jqxCheckBoxGermany-5over30' style='float: left;'></div>
+									<div id='jqxCheckBoxGermany-5over10' style='float: left;'></div>
+									<div id='jqxCheckBoxGermany-2over10' style='float: left;'></div>
+									<div id='jqxCheckBoxGermany-2over5' style='float: left;'></div>
+								</div>
+								 <div class="col-2">
+								    <div id='jqxCheckBoxFrance-10over30' style='float: left;'></div>
+									<div id='jqxCheckBoxFrance-5over30' style='float: left;'></div>
+									<div id='jqxCheckBoxFrance-5over10' style='float: left;'></div>
+									<div id='jqxCheckBoxFrance-2over10' style='float: left;'></div>
+									<div id='jqxCheckBoxFrance-2over5' style='float: left;'></div>
+								</div>
+								 <div class="col-2">
+								    <div id='jqxCheckBoxUk-10over30' style='float: left;'></div>
+									<div id='jqxCheckBoxUk-5over30' style='float: left;'></div>
+									<div id='jqxCheckBoxUk-5over10' style='float: left;'></div>
+									<div id='jqxCheckBoxUk-2over10' style='float: left;'></div>
+									<div id='jqxCheckBoxUk-2over5' style='float: left;'></div>
+								</div>
+								 <div class="col-2">
+								    <div id='jqxCheckBoxItaly-10over30' style='float: left;'></div>
+									<div id='jqxCheckBoxItaly-5over30' style='float: left;'></div>
+									<div id='jqxCheckBoxItaly-5over10' style='float: left;'></div>
+									<div id='jqxCheckBoxItaly-2over10' style='float: left;'></div>
+									<div id='jqxCheckBoxItaly-2over5' style='float: left;'></div>
+								</div>
+								 <div class="col-2">
+								    <div id='jqxCheckBoxSpain-10over30' style='float: left;'></div>
+									<div id='jqxCheckBoxSpain-5over30' style='float: left;'></div>
+									<div id='jqxCheckBoxSpain-5over10' style='float: left;'></div>
+									<div id='jqxCheckBoxSpain-2over10' style='float: left;'></div>
+									<div id='jqxCheckBoxSpain-2over5' style='float: left;'></div>
+								</div>
+		                    </div>
+                     </div>
+<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
+                    </form>
+                   <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
+			       <div class="row" id="dataInputButtons" style="display:none;">
+					<div class='col-12 d-flex justify-content-end mt-2'>
+					<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadData" value="Load " />
+					<input id="CancelData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+					</div>
+				  </div>
+                 </div>
+                 		<div class="col-6">
+		                  <form  id="dataformInput">
+		                  <div class="form-group" style=" margin-top: 0">
+		                      <div  style=" display: flex;">
+		                         <div class="col-1"></div>
+								    <div class="col-2"><img height="48" width="48" src="/img/flag/fra-ger.png">
+								    </div>
+								   <div class="col-2"><img  height="48" width="48" src="/img/flag/ita-ger.png">
+								    </div>
+								 <div class="col-2"><img height="48" width="48" src="/img/flag/spn-ger.png">
+								    </div>
+								   <div class="col-2"><img height="48" width="48" src="/img/flag/uk-ger.png">
+								    </div>
+								    <div class="col-2"><img height="48" width="48" src="/img/flag/usa-ger.png">
+								    </div>
+								    <div class="col-2"><img height="48" width="48" src="/img/flag/usa-uk.png">
+								    </div>
+								     <div class="col-2"><img height="48" width="48" src="/img/flag/ita-fra.png">
+								    </div>
+								     <div class="col-2"><img height="48" width="48" src="/img/flag/ita-spn.png">
+								    </div>
+								</div>
+				                   <div style=" display: flex;">
+				                      <div class="col-2"  style=" max-width: 10% ;padding: 0 ;">
+				                      	<div>30yr</div>
+										<div>10yr</div>
+										<div>5yr</div>
+										<div>2yr</div>
+										</div>
+				                    <div class="col-2">
+											<div id='jqxCheckBoxfrc-ger-30' style='float: left;'></div>
+											<div id='jqxCheckBoxfrc-ger-10' style='float: left;'></div>
+											<div id='jqxCheckBoxfrc-ger-5' style='float: left;'></div>
+											<div id='jqxCheckBoxfrc-ger-2' style='float: left;'></div>
+										</div>
+										 <div class="col-2">
+											<div id='jqxCheckBoxita-ger-30' style='float: left;'></div>
+											<div id='jqxCheckBoxita-ger-10' style='float: left;'></div>
+											<div id='jqxCheckBoxita-ger-5' style='float: left;'></div>
+											<div id='jqxCheckBoxita-ger-2' style='float: left;'></div>
+										</div>
+										 <div class="col-2">
+										    <div id='jqxCheckBoxspn-ger-30' style='float: left;'></div>
+											<div id='jqxCheckBoxspn-ger-10' style='float: left;'></div>
+											<div id='jqxCheckBoxspn-ger-5' style='float: left;'></div>
+											<div id='jqxCheckBoxspn-ger-2' style='float: left;'></div>
+										</div>
+										 <div class="col-2">
+										    <div id='jqxCheckBoxuk-ger-30' style='float: left;'></div>
+											<div id='jqxCheckBoxuk-ger-10' style='float: left;'></div>
+											<div id='jqxCheckBoxuk-ger-5' style='float: left;'></div>
+											<div id='jqxCheckBoxuk-ger-2' style='float: left;'></div>
+										</div>
+										 <div class="col-2">
+										    <div id='jqxCheckBoxusa-ger-30' style='float: left;'></div>
+											<div id='jqxCheckBoxusa-ger-10' style='float: left;'></div>
+											<div id='jqxCheckBoxusa-ger-5' style='float: left;'></div>
+											<div id='jqxCheckBoxusa-ger-2' style='float: left;'></div>
+										</div>
+										 <div class="col-2">
+										    <div id='jqxCheckBoxusa-uk-30' style='float: left;'></div>
+											<div id='jqxCheckBoxusa-uk-10' style='float: left;'></div>
+											<div id='jqxCheckBoxusa-uk-5' style='float: left;'></div>
+											<div id='jqxCheckBoxusa-uk-2' style='float: left;'></div>
+										</div>
+										 <div class="col-2">
+										    <div id='jqxCheckBoxita-frc-30' style='float: left;'></div>
+											<div id='jqxCheckBoxita-frc-10' style='float: left;'></div>
+											<div id='jqxCheckBoxita-frc-5' style='float: left;'></div>
+											<div id='jqxCheckBoxita-frc-2' style='float: left;'></div>
+										</div>
+										 <div class="col-2">
+										    <div id='jqxCheckBoxita-spn-30' style='float: left;'></div>
+											<div id='jqxCheckBoxita-spn-10' style='float: left;'></div>
+											<div id='jqxCheckBoxita-spn-5' style='float: left;'></div>
+											<div id='jqxCheckBoxita-spn-2' style='float: left;'></div>
+										</div>
+				                    </div>
+		                     </div>
+		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
+		                    </form>
+		                   <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtons" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadData" value="Load " />
+							<input id="CancelData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+                     </div>
+                     	<div class="row">
+							<div class='col-12 d-flex justify-content-end'>
+							<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+							</div>
+						</div>
+					    </div>
+				    <div id="grid-content" style="display:none;">
+						 <div id="mainChart" class="chart-box" style=" min-height: 365px;"></div>
+						 <div class="row">
+						 	<div class='col-6'>
+						 		<div id="SubChart1" class="chart-box"></div>
+						 	</div>
+						 	<div class='col-6'>
+						 		<div id="SubChart2" class="chart-box"></div>
+						 	</div>
+						 </div>
+					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
+							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split">
+					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
+							  </div>
+					 	       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" id="button-mainChart-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" id="button-mainChart-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							   <button type="button" id="button-monthForward" class="btn btn-secondary" onclick="navigationGraph('monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
+							   <button type="button" id="button-yearForward" class="btn btn-secondary" onclick="navigationGraph('yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+						  </div>
 					  </div>
-					</div></div>
+					</div>
+					
+					</div>
 				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
 				</div>
 			</div>
@@ -668,7 +798,7 @@
       <footer class="sticky-footer bg-dark">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>copyright &copy; <script> document.write(new Date().getFullYear()); </script> - developed by
+            <span>copyright &copy; <script></script> - developed by
               <b><a href="" target="_blank"></a></b>
             </span>
           </div>
@@ -689,118 +819,4248 @@
   <script src="/js/marquee.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/js/jqwidgets/jqxbuttons.js"></script> 
   <script src="/js/ruang-admin.min.js"></script>
   <script src="/js/apexcharts.js"></script>
   <script>
-  $(document).ready(function () {  
-	  $("#plotUnderline").jqxCheckBox({  theme:'dark', width: 120, height: 25, checked: false});
-	  $("#plotUnderline").on('change', function (event) {
-	      var checked = event.args.checked;
-	      if (checked) {
-	    	  chartWithLine('chartLine');
-	      }
-	      else {
-	    	  drawGraph(2,'10','chart','German 10-yr Benchmark YIELD');
-	      }
-	  });
+  var checkedItem = 0;
+  var checkedItemid = [];
+  var checkedItemValues = [];
+  var monthDate=new Date(); 
+  monthDate.setMonth(monthDate.getMonth() - 1);
+  var date=new Date();
+  var mode="merge";
+  var allitems=["#jqxCheckBoxUSA-30",
+	  "#jqxCheckBoxUSA-10",
+	  "#jqxCheckBoxUSA-5",
+	  "#jqxCheckBoxUSA-2",
+	  "#jqxCheckBoxGermany-30",
+	  "#jqxCheckBoxGermany-10",
+	  "#jqxCheckBoxGermany-5",
+	  "#jqxCheckBoxGermany-2",
+	  "#jqxCheckBoxFrance-30",
+	  "#jqxCheckBoxFrance-10",
+	  "#jqxCheckBoxFrance-5",
+	  "#jqxCheckBoxFrance-2",
+	  "#jqxCheckBoxUk-30",
+	  "#jqxCheckBoxUk-10",
+	  "#jqxCheckBoxUk-5",
+	  "#jqxCheckBoxUk-2",
+	  "#jqxCheckBoxItaly-30",
+	  "#jqxCheckBoxItaly-10",
+	  "#jqxCheckBoxItaly-5",
+	  "#jqxCheckBoxItaly-2",
+	  "#jqxCheckBoxSpain-30",
+	  "#jqxCheckBoxSpain-10",
+	  "#jqxCheckBoxSpain-5",
+	  "#jqxCheckBoxSpain-2",
+	  "#jqxCheckBoxUSA-10over30",
+	  "#jqxCheckBoxUSA-5over30",
+	  "#jqxCheckBoxUSA-5over10",
+	  "#jqxCheckBoxUSA-2over10",
+	  "#jqxCheckBoxUSA-2over5",
+	  "#jqxCheckBoxGermany-10over30",
+	  "#jqxCheckBoxGermany-5over30",
+	  "#jqxCheckBoxGermany-5over10",
+	  "#jqxCheckBoxGermany-2over10",
+	  "#jqxCheckBoxGermany-2over5",
+	   "#jqxCheckBoxFrance-10over30",
+	  "#jqxCheckBoxFrance-5over30",
+	  "#jqxCheckBoxFrance-5over10",
+	  "#jqxCheckBoxFrance-2over10",
+	  "#jqxCheckBoxFrance-2over5",
+	  "#jqxCheckBoxUk-10over30",
+	  "#jqxCheckBoxUk-5over30",
+	  "#jqxCheckBoxUk-5over10",
+	  "#jqxCheckBoxUk-2over10",
+	  "#jqxCheckBoxUk-2over5",
+	  "#jqxCheckBoxItaly-10over30",
+	  "#jqxCheckBoxItaly-5over30",
+	  "#jqxCheckBoxItaly-5over10",
+	  "#jqxCheckBoxItaly-2over10",
+	  "#jqxCheckBoxItaly-2over5",
+	  "#jqxCheckBoxSpain-10over30",
+	  "#jqxCheckBoxSpain-5over30",
+	  "#jqxCheckBoxSpain-5over10",
+	  "#jqxCheckBoxSpain-2over10",
+	  "#jqxCheckBoxSpain-2over5",
+	  "#jqxCheckBoxfrc-ger-30",
+	  "#jqxCheckBoxfrc-ger-10",
+	  "#jqxCheckBoxfrc-ger-5",
+	  "#jqxCheckBoxfrc-ger-2",
+	  "#jqxCheckBoxita-ger-30",
+	  "#jqxCheckBoxita-ger-10",
+	  "#jqxCheckBoxita-ger-5",
+	  "#jqxCheckBoxita-ger-2",
+	  "#jqxCheckBoxspn-ger-30",
+	  "#jqxCheckBoxspn-ger-10",
+	  "#jqxCheckBoxspn-ger-5",
+	  "#jqxCheckBoxspn-ger-2",
+	  "#jqxCheckBoxuk-ger-30",
+	  "#jqxCheckBoxuk-ger-10",
+	  "#jqxCheckBoxuk-ger-5",
+	  "#jqxCheckBoxuk-ger-2",
+	  "#jqxCheckBoxusa-ger-30",
+	  "#jqxCheckBoxusa-ger-10",
+	  "#jqxCheckBoxusa-ger-5",
+	  "#jqxCheckBoxusa-ger-2",
+	  "#jqxCheckBoxusa-uk-30",
+	  "#jqxCheckBoxusa-uk-10",
+	  "#jqxCheckBoxusa-uk-5",
+	  "#jqxCheckBoxusa-uk-2",
+	  "#jqxCheckBoxita-frc-30",
+	  "#jqxCheckBoxita-frc-10",
+	  "#jqxCheckBoxita-frc-5",
+	  "#jqxCheckBoxita-frc-2",
+	  "#jqxCheckBoxita-spn-30",
+	  "#jqxCheckBoxita-spn-10",
+	  "#jqxCheckBoxita-spn-5",
+	  "#jqxCheckBoxita-spn-2",
+];
+  var itemValue={
+		  "#jqxCheckBoxUSA-30":{
+			  "factor":"30yr",
+			  "country":"1",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxUSA-10":{
+			  "factor":"10yr",
+			  "country":"1",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxUSA-5":{
+			  "factor":"5yr",
+			  "country":"1",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxUSA-2":{
+			  "factor":"2yr",
+			  "country":"1",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxGermany-30":{
+			  "factor":"30yr",
+			  "country":"2",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxGermany-10":{
+			  "factor":"10yr",
+			  "country":"2",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxGermany-5":{
+			  "factor":"5yr",
+			  "country":"2",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxGermany-2":{
+			  "factor":"2yr",
+			  "country":"2",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxFrance-30":{
+			  "factor":"30yr",
+			  "country":"3",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxFrance-10":{
+			  "factor":"10yr",
+			  "country":"3",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxFrance-5":{
+			  "factor":"5yr",
+			  "country":"3",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxFrance-2":{
+			  "factor":"2yr",
+			  "country":"3",
+			  "yieldCurveCross":"yield"
+			 },	
+"#jqxCheckBoxUk-30":{
+			  "factor":"30yr",
+			  "country":"4",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxUk-10":{
+			  "factor":"10yr",
+			  "country":"4",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxUk-5":{
+			  "factor":"5yr",
+			  "country":"4",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxUk-2":{
+			  "factor":"2yr",
+			  "country":"4",
+			  "yieldCurveCross":"yield"
+			 },	
+"#jqxCheckBoxItaly-30":{
+			  "factor":"30yr",
+			  "country":"5",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxItaly-10":{
+			  "factor":"10yr",
+			  "country":"5",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxItaly-5":{
+			  "factor":"5yr",
+			  "country":"5",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxItaly-2":{
+			  "factor":"2yr",
+			  "country":"5",
+			  "yieldCurveCross":"yield"
+			 },		
+"#jqxCheckBoxSpain-30":{
+			  "factor":"30yr",
+			  "country":"6",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxSpain-10":{
+			  "factor":"10yr",
+			  "country":"6",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxSpain-5":{
+			  "factor":"5yr",
+			  "country":"6",
+			  "yieldCurveCross":"yield"
+			 },
+"#jqxCheckBoxSpain-2":{
+			  "factor":"2yr",
+			  "country":"6",
+			  "yieldCurveCross":"yield"
+			 },	"#jqxCheckBoxUSA-10over30":{
+			  "factor":"4",
+			  "country":"1",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxUSA-5over30":{
+			  "factor":"0",
+			  "country":"1",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxUSA-5over10":{
+			  "factor":"3",
+			  "country":"1",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxUSA-2over10":{
+			  "factor":"2",
+			  "country":"1",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxUSA-2over5":{
+			  "factor":"1",
+			  "country":"1",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxGermany-10over30":{
+			  "factor":"4",
+			  "country":"2",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxGermany-5over30":{
+			  "factor":"0",
+			  "country":"2",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxGermany-5over10":{
+			  "factor":"3",
+			  "country":"2",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxGermany-2over10":{
+			  "factor":"2",
+			  "country":"2",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxGermany-2over5":{
+			  "factor":"1",
+			  "country":"2",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxFrance-10over30":{
+			  "factor":"4",
+			  "country":"3",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxFrance-5over30":{
+			  "factor":"0",
+			  "country":"3",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxFrance-5over10":{
+			  "factor":"3",
+			  "country":"3",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxFrance-2over10":{
+			  "factor":"2",
+			  "country":"3",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxFrance-2over5":{
+			  "factor":"1",
+			  "country":"3",
+			  "yieldCurveCross":"curve"
+			 },	
+"#jqxCheckBoxUk-10over30":{
+			  "factor":"4",
+			  "country":"4",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxUk-5over30":{
+			  "factor":"0",
+			  "country":"4",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxUk-5over10":{
+			  "factor":"3",
+			  "country":"4",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxUk-2over10":{
+			  "factor":"2",
+			  "country":"4",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxUk-2over5":{
+			  "factor":"1",
+			  "country":"4",
+			  "yieldCurveCross":"curve"
+			 },	
+"#jqxCheckBoxItaly-10over30":{
+			  "factor":"4",
+			  "country":"5",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxItaly-5over30":{
+			  "factor":"0",
+			  "country":"5",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxItaly-5over10":{
+			  "factor":"3",
+			  "country":"5",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxItaly-2over10":{
+			  "factor":"2",
+			  "country":"5",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxItaly-2over5":{
+			  "factor":"1",
+			  "country":"5",
+			  "yieldCurveCross":"curve"
+			 },		
+"#jqxCheckBoxSpain-10over30":{
+			  "factor":"4",
+			  "country":"6",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxSpain-5over30":{
+			  "factor":"0",
+			  "country":"6",
+			  "yieldCurveCross":"curve"
+			 },					 
+"#jqxCheckBoxSpain-5over10":{
+			  "factor":"3",
+			  "country":"6",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxSpain-2over10":{
+			  "factor":"2",
+			  "country":"6",
+			  "yieldCurveCross":"curve"
+			 },
+"#jqxCheckBoxSpain-2over5":{
+			  "factor":"1",
+			  "country":"6",
+			  "yieldCurveCross":"curve"
+			 },					
+"#jqxCheckBoxfrc-ger-30":{
+			  "factor":"30",
+			  "country":"1",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxfrc-ger-10":{
+			  "factor":"10",
+			  "country":"1",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxfrc-ger-5":{
+			  "factor":"5",
+			  "country":"1",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxfrc-ger-2":{
+			  "factor":"2",
+			  "country":"1",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxita-ger-30":{
+			  "factor":"30",
+			  "country":"2",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxita-ger-10":{
+			  "factor":"10",
+			  "country":"2",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxita-ger-5":{
+			  "factor":"5",
+			  "country":"2",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxita-ger-2":{
+			  "factor":"2",
+			  "country":"2",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxspn-ger-30":{
+			  "factor":"30",
+			  "country":"3",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxspn-ger-10":{
+			  "factor":"10",
+			  "country":"3",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxspn-ger-5":{
+			  "factor":"5",
+			  "country":"3",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxspn-ger-2":{
+			  "factor":"2",
+			  "country":"3",
+			  "yieldCurveCross":"cross"
+			 },	
+"#jqxCheckBoxuk-ger-30":{
+			  "factor":"30",
+			  "country":"4",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxuk-ger-10":{
+			  "factor":"10",
+			  "country":"4",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxuk-ger-5":{
+			  "factor":"5",
+			  "country":"4",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxuk-ger-2":{
+			  "factor":"2",
+			  "country":"4",
+			  "yieldCurveCross":"cross"
+			 },	
+"#jqxCheckBoxusa-ger-30":{
+			  "factor":"30",
+			  "country":"5",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxusa-ger-10":{
+			  "factor":"10",
+			  "country":"5",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxusa-ger-5":{
+			  "factor":"5",
+			  "country":"5",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxusa-ger-2":{
+			  "factor":"2",
+			  "country":"5",
+			  "yieldCurveCross":"cross"
+			 },		
+"#jqxCheckBoxusa-uk-30":{
+			  "factor":"30",
+			  "country":"6",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxusa-uk-10":{
+			  "factor":"10",
+			  "country":"6",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxusa-uk-5":{
+			  "factor":"5",
+			  "country":"6",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxusa-uk-2":{
+			  "factor":"2",
+			  "country":"6",
+			  "yieldCurveCross":"cross"
+			 },	
+"#jqxCheckBoxita-frc-30":{
+			  "factor":"30",
+			  "country":"7",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxita-frc-10":{
+			  "factor":"10",
+			  "country":"7",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxita-frc-5":{
+			  "factor":"5",
+			  "country":"7",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxita-frc-2":{
+			  "factor":"2",
+			  "country":"7",
+			  "yieldCurveCross":"cross"
+			 },	
+"#jqxCheckBoxita-spn-30":{
+			  "factor":"30",
+			  "country":"8",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxita-spn-10":{
+			  "factor":"10",
+			  "country":"8",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxita-spn-5":{
+			  "factor":"5",
+			  "country":"8",
+			  "yieldCurveCross":"cross"
+			 },
+"#jqxCheckBoxita-spn-2":{
+			  "factor":"2",
+			  "country":"8",
+			  "yieldCurveCross":"cross"
+			 }					 
+};
+  $(document).ready(function () {
+	  
+	  $("#button-yearForward").prop('disabled', true); 
+	  $("#button-monthForward").prop('disabled', true); 
+
+	 for(i=0; i<allitems.length; i++)
+	   {
+    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 120, height: 25});
+       }
+	  
+	  $("#Clearfilter").jqxButton({ theme: 'dark',height:30,width:74  });
+      $("#show").jqxButton({ theme: 'dark',height:30,width:74 });
+      
+      $("#Clearfilter").click(function () {
+    	  
+    	 	  $("#jqxCheckBoxUSA-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUSA-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUSA-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUSA-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxGermany-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGermany-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGermany-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGermany-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxFrance-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxFrance-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxFrance-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxFrance-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxUk-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUk-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUk-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUk-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxItaly-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxItaly-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxItaly-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxItaly-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxSpain-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxSpain-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxSpain-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxSpain-2").jqxCheckBox({checked: false });
+    	  
+    	
+    	  $("#jqxCheckBoxUSA-10over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUSA-5over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUSA-5over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUSA-2over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUSA-2over5").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxGermany-10over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGermany-5over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGermany-5over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGermany-2over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGermany-2over5").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxFrance-10over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxFrance-5over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxFrance-5over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxFrance-2over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxFrance-2over5").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxUk-10over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUk-5over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUk-5over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUk-2over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxUk-2over5").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxItaly-10over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxItaly-5over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxItaly-5over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxItaly-2over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxItaly-2over5").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxSpain-10over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxSpain-5over30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxSpain-5over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxSpain-2over10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxSpain-2over5").jqxCheckBox({checked: false });
+    	  
+    	  
+    	  $("#jqxCheckBoxfrc-ger-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxfrc-ger-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxfrc-ger-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxfrc-ger-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxita-ger-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxita-ger-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxita-ger-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxita-ger-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxspn-ger-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxspn-ger-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxspn-ger-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxspn-ger-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxuk-ger-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxuk-ger-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxuk-ger-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxuk-ger-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxusa-ger-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxusa-ger-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxusa-ger-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxusa-ger-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxusa-uk-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxusa-uk-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxusa-uk-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxusa-uk-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxita-frc-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxita-frc-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxita-frc-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxita-frc-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxita-spn-30").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxita-spn-10").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxita-spn-5").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxita-spn-2").jqxCheckBox({checked: false });
+    	  
+    	  for(i=0; i<allitems.length; i++)
+		   {
+	    	$(allitems[i]).jqxCheckBox({disabled: false});
+	       }
+    	  checkedItem=0;
+     	 
+      });
+      
+     $("#show").click(function () {
+    	 $('#grid-content').css('display', 'block');
+    	 drawGraph();
+      });
+	  
+     $('#jqxCheckBoxUSA-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUSA-30");
+  	    }
+  	    else
+  	    {
+  	    	checkedItem=checkedItem - 1;
+  	   for(i=0; i<checkedItemid.length; i++)
+  		   {
+  		   if(checkedItemid[i]=="#jqxCheckBoxUSA-30")
+  			 delete checkedItemid[i];
+  		   }
+  	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+				 $(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		  }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+
+     
+     $('#jqxCheckBoxUSA-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUSA-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUSA-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
+     $('#jqxCheckBoxUSA-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUSA-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
+     $('#jqxCheckBoxUSA-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUSA-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
+     $('#jqxCheckBoxGermany-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGermany-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGermany-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxGermany-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGermany-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGermany-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxGermany-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGermany-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxGermany-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGermany-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxFrance-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxFrance-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxFrance-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxFrance-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxFrance-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxFrance-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxFrance-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxFrance-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxFrance-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxFrance-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
+     $('#jqxCheckBoxUk-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUk-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUk-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxUk-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUk-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUk-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxUk-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUk-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUk-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxUk-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUk-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUk-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxItaly-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxItaly-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxItaly-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxItaly-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxItaly-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxItaly-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxItaly-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxItaly-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxItaly-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxItaly-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxSpain-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxSpain-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxSpain-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxSpain-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxSpain-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxSpain-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxSpain-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxSpain-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxSpain-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxSpain-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
+     $('#jqxCheckBoxUSA-10over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUSA-10over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUSA-10over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxUSA-5over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUSA-5over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jjqxCheckBoxUSA-5over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jjqxCheckBoxUSA-5over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jjqxCheckBoxUSA-5over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxUSA-2over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUSA-2over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+	      
+     $('#jqxCheckBoxUSA-2over5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUSA-2over5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2over5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxGermany-10over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGermany-10over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGermany-10over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxGermany-5over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGermany-5over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jjqxCheckBoxGermany-5over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jjqxCheckBoxGermany-5over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jjqxCheckBoxGermany-5over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxGermany-2over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGermany-2over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+	      
+     $('#jqxCheckBoxGermany-2over5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGermany-2over5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2over5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
+     $('#jqxCheckBoxFrance-10over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxFrance-10over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxFrance-10over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxFrance-5over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxFrance-5over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jjqxCheckBoxFrance-5over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jjqxCheckBoxFrance-5over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jjqxCheckBoxFrance-5over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxFrance-2over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxFrance-2over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+	      
+     $('#jqxCheckBoxFrance-2over5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxFrance-2over5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2over5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxUk-10over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUk-10over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUk-10over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxUk-5over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUk-5over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUk-5over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jjqxCheckBoxUk-5over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jjqxCheckBoxUk-5over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jjqxCheckBoxUk-5over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxUk-2over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUk-2over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUk-2over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+	      
+     $('#jqxCheckBoxUk-2over5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxUk-2over5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxUk-2over5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxItaly-10over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxItaly-10over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxItaly-10over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxItaly-5over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxItaly-5over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxItaly-5over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxItaly-5over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxItaly-2over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxItaly-2over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+	      
+     $('#jqxCheckBoxItaly-2over5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxItaly-2over5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2over5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
+     $('#jqxCheckBoxSpain-10over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxSpain-10over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxSpain-10over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxSpain-5over30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxSpain-5over30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5over30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxSpain-5over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxSpain-5over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxSpain-2over10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxSpain-2over10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2over10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+	      
+     $('#jqxCheckBoxSpain-2over5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxSpain-2over5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2over5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxfrc-ger-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxfrc-ger-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxfrc-ger-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxfrc-ger-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxfrc-ger-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxfrc-ger-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxfrc-ger-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxfrc-ger-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxfrc-ger-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxfrc-ger-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxfrc-ger-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxfrc-ger-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-ger-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-ger-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-ger-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-ger-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-ger-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-ger-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-ger-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-ger-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-ger-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-ger-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-ger-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-ger-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
+     $('#jqxCheckBoxspn-ger-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxspn-ger-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxspn-ger-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxspn-ger-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxspn-ger-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxspn-ger-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxspn-ger-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxspn-ger-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxspn-ger-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxspn-ger-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxspn-ger-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxspn-ger-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxuk-ger-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxuk-ger-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxuk-ger-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxuk-ger-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxuk-ger-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxuk-ger-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxuk-ger-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxuk-ger-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxuk-ger-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxuk-ger-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxuk-ger-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxuk-ger-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
+     $('#jqxCheckBoxusa-ger-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusa-ger-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusa-ger-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxusa-ger-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusa-ger-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusa-ger-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxusa-ger-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusa-ger-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusa-ger-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxusa-ger-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusa-ger-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusa-ger-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
+     $('#jqxCheckBoxusa-uk-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusa-uk-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusa-uk-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxusa-uk-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusa-uk-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusa-uk-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxusa-uk-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusa-uk-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusa-uk-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxusa-uk-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusa-uk-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusa-uk-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-frc-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-frc-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-frc-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-frc-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-frc-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-frc-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-frc-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-frc-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-frc-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-frc-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-frc-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-frc-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+	  
+     
+     $('#jqxCheckBoxita-spn-30').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-spn-30");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-spn-30")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-spn-10').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-spn-10");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-spn-10")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-spn-5').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-spn-5");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-spn-5")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxita-spn-2').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxita-spn-2");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxita-spn-2")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+	  
+     
+	  
+     
   });
 			$(function (){
 				$('.simple-marquee-container').SimpleMarquee();
 			});
-			function  chartWithLine(chartId)
-			{
-				$("#chart").css("display","none");
-				$("#chartLine").css("display","block");
-				title='German 10-yr Benchmark YIELD';
-					
+	function navigationGraph(condition){
 				
-		        var options = {
-		          series: [],
-		          chart: {
-		          height: 300,
-		          type: 'line',
-		        },
-		        colors: ["#00b746", "#FFFFFF"],
-		        plotOptions: {
-	                bar: {
-	                  colors: {
-	                    ranges: [{
-	                      from: -1000,
-	                      to: 0,
-	                      color: '#ef403c'
-	                    },
-	                    {
-		                      from: 0,
-		                      to: 1000,
-		                      color: '#00b746'
-		                    }]
-	                  },
-	                  columnWidth: '80%',
-	                }
-	              },
-		        stroke: {
-		          width: [0, 4]
-		        },
-		        markers: {
-		            size: 6,
-		        },
-		        title: {
-		          text: title
-		        },
-		        dataLabels: {
-		          enabled: false
-		        },
-		        xaxis: {
-		          type: 'datetime'
-		        },
-		       /*  yaxis: [{
-		          title: {
-		            text: 'Website Blog',
-		          },
-		        
-		        }, {
-		          opposite: true,
-		          title: {
-		            text: 'Social Media'
-		          }
-		        }] */
-		        };
+				if(condition=="yearBackward")
+				{ 
+				monthDate.setFullYear(monthDate.getFullYear() - 1);
+				if(mode=="merge") 
+				  drawGraph();
+					else
+						splitGraph();
+				}else
+					if(condition=="monthBackward")
+				  {   
+				    monthDate.setMonth(monthDate.getMonth() - 1);
+				    if(mode=="merge") 
+						  drawGraph();
+							else
+								splitGraph();
+					}
+					else
+						if(condition=="monthForward")
+					  {   
+					    monthDate.setMonth(monthDate.getMonth() + 1);
+					    if(mode=="merge") 
+							  drawGraph();
+								else
+									splitGraph();
+						}
+						else
+							if(condition=="yearForward")
+						  {   
+							monthDate.setFullYear(monthDate.getFullYear() + 1);
+							if(mode=="merge") 
+								  drawGraph();
+									else
+										splitGraph();
+							}
 
-		        var chart = new ApexCharts(document.querySelector("#"+chartId+""), options);
-		        $.getJSON('/bourse/findgraphdatabysubroupidandfactor/2/2', function(response) {
-		              chart.updateSeries([{
-				          name: '',
-				          type: 'column',
-				          data: response
-				        }, {
-				          name: '',
-				          type: 'line',
-				          data: response
-				        }])
-	              }); 
-		        chart.render();
+					if   (checkDateMonth(monthDate,date))
+					   {
+						  $("#button-monthForward").prop('disabled', false);
+						}
+						else
+						{
+							$("#button-monthForward").prop('disabled', true);
+						}
+					
+					if   (checkDateYear(monthDate,date))
+					   {
+						  $("#button-yearForward").prop('disabled', false);
+						}
+						else
+						{
+							$("#button-yearForward").prop('disabled', true);
+						} 
 			}
+			  function formatDate(date) {
+				    var d = new Date(date),
+				        month = '' + (d.getMonth() + 1),
+				        day = '' + d.getDate(),
+				        year = d.getFullYear();
 			
-			function drawGraph(subgroupId,factor,chartId,title){
-				$("#chart").css("display","block");
-				$("#chartLine").css("display","none");
+				    if (month.length < 2) 
+				        month = '0' + month;
+				    if (day.length < 2) 
+				        day = '0' + day;
+			
+				    return [year, month, day].join('-');
+				}
+			  function checkDateMonth(monthDate,date)
+			  {    var d = new Date(monthDate);
+				   d.setMonth(monthDate.getMonth() + 1);
+				   
+				   if(d<date)
+					   return true;
+				   else
+					   return false;
+			  }
+			function checkDateYear(monthDate,date)
+			  {    var d = new Date(monthDate);
+				   d.setFullYear(monthDate.getFullYear() + 1);
+				   
+				   if(d<date)
+					   return true;
+				   else
+					   return false;
+			  }
+			function splitGraph()
+			{
+				mode="split";
 				var title;
-	
+				var fromdate = formatDate(monthDate);
+				var todate = formatDate(date);
+				$("#mainChart").css("display","none");
+				$("#split").css("display","none");
+				$("#merge").css("display","inline-block");
+				$("#SubChart1").html("");
+				$("#SubChart2").html("");
+				$("#SubChart1").css("display","block");
+				$("#SubChart2").css("display","block");
+		    	   var options1 = {
+			          series: [],
+			          chart: {
+			          height: 300,
+			          type: 'line',
+			        },
+			        colors: ["#00b746", "#ffffff"],
+			        fill: {
+			            type:'solid',
+			            opacity: [0.35, 1],
+			          },
+			        stroke: {
+			        	 curve: 'smooth'
+			        },
+			        markers: {
+			            size: 4,
+			        },
+			        title: {
+			          text: title
+			        },
+			        dataLabels: {
+			          enabled: false
+			        },
+			        xaxis: {
+			          type: 'datetime'
+			        },
+			         yaxis: [{
+			          labels: {
+			        	    formatter: function (value) {
+			        	      return value.toFixed(3) + "%";
+			        	    }
+			        	  },
+			        
+			        }]
+			        };
+
+		    	   for(i=0; i<checkedItemid.length; i++)
+		   		   {
+		   	  		 if(checkedItemid[i]!=null)
+		   	  		  checkedItemValues.push(checkedItemid[i]);
+		   	       }
+		    	   var chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
+			        
+		           dataParam = { 
+   		        		"fromdate":fromdate,
+   		        	    "todate":todate,
+   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+   		        	    "country1":itemValue[checkedItemid[0]].country,
+   		        	    "yieldCurveCross1": itemValue[checkedItemid[0]].yieldCurveCross
+   	     			   };
+			  	       	  $.ajax({
+			  	       	        type: "POST",
+		      	    	        contentType:  "application/json; charset=utf-8",
+		      	    	        url: "/bourse/getgraphdata",
+		      	    	        data: JSON.stringify(dataParam),
+		      	    	        dataType: 'json',
+		      	    	        timeout: 600000,
+		      	    	        success: function (response) {
+		      	    	        debugger;
+		      	    	        chart1.updateSeries([{
+							          name: '',
+							          type: 'area',
+							          data: response[0]
+							        }])
+		      	   },
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    });	
+			  	 
+			        chart1.render();
+			        
+			    	   var options2 = {
+				          series: [],
+				          chart: {
+				          height: 300,
+				          type: 'line',
+				        },
+				        colors: ["#00b746", "#ffffff"],
+				        fill: {
+				            type:'solid',
+				            opacity: [0.35, 1],
+				          },
+				        stroke: {
+				        	 curve: 'smooth'
+				        },
+				        markers: {
+				            size: 4,
+				        },
+				        title: {
+				          text: title
+				        },
+				        dataLabels: {
+				          enabled: false
+				        },
+				        xaxis: {
+				          type: 'datetime'
+				        },
+				         yaxis: [{
+				          labels: {
+				        	    formatter: function (value) {
+				        	      return value.toFixed(3) + "%";
+				        	    }
+				        	  },
+				        
+				        }]
+				        };
+			    	   var chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
+					      
+			    	    dataParam = { 
+		   		        		"fromdate":fromdate,
+		   		        	    "todate":todate,
+		   		        	    "factor1":itemValue[checkedItemValues[1]].factor,
+		   		        	    "country1":itemValue[checkedItemid[1]].country,
+		   		        	    "yieldCurveCross1": itemValue[checkedItemid[1]].yieldCurveCross
+		   	     			   };
+			    	    
+				  	       	  $.ajax({
+				  	       	        type: "POST",
+			      	    	        contentType:  "application/json; charset=utf-8",
+			      	    	        url: "/bourse/getgraphdata",
+			      	    	        data: JSON.stringify(dataParam),
+			      	    	        dataType: 'json',
+			      	    	        timeout: 600000,
+			      	    	        success: function (response) {
+			      	    	        
+			      	    	          chart2.updateSeries([{
+								          name: '',
+								          type: 'line',
+								          data: response[0]
+								        }])
+			      	   },
+			      	    	        error: function (e) {
+			      	    	        	
+			      						  console.log("ERROR : ", e);
+			      	
+			      	    	        }
+			      	    	    });	
+				  	 
+				        chart2.render();
+				        $("#dateFrom-mainChart").val(fromdate);
+	    	            $("#dateTo-mainChart").val(todate);
+			}
+			function drawGraph(){
+				mode="merge";
+				var dataParam;
+				debugger;
+				var title;
+				var fromdate = formatDate(monthDate);
+				var todate = formatDate(date);
+				$("#mainChart").html("");
+				$("#mainChart").css("display","block");
+				$("#SubChart1").css("display","none");
+				$("#SubChart2").css("display","none");
+				$("#split").css("display","inline-block");
+				$("#merge").css("display","none");
+				
+		    	  if (checkedItem==2) {
+
+			        var options = {
+			          series: [],
+			          chart: {
+			          height: 300,
+			          type: 'line',
+			        },
+			        colors: ["#00b746", "#ffffff"],
+			        fill: {
+			            type:'solid',
+			            opacity: [0.35, 1],
+			          },
+			        stroke: {
+			        	 curve: 'smooth'
+			        },
+			        markers: {
+			            size: 4,
+			        },
+			        title: {
+			          text: title
+			        },
+			        dataLabels: {
+			          enabled: false
+			        },
+			        xaxis: {
+			          type: 'datetime'
+			        },
+			         yaxis: [{
+			          labels: {
+			        	    formatter: function (value) {
+			        	      return value.toFixed(3) + "%";
+			        	    }
+			        	  },
+			        
+			        }, {
+			          opposite: true
+			        }]
+			        };
+debugger;
+			        for(i=0; i<checkedItemid.length; i++)
+			   		   {
+			   	  		 if(checkedItemid[i]!=null)
+			   	  		  checkedItemValues.push(checkedItemid[i]);
+			   	       }
+			        dataParam = { 
+	   		        		"fromdate":fromdate,
+	   		        	    "todate":todate,
+	   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+	   		        	    "country1":itemValue[checkedItemid[0]].country,
+	   		        	    "yieldCurveCross1": itemValue[checkedItemid[0]].yieldCurveCross,
+	   		        	    "factor2":itemValue[checkedItemValues[1]].factor,
+	   		        	    "country2":itemValue[checkedItemid[1]].country,
+	   		        	    "yieldCurveCross2": itemValue[checkedItemid[1]].yieldCurveCross
+	   	     			   };
+			        debugger;			    	
+			  	       	  $.ajax({
+			  	       	        type: "POST",
+		      	    	        contentType:  "application/json; charset=utf-8",
+		      	    	        url: "/bourse/getgraphdata",
+		      	    	        data: JSON.stringify(dataParam),
+		      	    	        dataType: 'json',
+		      	    	        timeout: 600000,
+		      	    	        success: function (response) {
+		      	    	        
+		      	    	          chart.updateSeries([{
+							          name: '',
+							          type: 'area',
+							          data: response[0]
+							        },{
+							          name: '',
+							          type: 'line',
+							          data:response[1]
+							        }])
+		      	   },
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    });	
+			  	 
+			        var chart = new ApexCharts(document.querySelector("#mainChart"), options);
+			        chart.render();
+				}
+				else{
 					            var options = {
 					                series: [],
 					                chart: {
 					                height: 300,
-					                type: 'area',
+					                type: 'bar',
 					              },
-					              fill: {
-					            	    type: "gradient",
-					            	    gradient: {
-					            	      shadeIntensity: 1,
-					            	      opacityFrom: 0.7,
-					            	      opacityTo: 0.9,
-					            	      stops: [0, 90, 100]
-					            	    }
-					            	  },
+					              plotOptions: {
+						                bar: {
+						                  colors: {
+						                    ranges: [{
+						                      from: -1000,
+						                      to: 0,
+						                      color: '#ef403c'
+						                    },
+						                    {
+							                      from: 0,
+							                      to: 1000,
+							                      color: '#00b746'
+							                    }]
+						                  },
+						                  columnWidth: '80%',
+						                }
+						              },
 					              dataLabels: {
 					                enabled: false
 					              },
@@ -817,32 +5077,55 @@
 						                  rotate: -90
 						                }
 					              },
-					              animations: {
-					                  enabled: true,
-					                  easing: 'easeinout',
-					                  speed: 800,
-					                  animateGradually: {
-					                      enabled: true,
-					                      delay: 150
-					                  },
-					                  dynamicAnimation: {
-					                      enabled: true,
-					                      speed: 350
-					                  }
-					              }
+					              yaxis: [{
+							          labels: {
+							        	    formatter: function (value) {
+							        	      return value.toFixed(3) + " %";
+							        	    }
+							        	  },
+							        
+							        }]
 					              };
 
-					              var chart = new ApexCharts(document.querySelector("#"+chartId+""), options);
-					            
-					              
-					              $.getJSON('/bourse/findgraphdatabysubroupidandfactor/2/'+factor, function(response) {
-						              chart.updateSeries([{
-						                name: 'value',
-						                data: response,
-						              }])
-					              }); 
-					           
+					            for(i=0; i<checkedItemid.length; i++)
+						   		   {
+						   	  		 if(checkedItemid[i]!=null)
+						   	  		  checkedItemValues.push(checkedItemid[i]);
+						   	       }
+						        dataParam = { 
+				   		        		"fromdate":fromdate,
+				   		        	    "todate":todate,
+				   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+				   		        	    "country1":itemValue[checkedItemid[0]].country,
+				   		        	    "yieldCurveCross1": itemValue[checkedItemid[0]].yieldCurveCross,
+				   		        	   };
+						        
+						  	       	  $.ajax({
+						  	       	        type: "POST",
+					      	    	        contentType:  "application/json; charset=utf-8",
+					      	    	        url: "/bourse/getgraphdata",
+					      	    	        data: JSON.stringify(dataParam),
+					      	    	        dataType: 'json',
+					      	    	        timeout: 600000,
+					      	    	        success: function (response) {
+					      	    	        
+					      	    	        	 chart.updateSeries([{
+										                name: 'value',
+										                data: response,
+										              }])
+					      	   },
+					      	    	        error: function (e) {
+					      	    	        	
+					      						  console.log("ERROR : ", e);
+					      	
+					      	    	        }
+					      	    	    });	
+					              var chart = new ApexCharts(document.querySelector("#mainChart"), options);
 					              chart.render();
+				              }
+		    	  
+		    	               $("#dateFrom-mainChart").val(fromdate);
+		    	               $("#dateTo-mainChart").val(todate);
 							}
 		
 		</script>

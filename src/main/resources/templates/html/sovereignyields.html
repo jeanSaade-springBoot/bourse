@@ -578,6 +578,14 @@
 	<!-- 	 <div class="col-2">
 	     <div id='USATree'></div>
 		 </div> -->
+		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
+			<label style="margin-right: 1.5rem;">From</label>
+				<div id='dateInputFrom' style='border-radius: 0.2rem;'>
+				</div>
+			<label style="margin-right: 1.5rem;    margin-left: 1.5rem;">To</label>
+				<div id='dateInputTo'  style='border-radius: 0.2rem;'>
+				</div>
+       </div> 
 	     <div class="col-2">
 	          <div id='GermanyTree'>
             </div>
@@ -673,8 +681,9 @@
 	       Crosses
 	      </h6>
 	      	<div class="row mt-2">
-		      	<div id='jqxCheckBoxFRA-GER' style='margin-left: 10px; float: left;'>
-	                FRA-GER</div>
+	         <div id='FRA-GERTree' style='margin-left: 10px; float: left;'>
+             </div>
+		      	
 	          <!--   <div id='jqxCheckBoxITA-GER' style='margin-left: 10px; float: left;'>
 	                <span>ITA-GER</span></div>
 	            <div id='jqxCheckBoxSPN-GER' style='margin-left: 10px; float: left;'>
@@ -730,6 +739,22 @@
 		      </div>
 		      <div class="modal-body">
 		      The date you are trying to insert has already data in the database please choose a valid date
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 	<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You must select at least one record.
 		      </div>
 		    </div>
 		  </div>
@@ -842,6 +867,10 @@
          var crossesGridSource;  
          var date;
          var filterDate;
+         var monthDate=new Date(); 
+         monthDate.setMonth(monthDate.getMonth() - 1);
+         var source;
+         var date=new Date();
          var auditDefaultData=[{
              "factor": "30yr",
              "usa": "",
@@ -987,12 +1016,12 @@
                 {   "id": "3",
                     "parentid": "2",
                     "text": "30Y",
-                    "value": "yield-30"
+                    "value": "yield-30yr"
                 }, {
                    "id": "4",
                     "parentid": "2",
                     "text": "10Y",
-                    "value": "yield-10"
+                    "value": "yield-10yr"
                 }
                 ,  {
                     "id": "7",
@@ -1072,24 +1101,45 @@
                   "parentid": "7",
                   "value": "usa-2over10"
               }];
+    	 
+    	 var FRAGERTreeData = [
+    		   {
+    			   "id": "1",
+    			   "parentid": "-1",
+    			   "text": "FRA-GER",
+    			  "value": ""
+    			},
+                {   "id": "FRA-GER-3",
+                    "parentid": "1",
+                    "text": "30Y",
+                    "value": "FRAGER-30"
+                }, {
+                   "id": "FRA-GER-4",
+                    "parentid": "1",
+                    "text": "10Y",
+                    "value": "FRAGER-10"
+                }, {
+                     "id": "FRA-GER-5",
+                    "parentid": "1",
+                    "text": "5Y",
+                    "value": "FRAGER-5"
+                }, {
+                     "id": "FRA-GER-6",
+                    "parentid": "1",
+                    "value": "FRAGER-2",
+                    "text": "2Y",
+                }];
  		 var datatextarea = document.getElementById("data");
 			$(function (){
 
 				$('.simple-marquee-container').SimpleMarquee();
 				
 			});
+			
 		 $(document).ready(function () {
 			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });
 			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
-			 
-			 $("#jqxCheckBoxFRA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
-/* 			 $("#jqxCheckBoxITA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
-			 $("#jqxCheckBoxSPN-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
-			 $("#jqxCheckBoxUK-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
-			 $("#jqxCheckBoxUSA-GER").jqxCheckBox({ theme:'dark', width: 120, height: 25});
-			 $("#jqxCheckBoxUSA-UK").jqxCheckBox({ theme:'dark', width: 120, height: 25});
-			 $("#jqxCheckBoxITA-FRA").jqxCheckBox({ theme:'dark', width: 120, height: 25});
-			 $("#jqxCheckBoxITA-SPN").jqxCheckBox({ theme:'dark', width: 120, height: 25}); */
+			
 			 
 			 $('#dateInputAudit').on('change', function (event) 
 				 {   date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
@@ -1150,7 +1200,9 @@
                 germanydataAdapter.dataBind();
 	            var germanyrecords = germanydataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
 	            $('#GermanyTree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: germanyrecords, width: '100%'});
-	              
+	       debugger;
+	            $("#GermanyTree").jqxTree('checkItem', $("#3")[0], true); 
+	            $("#GermanyTree").jqxTree('checkItem', $("#4")[0], true); 
 	            var franceTreesource =
                 {
                     datatype: "json",
@@ -1168,7 +1220,26 @@
 	            var francerecords = francedataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
 	            $('#FranceTree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: francerecords, width: '100%'});
 	              
-	          /*    $('#UKTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
+	            var FRAGERTreesource =
+                {
+                    datatype: "json",
+                    datafields: [
+                        { name: 'id' },
+                        { name: 'parentid' },
+                        { name: 'text' },
+                        { name: 'value' }
+                    ],
+                    id: 'id',
+                    localdata: FRAGERTreeData
+                };  
+                var FRAGERdataAdapter = new $.jqx.dataAdapter(FRAGERTreesource);
+                FRAGERdataAdapter.dataBind();
+	            var francerecords = FRAGERdataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
+	            $('#FRA-GERTree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: francerecords, width: '100%'});
+	            
+	            $("#FRA-GERTree").jqxTree('checkItem', $("#FRA-GER-3")[0], true); 
+	            $("#FRA-GERTree").jqxTree('checkItem', $("#FRA-GER-4")[0], true); 
+	          /*$('#UKTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
 	            $('#UKTree').css('visibility', 'visible');
 	            $('#ItalyTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
 	            $('#ItalyTree').css('visibility', 'visible');
@@ -1334,41 +1405,33 @@
 		            };
 		            var dataAdapter = new $.jqx.dataAdapter(source);
 		             */
-		             var url = "/js/rows_and_columns.txt";
+		             
 		             // prepare the data
-		             var source =
+		             source =
 		             {
 		                 datatype: "json",
-		                 url: url
+		                 datafields: [
+	 		                    { name: 'refer_date', type: 'string' },
+	 		                    { name: 'thirteeYrFactor', type: 'string' },
+	 		                    { name: 'tenYrFactor', type: 'string' },
+	 		                    { name: 'fiveYrFactor', type: 'string' },
+	 		                    { name: 'twoYrFactor', type: 'string' },
+	 		                    { name: 'subgroupId', type: 'string' },
+	 		                    { name: 'GERMANY_30yr', type: 'string' },
+	 		                    { name: 'GERMANY_10yr', type: 'string' },
+	 		                    { name: 'GERMANY_2/5', type: 'string' },
+	 		                    { name: 'FRA_GER_30', type: 'string' },
+	 		                    { name: 'FRA_GER_10', type: 'string' },
+	 		                    { name: 'FRA_GER_5', type: 'string' },
+	 		                    { name: 'FRA_GER_2', type: 'string' }
+	 		                 ],
+	                         id: 'id',
+	                         localdata: ''
 		             };
-		             var dataAdapter = new $.jqx.dataAdapter(source, {
-		                 autoBind: true,
-		                 downloadComplete: function (data) {
-		                     var columns = data[0].columns;
-		                     var rows = data[1].rows;
-		                     var gridAdapter = new $.jqx.dataAdapter({
-		                    	 datafields: [
-		 		                    { name: 'referDate', type: 'string' },
-		 		                    { name: 'thirteeYrFactor', type: 'string' },
-		 		                    { name: 'tenYrFactor', type: 'string' },
-		 		                    { name: 'fiveYrFactor', type: 'string' },
-		 		                    { name: 'twoYrFactor', type: 'string' },
-		 		                    { name: 'subgroupId', type: 'string' }
-		 		                 ],
-		                         id: 'id',
-		                         localdata: rows
-		                     });
-		                     $("#grid").jqxGrid('hideloadelement');
-		                     $("#grid").jqxGrid('beginupdate', true);
-		                     $("#grid").jqxGrid(
-		                       {
-		                           source: gridAdapter,
-		                           columns: columns
-		                       });
-		                     $("#grid").jqxGrid('endupdate');
-		                 }
-		             }
-		             );
+		         
+		             $("#dateInputFrom").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px'});
+                     $("#dateInputFrom").jqxDateTimeInput('setDate', monthDate);
+        			 $("#dateInputTo").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
 		             $("#grid").jqxGrid(
 		                    {
 		                    	width: '100%',
@@ -1379,17 +1442,9 @@
 		  		                showfilterrow: true,
 		  		                filterable: true,
 		  		                autoheight: true,
-		                        columnsresize: true,
-		                        showtoolbar: true,
-		                        rendertoolbar: function (statusbar) {
-		                            // appends buttons to the status bar.
-		                            var container = $("<div class=\"btn-group mr-2 col-12 mt-2\" role=\"group\" aria-label=\"Second group\"><label style=\"margin-right: 1.5rem;\">From</label><div id='dateInputFrom' style='border-radius: 0.2rem;'></div><label style=\"margin-right: 1.5rem;    margin-left: 1.5rem;\">To</label><div id='dateInputTo'  style='border-radius: 0.2rem;'></div></div>");
-		                            statusbar.append(container);
-		                            $("#dateInputFrom").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });
-		               			    $("#dateInputTo").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
-		                            
-		                        }
+		                        columnsresize: true
 		                    });
+		             getFilterData();
 		             $("#grid").jqxGrid('showloadelement');
 		            
 		            var imagerenderer = function (row, datafield, value) {
@@ -1509,96 +1564,15 @@
             
             $("#filter").click(function () {
             	debugger;
-            	var jsonfilter=[];
-            	var allItems=[];
-            	var json=[];
-            	var gridColumns = [];
-            	var yields=[];
-            	var curves=[];
-            	var itemsGermany = $('#GermanyTree').jqxTree('getCheckedItems');
-            	var itemsFrance = $('#FranceTree').jqxTree('getCheckedItems');
-            	
-            	for (i = 0; i < itemsGermany.length; i++) {
-            		if(itemsGermany[i].value!="")
-           			{
-            			if(itemsGermany[i].value.split("-")[0]=="yield")
-            				yields.push(itemsGermany[i].value.split("-")[1]);
-            			else
-            			if(itemsGermany[i].value.split("-")[0]=="curve")
-            				curves.push(itemsGermany[i].value.split("-")[1]);
-           			allItems.push(itemsGermany[i].value);
-           			}
-            	}
-            	if(itemsGermany.length>0)
-            	{
-            		jsonfilter.push({
-            		   "country":"Germany",
-         			   "yield":yields,
-         			   "curve":curves
-         			});
-            		 yields=[];
-                	 curves=[];
-            	}
-            	for (i = 0; i < itemsFrance.length; i++) {
-            		if(itemsFrance[i].value!="")
-           			{
-            			if(itemsFrance[i].value.split("-")[0]=="yield")
-            				yields.push(itemsFrance[i].value.split("-")[1]);
-            			else
-            			if(itemsFrance[i].value.split("-")[0]=="curve")
-            				curves.push(itemsFrance[i].value.split("-")[1]);
-           			allItems.push(itemsFrance[i].value);
-           			}
-            	}
-            	if(itemsFrance.length>0)
-            	{
-            		jsonfilter.push({
-            		   "country":"France",
-         			   "yield":yields,
-         			   "curve":curves
-         			});
-            		 yields=[];
-                	 curves=[];
-            	}
-            	
-            	if($('#jqxCheckBoxFRA-GER').jqxCheckBox('checked')==true)
-            		jsonfilter.push({
-            			"country":"cross",
-            			"FRA-GER":2
-         			});
-         		   allItems.push("FRA-GER");	
-            	/* if($('#jqxCheckBoxITA-GER').jqxCheckBox('checked')==true)
-            		jsonfilter.push("ITA-GER");
-            	if($('#jqxCheckBoxSPN-GER').jqxCheckBox('checked')==true)
-            		jsonfilter.push("SPN-GER"); */
-            	
-            	for (j = 0; j < allItems.length; j++) {
-            		gridColumns.push({
-         			   "text":allItems[j],
-         			   "datafield":allItems[j],
-         			   "width":(allItems.length < 10) ?  100/allItems.length+"%" : "10%"
-         			});
-            	}
-            	debugger;
-            	json.push({"filterJson":jsonfilter});
-            	json.push({"gridColumns":gridColumns});
-            	
-   	   		 console.log(json);
+            	getFilterData();
                });
             
             $("#Clearfilter").click(function () {
-             $("#jqxCheckBoxFRA-GER").jqxCheckBox({checked: false });
-   		/* 	 $("#jqxCheckBoxITA-GER").jqxCheckBox({ checked: false });
-   			 $("#jqxCheckBoxSPN-GER").jqxCheckBox({checked: false });
-   			 $("#jqxCheckBoxUK-GER").jqxCheckBox({checked: false });
-   			 $("#jqxCheckBoxUSA-GER").jqxCheckBox({ checked: false });
-   			 $("#jqxCheckBoxUSA-UK").jqxCheckBox({checked: false });
-   			 $("#jqxCheckBoxITA-FRA").jqxCheckBox({ checked: false });
-   			 $("#jqxCheckBoxITA-SPN").jqxCheckBox({ checked: false }); */
    		    
    		     //$('#USATree').jqxTree('uncheckAll');
    		      $('#GermanyTree').jqxTree('uncheckAll');
 	   		  $('#FranceTree').jqxTree('uncheckAll');
+	   		  $('#FRA-GERTree').jqxTree('uncheckAll');
 	   		/*   $('#UKTree').jqxTree('uncheckAll');
 	   		  $('#ItalyTree').jqxTree('uncheckAll');
 	   		  $('#SpainTree').jqxTree('uncheckAll'); */
@@ -1661,10 +1635,8 @@
 		    	    	        success: function (data) {
 		    	    	        	debugger;
 		    	    	        	
-		    	    	         source.url='/bourse/getsovereignyields';
-		    	    	         dataAdapter = new $.jqx.dataAdapter(source);
-		  						 $('#grid').jqxGrid({source:dataAdapter});
-		  						 
+		    	    	        	getFilterData();
+		    	    	        	  
 		  						 datatextarea.value="";
 		  		            	  $("#dataformInput").css("display","block");
 		  						  $("#dataInputButtons").css("display","none"); 
@@ -1695,6 +1667,121 @@
           
             
 		        });
+		 
+		  function getFilterData()
+		  {
+			 var jsonfilter=[];
+          	var sovereignYiledCurveSearchDTOlst=[];
+          	var sovereignCrossSearchDTOlst=[];
+          	var allItems=[];
+          	var json;
+          	var gridColumns = [];
+          	var yields=[];
+          	var curves=[];
+          	var itemsGermany = $('#GermanyTree').jqxTree('getCheckedItems');
+          	var itemsFrance = $('#FranceTree').jqxTree('getCheckedItems');
+          	var itemsFRAGER = $('#FRA-GERTree').jqxTree('getCheckedItems'); 
+          	
+          	for (i = 0; i < itemsGermany.length; i++) {
+          		if(itemsGermany[i].value!="")
+         			{
+          			if(itemsGermany[i].value.split("-")[0]=="yield")
+          				yields.push(itemsGermany[i].value.split("-")[1]);
+          			else
+          			if(itemsGermany[i].value.split("-")[0]=="curve")
+          				curves.push(itemsGermany[i].value.split("-")[1]);
+         			allItems.push(itemsGermany[i].value);
+         			}
+          	}
+          	if(itemsGermany.length>0)
+          	{
+          		sovereignYiledCurveSearchDTOlst.push({
+          		   "groupId":"2",
+       			   "yieldLst":yields,
+       			   "curveLst":curves
+       			});
+          		 yields=[];
+              	 curves=[];
+          	}
+          	for (i = 0; i < itemsFrance.length; i++) {
+          		if(itemsFrance[i].value!="")
+         			{
+          			if(itemsFrance[i].value.split("-")[0]=="yield")
+          				yields.push(itemsFrance[i].value.split("-")[1]);
+          			else
+          			if(itemsFrance[i].value.split("-")[0]=="curve")
+          				curves.push(itemsFrance[i].value.split("-")[1]);
+         			allItems.push(itemsFrance[i].value);
+         			}
+          	}
+          	if(itemsFrance.length>0)
+          	{
+          		sovereignYiledCurveSearchDTOlst.push({
+          		   "country":"3",
+          		   "yieldLst":yields,
+       			   "curveLst":curves
+       			});
+          		 yields=[];
+              	 curves=[];
+          	}
+          	
+          	
+           	for (i = 0; i < itemsFRAGER.length; i++) {
+          		if(itemsFRAGER[i].value!="")
+         			{debugger;
+          			yields.push(itemsFRAGER[i].value.split("-")[1]);
+          			
+         			allItems.push(itemsFRAGER[i].value);
+         			}
+          	}
+          	if(itemsFRAGER.length>0)
+          	{
+          		 sovereignCrossSearchDTOlst.push({
+	            			"crossGroupId":"1",
+	            			"crossGroupValue":yields
+	         			});
+          		 yields=[];
+          	}
+          	
+          	
+          	if(allItems.length!=0)
+          	{
+          	json={"sovereignYiledCurveSearchDTOlst":sovereignYiledCurveSearchDTOlst,
+          		       "sovereignCrossSearchDTOlst":sovereignCrossSearchDTOlst,
+          		       "fromDate":$.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'),  'yyyy-MM-dd'),
+          		       "toDate":$.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'),  'yyyy-MM-dd')
+          		       };
+       
+	        	  $.ajax({
+    	    	        type: "POST",
+    	    	        contentType: "application/json",
+    	    	        url: "/bourse/getgriddata",
+    	    	        data: JSON.stringify(json),
+    	    	        dataType: 'json',
+    	    	        async:true,
+    	    	        cache: false,
+    	    	        timeout: 600000,
+    	    	        success: function (data) {
+    	    	        	debugger;
+    	    	        	 delete source.url;
+    	    	             source.localdata=data.rows;
+	    	    	         dataAdapter = new $.jqx.dataAdapter(source);
+	    	    	        
+	  						 $('#grid').jqxGrid({source:dataAdapter,
+	  							                 columns: data.columns});
+    	   },
+    	    	        error: function (e) {
+    	    	        	
+    						  console.log("ERROR : ", e);
+    	
+    	    	        }
+    	    	    });
+          	}
+          	else
+          	{
+          		$('#alertFiltter-modal').modal('show');
+          	}
+		  }
 			function submitData()
 			{
 			  var dataDTO = {}
@@ -1829,6 +1916,8 @@
 		      						 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
 		      						 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
 		      						 $('#crossesGrid').jqxGrid({source:dataAdapter});
+		      						 
+		      						getFilterData();
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	

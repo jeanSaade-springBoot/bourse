@@ -273,15 +273,25 @@ public class SovereignYieldsService
 		HashMap<String,String> configColumns = new HashMap<String, String>(); 
 		List lstRowsDt = new ArrayList<String>();
 		HashMap<String,List> hashData = new HashMap<String, List>();
+		 double count = colHash.size();
+		 String columnWidth="10%";
+		 if(count < 10)
+		 {
+			 columnWidth=String.valueOf(100/(count-1))+"%"; // 1 to remove the id column size it will not be presented i the grid
+		 }
 		 while (it.hasNext()) {
+			
 			    HashMap.Entry pair = (HashMap.Entry)it.next();
 			    String colsName = pair.getValue().toString();
 		        System.out.println(pair.getKey() + " = " + colsName);
 		        it.remove(); // avoids a ConcurrentModificationException
-		        configColumns.put("text",colsName);
-		        configColumns.put("datafield",colsName);
-		        configColumns.put("width","33.333333333333336%");
-		        lstRowsDt.add(configColumns);
+		        if(!colsName.equalsIgnoreCase("id"))
+		        {
+			        configColumns.put("text",colsName);
+			        configColumns.put("datafield",colsName);
+			        configColumns.put("width",columnWidth);
+			        lstRowsDt.add(configColumns);
+		        }
 		        colsName = null;
 		        configColumns = new HashMap<String, String>(); 
 		    }

@@ -253,7 +253,7 @@ public class BourseController {
 	} 
 	
 
-	@GetMapping(value = "getgriddata")
+	@PostMapping(value = "getgriddata")
 	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody SearchFilterDTO searchFilterDTO) {
 		return new ResponseEntity<>(sovereignYieldsService.getGridData(searchFilterDTO),HttpStatus.OK);
 	}
