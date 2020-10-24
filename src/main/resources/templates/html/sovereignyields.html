@@ -1736,6 +1736,7 @@
           	var gridColumns = [];
           	var yields=[];
           	var curves=[];
+            $('#grid').jqxGrid({ showdefaultloadelement: true}); 
           	var itemsUsa = $('#USATree').jqxTree('getCheckedItems');
         	var itemsGermany = $('#GermanyTree').jqxTree('getCheckedItems');
           	var itemsFrance = $('#FranceTree').jqxTree('getCheckedItems');
@@ -1846,7 +1847,7 @@
           		       "toDate":$.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'),  'yyyy-MM-dd')
           		       };
        debugger;
-       $('#grid').jqxGrid({ showdefaultloadelement: true}); 
+     
 	        	  $.ajax({
     	    	        type: "POST",
     	    	        contentType: "application/json",
