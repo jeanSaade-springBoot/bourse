@@ -825,7 +825,6 @@
   <script>
   var checkedItem = 0;
   var checkedItemid = [];
-  var checkedItemValues = [];
   var monthDate=new Date(); 
   monthDate.setMonth(monthDate.getMonth() - 1);
   var date=new Date();
@@ -921,431 +920,519 @@
 		  "#jqxCheckBoxUSA-30":{
 			  "factor":"30yr",
 			  "country":"1",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"USA 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUSA-10":{
 			  "factor":"10yr",
 			  "country":"1",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			   "title":"USA 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUSA-5":{
 			  "factor":"5yr",
 			  "country":"1",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"USA 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUSA-2":{
 			  "factor":"2yr",
 			  "country":"1",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"USA 2-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-30":{
 			  "factor":"30yr",
 			  "country":"2",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Germany 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-10":{
 			  "factor":"10yr",
 			  "country":"2",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Germany 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-5":{
 			  "factor":"5yr",
 			  "country":"2",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Germany 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-2":{
 			  "factor":"2yr",
 			  "country":"2",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Germany 2-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-30":{
 			  "factor":"30yr",
 			  "country":"3",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"France 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-10":{
 			  "factor":"10yr",
 			  "country":"3",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"France 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-5":{
 			  "factor":"5yr",
 			  "country":"3",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"France 5-yr Benchmark YIELD"
+			  
 			 },
 "#jqxCheckBoxFrance-2":{
 			  "factor":"2yr",
 			  "country":"3",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"France 2-yr Benchmark YIELD"
 			 },	
 "#jqxCheckBoxUk-30":{
 			  "factor":"30yr",
 			  "country":"4",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Uk 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUk-10":{
 			  "factor":"10yr",
 			  "country":"4",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Uk 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUk-5":{
 			  "factor":"5yr",
 			  "country":"4",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Uk 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUk-2":{
 			  "factor":"2yr",
 			  "country":"4",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Uk 2-yr Benchmark YIELD"
 			 },	
 "#jqxCheckBoxItaly-30":{
 			  "factor":"30yr",
 			  "country":"5",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Italy 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxItaly-10":{
 			  "factor":"10yr",
 			  "country":"5",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Italy 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxItaly-5":{
 			  "factor":"5yr",
 			  "country":"5",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Italy 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxItaly-2":{
 			  "factor":"2yr",
 			  "country":"5",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Italy 2-yr Benchmark YIELD"
 			 },		
 "#jqxCheckBoxSpain-30":{
 			  "factor":"30yr",
 			  "country":"6",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Spain 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxSpain-10":{
 			  "factor":"10yr",
 			  "country":"6",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Spain 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxSpain-5":{
 			  "factor":"5yr",
 			  "country":"6",
-			  "yieldCurveCross":"yield"
+			  "yieldCurveCross":"yield",
+			  "title":"Spain 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxSpain-2":{
 			  "factor":"2yr",
 			  "country":"6",
-			  "yieldCurveCross":"yield"
-			 },	"#jqxCheckBoxUSA-10over30":{
-			  "factor":"4",
+			  "yieldCurveCross":"yield",
+			  "title":"Spain 2-yr Benchmark YIELD"
+			 },	
+ "#jqxCheckBoxUSA-10over30":{
+			  "factor":"10/30",
 			  "country":"1",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"USA 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxUSA-5over30":{
-			  "factor":"0",
+			  "factor":"4",
 			  "country":"1",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"USA 5's/30's yield CURVE"
 			 },
 "#jqxCheckBoxUSA-5over10":{
 			  "factor":"3",
 			  "country":"1",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"USA 5's/10's yield CURVE"
 			 },
 "#jqxCheckBoxUSA-2over10":{
 			  "factor":"2",
 			  "country":"1",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"USA 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxUSA-2over5":{
 			  "factor":"1",
 			  "country":"1",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"USA 2's/5's yield CURVE"
 			 },
 "#jqxCheckBoxGermany-10over30":{
-			  "factor":"4",
+			  "factor":"5",
 			  "country":"2",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Germany 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxGermany-5over30":{
-			  "factor":"0",
+			  "factor":"4",
 			  "country":"2",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Germany 5's/30's yield CURVE"
 			 },
 "#jqxCheckBoxGermany-5over10":{
 			  "factor":"3",
 			  "country":"2",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Germany 5's/10's yield CURVE"
 			 },
 "#jqxCheckBoxGermany-2over10":{
 			  "factor":"2",
 			  "country":"2",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Germany 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxGermany-2over5":{
 			  "factor":"1",
 			  "country":"2",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Germany 2's/5's yield CURVE"
 			 },
 "#jqxCheckBoxFrance-10over30":{
-			  "factor":"4",
+			  "factor":"5",
 			  "country":"3",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"France 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxFrance-5over30":{
-			  "factor":"0",
+			  "factor":"4",
 			  "country":"3",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"France 5's/30's yield CURVE"
 			 },
 "#jqxCheckBoxFrance-5over10":{
 			  "factor":"3",
 			  "country":"3",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"France 5's/10's yield CURVE"
 			 },
 "#jqxCheckBoxFrance-2over10":{
 			  "factor":"2",
 			  "country":"3",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"France 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxFrance-2over5":{
 			  "factor":"1",
 			  "country":"3",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"France 2's/5's yield CURVE"
 			 },	
 "#jqxCheckBoxUk-10over30":{
-			  "factor":"4",
+			  "factor":"5",
 			  "country":"4",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Uk 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxUk-5over30":{
-			  "factor":"0",
+			  "factor":"4",
 			  "country":"4",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Uk 5's/30's yield CURVE"
 			 },
 "#jqxCheckBoxUk-5over10":{
 			  "factor":"3",
 			  "country":"4",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Uk 5's/10's yield CURVE"
 			 },
 "#jqxCheckBoxUk-2over10":{
 			  "factor":"2",
 			  "country":"4",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Uk 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxUk-2over5":{
 			  "factor":"1",
 			  "country":"4",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Uk 2's/5's yield CURVE"
 			 },	
 "#jqxCheckBoxItaly-10over30":{
-			  "factor":"4",
+			  "factor":"5",
 			  "country":"5",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Italy 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxItaly-5over30":{
-			  "factor":"0",
+			  "factor":"4",
 			  "country":"5",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Italy 5's/30's yield CURVE"
 			 },
 "#jqxCheckBoxItaly-5over10":{
 			  "factor":"3",
 			  "country":"5",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Italy 5's/10's yield CURVE"
 			 },
 "#jqxCheckBoxItaly-2over10":{
 			  "factor":"2",
 			  "country":"5",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Italy 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxItaly-2over5":{
 			  "factor":"1",
 			  "country":"5",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Italy 2's/5's yield CURVE"
 			 },		
 "#jqxCheckBoxSpain-10over30":{
-			  "factor":"4",
+			  "factor":"5",
 			  "country":"6",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Spain 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxSpain-5over30":{
-			  "factor":"0",
+			  "factor":"4",
 			  "country":"6",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Spain 5's/30's yield CURVE"
 			 },					 
 "#jqxCheckBoxSpain-5over10":{
 			  "factor":"3",
 			  "country":"6",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Spain 5's/110's yield CURVE"
 			 },
 "#jqxCheckBoxSpain-2over10":{
 			  "factor":"2",
 			  "country":"6",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Spain 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxSpain-2over5":{
 			  "factor":"1",
 			  "country":"6",
-			  "yieldCurveCross":"curve"
+			  "yieldCurveCross":"curve",
+			  "title":"Spain 2's/5's yield CURVE"
 			 },					
 "#jqxCheckBoxfrc-ger-30":{
 			  "factor":"30",
 			  "country":"1",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"FRA-GER 30-yr yield CROSS"
 			 },
 "#jqxCheckBoxfrc-ger-10":{
 			  "factor":"10",
 			  "country":"1",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"FRA-GER 10-yr yield CROSS"
 			 },
 "#jqxCheckBoxfrc-ger-5":{
 			  "factor":"5",
 			  "country":"1",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"FRA-GER 5-yr yield CROSS"
 			 },
 "#jqxCheckBoxfrc-ger-2":{
 			  "factor":"2",
 			  "country":"1",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"FRA-GER 2-yr yield CROSS"
 			 },
 "#jqxCheckBoxita-ger-30":{
 			  "factor":"30",
 			  "country":"2",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-GER 30-yr yield CROSS"
 			 },
 "#jqxCheckBoxita-ger-10":{
 			  "factor":"10",
 			  "country":"2",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-GER 10-yr yield CROSS"
 			 },
 "#jqxCheckBoxita-ger-5":{
 			  "factor":"5",
 			  "country":"2",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-GER 5-yr yield CROSS"
 			 },
 "#jqxCheckBoxita-ger-2":{
 			  "factor":"2",
 			  "country":"2",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-GER 2-yr yield CROSS"
 			 },
 "#jqxCheckBoxspn-ger-30":{
 			  "factor":"30",
 			  "country":"3",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"SPN-GER 30-yr yield CROSS"
 			 },
 "#jqxCheckBoxspn-ger-10":{
 			  "factor":"10",
 			  "country":"3",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"SPN-GER 10-yr yield CROSS"
 			 },
 "#jqxCheckBoxspn-ger-5":{
 			  "factor":"5",
 			  "country":"3",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"SPN-GER 5-yr yield CROSS"
 			 },
 "#jqxCheckBoxspn-ger-2":{
 			  "factor":"2",
 			  "country":"3",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"SPN-GER 2-yr yield CROSS"
 			 },	
 "#jqxCheckBoxuk-ger-30":{
 			  "factor":"30",
 			  "country":"4",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"UK-GER 30-yr yield CROSS"
 			 },
 "#jqxCheckBoxuk-ger-10":{
 			  "factor":"10",
 			  "country":"4",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"UK-GER 10-yr yield CROSS"
 			 },
 "#jqxCheckBoxuk-ger-5":{
 			  "factor":"5",
 			  "country":"4",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"UK-GER 5-yr yield CROSS"
 			 },
 "#jqxCheckBoxuk-ger-2":{
 			  "factor":"2",
 			  "country":"4",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"UK-GER 2-yr yield CROSS"
 			 },	
 "#jqxCheckBoxusa-ger-30":{
 			  "factor":"30",
 			  "country":"5",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"USA-GER 30-yr yield CROSS"
 			 },
 "#jqxCheckBoxusa-ger-10":{
 			  "factor":"10",
 			  "country":"5",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"USA-GER 10-yr yield CROSS"
 			 },
 "#jqxCheckBoxusa-ger-5":{
 			  "factor":"5",
 			  "country":"5",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"USA-GER 5-yr yield CROSS"
 			 },
 "#jqxCheckBoxusa-ger-2":{
 			  "factor":"2",
 			  "country":"5",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"USA-GER 2-yr yield CROSS"
 			 },		
 "#jqxCheckBoxusa-uk-30":{
 			  "factor":"30",
 			  "country":"6",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"USA-UK 30-yr yield CROSS"
 			 },
 "#jqxCheckBoxusa-uk-10":{
 			  "factor":"10",
 			  "country":"6",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"USA-UK 10-yr yield CROSS"
 			 },
 "#jqxCheckBoxusa-uk-5":{
 			  "factor":"5",
 			  "country":"6",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"USA-UK 5-yr yield CROSS"
 			 },
 "#jqxCheckBoxusa-uk-2":{
 			  "factor":"2",
 			  "country":"6",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"USA-UK 2-yr yield CROSS"
 			 },	
 "#jqxCheckBoxita-frc-30":{
 			  "factor":"30",
 			  "country":"7",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-FRA 30-yr yield CROSS"
 			 },
 "#jqxCheckBoxita-frc-10":{
 			  "factor":"10",
 			  "country":"7",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-FRA 10-yr yield CROSS"
 			 },
 "#jqxCheckBoxita-frc-5":{
 			  "factor":"5",
 			  "country":"7",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-FRA 5-yr yield CROSS"
 			 },
 "#jqxCheckBoxita-frc-2":{
 			  "factor":"2",
 			  "country":"7",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-FRA 2-yr yield CROSS"
 			 },	
 "#jqxCheckBoxita-spn-30":{
 			  "factor":"30",
 			  "country":"8",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-SPN 30-yr yield CROSS"
 			 },
 "#jqxCheckBoxita-spn-10":{
 			  "factor":"10",
 			  "country":"8",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-SPN 10-yr yield CROSS"
 			 },
 "#jqxCheckBoxita-spn-5":{
 			  "factor":"5",
 			  "country":"8",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-SPN 5-yr yield CROSS"
 			 },
 "#jqxCheckBoxita-spn-2":{
 			  "factor":"2",
 			  "country":"8",
-			  "yieldCurveCross":"cross"
+			  "yieldCurveCross":"cross",
+			  "title":"ITA-SPN 2-yr yield CROSS"
 			 }					 
 };
   $(document).ready(function () {
@@ -2453,18 +2540,18 @@
   	   }
   	 }); 
      
-     $('#jjqxCheckBoxUSA-5over10').on('change', function (event) {
+     $('#jqxCheckBoxUSA-5over10').on('change', function (event) {
   	   var checked = event.args.checked;
   	   if(checked)
 	    {
 	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jjqxCheckBoxUSA-5over10");
+	    	checkedItemid.push("#jqxCheckBoxUSA-5over10");
 	    }
 	    else {
 	    	checkedItem=checkedItem - 1;
 			   for(i=0; i<checkedItemid.length; i++)
 				   {
-				   if(checkedItemid[i]=="#jjqxCheckBoxUSA-5over10")
+				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5over10")
 					 delete checkedItemid[i];
 				   }
 	    }
@@ -2639,18 +2726,18 @@
   	   }
   	 }); 
      
-     $('#jjqxCheckBoxGermany-5over10').on('change', function (event) {
+     $('#jqxCheckBoxGermany-5over10').on('change', function (event) {
   	   var checked = event.args.checked;
   	   if(checked)
 	    {
 	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jjqxCheckBoxGermany-5over10");
+	    	checkedItemid.push("#jqxCheckBoxGermany-5over10");
 	    }
 	    else {
 	    	checkedItem=checkedItem - 1;
 			   for(i=0; i<checkedItemid.length; i++)
 				   {
-				   if(checkedItemid[i]=="#jjqxCheckBoxGermany-5over10")
+				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5over10")
 					 delete checkedItemid[i];
 				   }
 	    }
@@ -2826,18 +2913,18 @@
   	   }
   	 }); 
      
-     $('#jjqxCheckBoxFrance-5over10').on('change', function (event) {
+     $('#jqxCheckBoxFrance-5over10').on('change', function (event) {
   	   var checked = event.args.checked;
   	   if(checked)
 	    {
 	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jjqxCheckBoxFrance-5over10");
+	    	checkedItemid.push("#jqxCheckBoxFrance-5over10");
 	    }
 	    else {
 	    	checkedItem=checkedItem - 1;
 			   for(i=0; i<checkedItemid.length; i++)
 				   {
-				   if(checkedItemid[i]=="#jjqxCheckBoxFrance-5over10")
+				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5over10")
 					 delete checkedItemid[i];
 				   }
 	    }
@@ -3012,18 +3099,18 @@
   	   }
   	 }); 
      
-     $('#jjqxCheckBoxUk-5over10').on('change', function (event) {
+     $('#jqxCheckBoxUk-5over10').on('change', function (event) {
   	   var checked = event.args.checked;
   	   if(checked)
 	    {
 	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jjqxCheckBoxUk-5over10");
+	    	checkedItemid.push("#jqxCheckBoxUk-5over10");
 	    }
 	    else {
 	    	checkedItem=checkedItem - 1;
 			   for(i=0; i<checkedItemid.length; i++)
 				   {
-				   if(checkedItemid[i]=="#jjqxCheckBoxUk-5over10")
+				   if(checkedItemid[i]=="#jqxCheckBoxUk-5over10")
 					 delete checkedItemid[i];
 				   }
 	    }
@@ -4783,9 +4870,12 @@
 			function splitGraph()
 			{
 				mode="split";
-				var title;
+				var title1;
+				var title2;
+  				var checkedItemValues = [];
 				var fromdate = formatDate(monthDate);
 				var todate = formatDate(date);
+				
 				$("#mainChart").css("display","none");
 				$("#split").css("display","none");
 				$("#merge").css("display","inline-block");
@@ -4793,6 +4883,19 @@
 				$("#SubChart2").html("");
 				$("#SubChart1").css("display","block");
 				$("#SubChart2").css("display","block");
+				for(i=0; i<checkedItemid.length; i++)
+		   		   {
+		   	  		 if(checkedItemid[i]!=null)
+		   	  		  checkedItemValues.push(checkedItemid[i]);
+		   	       }
+				 if(checkedItemValues.length>1)
+				  { 
+					title1=itemValue[checkedItemValues[0]].title;
+				    title2=itemValue[checkedItemValues[1]].title;
+				  }
+				  else
+					 title1=itemValue[checkedItemValues[0]].title;
+				  
 		    	   var options1 = {
 			          series: [],
 			          chart: {
@@ -4811,7 +4914,7 @@
 			            size: 4,
 			        },
 			        title: {
-			          text: title
+			          text: title1
 			        },
 			        dataLabels: {
 			          enabled: false
@@ -4829,19 +4932,15 @@
 			        }]
 			        };
 
-		    	   for(i=0; i<checkedItemid.length; i++)
-		   		   {
-		   	  		 if(checkedItemid[i]!=null)
-		   	  		  checkedItemValues.push(checkedItemid[i]);
-		   	       }
+		    	   
 		    	   var chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
 			        
 		           dataParam = { 
    		        		"fromdate":fromdate,
    		        	    "todate":todate,
    		        	    "factor1":itemValue[checkedItemValues[0]].factor,
-   		        	    "country1":itemValue[checkedItemid[0]].country,
-   		        	    "yieldCurveCross1": itemValue[checkedItemid[0]].yieldCurveCross
+   		        	    "country1":itemValue[checkedItemValues[0]].country,
+   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross
    	     			   };
 			  	       	  $.ajax({
 			  	       	        type: "POST",
@@ -4853,7 +4952,7 @@
 		      	    	        success: function (response) {
 		      	    	        debugger;
 		      	    	        chart1.updateSeries([{
-							          name: '',
+							          name: itemValue[checkedItemValues[0]].title,
 							          type: 'area',
 							          data: response[0]
 							        }])
@@ -4873,10 +4972,10 @@
 				          height: 300,
 				          type: 'line',
 				        },
-				        colors: ["#00b746", "#ffffff"],
+				        colors: ["#ffffff"],
 				        fill: {
 				            type:'solid',
-				            opacity: [0.35, 1],
+				            opacity: [1],
 				          },
 				        stroke: {
 				        	 curve: 'smooth'
@@ -4885,7 +4984,7 @@
 				            size: 4,
 				        },
 				        title: {
-				          text: title
+				          text: title2
 				        },
 				        dataLabels: {
 				          enabled: false
@@ -4908,8 +5007,8 @@
 		   		        		"fromdate":fromdate,
 		   		        	    "todate":todate,
 		   		        	    "factor1":itemValue[checkedItemValues[1]].factor,
-		   		        	    "country1":itemValue[checkedItemid[1]].country,
-		   		        	    "yieldCurveCross1": itemValue[checkedItemid[1]].yieldCurveCross
+		   		        	    "country1":itemValue[checkedItemValues[1]].country,
+		   		        	    "yieldCurveCross1": itemValue[checkedItemValues[1]].yieldCurveCross
 		   	     			   };
 			    	    
 				  	       	  $.ajax({
@@ -4922,7 +5021,7 @@
 			      	    	        success: function (response) {
 			      	    	        
 			      	    	          chart2.updateSeries([{
-								          name: '',
+								          name: itemValue[checkedItemValues[1]].title,
 								          type: 'line',
 								          data: response[0]
 								        }])
@@ -4941,6 +5040,7 @@
 			function drawGraph(){
 				mode="merge";
 				var dataParam;
+                var checkedItemValues = [];
 				debugger;
 				var title;
 				var fromdate = formatDate(monthDate);
@@ -4951,9 +5051,29 @@
 				$("#SubChart2").css("display","none");
 				$("#split").css("display","inline-block");
 				$("#merge").css("display","none");
-				
+			
+			        			
 		    	  if (checkedItem==2) {
-
+		    			 for(i=0; i<checkedItemid.length; i++)
+				   		   {
+				   	  		 if(checkedItemid[i]!=null)
+				   	  		  checkedItemValues.push(checkedItemid[i]);
+				   	       }
+				        dataParam = { 
+		 		        		"fromdate":fromdate,
+		 		        	    "todate":todate,
+		 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+		 		        	    "country1":itemValue[checkedItemValues[0]].country,
+		 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+		 		        	    "factor2":itemValue[checkedItemValues[1]].factor,
+		 		        	    "country2":itemValue[checkedItemValues[1]].country,
+		 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross
+		 	     			   };
+				       
+						 if(checkedItemValues.length>1)
+					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
+					        		else 
+					        			title=itemValue[checkedItemValues[0]].title
 			        var options = {
 			          series: [],
 			          chart: {
@@ -4992,21 +5112,6 @@
 			        }]
 			        };
 debugger;
-			        for(i=0; i<checkedItemid.length; i++)
-			   		   {
-			   	  		 if(checkedItemid[i]!=null)
-			   	  		  checkedItemValues.push(checkedItemid[i]);
-			   	       }
-			        dataParam = { 
-	   		        		"fromdate":fromdate,
-	   		        	    "todate":todate,
-	   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
-	   		        	    "country1":itemValue[checkedItemid[0]].country,
-	   		        	    "yieldCurveCross1": itemValue[checkedItemid[0]].yieldCurveCross,
-	   		        	    "factor2":itemValue[checkedItemValues[1]].factor,
-	   		        	    "country2":itemValue[checkedItemid[1]].country,
-	   		        	    "yieldCurveCross2": itemValue[checkedItemid[1]].yieldCurveCross
-	   	     			   };
 			        debugger;			    	
 			  	       	  $.ajax({
 			  	       	        type: "POST",
@@ -5018,11 +5123,11 @@ debugger;
 		      	    	        success: function (response) {
 		      	    	        
 		      	    	          chart.updateSeries([{
-							          name: '',
+							          name: itemValue[checkedItemValues[0]].title,
 							          type: 'area',
 							          data: response[0]
 							        },{
-							          name: '',
+							          name: itemValue[checkedItemValues[1]].title,
 							          type: 'line',
 							          data:response[1]
 							        }])
@@ -5038,90 +5143,82 @@ debugger;
 			        chart.render();
 				}
 				else{
-					            var options = {
-					                series: [],
-					                chart: {
-					                height: 300,
-					                type: 'bar',
-					              },
-					              plotOptions: {
-						                bar: {
-						                  colors: {
-						                    ranges: [{
-						                      from: -1000,
-						                      to: 0,
-						                      color: '#ef403c'
-						                    },
-						                    {
-							                      from: 0,
-							                      to: 1000,
-							                      color: '#00b746'
-							                    }]
-						                  },
-						                  columnWidth: '80%',
-						                }
-						              },
-					              dataLabels: {
-					                enabled: false
-					              },
-					              title: {
-					                text: title,
-					              },
-					              noData: {
-					                text: 'Loading...'
-					              },
-					              xaxis: {
-					                type: 'datetime',
-					                tickPlacement: 'on',
-					                labels: {
-						                  rotate: -90
-						                }
-					              },
-					              yaxis: [{
-							          labels: {
-							        	    formatter: function (value) {
-							        	      return value.toFixed(3) + " %";
-							        	    }
-							        	  },
-							        
-							        }]
-					              };
+					  for(i=0; i<checkedItemid.length; i++)
+			   		   {
+			   	  		 if(checkedItemid[i]!=null)
+			   	  		  checkedItemValues.push(checkedItemid[i]);
+			   	       }
+					   title=itemValue[checkedItemValues[0]].title;
+					   
+			        dataParam = { 
+	   		        		"fromdate":fromdate,
+	   		        	    "todate":todate,
+	   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+	   		        	    "country1":itemValue[checkedItemValues[0]].country,
+	   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+	   		        	   };
+			        
+			        var options = {
+					          series: [],
+					          chart: {
+					          height: 300,
+					          type: 'line',
+					        },
+					        colors: ["#00b746", "#ffffff"],
+					        fill: {
+					            type:'solid',
+					            opacity: [0.35, 1],
+					          },
+					        stroke: {
+					        	 curve: 'smooth'
+					        },
+					        markers: {
+					            size: 4,
+					        },
+					        title: {
+					          text: title
+					        },
+					        dataLabels: {
+					          enabled: false
+					        },
+					        xaxis: {
+					          type: 'datetime'
+					        },
+					         yaxis: [{
+					          labels: {
+					        	    formatter: function (value) {
+					        	      return value.toFixed(3) + "%";
+					        	    }
+					        	  },
+					        
+					        }]
+					        };
 
-					            for(i=0; i<checkedItemid.length; i++)
-						   		   {
-						   	  		 if(checkedItemid[i]!=null)
-						   	  		  checkedItemValues.push(checkedItemid[i]);
-						   	       }
-						        dataParam = { 
-				   		        		"fromdate":fromdate,
-				   		        	    "todate":todate,
-				   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
-				   		        	    "country1":itemValue[checkedItemid[0]].country,
-				   		        	    "yieldCurveCross1": itemValue[checkedItemid[0]].yieldCurveCross,
-				   		        	   };
-						        
-						  	       	  $.ajax({
-						  	       	        type: "POST",
-					      	    	        contentType:  "application/json; charset=utf-8",
-					      	    	        url: "/bourse/getgraphdata",
-					      	    	        data: JSON.stringify(dataParam),
-					      	    	        dataType: 'json',
-					      	    	        timeout: 600000,
-					      	    	        success: function (response) {
-					      	    	        
-					      	    	        	 chart.updateSeries([{
-										                name: 'value',
-										                data: response,
-										              }])
-					      	   },
-					      	    	        error: function (e) {
-					      	    	        	
-					      						  console.log("ERROR : ", e);
-					      	
-					      	    	        }
-					      	    	    });	
-					              var chart = new ApexCharts(document.querySelector("#mainChart"), options);
-					              chart.render();
+				    	   
+			        var chart = new ApexCharts(document.querySelector("#mainChart"), options);
+					        
+						       	  $.ajax({
+					  	       	        type: "POST",
+				      	    	        contentType:  "application/json; charset=utf-8",
+				      	    	        url: "/bourse/getgraphdata",
+				      	    	        data: JSON.stringify(dataParam),
+				      	    	        dataType: 'json',
+				      	    	        timeout: 600000,
+				      	    	        success: function (response) {
+				      	    	        debugger;
+				      	    	        chart.updateSeries([{
+									          name: itemValue[checkedItemValues[0]].title,
+									          type: 'area',
+									          data: response[0]
+									        }])
+				      	   },
+				      	    	        error: function (e) {
+				      	    	        	
+				      						  console.log("ERROR : ", e);
+				      	
+				      	    	        }
+				      	    	    });	
+					  	         chart.render();
 				              }
 		    	  
 		    	               $("#dateFrom-mainChart").val(fromdate);
