@@ -1216,7 +1216,8 @@
 	            usadataAdapter.dataBind();
 	            var usarecords = usadataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
                 $('#USATree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: usarecords, width: '100%'});
-              
+                $("#USATree").jqxTree('checkItem', $("#5")[0], true); 
+	            $("#USATree").jqxTree('checkItem', $("#6")[0], true); 
                 var germanyTreesource =
                 {
                     datatype: "json",
