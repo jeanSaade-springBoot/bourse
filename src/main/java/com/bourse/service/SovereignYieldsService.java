@@ -284,8 +284,8 @@ public class SovereignYieldsService
 		List lstRowsDt = new ArrayList<String>();
 		HashMap<String,List> hashData = new HashMap<String, List>();
 		 double count = colHash.size();
-		 String columnWidth="10%";
-		 if(count < 10)
+		 String columnWidth="7%";
+		 if(count <= 16)
 		 {
 			 columnWidth=String.valueOf(100/(count-1))+"%"; // 1 to remove the id column size it will not be presented i the grid
 		 }

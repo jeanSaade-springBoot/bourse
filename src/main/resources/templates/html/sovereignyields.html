@@ -575,9 +575,6 @@
      <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
   	 <div class="card-body">
 		<div class="row">
-	<!-- 	 <div class="col-2">
-	     <div id='USATree'></div>
-		 </div> -->
 		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
 			<label style="margin-right: 1.5rem;">From</label>
 				<div id='dateInputFrom' style='border-radius: 0.2rem;'>
@@ -586,6 +583,9 @@
 				<div id='dateInputTo'  style='border-radius: 0.2rem;'>
 				</div>
        </div> 
+       <div class="col-2">
+	     <div id='USATree'></div>
+		 </div>
 	     <div class="col-2">
 	          <div id='GermanyTree'>
             </div>
@@ -681,9 +681,14 @@
 	       Crosses
 	      </h6>
 	      	<div class="row mt-2">
+	         <div class="col-2">
 	         <div id='FRA-GERTree' style='margin-left: 10px; float: left;'>
              </div>
-		      	
+		      </div>
+		      <div class="col-2">
+	         <div id='ITA-GERTree' style='margin-left: 10px; float: left;'>
+             </div>	
+             </div>
 	          <!--   <div id='jqxCheckBoxITA-GER' style='margin-left: 10px; float: left;'>
 	                <span>ITA-GER</span></div>
 	            <div id='jqxCheckBoxSPN-GER' style='margin-left: 10px; float: left;'>
@@ -1013,24 +1018,24 @@
     			   "text": "YIELDS",
     			  "value": ""
     			},
-                {   "id": "3",
+                {   "id": "Germany-3",
                     "parentid": "2",
                     "text": "30Y",
                     "value": "yield-30yr"
                 }, {
-                   "id": "4",
+                   "id": "Germany-4",
                     "parentid": "2",
                     "text": "10Y",
                     "value": "yield-10yr"
                 }
                 ,  {
-                    "id": "7",
+                    "id": "Germany-7",
                     "parentid": "1",
                     "text": "CURVES",
                     "value": ""
                 }, {
-                    "id": "8",
-                    "parentid": "7",
+                    "id": "Germany-8",
+                    "parentid": "Germany-7",
                     "text": "2's/5's",
                     "value": "curve-2/5"
                     }];
@@ -1069,21 +1074,21 @@
               {   "id": "3",
                   "parentid": "2",
                   "text": "30Y",
-                  "value": "usa-30yr"
+                  "value": "yield-30yr"
               }, {
                  "id": "4",
                   "parentid": "2",
                   "text": "10Y",
-                  "value": "usa-10yr"
+                  "value": "yield-10yr"
               }, {
                    "id": "5",
                   "parentid": "2",
                   "text": "5Y",
-                  "value": "usa-5yr"
+                  "value": "yield-5yr"
               }, {
                    "id": "6",
                   "parentid": "2",
-                  "value": "usa-2yr",
+                  "value": "yield-2yr",
                   "text": "2Y",
               },  {
                   "id": "7",
@@ -1094,12 +1099,12 @@
                   "id": "8",
                   "parentid": "7",
                   "text": "2's/5's",
-                  "value": "usa-2over5"
+                  "value": "curve-2/5"
                   }, {
                   "id": "9",
                   "text": "2's/10's",
                   "parentid": "7",
-                  "value": "usa-2over10"
+                  "value": "curve-2/10"
               }];
     	 
     	 var FRAGERTreeData = [
@@ -1129,6 +1134,34 @@
                     "value": "FRAGER-2",
                     "text": "2Y",
                 }];
+     	 var ITAGERTreeData = [
+  		   {
+  			   "id": "1",
+  			   "parentid": "-1",
+  			   "text": "ITA-GER",
+  			  "value": ""
+  			},
+              {   "id": "ITA-GER-3",
+                  "parentid": "1",
+                  "text": "30Y",
+                  "value": "ITAGER-30"
+              }, {
+                 "id": "ITA-GER-4",
+                  "parentid": "1",
+                  "text": "10Y",
+                  "value": "ITAGER-10"
+              }, {
+                   "id": "ITA-GER-5",
+                  "parentid": "1",
+                  "text": "5Y",
+                  "value": "ITAGER-5"
+              }, {
+                   "id": "ITA-GER-6",
+                  "parentid": "1",
+                  "value": "ITAGER-2",
+                  "text": "2Y",
+              }];
+     	 
  		 var datatextarea = document.getElementById("data");
 			$(function (){
 
@@ -1167,7 +1200,7 @@
 	            $("#CancelData").jqxButton({ theme: 'dark',height:30,width:74  });
 	            $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
 	          
-	         /*    var usaTreesource =
+	         var usaTreesource =
                 {
                     datatype: "json",
                     datafields: [
@@ -1183,7 +1216,7 @@
 	            usadataAdapter.dataBind();
 	            var usarecords = usadataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
                 $('#USATree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: usarecords, width: '100%'});
-               */
+              
                 var germanyTreesource =
                 {
                     datatype: "json",
@@ -1200,9 +1233,9 @@
                 germanydataAdapter.dataBind();
 	            var germanyrecords = germanydataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
 	            $('#GermanyTree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: germanyrecords, width: '100%'});
-	       debugger;
-	            $("#GermanyTree").jqxTree('checkItem', $("#3")[0], true); 
-	            $("#GermanyTree").jqxTree('checkItem', $("#4")[0], true); 
+	      
+	            $("#GermanyTree").jqxTree('checkItem', $("#Germany-3")[0], true); 
+	            $("#GermanyTree").jqxTree('checkItem', $("#Germany-4")[0], true); 
 	            var franceTreesource =
                 {
                     datatype: "json",
@@ -1236,9 +1269,26 @@
                 FRAGERdataAdapter.dataBind();
 	            var francerecords = FRAGERdataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
 	            $('#FRA-GERTree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: francerecords, width: '100%'});
-	            
 	            $("#FRA-GERTree").jqxTree('checkItem', $("#FRA-GER-3")[0], true); 
 	            $("#FRA-GERTree").jqxTree('checkItem', $("#FRA-GER-4")[0], true); 
+	            
+	            var ITAGERTreesource =
+                {
+                    datatype: "json",
+                    datafields: [
+                        { name: 'id' },
+                        { name: 'parentid' },
+                        { name: 'text' },
+                        { name: 'value' }
+                    ],
+                    id: 'id',
+                    localdata:  ITAGERTreeData
+                };  
+                var ITAGERdataAdapter = new $.jqx.dataAdapter(ITAGERTreesource);
+                ITAGERdataAdapter.dataBind();
+	            var ITAGERrecords = ITAGERdataAdapter.getRecordsHierarchy('id', 'parentid', 'items', [{ name: 'text', map: 'label'}]);
+	            $('#ITA-GERTree').jqxTree({ theme:'dark', hasThreeStates: true,  checkboxes: true, source: ITAGERrecords, width: '100%'});
+	            
 	          /*$('#UKTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
 	            $('#UKTree').css('visibility', 'visible');
 	            $('#ItalyTree').jqxTree({ theme:'dark', hasThreeStates: true, checkboxes: true, width: '100%'});
@@ -1412,10 +1462,13 @@
 		                 datatype: "json",
 		                 datafields: [
 	 		                    { name: 'refer_date', type: 'string' },
-	 		                    { name: 'thirteeYrFactor', type: 'string' },
-	 		                    { name: 'tenYrFactor', type: 'string' },
-	 		                    { name: 'fiveYrFactor', type: 'string' },
-	 		                    { name: 'twoYrFactor', type: 'string' },
+	 		                    { name: 'FRANCE_2/5', type: 'string' },
+	 		                    { name: 'USA_30yr', type: 'string' },
+	 		                    { name: 'USA_10yr', type: 'string' },
+	 		                    { name: 'USA_5yr', type: 'string' },
+	 		                    { name: 'USA_2yr', type: 'string' },
+	 		                    { name: 'USA_2/5', type: 'string' },
+	 		                    { name: 'USA_2/10', type: 'string' },
 	 		                    { name: 'subgroupId', type: 'string' },
 	 		                    { name: 'GERMANY_30yr', type: 'string' },
 	 		                    { name: 'GERMANY_10yr', type: 'string' },
@@ -1423,7 +1476,11 @@
 	 		                    { name: 'FRA_GER_30', type: 'string' },
 	 		                    { name: 'FRA_GER_10', type: 'string' },
 	 		                    { name: 'FRA_GER_5', type: 'string' },
-	 		                    { name: 'FRA_GER_2', type: 'string' }
+	 		                    { name: 'FRA_GER_2', type: 'string' },
+	 		                    { name: 'ITA_GER_30', type: 'string' },
+	 		                    { name: 'ITA_GER_10', type: 'string' },
+	 		                    { name: 'ITA_GER_5', type: 'string' },
+	 		                    { name: 'ITA_GER_2', type: 'string' }
 	 		                 ],
 	                         id: 'id',
 	                         localdata: ''
@@ -1569,10 +1626,11 @@
             
             $("#Clearfilter").click(function () {
    		    
-   		     //$('#USATree').jqxTree('uncheckAll');
+   		      $('#USATree').jqxTree('uncheckAll');
    		      $('#GermanyTree').jqxTree('uncheckAll');
 	   		  $('#FranceTree').jqxTree('uncheckAll');
 	   		  $('#FRA-GERTree').jqxTree('uncheckAll');
+	   		  $('#ITA-GERTree').jqxTree('uncheckAll');
 	   		/*   $('#UKTree').jqxTree('uncheckAll');
 	   		  $('#ItalyTree').jqxTree('uncheckAll');
 	   		  $('#SpainTree').jqxTree('uncheckAll'); */
@@ -1670,7 +1728,7 @@
 		 
 		  function getFilterData()
 		  {
-			 var jsonfilter=[];
+			var jsonfilter=[];
           	var sovereignYiledCurveSearchDTOlst=[];
           	var sovereignCrossSearchDTOlst=[];
           	var allItems=[];
@@ -1678,10 +1736,32 @@
           	var gridColumns = [];
           	var yields=[];
           	var curves=[];
-          	var itemsGermany = $('#GermanyTree').jqxTree('getCheckedItems');
+          	var itemsUsa = $('#USATree').jqxTree('getCheckedItems');
+        	var itemsGermany = $('#GermanyTree').jqxTree('getCheckedItems');
           	var itemsFrance = $('#FranceTree').jqxTree('getCheckedItems');
           	var itemsFRAGER = $('#FRA-GERTree').jqxTree('getCheckedItems'); 
-          	
+          	var itemsITAGER = $('#ITA-GERTree').jqxTree('getCheckedItems');
+         	for (i = 0; i < itemsUsa.length; i++) {
+          		if(itemsUsa[i].value!="")
+         			{
+          			if(itemsUsa[i].value.split("-")[0]=="yield")
+          				yields.push(itemsUsa[i].value.split("-")[1]);
+          			else
+          			if(itemsUsa[i].value.split("-")[0]=="curve")
+          				curves.push(itemsUsa[i].value.split("-")[1]);
+         			allItems.push(itemsUsa[i].value);
+         			}
+          	}
+          	if(itemsUsa.length>0)
+          	{
+          		sovereignYiledCurveSearchDTOlst.push({
+          		   "groupId":"1",
+       			   "yieldLst":yields,
+       			   "curveLst":curves
+       			});
+          		 yields=[];
+              	 curves=[];
+          	}
           	for (i = 0; i < itemsGermany.length; i++) {
           		if(itemsGermany[i].value!="")
          			{
@@ -1717,7 +1797,7 @@
           	if(itemsFrance.length>0)
           	{
           		sovereignYiledCurveSearchDTOlst.push({
-          		   "country":"3",
+          		   "groupId":"3",
           		   "yieldLst":yields,
        			   "curveLst":curves
        			});
@@ -1725,10 +1805,9 @@
               	 curves=[];
           	}
           	
-          	
            	for (i = 0; i < itemsFRAGER.length; i++) {
           		if(itemsFRAGER[i].value!="")
-         			{debugger;
+         			{
           			yields.push(itemsFRAGER[i].value.split("-")[1]);
           			
          			allItems.push(itemsFRAGER[i].value);
@@ -1742,7 +1821,22 @@
 	         			});
           		 yields=[];
           	}
-          	
+          	for (i = 0; i < itemsITAGER.length; i++) {
+          		if(itemsITAGER[i].value!="")
+         			{
+          			if(itemsITAGER[i].value!="")
+          				yields.push(itemsITAGER[i].value.split("-")[1]);
+         			    allItems.push(itemsITAGER[i].value);
+         			}
+          	}
+          	if(itemsITAGER.length>0)
+          	{
+          	 sovereignCrossSearchDTOlst.push({
+	            			"crossGroupId":"2",
+	            			"crossGroupValue":yields
+	         			});
+          		 yields=[];	
+          	}
           	
           	if(allItems.length!=0)
           	{
@@ -1751,7 +1845,8 @@
           		       "fromDate":$.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'),  'yyyy-MM-dd'),
           		       "toDate":$.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'),  'yyyy-MM-dd')
           		       };
-       
+       debugger;
+       $('#grid').jqxGrid({ showdefaultloadelement: true}); 
 	        	  $.ajax({
     	    	        type: "POST",
     	    	        contentType: "application/json",
@@ -1766,7 +1861,7 @@
     	    	        	 delete source.url;
     	    	             source.localdata=data.rows;
 	    	    	         dataAdapter = new $.jqx.dataAdapter(source);
-	    	    	        
+	    	    	         $('#grid').jqxGrid('hideloadelement');
 	  						 $('#grid').jqxGrid({source:dataAdapter,
 	  							                 columns: data.columns});
     	   },
@@ -1850,7 +1945,7 @@
 				     }, 300);
 			    }
 			  function Update(row, event) {
-				  debugger;
+				 
 				   isupdate=true;
 				   var dataToBeUpdated = [];
 				   var updatedData = $("#auditGrid").jqxGrid('getrowdata', 0);
