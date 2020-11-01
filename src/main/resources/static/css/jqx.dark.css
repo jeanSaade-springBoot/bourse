@@ -976,7 +976,7 @@
 
 .jqx-radiobutton-check-checked-dark {
     filter: none;
-    background: var(--jqx-background);
+   /*  background: var(--jqx-background); */
     background-repeat: no-repeat;
     border-radius: 100%;
 }

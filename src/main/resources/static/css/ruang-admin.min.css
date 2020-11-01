@@ -62,7 +62,9 @@ h5.card-title.blink {
 	-ms-flex: 1 0 auto;
 	flex: 1 0 auto
 }
-
+li a {
+    color: #8A99B5;
+}
 .container,
 .container-fluid,
 .container-login {

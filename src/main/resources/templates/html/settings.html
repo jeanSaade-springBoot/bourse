@@ -13,12 +13,53 @@
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="/css/ruang-admin.min.css" rel="stylesheet">
   <link href="/css/marquee.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+  <link href="/css/jqx.dark.css" rel="stylesheet">
 </head>
-
+<style>
+.col-2 {
+     max-width: 14.8%;
+}
+.factorBold{
+    font-weight:bold;
+    color: white!important;
+}
+.edit{
+    margin: .5rem;
+    color: white;
+    background-color: #719DF0!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+    padding: .1rem 33%;
+ 
+}
+.update{
+    margin: .5rem;
+    color: white;
+    background-color: #009a4e!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+        padding: 1px 3px;
+}
+.cancel{
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0rem;
+    color: white;
+    background-color:#506B8B!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+        padding: 1px 3px;
+}
+</style>
 <body id="page-top">
   <div id="wrapper">
     <!-- Sidebar -->
-    <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
+    <ul class="navbar-nav sidebar sidebar-light accordion toggled" id="accordionSidebar">
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon">
          <!--  <img src="img/logo/logo2.png"> -->
@@ -26,7 +67,7 @@
         <div class="sidebar-brand-text mx-3">libvol</div>
       </a>
       <hr class="sidebar-divider my-0">
-      <li class="nav-item active">
+      <li class="nav-item">
         <a class="nav-link" href="/bourse/home">
           <i class="fas fa-fw fa-tachometer-alt"></i>
           <span>Dashboard</span></a>
@@ -35,7 +76,7 @@
       <div class="sidebar-heading">
         Admin Section
       </div>
-        <li class="nav-item">
+        <li class="nav-item active">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataEntry"
           aria-expanded="true" aria-controls="collapseDataEntry">
           <i class="fas fa-pen"></i>
@@ -44,12 +85,12 @@
         <div id="collapseDataEntry" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data Entry</h6>
-            <a class="collapse-item" href="/bourse/sovereignyields" >Sovereign Yields</a>
+            <a class="collapse-item active" href="/bourse/sovereignyields" >Sovereign Yields</a>
             <a class="collapse-item" href="/bourse/skews" >Skews</a>
             <a class="collapse-item" href="/bourse/preciousmetals" >Precious Metals</a>
             <a class="collapse-item" href="/bourse/sovereignyields" >Fixed Income Future</a>
           </div>
-             <div class="submenu py-2 collapse-inner rounded">
+            <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Settings</h6>
             <a class="collapse-item" href="/bourse/settings" >Column Master</a>
           </div>
@@ -70,9 +111,7 @@
             <h6 class="collapse-header">Monitoring</h6>
             <a class="collapse-item" href="">Fast Chart</a>
             <a class="collapse-item" href="/bourse/any2">Any 2</a>
-            <a class="collapse-item" href="/bourse/sovereignyieldsgraph">Sovereign Yields</a>
-            <a class="collapse-item" href="/bourse/sovereigncurvesgraph">Sovereign Curves</a>
-            <a class="collapse-item" href="/bourse/spreadmakergraph">Spread Maker</a> 
+            <a class="collapse-item" href="/bourse/sovereignyieldsgraph">Sovereign yields</a>
             <a class="collapse-item" href="">Situation Room</a>
             <a class="collapse-item" href="">Euribor Curves</a>
           </div>
@@ -87,7 +126,7 @@
         <div id="collapseAnalytics" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Analytics</h6>
-            <a class="collapse-item" href="/bourse/returnfunction">Return Functions</a>
+            <a class="collapse-item" href="/bourse/returnfunction">Return Function</a>
             <a class="collapse-item" href="">Implied Vs Realized (Hi/lo)</a>
             <a class="collapse-item" href="">Implied Vs Realized (Close)</a>
             <a class="collapse-item" href="">Gamma Rents</a>
@@ -440,166 +479,18 @@
 
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
-          <div class="d-sm-flex align-items-center justify-content-between mb-4">
-            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+          <div class="d-sm-flex align-items-center justify-content-between mb-1">
+            <h1 class="h3 mb-0 text-gray-800">Column Master</h1>
             <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="./">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+              <li class="breadcrumb-item"><a href="/bourse/home">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Column Master</li>
             </ol>
           </div>
-
-          <div class="row mb-3">
-          <div class="card-columns col-12">
-            <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Monitoring</h5>
-      <ul class="fa-ul">
-  <li ><span class="fa-li"><i class="fas fa-chart-line"></i></span>Fast Chart</li>
-  <li><a href="/bourse/any2"><span class="fa-li"><i class="fas fa-chart-line"></i></span>Any 2</a></li>
-  <li><span class="fa-li"><i class="fas fa-bars"></i></span>Situation Room</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Euribor Curves</li>
-</ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Analytics</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Return Function</li>
-  <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span>Implied Vs Realized (Hi/lo)</li>
-  <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span>Implied Vs Realized (Close)</li>
-  <li><span class="fa-li"><i class="fas fa-table"></i></span>Gamma Rents</li>
-</ul>
-    </div>
-  </div>
-              <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Skews</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Global Skew View</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Skew Vs Implied</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Skew Vs Futures</li>
-</ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Volumes</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Race Chart</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Week After Week </li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Moving Average</li>
-</ul>
-    </div>
-  </div>
-              <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Normalized Space</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Create Normalized Vols</li>
-  <li><span class="fa-li"><i class="fas fa-table"></i></span>Durations And Dv01</li>
-  <li><span class="fa-li"><i class="fas fa-bars"></i></span>List of CTDs </li>
-</ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Inter-markets</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-bars"></i></span>Weightings</li>
-  <li><span class="fa-li"><i class="fas fa-chart-bar"></i></span>Straddle Ratios</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Implied Vol Ratios</li>
- </ul>
-    </div>
-  </div>
-              <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Paper-watch</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Call/put Warning Indicator</li>
-</ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">The Math Box</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>One Serie</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Two Series</li>
-</ul>
-    </div>
-  </div>
-              <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">At A Glance</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Futures</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Implied Vols</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Ranges And Realized</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Yields And Curves</li>
-   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Precious Metals</li>
-    <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Excess Liquidity</li>
-</ul>
-    </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Check An Option Strategy</h5>
-      <ul class="fa-ul">
-   <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Fly Your Futures</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Condors</li>
-  <li><span class="fa-li"><i class="fas fa-chart-line"></i></span>Vertical Spreads</li>
-</ul>
-    </div>
-  </div>
-    <div class="card">
-    <div class="card-body">
-      <h5 class="card-title blink">Live Option Flows</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"></span>Flow Search Engine</li>
-  <li><span class="fa-li"></span>Historical Flow</li>
-</ul>
-    </div>
-  </div>
-    <div class="card">
-    <div class="card-body">
-      <h5 class="card-title blink">Schedule Meetings</h5>
-      <ul class="fa-ul">
-  <li><span class="fa-li"></span>Host A Meeting</li>
-  <li><span class="fa-li"></span>Join A Meeting</li>
-</ul>
-    </div>
-  </div>
-</div>
-          </div>
-         
-
-          <!-- Modal Logout -->
-          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>Are you sure you want to logout?</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                  <a href="login.html" class="btn btn-primary">Logout</a>
-                </div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        <!---Container Fluid-->
+		<div class="col-lg-12">
+              <!-- Form Basic -->
+        <div id="grid"></div>
       </div>
-      <div class="NewsBack" style="position: fixed; bottom: 0px; left: 0px; width: 100%;  border: 2px; border-color: black;">
+      <div class="NewsBack" style="z-index: 100; position: fixed; bottom: 0px; left: 0px; width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
 				<div class="marquee-sibling">
 					NEWS
@@ -619,7 +510,7 @@
       <footer class="sticky-footer bg-dark">
         <div class="container my-auto">
           <div class="copyright text-center my-auto">
-            <span>copyright &copy; <script> document.write(new Date().getFullYear()); </script> - developed by
+            <span>copyright &copy; <script></script> - developed by
               <b><a href="" target="_blank"></a></b>
             </span>
           </div>
@@ -636,16 +527,154 @@
 
   <script src="/vendor/jquery/jquery.min.js"></script>
   <script src="/js/marquee.js"></script>
+  <script src="/js/ruang-admin.min.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/ruang-admin.min.js"></script>
+  <script src="/js/jqwidgets/jqxcore.js"></script> 
+  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
+  <script src="/js/jqwidgets/jqxtree.js"></script>
+  <script src="/js/jqwidgets/jqxcheckbox.js"></script>
+  <script src="/js/jqwidgets/jqxmenu.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
+    <script src="/js/jqwidgets/jqxtabs.js"></script>
+  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
+  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
+  <script src="/js/jqwidgets/jqxdata.js"></script> 
+  <script src="/js/jqwidgets/jqxwindow.js"></script>
+  <script src="/js/jqwidgets/jqxinput.js"></script>
+  <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
+  <script src="/js/jqwidgets/jqxcalendar.js"></script>
   <script>
-			$(function (){
+  $(document).ready(function () {
+      // prepare the data
+      var data = new Array();
 
-				$('.simple-marquee-container').SimpleMarquee();
-				
-			});
+      var firstNames = ["Nancy", "Andrew", "Janet", "Margaret", "Steven", "Michael", "Robert", "Laura", "Anne"];
+      var lastNames = ["Davolio", "Fuller", "Leverling", "Peacock", "Buchanan", "Suyama", "King", "Callahan", "Dodsworth"];
+      var titles = ["Sales Representative", "Vice President, Sales", "Sales Representative", "Sales Representative", "Sales Manager", "Sales Representative", "Sales Representative", "Inside Sales Coordinator", "Sales Representative"];
+      var titleofcourtesy = ["Ms.", "Dr.", "Ms.", "Mrs.", "Mr.", "Mr.", "Mr.", "Ms.", "Ms."];
+      var birthdate = ["08-Dec-48", "19-Feb-52", "30-Aug-63", "19-Sep-37", "04-Mar-55", "02-Jul-63", "29-May-60", "09-Jan-58", "27-Jan-66"];
+      var hiredate = ["01-May-92", "14-Aug-92", "01-Apr-92", "03-May-93", "17-Oct-93", "17-Oct-93", "02-Jan-94", "05-Mar-94", "15-Nov-94"];
+      var address = ["507 - 20th Ave. E. Apt. 2A", "908 W. Capital Way", "722 Moss Bay Blvd.", "4110 Old Redmond Rd.", "14 Garrett Hill", "Coventry House", "Miner Rd.", "Edgeham Hollow", "Winchester Way", "4726 - 11th Ave. N.E.", "7 Houndstooth Rd."];
+      var city = ["Seattle", "Tacoma", "Kirkland", "Redmond", "London", "London", "London", "Seattle", "London"];
+      var postalcode = ["98122", "98401", "98033", "98052", "SW1 8JR", "EC2 7JR", "RG1 9SP", "98105", "WG2 7LT"];
+      var country = ["USA", "USA", "USA", "USA", "UK", "UK", "UK", "USA", "UK"];
+      var homephone = ["(206) 555-9857", "(206) 555-9482", "(206) 555-3412", "(206) 555-8122", "(71) 555-4848", "(71) 555-7773", "(71) 555-5598", "(206) 555-1189", "(71) 555-4444"];
+      var notes = ["Education includes a BA in psychology from Colorado State University in 1970.  She also completed 'The Art of the Cold Call.'  Nancy is a member of Toastmasters International.",
+          "Andrew received his BTS commercial in 1974 and a Ph.D. in international marketing from the University of Dallas in 1981.  He is fluent in French and Italian and reads German.  He joined the company as a sales representative, was promoted to sales manager in January 1992 and to vice president of sales in March 1993.  Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association.",
+          "Janet has a BS degree in chemistry from Boston College (1984).  She has also completed a certificate program in food retailing management.  Janet was hired as a sales associate in 1991 and promoted to sales representative in February 1992.",
+          "Margaret holds a BA in English literature from Concordia College (1958) and an MA from the American Institute of Culinary Arts (1966).  She was assigned to the London office temporarily from July through November 1992.",
+          "Steven Buchanan graduated from St. Andrews University, Scotland, with a BSC degree in 1976.  Upon joining the company as a sales representative in 1992, he spent 6 months in an orientation program at the Seattle office and then returned to his permanent post in London.  He was promoted to sales manager in March 1993.  Mr. Buchanan has completed the courses 'Successful Telemarketing' and 'International Sales Management.'  He is fluent in French.",
+          "Michael is a graduate of Sussex University (MA, economics, 1983) and the University of California at Los Angeles (MBA, marketing, 1986).  He has also taken the courses 'Multi-Cultural Selling' and 'Time Management for the Sales Professional.'  He is fluent in Japanese and can read and write French, Portuguese, and Spanish.",
+          "Robert King served in the Peace Corps and traveled extensively before completing his degree in English at the University of Michigan in 1992, the year he joined the company.  After completing a course entitled 'Selling in Europe,' he was transferred to the London office in March 1993.",
+          "Laura received a BA in psychology from the University of Washington.  She has also completed a course in business French.  She reads and writes French.",
+          "Anne has a BA degree in English from St. Lawrence College.  She is fluent in French and German."];
 
+      var k = 0;
+      for (var i = 0; i < firstNames.length; i++) {
+          var row = {};
+          row["firstname"] = firstNames[k];
+          row["lastname"] = lastNames[k];
+          row["title"] = titles[k];
+          row["titleofcourtesy"] = titleofcourtesy[k];
+          row["birthdate"] = birthdate[k];
+          row["hiredate"] = hiredate[k];
+          row["address"] = address[k];
+          row["city"] = city[k];
+          row["postalcode"] = postalcode[k];
+          row["country"] = country[k];
+          row["homephone"] = homephone[k];
+          row["notes"] = notes[k];
+          data[i] = row;
+          k++;
+      }
+
+      var source =
+      {
+          localdata: data,
+          datatype: "array"
+      };
+
+      var initrowdetails = function (index, parentElement, gridElement, datarecord) {
+          var tabsdiv = null;
+          var information = null;
+          var notes = null;
+          tabsdiv = $($(parentElement).children()[0]);
+          if (tabsdiv != null) {
+              information = tabsdiv.find('.information');
+              notes = tabsdiv.find('.notes');
+              var title = tabsdiv.find('.title');
+              title.text(datarecord.firstname);
+
+              var container = $('<div style="margin: 5px;"></div>')
+              container.appendTo($(information));
+              var leftcolumn = $('<div style="float: left; width: 50%;"></div>');
+              var rightcolumn = $('<div style="float: left; width: 50%;"></div>');
+             container.append(leftcolumn);
+              container.append(rightcolumn);
+
+              var firstname = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>Email</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.firstname + "'> </div> </div>";
+              var lastname = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>lastname</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.lastname + "'> </div> </div>";
+              var title = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>title</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.title + "'> </div> </div>";
+              var address = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>address</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.address + "'> </div> </div>";
+              var firstname1 = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>Email</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.firstname + "'> </div> </div>";
+              var lastname1 = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>lastname</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.lastname + "'> </div> </div>";
+              var title1 = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>title</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.title + "'> </div> </div>";
+              
+              var buttons="<input  data-toggle='collapse' data-target='#collapseFilter' aria-expanded='true' aria-controls='collapseFilter' class='btn btn-primary mr-1 mb-1' style='margin-right: 1rem!important; color:white;' type='button' id='filter' value='Search' /><input id='Clearfilter' type='button' style='margin-right: 1rem!important;' class='btn btn-light-secondary mr-1 mb-1' value='Clear' />"
+                  
+              $(leftcolumn).append(firstname);
+              $(leftcolumn).append(lastname);
+              $(leftcolumn).append(title);
+              $(leftcolumn).append(address);
+              
+              $(leftcolumn).append(firstname1);
+              $(leftcolumn).append(lastname1);
+              $(leftcolumn).append(title1);
+              $(leftcolumn).append(buttons);
+              
+              var postalcode = "<div style='margin: 10px;'><b>Postal Code:</b> " + datarecord.postalcode + "</div>";
+              var city = "<div style='margin: 10px;'><b>City:</b> " + datarecord.city + "</div>";
+              var phone = "<div style='margin: 10px;'><b>Phone:</b> " + datarecord.homephone + "</div>";
+              var hiredate = "<div style='margin: 10px;'><b>Hire Date:</b> " + datarecord.hiredate + "</div>";
+               $(rightcolumn).append(postalcode);
+              $(rightcolumn).append(city);
+              $(rightcolumn).append(phone);
+              $(rightcolumn).append(hiredate);
+              var notescontainer = $('<div style="white-space: normal; margin: 5px;"><span>' + datarecord.notes + '</span></div>');
+              $(notes).append(notescontainer);
+              $(tabsdiv).jqxTabs({ theme:'dark', width: '95%', height: 500});
+          }
+      }
+      var dataAdapter = new $.jqx.dataAdapter(source);
+
+      $("#grid").jqxGrid(
+      {
+          width: '100%',
+          height: 600,
+          source: dataAdapter,
+          rowdetails: true,
+          theme:'dark',
+          rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li class='title'></li><li>Notes</li></ul><div class='information'></div><div class='notes'></div></div>", rowdetailsheight: 550 },
+          ready: function () {
+              $("#grid").jqxGrid('showrowdetails', 0);
+          },
+          initrowdetails: initrowdetails,
+          columns: [
+                { text: 'First Name', datafield: 'firstname', width: 200 },
+                { text: 'Last Name', datafield: 'lastname', width: 200 },
+                { text: 'Title', datafield: 'title', width: 180 },
+                { text: 'City', datafield: 'city', width: 100 },
+                { text: 'Country', datafield: 'country'}
+            ]
+      });
+  });
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
 </body>

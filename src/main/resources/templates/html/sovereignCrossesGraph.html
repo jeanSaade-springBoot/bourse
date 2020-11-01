@@ -95,10 +95,10 @@
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Monitoring</h6>
             <a class="collapse-item" href="">Fast Chart</a>
-            <a class="collapse-item active" href="/bourse/any2">Any 2</a>
-            <a class="collapse-item" href="/bourse/sovereignyieldsgraph">Sovereign Yields</a>
+            <a class="collapse-item" href="/bourse/any2">Any 2</a>
+            <a class="collapse-item" href="/bourse/sovereignyieldsgraph">Sovereign yields</a>
             <a class="collapse-item" href="/bourse/sovereigncurvesgraph">Yield Curves</a>
-            <a class="collapse-item" href="/bourse/sovereigncrossesgraph">Yield Crosses</a>
+            <a class="collapse-item active" href="/bourse/sovereigncrossesgraph">Yield Crosses</a>
             <a class="collapse-item" href="/bourse/spreadmakergraph">Spread Maker</a> 
             <a class="collapse-item" href="">Situation Room</a>
             <a class="collapse-item" href="">Euribor Curves</a>
@@ -479,20 +479,23 @@
 			 <div class="bd-example bd-example-tabs col-12">
 			 <nav>
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="true">Any2</a>
-				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Sovereign Yields</a>
-				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereigncurvesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
-				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereigncrossesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
-				   	<a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/spreadmakergraph" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
-				   </div>
+				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
+				    <a class="nav-item nav-link" id="nav-yields-tab" data-toggle="tab" href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-yields-crosses" aria-selected="false">Sovereign Yields</a>
+				    <a class="nav-item nav-link" id="nav-yields-curves-tab"  href="/bourse/sovereigncurvesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
+				    <a class="nav-item nav-link active" id="nav-yields-crosses-tab"  href="#nav-yields-crosses" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
+				  <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/spreadmakergraph" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
+				    </div>
 				</nav>
 				<div class="tab-content" id="nav-tabContent">
 				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 				...
 					 </div>
-				  <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-				  	<p class="mt-2" style=" margin-bottom: .5rem;">
-					  <a class="" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors</a>
+				  <div class="tab-pane fade" id="nav-any2" role="tabpanel" aria-labelledby="nav-any2-tab">	<p class="mt-2" style=" margin-bottom: .5rem;">
+				    ...
+				</div>
+				<div class="tab-pane fade active show" id="nav-yields-crosses" role="tabpanel" aria-labelledby="nav-contact-tab">
+				<p class="mt-2" style=" margin-bottom: .5rem;">
+				  <a class="" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors</a>
 					</p>
 					<div class="row">
 					  <div class="col">
@@ -502,131 +505,7 @@
                   <form  id="dataformInput">
                   <div class="form-group" style=" margin-top: 0">
                       <div  style=" display: flex;">
-                         <div class="col-1"></div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/united-states.png">
-						    </div>
-						   <div class="col-2"><img  height="48" width="48" src="/img/flag/germany.png">
-						    </div>
-						 <div class="col-2"><img height="48" width="48" src="/img/flag/france.png">
-						    </div>
-						   <div class="col-2"><img height="48" width="48" src="/img/flag/united-kingdom.png">
-						    </div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/italy.png">
-						    </div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/spain.png">
-						    </div>
-						</div>
-		                   <div style=" display: flex;">
-		                      <div class="col-2"  style=" max-width: 10% ;padding: 0 ;">
-		                      	<div>30yr</div>
-								<div>10yr</div>
-								<div>5yr</div>
-								<div>2yr</div>
-								</div>
-		                    <div class="col-2">
-									<div id='jqxCheckBoxUSA-30' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-10' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-5' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-2' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-									<div id='jqxCheckBoxGermany-30' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-10' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-5' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-2' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxFrance-30' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-10' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-5' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-2' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxUk-30' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-10' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-5' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-2' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxItaly-30' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-10' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-5' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-2' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxSpain-30' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-10' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-5' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-2' style='float: left;'></div>
-								</div>
-		                    </div>
-		                      <div style=" display: flex;     margin-top: 1rem;">
-		                      <div class="col-2"  style=" max-width: 10% ;padding: 0 ;">
-		                      	<div>10's/30's</div>
-								<div>5's/30's</div>
-								<div>5's/10's</div>
-								<div>2's/10's</div>
-								<div>2's/5's</div>
-								</div>
-		                    <div class="col-2">
-									<div id='jqxCheckBoxUSA-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-									<div id='jqxCheckBoxGermany-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxFrance-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxUk-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxItaly-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxSpain-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-2over5' style='float: left;'></div>
-								</div>
-		                    </div>
-                     </div>
-<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
-                    </form>
-                   <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
-			       <div class="row" id="dataInputButtons" style="display:none;">
-					<div class='col-12 d-flex justify-content-end mt-2'>
-					<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadData" value="Load " />
-					<input id="CancelData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-					</div>
-				  </div>
-                 </div>
-                 		<div class="col-6">
-		                  <form  id="dataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
-		                      <div  style=" display: flex;">
-		                         <div class="col-1"></div>
+                       <div class="col-1"></div>
 								    <div class="col-2"><img height="48" width="48" src="/img/flag/fra-ger.png">
 								    </div>
 								   <div class="col-2"><img  height="48" width="48" src="/img/flag/ita-ger.png">
@@ -699,22 +578,29 @@
 											<div id='jqxCheckBoxita-spn-5' style='float: left;'></div>
 											<div id='jqxCheckBoxita-spn-2' style='float: left;'></div>
 										</div>
-				                    </div>
-		                     </div>
-		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
-		                    </form>
-		                   <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="dataInputButtons" style="display:none;">
-							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadData" value="Load " />
-							<input id="CancelData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-							</div>
-						  </div>
-		                 </div>
+						
+								<div class="col-2">
+								</div>
+								<div class="col-6">
+								<div class="row mb-3">
+								   <div style='padding-left: .75rem;' id='jqxDailyRadioButton2'>
+									            <span>Daily</span></div>
+									<div id='jqxWeeklyRadioButton'>
+									           Weekly</div>
+								</div>
+								    <div id='M-100d' style='float: left;'>100d Moving Average</div>
+									<div id='M-200d' style='float: left;'>200d Moving Average</div>
+								</div>
+		                    </div>
+                     </div>
+
+                    </form>
+                 </div>
+                 		
                      </div>
                      	<div class="row">
 							<div class='col-12 d-flex justify-content-end'>
-							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+							<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
 							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 							</div>
 						</div>
@@ -752,9 +638,8 @@
 						  </div>
 					  </div>
 					</div>
-					
-					</div>
-				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+				</div>
+			    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
 				</div>
 			</div>
           </div>
@@ -781,23 +666,7 @@
               </div>
             </div>
           </div>
-          
-	 	<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-		    <div class="modal-content">
-		
-		      <div class="modal-header bg-warning">
-		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">×</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		        You must select at least one record.
-		      </div>
-		    </div>
-		  </div>
-	 </div>
+
         </div>
         <!---Container Fluid-->
       </div>
@@ -843,6 +712,7 @@
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+    <script src="/js/jqwidgets/jqxradiobutton.js"></script> 
   <script src="/js/ruang-admin.min.js"></script>
   <script src="/js/apexcharts.js"></script>
   <script>
@@ -852,61 +722,7 @@
   monthDate.setMonth(monthDate.getMonth() - 1);
   var date=new Date();
   var mode="merge";
-  var allitems=["#jqxCheckBoxUSA-30",
-	  "#jqxCheckBoxUSA-10",
-	  "#jqxCheckBoxUSA-5",
-	  "#jqxCheckBoxUSA-2",
-	  "#jqxCheckBoxGermany-30",
-	  "#jqxCheckBoxGermany-10",
-	  "#jqxCheckBoxGermany-5",
-	  "#jqxCheckBoxGermany-2",
-	  "#jqxCheckBoxFrance-30",
-	  "#jqxCheckBoxFrance-10",
-	  "#jqxCheckBoxFrance-5",
-	  "#jqxCheckBoxFrance-2",
-	  "#jqxCheckBoxUk-30",
-	  "#jqxCheckBoxUk-10",
-	  "#jqxCheckBoxUk-5",
-	  "#jqxCheckBoxUk-2",
-	  "#jqxCheckBoxItaly-30",
-	  "#jqxCheckBoxItaly-10",
-	  "#jqxCheckBoxItaly-5",
-	  "#jqxCheckBoxItaly-2",
-	  "#jqxCheckBoxSpain-30",
-	  "#jqxCheckBoxSpain-10",
-	  "#jqxCheckBoxSpain-5",
-	  "#jqxCheckBoxSpain-2",
-	  "#jqxCheckBoxUSA-10over30",
-	  "#jqxCheckBoxUSA-5over30",
-	  "#jqxCheckBoxUSA-5over10",
-	  "#jqxCheckBoxUSA-2over10",
-	  "#jqxCheckBoxUSA-2over5",
-	  "#jqxCheckBoxGermany-10over30",
-	  "#jqxCheckBoxGermany-5over30",
-	  "#jqxCheckBoxGermany-5over10",
-	  "#jqxCheckBoxGermany-2over10",
-	  "#jqxCheckBoxGermany-2over5",
-	   "#jqxCheckBoxFrance-10over30",
-	  "#jqxCheckBoxFrance-5over30",
-	  "#jqxCheckBoxFrance-5over10",
-	  "#jqxCheckBoxFrance-2over10",
-	  "#jqxCheckBoxFrance-2over5",
-	  "#jqxCheckBoxUk-10over30",
-	  "#jqxCheckBoxUk-5over30",
-	  "#jqxCheckBoxUk-5over10",
-	  "#jqxCheckBoxUk-2over10",
-	  "#jqxCheckBoxUk-2over5",
-	  "#jqxCheckBoxItaly-10over30",
-	  "#jqxCheckBoxItaly-5over30",
-	  "#jqxCheckBoxItaly-5over10",
-	  "#jqxCheckBoxItaly-2over10",
-	  "#jqxCheckBoxItaly-2over5",
-	  "#jqxCheckBoxSpain-10over30",
-	  "#jqxCheckBoxSpain-5over30",
-	  "#jqxCheckBoxSpain-5over10",
-	  "#jqxCheckBoxSpain-2over10",
-	  "#jqxCheckBoxSpain-2over5",
-	  "#jqxCheckBoxfrc-ger-30",
+  var allitems=[ "#jqxCheckBoxfrc-ger-30",
 	  "#jqxCheckBoxfrc-ger-10",
 	  "#jqxCheckBoxfrc-ger-5",
 	  "#jqxCheckBoxfrc-ger-2",
@@ -1465,81 +1281,20 @@
 
 	 for(i=0; i<allitems.length; i++)
 	   {
-    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 120, height: 25});
+    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 120, height: 26});
        }
-	  
+	 
+	 $("#jqxWeeklyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25});
+	 $("#jqxDailyRadioButton2").jqxRadioButton({theme:'dark', width: 70, height: 25, checked: true});
+	 
+	 $("#M-100d").jqxCheckBox({ theme:'dark', width: 120, height: 26});
+	 $("#M-200d").jqxCheckBox({ theme:'dark', width: 120, height: 26});
+	 
 	  $("#Clearfilter").jqxButton({ theme: 'dark',height:30,width:74  });
+	   
       $("#show").jqxButton({ theme: 'dark',height:30,width:74 });
       
       $("#Clearfilter").click(function () {
-    	  
-    	 	  $("#jqxCheckBoxUSA-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxGermany-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxFrance-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxUk-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxItaly-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxSpain-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-2").jqxCheckBox({checked: false });
-    	  
-    	
-    	  $("#jqxCheckBoxUSA-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-2over5").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxGermany-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-2over5").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxFrance-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-2over5").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxUk-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-2over5").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxItaly-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-2over5").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxSpain-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-2over5").jqxCheckBox({checked: false });
-    	  
     	  
     	  $("#jqxCheckBoxfrc-ger-30").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxfrc-ger-10").jqxCheckBox({checked: false });
@@ -1590,2031 +1345,9 @@
       });
       
      $("#show").click(function () {
-    	if(checkedItem>0)
-    	{
-    		 $("#collapseFilter").removeClass('show');
-	    	$('#grid-content').css('display', 'block');
-	    	 drawGraph();
-    	}
-    	else 
-    		{	
-    		$('#alertFiltter-modal').modal('show');
-   		    $("#collapseFilter").addClass('show');
-    		}
+    	 $('#grid-content').css('display', 'block');
+    	 drawGraph();
       });
-	  
-     $('#jqxCheckBoxUSA-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-  	    {
-  	    	checkedItem=checkedItem + 1;
-  	    	checkedItemid.push("#jqxCheckBoxUSA-30");
-  	    }
-  	    else
-  	    {
-  	    	checkedItem=checkedItem - 1;
-  	   for(i=0; i<checkedItemid.length; i++)
-  		   {
-  		   if(checkedItemid[i]=="#jqxCheckBoxUSA-30")
-  			 delete checkedItemid[i];
-  		   }
-  	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-				 $(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		  }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-
-     
-     $('#jqxCheckBoxUSA-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxUSA-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxUSA-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxGermany-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxUk-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxUSA-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUSA-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUSA-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUSA-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxUSA-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxGermany-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxFrance-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxFrance-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxUk-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxItaly-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxSpain-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxSpain-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
      
      $('#jqxCheckBoxfrc-ger-30').on('change', function (event) {
   	   var checked = event.args.checked;
@@ -3631,7 +1364,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3651,6 +1384,14 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+  	 else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxfrc-ger-10').on('change', function (event) {
@@ -3668,7 +1409,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3688,6 +1429,14 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+  	 else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxfrc-ger-5').on('change', function (event) {
@@ -3705,7 +1454,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3725,6 +1474,14 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+  	 else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxfrc-ger-2').on('change', function (event) {
@@ -3742,7 +1499,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3762,6 +1519,14 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+  	 else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-ger-30').on('change', function (event) {
@@ -3779,7 +1544,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3799,6 +1564,14 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+  	 else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-ger-10').on('change', function (event) {
@@ -3816,7 +1589,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3836,6 +1609,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-ger-5').on('change', function (event) {
@@ -3853,7 +1633,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3873,6 +1653,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-ger-2').on('change', function (event) {
@@ -3890,7 +1677,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3910,6 +1697,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      
@@ -3928,7 +1722,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3948,6 +1742,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxspn-ger-10').on('change', function (event) {
@@ -3965,7 +1766,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3985,6 +1786,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxspn-ger-5').on('change', function (event) {
@@ -4002,7 +1810,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4022,6 +1830,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxspn-ger-2').on('change', function (event) {
@@ -4039,7 +1854,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4059,6 +1874,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxuk-ger-30').on('change', function (event) {
@@ -4076,7 +1898,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4096,6 +1918,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxuk-ger-10').on('change', function (event) {
@@ -4113,7 +1942,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4133,6 +1962,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxuk-ger-5').on('change', function (event) {
@@ -4150,7 +1986,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4170,6 +2006,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxuk-ger-2').on('change', function (event) {
@@ -4187,7 +2030,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4207,6 +2050,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      
@@ -4225,7 +2075,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4245,6 +2095,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxusa-ger-10').on('change', function (event) {
@@ -4262,7 +2119,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4282,6 +2139,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxusa-ger-5').on('change', function (event) {
@@ -4299,7 +2163,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4319,6 +2183,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxusa-ger-2').on('change', function (event) {
@@ -4336,7 +2207,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4356,6 +2227,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      
@@ -4374,7 +2252,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4394,6 +2272,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxusa-uk-10').on('change', function (event) {
@@ -4411,7 +2296,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4431,6 +2316,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxusa-uk-5').on('change', function (event) {
@@ -4448,7 +2340,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4468,6 +2360,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxusa-uk-2').on('change', function (event) {
@@ -4485,7 +2384,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4505,6 +2404,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-frc-30').on('change', function (event) {
@@ -4522,7 +2428,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4542,6 +2448,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-frc-10').on('change', function (event) {
@@ -4559,7 +2472,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4579,6 +2492,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-frc-5').on('change', function (event) {
@@ -4596,7 +2516,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4616,6 +2536,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-frc-2').on('change', function (event) {
@@ -4633,7 +2560,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4653,6 +2580,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
 	  
@@ -4672,7 +2606,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4692,6 +2626,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-spn-10').on('change', function (event) {
@@ -4709,7 +2650,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4729,6 +2670,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-spn-5').on('change', function (event) {
@@ -4746,7 +2694,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4766,6 +2714,13 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 } else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxita-spn-2').on('change', function (event) {
@@ -4783,7 +2738,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -4803,9 +2758,15 @@
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
   	   }
+  	   if(checkedItem>1)
+  	   { $("#M-100d").jqxCheckBox({disabled: true});
+  		 $("#M-200d").jqxCheckBox({disabled: true});
+  		 }
+  	   else
+  	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
-     
-	  
      
 	  
      

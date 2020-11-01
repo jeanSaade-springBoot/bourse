@@ -91,6 +91,31 @@ public class BourseController {
     {
 		return new ModelAndView("html/any2");
     }
+	@RequestMapping( value =  "sovereignyieldsgraph")
+    public ModelAndView sovereignYieldsGraphPage(ModelMap model)
+    {
+		return new ModelAndView("html/sovereignYieldsGraph");
+    }
+	@RequestMapping( value =  "sovereigncurvesgraph")
+    public ModelAndView sovereignCurvesGraphPage(ModelMap model)
+    {
+		return new ModelAndView("html/sovereignCurvesGraph");
+    }
+	@RequestMapping( value =  "sovereigncrossesgraph")
+    public ModelAndView sovereignCrossesGraphPage(ModelMap model)
+    {
+		return new ModelAndView("html/sovereignCrossesGraph");
+    }
+	@RequestMapping( value =  "spreadmakergraph")
+    public ModelAndView spreadMakerGraphPage(ModelMap model)
+    {
+		return new ModelAndView("html/spreadMaker");
+    }
+	@RequestMapping( value =  "settings")
+    public ModelAndView settingsPage(ModelMap model)
+    {
+		return new ModelAndView("html/settings");
+    }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
 		
