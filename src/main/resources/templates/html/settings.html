@@ -13,53 +13,23 @@
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="/css/ruang-admin.min.css" rel="stylesheet">
   <link href="/css/marquee.css" rel="stylesheet">
+  <link href="/css/apexchart.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
   <link href="/css/jqx.dark.css" rel="stylesheet">
+  <style>
+  .form-control {
+    height: calc(1em + .75rem + 7px);
+    }
+    div#overlay {
+    margin: 15% 40%;
+}
+  </style>
 </head>
-<style>
-.col-2 {
-     max-width: 14.8%;
-}
-.factorBold{
-    font-weight:bold;
-    color: white!important;
-}
-.edit{
-    margin: .5rem;
-    color: white;
-    background-color: #719DF0!important;
-    border-color: var(--jqx-border);
-    border-radius: 4px;
-    border: 1px solid transparent;
-    padding: .1rem 33%;
- 
-}
-.update{
-    margin: .5rem;
-    color: white;
-    background-color: #009a4e!important;
-    border-color: var(--jqx-border);
-    border-radius: 4px;
-    border: 1px solid transparent;
-        padding: 1px 3px;
-}
-.cancel{
-    margin-top: 0.5rem;
-    margin-right: 0.5rem;
-    margin-bottom: 0.5rem;
-    margin-left: 0rem;
-    color: white;
-    background-color:#506B8B!important;
-    border-color: var(--jqx-border);
-    border-radius: 4px;
-    border: 1px solid transparent;
-        padding: 1px 3px;
-}
-</style>
+
 <body id="page-top">
   <div id="wrapper">
     <!-- Sidebar -->
-    <ul class="navbar-nav sidebar sidebar-light accordion toggled" id="accordionSidebar">
+    <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
         <div class="sidebar-brand-icon">
          <!--  <img src="img/logo/logo2.png"> -->
@@ -76,7 +46,7 @@
       <div class="sidebar-heading">
         Admin Section
       </div>
-        <li class="nav-item active">
+        <li class="nav-item">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataEntry"
           aria-expanded="true" aria-controls="collapseDataEntry">
           <i class="fas fa-pen"></i>
@@ -85,14 +55,26 @@
         <div id="collapseDataEntry" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Data Entry</h6>
-            <a class="collapse-item active" href="/bourse/sovereignyields" >Sovereign Yields</a>
+            <a class="collapse-item" href="/bourse/sovereignyields" >Sovereign Yields</a>
             <a class="collapse-item" href="/bourse/skews" >Skews</a>
             <a class="collapse-item" href="/bourse/preciousmetals" >Precious Metals</a>
             <a class="collapse-item" href="/bourse/sovereignyields" >Fixed Income Future</a>
           </div>
-            <div class="submenu py-2 collapse-inner rounded">
+        </div>
+      </li>
+        <li class="nav-item active">
+        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings"
+          aria-expanded="true" aria-controls="collapseSettings">
+          <i class="fas fa-cogs"></i>
+          <span>Settings</span>
+        </a>
+        <div id="collapseSettings" class="collapse show" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
+          <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Settings</h6>
-            <a class="collapse-item" href="/bourse/settings" >Column Master</a>
+            <a class="collapse-item active" href="/bourse/settings" >Column Master</a>
+            <a class="collapse-item" href="/bourse/settings" >Holiday Calendar</a>
+            <a class="collapse-item" href="/bourse/settings" >Help Descriptions</a>
+            <a class="collapse-item" href="/bourse/settings" >Robot Help</a>
           </div>
         </div>
       </li>
@@ -104,20 +86,23 @@
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMonitoring"
           aria-expanded="true" aria-controls="collapseMonitoring">
           <i class="fas fa-desktop"></i>
-          <span>Monitoring</span>
+          <span>Monitor</span>
         </a>
         <div id="collapseMonitoring" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Monitoring</h6>
+            <h6 class="collapse-header">Monitor</h6>
             <a class="collapse-item" href="">Fast Chart</a>
             <a class="collapse-item" href="/bourse/any2">Any 2</a>
             <a class="collapse-item" href="/bourse/sovereignyieldsgraph">Sovereign yields</a>
+            <a class="collapse-item" href="/bourse/sovereigncurvesgraph">Yield Curves</a>
+            <a class="collapse-item" href="/bourse/sovereigncrossesgraph">Yield Crosses</a>
+            <a class="collapse-item" href="/bourse/spreadmakergraph">Spread Maker</a> 
             <a class="collapse-item" href="">Situation Room</a>
             <a class="collapse-item" href="">Euribor Curves</a>
           </div>
         </div>
       </li>
-	   <li class="nav-item">
+	   <li class="nav-item ">
         <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAnalytics"
           aria-expanded="true" aria-controls="collapseAnalytics">
           <i class="fas fa-chart-bar"></i>
@@ -126,8 +111,8 @@
         <div id="collapseAnalytics" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Analytics</h6>
-            <a class="collapse-item" href="/bourse/returnfunction">Return Function</a>
-            <a class="collapse-item" href="">Implied Vs Realized (Hi/lo)</a>
+            <a class="collapse-item " href="/bourse/returnfunction">Return Function</a>
+            <a class="collapse-item" href="/bourse/any2">Implied Vs Realized (Hi/lo)</a>
             <a class="collapse-item" href="">Implied Vs Realized (Close)</a>
             <a class="collapse-item" href="">Gamma Rents</a>
           </div>
@@ -479,18 +464,163 @@
 
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
-          <div class="d-sm-flex align-items-center justify-content-between mb-1">
-            <h1 class="h3 mb-0 text-gray-800">Column Master</h1>
+          <div class="d-sm-flex align-items-center justify-content-between ">
+            <h1 class="h3 mb-0 text-gray-800">Settings</h1>
             <ol class="breadcrumb">
               <li class="breadcrumb-item"><a href="/bourse/home">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Column Master</li>
+              <li class="breadcrumb-item active" aria-current="page">Settings</li>
             </ol>
           </div>
-		<div class="col-lg-12">
-              <!-- Form Basic -->
-        <div id="grid"></div>
+
+          <div class="row mb-3">
+			 <div class="bd-example bd-example-tabs col-12">
+			 <nav>
+				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+				    <a class="nav-item nav-link active" id="nav-column-master-tab" data-toggle="tab"  href="#nav-column-master" role="tab" aria-controls="nav-any2" aria-selected="false">Column Master</a>
+				    <a class="nav-item nav-link" id="nav-yields-curves-tab" data-toggle="tab"  href="#nav-any2" role="tab" aria-controls="nav-any2" aria-selected="false">Holiday Calendar</a>
+				    <a class="nav-item nav-link" id="nav-column-master-tab" data-toggle="tab"  href="#nav-any2" role="tab" aria-controls="nav-any2" aria-selected="false">Help Descriptions</a>
+				  <a class="nav-item nav-link" id="nav-any2-tab" data-toggle="tab"  href="#nav-any2" role="tab" aria-controls="nav-any2" aria-selected="false">Robot Help</a>
+				    </div>
+				</nav>
+				<div class="tab-content" id="nav-tabContent">
+				    <div class="tab-pane fade" id="nav-any2" role="tabpanel" aria-labelledby="nav-any2-tab">	<p class="mt-2" style=" margin-bottom: .5rem;">
+				    ...
+				</div>
+				<div class="tab-pane fade active show" id="nav-column-master" role="tabpanel" aria-labelledby="nav-contact-tab" style="display:none;">
+				 <div class="col-12 row mt-2">
+				 	 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
+						<label style="margin-right: 1.5rem;">Select Family:</label>
+							<div id='FamiyDropDown' style='border-radius: 0.2rem;'>
+							</div>
+						<label style="margin-right: 1.5rem;    margin-left: 1.5rem;">Select Group:</label>
+							<div id='groupDropDown'  style='border-radius: 0.2rem;'>
+							</div>
+							<label style="margin-right: 1.5rem;    margin-left: 1.5rem;">Select Sub Goup:</label>
+							<div id='subGroupDropDown'  style='border-radius: 0.2rem;'>
+							</div>
+			       </div> 
+				 </div>
+				   <div id="grid">
+				     <div id="popupWindow">
+            <div>Edit</div>
+            <div style="overflow: hidden;">
+           	 <nav>
+				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+				     <a class="nav-item nav-link active" id="nav-graphsData-tab" data-toggle="tab"  href="#nav-graphs-data" role="tab" aria-controls="nav-graphs-data" aria-selected="false">Graphs and Data</a>
+				    <a class="nav-item nav-link" id="nav-robots-tab" data-toggle="tab"  href="#nav-other" role="tab" aria-controls="nav-other" aria-selected="false">Robots</a>
+				    <a class="nav-item nav-link" id="nav-description-tab" data-toggle="tab"  href="#nav-other" role="tab" aria-controls="nav-any2" aria-selected="false">Descripton</a>
+				    </div>
+				</nav>
+				
+				<div class="tab-content" id="nav-tabContent">
+				<div class="tab-pane fade" id="nav-other" role="tabpanel" aria-labelledby="nav-any2-tab">	
+				    <p class="mt-2" style=" margin-bottom: .5rem;">
+				    ...
+				</div>
+				  <div class="tab-pane fade active show" id="nav-graphs-data" role="tabpanel" aria-labelledby="nav-any2-tab">
+				    <p class="mt-2" style=" margin-bottom: .5rem;">
+				    <div class="col-12 row  mt-4">
+				            <div class="col-6">
+							   <form>
+							     <div class="form-group row">
+									<label for="columnTitle" class="col-sm-4 col-form-label">Column Title</label>
+									 <div class="col-sm-8">
+									<input type="text" class="form-control" id="columnTitle">
+									</div>
+								  </div>
+								  <div class="form-group row">
+									<label for="graphTitle" class="col-sm-4 col-form-label">Graph Title</label>
+									<div class="col-sm-8">
+									  <input type="text" class="form-control" id="graphTitle">
+									 </div>
+								  </div>
+								   <div class="form-group row">
+									<label for="dataFormat" class="col-sm-4 col-form-label">Data Format</label>
+									<div class="col-sm-8">
+									<input type="text" class="form-control" id="dataFormat">
+									</div>
+								  </div>
+								  <div class="row">
+								  <div class="form-group">
+								  <div id='jqxCheckBoxNegative' style='padding-left: .75rem;text-align: left!important;'>
+                                    Can data be negative?</div>
+									</div>
+								   <div class="form-group">
+								   <div id='jqxCheckBoxShowIndb' style='padding-left: .75rem;text-align: left!important; color: red;'>
+                                    SHOW in DATABASE?</div>
+									 </div>
+								  </div>
+								   <div class="form-group mt-4">
+								   <input id="update" type="button" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" value="Update" />
+							       <input id="cancel" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							       </div>
+							    </form>
+								</div>
+								  <div class="col-6">
+							   <form>
+								  <div class="form-group row">
+									<label for="columnTitle" class="col-sm-4 col-form-label">Factor Calc Type</label>
+									<div class="col-sm-8">
+									     <input type="text" class="form-control" id="factorcalctype">
+									</div>
+								  </div>
+								  <div class="form-group row">
+									<label for="graphTitle" class="col-sm-4 col-form-label">Tick Value</label>
+									<div class="col-sm-8">
+									<input type="text" class="form-control" id="tickvalue">
+									</div>
+								  </div>
+								 <div class="form-group row">
+									<label for="graphTitle" class="col-sm-4 col-form-label">Currency</label>
+									<div class="col-sm-8">
+									<input type="text" class="form-control" id="Currency">
+									</div>
+								  </div>
+								</form>
+								</div>
+					</div>
+				</div>
+				
+				</div>
+            </div>
+       </div>
+				</div>
+			    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+				</div>
+			</div>
+          </div>
+         
+
+
+		<div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
+          <!-- Modal Logout -->
+          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to logout?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                  <a href="login.html" class="btn btn-primary">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!---Container Fluid-->
       </div>
-      <div class="NewsBack" style="z-index: 100; position: fixed; bottom: 0px; left: 0px; width: 100%;  border: 2px; border-color: black;">
+      <div class="NewsBack" style="position: fixed; bottom: 0px; left: 0px; width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
 				<div class="marquee-sibling">
 					NEWS
@@ -542,7 +672,6 @@
   <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
-    <script src="/js/jqwidgets/jqxtabs.js"></script>
   <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
   <script src="/js/jqwidgets/jqxlistbox.js"></script> 
   <script src="/js/jqwidgets/jqxdata.js"></script> 
@@ -551,129 +680,188 @@
   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
   <script>
+
+  $(window).on('load', function(){
+	  $('#overlay').fadeOut();
+	  $('#nav-column-master').show();
+  });
   $(document).ready(function () {
+	  
+	  var familysource = [
+          "YIELDS & RATES"
+	        ];
+		$("#FamiyDropDown").jqxDropDownList({ source: familysource, theme: 'dark' , width: 250, height: 30});
+		
+		var groupsource = [
+		          "SOVEREIGN YIELDS",
+					"YIELD CURVES (C)",
+					"SOVEREIGN YIELD CROSSES (C)"
+			        ];
+		$("#groupDropDown").jqxDropDownList({ source: groupsource, theme: 'dark' , width: 250, height: 30});
+		
+		var subgroupsource = [
+		          "USA",
+					"GER"
+			        ];
+		$("#subGroupDropDown").jqxDropDownList({ source: subgroupsource, theme: 'dark' , width: 250, height: 30});
+		
+	    $("#jqxCheckBoxNegative").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});
+	    $("#jqxCheckBoxShowIndb").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});    
+	    
+	    $("#update").jqxButton({ theme: 'dark',height:30,width:74  });
+        $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
+        
+      var localData =  [ {
+			  "DisplayName":"USA-30yr",
+			  "country":"1",
+			  "yieldCurveCross":"yield",
+			  "title":"USA 30-yr Benchmark YIELD",
+			  "DataFormat":"0.00%",
+			  "YAxisFormat":"0.00%",
+			  "FactorCalcType":"INPUT",
+			  "HighOrLow":"0",
+			  "Jump":"0",
+			  "MovAvg100dRobot":"0",
+			  "Crossing100d200dRobot":"0",
+			  "SignChange":"0",
+			 },
+			  {
+			  "DisplayName":"USA-10yr",
+			  "country":"1",
+			  "yieldCurveCross":"yield",
+			  "title":"USA 10-yr Benchmark YIELD",
+			  "DataFormat":"0.00%",
+			  "YAxisFormat":"0.00%",
+			  "FactorCalcType":"INPUT",
+			  "HighOrLow":"0",
+			  "Jump":"0",
+			  "MovAvg100dRobot":"0",
+			  "Crossing100d200dRobot":"0",
+			  "SignChange":"0",
+			 },{
+				  "DisplayName":"USA-5yr",
+				  "country":"1",
+				  "yieldCurveCross":"yield",
+				  "title":"USA 5-yr Benchmark YIELD",
+				  "DataFormat":"0.00%",
+				  "YAxisFormat":"0.00%",
+				  "FactorCalcType":"INPUT",
+				  "HighOrLow":"0",
+				  "Jump":"0",
+				  "MovAvg100dRobot":"0",
+				  "Crossing100d200dRobot":"0",
+				  "SignChange":"0",
+				 },
+				  {
+				  "DisplayName":"USA-2yr",
+				  "country":"1",
+				  "yieldCurveCross":"yield",
+				  "title":"USA 2-yr Benchmark YIELD",
+				  "DataFormat":"0.00%",
+				  "YAxisFormat":"0.00%",
+				  "FactorCalcType":"INPUT",
+				  "HighOrLow":"0",
+				  "Jump":"0",
+				  "MovAvg100dRobot":"0",
+				  "Crossing100d200dRobot":"0",
+				  "SignChange":"0",
+				 }];
       // prepare the data
-      var data = new Array();
-
-      var firstNames = ["Nancy", "Andrew", "Janet", "Margaret", "Steven", "Michael", "Robert", "Laura", "Anne"];
-      var lastNames = ["Davolio", "Fuller", "Leverling", "Peacock", "Buchanan", "Suyama", "King", "Callahan", "Dodsworth"];
-      var titles = ["Sales Representative", "Vice President, Sales", "Sales Representative", "Sales Representative", "Sales Manager", "Sales Representative", "Sales Representative", "Inside Sales Coordinator", "Sales Representative"];
-      var titleofcourtesy = ["Ms.", "Dr.", "Ms.", "Mrs.", "Mr.", "Mr.", "Mr.", "Ms.", "Ms."];
-      var birthdate = ["08-Dec-48", "19-Feb-52", "30-Aug-63", "19-Sep-37", "04-Mar-55", "02-Jul-63", "29-May-60", "09-Jan-58", "27-Jan-66"];
-      var hiredate = ["01-May-92", "14-Aug-92", "01-Apr-92", "03-May-93", "17-Oct-93", "17-Oct-93", "02-Jan-94", "05-Mar-94", "15-Nov-94"];
-      var address = ["507 - 20th Ave. E. Apt. 2A", "908 W. Capital Way", "722 Moss Bay Blvd.", "4110 Old Redmond Rd.", "14 Garrett Hill", "Coventry House", "Miner Rd.", "Edgeham Hollow", "Winchester Way", "4726 - 11th Ave. N.E.", "7 Houndstooth Rd."];
-      var city = ["Seattle", "Tacoma", "Kirkland", "Redmond", "London", "London", "London", "Seattle", "London"];
-      var postalcode = ["98122", "98401", "98033", "98052", "SW1 8JR", "EC2 7JR", "RG1 9SP", "98105", "WG2 7LT"];
-      var country = ["USA", "USA", "USA", "USA", "UK", "UK", "UK", "USA", "UK"];
-      var homephone = ["(206) 555-9857", "(206) 555-9482", "(206) 555-3412", "(206) 555-8122", "(71) 555-4848", "(71) 555-7773", "(71) 555-5598", "(206) 555-1189", "(71) 555-4444"];
-      var notes = ["Education includes a BA in psychology from Colorado State University in 1970.  She also completed 'The Art of the Cold Call.'  Nancy is a member of Toastmasters International.",
-          "Andrew received his BTS commercial in 1974 and a Ph.D. in international marketing from the University of Dallas in 1981.  He is fluent in French and Italian and reads German.  He joined the company as a sales representative, was promoted to sales manager in January 1992 and to vice president of sales in March 1993.  Andrew is a member of the Sales Management Roundtable, the Seattle Chamber of Commerce, and the Pacific Rim Importers Association.",
-          "Janet has a BS degree in chemistry from Boston College (1984).  She has also completed a certificate program in food retailing management.  Janet was hired as a sales associate in 1991 and promoted to sales representative in February 1992.",
-          "Margaret holds a BA in English literature from Concordia College (1958) and an MA from the American Institute of Culinary Arts (1966).  She was assigned to the London office temporarily from July through November 1992.",
-          "Steven Buchanan graduated from St. Andrews University, Scotland, with a BSC degree in 1976.  Upon joining the company as a sales representative in 1992, he spent 6 months in an orientation program at the Seattle office and then returned to his permanent post in London.  He was promoted to sales manager in March 1993.  Mr. Buchanan has completed the courses 'Successful Telemarketing' and 'International Sales Management.'  He is fluent in French.",
-          "Michael is a graduate of Sussex University (MA, economics, 1983) and the University of California at Los Angeles (MBA, marketing, 1986).  He has also taken the courses 'Multi-Cultural Selling' and 'Time Management for the Sales Professional.'  He is fluent in Japanese and can read and write French, Portuguese, and Spanish.",
-          "Robert King served in the Peace Corps and traveled extensively before completing his degree in English at the University of Michigan in 1992, the year he joined the company.  After completing a course entitled 'Selling in Europe,' he was transferred to the London office in March 1993.",
-          "Laura received a BA in psychology from the University of Washington.  She has also completed a course in business French.  She reads and writes French.",
-          "Anne has a BA degree in English from St. Lawrence College.  She is fluent in French and German."];
-
-      var k = 0;
-      for (var i = 0; i < firstNames.length; i++) {
-          var row = {};
-          row["firstname"] = firstNames[k];
-          row["lastname"] = lastNames[k];
-          row["title"] = titles[k];
-          row["titleofcourtesy"] = titleofcourtesy[k];
-          row["birthdate"] = birthdate[k];
-          row["hiredate"] = hiredate[k];
-          row["address"] = address[k];
-          row["city"] = city[k];
-          row["postalcode"] = postalcode[k];
-          row["country"] = country[k];
-          row["homephone"] = homephone[k];
-          row["notes"] = notes[k];
-          data[i] = row;
-          k++;
-      }
-
       var source =
       {
-          localdata: data,
-          datatype: "array"
+          datatype: "xml",
+          datafields: [
+              { name: 'DisplayName', type: 'string' },
+              { name: 'DataFormat', type: 'string' },
+              { name: 'YAxisFormat', type: 'string' },
+              { name: 'FactorCalcType', type: 'string' },
+              { name: 'HighOrLow', type: 'string' },
+              { name: 'Jump', type: 'string' },
+              { name: 'Trend', type: 'string' },
+              { name: 'MovAvg100dRobot', type: 'string' },
+              { name: 'Crossing100d200dRobot', type: 'string' },
+              { name: 'SignChange', type: 'string' }
+          ],
+          root: "Products",
+          record: "Product",
+          id: 'ProductID',
+          localdata: localData
       };
-
-      var initrowdetails = function (index, parentElement, gridElement, datarecord) {
-          var tabsdiv = null;
-          var information = null;
-          var notes = null;
-          tabsdiv = $($(parentElement).children()[0]);
-          if (tabsdiv != null) {
-              information = tabsdiv.find('.information');
-              notes = tabsdiv.find('.notes');
-              var title = tabsdiv.find('.title');
-              title.text(datarecord.firstname);
-
-              var container = $('<div style="margin: 5px;"></div>')
-              container.appendTo($(information));
-              var leftcolumn = $('<div style="float: left; width: 50%;"></div>');
-              var rightcolumn = $('<div style="float: left; width: 50%;"></div>');
-             container.append(leftcolumn);
-              container.append(rightcolumn);
-
-              var firstname = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>Email</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.firstname + "'> </div> </div>";
-              var lastname = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>lastname</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.lastname + "'> </div> </div>";
-              var title = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>title</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.title + "'> </div> </div>";
-              var address = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>address</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.address + "'> </div> </div>";
-              var firstname1 = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>Email</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.firstname + "'> </div> </div>";
-              var lastname1 = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>lastname</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.lastname + "'> </div> </div>";
-              var title1 = "<div class='form-group row'> <label for='inputEmail3' class='col-sm-3 col-form-label'>title</label>  <div class='col-sm-9'> <input type='text' class='form-control' id='inputEmail3' placeholder='Email'  value='" + datarecord.title + "'> </div> </div>";
-              
-              var buttons="<input  data-toggle='collapse' data-target='#collapseFilter' aria-expanded='true' aria-controls='collapseFilter' class='btn btn-primary mr-1 mb-1' style='margin-right: 1rem!important; color:white;' type='button' id='filter' value='Search' /><input id='Clearfilter' type='button' style='margin-right: 1rem!important;' class='btn btn-light-secondary mr-1 mb-1' value='Clear' />"
-                  
-              $(leftcolumn).append(firstname);
-              $(leftcolumn).append(lastname);
-              $(leftcolumn).append(title);
-              $(leftcolumn).append(address);
-              
-              $(leftcolumn).append(firstname1);
-              $(leftcolumn).append(lastname1);
-              $(leftcolumn).append(title1);
-              $(leftcolumn).append(buttons);
-              
-              var postalcode = "<div style='margin: 10px;'><b>Postal Code:</b> " + datarecord.postalcode + "</div>";
-              var city = "<div style='margin: 10px;'><b>City:</b> " + datarecord.city + "</div>";
-              var phone = "<div style='margin: 10px;'><b>Phone:</b> " + datarecord.homephone + "</div>";
-              var hiredate = "<div style='margin: 10px;'><b>Hire Date:</b> " + datarecord.hiredate + "</div>";
-               $(rightcolumn).append(postalcode);
-              $(rightcolumn).append(city);
-              $(rightcolumn).append(phone);
-              $(rightcolumn).append(hiredate);
-              var notescontainer = $('<div style="white-space: normal; margin: 5px;"><span>' + datarecord.notes + '</span></div>');
-              $(notes).append(notescontainer);
-              $(tabsdiv).jqxTabs({ theme:'dark', width: '95%', height: 500});
+      var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+          if (value < 20) {
+              return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #ff0000;">' + value + '</span>';
+          }
+          else {
+              return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #008000;">' + value + '</span>';
           }
       }
-      var dataAdapter = new $.jqx.dataAdapter(source);
-
+      var dataAdapter = new $.jqx.dataAdapter(source, {
+          downloadComplete: function (data, status, xhr) { },
+          loadComplete: function (data) { },
+          loadError: function (xhr, status, error) { }
+      });
+      //  $("#DisplayName").jqxInput({ theme: 'dark' });
+        $("#DisplayName").width(150);
+        // initialize the popup window and buttons.
+        $("#popupWindow").jqxWindow({
+            width: '70%',    height: '50%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+        });
+        $("#popupWindow").on('open', function () {
+           // $("#DisplayName").jqxInput('selectAll');
+        });
+        // update the edited row when the user clicks the 'Save' button.
+        $("#Save").click(function () {
+            if (editrow >= 0) {
+                var row = { firstname: $("#DisplayName").val() };
+                var rowID = $('#grid').jqxGrid('getrowid', editrow);
+                $('#grid').jqxGrid('updaterow', rowID, row);
+                $("#popupWindow").jqxWindow('hide');
+            }
+        });
+      // initialize jqxGrid
       $("#grid").jqxGrid(
       {
           width: '100%',
-          height: 600,
-          source: dataAdapter,
-          rowdetails: true,
+          source: dataAdapter,                
+          columnsresize: true,
           theme:'dark',
-          rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><ul style='margin-left: 30px;'><li class='title'></li><li>Notes</li></ul><div class='information'></div><div class='notes'></div></div>", rowdetailsheight: 550 },
-          ready: function () {
-              $("#grid").jqxGrid('showrowdetails', 0);
-          },
-          initrowdetails: initrowdetails,
+          pageable: true,
+          pagesize: 10,
+          showfilterrow: true,
+          filterable: true,
+          autoheight: true,
           columns: [
-                { text: 'First Name', datafield: 'firstname', width: 200 },
-                { text: 'Last Name', datafield: 'lastname', width: 200 },
-                { text: 'Title', datafield: 'title', width: 180 },
-                { text: 'City', datafield: 'city', width: 100 },
-                { text: 'Country', datafield: 'country'}
-            ]
+        	  { text: '', width: '10%' , datafield: 'Edit',filterable:false, columntype: 'button', cellsrenderer: function () {
+                  return "Edit";
+               }, buttonclick: function (row) {
+                  // open the popup window when the user clicks a button.
+                  editrow = row;
+                  var offset = $("#grid").offset();
+                  $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+                  // get the clicked row's data and initialize the input fields.
+                  var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
+                  $("#DisplayName").val(dataRecord.DisplayName);
+                  // show the popup window.
+                  $("#popupWindow").jqxWindow('open');
+              }
+             },
+            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'DisplayName', width: '9%' },
+            { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'DataFormat', cellsalign: 'right', align: 'right', width: '9%' },
+            { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'YAxisFormat', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: '9%'},
+            { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'FactorCalcType', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: '9%' },
+            { text: 'HighOrLow', columngroup: 'NewsRobot', datafield: 'HighOrLow',columntype: 'checkbox', cellsalign: 'right', width: '9%' },
+            { text: 'Jump', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Jump', width: '9%' },
+            { text: 'Trend', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Trend', width: '9%' },
+            { text: 'Mov Avg(100d)Robot', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'MovAvg100dRobot', width: '9%' },
+            { text: 'Crossing 100d-200d Robot', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Crossing100d200dRobot', width: '9%' },
+            { text: 'SignChange', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'SignChange', width: '9%' }
+          ],
+          columngroups: [
+              { text: 'Title and Format', align: 'center', name: 'TimeAndFormat' },
+              { text: 'News Robot', align: 'center', name: 'NewsRobot' }
+          ]
       });
+     
   });
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
