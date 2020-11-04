@@ -22,5 +22,4 @@ public class AssetClass {
     @GeneratedValue
     private Long id;
     private String description ;
-	private Long groupid;
 }

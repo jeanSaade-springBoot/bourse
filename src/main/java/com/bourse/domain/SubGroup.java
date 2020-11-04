@@ -21,6 +21,7 @@ public class SubGroup {
 	@Id
     @GeneratedValue
     private Long id;
+	 private String idSubGroup;
     private String description ;
 	private Long groupId ;
 }
