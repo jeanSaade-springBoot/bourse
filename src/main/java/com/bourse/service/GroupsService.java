@@ -35,7 +35,7 @@ public class GroupsService
 	
 	public List<Groups> getAllGroups()
 	{      
-        return groupsRepository.findAll(Sort.by("id").descending());
+        return groupsRepository.findAll();
 	}
 
 

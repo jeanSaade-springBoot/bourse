@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
+import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
@@ -52,10 +53,10 @@ public class AdminService
 	{      
         return columnConfigurationRepository.findByGroupIdAndSubgroupId(groupId, subgroupId);
 	}
-	
-	
-	
 
-
-
+	public ColumnConfiguration UpdateColumnConfigurationById(ColumnConfiguration columnConfiguration) {
+		// TODO Auto-generated method stub
+        return columnConfigurationRepository.save(columnConfiguration);
+	}
+	
 }

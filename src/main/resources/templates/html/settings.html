@@ -525,7 +525,7 @@
 							     <div class="form-group row">
 									<label for="columnTitle" class="col-sm-4 col-form-label">Column Title</label>
 									 <div class="col-sm-8">
-									<input type="text" class="form-control" id="columnTitle">
+									<input type="text" class="form-control" id="DisplayName">
 									</div>
 								  </div>
 								  <div class="form-group row">
@@ -680,7 +680,11 @@
   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
   <script>
-
+  var groupItem;
+  var subgroupsource;
+  var familyItem;
+  var groupsource;
+  var gridsource;
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
 	  $('#nav-column-master').show();
@@ -688,92 +692,83 @@
   $(document).ready(function () {
 	  
 	  
-	  
-	  var familysource = [
-          "YIELDS & RATES"
-	        ];
-		$("#FamiyDropDown").jqxDropDownList({ source: familysource, theme: 'dark' , width: 210, height: 30});
-		
-		var groupsource = [
-		          "SOVEREIGN YIELDS",
-					"YIELD CURVES (C)",
-					"SOVEREIGN YIELD CROSSES (C)"
-			        ];
-		$("#groupDropDown").jqxDropDownList({ source: groupsource, theme: 'dark' , width: 210, height: 30});
-		
-		var subgroupsource = [
-		          "USA",
-					"GER"
-			        ];
-		$("#subGroupDropDown").jqxDropDownList({ source: subgroupsource, theme: 'dark' , width: 210, height: 30});
-		
+	  var familysource =
+      {
+          datatype: "json",
+          datafields: [
+              { name: 'id' },
+              { name: 'description' }
+          ],
+          url: '/admin/getassetclass',
+          async: true
+      };
+	   var dataAdapter = new $.jqx.dataAdapter(familysource);
+	 	$("#FamiyDropDown").jqxDropDownList({ source: dataAdapter , displayMember: "description", valueMember: "id", theme: 'dark' , width: 210, height: 30});
+	 	$("#FamiyDropDown").on('select', function (event) {
+            if (event.args) {
+               familyItem = event.args.item;
+               groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
+               var dataAdapter = new $.jqx.dataAdapter(groupsource);
+               $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+       		
+            }
+        });
+	   groupsource =
+	      {
+	          datatype: "json",
+	          datafields: [
+	              { name: 'id' },
+	              { name: 'description' }
+	          ],
+	          url: '',
+	          async: true
+	      };
+		   var dataAdapter = new $.jqx.dataAdapter(groupsource);
+		 
+		$("#groupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true,  displayMember: "description", valueMember: "id",theme: 'dark' , width: 210, height: 30});
+		$("#groupDropDown").on('select', function (event) {
+              if (event.args) {
+                 groupItem = event.args.item;
+                 subgroupsource.url='/admin/getsubgroupsbygroup/'+groupItem.value;
+                 var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
+                 $("#subGroupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+         		
+              }
+          });
+		 subgroupsource =
+	      {
+	          datatype: "json",
+	          datafields: [
+	              { name: 'idSubGroup' },
+	              { name: 'description' }
+	          ],
+	          url: '',
+	          async: true
+	      };
+		   var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
+		$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: 210, height: 30});
+		$("#subGroupDropDown").on('select', function (event) {
+            if (event.args) {
+               subGroupDropDown = event.args.item;
+               gridsource.url='/admin/getcolumnsconfigurationBygroupandsubgroup/'+groupItem.value+'/'+subGroupDropDown.value;
+               var dataAdapter = new $.jqx.dataAdapter(gridsource);
+               $('#grid').jqxGrid({source:dataAdapter});
+       		
+            }
+        });
 	    $("#jqxCheckBoxNegative").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});
 	    $("#jqxCheckBoxShowIndb").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});    
 	    
 	    $("#update").jqxButton({ theme: 'dark',height:30,width:74  });
         $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
-        
-      var localData =  [ {
-			  "DisplayName":"USA-30yr",
-			  "country":"1",
-			  "yieldCurveCross":"yield",
-			  "title":"USA 30-yr Benchmark YIELD",
-			  "DataFormat":"0.00%",
-			  "YAxisFormat":"0.00%",
-			  "FactorCalcType":"INPUT",
-			  "HighOrLow":"0",
-			  "Jump":"0",
-			  "MovAvg100dRobot":"0",
-			  "Crossing100d200dRobot":"0",
-			  "SignChange":"0",
-			 },
-			  {
-			  "DisplayName":"USA-10yr",
-			  "country":"1",
-			  "yieldCurveCross":"yield",
-			  "title":"USA 10-yr Benchmark YIELD",
-			  "DataFormat":"0.00%",
-			  "YAxisFormat":"0.00%",
-			  "FactorCalcType":"INPUT",
-			  "HighOrLow":"0",
-			  "Jump":"0",
-			  "MovAvg100dRobot":"0",
-			  "Crossing100d200dRobot":"0",
-			  "SignChange":"0",
-			 },{
-				  "DisplayName":"USA-5yr",
-				  "country":"1",
-				  "yieldCurveCross":"yield",
-				  "title":"USA 5-yr Benchmark YIELD",
-				  "DataFormat":"0.00%",
-				  "YAxisFormat":"0.00%",
-				  "FactorCalcType":"INPUT",
-				  "HighOrLow":"0",
-				  "Jump":"0",
-				  "MovAvg100dRobot":"0",
-				  "Crossing100d200dRobot":"0",
-				  "SignChange":"0",
-				 },
-				  {
-				  "DisplayName":"USA-2yr",
-				  "country":"1",
-				  "yieldCurveCross":"yield",
-				  "title":"USA 2-yr Benchmark YIELD",
-				  "DataFormat":"0.00%",
-				  "YAxisFormat":"0.00%",
-				  "FactorCalcType":"INPUT",
-				  "HighOrLow":"0",
-				  "Jump":"0",
-				  "MovAvg100dRobot":"0",
-				  "Crossing100d200dRobot":"0",
-				  "SignChange":"0",
-				 }];
+  
       // prepare the data
-      var source =
+      gridsource =
       {
-          datatype: "xml",
+          datatype: "json",
           datafields: [
-              { name: 'DisplayName', type: 'string' },
+        	  { name: 'description', type: 'string' },
+              { name: 'displayDescription', type: 'string' },
               { name: 'DataFormat', type: 'string' },
               { name: 'YAxisFormat', type: 'string' },
               { name: 'FactorCalcType', type: 'string' },
@@ -784,10 +779,8 @@
               { name: 'Crossing100d200dRobot', type: 'string' },
               { name: 'SignChange', type: 'string' }
           ],
-          root: "Products",
-          record: "Product",
-          id: 'ProductID',
-          localdata: localData
+          async: true,
+          url: ''
       };
       var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
           if (value < 20) {
@@ -797,27 +790,54 @@
               return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #008000;">' + value + '</span>';
           }
       }
-      var dataAdapter = new $.jqx.dataAdapter(source, {
+      var dataAdapter = new $.jqx.dataAdapter(gridsource, {
           downloadComplete: function (data, status, xhr) { },
           loadComplete: function (data) { },
           loadError: function (xhr, status, error) { }
       });
-      //  $("#DisplayName").jqxInput({ theme: 'dark' });
-        $("#DisplayName").width(150);
         // initialize the popup window and buttons.
         $("#popupWindow").jqxWindow({
-            width: '70%',    height: '50%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
-        });
-        $("#popupWindow").on('open', function () {
-           // $("#DisplayName").jqxInput('selectAll');
+            width: '70%',    height: '50%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
         });
         // update the edited row when the user clicks the 'Save' button.
-        $("#Save").click(function () {
+        $("#update").click(function () {
             if (editrow >= 0) {
-                var row = { firstname: $("#DisplayName").val() };
-                var rowID = $('#grid').jqxGrid('getrowid', editrow);
-                $('#grid').jqxGrid('updaterow', rowID, row);
-                $("#popupWindow").jqxWindow('hide');
+            	 var rowID = $('#grid').jqxGrid('getrowid', editrow);
+            	    var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
+                 var row = { id : dataRecord.id,
+                		    description:$("#graphTitle").val(),
+                		    displayDescription: $("#DisplayName").val(),
+                		    groupId:groupItem.value,
+                		    subgroupId:subGroupDropDown.value,
+                		    dataFormat:'',
+                		    canBeNegative:'',
+                		    graphScale:'',
+                		    startDate:'',
+                		    calculationType:'',
+                		    tickValue:'',
+                		    currency:''
+                		    };
+             	debugger;
+    	       	  $.ajax({
+    	    	        type: "POST",
+    	    	        contentType: "application/json",
+    	    	        url: "/admin/updatecolumnconfigurationbyid",
+    	    	        data: JSON.stringify(row),
+    	    	        dataType: 'json',
+    	    	        async:true,
+    	    	        cache: false,
+    	    	        timeout: 600000,
+    	    	        success: function (data) {
+    	    	        
+                      $('#grid').jqxGrid('updaterow', rowID, data);
+                      $("#popupWindow").jqxWindow('hide');
+    	   },
+    	    	        error: function (e) {
+    	    	        	
+    						  console.log("ERROR : ", e);
+    	
+    	    	        }
+    	    	    });
             }
         });
       // initialize jqxGrid
@@ -836,18 +856,27 @@
         	  { text: '', width: '10%' , datafield: 'Edit',filterable:false, columntype: 'button', cellsrenderer: function () {
                   return "Edit";
                }, buttonclick: function (row) {
+            	  
                   // open the popup window when the user clicks a button.
                   editrow = row;
                   var offset = $("#grid").offset();
                   $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
                   // get the clicked row's data and initialize the input fields.
                   var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
-                  $("#DisplayName").val(dataRecord.DisplayName);
+                  $("#DisplayName").val(dataRecord.displayDescription);
+                  $("#graphTitle").val(dataRecord.description);
+                  $("#dataFormat").val(dataRecord.dataFormat);
+                  
+                  $("#jqxCheckBoxNegative").jqxCheckBox('val',dataRecord.canBeNegative==1?true:false);
+               
+                  // $("#jqxCheckBoxShowIndb").val(dataRecord.jqxCheckBoxShowIndb);
+                  $("#tickvalue").val(dataRecord.tickValue);
+                  $("#Currency").val(dataRecord.currency);
                   // show the popup window.
                   $("#popupWindow").jqxWindow('open');
               }
              },
-            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'DisplayName', width: '9%' },
+            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'displayDescription', width: '9%' },
             { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'DataFormat', cellsalign: 'right', align: 'right', width: '9%' },
             { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'YAxisFormat', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: '9%'},
             { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'FactorCalcType', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: '9%' },

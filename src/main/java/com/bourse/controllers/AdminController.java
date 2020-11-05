@@ -7,17 +7,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bourse.domain.AssetClass;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.Groups;
+import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
 import com.bourse.service.AdminService;
 import com.bourse.service.AssetClassService;
 import com.bourse.service.GroupsService;
 import com.bourse.service.SubGroupService;
+import com.bourse.util.SovereignUtil;
 @RestController
 @RequestMapping(value = "admin")
 public class AdminController {
@@ -79,6 +83,9 @@ public class AdminController {
 		return new ResponseEntity<>( adminService.getColumnsConfigurationByGroupAndSubgroup(groupId,subgroupId), HttpStatus.OK);
     }
 	
-	
+	@PostMapping(value = "updatecolumnconfigurationbyid")
+	public ColumnConfiguration UpdateColumnConfigurationById(@RequestBody ColumnConfiguration columnConfiguration) {
+	return adminService.UpdateColumnConfigurationById(columnConfiguration);
+	}
 	
 }
