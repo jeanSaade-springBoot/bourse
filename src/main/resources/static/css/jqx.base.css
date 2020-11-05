@@ -2570,6 +2570,7 @@ of the horizontal scrollbar.*/
 }
 /*applied to the dropdownlist in disabled state.*/
 .jqx-dropdownlist-state-disabled {
+	background: #242836!important;
 }
 /*jqxScrollBar Style*/
 .jqx-scrollbar {

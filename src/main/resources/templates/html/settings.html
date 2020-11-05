@@ -23,6 +23,9 @@
     div#overlay {
     margin: 15% 40%;
 }
+.blue{
+            background-color: Blue;
+        }
   </style>
 </head>
 
@@ -525,7 +528,7 @@
 							     <div class="form-group row">
 									<label for="columnTitle" class="col-sm-4 col-form-label">Column Title</label>
 									 <div class="col-sm-8">
-									<input type="text" class="form-control" id="DisplayName">
+									<input type="text" class="form-control" id="DisplayName" disabled>
 									</div>
 								  </div>
 								  <div class="form-group row">
@@ -767,9 +770,10 @@
       {
           datatype: "json",
           datafields: [
+        	  { name: 'id', type: 'long' },
         	  { name: 'description', type: 'string' },
               { name: 'displayDescription', type: 'string' },
-              { name: 'DataFormat', type: 'string' },
+              { name: 'dataFormat', type: 'string' },
               { name: 'YAxisFormat', type: 'string' },
               { name: 'FactorCalcType', type: 'string' },
               { name: 'HighOrLow', type: 'string' },
@@ -805,17 +809,17 @@
             	 var rowID = $('#grid').jqxGrid('getrowid', editrow);
             	    var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
                  var row = { id : dataRecord.id,
-                		    description:$("#graphTitle").val(),
-                		    displayDescription: $("#DisplayName").val(),
+                		    description:$("#DisplayName").val(),
+                		    displayDescription: $("#graphTitle").val(),
                 		    groupId:groupItem.value,
                 		    subgroupId:subGroupDropDown.value,
-                		    dataFormat:'',
-                		    canBeNegative:'',
-                		    graphScale:'',
+                		    dataFormat:$("#dataFormat").val(),
+                		    canBeNegative:$('#jqxCheckBoxNegative').jqxCheckBox('checked')?1:0,
+                		    graphScale:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?1:0,
                 		    startDate:'',
-                		    calculationType:'',
-                		    tickValue:'',
-                		    currency:''
+                		    calculationType:$("#factorcalctype").val(),
+                		    tickValue:$("#tickvalue").val(),
+                		    currency:$("#Currency").val()
                 		    };
              	debugger;
     	       	  $.ajax({
@@ -863,8 +867,8 @@
                   $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
                   // get the clicked row's data and initialize the input fields.
                   var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
-                  $("#DisplayName").val(dataRecord.displayDescription);
-                  $("#graphTitle").val(dataRecord.description);
+                  $("#DisplayName").val(dataRecord.description);
+                  $("#graphTitle").val(dataRecord.displayDescription);
                   $("#dataFormat").val(dataRecord.dataFormat);
                   
                   $("#jqxCheckBoxNegative").jqxCheckBox('val',dataRecord.canBeNegative==1?true:false);
@@ -876,8 +880,9 @@
                   $("#popupWindow").jqxWindow('open');
               }
              },
-            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'displayDescription', width: '9%' },
-            { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'DataFormat', cellsalign: 'right', align: 'right', width: '9%' },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'id', hidden: true  },
+            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'description', width: '9%' },
+            { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', cellsalign: 'right', align: 'right', width: '9%' },
             { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'YAxisFormat', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: '9%'},
             { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'FactorCalcType', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: '9%' },
             { text: 'HighOrLow', columngroup: 'NewsRobot', datafield: 'HighOrLow',columntype: 'checkbox', cellsalign: 'right', width: '9%' },
@@ -888,11 +893,11 @@
             { text: 'SignChange', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'SignChange', width: '9%' }
           ],
           columngroups: [
-              { text: 'Title and Format', align: 'center', name: 'TimeAndFormat' },
+              { text: 'Title and Format', align: 'center', name: 'TimeAndFormat',cellclassname: 'blue' },
               { text: 'News Robot', align: 'center', name: 'NewsRobot' }
           ]
       });
-     
+      
   });
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->

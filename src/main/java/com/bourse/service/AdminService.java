@@ -63,6 +63,7 @@ public class AdminService
 				                         .id(columnConfiguration.getId())
 				                         .groupId(columnConfiguration.getGroupId())
 				                         .subgroupId(columnConfiguration.getSubgroupId())
+				                         .description(columnConfiguration.getDescription())
 				                         .calculationType(columnConfiguration.getCalculationType())
 				                         .canBeNegative(columnConfiguration.isCanBeNegative())
 				                         .currency(columnConfiguration.getCurrency())
