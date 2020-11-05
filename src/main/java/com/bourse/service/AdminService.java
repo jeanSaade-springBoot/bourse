@@ -1,6 +1,7 @@
 package com.bourse.service;
 
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 
@@ -56,7 +57,18 @@ public class AdminService
 
 	public ColumnConfiguration UpdateColumnConfigurationById(ColumnConfiguration columnConfiguration) {
 		// TODO Auto-generated method stub
-        return columnConfigurationRepository.save(columnConfiguration);
+		Optional<ColumnConfiguration> col = columnConfigurationRepository.findById(columnConfiguration.getId());
+		ColumnConfiguration colInstance = col.get();
+		colInstance = ColumnConfiguration.builder()
+				                         .calculationType(columnConfiguration.getCalculationType())
+				                         .canBeNegative(columnConfiguration.isCanBeNegative())
+				                         .currency(columnConfiguration.getCurrency())
+				                         .dataFormat(columnConfiguration.getDataFormat())
+				                         .displayDescription(columnConfiguration.getDisplayDescription())
+				                         .startDate(columnConfiguration.getStartDate())
+				                         .tickValue(columnConfiguration.getTickValue())
+				                         .build();
+        return columnConfigurationRepository.save(colInstance);
 	}
 	
 }
