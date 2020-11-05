@@ -39,8 +39,8 @@ INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUE
 INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (13,'ITA-FRA',2,'5');
 INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (14,'ITA-SPN',2,'6');
 
-insert into bourse.column_configuration(id,group_id,subgroup_id,description)
-select (@row_number:=@row_number + 1) AS  id,tab.* from
+insert into bourse.column_configuration(id,can_be_negative,group_id,subgroup_id,description)
+select (@row_number:=@row_number + 1) AS  id,'',tab.* from
 (
 select 1 groupId,1 subGroupId,'USA-30' description from dual
 union
