@@ -60,6 +60,9 @@ public class AdminService
 		Optional<ColumnConfiguration> col = columnConfigurationRepository.findById(columnConfiguration.getId());
 		ColumnConfiguration colInstance = col.get();
 		colInstance = ColumnConfiguration.builder()
+				                         .id(columnConfiguration.getId())
+				                         .groupId(columnConfiguration.getGroupId())
+				                         .subgroupId(columnConfiguration.getSubgroupId())
 				                         .calculationType(columnConfiguration.getCalculationType())
 				                         .canBeNegative(columnConfiguration.isCanBeNegative())
 				                         .currency(columnConfiguration.getCurrency())
