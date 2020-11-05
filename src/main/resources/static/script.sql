@@ -24,15 +24,125 @@ LIMIT 0, 1000
 
 -- Date: 2020-11-04 22:03
 */
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (1,'USA',1,'1');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (2,'FRANCE',1,'2');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (3,'GERMANY',1,'3');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (4,'UK',1,'4');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (5,'ITALY',1,'5');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (6,'SPAIN',1,'6');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (7,'USA',2,'1');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (8,'FRANCE',2,'2');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (9,'GERMANY',2,'3');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (10,'UK',2,'4');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (11,'ITALY',2,'5');
-INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (12,'SPAIN',2,'6');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (1,'USA',1,'1');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (2,'FRANCE',1,'2');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (3,'GERMANY',1,'3');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (4,'UK',1,'4');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (5,'ITALY',1,'5');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (6,'SPAIN',1,'6');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (7,'FRA-GER',2,'1');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (8,'ITA-GER',2,'2');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (9,'SPN-GER',2,'3');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (10,'UK-GER',2,'4');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (11,'USA-GER',2,'5');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (12,'USA-UK',2,'6');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (13,'ITA-FRA',2,'5');
+INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (14,'ITA-SPN',2,'6');
+
+
+select (@row_number:=@row_number + 1) AS  id,tab.* from
+(
+select 1 groupId,1 subGroupId,'USA-30' description from dual
+union
+select 1,1,'USA-10' from dual
+union
+select 1,1,'USA-5' from dual
+union
+select 1,1,'USA-2' from dual
+union
+select 1,2,'FRA-30' from dual
+union
+select 1,2,'FRA-10' from dual
+union
+select 1,2,'FRA-5' from dual
+union
+select 1,2,'FRA-2' from dual
+union
+select 1,3,'GER-30' from dual
+union
+select 1,3,'GER-10' from dual
+union
+select 1,3,'GER-5' from dual
+union
+select 1,3,'GER-2' from dual
+union
+select 1,4,'UK-30' from dual
+union
+select 1,4,'UK-10' from dual
+union
+select 1,4,'UK-5' from dual
+union
+select 1,4,'UK-2' from dual
+union
+select 1,5,'ITA-30' from dual
+union
+select 1,5,'ITA-10' from dual
+union
+select 1,5,'ITA-5' from dual
+union
+select 1,5,'ITA-2' from dual
+union
+select 1,6,'SPA-30' from dual
+union
+select 1,6,'SPA-10' from dual
+union
+select 1,6,'SPA-5' from dual
+union
+select 1,6,'SPA-2' from dual
+union
+select 2,1,'FRA-GER-30' from dual
+union
+select 2,1,'FRA-GER-10' from dual
+union
+select 2,1,'FRA-GER-5' from dual
+union
+select 2,1,'FRA-GER-2' from dual
+union
+select 2,2,'ITA-GER-30' from dual
+union
+select 2,2,'ITA-GER-10' from dual
+union
+select 2,2,'ITA-GER-5' from dual
+union
+select 2,2,'ITA-GER-2' from dual
+union
+select 2,3,'SPN-GER-30' from dual
+union
+select 2,3,'SPN-GER-10' from dual
+union
+select 2,3,'SPN-GER-5' from dual
+union
+select 2,3,'SPN-GER-2' from dual
+union
+select 2,4,'UK-GER-30' from dual
+union
+select 2,4,'UK-GER-10' from dual
+union
+select 2,4,'UK-GER-5' from dual
+union
+select 2,4,'UK-GER-2' from dual
+union
+select 2,5,'USA-GER-30' from dual
+union
+select 2,5,'USA-GER-10' from dual
+union
+select 2,5,'USA-GER-5' from dual
+union
+select 2,5,'USA-GER-2' from dual
+union
+select 2,6,'USA-UK-30' from dual
+union
+select 2,6,'USA-UK-10' from dual
+union
+select 2,6,'USA-UK-5' from dual
+union
+select 2,6,'USA-UK-2' from dual
+union
+select 2,7,'ITA-FRA-30' from dual
+union
+select 2,7,'ITA-FRA-10' from dual
+union
+select 2,7,'ITA-FRA-5' from dual
+union
+select 2,7,'ITA-FRA-2' from dual)tab,(SELECT @row_number:=0) AS t
+;

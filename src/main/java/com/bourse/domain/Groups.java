@@ -22,5 +22,5 @@ public class Groups {
     @GeneratedValue
     private Long id;
     private String description ;
-	private Long assetId;
+	private String assetId;
 }

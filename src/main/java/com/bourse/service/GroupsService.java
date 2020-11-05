@@ -28,6 +28,11 @@ public class GroupsService
 	@Autowired
 	ConfigurationRepository configurationRepository;
 	
+	public List<Groups> getGroupsByAssetId(String familyId)
+	{      
+        return groupsRepository.findByAssetId(familyId);
+	}
+	
 	public List<Groups> getAllGroups()
 	{      
         return groupsRepository.findAll(Sort.by("id").descending());

@@ -16,12 +16,20 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Entity
-@Table(name = "Subgroup")
-public class SubGroup {
+@Table(name = "ColumnConfiguration")
+public class ColumnConfiguration {
 	@Id
     @GeneratedValue
     private Long id;
-	 private String idSubGroup;
     private String description ;
-	private String groupId ;
+	private String displayDescription;
+	private String groupId;
+	private String subgroupId;
+	private String dataFormat;
+	private boolean canBeNegative;
+	private String graphScale;
+	private String startDate;
+	private String calculationType;
+	private String tickValue;
+	private String currency;
 }
