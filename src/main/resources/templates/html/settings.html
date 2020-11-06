@@ -771,6 +771,7 @@
           datatype: "json",
           datafields: [
         	  { name: 'id', type: 'long' },
+        	  { name: 'canBeNegative', type: 'long' }, 
         	  { name: 'description', type: 'string' },
               { name: 'displayDescription', type: 'string' },
               { name: 'dataFormat', type: 'string' },
@@ -814,7 +815,7 @@
                 		    groupId:groupItem.value,
                 		    subgroupId:subGroupDropDown.value,
                 		    dataFormat:$("#dataFormat").val(),
-                		    canBeNegative:$('#jqxCheckBoxNegative').jqxCheckBox('checked')?1:0,
+                		    canBeNegative:$('#jqxCheckBoxNegative').jqxCheckBox('checked')?true:false,
                 		    graphScale:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?1:0,
                 		    startDate:'',
                 		    calculationType:$("#factorcalctype").val(),
@@ -870,8 +871,8 @@
                   $("#DisplayName").val(dataRecord.description);
                   $("#graphTitle").val(dataRecord.displayDescription);
                   $("#dataFormat").val(dataRecord.dataFormat);
-                  
-                  $("#jqxCheckBoxNegative").jqxCheckBox('val',dataRecord.canBeNegative==1?true:false);
+                  debugger;
+                  $("#jqxCheckBoxNegative").jqxCheckBox('val',dataRecord.canBeNegative);
                
                   // $("#jqxCheckBoxShowIndb").val(dataRecord.jqxCheckBoxShowIndb);
                   $("#tickvalue").val(dataRecord.tickValue);
@@ -881,6 +882,7 @@
               }
              },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'id', hidden: true  },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'canBeNegative', hidden: true  },
             { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'description', width: '9%' },
             { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', cellsalign: 'right', align: 'right', width: '9%' },
             { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'YAxisFormat', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: '9%'},

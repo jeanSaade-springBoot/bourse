@@ -1,5 +1,5 @@
 /*
--- Query: SELECT * FROM bourse.asset_class
+-- Query: SELECT * FROM asset_class
 LIMIT 0, 1000
 
 -- Date: 2020-11-04 22:04
@@ -7,7 +7,7 @@ LIMIT 0, 1000
 INSERT INTO asset_class (`id`,`description`) VALUES (1,'YIELDS & RATES');
 
 /*
--- Query: SELECT * FROM bourse.groups
+-- Query: SELECT * FROM groups
 LIMIT 0, 1000
 
 -- Date: 2020-11-04 22:01
@@ -19,27 +19,27 @@ INSERT INTO groups (`id`,`asset_id`,`description`) VALUES (4,1,'LIBOR RATES');
 INSERT INTO groups (`id`,`asset_id`,`description`) VALUES (5,1,'CENTRAL BANK RATES');
 
 /*
--- Query: SELECT * FROM bourse.subgroup
+-- Query: SELECT * FROM subgroup
 LIMIT 0, 1000
 
 -- Date: 2020-11-04 22:03
 */
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (1,'USA',1,'1');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (2,'FRANCE',1,'2');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (3,'GERMANY',1,'3');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (4,'UK',1,'4');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (5,'ITALY',1,'5');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (6,'SPAIN',1,'6');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (7,'FRA-GER',2,'1');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (8,'ITA-GER',2,'2');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (9,'SPN-GER',2,'3');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (10,'UK-GER',2,'4');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (11,'USA-GER',2,'5');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (12,'USA-UK',2,'6');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (13,'ITA-FRA',2,'5');
-INSERT INTO bourse.subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (14,'ITA-SPN',2,'6');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (1,'USA',1,'1');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (2,'FRANCE',1,'2');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (3,'GERMANY',1,'3');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (4,'UK',1,'4');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (5,'ITALY',1,'5');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (6,'SPAIN',1,'6');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (7,'FRA-GER',2,'1');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (8,'ITA-GER',2,'2');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (9,'SPN-GER',2,'3');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (10,'UK-GER',2,'4');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (11,'USA-GER',2,'5');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (12,'USA-UK',2,'6');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (13,'ITA-FRA',2,'5');
+INSERT INTO subgroup (`id`,`description`,`group_id`,`id_sub_group`) VALUES (14,'ITA-SPN',2,'6');
 
-insert into bourse.column_configuration(id,can_be_negative,group_id,subgroup_id,description)
+insert into column_configuration(id,can_be_negative,group_id,subgroup_id,description)
 select (@row_number:=@row_number + 1) AS  id,'',tab.* from
 (
 select 1 groupId,1 subGroupId,'USA-30' description from dual
