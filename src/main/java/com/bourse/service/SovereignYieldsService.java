@@ -160,6 +160,10 @@ public class SovereignYieldsService
 	{
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		StoredProcedureQuery query1 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
+		StoredProcedureQuery query2 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
+		StoredProcedureQuery query3 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
+		StoredProcedureQuery query4 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
+		StoredProcedureQuery query5 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		List<List<GraphResponseDTO>> l1 = new ArrayList<>();
 		if(graphReqDTO.getYieldCurveCross1()!=null)
 		{
@@ -180,6 +184,9 @@ public class SovereignYieldsService
 			
 			query.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
 			query.setParameter("country",graphReqDTO.getCountry1() );
+			
+			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
 			
 			query.execute();
 			
@@ -210,9 +217,137 @@ public class SovereignYieldsService
 			
 			query1.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
 			query1.setParameter("country",graphReqDTO.getCountry2() );
+			
+			query1.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query1.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			
 			query1.execute();
 			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query1.getResultList();
 			l1.add(graphResponseDTOlst2);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		if(graphReqDTO.getYieldCurveCross3()!=null)
+		{
+			System.out.println(graphReqDTO.getYieldCurveCross3() +"\n"+
+					graphReqDTO.getFactor3()+"\n"+
+					graphReqDTO.getCountry3());
+			
+			query2.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query2.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross3() );
+			
+			query2.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query2.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query2.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query2.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query2.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query2.setParameter("factor",graphReqDTO.getFactor3() );
+			
+			query2.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query2.setParameter("country",graphReqDTO.getCountry3() );
+			
+			query2.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query2.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			
+			query2.execute();
+			List<GraphResponseDTO> graphResponseDTOlst3 = (List<GraphResponseDTO>) query2.getResultList();
+			l1.add(graphResponseDTOlst3);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		if(graphReqDTO.getYieldCurveCross4()!=null)
+		{
+			System.out.println(graphReqDTO.getYieldCurveCross2() +"\n"+
+					graphReqDTO.getFactor2()+"\n"+
+					graphReqDTO.getCountry2());
+			
+			query3.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query3.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross4() );
+			
+			query3.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query3.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query3.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query3.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query3.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query3.setParameter("factor",graphReqDTO.getFactor4() );
+			
+			query3.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query3.setParameter("country",graphReqDTO.getCountry4() );
+			
+			query3.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query3.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			
+			query3.execute();
+			List<GraphResponseDTO> graphResponseDTOlst4 = (List<GraphResponseDTO>) query3.getResultList();
+			l1.add(graphResponseDTOlst4);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		if(graphReqDTO.getYieldCurveCross5()!=null)
+		{
+			System.out.println(graphReqDTO.getYieldCurveCross5() +"\n"+
+					graphReqDTO.getFactor5()+"\n"+
+					graphReqDTO.getCountry5());
+			
+			query4.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query4.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross5() );
+			
+			query4.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query4.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query4.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query4.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query4.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query4.setParameter("factor",graphReqDTO.getFactor5() );
+			
+			query4.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query4.setParameter("country",graphReqDTO.getCountry5() );
+			
+			query4.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query4.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			
+			query4.execute();
+			List<GraphResponseDTO> graphResponseDTOlst5 = (List<GraphResponseDTO>) query4.getResultList();
+			l1.add(graphResponseDTOlst5);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		if(graphReqDTO.getYieldCurveCross6()!=null)
+		{
+			System.out.println(graphReqDTO.getYieldCurveCross6() +"\n"+
+					graphReqDTO.getFactor6()+"\n"+
+					graphReqDTO.getCountry6());
+			
+			query5.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query5.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross6() );
+			
+			query5.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query5.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query5.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query5.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query5.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query5.setParameter("factor",graphReqDTO.getFactor6() );
+			
+			query5.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query5.setParameter("country",graphReqDTO.getCountry6() );
+			
+			query5.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query5.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			
+			query5.execute();
+			List<GraphResponseDTO> graphResponseDTOlst6 = (List<GraphResponseDTO>) query5.getResultList();
+			l1.add(graphResponseDTOlst6);
 			entityManager.clear();
 			entityManager.close();
 		}
