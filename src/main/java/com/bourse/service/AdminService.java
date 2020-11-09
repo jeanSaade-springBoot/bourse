@@ -71,6 +71,8 @@ public class AdminService
 				                         .displayDescription(columnConfiguration.getDisplayDescription())
 				                         .startDate(columnConfiguration.getStartDate())
 				                         .tickValue(columnConfiguration.getTickValue())
+				                         .chartType(columnConfiguration.getChartType())
+				                         .dataFormat(columnConfiguration.getDataFormat())
 				                         .build();
         return columnConfigurationRepository.save(colInstance);
 	}
