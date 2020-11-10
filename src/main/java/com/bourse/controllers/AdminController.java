@@ -83,6 +83,12 @@ public class AdminController {
 		return new ResponseEntity<>( adminService.getColumnsConfigurationByGroupAndSubgroup(groupId,subgroupId), HttpStatus.OK);
     }
 	
+	@GetMapping(value = "getcolumnsconfigurationBygroupandsubgroupdescription/{groupId}/{subgroupId}/{description}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<ColumnConfiguration> getColumnsconfigurationByGroupAndSubgroupDescription(@PathVariable String groupId
+    		,@PathVariable String subgroupId,@PathVariable String description){
+		return new ResponseEntity<>( adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId,subgroupId,description), HttpStatus.OK);
+    }
+	
 	@PostMapping(value = "updatecolumnconfigurationbyid")
 	public ColumnConfiguration UpdateColumnConfigurationById(@RequestBody ColumnConfiguration columnConfiguration) {
 	return adminService.UpdateColumnConfigurationById(columnConfiguration);

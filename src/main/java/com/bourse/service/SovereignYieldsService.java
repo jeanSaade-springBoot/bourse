@@ -27,6 +27,7 @@ import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
+import com.bourse.enums.CrossCountryEnum;
 import com.bourse.enums.SubGroupEnum;
 import com.bourse.enums.YieldEnum;
 import com.bourse.repositories.ConfigurationRepository;
@@ -183,6 +184,7 @@ public class SovereignYieldsService
 				String groupId ="1";
 				String subGroupId = graphReqDTO.getCountry1(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 			    System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -192,6 +194,7 @@ public class SovereignYieldsService
 				String groupId ="2";
 				String subGroupId =  graphReqDTO.getCountry1(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -201,7 +204,8 @@ public class SovereignYieldsService
 			{
 				String groupId ="3";
 				String subGroupId =  graphReqDTO.getCountry1(); 
-				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -249,6 +253,7 @@ public class SovereignYieldsService
 				String groupId ="1";
 				String subGroupId = graphReqDTO.getCountry2(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry2()))+"-"+graphReqDTO.getFactor2().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 			    System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -258,6 +263,7 @@ public class SovereignYieldsService
 				String groupId ="2";
 				String subGroupId =  graphReqDTO.getCountry2(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry2()))+"-"+graphReqDTO.getFactor2().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -267,7 +273,8 @@ public class SovereignYieldsService
 			{
 				String groupId ="3";
 				String subGroupId =  graphReqDTO.getCountry2(); 
-				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry2()))+"-"+graphReqDTO.getFactor2().replace("yr", "");
+				String description = (CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry2()))+"-"+graphReqDTO.getFactor2().replace("yr", "")).replace("_", "-");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -317,6 +324,7 @@ public class SovereignYieldsService
 				String groupId ="1";
 				String subGroupId = graphReqDTO.getCountry3(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry3()))+"-"+graphReqDTO.getFactor3().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 			    System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -326,16 +334,18 @@ public class SovereignYieldsService
 				String groupId ="2";
 				String subGroupId =  graphReqDTO.getCountry3(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry3()))+"-"+graphReqDTO.getFactor3().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
 			}
 				
-			if(graphReqDTO.getYieldCurveCross2().equals("cross"))
+			if(graphReqDTO.getYieldCurveCross3().equals("cross"))
 			{
 				String groupId ="3";
 				String subGroupId =  graphReqDTO.getCountry3(); 
-				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry3()))+"-"+graphReqDTO.getFactor3().replace("yr", "");
+				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry3()))+"-"+graphReqDTO.getFactor3().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -381,6 +391,7 @@ public class SovereignYieldsService
 				String groupId ="1";
 				String subGroupId = graphReqDTO.getCountry4(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry4()))+"-"+graphReqDTO.getFactor4().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 			    System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -390,6 +401,7 @@ public class SovereignYieldsService
 				String groupId ="2";
 				String subGroupId =  graphReqDTO.getCountry4(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry4()))+"-"+graphReqDTO.getFactor4().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -399,7 +411,8 @@ public class SovereignYieldsService
 			{
 				String groupId ="3";
 				String subGroupId =  graphReqDTO.getCountry4(); 
-				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry4()))+"-"+graphReqDTO.getFactor4().replace("yr", "");
+				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry4()))+"-"+graphReqDTO.getFactor4().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -445,6 +458,7 @@ public class SovereignYieldsService
 				String groupId ="1";
 				String subGroupId = graphReqDTO.getCountry5(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry5()))+"-"+graphReqDTO.getFactor5().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 			    System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -454,6 +468,7 @@ public class SovereignYieldsService
 				String groupId ="2";
 				String subGroupId =  graphReqDTO.getCountry5(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry5()))+"-"+graphReqDTO.getFactor5().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -463,7 +478,8 @@ public class SovereignYieldsService
 			{
 				String groupId ="3";
 				String subGroupId =  graphReqDTO.getCountry5(); 
-				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry5()))+"-"+graphReqDTO.getFactor5().replace("yr", "");
+				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry5()))+"-"+graphReqDTO.getFactor5().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -509,6 +525,7 @@ public class SovereignYieldsService
 				String groupId ="1";
 				String subGroupId = graphReqDTO.getCountry6(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry6()))+"-"+graphReqDTO.getFactor6().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 			    System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -518,6 +535,7 @@ public class SovereignYieldsService
 				String groupId ="2";
 				String subGroupId =  graphReqDTO.getCountry6(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry6()))+"-"+graphReqDTO.getFactor6().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
@@ -527,7 +545,8 @@ public class SovereignYieldsService
 			{
 				String groupId ="3";
 				String subGroupId =  graphReqDTO.getCountry6(); 
-				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry6()))+"-"+graphReqDTO.getFactor6().replace("yr", "");
+				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry6()))+"-"+graphReqDTO.getFactor6().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);

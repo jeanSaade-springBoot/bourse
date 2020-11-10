@@ -11,6 +11,7 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.SovereignData;
@@ -76,5 +77,10 @@ public class AdminService
 				                         .build();
         return columnConfigurationRepository.save(colInstance);
 	}
+	
+	public ColumnConfiguration getColumnsconfigurationByGroupAndSubgroupDescription(String groupId,String subgroupId,String description) {
+		 return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndDescription(groupId, subgroupId,description);
+	}
+	
 	
 }

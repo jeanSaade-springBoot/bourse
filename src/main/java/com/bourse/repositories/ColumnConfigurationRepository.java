@@ -9,5 +9,5 @@ import com.bourse.domain.SubGroup;
 
 public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfiguration, Long> {
 	List<ColumnConfiguration> findByGroupIdAndSubgroupId(String groupId,String subgroupId);
-
+	ColumnConfiguration findByGroupIdAndSubgroupIdAndDescription(String groupId,String subgroupId,String description) ;
 }
