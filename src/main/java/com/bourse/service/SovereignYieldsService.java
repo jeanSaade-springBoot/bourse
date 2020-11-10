@@ -15,16 +15,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.SovereignData;
 import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.GraphReqDTO;
+import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
+import com.bourse.enums.SubGroupEnum;
+import com.bourse.enums.YieldEnum;
 import com.bourse.repositories.ConfigurationRepository;
 import com.bourse.repositories.SovereignYieldsRepository;
 import com.bourse.util.SovereignUtil;
@@ -34,12 +38,12 @@ public class SovereignYieldsService
 {
 	@PersistenceContext
     private EntityManager entityManager;
-	
 	@Autowired
 	SovereignYieldsRepository sovereignYieldsRepository;
-	
 	@Autowired
 	ConfigurationRepository configurationRepository;
+	@Autowired
+	AdminService adminService;
 	
 	public List<SovereignData> getAllSovereignDatas()
 	{      
@@ -156,17 +160,53 @@ public class SovereignYieldsService
 		return crossAuditProcedureDTO; 
 	}
 	
-	public List<List<GraphResponseDTO>> getGraphData(GraphReqDTO graphReqDTO)
+	public List<GraphResponseColConfigDTO> getGraphData(GraphReqDTO graphReqDTO)
 	{
+		
+		//yield:1
+		//curve:2
+		//cross:3
+
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		StoredProcedureQuery query1 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		StoredProcedureQuery query2 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		StoredProcedureQuery query3 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		StoredProcedureQuery query4 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		StoredProcedureQuery query5 = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
-		List<List<GraphResponseDTO>> l1 = new ArrayList<>();
+		// List<List<GraphResponseDTO>> l1 = new ArrayList<>();
+		List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+		ColumnConfiguration config = null;
 		if(graphReqDTO.getYieldCurveCross1()!=null)
 		{
+			if(graphReqDTO.getYieldCurveCross1().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry1(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross1().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry1(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross1().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry1(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+					
 			System.out.println(graphReqDTO.getYieldCurveCross1() +"\n"+
 					graphReqDTO.getFactor1()+"\n"+
 					graphReqDTO.getCountry1());
@@ -192,13 +232,47 @@ public class SovereignYieldsService
 			
 			
 			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
-			l1.add(graphResponseDTOlst1);
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+					                  .graphResponseDTOLst(graphResponseDTOlst1)
+					                  .config(config)
+					                  .build();
+			l1.add(graphResponseColConfigDTO);
 			entityManager.clear();
 			entityManager.close();
 		}
 		
 		if(graphReqDTO.getYieldCurveCross2()!=null)
 		{
+			
+			if(graphReqDTO.getYieldCurveCross2().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry2(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry2()))+"-"+graphReqDTO.getFactor2().replace("yr", "");
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross2().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry2(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry2()))+"-"+graphReqDTO.getFactor2().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross2().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry2(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry2()))+"-"+graphReqDTO.getFactor2().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			
 			System.out.println(graphReqDTO.getYieldCurveCross2() +"\n"+
 					graphReqDTO.getFactor2()+"\n"+
 					graphReqDTO.getCountry2());
@@ -223,7 +297,11 @@ public class SovereignYieldsService
 			
 			query1.execute();
 			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query1.getResultList();
-			l1.add(graphResponseDTOlst2);
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+	                  .graphResponseDTOLst(graphResponseDTOlst2)
+	                  .config(config)
+	                  .build();
+			l1.add(graphResponseColConfigDTO);
 			entityManager.clear();
 			entityManager.close();
 		}
@@ -233,6 +311,35 @@ public class SovereignYieldsService
 			System.out.println(graphReqDTO.getYieldCurveCross3() +"\n"+
 					graphReqDTO.getFactor3()+"\n"+
 					graphReqDTO.getCountry3());
+			
+			if(graphReqDTO.getYieldCurveCross3().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry3(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry3()))+"-"+graphReqDTO.getFactor3().replace("yr", "");
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross3().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry3(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry3()))+"-"+graphReqDTO.getFactor3().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross2().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry3(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry3()))+"-"+graphReqDTO.getFactor3().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
 			
 			query2.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
 			query2.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross3() );
@@ -254,16 +361,49 @@ public class SovereignYieldsService
 			
 			query2.execute();
 			List<GraphResponseDTO> graphResponseDTOlst3 = (List<GraphResponseDTO>) query2.getResultList();
-			l1.add(graphResponseDTOlst3);
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+	                  .graphResponseDTOLst(graphResponseDTOlst3)
+	                  .config(config)
+	                  .build();
+			l1.add(graphResponseColConfigDTO);
 			entityManager.clear();
 			entityManager.close();
 		}
 		
 		if(graphReqDTO.getYieldCurveCross4()!=null)
 		{
-			System.out.println(graphReqDTO.getYieldCurveCross2() +"\n"+
-					graphReqDTO.getFactor2()+"\n"+
-					graphReqDTO.getCountry2());
+			System.out.println(graphReqDTO.getYieldCurveCross4() +"\n"+
+					graphReqDTO.getFactor4()+"\n"+
+					graphReqDTO.getCountry4());
+			
+			if(graphReqDTO.getYieldCurveCross4().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry4(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry4()))+"-"+graphReqDTO.getFactor4().replace("yr", "");
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross4().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry4(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry4()))+"-"+graphReqDTO.getFactor4().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross4().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry4(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry4()))+"-"+graphReqDTO.getFactor4().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
 			
 			query3.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
 			query3.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross4() );
@@ -285,7 +425,11 @@ public class SovereignYieldsService
 			
 			query3.execute();
 			List<GraphResponseDTO> graphResponseDTOlst4 = (List<GraphResponseDTO>) query3.getResultList();
-			l1.add(graphResponseDTOlst4);
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+	                  .graphResponseDTOLst(graphResponseDTOlst4)
+	                  .config(config)
+	                  .build();
+			l1.add(graphResponseColConfigDTO);
 			entityManager.clear();
 			entityManager.close();
 		}
@@ -295,6 +439,35 @@ public class SovereignYieldsService
 			System.out.println(graphReqDTO.getYieldCurveCross5() +"\n"+
 					graphReqDTO.getFactor5()+"\n"+
 					graphReqDTO.getCountry5());
+			
+			if(graphReqDTO.getYieldCurveCross5().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry5(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry5()))+"-"+graphReqDTO.getFactor5().replace("yr", "");
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross5().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry5(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry5()))+"-"+graphReqDTO.getFactor5().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross5().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry5(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry5()))+"-"+graphReqDTO.getFactor5().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
 			
 			query4.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
 			query4.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross5() );
@@ -316,7 +489,11 @@ public class SovereignYieldsService
 			
 			query4.execute();
 			List<GraphResponseDTO> graphResponseDTOlst5 = (List<GraphResponseDTO>) query4.getResultList();
-			l1.add(graphResponseDTOlst5);
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+	                  .graphResponseDTOLst(graphResponseDTOlst5)
+	                  .config(config)
+	                  .build();
+			l1.add(graphResponseColConfigDTO);
 			entityManager.clear();
 			entityManager.close();
 		}
@@ -326,6 +503,35 @@ public class SovereignYieldsService
 			System.out.println(graphReqDTO.getYieldCurveCross6() +"\n"+
 					graphReqDTO.getFactor6()+"\n"+
 					graphReqDTO.getCountry6());
+			
+			if(graphReqDTO.getYieldCurveCross6().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry6(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry6()))+"-"+graphReqDTO.getFactor6().replace("yr", "");
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross6().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry6(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry6()))+"-"+graphReqDTO.getFactor6().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross6().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry6(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry6()))+"-"+graphReqDTO.getFactor6().replace("yr", "");
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
 			
 			query5.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
 			query5.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross6() );
@@ -347,7 +553,11 @@ public class SovereignYieldsService
 			
 			query5.execute();
 			List<GraphResponseDTO> graphResponseDTOlst6 = (List<GraphResponseDTO>) query5.getResultList();
-			l1.add(graphResponseDTOlst6);
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+	                  .graphResponseDTOLst(graphResponseDTOlst6)
+	                  .config(config)
+	                  .build();
+			l1.add(graphResponseColConfigDTO);
 			entityManager.clear();
 			entityManager.close();
 		}

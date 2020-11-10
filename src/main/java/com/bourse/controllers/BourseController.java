@@ -33,6 +33,7 @@ import com.bourse.dto.DataInputDTO;
 import com.bourse.dto.DynamicGridResultClassDTO;
 import com.bourse.dto.DynamicGridRows;
 import com.bourse.dto.GraphReqDTO;
+import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.PersonReqDTO;
 import com.bourse.dto.SearchFilterDTO;
@@ -267,7 +268,7 @@ public class BourseController {
 	} 
 	
 	@PostMapping(value = "getgraphdata")
-	public ResponseEntity<List<List<GraphResponseDTO>>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
 	} 
 	
