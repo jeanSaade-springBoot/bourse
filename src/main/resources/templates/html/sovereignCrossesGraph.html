@@ -480,7 +480,22 @@
           </ul>
         </nav>
         <!-- Topbar -->
-
+	<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You must select at least one record.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between ">
@@ -496,7 +511,7 @@
 			 <nav>
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				    <a class="nav-item nav-link" id="nav-yields-tab" data-toggle="tab" href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-yields-crosses" aria-selected="false">Sovereign Yields</a>
+				    <a class="nav-item nav-link" id="nav-yields-tab"  href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-yields-crosses" aria-selected="false">Sovereign Yields</a>
 				    <a class="nav-item nav-link" id="nav-yields-curves-tab"  href="/bourse/sovereigncurvesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
 				    <a class="nav-item nav-link active" id="nav-yields-crosses-tab"  href="#nav-yields-crosses" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
 				  <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/spreadmakergraph" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
@@ -599,7 +614,7 @@
 								</div>
 								<div class="col-6">
 								<div class="row mb-3">
-								   <div style='padding-left: .75rem;' id='jqxDailyRadioButton2'>
+								   <div style='padding-left: .75rem;' id='jqxDailyRadioButton'>
 									            <span>Daily</span></div>
 									<div id='jqxWeeklyRadioButton'>
 									           Weekly</div>
@@ -616,8 +631,8 @@
                      </div>
                      	<div class="row">
 							<div class='col-12 d-flex justify-content-end'>
-							<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
-							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+					      	<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+						   	<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 							</div>
 						</div>
 					    </div>
@@ -632,7 +647,7 @@
 						 	</div>
 						 </div>
 					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
-							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split">
+							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split"  style="display:none;">
 					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
 							  </div>
 					 	       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
@@ -1301,7 +1316,7 @@
        }
 	 
 	 $("#jqxWeeklyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25});
-	 $("#jqxDailyRadioButton2").jqxRadioButton({theme:'dark', width: 70, height: 25, checked: true});
+	 $("#jqxDailyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25, checked: true});
 	 
 	 $("#M-100d").jqxCheckBox({ theme:'dark', width: 120, height: 26});
 	 $("#M-200d").jqxCheckBox({ theme:'dark', width: 120, height: 26});
@@ -1360,10 +1375,17 @@
      	 
       });
       
-     $("#show").click(function () {
-    	 $('#grid-content').css('display', 'block');
-    	 drawGraph();
-      });
+      $("#show").click(function () {
+  	    if(checkedItem>0)
+  	      {	 $("#collapseFilter").removeClass('show');
+  	    	 $('#grid-content').css('display', 'block');
+  	    	 drawGraph();
+  	      } else 
+  	 		{	
+  	 		    $('#alertFiltter-modal').modal('show');
+  			    $("#collapseFilter").addClass('show');
+  	 		}
+  	      });
      
      $('#jqxCheckBoxfrc-ger-30').on('change', function (event) {
   	   var checked = event.args.checked;
@@ -2795,36 +2817,24 @@
 				if(condition=="yearBackward")
 				{ 
 				monthDate.setFullYear(monthDate.getFullYear() - 1);
-				if(mode=="merge") 
-				  drawGraph();
-					else
-						splitGraph();
+				 drawGraph();
 				}else
 					if(condition=="monthBackward")
 				  {   
 				    monthDate.setMonth(monthDate.getMonth() - 1);
-				    if(mode=="merge") 
-						  drawGraph();
-							else
-								splitGraph();
+				    drawGraph();
 					}
 					else
 						if(condition=="monthForward")
 					  {   
 					    monthDate.setMonth(monthDate.getMonth() + 1);
-					    if(mode=="merge") 
-							  drawGraph();
-								else
-									splitGraph();
+					    drawGraph();
 						}
 						else
 							if(condition=="yearForward")
 						  {   
 							monthDate.setFullYear(monthDate.getFullYear() + 1);
-							if(mode=="merge") 
-								  drawGraph();
-									else
-										splitGraph();
+							 drawGraph();
 							}
 
 					if   (checkDateMonth(monthDate,date))
@@ -2876,178 +2886,7 @@
 				   else
 					   return false;
 			  }
-			function splitGraph()
-			{
-				mode="split";
-				var title1;
-				var title2;
-  				var checkedItemValues = [];
-				var fromdate = formatDate(monthDate);
-				var todate = formatDate(date);
-				
-				$("#mainChart").css("display","none");
-				$("#split").css("display","none");
-				$("#merge").css("display","inline-block");
-				$("#SubChart1").html("");
-				$("#SubChart2").html("");
-				$("#SubChart1").css("display","block");
-				$("#SubChart2").css("display","block");
-				for(i=0; i<checkedItemid.length; i++)
-		   		   {
-		   	  		 if(checkedItemid[i]!=null)
-		   	  		  checkedItemValues.push(checkedItemid[i]);
-		   	       }
-				 if(checkedItemValues.length>1)
-				  { 
-					title1=itemValue[checkedItemValues[0]].title;
-				    title2=itemValue[checkedItemValues[1]].title;
-				  }
-				  else
-					 title1=itemValue[checkedItemValues[0]].title;
-				  
-		    	   var options1 = {
-			          series: [],
-			          chart: {
-			          height: 300,
-			          type: 'line',
-			        },
-			        colors: ["#00b746", "#008ffb"],
-			        fill: {
-			            type:'solid',
-			            opacity: [0.35, 1],
-			          },
-			        stroke: {
-			        	 curve: 'smooth',
-			        	  width: 3
-			        },
-			        markers: {
-			            size: 2,
-			        },
-			        title: {
-			          text: title1
-			        },
-			        dataLabels: {
-			          enabled: false
-			        },
-			        xaxis: {
-			          type: 'datetime'
-			        },
-			         yaxis: [{
-			          labels: {
-			        	    formatter: function (value) {
-			        	      return value.toFixed(3) + "%";
-			        	    }
-			        	  },
-			        
-			        }]
-			        };
-
-		    	   
-		    	   var chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
-			        
-		           dataParam = { 
-   		        		"fromdate":fromdate,
-   		        	    "todate":todate,
-   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
-   		        	    "country1":itemValue[checkedItemValues[0]].country,
-   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross
-   	     			   };
-			  	       	  $.ajax({
-			  	       	        type: "POST",
-		      	    	        contentType:  "application/json; charset=utf-8",
-		      	    	        url: "/bourse/getgraphdata",
-		      	    	        data: JSON.stringify(dataParam),
-		      	    	        dataType: 'json',
-		      	    	        timeout: 600000,
-		      	    	        success: function (response) {
-		      	    	        debugger;
-		      	    	        chart1.updateSeries([{
-							          name: itemValue[checkedItemValues[0]].title,
-							          type: 'area',
-							          data: response[0]
-							        }])
-		      	   },
-		      	    	        error: function (e) {
-		      	    	        	
-		      						  console.log("ERROR : ", e);
-		      	
-		      	    	        }
-		      	    	    });	
-			  	 
-			        chart1.render();
-			        
-			    	   var options2 = {
-				          series: [],
-				          chart: {
-				          height: 300,
-				          type: 'line',
-				        },
-				        colors: ["#008ffb"],
-				        fill: {
-				            type:'solid',
-				            opacity: [1],
-				          },
-				        stroke: {
-				        	 curve: 'smooth',
-				        	  width: 3
-				        },
-				        markers: {
-				            size: 2,
-				        },
-				        title: {
-				          text: title2
-				        },
-				        dataLabels: {
-				          enabled: false
-				        },
-				        xaxis: {
-				          type: 'datetime'
-				        },
-				         yaxis: [{
-				          labels: {
-				        	    formatter: function (value) {
-				        	      return value.toFixed(3) + "%";
-				        	    }
-				        	  },
-				        
-				        }]
-				        };
-			    	   var chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
-					      
-			    	    dataParam = { 
-		   		        		"fromdate":fromdate,
-		   		        	    "todate":todate,
-		   		        	    "factor1":itemValue[checkedItemValues[1]].factor,
-		   		        	    "country1":itemValue[checkedItemValues[1]].country,
-		   		        	    "yieldCurveCross1": itemValue[checkedItemValues[1]].yieldCurveCross
-		   	     			   };
-			    	    
-				  	       	  $.ajax({
-				  	       	        type: "POST",
-			      	    	        contentType:  "application/json; charset=utf-8",
-			      	    	        url: "/bourse/getgraphdata",
-			      	    	        data: JSON.stringify(dataParam),
-			      	    	        dataType: 'json',
-			      	    	        timeout: 600000,
-			      	    	        success: function (response) {
-			      	    	        
-			      	    	          chart2.updateSeries([{
-								          name: itemValue[checkedItemValues[1]].title,
-								          type: 'line',
-								          data: response[0]
-								        }])
-			      	   },
-			      	    	        error: function (e) {
-			      	    	        	
-			      						  console.log("ERROR : ", e);
-			      	
-			      	    	        }
-			      	    	    });	
-				  	 
-				        chart2.render();
-				        $("#dateFrom-mainChart").val(fromdate);
-	    	            $("#dateTo-mainChart").val(todate);
-			}
+			
 			function drawGraph(){
 				mode="merge";
 				var dataParam;
@@ -3060,10 +2899,9 @@
 				$("#mainChart").css("display","block");
 				$("#SubChart1").css("display","none");
 				$("#SubChart2").css("display","none");
-				$("#split").css("display","inline-block");
-				$("#merge").css("display","none");
-			
-			        			
+				
+				var Daily = $("#jqxDailyRadioButton").jqxRadioButton('val');
+				
 		    	  if (checkedItem==2) {
 		    			 for(i=0; i<checkedItemid.length; i++)
 				   		   {
@@ -3165,6 +3003,7 @@ debugger;
 			        dataParam = { 
 	   		        		"fromdate":fromdate,
 	   		        	    "todate":todate,
+	   		        	    "dailyOrWeekly":Daily?"d":"w" ,
 	   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
 	   		        	    "country1":itemValue[checkedItemValues[0]].country,
 	   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,

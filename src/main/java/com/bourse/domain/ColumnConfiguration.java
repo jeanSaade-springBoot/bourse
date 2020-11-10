@@ -32,4 +32,6 @@ public class ColumnConfiguration {
 	private String calculationType;
 	private String tickValue;
 	private String currency;
+	private String chartType;
+	private String yAxisFormat;
 }
