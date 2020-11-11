@@ -83,7 +83,7 @@ drop table IF EXISTS bourse.column_configuration;
 CREATE TABLE bourse.column_configuration (
   id bigint(20) NOT NULL,
   calculation_type varchar(255) DEFAULT NULL,
-  can_be_negative bit(1) DEFAULT NULL,
+  can_be_negative bit(1) DEFAULT false,
   currency varchar(255) DEFAULT NULL,
   data_format varchar(255) DEFAULT NULL,
   description varchar(255) DEFAULT NULL,
