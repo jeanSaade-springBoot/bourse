@@ -23,12 +23,14 @@
     div#overlay {
     margin: 15% 40%;
 }
-.blue{
-            background-color: Blue;
-        }
-  /*       .jqx-widget-header:first-child {
-  background-color: rosybrown;
-} */
+   .jqx-widget-header:nth-child(16) {
+  background-color: #6495ed;
+  color:white;
+} 
+  .jqx-widget-header:nth-child(17) {
+  background-color: #ffa500;
+    color:white;
+} 
   </style>
 </head>
 
@@ -534,16 +536,28 @@
 									<input type="text" class="form-control" id="DisplayName" disabled>
 									</div>
 								  </div>
-								  <div class="form-group row">
+								  	<div class="form-group row">
 									<label for="graphTitle" class="col-sm-4 col-form-label">Graph Title</label>
 									<div class="col-sm-8">
 									  <input type="text" class="form-control" id="graphTitle">
 									 </div>
 								  </div>
+								  <div class="form-group row">
+									<label for="columnTitle" class="col-sm-4 col-form-label">Chart Type</label>
+									<div class="col-sm-8">
+									    <div id='chartType' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
 								   <div class="form-group row">
 									<label for="dataFormat" class="col-sm-4 col-form-label">Data Format</label>
 									<div class="col-sm-8">
 									<input type="text" class="form-control" id="dataFormat">
+									</div>
+								  </div>
+								     <div class="form-group row">
+									<label for="dataFormat" class="col-sm-4 col-form-label">Y Axis Format</label>
+									<div class="col-sm-8">
+									<input type="text" class="form-control" id="yAxisFormat">
 									</div>
 								  </div>
 								  <div class="row">
@@ -564,6 +578,12 @@
 								</div>
 								  <div class="col-6">
 							   <form>
+							     <div class="form-group row">
+									<label for="graphTitle" class="col-sm-4 col-form-label">Data Start Date</label>
+									<div class="col-sm-8">
+									<input type="text" class="form-control" id="startDate">
+									</div>
+								  </div>
 								  <div class="form-group row">
 									<label for="columnTitle" class="col-sm-4 col-form-label">Factor Calc Type</label>
 									<div class="col-sm-8">
@@ -697,8 +717,12 @@
   });
   $(document).ready(function () {
 	  factorcalctypeSource =["INPUT","CALCULATED"];
-	 $("#factorcalctype").jqxDropDownList({ source: factorcalctypeSource, theme: 'dark' , width: '100%', height: 30});
-	  var familysource =
+	 $("#factorcalctype").jqxDropDownList({ dropDownHeight: 70, source: factorcalctypeSource, theme: 'dark' , width: '100%', height: 30});
+	 
+	 chartTypeSource =["Line","Line Spline","Bars"];
+	 $("#chartType").jqxDropDownList({dropDownHeight: 100,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
+
+    var familysource =
       {
           datatype: "json",
           datafields: [
@@ -778,26 +802,20 @@
         	  { name: 'description', type: 'string' },
               { name: 'displayDescription', type: 'string' },
               { name: 'dataFormat', type: 'string' },
-              { name: 'YAxisFormat', type: 'string' },
-              { name: 'FactorCalcType', type: 'string' },
+              { name: 'yaxisFormat', type: 'string' },
+              { name: 'calculationType', type: 'string' },
               { name: 'HighOrLow', type: 'string' },
               { name: 'Jump', type: 'string' },
               { name: 'Trend', type: 'string' },
               { name: 'MovAvg100dRobot', type: 'string' },
               { name: 'Crossing100d200dRobot', type: 'string' },
-              { name: 'SignChange', type: 'string' }
+              { name: 'SignChange', type: 'string' },
+              { name: 'chartType', type: 'string' }
           ],
           async: true,
           url: ''
       };
-      var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-          if (value < 20) {
-              return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #ff0000;">' + value + '</span>';
-          }
-          else {
-              return '<span style="margin: 4px; margin-top:8px; float: ' + columnproperties.cellsalign + '; color: #008000;">' + value + '</span>';
-          }
-      }
+     
       var dataAdapter = new $.jqx.dataAdapter(gridsource, {
           downloadComplete: function (data, status, xhr) { },
           loadComplete: function (data) { },
@@ -805,7 +823,7 @@
       });
         // initialize the popup window and buttons.
         $("#popupWindow").jqxWindow({
-            width: '70%',    height: '50%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
+            width: '70%',    height: '60%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
         });
         // update the edited row when the user clicks the 'Save' button.
         $("#update").click(function () {
@@ -821,7 +839,9 @@
                 		    canBeNegative:$('#jqxCheckBoxNegative').jqxCheckBox('checked')?true:false,
                 		    graphScale:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?1:0,
                 		    startDate:'',
+                		    yAxisFormat:$("#yAxisFormat").val(),
                 		    calculationType:$("#factorcalctype").val(),
+                		    chartType:$("#chartType").val(),
                 		    tickValue:$("#tickvalue").val(),
                 		    currency:$("#Currency").val()
                 		    };
@@ -848,6 +868,7 @@
     	    	    });
             }
         });
+        
       // initialize jqxGrid
       $("#grid").jqxGrid(
       {
@@ -873,11 +894,13 @@
                   $("#DisplayName").val(dataRecord.description);
                   $("#graphTitle").val(dataRecord.displayDescription);
                   $("#dataFormat").val(dataRecord.dataFormat);
+                  $("#yAxisFormat").val(dataRecord.yaxisFormat);
                   debugger;
                   $("#jqxCheckBoxNegative").jqxCheckBox('val',dataRecord.canBeNegative);
                
                   // $("#jqxCheckBoxShowIndb").val(dataRecord.jqxCheckBoxShowIndb);
                   $("#factorcalctype").jqxDropDownList('val', dataRecord.calculationType);
+                  $("#chartType").jqxDropDownList('val', dataRecord.chartType);
                   $("#tickvalue").val(dataRecord.tickValue);
                   $("#Currency").val(dataRecord.currency);
                   // show the popup window.
@@ -886,11 +909,13 @@
              },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'id', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'canBeNegative', hidden: true  },
-            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'description', width: '9%' },
-            { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', cellsalign: 'right', align: 'right', width: '9%' },
-            { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'YAxisFormat', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: '9%'},
-            { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'FactorCalcType', align: 'right', cellsalign: 'right', cellsformat: 'c2', width: '9%' },
-            { text: 'HighOrLow', columngroup: 'NewsRobot', datafield: 'HighOrLow',cellsalign: 'left', align: 'left',columntype: 'checkbox', cellsalign: 'right', width: '9%' },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'chartType', hidden: true  },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'startDate', hidden: true  },
+            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'description', width: '9%',color:'#3F0' },
+            { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', width: '9%' },
+            { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yaxisFormat', width: '9%'},
+            { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'calculationType', width: '9%' },
+            { text: 'HighOrLow', columngroup: 'NewsRobot', datafield: 'HighOrLow',columntype: 'checkbox', width: '9%' },
             { text: 'Jump', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Jump', width: '9%' },
             { text: 'Trend', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Trend', width: '9%' },
             { text: 'Mov Avg(100d)Robot', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'MovAvg100dRobot', width: '9%' },
@@ -898,11 +923,11 @@
             { text: 'SignChange', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'SignChange', width: '9%' }
           ],
           columngroups: [
-              { text: 'Title and Format', align: 'center', name: 'TimeAndFormat',cellclassname: 'blue' },
+              { text: 'Title and Format', align: 'center', name: 'TimeAndFormat' },
               { text: 'News Robot', align: 'center', name: 'NewsRobot' }
           ]
       });
-      
+     
   });
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->

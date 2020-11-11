@@ -4882,7 +4882,7 @@
 		      	    	        chart1.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
 							          type: 'area',
-							          data: response[0]
+							          data: response[0].graphResponseDTOLst
 							        }])
 		      	   },
 		      	    	        error: function (e) {
@@ -4952,7 +4952,7 @@
 			      	    	          chart2.updateSeries([{
 								          name: itemValue[checkedItemValues[1]].title,
 								          type: 'line',
-								          data: response[0]
+								          data: response[0].graphResponseDTOLst
 								        }])
 			      	   },
 			      	    	        error: function (e) {
@@ -5055,7 +5055,7 @@ debugger;
 		      	    	          chart.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
 							          type: 'area',
-							          data: response[0]
+							          data: response[0].graphResponseDTOLst
 							        },{
 							          name: itemValue[checkedItemValues[1]].title,
 							          type: 'line',
@@ -5140,7 +5140,7 @@ debugger;
 				      	    	        chart.updateSeries([{
 									          name: itemValue[checkedItemValues[0]].title,
 									          type: 'area',
-									          data: response[0]
+									          data: response[0].graphResponseDTOLst
 									        }])
 				      	   },
 				      	    	        error: function (e) {
