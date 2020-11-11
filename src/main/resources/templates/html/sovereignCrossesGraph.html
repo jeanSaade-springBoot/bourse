@@ -753,6 +753,7 @@
   monthDate.setMonth(monthDate.getMonth() - 1);
   var date=new Date();
   var mode="merge";
+  var chart;
   var allitems=[ "#jqxCheckBoxfrc-ger-30",
 	  "#jqxCheckBoxfrc-ger-10",
 	  "#jqxCheckBoxfrc-ger-5",
@@ -2900,8 +2901,84 @@
 				$("#SubChart1").css("display","none");
 				$("#SubChart2").css("display","none");
 				
-				var Daily = $("#jqxDailyRadioButton").jqxRadioButton('val');
-				
+				 var Daily = $("#jqxDailyRadioButton").jqxRadioButton('val');
+				 if(chart!=null)
+				   chart.destroy();
+				 var options = {
+				          series: [],
+				          chart: {
+				          height: 300,
+				          type: 'line',
+				        },
+				        colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
+				        fill: {
+				            type:'solid',
+				            opacity: [0.25, 1],
+				          },
+				        stroke: {
+				        	 curve: 'smooth',
+				        	   width: 3
+				        },
+				        markers: {
+				            size: 2,
+				        },
+				        title: {
+				          text: title
+				        },
+				        dataLabels: {
+				          enabled: false
+				        },
+				        xaxis: {
+				          type: 'datetime'
+				        },
+				         yaxis: [{
+				          labels: {
+				        	    formatter: function (value) {
+				        	      return value.toFixed(3) + "%";
+				        	    }
+				        	  },
+				        
+				        }, {
+				          opposite: true
+				        }]
+				        };
+				 
+				 var optionsWeekly = {
+	   	    	          series: [],
+	   	    	            chart: {
+	   	    	            type: 'bar',
+	   	    	            height: 350
+	   	    	          },
+	   	    	          plotOptions: {
+	   	    	            bar: {
+	   	    	              horizontal: false,
+	   	    	              columnWidth: '55%'
+	   	    	            },
+	   	    	          },
+	   	    	          dataLabels: {
+	   	    	            enabled: false
+	   	    	          },
+	   	    	          stroke: {
+	   	    	            show: true,
+	   	    	            width: 2,
+	   	    	            colors: ['transparent']
+	   	    	          },
+	   	    	          yaxis: [{
+	   	  			          labels: {
+	   	  			        	    formatter: function (value) {
+	   	  			        	      return value.toFixed(3) + "%";
+	   	  			        	    }
+	   	  			        	  },
+	   	  			        
+	   	  			        }],
+	   	  			      colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
+	   	  			      fill: {
+	   	    	            opacity: 1
+	   	    	          }
+	   	    	          };
+				    chart = new ApexCharts(document.querySelector("#mainChart"), Daily?options:optionsWeekly);
+			        chart.render();
+	debugger;
 		    	  if (checkedItem==2) {
 		    			 for(i=0; i<checkedItemid.length; i++)
 				   		   {
@@ -2911,6 +2988,7 @@
 				        dataParam = { 
 		 		        		"fromdate":fromdate,
 		 		        	    "todate":todate,
+		 		        	   "dailyOrWeekly":Daily?"d":"w" ,
 		 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
 		 		        	    "country1":itemValue[checkedItemValues[0]].country,
 		 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
@@ -2923,45 +3001,7 @@
 					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
 					        		else 
 					        			title=itemValue[checkedItemValues[0]].title
-			        var options = {
-			          series: [],
-			          chart: {
-			          height: 300,
-			          type: 'line',
-			        },
-			        colors: ["#00b746", "#008ffb"],
-			        fill: {
-			            type:'solid',
-			            opacity: [0.25, 1],
-			          },
-			        stroke: {
-			        	 curve: 'smooth',
-			        	   width: 3
-			        },
-			        markers: {
-			            size: 2,
-			        },
-			        title: {
-			          text: title
-			        },
-			        dataLabels: {
-			          enabled: false
-			        },
-			        xaxis: {
-			          type: 'datetime'
-			        },
-			         yaxis: [{
-			          labels: {
-			        	    formatter: function (value) {
-			        	      return value.toFixed(3) + "%";
-			        	    }
-			        	  },
-			        
-			        }, {
-			          opposite: true
-			        }]
-			        };
-debugger;
+			       
 			        debugger;			    	
 			  	       	  $.ajax({
 			  	       	        type: "POST",
@@ -2974,12 +3014,12 @@ debugger;
 		      	    	        
 		      	    	          chart.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
-							          type: 'area',
-							          data: response[0]
+							          type: Daily?'area':'column',
+							          data: response[0].graphResponseDTOLst
 							        },{
 							          name: itemValue[checkedItemValues[1]].title,
-							          type: 'line',
-							          data:response[1]
+							          type: Daily?'line':'column',
+							          data:response[1].graphResponseDTOLst
 							        }])
 		      	   },
 		      	    	        error: function (e) {
@@ -2989,9 +3029,135 @@ debugger;
 		      	    	        }
 		      	    	    });	
 			  	 
-			        var chart = new ApexCharts(document.querySelector("#mainChart"), options);
-			        chart.render();
-				}
+			  	      
+				}else
+					if (checkedItem==3) {
+	    			 for(i=0; i<checkedItemid.length; i++)
+			   		   {
+			   	  		 if(checkedItemid[i]!=null)
+			   	  		  checkedItemValues.push(checkedItemid[i]);
+			   	       }
+			        dataParam = { 
+	 		        		"fromdate":fromdate,
+	 		        	    "todate":todate,
+	 		        	   "dailyOrWeekly":Daily?"d":"w" ,
+	 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+	 		        	    "country1":itemValue[checkedItemValues[0]].country,
+	 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+	 		        	    "factor2":itemValue[checkedItemValues[1]].factor,
+	 		        	    "country2":itemValue[checkedItemValues[1]].country,
+	 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross,
+	 		        	    "factor3":itemValue["#jqxCheckBoxFrance-30"].factor,
+	 		        	    "country3":itemValue["#jqxCheckBoxFrance-30"].country,
+	 		        	    "yieldCurveCross3": itemValue["#jqxCheckBoxFrance-30"].yieldCurveCross,
+	 	     			   };
+			       
+					 if(checkedItemValues.length>1)
+				        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title+" vs "+ itemValue[checkedItemValues[2]].title  
+				        		else 
+				        			title=itemValue[checkedItemValues[0]].title
+		       
+		        debugger;			    	
+		  	       	  $.ajax({
+		  	       	        type: "POST",
+	      	    	        contentType:  "application/json; charset=utf-8",
+	      	    	        url: "/bourse/getgraphdata",
+	      	    	        data: JSON.stringify(dataParam),
+	      	    	        dataType: 'json',
+	      	    	        timeout: 600000,
+	      	    	        success: function (response) {
+	      	    	        
+	      	    	          chart.updateSeries([{
+						          name: itemValue[checkedItemValues[0]].title,
+						          type: Daily?'area':'column',
+						          data: response[0].graphResponseDTOLst
+						        },{
+						          name: itemValue[checkedItemValues[1]].title,
+						          type: Daily?'line':'column',
+						          data:response[1].graphResponseDTOLst
+						        }
+						        ,{
+							          name: itemValue[checkedItemValues[2]].title,
+							          type:  Daily?'line':'column',
+							          data:response[2].graphResponseDTOLst
+							        }])
+	      	   },
+	      	    	        error: function (e) {
+	      	    	        	
+	      						  console.log("ERROR : ", e);
+	      	
+	      	    	        }
+	      	    	    });	
+		  	 
+		  	      
+			}else
+				if (checkedItem==4) {
+	    			 for(i=0; i<checkedItemid.length; i++)
+			   		   {
+			   	  		 if(checkedItemid[i]!=null)
+			   	  		  checkedItemValues.push(checkedItemid[i]);
+			   	       }
+			        dataParam = { 
+	 		        		"fromdate":fromdate,
+	 		        	    "todate":todate,
+	 		        	   "dailyOrWeekly":Daily?"d":"w" ,
+	 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+	 		        	    "country1":itemValue[checkedItemValues[0]].country,
+	 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+	 		        	    "factor2":itemValue[checkedItemValues[1]].factor,
+	 		        	    "country2":itemValue[checkedItemValues[1]].country,
+	 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross,
+	 		        	    "factor3":itemValue["#jqxCheckBoxFrance-30"].factor,
+	 		        	    "country3":itemValue["#jqxCheckBoxFrance-30"].country,
+	 		        	    "yieldCurveCross3": itemValue["#jqxCheckBoxFrance-30"].yieldCurveCross,
+	 		        	   "factor4":itemValue["#jqxCheckBoxUk-30"].factor,
+	 		        	    "country4":itemValue["#jqxCheckBoxUk-30"].country,
+	 		        	    "yieldCurveCross4": itemValue["#jqxCheckBoxUk-30"].yieldCurveCross,
+	 	     			   };
+			       
+					 if(checkedItemValues.length>1)
+				        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title +" vs "+ itemValue[checkedItemValues[2]].title+" vs "+ itemValue[checkedItemValues[3]].title; 
+				        		else 
+				        			title=itemValue[checkedItemValues[0]].title
+		       
+		        debugger;			    	
+		  	       	  $.ajax({
+		  	       	        type: "POST",
+	      	    	        contentType:  "application/json; charset=utf-8",
+	      	    	        url: "/bourse/getgraphdata",
+	      	    	        data: JSON.stringify(dataParam),
+	      	    	        dataType: 'json',
+	      	    	        timeout: 600000,
+	      	    	        success: function (response) {
+	      	    	        
+	      	    	          chart.updateSeries([{
+						          name: itemValue[checkedItemValues[0]].title,
+						          type:  Daily?'area':'column',
+						          data: response[0].graphResponseDTOLst
+						        },{
+						          name: itemValue[checkedItemValues[1]].title,
+						          type:  Daily?'line':'column',
+						          data:response[1].graphResponseDTOLst
+						        },{
+							          name: itemValue[checkedItemValues[2]].title,
+							          type:  Daily?'line':'column',
+							          data:response[2].graphResponseDTOLst
+							        }
+						        ,{
+							          name: itemValue[checkedItemValues[3]].title,
+							          type:  Daily?'line':'column',
+							          data:response[3].graphResponseDTOLst
+							        }])
+	      	   },
+	      	    	        error: function (e) {
+	      	    	        	
+	      						  console.log("ERROR : ", e);
+	      	
+	      	    	        }
+	      	    	    });	
+		  	 
+		  	      
+			}
 				else{
 					  for(i=0; i<checkedItemid.length; i++)
 			   		   {
@@ -3009,46 +3175,7 @@ debugger;
 	   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
 	   		        	   };
 			        
-			        var options = {
-					          series: [],
-					          chart: {
-					          height: 300,
-					          type: 'line',
-					        },
-					        colors: ["#00b746", "#008ffb"],
-					        fill: {
-					            type:'solid',
-					            opacity: [0.35, 1],
-					          },
-					        stroke: {
-					        	 curve: 'smooth',
-					        	  width: 3
-					        },
-					        markers: {
-					            size: 2,
-					        },
-					        title: {
-					          text: title
-					        },
-					        dataLabels: {
-					          enabled: false
-					        },
-					        xaxis: {
-					          type: 'datetime'
-					        },
-					         yaxis: [{
-					          labels: {
-					        	    formatter: function (value) {
-					        	      return value.toFixed(3) + "%";
-					        	    }
-					        	  },
-					        
-					        }]
-					        };
-
-				    	   
-			        var chart = new ApexCharts(document.querySelector("#mainChart"), options);
-					        
+				           
 						       	  $.ajax({
 					  	       	        type: "POST",
 				      	    	        contentType:  "application/json; charset=utf-8",
@@ -3060,8 +3187,8 @@ debugger;
 				      	    	        debugger;
 				      	    	        chart.updateSeries([{
 									          name: itemValue[checkedItemValues[0]].title,
-									          type: 'area',
-									          data: response[0]
+									          type: Daily?'area':'column',
+									          data: response[0].graphResponseDTOLst
 									        }])
 				      	   },
 				      	    	        error: function (e) {
@@ -3070,7 +3197,7 @@ debugger;
 				      	
 				      	    	        }
 				      	    	    });	
-					  	         chart.render();
+					  	      
 				              }
 		    	  
 		    	               $("#dateFrom-mainChart").val(fromdate);

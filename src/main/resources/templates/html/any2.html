@@ -4944,48 +4944,47 @@
 				  }
 				  else
 					 title1=itemValue[checkedItemValues[0]].title;
-				  
-		    	   var options1 = {
-			          series: [],
-			          chart: {
-			          height: 300,
-			          type: 'line',
-			        },
-			        colors: ["#00b746", "#008ffb"],
-			        fill: {
-			            type:'solid',
-			            opacity: [0.35, 1],
-			          },
-			        stroke: {
-			        	 curve: 'smooth',
-			        	  width: 3
-			        },
-			        markers: {
-			            size: 2,
-			        },
-			        title: {
-			          text: title1
-			        },
-			        dataLabels: {
-			          enabled: false
-			        },
-			        xaxis: {
-			          type: 'datetime'
-			        },
-			         yaxis: [{
-			          labels: {
-			        	    formatter: function (value) {
-			        	      return value.toFixed(3) + "%";
-			        	    }
-			        	  },
-			        
-			        }]
-			        };
+			     var options1 = {
+ 				          series: [],
+ 				          chart: {
+ 				          height: 300,
+ 				          type: 'line',
+ 				        },
+ 				        colors: ["#00b746", "#008ffb"],
+ 				        fill: {
+ 				            type:'solid',
+ 				            opacity: [0.35, 1],
+ 				          },
+ 				        stroke: {
+ 				        	 curve: 'smooth',
+ 				        	  width: 3
+ 				        },
+ 				        markers: {
+ 				            size: 2,
+ 				        },
+ 				        title: {
+ 				          text: title1
+ 				        },
+ 				        dataLabels: {
+ 				          enabled: false
+ 				        },
+ 				        xaxis: {
+ 				          type: 'datetime'
+ 				        },
+ 				         yaxis: [{
+ 				          labels: {
+ 				        	    formatter: function (value) {
+ 				        	      return value.toFixed(3) + "%";
+ 				        	    }
+ 				        	  },
+ 				        
+ 				        }]
+ 				        };
 
-		    	   
-		    	   var chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
-			        
-		           dataParam = { 
+ 			    	   
+ 			    	   var chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
+ 				     
+		    	   dataParam = { 
    		        		"fromdate":fromdate,
    		        	    "todate":todate,
    		        	    "dailyOrWeekly":"d",
@@ -5002,11 +5001,14 @@
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
 		      	    	        debugger;
-		      	    	        chart1.updateSeries([{
+		      	    	   chart1.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
 							          type: 'area',
-							          data: response[0]
-							        }])
+							          data: response[0].graphResponseDTOLst
+							        }]);
+							    
+		      				        
+		      					    
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -5014,47 +5016,49 @@
 		      	
 		      	    	        }
 		      	    	    });	
-			  	 
-			        chart1.render();
-			        
-			    	   var options2 = {
-				          series: [],
-				          chart: {
-				          height: 300,
-				          type: 'line',
-				        },
-				        colors: ["#008ffb"],
-				        fill: {
-				            type:'solid',
-				            opacity: [1],
-				          },
-				        stroke: {
-				        	 curve: 'smooth',
-				        	  width: 3
-				        },
-				        markers: {
-				            size: 2,
-				        },
-				        title: {
-				          text: title2
-				        },
-				        dataLabels: {
-				          enabled: false
-				        },
-				        xaxis: {
-				          type: 'datetime'
-				        },
-				         yaxis: [{
-				          labels: {
-				        	    formatter: function (value) {
-				        	      return value.toFixed(3) + "%";
-				        	    }
-				        	  },
-				        
-				        }]
-				        };
-			    	   var chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
-					      
+			  	        chart1.render();
+			      
+			  	       
+	      	    	   	   var options2 = {
+	     				          series: [],
+	     				          chart: {
+	     				          height: 300,
+	     				          type: 'line',
+	     				        },
+	     				        colors: ["#008ffb"],
+	     				        fill: {
+	     				            type:'solid',
+	     				            opacity: [1],
+	     				          },
+	     				        stroke: {
+	     				        	 curve: 'smooth',
+	     				        	  width: 3
+	     				        },
+	     				        markers: {
+	     				            size: 2,
+	     				        },
+	     				        title: {
+	     				          text: title2
+	     				        },
+	     				        dataLabels: {
+	     				          enabled: false
+	     				        },
+	     				        xaxis: {
+	     				          type: 'datetime'
+	     				        },
+	     				         yaxis: [{
+	     				          labels: {
+	     				        	    formatter: function (value) {
+	     				        	      return value.toFixed(3) + "%";
+	     				        	    }
+	     				        	  },
+	     				        
+	     				        }]
+	     				        };
+	     			    	   var chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
+	     					      
+	      	    	        	
+	      	    	        
 			    	    dataParam = { 
 		   		        		"fromdate":fromdate,
 		   		        	    "todate":todate,
@@ -5072,12 +5076,12 @@
 			      	    	        dataType: 'json',
 			      	    	        timeout: 600000,
 			      	    	        success: function (response) {
-			      	    	        
-			      	    	          chart2.updateSeries([{
+			      	    	   chart2.updateSeries([{
 								          name: itemValue[checkedItemValues[1]].title,
 								          type: 'line',
-								          data: response[0]
+								          data: response[0].graphResponseDTOLst
 								        }])
+								     
 			      	   },
 			      	    	        error: function (e) {
 			      	    	        	
@@ -5086,7 +5090,7 @@
 			      	    	        }
 			      	    	    });	
 				  	 
-				        chart2.render();
+				  	        chart2.render();
 				        $("#dateFrom-mainChart").val(fromdate);
 	    	            $("#dateTo-mainChart").val(todate);
 			}
@@ -5180,11 +5184,11 @@ debugger;
 		      	    	          chart.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
 							          type: 'area',
-							          data: response[0]
+							          data: response[0].graphResponseDTOLst
 							        },{
 							          name: itemValue[checkedItemValues[1]].title,
 							          type: 'line',
-							          data:response[1]
+							          data:response[1].graphResponseDTOLst
 							        }])
 		      	   },
 		      	    	        error: function (e) {
@@ -5266,7 +5270,7 @@ debugger;
 				      	    	        chart.updateSeries([{
 									          name: itemValue[checkedItemValues[0]].title,
 									          type: 'area',
-									          data: response[0]
+									          data: response[0].graphResponseDTOLst
 									        }])
 				      	   },
 				      	    	        error: function (e) {

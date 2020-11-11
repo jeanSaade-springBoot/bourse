@@ -8428,7 +8428,7 @@ License: https://jqwidgets.com/license/
                     }
                 }
                 if (j.find(".jqx-checkbox").length == 0) {
-                    e.innerHTML = '<div style="position: absolute; top: 50%; left: 50%; margin-top: -9px; margin-left: -12px;"></div>';
+                    e.innerHTML = '<div style="position: absolute; top: 50%; left: 10%; margin-top: -9px; margin-left: -12px;"></div>';
                     b(e.firstChild).jqxCheckBox({
                         disabled: g.disabled,
                         _canFocus: false,

@@ -74,6 +74,7 @@ public class AdminService
 				                         .tickValue(columnConfiguration.getTickValue())
 				                         .chartType(columnConfiguration.getChartType())
 				                         .dataFormat(columnConfiguration.getDataFormat())
+				                         .yAxisFormat(columnConfiguration.getYAxisFormat())
 				                         .build();
         return columnConfigurationRepository.save(colInstance);
 	}
