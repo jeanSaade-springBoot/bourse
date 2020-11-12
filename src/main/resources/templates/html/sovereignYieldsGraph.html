@@ -36,12 +36,6 @@
         padding: 1px 42px;
  
 }
-.col-2 {
-    -webkit-box-flex: 0;
-    -ms-flex: 0 0 13.66667%;
-    flex: 0 0 13.66667%;
-    max-width: 13.66667%;
-}
   </style>
 </head>
 
@@ -602,15 +596,17 @@
 								</div>
 								<div class="col-2">
 								</div>
-								<div class="col-6">
-								<div class="row mb-3">
+								<div class="">
+								<div class="row mb-3" style="display:none;">
 								   <div style='padding-left: .75rem;' id='jqxDailyRadioButton'>
 									            <span>Daily</span></div>
 									<div id='jqxWeeklyRadioButton'>
 									           Weekly</div>
 								</div>
+								<div class="row">
 								    <div id='M-100d' style='float: left;'>100d Moving Average</div>
 									<div id='M-200d' style='float: left;'>200d Moving Average</div>
+									</div>
 								</div>
 		                    </div>
                      </div>
@@ -627,7 +623,16 @@
 						</div>
 					    </div>
 				    <div id="grid-content" style="display:none;">
-						 <div id="mainChart" class="chart-box" style=" min-height: 365px;"></div>
+				   <div class='row'>
+				     <div class="col-10"></div>
+				   <div class="row col-2">
+								   <div style='padding-left: .75rem;' id='DailyRadioButton'>
+									            <span>Daily</span></div>
+									<div id='WeeklyRadioButton'>
+									           Weekly</div>
+								</div></div>
+				    
+						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div>
 						
 					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
 							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split"  style="display:none;">
@@ -640,9 +645,9 @@
 							  </div>
 							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
 							       <label>From</label>
-							       <input id="dateFrom-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <input id="dateFrom-mainChart" type="text" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							       <label>To</label>
-							       <input id="dateTo-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <input id="dateTo-mainChart" type="text" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							  </div>
 							  <div class="btn-group" role="group" aria-label="Third group">
 							   <button type="button" id="button-monthForward" class="btn btn-secondary" onclick="navigationGraph('monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
@@ -1292,9 +1297,20 @@
     	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 120, height: 26});
        }
 	 
-	 $("#jqxWeeklyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25});
-	 $("#jqxDailyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25, checked: true});
+	// $("#jqxWeeklyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25});
+	// $("#jqxDailyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25, checked: true});
 	 
+	 $("#WeeklyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25 , rtl:true});
+	 $("#DailyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25, checked: true , rtl:true});
+	 
+	 $('#WeeklyRadioButton').on('change', function (event) { 
+		 drawGraph();
+	 }); 
+
+	 $('#DailyRadioButton').on('change', function (event) { 
+		 drawGraph();
+	 }); 
+
 	 $("#M-100d").jqxCheckBox({ theme:'dark', width: 120, height: 26});
 	 $("#M-200d").jqxCheckBox({ theme:'dark', width: 120, height: 26});
 	 
@@ -2377,14 +2393,28 @@
 				$("#mainChart").html("");
 				$("#mainChart").css("display","block");
 				
-				var Daily = $("#jqxDailyRadioButton").jqxRadioButton('val');
+				var Daily = $("#DailyRadioButton").jqxRadioButton('val');
 				 if(chart!=null)
 					   chart.destroy();
 				 
 				  var options = {
    	  			          series: [],
    	  			          chart: {
-   	  			          height: 300,
+		   	  			         toolbar: {
+		   	  			        show: true,
+		   	  			        offsetX: 0,
+		   	  			        offsetY: 0,
+		   	  			        tools: {
+		   	  			          download: false,
+		   	  			          selection: true,
+		   	  			          zoom: true,
+		   	  			          zoomin: true,
+		   	  			          zoomout: true,
+		   	  			          pan: true,
+		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          customIcons: []
+		   	  			        }},
+   	  			          height: 350,
    	  			          type: 'line',
    	  			        },
    	  			        colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
@@ -2420,13 +2450,27 @@
    	    	        var optionsWeekly = {
    	    	          series: [],
    	    	            chart: {
+   	    	             toolbar: {
+		   	  			        show: true,
+		   	  			        offsetX: 0,
+		   	  			        offsetY: 0,
+		   	  			        tools: {
+		   	  			          download: false,
+		   	  			          selection: true,
+		   	  			          zoom: true,
+		   	  			          zoomin: true,
+		   	  			          zoomout: true,
+		   	  			          pan: true,
+		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          customIcons: []
+		   	  			        }},
    	    	            type: 'bar',
    	    	            height: 350
    	    	          },
    	    	          plotOptions: {
    	    	            bar: {
    	    	              horizontal: false,
-   	    	              columnWidth: '55%'
+   	    	              columnWidth: '70%'
    	    	            },
    	    	          },
    	    	          dataLabels: {
@@ -2448,7 +2492,11 @@
    	  			      colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
    	  			      fill: {
    	    	            opacity: 1
-   	    	          }
+   	    	          },
+			        xaxis: {
+	  			           type: '',
+	  			        	tickPlacement: 'on' 
+ 			        }
    	    	          };
    	    	        chart = new ApexCharts(document.querySelector("#mainChart"), Daily?options:optionsWeekly);
    	    	        chart.render();
