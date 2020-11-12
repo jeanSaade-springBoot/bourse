@@ -869,6 +869,9 @@
   monthDate.setMonth(monthDate.getMonth() - 1);
   var date=new Date();
   var mode="merge";
+  var chart;
+  var chart1;
+  var chart2;
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
 	  "#jqxCheckBoxUSA-5",
@@ -1109,175 +1112,175 @@
 			  "title":"USA 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxUSA-5over30":{
-			  "factor":"4",
+			  "factor":"5/30",
 			  "country":"1",
 			  "yieldCurveCross":"curve",
 			  "title":"USA 5's/30's yield CURVE"
 			 },
 "#jqxCheckBoxUSA-5over10":{
-			  "factor":"3",
+			  "factor":"5/10",
 			  "country":"1",
 			  "yieldCurveCross":"curve",
 			  "title":"USA 5's/10's yield CURVE"
 			 },
 "#jqxCheckBoxUSA-2over10":{
-			  "factor":"2",
+			  "factor":"2/10",
 			  "country":"1",
 			  "yieldCurveCross":"curve",
 			  "title":"USA 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxUSA-2over5":{
-			  "factor":"1",
+			  "factor":"2/5",
 			  "country":"1",
 			  "yieldCurveCross":"curve",
 			  "title":"USA 2's/5's yield CURVE"
 			 },
 "#jqxCheckBoxGermany-10over30":{
-			  "factor":"5",
+			  "factor":"10/30",
 			  "country":"2",
 			  "yieldCurveCross":"curve",
 			  "title":"Germany 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxGermany-5over30":{
-			  "factor":"4",
+			  "factor":"5/30",
 			  "country":"2",
 			  "yieldCurveCross":"curve",
 			  "title":"Germany 5's/30's yield CURVE"
 			 },
 "#jqxCheckBoxGermany-5over10":{
-			  "factor":"3",
+			  "factor":"5/10",
 			  "country":"2",
 			  "yieldCurveCross":"curve",
 			  "title":"Germany 5's/10's yield CURVE"
 			 },
 "#jqxCheckBoxGermany-2over10":{
-			  "factor":"2",
+			  "factor":"2/10",
 			  "country":"2",
 			  "yieldCurveCross":"curve",
 			  "title":"Germany 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxGermany-2over5":{
-			  "factor":"1",
+			  "factor":"2/5",
 			  "country":"2",
 			  "yieldCurveCross":"curve",
 			  "title":"Germany 2's/5's yield CURVE"
 			 },
 "#jqxCheckBoxFrance-10over30":{
-			  "factor":"5",
+			  "factor":"10/30",
 			  "country":"3",
 			  "yieldCurveCross":"curve",
 			  "title":"France 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxFrance-5over30":{
-			  "factor":"4",
+			  "factor":"5/30",
 			  "country":"3",
 			  "yieldCurveCross":"curve",
 			  "title":"France 5's/30's yield CURVE"
 			 },
 "#jqxCheckBoxFrance-5over10":{
-			  "factor":"3",
+			  "factor":"5/0",
 			  "country":"3",
 			  "yieldCurveCross":"curve",
 			  "title":"France 5's/10's yield CURVE"
 			 },
 "#jqxCheckBoxFrance-2over10":{
-			  "factor":"2",
+			  "factor":"2/10",
 			  "country":"3",
 			  "yieldCurveCross":"curve",
 			  "title":"France 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxFrance-2over5":{
-			  "factor":"1",
+			  "factor":"2/5",
 			  "country":"3",
 			  "yieldCurveCross":"curve",
 			  "title":"France 2's/5's yield CURVE"
 			 },	
 "#jqxCheckBoxUk-10over30":{
-			  "factor":"5",
+			  "factor":"10/30",
 			  "country":"4",
 			  "yieldCurveCross":"curve",
 			  "title":"Uk 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxUk-5over30":{
-			  "factor":"4",
+			  "factor":"5/30",
 			  "country":"4",
 			  "yieldCurveCross":"curve",
 			  "title":"Uk 5's/30's yield CURVE"
 			 },
 "#jqxCheckBoxUk-5over10":{
-			  "factor":"3",
+			  "factor":"5/10",
 			  "country":"4",
 			  "yieldCurveCross":"curve",
 			  "title":"Uk 5's/10's yield CURVE"
 			 },
 "#jqxCheckBoxUk-2over10":{
-			  "factor":"2",
+			  "factor":"2/10",
 			  "country":"4",
 			  "yieldCurveCross":"curve",
 			  "title":"Uk 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxUk-2over5":{
-			  "factor":"1",
+			  "factor":"2/5",
 			  "country":"4",
 			  "yieldCurveCross":"curve",
 			  "title":"Uk 2's/5's yield CURVE"
 			 },	
 "#jqxCheckBoxItaly-10over30":{
-			  "factor":"5",
+			  "factor":"10/30",
 			  "country":"5",
 			  "yieldCurveCross":"curve",
 			  "title":"Italy 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxItaly-5over30":{
-			  "factor":"4",
+			  "factor":"5/30",
 			  "country":"5",
 			  "yieldCurveCross":"curve",
 			  "title":"Italy 5's/30's yield CURVE"
 			 },
 "#jqxCheckBoxItaly-5over10":{
-			  "factor":"3",
+			  "factor":"5/10",
 			  "country":"5",
 			  "yieldCurveCross":"curve",
 			  "title":"Italy 5's/10's yield CURVE"
 			 },
 "#jqxCheckBoxItaly-2over10":{
-			  "factor":"2",
+			  "factor":"2/10",
 			  "country":"5",
 			  "yieldCurveCross":"curve",
 			  "title":"Italy 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxItaly-2over5":{
-			  "factor":"1",
+			  "factor":"2/5",
 			  "country":"5",
 			  "yieldCurveCross":"curve",
 			  "title":"Italy 2's/5's yield CURVE"
 			 },		
 "#jqxCheckBoxSpain-10over30":{
-			  "factor":"5",
+			  "factor":"10/30",
 			  "country":"6",
 			  "yieldCurveCross":"curve",
 			  "title":"Spain 10's/30's yield CURVE"
 			 },
 "#jqxCheckBoxSpain-5over30":{
-			  "factor":"4",
+			  "factor":"5/30",
 			  "country":"6",
 			  "yieldCurveCross":"curve",
 			  "title":"Spain 5's/30's yield CURVE"
 			 },					 
 "#jqxCheckBoxSpain-5over10":{
-			  "factor":"3",
+			  "factor":"5/10",
 			  "country":"6",
 			  "yieldCurveCross":"curve",
 			  "title":"Spain 5's/110's yield CURVE"
 			 },
 "#jqxCheckBoxSpain-2over10":{
-			  "factor":"2",
+			  "factor":"2/10",
 			  "country":"6",
 			  "yieldCurveCross":"curve",
 			  "title":"Spain 2's/10's yield CURVE"
 			 },
 "#jqxCheckBoxSpain-2over5":{
-			  "factor":"1",
+			  "factor":"2/5",
 			  "country":"6",
 			  "yieldCurveCross":"curve",
 			  "title":"Spain 2's/5's yield CURVE"
@@ -4932,6 +4935,12 @@
 				$("#SubChart2").html("");
 				$("#SubChart1").css("display","block");
 				$("#SubChart2").css("display","block");
+				
+				 if(chart1!=null)
+					   chart1.destroy();
+				 if(chart2!=null)
+					   chart2.destroy();
+				 
 				for(i=0; i<checkedItemid.length; i++)
 		   		   {
 		   	  		 if(checkedItemid[i]!=null)
@@ -4982,7 +4991,7 @@
  				        };
 
  			    	   
- 			    	   var chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
+ 			    	    chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
  				     
 		    	   dataParam = { 
    		        		"fromdate":fromdate,
@@ -5055,7 +5064,8 @@
 	     				        
 	     				        }]
 	     				        };
-	     			    	   var chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
+	      	    	   	if (checkedItem==2) {
+	     			    	    chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
 	     					      
 	      	    	        	
 	      	    	        
@@ -5091,6 +5101,7 @@
 			      	    	    });	
 				  	 
 				  	        chart2.render();
+	      	    	   	}
 				        $("#dateFrom-mainChart").val(fromdate);
 	    	            $("#dateTo-mainChart").val(todate);
 			}
@@ -5108,7 +5119,8 @@
 				$("#SubChart2").css("display","none");
 				$("#split").css("display","inline-block");
 				$("#merge").css("display","none");
-			
+				 if(chart!=null)
+					   chart.destroy();
 			        			
 		    	  if (checkedItem==2) {
 		    			 for(i=0; i<checkedItemid.length; i++)
@@ -5169,9 +5181,7 @@
 			        }, {
 			          opposite: true
 			        }]
-			        };
-debugger;
-			        debugger;			    	
+			        };		    	
 			  	       	  $.ajax({
 			  	       	        type: "POST",
 		      	    	        contentType:  "application/json; charset=utf-8",
@@ -5198,7 +5208,7 @@ debugger;
 		      	    	        }
 		      	    	    });	
 			  	 
-			        var chart = new ApexCharts(document.querySelector("#mainChart"), options);
+			        chart = new ApexCharts(document.querySelector("#mainChart"), options);
 			        chart.render();
 				}
 				else{
@@ -5256,7 +5266,7 @@ debugger;
 					        };
 
 				    	   
-			        var chart = new ApexCharts(document.querySelector("#mainChart"), options);
+			         chart = new ApexCharts(document.querySelector("#mainChart"), options);
 					        
 						       	  $.ajax({
 					  	       	        type: "POST",
