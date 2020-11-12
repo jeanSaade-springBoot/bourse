@@ -755,7 +755,7 @@
 	      };
 		   var dataAdapter = new $.jqx.dataAdapter(groupsource);
 		 
-		$("#groupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true,  displayMember: "description", valueMember: "id",theme: 'dark' , width: 270, height: 30});
+		$("#groupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true,  displayMember: "description", valueMember: "id",theme: 'dark' , width: 260, height: 30});
 		$("#groupDropDown").on('select', function (event) {
               if (event.args) {
                  groupItem = event.args.item;
@@ -776,7 +776,7 @@
 	          async: true
 	      };
 		   var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
-		$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: 210, height: 30});
+		$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: 190, height: 30});
 		$("#subGroupDropDown").on('select', function (event) {
             if (event.args) {
                subGroupDropDown = event.args.item;
