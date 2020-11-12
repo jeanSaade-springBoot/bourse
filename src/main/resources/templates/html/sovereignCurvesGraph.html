@@ -2578,7 +2578,7 @@
 				      	    	        debugger;
 				      	    	        chart.updateSeries([{
 									          name: itemValue[checkedItemValues[0]].title,
-									          type: 'area',
+									          type:  Daily?'area':'column',
 									          data: response[0].graphResponseDTOLst
 									        }])
 				      	   },
