@@ -2906,8 +2906,8 @@ fieldset:disabled a.btn {
 
 .btn-info {
 	color: #fff;
-	background-color: #3abaf4;
-	border-color: #3abaf4;
+	background-color: #5A8DEE;
+	border-color: #5A8DEE;
 	-webkit-box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2)!important;
 	box-shadow: 0 .125rem .25rem 0 rgba(58, 59, 69, .2)!important;
 	border-radius: .25rem
@@ -2915,14 +2915,15 @@ fieldset:disabled a.btn {
 
 .btn-info:hover {
 	color: #fff;
-	background-color: #0da8ee;
-	border-color: #0da8ee
+	background-color: #4d77c6;
+	border-color: #4d77c6
 }
 
 .btn-info.focus,
 .btn-info:focus {
 	-webkit-box-shadow: 0 0 0 .2rem rgba(84, 196, 212, .5);
-	box-shadow: 0 0 0 .2rem rgba(84, 196, 212, .5)
+	box-shadow: 0 0 0 .2rem rgba(84, 196, 212, .5);
+	    background: #4d77c6;
 }
 
 .btn-info.disabled,

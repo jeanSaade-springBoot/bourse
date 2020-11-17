@@ -737,6 +737,18 @@
 						</div>
 					    </div>
 				    <div id="grid-content" style="display:none;">
+				 
+				    <div class="row">
+				     <div class="col-1">
+						 <div class="buttons">
+						    <div class="btn-group-vertical" role="group" aria-label="Vertical example">
+						      <button type="button" class="btn btn-info" style="font-size: small;" onclick="updateGraphFont('12px')">A</button>
+						      <button type="button" class="btn btn-info" style="font-size: medium;" onclick="updateGraphFont('14px')">A</button>
+						      <button type="button" class="btn btn-info" style="font-size: large;" onclick="updateGraphFont('16px')">A</button>
+						    </div>
+						  </div>
+						</div>
+						 <div class="col-10">
 						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div>
 						 <div class="row">
 						 	<div class='col-6'>
@@ -766,8 +778,8 @@
 							   <button type="button" id="button-yearForward" class="btn btn-secondary" onclick="navigationGraph('yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
 							  </div>
 							</div>
-						  </div>
 					  </div>
+					    </div>
 					</div>
 					
 					</div>
@@ -862,6 +874,7 @@
     <script src="/js/jqwidgets/jqxbuttons.js"></script> 
   <script src="/js/ruang-admin.min.js"></script>
   <script src="/js/apexcharts.js"></script>
+  <script src="/js/chart.js"></script>
   <script>
   var checkedItem = 0;
   var checkedItemid = [];
@@ -5105,12 +5118,52 @@
 				        $("#dateFrom-mainChart").val(fromdate);
 	    	            $("#dateTo-mainChart").val(todate);
 			}
+			function updateGraphFont(fontsize){
+				chart.updateOptions({
+					xaxis: {
+			        	labels: {
+			        		 style: {
+					        	  fontSize: fontsize,
+					        	 }
+			        	  },
+			          type: 'datetime'
+			        },
+			        legend: {
+			        	   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	      },
+				    	      markers: {
+				    	          width: 0,
+				    	          height: 0
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    }
+				    	  },
+			         yaxis: [{
+			        	labels: {
+			        		 style: {
+					        	  fontSize: fontsize,
+					        	 },
+			        	    formatter: function (value) {
+			        	      return value.toFixed(3) + "%";
+			        	    }
+			        	  },
+			        
+			        }]
+					})
+			}
 			function drawGraph(){
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
 				debugger;
 				var title;
+				var fontsize='12px';
 				var fromdate = formatDate(monthDate);
 				var todate = formatDate(date);
 				$("#mainChart").html("");
@@ -5161,6 +5214,7 @@
 			        },
 			        markers: {
 			            size: 2,
+			            shape: "square",
 			        },
 			        title: {
 			          text: title
@@ -5171,6 +5225,21 @@
 			        xaxis: {
 			          type: 'datetime'
 			        },
+
+				       legend: {
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	      },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 12
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    }
+				    	  },
 			         yaxis: [{
 			          labels: {
 			        	    formatter: function (value) {
@@ -5245,6 +5314,7 @@
 					        },
 					        markers: {
 					            size: 2,
+					            shape: "square",
 					        },
 					        title: {
 					          text: title
@@ -5253,10 +5323,34 @@
 					          enabled: false
 					        },
 					        xaxis: {
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 }
+					        	  },
 					          type: 'datetime'
 					        },
+					        legend: {
+					        	   fontSize: fontsize,
+					        	   showForSingleSeries: true,
+						    	   labels: {
+						    	          colors: 'White',
+						    	          useSeriesColors: false
+						    	      },
+						    	      markers: {
+						    	          width: 0,
+						    	          height: 0
+						    	      },
+						    	    formatter: function(seriesName, opts) {
+						    	    	img= getCountryFlag(seriesName);
+						    	        return [img , seriesName]
+						    	    }
+						    	  },
 					         yaxis: [{
-					          labels: {
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 },
 					        	    formatter: function (value) {
 					        	      return value.toFixed(3) + "%";
 					        	    }
