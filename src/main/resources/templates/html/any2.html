@@ -4940,7 +4940,7 @@
   				var checkedItemValues = [];
 				var fromdate = formatDate(monthDate);
 				var todate = formatDate(date);
-				
+				var fontsize='12px'
 				$("#mainChart").css("display","none");
 				$("#split").css("display","none");
 				$("#merge").css("display","inline-block");
@@ -4990,11 +4990,35 @@
  				        dataLabels: {
  				          enabled: false
  				        },
- 				        xaxis: {
+ 				       xaxis: {
+ 				        	labels: {
+ 				        		 style: {
+ 						        	  fontSize: fontsize,
+ 						        	 }
+ 				        	  },
  				          type: 'datetime'
  				        },
+ 				        legend: {
+ 				        	   fontSize: fontsize,
+ 				        	   showForSingleSeries: true,
+ 					    	   labels: {
+ 					    	          colors: 'White',
+ 					    	          useSeriesColors: false
+ 					    	   },
+ 					    	      markers: {
+ 					    	          width: 12,
+ 					    	          height: 12
+ 					    	      },
+ 					    	    formatter: function(seriesName, opts) {
+ 					    	    	img= getCountryFlag(seriesName);
+ 					    	        return [img , seriesName]
+ 					    	    }
+ 					    	  },
  				         yaxis: [{
- 				          labels: {
+ 				        	labels: {
+ 				        		 style: {
+ 						        	  fontSize: fontsize,
+ 						        	 },
  				        	    formatter: function (value) {
  				        	      return value.toFixed(3) + "%";
  				        	    }
@@ -5065,11 +5089,35 @@
 	     				        dataLabels: {
 	     				          enabled: false
 	     				        },
-	     				        xaxis: {
+	     				       xaxis: {
+	     				        	labels: {
+	     				        		 style: {
+	     						        	  fontSize: fontsize,
+	     						        	 }
+	     				        	  },
 	     				          type: 'datetime'
 	     				        },
+	     				        legend: {
+	     				        	   fontSize: fontsize,
+	     				        	   showForSingleSeries: true,
+	     					    	   labels: {
+	     					    	          colors: 'White',
+	     					    	          useSeriesColors: false
+	     					    	   },
+	     					    	      markers: {
+	     					    	          width: 12,
+	     					    	          height: 12
+	     					    	      },
+	     					    	    formatter: function(seriesName, opts) {
+	     					    	    	img= getCountryFlag(seriesName);
+	     					    	        return [img , seriesName]
+	     					    	    }
+	     					    	  },
 	     				         yaxis: [{
-	     				          labels: {
+	     				        	labels: {
+	     				        		 style: {
+	     						        	  fontSize: fontsize,
+	     						        	 },
 	     				        	    formatter: function (value) {
 	     				        	      return value.toFixed(3) + "%";
 	     				        	    }
@@ -5119,6 +5167,83 @@
 	    	            $("#dateTo-mainChart").val(todate);
 			}
 			function updateGraphFont(fontsize){
+				if(chart1!=null)
+					chart1.updateOptions({
+						xaxis: {
+				        	labels: {
+				        		 style: {
+						        	  fontSize: fontsize,
+						        	 }
+				        	  },
+				          type: 'datetime'
+				        },
+				        legend: {
+				        	   fontSize: fontsize,
+				        	   showForSingleSeries: true,
+					    	   labels: {
+					    	          colors: 'White',
+					    	          useSeriesColors: false
+					    	   },
+					    	      markers: {
+					    	          width: 12,
+					    	          height: 12
+					    	      },
+					    	    formatter: function(seriesName, opts) {
+					    	    	img= getCountryFlag(seriesName);
+					    	        return [img , seriesName]
+					    	    }
+					    	  },
+				         yaxis: [{
+				        	labels: {
+				        		 style: {
+						        	  fontSize: fontsize,
+						        	 },
+				        	    formatter: function (value) {
+				        	      return value.toFixed(3) + "%";
+				        	    }
+				        	  },
+				        
+				        }]
+						})
+				 if(chart2!=null)
+					   chart2.updateOptions({
+							xaxis: {
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 }
+					        	  },
+					          type: 'datetime'
+					        },
+					        legend: {
+					        	   fontSize: fontsize,
+					        	   showForSingleSeries: true,
+						    	   labels: {
+						    	          colors: 'White',
+						    	          useSeriesColors: false
+						    	   },
+						    	      markers: {
+						    	          width: 12,
+						    	          height: 12
+						    	      },
+						    	    formatter: function(seriesName, opts) {
+						    	    	img= getCountryFlag(seriesName);
+						    	        return [img , seriesName]
+						    	    }
+						    	  },
+					         yaxis: [{
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 },
+					        	    formatter: function (value) {
+					        	      return value.toFixed(3) + "%";
+					        	    }
+					        	  },
+					        
+					        }]
+							})
+				if(chart!=null)
 				chart.updateOptions({
 					xaxis: {
 			        	labels: {
@@ -5134,10 +5259,10 @@
 				    	   labels: {
 				    	          colors: 'White',
 				    	          useSeriesColors: false
-				    	      },
+				    	   },
 				    	      markers: {
-				    	          width: 0,
-				    	          height: 0
+				    	          width: 12,
+				    	          height: 12
 				    	      },
 				    	    formatter: function(seriesName, opts) {
 				    	    	img= getCountryFlag(seriesName);
@@ -5338,8 +5463,8 @@
 						    	          useSeriesColors: false
 						    	      },
 						    	      markers: {
-						    	          width: 0,
-						    	          height: 0
+						    	          width: 12,
+						    	          height: 12
 						    	      },
 						    	    formatter: function(seriesName, opts) {
 						    	    	img= getCountryFlag(seriesName);
