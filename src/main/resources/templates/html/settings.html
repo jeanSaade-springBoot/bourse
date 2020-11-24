@@ -515,7 +515,7 @@
            	 <nav>
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				     <a class="nav-item nav-link active" id="nav-graphsData-tab" data-toggle="tab"  href="#nav-graphs-data" role="tab" aria-controls="nav-graphs-data" aria-selected="false">Graphs and Data</a>
-				    <a class="nav-item nav-link" id="nav-robots-tab" data-toggle="tab"  href="#nav-other" role="tab" aria-controls="nav-other" aria-selected="false">Robots</a>
+				    <a class="nav-item nav-link" id="nav-robots-tab" data-toggle="tab"  href="#nav-robots" role="tab" aria-controls="nav-other" aria-selected="false">Robots</a>
 				    <a class="nav-item nav-link" id="nav-description-tab" data-toggle="tab"  href="#nav-other" role="tab" aria-controls="nav-any2" aria-selected="false">Descripton</a>
 				    </div>
 				</nav>
@@ -606,7 +606,39 @@
 								</div>
 					</div>
 				</div>
-				
+				<div class="tab-pane fade" id="nav-robots" role="tabpanel" aria-labelledby="nav-any2-tab">	
+				    <p class="mt-2" style=" margin-bottom: .5rem;">
+				    <div class="col-12 row  mt-4">
+				            <div class="col-12">
+							   <form>
+							     <div class="form-group row">
+							      <div class="col-2">
+								  <div id='jqxCheckBoxHighLow' style='margin: 35% 0; padding-left: .75rem;text-align: left!important;'>
+                                   HIGH LOW ROBOT</div>
+                                   </div>
+                                    <div class="col-4">
+                                    <div class="form-group">
+									    <label for="exampleFormControlTextarea1">Template</label>
+									    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+									  </div>
+                                    </div>
+                                     <div class="col-2">
+                                      <div id='thresholddl' style='margin: 35% 0;'>
+                                       </div>
+                                     
+                                     </div>
+                                      <div class="col-4">
+                                       <div class="form-group row"  style='margin: 17% 0;'>
+                                      <label for="columnTitle" class="col-sm-8 col-form-label">Mark as important if Time >= </label>
+									   <div class="col-sm-4">
+									  	<input type="text" class="form-control" id="TimeValue">
+									   </div>
+									   </div>
+                                      </div>
+								  </div>
+							    </form>
+								</div>
+				</div>
 				</div>
             </div>
        </div>
@@ -788,10 +820,33 @@
         });
 	    $("#jqxCheckBoxNegative").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});
 	    $("#jqxCheckBoxShowIndb").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});    
-	    
+	    $("#jqxCheckBoxHighLow").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
 	    $("#update").jqxButton({ theme: 'dark',height:30,width:74  });
         $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
-  
+        var thresholdsource = ["2 weeks ",
+								"3 weeks ",         
+								"1 month ",
+								"2-month ",
+								"3-month ",
+								"4-month ",
+								"5-month ",
+								"6-month ",
+								"8-month ",
+								"8-month ",
+								"9-month ",
+								"10-month",
+								"11-month",
+								"1-year  ",
+								"15-month",
+								"18-month",
+								"2-year  ",
+								"2.5 year",
+								"3 years ",
+								"4 years ",
+								"5 years "
+								 ];
+    // Create a jqxDropDownList
+    $("#thresholddl").jqxDropDownList({theme: 'dark', source: thresholdsource, placeHolder: "Threshold", width: 100, height: 30});
       // prepare the data
       gridsource =
       {
@@ -888,7 +943,7 @@
                   // open the popup window when the user clicks a button.
                   editrow = row;
                   var offset = $("#grid").offset();
-                  $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) + 60 } });
+                  $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) - 60 } });
                   // get the clicked row's data and initialize the input fields.
                   var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
                   $("#DisplayName").val(dataRecord.description);
