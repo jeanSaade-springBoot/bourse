@@ -11,4 +11,13 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class DataDTO {
     private String excelData;
+
+	public String getExcelData() {
+		return excelData;
+	}
+
+	public void setExcelData(String excelData) {
+		this.excelData = excelData;
+	}
+    
 }
