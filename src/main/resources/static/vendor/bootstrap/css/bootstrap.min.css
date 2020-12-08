@@ -7363,7 +7363,8 @@ button.bg-dark:hover {
 }
 
 .border {
-	border: 1px solid #e3e6f0!important
+	border: 1px solid #e3e6f0!important;
+	border-color: #464D5C!important;
 }
 
 .border-top {
