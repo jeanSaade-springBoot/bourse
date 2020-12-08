@@ -58,11 +58,31 @@
     border: 1px solid transparent;
         padding: 1px 3px;
 }
+:checked {
+font-weight:bold;
+}
 .fontTitle{
     font-size: .8rem;
 }
 .checkboxesTitle{
-font-size: 0.7rem;
+font-size: 0.8rem;
+}
+.jqx-tree-dark .jqx-checkbox-dark .jqx-checkbox-default-dark, .jqx-checkbox-dark[checked] .jqx-checkbox-default-dark, .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-dark, .jqx-radiobutton-dark[checked] .jqx-radiobutton-default-dark {
+    border: #b7b9cc solid 0px;
+    background-color: #304256;
+    border-color: #5A627D;
+}
+.jqx-checkbox-default.jqx-checkbox-default-dark.jqx-fill-state-normal.jqx-fill-state-normal-dark.jqx-rc-all.jqx-rc-all-dark.ripple {
+    display: none;
+}
+.jqx-checkbox-dark .ripple, .jqx-radiobutton-dark .ripple {
+    overflow: visible;
+    display: none;
+}
+[aria-checked="true"] {
+    font-weight: bold;
+    color: #FDAC41 !important;
+   text-shadow: 1px 1px 0px #060605;
 }
 </style>
 <body id="page-top">
@@ -1496,7 +1516,7 @@ font-size: 0.7rem;
 			
 			 for(i=0; i<allitems.length; i++)
 			   {
-		    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 120, height: 25});
+		    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 120, height: 25, boxSize:"0px" });
 		       }
 
 			 for(i=0; i<yieldsUSAItem.length; i++)
