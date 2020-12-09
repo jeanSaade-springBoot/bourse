@@ -619,7 +619,16 @@
                                     <div class="col-4">
                                     <div class="form-group">
 									    <label for="exampleFormControlTextarea1">Template</label>
-									    <textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+									    <textarea class="form-control" id="TemplateText" rows="3"></textarea>
+									   <div class="">
+									   Variables: 
+									   <ul onclick="addText(event)" class="list-inline">
+										  <li class="list-inline-item">{ColumnTitle}</li>
+										  <li class="list-inline-item">{Time}</li>
+										  <li class="list-inline-item">{RuleResult}</li>
+										  <li class="list-inline-item">{P0}</li>
+										</ul>
+										</div>
 									  </div>
                                     </div>
                                      <div class="col-2">
@@ -747,6 +756,10 @@
 	  $('#overlay').fadeOut();
 	  $('#nav-column-master').show();
   });
+  function addText(event) {
+	    var targ = event.target || event.srcElement;
+	    document.getElementById("TemplateText").value += targ.textContent || targ.innerText;
+	}
   $(document).ready(function () {
 	  factorcalctypeSource =["INPUT","CALCULATED"];
 	 $("#factorcalctype").jqxDropDownList({ dropDownHeight: 70, source: factorcalctypeSource, theme: 'dark' , width: '100%', height: 30});
