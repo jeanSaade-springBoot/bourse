@@ -15,8 +15,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bourse.domain.AssetClass;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.Groups;
+import com.bourse.domain.LowHighRobotsConfiguration;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
+import com.bourse.dto.CrossAuditProcedureDTO;
+import com.bourse.dto.LowHighRobotsConfigDTO;
 import com.bourse.service.AdminService;
 import com.bourse.service.AssetClassService;
 import com.bourse.service.GroupsService;
@@ -92,6 +95,11 @@ public class AdminController {
 	@PostMapping(value = "updatecolumnconfigurationbyid")
 	public ColumnConfiguration UpdateColumnConfigurationById(@RequestBody ColumnConfiguration columnConfiguration) {
 	return adminService.UpdateColumnConfigurationById(columnConfiguration);
+	}
+	
+	@PostMapping(value = "savelowhighrobots")
+	public LowHighRobotsConfiguration SaveLowHighRobots(@RequestBody LowHighRobotsConfigDTO lowHighRobotsConfigDTO) {
+	return adminService.SaveLowHighRobots(lowHighRobotsConfigDTO);
 	}
 	
 }

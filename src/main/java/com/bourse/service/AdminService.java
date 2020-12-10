@@ -14,10 +14,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bourse.domain.ColumnConfiguration;
+import com.bourse.domain.LowHighRobotsConfiguration;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
+import com.bourse.dto.CrossAuditProcedureDTO;
+import com.bourse.dto.LowHighRobotsConfigDTO;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
+import com.bourse.repositories.LowHighRobotsConfigRepository;
 import com.bourse.repositories.SubGroupRepository;
 
 
@@ -26,15 +30,14 @@ public class AdminService
 {
 	@PersistenceContext
     private EntityManager entityManager;
-	
 	@Autowired
 	SubGroupRepository subGroupRepository;
-	
 	@Autowired
 	ConfigurationRepository configurationRepository;
-	
 	@Autowired
 	ColumnConfigurationRepository columnConfigurationRepository;
+	@Autowired
+	LowHighRobotsConfigRepository lowHighRobotsConfigRepository;
 	
 	public List<SubGroup> getAllSubGroups()
 	{      
@@ -81,6 +84,21 @@ public class AdminService
 	
 	public ColumnConfiguration getColumnsconfigurationByGroupAndSubgroupDescription(String groupId,String subgroupId,String description) {
 		 return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndDescription(groupId, subgroupId,description);
+	}
+	
+	public LowHighRobotsConfiguration SaveLowHighRobots(LowHighRobotsConfigDTO lowHighRobotsConfigDTO)
+	{
+		LowHighRobotsConfiguration lowHighRobotsConfiguration = LowHighRobotsConfiguration.builder()
+				.columnDescription(lowHighRobotsConfigDTO.getColumnDescription())
+				.displayDescription(lowHighRobotsConfigDTO.getDisplayDescription())
+				.lastData(lowHighRobotsConfigDTO.getLastData())
+				.rule(lowHighRobotsConfigDTO.getRule())
+				.template(lowHighRobotsConfigDTO.getTemplate())
+				.threshHoldNotification(lowHighRobotsConfigDTO.getThreshHoldNotification())
+				.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
+				.build();
+		return lowHighRobotsConfigRepository.save(lowHighRobotsConfiguration);
+		
 	}
 	
 	
