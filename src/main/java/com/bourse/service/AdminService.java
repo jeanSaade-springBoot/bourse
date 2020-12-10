@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.LowHighRobotsConfiguration;
+import com.bourse.domain.News;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
 import com.bourse.dto.CrossAuditProcedureDTO;
@@ -24,6 +25,7 @@ import com.bourse.repositories.CalendarDatesRepository;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
 import com.bourse.repositories.LowHighRobotsConfigRepository;
+import com.bourse.repositories.NewsRepository;
 import com.bourse.repositories.SubGroupRepository;
 
 
@@ -42,7 +44,8 @@ public class AdminService
 	LowHighRobotsConfigRepository lowHighRobotsConfigRepository;
 	@Autowired
 	CalendarDatesRepository calendarDatesRepository;
-	
+	@Autowired
+	NewsRepository newsRepository;
 	public List<SubGroup> getAllSubGroups()
 	{      
         return subGroupRepository.findAll(Sort.by("id").descending());
@@ -108,6 +111,11 @@ public class AdminService
 	public List<CalendarDates> getCalendar()
 	{
 		return calendarDatesRepository.findAll();
+		
+	}
+	public List<News> getNews()
+	{
+		return newsRepository.findAll();
 		
 	}
 	

@@ -17,6 +17,7 @@ import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.Groups;
 import com.bourse.domain.LowHighRobotsConfiguration;
+import com.bourse.domain.News;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
 import com.bourse.dto.CrossAuditProcedureDTO;
@@ -106,6 +107,11 @@ public class AdminController {
 	@GetMapping(value = "getcalendardata")
 	public ResponseEntity<List<CalendarDates>>  getCalendarDates() {
 		return new ResponseEntity<>( adminService.getCalendar(), HttpStatus.OK);
+	}
+	
+	@GetMapping(value = "getnews")
+	public ResponseEntity<List<News>>  getNews() {
+		return new ResponseEntity<>( adminService.getNews(), HttpStatus.OK);
 	}
 	
 }
