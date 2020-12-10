@@ -13,12 +13,14 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.LowHighRobotsConfiguration;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.LowHighRobotsConfigDTO;
+import com.bourse.repositories.CalendarDatesRepository;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
 import com.bourse.repositories.LowHighRobotsConfigRepository;
@@ -38,6 +40,8 @@ public class AdminService
 	ColumnConfigurationRepository columnConfigurationRepository;
 	@Autowired
 	LowHighRobotsConfigRepository lowHighRobotsConfigRepository;
+	@Autowired
+	CalendarDatesRepository calendarDatesRepository;
 	
 	public List<SubGroup> getAllSubGroups()
 	{      
@@ -98,6 +102,12 @@ public class AdminService
 				.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
 				.build();
 		return lowHighRobotsConfigRepository.save(lowHighRobotsConfiguration);
+		
+	}
+	
+	public List<CalendarDates> getCalendar()
+	{
+		return calendarDatesRepository.findAll();
 		
 	}
 	

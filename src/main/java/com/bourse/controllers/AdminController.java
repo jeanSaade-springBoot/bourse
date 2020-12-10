@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bourse.domain.AssetClass;
+import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.Groups;
 import com.bourse.domain.LowHighRobotsConfiguration;
@@ -100,6 +101,11 @@ public class AdminController {
 	@PostMapping(value = "savelowhighrobots")
 	public LowHighRobotsConfiguration SaveLowHighRobots(@RequestBody LowHighRobotsConfigDTO lowHighRobotsConfigDTO) {
 	return adminService.SaveLowHighRobots(lowHighRobotsConfigDTO);
+	}
+	
+	@GetMapping(value = "getcalendardata")
+	public ResponseEntity<List<CalendarDates>>  getCalendarDates() {
+		return new ResponseEntity<>( adminService.getCalendar(), HttpStatus.OK);
 	}
 	
 }
