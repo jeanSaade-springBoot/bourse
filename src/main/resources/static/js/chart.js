@@ -1,5 +1,6 @@
 function getCountryFlag(seriesName)
 {var img;
+console.log(seriesName);
 	if (seriesName.includes("Germany"))
 	  img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/germany.png'/>";
 	else

@@ -113,6 +113,11 @@ public class AdminService
 		return calendarDatesRepository.findAll();
 		
 	}
+	public List<CalendarDates> getVacations()
+	{
+		return calendarDatesRepository.findByIsvacation("true");
+		
+	}
 	public List<News> getNews()
 	{
 		return newsRepository.findAll();

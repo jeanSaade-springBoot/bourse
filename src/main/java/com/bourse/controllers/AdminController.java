@@ -106,7 +106,7 @@ public class AdminController {
 	
 	@GetMapping(value = "getcalendardata")
 	public ResponseEntity<List<CalendarDates>>  getCalendarDates() {
-		return new ResponseEntity<>( adminService.getCalendar(), HttpStatus.OK);
+		return new ResponseEntity<>( adminService.getVacations(), HttpStatus.OK);
 	}
 	
 	@GetMapping(value = "getnews")

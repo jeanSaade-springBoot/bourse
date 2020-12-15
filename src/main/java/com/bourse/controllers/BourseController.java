@@ -117,6 +117,16 @@ public class BourseController {
     {
 		return new ModelAndView("html/settings");
     }
+	@RequestMapping( value =  "holidaycalendar")
+    public ModelAndView holidayCalendarPage(ModelMap model)
+    {
+		return new ModelAndView("html/holidayCalendar");
+    }
+	@RequestMapping( value =  "allnews")
+    public ModelAndView allNewsPage(ModelMap model)
+    {
+		return new ModelAndView("html/allNews");
+    }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
 		

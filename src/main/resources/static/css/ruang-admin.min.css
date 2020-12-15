@@ -3,7 +3,10 @@
 	src: url(../font/Nunito-Regular.ttf);
 	src: url(../font/Nunito-Regular.ttf) format('ttf'), url(../font/Nunito-Regular.ttf) format('truetype')
 }
-
+.red{
+color:red !important;
+font-weight: bold !important;
+}
 html {
 	position: relative;
 	min-height: 100%;

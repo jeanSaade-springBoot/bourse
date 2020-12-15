@@ -85,7 +85,7 @@
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Settings</h6>
             <a class="collapse-item" href="/bourse/settings" >Column Master</a>
-            <a class="collapse-item" href="/bourse/settings" >Holiday Calendar</a>
+             <a class="collapse-item" href="/bourse/holidaycalendar" >Holiday Calendar</a>
             <a class="collapse-item" href="/bourse/settings" >Help Descriptions</a>
             <a class="collapse-item" href="/bourse/settings" >Robot Help</a>
           </div>
@@ -632,14 +632,26 @@
 					    </div>
 				    <div id="grid-content" style="display:none;">
 				     <div class='row'>
-				     <div class="col-10"></div>
-				   <div class="row col-2">
+				   	  	   <div class="row col-2">
 								   <div style='padding-left: .75rem;' id='DailyRadioButton'>
 									            <span>Daily</span></div>
 									<div id='WeeklyRadioButton'>
 									           Weekly</div>
-								</div></div>
-						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div>
+								</div>
+				     	</div>
+						   <div class='row'>
+				   	     <div class="col-1">
+						 <div class="buttons">
+						    <div class="btn-group-vertical" role="group" aria-label="Vertical example">
+						      <button type="button" class="btn btn-info" style="font-size: small;" onclick="updateGraphFont('12px')">A</button>
+						      <button type="button" class="btn btn-info" style="font-size: medium;" onclick="updateGraphFont('14px')">A</button>
+						      <button type="button" class="btn btn-info" style="font-size: large;" onclick="updateGraphFont('16px')">A</button>
+						    </div>
+						  </div>
+						</div>
+				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div></div>
+						
+						</div>
 						 <div class="row">
 						 	<div class='col-6'>
 						 		<div id="SubChart1" class="chart-box"></div>
@@ -703,25 +715,21 @@
         </div>
         <!---Container Fluid-->
       </div>
-      <div class="NewsBack" style="position: fixed; bottom: 0px; left: 0px; width: 100%;  border: 2px; border-color: black;">
+    <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
 				<div class="marquee-sibling">
 					NEWS
 				</div>
 				<div class="marquee">
-					<ul class="marquee-content-items">
-						<li>News 1</li>
-						<li>News 2</li>
-						<li>News 3</li>
-						<li>News 4</li>
-						<li>News 5</li>
+					<ul id="Newslist" class="marquee-content-items">
 					</ul>
 				</div>
 			</div>
 		</div>
+		
       <!-- Footer -->
       <footer class="sticky-footer bg-dark">
-        <div class="container my-auto">
+        <div class="my-auto">
           <div class="copyright text-center my-auto">
             <span>copyright &copy; <script></script> - developed by
               <b><a href="" target="_blank"></a></b>
@@ -748,6 +756,7 @@
     <script src="/js/jqwidgets/jqxradiobutton.js"></script> 
   <script src="/js/ruang-admin.min.js"></script>
   <script src="/js/apexcharts.js"></script>
+       <script src="/js/chart.js"></script>
   <script>
   var checkedItem = 0;
   var checkedItemid = [];
@@ -2820,9 +2829,7 @@
 	  
      
   });
-			$(function (){
-				$('.simple-marquee-container').SimpleMarquee();
-			});
+			
 	function navigationGraph(condition){
 				
 				if(condition=="yearBackward")
@@ -2910,111 +2917,155 @@
 				$("#mainChart").css("display","block");
 				$("#SubChart1").css("display","none");
 				$("#SubChart2").css("display","none");
-				
+				var fontsize='12px';
 				 var Daily = $("#DailyRadioButton").jqxRadioButton('val');
 				 if(chart!=null)
 				   chart.destroy();
-				 var options = {
-				          series: [],
-				          chart: {
-			   	    	             toolbar: {
-					   	  			        show: true,
-					   	  			        offsetX: 0,
-					   	  			        offsetY: 0,
-					   	  			        tools: {
-					   	  			          download: false,
-					   	  			          selection: true,
-					   	  			          zoom: true,
-					   	  			          zoomin: true,
-					   	  			          zoomout: true,
-					   	  			          pan: true,
-					   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
-					   	  			          customIcons: []
-					   	  			        }},
-				          height: 350,
-				          type: 'line',
-				        },
-				        colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
-				        fill: {
-				            type:'solid',
-				            opacity: [0.25, 1],
-				          },
-				        stroke: {
-				        	 curve: 'smooth',
-				        	   width: 3
-				        },
-				        markers: {
-				            size: 2,
-				        },
-				        title: {
-				          text: title
-				        },
-				        dataLabels: {
-				          enabled: false
-				        },
-				        xaxis: {
-				          type: 'datetime'
-				        },
-				         yaxis: [{
-				          labels: {
-				        	    formatter: function (value) {
-				        	      return value.toFixed(3) + "%";
-				        	    }
+				 
+				  var options = {
+  	  			          series: [],
+  	  			          chart: {
+		   	  			         toolbar: {
+		   	  			        show: true,
+		   	  			        offsetX: 0,
+		   	  			        offsetY: 0,
+		   	  			        tools: {
+		   	  			          download: false,
+		   	  			          selection: true,
+		   	  			          zoom: true,
+		   	  			          zoomin: true,
+		   	  			          zoomout: true,
+		   	  			          pan: true,
+		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          customIcons: []
+		   	  			        }},
+  	  			          height: 350,
+  	  			          type: 'line',
+  	  			        },
+  	  			        colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
+  	  			        fill: {
+  	  			            type:'solid',
+  	  			            opacity: [0.5, 1],
+  	  			          },
+  	  			        stroke: {
+  	  			        	 curve: 'smooth',
+  	  			        	   width: 3
+  	  			        },
+  	  			        markers: {
+  	  			            size: 2,
+  	  			        },
+  	  			        title: {
+  	  			          text: ''
+  	  			        },
+  	  			        dataLabels: {
+  	  			          enabled: false
+  	  			        },
+  	  			        xaxis: {
+	   	  			       labels: {
+				        		 style: {
+						        	  fontSize: fontsize,
+						        	 }
 				        	  },
-				        
-				        }]
-				        };
-				    var optionsWeekly = {
-		   	    	          series: [],
-		   	    	            chart: {
-		   	    	             toolbar: {
-				   	  			        show: true,
-				   	  			        offsetX: 0,
-				   	  			        offsetY: 0,
-				   	  			        tools: {
-				   	  			          download: false,
-				   	  			          selection: true,
-				   	  			          zoom: true,
-				   	  			          zoomin: true,
-				   	  			          zoomout: true,
-				   	  			          pan: true,
-				   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
-				   	  			          customIcons: []
-				   	  			        }},
-		   	    	            type: 'bar',
-		   	    	            height: 350
-		   	    	          },
-		   	    	          plotOptions: {
-		   	    	            bar: {
-		   	    	              horizontal: false,
-		   	    	              columnWidth: '70%'
-		   	    	            },
-		   	    	          },
-		   	    	          dataLabels: {
-		   	    	            enabled: false
-		   	    	          },
-		   	    	          stroke: {
-		   	    	            show: true,
-		   	    	            width: 2,
-		   	    	            colors: ['transparent']
-		   	    	          },
-		   	    	          yaxis: [{
-		   	  			          labels: {
-		   	  			        	    formatter: function (value) {
-		   	  			        	      return value.toFixed(3) + "%";
-		   	  			        	    }
-		   	  			        	  },
-		   	  			        
-		   	  			        }],
-		   	  			      colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
-		   	  			      fill: {
-		   	    	            opacity: 1
-		   	    	          },
-					        xaxis: {
-			  			           type: '',
-			  			        	tickPlacement: 'on' 
-		 			        }
-		   	    	          };
+  	  			           type: 'datetime'
+  	  			        },
+  	  			   legend: {
+			        	   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 12
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    }
+				    	  },
+			         yaxis: [{
+			        	labels: {
+			        		 style: {
+					        	  fontSize: fontsize,
+					        	 },
+			        	    formatter: function (value) {
+			        	      return value.toFixed(3) + "%";
+			        	    }
+			        	  },
+			        
+			        }]
+  	  			        };
+  	    	        var optionsWeekly = {
+  	    	          series: [],
+  	    	            chart: {
+  	    	             toolbar: {
+		   	  			        show: true,
+		   	  			        offsetX: 0,
+		   	  			        offsetY: 0,
+		   	  			        tools: {
+		   	  			          download: false,
+		   	  			          selection: true,
+		   	  			          zoom: true,
+		   	  			          zoomin: true,
+		   	  			          zoomout: true,
+		   	  			          pan: true,
+		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          customIcons: []
+		   	  			        }},
+  	    	            type: 'bar',
+  	    	            height: 350
+  	    	          },
+  	    	          plotOptions: {
+  	    	            bar: {
+  	    	              horizontal: false,
+  	    	              columnWidth: '70%'
+  	    	            },
+  	    	          },
+  	    	          dataLabels: {
+  	    	            enabled: false
+  	    	          },
+  	    	          stroke: {
+  	    	            show: true,
+  	    	            width: 2,
+  	    	            colors: ['transparent']
+  	    	          },
+  	    	       legend: {
+			        	   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 12
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    }
+				    	  },
+			         yaxis: [{
+			        	labels: {
+			        		 style: {
+					        	  fontSize: fontsize,
+					        	 },
+			        	    formatter: function (value) {
+			        	      return value.toFixed(3) + "%";
+			        	    }
+			        	  },
+			        
+			        }],
+  	  			      colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
+  	  			      fill: {
+  	    	            opacity: 1
+  	    	          },
+			        xaxis: {
+	  			           type: '',
+	  			        	tickPlacement: 'on' 
+			        }
+  	    	          };
 				    chart = new ApexCharts(document.querySelector("#mainChart"), Daily?options:optionsWeekly);
 			        chart.render();
 	debugger;
@@ -3242,7 +3293,119 @@
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
 							}
-		
+			
+			function updateGraphFont(fontsize){
+				var Daily = $("#DailyRadioButton").jqxRadioButton('val');
+				if(Daily)
+					chart.updateOptions({
+						xaxis: {
+				        	labels: {
+				        		 style: {
+						        	  fontSize: fontsize,
+						        	 }
+				        	  },
+				          type: 'datetime'
+				        },
+				        legend: {
+				        	   fontSize: fontsize,
+				        	   showForSingleSeries: true,
+					    	   labels: {
+					    	          colors: 'White',
+					    	          useSeriesColors: false
+					    	   },
+					    	      markers: {
+					    	          width: 12,
+					    	          height: 12
+					    	      },
+					    	    formatter: function(seriesName, opts) {
+					    	    	img= getCountryFlag(seriesName);
+					    	        return [img , seriesName]
+					    	    }
+					    	  },
+				         yaxis: [{
+				        	labels: {
+				        		 style: {
+						        	  fontSize: fontsize,
+						        	 },
+				        	    formatter: function (value) {
+				        	      return value.toFixed(3) + "%";
+				        	    }
+				        	  },
+				        
+				        }]
+						})
+				 if(!Daily)
+					   chart.updateOptions({
+							xaxis: {
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 }
+					        	  },
+					             type: '',
+	  			        	tickPlacement: 'on' 
+					        },
+					        legend: {
+					        	   fontSize: fontsize,
+					        	   showForSingleSeries: true,
+						    	   labels: {
+						    	          colors: 'White',
+						    	          useSeriesColors: false
+						    	   },
+						    	      markers: {
+						    	          width: 12,
+						    	          height: 12
+						    	      },
+						    	    formatter: function(seriesName, opts) {
+						    	    	img= getCountryFlag(seriesName);
+						    	        return [img , seriesName]
+						    	    }
+						    	  },
+					         yaxis: [{
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 },
+					        	    formatter: function (value) {
+					        	      return value.toFixed(3) + "%";
+					        	    }
+					        	  },
+					        
+					        }]
+							})
+	
+			}
+			$(function (){
+
+				   $.ajax({
+		 	        contentType: "application/json",
+		 	        url: "/admin/getnews",
+		 	        dataType: 'json',
+		 	        async:true,
+		 	        cache: false,
+		 	        timeout: 600000,
+		 	        success: function (data) {
+						  var ul = document.getElementById("Newslist");
+						 for (i=0; i<data.length;i++)
+						  {var li = document.createElement("li");
+						  li.appendChild(document.createTextNode(data[i].template.split("<img")[0]));
+						   $('#Newslist').append('<li>' + data[i].template+ '</li>');
+						  if(data[i].isBold=="true")
+						  {
+						  $("#Newslist li:nth-child("+(i+1)+")").addClass("red");
+						 // li.setAttribute("class", "red");
+						  }
+						  }
+						 createMarquee({});
+		},
+		 	        error: function (e) {
+		 	        	
+							  console.log("ERROR : ", e);
+
+		 	        }
+		 	    });
+				   
+			});
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
 </body>
