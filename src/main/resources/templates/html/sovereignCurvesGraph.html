@@ -43,7 +43,7 @@
   <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/bourse/home">
         <div class="sidebar-brand-icon">
          <!--  <img src="img/logo/logo2.png"> -->
         </div>
@@ -110,9 +110,7 @@
             <a class="collapse-item active" href="/bourse/sovereigncurvesgraph">Yield Curves</a>
             <a class="collapse-item" href="/bourse/sovereigncrossesgraph">Yield Crosses</a>
             <a class="collapse-item" href="/bourse/spreadmakergraph">Spread Maker</a> 
-            <a class="collapse-item" href="">Situation Room</a>
-            <a class="collapse-item" href="">Euribor Curves</a>
-          </div>
+           </div>
         </div>
       </li>
 	   <li class="nav-item ">
@@ -449,7 +447,7 @@
                 aria-haspopup="true" aria-expanded="false">
                 <!-- <img class="img-profile rounded-circle" src="img/boy.png" style="max-width: 60px"> -->
                 <i class="fas fa-user"></i>
-                <span class="ml-2 d-none d-lg-inline text-white small">	Charbel Nakouzi</span>
+                <span class="ml-2 d-none d-lg-inline text-white small">	Charbel Nacouzi</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -506,7 +504,7 @@
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
 				    <a class="nav-item nav-link" id="nav-sovereign-yields-tab" href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-sovereign-yields" aria-selected="false">Sovereign Yields</a>
-				    <a class="nav-item nav-link active" id="nav-any2-tab"  href="#nav-sovereign-curves" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
+				    <a class="nav-item nav-link active" id="nav-any2-tab"  href="/bourse/sovereigncurvesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
 				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereigncrossesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
 				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/spreadmakergraph" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
 				   </div>
@@ -595,11 +593,11 @@
 									<div id='jqxCheckBoxSpain-2over5' style='float: left;'></div>
 								</div>
 								<div class="col-3">
-								   	<input id="all10over30" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="10's/30's" />
-									<input id="all5over30" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="5's/30's" />
-									<input id="all5over10" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="5's/10's" />
-									<input id="all2over10" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="2's/10's" />
-									<input id="all2over5" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="2's/5's" />
+								   	<input id="all10over30" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="All 10's/30's" />
+									<input id="all5over30" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="All 5's/30's" />
+									<input id="all5over10" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="All 5's/10's" />
+									<input id="all2over10" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="All 2's/10's" />
+									<input id="all2over5" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="All 2's/5's" />
 								</div>
 								<div class="col-2">
 								</div>
@@ -1002,11 +1000,11 @@
 	 
 	  $("#Clearfilter").jqxButton({ theme: 'dark',height:30,width:74  });
 	  
-	  $("#all10over30").jqxButton({ theme: 'dark',height:22,width:74  });
-	  $("#all5over30").jqxButton({ theme: 'dark',height:22,width:74  });
-	  $("#all5over10").jqxButton({ theme: 'dark',height:22,width:74  });
-	  $("#all2over10").jqxButton({ theme: 'dark',height:22,width:74  });
-	  $("#all2over5").jqxButton({ theme: 'dark',height:22,width:74  });
+	  $("#all10over30").jqxButton({ theme: 'dark',height:22,width:85,template: "danger"});
+	  $("#all5over30").jqxButton({ theme: 'dark',height:22,width:85,template: "danger"});
+	  $("#all5over10").jqxButton({ theme: 'dark',height:22,width:85,template: "danger"});
+	  $("#all2over10").jqxButton({ theme: 'dark',height:22,width:85,template: "danger"});
+	  $("#all2over5").jqxButton({ theme: 'dark',height:22,width:85,template: "danger"});
 	   
 	  $("#all10over30").click(function () {
 	    	 uncheckAll();
@@ -1073,6 +1071,73 @@
     			    $("#collapseFilter").addClass('show');
     	 		}
     	      });
+      
+      $('#M-100d').on('change', function (event) {
+       	  var ischecked = event.args.checked;
+       	  if (ischecked && checkedItem==1)
+       		  {
+    		    	  for(i=0; i<allitems.length; i++)
+    		   		     {
+    		   			 $(allitems[i]).jqxCheckBox({disabled: true});
+    		   	         }
+       		  }
+       	  else{
+       		  for(i=0; i<allitems.length; i++)
+    	   		     {
+    	   			 $(allitems[i]).jqxCheckBox({disabled: false});
+    	   	         }
+       	  }
+       	  }); 
+         $('#M-200d').on('change', function (event) {
+       	  var ischecked = event.args.checked;
+       	  if (ischecked && checkedItem==1)
+       		  {
+    		    	  for(i=0; i<allitems.length; i++)
+    		   		     {
+    		   			 $(allitems[i]).jqxCheckBox({disabled: true});
+    		   	         }
+       		  }
+       	  else{
+       		  for(i=0; i<allitems.length; i++)
+    	   		     {
+    	   			 $(allitems[i]).jqxCheckBox({disabled: false});
+    	   	         }
+       	  }
+       	  }); 
+           function checkifmovchecked()
+           { if($("#M-100d").val()&&checkedItem==1)
+    		 {
+       		  for(i=0; i<allitems.length; i++)
+     		   {
+     	    	$(allitems[i]).jqxCheckBox({disabled: true});
+     	     }
+     	   	 
+     	  	 for(i=0; i<checkedItemid.length; i++)
+     		   {
+     	  		 if(checkedItemid[i]!=null)
+     				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+     	       }
+     		return true;
+     		 }
+     	 else
+     		 if($("#M-200d").val()&&checkedItem==1)
+     		 {
+       		  for(i=0; i<allitems.length; i++)
+     		   {
+     	    	$(allitems[i]).jqxCheckBox({disabled: true});
+     	     }
+     	   	 
+     	  	 for(i=0; i<checkedItemid.length; i++)
+     		   {
+     	  		 if(checkedItemid[i]!=null)
+     				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+     	       }
+     		return true;
+     		 }
+     	 else
+     		return false;
+           }
+         
      $('#jqxCheckBoxUSA-10over30').on('change', function (event) {
   	   var checked = event.args.checked;
   	   if(checked)
@@ -1088,8 +1153,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1100,14 +1165,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxUSA-5over30').on('change', function (event) {
@@ -1125,8 +1198,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1137,14 +1210,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxUSA-5over10').on('change', function (event) {
@@ -1162,8 +1243,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1174,14 +1255,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxUSA-2over10').on('change', function (event) {
@@ -1199,8 +1288,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1211,14 +1300,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
 	      
@@ -1237,8 +1334,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1249,14 +1346,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxGermany-10over30').on('change', function (event) {
@@ -1274,8 +1379,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1286,14 +1391,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxGermany-5over30').on('change', function (event) {
@@ -1311,8 +1424,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1323,14 +1436,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxGermany-5over10').on('change', function (event) {
@@ -1348,8 +1469,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1360,14 +1481,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxGermany-2over10').on('change', function (event) {
@@ -1385,8 +1514,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1397,14 +1526,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
 	      
@@ -1423,8 +1560,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1435,14 +1572,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      
@@ -1461,8 +1606,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1473,14 +1618,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxFrance-5over30').on('change', function (event) {
@@ -1498,8 +1651,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1510,14 +1663,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxFrance-5over10').on('change', function (event) {
@@ -1535,8 +1696,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1547,14 +1708,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxFrance-2over10').on('change', function (event) {
@@ -1572,8 +1741,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1584,14 +1753,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
 	      
@@ -1610,8 +1787,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1622,14 +1799,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxUk-10over30').on('change', function (event) {
@@ -1647,8 +1832,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1659,14 +1844,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxUk-5over30').on('change', function (event) {
@@ -1684,8 +1877,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1696,14 +1889,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxUk-5over10').on('change', function (event) {
@@ -1721,8 +1922,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1733,14 +1934,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxUk-2over10').on('change', function (event) {
@@ -1758,8 +1967,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1770,14 +1979,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
 	      
@@ -1796,8 +2013,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1808,14 +2025,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxItaly-10over30').on('change', function (event) {
@@ -1833,8 +2058,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1845,14 +2070,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxItaly-5over30').on('change', function (event) {
@@ -1870,8 +2103,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1882,14 +2115,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxItaly-5over10').on('change', function (event) {
@@ -1907,8 +2148,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1919,14 +2160,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxItaly-2over10').on('change', function (event) {
@@ -1944,8 +2193,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1956,14 +2205,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
 	      
@@ -1982,8 +2239,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -1994,14 +2251,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      
@@ -2020,8 +2285,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -2032,14 +2297,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxSpain-5over30').on('change', function (event) {
@@ -2057,8 +2330,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -2069,14 +2342,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxSpain-5over10').on('change', function (event) {
@@ -2094,8 +2375,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -2106,14 +2387,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
      $('#jqxCheckBoxSpain-2over10').on('change', function (event) {
@@ -2131,8 +2420,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -2143,14 +2432,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
      
 	      
@@ -2169,8 +2466,8 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=1)
-  	   {
+  	 if (checkifmovchecked()){ return;} else if(checkedItem>=4)
+	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({disabled: true});
@@ -2181,14 +2478,22 @@
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
+	  
+	   }
+	   else{
+		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
-  	   }
+	   }
+	 if(checkedItem>1)
+	   { $("#M-100d").jqxCheckBox({disabled: true});
+		 $("#M-200d").jqxCheckBox({disabled: true});
+		 }
+	 else
+	 {  $("#M-100d").jqxCheckBox({disabled: false});
+		 $("#M-200d").jqxCheckBox({disabled: false});
+		 }
   	 }); 
 
      
@@ -2638,6 +2943,185 @@
 		      	    	    });	
 			  	 
 			       
+				}		    	  else
+		    		  if (checkedItem==2) {
+			    			 for(i=0; i<checkedItemid.length; i++)
+					   		   {
+					   	  		 if(checkedItemid[i]!=null)
+					   	  		  checkedItemValues.push(checkedItemid[i]);
+					   	       }
+					        dataParam = { 
+			 		        		"fromdate":fromdate,
+			 		        	    "todate":todate,
+			 		        	   "dailyOrWeekly":Daily?"d":"w" ,
+			 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+			 		        	    "country1":itemValue[checkedItemValues[0]].country,
+			 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+			 		        	    "factor2":itemValue[checkedItemValues[1]].factor,
+			 		        	    "country2":itemValue[checkedItemValues[1]].country,
+			 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross
+			 	     			   };
+					 
+							 if(checkedItemValues.length>1)
+						        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
+						        		else 
+						        			title=itemValue[checkedItemValues[0]].title
+				       
+				        debugger;			    	
+				  	       	  $.ajax({
+				  	       	        type: "POST",
+			      	    	        contentType:  "application/json; charset=utf-8",
+			      	    	        url: "/bourse/getgraphdata",
+			      	    	        data: JSON.stringify(dataParam),
+			      	    	        dataType: 'json',
+			      	    	        timeout: 600000,
+			      	    	        success: function (response) {
+			      	    	        
+			      	    	          chart.updateSeries([{
+								          name: itemValue[checkedItemValues[0]].title,
+								          type: Daily?'area':'column',
+								          data: response[0].graphResponseDTOLst
+								        },{
+								          name: itemValue[checkedItemValues[1]].title,
+								          type: Daily?'line':'column',
+								          data:response[1].graphResponseDTOLst
+								        }])
+			      	   },
+			      	    	        error: function (e) {
+			      	    	        	
+			      						  console.log("ERROR : ", e);
+			      	
+			      	    	        }
+			      	    	    });	
+				  	 
+				  	      
+					}else
+						if (checkedItem==3) {
+		    			 for(i=0; i<checkedItemid.length; i++)
+				   		   {
+				   	  		 if(checkedItemid[i]!=null)
+				   	  		  checkedItemValues.push(checkedItemid[i]);
+				   	       }
+				        dataParam = { 
+		 		        		"fromdate":fromdate,
+		 		        	    "todate":todate,
+		 		        	   "dailyOrWeekly":Daily?"d":"w" ,
+		 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+		 		        	    "country1":itemValue[checkedItemValues[0]].country,
+		 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+		 		        	    "factor2":itemValue[checkedItemValues[1]].factor,
+		 		        	    "country2":itemValue[checkedItemValues[1]].country,
+		 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross,
+		 		        	    "factor3":itemValue[checkedItemValues[2]].factor,
+		 		        	    "country3":itemValue[checkedItemValues[2]].country,
+		 		        	    "yieldCurveCross3": itemValue[checkedItemValues[2]].yieldCurveCross,
+		 	     			   };
+				        console.log(dataParam) 
+						 if(checkedItemValues.length>1)
+					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title+" vs "+ itemValue[checkedItemValues[2]].title  
+					        		else 
+					        			title=itemValue[checkedItemValues[0]].title
+			       
+			        debugger;			    	
+			  	       	  $.ajax({
+			  	       	        type: "POST",
+		      	    	        contentType:  "application/json; charset=utf-8",
+		      	    	        url: "/bourse/getgraphdata",
+		      	    	        data: JSON.stringify(dataParam),
+		      	    	        dataType: 'json',
+		      	    	        timeout: 600000,
+		      	    	        success: function (response) {
+		      	    	        
+		      	    	          chart.updateSeries([{
+							          name: itemValue[checkedItemValues[0]].title,
+							          type: Daily?'area':'column',
+							          data: response[0].graphResponseDTOLst
+							        },{
+							          name: itemValue[checkedItemValues[1]].title,
+							          type: Daily?'line':'column',
+							          data:response[1].graphResponseDTOLst
+							        }
+							        ,{
+								          name: itemValue[checkedItemValues[2]].title,
+								          type:  Daily?'line':'column',
+								          data:response[2].graphResponseDTOLst
+								        }])
+		      	   },
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    });	
+			  	 
+			  	      
+				}else
+					if (checkedItem==4) {
+		    			 for(i=0; i<checkedItemid.length; i++)
+				   		   {
+				   	  		 if(checkedItemid[i]!=null)
+				   	  		  checkedItemValues.push(checkedItemid[i]);
+				   	       }
+				        dataParam = { 
+		 		        		"fromdate":fromdate,
+		 		        	    "todate":todate,
+		 		        	   "dailyOrWeekly":Daily?"d":"w" ,
+		 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+		 		        	    "country1":itemValue[checkedItemValues[0]].country,
+		 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+		 		        	    "factor2":itemValue[checkedItemValues[1]].factor,
+		 		        	    "country2":itemValue[checkedItemValues[1]].country,
+		 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross,
+		 		        	    "factor3":itemValue[checkedItemValues[2]].factor,
+		 		        	    "country3":itemValue[checkedItemValues[2]].country,
+		 		        	    "yieldCurveCross3": itemValue[checkedItemValues[2]].yieldCurveCross,
+		 		        	   "factor4":itemValue[checkedItemValues[3]].factor,
+		 		        	    "country4":itemValue[checkedItemValues[3]].country,
+		 		        	    "yieldCurveCross4": itemValue[checkedItemValues[3]].yieldCurveCross,
+		 	     			   };
+				       
+						 if(checkedItemValues.length>1)
+					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title +" vs "+ itemValue[checkedItemValues[2]].title+" vs "+ itemValue[checkedItemValues[3]].title; 
+					        		else 
+					        			title=itemValue[checkedItemValues[0]].title
+			       
+			        debugger;			    	
+			  	       	  $.ajax({
+			  	       	        type: "POST",
+		      	    	        contentType:  "application/json; charset=utf-8",
+		      	    	        url: "/bourse/getgraphdata",
+		      	    	        data: JSON.stringify(dataParam),
+		      	    	        dataType: 'json',
+		      	    	        timeout: 600000,
+		      	    	        success: function (response) {
+		      	    	        
+		      	    	          chart.updateSeries([{
+							          name: itemValue[checkedItemValues[0]].title,
+							          type:  Daily?'area':'column',
+							          data: response[0].graphResponseDTOLst
+							        },{
+							          name: itemValue[checkedItemValues[1]].title,
+							          type:  Daily?'line':'column',
+							          data:response[1].graphResponseDTOLst
+							        },{
+								          name: itemValue[checkedItemValues[2]].title,
+								          type:  Daily?'line':'column',
+								          data:response[2].graphResponseDTOLst
+								        }
+							        ,{
+								          name: itemValue[checkedItemValues[3]].title,
+								          type:  Daily?'line':'column',
+								          data:response[3].graphResponseDTOLst
+								        }])
+		      	   },
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    });	
+			  	 
+			  	      
 				}
 				else{
 					  for(i=0; i<checkedItemid.length; i++)

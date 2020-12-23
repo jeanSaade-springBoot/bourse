@@ -124,8 +124,6 @@ Only need to call the createMarquee() function. Optionally: pass through the fol
       //init vars from input
 
 
-      console.log(config);
-
       $(config.marquee_class).remove();
 
       if(spawnAmount<2){

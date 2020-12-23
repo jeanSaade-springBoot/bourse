@@ -43,7 +43,22 @@
     flex: 0 0 16.66667%;
     max-width: 12.66667%;
 }
+::placeholder { /* Chrome, Firefox, Opera, Safari 10.1+ */
+  color: #6f7f9c;
+  opacity: 1; /* Firefox */
+}
 
+:-ms-input-placeholder { /* Internet Explorer 10-11 */
+  color: #6f7f9c;
+}
+
+::-ms-input-placeholder { /* Microsoft Edge */
+  color: #6f7f9c;
+}
+input[type="textarea"].jqx-widget-content-dark{
+  padding-left:.5rem;
+  color:#BDD1F8;
+}
   </style>
 </head>
 
@@ -51,7 +66,7 @@
   <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/bourse/home">
         <div class="sidebar-brand-icon">
          <!--  <img src="img/logo/logo2.png"> -->
         </div>
@@ -118,9 +133,7 @@
             <a class="collapse-item" href="/bourse/sovereigncurvesgraph">Yield Curves</a>
             <a class="collapse-item" href="/bourse/sovereigncrossesgraph">Yield Crosses</a>
             <a class="collapse-item" href="/bourse/spreadmakergraph">Spread Maker</a> 
-            <a class="collapse-item" href="">Situation Room</a>
-            <a class="collapse-item" href="">Euribor Curves</a>
-          </div>
+           </div>
         </div>
       </li>
 	   <li class="nav-item ">
@@ -457,7 +470,7 @@
                 aria-haspopup="true" aria-expanded="false">
                 <!-- <img class="img-profile rounded-circle" src="img/boy.png" style="max-width: 60px"> -->
                 <i class="fas fa-user"></i>
-                <span class="ml-2 d-none d-lg-inline text-white small">	Charbel Nakouzi</span>
+                <span class="ml-2 d-none d-lg-inline text-white small">	Charbel Nacouzi</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -627,7 +640,11 @@
           pagesize: 10,
           autoheight: true,
           columns: [
-           { text: 'All News', datafield: 'template', width: '100%',   cellclassname: cellclassname },
+           { text: 'All News', datafield: 'template', width: '100%',   cellclassname: cellclassname,
+        	   createfilterwidget: function (column, columnElement, widget) {
+        	        widget.jqxInput({ width: '99%', height: 27, placeHolder: "Search" });
+        	      }
+           },
            { text: '', datafield: 'isBold', hidden: true  },
            ]
          

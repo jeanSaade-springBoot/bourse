@@ -84,12 +84,21 @@ font-size: 0.8rem;
     color: #e2e2e2!important;
    text-shadow: 1px 1px 0px #060605;
 }
+.jqx-checkbox-dark {
+    text-align: center;
+}
+.card-body .filter{
+ text-align: center;
+}
+.card-img-top {
+    width: 112%;
+    }
 </style>
 <body id="page-top">
   <div id="wrapper">
     <!-- Sidebar -->
     <ul class="navbar-nav sidebar sidebar-light accordion toggled" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
+      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/bourse/home">
         <div class="sidebar-brand-icon">
          <!--  <img src="img/logo/logo2.png"> -->
         </div>
@@ -153,9 +162,7 @@ font-size: 0.8rem;
             <a class="collapse-item" href="">Fast Chart</a>
             <a class="collapse-item" href="/bourse/any2">Any 2</a>
             <a class="collapse-item" href="/bourse/sovereignyieldsgraph">Sovereign yields</a>
-            <a class="collapse-item" href="">Situation Room</a>
-            <a class="collapse-item" href="">Euribor Curves</a>
-          </div>
+             </div>
         </div>
       </li>
 	   <li class="nav-item">
@@ -492,7 +499,7 @@ font-size: 0.8rem;
                 aria-haspopup="true" aria-expanded="false">
                 <!-- <img class="img-profile rounded-circle" src="img/boy.png" style="max-width: 60px"> -->
                 <i class="fas fa-user"></i>
-                <span class="ml-2 d-none d-lg-inline text-white small">	Charbel Nakouzi</span>
+                <span class="ml-2 d-none d-lg-inline text-white small">	Charbel Nacouzi</span>
               </a>
               <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
                 <a class="dropdown-item" href="#">
@@ -634,7 +641,7 @@ font-size: 0.8rem;
            <div class="card border " style="max-width: 32%;">
         <div class="row no-gutters">
           <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Yields</h5>
                     <div id='jqxCheckBoxUSA-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxUSA-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -643,13 +650,13 @@ font-size: 0.8rem;
                 </div>
             </div>
               <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
               <h5 class="fontTitle">USA</h5>
                 <img src="/img/flag/united-states.png" class="card-img-top" alt="...">
              </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Curves</h5>
                      	<div id='jqxCheckBoxUSA-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
 						<div id='jqxCheckBoxUSA-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
@@ -659,7 +666,7 @@ font-size: 0.8rem;
                 </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Average</h5>
                         <div id='jqxCheckBoxUSA-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
 						<div id='jqxCheckBoxUSA-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
@@ -671,7 +678,7 @@ font-size: 0.8rem;
     <div class="card border ml-2" style="max-width: 32%;">
         <div class="row no-gutters">
           <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Yields</h5>
                     <div id='jqxCheckBoxGermany-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxGermany-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -681,12 +688,12 @@ font-size: 0.8rem;
             </div>
               <div class="col-sm-3">
                 <div class="card-body">
-              <h5 class="fontTitle">Germany</h5>
+              <h5 class="fontTitle filter">Germany</h5>
                 <img src="/img/flag/germany.png" class="card-img-top" alt="...">
              </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Curves</h5>
                      	<div id='jqxCheckBoxGermany-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
 						<div id='jqxCheckBoxGermany-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
@@ -696,7 +703,7 @@ font-size: 0.8rem;
                 </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Average</h5>
                         <div id='jqxCheckBoxGermany-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
 						<div id='jqxCheckBoxGermany-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
@@ -708,7 +715,7 @@ font-size: 0.8rem;
     <div class="card border ml-2" style="max-width: 32%;">
         <div class="row no-gutters">
           <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Yields</h5>
                     <div id='jqxCheckBoxFrance-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxFrance-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -717,13 +724,13 @@ font-size: 0.8rem;
                 </div>
             </div>
               <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
               <h5 class="fontTitle">France</h5>
                 <img src="/img/flag/france.png" class="card-img-top" alt="...">
              </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Curves</h5>
                      	<div id='jqxCheckBoxFrance-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
 						<div id='jqxCheckBoxFrance-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
@@ -733,7 +740,7 @@ font-size: 0.8rem;
                 </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Average</h5>
                         <div id='jqxCheckBoxFrance-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
 						<div id='jqxCheckBoxFrance-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
@@ -747,7 +754,7 @@ font-size: 0.8rem;
            <div class="card border " style="max-width: 32%;">
         <div class="row no-gutters">
           <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Yields</h5>
                     <div id='jqxCheckBoxUk-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxUk-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -756,13 +763,13 @@ font-size: 0.8rem;
                 </div>
             </div>
               <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
               <h5 class="fontTitle">UK</h5>
                 <img src="/img/flag/united-kingdom.png" class="card-img-top" alt="...">
              </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Curves</h5>
                      	<div id='jqxCheckBoxUk-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
 						<div id='jqxCheckBoxUk-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
@@ -772,7 +779,7 @@ font-size: 0.8rem;
                 </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Average</h5>
                         <div id='jqxCheckBoxUk-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
 						<div id='jqxCheckBoxUk-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
@@ -784,7 +791,7 @@ font-size: 0.8rem;
     <div class="card border ml-2" style="max-width: 32%;">
         <div class="row no-gutters">
           <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Yields</h5>
                     <div id='jqxCheckBoxItaly-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxItaly-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -793,13 +800,13 @@ font-size: 0.8rem;
                 </div>
             </div>
               <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
               <h5 class="fontTitle">Italy</h5>
                 <img src="/img/flag/italy.png" class="card-img-top" alt="...">
              </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Curves</h5>
                      	<div id='jqxCheckBoxItaly-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
 						<div id='jqxCheckBoxItaly-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
@@ -809,7 +816,7 @@ font-size: 0.8rem;
                 </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Average</h5>
                         <div id='jqxCheckBoxItaly-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
 						<div id='jqxCheckBoxItaly-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
@@ -821,7 +828,7 @@ font-size: 0.8rem;
     <div class="card border ml-2" style="max-width: 32%;">
         <div class="row no-gutters">
           <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Yields</h5>
                     <div id='jqxCheckBoxSpain-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxSpain-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -830,13 +837,13 @@ font-size: 0.8rem;
                 </div>
             </div>
               <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
               <h5 class="fontTitle">Spain</h5>
                 <img src="/img/flag/spain.png" class="card-img-top" alt="...">
              </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Curves</h5>
                      	<div id='jqxCheckBoxSpain-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
 						<div id='jqxCheckBoxSpain-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
@@ -846,7 +853,7 @@ font-size: 0.8rem;
                 </div>
             </div>
 			       <div class="col-sm-3">
-                <div class="card-body">
+                <div class="card-body filter">
                     <h5 class="fontTitle">Average</h5>
                         <div id='jqxCheckBoxSpain-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
 						<div id='jqxCheckBoxSpain-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
@@ -861,7 +868,7 @@ font-size: 0.8rem;
         <div class="card border ml-2 col-7">
         <div class="row no-gutters">
           <div class="col-sm-1 col-custom">
-                <div class="card-body">
+                <div class="card-body filter">
                 <img src="/img/flag/fra-ger.png" height="48" width="48" class="card-img-top" alt="...">
                     <div id='jqxCheckBoxfrc-ger-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxfrc-ger-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -870,7 +877,7 @@ font-size: 0.8rem;
              </div>
             </div>
              <div class="col-sm-1 col-custom">
-                <div class="card-body">
+                <div class="card-body filter">
                 <img src="/img/flag/ita-ger.png" height="48" width="48" class="card-img-top" alt="...">
                     <div id='jqxCheckBoxita-ger-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxita-ger-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -879,7 +886,7 @@ font-size: 0.8rem;
              </div>
             </div>
              <div class="col-sm-1 col-custom">
-                <div class="card-body">
+                <div class="card-body filter">
                 <img src="/img/flag/spn-ger.png" height="48" width="48" class="card-img-top" alt="...">
                     <div id='jqxCheckBoxspn-ger-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxspn-ger-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -888,7 +895,7 @@ font-size: 0.8rem;
              </div>
             </div>
              <div class="col-sm-1 col-custom">
-                <div class="card-body">
+                <div class="card-body filter">
                 <img src="/img/flag/uk-ger.png" height="48" width="48" class="card-img-top" alt="...">
                     <div id='jqxCheckBoxuk-ger-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxuk-ger-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -897,7 +904,7 @@ font-size: 0.8rem;
              </div>
             </div>
              <div class="col-sm-1 col-custom">
-                <div class="card-body">
+                <div class="card-body filter">
                 <img src="/img/flag/usa-ger.png" height="48" width="48" class="card-img-top" alt="...">
                     <div id='jqxCheckBoxusa-ger-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxusa-ger-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -906,7 +913,7 @@ font-size: 0.8rem;
              </div>
             </div>
              <div class="col-sm-1 col-custom">
-                <div class="card-body">
+                <div class="card-body filter">
                 <img src="/img/flag/usa-uk.png" height="48" width="48" class="card-img-top" alt="...">
                     <div id='jqxCheckBoxusa-uk-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxusa-uk-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -915,7 +922,7 @@ font-size: 0.8rem;
              </div>
             </div>
              <div class="col-sm-1 col-custom">
-                <div class="card-body">
+                <div class="card-body filter">
                 <img src="/img/flag/ita-fra.png" height="48" width="48" class="card-img-top" alt="...">
                     <div id='jqxCheckBoxita-frc-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxita-frc-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -924,7 +931,7 @@ font-size: 0.8rem;
              </div>
             </div>
              <div class="col-sm-1 col-custom">
-                <div class="card-body">
+                <div class="card-body filter">
                 <img src="/img/flag/ita-spn.png" height="48" width="48" class="card-img-top" alt="...">
                     <div id='jqxCheckBoxita-spn-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxita-spn-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -1507,7 +1514,7 @@ font-size: 0.8rem;
 			
 			 for(i=0; i<allitems.length; i++)
 			   {
-		    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 120, height: 25, boxSize:"0px" });
+		    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
 		       }
 
 			 for(i=0; i<yieldsUSAItem.length; i++)
@@ -1664,14 +1671,14 @@ font-size: 0.8rem;
 		                editmode: 'selectedrow',
 		                columns: [
 		                	  { text: '',editable:false,  datafield: 'factor', width: '11.11%'},
-			                  { text: 'FRA_GER', datafield: 'fra_GER', width: '11.11%' },
-			                  { text: 'ITA_GER', datafield: 'ita_GER', width: '11.11%' },
-			                  { text: 'ITA_FRA', datafield: 'ita_FRA', width: '11.11%' },
-			                  { text: 'UK_GER', datafield: 'uk_GER', width: '11.11%' },
-			                  { text: 'ITA_SPN', datafield: 'ita_SPN', width: '11.11%' },
-			                  { text: 'USA_GER', datafield: 'usa_GER', width: '11.11%' },
-			                  { text: 'USA_UK', datafield: 'usa_UK', width: '11.11%' },
-			                  { text: 'SPN_GER', datafield: 'spn_GER', width: '11.11%' }
+			                  { text: '<img height="48" width="48" src="/img/flag/fra-ger.png">', datafield: 'fra_GER', width: '11.11%' },
+			                  { text: '<img height="48" width="48" src="/img/flag/ita-ger.png">', datafield: 'ita_GER', width: '11.11%' },
+			                  { text: '<img height="48" width="48" src="/img/flag/ita-fra.png">', datafield: 'ita_FRA', width: '11.11%' },
+			                  { text: '<img height="48" width="48" src="/img/flag/uk-ger.png">', datafield: 'uk_GER', width: '11.11%' },
+			                  { text: '<img height="48" width="48" src="/img/flag/ita-spn.png">', datafield: 'ita_SPN', width: '11.11%' },
+			                  { text: '<img height="48" width="48" src="/img/flag/usa-ger.png">', datafield: 'usa_GER', width: '11.11%' },
+			                  { text: '<img height="48" width="48" src="/img/flag/usa-uk.png">', datafield: 'usa_UK', width: '11.11%' },
+			                  { text: '<img height="48" width="48" src="/img/flag/spn-ger.png">', datafield: 'spn_GER', width: '11.11%' }
 		                ]
 		            });
 		            
@@ -1706,7 +1713,7 @@ font-size: 0.8rem;
 		             {
 		                 datatype: "json",
 		                 datafields: [
-	 		                    { name: 'refer_date', type: 'string' },
+	 		                    { name: 'refer_date', type: 'date' },
 	 		                    { name: 'FRANCE_2/5', type: 'string' },
 	 		                    { name: 'USA_30yr', type: 'string' },
 	 		                    { name: 'USA_10yr', type: 'string' },
@@ -1814,7 +1821,8 @@ font-size: 0.8rem;
 		  		                showfilterrow: true,
 		  		                filterable: true,
 		  		                autoheight: true,
-		                        columnsresize: true
+		                        columnsresize: true,
+		                        pagesizeoptions: ['10', '20', '50']
 		                    });
 		             getFilterData();
 		             $("#grid").jqxGrid('showloadelement');
@@ -2479,11 +2487,17 @@ font-size: 0.8rem;
     	    	        cache: false,
     	    	        timeout: 600000,
     	    	        success: function (data) {
-    	    	        	debugger;
     	    	        	 delete source.url;
     	    	             source.localdata=data.rows;
 	    	    	         dataAdapter = new $.jqx.dataAdapter(source);
 	    	    	         $('#grid').jqxGrid('hideloadelement');
+	    	    	         debugger;
+	    	    	         for(i=0; i<data.columns.length;i++)
+	    	    	         {  if(data.columns[i].datafield=="refer_date")
+	    	    	           { data.columns[i].cellsformat='dd-MMM-yyyy'; 
+	    	    	           break;
+	    	    	           }
+	    	    	         }
 	  						 $('#grid').jqxGrid({source:dataAdapter,
 	  							                 columns: data.columns});
     	   },

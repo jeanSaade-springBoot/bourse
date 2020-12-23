@@ -56,8 +56,6 @@
 }
 .jqx-icon-search-dark:after {
     content: var(--jqx-icon-search);
-    color:
-
 }
 .jqx-calendar-dark {
     width: 280px !important;
@@ -555,7 +553,8 @@
 .jqx-danger-dark {
     text-shadow: none !important;
     color: #d9534f !important;
-    background: #fff !important;
+    font-weight: bold;
+    background: #dddfeb  !important;
     border-color: #d9534f !important;
 }
 
