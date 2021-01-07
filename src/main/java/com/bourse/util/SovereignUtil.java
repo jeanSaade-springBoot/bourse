@@ -143,7 +143,7 @@ public class SovereignUtil {
 		 {
 			 if(counter == 1)
 			 {
-				 forUseSelect = "select s"+counter+".refer_date ";
+				 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
 				 colHash.put(columnsId, "refer_date");
 				 columnsId++;
 				 
