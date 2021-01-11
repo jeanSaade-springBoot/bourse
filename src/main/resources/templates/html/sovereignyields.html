@@ -1429,7 +1429,7 @@ font-size: 0.8rem;
 		                  }];
          
          curvesDefaultData=[{
-             "factor": "10/30",
+             "factor": "10's/30's",
              "usa": "",
              "germany": "",
              "france": "",
@@ -1437,7 +1437,7 @@ font-size: 0.8rem;
              "italy": "",
              "spain": ""
            },{
-                 "factor": "5/30",
+                 "factor": "5's/30's",
                  "usa": "",
                  "germany": "",
                  "france": "",
@@ -1446,7 +1446,7 @@ font-size: 0.8rem;
                  "spain": ""
                },
                {
-	                    "factor": "5/10",
+	                    "factor": "5's/10's",
 	                    "usa": "",
 	                    "germany": "",
 	                    "france": "",
@@ -1455,7 +1455,7 @@ font-size: 0.8rem;
 	                    "spain": ""
 	                  },
 	                  {
-		                    "factor": "2/10",
+		                    "factor": "2's/10's",
 		                    "usa": "",
 		                    "germany": "",
 		                    "france": "",
@@ -1463,7 +1463,7 @@ font-size: 0.8rem;
 		                    "italy": "",
 		                    "spain": ""
 		                  } ,{
-		                    "factor": "2/5",
+		                    "factor": "2's/5's",
 		                    "usa": "",
 		                    "germany": "",
 		                    "france": "",
@@ -1474,7 +1474,7 @@ font-size: 0.8rem;
          crossesDefaultData=[
         	 {
         		 "id": 1,
-        		 "factor": "30",
+        		 "factor": "30yr",
         		 "fra_GER": "",
         		 "ita_GER": "",
         		 "ita_FRA": "",
@@ -1486,7 +1486,7 @@ font-size: 0.8rem;
         		 },
         		 {
         		 "id": 2,
-        		 "factor": "10",
+        		 "factor": "10yr",
         		 "fra_GER": "",
         		 "ita_GER": "",
         		 "ita_FRA": "",
@@ -1498,7 +1498,7 @@ font-size: 0.8rem;
         		 },
         		 {
         		 "id": 3,
-        		 "factor": "5",
+        		 "factor": "5yr",
         		 "fra_GER": "",
         		 "ita_GER": "",
         		 "ita_FRA": "",
@@ -1510,7 +1510,7 @@ font-size: 0.8rem;
         		 },
         		 {
         		 "id": 4,
-        		 "factor": "2",
+        		 "factor": "2yr",
         		 "fra_GER": "",
         		 "ita_GER": "",
         		 "ita_FRA": "",
@@ -1525,6 +1525,7 @@ font-size: 0.8rem;
  		 var datatextarea = document.getElementById("data");
 		
 		 $(document).ready(function () {
+
 			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });
 			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
 			
@@ -1535,7 +1536,7 @@ font-size: 0.8rem;
 
 			 for(i=0; i<yieldsUSAItem.length; i++)
 			   {
-		    	$(yieldsUSAItem[i]).jqxCheckBox({ checked:true});
+		    	$(yieldsUSAItem[i]).jqxCheckBox({checked:true});
 		       } 
 			 $('#dateInputAudit').on('change', function (event) 
 				 {   date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
@@ -1555,7 +1556,7 @@ font-size: 0.8rem;
 					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
 					 $('#crossesGrid').jqxGrid({source:dataAdapter});
 				 }); 
-			 
+
 			    $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
 	            $("#Save").jqxButton({ theme: 'dark',height:38,width:93 });
 	            $("#Clearfilter").jqxButton({ theme: 'dark',height:30,width:74  });
@@ -1697,6 +1698,43 @@ font-size: 0.8rem;
 			                  { text: '<img height="48" width="48" src="/img/flag/spn-ger.png">', datafield: 'spn_GER', width: '11.11%' }
 		                ]
 		            });
+		            
+
+					 $.ajax({
+			    	        contentType: "application/json",
+			    	        url: "/bourse/getlatestsovereignyields",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function (response) {
+			    	        	debugger;
+			    	        	$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
+			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
+			    	        	    
+			    				    filterDate=date;
+			    				    delete auditGridSource.localdata;
+			    				     auditGridSource.url='/bourse/getauditdata/'+date;
+			    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+			    					 $('#auditGrid').jqxGrid({source:dataAdapter});
+			    					 
+			    				    delete curvesGridSource.localdata;
+			    				     curvesGridSource.url='/bourse/getcurvedata/'+date;
+			    					 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+			    					 $('#curvesGrid').jqxGrid({source:dataAdapter});
+			    					 
+			    					 delete crossesGridSource.localdata;
+			    					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
+			    					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+			    					 $('#crossesGrid').jqxGrid({source:dataAdapter});
+			    	        },
+			    	        error: function (e) {
+			    	        	
+								  console.log("ERROR : ", e);
+			
+			    	        }
+			    	    });
+					  
 		            
 			 var dropDownSource = [
                  "now",
@@ -2125,7 +2163,7 @@ font-size: 0.8rem;
             		 }
             		 $.ajax({
 	    	        contentType: "application/json",
-	    	        url: "/bourse/checkifcansave/"+$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
+	    	        url: "/bourse/checkifcansave/"+today,
 	    	        dataType: 'json',
 	    	        async:true,
 	    	        cache: false,
@@ -2151,6 +2189,25 @@ font-size: 0.8rem;
 		  		            	  $("#dataformInput").css("display","block");
 		  						  $("#dataInputButtons").css("display","none"); 
 		  						  $("#dataInputGrid").css("display","none");
+		  						
+		  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
+		    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+		    	        	    
+		    				    filterDate=date;
+		    				    delete auditGridSource.localdata;   
+		    				     auditGridSource.url='/bourse/getauditdata/'+date;
+		    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+		    					 $('#auditGrid').jqxGrid({source:dataAdapter});
+		    					 
+		    				    delete curvesGridSource.localdata;
+		    				     curvesGridSource.url='/bourse/getcurvedata/'+date;
+		    					 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+		    					 $('#curvesGrid').jqxGrid({source:dataAdapter});
+		    					 
+		    					 delete crossesGridSource.localdata;
+		    					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
+		    					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+		    					 $('#crossesGrid').jqxGrid({source:dataAdapter}); 
 		    	            },
 		    	    	        error: function (e) {
 		    	    	        	
@@ -2184,6 +2241,7 @@ font-size: 0.8rem;
           	var sovereignYiledCurveSearchDTOlst=[];
           	var sovereignCrossSearchDTOlst=[];
           	var allItems=0;
+          	var checkedItem=[];
           	var json;
           	var gridColumns = [];
           	var yields=[];
@@ -2211,6 +2269,7 @@ font-size: 0.8rem;
          		   yields.push(yieldsUSAItem[i].split("-")[1]+"yr");	
           			itemsUsa=1;
           			allItems=1;
+          			checkedItem.push(yieldsUSAItem[i]);
          		}
           	}
          	for (i = 0; i < curvesUSAItems.length; i++) {
@@ -2218,6 +2277,7 @@ font-size: 0.8rem;
          		{	curves.push(curvesUSAItems[i].split("-")[1].replace("over", "/"));	
 	      			itemsUsa=1;
 	      			allItems=1;
+	      			checkedItem.push(curvesUSAItems[i]);
          		}
          	}
           	if(itemsUsa!=0)
@@ -2237,6 +2297,7 @@ font-size: 0.8rem;
         		yields.push(yieldsGermanyItem[i].split("-")[1]+"yr");	
       			itemsGermany=1;
       			allItems=1;
+      			checkedItem.push(yieldsGermanyItem[i]);
          		}
 	      	}
 	     	for (i = 0; i < curvesGermanyItems.length; i++) {
@@ -2245,6 +2306,7 @@ font-size: 0.8rem;
 	     		curves.push(curvesGermanyItems[i].split("-")[1].replace("over", "/"));	
 	         		itemsGermany=1;
 	         		allItems=1;
+	         		checkedItem.push(curvesGermanyItems[i]);
          		}
 	     	}
           	if(itemsGermany!=0)
@@ -2263,6 +2325,7 @@ font-size: 0.8rem;
           		yields.push(yieldsFranceItem[i].split("-")[1]+"yr");	
       			itemsFrance=1;
       			allItems=1;
+      			checkedItem.push(yieldsFranceItem[i]);
          		}
 	      	}
 	     	for (i = 0; i < curvesFranceItems.length; i++) {
@@ -2271,6 +2334,7 @@ font-size: 0.8rem;
 	     		curves.push(curvesFranceItems[i].split("-")[1].replace("over", "/"));	
 	         		itemsFrance=1;
 	         		allItems=1;
+	         		checkedItem.push(curvesFranceItems[i]);
          		}
 	     	}
           	if(itemsFrance!=0)
@@ -2290,6 +2354,7 @@ font-size: 0.8rem;
          		   yields.push(yieldsUkItem[i].split("-")[1]+"yr");	
          		    itemsUk=1;
           			allItems=1;
+          			checkedItem.push(yieldsUkItem[i]);
          		}
           	}
          	for (i = 0; i < curvesUkItems.length; i++) {
@@ -2297,6 +2362,7 @@ font-size: 0.8rem;
          		{	curves.push(curvesUkItems[i].split("-")[1].replace("over", "/"));	
          		    itemsUk=1;
 	      			allItems=1;
+	      			checkedItem.push(curvesUkItems[i]);
          		}
          	}
           	if(itemsUk!=0)
@@ -2316,6 +2382,7 @@ font-size: 0.8rem;
          		   yields.push(yieldsItalyItem[i].split("-")[1]+"yr");	
          		    itemsItaly=1;
           			allItems=1;
+          			checkedItem.push(yieldsItalyItem[i]);
          		}
           	}
          	for (i = 0; i < curvesItalyItems.length; i++) {
@@ -2323,6 +2390,7 @@ font-size: 0.8rem;
          		{	curves.push(curvesItalyItems[i].split("-")[1].replace("over", "/"));	
          	    	itemsItaly=1;
 	      			allItems=1;
+	      			checkedItem.push(curvesItalyItems[i]);
          		}
          	}
           	if(itemsItaly!=0)
@@ -2342,6 +2410,7 @@ font-size: 0.8rem;
          		   yields.push(yieldsSpainItem[i].split("-")[1]+"yr");	
          		    itemsSpain=1;
           			allItems=1;
+          			checkedItem.push(yieldsSpainItem[i]);
          		}
           	}
          	for (i = 0; i < curvesSpainItems.length; i++) {
@@ -2349,6 +2418,7 @@ font-size: 0.8rem;
          		{	curves.push(curvesSpainItems[i].split("-")[1].replace("over", "/"));	
          		    itemsSpain=1;
 	      			allItems=1;
+	      			checkedItem.push(curvesSpainItems[i]);
          		}
          	}
           	if(itemsSpain!=0)
@@ -2368,6 +2438,7 @@ font-size: 0.8rem;
          		   yields.push(crossesfrcgerItems[i].split("-")[2]);	
           			itemsfrcger=1;
           			allItems=1;
+          			checkedItem.push(crossesfrcgerItems[i]);
          		}
           	}
          	
@@ -2385,6 +2456,7 @@ font-size: 0.8rem;
         		yields.push(crossesitagerItems[i].split("-")[2]);	
       			itemsitager=1;
       			allItems=1;
+      			checkedItem.push(crossesitagerItems[i]);
          		}
 	      	}
           	if(itemsitager!=0)
@@ -2401,6 +2473,7 @@ font-size: 0.8rem;
           		yields.push(crossesspngerItems[i].split("-")[2]);	
       			itemsspnger=1;
       			allItems=1;
+      			checkedItem.push(crossesspngerItems[i]);
          		}
 	      	}
           	if(itemsspnger!=0)
@@ -2418,6 +2491,7 @@ font-size: 0.8rem;
           			yields.push(crossesukgerItems[i].split("-")[2]);
           			itemsukger=1;
       			    allItems=1;
+      				checkedItem.push(crossesukgerItems[i]);
          	  		}
           	}
           	if(itemsukger!=0)
@@ -2434,6 +2508,7 @@ font-size: 0.8rem;
          		   yields.push(crossesusagerItems[i].split("-")[2]);	
          		    itemsusager=1;
           			allItems=1;
+          			checkedItem.push(crossesusagerItems[i]);
          		}
           	}
           	if(itemsusager!=0)
@@ -2447,9 +2522,10 @@ font-size: 0.8rem;
          	for (i = 0; i < crossesusaukItems.length; i++) {
          		if($(crossesusaukItems[i]).jqxCheckBox('checked'))
          		{		
-         		   yields.push(crossescrossesusaukItemscrossesusaukItemscrossesusaukItemsItems[i].split("-")[1]);	
+         		   yields.push(crossesusaukItems[i].split("-")[1]);	
          		    itemsusauk=1;
           			allItems=1;
+          			checkedItem.push(crossesusaukItems[i]);
          		}
           	}
          	
@@ -2467,6 +2543,7 @@ font-size: 0.8rem;
          		   yields.push(crossesitafrcItems[i].split("-")[2]);	
          		    itemsitafrc=1;
           			allItems=1;
+          			checkedItem.push(crossesitafrcItems[i]);
          		}
           	}
           	if(itemsitafrc!=0)
@@ -2482,6 +2559,7 @@ font-size: 0.8rem;
          		   yields.push(crossesitaspnItems[i].split("-")[2]);	
          		    itemsitager=1;
           			allItems=1;
+          			checkedItem.push(crossesitaspnItems[i]);
          		}
           	}
           	if(itemsitager!=0)
@@ -2494,10 +2572,10 @@ font-size: 0.8rem;
           	if(allItems!=0)
           	{
           	json={"sovereignYiledCurveSearchDTOlst":sovereignYiledCurveSearchDTOlst,
-          		       "sovereignCrossSearchDTOlst":sovereignCrossSearchDTOlst,
-          		       "fromDate":$.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'),  'yyyy-MM-dd'),
-          		       "toDate":$.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'),  'yyyy-MM-dd')
-          		       };
+       		       "sovereignCrossSearchDTOlst":sovereignCrossSearchDTOlst,
+       		       "fromDate":$.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'),  'yyyy-MM-dd'),
+       		       "toDate":$.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'),  'yyyy-MM-dd')
+       		       };
        debugger;
      
 	        	  $.ajax({
@@ -2517,12 +2595,33 @@ font-size: 0.8rem;
 	    	    	         debugger;
 	    	    	         for(i=0; i<data.columns.length;i++)
 	    	    	         {  if(data.columns[i].datafield=="refer_date")
-	    	    	           { data.columns[i].cellsformat='dd-MMM-yyyy'; 
+	    	    	           { 
+	    	    	        	 data.columns[i].cellsformat='dd-MMM-yyyy'; 
 	    	    	           break;
 	    	    	           }
 	    	    	         }
 	  						 $('#grid').jqxGrid({source:dataAdapter,
 	  							                 columns: data.columns});
+	  						 debugger;
+	  						var filterHistory = { 
+			   		        	  "filterHistory":checkedItem.toString(),
+			   	     			   };
+	  					   $.ajax({
+			  	       	        type: "POST",
+		     	    	        contentType:  "application/json; charset=utf-8",
+		     	    	        url: "/bourse/savedataentryfilterhistory",
+		     	    	        data: JSON.stringify(filterHistory),
+		     	    	        dataType: 'json',
+		     	    	        timeout: 600000,
+		     	    	        success: function (response) {
+		     	    	        debugger;	    
+		     	                  },
+		     	    	        error: function (e) {
+		     	    	        	
+		     						  console.log("ERROR : ", e);
+		     	
+		     	    	        }
+		     	    	    });	
     	   },
     	    	        error: function (e) {
     	    	        	

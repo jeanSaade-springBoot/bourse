@@ -23,6 +23,10 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
 	 * List<SovereignData> findAllClothsUrl( Pageable page);
 	 */
 	
+	 @Query(value = "select max(STR_TO_DATE(refer_date,'%d-%m-%Y')) from sovereign_data",
+             nativeQuery = true)
+    public String findLatestSovereignData();
+	
 	 @Query(value = "select STR_TO_DATE(refer_date,'%d-%m-%Y') as x,\r\n" + 
 			              " five_yr_factor as y\r\n" + 
 		 		"from `sovereign_data`\r\n" + 

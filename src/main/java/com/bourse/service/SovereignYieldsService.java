@@ -50,6 +50,10 @@ public class SovereignYieldsService
 	{      
         return sovereignYieldsRepository.findAll(Sort.by("id").descending());
 	}
+	public String findLatestSovereignData()
+	{      
+        return sovereignYieldsRepository.findLatestSovereignData();
+	}
 	public List<SovereignData> SaveSovereignDatas(List<SovereignData> plst) 
 	{      
         return sovereignYieldsRepository.saveAll(plst);

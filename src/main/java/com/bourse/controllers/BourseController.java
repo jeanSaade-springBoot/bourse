@@ -21,6 +21,8 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bourse.domain.DataEntryFilterHistory;
+import com.bourse.domain.GraphHistory;
 import com.bourse.domain.Person;
 import com.bourse.domain.SkewsData;
 import com.bourse.domain.SovereignData;
@@ -28,6 +30,7 @@ import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataDTO;
+import com.bourse.dto.DataEntryFilterHistoryDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.DataInputDTO;
 import com.bourse.dto.DynamicGridResultClassDTO;
@@ -38,6 +41,8 @@ import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.PersonReqDTO;
 import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
+import com.bourse.service.DataEntryFilterHistoryService;
+import com.bourse.service.GraphHistoryService;
 import com.bourse.service.PersonService;
 import com.bourse.service.SkewsService;
 import com.bourse.service.SovereignYieldsService;
@@ -51,15 +56,23 @@ public class BourseController {
 	@Autowired
 	private final SovereignYieldsService sovereignYieldsService;
 	@Autowired
+	private final GraphHistoryService graphHistoryService;
+	@Autowired
+	private final DataEntryFilterHistoryService dataEntryFilterHistoryService;
+	@Autowired
 	private final SkewsService skewsService;
 	
 	public BourseController(PersonService personService,
 			SovereignYieldsService sovereignYieldsService,
+			GraphHistoryService graphHistoryService,
+			DataEntryFilterHistoryService dataEntryFilterHistoryService,
 			SkewsService skewsService)
 	{
 		this.personService            = personService;
 		this.sovereignYieldsService   = sovereignYieldsService;
-		this.skewsService   = skewsService;
+		this.graphHistoryService      = graphHistoryService;
+		this.dataEntryFilterHistoryService = dataEntryFilterHistoryService;
+		this.skewsService             = skewsService;
 	}
 	
 	@RequestMapping( value =  "/home")
@@ -92,7 +105,7 @@ public class BourseController {
     {
 		return new ModelAndView("html/any2");
     }
-	@RequestMapping( value =  "sovereignyieldsgraph")
+	@RequestMapping( value =  " ")
     public ModelAndView sovereignYieldsGraphPage(ModelMap model)
     {
 		return new ModelAndView("html/sovereignYieldsGraph");
@@ -189,6 +202,20 @@ public class BourseController {
     public  ResponseEntity<List<SovereignData>>  getSovereignYields(){
 		return new ResponseEntity<>(sovereignYieldsService.getAllSovereignDatas(), HttpStatus.OK);
     }
+	@GetMapping(value = "getlatestsovereignyields", produces = "application/json;charset=UTF-8")
+    public ResponseEntity <String> getLatestSovereignYields(){
+		return new ResponseEntity<>(sovereignYieldsService.findLatestSovereignData(), HttpStatus.OK);
+    }
+	@PostMapping(value = "savedataentryfilterhistory")
+    public DataEntryFilterHistory saveDataEntryFilterHistory(@RequestBody DataEntryFilterHistory dataEntryFilterHistory){
+		DataEntryFilterHistory filterHistory = dataEntryFilterHistoryService.SaveDataEntryFilterHistory(dataEntryFilterHistory);
+	  return filterHistory;
+    }
+	@GetMapping(value = "getdataentryfilterhistory",produces = "application/json;charset=UTF-8")
+    public List<DataEntryFilterHistory> GetDataEntryFilterHistory(@RequestBody DataEntryFilterHistory dataEntryFilterHistory){
+		return dataEntryFilterHistoryService.findDataEntryFilterHistory();
+    }
+	
 	@GetMapping(value = "getskews", produces = "application/json;charset=UTF-8")
     public  ResponseEntity<List<SkewsData>>  getSkews(){
 		return new ResponseEntity<>(skewsService.getAllSkewsDatas(), HttpStatus.OK);
@@ -232,8 +259,6 @@ public class BourseController {
 		boolean checkifcanSave= sovereignYieldsService.CheckIfCanSave(referDate);
 		return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
-	
-	
 	
 	@DeleteMapping(value = "deletesovereignbyid/{id}")
 	public  ResponseEntity deletesovereignbyid(@PathVariable("id") long id) {
@@ -281,7 +306,15 @@ public class BourseController {
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
 	} 
-	
+	@PostMapping(value = "savegraphhistory")
+    public GraphHistory saveGraphHistory(@RequestBody GraphHistory graphHistory){
+		GraphHistory gh = graphHistoryService.SaveGraphHistory(graphHistory);
+	  return gh;
+    }
+	@GetMapping(value = "findgraphhistorybyscreenname/{screenName}")
+	public  GraphHistory findGraphHistoryByScreenName(@PathVariable("screenName") String screenName) {
+	return graphHistoryService.findGraphHistoryByScreenName(screenName);
+	} 
 	@PostMapping(value = "docalculation")
 	public ResponseEntity<Boolean> doCalculation() {
 		sovereignYieldsService.doCaclulation();
