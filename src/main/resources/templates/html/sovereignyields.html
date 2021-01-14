@@ -1534,10 +1534,37 @@ font-size: 0.8rem;
 		    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
 		       }
 
-			 for(i=0; i<yieldsUSAItem.length; i++)
-			   {
-		    	$(yieldsUSAItem[i]).jqxCheckBox({checked:true});
-		       } 
+			
+			   $.ajax({
+	       	        contentType:  "application/json; charset=utf-8",
+	    	        url: "/bourse/getdataentryfilterhistory",
+	    	        dataType: 'json',
+	    	        timeout: 600000,
+	    	        async:false,
+	    	        success: function (response) {
+	    	        	debugger;
+	    	       if (response.length>0)
+	    	    	   {
+	    	    	   var filterresponse = response[0].filterHistory;
+	    	    	   for(i=0; i<filterresponse.split(",").length; i++)
+	    			   {
+	    		    	$(filterresponse.split(",")[i]).jqxCheckBox({checked:true});
+	    		       } 
+	    	    	   }
+	    	       else{
+	    	    	   for(i=0; i<yieldsUSAItem.length; i++)
+	    			   {
+	    		    	$(yieldsUSAItem[i]).jqxCheckBox({checked:true});
+	    		       } 
+	    	       }
+	                  },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });	
+          
 			 $('#dateInputAudit').on('change', function (event) 
 				 {   date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				    filterDate=date;
@@ -1734,8 +1761,7 @@ font-size: 0.8rem;
 			
 			    	        }
 			    	    });
-					  
-		            
+			
 			 var dropDownSource = [
                  "now",
                  "after 3 hours",

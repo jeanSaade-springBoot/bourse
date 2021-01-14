@@ -212,7 +212,7 @@ public class BourseController {
 	  return filterHistory;
     }
 	@GetMapping(value = "getdataentryfilterhistory",produces = "application/json;charset=UTF-8")
-    public List<DataEntryFilterHistory> GetDataEntryFilterHistory(@RequestBody DataEntryFilterHistory dataEntryFilterHistory){
+    public List<DataEntryFilterHistory> GetDataEntryFilterHistory(){
 		return dataEntryFilterHistoryService.findDataEntryFilterHistory();
     }
 	

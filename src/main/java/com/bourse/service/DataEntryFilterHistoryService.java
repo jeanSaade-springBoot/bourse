@@ -26,7 +26,8 @@ public class DataEntryFilterHistoryService
         return dataEntryFilterHistoryRepository.findAll();
 	}
 	public DataEntryFilterHistory SaveDataEntryFilterHistory(DataEntryFilterHistory dataEntryFilterHistory) 
-	{      
+	{     
+		dataEntryFilterHistoryRepository.deleteAll();
         return dataEntryFilterHistoryRepository.save(dataEntryFilterHistory);
 	}
 }
