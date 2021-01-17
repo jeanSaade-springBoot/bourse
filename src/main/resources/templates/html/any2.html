@@ -1484,8 +1484,37 @@
 			  "title":"ITA-SPN 2-yr yield CROSS"
 			 }					 
 };
+  var fromHistory=false;
+  var historyDataParam;
   $(document).ready(function () {
 	  
+	   $.ajax({
+	        contentType: "application/json",
+	        url: "/bourse/findgraphhistorybyscreenname/any2",
+	        dataType: 'json',
+	        async:true,
+	        cache: false,
+	        timeout: 600000,
+	        success: function (data) {
+	        	debugger;
+	        	     checkedItemId=JSON.parse(data.parameter);
+	        	     for(j=0; j<checkedItemId.length; j++)
+	    			   {
+	    		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
+	    		       } 
+	        	     checkedItem=checkedItemId.length;
+	        		 $("#collapseFilter").removeClass('show');
+	     	    	 $('#grid-content').css('display', 'block');
+	        		 drawGraph();
+	        		
+},
+	        error: function (e) {
+	        	
+					  console.log("ERROR : ", e);
+
+	        }
+	    });
+	   
 	  $("#button-yearForward").prop('disabled', true); 
 	  $("#button-monthForward").prop('disabled', true); 
 
@@ -5292,7 +5321,7 @@
 					   chart.destroy();
 			        			
 		    	  if (checkedItem==2) {
-		    			 for(i=0; i<checkedItemid.length; i++)
+		    	  for(i=0; i<checkedItemid.length; i++)
 				   		   {
 				   	  		 if(checkedItemid[i]!=null)
 				   	  		  checkedItemValues.push(checkedItemid[i]);
@@ -5313,7 +5342,7 @@
 					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
 					        		else 
 					        			title=itemValue[checkedItemValues[0]].title
-			        var options = {
+		    		var options = {
 			          series: [],
 			          chart: {
 			          height: 300,
@@ -5392,12 +5421,31 @@
 		      	
 		      	    	        }
 		      	    	    });	
-			  	 
+			  	        graphHistory = { 
+		   		        		"screenName":"any2",
+		   		        	    "parameter":JSON.stringify(checkedItemid),
+		   	     			   };
+			    	   $.ajax({
+		  	       	        type: "POST",
+	     	    	        contentType:  "application/json; charset=utf-8",
+	     	    	        url: "/bourse/savegraphhistory",
+	     	    	        data: JSON.stringify(graphHistory),
+	     	    	        dataType: 'json',
+	     	    	        timeout: 600000,
+	     	    	        success: function (response) {
+	     	    	        debugger;	    
+	     	                  },
+	     	    	        error: function (e) {
+	     	    	        	
+	     						  console.log("ERROR : ", e);
+	     	
+	     	    	        }
+	     	    	    });		 
 			        chart = new ApexCharts(document.querySelector("#mainChart"), options);
 			        chart.render();
 				}
 				else{
-					  for(i=0; i<checkedItemid.length; i++)
+						for(i=0; i<checkedItemid.length; i++)
 			   		   {
 			   	  		 if(checkedItemid[i]!=null)
 			   	  		  checkedItemValues.push(checkedItemid[i]);
@@ -5412,7 +5460,6 @@
 	   		        	    "country1":itemValue[checkedItemValues[0]].country,
 	   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
 	   		        	   };
-			        
 			        var options = {
 					          series: [],
 					          chart: {
@@ -5500,6 +5547,26 @@
 				      	    	        }
 				      	    	    });	
 					  	         chart.render();
+					  	       graphHistory = { 
+				   		        		"screenName":"any2",
+				   		        	    "parameter":JSON.stringify(checkedItemid),
+				   	     			   };
+					    	   $.ajax({
+				  	       	        type: "POST",
+			     	    	        contentType:  "application/json; charset=utf-8",
+			     	    	        url: "/bourse/savegraphhistory",
+			     	    	        data: JSON.stringify(graphHistory),
+			     	    	        dataType: 'json',
+			     	    	        timeout: 600000,
+			     	    	        success: function (response) {
+			     	    	        debugger;	    
+			     	                  },
+			     	    	        error: function (e) {
+			     	    	        	
+			     						  console.log("ERROR : ", e);
+			     	
+			     	    	        }
+			     	    	    });		 
 				              }
 		    	  updateGraphFont('12px');
 		    	               $("#dateFrom-mainChart").val(fromdate);
