@@ -1356,8 +1356,37 @@
 			  "title":"ITA-SPN 2-yr yield CROSS"
 			 }					 
 };
+	var dataId;
   $(document).ready(function () {
 	  
+		 $.ajax({
+		        contentType: "application/json",
+		        url: "/bourse/findgraphhistorybyscreenname/spreadMaker",
+		        dataType: 'json',
+		        async:true,
+		        cache: false,
+		        timeout: 600000,
+		        success: function (data) {
+		        	debugger;
+		        	     checkedItemId=JSON.parse(data.parameter);
+		        	     dataId=data.id;
+		        	     for(j=0; j<checkedItemId.length; j++)
+		    			   {
+		    		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
+		    		       } 
+		        	     checkedItem=checkedItemId.length;
+		        		 $("#collapseFilter").removeClass('show');
+		     	    	 $('#grid-content').css('display', 'block');
+		        		 drawGraph();
+		        		
+	},
+		        error: function (e) {
+		        	
+						  console.log("ERROR : ", e);
+
+		        }
+		    });
+		 
 	  $("#button-yearForward").prop('disabled', true); 
 	  $("#button-monthForward").prop('disabled', true); 
 

@@ -1292,7 +1292,38 @@
 			  "title":"ITA-SPN 2-yr yield CROSS"
 			 }					 
 };
+	var dataId;
   $(document).ready(function () {
+	  
+		
+		
+		 $.ajax({
+		        contentType: "application/json",
+		        url: "/bourse/findgraphhistorybyscreenname/yield",
+		        dataType: 'json',
+		        async:true,
+		        cache: false,
+		        timeout: 600000,
+		        success: function (data) {
+		        	debugger;
+		        	     checkedItemId=JSON.parse(data.parameter);
+		        	     dataId=data.id;
+		        	     for(j=0; j<checkedItemId.length; j++)
+		    			   {
+		    		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
+		    		       } 
+		        	     checkedItem=checkedItemId.length;
+		        		 $("#collapseFilter").removeClass('show');
+		     	    	 $('#grid-content').css('display', 'block');
+		        		 drawGraph();
+		        		
+	},
+		        error: function (e) {
+		        	
+						  console.log("ERROR : ", e);
+
+		        }
+		    });
 	  
 	  $("#button-yearForward").prop('disabled', true); 
 	  $("#button-monthForward").prop('disabled', true); 
@@ -2801,7 +2832,8 @@
 	  			           type: '',
 	  			        	tickPlacement: 'on' 
  			        }
-   	    	          };
+   	    	          }
+	  
    	    	        chart = new ApexCharts(document.querySelector("#mainChart"), Daily?options:optionsWeekly);
    	    	        chart.render();
    	    	        
@@ -3001,7 +3033,28 @@
 		      	
 		      	    	        }
 		      	    	    });	
-			  	 
+			  	    	graphHistory = { 
+						   		"screenName":"yield",
+						   	    "parameter":JSON.stringify(checkedItemValues),
+						   	    "id":dataId
+								   };	  
+	   	    	        debugger;
+						$.ajax({
+							        type: "POST",
+						     contentType:  "application/json; charset=utf-8",
+						     url: "/bourse/savegraphhistory",
+						     data: JSON.stringify(graphHistory),
+						     dataType: 'json',
+						     timeout: 600000,
+						     success: function (response) {
+						     	dataId = response.id; 
+						       },
+						     error: function (e) {
+						     	
+									  console.log("ERROR : ", e);
+						
+						     }
+						 });		
 			  	      
 				}else
 					if (checkedItem==3) {
@@ -3062,7 +3115,28 @@
 	      	    	        }
 	      	    	    });	
 		  	 
-		  	      
+		  	    	graphHistory = { 
+					   		"screenName":"yield",
+					   	    "parameter":JSON.stringify(checkedItemValues),
+					   	    "id":dataId
+							   };	  
+   	    	        debugger;
+					$.ajax({
+						        type: "POST",
+					     contentType:  "application/json; charset=utf-8",
+					     url: "/bourse/savegraphhistory",
+					     data: JSON.stringify(graphHistory),
+					     dataType: 'json',
+					     timeout: 600000,
+					     success: function (response) {
+					     	dataId = response.id; 
+					       },
+					     error: function (e) {
+					     	
+								  console.log("ERROR : ", e);
+					
+					     }
+					 });		
 			}else
 				if (checkedItem==4) {
 	    			 for(i=0; i<checkedItemid.length; i++)
@@ -3128,7 +3202,28 @@
 	      	
 	      	    	        }
 	      	    	    });	
-		  	 
+		  	    	graphHistory = { 
+					   		"screenName":"yield",
+					   	    "parameter":JSON.stringify(checkedItemValues),
+					   	    "id":dataId
+							   };	  
+   	    	        debugger;
+					$.ajax({
+						        type: "POST",
+					     contentType:  "application/json; charset=utf-8",
+					     url: "/bourse/savegraphhistory",
+					     data: JSON.stringify(graphHistory),
+					     dataType: 'json',
+					     timeout: 600000,
+					     success: function (response) {
+					     	dataId = response.id; 
+					       },
+					     error: function (e) {
+					     	
+								  console.log("ERROR : ", e);
+					
+					     }
+					 });		
 		  	      
 			}
 			else{
@@ -3169,6 +3264,28 @@
 				      	
 				      	    	        }
 				      	    	    });	
+			    	graphHistory = { 
+					   		"screenName":"yield",
+					   	    "parameter":JSON.stringify(checkedItemValues),
+					   	    "id":dataId
+							   };	  
+   	    	        debugger;
+					$.ajax({
+						        type: "POST",
+					     contentType:  "application/json; charset=utf-8",
+					     url: "/bourse/savegraphhistory",
+					     data: JSON.stringify(graphHistory),
+					     dataType: 'json',
+					     timeout: 600000,
+					     success: function (response) {
+					     	dataId = response.id; 
+					       },
+					     error: function (e) {
+					     	
+								  console.log("ERROR : ", e);
+					
+					     }
+					 });		
 				              }
 		    	  
 		    	               $("#dateFrom-mainChart").val(fromdate);

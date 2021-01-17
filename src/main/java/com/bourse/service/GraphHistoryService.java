@@ -24,7 +24,9 @@ public class GraphHistoryService
         return graphHistoryRepository.findGraphHistoryByScreenName(screenName);
 	}
 	public GraphHistory SaveGraphHistory(GraphHistory graphHistory, Long id) 
-	{      graphHistoryRepository.deleteById(id);
+	{   if (id!=null)
+		graphHistoryRepository.deleteById(id);
+	
         return graphHistoryRepository.save(graphHistory);
 	}
 }
