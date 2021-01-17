@@ -105,7 +105,7 @@ public class BourseController {
     {
 		return new ModelAndView("html/any2");
     }
-	@RequestMapping( value =  " ")
+	@RequestMapping( value =  "sovereignyieldsgraph")
     public ModelAndView sovereignYieldsGraphPage(ModelMap model)
     {
 		return new ModelAndView("html/sovereignYieldsGraph");
