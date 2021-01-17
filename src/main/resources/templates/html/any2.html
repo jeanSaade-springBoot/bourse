@@ -1486,6 +1486,7 @@
 };
   var fromHistory=false;
   var historyDataParam;
+  var dataId;
   $(document).ready(function () {
 	  
 	   $.ajax({
@@ -1498,6 +1499,7 @@
 	        success: function (data) {
 	        	debugger;
 	        	     checkedItemId=JSON.parse(data.parameter);
+	        	     dataId=data.id;
 	        	     for(j=0; j<checkedItemId.length; j++)
 	    			   {
 	    		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
@@ -5303,6 +5305,7 @@
 					})
 			}
 			function drawGraph(){
+				
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
@@ -5423,7 +5426,8 @@
 		      	    	    });	
 			  	        graphHistory = { 
 		   		        		"screenName":"any2",
-		   		        	    "parameter":JSON.stringify(checkedItemid),
+		   		        	    "parameter":JSON.stringify(checkedItemValues),
+		   		        	    "id":dataId
 		   	     			   };
 			    	   $.ajax({
 		  	       	        type: "POST",
@@ -5433,7 +5437,7 @@
 	     	    	        dataType: 'json',
 	     	    	        timeout: 600000,
 	     	    	        success: function (response) {
-	     	    	        debugger;	    
+	     	    	        	dataId = response.id; 
 	     	                  },
 	     	    	        error: function (e) {
 	     	    	        	
@@ -5549,7 +5553,7 @@
 					  	         chart.render();
 					  	       graphHistory = { 
 				   		        		"screenName":"any2",
-				   		        	    "parameter":JSON.stringify(checkedItemid),
+				   		        	    "parameter":JSON.stringify(checkedItemValues),
 				   	     			   };
 					    	   $.ajax({
 				  	       	        type: "POST",
@@ -5559,7 +5563,7 @@
 			     	    	        dataType: 'json',
 			     	    	        timeout: 600000,
 			     	    	        success: function (response) {
-			     	    	        debugger;	    
+			     	    	        	dataId = response.id; 
 			     	                  },
 			     	    	        error: function (e) {
 			     	    	        	

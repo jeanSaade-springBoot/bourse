@@ -23,8 +23,8 @@ public class GraphHistoryService
 	{      
         return graphHistoryRepository.findGraphHistoryByScreenName(screenName);
 	}
-	public GraphHistory SaveGraphHistory(GraphHistory graphHistory) 
-	{      
+	public GraphHistory SaveGraphHistory(GraphHistory graphHistory, Long id) 
+	{      graphHistoryRepository.deleteById(id);
         return graphHistoryRepository.save(graphHistory);
 	}
 }

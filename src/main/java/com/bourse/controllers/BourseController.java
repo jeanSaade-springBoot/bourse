@@ -35,6 +35,7 @@ import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.DataInputDTO;
 import com.bourse.dto.DynamicGridResultClassDTO;
 import com.bourse.dto.DynamicGridRows;
+import com.bourse.dto.GraphHistoryDTO;
 import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseDTO;
@@ -307,8 +308,13 @@ public class BourseController {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
 	} 
 	@PostMapping(value = "savegraphhistory")
-    public GraphHistory saveGraphHistory(@RequestBody GraphHistory graphHistory){
-		GraphHistory gh = graphHistoryService.SaveGraphHistory(graphHistory);
+    public GraphHistory saveGraphHistory(@RequestBody GraphHistoryDTO graphHistorydto){
+		Long id = graphHistorydto.getId();
+		GraphHistory graphHistory = GraphHistory.builder().parameter(graphHistorydto.getParameter())
+				.screenName(graphHistorydto.getScreenName())
+				.build();
+		
+		GraphHistory gh = graphHistoryService.SaveGraphHistory(graphHistory,id);
 	  return gh;
     }
 	@GetMapping(value = "findgraphhistorybyscreenname/{screenName}")
