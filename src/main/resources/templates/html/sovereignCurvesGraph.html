@@ -985,17 +985,27 @@
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
-	        	debugger;
-	        	     checkedItemId=JSON.parse(data.parameter);
-	        	     dataId=data.id;
-	        	     for(j=0; j<checkedItemId.length; j++)
-	    			   {
-	    		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
-	    		       } 
-	        	     checkedItem=checkedItemId.length;
-	        		 $("#collapseFilter").removeClass('show');
-	     	    	 $('#grid-content').css('display', 'block');
-	        		 drawGraph();
+	   	     checkedItemId=JSON.parse(data.parameter)[0];
+    	     dataId=data.id;
+    	     for(j=0; j<checkedItemId.length; j++)
+			   {
+		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
+		       } 
+    	     checkedItem=checkedItemId.length;
+    		 $("#collapseFilter").removeClass('show');
+ 	    	 $('#grid-content').css('display', 'block');
+ 	    	 
+ 	    	 if (JSON.parse(data.parameter)[1][0])
+ 	    	 {$('#WeeklyRadioButton').jqxRadioButton({ checked:false }); 
+	   	          $('#DailyRadioButton').jqxRadioButton({ checked:true }); 
+ 	    	  }else
+ 	   	    	{$('#WeeklyRadioButton').jqxRadioButton({ checked:true }); 
+ 	   	         $('#DailyRadioButton').jqxRadioButton({ checked:false }); 
+ 	   	    	}
+ 	    	 if (JSON.parse(data.parameter)[2]!=null)
+ 	    		Items=JSON.parse(data.parameter)[2][0];
+ 	    	 
+    		 drawGraph();
 	        		
 },
 	        error: function (e) {
@@ -1013,7 +1023,7 @@
        }
 	 
 	 $("#WeeklyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25 , rtl:true});
-	 $("#DailyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25, checked: true , rtl:true});
+	 $("#DailyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25 , rtl:true});
 	 
 	 $('#WeeklyRadioButton').on('change', function (event) { 
 		 drawGraph();
@@ -2970,8 +2980,30 @@
 		      	    	        }
 		      	    	    });	
 			  	 
-			       
-				}		    	  else
+				   	graphHistory = { 
+					   		"screenName":"yield",
+					 	    "parameter":'['+'[]'+','+'['+Daily+']'+','+'["'+Items+'"]]',
+					   	    "id":dataId
+							   };	  
+   	    	        debugger;
+					$.ajax({
+						        type: "POST",
+					     contentType:  "application/json; charset=utf-8",
+					     url: "/bourse/savegraphhistory",
+					     data: JSON.stringify(graphHistory),
+					     dataType: 'json',
+					     timeout: 600000,
+					     success: function (response) {
+					     	dataId = response.id; 
+					       },
+					     error: function (e) {
+					     	
+								  console.log("ERROR : ", e);
+					
+					     }
+					 });		
+				}		    	
+				else
 		    		  if (checkedItem==2) {
 			    			 for(i=0; i<checkedItemid.length; i++)
 					   		   {
@@ -3024,7 +3056,7 @@
 				  	 
 				  	        graphHistory = { 
 			   		        		"screenName":"curves",
-			   		        	    "parameter":JSON.stringify(checkedItemValues),
+			   		        	  "parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]",
 			   		        	    "id":dataId
 			   	     			   };	  
 		  $.ajax({
@@ -3105,7 +3137,7 @@
 			  	 
 			  	        graphHistory = { 
 		   		        		"screenName":"curves",
-		   		        	    "parameter":JSON.stringify(checkedItemValues),
+		   		        	  "parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]",
 		   		        	    "id":dataId
 		   	     			   };	  
 	  $.ajax({
@@ -3193,7 +3225,7 @@
 			  	 
 			  	        graphHistory = { 
 		   		        		"screenName":"curves",
-		   		        	    "parameter":JSON.stringify(checkedItemValues),
+		   		        	  "parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]",
 		   		        	    "id":dataId
 		   	     			   };	  
 	  $.ajax({
@@ -3255,7 +3287,7 @@
 				      	    	    });	
 						          graphHistory = { 
 					   		        		"screenName":"curves",
-					   		        	    "parameter":JSON.stringify(checkedItemValues),
+					   		        	  "parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]",
 					   		        	    "id":dataId
 					   	     			   };	  
 				  $.ajax({
