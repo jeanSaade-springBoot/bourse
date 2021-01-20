@@ -94,7 +94,8 @@ public class AdminService
 	}
 	public LowHighRobotsConfiguration UpdateLowHighRobotsByConfigId(LowHighRobotsConfigDTO lowHighRobotsConfigDTO) {
 		// TODO Auto-generated method stub
-		Optional<LowHighRobotsConfiguration> robotConfig = lowHighRobotsConfigRepository.findByColumnDescription(lowHighRobotsConfigDTO.getColumnDescription());
+		long id = Long.valueOf(lowHighRobotsConfigDTO.getColumnDescription());
+		Optional<LowHighRobotsConfiguration> robotConfig = lowHighRobotsConfigRepository.findById(id);
 	    if (robotConfig.isPresent())
 	    {
 		LowHighRobotsConfiguration robotConf = robotConfig.get();
