@@ -17,5 +17,5 @@ public class LowHighRobotsConfigDTO {
 	private String lastData;
 	private String threshholdTrigger;
 	private String threshHoldNotification;
-
+	private boolean isactive;
 }

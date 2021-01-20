@@ -104,6 +104,14 @@ public class AdminController {
 	return adminService.SaveLowHighRobots(lowHighRobotsConfigDTO);
 	}
 	
+	@PostMapping(value = "updatelowhighrobotsbyconfigid")
+	public LowHighRobotsConfiguration UpdateLowHighRobotsByConfigId(@RequestBody LowHighRobotsConfigDTO lowHighRobotsConfigDTO) {
+	return adminService.UpdateLowHighRobotsByConfigId(lowHighRobotsConfigDTO);
+	}
+	@GetMapping(value = "getlowhighrobotsbyconfigid/{configId}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<LowHighRobotsConfiguration>  getLowHighRobotsByConfigId(@PathVariable String configId){
+		return new ResponseEntity<>(adminService.getLowHighRobotsConfigurationByConfigId(configId), HttpStatus.OK);
+    }
 	@GetMapping(value = "getcalendardata")
 	public ResponseEntity<List<CalendarDates>>  getCalendarDates() {
 		return new ResponseEntity<>( adminService.getVacations(), HttpStatus.OK);

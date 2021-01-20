@@ -92,7 +92,35 @@ public class AdminService
 	public ColumnConfiguration getColumnsconfigurationByGroupAndSubgroupDescription(String groupId,String subgroupId,String description) {
 		 return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndDescription(groupId, subgroupId,description);
 	}
-	
+	public LowHighRobotsConfiguration UpdateLowHighRobotsByConfigId(LowHighRobotsConfigDTO lowHighRobotsConfigDTO) {
+		// TODO Auto-generated method stub
+		Optional<LowHighRobotsConfiguration> robotConfig = lowHighRobotsConfigRepository.findByColumnDescription(lowHighRobotsConfigDTO.getColumnDescription());
+	    if (robotConfig.isPresent())
+	    {
+		LowHighRobotsConfiguration robotConf = robotConfig.get();
+	    robotConf = LowHighRobotsConfiguration.builder()
+				.columnDescription(lowHighRobotsConfigDTO.getColumnDescription())
+				.displayDescription(lowHighRobotsConfigDTO.getDisplayDescription())
+				.lastData(lowHighRobotsConfigDTO.getLastData())
+				.rule(lowHighRobotsConfigDTO.getRule())
+				.template(lowHighRobotsConfigDTO.getTemplate())
+				.threshHoldNotification(lowHighRobotsConfigDTO.getThreshHoldNotification())
+				.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
+				.build();
+		return lowHighRobotsConfigRepository.save(robotConf);
+	    }else {
+	    	LowHighRobotsConfiguration lowHighRobotsConfiguration = LowHighRobotsConfiguration.builder()
+					.columnDescription(lowHighRobotsConfigDTO.getColumnDescription())
+					.displayDescription(lowHighRobotsConfigDTO.getDisplayDescription())
+					.lastData(lowHighRobotsConfigDTO.getLastData())
+					.rule(lowHighRobotsConfigDTO.getRule())
+					.template(lowHighRobotsConfigDTO.getTemplate())
+					.threshHoldNotification(lowHighRobotsConfigDTO.getThreshHoldNotification())
+					.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
+					.build();
+			return lowHighRobotsConfigRepository.save(lowHighRobotsConfiguration);
+	    }
+	}
 	public LowHighRobotsConfiguration SaveLowHighRobots(LowHighRobotsConfigDTO lowHighRobotsConfigDTO)
 	{
 		LowHighRobotsConfiguration lowHighRobotsConfiguration = LowHighRobotsConfiguration.builder()
@@ -106,6 +134,10 @@ public class AdminService
 				.build();
 		return lowHighRobotsConfigRepository.save(lowHighRobotsConfiguration);
 		
+	}
+	public LowHighRobotsConfiguration getLowHighRobotsConfigurationByConfigId(String configId)
+	{      
+        return lowHighRobotsConfigRepository.findByColumnDescriptionOrderById(configId);
 	}
 	
 	public List<CalendarDates> getCalendar()

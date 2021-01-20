@@ -538,6 +538,7 @@
 									<label for="columnTitle" class="col-sm-4 col-form-label">Column Title</label>
 									 <div class="col-sm-8">
 									<input type="text" class="form-control" id="DisplayName" disabled>
+									<input type="text" class="form-control" id="configId" disabled>
 									</div>
 								  </div>
 								  	<div class="form-group row">
@@ -703,6 +704,10 @@
 								   <input id="updateRobots" type="button" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" value="Update" />
 							       <input id="cancelRobots" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Close" />
 							       </div>
+							        <div class="form-group" id="notifcationContainerRobot" style=" margin-top: 3rem;">
+								       <div id="jqxNotificationRobots">
+		        The Data has been updated</div>
+							       </div>
 							    </form>
 								</div>
 				</div>
@@ -819,7 +824,9 @@
 	    $("#jqxNotification").jqxNotification({ width: "100%",appendContainer: "#notifcationContainer",  opacity: 0.9,
             autoOpen: false, animationOpenDelay: 800, autoClose:true , autoCloseDelay: 3000,  template: "success"
         });
-	    
+	    $("#jqxNotificationRobots").jqxNotification({ width: "100%",appendContainer: "#notifcationContainerRobot",  opacity: 0.9,
+            autoOpen: false, animationOpenDelay: 800, autoClose:true , autoCloseDelay: 3000,  template: "success"
+        });
 	  factorcalctypeSource =["INPUT","CALCULATED"];
 	 $("#factorcalctype").jqxDropDownList({ dropDownHeight: 70, source: factorcalctypeSource, theme: 'dark' , width: '100%', height: 30});
 	 
@@ -886,6 +893,7 @@
 		   var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
 		$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: 190, height: 30});
 		$("#subGroupDropDown").on('select', function (event) {
+			debugger;
             if (event.args) {
                subGroupDropDown = event.args.item;
                gridsource.url='/admin/getcolumnsconfigurationBygroupandsubgroup/'+groupItem.value+'/'+subGroupDropDown.value;
@@ -973,9 +981,31 @@
         $("#popupWindow").jqxWindow({
             width: '70%',    height: '70%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
         });
-        $('#nav-robots-tab').click(function (event) {        
-          // the code will be here
-          
+        $('#nav-robots-tab').click(function (event) {     
+        	debugger;
+        	   $.ajax({
+       	        contentType: "application/json",
+       	        url: "/admin/getlowhighrobotsbyconfigid/"+$("#configId").val(),
+       	        dataType: 'json',
+       	        async:true,
+       	        cache: false,
+       	        timeout: 600000,
+       	        success: function (data) {
+       	         $("#graphTitle").val(data.displayDescription);
+       	         $("#highlightdropdown").jqxDropDownList('val', data.rule);
+                 $("#TemplateText").val(data.template);
+                 $("#lastData").val(data.lastData);
+                 $("#thresholddl").jqxDropDownList('val', data.threshholdTrigger);
+                 $("#highlightdropdown").jqxDropDownList('val', data.threshHoldNotification);
+                 $("#jqxCheckBoxHighLow").jqxCheckBox('val', data.isactive)
+       },
+       	        error: function (e) {
+       	        	
+       					  console.log("ERROR : ", e);
+
+       	        }
+       	    });
+        	   
            var checked = $("#jqxCheckBoxHighLow").jqxCheckBox('val');
           if (checked)
           {
@@ -1037,33 +1067,38 @@
             }
         });
         $("#updateRobots").click(function () {
-            var row = { "columnDescription":$("#DisplayName").val(),
+        	 var checked = $("#jqxCheckBoxHighLow").jqxCheckBox('val');
+            var row = {
+            		"isactive":checked,
+            		"columnDescription":$("#configId").val(),
         		    "displayDescription": $("#graphTitle").val(),
-        		    "rule":$("#HighLowdropDown").jqxDropDownList('getSelectedItem'),
+        		    "rule":$("#highlightdropdown").jqxDropDownList('val'),
         		    "template":$("#TemplateText").val(),
-        		    "lastData":$("#threshHoldNotification").val(),
-        		    "threshholdTrigger": $("#thresholddl").jqxDropDownList('getSelectedItem'),
-        		    "threshHoldNotification": $("#highlightdropdown").jqxDropDownList('getSelectedItem'),
+        		    "lastData":$("#lastData").val(),
+        		    "threshholdTrigger": $("#thresholddl").jqxDropDownList('val'),
+        		    "threshHoldNotification": $("#highlightdropdown").jqxDropDownList('val'),
         		    };
-     	debugger;
-       	  $.ajax({
-    	        type: "POST",
-    	        contentType: "application/json",
-    	        url: "/admin/savelowhighrobots",
-    	        data: row,
-    	        dataType: 'json',
-    	        async:true,
-    	        cache: false,
-    	        timeout: 600000,
-    	        success: function (data) {
-    	      alert("success")
-   },
-    	        error: function (e) {
-    	        	
-					  console.log("ERROR : ", e);
-
-    	        }
-    	    });
+         	debugger;
+	       	  $.ajax({
+	    	        type: "POST",
+	    	        contentType: "application/json",
+	    	        url: "/admin/updatelowhighrobotsbyconfigid",
+	    	        data: JSON.stringify(row),
+	    	        dataType: 'json',
+	    	        async:true,
+	    	        cache: false,
+	    	        timeout: 600000,
+	    	        success: function (data) {
+	    	        
+                $("#jqxNotificationRobots").jqxNotification("open");
+             //   $("#popupWindow").jqxWindow('hide');
+	   },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });
         });
       // initialize jqxGrid
       $("#grid").jqxGrid(
@@ -1087,6 +1122,7 @@
                   $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) - 90 } });
                   // get the clicked row's data and initialize the input fields.
                   var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
+                  $("#configId").val(dataRecord.id);
                   $("#DisplayName").val(dataRecord.description);
                   $("#graphTitle").val(dataRecord.displayDescription);
                   $("#dataFormat").val(dataRecord.dataFormat);
