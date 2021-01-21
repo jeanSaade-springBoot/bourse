@@ -9,6 +9,8 @@ CREATE TABLE calendar_dates (
   vacationdate date DEFAULT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
 
+ALTER TABLE bourse.calendar_dates ADD id INT PRIMARY KEY AUTO_INCREMENT;
+
 insert into bourse.calendar_Dates(weeknbr,date,daydesc,vacationdesc,isvacation,vacationdate)values(1,'01-01-2000','Saturday','','false','2000-01-01'            );
 insert into bourse.calendar_Dates(weeknbr,date,daydesc,vacationdesc,isvacation,vacationdate)values(1,'01-01-2000','Saturday','','false','2000-01-01'            );
 insert into bourse.calendar_Dates(weeknbr,date,daydesc,vacationdesc,isvacation,vacationdate)values(1,'02-01-2000','Sunday','','false','2000-01-02'              );

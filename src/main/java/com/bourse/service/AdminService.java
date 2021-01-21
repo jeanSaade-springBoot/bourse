@@ -94,12 +94,14 @@ public class AdminService
 	}
 	public LowHighRobotsConfiguration UpdateLowHighRobotsByConfigId(LowHighRobotsConfigDTO lowHighRobotsConfigDTO) {
 		// TODO Auto-generated method stub
-		long id = Long.valueOf(lowHighRobotsConfigDTO.getColumnDescription());
-		Optional<LowHighRobotsConfiguration> robotConfig = lowHighRobotsConfigRepository.findById(id);
+		long id ;
+		Optional<LowHighRobotsConfiguration> robotConfig = lowHighRobotsConfigRepository.findByColumnDescription(lowHighRobotsConfigDTO.getColumnDescription());
 	    if (robotConfig.isPresent())
 	    {
-		LowHighRobotsConfiguration robotConf = robotConfig.get();
-	    robotConf = LowHighRobotsConfiguration.builder()
+	    	LowHighRobotsConfiguration entity = robotConfig.get(),entity1;
+	    	id = entity.getId();
+	    	entity1 = lowHighRobotsConfigRepository.findById(id).get();
+	    	entity1 = LowHighRobotsConfiguration.builder()
 				.columnDescription(lowHighRobotsConfigDTO.getColumnDescription())
 				.displayDescription(lowHighRobotsConfigDTO.getDisplayDescription())
 				.lastData(lowHighRobotsConfigDTO.getLastData())
@@ -108,7 +110,7 @@ public class AdminService
 				.threshHoldNotification(lowHighRobotsConfigDTO.getThreshHoldNotification())
 				.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
 				.build();
-		return lowHighRobotsConfigRepository.save(robotConf);
+		return lowHighRobotsConfigRepository.save(entity1);
 	    }else {
 	    	LowHighRobotsConfiguration lowHighRobotsConfiguration = LowHighRobotsConfiguration.builder()
 					.columnDescription(lowHighRobotsConfigDTO.getColumnDescription())

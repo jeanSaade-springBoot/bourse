@@ -31,7 +31,7 @@ CREATE TABLE bourse.subgroup (
   group_desc varchar(255) DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-
+alter table bourse.subgroup  add group_desc varchar(255);
 insert into  bourse.subgroup              
 select 1,'USA',          1,               1,         'SOVEREIGN YIELDS' from dual union
 select 2,'FRANCE',       1,               2,         'SOVEREIGN YIELDS' from dual union
@@ -63,7 +63,7 @@ CREATE TABLE bourse.factor (
   group_id varchar(1) CHARACTER SET utf8mb4 NOT NULL DEFAULT '',
   group_desc varchar(255) CHARACTER SET utf8mb4 NOT NULL DEFAULT ''
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
-
+alter table bourse.factor  add group_desc varchar(255)
 insert into bourse.factor
 select 1,2      ,1,'SOVEREIGN YIELD CROSSES (C)' from dual union
 select 2,5      ,1,'SOVEREIGN YIELD CROSSES (C)' from dual union
@@ -79,11 +79,13 @@ select 11,'5'   ,3, 'SOVEREIGN YIELD CROSSES (C)'  from dual union
 select 12,'10'  ,3, 'SOVEREIGN YIELD CROSSES (C)'  from dual union
 select 13,'30'  ,3, 'SOVEREIGN YIELD CROSSES (C)';
 
+alter table bourse.factor CHANGE  subgroup_id  group_id varchar(255);
+
 drop table IF EXISTS bourse.column_configuration;
 CREATE TABLE bourse.column_configuration (
   id bigint(20) NOT NULL,
   calculation_type varchar(255) DEFAULT NULL,
-  can_be_negative bit(1) DEFAULT false,
+  can_be_negative bit(1) DEFAULT NULL,
   currency varchar(255) DEFAULT NULL,
   data_format varchar(255) DEFAULT NULL,
   description varchar(255) DEFAULT NULL,
