@@ -651,7 +651,7 @@
 				    <p class="mt-2" style=" margin-bottom: .5rem;">
 				    <div class="col-12 row  mt-4">
 				            <div class="col-12">
-							   <form>
+							   <form id="robotform">
 							     <div class="form-group row">
 							      <div class="col-2">
 							 <!--        <div class="form-group" style='margin: 35% 0;'>
@@ -981,6 +981,13 @@
         $("#popupWindow").jqxWindow({
             width: '70%',    height: '70%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
         });
+       $('#popupWindow').on('close', function (event) {
+    	   $('#robotform').trigger("reset");
+    	   $("#highlightdropdown").jqxDropDownList('clearSelection'); 
+    	   $("#thresholddl").jqxDropDownList('clearSelection'); 
+    	   $("#jqxCheckBoxHighLow").jqxCheckBox('val',false)
+    	   $( "#nav-graphsData-tab" ).trigger('click');
+       }); 
         $('#nav-robots-tab').click(function (event) {     
         	debugger;
         	   $.ajax({
@@ -992,12 +999,11 @@
        	        timeout: 600000,
        	        success: function (data) {
        	         $("#graphTitle").val(data.displayDescription);
-       	         $("#highlightdropdown").jqxDropDownList('val', data.rule);
-                 $("#TemplateText").val(data.template);
+       	         $("#TemplateText").val(data.template);
                  $("#lastData").val(data.lastData);
                  $("#thresholddl").jqxDropDownList('val', data.threshholdTrigger);
                  $("#highlightdropdown").jqxDropDownList('val', data.threshHoldNotification);
-                 $("#jqxCheckBoxHighLow").jqxCheckBox('val', data.isactive)
+                 $("#jqxCheckBoxHighLow").jqxCheckBox('val', data.isactive==1?true:false)
        },
        	        error: function (e) {
        	        	

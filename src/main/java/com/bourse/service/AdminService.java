@@ -109,6 +109,7 @@ public class AdminService
 				.template(lowHighRobotsConfigDTO.getTemplate())
 				.threshHoldNotification(lowHighRobotsConfigDTO.getThreshHoldNotification())
 				.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
+				.isactive(lowHighRobotsConfigDTO.isIsactive())
 				.build();
 		return lowHighRobotsConfigRepository.save(entity1);
 	    }else {
@@ -120,6 +121,7 @@ public class AdminService
 					.template(lowHighRobotsConfigDTO.getTemplate())
 					.threshHoldNotification(lowHighRobotsConfigDTO.getThreshHoldNotification())
 					.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
+					.isactive(lowHighRobotsConfigDTO.isIsactive())
 					.build();
 			return lowHighRobotsConfigRepository.save(lowHighRobotsConfiguration);
 	    }
