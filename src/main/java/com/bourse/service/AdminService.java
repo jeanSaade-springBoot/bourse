@@ -98,10 +98,10 @@ public class AdminService
 		Optional<LowHighRobotsConfiguration> robotConfig = lowHighRobotsConfigRepository.findByColumnDescription(lowHighRobotsConfigDTO.getColumnDescription());
 	    if (robotConfig.isPresent())
 	    {
-	    	LowHighRobotsConfiguration entity = robotConfig.get(),entity1;
+	    	LowHighRobotsConfiguration entity = robotConfig.get();
 	    	id = entity.getId();
-	    	entity1 = lowHighRobotsConfigRepository.findById(id).get();
-	    	entity1 = LowHighRobotsConfiguration.builder()
+	    	entity = LowHighRobotsConfiguration.builder()
+	    		 .id(id)
 				.columnDescription(lowHighRobotsConfigDTO.getColumnDescription())
 				.displayDescription(lowHighRobotsConfigDTO.getDisplayDescription())
 				.lastData(lowHighRobotsConfigDTO.getLastData())
@@ -111,7 +111,7 @@ public class AdminService
 				.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
 				.isactive(lowHighRobotsConfigDTO.isIsactive())
 				.build();
-		return lowHighRobotsConfigRepository.save(entity1);
+		return lowHighRobotsConfigRepository.save(entity);
 	    }else {
 	    	LowHighRobotsConfiguration lowHighRobotsConfiguration = LowHighRobotsConfiguration.builder()
 					.columnDescription(lowHighRobotsConfigDTO.getColumnDescription())
