@@ -27,5 +27,5 @@ public class News {
     private String columnDescription;
     private String robots;
     private String isBold;
-    private LocalDateTime generationDateDate;
+    private String generationDateDate;
     }
