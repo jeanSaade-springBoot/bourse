@@ -142,7 +142,11 @@ public class AdminService
 	}
 	public LowHighRobotsConfiguration getLowHighRobotsConfigurationByConfigId(String configId)
 	{      
-        return lowHighRobotsConfigRepository.findByColumnDescriptionOrderById(configId);
+		LowHighRobotsConfiguration resp = LowHighRobotsConfiguration.builder().build();
+		Optional<LowHighRobotsConfiguration> respOpt = lowHighRobotsConfigRepository.findByColumnDescriptionOrderById(configId);
+		if(respOpt.isPresent())
+			resp = respOpt.get();
+        return resp;
 	}
 	
 	public List<CalendarDates> getCalendar()

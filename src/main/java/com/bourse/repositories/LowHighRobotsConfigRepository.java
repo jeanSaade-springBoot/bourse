@@ -10,6 +10,6 @@ public interface LowHighRobotsConfigRepository extends JpaRepository<LowHighRobo
 	
 	  public Optional<LowHighRobotsConfiguration> findByColumnDescription(String columnDescription);
 
-	   public LowHighRobotsConfiguration findByColumnDescriptionOrderById(String configId);
+	   public Optional<LowHighRobotsConfiguration> findByColumnDescriptionOrderById(String configId);
 
 }
