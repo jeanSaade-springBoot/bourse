@@ -992,7 +992,7 @@
         	debugger;
         	   $.ajax({
        	        contentType: "application/json",
-       	        url: "/admin/getlowhighrobotsbyconfigid/"+$("#configId").val(),
+       	        url: "/admin/getlowhighrobotsbyconfigid/"+$("#DisplayName").val(),
        	        dataType: 'json',
        	        async:true,
        	        cache: false,
@@ -1076,7 +1076,7 @@
         	 var checked = $("#jqxCheckBoxHighLow").jqxCheckBox('val');
             var row = {
             		"isactive":checked,
-            		"columnDescription":$("#configId").val(),
+            		"columnDescription":$("#DisplayName").val(),
         		    "displayDescription": $("#graphTitle").val(),
         		    "rule":$("#highlightdropdown").jqxDropDownList('val'),
         		    "template":$("#TemplateText").val(),
