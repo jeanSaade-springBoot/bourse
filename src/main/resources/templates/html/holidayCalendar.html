@@ -606,7 +606,6 @@ h5.jqyc-header {
 	    		  var year = Number(response[i].vacationdate.split("-")[0]);
 	    		  var month= Number(response[i].vacationdate.split("-")[1]);
 	    		  var day  = Number(response[i].vacationdate.split("-")[2]);
-	    		  console.log(year , month , day)
 	    		  debugger;
 	    		  $('.calendar').calendar('appendText', response[i].vacationdesc, year, month, day,'white');
 	    		  }
@@ -617,7 +616,6 @@ h5.jqyc-header {
 
 	      }
 	  });
-      console.log(currentYear);
   });
 
   $('.calendar').on('jqyc.changeYearToNext', function (event) {
@@ -635,7 +633,6 @@ h5.jqyc-header {
 	    		  var year = Number(response[i].vacationdate.split("-")[0]);
 	    		  var month= Number(response[i].vacationdate.split("-")[1]);
 	    		  var day  = Number(response[i].vacationdate.split("-")[2]);
-	    		  console.log(year , month , day)
 	    		  debugger;
 	    		  $('.calendar').calendar('appendText', response[i].vacationdesc, year, month, day,'white');
 	    		  }
@@ -646,7 +643,6 @@ h5.jqyc-header {
 
 	      }
 	  });
-      console.log(currentYear);
   });
 
   $('.calendar').on('jqyc.dayChoose', function (event) {
@@ -654,7 +650,6 @@ h5.jqyc-header {
       var choosenMonth = $(this).data('month');
       var choosenDay = $(this).data('day-of-month');
       var date = new Date(choosenYear, choosenMonth, choosenDay);
-      console.log(date);
   });
   
   $(document).ready(function () {
@@ -671,7 +666,6 @@ h5.jqyc-header {
 	    		  var year = Number(response[i].vacationdate.split("-")[0]);
 	    		  var month= Number(response[i].vacationdate.split("-")[1]);
 	    		  var day  = Number(response[i].vacationdate.split("-")[2]);
-	    		  console.log(year , month , day)
 	    		  debugger;
 	    		  $('.calendar').calendar('appendText', response[i].vacationdesc, year, month, day,'white');
 	    		  }

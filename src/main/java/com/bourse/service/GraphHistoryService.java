@@ -1,6 +1,8 @@
 package com.bourse.service;
 
 
+import java.util.Optional;
+
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
@@ -21,7 +23,11 @@ public class GraphHistoryService
 	
 	public GraphHistory findGraphHistoryByScreenName(String screenName) 
 	{      
-        return graphHistoryRepository.findGraphHistoryByScreenName(screenName);
+		GraphHistory resp = GraphHistory.builder().build();
+		Optional<GraphHistory> respOpt = graphHistoryRepository.findGraphHistoryByScreenName(screenName);
+		if(respOpt.isPresent())
+			resp = respOpt.get();
+        return resp;
 	}
 	public GraphHistory SaveGraphHistory(GraphHistory graphHistory, Long id) 
 	{   if (id!=null)
