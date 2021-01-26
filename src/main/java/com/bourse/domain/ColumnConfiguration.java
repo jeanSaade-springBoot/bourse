@@ -5,6 +5,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -33,5 +34,6 @@ public class ColumnConfiguration {
 	private String tickValue;
 	private String currency;
 	private String chartType;
+	@JsonProperty("yAxisFormat")
 	private String yAxisFormat;
 }
