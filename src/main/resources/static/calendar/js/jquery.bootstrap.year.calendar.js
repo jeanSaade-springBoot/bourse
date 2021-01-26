@@ -274,7 +274,6 @@
         if (startFromSunday) {
             firstDayOfCurrentYear += 1;
         }
-        console.log(firstDayOfCurrentYear);
         var leapYear = ((year % 4 == 0) && (year % 100 != 0)) || (year % 400 == 0);
         if (leapYear) {
             var daysOfFeb = 29;

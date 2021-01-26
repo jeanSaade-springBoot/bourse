@@ -977,7 +977,6 @@
           loadComplete: function (data) { },
           loadError: function (xhr, status, error) { }
       });
-        // initialize the popup window and buttons.
         $("#popupWindow").jqxWindow({
             width: '70%',    height: '70%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
         });
@@ -1041,7 +1040,7 @@
                 		    dataFormat:$("#dataFormat").val(),
                 		    canBeNegative:$('#jqxCheckBoxNegative').jqxCheckBox('checked')?true:false,
                 		    graphScale:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?1:0,
-                		    startDate:$.jqx.dataFormat.formatdate($("#startDate").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
+                		    startDate:$("#startDate").jqxDateTimeInput('getDate')==null?null:$.jqx.dataFormat.formatdate($("#startDate").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
                 		    yAxisFormat:$("#yAxisFormat").val(),
                 		    calculationType:$("#factorcalctype").val(),
                 		    chartType:$("#chartType").val(),
