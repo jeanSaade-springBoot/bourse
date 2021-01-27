@@ -136,6 +136,11 @@ public class BourseController {
     {
 		return new ModelAndView("html/holidayCalendar");
     }
+	@RequestMapping( value =  "helpdescription")
+    public ModelAndView helpDescriptionPage(ModelMap model)
+    {
+		return new ModelAndView("html/helpDescription");
+    }
 	@RequestMapping( value =  "allnews")
     public ModelAndView allNewsPage(ModelMap model)
     {

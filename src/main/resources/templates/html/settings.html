@@ -533,7 +533,7 @@
 				    <p class="mt-2" style=" margin-bottom: .5rem;">
 				    <div class="col-12 row  mt-4">
 				            <div class="col-6">
-							   <form>
+							   <form id="graphDataform1">
 							     <div class="form-group row" style="display: none;">
 									<label for="columnTitle" class="col-sm-4 col-form-label">Column Title</label>
 									 <div class="col-sm-8">
@@ -566,7 +566,7 @@
 								     <div class="form-group row">
 									<label for="dataFormat" class="col-sm-4 col-form-label">Y Axis Format</label>
 									<div class="col-sm-8">
-									<input type="text" class="form-control" id="yAxisFormat">
+									<input type="text" class="form-control" id="yAxisFormats">
 									</div>
 								  </div>
 								  <div class="row">
@@ -592,7 +592,7 @@
 							    </form>
 								</div>
 								  <div class="col-6">
-							   <form>
+							   <form id="graphDataform2">
 							      <div class="form-group row">
 									<label for="columnTitle" class="col-sm-4 col-form-label">Graph scale</label>
 									<div class="col-sm-6">
@@ -957,7 +957,7 @@
         	  { name: 'description', type: 'string' },
               { name: 'displayDescription', type: 'string' },
               { name: 'dataFormat', type: 'string' },
-              { name: 'yaxisFormat', type: 'string' },
+              { name: 'yAxisFormat', type: 'string' },
               { name: 'calculationType', type: 'string' },
               { name: 'startDate', type: 'string' },
               { name: 'HighOrLow', type: 'string' },
@@ -982,6 +982,12 @@
         });
        $('#popupWindow').on('close', function (event) {
     	   $('#robotform').trigger("reset");
+    	   $('#graphDataform1').trigger("reset"); 
+    	   $('#graphDataform2').trigger("reset"); 
+    	   $("#factorcalctype").jqxDropDownList('clearSelection'); 
+    	   $("#exchangeName").jqxDropDownList('clearSelection'); 
+      	   $("#chartType").jqxDropDownList('clearSelection'); 
+     	   $("#graphscale").jqxDropDownList('clearSelection'); 
     	   $("#highlightdropdown").jqxDropDownList('clearSelection'); 
     	   $("#thresholddl").jqxDropDownList('clearSelection'); 
     	   $("#jqxCheckBoxHighLow").jqxCheckBox('val',false)
@@ -1041,11 +1047,11 @@
                 		    canBeNegative:$('#jqxCheckBoxNegative').jqxCheckBox('checked')?true:false,
                 		    graphScale:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?1:0,
                 		    startDate:$("#startDate").jqxDateTimeInput('getDate')==null?null:$.jqx.dataFormat.formatdate($("#startDate").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
-                		    yAxisFormat:$("#yAxisFormat").val(),
                 		    calculationType:$("#factorcalctype").val(),
                 		    chartType:$("#chartType").val(),
                 		    tickValue:$("#tickvalue").val(),
-                		    currency:$("#Currency").val()
+                		    currency:$("#Currency").val(),
+                		    yAxisFormat:$("#yAxisFormats").val()
                 		    };
              	debugger;
     	       	  $.ajax({
@@ -1131,7 +1137,7 @@
                   $("#DisplayName").val(dataRecord.description);
                   $("#graphTitle").val(dataRecord.displayDescription);
                   $("#dataFormat").val(dataRecord.dataFormat);
-                  $("#yAxisFormat").val(dataRecord.yaxisFormat);
+                  $("#yAxisFormats").val(dataRecord.yAxisFormat);
                   if(dataRecord.startDate!=null)
                      $('#startDate').jqxDateTimeInput('setDate',dataRecord.startDate.split("-")[2]+","+dataRecord.startDate.split("-")[1]+","+dataRecord.startDate.split("-")[0]);
                   else
@@ -1153,7 +1159,7 @@
             { text: '', columngroup: 'TimeAndFormat', datafield: 'startDate', hidden: true  },
             { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'description', width: '9%',color:'#3F0' },
             { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', width: '9%' },
-            { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yaxisFormat', width: '9%'},
+            { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yAxisFormat', width: '9%'},
             { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'calculationType', width: '9%' },
             { text: 'HighOrLow', columngroup: 'NewsRobot', datafield: 'HighOrLow',columntype: 'checkbox', width: '9%' },
             { text: 'Jump', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Jump', width: '9%' },

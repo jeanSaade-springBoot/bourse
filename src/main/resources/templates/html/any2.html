@@ -873,6 +873,7 @@
   var checkedItemid = [];
   var monthDate=new Date(); 
   monthDate.setMonth(monthDate.getMonth() - 1);
+  var startdate=new Date();
   var date=new Date();
   var mode="merge";
   var chart;
@@ -992,50 +993,50 @@
 			 },
 "#jqxCheckBoxGermany-30":{
 			  "factor":"30yr",
-			  "country":"2",
+			  "country":"3",
 			  "yieldCurveCross":"yield",
 			  "title":"Germany 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-10":{
 			  "factor":"10yr",
-			  "country":"2",
+			  "country":"3",
 			  "yieldCurveCross":"yield",
 			  "title":"Germany 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-5":{
 			  "factor":"5yr",
-			  "country":"2",
+			  "country":"3",
 			  "yieldCurveCross":"yield",
 			  "title":"Germany 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-2":{
 			  "factor":"2yr",
-			  "country":"2",
+			  "country":"3",
 			  "yieldCurveCross":"yield",
 			  "title":"Germany 2-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-30":{
 			  "factor":"30yr",
-			  "country":"3",
+			  "country":"2",
 			  "yieldCurveCross":"yield",
 			  "title":"France 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-10":{
 			  "factor":"10yr",
-			  "country":"3",
+			  "country":"2",
 			  "yieldCurveCross":"yield",
 			  "title":"France 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-5":{
 			  "factor":"5yr",
-			  "country":"3",
+			  "country":"2",
 			  "yieldCurveCross":"yield",
 			  "title":"France 5-yr Benchmark YIELD"
 			  
 			 },
 "#jqxCheckBoxFrance-2":{
 			  "factor":"2yr",
-			  "country":"3",
+			  "country":"2",
 			  "yieldCurveCross":"yield",
 			  "title":"France 2-yr Benchmark YIELD"
 			 },	
@@ -1487,6 +1488,11 @@
   var fromHistory=false;
   var historyDataParam;
   var dataId;
+  var T1;
+  var T2;
+  var chartType1='area';
+  var chartType2='line'; 
+  var yaxisformat=3;
   $(document).ready(function () {
 	  
 	   $.ajax({
@@ -4983,11 +4989,11 @@
 		   	       }
 				 if(checkedItemValues.length>1)
 				  { 
-					title1=itemValue[checkedItemValues[0]].title;
-				    title2=itemValue[checkedItemValues[1]].title;
+					title1=T1;
+				    title2=T2;
 				  }
 				  else
-					 title1=itemValue[checkedItemValues[0]].title;
+					 title1=T1;
 			     var options1 = {
  				          series: [],
  				          chart: {
@@ -5042,7 +5048,7 @@
  						        	  fontSize: fontsize,
  						        	 },
  				        	    formatter: function (value) {
- 				        	      return value.toFixed(3) + "%";
+ 				        	      return value.toFixed(yaxisformat) + "%";
  				        	    }
  				        	  },
  				        
@@ -5071,7 +5077,7 @@
 		      	    	        debugger;
 		      	    	   chart1.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
-							          type: 'area',
+							          type: chartType1,
 							          data: response[0].graphResponseDTOLst
 							        }]);
 							    
@@ -5141,7 +5147,7 @@
 	     						        	  fontSize: fontsize,
 	     						        	 },
 	     				        	    formatter: function (value) {
-	     				        	      return value.toFixed(3) + "%";
+	     				        	      return value.toFixed(yaxisformat) + "%";
 	     				        	    }
 	     				        	  },
 	     				        
@@ -5171,7 +5177,7 @@
 			      	    	        success: function (response) {
 			      	    	   chart2.updateSeries([{
 								          name: itemValue[checkedItemValues[1]].title,
-								          type: 'line',
+								          type: chartType2,
 								          data: response[0].graphResponseDTOLst
 								        }])
 								     
@@ -5221,7 +5227,7 @@
 						        	  fontSize: fontsize,
 						        	 },
 				        	    formatter: function (value) {
-				        	      return value.toFixed(3) + "%";
+				        	      return value.toFixed(yaxisformat) + "%";
 				        	    }
 				        	  },
 				        
@@ -5259,7 +5265,7 @@
 							        	  fontSize: fontsize,
 							        	 },
 					        	    formatter: function (value) {
-					        	      return value.toFixed(3) + "%";
+					        	      return value.toFixed(yaxisformat) + "%";
 					        	    }
 					        	  },
 					        
@@ -5297,7 +5303,7 @@
 					        	  fontSize: fontsize,
 					        	 },
 			        	    formatter: function (value) {
-			        	      return value.toFixed(3) + "%";
+			        	      return value.toFixed(yaxisformat) + "%";
 			        	    }
 			        	  },
 			        
@@ -5320,6 +5326,9 @@
 				$("#SubChart2").css("display","none");
 				$("#split").css("display","inline-block");
 				$("#merge").css("display","none");
+				chartType1='area';
+				chartType2='line';
+				
 				 if(chart!=null)
 					   chart.destroy();
 			        			
@@ -5348,7 +5357,7 @@
 		    		var options = {
 			          series: [],
 			          chart: {
-			          height: 300,
+			          height: 350,
 			          type: 'line',
 			        },
 			        colors: ["#00b746", "#008ffb"],
@@ -5360,12 +5369,8 @@
 			        	 curve: 'smooth',
 			        	   width: 3
 			        },
-			        markers: {
-			            size: 6,
-			            shape: "square",
-			        },
 			        title: {
-			          text: title
+			          text: ''
 			        },
 			        dataLabels: {
 			          enabled: false
@@ -5375,6 +5380,10 @@
 			        },
 
 				       legend: {
+				    	   itemMargin: {
+				    	          horizontal: 5,
+				    	          vertical:30
+				    	      },
 				    	   labels: {
 				    	          colors: 'White',
 				    	          useSeriesColors: false
@@ -5407,14 +5416,113 @@
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	        
+		      	    	        	debugger;
+		      	    	        	startDateF1=response[0].config.startDate;
+		      	    	        	startDateF2=response[1].config.startDate;
+		      	    	        	if(startDateF1==null && startDateF2==null)
+		      	    	        	{	
+		      	    	        	}
+		      	    	        	else if(monthDate!=startdate)
+		      	    	        		{
+		      	    	        		if (startDateF1!=null && startDateF2!=null)
+		      	    	        			{ DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+		      	    	        			  DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+		      	    	        			  
+		      	    	        			if(DF1<DF2)
+		      	    	        				startdate = DF1;
+		      	    	        			else 
+		      	    	        				startdate = DF2;
+		      	    	        			}
+		      	    	        		else if(startDateF1!=null)
+		      	    	        			startdate =   new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+		      	    	        		else if(startDateF2!=null)
+		      	    	        			startdate = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+		      	    	        		
+		      	    	        		 monthDate = startdate;
+		      	    	        		 drawGraph();
+		      	    	        		 return;
+		      	    	        		}
+		      	    	        	 T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+		      	    	        	 T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+		      	    	        	title= T1 +" vs "+ T2;
+		      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+		      	    	        	chart.updateOptions({
+		      	    	        		 title: {
+		      	    				          text: title
+		      	    				        },
+
+					      				      fill: {
+					      			            type:'solid',
+					      			            opacity: [1,1],
+					      			          },
+					      			        xaxis: {
+									        	labels: {
+									        		  rotate: -45,
+									                  rotateAlways: true,
+									        		 style: {
+											        	  fontSize: fontsize,
+											        	 }
+									        	  },
+									          type: 'datetime'
+									        },
+									        yaxis: [{
+										          labels: {
+										        	    formatter: function (value) {
+										        	      return value.toFixed(yaxisformat) + "%";
+										        	    }
+										        	  },
+										        
+										        }],
+		      							});
+		      	    	        var dbchartType1=response[0].config.chartType;
+		      	    	          if (dbchartType1 == "Bars")
+		      	    	        	chartType1 = 'column';
+		      	    	          else if (dbchartType1 == "Line")
+		      	    	        	chartType1 = 'line';
+		      	    	          else if (dbchartType1 == "Line Spline")
+		      	    	        	{
+		      	    	        	  chartType1 = 'line';
+		      	    	        	   chart.updateOptions({
+			      	    	        		 markers: {
+					      				            size: 6,
+					      				            shape: "square",
+					      				        },
+					      				      fill: {
+					      			            type:'solid',
+					      			            opacity: [1,1],
+					      			          },
+			      							});
+		      	    	        	}
+		      	    	          
+		      	    	        var dbchartType2=response[1].config.chartType;
+		      	    	          if (dbchartType2 == "Bars")
+		      	    	        	chartType2 = 'column';
+		      	    	          else if (dbchartType2 == "Line")
+		      	    	        	chartType2 = 'line';
+		      	    	          else if (dbchartType2 == "Line Spline")
+		      	    	        	{
+		      	    	        	  chartType2 = 'line';
+
+		      	    	             chart.updateOptions({
+	      	    	        		 markers: {
+			      				            size: 6,
+			      				            shape: "square",
+			      				        },
+			      				      fill: {
+				      			            type:'solid',
+				      			            opacity: [1,1],
+				      			          },
+	      							});
+		      	    	        	
+		      	    	        	}
+		      	    	          
 		      	    	          chart.updateSeries([{
-							          name: itemValue[checkedItemValues[0]].title,
-							          type: 'area',
+							          name: response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription,
+							          type: chartType1,
 							          data: response[0].graphResponseDTOLst
 							        },{
-							          name: itemValue[checkedItemValues[1]].title,
-							          type: 'line',
+							          name: response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription,
+							          type: chartType2,
 							          data:response[1].graphResponseDTOLst
 							        }])
 		      	   },
@@ -5467,7 +5575,7 @@
 			        var options = {
 					          series: [],
 					          chart: {
-					          height: 300,
+					          height: 350,
 					          type: 'line',
 					        },
 					        colors: ["#00b746", "#008ffb"],
@@ -5484,7 +5592,7 @@
 					            shape: "square",
 					        },
 					        title: {
-					          text: title
+					          text: ''
 					        },
 					        dataLabels: {
 					          enabled: false
@@ -5498,6 +5606,10 @@
 					          type: 'datetime'
 					        },
 					        legend: {
+						    	   itemMargin: {
+						    	          horizontal: 5,
+						    	          vertical:30
+						    	      },
 					        	   fontSize: fontsize,
 					        	   showForSingleSeries: true,
 						    	   labels: {
@@ -5538,11 +5650,37 @@
 				      	    	        timeout: 600000,
 				      	    	        success: function (response) {
 				      	    	        debugger;
+				      	    	        var T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+			      	    	        	title= T1;
+			      	    	         	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+				      	    	        	chart.updateOptions({
+				      	    	        		 title: {
+				      	    				          text: title
+				      	    				        },
+							      			        xaxis: {
+											        	labels: {
+											        		  rotate: -45,
+											                  rotateAlways: true,
+											        		 style: {
+													        	  fontSize: fontsize,
+													        	 }
+											        	  },
+											          type: 'datetime'
+											        },
+											        yaxis: [{
+												          labels: {
+												        	    formatter: function (value) {
+												        	      return value.toFixed(yaxisformat) + "%";
+												        	    }
+												        	  },
+												        
+												        }],
+				      							});
 				      	    	        chart.updateSeries([{
-									          name: itemValue[checkedItemValues[0]].title,
+									          name: response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription,
 									          type: 'area',
 									          data: response[0].graphResponseDTOLst
-									        }])
+									        }]);
 				      	   },
 				      	    	        error: function (e) {
 				      	    	        	
@@ -5554,6 +5692,7 @@
 					  	       graphHistory = { 
 				   		        		"screenName":"any2",
 				   		        	    "parameter":JSON.stringify(checkedItemValues),
+				   		        	    "id":dataId
 				   	     			   };
 					    	   $.ajax({
 				  	       	        type: "POST",
