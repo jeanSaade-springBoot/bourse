@@ -31,7 +31,7 @@ CREATE TABLE bourse.subgroup (
   group_desc varchar(255) DEFAULT NULL,
   PRIMARY KEY (id)
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
-alter table bourse.subgroup  add group_desc varchar(255);
+
 insert into  bourse.subgroup              
 select 1,'USA',          1,               1,         'SOVEREIGN YIELDS' from dual union
 select 2,'FRANCE',       1,               2,         'SOVEREIGN YIELDS' from dual union
@@ -50,8 +50,8 @@ select 14,'ITA-GER',      3,               2,         'SOVEREIGN YIELD CROSSES (
 select 15,'SPN-GER',      3,               3,         'SOVEREIGN YIELD CROSSES (C)' from dual union
 select 16,'UK-GER',       3,               4,         'SOVEREIGN YIELD CROSSES (C)' from dual union
 select 17,'USA-GER',      3,               5,         'SOVEREIGN YIELD CROSSES (C)' from dual union
-select 18,'USA-UK',       3,               5,         'SOVEREIGN YIELD CROSSES (C)' from dual union
-select 19,'ITA-FRA',      3,               6,         'SOVEREIGN YIELD CROSSES (C)' from dual union
+select 18,'USA-UK',       3,               6,         'SOVEREIGN YIELD CROSSES (C)' from dual union
+select 19,'ITA-FRA',      3,               7,         'SOVEREIGN YIELD CROSSES (C)' from dual union
 select 20,'ITA-SPN',      3,               8,         'SOVEREIGN YIELD CROSSES (C)';
 
 
@@ -101,6 +101,7 @@ CREATE TABLE bourse.column_configuration (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 alter table bourse.column_configuration add factor varchar(255);
 alter table bourse.column_configuration add descwitoutfactor varchar(255);
+
 insert into bourse.column_configuration(id,description,group_id,subgroup_id)
 select (@row_number:=@row_number + 1) AS  id,
        concat(p1.description,'-',p2.description),
@@ -226,3 +227,5 @@ INNER JOIN bourse.updateDisplay ON bourse.column_configuration.description = bou
 SET bourse.column_configuration.display_description 
 = bourse.updateDisplay.display;
 
+ALTER TABLE `bourse`.`column_configuration` MODIFY  `can_be_negative` BIT(1) null;
+update `bourse`.`column_configuration` set `can_be_negative` = 0;
