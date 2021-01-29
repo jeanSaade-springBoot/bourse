@@ -43,3 +43,40 @@ function getCountryFlag(seriesName)
 												    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/ita-spn.png'/>";
 	return img;
 }
+
+function getMinDate(arrayofdates)
+{
+  var minDate=new Date(Math.min.apply(null,arrayofdates));
+  return minDate;
+}
+
+function getChartType(dbChartType)
+{
+  if(dbChartType!=null && dbChartType!="")
+	{
+	 if (dbChartType == "Bars")
+		{
+		chartType = 'column';
+		curve = 'straight'; 
+	    return [chartType,curve];
+	    }
+	  else if (dbChartType == "Line")
+	   { 
+	    chartType = 'line';
+	    curve = 'straight'; 
+	    return [chartType,curve];
+	    }
+	  else if(dbChartType == "Line Spline")
+		 { 
+	    chartType = 'line';
+	    curve = 'smooth'; 
+	    return [chartType,curve];
+	    }
+	}
+	else
+	{
+	chartType = 'line';
+	curve = 'straight';
+	return [chartType,curve];
+	}
+}

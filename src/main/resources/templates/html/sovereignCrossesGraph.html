@@ -760,9 +760,12 @@
   var checkedItemid = [];
   var monthDate=new Date(); 
   monthDate.setMonth(monthDate.getMonth() - 1);
+  monthDate.setHours(0,0,0,0);
+  var startdate     = new Date();
   var date=new Date();
   var mode="merge";
   var chart;
+  var fromNavigation=false;
   var allitems=[ "#jqxCheckBoxfrc-ger-30",
 	  "#jqxCheckBoxfrc-ger-10",
 	  "#jqxCheckBoxfrc-ger-5",
@@ -1315,7 +1318,6 @@
 			  "title":"ITA-SPN 2-yr yield CROSS"
 			 }					 
 };
-	var dataId;
 	
   $(document).ready(function () {
 	  
@@ -1329,7 +1331,6 @@
 		        success: function (data) {
 		        	debugger;
 		        	     checkedItemId=JSON.parse(data.parameter);
-		        	     dataId=data.id;
 		        	     for(j=0; j<checkedItemId.length; j++)
 		    			   {
 		    		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
@@ -1424,6 +1425,7 @@
       });
       
       $("#show").click(function () {
+    	  fromNavigation =false;
   	    if(checkedItem>0)
   	      {	 $("#collapseFilter").removeClass('show');
   	    	 $('#grid-content').css('display', 'block');
@@ -2925,7 +2927,7 @@
   });
 			
 	function navigationGraph(condition){
-				
+		fromNavigation =true;
 				if(condition=="yearBackward")
 				{ 
 				monthDate.setFullYear(monthDate.getFullYear() - 1);
@@ -3042,7 +3044,7 @@
   	  			            opacity: [0.5, 1],
   	  			          },
   	  			        stroke: {
-  	  			        	 curve: 'smooth',
+  	  			        	 curve: 'straight',
   	  			        	   width: 3
   	  			        },
   	  			        markers: {
@@ -3196,13 +3198,96 @@
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
 		      	    	        
+		      	    	        	startDateF1=response[0].config.startDate;
+		      	    	        	startDateF2=response[1].config.startDate;
+		      	    	        	var dates=[];
+		      	    	      	if(!fromNavigation)
+	      	    	        	{
+		      	    	        		if (startDateF1!=null)
+		      	    	        			{ 
+		      	    	        				DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+		      	    	        				dates.push(DF1);
+		      	    	        			}
+		      	    	        			if (startDateF2!=null)
+		      	    	        			{ 
+		      	    	        				DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+		      	    	        				dates.push(DF2);
+		      	    	        			}
+		      	    	        			newstartdate=getMinDate(dates);
+
+		      	    	        		if(startDateF1==null && startDateF2==null)
+		      	    	        		{	
+		      	    	        			defaultmonthDate  = new Date(); 
+		      	    	        			defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+		      	    	        			defaultmonthDate.setHours(0,0,0,0);
+		      	    	        			if(monthDate.getTime()!=defaultmonthDate.getTime())
+		      	    	        			{
+		      	    	        				startdate = defaultmonthDate;
+		      	    	        				monthDate = defaultmonthDate;
+		      	    	        				drawGraph();
+		      	    	        				return;
+		      	    	        			}
+		      	    	        		}
+		      	    	        		else 
+		      	    	        		if(newstartdate.getTime()!=startdate.getTime())
+		      	    	        	    {
+		      	    	        		    startdate=newstartdate;
+		      	    	        			if(monthDate.getTime()!=startdate.getTime())
+		      	    	        			{
+		      	    	        				monthDate = startdate;
+		      	    	        				drawGraph();
+		      	    	        				return;
+		      	    	        			}
+		      	    	        		}
+	      	    	        	}
+		      	    	      		T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+		      	    	        	title= T1 +" vs "+ T2;
+		      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+		      	    	        	 var dbchartType1=response[0].config.chartType;
+			      	    	           chartType1 = getChartType(dbchartType1)[0];
+									  
+			      	    	          var dbchartType2=response[1].config.chartType;
+			      	    	           chartType2 = getChartType(dbchartType2)[0];
+			      	    	           
+		      	    	        			chart.updateOptions({
+		      	    	        		 title: {
+		      	    				          text: title
+		      	    				        },
+
+					      				      fill: {
+					      			            type:'solid',
+					      			            opacity: [1,1],
+					      			          },
+					      			        xaxis: {
+									        	labels: {
+									        		  rotate: -45,
+									                  rotateAlways: true,
+									                  minHeight:60,
+									        		 style: {
+											        	  fontSize: fontsize,
+											        	 }
+									        	  },
+									          type: 'datetime'
+									        },
+									        yaxis: [{
+										          labels: {
+										        	    formatter: function (value) {
+										        	      return value.toFixed(yaxisformat) + "%";
+										        	    }
+										        	  },
+										        
+										        }],
+		      							});
+		      	    	        	
+		      	    	         
 		      	    	          chart.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
-							          type: Daily?'area':'column',
+							          type: Daily?chartType1:'column',
 							          data: response[0].graphResponseDTOLst
 							        },{
 							          name: itemValue[checkedItemValues[1]].title,
-							          type: Daily?'line':'column',
+							          type: Daily?chartType2:'column',
 							          data:response[1].graphResponseDTOLst
 							        }])
 		      	   },
@@ -3215,8 +3300,7 @@
 			  	 
 			  	        graphHistory = { 
 		   		        		"screenName":"crosses",
-		   		        	    "parameter":JSON.stringify(checkedItemValues),
-		   		        	    "id":dataId
+		   		        	    "parameter":JSON.stringify(checkedItemValues)
 		   	     			   };	  
 	  $.ajax({
 		  	       	        type: "POST",
@@ -3226,7 +3310,6 @@
 	     	    	        dataType: 'json',
 	     	    	        timeout: 600000,
 	     	    	        success: function (response) {
-	     	    	        	dataId = response.id; 
 	     	                  },
 	     	    	        error: function (e) {
 	     	    	        	
@@ -3271,20 +3354,112 @@
 	      	    	        timeout: 600000,
 	      	    	        success: function (response) {
 	      	    	        
-	      	    	          chart.updateSeries([{
-						          name: itemValue[checkedItemValues[0]].title,
-						          type: Daily?'area':'column',
-						          data: response[0].graphResponseDTOLst
-						        },{
-						          name: itemValue[checkedItemValues[1]].title,
-						          type: Daily?'line':'column',
-						          data:response[1].graphResponseDTOLst
-						        }
-						        ,{
-							          name: itemValue[checkedItemValues[2]].title,
-							          type:  Daily?'line':'column',
-							          data:response[2].graphResponseDTOLst
-							        }])
+	      	    	        	startDateF1=response[0].config.startDate;
+	      	    	        	startDateF2=response[1].config.startDate;
+	      	    	        	startDateF3=response[2].config.startDate;
+	      	    	        	var dates=[];
+	      	    	      	if(!fromNavigation)
+	  	    	        	{
+								if (startDateF1!=null)
+	      	    	        		{ 
+	      	    	        			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+	      	    	        			dates.push(DF1);
+	      	    	        		}
+	      	    	        		if (startDateF2!=null)
+	      	    	        		{ 
+	      	    	        			DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+	      	    	        			dates.push(DF2);
+	      	    	        		}
+	      	    	        		if (startDateF3!=null)
+	      	    	        		{ 
+	      	    	        			DF3 = new Date(startDateF3.split("-")[1]+"-"+startDateF3.split("-")[0]+"-"+startDateF3.split("-")[2]);
+	      	    	        			dates.push(DF3);
+	      	    	        		}
+	      	    	        		
+	      	    	        		newstartdate=getMinDate(dates);
+	      	    	        		
+	      	    	        	if(startDateF1==null && startDateF2==null && startDateF3==null)
+	      	    	        	{	
+										defaultmonthDate  = new Date(); 
+			      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+			      	    	    		defaultmonthDate.setHours(0,0,0,0);
+			      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
+				      	    	    	{
+			      	    	    			startdate = defaultmonthDate;
+			      	    	    			monthDate = defaultmonthDate;
+				      	    	    		drawGraph();
+				      	    	    		return;
+				      	    	    	}
+	      	    	        	}
+	      	    	        	else 
+			      	    	    	if(newstartdate.getTime()!=startdate.getTime())
+			      	    	    	{
+			      	    	    		startdate=newstartdate;
+			      	    	    		if(monthDate.getTime()!=startdate.getTime())
+					      	    	    	{
+					      	    	    		monthDate = startdate;
+					      	    	    		drawGraph();
+					      	    	    		return;
+					      	    	    	}
+			      	    	    		}
+	  	    	        	}
+		      	    				T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+									T3=response[2].config.displayDescription==null?itemValue[checkedItemValues[2]].title:response[2].config.displayDescription;
+		      	    	        	title= T1 +" vs "+ T2 +" vs "+ T3;
+		      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+		      	    	        	chart.updateOptions({
+		      	    	        		 title: {
+		      	    				          text: title
+		      	    				        },
+
+					      				      fill: {
+					      			            type:'solid',
+					      			            opacity: [1,1],
+					      			          },
+					      			        xaxis: {
+									        	labels: {
+									        		  rotate: -45,
+									                  rotateAlways: true,
+									                  minHeight:60,
+									        		 style: {
+											        	  fontSize: fontsize,
+											        	 }
+									        	  },
+									          type: 'datetime'
+									        },
+									        yaxis: [{
+										          labels: {
+										        	    formatter: function (value) {
+										        	      return value.toFixed(yaxisformat) + "%";
+										        	    }
+										        	  },
+										        
+										        }],
+		      							});
+		      	    	          var dbchartType1=response[0].config.chartType;
+		      	    	           chartType1 = getChartType(dbchartType1)[0];
+								  
+		      	    	          var dbchartType2=response[1].config.chartType;
+		      	    	           chartType2 = getChartType(dbchartType2)[0];
+								   
+		      	    	          var dbchartType3=response[2].config.chartType;
+	                              chartType3 = getChartType(dbchartType3)[0];
+		      	    	         
+		      	    	          chart.updateSeries([{
+							          name: itemValue[checkedItemValues[0]].title,
+							          type: Daily?chartType1:'column',
+							          data: response[0].graphResponseDTOLst
+							        },{
+							          name: itemValue[checkedItemValues[1]].title,
+							          type: Daily?chartType2:'column',
+							          data:response[1].graphResponseDTOLst
+							        }
+							        ,{
+								          name: itemValue[checkedItemValues[2]].title,
+								          type:  Daily?chartType3:'column',
+								          data:response[2].graphResponseDTOLst
+								        }])
 	      	   },
 	      	    	        error: function (e) {
 	      	    	        	
@@ -3295,8 +3470,7 @@
 		  	 
 		  	        graphHistory = { 
 	   		        		"screenName":"crosses",
-	   		        	    "parameter":JSON.stringify(checkedItemValues),
-	   		        	    "id":dataId
+	   		        	    "parameter":JSON.stringify(checkedItemValues)
 	   	     			   };	  
   $.ajax({
 	  	       	        type: "POST",
@@ -3306,7 +3480,6 @@
      	    	        dataType: 'json',
      	    	        timeout: 600000,
      	    	        success: function (response) {
-     	    	        	dataId = response.id; 
      	                  },
      	    	        error: function (e) {
      	    	        	
@@ -3355,24 +3528,131 @@
 	      	    	        timeout: 600000,
 	      	    	        success: function (response) {
 	      	    	        
-	      	    	          chart.updateSeries([{
-						          name: itemValue[checkedItemValues[0]].title,
-						          type:  Daily?'area':'column',
-						          data: response[0].graphResponseDTOLst
-						        },{
-						          name: itemValue[checkedItemValues[1]].title,
-						          type:  Daily?'line':'column',
-						          data:response[1].graphResponseDTOLst
-						        },{
-							          name: itemValue[checkedItemValues[2]].title,
-							          type:  Daily?'line':'column',
-							          data:response[2].graphResponseDTOLst
-							        }
-						        ,{
-							          name: itemValue[checkedItemValues[3]].title,
-							          type:  Daily?'line':'column',
-							          data:response[3].graphResponseDTOLst
-							        }])
+	      	    	      	startDateF1=response[0].config.startDate;
+      	    	        	startDateF2=response[1].config.startDate;
+      	    	        	startDateF3=response[2].config.startDate;
+      	    	        	startDateF4=response[3].config.startDate;
+      	    	        	var dates=[];
+      	    	      	if(!fromNavigation)
+  	    	        	{
+							if (startDateF1!=null)
+      	    	        		{ 
+      	    	        			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+      	    	        			dates.push(DF1);
+      	    	        		}
+      	    	        		if (startDateF2!=null)
+      	    	        		{ 
+      	    	        			DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+      	    	        			dates.push(DF2);
+      	    	        		}
+      	    	        		if (startDateF3!=null)
+      	    	        		{ 
+      	    	        			DF3 = new Date(startDateF3.split("-")[1]+"-"+startDateF3.split("-")[0]+"-"+startDateF3.split("-")[2]);
+      	    	        			dates.push(DF3);
+      	    	        		}
+      	    	        		if (startDateF4!=null)
+      	    	        		{ 
+      	    	        			DF4 = new Date(startDateF4.split("-")[1]+"-"+startDateF4.split("-")[0]+"-"+startDateF4.split("-")[2]);
+      	    	        			dates.push(DF4);
+      	    	        		}
+      	    	        		
+      	    	        		 newstartdate=getMinDate(dates);
+      	    	        		
+								
+      	    	        	if(startDateF1==null && startDateF2==null && startDateF3==null && startDateF4==null)
+      	    	        	{	
+							
+		      	    	    		defaultmonthDate  = new Date(); 
+		      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+		      	    	    		defaultmonthDate.setHours(0,0,0,0);
+		      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
+			      	    	    	{
+		      	    	    			startdate = defaultmonthDate;
+			      	    	    		monthDate = defaultmonthDate;
+			      	    	    		drawGraph();
+			      	    	    		return;
+			      	    	    	}
+      	    	        	}
+      	    	        	else 
+		      	    	    	if(newstartdate.getTime()!=startdate.getTime())
+		      	    	    	{
+		      	    	    		startdate=newstartdate;
+		      	    	    		if(monthDate.getTime()!=startdate.getTime())
+				      	    	    	{
+				      	    	    		monthDate = startdate;
+				      	    	    		drawGraph();
+				      	    	    		return;
+				      	    	    	}
+		      	    	    		}
+  	    	        	}
+							T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+							T3=response[2].config.displayDescription==null?itemValue[checkedItemValues[2]].title:response[2].config.displayDescription;
+							T4=response[3].config.displayDescription==null?itemValue[checkedItemValues[3]].title:response[3].config.displayDescription;
+      	    	        	title= T1 +" vs "+ T2 +" vs "+ T3 +" vs "+ T4;
+      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+      	    	        	chart.updateOptions({
+      	    	        		 title: {
+      	    				        text: title,
+      	    				        style: {
+      	    			              fontSize: '12px',
+      	    				           }
+      	    				        },
+
+			      				      fill: {
+			      			            type:'solid',
+			      			            opacity: [1,1],
+			      			          },
+			      			        xaxis: {
+							        	labels: {
+							        		  rotate: -45,
+							                  rotateAlways: true,
+							                  minHeight:60,
+							        		 style: {
+									        	  fontSize: fontsize,
+									        	 }
+							        	  },
+							          type: 'datetime'
+							        },
+							        yaxis: [{
+								          labels: {
+								        	    formatter: function (value) {
+								        	      return value.toFixed(yaxisformat) + "%";
+								        	    }
+								        	  },
+								        
+								        }],
+      							});
+      	    	          var dbchartType1=response[0].config.chartType;
+      	    	           chartType1 = getChartType(dbchartType1)[0];
+						  
+      	    	          var dbchartType2=response[1].config.chartType;
+      	    	           chartType2 = getChartType(dbchartType2)[0];
+						   
+      	    	          var dbchartType3=response[2].config.chartType;
+                          chartType3 = getChartType(dbchartType3)[0];
+      	    	         
+      	    	           var dbchartType4=response[3].config.chartType;
+                          chartType4 = getChartType(dbchartType4)[0];
+                      
+      	    	          chart.updateSeries([{
+					          name: itemValue[checkedItemValues[0]].title,
+					          type:  Daily?dbchartType1:'column',
+					          data: response[0].graphResponseDTOLst
+					        },{
+					          name: itemValue[checkedItemValues[1]].title,
+					          type:  Daily?dbchartType2:'column',
+					          data:response[1].graphResponseDTOLst
+					        },{
+						          name: itemValue[checkedItemValues[2]].title,
+						          type:  Daily?dbchartType3:'column',
+						          data:response[2].graphResponseDTOLst
+						        }
+					        ,{
+						          name: itemValue[checkedItemValues[3]].title,
+						          type:  Daily?dbchartType4:'column',
+						          data:response[3].graphResponseDTOLst
+						        }])
 	      	   },
 	      	    	        error: function (e) {
 	      	    	        	
@@ -3383,8 +3663,7 @@
 		  	 
 		  	        graphHistory = { 
 	   		        		"screenName":"crosses",
-	   		        	    "parameter":JSON.stringify(checkedItemValues),
-	   		        	    "id":dataId
+	   		        	    "parameter":JSON.stringify(checkedItemValues)
 	   	     			   };	  
   $.ajax({
 	  	       	        type: "POST",
@@ -3394,7 +3673,6 @@
      	    	        dataType: 'json',
      	    	        timeout: 600000,
      	    	        success: function (response) {
-     	    	        	dataId = response.id; 
      	                  },
      	    	        error: function (e) {
      	    	        	
@@ -3431,11 +3709,87 @@
 				      	    	        timeout: 600000,
 				      	    	        success: function (response) {
 				      	    	        debugger;
-				      	    	        chart.updateSeries([{
-									          name: itemValue[checkedItemValues[0]].title,
-									          type: Daily?'area':'column',
-									          data: response[0].graphResponseDTOLst
-									        }])
+				      	    	      newstartdate=new Date();
+				      	    	      startDateF1=response[0].config.startDate;
+				      	    		if(!fromNavigation)
+		      	    	        	{ 
+				      	    	      if (startDateF1!=null)
+			      	    	    		{ 
+			      	    	    			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+			      	    	    			newstartdate=DF1;
+			      	    	    		}
+			      	    	    		
+				      	    	      var dates=[];
+				      	    	    	if(startDateF1==null)
+				      	    	    	{	
+				      	    	    		defaultmonthDate  = new Date(); 
+				      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+				      	    	    		defaultmonthDate.setHours(0,0,0,0);
+				      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
+					      	    	    	{
+				      	    	    			startdate = defaultmonthDate;
+				      	    	    			monthDate = defaultmonthDate;
+					      	    	    		drawGraph();
+					      	    	    		return;
+					      	    	    	}
+				      	    	    	}
+				      	    	    	else 
+				      	    	    	if(newstartdate.getTime()!=startdate.getTime())
+				      	    	    	{
+				      	    	    		startdate=newstartdate;
+				      	    	    		if(monthDate.getTime()!=startdate.getTime())
+						      	    	    	{
+						      	    	    		monthDate = startdate;
+						      	    	    		drawGraph();
+						      	    	    		return;
+						      	    	    	}
+				      	    	    		}
+		      	    	        	}
+				      	    	    	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+				      	    	    	title= T1;
+				      	    	    	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+				      	    	    		var dbchartType1=response[0].config.chartType;
+				      	    	           chartType1 = getChartType(dbchartType1)[0];
+				      	    	           curve1 = getChartType(dbchartType1)[1];
+				      	    	           
+				      	    	    			chart.updateOptions({
+			      	    	        		 title: {
+			      	    				          text: title
+			      	    				        },
+
+						      				      fill: {
+						      			            type:'solid',
+						      			            opacity: [1,1],
+						      			          },
+						      			        stroke: {
+				      	    				    	  curve: curve1,
+				      	    				    	},
+						      			        xaxis: {
+										        	labels: {
+										        		  rotate: -45,
+										                  rotateAlways: true,
+										                  minHeight:60,
+										        		 style: {
+												        	  fontSize: fontsize,
+												        	 }
+										        	  },
+										          type: 'datetime'
+										        },
+										        yaxis: [{
+											          labels: {
+											        	    formatter: function (value) {
+											        	      return value.toFixed(yaxisformat) + "%";
+											        	    }
+											        	  },
+											        
+											        }],
+			      							});
+				      	    	    	   
+				      	    	         chart.updateSeries([{
+										          name: itemValue[checkedItemValues[0]].title,
+										          type: Daily?chartType1:'column',
+										          data: response[0].graphResponseDTOLst
+										        }]);
 				      	   },
 				      	    	        error: function (e) {
 				      	    	        	
@@ -3445,8 +3799,7 @@
 				      	    	    });	
 						       	  graphHistory = { 
 					   		        		"screenName":"crosses",
-					   		        	    "parameter":JSON.stringify(checkedItemValues),
-					   		        	    "id":dataId
+					   		        	    "parameter":JSON.stringify(checkedItemValues)
 					   	     			   };	  
 				  $.ajax({
 					  	       	        type: "POST",
@@ -3456,7 +3809,6 @@
 				     	    	        dataType: 'json',
 				     	    	        timeout: 600000,
 				     	    	        success: function (response) {
-				     	    	        	dataId = response.id; 
 				     	                  },
 				     	    	        error: function (e) {
 				     	    	        	

@@ -873,12 +873,14 @@
   var checkedItemid = [];
   var monthDate=new Date(); 
   monthDate.setMonth(monthDate.getMonth() - 1);
+  monthDate.setHours(0,0,0,0);
   var startdate=new Date();
   var date=new Date();
   var mode="merge";
   var chart;
   var chart1;
   var chart2;
+  var fromNavigation = false;
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
 	  "#jqxCheckBoxUSA-5",
@@ -1487,10 +1489,9 @@
 };
   var fromHistory=false;
   var historyDataParam;
-  var dataId;
   var T1;
   var T2;
-  var chartType1='area';
+  var chartType1='line';
   var chartType2='line'; 
   var yaxisformat=3;
   $(document).ready(function () {
@@ -1505,7 +1506,6 @@
 	        success: function (data) {
 	        	debugger;
 	        	     checkedItemId=JSON.parse(data.parameter);
-	        	     dataId=data.id;
 	        	     for(j=0; j<checkedItemId.length; j++)
 	    			   {
 	    		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
@@ -1653,6 +1653,7 @@
       });
       
      $("#show").click(function () {
+    	 fromNavigation=false;
     	if(checkedItem>0)
     	{
     		 $("#collapseFilter").removeClass('show');
@@ -4875,7 +4876,7 @@
   });
 			
 	function navigationGraph(condition){
-				
+		fromNavigation=true;
 				if(condition=="yearBackward")
 				{ 
 				monthDate.setFullYear(monthDate.getFullYear() - 1);
@@ -5003,14 +5004,15 @@
  				        colors: ["#00b746", "#008ffb"],
  				        fill: {
  				            type:'solid',
- 				            opacity: [0.35, 1],
+ 				            opacity: [1, 1],
  				          },
  				        stroke: {
- 				        	 curve: 'smooth',
+ 				        	 
  				        	  width: 3
  				        },
- 				        markers: {
- 				            size: 2,
+ 				       markers: {
+ 				            size: 1,
+ 				            shape: "square",
  				        },
  				        title: {
  				          text: title1
@@ -5035,7 +5037,7 @@
  					    	   },
  					    	      markers: {
  					    	          width: 12,
- 					    	          height: 12
+ 					    	          height: 2
  					    	      },
  					    	    formatter: function(seriesName, opts) {
  					    	    	img= getCountryFlag(seriesName);
@@ -5105,12 +5107,13 @@
 	     				            opacity: [1],
 	     				          },
 	     				        stroke: {
-	     				        	 curve: 'smooth',
+	     				        	 
 	     				        	  width: 3
 	     				        },
-	     				        markers: {
-	     				            size: 2,
-	     				        },
+	     				       markers: {
+	      				            size: 1,
+	      				            shape: "square",
+	      				        },
 	     				        title: {
 	     				          text: title2
 	     				        },
@@ -5134,7 +5137,7 @@
 	     					    	   },
 	     					    	      markers: {
 	     					    	          width: 12,
-	     					    	          height: 12
+	     					    	          height: 2
 	     					    	      },
 	     					    	    formatter: function(seriesName, opts) {
 	     					    	    	img= getCountryFlag(seriesName);
@@ -5214,7 +5217,7 @@
 					    	   },
 					    	      markers: {
 					    	          width: 12,
-					    	          height: 12
+					    	          height: 2
 					    	      },
 					    	    formatter: function(seriesName, opts) {
 					    	    	img= getCountryFlag(seriesName);
@@ -5252,7 +5255,7 @@
 						    	   },
 						    	      markers: {
 						    	          width: 12,
-						    	          height: 12
+						    	          height: 2
 						    	      },
 						    	    formatter: function(seriesName, opts) {
 						    	    	img= getCountryFlag(seriesName);
@@ -5290,7 +5293,7 @@
 				    	   },
 				    	      markers: {
 				    	          width: 12,
-				    	          height: 12
+				    	          height: 2
 				    	      },
 				    	    formatter: function(seriesName, opts) {
 				    	    	img= getCountryFlag(seriesName);
@@ -5326,7 +5329,7 @@
 				$("#SubChart2").css("display","none");
 				$("#split").css("display","inline-block");
 				$("#merge").css("display","none");
-				chartType1='area';
+				chartType1='line';
 				chartType2='line';
 				
 				 if(chart!=null)
@@ -5357,18 +5360,36 @@
 		    		var options = {
 			          series: [],
 			          chart: {
-			          height: 350,
+			              toolbar: {
+		   	  			        show: true,
+		   	  			        offsetX: 0,
+		   	  			        offsetY: 0,
+		   	  			        tools: {
+		   	  			          download: false,
+		   	  			          selection: true,
+		   	  			          zoom: true,
+		   	  			          zoomin: true,
+		   	  			          zoomout: true,
+		   	  			          pan: true,
+		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          customIcons: []
+		   	  			        }},
+			          height: 400,
 			          type: 'line',
 			        },
 			        colors: ["#00b746", "#008ffb"],
 			        fill: {
 			            type:'solid',
-			            opacity: [0.25, 1],
+			            opacity: [1, 1],
 			          },
 			        stroke: {
-			        	 curve: 'smooth',
+			        	 
 			        	   width: 3
 			        },
+			         markers: {
+   				            size: 1,
+   				            shape: "square",
+   				        },
 			        title: {
 			          text: ''
 			        },
@@ -5390,7 +5411,7 @@
 				    	      },
 				    	      markers: {
 				    	          width: 12,
-				    	          height: 12
+				    	          height: 2
 				    	      },
 				    	    formatter: function(seriesName, opts) {
 				    	    	img= getCountryFlag(seriesName);
@@ -5419,31 +5440,48 @@
 		      	    	        	debugger;
 		      	    	        	startDateF1=response[0].config.startDate;
 		      	    	        	startDateF2=response[1].config.startDate;
-		      	    	        	if(startDateF1==null && startDateF2==null)
-		      	    	        	{	
-		      	    	        	}
-		      	    	        	else if(monthDate!=startdate)
-		      	    	        		{
-		      	    	        		if (startDateF1!=null && startDateF2!=null)
-		      	    	        			{ DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-		      	    	        			  DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
-		      	    	        			  
-		      	    	        			if(DF1<DF2)
-		      	    	        				startdate = DF1;
-		      	    	        			else 
-		      	    	        				startdate = DF2;
+		      	    	        	var dates=[];
+		      	    	      	if(!fromNavigation)
+	      	    	        	{
+		      	    	        		if (startDateF1!=null)
+		      	    	        			{ 
+		      	    	        				DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+		      	    	        				dates.push(DF1);
 		      	    	        			}
-		      	    	        		else if(startDateF1!=null)
-		      	    	        			startdate =   new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-		      	    	        		else if(startDateF2!=null)
-		      	    	        			startdate = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
-		      	    	        		
-		      	    	        		 monthDate = startdate;
-		      	    	        		 drawGraph();
-		      	    	        		 return;
+		      	    	        			if (startDateF2!=null)
+		      	    	        			{ 
+		      	    	        				DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+		      	    	        				dates.push(DF2);
+		      	    	        			}
+		      	    	        			newstartdate=getMinDate(dates);
+
+		      	    	        		if(startDateF1==null && startDateF2==null)
+		      	    	        		{	
+		      	    	        			defaultmonthDate  = new Date(); 
+		      	    	        			defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+		      	    	        			defaultmonthDate.setHours(0,0,0,0);
+		      	    	        			if(monthDate.getTime()!=defaultmonthDate.getTime())
+		      	    	        			{
+		      	    	        				startdate = defaultmonthDate;
+		      	    	        				monthDate = defaultmonthDate;
+		      	    	        				drawGraph();
+		      	    	        				return;
+		      	    	        			}
 		      	    	        		}
-		      	    	        	 T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
-		      	    	        	 T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+		      	    	        		else 
+		      	    	        		if(newstartdate.getTime()!=startdate.getTime())
+		      	    	        	    {
+		      	    	        		    startdate=newstartdate;
+		      	    	        			if(monthDate.getTime()!=startdate.getTime())
+		      	    	        			{
+		      	    	        				monthDate = startdate;
+		      	    	        				drawGraph();
+		      	    	        				return;
+		      	    	        			}
+		      	    	        		}
+	      	    	        	}
+		      	    	        	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
 		      	    	        	title= T1 +" vs "+ T2;
 		      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
 		      	    	        	chart.updateOptions({
@@ -5484,7 +5522,7 @@
 		      	    	        	  chartType1 = 'line';
 		      	    	        	   chart.updateOptions({
 			      	    	        		 markers: {
-					      				            size: 6,
+					      				            size: 1,
 					      				            shape: "square",
 					      				        },
 					      				      fill: {
@@ -5505,7 +5543,7 @@
 
 		      	    	             chart.updateOptions({
 	      	    	        		 markers: {
-			      				            size: 6,
+			      				            size:1,
 			      				            shape: "square",
 			      				        },
 			      				      fill: {
@@ -5535,7 +5573,6 @@
 			  	        graphHistory = { 
 		   		        		"screenName":"any2",
 		   		        	    "parameter":JSON.stringify(checkedItemValues),
-		   		        	    "id":dataId
 		   	     			   };
 			    	   $.ajax({
 		  	       	        type: "POST",
@@ -5545,7 +5582,6 @@
 	     	    	        dataType: 'json',
 	     	    	        timeout: 600000,
 	     	    	        success: function (response) {
-	     	    	        	dataId = response.id; 
 	     	                  },
 	     	    	        error: function (e) {
 	     	    	        	
@@ -5574,21 +5610,35 @@
 	   		        	   };
 			        var options = {
 					          series: [],
-					          chart: {
-					          height: 350,
+					          chart: {   
+					        	  toolbar: {
+			   	  			        show: true,
+			   	  			        offsetX: 0,
+			   	  			        offsetY: 0,
+			   	  			        tools: {
+			   	  			          download: false,
+			   	  			          selection: true,
+			   	  			          zoom: true,
+			   	  			          zoomin: true,
+			   	  			          zoomout: true,
+			   	  			          pan: true,
+			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+			   	  			          customIcons: []
+			   	  			        }},
+					          height: 400,
 					          type: 'line',
 					        },
 					        colors: ["#00b746", "#008ffb"],
 					        fill: {
 					            type:'solid',
-					            opacity: [0.35, 1],
+					            opacity: [1, 1],
 					          },
 					        stroke: {
-					        	 curve: 'smooth',
+					        	 
 					        	  width: 3
 					        },
 					        markers: {
-					            size: 2,
+					            size: 1,
 					            shape: "square",
 					        },
 					        title: {
@@ -5618,7 +5668,7 @@
 						    	      },
 						    	      markers: {
 						    	          width: 12,
-						    	          height: 12
+						    	          height: 2
 						    	      },
 						    	    formatter: function(seriesName, opts) {
 						    	    	img= getCountryFlag(seriesName);
@@ -5652,11 +5702,17 @@
 				      	    	        debugger;
 				      	    	        var T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
 			      	    	        	title= T1;
-			      	    	         	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+			      	    	        	 var dbchartType1=response[0].config.chartType;
+				      	    	           chartType1 = getChartType(dbchartType1)[0];
+				      	    	           curve1 = getChartType(dbchartType1)[1];
+			      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
 				      	    	        	chart.updateOptions({
 				      	    	        		 title: {
 				      	    				          text: title
 				      	    				        },
+				      	    				      stroke: {
+				      	    				    	  curve: curve1,
+				      	    				    	},
 							      			        xaxis: {
 											        	labels: {
 											        		  rotate: -45,
@@ -5676,9 +5732,46 @@
 												        
 												        }],
 				      							});
+			      	    			  newstartdate=new Date();
+				      	    	      startDateF1=response[0].config.startDate;
+				      	    		if(!fromNavigation)
+		      	    	        	{
+				      	    	      if (startDateF1!=null)
+			      	    	    		{ 
+			      	    	    			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+			      	    	    			newstartdate=DF1;
+			      	    	    		}
+			      	    	    		
+				      	    	      var dates=[];
+				      	    	    	if(startDateF1==null)
+				      	    	    	{	
+				      	    	    		defaultmonthDate  = new Date(); 
+				      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+				      	    	    		defaultmonthDate.setHours(0,0,0,0);
+				      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
+					      	    	    	{
+				      	    	    			startdate = defaultmonthDate;
+					      	    	    		monthDate = defaultmonthDate;
+					      	    	    		drawGraph();
+					      	    	    		return;
+					      	    	    	}
+				      	    	    	}
+				      	    	    	else 
+				      	    	    	if(newstartdate.getTime()!=startdate.getTime())
+				      	    	    	{
+				      	    	    		startdate=newstartdate;
+				      	    	    		if(monthDate.getTime()!=startdate.getTime())
+						      	    	    	{
+						      	    	    		monthDate = startdate;
+						      	    	    		drawGraph();
+						      	    	    		return;
+						      	    	    	}
+				      	    	    		}
+		      	    	        	}
+				      	    	     
 				      	    	        chart.updateSeries([{
 									          name: response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription,
-									          type: 'area',
+									          type: chartType1,
 									          data: response[0].graphResponseDTOLst
 									        }]);
 				      	   },
@@ -5692,7 +5785,6 @@
 					  	       graphHistory = { 
 				   		        		"screenName":"any2",
 				   		        	    "parameter":JSON.stringify(checkedItemValues),
-				   		        	    "id":dataId
 				   	     			   };
 					    	   $.ajax({
 				  	       	        type: "POST",
@@ -5702,7 +5794,6 @@
 			     	    	        dataType: 'json',
 			     	    	        timeout: 600000,
 			     	    	        success: function (response) {
-			     	    	        	dataId = response.id; 
 			     	                  },
 			     	    	        error: function (e) {
 			     	    	        	
