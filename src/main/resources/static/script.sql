@@ -101,7 +101,10 @@ CREATE TABLE bourse.column_configuration (
 ) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 alter table bourse.column_configuration add factor varchar(255);
 alter table bourse.column_configuration add descwitoutfactor varchar(255);
+<<<<<<< HEAD
+=======
 
+>>>>>>> 820e26b5ddad3cb9ff6f2524614de31a7f66ade8
 insert into bourse.column_configuration(id,description,group_id,subgroup_id)
 select (@row_number:=@row_number + 1) AS  id,
        concat(p1.description,'-',p2.description),
@@ -222,6 +225,13 @@ select 'ITA-SPN-10', 'ITA-SPN 10-yr yield CROSS'                    from dual un
 select 'ITA-SPN-30', 'ITA-SPN 30-yr yield CROSS'                    from dual)tab;
 
 
+
+UPDATE bourse.column_configuration_bck
+INNER JOIN bourse.updateDisplay ON bourse.column_configuration_bck.description = bourse.updateDisplay.description
+SET bourse.column_configuration_bck.display_description 
+= bourse.updateDisplay.display;
+
+
 UPDATE bourse.column_configuration
 INNER JOIN bourse.updateDisplay ON bourse.column_configuration.description = bourse.updateDisplay.description
 SET bourse.column_configuration.display_description 
@@ -229,3 +239,4 @@ SET bourse.column_configuration.display_description
 
 ALTER TABLE `bourse`.`column_configuration` MODIFY  `can_be_negative` BIT(1) null;
 update `bourse`.`column_configuration` set `can_be_negative` = 0;
+
