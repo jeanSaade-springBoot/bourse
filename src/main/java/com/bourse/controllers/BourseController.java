@@ -136,6 +136,11 @@ public class BourseController {
     {
 		return new ModelAndView("html/holidayCalendar");
     }
+	@RequestMapping( value =  "helpdescription")
+    public ModelAndView helpDescriptionPage(ModelMap model)
+    {
+		return new ModelAndView("html/helpDescription");
+    }
 	@RequestMapping( value =  "allnews")
     public ModelAndView allNewsPage(ModelMap model)
     {
@@ -309,13 +314,7 @@ public class BourseController {
 	} 
 	@PostMapping(value = "savegraphhistory")
     public GraphHistory saveGraphHistory(@RequestBody GraphHistoryDTO graphHistorydto){
-		Long id = graphHistorydto.getId();
-		GraphHistory graphHistory = GraphHistory.builder().parameter(graphHistorydto.getParameter())
-				.screenName(graphHistorydto.getScreenName())
-				.build();
-		
-		GraphHistory gh = graphHistoryService.SaveGraphHistory(graphHistory,id);
-	  return gh;
+	  return  graphHistoryService.SaveGraphHistory(graphHistorydto);
     }
 	@GetMapping(value = "findgraphhistorybyscreenname/{screenName}")
 	public  GraphHistory findGraphHistoryByScreenName(@PathVariable("screenName") String screenName) {

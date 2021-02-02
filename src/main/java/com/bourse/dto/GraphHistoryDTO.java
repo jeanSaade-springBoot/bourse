@@ -12,5 +12,4 @@ import lombok.NoArgsConstructor;
 public class GraphHistoryDTO {
     private String screenName;
 	private String parameter;
-	private Long id;
 }

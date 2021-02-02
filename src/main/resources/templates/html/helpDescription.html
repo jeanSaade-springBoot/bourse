@@ -96,9 +96,9 @@ h5.jqyc-header {
           <div class="submenu py-2 collapse-inner rounded">
             <h6 class="collapse-header">Settings</h6>
             <a class="collapse-item" href="/bourse/settings" >Column Master</a>
-            <a class="collapse-item active" href="/bourse/holidaycalendar" >Holiday Calendar</a>
-            <a class="collapse-item" href="/bourse/helpdescription" >Help Descriptions</a>
-            <a class="collapse-item" href="/bourse/helpdescription" >Robot Help</a>
+            <a class="collapse-item" href="/bourse/holidaycalendar" >Holiday Calendar</a>
+            <a class="collapse-item active" href="/bourse/settings" >Help Descriptions</a>
+            <a class="collapse-item" href="/bourse/settings" >Robot Help</a>
           </div>
         </div>
       </li>
@@ -500,9 +500,9 @@ h5.jqyc-header {
 			 <nav>
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				    <a class="nav-item nav-link" id="nav-yields-curves-tab"  href="/bourse/settings" aria-controls="nav-any2" aria-selected="false">Column Master</a>
-				    <a class="nav-item nav-link active" id="nav-holiday-calendar-tab" data-toggle="tab"  href="#nav-holiday-calendar" role="tab" aria-controls="nav-any2" aria-selected="false">Holiday Calendar</a>
-				    <a class="nav-item nav-link" id="nav-holiday-calendar-tab"  href="/bourse/helpdescription" role="tab" aria-controls="nav-any2" aria-selected="false">Help Descriptions</a>
-				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/helpdescription" role="tab" aria-controls="nav-any2" aria-selected="false">Robot Help</a>
+				    <a class="nav-item nav-link" id="nav-holiday-calendar-tab" href="/bourse/holidaycalendar" role="tab" aria-controls="nav-any2" aria-selected="false">Holiday Calendar</a>
+				    <a class="nav-item nav-link active" id="nav-holiday-calendar-tab" data-toggle="tab"  href="#nav-any2" role="tab" aria-controls="nav-any2" aria-selected="false">Help Descriptions</a>
+				    <a class="nav-item nav-link" id="nav-any2-tab" data-toggle="tab"  href="#nav-any2" role="tab" aria-controls="nav-any2" aria-selected="false">Robot Help</a>
 				    </div>
 				</nav>
 				<div class="tab-content" id="nav-tabContent">
@@ -580,103 +580,11 @@ h5.jqyc-header {
   <script src="/js/ruang-admin.min.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="/calendar/js/jquery.bootstrap.year.calendar.js"></script>
-      <script src="/calendar/js/jquery.bootstrap.year.calendar.min.js"></script>
   <script>
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
-	  $('#nav-holiday-calendar').show();
-  });
-  $('.calendar').calendar({
-      mode: 'rangepicker'
   });
  
-  $('.calendar').on('jqyc.changeYearToPrevious', function (event) {
-      var currentYear = $(this).find('.jqyc-change-year').data('year');
-      $.ajax({
-	      contentType: "application/json",
-	      url: "/admin/getcalendardata",
-	      dataType: 'json',
-	      async:true,
-	      cache: false,
-	      timeout: 600000,
-	      success: function (response) {
-	    	  for(i=0; i<response.length; i++)
-	    		  {
-	    		  var year = Number(response[i].vacationdate.split("-")[0]);
-	    		  var month= Number(response[i].vacationdate.split("-")[1]);
-	    		  var day  = Number(response[i].vacationdate.split("-")[2]);
-	    		  debugger;
-	    		  $('.calendar').calendar('appendText', response[i].vacationdesc, year, month, day,'white');
-	    		  }
-	      },
-	      error: function (e) {
-	      	
-				  console.log("ERROR : ", e);
-
-	      }
-	  });
-  });
-
-  $('.calendar').on('jqyc.changeYearToNext', function (event) {
-      var currentYear = $(this).find('.jqyc-next-year').data('year');
-      $.ajax({
-	      contentType: "application/json",
-	      url: "/admin/getcalendardata",
-	      dataType: 'json',
-	      async:true,
-	      cache: false,
-	      timeout: 600000,
-	      success: function (response) {
-	    	  for(i=0; i<response.length; i++)
-	    		  {
-	    		  var year = Number(response[i].vacationdate.split("-")[0]);
-	    		  var month= Number(response[i].vacationdate.split("-")[1]);
-	    		  var day  = Number(response[i].vacationdate.split("-")[2]);
-	    		  debugger;
-	    		  $('.calendar').calendar('appendText', response[i].vacationdesc, year, month, day,'white');
-	    		  }
-	      },
-	      error: function (e) {
-	      	
-				  console.log("ERROR : ", e);
-
-	      }
-	  });
-  });
-
-  $('.calendar').on('jqyc.dayChoose', function (event) {
-      var choosenYear = $(this).data('year');
-      var choosenMonth = $(this).data('month');
-      var choosenDay = $(this).data('day-of-month');
-      var date = new Date(choosenYear, choosenMonth, choosenDay);
-  });
-  
-  $(document).ready(function () {
-	  $.ajax({
-	      contentType: "application/json",
-	      url: "/admin/getcalendardata",
-	      dataType: 'json',
-	      async:true,
-	      cache: false,
-	      timeout: 600000,
-	      success: function (response) {
-	    	  for(i=0; i<response.length; i++)
-	    		  {
-	    		  var year = Number(response[i].vacationdate.split("-")[0]);
-	    		  var month= Number(response[i].vacationdate.split("-")[1]);
-	    		  var day  = Number(response[i].vacationdate.split("-")[2]);
-	    		  debugger;
-	    		  $('.calendar').calendar('appendText', response[i].vacationdesc, year, month, day,'white');
-	    		  }
-	      },
-	      error: function (e) {
-	      	
-				  console.log("ERROR : ", e);
-
-	      }
-	  });
-  });
 	$(function (){
 
 		   $.ajax({

@@ -23,9 +23,9 @@ public enum SubGroupEnum {
             case 1:
                 return USA.name;
             case 2:
-                return GERMANY.name;
-            case 3:
                 return FRANCE.name;
+            case 3:
+                return GERMANY.name;
             case 4:
                 return UK.name;
             case 5:

@@ -740,13 +740,20 @@
   <script src="/js/apexcharts.js"></script>
    <script src="/js/chart.js"></script>
   <script>
-  var checkedItem = 0;
+  var checkedItem   = 0;
   var checkedItemid = [];
-  var monthDate=new Date(); 
+  var monthDate     = new Date(); 
   monthDate.setMonth(monthDate.getMonth() - 1);
-  var date=new Date();
-  var mode="merge";
-  var Items="";
+  monthDate.setHours(0,0,0,0);
+  var startdate     = new Date();
+  var date          = new Date();
+  var T1;
+  var T2;
+  var chartType1    ='area';
+  var chartType2    ='line'; 
+  var mode          ="merge";
+  var Items         ="";
+  var fromNavigation=false;
   var chart;
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
@@ -800,50 +807,50 @@
 			 },
 "#jqxCheckBoxGermany-30":{
 			  "factor":"30yr",
-			  "country":"2",
+			  "country":"3",
 			  "yieldCurveCross":"yield",
 			  "title":"Germany 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-10":{
 			  "factor":"10yr",
-			  "country":"2",
+			  "country":"3",
 			  "yieldCurveCross":"yield",
 			  "title":"Germany 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-5":{
 			  "factor":"5yr",
-			  "country":"2",
+			  "country":"3",
 			  "yieldCurveCross":"yield",
 			  "title":"Germany 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-2":{
 			  "factor":"2yr",
-			  "country":"2",
+			  "country":"3",
 			  "yieldCurveCross":"yield",
 			  "title":"Germany 2-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-30":{
 			  "factor":"30yr",
-			  "country":"3",
+			  "country":"2",
 			  "yieldCurveCross":"yield",
 			  "title":"France 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-10":{
 			  "factor":"10yr",
-			  "country":"3",
+			  "country":"2",
 			  "yieldCurveCross":"yield",
 			  "title":"France 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-5":{
 			  "factor":"5yr",
-			  "country":"3",
+			  "country":"2",
 			  "yieldCurveCross":"yield",
 			  "title":"France 5-yr Benchmark YIELD"
 			  
 			 },
 "#jqxCheckBoxFrance-2":{
 			  "factor":"2yr",
-			  "country":"3",
+			  "country":"2",
 			  "yieldCurveCross":"yield",
 			  "title":"France 2-yr Benchmark YIELD"
 			 },	
@@ -1292,7 +1299,6 @@
 			  "title":"ITA-SPN 2-yr yield CROSS"
 			 }					 
 };
-	var dataId;
   $(document).ready(function () {
 	  
 	     $("#WeeklyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25 , rtl:true});
@@ -1309,7 +1315,6 @@
 		        success: function (data) {
 		        	debugger;
 		        	     checkedItemId=JSON.parse(data.parameter)[0];
-		        	     dataId=data.id;
 		        	     for(j=0; j<checkedItemId.length; j++)
 		    			   {
 		    		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
@@ -1380,6 +1385,7 @@
       });
       
      $("#show").click(function () {
+    	 fromNavigation =false;
     if(checkedItem>0)
       {	 $("#collapseFilter").removeClass('show');
     	 $('#grid-content').css('display', 'block');
@@ -2611,7 +2617,7 @@
 		    	  $("#jqxCheckBoxSpain-2").jqxCheckBox({checked: false });
 			}
 	function navigationGraph(condition){
-				
+				fromNavigation=true;
 				if(condition=="yearBackward")
 				{ 
 				monthDate.setFullYear(monthDate.getFullYear() - 1);
@@ -2717,16 +2723,16 @@
 		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
-   	  			          height: 350,
+   	  			          height: 400,
    	  			          type: 'line',
    	  			        },
    	  			        colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
    	  			        fill: {
    	  			            type:'solid',
-   	  			            opacity: [0.5, 1],
+   	  			            opacity: [1, 1],
    	  			          },
    	  			        stroke: {
-   	  			        	 curve: 'smooth',
+   	  			        	 curve: 'straight',
    	  			        	   width: 3
    	  			        },
    	  			        markers: {
@@ -2747,7 +2753,7 @@
    	  			           type: 'datetime'
    	  			        },
    	  			   legend: {
-			        	   fontSize: fontsize,
+		   	  			   fontSize: fontsize,
 			        	   showForSingleSeries: true,
 				    	   labels: {
 				    	          colors: 'White',
@@ -2755,7 +2761,7 @@
 				    	   },
 				    	      markers: {
 				    	          width: 12,
-				    	          height: 12
+				    	          height: 2
 				    	      },
 				    	    formatter: function(seriesName, opts) {
 				    	    	img= getCountryFlag(seriesName);
@@ -2791,7 +2797,7 @@
 		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
-   	    	            type: 'bar',
+		   	  			   type: 'line',
    	    	            height: 350
    	    	          },
    	    	          plotOptions: {
@@ -2808,8 +2814,8 @@
    	    	            width: 2,
    	    	            colors: ['transparent']
    	    	          },
-   	    	       legend: {
-			        	   fontSize: fontsize,
+   	    	       legend: { 
+	   	    	    	   fontSize: fontsize,
 			        	   showForSingleSeries: true,
 				    	   labels: {
 				    	          colors: 'White',
@@ -2817,7 +2823,7 @@
 				    	   },
 				    	      markers: {
 				    	          width: 12,
-				    	          height: 12
+				    	          height: 2
 				    	      },
 				    	    formatter: function(seriesName, opts) {
 				    	    	img= getCountryFlag(seriesName);
@@ -2837,7 +2843,7 @@
 			        }],
    	  			      colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
    	  			      fill: {
-   	    	            opacity: 1
+   	    	            opacity: [1,1],
    	    	          },
 			        xaxis: {
 	  			           type: '',
@@ -2956,31 +2962,138 @@
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	      
+		      	    	        	debugger;
+		      	  				startDateF1=response[0].config.startDate;
+	      	    	        	startDateF2=response[1].config.startDate;
+	      	    	        	startDateF3=response[2].config.startDate;
+	      	    	        	startDateF4=response[3].config.startDate;
+	      	    	        	startDateF5=response[4].config.startDate;
+	      	    	        	startDateF6=response[5].config.startDate;
+	      	    	        	
+	      	    	        	var dates=[];
+	      	    	        	if(!fromNavigation)
+	      	    	        	{
+	      	    	        		if (startDateF1!=null)
+			      	    	        		{ 
+			      	    	        			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+			      	    	        			dates.push(DF1);
+			      	    	        		}
+			      	    	        		if (startDateF2!=null)
+			      	    	        		{ 
+			      	    	        			DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+			      	    	        			dates.push(DF2);
+			      	    	        		}
+			      	    	        		if (startDateF3!=null)
+			      	    	        		{ 
+			      	    	        			DF3 = new Date(startDateF3.split("-")[1]+"-"+startDateF3.split("-")[0]+"-"+startDateF3.split("-")[2]);
+			      	    	        			dates.push(DF3);
+			      	    	        		}
+			      	    	        		if (startDateF4!=null)
+			      	    	        		{ 
+			      	    	        			DF4 = new Date(startDateF4.split("-")[1]+"-"+startDateF4.split("-")[0]+"-"+startDateF4.split("-")[2]);
+			      	    	        			dates.push(DF4);
+			      	    	        		}
+			      	    	        		if (startDateF5!=null)
+			      	    	        		{ 
+			      	    	        			DF5 = new Date(startDateF5.split("-")[1]+"-"+startDateF5.split("-")[0]+"-"+startDateF5.split("-")[2]);
+			      	    	        			dates.push(DF5);
+			      	    	        		}
+			      	    	        		if (startDateF6!=null)
+			      	    	        		{ 
+			      	    	        			DF6 = new Date(startDateF6.split("-")[1]+"-"+startDateF6.split("-")[0]+"-"+startDateF6.split("-")[2]);
+			      	    	        			dates.push(DF6);
+			      	    	        		}
+			      	    	        		 newstartdate=getMinDate(dates);
+											 
+			      	    	        	if(startDateF1==null && startDateF2==null && startDateF3==null && startDateF4==null && startDateF5==null && startDateF6==null)
+			      	    	        	{	
+											defaultmonthDate  = new Date(); 
+					      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+					      	    	    		defaultmonthDate.setHours(0,0,0,0);
+					      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
+						      	    	    	{
+					      	    	    			startdate = defaultmonthDate;
+					      	    	    			monthDate = defaultmonthDate;
+						      	    	    		drawGraph();
+						      	    	    		return;
+						      	    	    	}
+			      	    	        	}
+			      	    	        	else 
+					      	    	    	if(newstartdate.getTime()!=startdate.getTime())
+					      	    	    	{
+					      	    	    		startdate=newstartdate;
+					      	    	    		if(monthDate.getTime()!=startdate.getTime())
+							      	    	    	{
+							      	    	    		monthDate = startdate;
+							      	    	    		drawGraph();
+							      	    	    		return;
+							      	    	    	}
+					      	    	    		}
+		      	    	        }
+	      	    	        	title= "All "+Items.split("all")[1]+ " Benchmark YIELD";
+	      	    	        	chart.updateOptions({
+	      	    	        		 title: {
+	      	    				          text: title
+	      	    				        },
+
+				      				      fill: {
+				      			            type:'solid',
+				      			            opacity: [1,1],
+				      			          },
+				      			        xaxis: {
+								        	labels: {
+								        		  rotate: -45,
+								                  rotateAlways: true,
+								                  minHeight:60,
+								        		 style: {
+										        	  fontSize: fontsize,
+										        	 }
+								        	  },
+								          type: 'datetime'
+								        }
+	      							});
+	      	    	          var dbchartType1=response[0].config.chartType;
+	      	    	           chartType1 = getChartType(dbchartType1)[0];
+							  
+	      	    	          var dbchartType2=response[1].config.chartType;
+	      	    	           chartType2 = getChartType(dbchartType2)[0];
+							   
+	      	    	          var dbchartType3=response[2].config.chartType;
+                              chartType3 = getChartType(dbchartType3)[0];
+	      	    	         
+	      	    	           var dbchartType4=response[3].config.chartType;
+                              chartType4 = getChartType(dbchartType4)[0];
+							  
+							   var dbchartType5=response[4].config.chartType;
+	      	    	           chartType5 = getChartType(dbchartType5)[0];
+							  
+	      	    	          var dbchartType6=response[5].config.chartType;
+	      	    	           chartType6 = getChartType(dbchartType6)[0];
+	      	    	           
 		    			        chart.updateSeries([{
 		    			        	 name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
-									          type:  Daily?(response[0].config!=null?(response[0].config.chartType==null?'line':response[0].config.chartType.toLowerCase()):'line'):'column',
+									          type:  Daily?chartType1:'column',
 									          data: response[0].graphResponseDTOLst
 									        },{
 								        	   name:  response[1].config!=null?(response[1].config.displayDescription==null?'':response[1].config.displayDescription):'',
-									           type:  Daily?(response[1].config!=null?(response[1].config.chartType==null?'line':response[1].config.chartType.toLowerCase()):'line'):'column',
+									           type:  Daily?chartType2:'column',
 									           data: response[1].graphResponseDTOLst
 									          },
 									          { name: response[2].config!=null?(response[2].config.displayDescription==null?'':response[2].config.displayDescription):'',
-										          type:  Daily?(response[2].config!=null?(response[2].config.chartType==null?'line':response[2].config.chartType.toLowerCase()):'line'):'column',
+										          type:  Daily?chartType3:'column',
 										          data: response[2].graphResponseDTOLst
 										        },{
 									        	   name: response[3].config!=null?(response[3].config.displayDescription==null?'':response[3].config.displayDescription):'',
-										           type:  Daily?(response[3].config!=null?(response[3].config.chartType==null?'line':response[3].config.chartType.toLowerCase()):'line'):'column',
+										           type:  Daily?chartType4:'column',
 										           data: response[3].graphResponseDTOLst
 										          },
 										          {
 											          name: response[4].config!=null?(response[4].config.displayDescription==null?'':response[4].config.displayDescription):'',
-											          type:  Daily?(response[4].config!=null?(response[4].config.chartType==null?'line':response[4].config.chartType.toLowerCase()):'line'):'column',
+											          type:  Daily?chartType5:'column',
 											          data: response[4].graphResponseDTOLst
 											        },{
 										        	   name: response[5].config!=null?(response[5].config.displayDescription==null?'':response[5].config.displayDescription):'',
-											           type:  Daily?(response[5].config!=null?(response[5].config.chartType==null?'line':response[5].config.chartType.toLowerCase()):'line'):'column',
+											           type:  Daily?chartType6:'column',
 											           data: response[5].graphResponseDTOLst
 											          }]);
 		    			     
@@ -2994,8 +3107,7 @@
 		      	    	    });	
 			  	        	graphHistory = { 
 						   		"screenName":"yield",
-						 	    "parameter":'['+'[]'+','+'['+Daily+']'+','+'["'+Items+'"]]',
-						   	    "id":dataId
+						 	    "parameter":'['+'[]'+','+'['+Daily+']'+','+'["'+Items+'"]]'
 								   };	  
 	   	    	        debugger;
 						$.ajax({
@@ -3006,7 +3118,6 @@
 						     dataType: 'json',
 						     timeout: 600000,
 						     success: function (response) {
-						     	dataId = response.id; 
 						       },
 						     error: function (e) {
 						     	
@@ -3048,14 +3159,95 @@
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	        
+		      	    	        	startDateF1=response[0].config.startDate;
+		      	    	        	startDateF2=response[1].config.startDate;
+		      	    	        	var dates=[];
+		      	    	      	if(!fromNavigation)
+	      	    	        	{
+		      	    	        		if (startDateF1!=null)
+		      	    	        			{ 
+		      	    	        				DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+		      	    	        				dates.push(DF1);
+		      	    	        			}
+		      	    	        			if (startDateF2!=null)
+		      	    	        			{ 
+		      	    	        				DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+		      	    	        				dates.push(DF2);
+		      	    	        			}
+		      	    	        			newstartdate=getMinDate(dates);
+
+		      	    	        		if(startDateF1==null && startDateF2==null)
+		      	    	        		{	
+		      	    	        			defaultmonthDate  = new Date(); 
+		      	    	        			defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+		      	    	        			defaultmonthDate.setHours(0,0,0,0);
+		      	    	        			if(monthDate.getTime()!=defaultmonthDate.getTime())
+		      	    	        			{
+		      	    	        				startdate = defaultmonthDate;
+		      	    	        				monthDate = defaultmonthDate;
+		      	    	        				drawGraph();
+		      	    	        				return;
+		      	    	        			}
+		      	    	        		}
+		      	    	        		else 
+		      	    	        		if(newstartdate.getTime()!=startdate.getTime())
+		      	    	        	    {
+		      	    	        		    startdate=newstartdate;
+		      	    	        			if(monthDate.getTime()!=startdate.getTime())
+		      	    	        			{
+		      	    	        				monthDate = startdate;
+		      	    	        				drawGraph();
+		      	    	        				return;
+		      	    	        			}
+		      	    	        		}
+	      	    	        	}
+		      	    	      		T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+		      	    	        	title= T1 +" vs "+ T2;
+		      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+		      	    	        	chart.updateOptions({
+		      	    	        		 title: {
+		      	    				          text: title
+		      	    				        },
+
+					      				      fill: {
+					      			            type:'solid',
+					      			            opacity: [1,1],
+					      			          },
+					      			        xaxis: {
+									        	labels: {
+									        		  rotate: -45,
+									                  rotateAlways: true,
+									                  minHeight:60,
+									        		 style: {
+											        	  fontSize: fontsize,
+											        	 }
+									        	  },
+									          type: 'datetime'
+									        },
+									        yaxis: [{
+										          labels: {
+										        	    formatter: function (value) {
+										        	      return value.toFixed(yaxisformat) + "%";
+										        	    }
+										        	  },
+										        
+										        }],
+		      							});
+		      	    	        	
+		      	    	        	 var dbchartType1=response[0].config.chartType;
+			      	    	           chartType1 = getChartType(dbchartType1)[0];
+									  
+			      	    	          var dbchartType2=response[1].config.chartType;
+			      	    	           chartType2 = getChartType(dbchartType2)[0];
+		      	    	         
 		      	    	          chart.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
-							          type: Daily?'area':'column',
+							          type: Daily?chartType1:'column',
 							          data: response[0].graphResponseDTOLst
 							        },{
 							          name: itemValue[checkedItemValues[1]].title,
-							          type: Daily?'line':'column',
+							          type: Daily?chartType2:'column',
 							          data:response[1].graphResponseDTOLst
 							        }])
 		      	   },
@@ -3067,8 +3259,7 @@
 		      	    	    });	
 			  	    	graphHistory = { 
 						   		"screenName":"yield",
-						   	    "parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]",
-						   	    "id":dataId
+						   	    "parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]"
 								   };	  
 	   	    	        debugger;
 						$.ajax({
@@ -3079,7 +3270,6 @@
 						     dataType: 'json',
 						     timeout: 600000,
 						     success: function (response) {
-						     	dataId = response.id; 
 						       },
 						     error: function (e) {
 						     	
@@ -3123,19 +3313,110 @@
 	      	    	        dataType: 'json',
 	      	    	        timeout: 600000,
 	      	    	        success: function (response) {
-	      	    	        
+	      	    	      	startDateF1=response[0].config.startDate;
+      	    	        	startDateF2=response[1].config.startDate;
+      	    	        	startDateF3=response[2].config.startDate;
+      	    	        	var dates=[];
+      	    	      	if(!fromNavigation)
+  	    	        	{
+							if (startDateF1!=null)
+      	    	        		{ 
+      	    	        			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+      	    	        			dates.push(DF1);
+      	    	        		}
+      	    	        		if (startDateF2!=null)
+      	    	        		{ 
+      	    	        			DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+      	    	        			dates.push(DF2);
+      	    	        		}
+      	    	        		if (startDateF3!=null)
+      	    	        		{ 
+      	    	        			DF3 = new Date(startDateF3.split("-")[1]+"-"+startDateF3.split("-")[0]+"-"+startDateF3.split("-")[2]);
+      	    	        			dates.push(DF3);
+      	    	        		}
+      	    	        		
+      	    	        		newstartdate=getMinDate(dates);
+      	    	        		
+      	    	        	if(startDateF1==null && startDateF2==null && startDateF3==null)
+      	    	        	{	
+									defaultmonthDate  = new Date(); 
+		      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+		      	    	    		defaultmonthDate.setHours(0,0,0,0);
+		      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
+			      	    	    	{
+		      	    	    			startdate = defaultmonthDate;
+		      	    	    			monthDate = defaultmonthDate;
+			      	    	    		drawGraph();
+			      	    	    		return;
+			      	    	    	}
+      	    	        	}
+      	    	        	else 
+		      	    	    	if(newstartdate.getTime()!=startdate.getTime())
+		      	    	    	{
+		      	    	    		startdate=newstartdate;
+		      	    	    		if(monthDate.getTime()!=startdate.getTime())
+				      	    	    	{
+				      	    	    		monthDate = startdate;
+				      	    	    		drawGraph();
+				      	    	    		return;
+				      	    	    	}
+		      	    	    		}
+  	    	        	}
+	      	    				T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+	      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+								T3=response[2].config.displayDescription==null?itemValue[checkedItemValues[2]].title:response[2].config.displayDescription;
+	      	    	        	title= T1 +" vs "+ T2 +" vs "+ T3;
+	      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+	      	    	        	chart.updateOptions({
+	      	    	        		 title: {
+	      	    				          text: title
+	      	    				        },
+
+				      				      fill: {
+				      			            type:'solid',
+				      			            opacity: [1,1],
+				      			          },
+				      			        xaxis: {
+								        	labels: {
+								        		  rotate: -45,
+								                  rotateAlways: true,
+								                  minHeight:60,
+								        		 style: {
+										        	  fontSize: fontsize,
+										        	 }
+								        	  },
+								          type: 'datetime'
+								        },
+								        yaxis: [{
+									          labels: {
+									        	    formatter: function (value) {
+									        	      return value.toFixed(yaxisformat) + "%";
+									        	    }
+									        	  },
+									        
+									        }],
+	      							});
+	      	    	          var dbchartType1=response[0].config.chartType;
+	      	    	           chartType1 = getChartType(dbchartType1)[0];
+							  
+	      	    	          var dbchartType2=response[1].config.chartType;
+	      	    	           chartType2 = getChartType(dbchartType2)[0];
+							   
+	      	    	          var dbchartType3=response[2].config.chartType;
+                              chartType3 = getChartType(dbchartType3)[0];
+	      	    	         
 	      	    	          chart.updateSeries([{
 						          name: itemValue[checkedItemValues[0]].title,
-						          type: Daily?'area':'column',
+						          type: Daily?chartType1:'column',
 						          data: response[0].graphResponseDTOLst
 						        },{
 						          name: itemValue[checkedItemValues[1]].title,
-						          type: Daily?'line':'column',
+						          type: Daily?chartType2:'column',
 						          data:response[1].graphResponseDTOLst
 						        }
 						        ,{
 							          name: itemValue[checkedItemValues[2]].title,
-							          type:  Daily?'line':'column',
+							          type:  Daily?chartType3:'column',
 							          data:response[2].graphResponseDTOLst
 							        }])
 	      	   },
@@ -3148,8 +3429,7 @@
 		  	 
 		  	    	graphHistory = { 
 					   		"screenName":"yield",
-					   	  "parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]",
-					   	    "id":dataId
+					   	  "parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]"
 							   };	  
    	    	        debugger;
 					$.ajax({
@@ -3160,7 +3440,6 @@
 					     dataType: 'json',
 					     timeout: 600000,
 					     success: function (response) {
-					     	dataId = response.id; 
 					       },
 					     error: function (e) {
 					     	
@@ -3207,23 +3486,129 @@
 	      	    	        dataType: 'json',
 	      	    	        timeout: 600000,
 	      	    	        success: function (response) {
-	      	    	        
+								startDateF1=response[0].config.startDate;
+	      	    	        	startDateF2=response[1].config.startDate;
+	      	    	        	startDateF3=response[2].config.startDate;
+	      	    	        	startDateF4=response[3].config.startDate;
+	      	    	        	var dates=[];
+	      	    	      	if(!fromNavigation)
+      	    	        	{
+								if (startDateF1!=null)
+	      	    	        		{ 
+	      	    	        			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+	      	    	        			dates.push(DF1);
+	      	    	        		}
+	      	    	        		if (startDateF2!=null)
+	      	    	        		{ 
+	      	    	        			DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+	      	    	        			dates.push(DF2);
+	      	    	        		}
+	      	    	        		if (startDateF3!=null)
+	      	    	        		{ 
+	      	    	        			DF3 = new Date(startDateF3.split("-")[1]+"-"+startDateF3.split("-")[0]+"-"+startDateF3.split("-")[2]);
+	      	    	        			dates.push(DF3);
+	      	    	        		}
+	      	    	        		if (startDateF4!=null)
+	      	    	        		{ 
+	      	    	        			DF4 = new Date(startDateF4.split("-")[1]+"-"+startDateF4.split("-")[0]+"-"+startDateF4.split("-")[2]);
+	      	    	        			dates.push(DF4);
+	      	    	        		}
+	      	    	        		
+	      	    	        		 newstartdate=getMinDate(dates);
+	      	    	        		
+									
+	      	    	        	if(startDateF1==null && startDateF2==null && startDateF3==null && startDateF4==null)
+	      	    	        	{	
+								
+			      	    	    		defaultmonthDate  = new Date(); 
+			      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+			      	    	    		defaultmonthDate.setHours(0,0,0,0);
+			      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
+				      	    	    	{
+			      	    	    			startdate = defaultmonthDate;
+				      	    	    		monthDate = defaultmonthDate;
+				      	    	    		drawGraph();
+				      	    	    		return;
+				      	    	    	}
+	      	    	        	}
+	      	    	        	else 
+			      	    	    	if(newstartdate.getTime()!=startdate.getTime())
+			      	    	    	{
+			      	    	    		startdate=newstartdate;
+			      	    	    		if(monthDate.getTime()!=startdate.getTime())
+					      	    	    	{
+					      	    	    		monthDate = startdate;
+					      	    	    		drawGraph();
+					      	    	    		return;
+					      	    	    	}
+			      	    	    		}
+      	    	        	}
+								T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+	      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+								T3=response[2].config.displayDescription==null?itemValue[checkedItemValues[2]].title:response[2].config.displayDescription;
+								T4=response[3].config.displayDescription==null?itemValue[checkedItemValues[3]].title:response[3].config.displayDescription;
+	      	    	        	title= T1 +" vs "+ T2 +" vs "+ T3 +" vs "+ T4;
+	      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+	      	    	        	chart.updateOptions({
+	      	    	        		 title: {
+	      	    				        text: title,
+	      	    				        style: {
+	      	    			              fontSize: '12px',
+	      	    				           }
+	      	    				        },
+	
+				      				      fill: {
+				      			            type:'solid',
+				      			            opacity: [1,1],
+				      			          },
+				      			        xaxis: {
+								        	labels: {
+								        		  rotate: -45,
+								                  rotateAlways: true,
+								                  minHeight:60,
+								        		 style: {
+										        	  fontSize: fontsize,
+										        	 }
+								        	  },
+								          type: 'datetime'
+								        },
+								        yaxis: [{
+									          labels: {
+									        	    formatter: function (value) {
+									        	      return value.toFixed(yaxisformat) + "%";
+									        	    }
+									        	  },
+									        
+									        }],
+	      							});
+	      	    	          var dbchartType1=response[0].config.chartType;
+	      	    	           chartType1 = getChartType(dbchartType1)[0];
+							  
+	      	    	          var dbchartType2=response[1].config.chartType;
+	      	    	           chartType2 = getChartType(dbchartType2)[0];
+							   
+	      	    	          var dbchartType3=response[2].config.chartType;
+	                          chartType3 = getChartType(dbchartType3)[0];
+	      	    	         
+	      	    	           var dbchartType4=response[3].config.chartType;
+	                          chartType4 = getChartType(dbchartType4)[0];
+                          
 	      	    	          chart.updateSeries([{
 						          name: itemValue[checkedItemValues[0]].title,
-						          type:  Daily?'area':'column',
+						          type:  Daily?dbchartType1:'column',
 						          data: response[0].graphResponseDTOLst
 						        },{
 						          name: itemValue[checkedItemValues[1]].title,
-						          type:  Daily?'line':'column',
+						          type:  Daily?dbchartType2:'column',
 						          data:response[1].graphResponseDTOLst
 						        },{
 							          name: itemValue[checkedItemValues[2]].title,
-							          type:  Daily?'line':'column',
+							          type:  Daily?dbchartType3:'column',
 							          data:response[2].graphResponseDTOLst
 							        }
 						        ,{
 							          name: itemValue[checkedItemValues[3]].title,
-							          type:  Daily?'line':'column',
+							          type:  Daily?dbchartType4:'column',
 							          data:response[3].graphResponseDTOLst
 							        }])
 	      	   },
@@ -3235,8 +3620,7 @@
 	      	    	    });	
 		  	    	graphHistory = { 
 					   		"screenName":"yield",
-					   		"parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]",
-					   	    "id":dataId
+					   		"parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]"
 							   };	  
    	    	        debugger;
 					$.ajax({
@@ -3247,7 +3631,6 @@
 					     dataType: 'json',
 					     timeout: 600000,
 					     success: function (response) {
-					     	dataId = response.id; 
 					       },
 					     error: function (e) {
 					     	
@@ -3283,9 +3666,84 @@
 				      	    	        timeout: 600000,
 				      	    	        success: function (response) {
 				      	    	        debugger;
+				      	    	      newstartdate=new Date();
+				      	    	      startDateF1=response[0].config.startDate;
+				      	    		if(!fromNavigation)
+		      	    	        	{ 
+				      	    	      if (startDateF1!=null)
+			      	    	    		{ 
+			      	    	    			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+			      	    	    			newstartdate=DF1;
+			      	    	    		}
+			      	    	    		
+				      	    	      var dates=[];
+				      	    	    	if(startDateF1==null)
+				      	    	    	{	
+				      	    	    		defaultmonthDate  = new Date(); 
+				      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+				      	    	    		defaultmonthDate.setHours(0,0,0,0);
+				      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
+					      	    	    	{
+				      	    	    			startdate = defaultmonthDate;
+				      	    	    			monthDate = defaultmonthDate;
+					      	    	    		drawGraph();
+					      	    	    		return;
+					      	    	    	}
+				      	    	    	}
+				      	    	    	else 
+				      	    	    	if(newstartdate.getTime()!=startdate.getTime())
+				      	    	    	{
+				      	    	    		startdate=newstartdate;
+				      	    	    		if(monthDate.getTime()!=startdate.getTime())
+						      	    	    	{
+						      	    	    		monthDate = startdate;
+						      	    	    		drawGraph();
+						      	    	    		return;
+						      	    	    	}
+				      	    	    		}
+		      	    	        	}
+				      	    	    	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+				      	    	    	title= T1;
+				      	    	    	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
+			      	    	    		var dbchartType1=response[0].config.chartType;
+			      	    	            chartType1 = getChartType(dbchartType1)[0];
+			      	    	            curve1 = getChartType(dbchartType1)[1];
+				      	    	           
+				      	    	    		chart.updateOptions({
+			      	    	        		 title: {
+			      	    				          text: title
+			      	    				        },
+			      	    				      stroke: {
+			      	    				    	  curve: curve1,
+			      	    				    	},
+						      				      fill: {
+						      			            type:'solid',
+						      			            opacity: [1,1],
+						      			          },
+						      			        xaxis: {
+										        	labels: {
+										        		  rotate: -45,
+										                  rotateAlways: true,
+										                  minHeight:60,
+										        		 style: {
+												        	  fontSize: fontsize,
+												        	 }
+										        	  },
+										          type: 'datetime'
+										        },
+										        yaxis: [{
+											          labels: {
+											        	    formatter: function (value) {
+											        	      return value.toFixed(yaxisformat) + "%";
+											        	    }
+											        	  },
+											        
+											        }],
+			      							});
+				      	    	    	
 				      	    	         chart.updateSeries([{
 										          name: itemValue[checkedItemValues[0]].title,
-										          type: Daily?(response[0].config!=null?(response[0].config.chartType==null?'area':response[0].config.chartType.toLowerCase()):'line'):'column',
+										          type: Daily?chartType1:'column',
 										          data: response[0].graphResponseDTOLst
 										        }]);
 				      	   },
@@ -3297,8 +3755,7 @@
 				      	    	    });	
 			    	graphHistory = { 
 					   		"screenName":"yield",
-					   	    "parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]",
-					   	    "id":dataId
+					   	    "parameter":"["+JSON.stringify(checkedItemValues)+","+"["+Daily+"]]"
 							   };	  
    	    	        debugger;
 					$.ajax({
@@ -3309,7 +3766,6 @@
 					     dataType: 'json',
 					     timeout: 600000,
 					     success: function (response) {
-					     	dataId = response.id; 
 					       },
 					     error: function (e) {
 					     	
@@ -3334,7 +3790,7 @@
 				        	  },
 				          type: 'datetime'
 				        },
-				        legend: {
+				        legend: {  
 				        	   fontSize: fontsize,
 				        	   showForSingleSeries: true,
 					    	   labels: {
@@ -3343,7 +3799,7 @@
 					    	   },
 					    	      markers: {
 					    	          width: 12,
-					    	          height: 12
+					    	          height: 2
 					    	      },
 					    	    formatter: function(seriesName, opts) {
 					    	    	img= getCountryFlag(seriesName);
@@ -3352,6 +3808,7 @@
 					    	  },
 				         yaxis: [{
 				        	labels: {
+				        		 minHeight:60,
 				        		 style: {
 						        	  fontSize: fontsize,
 						        	 },
@@ -3382,7 +3839,7 @@
 						    	   },
 						    	      markers: {
 						    	          width: 12,
-						    	          height: 12
+						    	          height: 2
 						    	      },
 						    	    formatter: function(seriesName, opts) {
 						    	    	img= getCountryFlag(seriesName);
