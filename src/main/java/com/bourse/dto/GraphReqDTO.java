@@ -41,6 +41,9 @@ public class GraphReqDTO {
 	
 	private String dailyOrWeekly;  //d or w
 	
+	private String hundred;
+	private String twoHundred;
+	
 	private String fromdate;
 	private String todate;
 	
