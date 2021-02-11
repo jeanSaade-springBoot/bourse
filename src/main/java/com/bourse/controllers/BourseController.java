@@ -38,6 +38,7 @@ import com.bourse.dto.DynamicGridRows;
 import com.bourse.dto.GraphHistoryDTO;
 import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
+import com.bourse.dto.GraphResponseColConfigListDTO;
 import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.PersonReqDTO;
 import com.bourse.dto.SearchFilterDTO;
@@ -312,6 +313,10 @@ public class BourseController {
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
 	} 
+	@PostMapping(value = "getgraphdatalistconfig")
+	public ResponseEntity<List<GraphResponseColConfigListDTO>> getGraphDataListConfig(@RequestBody  GraphReqDTO graphReqDTO) {
+	return new ResponseEntity<>(sovereignYieldsService.getGraphDataListConfig(graphReqDTO),HttpStatus.OK);
+	}
 	@PostMapping(value = "savegraphhistory")
     public GraphHistory saveGraphHistory(@RequestBody GraphHistoryDTO graphHistorydto){
 	  return  graphHistoryService.SaveGraphHistory(graphHistorydto);

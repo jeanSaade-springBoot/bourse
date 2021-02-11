@@ -23,6 +23,7 @@ import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
+import com.bourse.dto.GraphResponseColConfigListDTO;
 import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.SearchFilterDTO;
@@ -242,6 +243,11 @@ public class SovereignYieldsService
 			query.registerStoredProcedureParameter("twoHundred", String.class, ParameterMode.IN);
 			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
+			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			
+			query.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query.setParameter("minuscountry",graphReqDTO.getMinusfactor());
 			query.execute();
 			
 			
@@ -318,6 +324,12 @@ public class SovereignYieldsService
 			query1.registerStoredProcedureParameter("twoHundred", String.class, ParameterMode.IN);
 			query1.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
+			query1.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query1.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			
+			query1.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query1.setParameter("minuscountry",graphReqDTO.getMinusfactor());
+			
 			query1.execute();
 			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query1.getResultList();
 			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
@@ -390,6 +402,12 @@ public class SovereignYieldsService
 			
 			query2.registerStoredProcedureParameter("twoHundred", String.class, ParameterMode.IN);
 			query2.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
+			
+			query2.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query2.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			
+			query2.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query2.setParameter("minuscountry",graphReqDTO.getMinusfactor());
 			
 			query2.execute();
 			List<GraphResponseDTO> graphResponseDTOlst3 = (List<GraphResponseDTO>) query2.getResultList();
@@ -464,6 +482,12 @@ public class SovereignYieldsService
 			query3.registerStoredProcedureParameter("twoHundred", String.class, ParameterMode.IN);
 			query3.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
+			query3.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query3.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			
+			query3.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query3.setParameter("minuscountry",graphReqDTO.getMinusfactor());
+			
 			query3.execute();
 			List<GraphResponseDTO> graphResponseDTOlst4 = (List<GraphResponseDTO>) query3.getResultList();
 			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
@@ -536,6 +560,12 @@ public class SovereignYieldsService
 			
 			query4.registerStoredProcedureParameter("twoHundred", String.class, ParameterMode.IN);
 			query4.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
+			
+			query4.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query4.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			
+			query4.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query4.setParameter("minuscountry",graphReqDTO.getMinusfactor());
 			
 			query4.execute();
 			List<GraphResponseDTO> graphResponseDTOlst5 = (List<GraphResponseDTO>) query4.getResultList();
@@ -610,6 +640,12 @@ public class SovereignYieldsService
 			query5.registerStoredProcedureParameter("twoHundred", String.class, ParameterMode.IN);
 			query5.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
+			query5.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query5.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			
+			query5.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query5.setParameter("minuscountry",graphReqDTO.getMinusfactor());
+			
 			query5.execute();
 			List<GraphResponseDTO> graphResponseDTOlst6 = (List<GraphResponseDTO>) query5.getResultList();
 			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
@@ -622,6 +658,81 @@ public class SovereignYieldsService
 		}
 		
 		return l1; 
+	}
+	
+	public List<GraphResponseColConfigListDTO> getGraphDataListConfig(GraphReqDTO graphReqDTO)
+	{
+		
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
+		List<GraphResponseColConfigListDTO> l2 = new ArrayList<>();
+		ColumnConfiguration config = null;
+		List<ColumnConfiguration> configList = new ArrayList<>();
+		if(graphReqDTO.getYieldCurveCross1()!=null)
+		{
+			if(graphReqDTO.getYieldCurveCross1().equals("spreadmaker"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry1(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				
+				String subGroupIdMinus = graphReqDTO.getMinuscountry(); 
+				String descriptionMinus = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getMinuscountry()))+"-"+graphReqDTO.getMinusfactor().replace("yr", "");
+				ColumnConfiguration configMinus = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupIdMinus, descriptionMinus);
+				configList.add(config);
+				configList.add(configMinus);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}		
+			System.out.println(graphReqDTO.getYieldCurveCross1() +"\n"+
+					graphReqDTO.getFactor1()+"\n"+
+					graphReqDTO.getCountry1());
+			query.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross1() );
+			
+			query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query.setParameter("factor",graphReqDTO.getFactor1() );
+			
+			query.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query.setParameter("country",graphReqDTO.getCountry1() );
+			
+			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			
+			query.registerStoredProcedureParameter("hundred", String.class, ParameterMode.IN);
+			query.setParameter("hundred",graphReqDTO.getDailyOrWeekly() );
+			
+			query.registerStoredProcedureParameter("twoHundred", String.class, ParameterMode.IN);
+			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
+			
+			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			
+			query.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query.setParameter("minuscountry",graphReqDTO.getMinuscountry());
+			query.execute();
+			
+			
+				List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+				GraphResponseColConfigListDTO graphResponseColConfigListDTO = GraphResponseColConfigListDTO.builder()
+						                  .graphResponseDTOLst(graphResponseDTOlst1)
+						                  .config(configList)
+						                  .build();
+				l2.add(graphResponseColConfigListDTO);
+				
+			
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		return l2;
 	}
 	
 	public void doCaclulation()

@@ -47,6 +47,7 @@ public class GraphReqDTO {
 	private String fromdate;
 	private String todate;
 	
-	
+	private String minusfactor;
+	private String minuscountry;
 
 }

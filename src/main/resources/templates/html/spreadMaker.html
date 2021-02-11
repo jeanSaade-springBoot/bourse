@@ -668,7 +668,7 @@
                      </div>
                      	<div class="row">
 							<div class='col-12 d-flex justify-content-end'>
-							<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
 							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 							</div>
 						</div>
@@ -684,9 +684,10 @@
 						 	</div>
 						 </div>
 					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
-							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split">
+							    <!--   <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split">
 					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
-							  </div>
+							 -->  
+							 </div>
 					 	       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" id="button-mainChart-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
@@ -735,7 +736,38 @@
               </div>
             </div>
           </div>
-
+<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You must select at least one record from each table.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div id="alertCategory-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        The selected categories must be different from each other.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
         </div>
         <!---Container Fluid-->
       </div>
@@ -776,16 +808,28 @@
   <script src="/js/marquee.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-    <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
   <script src="/js/ruang-admin.min.js"></script>
   <script src="/js/apexcharts.js"></script>
+  <script src="/js/chart.js"></script>
+  
   <script>
-  var checkedItem = 0;
+  var checkedItem   = 0;
+  var checkedItemRight   = 0;
   var checkedItemid = [];
-  var monthDate=new Date(); 
+  var monthDate     = new Date(); 
   monthDate.setMonth(monthDate.getMonth() - 1);
-  var date=new Date();
-  var mode="merge";
+  monthDate.setHours(0,0,0,0);
+  var startdate     = new Date();
+  var date          = new Date();
+  var T1;
+  var T2;
+  var chartType1    ='area';
+  var chartType2    ='line'; 
+  var mode          ="merge";
+  var Items         ="";
+  var fromNavigation=false;
+  var chart;
   var allitems=[
 	  "#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
@@ -837,547 +881,376 @@
 	  "#jqxCheckBoxSpain-2_1",
 	   
 ];
+  var allitemsleft=[
+	  "#jqxCheckBoxUSA-30",
+	  "#jqxCheckBoxUSA-10",
+	  "#jqxCheckBoxUSA-5",
+	  "#jqxCheckBoxUSA-2",
+	  "#jqxCheckBoxGermany-30",
+	  "#jqxCheckBoxGermany-10",
+	  "#jqxCheckBoxGermany-5",
+	  "#jqxCheckBoxGermany-2",
+	  "#jqxCheckBoxFrance-30",
+	  "#jqxCheckBoxFrance-10",
+	  "#jqxCheckBoxFrance-5",
+	  "#jqxCheckBoxFrance-2",
+	  "#jqxCheckBoxUk-30",
+	  "#jqxCheckBoxUk-10",
+	  "#jqxCheckBoxUk-5",
+	  "#jqxCheckBoxUk-2",
+	  "#jqxCheckBoxItaly-30",
+	  "#jqxCheckBoxItaly-10",
+	  "#jqxCheckBoxItaly-5",
+	  "#jqxCheckBoxItaly-2",
+	  "#jqxCheckBoxSpain-30",
+	  "#jqxCheckBoxSpain-10",
+	  "#jqxCheckBoxSpain-5",
+	  "#jqxCheckBoxSpain-2"
+];
+  var allitemsright= [
+	  "#jqxCheckBoxUSA-30_1",
+	  "#jqxCheckBoxUSA-10_1",
+	  "#jqxCheckBoxUSA-5_1",
+	  "#jqxCheckBoxUSA-2_1",
+	  "#jqxCheckBoxGermany-30_1",
+	  "#jqxCheckBoxGermany-10_1",
+	  "#jqxCheckBoxGermany-5_1",
+	  "#jqxCheckBoxGermany-2_1",
+	  "#jqxCheckBoxFrance-30_1",
+	  "#jqxCheckBoxFrance-10_1",
+	  "#jqxCheckBoxFrance-5_1",
+	  "#jqxCheckBoxFrance-2_1",
+	  "#jqxCheckBoxUk-30_1",
+	  "#jqxCheckBoxUk-10_1",
+	  "#jqxCheckBoxUk-5_1",
+	  "#jqxCheckBoxUk-2_1",
+	  "#jqxCheckBoxItaly-30_1",
+	  "#jqxCheckBoxItaly-10_1",
+	  "#jqxCheckBoxItaly-5_1",
+	  "#jqxCheckBoxItaly-2_1",
+	  "#jqxCheckBoxSpain-30_1",
+	  "#jqxCheckBoxSpain-10_1",
+	  "#jqxCheckBoxSpain-5_1",
+	  "#jqxCheckBoxSpain-2_1",
+	   ]
   var itemValue={
 		  "#jqxCheckBoxUSA-30":{
 			  "factor":"30yr",
 			  "country":"1",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"USA 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUSA-10":{
 			  "factor":"10yr",
 			  "country":"1",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			   "title":"USA 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUSA-5":{
 			  "factor":"5yr",
 			  "country":"1",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"USA 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUSA-2":{
 			  "factor":"2yr",
 			  "country":"1",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"USA 2-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-30":{
 			  "factor":"30yr",
-			  "country":"2",
-			  "yieldCurveCross":"yield",
+			  "country":"3",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Germany 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-10":{
 			  "factor":"10yr",
-			  "country":"2",
-			  "yieldCurveCross":"yield",
+			  "country":"3",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Germany 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-5":{
 			  "factor":"5yr",
-			  "country":"2",
-			  "yieldCurveCross":"yield",
+			  "country":"3",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Germany 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-2":{
 			  "factor":"2yr",
-			  "country":"2",
-			  "yieldCurveCross":"yield",
+			  "country":"3",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Germany 2-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-30":{
 			  "factor":"30yr",
-			  "country":"3",
-			  "yieldCurveCross":"yield",
+			  "country":"2",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"France 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-10":{
 			  "factor":"10yr",
-			  "country":"3",
-			  "yieldCurveCross":"yield",
+			  "country":"2",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"France 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-5":{
 			  "factor":"5yr",
-			  "country":"3",
-			  "yieldCurveCross":"yield",
+			  "country":"2",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"France 5-yr Benchmark YIELD"
 			  
 			 },
 "#jqxCheckBoxFrance-2":{
 			  "factor":"2yr",
-			  "country":"3",
-			  "yieldCurveCross":"yield",
+			  "country":"2",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"France 2-yr Benchmark YIELD"
 			 },	
 "#jqxCheckBoxUk-30":{
 			  "factor":"30yr",
 			  "country":"4",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Uk 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUk-10":{
 			  "factor":"10yr",
 			  "country":"4",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Uk 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUk-5":{
 			  "factor":"5yr",
 			  "country":"4",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Uk 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUk-2":{
 			  "factor":"2yr",
 			  "country":"4",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Uk 2-yr Benchmark YIELD"
 			 },	
 "#jqxCheckBoxItaly-30":{
 			  "factor":"30yr",
 			  "country":"5",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Italy 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxItaly-10":{
 			  "factor":"10yr",
 			  "country":"5",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Italy 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxItaly-5":{
 			  "factor":"5yr",
 			  "country":"5",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Italy 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxItaly-2":{
 			  "factor":"2yr",
 			  "country":"5",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Italy 2-yr Benchmark YIELD"
 			 },		
 "#jqxCheckBoxSpain-30":{
 			  "factor":"30yr",
 			  "country":"6",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Spain 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxSpain-10":{
 			  "factor":"10yr",
 			  "country":"6",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Spain 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxSpain-5":{
 			  "factor":"5yr",
 			  "country":"6",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Spain 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxSpain-2":{
 			  "factor":"2yr",
 			  "country":"6",
-			  "yieldCurveCross":"yield",
+			  "yieldCurveCross":"spreadmaker",
 			  "title":"Spain 2-yr Benchmark YIELD"
 			 },	
- "#jqxCheckBoxUSA-10over30":{
-			  "factor":"10/30",
-			  "country":"1",
-			  "yieldCurveCross":"curve",
-			  "title":"USA 10's/30's yield CURVE"
-			 },
-"#jqxCheckBoxUSA-5over30":{
-			  "factor":"4",
-			  "country":"1",
-			  "yieldCurveCross":"curve",
-			  "title":"USA 5's/30's yield CURVE"
-			 },
-"#jqxCheckBoxUSA-5over10":{
-			  "factor":"3",
-			  "country":"1",
-			  "yieldCurveCross":"curve",
-			  "title":"USA 5's/10's yield CURVE"
-			 },
-"#jqxCheckBoxUSA-2over10":{
-			  "factor":"2",
-			  "country":"1",
-			  "yieldCurveCross":"curve",
-			  "title":"USA 2's/10's yield CURVE"
-			 },
-"#jqxCheckBoxUSA-2over5":{
-			  "factor":"1",
-			  "country":"1",
-			  "yieldCurveCross":"curve",
-			  "title":"USA 2's/5's yield CURVE"
-			 },
-"#jqxCheckBoxGermany-10over30":{
-			  "factor":"5",
-			  "country":"2",
-			  "yieldCurveCross":"curve",
-			  "title":"Germany 10's/30's yield CURVE"
-			 },
-"#jqxCheckBoxGermany-5over30":{
-			  "factor":"4",
-			  "country":"2",
-			  "yieldCurveCross":"curve",
-			  "title":"Germany 5's/30's yield CURVE"
-			 },
-"#jqxCheckBoxGermany-5over10":{
-			  "factor":"3",
-			  "country":"2",
-			  "yieldCurveCross":"curve",
-			  "title":"Germany 5's/10's yield CURVE"
-			 },
-"#jqxCheckBoxGermany-2over10":{
-			  "factor":"2",
-			  "country":"2",
-			  "yieldCurveCross":"curve",
-			  "title":"Germany 2's/10's yield CURVE"
-			 },
-"#jqxCheckBoxGermany-2over5":{
-			  "factor":"1",
-			  "country":"2",
-			  "yieldCurveCross":"curve",
-			  "title":"Germany 2's/5's yield CURVE"
-			 },
-"#jqxCheckBoxFrance-10over30":{
-			  "factor":"5",
-			  "country":"3",
-			  "yieldCurveCross":"curve",
-			  "title":"France 10's/30's yield CURVE"
-			 },
-"#jqxCheckBoxFrance-5over30":{
-			  "factor":"4",
-			  "country":"3",
-			  "yieldCurveCross":"curve",
-			  "title":"France 5's/30's yield CURVE"
-			 },
-"#jqxCheckBoxFrance-5over10":{
-			  "factor":"3",
-			  "country":"3",
-			  "yieldCurveCross":"curve",
-			  "title":"France 5's/10's yield CURVE"
-			 },
-"#jqxCheckBoxFrance-2over10":{
-			  "factor":"2",
-			  "country":"3",
-			  "yieldCurveCross":"curve",
-			  "title":"France 2's/10's yield CURVE"
-			 },
-"#jqxCheckBoxFrance-2over5":{
-			  "factor":"1",
-			  "country":"3",
-			  "yieldCurveCross":"curve",
-			  "title":"France 2's/5's yield CURVE"
-			 },	
-"#jqxCheckBoxUk-10over30":{
-			  "factor":"5",
-			  "country":"4",
-			  "yieldCurveCross":"curve",
-			  "title":"Uk 10's/30's yield CURVE"
-			 },
-"#jqxCheckBoxUk-5over30":{
-			  "factor":"4",
-			  "country":"4",
-			  "yieldCurveCross":"curve",
-			  "title":"Uk 5's/30's yield CURVE"
-			 },
-"#jqxCheckBoxUk-5over10":{
-			  "factor":"3",
-			  "country":"4",
-			  "yieldCurveCross":"curve",
-			  "title":"Uk 5's/10's yield CURVE"
-			 },
-"#jqxCheckBoxUk-2over10":{
-			  "factor":"2",
-			  "country":"4",
-			  "yieldCurveCross":"curve",
-			  "title":"Uk 2's/10's yield CURVE"
-			 },
-"#jqxCheckBoxUk-2over5":{
-			  "factor":"1",
-			  "country":"4",
-			  "yieldCurveCross":"curve",
-			  "title":"Uk 2's/5's yield CURVE"
-			 },	
-"#jqxCheckBoxItaly-10over30":{
-			  "factor":"5",
-			  "country":"5",
-			  "yieldCurveCross":"curve",
-			  "title":"Italy 10's/30's yield CURVE"
-			 },
-"#jqxCheckBoxItaly-5over30":{
-			  "factor":"4",
-			  "country":"5",
-			  "yieldCurveCross":"curve",
-			  "title":"Italy 5's/30's yield CURVE"
-			 },
-"#jqxCheckBoxItaly-5over10":{
-			  "factor":"3",
-			  "country":"5",
-			  "yieldCurveCross":"curve",
-			  "title":"Italy 5's/10's yield CURVE"
-			 },
-"#jqxCheckBoxItaly-2over10":{
-			  "factor":"2",
-			  "country":"5",
-			  "yieldCurveCross":"curve",
-			  "title":"Italy 2's/10's yield CURVE"
-			 },
-"#jqxCheckBoxItaly-2over5":{
-			  "factor":"1",
-			  "country":"5",
-			  "yieldCurveCross":"curve",
-			  "title":"Italy 2's/5's yield CURVE"
-			 },		
-"#jqxCheckBoxSpain-10over30":{
-			  "factor":"5",
-			  "country":"6",
-			  "yieldCurveCross":"curve",
-			  "title":"Spain 10's/30's yield CURVE"
-			 },
-"#jqxCheckBoxSpain-5over30":{
-			  "factor":"4",
-			  "country":"6",
-			  "yieldCurveCross":"curve",
-			  "title":"Spain 5's/30's yield CURVE"
-			 },					 
-"#jqxCheckBoxSpain-5over10":{
-			  "factor":"3",
-			  "country":"6",
-			  "yieldCurveCross":"curve",
-			  "title":"Spain 5's/110's yield CURVE"
-			 },
-"#jqxCheckBoxSpain-2over10":{
-			  "factor":"2",
-			  "country":"6",
-			  "yieldCurveCross":"curve",
-			  "title":"Spain 2's/10's yield CURVE"
-			 },
-"#jqxCheckBoxSpain-2over5":{
-			  "factor":"1",
-			  "country":"6",
-			  "yieldCurveCross":"curve",
-			  "title":"Spain 2's/5's yield CURVE"
-			 },					
-"#jqxCheckBoxfrc-ger-30":{
-			  "factor":"30",
-			  "country":"1",
-			  "yieldCurveCross":"cross",
-			  "title":"FRA-GER 30-yr yield CROSS"
-			 },
-"#jqxCheckBoxfrc-ger-10":{
-			  "factor":"10",
-			  "country":"1",
-			  "yieldCurveCross":"cross",
-			  "title":"FRA-GER 10-yr yield CROSS"
-			 },
-"#jqxCheckBoxfrc-ger-5":{
-			  "factor":"5",
-			  "country":"1",
-			  "yieldCurveCross":"cross",
-			  "title":"FRA-GER 5-yr yield CROSS"
-			 },
-"#jqxCheckBoxfrc-ger-2":{
-			  "factor":"2",
-			  "country":"1",
-			  "yieldCurveCross":"cross",
-			  "title":"FRA-GER 2-yr yield CROSS"
-			 },
-"#jqxCheckBoxita-ger-30":{
-			  "factor":"30",
-			  "country":"2",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-GER 30-yr yield CROSS"
-			 },
-"#jqxCheckBoxita-ger-10":{
-			  "factor":"10",
-			  "country":"2",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-GER 10-yr yield CROSS"
-			 },
-"#jqxCheckBoxita-ger-5":{
-			  "factor":"5",
-			  "country":"2",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-GER 5-yr yield CROSS"
-			 },
-"#jqxCheckBoxita-ger-2":{
-			  "factor":"2",
-			  "country":"2",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-GER 2-yr yield CROSS"
-			 },
-"#jqxCheckBoxspn-ger-30":{
-			  "factor":"30",
-			  "country":"3",
-			  "yieldCurveCross":"cross",
-			  "title":"SPN-GER 30-yr yield CROSS"
-			 },
-"#jqxCheckBoxspn-ger-10":{
-			  "factor":"10",
-			  "country":"3",
-			  "yieldCurveCross":"cross",
-			  "title":"SPN-GER 10-yr yield CROSS"
-			 },
-"#jqxCheckBoxspn-ger-5":{
-			  "factor":"5",
-			  "country":"3",
-			  "yieldCurveCross":"cross",
-			  "title":"SPN-GER 5-yr yield CROSS"
-			 },
-"#jqxCheckBoxspn-ger-2":{
-			  "factor":"2",
-			  "country":"3",
-			  "yieldCurveCross":"cross",
-			  "title":"SPN-GER 2-yr yield CROSS"
-			 },	
-"#jqxCheckBoxuk-ger-30":{
-			  "factor":"30",
-			  "country":"4",
-			  "yieldCurveCross":"cross",
-			  "title":"UK-GER 30-yr yield CROSS"
-			 },
-"#jqxCheckBoxuk-ger-10":{
-			  "factor":"10",
-			  "country":"4",
-			  "yieldCurveCross":"cross",
-			  "title":"UK-GER 10-yr yield CROSS"
-			 },
-"#jqxCheckBoxuk-ger-5":{
-			  "factor":"5",
-			  "country":"4",
-			  "yieldCurveCross":"cross",
-			  "title":"UK-GER 5-yr yield CROSS"
-			 },
-"#jqxCheckBoxuk-ger-2":{
-			  "factor":"2",
-			  "country":"4",
-			  "yieldCurveCross":"cross",
-			  "title":"UK-GER 2-yr yield CROSS"
-			 },	
-"#jqxCheckBoxusa-ger-30":{
-			  "factor":"30",
-			  "country":"5",
-			  "yieldCurveCross":"cross",
-			  "title":"USA-GER 30-yr yield CROSS"
-			 },
-"#jqxCheckBoxusa-ger-10":{
-			  "factor":"10",
-			  "country":"5",
-			  "yieldCurveCross":"cross",
-			  "title":"USA-GER 10-yr yield CROSS"
-			 },
-"#jqxCheckBoxusa-ger-5":{
-			  "factor":"5",
-			  "country":"5",
-			  "yieldCurveCross":"cross",
-			  "title":"USA-GER 5-yr yield CROSS"
-			 },
-"#jqxCheckBoxusa-ger-2":{
-			  "factor":"2",
-			  "country":"5",
-			  "yieldCurveCross":"cross",
-			  "title":"USA-GER 2-yr yield CROSS"
-			 },		
-"#jqxCheckBoxusa-uk-30":{
-			  "factor":"30",
-			  "country":"6",
-			  "yieldCurveCross":"cross",
-			  "title":"USA-UK 30-yr yield CROSS"
-			 },
-"#jqxCheckBoxusa-uk-10":{
-			  "factor":"10",
-			  "country":"6",
-			  "yieldCurveCross":"cross",
-			  "title":"USA-UK 10-yr yield CROSS"
-			 },
-"#jqxCheckBoxusa-uk-5":{
-			  "factor":"5",
-			  "country":"6",
-			  "yieldCurveCross":"cross",
-			  "title":"USA-UK 5-yr yield CROSS"
-			 },
-"#jqxCheckBoxusa-uk-2":{
-			  "factor":"2",
-			  "country":"6",
-			  "yieldCurveCross":"cross",
-			  "title":"USA-UK 2-yr yield CROSS"
-			 },	
-"#jqxCheckBoxita-frc-30":{
-			  "factor":"30",
-			  "country":"7",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-FRA 30-yr yield CROSS"
-			 },
-"#jqxCheckBoxita-frc-10":{
-			  "factor":"10",
-			  "country":"7",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-FRA 10-yr yield CROSS"
-			 },
-"#jqxCheckBoxita-frc-5":{
-			  "factor":"5",
-			  "country":"7",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-FRA 5-yr yield CROSS"
-			 },
-"#jqxCheckBoxita-frc-2":{
-			  "factor":"2",
-			  "country":"7",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-FRA 2-yr yield CROSS"
-			 },	
-"#jqxCheckBoxita-spn-30":{
-			  "factor":"30",
-			  "country":"8",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-SPN 30-yr yield CROSS"
-			 },
-"#jqxCheckBoxita-spn-10":{
-			  "factor":"10",
-			  "country":"8",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-SPN 10-yr yield CROSS"
-			 },
-"#jqxCheckBoxita-spn-5":{
-			  "factor":"5",
-			  "country":"8",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-SPN 5-yr yield CROSS"
-			 },
-"#jqxCheckBoxita-spn-2":{
-			  "factor":"2",
-			  "country":"8",
-			  "yieldCurveCross":"cross",
-			  "title":"ITA-SPN 2-yr yield CROSS"
-			 }					 
+			 "#jqxCheckBoxUSA-30_1":{
+				  "factor":"30yr",
+				  "country":"1",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"USA 30-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxUSA-10_1":{
+				  "factor":"10yr",
+				  "country":"1",
+				  "yieldCurveCross":"spreadmaker",
+				   "title":"USA 10-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxUSA-5_1":{
+				  "factor":"5yr",
+				  "country":"1",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"USA 5-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxUSA-2_1":{
+				  "factor":"2yr",
+				  "country":"1",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"USA 2-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxGermany-30_1":{
+				  "factor":"30yr",
+				  "country":"3",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Germany 30-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxGermany-10_1":{
+				  "factor":"10yr",
+				  "country":"3",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Germany 10-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxGermany-5_1":{
+				  "factor":"5yr",
+				  "country":"3",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Germany 5-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxGermany-2_1":{
+				  "factor":"2yr",
+				  "country":"3",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Germany 2-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxFrance-30_1":{
+				  "factor":"30yr",
+				  "country":"2",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"France 30-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxFrance-10_1":{
+				  "factor":"10yr",
+				  "country":"2",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"France 10-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxFrance-5_1":{
+				  "factor":"5yr",
+				  "country":"2",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"France 5-yr Benchmark YIELD"
+				  
+				 },
+	"#jqxCheckBoxFrance-2_1":{
+				  "factor":"2yr",
+				  "country":"2",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"France 2-yr Benchmark YIELD"
+				 },	
+	"#jqxCheckBoxUk-30_1":{
+				  "factor":"30yr",
+				  "country":"4",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Uk 30-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxUk-10_1":{
+				  "factor":"10yr",
+				  "country":"4",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Uk 10-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxUk-5_1":{
+				  "factor":"5yr",
+				  "country":"4",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Uk 5-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxUk-2_1":{
+				  "factor":"2yr",
+				  "country":"4",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Uk 2-yr Benchmark YIELD"
+				 },	
+	"#jqxCheckBoxItaly-30_1":{
+				  "factor":"30yr",
+				  "country":"5",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Italy 30-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxItaly-10_1":{
+				  "factor":"10yr",
+				  "country":"5",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Italy 10-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxItaly-5_1":{
+				  "factor":"5yr",
+				  "country":"5",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Italy 5-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxItaly-2_1":{
+				  "factor":"2yr",
+				  "country":"5",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Italy 2-yr Benchmark YIELD"
+				 },		
+	"#jqxCheckBoxSpain-30_1":{
+				  "factor":"30yr",
+				  "country":"6",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Spain 30-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxSpain-10_1":{
+				  "factor":"10yr",
+				  "country":"6",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Spain 10-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxSpain-5_1":{
+				  "factor":"5yr",
+				  "country":"6",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Spain 5-yr Benchmark YIELD"
+				 },
+	"#jqxCheckBoxSpain-2_1":{
+				  "factor":"2yr",
+				  "country":"6",
+				  "yieldCurveCross":"spreadmaker",
+				  "title":"Spain 2-yr Benchmark YIELD"
+				 }
 };
-	var dataId;
   $(document).ready(function () {
 	  
 		 $.ajax({
 		        contentType: "application/json",
-		        url: "/bourse/findgraphhistorybyscreenname/spreadMaker",
+		        url: "/bourse/findgraphhistorybyscreenname/spreadmaker",
 		        dataType: 'json',
 		        async:true,
 		        cache: false,
 		        timeout: 600000,
 		        success: function (data) {
 		        	debugger;
-		        	     checkedItemId=JSON.parse(data.parameter);
-		        	     dataId=data.id;
+		        	if (data.parameter!=null)
+		        	{   checkedItemId=JSON.parse(data.parameter);
 		        	     for(j=0; j<checkedItemId.length; j++)
 		    			   {
 		    		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
 		    		       } 
-		        	     checkedItem=checkedItemId.length;
+		        	     checkedItem=1;
 		        		 $("#collapseFilter").removeClass('show');
 		     	    	 $('#grid-content').css('display', 'block');
+		     	    	 
+		     	    	 if (JSON.parse(data.parameter)!=null)
+		     	    		Items=JSON.parse(data.parameter);
+		     	    	 
 		        		 drawGraph();
+		        	}
 		        		
 	},
 		        error: function (e) {
@@ -1386,3384 +1259,1918 @@
 
 		        }
 		    });
-		 
+	  
 	  $("#button-yearForward").prop('disabled', true); 
 	  $("#button-monthForward").prop('disabled', true); 
 
 	 for(i=0; i<allitems.length; i++)
 	   {
-    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 120, height: 25});
+    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 120, height: 26});
        }
-	  
+
 	  $("#Clearfilter").jqxButton({ theme: 'dark',height:30,width:74  });
+	  
+	  
       $("#show").jqxButton({ theme: 'dark',height:30,width:74 });
       
       $("#Clearfilter").click(function () {
-    	  
-    	 	  $("#jqxCheckBoxUSA-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxGermany-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxFrance-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxUk-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxItaly-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxSpain-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-2").jqxCheckBox({checked: false });
-    	  
-    	
-    	  $("#jqxCheckBoxUSA-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUSA-2over5").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxGermany-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxGermany-2over5").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxFrance-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxFrance-2over5").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxUk-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxUk-2over5").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxItaly-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxItaly-2over5").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxSpain-10over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-5over30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-5over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-2over10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSpain-2over5").jqxCheckBox({checked: false });
-    	  
-    	  
-    	  $("#jqxCheckBoxfrc-ger-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxfrc-ger-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxfrc-ger-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxfrc-ger-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxita-ger-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxita-ger-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxita-ger-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxita-ger-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxspn-ger-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxspn-ger-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxspn-ger-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxspn-ger-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxuk-ger-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxuk-ger-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxuk-ger-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxuk-ger-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxusa-ger-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxusa-ger-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxusa-ger-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxusa-ger-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxusa-uk-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxusa-uk-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxusa-uk-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxusa-uk-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxita-frc-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxita-frc-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxita-frc-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxita-frc-2").jqxCheckBox({checked: false });
-    	  
-    	  $("#jqxCheckBoxita-spn-30").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxita-spn-10").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxita-spn-5").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxita-spn-2").jqxCheckBox({checked: false });
-    	  
+    	  uncheckAll();
+    	  checkedItem=0;
     	  for(i=0; i<allitems.length; i++)
 		   {
 	    	$(allitems[i]).jqxCheckBox({disabled: false});
 	       }
-    	  checkedItem=0;
-     	 
       });
       
      $("#show").click(function () {
+    	 fromNavigation =false;
+    if(checkedItem>0 && checkedItemRight>0)
+      {	
+    	 $("#collapseFilter").removeClass('show');
     	 $('#grid-content').css('display', 'block');
     	 drawGraph();
+      } else 
+ 		{	
+ 		    $('#alertFiltter-modal').modal('show');
+		    $("#collapseFilter").addClass('show');
+ 		}
       });
-	  
+
      $('#jqxCheckBoxUSA-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
+    	   var checked = event.args.checked;
+    	   if(checked)
+    	    {
+    	    	checkedItem=checkedItem + 1;
+    	    	checkedItemid.push("#jqxCheckBoxUSA-30");
+    	    }
+    	    else
+    	    {
+    	    	checkedItem=checkedItem - 1;
+    	   for(i=0; i<checkedItemid.length; i++)
+    		   {
+    		   if(checkedItemid[i]=="#jqxCheckBoxUSA-30")
+    			 delete checkedItemid[i];
+    		   }
+    	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  				 $(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		  }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+
+       
+       $('#jqxCheckBoxUSA-10').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
   	    {
   	    	checkedItem=checkedItem + 1;
-  	    	checkedItemid.push("#jqxCheckBoxUSA-30");
+  	    	checkedItemid.push("#jqxCheckBoxUSA-10");
   	    }
-  	    else
-  	    {
+  	    else {
   	    	checkedItem=checkedItem - 1;
-  	   for(i=0; i<checkedItemid.length; i++)
-  		   {
-  		   if(checkedItemid[i]=="#jqxCheckBoxUSA-30")
-  			 delete checkedItemid[i];
-  		   }
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUSA-10")
+  					 delete checkedItemid[i];
+  				   }
   	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-				 $(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		  }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       
+       $('#jqxCheckBoxUSA-5').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUSA-5");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       
+       $('#jqxCheckBoxUSA-2').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUSA-2");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       
+       $('#jqxCheckBoxGermany-30').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxGermany-30");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxGermany-30")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxGermany-10').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxGermany-10");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxGermany-10")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxGermany-5').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxGermany-5");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxGermany-2').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxGermany-2");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxFrance-30').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxFrance-30");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxFrance-30")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxFrance-10').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxFrance-10");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxFrance-10")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxFrance-5').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxFrance-5");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxFrance-2').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxFrance-2");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       
+       $('#jqxCheckBoxUk-30').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUk-30");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUk-30")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxUk-10').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUk-10");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUk-10")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxUk-5').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUk-5");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUk-5")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxUk-2').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUk-2");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUk-2")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxItaly-30').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxItaly-30");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxItaly-30")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxItaly-10').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxItaly-10");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxItaly-10")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxItaly-5').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxItaly-5");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxItaly-2').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxItaly-2");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxSpain-30').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxSpain-30");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxSpain-30")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxSpain-10').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxSpain-10");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxSpain-10")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxSpain-5').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxSpain-5");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxSpain-2').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxSpain-2");
+  	    }
+  	    else {
+  	    	checkedItem=checkedItem - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  		    	$(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxUSA-30_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+    	    {
+    	    	checkedItemRight=checkedItemRight + 1;
+    	    	checkedItemid.push("#jqxCheckBoxUSA-30_1");
+    	    }
+    	    else
+    	    {
+    	    	checkedItemRight=checkedItemRight - 1;
+    	   for(i=0; i<checkedItemid.length; i++)
+    		   {
+    		   if(checkedItemid[i]=="#jqxCheckBoxUSA-30_1")
+    			 delete checkedItemid[i];
+    		   }
+    	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  				 $(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		  }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
 
-     
-     $('#jqxCheckBoxUSA-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxUSA-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxUSA-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxGermany-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxUk-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxUSA-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUSA-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUSA-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUSA-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxUSA-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUSA-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxGermany-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxGermany-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxGermany-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxFrance-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxFrance-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxFrance-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxFrance-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxUk-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxUk-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxUk-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxUk-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxItaly-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxItaly-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxItaly-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxSpain-10over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-10over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-10over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-5over30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-5over30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5over30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-5over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-5over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxSpain-2over10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-2over10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2over10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	      
-     $('#jqxCheckBoxSpain-2over5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSpain-2over5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2over5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxfrc-ger-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxfrc-ger-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxfrc-ger-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxfrc-ger-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxfrc-ger-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxfrc-ger-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxfrc-ger-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxfrc-ger-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxfrc-ger-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxfrc-ger-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxfrc-ger-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxfrc-ger-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-ger-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-ger-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-ger-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-ger-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-ger-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-ger-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-ger-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-ger-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-ger-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-ger-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-ger-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-ger-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxspn-ger-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxspn-ger-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxspn-ger-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxspn-ger-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxspn-ger-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxspn-ger-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxspn-ger-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxspn-ger-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxspn-ger-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxspn-ger-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxspn-ger-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxspn-ger-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxuk-ger-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxuk-ger-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxuk-ger-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxuk-ger-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxuk-ger-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxuk-ger-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxuk-ger-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxuk-ger-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxuk-ger-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxuk-ger-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxuk-ger-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxuk-ger-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxusa-ger-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxusa-ger-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxusa-ger-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxusa-ger-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxusa-ger-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxusa-ger-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxusa-ger-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxusa-ger-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxusa-ger-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxusa-ger-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxusa-ger-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxusa-ger-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     
-     $('#jqxCheckBoxusa-uk-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxusa-uk-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxusa-uk-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxusa-uk-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxusa-uk-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxusa-uk-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxusa-uk-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxusa-uk-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxusa-uk-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxusa-uk-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxusa-uk-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxusa-uk-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-frc-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-frc-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-frc-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-frc-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-frc-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-frc-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-frc-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-frc-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-frc-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-frc-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-frc-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-frc-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	  
-     
-     $('#jqxCheckBoxita-spn-30').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-spn-30");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-spn-30")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-spn-10').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-spn-10");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-spn-10")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-spn-5').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-spn-5");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-spn-5")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-     $('#jqxCheckBoxita-spn-2').on('change', function (event) {
-  	   var checked = event.args.checked;
-  	   if(checked)
-	    {
-	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxita-spn-2");
-	    }
-	    else {
-	    	checkedItem=checkedItem - 1;
-			   for(i=0; i<checkedItemid.length; i++)
-				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxita-spn-2")
-					 delete checkedItemid[i];
-				   }
-	    }
-  	   if(checkedItem>=2)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
-  	   else{
-  		 for(i=0; i<allitems.length; i++)
-		   {
-			 $(allitems[i]).jqxCheckBox({disabled: false});
-	     }
-  	   }
-  	 }); 
-     
-	  
-     
-	  
-     
+       
+       $('#jqxCheckBoxUSA-10_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUSA-10_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUSA-10_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       
+       $('#jqxCheckBoxUSA-5_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUSA-5_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUSA-5_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       
+       $('#jqxCheckBoxUSA-2_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUSA-2_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUSA-2_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       
+       $('#jqxCheckBoxGermany-30_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxGermany-30_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxGermany-30_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxGermany-10_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxGermany-10_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxGermany-10_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxGermany-5_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxGermany-5_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxGermany-5_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxGermany-2_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxGermany-2_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxGermany-2_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxFrance-30_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxFrance-30_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxFrance-30_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxFrance-10_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxFrance-10_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxFrance-10_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxFrance-5_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxFrance-5_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxFrance-5_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxFrance-2_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxFrance-2_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxFrance-2_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       
+       $('#jqxCheckBoxUk-30_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUk-30_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUk-30_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxUk-10_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUk-10_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUk-10_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxUk-5_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUk-5_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUk-5_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxUk-2_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxUk-2_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxUk-2_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxItaly-30_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxItaly-30_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxItaly-30_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxItaly-10_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxItaly-10_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxItaly-10_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxItaly-5_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxItaly-5_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxItaly-5_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxItaly-2_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxItaly-2_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxItaly-2_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxSpain-30_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxSpain-30_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxSpain-30_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxSpain-10_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxSpain-10_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxSpain-10_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxSpain-5_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxSpain-5_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxSpain-5_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
+       $('#jqxCheckBoxSpain-2_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxSpain-2_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxSpain-2_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+       
   });
-			
+		
+			function uncheckAll(){
+				  $("#jqxCheckBoxUSA-30").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUSA-10").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUSA-5").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUSA-2").jqxCheckBox({checked: false });
+		    	  
+		    	  $("#jqxCheckBoxGermany-30").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxGermany-10").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxGermany-5").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxGermany-2").jqxCheckBox({checked: false });
+		    	  
+		    	  $("#jqxCheckBoxFrance-30").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxFrance-10").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxFrance-5").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxFrance-2").jqxCheckBox({checked: false });
+		    	  
+		    	  $("#jqxCheckBoxUk-30").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUk-10").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUk-5").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUk-2").jqxCheckBox({checked: false });
+		    	  
+		    	  $("#jqxCheckBoxItaly-30").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxItaly-10").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxItaly-5").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxItaly-2").jqxCheckBox({checked: false });
+		    	  
+		    	  $("#jqxCheckBoxSpain-30").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxSpain-10").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxSpain-5").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxSpain-2").jqxCheckBox({checked: false });
+		    	  
+				  $("#jqxCheckBoxUSA-30_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUSA-10_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUSA-5_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUSA-2_1").jqxCheckBox({checked: false });
+		    	  
+		    	  $("#jqxCheckBoxGermany-30_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxGermany-10_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxGermany-5_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxGermany-2_1").jqxCheckBox({checked: false });
+		    	  
+		    	  $("#jqxCheckBoxFrance-30_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxFrance-10_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxFrance-5_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxFrance-2_1").jqxCheckBox({checked: false });
+		    	  
+		    	  $("#jqxCheckBoxUk-30_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUk-10_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUk-5_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxUk-2_1").jqxCheckBox({checked: false });
+		    	  
+		    	  $("#jqxCheckBoxItaly-30_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxItaly-10_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxItaly-5_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxItaly-2_1").jqxCheckBox({checked: false });
+		    	  
+		    	  $("#jqxCheckBoxSpain-30_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxSpain-10_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxSpain-5_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxSpain-2_1").jqxCheckBox({checked: false });
+
+			}
 	function navigationGraph(condition){
-				
+				fromNavigation=true;
 				if(condition=="yearBackward")
 				{ 
 				monthDate.setFullYear(monthDate.getFullYear() - 1);
-				if(mode=="merge") 
 				  drawGraph();
-					else
-						splitGraph();
 				}else
 					if(condition=="monthBackward")
 				  {   
 				    monthDate.setMonth(monthDate.getMonth() - 1);
-				    if(mode=="merge") 
-						  drawGraph();
-							else
-								splitGraph();
+				    drawGraph();
 					}
 					else
 						if(condition=="monthForward")
 					  {   
 					    monthDate.setMonth(monthDate.getMonth() + 1);
-					    if(mode=="merge") 
-							  drawGraph();
-								else
-									splitGraph();
+					    drawGraph();
 						}
 						else
 							if(condition=="yearForward")
 						  {   
 							monthDate.setFullYear(monthDate.getFullYear() + 1);
-							if(mode=="merge") 
-								  drawGraph();
-									else
-										splitGraph();
+							  drawGraph();
 							}
 
 					if   (checkDateMonth(monthDate,date))
@@ -4815,272 +3222,230 @@
 				   else
 					   return false;
 			  }
-			function splitGraph()
-			{
-				mode="split";
-				var title1;
-				var title2;
-  				var checkedItemValues = [];
-				var fromdate = formatDate(monthDate);
-				var todate = formatDate(date);
-				
-				$("#mainChart").css("display","none");
-				$("#split").css("display","none");
-				$("#merge").css("display","inline-block");
-				$("#SubChart1").html("");
-				$("#SubChart2").html("");
-				$("#SubChart1").css("display","block");
-				$("#SubChart2").css("display","block");
-				for(i=0; i<checkedItemid.length; i++)
-		   		   {
-		   	  		 if(checkedItemid[i]!=null)
-		   	  		  checkedItemValues.push(checkedItemid[i]);
-		   	       }
-				 if(checkedItemValues.length>1)
-				  { 
-					title1=itemValue[checkedItemValues[0]].title;
-				    title2=itemValue[checkedItemValues[1]].title;
-				  }
-				  else
-					 title1=itemValue[checkedItemValues[0]].title;
-				  
-		    	   var options1 = {
-			          series: [],
-			          chart: {
-			          height: 300,
-			          type: 'line',
-			        },
-			        colors: ["#00b746", "#008ffb"],
-			        fill: {
-			            type:'solid',
-			            opacity: [0.35, 1],
-			          },
-			        stroke: {
-			        	 curve: 'smooth',
-			        	  width: 3
-			        },
-			        markers: {
-			            size: 2,
-			        },
-			        title: {
-			          text: title1
-			        },
-			        dataLabels: {
-			          enabled: false
-			        },
-			        xaxis: {
-			          type: 'datetime'
-			        },
-			         yaxis: [{
-			          labels: {
-			        	    formatter: function (value) {
-			        	      return value.toFixed(3) + "%";
-			        	    }
-			        	  },
-			        
-			        }]
-			        };
-
-		    	   
-		    	   var chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
-			        
-		           dataParam = { 
-   		        		"fromdate":fromdate,
-   		        	    "todate":todate,
-   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
-   		        	    "country1":itemValue[checkedItemValues[0]].country,
-   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross
-   	     			   };
-			  	       	  $.ajax({
-			  	       	        type: "POST",
-		      	    	        contentType:  "application/json; charset=utf-8",
-		      	    	        url: "/bourse/getgraphdata",
-		      	    	        data: JSON.stringify(dataParam),
-		      	    	        dataType: 'json',
-		      	    	        timeout: 600000,
-		      	    	        success: function (response) {
-		      	    	        debugger;
-		      	    	        chart1.updateSeries([{
-							          name: itemValue[checkedItemValues[0]].title,
-							          type: 'area',
-							          data: response[0].graphResponseDTOLst
-							        }])
-		      	   },
-		      	    	        error: function (e) {
-		      	    	        	
-		      						  console.log("ERROR : ", e);
-		      	
-		      	    	        }
-		      	    	    });	
-			  	 
-			        chart1.render();
-			        
-			    	   var options2 = {
-				          series: [],
-				          chart: {
-				          height: 300,
-				          type: 'line',
-				        },
-				        colors: ["#008ffb"],
-				        fill: {
-				            type:'solid',
-				            opacity: [1],
-				          },
-				        stroke: {
-				        	 curve: 'smooth',
-				        	  width: 3
-				        },
-				        markers: {
-				            size: 2,
-				        },
-				        title: {
-				          text: title2
-				        },
-				        dataLabels: {
-				          enabled: false
-				        },
-				        xaxis: {
-				          type: 'datetime'
-				        },
-				         yaxis: [{
-				          labels: {
-				        	    formatter: function (value) {
-				        	      return value.toFixed(3) + "%";
-				        	    }
-				        	  },
-				        
-				        }]
-				        };
-			    	   var chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
-					      
-			    	    dataParam = { 
-		   		        		"fromdate":fromdate,
-		   		        	    "todate":todate,
-		   		        	    "factor1":itemValue[checkedItemValues[1]].factor,
-		   		        	    "country1":itemValue[checkedItemValues[1]].country,
-		   		        	    "yieldCurveCross1": itemValue[checkedItemValues[1]].yieldCurveCross
-		   	     			   };
-			    	    
-				  	       	  $.ajax({
-				  	       	        type: "POST",
-			      	    	        contentType:  "application/json; charset=utf-8",
-			      	    	        url: "/bourse/getgraphdata",
-			      	    	        data: JSON.stringify(dataParam),
-			      	    	        dataType: 'json',
-			      	    	        timeout: 600000,
-			      	    	        success: function (response) {
-			      	    	        
-			      	    	          chart2.updateSeries([{
-								          name: itemValue[checkedItemValues[1]].title,
-								          type: 'line',
-								          data: response[0].graphResponseDTOLst
-								        }])
-			      	   },
-			      	    	        error: function (e) {
-			      	    	        	
-			      						  console.log("ERROR : ", e);
-			      	
-			      	    	        }
-			      	    	    });	
-				  	 
-				        chart2.render();
-				        $("#dateFrom-mainChart").val(fromdate);
-	    	            $("#dateTo-mainChart").val(todate);
-			}
+			
 			function drawGraph(){
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
 				debugger;
-				var title;
+				var fontsize='12px';
 				var fromdate = formatDate(monthDate);
 				var todate = formatDate(date);
+				var cat1,cat2;
 				$("#mainChart").html("");
 				$("#mainChart").css("display","block");
-				$("#SubChart1").css("display","none");
-				$("#SubChart2").css("display","none");
-				$("#split").css("display","inline-block");
-				$("#merge").css("display","none");
-			
-			        			
-		    	  if (checkedItem==2) {
-		    			 for(i=0; i<checkedItemid.length; i++)
-				   		   {
-				   	  		 if(checkedItemid[i]!=null)
-				   	  		  checkedItemValues.push(checkedItemid[i]);
-				   	       }
-				        dataParam = { 
-		 		        		"fromdate":fromdate,
-		 		        	    "todate":todate,
-		 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
-		 		        	    "country1":itemValue[checkedItemValues[0]].country,
-		 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
-		 		        	    "factor2":itemValue[checkedItemValues[1]].factor,
-		 		        	    "country2":itemValue[checkedItemValues[1]].country,
-		 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross
-		 	     			   };
-				       
-						 if(checkedItemValues.length>1)
-					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
-					        		else 
-					        			title=itemValue[checkedItemValues[0]].title
-			        var options = {
-			          series: [],
-			          chart: {
-			          height: 300,
-			          type: 'line',
-			        },
-			        colors: ["#00b746", "#008ffb"],
-			        fill: {
-			            type:'solid',
-			            opacity: [0.25, 1],
-			          },
-			        stroke: {
-			        	 curve: 'smooth',
-			        	   width: 3
-			        },
-			        markers: {
-			            size: 2,
-			        },
-			        title: {
-			          text: title
-			        },
-			        dataLabels: {
-			          enabled: false
-			        },
-			        xaxis: {
-			          type: 'datetime'
-			        },
+				
+				 if(chart!=null)
+					   chart.destroy();
+				 
+				  var options = {
+   	  			          series: [],
+   	  			          chart: {
+		   	  			         toolbar: {
+		   	  			        show: true,
+		   	  			        offsetX: 0,
+		   	  			        offsetY: 0,
+		   	  			        tools: {
+		   	  			          download: false,
+		   	  			          selection: true,
+		   	  			          zoom: true,
+		   	  			          zoomin: true,
+		   	  			          zoomout: true,
+		   	  			          pan: true,
+		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          customIcons: []
+		   	  			        }},
+   	  			          height: 400,
+   	  			          type: 'line',
+   	  			        },
+   	  			        colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
+   	  			        fill: {
+   	  			            type:'solid',
+   	  			            opacity: [1, 1],
+   	  			          },
+   	  			        stroke: {
+   	  			        	 curve: 'straight',
+   	  			        	   width: 3
+   	  			        },
+   	  			        markers: {
+   	  			            size: 2,
+   	  			        },
+   	  			        title: {
+   	  			          text: ''
+   	  			        },
+   	  			        dataLabels: {
+   	  			          enabled: false
+   	  			        },
+   	  			        xaxis: {
+	   	  			       labels: {
+				        		 style: {
+						        	  fontSize: fontsize,
+						        	 }
+				        	  },
+   	  			           type: 'datetime'
+   	  			        },
+   	  			   legend: {
+		   	  			   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    /* formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    } */
+				    	  },
 			         yaxis: [{
-			          labels: {
+			        	labels: {
+			        		 style: {
+					        	  fontSize: fontsize,
+					        	 },
 			        	    formatter: function (value) {
 			        	      return value.toFixed(3) + "%";
 			        	    }
 			        	  },
 			        
-			        }, {
-			          opposite: true
 			        }]
-			        };
-debugger;
-			        debugger;			    	
+   	  			        };
+   	    
+   	    	        chart = new ApexCharts(document.querySelector("#mainChart"), options);
+   	    	        chart.render();
+   	    	        
+		    		  if ((checkedItem+checkedItemRight)==2) {
+		    			 for(i=0; i<checkedItemid.length; i++)
+				   		   {
+				   	  		 if(checkedItemid[i]!=null)
+				   	  		  checkedItemValues.push(checkedItemid[i]);
+				   	       }
+		    			 
+		    			 for(i=0; i<checkedItemValues.length; i++)
+				   		   {
+				   	  		 if(checkedItemValues[i].includes("_1"))
+				   	  		 cat1=checkedItemValues[i].split("_")[0];
+				   	  		 else 
+				   	  		  cat2=checkedItemValues[i];
+				   	       }
+		    			 if (cat1==cat2)
+		    				 {
+		    				  $('#alertCategory-modal').modal('show');
+		    				  $("#collapseFilter").addClass('show');
+		    				  return;
+		    				 }
+				        dataParam = { 
+		 		        		"fromdate":fromdate,
+		 		        	    "todate":todate,
+		 		        	    "dailyOrWeekly":"d",
+		 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+		 		        	    "country1":itemValue[checkedItemValues[0]].country,
+		 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+		 		        	    "minusfactor":itemValue[checkedItemValues[1]].factor,
+		 		        	    "minuscountry":itemValue[checkedItemValues[1]].country
+		 	     			   };
+				 
+						 if(checkedItemValues.length>1)
+					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
+					        		else 
+					        			title=itemValue[checkedItemValues[0]].title
+			       
+			        debugger;		
 			  	       	  $.ajax({
 			  	       	        type: "POST",
 		      	    	        contentType:  "application/json; charset=utf-8",
-		      	    	        url: "/bourse/getgraphdata",
+		      	    	        url: "/bourse/getgraphdatalistconfig",
 		      	    	        data: JSON.stringify(dataParam),
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	        
+		      	    	        	startDateF1=response[0].config[0].startDate;
+		      	    	        	startDateF2=response[0].config[1].startDate;
+		      	    	        	var dates=[];
+		      	    	      	if(!fromNavigation)
+	      	    	        	{
+		      	    	        		if (startDateF1!=null)
+		      	    	        			{ 
+		      	    	        				DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+		      	    	        				dates.push(DF1);
+		      	    	        			}
+		      	    	        			if (startDateF2!=null)
+		      	    	        			{ 
+		      	    	        				DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+		      	    	        				dates.push(DF2);
+		      	    	        			}
+		      	    	        			debugger;
+		      	    	        			newstartdate=getMinDate(dates);
+
+		      	    	        		if(startDateF1==null && startDateF2==null)
+		      	    	        		{	
+		      	    	        			defaultmonthDate  = new Date(); 
+		      	    	        			defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
+		      	    	        			defaultmonthDate.setHours(0,0,0,0);
+		      	    	        			if(monthDate.getTime()!=defaultmonthDate.getTime())
+		      	    	        			{
+		      	    	        				startdate = defaultmonthDate;
+		      	    	        				monthDate = defaultmonthDate;
+		      	    	        				drawGraph();
+		      	    	        				return;
+		      	    	        			}
+		      	    	        		}
+		      	    	        		else 
+		      	    	        		if(newstartdate.getTime()!=startdate.getTime())
+		      	    	        	    {
+		      	    	        		    startdate=newstartdate;
+		      	    	        			if(monthDate.getTime()!=startdate.getTime())
+		      	    	        			{
+		      	    	        				monthDate = startdate;
+		      	    	        				drawGraph();
+		      	    	        				return;
+		      	    	        			}
+		      	    	        		}
+	      	    	        	}
+		      	    	      		T1=response[0].config[0].displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config[0].displayDescription;
+		      	    	        	T2=response[0].config[1].displayDescription==null?itemValue[checkedItemValues[1]].title:response[0].config[1].displayDescription;
+		      	    	        	title= T1 +" vs "+ T2;
+		      	    	        	yaxisformat=(response[0].config[0].yAxisFormat!=null && response[0].config[0].yAxisFormat!="")?response[0].config[0].yAxisFormat.split(".")[1].length:'3'
+		      	    	        	chart.updateOptions({
+		      	    	        		 title: {
+		      	    				          text: title
+		      	    				        },
+
+					      				      fill: {
+					      			            type:'solid',
+					      			            opacity: [1,1],
+					      			          },
+					      			        xaxis: {
+									        	labels: {
+									        		  rotate: -45,
+									                  rotateAlways: true,
+									                  minHeight:60,
+									        		 style: {
+											        	  fontSize: fontsize,
+											        	 }
+									        	  },
+									          type: 'datetime'
+									        },
+									        yaxis: [{
+										          labels: {
+										        	    formatter: function (value) {
+										        	      return value.toFixed(yaxisformat) + "%";
+										        	    }
+										        	  },
+										        
+										        }],
+		      							});
+		      	    	        	
+		      	    	        	 var dbchartType1=response[0].config[0].chartType;
+			      	    	           chartType1 = getChartType(dbchartType1)[0];
+									
+		      	    	         
 		      	    	          chart.updateSeries([{
-							          name: itemValue[checkedItemValues[0]].title,
-							          type: 'area',
+							          name: title,
+							          type: chartType1,
 							          data: response[0].graphResponseDTOLst
-							        },{
-							          name: itemValue[checkedItemValues[1]].title,
-							          type: 'line',
-							          data:response[1]
 							        }])
 		      	   },
 		      	    	        error: function (e) {
@@ -5089,93 +3454,73 @@ debugger;
 		      	
 		      	    	        }
 		      	    	    });	
-			  	 
-			        var chart = new ApexCharts(document.querySelector("#mainChart"), options);
-			        chart.render();
+			  	    	graphHistory = { 
+						   		"screenName":"spreadmaker",
+						   	    "parameter":JSON.stringify(checkedItemValues)
+								   };	  
+	   	    	        debugger;
+						$.ajax({
+							        type: "POST",
+						     contentType:  "application/json; charset=utf-8",
+						     url: "/bourse/savegraphhistory",
+						     data: JSON.stringify(graphHistory),
+						     dataType: 'json',
+						     timeout: 600000,
+						     success: function (response) {
+						       },
+						     error: function (e) {
+						     	
+									  console.log("ERROR : ", e);
+						
+						     }
+						 });		
+			  	      
 				}
-				else{
-					  for(i=0; i<checkedItemid.length; i++)
-			   		   {
-			   	  		 if(checkedItemid[i]!=null)
-			   	  		  checkedItemValues.push(checkedItemid[i]);
-			   	       }
-					   title=itemValue[checkedItemValues[0]].title;
-					   
-			        dataParam = { 
-	   		        		"fromdate":fromdate,
-	   		        	    "todate":todate,
-	   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
-	   		        	    "country1":itemValue[checkedItemValues[0]].country,
-	   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
-	   		        	   };
-			        
-			        var options = {
-					          series: [],
-					          chart: {
-					          height: 300,
-					          type: 'line',
+		    	  
+		    	               $("#dateFrom-mainChart").val(fromdate);
+		    	               $("#dateTo-mainChart").val(todate);
+							}
+			function updateGraphFont(fontsize){
+					   chart.updateOptions({
+							xaxis: {
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 }
+					        	  },
+					             type: '',
+	  			        	tickPlacement: 'on' 
 					        },
-					        colors: ["#00b746", "#008ffb"],
-					        fill: {
-					            type:'solid',
-					            opacity: [0.35, 1],
-					          },
-					        stroke: {
-					        	 curve: 'smooth',
-					        	  width: 3
-					        },
-					        markers: {
-					            size: 2,
-					        },
-					        title: {
-					          text: title
-					        },
-					        dataLabels: {
-					          enabled: false
-					        },
-					        xaxis: {
-					          type: 'datetime'
-					        },
+					        legend: {
+					        	   fontSize: fontsize,
+					        	   showForSingleSeries: true,
+						    	   labels: {
+						    	          colors: 'White',
+						    	          useSeriesColors: false
+						    	   },
+						    	      markers: {
+						    	          width: 12,
+						    	          height: 2
+						    	      },
+						    	  /*   formatter: function(seriesName, opts) {
+						    	    	img= getCountryFlag(seriesName);
+						    	        return [img , seriesName]
+						    	    } */
+						    	  },
 					         yaxis: [{
-					          labels: {
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 },
 					        	    formatter: function (value) {
 					        	      return value.toFixed(3) + "%";
 					        	    }
 					        	  },
 					        
 					        }]
-					        };
-
-				    	   
-			        var chart = new ApexCharts(document.querySelector("#mainChart"), options);
-					        
-						       	  $.ajax({
-					  	       	        type: "POST",
-				      	    	        contentType:  "application/json; charset=utf-8",
-				      	    	        url: "/bourse/getgraphdata",
-				      	    	        data: JSON.stringify(dataParam),
-				      	    	        dataType: 'json',
-				      	    	        timeout: 600000,
-				      	    	        success: function (response) {
-				      	    	        debugger;
-				      	    	        chart.updateSeries([{
-									          name: itemValue[checkedItemValues[0]].title,
-									          type: 'area',
-									          data: response[0].graphResponseDTOLst
-									        }])
-				      	   },
-				      	    	        error: function (e) {
-				      	    	        	
-				      						  console.log("ERROR : ", e);
-				      	
-				      	    	        }
-				      	    	    });	
-					  	         chart.render();
-				              }
-		    	  
-		    	               $("#dateFrom-mainChart").val(fromdate);
-		    	               $("#dateTo-mainChart").val(todate);
-							}
+							})
+	
+			}
 			$(function (){
 
 				   $.ajax({

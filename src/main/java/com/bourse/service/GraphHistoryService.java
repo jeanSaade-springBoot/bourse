@@ -46,8 +46,7 @@ public class GraphHistoryService
 				.build();
 		return graphHistoryRepository.save(entity);
 	    }else {
-	    	GraphHistory entity = graphHistory.get();
-	    	entity = GraphHistory.builder()
+	    	GraphHistory entity = GraphHistory.builder()
 	    	 .parameter(graphHistorydto.getParameter())
 			 .screenName(graphHistorydto.getScreenName())
 			.build();
