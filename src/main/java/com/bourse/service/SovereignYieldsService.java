@@ -244,10 +244,10 @@ public class SovereignYieldsService
 			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
-			query.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			query.setParameter("minusfactor",graphReqDTO.getFactor1());
 			
 			query.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
-			query.setParameter("minuscountry",graphReqDTO.getMinusfactor());
+			query.setParameter("minuscountry",graphReqDTO.getFactor1());
 			query.execute();
 			
 			
@@ -325,10 +325,10 @@ public class SovereignYieldsService
 			query1.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query1.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
-			query1.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			query1.setParameter("minusfactor",graphReqDTO.getFactor1());
 			
 			query1.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
-			query1.setParameter("minuscountry",graphReqDTO.getMinusfactor());
+			query1.setParameter("minuscountry",graphReqDTO.getFactor1());
 			
 			query1.execute();
 			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query1.getResultList();
@@ -404,10 +404,10 @@ public class SovereignYieldsService
 			query2.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query2.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
-			query2.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			query2.setParameter("minusfactor",graphReqDTO.getFactor1());
 			
 			query2.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
-			query2.setParameter("minuscountry",graphReqDTO.getMinusfactor());
+			query2.setParameter("minuscountry",graphReqDTO.getFactor1());
 			
 			query2.execute();
 			List<GraphResponseDTO> graphResponseDTOlst3 = (List<GraphResponseDTO>) query2.getResultList();
@@ -483,10 +483,10 @@ public class SovereignYieldsService
 			query3.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query3.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
-			query3.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			query3.setParameter("minusfactor",graphReqDTO.getFactor1());
 			
 			query3.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
-			query3.setParameter("minuscountry",graphReqDTO.getMinusfactor());
+			query3.setParameter("minuscountry",graphReqDTO.getFactor1());
 			
 			query3.execute();
 			List<GraphResponseDTO> graphResponseDTOlst4 = (List<GraphResponseDTO>) query3.getResultList();
@@ -562,10 +562,10 @@ public class SovereignYieldsService
 			query4.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query4.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
-			query4.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			query4.setParameter("minusfactor",graphReqDTO.getFactor1());
 			
 			query4.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
-			query4.setParameter("minuscountry",graphReqDTO.getMinusfactor());
+			query4.setParameter("minuscountry",graphReqDTO.getFactor1());
 			
 			query4.execute();
 			List<GraphResponseDTO> graphResponseDTOlst5 = (List<GraphResponseDTO>) query4.getResultList();
@@ -641,10 +641,10 @@ public class SovereignYieldsService
 			query5.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query5.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
-			query5.setParameter("minusfactor",graphReqDTO.getMinusfactor());
+			query5.setParameter("minusfactor",graphReqDTO.getFactor1());
 			
 			query5.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
-			query5.setParameter("minuscountry",graphReqDTO.getMinusfactor());
+			query5.setParameter("minuscountry",graphReqDTO.getFactor1());
 			
 			query5.execute();
 			List<GraphResponseDTO> graphResponseDTOlst6 = (List<GraphResponseDTO>) query5.getResultList();
