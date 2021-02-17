@@ -674,7 +674,19 @@
 						</div>
 					    </div>
 				    <div id="grid-content" style="display:none;">
-						 <div id="mainChart" class="chart-box" style=" min-height: 365px;"></div>
+							   <div class='row'>
+				   	     <div class="col-1">
+						 <div class="buttons">
+						    <div class="btn-group-vertical" role="group" aria-label="Vertical example">
+						      <button type="button" class="btn btn-info" style="font-size: small;" onclick="updateGraphFont('12px')">A</button>
+						      <button type="button" class="btn btn-info" style="font-size: medium;" onclick="updateGraphFont('14px')">A</button>
+						      <button type="button" class="btn btn-info" style="font-size: large;" onclick="updateGraphFont('16px')">A</button>
+						    </div>
+						  </div>
+						</div>
+				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div></div>
+						
+						</div>
 						 <div class="row">
 						 	<div class='col-6'>
 						 		<div id="SubChart1" class="chart-box"></div>
@@ -693,13 +705,13 @@
 							    <button type="button" id="button-mainChart-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
 							    <button type="button" id="button-mainChart-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
 							  </div>
-							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							   <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
 							       <label>From</label>
-							       <input id="dateFrom-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <input id="dateFrom-mainChart" type="text" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							       <label>To</label>
-							       <input id="dateTo-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <input id="dateTo-mainChart" type="text" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							  </div>
-							  <div class="btn-group" role="group" aria-label="Third group">
+							   <div class="btn-group" role="group" aria-label="Third group">
 							   <button type="button" id="button-monthForward" class="btn btn-secondary" onclick="navigationGraph('monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
 							   <button type="button" id="button-yearForward" class="btn btn-secondary" onclick="navigationGraph('yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
 							  </div>
@@ -3235,6 +3247,24 @@
 				$("#mainChart").html("");
 				$("#mainChart").css("display","block");
 				
+				if   (checkDateMonth(monthDate,date))
+				   {
+					  $("#button-monthForward").prop('disabled', false);
+					}
+					else
+					{
+						$("#button-monthForward").prop('disabled', true);
+					}
+				
+				if   (checkDateYear(monthDate,date))
+				   {
+					  $("#button-yearForward").prop('disabled', false);
+					}
+					else
+					{
+						$("#button-yearForward").prop('disabled', true);
+					} 
+				
 				 if(chart!=null)
 					   chart.destroy();
 				 
@@ -3258,7 +3288,7 @@
    	  			          height: 400,
    	  			          type: 'line',
    	  			        },
-   	  			        colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
+   	  			        colors: ["#ffc000", "#ff0000","#ffffff","#00b0f0","#7B1FA2","#FF0000"],
    	  			        fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -3439,7 +3469,7 @@
 		      							});
 		      	    	        	
 		      	    	        	 var dbchartType1=response[0].config[0].chartType;
-			      	    	           chartType1 = getChartType(dbchartType1)[0];
+		      	    	        	 chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
 									
 		      	    	         
 		      	    	          chart.updateSeries([{

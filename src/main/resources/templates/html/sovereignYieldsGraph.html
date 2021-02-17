@@ -2702,6 +2702,24 @@
 				$("#mainChart").html("");
 				$("#mainChart").css("display","block");
 				
+				if   (checkDateMonth(monthDate,date))
+				   {
+					  $("#button-monthForward").prop('disabled', false);
+					}
+					else
+					{
+						$("#button-monthForward").prop('disabled', true);
+					}
+				
+				if   (checkDateYear(monthDate,date))
+				   {
+					  $("#button-yearForward").prop('disabled', false);
+					}
+					else
+					{
+						$("#button-yearForward").prop('disabled', true);
+					} 
+				
 				var Daily = $("#DailyRadioButton").jqxRadioButton('val');
 				 if(chart!=null)
 					   chart.destroy();
@@ -2726,7 +2744,7 @@
    	  			          height: 400,
    	  			          type: 'line',
    	  			        },
-   	  			        colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
+   	  			        colors: ["#ffc000", "#ff0000","#ffffff","#00b0f0","#7B1FA2","#FF0000"],
    	  			        fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -2841,7 +2859,7 @@
 			        	  },
 			        
 			        }],
-   	  			      colors: ["#29B6F6","#FFEB3B", "#99FF00","#FF9900","#7B1FA2","#FF0000"],
+   	  			      colors: ["#ffc000", "#ff0000","#ffffff","#00b0f0","#7B1FA2","#FF0000"],
    	  			      fill: {
    	    	            opacity: [1,1],
    	    	          },
@@ -3053,22 +3071,22 @@
 								        }
 	      							});
 	      	    	          var dbchartType1=response[0].config.chartType;
-	      	    	           chartType1 = getChartType(dbchartType1)[0];
+	      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
 							  
 	      	    	          var dbchartType2=response[1].config.chartType;
-	      	    	           chartType2 = getChartType(dbchartType2)[0];
+	      	    	           chartType2 = getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
 							   
 	      	    	          var dbchartType3=response[2].config.chartType;
-                              chartType3 = getChartType(dbchartType3)[0];
+                              chartType3 = getChartType(dbchartType3)[0]!='area'?getChartType(dbchartType3)[0]:'line';
 	      	    	         
 	      	    	           var dbchartType4=response[3].config.chartType;
-                              chartType4 = getChartType(dbchartType4)[0];
+                              chartType4 = getChartType(dbchartType4)[0]!='area'?getChartType(dbchartType4)[0]:'line';
 							  
 							   var dbchartType5=response[4].config.chartType;
-	      	    	           chartType5 = getChartType(dbchartType5)[0];
+	      	    	           chartType5 = getChartType(dbchartType5)[0]!='area'?getChartType(dbchartType5)[0]:'line';
 							  
 	      	    	          var dbchartType6=response[5].config.chartType;
-	      	    	           chartType6 = getChartType(dbchartType6)[0];
+	      	    	           chartType6 = getChartType(dbchartType6)[0]!='area'?getChartType(dbchartType6)[0]:'line';
 	      	    	           
 		    			        chart.updateSeries([{
 		    			        	 name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
@@ -3236,10 +3254,11 @@
 		      							});
 		      	    	        	
 		      	    	        	 var dbchartType1=response[0].config.chartType;
-			      	    	           chartType1 = getChartType(dbchartType1)[0];
+			      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
 									  
 			      	    	          var dbchartType2=response[1].config.chartType;
-			      	    	           chartType2 = getChartType(dbchartType2)[0];
+			      	    	           chartType2 = getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
+									
 		      	    	         
 		      	    	          chart.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
@@ -3397,13 +3416,14 @@
 									        }],
 	      							});
 	      	    	          var dbchartType1=response[0].config.chartType;
-	      	    	           chartType1 = getChartType(dbchartType1)[0];
+	      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
 							  
 	      	    	          var dbchartType2=response[1].config.chartType;
-	      	    	           chartType2 = getChartType(dbchartType2)[0];
+	      	    	           chartType2 = getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
 							   
 	      	    	          var dbchartType3=response[2].config.chartType;
-                              chartType3 = getChartType(dbchartType3)[0];
+                            chartType3 = getChartType(dbchartType3)[0]!='area'?getChartType(dbchartType3)[0]:'line';
+	      	    	    
 	      	    	         
 	      	    	          chart.updateSeries([{
 						          name: itemValue[checkedItemValues[0]].title,
@@ -3582,16 +3602,16 @@
 									        }],
 	      							});
 	      	    	          var dbchartType1=response[0].config.chartType;
-	      	    	           chartType1 = getChartType(dbchartType1)[0];
+	      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
 							  
 	      	    	          var dbchartType2=response[1].config.chartType;
-	      	    	           chartType2 = getChartType(dbchartType2)[0];
+	      	    	           chartType2 = getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
 							   
 	      	    	          var dbchartType3=response[2].config.chartType;
-	                          chartType3 = getChartType(dbchartType3)[0];
+                             chartType3 = getChartType(dbchartType3)[0]!='area'?getChartType(dbchartType3)[0]:'line';
 	      	    	         
 	      	    	           var dbchartType4=response[3].config.chartType;
-	                          chartType4 = getChartType(dbchartType4)[0];
+                             chartType4 = getChartType(dbchartType4)[0]!='area'?getChartType(dbchartType4)[0]:'line';
                           
 	      	    	          chart.updateSeries([{
 						          name: itemValue[checkedItemValues[0]].title,
@@ -3741,6 +3761,25 @@
 											        }],
 			      							});
 				      	    	    	
+				      	    	    	   if (chartType1=='area')
+				      	    	        	{
+				      	    	        	chart.updateOptions({
+				      	    	        		fill: {
+					      	    	        		  type: 'gradient',
+					      	    	        		  gradient: {
+					      	    	        		    shade: 'dark',
+					      	    	        		    type: "vertical",
+					      	    	        		    shadeIntensity: 0.2,
+					      	    	        		    inverseColors: false,
+					      	    	        		    opacityFrom:1,
+					      	    	        		    opacityTo: 0.9
+					      	    	        		  },}
+				      	    	        		, stroke: {
+						     				      	 colors: ["#ffffff"],
+					     				        },
+				      							});
+				      	    	        	}
+				      	    	    		
 				      	    	         chart.updateSeries([{
 										          name: itemValue[checkedItemValues[0]].title,
 										          type: Daily?chartType1:'column',

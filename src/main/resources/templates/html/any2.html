@@ -4998,20 +4998,19 @@
 			     var options1 = {
  				          series: [],
  				          chart: {
- 				          height: 300,
+ 				          height: 350,
  				          type: 'line',
  				        },
- 				        colors: ["#00b746", "#008ffb"],
+ 				        colors: ["#ffc000", "#ff0000","#ffffff","#00b0f0"],
  				        fill: {
  				            type:'solid',
  				            opacity: [1, 1],
  				          },
  				        stroke: {
- 				        	 
  				        	  width: 3
  				        },
  				       markers: {
- 				            size: 1,
+ 				            size: 2,
  				            shape: "square",
  				        },
  				        title: {
@@ -5029,6 +5028,10 @@
  				          type: 'datetime'
  				        },
  				        legend: {
+ 				        	  itemMargin: {
+				    	          horizontal: 5,
+				    	          vertical:30
+				    	      },
  				        	   fontSize: fontsize,
  				        	   showForSingleSeries: true,
  					    	   labels: {
@@ -5076,7 +5079,39 @@
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	        debugger;
+		      	    	        debugger; 
+		      	    	      var dbchartType1=response[0].config.chartType;
+	      	    	           chartType1 = getChartType(dbchartType1)[0];
+	      	    	         chart1.updateOptions({
+	      	    	        	xaxis: {
+							        	labels: {
+							        		  rotate: -45,
+							                  rotateAlways: true,
+							        		 style: {
+									        	  fontSize: fontsize,
+									        	 }
+							        	  },
+							          type: 'datetime'
+							        },
+	      							});
+		      	    	      if (chartType1=='area')
+	      	    	        	{
+	      	    	        	chart1.updateOptions({
+	      	    	        		fill: {
+	      	    	        		  type: 'gradient',
+	      	    	        		  gradient: {
+	      	    	        		    shade: 'dark',
+	      	    	        		    type: "vertical",
+	      	    	        		    shadeIntensity: 0.2,
+	      	    	        		    inverseColors: false,
+	      	    	        		    opacityFrom:1,
+	      	    	        		    opacityTo: 0.9
+	      	    	        		  },}
+	      	    	        	, stroke: {
+		     				      	 colors: ["#ffffff"],
+	     				        },
+	      							});
+	      	    	        	}
 		      	    	   chart1.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
 							          type: chartType1,
@@ -5098,10 +5133,10 @@
 	      	    	   	   var options2 = {
 	     				          series: [],
 	     				          chart: {
-	     				          height: 300,
+	     				          height: 350,
 	     				          type: 'line',
 	     				        },
-	     				        colors: ["#008ffb"],
+	     				       colors: ["#ffc000", "#ff0000","#ffffff","#00b0f0"],
 	     				        fill: {
 	     				            type:'solid',
 	     				            opacity: [1],
@@ -5111,7 +5146,7 @@
 	     				        	  width: 3
 	     				        },
 	     				       markers: {
-	      				            size: 1,
+	      				            size: 2,
 	      				            shape: "square",
 	      				        },
 	     				        title: {
@@ -5129,6 +5164,10 @@
 	     				          type: 'datetime'
 	     				        },
 	     				        legend: {
+	     				        	  itemMargin: {
+	    				    	          horizontal: 5,
+	    				    	          vertical:30
+	    				    	      },
 	     				        	   fontSize: fontsize,
 	     				        	   showForSingleSeries: true,
 	     					    	   labels: {
@@ -5159,8 +5198,7 @@
 	      	    	   	if (checkedItem==2) {
 	     			    	    chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
 	     					      
-	      	    	        	
-	      	    	        
+	     			    	 
 			    	    dataParam = { 
 		   		        		"fromdate":fromdate,
 		   		        	    "todate":todate,
@@ -5178,6 +5216,41 @@
 			      	    	        dataType: 'json',
 			      	    	        timeout: 600000,
 			      	    	        success: function (response) {
+			      	    	          var dbchartType2=response[0].config.chartType;
+			      	    	           chartType2 = getChartType(dbchartType2)[0];
+			      	    	       
+			      	    	         chart2.updateOptions({
+			      	    	        		xaxis: {
+									        	labels: {
+									        		  rotate: -45,
+									                  rotateAlways: true,
+									        		 style: {
+											        	  fontSize: fontsize,
+											        	 }
+									        	  },
+									          type: 'datetime'
+									        },
+			      							});
+			      	    	        	if (chartType2=='area')
+			      	    	        	{
+			      	    	        		
+			      	    	        	chart2.updateOptions({
+			      	    	        		fill: {
+				      	    	        		  type: 'gradient',
+				      	    	        		  gradient: {
+				      	    	        		    shade: 'dark',
+				      	    	        		    type: "vertical",
+				      	    	        		    shadeIntensity: 0.2,
+				      	    	        		    inverseColors: false,
+				      	    	        		    opacityFrom:1,
+				      	    	        		    opacityTo: 0.9
+				      	    	        		  },}
+			      	    	        	, stroke: {
+				     				      	 colors: ["#ffffff"],
+			     				        },
+			      							});
+			      	    	        	}
+			      	    	        	
 			      	    	   chart2.updateSeries([{
 								          name: itemValue[checkedItemValues[1]].title,
 								          type: chartType2,
@@ -5331,7 +5404,23 @@
 				$("#merge").css("display","none");
 				chartType1='line';
 				chartType2='line';
+				if   (checkDateMonth(monthDate,date))
+				   {
+					  $("#button-monthForward").prop('disabled', false);
+					}
+					else
+					{
+						$("#button-monthForward").prop('disabled', true);
+					}
 				
+				if   (checkDateYear(monthDate,date))
+				   {
+					  $("#button-yearForward").prop('disabled', false);
+					}
+					else
+					{
+						$("#button-yearForward").prop('disabled', true);
+					} 
 				 if(chart!=null)
 					   chart.destroy();
 			        			
@@ -5377,7 +5466,7 @@
 			          height: 400,
 			          type: 'line',
 			        },
-			        colors: ["#00b746", "#008ffb"],
+			        colors: ["#ffc000", "#ff0000","#ffffff","#00b0f0"],
 			        fill: {
 			            type:'solid',
 			            opacity: [1, 1],
@@ -5387,7 +5476,7 @@
 			        	   width: 3
 			        },
 			         markers: {
-   				            size: 1,
+   				            size: 2,
    				            shape: "square",
    				        },
 			        title: {
@@ -5522,7 +5611,7 @@
 		      	    	        	  chartType1 = 'line';
 		      	    	        	   chart.updateOptions({
 			      	    	        		 markers: {
-					      				            size: 1,
+					      				            size: 2,
 					      				            shape: "square",
 					      				        },
 					      				      fill: {
@@ -5628,7 +5717,7 @@
 					          height: 400,
 					          type: 'line',
 					        },
-					        colors: ["#00b746", "#008ffb"],
+					        colors: ["#ffc000", "#ff0000","#ffffff","#00b0f0"],
 					        fill: {
 					            type:'solid',
 					            opacity: [1, 1],
@@ -5638,7 +5727,7 @@
 					        	  width: 3
 					        },
 					        markers: {
-					            size: 1,
+					            size: 2,
 					            shape: "square",
 					        },
 					        title: {
@@ -5732,6 +5821,25 @@
 												        
 												        }],
 				      							});
+			      	    	        	 
+				      	    	        if (chartType1=='area')
+				      	    	        	{
+				      	    	        	chart.updateOptions({
+				      	    	        		fill: {
+					      	    	        		  type: 'gradient',
+					      	    	        		  gradient: {
+					      	    	        		    shade: 'dark',
+					      	    	        		    type: "vertical",
+					      	    	        		    shadeIntensity: 0.2,
+					      	    	        		    inverseColors: false,
+					      	    	        		    opacityFrom:1,
+					      	    	        		    opacityTo: 0.9
+					      	    	        		  },}
+				      	    	        		, stroke: {
+						     				      	 colors: ["#ffffff"],
+					     				        },
+				      							});
+				      	    	        	}
 			      	    			  newstartdate=new Date();
 				      	    	      startDateF1=response[0].config.startDate;
 				      	    		if(!fromNavigation)

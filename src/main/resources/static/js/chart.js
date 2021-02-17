@@ -54,6 +54,13 @@ function getChartType(dbChartType)
 {
   if(dbChartType!=null && dbChartType!="")
 	{
+	 if (dbChartType == "Area")
+		{
+		chartType = 'area';
+		curve = 'straight'; 
+	    return [chartType,curve];
+	    }
+	  else
 	 if (dbChartType == "Bars")
 		{
 		chartType = 'column';
