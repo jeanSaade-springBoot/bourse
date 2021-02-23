@@ -74,7 +74,7 @@ Only need to call the createMarquee() function. Optionally: pass through the fol
   function createMarquee(settings) {
 
       var defaults = {
-        duration: 40000,
+        duration: 300000,
         padding: 100,
         marquee_class: '.marquee',
         container_class: '.container',
