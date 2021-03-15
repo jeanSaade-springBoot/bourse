@@ -237,10 +237,10 @@ public class SovereignYieldsService
 			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("hundred", String.class, ParameterMode.IN);
+			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
 			query.setParameter("hundred",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("twoHundred", String.class, ParameterMode.IN);
+			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
 			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
