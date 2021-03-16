@@ -238,10 +238,10 @@ public class SovereignYieldsService
 			query.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
 			
 			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query.setParameter("hundred",graphReqDTO.getDailyOrWeekly() );
+			query.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
+			query.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -318,11 +318,11 @@ public class SovereignYieldsService
 			query1.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query1.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query.setParameter("hundred",graphReqDTO.getDailyOrWeekly() );
+			query1.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query1.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
+			query1.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query1.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query1.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query1.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -397,11 +397,11 @@ public class SovereignYieldsService
 			query2.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query2.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query.setParameter("hundred",graphReqDTO.getDailyOrWeekly() );
+			query2.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query2.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
+			query2.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query2.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query2.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query2.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -476,11 +476,11 @@ public class SovereignYieldsService
 			query3.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query3.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query.setParameter("hundred",graphReqDTO.getDailyOrWeekly() );
+			query3.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query3.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
+			query3.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query3.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query3.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query3.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -555,11 +555,11 @@ public class SovereignYieldsService
 			query4.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query4.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query.setParameter("hundred",graphReqDTO.getDailyOrWeekly() );
+			query4.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query4.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
+			query4.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query4.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query4.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query4.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -634,11 +634,11 @@ public class SovereignYieldsService
 			query5.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query5.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query.setParameter("hundred",graphReqDTO.getDailyOrWeekly() );
+			query5.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query5.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
+			query5.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query5.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query5.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query5.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -706,11 +706,11 @@ public class SovereignYieldsService
 			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("hundred", String.class, ParameterMode.IN);
-			query.setParameter("hundred",graphReqDTO.getDailyOrWeekly() );
+			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("twoHundred", String.class, ParameterMode.IN);
-			query.setParameter("twoHundred",graphReqDTO.getDailyOrWeekly() );
+			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
+			query.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query.setParameter("minusfactor",graphReqDTO.getMinusfactor());
