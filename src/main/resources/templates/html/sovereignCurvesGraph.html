@@ -36,6 +36,9 @@
         padding: 1px 42px;
  
 }
+ div#overlay {
+    margin: 15% 40%;
+}
  </style>
 </head>
 
@@ -509,7 +512,7 @@
 				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/spreadmakergraph" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
 				   </div>
 				</nav>
-				<div class="tab-content" id="nav-tabContent">
+				<div class="tab-content" id="nav-tabContent" style="display:none;">
 				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 				...
 					 </div>
@@ -683,8 +686,9 @@
 				</div>
 			</div>
           </div>
-         
-
+           <div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
           <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
             aria-hidden="true">
@@ -977,6 +981,10 @@
 	  "title":"Spain 2's/5's yield CURVE"
 	 }				 
 };
+  $(window).on('load', function(){
+	  $('#overlay').fadeOut();
+	  $('#nav-tabContent').show();
+  });
   $(document).ready(function () {
 	  
 	  $.ajax({

@@ -2187,6 +2187,7 @@ font-size: 0.8rem;
             			 $('#alert-modal-weekend').modal('show'); 
             			 return;
             		 }
+            		 today=$.jqx.dataFormat.formatdate(today,  'dd-MM-yyyy')
             		 $.ajax({
 	    	        contentType: "application/json",
 	    	        url: "/bourse/checkifcansave/"+today,
@@ -2195,6 +2196,7 @@ font-size: 0.8rem;
 	    	        cache: false,
 	    	        timeout: 600000,
 	    	        success: function (response) {
+	    	        	
 	    	        	if(response)
 	    	        	{
 		    	       	  $.ajax({

@@ -169,13 +169,13 @@ public class BourseController {
 	    	 sovereignDataList.add(sovereignData);
 	     }
 	     sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
-	     sovereignYieldsService.doCaclulation();
+	     sovereignYieldsService.doCaclulation(sovereignDataList.get(0).getReferDate());
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 	@PostMapping(value = "savesovereigndata")
     public List<SovereignData>  saveSovereignData(@RequestBody List<SovereignData> sovereignDataList){
 	    List<SovereignData> sovereignDataLst= sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
-	  sovereignYieldsService.doCaclulation();
+	    sovereignYieldsService.doCaclulation(sovereignDataLst.get(0).getReferDate());
 	  return sovereignDataLst;
     }
 	
@@ -255,7 +255,7 @@ public class BourseController {
 	{
 	
 		sovereignYieldsService.updateAuditData(updateDataDTOlst);
-		sovereignYieldsService.doCaclulation();
+		sovereignYieldsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	
@@ -325,12 +325,13 @@ public class BourseController {
 	public  GraphHistory findGraphHistoryByScreenName(@PathVariable("screenName") String screenName) {
 	return graphHistoryService.findGraphHistoryByScreenName(screenName);
 	} 
-	@PostMapping(value = "docalculation")
-	public ResponseEntity<Boolean> doCalculation() {
-		sovereignYieldsService.doCaclulation();
-	return new ResponseEntity<>(true,HttpStatus.OK);
-	} 
 	
+//	@PostMapping(value = "docalculation")
+//	public ResponseEntity<Boolean> doCalculation() {
+//		sovereignYieldsService.doCaclulation();
+//	return new ResponseEntity<>(true,HttpStatus.OK);
+//	} 
+//	
 
 	@PostMapping(value = "getgriddata")
 	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody SearchFilterDTO searchFilterDTO) {

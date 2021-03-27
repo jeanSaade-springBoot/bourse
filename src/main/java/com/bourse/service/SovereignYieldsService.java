@@ -240,7 +240,7 @@ public class SovereignYieldsService
 			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
 			query.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
 			query.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
@@ -321,7 +321,7 @@ public class SovereignYieldsService
 			query1.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
 			query1.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query1.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query1.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
 			query1.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query1.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
@@ -400,7 +400,7 @@ public class SovereignYieldsService
 			query2.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
 			query2.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query2.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query2.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
 			query2.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query2.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
@@ -479,7 +479,7 @@ public class SovereignYieldsService
 			query3.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
 			query3.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query3.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query3.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
 			query3.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query3.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
@@ -558,7 +558,7 @@ public class SovereignYieldsService
 			query4.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
 			query4.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query4.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query4.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
 			query4.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query4.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
@@ -637,7 +637,7 @@ public class SovereignYieldsService
 			query5.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
 			query5.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
 			
-			query5.registerStoredProcedureParameter("movingTwoHundereOrOnemovingAverage", String.class, ParameterMode.IN);
+			query5.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
 			query5.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
 			
 			query5.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
@@ -735,9 +735,11 @@ public class SovereignYieldsService
 		return l2;
 	}
 	
-	public void doCaclulation()
+	public void doCaclulation(String referDate)
 	{
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation");
+		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
+		query.setParameter("referDate",referDate );
 		query.execute();
 	}
 	
