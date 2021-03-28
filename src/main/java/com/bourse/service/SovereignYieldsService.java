@@ -755,6 +755,7 @@ public class SovereignYieldsService
         boolean onServer = isOnServer("live");
 		QueryColumnsDTO queryColumnsDTO = SovereignUtil.buildDynamicGridQuery(searchFilterDTO,onServer);
 		String queryStr = queryColumnsDTO.getQuery();
+		System.out.println("queryStr:--------------: \n\n"+queryStr+"\n--------------------------");
 		HashMap<Integer,String>  colHash= new HashMap<Integer, String>(); 
 		colHash = queryColumnsDTO.getColHash();
 	
@@ -763,7 +764,7 @@ public class SovereignYieldsService
 		query.registerStoredProcedureParameter("sqlQuery", String.class, ParameterMode.IN);
 		query.setParameter("sqlQuery",queryStr );
 		List<Object[]> lstdata = query.getResultList();
-
+          
 		
 		int i=1;
 		HashMap<String,List> hashData = new HashMap<String, List>();
