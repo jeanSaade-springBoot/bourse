@@ -1018,7 +1018,22 @@ font-size: 0.8rem;
 		    </div>
 		  </div>
 	 </div>
-	 
+	  	<div id="alertFiltterMax-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You cannot select more than 15 criteria
+		      </div>
+		    </div>
+		  </div>
+	 </div>
              <div id="grid">
            </div> 
            <div id="popupWindow" style="display:none;">
@@ -1621,6 +1636,7 @@ font-size: 0.8rem;
 	                columns: [ 
 	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
 		                	     // open the popup window when the user clicks a button.
+		                	     debugger;
 		   					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ", event)' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                    /*   var offset = $("#grid").offset();
 		                      $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 120, y: parseInt(offset.top) - 90 } });
@@ -1851,38 +1867,38 @@ font-size: 0.8rem;
 			 		            { name: 'SPAIN_10/30', type: 'string' },
 	 		                    { name: 'subgroupId', type: 'string' },
 	 		                    { name: 'GERMANY_2/5', type: 'string' },
-	 		                    { name: 'FRA_GER_30', type: 'string' },
-	 		                    { name: 'FRA_GER_10', type: 'string' },
-	 		                    { name: 'FRA_GER_5', type: 'string' },
-	 		                    { name: 'FRA_GER_2', type: 'string' },
-	 		                    { name: 'ITA_GER_30', type: 'string' },
-	 		                    { name: 'ITA_GER_10', type: 'string' },
-	 		                    { name: 'ITA_GER_5', type: 'string' },
-	 		                    { name: 'ITA_GER_2', type: 'string' },
-		 		                { name: 'SPN_GER_30', type: 'string' },
-	 		                    { name: 'SPN_GER_10', type: 'string' },
-	 		                    { name: 'SPN_GER_5', type: 'string' },
-	 		                    { name: 'SPN_GER_2', type: 'string' },
-	 		                    { name: 'UK_GER_30', type: 'string' },
-	 		                    { name: 'UK_GER_10', type: 'string' },
-	 		                    { name: 'UK_GER_5', type: 'string' },
-	 		                    { name: 'UK_GER_2', type: 'string' },
-	 		                    { name: 'USA_GER_30', type: 'string' },
-		 		                { name: 'USA_GER_10', type: 'string' },
-		 		                { name: 'USA_GER_5', type: 'string' },
-		 		                { name: 'USA_GER_2', type: 'string' },
-		 		                { name: 'USA_UK_30', type: 'string' },
-		 		                { name: 'USA_UK_10', type: 'string' },
-		 		                { name: 'USA_UK_5', type: 'string' },
-		 		                { name: 'USA_UK_2', type: 'string' },
-		 		                { name: 'ITA_FRC_30', type: 'string' },
-		 		                { name: 'ITA_FRC_10', type: 'string' },
-		 		                { name: 'ITA_FRC_5', type: 'string' },
-		 		                { name: 'ITA_FRC_2', type: 'string' },
-		 		                { name: 'ITA_SPN_30', type: 'string' },
-		 		                { name: 'ITA_SPN_10', type: 'string' },
-		 		                { name: 'ITA_SPN_5', type: 'string' },
-		 		                { name: 'ITA_SPN_2', type: 'string' }
+	 		                    { name: 'FRA-GER_30', type: 'string' },
+	 		                    { name: 'FRA-GER_10', type: 'string' },
+	 		                    { name: 'FRA-GER_5', type: 'string' },
+	 		                    { name: 'FRA-GER_2', type: 'string' },
+	 		                    { name: 'ITA-GER_30', type: 'string' },
+	 		                    { name: 'ITA-GER_10', type: 'string' },
+	 		                    { name: 'ITA-GER_5', type: 'string' },
+	 		                    { name: 'ITA-GER_2', type: 'string' },
+		 		                { name: 'SPN-GER_30', type: 'string' },
+	 		                    { name: 'SPN-GER_10', type: 'string' },
+	 		                    { name: 'SPN-GER_5', type: 'string' },
+	 		                    { name: 'SPN-GER_2', type: 'string' },
+	 		                    { name: 'UK-GER_30', type: 'string' },
+	 		                    { name: 'UK-GER_10', type: 'string' },
+	 		                    { name: 'UK-GER_5', type: 'string' },
+	 		                    { name: 'UK-GER_2', type: 'string' },
+	 		                    { name: 'USA-GER_30', type: 'string' },
+		 		                { name: 'USA-GER_10', type: 'string' },
+		 		                { name: 'USA-GER_5', type: 'string' },
+		 		                { name: 'USA-GER_2', type: 'string' },
+		 		                { name: 'USA-UK_30', type: 'string' },
+		 		                { name: 'USA-UK_10', type: 'string' },
+		 		                { name: 'USA-UK_5', type: 'string' },
+		 		                { name: 'USA-UK_2', type: 'string' },
+		 		                { name: 'ITA-FRA_30', type: 'string' },
+		 		                { name: 'ITA-FRA_10', type: 'string' },
+		 		                { name: 'ITA-FRA_5', type: 'string' },
+		 		                { name: 'ITA-FRA_2', type: 'string' },
+		 		                { name: 'ITA-SPN_30', type: 'string' },
+		 		                { name: 'ITA-SPN_10', type: 'string' },
+		 		                { name: 'ITA-SPN_5', type: 'string' },
+		 		                { name: 'ITA-SPN_2', type: 'string' }
 	 		                 ],
 	                         id: 'id',
 	                         localdata: ''
@@ -2149,8 +2165,8 @@ font-size: 0.8rem;
             	var date = new Date();
             	var dataToBeInserted = [];
             	var usaObject=["1"];
-            	var germanyObject=["2"];
-            	var franceObject=["3"];
+            	var germanyObject=["3"];
+            	var franceObject=["2"];
             	var ukObject=["4"];
             	var italyObject=["5"];
             	var spainObject=["6"];
@@ -2289,14 +2305,14 @@ font-size: 0.8rem;
          	var itemsusager = 0;
          	var itemsusauk = 0;
          	var itemsitafrc = 0;
-         	var itemsitager = 0;
+         	var itemsitaspn = 0;
             debugger;
          	for (i = 0; i < yieldsUSAItem.length; i++) {
          		if($(yieldsUSAItem[i]).jqxCheckBox('checked'))
          		{		
          		   yields.push(yieldsUSAItem[i].split("-")[1]+"yr");	
           			itemsUsa=1;
-          			allItems=1;
+          			allItems=allItems+1;
           			checkedItem.push(yieldsUSAItem[i]);
          		}
           	}
@@ -2304,7 +2320,7 @@ font-size: 0.8rem;
          		if($(curvesUSAItems[i]).jqxCheckBox('checked'))
          		{	curves.push(curvesUSAItems[i].split("-")[1].replace("over", "/"));	
 	      			itemsUsa=1;
-	      			allItems=1;
+	      			allItems=allItems+1;
 	      			checkedItem.push(curvesUSAItems[i]);
          		}
          	}
@@ -2324,7 +2340,7 @@ font-size: 0.8rem;
          		{	
         		yields.push(yieldsGermanyItem[i].split("-")[1]+"yr");	
       			itemsGermany=1;
-      			allItems=1;
+      			allItems=allItems+1;
       			checkedItem.push(yieldsGermanyItem[i]);
          		}
 	      	}
@@ -2333,14 +2349,14 @@ font-size: 0.8rem;
          		{	
 	     		curves.push(curvesGermanyItems[i].split("-")[1].replace("over", "/"));	
 	         		itemsGermany=1;
-	         		allItems=1;
+	         		allItems=allItems+1;
 	         		checkedItem.push(curvesGermanyItems[i]);
          		}
 	     	}
           	if(itemsGermany!=0)
           	{
           		sovereignYiledCurveSearchDTOlst.push({
-          		   "groupId":"2",
+          		   "groupId":"3",
        			   "yieldLst":yields,
        			   "curveLst":curves
        			});
@@ -2352,7 +2368,7 @@ font-size: 0.8rem;
          		{	
           		yields.push(yieldsFranceItem[i].split("-")[1]+"yr");	
       			itemsFrance=1;
-      			allItems=1;
+      			allItems=allItems+1;
       			checkedItem.push(yieldsFranceItem[i]);
          		}
 	      	}
@@ -2361,14 +2377,14 @@ font-size: 0.8rem;
          		{		
 	     		curves.push(curvesFranceItems[i].split("-")[1].replace("over", "/"));	
 	         		itemsFrance=1;
-	         		allItems=1;
+	         		allItems=allItems+1;
 	         		checkedItem.push(curvesFranceItems[i]);
          		}
 	     	}
           	if(itemsFrance!=0)
           	{
           		sovereignYiledCurveSearchDTOlst.push({
-          		   "groupId":"3",
+          		   "groupId":"2",
           		   "yieldLst":yields,
        			   "curveLst":curves
        			});
@@ -2381,7 +2397,7 @@ font-size: 0.8rem;
          		{		
          		   yields.push(yieldsUkItem[i].split("-")[1]+"yr");	
          		    itemsUk=1;
-          			allItems=1;
+          			allItems=allItems+1;
           			checkedItem.push(yieldsUkItem[i]);
          		}
           	}
@@ -2389,7 +2405,7 @@ font-size: 0.8rem;
          		if($(curvesUkItems[i]).jqxCheckBox('checked'))
          		{	curves.push(curvesUkItems[i].split("-")[1].replace("over", "/"));	
          		    itemsUk=1;
-	      			allItems=1;
+	      			allItems=allItems+1;
 	      			checkedItem.push(curvesUkItems[i]);
          		}
          	}
@@ -2409,7 +2425,7 @@ font-size: 0.8rem;
          		{		
          		   yields.push(yieldsItalyItem[i].split("-")[1]+"yr");	
          		    itemsItaly=1;
-          			allItems=1;
+          			allItems=allItems+1;
           			checkedItem.push(yieldsItalyItem[i]);
          		}
           	}
@@ -2417,7 +2433,7 @@ font-size: 0.8rem;
          		if($(curvesItalyItems[i]).jqxCheckBox('checked'))
          		{	curves.push(curvesItalyItems[i].split("-")[1].replace("over", "/"));	
          	    	itemsItaly=1;
-	      			allItems=1;
+	      			allItems=allItems+1;
 	      			checkedItem.push(curvesItalyItems[i]);
          		}
          	}
@@ -2437,7 +2453,7 @@ font-size: 0.8rem;
          		{		
          		   yields.push(yieldsSpainItem[i].split("-")[1]+"yr");	
          		    itemsSpain=1;
-          			allItems=1;
+          			allItems=allItems+1;
           			checkedItem.push(yieldsSpainItem[i]);
          		}
           	}
@@ -2445,7 +2461,7 @@ font-size: 0.8rem;
          		if($(curvesSpainItems[i]).jqxCheckBox('checked'))
          		{	curves.push(curvesSpainItems[i].split("-")[1].replace("over", "/"));	
          		    itemsSpain=1;
-	      			allItems=1;
+	      			allItems=allItems+1;
 	      			checkedItem.push(curvesSpainItems[i]);
          		}
          	}
@@ -2465,7 +2481,7 @@ font-size: 0.8rem;
          		{		
          		   yields.push(crossesfrcgerItems[i].split("-")[2]);	
           			itemsfrcger=1;
-          			allItems=1;
+          			allItems=allItems+1;
           			checkedItem.push(crossesfrcgerItems[i]);
          		}
           	}
@@ -2483,7 +2499,7 @@ font-size: 0.8rem;
          		{	
         		yields.push(crossesitagerItems[i].split("-")[2]);	
       			itemsitager=1;
-      			allItems=1;
+      			allItems=allItems+1;
       			checkedItem.push(crossesitagerItems[i]);
          		}
 	      	}
@@ -2500,7 +2516,7 @@ font-size: 0.8rem;
          		{	
           		yields.push(crossesspngerItems[i].split("-")[2]);	
       			itemsspnger=1;
-      			allItems=1;
+      			allItems=allItems+1;
       			checkedItem.push(crossesspngerItems[i]);
          		}
 	      	}
@@ -2518,7 +2534,7 @@ font-size: 0.8rem;
          			{
           			yields.push(crossesukgerItems[i].split("-")[2]);
           			itemsukger=1;
-      			    allItems=1;
+      			    allItems=allItems+1;
       				checkedItem.push(crossesukgerItems[i]);
          	  		}
           	}
@@ -2535,7 +2551,7 @@ font-size: 0.8rem;
          		{		
          		   yields.push(crossesusagerItems[i].split("-")[2]);	
          		    itemsusager=1;
-          			allItems=1;
+          			allItems=allItems+1;
           			checkedItem.push(crossesusagerItems[i]);
          		}
           	}
@@ -2547,12 +2563,13 @@ font-size: 0.8rem;
 	         			});
           		 yields=[];	
           	}
+          	debugger;
          	for (i = 0; i < crossesusaukItems.length; i++) {
          		if($(crossesusaukItems[i]).jqxCheckBox('checked'))
          		{		
-         		   yields.push(crossesusaukItems[i].split("-")[1]);	
+         		   yields.push(crossesusaukItems[i].split("-")[2]);	
          		    itemsusauk=1;
-          			allItems=1;
+          			allItems=allItems+1;
           			checkedItem.push(crossesusaukItems[i]);
          		}
           	}
@@ -2570,7 +2587,7 @@ font-size: 0.8rem;
          		{		
          		   yields.push(crossesitafrcItems[i].split("-")[2]);	
          		    itemsitafrc=1;
-          			allItems=1;
+          			allItems=allItems+1;
           			checkedItem.push(crossesitafrcItems[i]);
          		}
           	}
@@ -2585,12 +2602,12 @@ font-size: 0.8rem;
          		if($(crossesitaspnItems[i]).jqxCheckBox('checked'))
          		{		
          		   yields.push(crossesitaspnItems[i].split("-")[2]);	
-         		    itemsitager=1;
-          			allItems=1;
+         		    itemsitaspn=1;
+          			allItems=allItems+1;
           			checkedItem.push(crossesitaspnItems[i]);
          		}
           	}
-          	if(itemsitager!=0)
+          	if(itemsitaspn!=0)
           	{ sovereignCrossSearchDTOlst.push({
 	            			"crossGroupId":"8",
 	            			"crossGroupValue":yields
@@ -2604,9 +2621,10 @@ font-size: 0.8rem;
        		       "fromDate":$.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'),  'yyyy-MM-dd'),
        		       "toDate":$.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'),  'yyyy-MM-dd')
        		       };
-       debugger;
-     
-	        	  $.ajax({
+       		       
+          	if (allItems <= 15)
+        	{
+            $.ajax({
     	    	        type: "POST",
     	    	        contentType: "application/json",
     	    	        url: "/bourse/getgriddata",
@@ -2657,6 +2675,11 @@ font-size: 0.8rem;
     	
     	    	        }
     	    	    });
+        	    }
+               	else {
+               		$('#alertFiltterMax-modal').modal('show');
+              	    $('#grid').jqxGrid('hideloadelement');
+               	}
           	}
           	else
           	{
@@ -2735,10 +2758,10 @@ font-size: 0.8rem;
 				 
 				   isupdate=true;
 				   var dataToBeUpdated = [];
-				   var updatedData = $("#auditGrid").jqxGrid('getrowdata', 0);
+				   var updatedData = $("#auditGrid").jqxGrid('getrowdata', row);
 				   selectedRow.editrow = -1;
 				    $("#auditGrid").jqxGrid('endrowedit', row);
-				    var updatedData = $("#auditGrid").jqxGrid('getrowdata', 0);
+				    var updatedData = $("#auditGrid").jqxGrid('getrowdata', row);
 				
 					 	dataToBeUpdated.push({
 	         			   "subgroupId":"1",
@@ -2747,13 +2770,13 @@ font-size: 0.8rem;
 	         			   "referdate": date
 	         			});
 						dataToBeUpdated.push({
-		         			   "subgroupId":"2",
+		         			   "subgroupId":"3",
 		         			   "value":updatedData.germany,
 		         			   "fatcor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
-		         			   "subgroupId":"3",
+		         			   "subgroupId":"2",
 		         			   "value":updatedData.france,
 		         			   "fatcor":updatedData.factor,
 		         			   "referdate": date

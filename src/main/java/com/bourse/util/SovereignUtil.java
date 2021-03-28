@@ -224,8 +224,8 @@ public class SovereignUtil {
 					 
 					 forUsetables = forUsetables + tableSchema+"tmp_audit_cross ";
 					 forUsetables = forUsetables + " s"+counter+" ,";
-					 forUseSelect = forUseSelect+", \n"+ " s"+counter+"."+CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId()) +
-							         " as '"+CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId())+"_"+yield+"'";
+					 forUseSelect = forUseSelect+", \n"+ " s"+counter+".`"+CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId()) +
+							         "` as '"+CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId())+"_"+yield+"'";
 					 colHash.put(columnsId, CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId())+"_"+yield);
 					 columnsId++;
 					 counter = counter+1;	 
