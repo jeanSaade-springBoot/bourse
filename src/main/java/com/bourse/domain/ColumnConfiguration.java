@@ -24,6 +24,7 @@ public class ColumnConfiguration {
     private Long id;
     private String description ;
 	private String displayDescription;
+	private String columnName;
 	private String groupId;
 	private String subgroupId;
 	private String dataFormat;
@@ -31,6 +32,7 @@ public class ColumnConfiguration {
 	private String graphScale;
 	private String startDate;
 	private String calculationType;
+	private String dataMinIncrement;
 	private String tickValue;
 	private String currency;
 	private String chartType;

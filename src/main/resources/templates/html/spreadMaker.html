@@ -702,8 +702,8 @@
 							 </div>
 					 	       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" id="button-mainChart-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" id="button-mainChart-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
 							  </div>
 							   <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
 							       <label>From</label>
@@ -781,6 +781,21 @@
 		  </div>
 	 </div>
         </div>
+        	 	<div id="alertStartDate-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="startdatetext">
+		      </div>
+		    </div>
+		  </div>
+	 </div>
         <!---Container Fluid-->
       </div>
           <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
@@ -1295,7 +1310,13 @@
       });
       
      $("#show").click(function () {
-    	 fromNavigation =false;
+    	 debugger;
+      monthDate=new Date(); 
+   	  monthDate.setMonth(monthDate.getMonth() - 1);
+   	  monthDate.setHours(0,0,0,0);
+   	  $("#button-monthBackward").prop('disabled', false);
+		  $("#button-yearBackward").prop('disabled', false);
+   	  fromNavigation =false;
     if(checkedItem>0 && checkedItemRight>0)
       {	
     	 $("#collapseFilter").removeClass('show');
@@ -3160,49 +3181,116 @@
 		    	  $("#jqxCheckBoxSpain-2_1").jqxCheckBox({checked: false });
 
 			}
-	function navigationGraph(condition){
+			function navigationGraph(condition){
 				fromNavigation=true;
-				if(condition=="yearBackward")
-				{ 
-				monthDate.setFullYear(monthDate.getFullYear() - 1);
-				  drawGraph();
-				}else
-					if(condition=="monthBackward")
-				  {   
-				    monthDate.setMonth(monthDate.getMonth() - 1);
-				    drawGraph();
-					}
-					else
-						if(condition=="monthForward")
-					  {   
-					    monthDate.setMonth(monthDate.getMonth() + 1);
-					    drawGraph();
-						}
-						else
-							if(condition=="yearForward")
+				const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+					  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+					];
+						if(condition=="yearBackward")
+						{ 
+							expectedmonthdate = new Date(monthDate.getMonth()+"-"+monthDate.getDay()+"-"+(monthDate.getFullYear()-1));
+							if (startDateF1!=null)
+							 {if (expectedmonthdate<=startDateF1)
+								{
+									$("#button-yearBackward").prop('disabled', true);
+									$('#startdatetext').empty();
+									$('#startdatetext').append("No data available before "+monthNames[startDateF1.getMonth()]+" "+startDateF1.getFullYear())
+									$('#alertStartDate-modal').modal('show');
+								return;
+								}
+							 }
+							else
+								if (startDateF2!=null)
+								{ 
+									if (expectedmonthdate<=startDateF2)
+								   {
+										$("#button-yearBackward").prop('disabled', true);
+										$('#startdatetext').empty();
+										$('#startdatetext').append("No data available before "+monthNames[startDateF2.getMonth()]+" "+startDateF2.getFullYear())
+										$('#alertStartDate-modal').modal('show');
+									return;
+									}
+								}
+						monthDate.setFullYear(monthDate.getFullYear() - 1);
+						if(mode=="merge") 
+						  drawGraph();
+							else
+								splitGraph();
+						}else
+							if(condition=="monthBackward")
 						  {   
-							monthDate.setFullYear(monthDate.getFullYear() + 1);
-							  drawGraph();
+							
+							    expectedmonthdate = new Date(monthDate.getMonth()+"-"+monthDate.getDay()+"-"+monthDate.getFullYear());
+							    if (startDateF1!=null)
+							     {
+							    	if (expectedmonthdate<=startDateF1)
+							        {
+									$("#button-monthBackward").prop('disabled', true);
+									$("#button-yearBackward").prop('disabled', true);
+									$('#startdatetext').empty();
+									$('#startdatetext').append("No data available before "+monthNames[startDateF1.getMonth()]+" "+startDateF1.getFullYear())
+									$('#alertStartDate-modal').modal('show');
+									return;
+									}
+							     }
+							    else
+									if (startDateF2!=null)
+									{ 
+										if (expectedmonthdate<=startDateF2)
+									   {
+											$("#button-monthBackward").prop('disabled', true);
+											$("#button-yearBackward").prop('disabled', true);
+											$('#startdatetext').empty();
+											$('#startdatetext').append("No data available before "+monthNames[startDateF2.getMonth()]+" "+startDateF2.getFullYear())
+											$('#alertStartDate-modal').modal('show');
+										return;
+										}
+									}
+						    monthDate.setMonth(monthDate.getMonth() - 1);
+						    if(mode=="merge") 
+								  drawGraph();
+									else
+										splitGraph();
 							}
+							else
+								if(condition=="monthForward")
+							  {   
+								$("#button-monthBackward").prop('disabled', false);
+							    monthDate.setMonth(monthDate.getMonth() + 1);
+							    if(mode=="merge") 
+									  drawGraph();
+										else
+											splitGraph();
+								}
+								else
+									if(condition=="yearForward")
+								  {   
+									$("#button-yearBackward").prop('disabled', false);
+									monthDate.setFullYear(monthDate.getFullYear() + 1);
+									if(mode=="merge") 
+										  drawGraph();
+											else
+												splitGraph();
+									}
 
-					if   (checkDateMonth(monthDate,date))
-					   {
-						  $("#button-monthForward").prop('disabled', false);
-						}
-						else
-						{
-							$("#button-monthForward").prop('disabled', true);
-						}
-					
-					if   (checkDateYear(monthDate,date))
-					   {
-						  $("#button-yearForward").prop('disabled', false);
-						}
-						else
-						{
-							$("#button-yearForward").prop('disabled', true);
-						} 
-			}
+							if   (checkDateMonth(monthDate,date))
+							   {
+								  $("#button-monthForward").prop('disabled', false);
+								}
+								else
+								{
+									$("#button-monthForward").prop('disabled', true);
+								}
+							
+							if   (checkDateYear(monthDate,date))
+							   {
+								  $("#button-yearForward").prop('disabled', false);
+								}
+								else
+								{
+									$("#button-yearForward").prop('disabled', true);
+								} 
+					}
 			  function formatDate(date) {
 				    var d = new Date(date),
 				        month = '' + (d.getMonth() + 1),
@@ -3393,8 +3481,12 @@
 		      	    	        success: function (response) {
 		      	    	        	startDateF1=response[0].config[0].startDate;
 		      	    	        	startDateF2=response[0].config[1].startDate;
-		      	    	        	var dates=[];
-		      	    	      	if(!fromNavigation)
+		      	    	        	 if (startDateF1!=null)
+				      	    	        	startDateF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+				      	    	        if (startDateF2!=null)
+				      	    	        	 startDateF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+			      	    	        	var dates=[];
+		      	    	/*       	if(!fromNavigation)
 	      	    	        	{
 		      	    	        		if (startDateF1!=null)
 		      	    	        			{ 
@@ -3433,7 +3525,7 @@
 		      	    	        				return;
 		      	    	        			}
 		      	    	        		}
-	      	    	        	}
+	      	    	        	} */
 		      	    	      		T1=response[0].config[0].displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config[0].displayDescription;
 		      	    	        	T2=response[0].config[1].displayDescription==null?itemValue[checkedItemValues[1]].title:response[0].config[1].displayDescription;
 		      	    	        	title= T1 +" vs "+ T2;

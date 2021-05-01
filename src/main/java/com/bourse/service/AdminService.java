@@ -78,12 +78,13 @@ public class AdminService
 				                         .calculationType(columnConfiguration.getCalculationType())
 				                         .canBeNegative(columnConfiguration.isCanBeNegative())
 				                         .currency(columnConfiguration.getCurrency())
+				                         .columnName(columnConfiguration.getColumnName())
 				                         .dataFormat(columnConfiguration.getDataFormat())
 				                         .displayDescription(columnConfiguration.getDisplayDescription())
 				                         .startDate(columnConfiguration.getStartDate())
+				                         .dataMinIncrement(columnConfiguration.getDataMinIncrement())
 				                         .tickValue(columnConfiguration.getTickValue())
 				                         .chartType(columnConfiguration.getChartType())
-				                         .dataFormat(columnConfiguration.getDataFormat())
 				                         .yAxisFormat(columnConfiguration.getYAxisFormat())
 				                         .build();
         return columnConfigurationRepository.save(colInstance);
