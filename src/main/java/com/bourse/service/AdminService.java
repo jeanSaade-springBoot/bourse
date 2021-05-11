@@ -85,7 +85,13 @@ public class AdminService
 				                         .dataMinIncrement(columnConfiguration.getDataMinIncrement())
 				                         .tickValue(columnConfiguration.getTickValue())
 				                         .chartType(columnConfiguration.getChartType())
+				                         .chartColor(columnConfiguration.getChartColor())
+				                         .chartShowgrid(columnConfiguration.getChartShowgrid())
+				                         .chartshowMarkes(columnConfiguration.getChartshowMarkes())
+				                         .chartSize(columnConfiguration.getChartSize())
+				                         .chartTransparency(columnConfiguration.getChartTransparency())
 				                         .yAxisFormat(columnConfiguration.getYAxisFormat())
+				                         .showInDatabase(columnConfiguration.isShowInDatabase())
 				                         .build();
         return columnConfigurationRepository.save(colInstance);
 	}
@@ -93,6 +99,7 @@ public class AdminService
 	public ColumnConfiguration getColumnsconfigurationByGroupAndSubgroupDescription(String groupId,String subgroupId,String description) {
 		 return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndDescription(groupId, subgroupId,description);
 	}
+
 	public LowHighRobotsConfiguration UpdateLowHighRobotsByConfigId(LowHighRobotsConfigDTO lowHighRobotsConfigDTO) {
 		// TODO Auto-generated method stub
 		long id ;
