@@ -5,7 +5,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
-
+import org.apache.commons.lang3.StringUtils;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
@@ -31,6 +31,7 @@ import com.bourse.dto.UpdateDataDTO;
 import com.bourse.enums.CrossCountryEnum;
 import com.bourse.enums.SubGroupEnum;
 import com.bourse.enums.YieldEnum;
+import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
 import com.bourse.repositories.SovereignYieldsRepository;
 import com.bourse.util.SovereignUtil;
@@ -44,6 +45,8 @@ public class SovereignYieldsService
 	SovereignYieldsRepository sovereignYieldsRepository;
 	@Autowired
 	ConfigurationRepository configurationRepository;
+	@Autowired
+	ColumnConfigurationRepository columnConfigurationRepository;
 	@Autowired
 	AdminService adminService;
 	
@@ -776,7 +779,7 @@ public class SovereignYieldsService
 		{ 
 			for(Object dataIter :obj)
 			{
-				System.out.println("i: "+i+" colHash.get(i): "+colHash.get(i)+" dataIter.toString(): "+dataIter.toString());
+				// System.out.println("i: "+i+" colHash.get(i): "+colHash.get(i)+" dataIter.toString(): "+dataIter.toString());
 				
 				if(colHash.get(i).equals("id"))
 					hashRows.put(colHash.get(i), String.valueOf(id));
@@ -807,15 +810,19 @@ public class SovereignYieldsService
 		 {
 			 columnWidth=String.valueOf(100/(count-1))+"%"; // 1 to remove the id column size it will not be presented i the grid
 		 }
+		 String columnDisplayDesc = "";
 		 while (it.hasNext()) {
-			
+			    
 			    HashMap.Entry pair = (HashMap.Entry)it.next();
 			    String colsName = pair.getValue().toString();
+			    columnDisplayDesc = columnConfigurationRepository.findColumnDispayDescription(colsName.replace("yr", ""));
 		        System.out.println(pair.getKey() + " = " + colsName);
 		        it.remove(); // avoids a ConcurrentModificationException
 		        if(!colsName.equalsIgnoreCase("id"))
 		        {
-			        configColumns.put("text",colsName);
+		        	if (!StringUtils.isNotBlank(columnDisplayDesc))
+		        		columnDisplayDesc = colsName; 
+			        configColumns.put("text",columnDisplayDesc);
 			        configColumns.put("datafield",colsName);
 			        configColumns.put("width",columnWidth);
 			        lstRowsDt.add(configColumns);
