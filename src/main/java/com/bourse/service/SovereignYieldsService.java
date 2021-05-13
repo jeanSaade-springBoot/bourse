@@ -828,8 +828,28 @@ public class SovereignYieldsService
 			        configColumns.put("text",columnDisplayDesc);
 			        configColumns.put("datafield",colsName);
 			        configColumns.put("width",columnWidth);
-			        if(!StringUtils.isNotBlank(dataFormat))
-			        	configColumns.put("cellsformat",dataFormat);
+			       
+			        	String[] values = null; int val;
+			         	if (dataFormat!=null)
+			         	{
+							if (dataFormat.contains("%"))
+							{
+							 values = dataFormat.split("%")[0].split("\\.");
+								if (values.length>1)
+									val = values[1].length();
+								else val = 0;
+							
+				        	configColumns.put("cellsformat","P"+val);
+							}
+							else 
+							 { 
+								values = dataFormat.split("\\.");
+									if (values.length>1)
+										val = values[1].length();
+									else val = 0;
+								configColumns.put("cellsformat","F"+val);
+							 }
+			        	}
 			        
 			        lstRowsDt.add(configColumns);
 		        }
