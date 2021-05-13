@@ -811,11 +811,14 @@ public class SovereignYieldsService
 			 columnWidth=String.valueOf(100/(count-1))+"%"; // 1 to remove the id column size it will not be presented i the grid
 		 }
 		 String columnDisplayDesc = "";
+		 String dataFormat = "";
 		 while (it.hasNext()) {
 			    
 			    HashMap.Entry pair = (HashMap.Entry)it.next();
 			    String colsName = pair.getValue().toString();
 			    columnDisplayDesc = columnConfigurationRepository.findColumnDispayDescription(colsName.replace("yr", ""));
+			    dataFormat = columnConfigurationRepository.findColumnDataFormat(colsName.replace("yr", ""));
+			    
 		        System.out.println(pair.getKey() + " = " + colsName);
 		        it.remove(); // avoids a ConcurrentModificationException
 		        if(!colsName.equalsIgnoreCase("id"))
@@ -825,6 +828,9 @@ public class SovereignYieldsService
 			        configColumns.put("text",columnDisplayDesc);
 			        configColumns.put("datafield",colsName);
 			        configColumns.put("width",columnWidth);
+			        if(!StringUtils.isNotBlank(dataFormat))
+			        	configColumns.put("cellsformat",dataFormat);
+			        
 			        lstRowsDt.add(configColumns);
 		        }
 		        colsName = null;
