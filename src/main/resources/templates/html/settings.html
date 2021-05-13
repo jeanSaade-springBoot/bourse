@@ -23,11 +23,11 @@
     div#overlay {
     margin: 15% 40%;
 }
-   .jqx-widget-header:nth-child(20) {
+   .jqx-widget-header:nth-child(26) {
   background-color: #6495ed;
   color:white;
 } 
-  .jqx-widget-header:nth-child(21) {
+  .jqx-widget-header:nth-child(27) {
   background-color: #ffa500;
     color:white;
 } 
@@ -532,7 +532,7 @@
 				  <div class="tab-pane fade active show" id="nav-graphs-data" role="tabpanel" aria-labelledby="nav-any2-tab">
 				    <p class="mt-2" style=" margin-bottom: .5rem;">
 				    <div class="col-12 row  mt-4">
-				            <div class="col-6">
+				            <div class="col-4">
 							   <form id="graphDataform1">
 							     <div class="form-group row" style="display: none;">
 									<label for="columnTitle" class="col-sm-4 col-form-label">Column Title</label>
@@ -542,41 +542,67 @@
 									</div>
 								  </div>
 								  	<div class="form-group row">
-									<label for="graphTitle" class="col-sm-4 col-form-label">Column Name</label>
+									<label class="col-sm-8 col-form-label white"><b>Unconditional keys</b></label>
+								  </div>
+								  	<div class="form-group row">
+									<label for="ColumnName" class="col-sm-4 col-form-label">Column Name</label>
 									<div class="col-sm-8">
 									  <input type="text" class="form-control" id="columnName">
 									 </div>
 								  </div>
-								  	<div class="form-group row">
-									<label for="graphTitle" class="col-sm-4 col-form-label">Graph Title</label>
-									<div class="col-sm-8">
-									  <input type="text" class="form-control" id="graphTitle">
-									 </div>
-								  </div>
-								  <div class="form-group">
-								  <div id='jqxCheckBoxShowInNews' style='text-align: left!important;'>
-                                   Show in news graph?</div>
-									</div>
-								  <div class="form-group row">
-									<label for="columnTitle" class="col-sm-4 col-form-label">Chart Type</label>
-									<div class="col-sm-8">
-									    <div id='chartType' style='border-radius: 0.2rem;'></div> 
-									</div>
-								  </div>
-								   <div class="form-group row">
+								    <div class="form-group row">
 									<label for="dataFormat" class="col-sm-4 col-form-label">Data Format</label>
 									<div class="col-sm-8">
 									 <div id='dataFormat' style='border-radius: 0.2rem;'></div> 
 <!-- 									<input type="text" class="form-control" id="dataFormat"> -->
 									</div>
 								  </div>
-								     <div class="form-group row">
-									<label for="dataFormat" class="col-sm-4 col-form-label">Y Axis Format</label>
+								   <div class="form-group row">
+									<label for="DataMinIncrement" class="col-sm-4 col-form-label">Data Min Increment</label>
 									<div class="col-sm-8">
-									 <div id='yAxisFormats' style='border-radius: 0.2rem;'></div> 
-<!-- 									<input type="text" class="form-control" id="yAxisFormats"> -->
+									<input type="text" class="form-control" id="DataMinIncrement">
 									</div>
 								  </div>
+								    <div class="form-group row">
+									<label for="DataTickValue" class="col-sm-4 col-form-label">Data Tick Value</label>
+									<div class="col-sm-8">
+									<input type="text" class="form-control" id="tickvalue">
+									</div>
+								  </div>
+								 <div class="form-group row">
+									<label for="DataTickCurrency" class="col-sm-4 col-form-label">Data Tick Currency</label>
+									<div class="col-sm-8">
+									<input type="text" class="form-control" id="Currency">
+									</div>
+								  </div>
+								     <div class="form-group row">
+									<label for="DataStartDate" class="col-sm-4 col-form-label">Data Start Date</label>
+									<div class="col-sm-8">
+									  <div id='startDate'></div>
+									</div>
+								  </div>
+							
+								   <div class="form-group mt-4">
+								   <input id="update" type="button" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" value="Update" />
+							       <input id="cancel" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Close" />
+							       </div>
+							    </form>
+								</div>
+							   <div class="col-4">
+							   <form id="graphDataform2">
+							      <div class="form-group row">
+									<label for="columnTitle" class="col-sm-4 col-form-label">Exchange Name</label>
+									<div class="col-sm-8">
+									    <div id='exchangeName' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+							   	    <div class="form-group row">
+									<label for="columnTitle" class="col-sm-4 col-form-label">Factor Calc Type</label>
+									<div class="col-sm-8">
+									    <div id='factorcalctype' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  
 								  <div class="row">
 								 <!--  <div class="form-group">
 								  <div id='jqxCheckBoxNegative' style='padding-left: .75rem;text-align: left!important;'>
@@ -587,20 +613,42 @@
                                     SHOW in DATABASE?</div>
 									 </div>
 								  </div>
-								   <div class="form-group mt-4">
-								   <input id="update" type="button" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" value="Update" />
-							       <input id="cancel" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Close" />
-							       </div>
-							    </form>
-								</div>
-								  <div class="col-6">
-							   <form id="graphDataform2">
-							      <div class="form-group row">
-									<label for="columnTitle" class="col-sm-4 col-form-label">Exchange Name</label>
+								  	<div class="form-group row">
+									<label class="col-sm-8 col-form-label white"><b>Graphing keys</b></label>
+								  </div>
+								  	<div class="form-group row">
+									<label for="graphTitle" class="col-sm-4 col-form-label">Graph Title</label>
 									<div class="col-sm-8">
-									    <div id='exchangeName' style='border-radius: 0.2rem;'></div> 
+									  <input type="text" class="form-control" id="graphTitle">
+									 </div>
+								  </div>
+							   
+							   	  <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">Chart Type</label>
+									<div class="col-sm-8">
+									    <div id='chartType' style='border-radius: 0.2rem;'></div> 
 									</div>
 								  </div>
+								  
+							   	  <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">Chart color</label>
+									<div class="col-sm-8">
+									    <div id='chartColor' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  
+							   	  <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">Show markers</label>
+									<div class="col-sm-8">
+									    <div id='showMarkes' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  
+								</form>
+								</div>
+							   <div class="col-4">
+							   <form id="graphDataform2">
+							    
 							      <div class="form-group row" style="display:none;">
 									<label for="columnTitle" class="col-sm-4 col-form-label">Graph scale</label>
 									<div class="col-sm-6">
@@ -610,18 +658,38 @@
 									<input type="text" class="form-control" id="graphScaleText">
 									</div>
 								  </div>
-							      <div class="form-group row">
-									<label for="graphTitle" class="col-sm-4 col-form-label">Data Start Date</label>
+							   	   	  <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">Character Size</label>
 									<div class="col-sm-8">
-									  <div id='startDate'></div>
+									    <div id='chartSize' style='border-radius: 0.2rem;'></div> 
 									</div>
 								  </div>
+								  
 								   <div class="form-group row">
-									<label for="graphTitle" class="col-sm-4 col-form-label">Data Min Increment</label>
+									<label for="ChartType" class="col-sm-4 col-form-label">Transparency</label>
 									<div class="col-sm-8">
-									<input type="text" class="form-control" id="DataMinIncrement">
+									    <div id='transparency' style='border-radius: 0.2rem;'></div> 
 									</div>
 								  </div>
+								  
+								    <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">show grid</label>
+									<div class="col-sm-8">
+									    <div id='showgrid' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  
+								     <div class="form-group row">
+									<label for="YAxisFormat" class="col-sm-4 col-form-label">Y Axis Format</label>
+									<div class="col-sm-8">
+									 <div id='yAxisFormats' style='border-radius: 0.2rem;'></div> 
+<!-- 									<input type="text" class="form-control" id="yAxisFormats"> -->
+									</div>
+								  </div>
+								  <div class="form-group">
+								  <div id='jqxCheckBoxShowInNews' style='text-align: left!important;'>
+                                   Show in news graph?</div>
+									</div>
 								  <div class="form-group row" style="display:none;">
 									<label for="graphTitle" class="col-sm-4 col-form-label">Choose Increment</label>
 									<div class="col-sm-8">
@@ -635,24 +703,7 @@
 									</div>
 									</div>
 								  </div>
-								  <div class="form-group row">
-									<label for="graphTitle" class="col-sm-4 col-form-label">Data Tick Value</label>
-									<div class="col-sm-8">
-									<input type="text" class="form-control" id="tickvalue">
-									</div>
-								  </div>
-								 <div class="form-group row">
-									<label for="graphTitle" class="col-sm-4 col-form-label">Data Tick Currency</label>
-									<div class="col-sm-8">
-									<input type="text" class="form-control" id="Currency">
-									</div>
-								  </div>
-								   <div class="form-group row">
-									<label for="columnTitle" class="col-sm-4 col-form-label">Factor Calc Type</label>
-									<div class="col-sm-8">
-									    <div id='factorcalctype' style='border-radius: 0.2rem;'></div> 
-									</div>
-								  </div>
+								 
 									   <div class="form-group" id="notifcationContainer" style=" margin-top: 3rem;">
 								       <div id="jqxNotification">
 		        The Data has been updated</div>
@@ -844,14 +895,32 @@
 	  factorcalctypeSource =["INPUT","CALCULATED"];
 	 $("#factorcalctype").jqxDropDownList({ dropDownHeight: 70, source: factorcalctypeSource, theme: 'dark' , width: '100%', height: 30});
 	 
-	  formatSource =["0.0","0.00","0.000","0.0000"];
-		 $("#dataFormat").jqxDropDownList({ dropDownHeight: 120, source: formatSource, theme: 'dark' , width: '100%', height: 30});
-		 $("#yAxisFormats").jqxDropDownList({ dropDownHeight: 120, source: formatSource, theme: 'dark' , width: '100%', height: 30});
+	  formatSource =["0","0.0","0.00","0.000","0.0000","0%","0.0%","0.00%","0.000%","0.0000%"];
+		 $("#dataFormat").jqxDropDownList({ dropDownHeight:320, source: formatSource, theme: 'dark' , width: '100%', height: 30});
+		 $("#yAxisFormats").jqxDropDownList({ dropDownHeight: 320, source: formatSource, theme: 'dark' , width: '100%', height: 30});
 		 
 	 
 	 chartTypeSource =["Area","Bars","Line","Line Spline"];
 	 $("#chartType").jqxDropDownList({dropDownHeight: 120,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
-	// no data source
+	
+	 chartColorSource =["Gold","Blue","Dark"];
+	 $("#chartColor").jqxDropDownList({dropDownHeight: 90,  source: chartColorSource, theme: 'dark' , width: '100%', height: 30});
+	
+	 showMarkesSource =["None","Small","Big"];
+	 $("#showMarkes").jqxDropDownList({dropDownHeight: 90,  source: showMarkesSource, theme: 'dark' , width: '100%', height: 30});
+	
+	 chartSizeSource =["Small","Medium","Large"];
+	 $("#chartSize").jqxDropDownList({dropDownHeight: 90,  source: chartSizeSource, theme: 'dark' , width: '100%', height: 30});
+	
+	 transparencySource =["0%","25%","50%"];
+	 $("#transparency").jqxDropDownList({dropDownHeight: 90,  source: transparencySource, theme: 'dark' , width: '100%', height: 30});
+	
+	 showgridSource =["Yes","No"];
+	 $("#showgrid").jqxDropDownList({dropDownHeight: 70,  source: showgridSource, theme: 'dark' , width: '100%', height: 30});
+	
+	 
+	 
+	 // no data source
 	 $("#exchangeName").jqxDropDownList({dropDownHeight: 100,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
 	// no data source
 	$("#graphscale").jqxDropDownList({dropDownHeight: 100,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
@@ -973,6 +1042,7 @@
           datafields: [
         	  { name: 'id', type: 'long' },
         	  { name: 'canBeNegative', type: 'long' }, 
+        	  { name: 'showInDatabase', type: 'long' },  
         	  { name: 'description', type: 'string' },
         	  { name: 'displayDescription', type: 'string' },
         	  { name: 'columnName', type: 'string' }, 
@@ -987,6 +1057,11 @@
               { name: 'Crossing100d200dRobot', type: 'string' },
               { name: 'SignChange', type: 'string' },
               { name: 'chartType', type: 'string' },
+              { name: 'chartColor', type: 'string' },
+              { name: 'chartSize', type: 'string' },
+              { name: 'chartshowMarkes', type: 'string' },
+              { name: 'chartTransparency', type: 'string' },
+              { name: 'chartShowgrid', type: 'string' },
               { name: 'dataMinIncrement', type: 'string' }, 
               { name: 'tickValue', type: 'string' },
               { name: 'currency', type: 'string' }
@@ -1001,7 +1076,7 @@
           loadError: function (xhr, status, error) { }
       });
         $("#popupWindow").jqxWindow({
-            width: '70%',    height: '70%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
+            width: '90%',    height: '80%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
         });
        $('#popupWindow').on('close', function (event) {
     	   $('#robotform').trigger("reset");
@@ -1010,6 +1085,11 @@
     	   $("#factorcalctype").jqxDropDownList('clearSelection'); 
     	   $("#exchangeName").jqxDropDownList('clearSelection'); 
       	   $("#chartType").jqxDropDownList('clearSelection'); 
+      	  $("#chartColor").jqxDropDownList('clearSelection'); 
+      	  $("#chartSize").jqxDropDownList('clearSelection'); 
+      	  $("#showMarkes").jqxDropDownList('clearSelection'); 
+      	  $("#transparency").jqxDropDownList('clearSelection'); 
+      	  $("#showgrid").jqxDropDownList('clearSelection'); 
        	   $("#dataFormat").jqxDropDownList('clearSelection'); 
       	   $("#yAxisFormats").jqxDropDownList('clearSelection'); 
      	   $("#graphscale").jqxDropDownList('clearSelection'); 
@@ -1072,10 +1152,16 @@
                 		    dataFormat:$("#dataFormat").val(),
                 		  //  canBeNegative:$('#jqxCheckBoxNegative').jqxCheckBox('checked')?true:false,
                 		    canBeNegative:false,
+                		    showInDatabase:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?true:false,
                 		    graphScale:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?1:0,
                 		    startDate:$("#startDate").jqxDateTimeInput('getDate')==null?null:$.jqx.dataFormat.formatdate($("#startDate").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
                 		    calculationType:$("#factorcalctype").val(),
                 		    chartType:$("#chartType").val(),
+                		    chartColor:$("#chartColor").val(),
+                		    chartshowMarkes:$("#showMarkes").val(),
+                		    chartSize:$("#chartSize").val(),
+                		    chartTransparency:$("#transparency").val(),
+                		    chartShowgrid:$("#showgrid").val(),
                 		    dataMinIncrement:$("#DataMinIncrement").val(),
                 		    tickValue:$("#tickvalue").val(),
                 		    currency:$("#Currency").val(),
@@ -1158,7 +1244,7 @@
                   // open the popup window when the user clicks a button.
                   editrow = row;
                   var offset = $("#grid").offset();
-                  $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) + 60, y: parseInt(offset.top) - 90 } });
+                  $("#popupWindow").jqxWindow({ position: { x: parseInt(offset.left) - 160, y: parseInt(offset.top) - 160 } });
                   // get the clicked row's data and initialize the input fields.
                   var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
                   $("#configId").val(dataRecord.id);
@@ -1175,9 +1261,14 @@
                 	  $("#startDate").jqxDateTimeInput({ value: null });
                  // $("#jqxCheckBoxNegative").jqxCheckBox('val',dataRecord.canBeNegative);
                
-                  // $("#jqxCheckBoxShowIndb").val(dataRecord.jqxCheckBoxShowIndb);
+                  $("#jqxCheckBoxShowIndb").val(dataRecord.showInDatabase);
                   $("#factorcalctype").jqxDropDownList('val', dataRecord.calculationType);
-                  $("#chartType").jqxDropDownList('val', dataRecord.chartType);                  
+                  $("#chartType").jqxDropDownList('val', dataRecord.chartType);               
+                  $("#chartColor").jqxDropDownList('val', dataRecord.chartColor);               
+                  $("#showMarkes").jqxDropDownList('val', dataRecord.chartshowMarkes);               
+                  $("#chartSize").jqxDropDownList('val', dataRecord.chartSize);               
+                  $("#transparency").jqxDropDownList('val', dataRecord.chartTransparency);               
+                  $("#showgrid").jqxDropDownList('val', dataRecord.chartShowgrid);               
                   $("#DataMinIncrement").val(dataRecord.dataMinIncrement);
                   $("#tickvalue").val(dataRecord.tickValue);
                   $("#Currency").val(dataRecord.currency);
@@ -1187,7 +1278,13 @@
              },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'id', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'canBeNegative', hidden: true  },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'showInDatabase', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'chartType', hidden: true  },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'chartColor', hidden: true  },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'chartSize', hidden: true  },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'chartshowMarkes', hidden: true  },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'chartTransparency', hidden: true  },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'chartShowgrid', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'startDate', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'tickvalue', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'dataMinIncrement', hidden: true  },

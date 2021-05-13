@@ -36,6 +36,12 @@ public class ColumnConfiguration {
 	private String tickValue;
 	private String currency;
 	private String chartType;
+	private String chartColor;
+	private String chartSize;
+	private String chartshowMarkes;
+	private String chartTransparency;
+	private String chartShowgrid;
+	private boolean showInDatabase;
 	@JsonProperty("yAxisFormat")
 	private String yAxisFormat;
 }

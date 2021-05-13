@@ -798,6 +798,8 @@
   var fromNavigation=false;
   var Items="";
   var chart;
+  var yaxisformat=3;
+  var isdecimal = false;
   var allitems=[
 	  "#jqxCheckBoxUSA-10over30",
 	  "#jqxCheckBoxUSA-5over30",
@@ -2971,7 +2973,10 @@
 					        	  fontSize: fontsize,
 					        	 },
 			        	    formatter: function (value) {
-			        	      return value.toFixed(3) + "%";
+			        	    	if (isdecimal)
+				        	    	   return value.toFixed(yaxisformat);
+				        	    	else 
+				        	         return value.toFixed(yaxisformat) + "%";
 			        	    }
 			        	  },
 			        
@@ -3033,7 +3038,10 @@
 					        	  fontSize: fontsize,
 					        	 },
 			        	    formatter: function (value) {
-			        	      return value.toFixed(3) + "%";
+			        	    	if (isdecimal)
+				        	    	   return value.toFixed(yaxisformat);
+				        	    	else 
+				        	         return value.toFixed(yaxisformat) + "%";
 			        	    }
 			        	  },
 			        
@@ -3201,6 +3209,29 @@
 		 	      	    	            startDateF5 = new Date(startDateF5.split("-")[1]+"-"+startDateF5.split("-")[0]+"-"+startDateF5.split("-")[2]); 
 		 		      	    	    if (startDateF6!=null)
 		 	      	    	            startDateF6 = new Date(startDateF6.split("-")[1]+"-"+startDateF6.split("-")[0]+"-"+startDateF6.split("-")[2]);
+		 		      	    	    
+		 		      	    	    
+		 		      	    	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
+		      	    	           { 
+		      	    	        	 if (response[0].config.yAxisFormat.includes("%"))
+			      	    	           { isdecimal= false;
+			      	    	        	   if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+			      	    	        		 yaxisformat=response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+				      	    	            	else
+				      	    	            		yaxisformat=0;
+			      	    	           }
+		      	    	           else 
+		      	    	            	{
+		      	    	        	    if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+		      	    	            	yaxisformat=response[0].config.yAxisFormat.split(".")[1].length
+		      	    	            	else 
+		      	    	            		yaxisformat=0
+		      	    	            		
+		      	    	            	 isdecimal= true;	
+		      	    	            	}
+		      	    	           }
+		      	    	           else
+		      	    	        	 yaxisformat=3;
 		 		      	    	    
 		      	    	        	var dates=[];
 		      	    	   /*      	if(!fromNavigation)
@@ -3443,8 +3474,30 @@
 			      	    	      		T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
 			      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
 			      	    	        	title= T1 +" vs "+ T2;
-			      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
-			      	    	        	chart.updateOptions({
+
+			      	    	        	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
+				      	    	           { 
+				      	    	        	 if (response[0].config.yAxisFormat.includes("%"))
+					      	    	           { isdecimal= false;
+					      	    	        	   if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+					      	    	        		 yaxisformat=response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+						      	    	            	else
+						      	    	            		yaxisformat=0;
+					      	    	           }
+				      	    	           else 
+				      	    	            	{
+				      	    	        	    if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+				      	    	            	yaxisformat=response[0].config.yAxisFormat.split(".")[1].length
+				      	    	            	else 
+				      	    	            		yaxisformat=0
+				      	    	            		
+				      	    	            	 isdecimal= true;	
+				      	    	            	}
+				      	    	           }
+				      	    	           else
+				      	    	        	 yaxisformat=3;
+			      	    	        	
+			      	    	        	 chart.updateOptions({
 			      	    	        		 title: {
 			      	    				          text: title
 			      	    				        },
@@ -3467,7 +3520,10 @@
 										        yaxis: [{
 											          labels: {
 											        	    formatter: function (value) {
-											        	      return value.toFixed(yaxisformat) + "%";
+											        	    	if (isdecimal)
+								 				        	    	   return value.toFixed(yaxisformat);
+								 				        	    	else 
+								 				        	         return value.toFixed(yaxisformat) + "%";
 											        	    }
 											        	  },
 											        
@@ -3613,8 +3669,30 @@
 		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
 									T3=response[2].config.displayDescription==null?itemValue[checkedItemValues[2]].title:response[2].config.displayDescription;
 		      	    	        	title= T1 +" vs "+ T2 +" vs "+ T3;
-		      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
-		      	    	        	chart.updateOptions({
+
+		      	    	        	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
+			      	    	           { 
+			      	    	        	 if (response[0].config.yAxisFormat.includes("%"))
+				      	    	           { isdecimal= false;
+				      	    	        	   if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+				      	    	        		 yaxisformat=response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+					      	    	            	else
+					      	    	            		yaxisformat=0;
+				      	    	           }
+			      	    	           else 
+			      	    	            	{
+			      	    	        	    if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+			      	    	            	yaxisformat=response[0].config.yAxisFormat.split(".")[1].length
+			      	    	            	else 
+			      	    	            		yaxisformat=0
+			      	    	            		
+			      	    	            	 isdecimal= true;	
+			      	    	            	}
+			      	    	           }
+			      	    	           else
+			      	    	        	 yaxisformat=3;
+		      	    	        	
+		      	    	        	 chart.updateOptions({
 		      	    	        		 title: {
 		      	    				          text: title
 		      	    				        },
@@ -3637,7 +3715,10 @@
 									        yaxis: [{
 										          labels: {
 										        	    formatter: function (value) {
-										        	      return value.toFixed(yaxisformat) + "%";
+										        	    	if (isdecimal)
+							 				        	    	   return value.toFixed(yaxisformat);
+							 				        	    	else 
+							 				        	         return value.toFixed(yaxisformat) + "%";
 										        	    }
 										        	  },
 										        
@@ -3805,8 +3886,30 @@
 								T3=response[2].config.displayDescription==null?itemValue[checkedItemValues[2]].title:response[2].config.displayDescription;
 								T4=response[3].config.displayDescription==null?itemValue[checkedItemValues[3]].title:response[3].config.displayDescription;
 	      	    	        	title= T1 +" vs "+ T2 +" vs "+ T3 +" vs "+ T4;
-	      	    	        	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
-	      	    	        	chart.updateOptions({
+
+	      	    	        	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
+		      	    	           { 
+		      	    	        	 if (response[0].config.yAxisFormat.includes("%"))
+			      	    	           { isdecimal= false;
+			      	    	        	   if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+			      	    	        		 yaxisformat=response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+				      	    	            	else
+				      	    	            		yaxisformat=0;
+			      	    	           }
+		      	    	           else 
+		      	    	            	{
+		      	    	        	    if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+		      	    	            	yaxisformat=response[0].config.yAxisFormat.split(".")[1].length
+		      	    	            	else 
+		      	    	            		yaxisformat=0
+		      	    	            		
+		      	    	            	 isdecimal= true;	
+		      	    	            	}
+		      	    	           }
+		      	    	           else
+		      	    	        	 yaxisformat=3;
+	      	    	        	
+	      	    	        	 chart.updateOptions({
 	      	    	        		 title: {
 	      	    				        text: title,
 	      	    				        style: {
@@ -3832,7 +3935,10 @@
 								        yaxis: [{
 									          labels: {
 									        	    formatter: function (value) {
-									        	      return value.toFixed(yaxisformat) + "%";
+									        	    	if (isdecimal)
+						 				        	    	   return value.toFixed(yaxisformat);
+						 				        	    	else 
+						 				        	         return value.toFixed(yaxisformat) + "%";
 									        	    }
 									        	  },
 									        
@@ -3964,8 +4070,29 @@
 			      	    	        	} */
 					      	    	    	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
 					      	    	    	title= T1;
-					      	    	    	yaxisformat=(response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")?response[0].config.yAxisFormat.split(".")[1].length:'3'
-					      	    	    
+
+				      	    	        	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
+					      	    	           { 
+					      	    	        	 if (response[0].config.yAxisFormat.includes("%"))
+						      	    	           { isdecimal= false;
+						      	    	        	   if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+						      	    	        		 yaxisformat=response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+							      	    	            	else
+							      	    	            		yaxisformat=0;
+						      	    	           }
+					      	    	           else 
+					      	    	            	{
+					      	    	        	    if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+					      	    	            	yaxisformat=response[0].config.yAxisFormat.split(".")[1].length
+					      	    	            	else 
+					      	    	            		yaxisformat=0
+					      	    	            		
+					      	    	            	 isdecimal= true;	
+					      	    	            	}
+					      	    	           }
+					      	    	           else
+					      	    	        	 yaxisformat=3;
+				      	    	        	
 					      	    	    	var dbchartType1=response[0].config.chartType;
 					      	    	        chartType1 = getChartType(dbchartType1)[0];
 					      	    	        curve1 = getChartType(dbchartType1)[1];
@@ -3995,7 +4122,10 @@
 											        yaxis: [{
 												          labels: {
 												        	    formatter: function (value) {
-												        	      return value.toFixed(yaxisformat) + "%";
+												        	    	if (isdecimal)
+									 				        	    	   return value.toFixed(yaxisformat);
+									 				        	    	else 
+									 				        	         return value.toFixed(yaxisformat) + "%";
 												        	    }
 												        	  },
 												        
@@ -4092,7 +4222,10 @@
 						        	  fontSize: fontsize,
 						        	 },
 				        	    formatter: function (value) {
-				        	      return value.toFixed(3) + "%";
+				        	    	if (isdecimal)
+	 				        	    	   return value.toFixed(yaxisformat);
+	 				        	    	else 
+	 				        	         return value.toFixed(yaxisformat) + "%";
 				        	    }
 				        	  },
 				        
@@ -4131,7 +4264,10 @@
 							        	  fontSize: fontsize,
 							        	 },
 					        	    formatter: function (value) {
-					        	      return value.toFixed(3) + "%";
+					        	    	if (isdecimal)
+		 				        	    	   return value.toFixed(yaxisformat);
+		 				        	    	else 
+		 				        	         return value.toFixed(yaxisformat) + "%";
 					        	    }
 					        	  },
 					        
