@@ -41,6 +41,7 @@ public class ColumnConfiguration {
 	private String chartshowMarkes;
 	private String chartTransparency;
 	private String chartShowgrid;
+	private String exchangeLink;
 	private boolean showInDatabase;
 	@JsonProperty("yAxisFormat")
 	private String yAxisFormat;

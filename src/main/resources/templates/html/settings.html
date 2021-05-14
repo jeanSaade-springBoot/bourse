@@ -23,11 +23,11 @@
     div#overlay {
     margin: 15% 40%;
 }
-   .jqx-widget-header:nth-child(26) {
+   .jqx-widget-header:nth-child(27) {
   background-color: #6495ed;
   color:white;
 } 
-  .jqx-widget-header:nth-child(27) {
+  .jqx-widget-header:nth-child(28) {
   background-color: #ffa500;
     color:white;
 } 
@@ -591,9 +591,9 @@
 							   <div class="col-4">
 							   <form id="graphDataform2">
 							      <div class="form-group row">
-									<label for="columnTitle" class="col-sm-4 col-form-label">Exchange Name</label>
+									<label for="columnTitle" class="col-sm-4 col-form-label">Exchange Link</label>
 									<div class="col-sm-8">
-									    <div id='exchangeName' style='border-radius: 0.2rem;'></div> 
+									    <div id='exchangeLink' style='border-radius: 0.2rem;'></div> 
 									</div>
 								  </div>
 							   	    <div class="form-group row">
@@ -920,8 +920,8 @@
 	
 	 
 	 
-	 // no data source
-	 $("#exchangeName").jqxDropDownList({dropDownHeight: 100,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
+	 exchangeLinkSource =["NONE","EUREX","ICE","CME","CBOT"];
+	 $("#exchangeLink").jqxDropDownList({dropDownHeight: 160,  source: exchangeLinkSource, theme: 'dark' , width: '100%', height: 30});
 	// no data source
 	$("#graphscale").jqxDropDownList({dropDownHeight: 100,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
 		 
@@ -1062,6 +1062,7 @@
               { name: 'chartshowMarkes', type: 'string' },
               { name: 'chartTransparency', type: 'string' },
               { name: 'chartShowgrid', type: 'string' },
+              { name: 'exchangeLink', type: 'string' }, 
               { name: 'dataMinIncrement', type: 'string' }, 
               { name: 'tickValue', type: 'string' },
               { name: 'currency', type: 'string' }
@@ -1083,13 +1084,13 @@
     	   $('#graphDataform1').trigger("reset"); 
     	   $('#graphDataform2').trigger("reset"); 
     	   $("#factorcalctype").jqxDropDownList('clearSelection'); 
-    	   $("#exchangeName").jqxDropDownList('clearSelection'); 
+    	   $("#exchangeLink").jqxDropDownList('clearSelection'); 
       	   $("#chartType").jqxDropDownList('clearSelection'); 
-      	  $("#chartColor").jqxDropDownList('clearSelection'); 
-      	  $("#chartSize").jqxDropDownList('clearSelection'); 
-      	  $("#showMarkes").jqxDropDownList('clearSelection'); 
-      	  $("#transparency").jqxDropDownList('clearSelection'); 
-      	  $("#showgrid").jqxDropDownList('clearSelection'); 
+      	   $("#chartColor").jqxDropDownList('clearSelection'); 
+      	   $("#chartSize").jqxDropDownList('clearSelection'); 
+      	   $("#showMarkes").jqxDropDownList('clearSelection'); 
+      	   $("#transparency").jqxDropDownList('clearSelection'); 
+      	   $("#showgrid").jqxDropDownList('clearSelection'); 
        	   $("#dataFormat").jqxDropDownList('clearSelection'); 
       	   $("#yAxisFormats").jqxDropDownList('clearSelection'); 
      	   $("#graphscale").jqxDropDownList('clearSelection'); 
@@ -1140,32 +1141,34 @@
         });
         // update the edited row when the user clicks the 'Save' button.
         $("#update").click(function () {
+        	debugger;
             if (editrow >= 0) {
             	 var rowID = $('#grid').jqxGrid('getrowid', editrow);
             	    var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
                  var row = { id : dataRecord.id,
                 		    description:$("#DisplayName").val(),
-                		    displayDescription: $("#graphTitle").val(),
-                		    columnName: $("#columnName").val(),
+                		    displayDescription: $("#graphTitle").val()!=''?$("#graphTitle").val():null,
+                		    columnName: $("#columnName").val()!=''?$("#columnName").val():null,
                 		    groupId:groupItem.value,
                 		    subgroupId:subGroupDropDown.value,
-                		    dataFormat:$("#dataFormat").val(),
+                		    dataFormat:$("#dataFormat").val()!=''?$("#dataFormat").val():null,
                 		  //  canBeNegative:$('#jqxCheckBoxNegative').jqxCheckBox('checked')?true:false,
                 		    canBeNegative:false,
                 		    showInDatabase:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?true:false,
                 		    graphScale:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?1:0,
                 		    startDate:$("#startDate").jqxDateTimeInput('getDate')==null?null:$.jqx.dataFormat.formatdate($("#startDate").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
-                		    calculationType:$("#factorcalctype").val(),
-                		    chartType:$("#chartType").val(),
-                		    chartColor:$("#chartColor").val(),
-                		    chartshowMarkes:$("#showMarkes").val(),
-                		    chartSize:$("#chartSize").val(),
-                		    chartTransparency:$("#transparency").val(),
-                		    chartShowgrid:$("#showgrid").val(),
-                		    dataMinIncrement:$("#DataMinIncrement").val(),
-                		    tickValue:$("#tickvalue").val(),
-                		    currency:$("#Currency").val(),
-                		    yAxisFormat:$("#yAxisFormats").val()
+                		    calculationType:$("#factorcalctype").val()!=''?$("#factorcalctype").val():null,
+                		    chartType:$("#chartType").val()!=''?$("#chartType").val():null,
+                		    chartColor:$("#chartColor").val()!=''?$("#chartColor").val():null,
+                		    chartshowMarkes:$("#showMarkes").val()!=''?$("#showMarkes").val():null,
+                		    chartSize:$("#chartSize").val()!=''?$("#chartSize").val():null,
+                		    chartTransparency:$("#transparency").val()!=''?$("#transparency").val():null,
+                		    chartShowgrid:$("#showgrid").val()!=''?$("#showgrid").val():null,
+                		    exchangeLink:$("#exchangeLink").val()!=''?$("#exchangeLink").val():null,
+                		    dataMinIncrement:$("#DataMinIncrement").val()!=''?$("#DataMinIncrement").val():null,
+                		    tickValue:$("#tickvalue").val()!=''?$("#tickvalue").val():null,
+                		    currency:$("#Currency").val()!=''?$("#Currency").val():null,
+                		    yAxisFormat:$("#yAxisFormats").val()!=''?$("#yAxisFormats").val():null,
                 		    };
              	debugger;
     	       	  $.ajax({
@@ -1268,7 +1271,8 @@
                   $("#showMarkes").jqxDropDownList('val', dataRecord.chartshowMarkes);               
                   $("#chartSize").jqxDropDownList('val', dataRecord.chartSize);               
                   $("#transparency").jqxDropDownList('val', dataRecord.chartTransparency);               
-                  $("#showgrid").jqxDropDownList('val', dataRecord.chartShowgrid);               
+                  $("#showgrid").jqxDropDownList('val', dataRecord.chartShowgrid);     
+                  $("#exchangeLink").jqxDropDownList('val', dataRecord.exchangeLink);      
                   $("#DataMinIncrement").val(dataRecord.dataMinIncrement);
                   $("#tickvalue").val(dataRecord.tickValue);
                   $("#Currency").val(dataRecord.currency);
@@ -1285,12 +1289,13 @@
             { text: '', columngroup: 'TimeAndFormat', datafield: 'chartshowMarkes', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'chartTransparency', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'chartShowgrid', hidden: true  },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'exchangeLink', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'startDate', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'tickvalue', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'dataMinIncrement', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'Currency', hidden: true  },
-            { text: '', columngroup: 'TimeAndFormat', datafield: 'columnName', hidden: true  }, 
-            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'description', width: '9%',color:'#3F0' },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'description', hidden: true  }, 
+            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'columnName', width: '9%',color:'#3F0' },
             { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', width: '9%' },
             { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yAxisFormat', width: '9%'},
             { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'calculationType', width: '9%' },

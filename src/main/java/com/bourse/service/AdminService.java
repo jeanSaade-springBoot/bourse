@@ -87,6 +87,7 @@ public class AdminService
 				                         .chartType(columnConfiguration.getChartType())
 				                         .chartColor(columnConfiguration.getChartColor())
 				                         .chartShowgrid(columnConfiguration.getChartShowgrid())
+				                         .exchangeLink(columnConfiguration.getExchangeLink())
 				                         .chartshowMarkes(columnConfiguration.getChartshowMarkes())
 				                         .chartSize(columnConfiguration.getChartSize())
 				                         .chartTransparency(columnConfiguration.getChartTransparency())
