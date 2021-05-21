@@ -3537,12 +3537,12 @@
 			      	    	           chartType2 = getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
 									     
 			      	    	          chart.updateSeries([{
-								          name: itemValue[checkedItemValues[0]].title,
-								          type: Daily?chartType1:'column',
+			      	    	        	name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
+							             type: Daily?chartType1:'column',
 								          data: response[0].graphResponseDTOLst
 								        },{
-								          name: itemValue[checkedItemValues[1]].title,
-								          type: Daily?chartType2:'column',
+								        	name:  response[1].config!=null?(response[1].config.displayDescription==null?'':response[1].config.displayDescription):'',
+											 type: Daily?chartType2:'column',
 								          data:response[1].graphResponseDTOLst
 								        }])
 			      	   },
@@ -3734,17 +3734,17 @@
 	                             chartType3 = getChartType(dbchartType3)[0]!='area'?getChartType(dbchartType3)[0]:'line';
 		      	    	       
 		      	    	          chart.updateSeries([{
-							          name: itemValue[checkedItemValues[0]].title,
-							          type: Daily?chartType1:'column',
+		      	    	        	name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
+	                                  type: Daily?chartType1:'column',
 							          data: response[0].graphResponseDTOLst
 							        },{
-							          name: itemValue[checkedItemValues[1]].title,
-							          type: Daily?chartType2:'column',
+							        	name:  response[1].config!=null?(response[1].config.displayDescription==null?'':response[1].config.displayDescription):'',
+									    type: Daily?chartType2:'column',
 							          data:response[1].graphResponseDTOLst
 							        }
 							        ,{
-								          name: itemValue[checkedItemValues[2]].title,
-								          type:  Daily?chartType3:'column',
+							        	name: response[2].config!=null?(response[2].config.displayDescription==null?'':response[2].config.displayDescription):'',
+										  type:  Daily?chartType3:'column',
 								          data:response[2].graphResponseDTOLst
 								        }])
 		      	   },
@@ -3957,21 +3957,21 @@
                              chartType4 = getChartType(dbchartType4)[0]!='area'?getChartType(dbchartType4)[0]:'line';
 							 
 	      	    	          chart.updateSeries([{
-						          name: itemValue[checkedItemValues[0]].title,
-						          type:  Daily?chartType1:'column',
+	      	    	        	 name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
+											 type:  Daily?chartType1:'column',
 						          data: response[0].graphResponseDTOLst
 						        },{
-						          name: itemValue[checkedItemValues[1]].title,
-						          type:  Daily?chartType2:'column',
+						        	   name:  response[1].config!=null?(response[1].config.displayDescription==null?'':response[1].config.displayDescription):'',
+										         type:  Daily?chartType2:'column',
 						          data:response[1].graphResponseDTOLst
 						        },{
-							          name: itemValue[checkedItemValues[2]].title,
-							          type:  Daily?chartType3:'column',
+						        	name: response[2].config!=null?(response[2].config.displayDescription==null?'':response[2].config.displayDescription):'',
+									         type:  Daily?chartType3:'column',
 							          data:response[2].graphResponseDTOLst
 							        }
 						        ,{
-							          name: itemValue[checkedItemValues[3]].title,
-							          type:  Daily?chartType4:'column',
+						        	 name: response[3].config!=null?(response[3].config.displayDescription==null?'':response[3].config.displayDescription):'',
+									           type:  Daily?chartType4:'column',
 							          data:response[3].graphResponseDTOLst
 							        }])
 		      	   },
@@ -4152,8 +4152,8 @@
 				      	    	        	}
 					      	    	    	
 					      	    	         chart.updateSeries([{
-											          name: itemValue[checkedItemValues[0]].title,
-											          type: Daily?chartType1:'column',
+					      	    	        	name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
+														  type: Daily?chartType1:'column',
 											          data: response[0].graphResponseDTOLst
 											        }]);
 				      	   },
