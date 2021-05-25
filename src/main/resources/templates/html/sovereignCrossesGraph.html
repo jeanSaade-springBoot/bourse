@@ -3500,7 +3500,9 @@
 			       	    	          var dbchartType2=response[1].config.chartType;
 			       	    	           chartType2 = getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
 			  						 
-			      	    	           
+			       	    	        var getFormatResult0 = getFormat(response[0].config.dataFormat);
+			       	    	        var getFormatResult1 = getFormat(response[1].config.dataFormat);	      	    	       
+			       	    	 	  
 		      	    	        			chart.updateOptions({
 		      	    	        		 title: {
 		      	    				          text: title
@@ -3532,6 +3534,26 @@
 										        	  },
 										        
 										        }],
+										    	tooltip: {
+													  y: {
+														formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+														
+															if(seriesIndex == 0)
+															{
+															if (getFormatResult0[1])
+															  return  value.toFixed(getFormatResult0[0]);
+															else 
+															  return  value.toFixed(getFormatResult0[0]) + "%";
+															}else 
+																{
+																  if (getFormatResult1[1])
+																	  return  value.toFixed(getFormatResult1[0]);
+																	else 
+																		 return  value.toFixed(getFormatResult1[0]) + "%";
+																	}
+														}
+													  },
+													}
 		      							});
 		      	    	        	
 		      	    	         
@@ -3689,7 +3711,10 @@
 			      	    	           }
 			      	    	           else
 			      	    	        	 yaxisformat=3;
-		      	    	        	
+		      	    	       	var getFormatResult0 = getFormat(response[0].config.dataFormat);
+		      	    			var getFormatResult1 = getFormat(response[1].config.dataFormat);
+		      	    			var getFormatResult2 = getFormat(response[2].config.dataFormat);
+		      	    		
 		      	    	        	 chart.updateOptions({
 		      	    	        		 title: {
 		      	    				          text: title
@@ -3721,6 +3746,32 @@
 										        	  },
 										        
 										        }],
+										        tooltip: {
+										  		  y: {
+										  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+										  			
+										  				if(seriesIndex == 0)
+										  				{
+										  				if (getFormatResult0[1])
+										  				  return  value.toFixed(getFormatResult0[0]);
+										  				else 
+										  				  return  value.toFixed(getFormatResult0[0]) + "%";
+										  				}else 
+										  					 if(seriesIndex == 1){
+										  					  if (getFormatResult1[1])
+										  						  return  value.toFixed(getFormatResult1[0]);
+										  						else 
+										  							 return  value.toFixed(getFormatResult1[0]) + "%";
+										  					 }else 
+										  						 if(seriesIndex == 2){
+										  						  if (getFormatResult2[1])
+										  							  return  value.toFixed(getFormatResult2[0]);
+										  							else 
+										  								 return  value.toFixed(getFormatResult2[0]) + "%";
+										  							}
+										  			}
+										  		  },
+										  		}
 		      							});
 		      	    	        	 var dbchartType1=response[0].config.chartType;
 		       	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
@@ -3907,7 +3958,12 @@
 	      	    	           }
 	      	    	           else
 	      	    	        	 yaxisformat=3;
-     	    	        	
+     	    	        	 
+     	    	        var getFormatResult0 = getFormat(response[0].config.dataFormat);
+     	    	   		var getFormatResult1 = getFormat(response[1].config.dataFormat);
+     	    	   		var getFormatResult2 = getFormat(response[2].config.dataFormat);
+     	    	   		var getFormatResult3 = getFormat(response[3].config.dataFormat);
+     	    	   		console.log(getFormatResult0[0],getFormatResult1[0],getFormatResult2[0],getFormatResult3[0])
       	    	        	chart.updateOptions({
       	    	        		 title: {
       	    				        text: title,
@@ -3940,8 +3996,39 @@
 									        	         return value.toFixed(yaxisformat) + "%";
 								        	    }
 								        	  },
-								        
 								        }],
+										tooltip: {
+								    		  y: {
+								    			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+								    			
+								    				if(seriesIndex == 0)
+								    				{
+								    				if (getFormatResult0[1])
+								    				  return  value.toFixed(getFormatResult0[0]);
+								    				else 
+								    				  return  value.toFixed(getFormatResult0[0]) + "%";
+								    				}else 
+								    					 if(seriesIndex == 1){
+								    					  if (getFormatResult1[1])
+								    						  return  value.toFixed(getFormatResult1[0]);
+								    						else 
+								    							 return  value.toFixed(getFormatResult1[0]) + "%";
+								    					 }else 
+								    						 if(seriesIndex == 2){
+								    						  if (getFormatResult2[1])
+								    							  return  value.toFixed(getFormatResult2[0]);
+								    							else 
+								    								 return  value.toFixed(getFormatResult2[0]) + "%";
+								    						 }else 
+									    						 if(seriesIndex == 3){
+									    						  if (getFormatResult3[1])
+									    							  return  value.toFixed(getFormatResult3[0]);
+									    							else 
+									    								 return  value.toFixed(getFormatResult3[0]) + "%";
+									    							}
+								    			}
+								    		  },
+								    		}
       							});
       	    	          var dbchartType1=response[0].config.chartType;
      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
@@ -4092,6 +4179,8 @@
 				      	    	           }
 				      	    	           else
 				      	    	        	 yaxisformat=3;
+			      	    	        	 
+			      	    	        	var getFormatResult = getFormat(response[0].config.dataFormat);
 			      	    	        	
 			      	    	        	 var dbchartType1=response[0].config.chartType;
 				      	    	           chartType1 = getChartType(dbchartType1)[0];
@@ -4131,6 +4220,17 @@
 											        	  },
 											        
 											        }],
+											        tooltip: {
+											  		  y: {
+											  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+											  			
+											  				if (getFormatResult[1])
+											  					  return  value.toFixed(getFormatResult[0]);
+											  					else 
+											  					  return  value.toFixed(getFormatResult[0]) + "%";
+											  			}
+											  		  },
+											  		}
 			      							});
 				      	    	    	   
 				      	    	    		   if (chartType1=='area')

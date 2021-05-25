@@ -902,6 +902,7 @@
   var chart2;
   var fromNavigation = false;
   var isdecimal = false;
+  var dataFormatIsDecimal=false;
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
 	  "#jqxCheckBoxUSA-5",
@@ -1515,6 +1516,7 @@
   var chartType1='line';
   var chartType2='line'; 
   var yaxisformat=3;
+  var dataFormat=3;
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
 	  $('#nav-tabContent').show();
@@ -5170,7 +5172,11 @@
 		      	    	        debugger; 
 		      	    	      var dbchartType1=response[0].config.chartType;
 	      	    	           chartType1 = getChartType(dbchartType1)[0];
-	      	    	         chart1.updateOptions({
+	      	    	           
+	      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
+	      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
+	      	    	         
+	      	    	        	    chart1.updateOptions({
 	      	    	        	xaxis: {
 							        	labels: {
 							        		  rotate: -45,
@@ -5181,6 +5187,30 @@
 							        	  },
 							          type: 'datetime'
 							        },
+							        yaxis: [{
+			 				        	labels: {
+			 				        		 style: {
+			 						        	  fontSize: fontsize,
+			 						        	 },
+			 				        	    formatter: function (value) { 
+			 				        	   	if (getYAxisFormatResult[1])
+							        	    	   return value.toFixed(getYAxisFormatResult[0]);
+							        	    	else 
+							        	         return value.toFixed(getYAxisFormatResult[0]) + "%";
+			 				        	    }
+			 				        	  },
+			 				        
+			 				        }],
+							        tooltip: {
+										  y: {
+											formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+											    if (getDataFormatResult[1])
+												  return  value.toFixed(getDataFormatResult[0]);
+												else 
+												  return  value.toFixed(getDataFormatResult[0]) + "%";
+											}
+										  },
+										}
 	      							});
 		      	    	      if (chartType1=='area')
 	      	    	        	{
@@ -5309,7 +5339,10 @@
 			      	    	        success: function (response) {
 			      	    	          var dbchartType2=response[0].config.chartType;
 			      	    	           chartType2 = getChartType(dbchartType2)[0];
-			      	    	       
+			      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
+			      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
+			      	    	         
+			      	    	           
 			      	    	         chart2.updateOptions({
 			      	    	        		xaxis: {
 									        	labels: {
@@ -5321,6 +5354,30 @@
 									        	  },
 									          type: 'datetime'
 									        },
+									        yaxis: [{
+					 				        	labels: {
+					 				        		 style: {
+					 						        	  fontSize: fontsize,
+					 						        	 },
+					 				        	    formatter: function (value) { 
+					 				        	   	if (getYAxisFormatResult[1])
+									        	    	   return value.toFixed(getYAxisFormatResult[0]);
+									        	    	else 
+									        	         return value.toFixed(getYAxisFormatResult[0]) + "%";
+					 				        	    }
+					 				        	  },
+					 				        
+					 				        }],
+									        tooltip: {
+												  y: {
+													formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+													    if (getDataFormatResult[1])
+														  return  value.toFixed(getDataFormatResult[0]);
+														else 
+														  return  value.toFixed(getDataFormatResult[0]) + "%";
+													}
+												  },
+												}
 			      							});
 			      	    	        	if (chartType2=='area')
 			      	    	        	{
@@ -5702,6 +5759,9 @@
 			      	    	           else
 			      	    	        	 yaxisformat=3;
 		      	    	        	
+		      	    	        	var getFormatResult0 = getFormat(response[0].config.dataFormat);
+		      	    	        	var getFormatResult1 = getFormat(response[1].config.dataFormat);
+		      	    	        	 
 		      	    	        	chart.updateOptions({
 		      	    	        		 title: {
 		      	    				          text: title
@@ -5721,6 +5781,7 @@
 									        	  },
 									          type: 'datetime'
 									        },
+									        
 									        yaxis: [{
 										          labels: {
 										        	    formatter: function (value) {
@@ -5732,6 +5793,26 @@
 										        	  },
 										        
 										        }],
+										        tooltip: {
+										        	  y: {
+										        	    formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+										        	    
+										        	    	if(seriesIndex == 0)
+										        	    	{
+										        	    	if (getFormatResult0[1])
+										        	    	  return  value.toFixed(getFormatResult0[0]);
+						 				        	    	else 
+						 				        	    	  return  value.toFixed(getFormatResult0[0]) + "%";
+										        	    	}else 
+											        	    	{
+											        	    	  if (getFormatResult1[1])
+												        	    	  return  value.toFixed(getFormatResult1[0]);
+								 				        	    	else 
+								 				        	    		 return  value.toFixed(getFormatResult1[0]) + "%";
+												        	    	}
+										        	    }
+										        	  },
+										        	}
 		      							});
 		      	    	        var dbchartType1=response[0].config.chartType;
 		      	    	          if (dbchartType1 == "Bars")
@@ -5951,7 +6032,12 @@
 				      	    	           }
 				      	    	           else
 				      	    	        	 yaxisformat=3;
+			      	    	        	debugger;
 			      	    	        	
+			      	    	        	var getFormatResult = getFormat(response[0].config.dataFormat);
+			      	    	        	dataFormat= getFormatResult[0];
+			      	    	        	dataFormatIsDecimal=getFormatResult[1];
+			      	    	       
 				      	    	           chart.updateOptions({
 				      	    	        		 title: {
 				      	    				          text: title
@@ -5981,6 +6067,17 @@
 												        	  },
 												        
 												        }],
+
+												        tooltip: {
+												        	  y: {
+												        	    formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+												        	       if (dataFormatIsDecimal)
+												        	    	  return  value.toFixed(dataFormat);
+								 				        	    	else 
+								 				        	    		 return  value.toFixed(dataFormat) + "%";
+												        	    }
+												        	  }
+												        	}
 				      							});
 			      	    	        	 
 				      	    	        if (chartType1=='area')

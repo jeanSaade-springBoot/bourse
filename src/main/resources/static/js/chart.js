@@ -87,3 +87,29 @@ function getChartType(dbChartType)
 	return [chartType,curve];
 	}
 }
+function getFormat(Format)
+{
+ var valueFormat=3;
+  var  FormatIsDecimal= false;
+  
+  if (Format!=null && Format!="")
+   { 
+	 if (Format.includes("%"))
+       { FormatIsDecimal= false;
+    	   if (typeof Format.split(".")[1] != 'undefined')
+    		 valueFormat=Format.split("%")[0].split(".")[1].length;
+            	else
+            		valueFormat=0;
+       }
+   else 
+    	{
+	    if (typeof Format.split(".")[1] != 'undefined')
+    	valueFormat=Format.split(".")[1].length
+    	else 
+    		valueFormat=0;
+    		
+    		FormatIsDecimal= true;	
+    	}
+   }
+   	return [valueFormat,FormatIsDecimal];
+}

@@ -799,6 +799,12 @@
   var Items="";
   var chart;
   var yaxisformat=3;
+    var startDateF1;
+  	var startDateF2;
+  	var startDateF3;
+  	var startDateF4;
+  	var startDateF5;
+  	var  startDateF6;
   var isdecimal = false;
   var allitems=[
 	  "#jqxCheckBoxUSA-10over30",
@@ -3294,6 +3300,14 @@
 						      	    	    		}
 			      	    	        } */
 		      	    	        	title= ("All "+Items.split("all")[1]+ "'s yield CURVE").replace("over","'s/");
+			      	    	        
+			      	    	  	var getFormatResult0 = getFormat(response[0].config.dataFormat);
+			      	  		    var getFormatResult1 = getFormat(response[1].config.dataFormat);
+			      	  		    var getFormatResult2 = getFormat(response[2].config.dataFormat);
+			      	        	var getFormatResult3 = getFormat(response[3].config.dataFormat);
+			    	  			var getFormatResult4 = getFormat(response[4].config.dataFormat);
+			    				var getFormatResult5 = getFormat(response[5].config.dataFormat); 
+						      	    	        
 		      	    	        	chart.updateOptions({
 		      	    	        		 title: {
 		      	    				          text: title
@@ -3314,6 +3328,52 @@
 									        	  },
 									          type: 'datetime'
 									        }
+					      			          ,
+					      			       	tooltip: {
+										  		  y: {
+										  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+										  			
+										  				if(seriesIndex == 0)
+										  				{
+										  				if (getFormatResult0[1])
+										  				  return  value.toFixed(getFormatResult0[0]);
+										  				else 
+										  				  return  value.toFixed(getFormatResult0[0]) + "%";
+										  				}else 
+										  					 if(seriesIndex == 1){
+										  					  if (getFormatResult1[1])
+										  						  return  value.toFixed(getFormatResult1[0]);
+										  						else 
+										  							 return  value.toFixed(getFormatResult1[0]) + "%";
+										  					 }else 
+										  						 if(seriesIndex == 2){
+										  						  if (getFormatResult2[1])
+										  							  return  value.toFixed(getFormatResult2[0]);
+										  							else 
+										  								 return  value.toFixed(getFormatResult2[0]) + "%";
+										  							}else
+										  								if(seriesIndex == 3)
+														  				{
+														  				if (getFormatResult3[1])
+														  				  return  value.toFixed(getFormatResult3[0]);
+														  				else 
+														  				  return  value.toFixed(getFormatResult3[0]) + "%";
+														  				}else 
+														  					 if(seriesIndex == 4){
+														  					  if (getFormatResult4[1])
+														  						  return  value.toFixed(getFormatResult4[0]);
+														  						else 
+														  							 return  value.toFixed(getFormatResult4[0]) + "%";
+														  					 }else 
+														  						 if(seriesIndex == 5){
+														  						  if (getFormatResult5[1])
+														  							  return  value.toFixed(getFormatResult5[0]);
+														  							else 
+														  								 return  value.toFixed(getFormatResult5[0]) + "%";
+														  							}
+										  			}
+										  		  },
+										  		}
 		      							});
 		      	    	          var dbchartType1=response[0].config.chartType;
 		      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
@@ -3496,7 +3556,10 @@
 				      	    	           }
 				      	    	           else
 				      	    	        	 yaxisformat=3;
-			      	    	        	
+			      	    	        	 
+			      	    	        	var getFormatResult0 = getFormat(response[0].config.dataFormat);
+			      	    	            var getFormatResult1 = getFormat(response[1].config.dataFormat);
+			      	    	          
 			      	    	        	 chart.updateOptions({
 			      	    	        		 title: {
 			      	    				          text: title
@@ -3528,6 +3591,27 @@
 											        	  },
 											        
 											        }],
+											    	tooltip: {
+														  y: {
+															formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+															
+																if(seriesIndex == 0)
+																{
+																if (getFormatResult0[1])
+																  return  value.toFixed(getFormatResult0[0]);
+																else 
+																  return  value.toFixed(getFormatResult0[0]) + "%";
+																}else 
+																	{
+																	  if (getFormatResult1[1])
+																		  return  value.toFixed(getFormatResult1[0]);
+																		else 
+																			 return  value.toFixed(getFormatResult1[0]) + "%";
+																		}
+															}
+														  },
+														}
+														
 			      							});
 			      	    	        	
 			      	    	          var dbchartType1=response[0].config.chartType;
@@ -3691,7 +3775,10 @@
 			      	    	           }
 			      	    	           else
 			      	    	        	 yaxisformat=3;
-		      	    	        	
+		      	    	       	var getFormatResult0 = getFormat(response[0].config.dataFormat);
+		      	    			var getFormatResult1 = getFormat(response[1].config.dataFormat);
+		      	    			var getFormatResult2 = getFormat(response[2].config.dataFormat);
+		      	    				
 		      	    	        	 chart.updateOptions({
 		      	    	        		 title: {
 		      	    				          text: title
@@ -3723,6 +3810,32 @@
 										        	  },
 										        
 										        }],
+										        tooltip: {
+										  		  y: {
+										  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+										  			
+										  				if(seriesIndex == 0)
+										  				{
+										  				if (getFormatResult0[1])
+										  				  return  value.toFixed(getFormatResult0[0]);
+										  				else 
+										  				  return  value.toFixed(getFormatResult0[0]) + "%";
+										  				}else 
+										  					 if(seriesIndex == 1){
+										  					  if (getFormatResult1[1])
+										  						  return  value.toFixed(getFormatResult1[0]);
+										  						else 
+										  							 return  value.toFixed(getFormatResult1[0]) + "%";
+										  					 }else 
+										  						 if(seriesIndex == 2){
+										  						  if (getFormatResult2[1])
+										  							  return  value.toFixed(getFormatResult2[0]);
+										  							else 
+										  								 return  value.toFixed(getFormatResult2[0]) + "%";
+										  							}
+										  			}
+										  		  },
+										  		} 
 		      							});
 		      	    	          var dbchartType1=response[0].config.chartType;
 		      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
@@ -3908,8 +4021,13 @@
 		      	    	           }
 		      	    	           else
 		      	    	        	 yaxisformat=3;
+	      	    	        
+	      	    	        var getFormatResult0 = getFormat(response[0].config.dataFormat);
+	      	    	  		var getFormatResult1 = getFormat(response[1].config.dataFormat);
+	      	    	  		var getFormatResult2 = getFormat(response[2].config.dataFormat);
+	      	    	  		var getFormatResult3 = getFormat(response[3].config.dataFormat);
 	      	    	        	
-	      	    	        	 chart.updateOptions({
+	      	    	  		chart.updateOptions({
 	      	    	        		 title: {
 	      	    				        text: title,
 	      	    				        style: {
@@ -3943,6 +4061,39 @@
 									        	  },
 									        
 									        }],
+									    	tooltip: {
+									    		  y: {
+									    			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+									    			
+									    				if(seriesIndex == 0)
+									    				{
+									    				if (getFormatResult0[1])
+									    				  return  value.toFixed(getFormatResult0[0]);
+									    				else 
+									    				  return  value.toFixed(getFormatResult0[0]) + "%";
+									    				}else 
+									    					 if(seriesIndex == 1){
+									    					  if (getFormatResult1[1])
+									    						  return  value.toFixed(getFormatResult1[0]);
+									    						else 
+									    							 return  value.toFixed(getFormatResult1[0]) + "%";
+									    					 }else 
+									    						 if(seriesIndex == 2){
+									    						  if (getFormatResult2[1])
+									    							  return  value.toFixed(getFormatResult2[0]);
+									    							else 
+									    								 return  value.toFixed(getFormatResult2[0]) + "%";
+									    						 }else 
+										    						 if(seriesIndex == 3){
+										    						  if (getFormatResult3[1])
+										    							  return  value.toFixed(getFormatResult3[0]);
+										    							else 
+										    								 return  value.toFixed(getFormatResult3[0]) + "%";
+										    							}
+									    			}
+									    		  },
+									    		}
+												
 	      							});
 	      	    	          var dbchartType1=response[0].config.chartType;
 	      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
@@ -4096,7 +4247,8 @@
 					      	    	    	var dbchartType1=response[0].config.chartType;
 					      	    	        chartType1 = getChartType(dbchartType1)[0];
 					      	    	        curve1 = getChartType(dbchartType1)[1];
-					      	    	      
+					      	    	    	var getFormatResult = getFormat(response[0].config.dataFormat);
+
 					      	    	    	chart.updateOptions({
 				      	    	        		 title: {
 				      	    				          text: title
@@ -4130,6 +4282,17 @@
 												        	  },
 												        
 												        }],
+												        tooltip: {
+												  		  y: {
+												  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+												  			
+												  				if (getFormatResult[1])
+												  					  return  value.toFixed(getFormatResult[0]);
+												  					else 
+												  					  return  value.toFixed(getFormatResult[0]) + "%";
+												  			}
+												  		  },
+												  		}
 				      							});
 					      	    	    	
 					      	    	      if (chartType1=='area')
