@@ -778,6 +778,12 @@
   var isdecimal = false;
   var fromNavigation=false;
   var chart;
+  var startDateF1;
+  var startDateF2;
+  var startDateF3;
+  var startDateF4;
+  var startDateF5;
+  var startDateF6;
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
 	  "#jqxCheckBoxUSA-5",
@@ -3601,7 +3607,12 @@
 										    							else 
 										    								 return  value.toFixed(getFormatResult1[0]) + "%";
 										    							}
-										    				}
+										    				},
+										    				title: {
+										    		              formatter:  function (seriesIndex) {
+													        	 return seriesIndex;
+													        	    }
+										    		          },
 										    			  },
 										    			}
 		      							});
