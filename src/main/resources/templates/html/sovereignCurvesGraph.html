@@ -3330,6 +3330,10 @@
 									        }
 					      			          ,
 					      			       	tooltip: {
+					      			       	 x: {
+								    	          show: true,
+								    	          format: 'dd MMM yy',
+								    	      },
 										  		  y: {
 										  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
 										  			
@@ -3371,7 +3375,16 @@
 														  							else 
 														  								 return  value.toFixed(getFormatResult5[0]) + "%";
 														  							}
-										  			}
+										  			},
+					      			    	title: {
+						    		              formatter:  function (seriesName) {
+						    							 for (var i=0; i<response.length;i++)
+						    							 { 
+						    						  if (seriesName == response[i].config.displayDescription)
+						    		            	  return response[i].config.columnName;
+						    							 }
+									        	    }
+						    		          },
 										  		  },
 										  		}
 		      							});
@@ -3592,6 +3605,10 @@
 											        
 											        }],
 											    	tooltip: {
+											    		 x: {
+											    	          show: true,
+											    	          format: 'dd MMM yy',
+											    	      },
 														  y: {
 															formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
 															
@@ -3608,7 +3625,16 @@
 																		else 
 																			 return  value.toFixed(getFormatResult1[0]) + "%";
 																		}
-															}
+															},
+															title: {
+										    		              formatter:  function (seriesName) {
+										    							 for (var i=0; i<response.length;i++)
+										    							 { 
+										    						  if (seriesName == response[i].config.displayDescription)
+										    		            	  return response[i].config.columnName;
+										    							 }
+													        	    }
+										    		          },
 														  },
 														}
 														
@@ -3811,6 +3837,10 @@
 										        
 										        }],
 										        tooltip: {
+										        	 x: {
+										    	          show: true,
+										    	          format: 'dd MMM yy',
+										    	      },
 										  		  y: {
 										  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
 										  			
@@ -3833,7 +3863,16 @@
 										  							else 
 										  								 return  value.toFixed(getFormatResult2[0]) + "%";
 										  							}
-										  			}
+										  			},
+										  			title: {
+								    		              formatter:  function (seriesName) {
+								    							 for (var i=0; i<response.length;i++)
+								    							 { 
+								    						  if (seriesName == response[i].config.displayDescription)
+								    		            	  return response[i].config.columnName;
+								    							 }
+											        	    }
+								    		          },
 										  		  },
 										  		} 
 		      							});
@@ -4062,6 +4101,10 @@
 									        
 									        }],
 									    	tooltip: {
+									    		 x: {
+									    	          show: true,
+									    	          format: 'dd MMM yy',
+									    	      },
 									    		  y: {
 									    			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
 									    			
@@ -4090,7 +4133,16 @@
 										    							else 
 										    								 return  value.toFixed(getFormatResult3[0]) + "%";
 										    							}
-									    			}
+									    			},
+									    			title: {
+								    		              formatter:  function (seriesName) {
+								    							 for (var i=0; i<response.length;i++)
+								    							 { 
+								    						  if (seriesName == response[i].config.displayDescription)
+								    		            	  return response[i].config.columnName;
+								    							 }
+											        	    }
+								    		          },
 									    		  },
 									    		}
 												
@@ -4283,6 +4335,10 @@
 												        
 												        }],
 												        tooltip: {
+												        	 x: {
+												    	          show: true,
+												    	          format: 'dd MMM yy',
+												    	      },
 												  		  y: {
 												  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
 												  			
@@ -4290,7 +4346,16 @@
 												  					  return  value.toFixed(getFormatResult[0]);
 												  					else 
 												  					  return  value.toFixed(getFormatResult[0]) + "%";
-												  			}
+												  			},
+												  			title: {
+										    		              formatter:  function (seriesName) {
+										    							 for (var i=0; i<response.length;i++)
+										    							 { 
+										    						  if (seriesName == response[i].config.displayDescription)
+										    		            	  return response[i].config.columnName;
+										    							 }
+													        	    }
+										    		          },
 												  		  },
 												  		}
 				      							});

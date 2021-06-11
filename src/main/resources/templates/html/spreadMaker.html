@@ -3539,7 +3539,11 @@
 		      	    	      		T1=response[0].config[0].displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config[0].displayDescription;
 		      	    	        	T2=response[0].config[1].displayDescription==null?itemValue[checkedItemValues[1]].title:response[0].config[1].displayDescription;
 		      	    	        	title= T1 +" vs "+ T2;
-
+		      	    	        	var getFormatResult = getFormat(response[0].config[0].dataFormat);
+		      	    	      	T1H=response[0].config[0].columnName==null?itemValue[checkedItemValues[0]].title:response[0].config[0].columnName;
+	      	    	        	T2H=response[0].config[1].columnName==null?itemValue[checkedItemValues[1]].title:response[0].config[1].columnName;
+	      	    	        
+		      	    	        	titleOnHover= T1H +" vs "+ T2H;
 debugger;
 		      	    	        	 if (response[0].config[0].yAxisFormat!=null && response[0].config[0].yAxisFormat!="")
 			      	    	           { 
@@ -3594,6 +3598,27 @@ debugger;
 										        	  },
 										        
 										        }],
+										    	tooltip: {
+										    		 x: {
+										    	          show: true,
+										    	          format: 'dd MMM yy',
+										    	      },
+													  y: {
+														formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+														
+															if (getFormatResult[1])
+																  return  value.toFixed(getFormatResult[0]);
+																else 
+																  return  value.toFixed(getFormatResult[0]) + "%";
+														},
+									    				title: {
+									    		              formatter:  function (seriesName) {
+									    							return titleOnHover;
+												        	    }
+									    		          },
+													  },
+													}
+										        
 		      							});
 		      	    	        	
 		      	    	        	 var dbchartType1=response[0].config[0].chartType;

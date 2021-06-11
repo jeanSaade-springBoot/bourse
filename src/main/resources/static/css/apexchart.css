@@ -50,6 +50,24 @@ select.flat-select {
     outline: 0;
   }
   
+.apexcharts-tooltip-title {
+    padding: 5px!important;
+    font-size: 15px;
+    margin-bottom: 0px!important;
+}
+.apexcharts-tooltip-series-group.apexcharts-active, .apexcharts-tooltip-series-group:last-child {
+    padding-bottom: 0px!important;
+}
+.apexcharts-xaxistooltip {
+    padding: 5px 0px!important;
+}
+.apexcharts-tooltip-series-group {
+    padding: 0 5px!important;
+    display: none;
+    text-align: left;
+    justify-content: left;
+    align-items: center;
+}
 
 .apexcharts-canvas {
     margin: 0 auto;
