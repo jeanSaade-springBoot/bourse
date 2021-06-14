@@ -284,7 +284,7 @@ function Colorpicker(trigger){
       var x, y, eP = props(el), tP = props(target), iP = ind ? props(ind) : null,
       sY = w.pageYOffset, sX = w.pageXOffset, vw = d.documentElement.clientWidth, vh = w.innerHeight;
       x = tP.left + tP.width/2 - eP.width/2 - sX;
-      y = tP.top - eP.height - offset - sY;
+      y = tP.top - eP.height - offset - sY + 50;
       el.className = el.className.replace(/\b(left|right|bottom)\b/g, '').trim();
       if (x <= 0) {x = offset; el.className = el.className.replace(/\bleft\b/g,'').trim() +' right';}
       if (y <= 0) {y = tP.top + tP.height + offset; el.className += ' bottom';}
