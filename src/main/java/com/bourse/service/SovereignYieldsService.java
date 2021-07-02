@@ -865,5 +865,9 @@ public class SovereignYieldsService
 		long l=1;
 		return configurationRepository.countByEnvironement(env)==l?true:false;
 	}
+	public String getLatestGraphDate(long country, String factor, String yieldCurveCross) {
+		
+		return "2021-06-12";
+	}
 
 }

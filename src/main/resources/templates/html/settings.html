@@ -14,7 +14,6 @@
   <link href="/css/ruang-admin.min.css" rel="stylesheet">
   <link href="/css/marquee.css" rel="stylesheet">
   <link href="/css/apexchart.css" rel="stylesheet">
-   <link href="/css/color-picker-style.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
   <link href="/css/jqx.dark.css" rel="stylesheet">
   <style>
@@ -634,22 +633,7 @@
 							   	  <div class="form-group row">
 									<label for="ChartType" class="col-sm-4 col-form-label">Chart color</label>
 									<div class="col-sm-8">
-									<fieldset style="border: none; position: absolute;">
-									  <input type="color" id='chartColorHex' value="#b6b19c" aria-haspopup="true" aria-expanded="false" data-palette="#FFFFFF" data-align="right" list="list"/>
-									    <datalist id="list">
-									      <option>#a3a3a5</option>
-									      <option>#eff0f1</option>
-									      <option>#746c41</option>
-									      <option>#9a8d2f</option>
-									      <option>#d9c62f</option>
-									      <option>#42485d</option>
-									      <option>#4768b3</option>
-									      <option>#7e95d9</option>
-									      <option>#ccbf74</option>
-									      <option>#b6b19c</option>
-									    </datalist>
-									</fieldset>
-									    <div id='chartColor' style='border-radius: 0.2rem; display:none;'></div> 
+								       <div id='chartColor' style='border-radius: 0.2rem;'></div> 
 									</div>
 								  </div>
 								  
@@ -863,7 +847,6 @@
 
   <script src="/vendor/jquery/jquery.min.js"></script>
   <script src="/js/marquee.js"></script>
-  <script src="/js/color-picker-script.js"></script>
   <script src="/js/ruang-admin.min.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
@@ -919,9 +902,25 @@
 	 
 	 chartTypeSource =["Area","Bars","Line","Line Spline"];
 	 $("#chartType").jqxDropDownList({dropDownHeight: 120,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
+	var  chartColorSource =[{"colorName":"Gold",
+        "colorCode":"#F0AB2E"}, 
+        {"colorName":"Blue",
+            "colorCode":"#0097FE"}, 
+            {"colorName":"Dark",
+                "colorCode":"#44546a"}];
 	
-	 chartColorSource =["Gold","Blue","Dark"];
-	 $("#chartColor").jqxDropDownList({dropDownHeight: 90,  source: chartColorSource, theme: 'dark' , width: '100%', height: 30});
+	 var sourceColor =
+     {
+         datatype: "json",
+         datafields: [
+             { name: 'colorName' },
+             { name: 'colorCode' }
+         ],
+         localdata: chartColorSource,
+         async: true
+     };
+	  var dataAdapterColor = new $.jqx.dataAdapter(sourceColor);
+	 $("#chartColor").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterColor,displayMember: "colorName",valueMember: "colorCode", theme: 'dark' , width: '100%', height: 30});
 	
 	 showMarkesSource =["None","Small","Big"];
 	 $("#showMarkes").jqxDropDownList({dropDownHeight: 90,  source: showMarkesSource, theme: 'dark' , width: '100%', height: 30});
@@ -1103,7 +1102,7 @@
     	   $("#factorcalctype").jqxDropDownList('clearSelection'); 
     	   $("#exchangeLink").jqxDropDownList('clearSelection'); 
       	   $("#chartType").jqxDropDownList('clearSelection'); 
-      	   //$("#chartColor").jqxDropDownList('clearSelection'); 
+      	   $("#chartColor").jqxDropDownList('clearSelection'); 
       	   $("#chartSize").jqxDropDownList('clearSelection'); 
       	   $("#showMarkes").jqxDropDownList('clearSelection'); 
       	   $("#transparency").jqxDropDownList('clearSelection'); 
@@ -1176,7 +1175,7 @@
                 		    startDate:$("#startDate").jqxDateTimeInput('getDate')==null?null:$.jqx.dataFormat.formatdate($("#startDate").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
                 		    calculationType:$("#factorcalctype").val()!=''?$("#factorcalctype").val():null,
                 		    chartType:$("#chartType").val()!=''?$("#chartType").val():null,
-                		    chartColor:$("#chartColorHex").val()!=''?$("#chartColorHex").val():null,
+                		    chartColor:$("#chartColor").val()!=''?$("#chartColor").val():null,
                 		    chartshowMarkes:$("#showMarkes").val()!=''?$("#showMarkes").val():null,
                 		    chartSize:$("#chartSize").val()!=''?$("#chartSize").val():null,
                 		    chartTransparency:$("#transparency").val()!=''?$("#transparency").val():null,
@@ -1284,8 +1283,7 @@
                   $("#jqxCheckBoxShowIndb").val(dataRecord.showInDatabase);
                   $("#factorcalctype").jqxDropDownList('val', dataRecord.calculationType);
                   $("#chartType").jqxDropDownList('val', dataRecord.chartType);               
-                 // $("#chartColor").jqxDropDownList('val', dataRecord.chartColor);     
-                  $("#chartColorHex").val(dataRecord.chartColor);
+                  $("#chartColor").jqxDropDownList('val', dataRecord.chartColor);     
                   $("#showMarkes").jqxDropDownList('val', dataRecord.chartshowMarkes);               
                   $("#chartSize").jqxDropDownList('val', dataRecord.chartSize);               
                   $("#transparency").jqxDropDownList('val', dataRecord.chartTransparency);               

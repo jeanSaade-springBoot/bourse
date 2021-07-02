@@ -1,3 +1,174 @@
+var chartOption = {
+   	  			          series: [],
+   	  			          chart: {
+		   	  			         toolbar: {
+		   	  			        show: true,
+		   	  			        offsetX: 0,
+		   	  			        offsetY: 0,
+		   	  			        tools: {
+		   	  			          download: false,
+		   	  			          selection: true,
+		   	  			          zoom: true,
+		   	  			          zoomin: true,
+		   	  			          zoomout: true,
+		   	  			          pan: true,
+		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          customIcons: []
+		   	  			        }},
+   	  			          height: 400,
+   	  			          type: 'line',
+   	  			        },
+   	  			   grid: {
+   	  			  borderColor: '#f0e68c',
+   	  			  strokeDashArray:1,
+   	  		      opacity: 0.5,
+   	  		
+   	  		
+   	  			},
+   	  			        colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
+   	  			        fill: {
+   	  			            type:'solid',
+   	  			            opacity: [1, 1],
+   	  			          },
+   	  			        stroke: {
+   	  			        	 curve: 'straight',
+   	  			        	   width: 2.25
+   	  			        },
+   	  			        markers: {
+   	  			       colors: '#ffffff',
+                        size: 2,
+                        shape:'square',
+   	  			        },
+   	  			        title: {
+  	    				          text: '',
+  	    				          align: 'center',
+  	    				        style: {
+  	    				          fontSize:  '16px',
+  	    				          fontWeight:  'bold',
+  	    				          color:  '#263238'
+  	    				          },
+  	    				        },
+   	  			        dataLabels: {
+   	  			          enabled: false
+   	  			        },
+   	  			        xaxis: {
+	   	  			       labels: {
+				        		 style: {
+						        	  fontSize: 12,
+						        	 }
+				        	  },
+   	  			           type: 'datetime'
+   	  			        },
+   	  			   legend: {
+		   	  			   fontSize: 12,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    }
+				    	  },
+			         yaxis: [{
+			        	labels: {
+			        		 style: {
+					        	  fontSize: 12,
+					        	 },
+			        	    formatter: function (value) {
+			        	    	if (isdecimal)
+				        	    	   return value.toFixed(yaxisformat);
+				        	    	else 
+				        	         return value.toFixed(yaxisformat) + "%";
+			        	    }
+			        	  },
+			        
+			        }]
+   	  			        };
+ var chartoptionsWeekly = {
+   	    	          series: [],
+   	    	            chart: {
+   	    	             toolbar: {
+		   	  			        show: true,
+		   	  			        offsetX: 0,
+		   	  			        offsetY: 0,
+		   	  			        tools: {
+		   	  			          download: false,
+		   	  			          selection: true,
+		   	  			          zoom: true,
+		   	  			          zoomin: true,
+		   	  			          zoomout: true,
+		   	  			          pan: true,
+		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          customIcons: []
+		   	  			        }},
+   	    	            type: 'bar',
+   	    	            height: 400
+   	    	          },
+					  grid: {
+						borderColor: '#f0e68c',
+						strokeDashArray:1,
+						opacity: 0.5,
+   	  		              },
+   	    	          plotOptions: {
+   	    	            bar: {
+   	    	              horizontal: false,
+   	    	              columnWidth: '70%'
+   	    	            },
+   	    	          },
+   	    	          dataLabels: {
+   	    	            enabled: false
+   	    	          },
+   	    	          stroke: {
+   	    	            show: true,
+   	    	            width: 2,
+   	    	            colors: ['transparent']
+   	    	          },
+   	    	       legend: {
+			        	   fontSize: 12,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    }
+				    	  },
+			         yaxis: [{
+			        	labels: {
+			        		 style: {
+					        	  fontSize: 12,
+					        	 },
+			        	    formatter: function (value) {
+			        	    	if (isdecimal)
+				        	    	   return value.toFixed(yaxisformat);
+				        	    	else 
+				        	         return value.toFixed(yaxisformat) + "%";
+			        	    }
+			        	  },
+			        
+			        }],
+   	  			      colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
+   	  			      fill: {
+   	  			            type:'solid',
+   	  			            opacity: [1, 1],
+   	  			              },
+			        xaxis: {
+	  			           type: '',
+	  			        	tickPlacement: 'on' 
+ 			        }
+   	    	          };
 function getCountryFlag(seriesName)
 {var img;
 	if (seriesName.includes("Germany"))

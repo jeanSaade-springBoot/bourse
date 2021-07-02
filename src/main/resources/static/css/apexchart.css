@@ -71,6 +71,9 @@ select.flat-select {
 
 .apexcharts-canvas {
     margin: 0 auto;
+    background: rgb(91,154,213) !important;
+    background: linear-gradient(180deg, rgba(91,154,213,1) 0%, rgba(68,84,106,1) 35%)!important;
+    border: 1px solid rgba(68,84,106,1);
 }
 
 #html {
@@ -78,4 +81,8 @@ select.flat-select {
 }
 text {
     fill: white;
+}
+.apexcharts-marker {
+    transform-origin: center;
+    transform-box: fill-box;
 }

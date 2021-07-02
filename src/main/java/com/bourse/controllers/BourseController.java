@@ -308,7 +308,11 @@ public class BourseController {
 	public ResponseEntity<List<CrossAuditProcedureDTO>> getCrossAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(sovereignYieldsService.getCrossAuditData(referDate),HttpStatus.OK);
 	} 
-	
+	@GetMapping(value = "getlatestgraphdate/{country}/{factor}/{yieldCurveCross}")
+	public String getLatestGraphDate(@PathVariable("country") long country,@PathVariable("factor") String factor,@PathVariable("yieldCurveCross") String yieldCurveCross) {
+          System.out.print("hi------------------"+country+"   "+factor+"   "+yieldCurveCross);
+		return sovereignYieldsService.getLatestGraphDate(country,factor,yieldCurveCross);
+	} 
 	@PostMapping(value = "getgraphdata")
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);

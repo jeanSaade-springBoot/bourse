@@ -785,6 +785,7 @@
   var startDateF4;
   var startDateF5;
   var startDateF6;
+  var yaxisformat;
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
 	  "#jqxCheckBoxUSA-5",
@@ -2676,7 +2677,7 @@
 		    	  $("#jqxCheckBoxSpain-2").jqxCheckBox({checked: false });
 			}
 	function navigationGraph(condition){
-		debugger;
+		
 				fromNavigation=true;
 				const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
 					  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
@@ -2956,17 +2957,25 @@
    	  			          height: 400,
    	  			          type: 'line',
    	  			        },
-   	  			        colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
+   	  			   grid: {
+   	  			  borderColor: '#f0e68c',
+   	  			  strokeDashArray:1,
+   	  		      opacity: 0.5,
+   	  		 
+   	  			},
+   	         colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
    	  			        fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
    	  			          },
    	  			        stroke: {
    	  			        	 curve: 'straight',
-   	  			        	   width: 3
+   	  			        	   width: 2.25
    	  			        },
    	  			        markers: {
-   	  			            size: 2,
+   	  			       colors: '#ffffff',
+                        size: 2,
+                        shape:'square',
    	  			        },
    	  			        title: {
    	  			          text: ''
@@ -2975,6 +2984,7 @@
    	  			          enabled: false
    	  			        },
    	  			        xaxis: {
+   	  			        	
 	   	  			       labels: {
 				        		 style: {
 						        	  fontSize: fontsize,
@@ -4285,16 +4295,30 @@
 			      	    	       	
 				      	    	    		chart.updateOptions({
 			      	    	        		 title: {
-			      	    				          text: title
+			      	    				          text: title,
+			      	    				          align: 'center',
+			      	    				        style: {
+			      	    				          fontSize:  '16px',
+			      	    				          fontWeight:  'bold',
+			      	    				          color:  '#263238'
+			      	    				          },
 			      	    				        },
+			      	    				      subtitle: {
+			      	    				        text: 'copyright LibVol.com',
+			      	    				        align: 'right',
+			      	    				        margin: 0,
+			      	    				        offsetX: 0,
+			      	    				        offsetY: 40,
+			      	    				        floating: false,
+			      	    				        style: {
+			      	    				          fontSize:  '10px',
+			      	    				          fontWeight:  'normal',
+			      	    				          color:  '#9699a2'
+			      	    				        },
+			      	    				    },
 			      	    				      stroke: {
 			      	    				    	  curve: curve1,
 			      	    				    	},
-			      	    				    	colors: [response[0].config.chartColor],
-						      				      fill: {
-						      			            type:'solid',
-						      			            opacity: [1,1],
-						      			          },
 						      			        xaxis: {
 										        	labels: {
 										        		  rotate: -45,
@@ -4342,31 +4366,104 @@
 														  },
 														}
 			      							});
-				      	    	    	
-				      	    	    	   if (chartType1=='area')
+				      	    	    		
+				      	    	    	  if (chartType1=='area' && Daily==true)
 				      	    	        	{
+				      	    	    		if (response[0].config.chartColor=='#44546a')
+					      	    	    		chart.updateOptions({
+					      	    	    			colors: ['#44546a'],
+							      			        fill: {
+					      	    		                type: 'gradient',
+					      	    		                gradient: {
+					      	    					    gradientToColors: '#5b9ad5',
+					      	    					      shadeIntensity: 0,
+					      	    					      type: "vertical",
+					      	    					     inverseColors: false,
+													      stops: [30, 90, 100],
+													      opacityFrom: 0.9,
+													      opacityTo: 0.6,
+					      	    		                }
+					      	    		              },	
+					      	    		            stroke: {
+							     				      	 colors: ["#ffffff"],
+						     				        },
+					      	    	    		});
+				      	    	    		else 
 				      	    	        	chart.updateOptions({
+				      	    	        		colors: [response[0].config.chartColor],
 				      	    	        		fill: {
 					      	    	        		  type: 'gradient',
 					      	    	        		  gradient: {
 					      	    	        		    shade: 'dark',
 					      	    	        		    type: "vertical",
 					      	    	        		    shadeIntensity: 0.2,
+					      	    	        		    opacityFrom: 1,
+												        opacityTo: 0.9,
 					      	    	        		    inverseColors: false,
-					      	    	        		    opacityFrom:1,
-					      	    	        		    opacityTo: 0.9
 					      	    	        		  },}
 				      	    	        		, stroke: {
 						     				      	 colors: ["#ffffff"],
 					     				        },
 				      							});
-				      	    	        	}
+				      	    	        	} else 	
+				      	    	        		if (response[0].config.chartColor=='#44546a')
+				      	    	        		{
+				      	    	        			chart.updateOptions({
+					      	    	    				colors: ['#27303d'],
+								      				       fill: {
+								      			            type:'solid',
+								      			            opacity: [1,1],
+								      			          }, 
+						      	    	    		});
+				      	    	        		}
+				      	    	        	else 
+				      	    	    			chart.updateOptions({
+				      	    	    				colors: [response[0].config.chartColor],
+							      				       fill: {
+							      			            type:'solid',
+							      			            opacity: [1,1],
+							      			          }, 
+					      	    	    		});
 				      	    	    		
 				      	    	         chart.updateSeries([{
 										         name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
 										          type: Daily?chartType1:'column',
 										          data: response[0].graphResponseDTOLst
 										        }]);
+				      	    	         if (chartType1=='column')
+				      	    	        	chart.updateOptions({
+				      	    	        		 xaxis: {
+											        	labels: {
+											        		  rotate: -45,
+											                  rotateAlways: true,
+											                  minHeight:60,
+											        		 style: {
+													        	  fontSize: fontsize,
+													        	 }
+											        	  },
+											          type: 'category'
+											        },
+				      	    	        	});
+				      	    	       
+				      	    	  	 $.ajax({
+				      			        contentType: "application/json",
+				      			        url: "/bourse/getlatestgraphdate/"+itemValue[checkedItemValues[0]].country+"/"+itemValue[checkedItemValues[0]].factor+"/"+itemValue[checkedItemValues[0]].yieldCurveCross+"",
+				      			        dataType: 'text',
+				      			        async:true,
+				      			        cache: false,
+				      			        timeout: 600000,
+				      			        success: function (data) {
+				      			        	if (Daily)     
+						      	    	 	    chart.zoomX(undefined, new Date(data).getTime()) //new
+					      	    	    	
+				      			        },
+						 	        error: function (e) {
+						 	        	
+											  console.log("ERROR : ", e);
+
+						 	        }
+						 	    });
+				      	    	     
 				      	   },
 				      	    	        error: function (e) {
 				      	    	        	
