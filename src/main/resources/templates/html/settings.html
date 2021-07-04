@@ -902,13 +902,13 @@
 	 
 	 chartTypeSource =["Area","Bars","Line","Line Spline"];
 	 $("#chartType").jqxDropDownList({dropDownHeight: 120,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
+	 
 	var  chartColorSource =[{"colorName":"Gold",
-        "colorCode":"#F0AB2E"}, 
-        {"colorName":"Blue",
-            "colorCode":"#0097FE"}, 
-            {"colorName":"Dark",
-                "colorCode":"#44546a"}];
-	
+                             "colorCode":"#F0AB2E"}, 
+					        {"colorName":"Blue",
+					         "colorCode":"#0097FE"}, 
+				            {"colorName":"Dark",
+				             "colorCode":"#44546a"}];
 	 var sourceColor =
      {
          datatype: "json",
@@ -922,18 +922,82 @@
 	  var dataAdapterColor = new $.jqx.dataAdapter(sourceColor);
 	 $("#chartColor").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterColor,displayMember: "colorName",valueMember: "colorCode", theme: 'dark' , width: '100%', height: 30});
 	
-	 showMarkesSource =["None","Small","Big"];
-	 $("#showMarkes").jqxDropDownList({dropDownHeight: 90,  source: showMarkesSource, theme: 'dark' , width: '100%', height: 30});
-	
-	 chartSizeSource =["Small","Medium","Large"];
-	 $("#chartSize").jqxDropDownList({dropDownHeight: 90,  source: chartSizeSource, theme: 'dark' , width: '100%', height: 30});
-	
-	 transparencySource =["0%","25%","50%"];
-	 $("#transparency").jqxDropDownList({dropDownHeight: 90,  source: transparencySource, theme: 'dark' , width: '100%', height: 30});
-	
-	 showgridSource =["Yes","No"];
-	 $("#showgrid").jqxDropDownList({dropDownHeight: 70,  source: showgridSource, theme: 'dark' , width: '100%', height: 30});
-	
+		
+	 var  showMarkesSource =[{"showMarkes":"None",
+	                              "showMarkesValue":"0"}, 
+						        {"showMarkes":"Small",
+						         "showMarkesValue":"2"},
+								{"showMarkes":"Big",
+						         "showMarkesValue":"4"}];
+			var makerSource =
+			{
+			datatype: "json",
+			datafields: [
+			{ name: 'showMarkes' },
+			{ name: 'showMarkesValue' }
+			],
+			localdata: showMarkesSource,
+			async: true
+			};
+			var dataAdapterMarker = new $.jqx.dataAdapter(makerSource);
+			$("#showMarkes").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterMarker,displayMember: "showMarkes",valueMember: "showMarkesValue", theme: 'dark' , width: '100%', height: 30});
+
+
+	 var  chartSizeSource =[{"chartSize":"Small",
+                              "chartSizeValue":"12px"}, 
+					        {"chartSize":"Medium",
+					         "chartSizeValue":"14px"},
+							{"chartSize":"Large",
+					         "chartSizeValue":"16px"}];
+		var sizeSource =
+		{
+		datatype: "json",
+		datafields: [
+		{ name: 'chartSize' },
+		{ name: 'chartSizeValue' }
+		],
+		localdata: chartSizeSource,
+		async: true
+		};
+		var dataAdapterSize = new $.jqx.dataAdapter(sizeSource);
+		$("#chartSize").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterSize,displayMember: "chartSize",valueMember: "chartSizeValue", theme: 'dark' , width: '100%', height: 30});
+
+		var  transparencySource =[{"transparency":"0%",
+            "transparencyValue":"1"}, 
+	        {"transparency":"25%",
+	         "transparencyValue":"0.75"},
+			{"transparency":"50%",
+	         "transparencyValue":"0.5"}];
+		var transSource =
+		{
+		datatype: "json",
+		datafields: [
+		{ name: 'transparency' },
+		{ name: 'transparencyValue' }
+		],
+		localdata: transparencySource,
+		async: true
+		};
+		var dataAdapterTrans = new $.jqx.dataAdapter(transSource);
+		$("#transparency").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterTrans,displayMember: "transparency",valueMember: "transparencyValue", theme: 'dark' , width: '100%', height: 30});
+
+	 var  showgridSource =[{"Showgrid":"Yes",
+                              "ShowgridValue":"true"}, 
+					        {"Showgrid":"No",
+					         "ShowgridValue":"false"}];
+		var gridSource =
+		{
+		datatype: "json",
+		datafields: [
+		{ name: 'Showgrid' },
+		{ name: 'ShowgridValue' }
+		],
+		localdata: showgridSource,
+		async: true
+		};
+		var dataAdapterGrid = new $.jqx.dataAdapter(gridSource);
+		$("#showgrid").jqxDropDownList({dropDownHeight: 70,  source: dataAdapterGrid,displayMember: "Showgrid",valueMember: "ShowgridValue", theme: 'dark' , width: '100%', height: 30});
+
 	 
 	 
 	 exchangeLinkSource =["NONE","EUREX","ICE","CME","CBOT"];

@@ -1,28 +1,31 @@
+function getChartDailyOption(title,showgrid,fontSize,markerSize)
+{
 var chartOption = {
    	  			          series: [],
    	  			          chart: {
 		   	  			         toolbar: {
-		   	  			        show: true,
-		   	  			        offsetX: 0,
-		   	  			        offsetY: 0,
-		   	  			        tools: {
-		   	  			          download: false,
-		   	  			          selection: true,
-		   	  			          zoom: true,
-		   	  			          zoomin: true,
-		   	  			          zoomout: true,
-		   	  			          pan: true,
-		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
-		   	  			          customIcons: []
-		   	  			        }},
+									show: true,
+									offsetX: 0,
+									offsetY: 0,
+									tools: {
+									  download: false,
+									  selection: true,
+									  zoom: true,
+									  zoomin: true,
+									  zoomout: true,
+									  pan: true,
+									  reset: true | '<img src="/static/icons/reset.png" width="20">',
+									  customIcons: []
+									}
+								},
    	  			          height: 400,
    	  			          type: 'line',
    	  			        },
    	  			   grid: {
+				  show:eval(showgrid),
    	  			  borderColor: '#f0e68c',
    	  			  strokeDashArray:1,
    	  		      opacity: 0.5,
-   	  		
    	  		
    	  			},
    	  			        colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
@@ -36,31 +39,46 @@ var chartOption = {
    	  			        },
    	  			        markers: {
    	  			       colors: '#ffffff',
-                        size: 2,
+                        size: markerSize,
                         shape:'square',
    	  			        },
    	  			        title: {
-  	    				          text: '',
+  	    				          text: title,
   	    				          align: 'center',
   	    				        style: {
-  	    				          fontSize:  '16px',
   	    				          fontWeight:  'bold',
   	    				          color:  '#263238'
   	    				          },
   	    				        },
+  	    				           subtitle: {
+			      	    				        text: 'copyright LibVol.com',
+			      	    				        align: 'right',
+			      	    				        margin: 0,
+			      	    				        offsetX: 0,
+			      	    				        offsetY: 40,
+			      	    				        floating: false,
+			      	    				        style: {
+			      	    				          fontSize:  '10px',
+			      	    				          fontWeight:  'normal',
+			      	    				          color:  '#9699a2'
+			      	    				        },
+			      	    				    },
    	  			        dataLabels: {
    	  			          enabled: false
    	  			        },
    	  			        xaxis: {
-	   	  			       labels: {
-				        		 style: {
-						        	  fontSize: 12,
-						        	 }
-				        	  },
+	   	  			       labels:  {
+					        		  rotate: -45,
+					                  rotateAlways: true,
+					                  minHeight:60,
+					        		 style: {
+							        	  fontSize: fontSize,
+							        	 }
+					        	  },
    	  			           type: 'datetime'
    	  			        },
    	  			   legend: {
-		   	  			   fontSize: 12,
+		   	  			   fontSize: fontSize,
 			        	   showForSingleSeries: true,
 				    	   labels: {
 				    	          colors: 'White',
@@ -78,7 +96,7 @@ var chartOption = {
 			         yaxis: [{
 			        	labels: {
 			        		 style: {
-					        	  fontSize: 12,
+					        	  fontSize: fontSize,
 					        	 },
 			        	    formatter: function (value) {
 			        	    	if (isdecimal)
@@ -90,6 +108,8 @@ var chartOption = {
 			        
 			        }]
    	  			        };
+   	  			        return chartOption;
+   	  			        }
  var chartoptionsWeekly = {
    	    	          series: [],
    	    	            chart: {
