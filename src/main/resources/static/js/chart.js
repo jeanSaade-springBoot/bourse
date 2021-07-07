@@ -25,8 +25,10 @@ var chartOption = {
 				  show:eval(showgrid),
    	  			  borderColor: '#f0e68c',
    	  			  strokeDashArray:1,
-   	  		      opacity: 0.5,
-   	  		
+   	  		       opacity: 0.5,
+		   	  		  padding: {
+		   	  	        right: 60,
+		   	  	    },  
    	  			},
    	  			        colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
    	  			        fill: {
@@ -44,6 +46,7 @@ var chartOption = {
    	  			        },
    	  			        title: {
   	    				          text: title,
+  	    				            margin: 10,
   	    				          align: 'center',
   	    				        style: {
   	    				          fontWeight:  'bold',
@@ -53,9 +56,9 @@ var chartOption = {
   	    				           subtitle: {
 			      	    				        text: 'copyright LibVol.com',
 			      	    				        align: 'right',
-			      	    				        margin: 0,
-			      	    				        offsetX: 0,
-			      	    				        offsetY: 40,
+			      	    				        margin: 10,
+			      	    				        offsetX: -10,
+			      	    				        offsetY: 30,
 			      	    				        floating: false,
 			      	    				        style: {
 			      	    				          fontSize:  '10px',
@@ -71,11 +74,20 @@ var chartOption = {
 					        		  rotate: -45,
 					                  rotateAlways: true,
 					                  minHeight:60,
-					        		 style: {
+					        		  style: {
 							        	  fontSize: fontSize,
-							        	 }
+							        	 },
+							         hideOverlappingLabels:true
 					        	  },
-   	  			           type: 'datetime'
+   	  			           type: 'datetime',
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
    	  			        },
    	  			   legend: {
 		   	  			   fontSize: fontSize,
@@ -105,8 +117,26 @@ var chartOption = {
 				        	         return value.toFixed(yaxisformat) + "%";
 			        	    }
 			        	  },
-			        
-			        }]
+			         axisBorder: {
+			                  width: 3,
+			                  show: true,
+			                  color: '#ffffff',
+			                  offsetX: 0,
+			                  offsetY: 0
+			              },
+			        }],
+			        noData: {
+			        	  text: 'No data In this date range',
+			        	  align: 'center',
+			        	  verticalAlign: 'middle',
+			        	  offsetX: 0,
+			        	  offsetY: 0,
+			        	  style: {
+			        	    color: undefined,
+			        	    fontSize: '14px',
+			        	    fontFamily: undefined
+			        	  }
+			        	}
    	  			        };
    	  			        return chartOption;
    	  			        }

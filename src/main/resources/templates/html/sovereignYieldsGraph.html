@@ -778,6 +778,7 @@
   var Items         ="";
   var isdecimal = false;
   var fromNavigation=false;
+  var fontsize='12px';
   var chart;
   var startDateF1;
   var startDateF2;
@@ -2912,7 +2913,7 @@
 				var dataParam;
                 var checkedItemValues = [];
 				 
-				var fontsize='12px';
+			
 				var fromdate = formatDate(monthDate);
 				var todate = formatDate(date);
 				$("#mainChart").html("");
@@ -2961,10 +2962,14 @@
    	  			          type: 'line',
    	  			        },
    	  			   grid: {
-   	  				   show:false,
+   	  				   
+   	  			  show:false,
    	  			  borderColor: '#f0e68c',
    	  			  strokeDashArray:1,
    	  		      opacity: 0.5,
+		   	  		  padding: {
+		   	  	        right: 60,
+		   	  	    },  
    	  			},
    	         colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
    	  			        fill: {
@@ -2981,19 +2986,49 @@
                         shape:'square',
    	  			        },
    	  			        title: {
-   	  			          text: ''
-   	  			        },
+   	  			          text: '',
+   	  			         align: 'center',
+   	  			         margin: 10,
+  	    				        style: {
+  	    				          fontWeight:  'bold',
+  	    				          color:  '#263238'
+  	    				          },
+  	    				        },
+						subtitle: {
+							text: 'copyright LibVol.com',
+							align: 'right',
+							margin: 10,
+							offsetX: -10,
+							offsetY: 30,
+							floating: false,
+							style: {
+							  fontSize:  '10px',
+							  fontWeight:  'normal',
+							  color:  '#9699a2'
+							},
+						},
    	  			        dataLabels: {
    	  			          enabled: false
    	  			        },
    	  			        xaxis: {
-   	  			        	
-	   	  			       labels: {
-				        		 style: {
-						        	  fontSize: fontsize,
-						        	 }
-				        	  },
-   	  			           type: 'datetime'
+   	  			        	   labels:  {
+					        		  rotate: -45,
+					                  rotateAlways: true,
+					                  minHeight:60,
+					        		  style: {
+							        	  fontSize: fontsize,
+							        	 },
+							         hideOverlappingLabels:true
+					        	  },
+   	  			           type: 'datetime',
+   	  			      axisBorder: {
+   	  		          show: true,
+   	  		          color: '#ffffff',
+   	  		          height: 3,
+   	  		          width: '100%',
+   	  		          offsetX: 0,
+   	  		          offsetY: 0
+   	  		      },
    	  			        },
    	  			   legend: {
 		   	  			   fontSize: fontsize,
@@ -3023,6 +3058,13 @@
 				        	         return value.toFixed(yaxisformat) + "%";
 			        	    }
 			        	  },
+			        	  axisBorder: {
+			        		  width: 3,
+			                  show: true,
+			                  color: '#ffffff',
+			                  offsetX: 0,
+			                  offsetY: 0
+			              },
 			        
 			        }],
 			        noData: {
@@ -3114,7 +3156,7 @@
 	  
    	    	        chart = new ApexCharts(document.querySelector("#mainChart"), Daily?options:optionsWeekly);
    	    	        chart.render();
-   	    	      
+   	    	     //return 0;
 		    	  if (Items!="") {
 		    		   if (Items=="all30yr")
 				        dataParam = { 
@@ -4324,97 +4366,10 @@
 			      	    	       	  if (typeof activeFontSize == 'undefined')
 			      	    	           $('#'+chartDbFontSize).addClass("active");
 			      	    	       	  else 
-			      	    	       		chartDbFontSize = activeFontSize;
-			      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,chartDbFontSize,response[0].config.chartshowMarkes));
-			        	    	       
-			      	    	    	
-			      	    	   	    	        
-			        	    	       
-			        	    	         
-			      	    	       	    /* 
-				      	    	    		chart.updateOptions({
-			      	    	        		 title: {
-			      	    				          text: title,
-			      	    				          align: 'center',
-			      	    				        style: {
-			      	    				          fontSize:  response[0].config.chartSize,
-			      	    				          fontWeight:  'bold',
-			      	    				          color:  '#263238'
-			      	    				          },
-			      	    				        },
-			      	    				      subtitle: {
-			      	    				        text: 'copyright LibVol.com',
-			      	    				        align: 'right',
-			      	    				        margin: 0,
-			      	    				        offsetX: 0,
-			      	    				        offsetY: 40,
-			      	    				        floating: false,
-			      	    				        style: {
-			      	    				          fontSize:  '10px',
-			      	    				          fontWeight:  'normal',
-			      	    				          color:  '#9699a2'
-			      	    				        },
-			      	    				    },
-			      	    				      stroke: {
-			      	    				    	  curve: curve1,
-			      	    				    	},
-						      			        xaxis: {
-										        	labels: {
-										        		  rotate: -45,
-										                  rotateAlways: true,
-										                  minHeight:60,
-										        		 style: {
-												        	  fontSize: response[0].config.chartSize,
-												        	 }
-										        	  },
-										          type: 'datetime'
-										        },
-										        yaxis: [{
-											          labels: {
-											        	  style: {
-											        		  fontSize: response[0].config.chartSize,
-												        	 },
-											        	    formatter: function (value) {
-											        	    	if (isdecimal)
-												        	    	   return value.toFixed(yaxisformat);
-												        	    	else 
-												        	         return value.toFixed(yaxisformat) + "%";
-											        	    }
-											        	  },
-											        
-											        }],
-											    	tooltip: {
-											    		 x: {
-											    	          show: true,
-											    	          format: 'dd MMM yy',
-											    	      },
-														  y: {
-															formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-															
-																if (getFormatResult[1])
-																	  return  value.toFixed(getFormatResult[0]);
-																	else 
-																	  return  value.toFixed(getFormatResult[0]) + "%";
-															},
-										    				title: {
-										    		              formatter:  function (seriesName) {
-										    							 for (var i=0; i<response.length;i++)
-										    							 { 
-										    						  if (seriesName == response[i].config.displayDescription)
-										    		            	  return response[i].config.columnName;
-										    							 }
-													        	    }
-										    		          },
-														  },
-														},
-														  grid: {
-															  show: eval(response[0].config.chartShowgrid),
-														  },
-														  legend: {  
-												        	   fontSize:  response[0].config.chartSize,
-														  }
-			      							}); */
-				      	    	    		
+			      	    	       		fontsize = activeFontSize;
+			      	    	       //  return 1;
+			      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+			      	    	        //  return 2; 
 				      	    	    	  if (chartType1=='area' && Daily==true)
 				      	    	        	{
 				      	    	    		if (response[0].config.chartColor=='#44546a')
@@ -4556,7 +4511,7 @@
 						        	  fontSize: fontsize,
 						        	 }
 				        	  },
-				          type: 'datetime'
+				         // type: 'datetime'
 				        },
 				        legend: {  
 				        	   fontSize: fontsize,
@@ -4667,7 +4622,7 @@
 			});
 		
 		</script>
-<!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
+
 </body>
 
 </html>
