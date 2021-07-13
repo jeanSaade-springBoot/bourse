@@ -6266,6 +6266,23 @@
 									d = 28;
 								i.globals.rotateXLabels && (d = 22);
 								(c = void 0 !== i.config.xaxis.tickAmount && "dataPoints" !== i.config.xaxis.tickAmount && "datetime" !== i.config.xaxis.type ? e.axesUtils.checkLabelBasedOnTickamount(s, c, h) : e.axesUtils.checkForOverflowingLabels(s, c, h, e.drawnLabels, e.drawnLabelsRects)).text && i.globals.xaxisLabelsCount++;
+								
+								if (o.length<20)
+								{if (i.globals.xaxisLabelsCount%2!=0)
+								 c.text='';
+								} 
+								else if (o.length>20  && o.length<40)
+								{if (i.globals.xaxisLabelsCount%3!=0)
+								 c.text='';
+								}
+								else if (o.length>40  && o.length<60)
+								{if (i.globals.xaxisLabelsCount%4!=0)
+								 c.text='';
+								}
+								else if (o.length>60)
+								{if (i.globals.xaxisLabelsCount%5!=0)
+								 c.text='';
+								}
 								var g = a.drawText({
 									x: c.x,
 									y: e.offY + i.config.xaxis.labels.offsetY + d - ("top" === i.config.xaxis.position ? i.globals.xAxisHeight + i.config.xaxis.axisTicks.height - 2 : 0),

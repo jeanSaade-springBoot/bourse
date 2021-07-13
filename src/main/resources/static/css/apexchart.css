@@ -86,4 +86,6 @@ text {
     transform-origin: center;
     transform-box: fill-box;
 }
-
+/* .apexcharts-xaxis-texts-g > *:nth-child(2n+0){ display: none; }
+ */
+ 

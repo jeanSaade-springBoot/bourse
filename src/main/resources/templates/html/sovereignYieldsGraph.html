@@ -2960,6 +2960,7 @@
 		   	  			        }},
    	  			          height: 400,
    	  			          type: 'line',
+   	  			     animations: { enabled: false }
    	  			        },
    	  			   grid: {
    	  				   
@@ -3018,9 +3019,8 @@
 					        		  style: {
 							        	  fontSize: fontsize,
 							        	 },
-							         hideOverlappingLabels:true
 					        	  },
-   	  			           type: 'datetime',
+   	  			           type: 'category',
    	  			      axisBorder: {
    	  		          show: true,
    	  		          color: '#ffffff',
@@ -4361,13 +4361,13 @@
 			      	    	            
 			      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 			      	    	       	    chartDbFontSize = response[0].config.chartSize;
-			      	    	       	    
+			      	    	       	  debugger; 
 			      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 			      	    	       	  if (typeof activeFontSize == 'undefined')
 			      	    	           $('#'+chartDbFontSize).addClass("active");
 			      	    	       	  else 
 			      	    	       		fontsize = activeFontSize;
-			      	    	       //  return 1;
+			      	    	  
 			      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 			      	    	        //  return 2; 
 				      	    	    	  if (chartType1=='area' && Daily==true)
@@ -4427,26 +4427,12 @@
 							      			            opacity: [1,1],
 							      			          }, 
 					      	    	    		});
-				      	    	    		
+				      	    	    	
 				      	    	         chart.updateSeries([{
 										         name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
 										          type: Daily?chartType1:'column',
 										          data: response[0].graphResponseDTOLst
 										        }]);
-				      	    	         if (chartType1=='column')
-				      	    	        	chart.updateOptions({
-				      	    	        		 xaxis: {
-											        	labels: {
-											        		  rotate: -45,
-											                  rotateAlways: true,
-											                  minHeight:60,
-											        		 style: {
-													        	  fontSize: response[0].config.chartSize,
-													        	 }
-											        	  },
-											          type: 'category'
-											        },
-				      	    	        	});
 				      	    	       
 				      	    	  	 $.ajax({
 				      			        contentType: "application/json",

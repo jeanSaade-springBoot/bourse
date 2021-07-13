@@ -20,6 +20,7 @@ var chartOption = {
 								},
    	  			          height: 400,
    	  			          type: 'line',
+   	  			          animations: { enabled: false }
    	  			        },
    	  			   grid: {
 				  show:eval(showgrid),
@@ -71,15 +72,14 @@ var chartOption = {
    	  			        },
    	  			        xaxis: {
 	   	  			       labels:  {
-					        		  rotate: -45,
+	   	  			         		  rotate: -45,
 					                  rotateAlways: true,
 					                  minHeight:60,
 					        		  style: {
 							        	  fontSize: fontSize,
 							        	 },
-							         hideOverlappingLabels:true
 					        	  },
-   	  			           type: 'datetime',
+   	  			           type: 'category',
 						    axisBorder: {
 							  show: true,
 							  color: '#ffffff',
