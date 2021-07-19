@@ -83,3 +83,6 @@ h1 {
   content: "";
   margin: 0 7em;
 }
+.NewsBack.container {
+    z-index: 900;
+}

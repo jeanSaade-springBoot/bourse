@@ -659,6 +659,9 @@
 						    </div>
 						  </div>
 						</div>
+							 <div id="overlayChart" class="overlayChart" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
 				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div></div>
 						
 						</div>
@@ -2912,7 +2915,7 @@
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
-				 
+                $('#overlayChart').show(); 
 			
 				var fromdate = formatDate(monthDate);
 				var todate = formatDate(date);
@@ -3505,7 +3508,7 @@
 											           data: response[5].graphResponseDTOLst
 											          }]);
 		    			     
-					  	        
+		    			        $('#overlayChart').hide();
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -3669,6 +3672,7 @@
 							          type: Daily?chartType2:'column',
 							          data:response[1].graphResponseDTOLst
 							        }])
+							        $('#overlayChart').hide();
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -3854,6 +3858,7 @@
 							          type:  Daily?chartType3:'column',
 							          data:response[2].graphResponseDTOLst
 							        }])
+							        $('#overlayChart').hide();
 	      	   },
 	      	    	        error: function (e) {
 	      	    	        	
@@ -4045,6 +4050,7 @@
 							          type:  Daily?chartType4:'column',
 							          data:response[3].graphResponseDTOLst
 							        }])
+							        $('#overlayChart').hide();
 	      	   },
 	      	    	        error: function (e) {
 	      	    	        	
@@ -4263,6 +4269,7 @@
 
 						 	        }
 						 	    });
+				      	    	   $('#overlayChart').hide();
 				      	    	     
 				      	   },
 				      	    	        error: function (e) {

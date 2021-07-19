@@ -750,12 +750,21 @@
 						  </div>
 						</div>
 						 <div class="col-10">
+						 	 <div id="overlayChart" class="overlayChart" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
 						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div>
 						 <div class="row">
 						 	<div class='col-6'>
+						 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
 						 		<div id="SubChart1" class="chart-box"></div>
 						 	</div>
 						 	<div class='col-6'>
+						 	<div id="overlayChart2" class="overlayChart-split" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
@@ -5070,7 +5079,9 @@
 				$("#SubChart2").html("");
 				$("#SubChart1").css("display","block");
 				$("#SubChart2").css("display","block");
-				
+			
+				  $('#overlayChart1').show(); 
+				  $('#overlayChart2').show(); 
 				 if(chart1!=null)
 					   chart1.destroy();
 				 if(chart2!=null)
@@ -5326,7 +5337,7 @@
 							          data: response[0].graphResponseDTOLst
 							        }]);
 							    
-		      				        
+		      	    	 $('#overlayChart1').hide();  
 		      					    
 		      	   },
 		      	    	        error: function (e) {
@@ -5576,7 +5587,7 @@
 								          type: chartType2,
 								          data: response[0].graphResponseDTOLst
 								        }])
-								     
+								        $('#overlayChart2').hide();
 			      	   },
 			      	    	        error: function (e) {
 			      	    	        	
@@ -5755,7 +5766,7 @@
 					})
 			}
 			function drawGraph(){
-				
+				   $('#overlayChart').show(); 
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
@@ -6067,6 +6078,7 @@
 							          type: chartType2,
 							          data:response[1].graphResponseDTOLst
 							        }])
+							        $('#overlayChart').hide();
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -6411,6 +6423,7 @@
 									          type: chartType1,
 									          data: response[0].graphResponseDTOLst
 									        }]);
+				      	    	      $('#overlayChart').hide();
 				      	   },
 				      	    	        error: function (e) {
 				      	    	        	

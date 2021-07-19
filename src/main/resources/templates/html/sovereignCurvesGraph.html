@@ -662,6 +662,9 @@
 						     </div>
 						  </div>
 						</div>
+						 <div id="overlayChart" class="overlayChart" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
 				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div></div>
 						
 						</div>
@@ -2895,7 +2898,7 @@
 				$("#mainChart").html("");
 				$("#mainChart").css("display","block");
 				var Daily = $("#DailyRadioButton").jqxRadioButton('val');
-				
+				$('#overlayChart').show();
 				if   (checkDateMonth(monthDate,date))
 				   {
 					  $("#button-monthForward").prop('disabled', false);
@@ -3433,7 +3436,7 @@
 												           type:  Daily?chartType6:'column',
 												           data: response[5].graphResponseDTOLst
 												          }]);
-			    			       
+			    			        $('#overlayChart').hide();
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -3600,6 +3603,7 @@
 											 type: Daily?chartType2:'column',
 								          data:response[1].graphResponseDTOLst
 								        }])
+								        $('#overlayChart').hide();
 			      	   },
 			      	    	        error: function (e) {
 			      	    	        	
@@ -3784,6 +3788,7 @@
 										  type:  Daily?chartType3:'column',
 								          data:response[2].graphResponseDTOLst
 								        }])
+								        $('#overlayChart').hide();
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -3993,6 +3998,7 @@
 									           type:  Daily?chartType4:'column',
 							          data:response[3].graphResponseDTOLst
 							        }])
+							        $('#overlayChart').hide();
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -4191,6 +4197,7 @@
 														  type: Daily?chartType1:'column',
 											          data: response[0].graphResponseDTOLst
 											        }]);
+					      	    	       $('#overlayChart').hide();
 				      	   },
 				      	    	        error: function (e) {
 				      	    	        	
@@ -4219,7 +4226,7 @@
 				     	    	    });		
 									
 				              }
-		    	  
+			    
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
 							}

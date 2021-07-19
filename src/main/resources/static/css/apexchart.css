@@ -86,6 +86,13 @@ text {
     transform-origin: center;
     transform-box: fill-box;
 }
-/* .apexcharts-xaxis-texts-g > *:nth-child(2n+0){ display: none; }
- */
- 
+.overlayChart {
+    position: absolute;
+    margin: 15% 48%;
+    z-index: 200;
+}
+.overlayChart-split {
+    position: absolute;
+    margin: 40% 47%;
+    z-index: 200;
+}
