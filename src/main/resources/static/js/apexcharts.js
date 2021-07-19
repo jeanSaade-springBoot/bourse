@@ -6279,8 +6279,12 @@
 								{if (i.globals.xaxisLabelsCount%4!=0)
 								 c.text='';
 								}
-								else if (o.length>60)
-								{if (i.globals.xaxisLabelsCount%5!=0)
+								else if (o.length>60 && o.length<300)
+								{if (i.globals.xaxisLabelsCount%25!=0)
+								 c.text='';
+								}
+								else if (o.length>300)
+								{if (i.globals.xaxisLabelsCount%50!=0)
 								 c.text='';
 								}
 								var g = a.drawText({
@@ -6406,6 +6410,7 @@
 			}, {
 				key: "drawXaxisTicks",
 				value: function (t, e) {
+				return;
 					var i = this.w,
 						a = t;
 					if (!(t < 0 || t - 2 > i.globals.gridWidth)) {

@@ -675,9 +675,9 @@
 				   	     <div class="col-1">
 						 <div class="buttons">
 						    <div class="btn-group-vertical" role="group" aria-label="Vertical example">
-						      <button type="button" class="btn btn-info" style="font-size: small;" onclick="updateGraphFont('12px')">A</button>
-						      <button type="button" class="btn btn-info" style="font-size: medium;" onclick="updateGraphFont('14px')">A</button>
-						      <button type="button" class="btn btn-info" style="font-size: large;" onclick="updateGraphFont('16px')">A</button>
+						      <button type="button" class="btn btn-info" id="12px" style="font-size: small;" onclick="updateGraphFont('12px')">A</button>
+						      <button type="button" class="btn btn-info" id="14px" style="font-size: medium;" onclick="updateGraphFont('14px')">A</button>
+						      <button type="button" class="btn btn-info" id="16px" style="font-size: large;" onclick="updateGraphFont('16px')">A</button>
 						    </div>
 						  </div>
 						</div>
@@ -804,6 +804,7 @@
   var chart;
   var fromNavigation=false;
   var yaxisformat=3;
+  var fontsize='12px';
   var isdecimal = false;
   var startDateF1;
   var startDateF2;
@@ -1368,6 +1369,11 @@
 	  $('#nav-tabContent').show();
   });
   $(document).ready(function () {
+	  
+	  $("div.btn-group-vertical button.btn").click(function(){
+		    $("div.btn-group-vertical").find(".active").removeClass("active");
+		    $(this).addClass("active");
+		  });  
 	  
 		 $.ajax({
 		        contentType: "application/json",
@@ -3217,7 +3223,6 @@
 				$("#mainChart").css("display","block");
 				$("#SubChart1").css("display","none");
 				$("#SubChart2").css("display","none");
-				var fontsize='12px';
 				 var Daily = $("#DailyRadioButton").jqxRadioButton('val');
 				 
 				 if   (checkDateMonth(monthDate,date))
@@ -3241,6 +3246,7 @@
 				 if(chart!=null)
 				   chart.destroy();
 				 
+				 
 				  var options = {
   	  			          series: [],
   	  			          chart: {
@@ -3258,37 +3264,80 @@
 		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
-  	  			          height: 350,
+  	  			          height: 400,
   	  			          type: 'line',
+  	  			     animations: { enabled: false }
   	  			        },
-  	  			       	        colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
+  	  			   grid: {
+  	  				   
+  	  			  show:false,
+  	  			  borderColor: '#f0e68c',
+  	  			  strokeDashArray:1,
+  	  		      opacity: 0.5,
+		   	  		  padding: {
+		   	  	        right: 60,
+		   	  	    },  
+  	  			},
+  	         colors: ["#F0AB2E", "#0097FE","#1c3b66","#7e95d9","#4768b3","#a3a3a5"],
   	  			        fill: {
   	  			            type:'solid',
-  	  			            opacity: [0.5, 1],
+  	  			            opacity: [1, 1],
   	  			          },
   	  			        stroke: {
   	  			        	 curve: 'straight',
-  	  			        	   width: 3
+  	  			        	   width: 2.25
   	  			        },
   	  			        markers: {
-  	  			            size: 2,
+  	  			       colors: '#ffffff',
+                       size: 2,
+                       shape:'square',
   	  			        },
   	  			        title: {
-  	  			          text: ''
-  	  			        },
+  	  			          text: '',
+  	  			         align: 'center',
+  	  			         margin: 10,
+ 	    				        style: {
+ 	    				          fontWeight:  'bold',
+ 	    				          color:  '#263238'
+ 	    				          },
+ 	    				        },
+						subtitle: {
+							text: 'copyright LibVol.com',
+							align: 'right',
+							margin: 10,
+							offsetX: -10,
+							offsetY: 30,
+							floating: false,
+							style: {
+							  fontSize:  '10px',
+							  fontWeight:  'normal',
+							  color:  '#9699a2'
+							},
+						},
   	  			        dataLabels: {
   	  			          enabled: false
   	  			        },
   	  			        xaxis: {
-	   	  			       labels: {
-				        		 style: {
-						        	  fontSize: fontsize,
-						        	 }
-				        	  },
-  	  			           type: 'datetime'
+  	  			        	   labels:  {
+					        		  rotate: -45,
+					                  rotateAlways: true,
+					                  minHeight:60,
+					        		  style: {
+							        	  fontSize: fontsize,
+							        	 },
+					        	  },
+  	  			           type: 'category',
+  	  			      axisBorder: {
+  	  		          show: true,
+  	  		          color: '#ffffff',
+  	  		          height: 3,
+  	  		          width: '100%',
+  	  		          offsetX: 0,
+  	  		          offsetY: 0
+  	  		      },
   	  			        },
   	  			   legend: {
-			        	   fontSize: fontsize,
+		   	  			   fontSize: fontsize,
 			        	   showForSingleSeries: true,
 				    	   labels: {
 				    	          colors: 'White',
@@ -3309,16 +3358,36 @@
 					        	  fontSize: fontsize,
 					        	 },
 			        	    formatter: function (value) {
-			        		   	if (isdecimal)
+			        	    	if (isdecimal)
 				        	    	   return value.toFixed(yaxisformat);
 				        	    	else 
 				        	         return value.toFixed(yaxisformat) + "%";
 			        	    }
 			        	  },
+			        	  axisBorder: {
+			        		  width: 3,
+			                  show: true,
+			                  color: '#ffffff',
+			                  offsetX: 0,
+			                  offsetY: 0
+			              },
 			        
-			        }]
+			        }],
+			        noData: {
+			        	  text: 'No data In this date range',
+			        	  align: 'center',
+			        	  verticalAlign: 'middle',
+			        	  offsetX: 0,
+			        	  offsetY: 0,
+			        	  style: {
+			        	    color: undefined,
+			        	    fontSize: '14px',
+			        	    fontFamily: undefined
+			        	  }
+			        	}
   	  			        };
-  	    	        var optionsWeekly = {
+				  
+				  var optionsWeekly = {
   	    	          series: [],
   	    	            chart: {
   	    	             toolbar: {
@@ -3382,7 +3451,7 @@
 			        	  },
 			        
 			        }],
-  	  			     	        colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
+  	  			     	        colors: ["#F0AB2E", "#0097FE","#1c3b66","#7e95d9","#4768b3","#a3a3a5"],
   	  			      fill: {
   	    	            opacity: 1
   	    	          },
@@ -3509,73 +3578,16 @@
 			       	    	        var getFormatResult0 = getFormat(response[0].config.dataFormat);
 			       	    	        var getFormatResult1 = getFormat(response[1].config.dataFormat);	      	    	       
 			       	    	 	  
-		      	    	        			chart.updateOptions({
-		      	    	        		 title: {
-		      	    				          text: title
-		      	    				        },
-
-					      				      fill: {
-					      			            type:'solid',
-					      			            opacity: [1,1],
-					      			          },
-					      			        xaxis: {
-									        	labels: {
-									        		  rotate: -45,
-									                  rotateAlways: true,
-									                  minHeight:60,
-									        		 style: {
-											        	  fontSize: fontsize,
-											        	 }
-									        	  },
-									          type: 'datetime'
-									        },
-									        yaxis: [{
-										          labels: {
-										        	    formatter: function (value) {
-										        		   	if (isdecimal)
-											        	    	   return value.toFixed(yaxisformat);
-											        	    	else 
-											        	         return value.toFixed(yaxisformat) + "%";
-										        	    }
-										        	  },
-										        
-										        }],
-										    	tooltip: {
-										    		 x: {
-										    	          show: true,
-										    	          format: 'dd MMM yy',
-										    	      },
-													  y: {
-														formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-														
-															if(seriesIndex == 0)
-															{
-															if (getFormatResult0[1])
-															  return  value.toFixed(getFormatResult0[0]);
-															else 
-															  return  value.toFixed(getFormatResult0[0]) + "%";
-															}else 
-																{
-																  if (getFormatResult1[1])
-																	  return  value.toFixed(getFormatResult1[0]);
-																	else 
-																		 return  value.toFixed(getFormatResult1[0]) + "%";
-																	}
-														},
-														title: {
-									    		              formatter:  function (seriesName) {
-									    							 for (var i=0; i<response.length;i++)
-									    							 { 
-									    						  if (seriesName == response[i].config.displayDescription)
-									    		            	  return response[i].config.columnName;
-									    							 }
-												        	    }
-									    		          },
-													  },
-													}
-		      							});
-		      	    	        	
-		      	    	         
+			       	    	  	    chartDbFontSize = response[0].config.chartSize;
+			      	    	       	  debugger; 
+			      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
+			      	    	       	  if (typeof activeFontSize == 'undefined')
+			      	    	           $('#'+chartDbFontSize).addClass("active");
+			      	    	       	  else 
+			      	    	       		fontsize = activeFontSize;
+			      	    	  
+			      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+			      	    	     
 		      	    	          chart.updateSeries([{
 		      	    	        	 name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
 												  type: Daily?chartType1:'column',
@@ -3734,77 +3746,16 @@
 		      	    			var getFormatResult1 = getFormat(response[1].config.dataFormat);
 		      	    			var getFormatResult2 = getFormat(response[2].config.dataFormat);
 		      	    		
-		      	    	        	 chart.updateOptions({
-		      	    	        		 title: {
-		      	    				          text: title
-		      	    				        },
-
-					      				      fill: {
-					      			            type:'solid',
-					      			            opacity: [1,1],
-					      			          },
-					      			        xaxis: {
-									        	labels: {
-									        		  rotate: -45,
-									                  rotateAlways: true,
-									                  minHeight:60,
-									        		 style: {
-											        	  fontSize: fontsize,
-											        	 }
-									        	  },
-									          type: 'datetime'
-									        },
-									        yaxis: [{
-										          labels: {
-										        	    formatter: function (value) {
-										        		   	if (isdecimal)
-											        	    	   return value.toFixed(yaxisformat);
-											        	    	else 
-											        	         return value.toFixed(yaxisformat) + "%";
-										        	    }
-										        	  },
-										        
-										        }],
-										        tooltip: {
-										        	 x: {
-										    	          show: true,
-										    	          format: 'dd MMM yy',
-										    	      },
-										  		  y: {
-										  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-										  			
-										  				if(seriesIndex == 0)
-										  				{
-										  				if (getFormatResult0[1])
-										  				  return  value.toFixed(getFormatResult0[0]);
-										  				else 
-										  				  return  value.toFixed(getFormatResult0[0]) + "%";
-										  				}else 
-										  					 if(seriesIndex == 1){
-										  					  if (getFormatResult1[1])
-										  						  return  value.toFixed(getFormatResult1[0]);
-										  						else 
-										  							 return  value.toFixed(getFormatResult1[0]) + "%";
-										  					 }else 
-										  						 if(seriesIndex == 2){
-										  						  if (getFormatResult2[1])
-										  							  return  value.toFixed(getFormatResult2[0]);
-										  							else 
-										  								 return  value.toFixed(getFormatResult2[0]) + "%";
-										  							}
-										  			},
-										  			title: {
-								    		              formatter:  function (seriesName) {
-								    							 for (var i=0; i<response.length;i++)
-								    							 { 
-								    						  if (seriesName == response[i].config.displayDescription)
-								    		            	  return response[i].config.columnName;
-								    							 }
-											        	    }
-								    		          },
-										  		  },
-										  		}
-		      							});
+		      	    	  	    chartDbFontSize = response[0].config.chartSize;
+		      	    	       	  debugger; 
+		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
+		      	    	       	  if (typeof activeFontSize == 'undefined')
+		      	    	           $('#'+chartDbFontSize).addClass("active");
+		      	    	       	  else 
+		      	    	       		fontsize = activeFontSize;
+		      	    	  
+		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	     
 		      	    	        	 var dbchartType1=response[0].config.chartType;
 		       	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
 		  						  
@@ -3996,85 +3947,18 @@
      	    	   		var getFormatResult2 = getFormat(response[2].config.dataFormat);
      	    	   		var getFormatResult3 = getFormat(response[3].config.dataFormat);
      	    	   		console.log(getFormatResult0[0],getFormatResult1[0],getFormatResult2[0],getFormatResult3[0])
-      	    	        	chart.updateOptions({
-      	    	        		 title: {
-      	    				        text: title,
-      	    				        style: {
-      	    			              fontSize: '12px',
-      	    				           }
-      	    				        },
-
-			      				      fill: {
-			      			            type:'solid',
-			      			            opacity: [1,1],
-			      			          },
-			      			        xaxis: {
-							        	labels: {
-							        		  rotate: -45,
-							                  rotateAlways: true,
-							                  minHeight:60,
-							        		 style: {
-									        	  fontSize: fontsize,
-									        	 }
-							        	  },
-							          type: 'datetime'
-							        },
-							        yaxis: [{
-								          labels: {
-								        	    formatter: function (value) {
-								        		   	if (isdecimal)
-									        	    	   return value.toFixed(yaxisformat);
-									        	    	else 
-									        	         return value.toFixed(yaxisformat) + "%";
-								        	    }
-								        	  },
-								        }],
-										tooltip: {
-											 x: {
-								    	          show: true,
-								    	          format: 'dd MMM yy',
-								    	      },
-								    		  y: {
-								    			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-								    			
-								    				if(seriesIndex == 0)
-								    				{
-								    				if (getFormatResult0[1])
-								    				  return  value.toFixed(getFormatResult0[0]);
-								    				else 
-								    				  return  value.toFixed(getFormatResult0[0]) + "%";
-								    				}else 
-								    					 if(seriesIndex == 1){
-								    					  if (getFormatResult1[1])
-								    						  return  value.toFixed(getFormatResult1[0]);
-								    						else 
-								    							 return  value.toFixed(getFormatResult1[0]) + "%";
-								    					 }else 
-								    						 if(seriesIndex == 2){
-								    						  if (getFormatResult2[1])
-								    							  return  value.toFixed(getFormatResult2[0]);
-								    							else 
-								    								 return  value.toFixed(getFormatResult2[0]) + "%";
-								    						 }else 
-									    						 if(seriesIndex == 3){
-									    						  if (getFormatResult3[1])
-									    							  return  value.toFixed(getFormatResult3[0]);
-									    							else 
-									    								 return  value.toFixed(getFormatResult3[0]) + "%";
-									    							}
-								    			},
-								    			title: {
-							    		              formatter:  function (seriesName) {
-							    							 for (var i=0; i<response.length;i++)
-							    							 { 
-							    						  if (seriesName == response[i].config.displayDescription)
-							    		            	  return response[i].config.columnName;
-							    							 }
-										        	    }
-							    		          },
-								    		  },
-								    		}
-      							});
+      	    	        
+     	    	   		  	    chartDbFontSize = response[0].config.chartSize;
+				      	    	       	  debugger; 
+				      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
+				      	    	       	  if (typeof activeFontSize == 'undefined')
+				      	    	           $('#'+chartDbFontSize).addClass("active");
+				      	    	       	  else 
+				      	    	       		fontsize = activeFontSize;
+				      	    	  
+				      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+				      	    	     
+     	    	   		
       	    	          var dbchartType1=response[0].config.chartType;
      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
 						  
@@ -4231,85 +4115,75 @@
 				      	    	           chartType1 = getChartType(dbchartType1)[0];
 				      	    	           curve1 = getChartType(dbchartType1)[1];
 				      	    	           
-				      	    	    			chart.updateOptions({
-			      	    	        		 title: {
-			      	    				          text: title
-			      	    				        },
-			      	    				  	colors: [response[0].config.chartColor],
-						      				      fill: {
-						      			            type:'solid',
-						      			            opacity: [1,1],
-						      			          },
-						      			        stroke: {
-				      	    				    	  curve: curve1,
-				      	    				    	},
-						      			        xaxis: {
-										        	labels: {
-										        		  rotate: -45,
-										                  rotateAlways: true,
-										                  minHeight:60,
-										        		 style: {
-												        	  fontSize: fontsize,
-												        	 }
-										        	  },
-										          type: 'datetime'
-										        },
-										        yaxis: [{
-											          labels: {
-											        	    formatter: function (value) {
-											        		   	if (isdecimal)
-												        	    	   return value.toFixed(yaxisformat);
-												        	    	else 
-												        	         return value.toFixed(yaxisformat) + "%";
-											        	    }
-											        	  },
-											        
-											        }],
-											        tooltip: {
-											        	 x: {
-											    	          show: true,
-											    	          format: 'dd MMM yy',
-											    	      },
-											  		  y: {
-											  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-											  			
-											  				if (getFormatResult[1])
-											  					  return  value.toFixed(getFormatResult[0]);
-											  					else 
-											  					  return  value.toFixed(getFormatResult[0]) + "%";
-											  			},
-											  			title: {
-									    		              formatter:  function (seriesName) {
-									    							 for (var i=0; i<response.length;i++)
-									    							 { 
-									    						  if (seriesName == response[i].config.displayDescription)
-									    		            	  return response[i].config.columnName;
-									    							 }
-												        	    }
-									    		          },
-											  		  },
-											  		}
-			      							});
-				      	    	    	   
-				      	    	    		   if (chartType1=='area')
-					      	    	        	{
-					      	    	        	chart.updateOptions({
-					      	    	        		fill: {
-						      	    	        		  type: 'gradient',
-						      	    	        		  gradient: {
-						      	    	        		    shade: 'dark',
-						      	    	        		    type: "vertical",
-						      	    	        		    shadeIntensity: 0.2,
-						      	    	        		    inverseColors: false,
-						      	    	        		    opacityFrom:1,
-						      	    	        		    opacityTo: 0.9
-						      	    	        		  },}
-					      	    	        		, stroke: {
+				      	    	         var getFormatResult = getFormat(response[0].config.dataFormat);
+				      	    	       	    chartDbFontSize = response[0].config.chartSize;
+				      	    	       	  debugger; 
+				      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
+				      	    	       	  if (typeof activeFontSize == 'undefined')
+				      	    	           $('#'+chartDbFontSize).addClass("active");
+				      	    	       	  else 
+				      	    	       		fontsize = activeFontSize;
+				      	    	  
+				      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+				      	    	       
+				      	    	          if (chartType1=='area' && Daily==true)
+				      	    	        	{
+				      	    	    		if (response[0].config.chartColor=='#44546a')
+					      	    	    		chart.updateOptions({
+					      	    	    			colors: ['#44546a'],
+							      			        fill: {
+					      	    		                type: 'gradient',
+					      	    		                gradient: {
+					      	    					    gradientToColors: '#5b9ad5',
+					      	    					      shadeIntensity: 0,
+					      	    					      type: "vertical",
+					      	    					     inverseColors: false,
+													      stops: [30, 90, 100],
+													      opacityFrom: 1,
+													      opacityTo: eval(response[0].config.chartTransparency),
+					      	    		                }
+					      	    		              },	
+					      	    		            stroke: {
 							     				      	 colors: ["#ffffff"],
 						     				        },
-					      							});
-					      	    	        	}
-				      	    	    		   
+					      	    	    		});
+				      	    	    		else 
+				      	    	        	chart.updateOptions({
+				      	    	        		colors: [response[0].config.chartColor],
+				      	    	        		fill: {
+					      	    	        		  type: 'gradient',
+					      	    	        		  gradient: {
+					      	    	        		    shade: 'dark',
+					      	    	        		    type: "vertical",
+					      	    	        		    shadeIntensity: 0.2,
+					      	    	        		    opacityFrom: 1,
+												        opacityTo: eval(response[0].config.chartTransparency),
+					      	    	        		    inverseColors: false,
+					      	    	        		  },}
+				      	    	        		, stroke: {
+						     				      	 colors: ["#ffffff"],
+					     				        },
+				      							});
+				      	    	        	} else 	
+				      	    	        		if (response[0].config.chartColor=='#44546a')
+				      	    	        		{
+				      	    	        			chart.updateOptions({
+					      	    	    				colors: ['#27303d'],
+								      				       fill: {
+								      			            type:'solid',
+								      			            opacity: [1,1],
+								      			          }, 
+						      	    	    		});
+				      	    	        		}
+				      	    	        	else 
+				      	    	    			chart.updateOptions({
+				      	    	    				colors: [response[0].config.chartColor],
+							      				       fill: {
+							      			            type:'solid',
+							      			            opacity: [1,1],
+							      			          }, 
+					      	    	    		});
+				      	    	    	
 				      	    	         chart.updateSeries([{
 				      	    	        	name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
 													  type: Daily?chartType1:'column',
@@ -4348,93 +4222,7 @@
 		    	               $("#dateTo-mainChart").val(todate);
 							}
 			
-			function updateGraphFont(fontsize){
-				var Daily = $("#DailyRadioButton").jqxRadioButton('val');
-				if(Daily)
-					chart.updateOptions({
-						xaxis: {
-				        	labels: {
-				        		 style: {
-						        	  fontSize: fontsize,
-						        	 }
-				        	  },
-				          type: 'datetime'
-				        },
-				        legend: {
-				        	   fontSize: fontsize,
-				        	   showForSingleSeries: true,
-					    	   labels: {
-					    	          colors: 'White',
-					    	          useSeriesColors: false
-					    	   },
-					    	      markers: {
-					    	          width: 12,
-					    	          height: 2
-					    	      },
-					    	    formatter: function(seriesName, opts) {
-					    	    	img= getCountryFlag(seriesName);
-					    	        return [img , seriesName]
-					    	    }
-					    	  },
-				         yaxis: [{
-				        	labels: {
-				        		 style: {
-						        	  fontSize: fontsize,
-						        	 },
-				        	    formatter: function (value) {
-				        		   	if (isdecimal)
-					        	    	   return value.toFixed(yaxisformat);
-					        	    	else 
-					        	         return value.toFixed(yaxisformat) + "%";
-				        	    }
-				        	  },
-				        
-				        }]
-						})
-				 if(!Daily)
-					   chart.updateOptions({
-							xaxis: {
-					        	labels: {
-					        		 style: {
-							        	  fontSize: fontsize,
-							        	 }
-					        	  },
-					             type: '',
-	  			        	tickPlacement: 'on' 
-					        },
-					        legend: {
-					        	   fontSize: fontsize,
-					        	   showForSingleSeries: true,
-						    	   labels: {
-						    	          colors: 'White',
-						    	          useSeriesColors: false
-						    	   },
-						    	      markers: {
-						    	          width: 12,
-						    	          height: 2
-						    	      },
-						    	    formatter: function(seriesName, opts) {
-						    	    	img= getCountryFlag(seriesName);
-						    	        return [img , seriesName]
-						    	    }
-						    	  },
-					         yaxis: [{
-					        	labels: {
-					        		 style: {
-							        	  fontSize: fontsize,
-							        	 },
-					        	    formatter: function (value) {
-					        		   	if (isdecimal)
-						        	    	   return value.toFixed(yaxisformat);
-						        	    	else 
-						        	         return value.toFixed(yaxisformat) + "%";
-					        	    }
-					        	  },
-					        
-					        }]
-							})
-	
-			}
+
 			$(function (){
 
 				   $.ajax({

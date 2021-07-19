@@ -31,7 +31,7 @@ var chartOption = {
 		   	  	        right: 60,
 		   	  	    },  
    	  			},
-   	  			        colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
+   	  			        colors: ["#F0AB2E", "#0097FE","#1c3b66","#7e95d9","#4768b3","#a3a3a5"],
    	  			        fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -47,7 +47,7 @@ var chartOption = {
    	  			        },
    	  			        title: {
   	    				          text: title,
-  	    				            margin: 10,
+  	    				            margin: 35,
   	    				          align: 'center',
   	    				        style: {
   	    				          fontWeight:  'bold',
@@ -125,18 +125,6 @@ var chartOption = {
 			                  offsetY: 0
 			              },
 			        }],
-			        noData: {
-			        	  text: 'No data In this date range',
-			        	  align: 'center',
-			        	  verticalAlign: 'middle',
-			        	  offsetX: 0,
-			        	  offsetY: 0,
-			        	  style: {
-			        	    color: undefined,
-			        	    fontSize: '14px',
-			        	    fontFamily: undefined
-			        	  }
-			        	}
    	  			        };
    	  			        return chartOption;
    	  			        }
@@ -209,7 +197,7 @@ var chartOption = {
 			        	  },
 			        
 			        }],
-   	  			      colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
+   	  			      colors: ["#F0AB2E", "#0097FE","#1c3b66","#7e95d9","#4768b3","#a3a3a5"],
    	  			      fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -219,6 +207,121 @@ var chartOption = {
 	  			        	tickPlacement: 'on' 
  			        }
    	    	          };
+   	    	          
+function updateGraphFont(fontsize){
+				var Daily = $("#DailyRadioButton").val();
+				if(Daily)
+					chart.updateOptions({
+						xaxis: {
+				        	labels: {
+				        		 style: {
+						        	  fontSize: fontsize,
+						        	 },
+						        	 axisBorder: {
+										  show: true,
+										  color: '#ffffff',
+										  height: 3,
+										  width: '100%',
+										  offsetX: 0,
+										  offsetY: 0
+									  },
+				        	  },
+				         // type: 'datetime'
+				        },
+				        legend: {  
+				        	   fontSize: fontsize,
+				        	   showForSingleSeries: true,
+					    	   labels: {
+					    	          colors: 'White',
+					    	          useSeriesColors: false
+					    	   },
+					    	      markers: {
+					    	          width: 12,
+					    	          height: 2
+					    	      },
+					    	    formatter: function(seriesName, opts) {
+					    	    	img= getCountryFlag(seriesName);
+					    	        return [img , seriesName]
+					    	    }
+					    	  },
+				         yaxis: [{
+				        	labels: {
+				        		 minHeight:60,
+				        		 style: {
+						        	  fontSize: fontsize,
+						        	 },
+				        	    formatter: function (value) {
+				        	    	if (isdecimal)
+					        	    	   return value.toFixed(yaxisformat);
+					        	    	else 
+					        	         return value.toFixed(yaxisformat) + "%";
+				        	    }
+				        	  },
+				        	  axisBorder: {
+				                  width: 3,
+				                  show: true,
+				                  color: '#ffffff',
+				                  offsetX: 0,
+				                  offsetY: 0
+				              },
+				        }]
+						})
+				 if(!Daily)
+					   chart.updateOptions({
+							xaxis: {
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 }
+					        	  },
+					        	  axisBorder: {
+									  show: true,
+									  color: '#ffffff',
+									  height: 3,
+									  width: '100%',
+									  offsetX: 0,
+									  offsetY: 0
+								  },
+					        },
+					        legend: {
+					        	   fontSize: fontsize,
+					        	   showForSingleSeries: true,
+						    	   labels: {
+						    	          colors: 'White',
+						    	          useSeriesColors: false
+						    	   },
+						    	      markers: {
+						    	          width: 12,
+						    	          height: 2
+						    	      },
+						    	    formatter: function(seriesName, opts) {
+						    	    	img= getCountryFlag(seriesName);
+						    	        return [img , seriesName]
+						    	    }
+						    	  },
+					         yaxis: [{
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 },
+					        	    formatter: function (value) {
+					        	    	if (isdecimal)
+						        	    	   return value.toFixed(yaxisformat);
+						        	    	else 
+						        	         return value.toFixed(yaxisformat) + "%";
+					        	    }
+					        	  },
+					        	  axisBorder: {
+					                  width: 3,
+					                  show: true,
+					                  color: '#ffffff',
+					                  offsetX: 0,
+					                  offsetY: 0
+					              },
+					        }]
+							})
+	
+			};   	    	          
 function getCountryFlag(seriesName)
 {var img;
 	if (seriesName.includes("Germany"))

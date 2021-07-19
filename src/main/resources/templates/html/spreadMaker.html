@@ -678,10 +678,10 @@
 				   	     <div class="col-1">
 						 <div class="buttons">
 						    <div class="btn-group-vertical" role="group" aria-label="Vertical example">
-						      <button type="button" class="btn btn-info" style="font-size: small;" onclick="updateGraphFont('12px')">A</button>
-						      <button type="button" class="btn btn-info" style="font-size: medium;" onclick="updateGraphFont('14px')">A</button>
-						      <button type="button" class="btn btn-info" style="font-size: large;" onclick="updateGraphFont('16px')">A</button>
-						    </div>
+						      <button type="button" class="btn btn-info" id="12px" style="font-size: small;" onclick="updateGraphFont('12px')">A</button>
+						      <button type="button" class="btn btn-info" id="14px" style="font-size: medium;" onclick="updateGraphFont('14px')">A</button>
+						      <button type="button" class="btn btn-info" id="16px" style="font-size: large;" onclick="updateGraphFont('16px')">A</button>
+						      </div>
 						  </div>
 						</div>
 				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div></div>
@@ -1257,7 +1257,11 @@
 				 }
 };
   $(document).ready(function () {
-	  
+	  $("div.btn-group-vertical button.btn").click(function(){
+		    $("div.btn-group-vertical").find(".active").removeClass("active");
+		    $(this).addClass("active");
+		  });  
+	
 		 $.ajax({
 		        contentType: "application/json",
 		        url: "/bourse/findgraphhistorybyscreenname/spreadmaker",
@@ -3361,8 +3365,8 @@
 					   chart.destroy();
 				 
 				  var options = {
-   	  			          series: [],
-   	  			          chart: {
+  	  			          series: [],
+  	  			          chart: {
 		   	  			         toolbar: {
 		   	  			        show: true,
 		   	  			        offsetX: 0,
@@ -3377,36 +3381,79 @@
 		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
-   	  			          height: 400,
-   	  			          type: 'line',
-   	  			        },
-   	  			       	        colors: ["#d9c62f", "#b6b19c","#ccbf74","#7e95d9","#4768b3","#a3a3a5"],
-   	  			        fill: {
-   	  			            type:'solid',
-   	  			            opacity: [1, 1],
-   	  			          },
-   	  			        stroke: {
-   	  			        	 curve: 'straight',
-   	  			        	   width: 3
-   	  			        },
-   	  			        markers: {
-   	  			            size: 2,
-   	  			        },
-   	  			        title: {
-   	  			          text: ''
-   	  			        },
-   	  			        dataLabels: {
-   	  			          enabled: false
-   	  			        },
-   	  			        xaxis: {
-	   	  			       labels: {
-				        		 style: {
-						        	  fontSize: fontsize,
-						        	 }
-				        	  },
-   	  			           type: 'datetime'
-   	  			        },
-   	  			   legend: {
+  	  			          height: 400,
+  	  			          type: 'line',
+  	  			     animations: { enabled: false }
+  	  			        },
+  	  			   grid: {
+  	  				   
+  	  			  show:false,
+  	  			  borderColor: '#f0e68c',
+  	  			  strokeDashArray:1,
+  	  		      opacity: 0.5,
+		   	  		  padding: {
+		   	  	        right: 60,
+		   	  	    },  
+  	  			},
+  	         colors: ["#F0AB2E", "#0097FE","#1c3b66","#7e95d9","#4768b3","#a3a3a5"],
+  	  			        fill: {
+  	  			            type:'solid',
+  	  			            opacity: [1, 1],
+  	  			          },
+  	  			        stroke: {
+  	  			        	 curve: 'straight',
+  	  			        	   width: 2.25
+  	  			        },
+  	  			        markers: {
+  	  			       colors: '#ffffff',
+                       size: 2,
+                       shape:'square',
+  	  			        },
+  	  			        title: {
+  	  			          text: '',
+  	  			         align: 'center',
+  	  			         margin: 10,
+ 	    				        style: {
+ 	    				          fontWeight:  'bold',
+ 	    				          color:  '#263238'
+ 	    				          },
+ 	    				        },
+						subtitle: {
+							text: 'copyright LibVol.com',
+							align: 'right',
+							margin: 10,
+							offsetX: -10,
+							offsetY: 30,
+							floating: false,
+							style: {
+							  fontSize:  '10px',
+							  fontWeight:  'normal',
+							  color:  '#9699a2'
+							},
+						},
+  	  			        dataLabels: {
+  	  			          enabled: false
+  	  			        },
+  	  			        xaxis: {
+  	  			        	   labels:  {
+					        		  rotate: -45,
+					                  rotateAlways: true,
+					                  minHeight:60,
+					        		  style: {
+							        	  fontSize: fontsize,
+							        	 },
+					        	  },
+  	  			           type: 'category',
+  	  			      axisBorder: {
+  	  		          show: true,
+  	  		          color: '#ffffff',
+  	  		          height: 3,
+  	  		          width: '100%',
+  	  		          offsetX: 0,
+  	  		          offsetY: 0
+  	  		      },
+  	  			        },
+  	  			   legend: {
 		   	  			   fontSize: fontsize,
 			        	   showForSingleSeries: true,
 				    	   labels: {
@@ -3417,10 +3464,10 @@
 				    	          width: 12,
 				    	          height: 2
 				    	      },
-				    	    /* formatter: function(seriesName, opts) {
+				    	    formatter: function(seriesName, opts) {
 				    	    	img= getCountryFlag(seriesName);
 				    	        return [img , seriesName]
-				    	    }     */
+				    	    }
 				    	  },
 			         yaxis: [{
 			        	labels: {
@@ -3431,16 +3478,31 @@
 			        	    	if (isdecimal)
 				        	    	   return value.toFixed(yaxisformat);
 				        	    	else 
-				        	    		if (isdecimal)
-						        	    	   return value.toFixed(yaxisformat);
-						        	    	else 
-						        	         return value.toFixed(yaxisformat) + "%";
+				        	         return value.toFixed(yaxisformat) + "%";
 			        	    }
 			        	  },
+			        	  axisBorder: {
+			        		  width: 3,
+			                  show: true,
+			                  color: '#ffffff',
+			                  offsetX: 0,
+			                  offsetY: 0
+			              },
 			        
-			        }]
-   	  			        };
-   	    
+			        }],
+			        noData: {
+			        	  text: 'No data In this date range',
+			        	  align: 'center',
+			        	  verticalAlign: 'middle',
+			        	  offsetX: 0,
+			        	  offsetY: 0,
+			        	  style: {
+			        	    color: undefined,
+			        	    fontSize: '14px',
+			        	    fontFamily: undefined
+			        	  }
+			        	}
+  	  			        };
    	    	        chart = new ApexCharts(document.querySelector("#mainChart"), options);
    	    	        chart.render();
    	    	        
@@ -3567,59 +3629,16 @@ debugger;
 			      	    	           else
 			      	    	        	 yaxisformat=3;
 		      	    	        	 debugger;
-		      	    	        	chart.updateOptions({
-		      	    	        		 title: {
-		      	    				          text: title
-		      	    				        },
-		      	    				  	colors: [response[0].config[0].chartColor],
-					      				      fill: {
-					      			            type:'solid',
-					      			            opacity: [1,1],
-					      			          },
-					      			        xaxis: {
-									        	labels: {
-									        		  rotate: -45,
-									                  rotateAlways: true,
-									                  minHeight:60,
-									        		 style: {
-											        	  fontSize: fontsize,
-											        	 }
-									        	  },
-									          type: 'datetime'
-									        },
-									        yaxis: [{
-										          labels: {
-										        	    formatter: function (value) {
-										        	    	if (isdecimal)
-											        	    	   return value.toFixed(yaxisformat);
-											        	    	else 
-											        	         return value.toFixed(yaxisformat) + "%";
-										        	    }
-										        	  },
-										        
-										        }],
-										    	tooltip: {
-										    		 x: {
-										    	          show: true,
-										    	          format: 'dd MMM yy',
-										    	      },
-													  y: {
-														formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-														
-															if (getFormatResult[1])
-																  return  value.toFixed(getFormatResult[0]);
-																else 
-																  return  value.toFixed(getFormatResult[0]) + "%";
-														},
-									    				title: {
-									    		              formatter:  function (seriesName) {
-									    							return titleOnHover;
-												        	    }
-									    		          },
-													  },
-													}
-										        
-		      							});
+		      	    	        	 chartDbFontSize = response[0].config[0].chartSize;
+		      	    	     	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
+		      	    	       	  if (typeof activeFontSize == 'undefined')
+		      	    	           $('#'+chartDbFontSize).addClass("active");
+		      	    	       	  else 
+		      	    	       		fontsize = activeFontSize;
+		      	    	  
+		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config[0].chartShowgrid,fontsize,response[0].config[0].chartshowMarkes));
+		      	    	     
+	    	   		
 		      	    	        	
 		      	    	        	 var dbchartType1=response[0].config[0].chartType;
 		      	    	        	 chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
