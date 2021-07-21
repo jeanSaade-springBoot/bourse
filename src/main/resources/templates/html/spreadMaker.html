@@ -3698,50 +3698,7 @@ debugger;
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
 							}
-			function updateGraphFont(fontsize){
-					   chart.updateOptions({
-							xaxis: {
-					        	labels: {
-					        		 style: {
-							        	  fontSize: fontsize,
-							        	 }
-					        	  },
-					             type: '',
-	  			        	tickPlacement: 'on' 
-					        },
-					        legend: {
-					        	   fontSize: fontsize,
-					        	   showForSingleSeries: true,
-						    	   labels: {
-						    	          colors: 'White',
-						    	          useSeriesColors: false
-						    	   },
-						    	      markers: {
-						    	          width: 12,
-						    	          height: 2
-						    	      },
-						    	  /*   formatter: function(seriesName, opts) {
-						    	    	img= getCountryFlag(seriesName);
-						    	        return [img , seriesName]
-						    	    } */
-						    	  },
-					         yaxis: [{
-					        	labels: {
-					        		 style: {
-							        	  fontSize: fontsize,
-							        	 },
-					        	    formatter: function (value) {
-					        	    	if (isdecimal)
-						        	    	   return value.toFixed(yaxisformat);
-						        	    	else 
-						        	         return value.toFixed(yaxisformat) + "%";
-					        	    }
-					        	  },
-					        
-					        }]
-							})
-	
-			}
+
 			$(function (){
 
 				   $.ajax({
