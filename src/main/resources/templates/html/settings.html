@@ -1122,7 +1122,8 @@
           datafields: [
         	  { name: 'id', type: 'long' },
         	  { name: 'canBeNegative', type: 'long' }, 
-        	  { name: 'showInDatabase', type: 'long' },  
+        	  { name: 'showInDatabase', type: 'long' }, 
+        	  { name: 'showInNewsGraph', type: 'long' },  
         	  { name: 'description', type: 'string' },
         	  { name: 'displayDescription', type: 'string' },
         	  { name: 'columnName', type: 'string' }, 
@@ -1235,6 +1236,7 @@
                 		  //  canBeNegative:$('#jqxCheckBoxNegative').jqxCheckBox('checked')?true:false,
                 		    canBeNegative:false,
                 		    showInDatabase:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?true:false,
+                		    showInNewsGraph:$('#jqxCheckBoxShowInNews').jqxCheckBox('checked')?true:false,
                 		    graphScale:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?1:0,
                 		    startDate:$("#startDate").jqxDateTimeInput('getDate')==null?null:$.jqx.dataFormat.formatdate($("#startDate").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
                 		    calculationType:$("#factorcalctype").val()!=''?$("#factorcalctype").val():null,
@@ -1345,6 +1347,7 @@
                  // $("#jqxCheckBoxNegative").jqxCheckBox('val',dataRecord.canBeNegative);
                
                   $("#jqxCheckBoxShowIndb").val(dataRecord.showInDatabase);
+                  $("#jqxCheckBoxShowInNews").val(dataRecord.showInNewsGraph);
                   $("#factorcalctype").jqxDropDownList('val', dataRecord.calculationType);
                   $("#chartType").jqxDropDownList('val', dataRecord.chartType);               
                   $("#chartColor").jqxDropDownList('val', dataRecord.chartColor);     
@@ -1363,6 +1366,7 @@
             { text: '', columngroup: 'TimeAndFormat', datafield: 'id', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'canBeNegative', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'showInDatabase', hidden: true  },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'showInNewsGraph', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'chartType', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'chartColor', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'chartSize', hidden: true  },

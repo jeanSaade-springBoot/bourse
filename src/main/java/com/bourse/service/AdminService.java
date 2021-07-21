@@ -93,6 +93,7 @@ public class AdminService
 				                         .chartTransparency(columnConfiguration.getChartTransparency())
 				                         .yAxisFormat(columnConfiguration.getYAxisFormat())
 				                         .showInDatabase(columnConfiguration.isShowInDatabase())
+				                         .showInNewsGraph(columnConfiguration.isShowInNewsGraph())
 				                         .build();
         return columnConfigurationRepository.save(colInstance);
 	}

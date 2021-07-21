@@ -43,6 +43,7 @@ public class ColumnConfiguration {
 	private String chartShowgrid;
 	private String exchangeLink;
 	private boolean showInDatabase;
+	private boolean showInNewsGraph;
 	@JsonProperty("yAxisFormat")
 	private String yAxisFormat;
 }

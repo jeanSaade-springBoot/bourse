@@ -5081,7 +5081,7 @@
 				$("#SubChart2").css("display","block");
 			
 				  $('#overlayChart1').show(); 
-				  $('#overlayChart2').show(); 
+				
 				 if(chart1!=null)
 					   chart1.destroy();
 				 if(chart2!=null)
@@ -5490,6 +5490,7 @@
 
 	 			    	   
 	      	    	   	if (checkedItem==2) {
+	      	    	   	  $('#overlayChart2').show(); 
 	     			    	    chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
 	     					      
 	     			    	 
