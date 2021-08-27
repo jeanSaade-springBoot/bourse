@@ -1,10 +1,4 @@
-package com.bourse.domain;
-
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
-
+package com.bourse.dto;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -15,12 +9,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor
-@Entity
-@Table(name = "LowHighRobotsConfiguration")
-public class LowHighRobotsConfiguration {
-	@Id
-    @GeneratedValue
-    private Long id;
+public class RobotsConfigDTO {
 	private String columnDescription;
 	private String displayDescription;
 	private String rule;
@@ -28,5 +17,8 @@ public class LowHighRobotsConfiguration {
 	private String lastData;
 	private String threshholdTrigger;
 	private String threshHoldNotification;
+	private String JumpValueTick;
+	private String JumpPercentage;
+	private String robotName;
 	private boolean isactive;
 }

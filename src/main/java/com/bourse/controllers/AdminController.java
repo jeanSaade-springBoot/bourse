@@ -16,12 +16,12 @@ import com.bourse.domain.AssetClass;
 import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.Groups;
-import com.bourse.domain.LowHighRobotsConfiguration;
+import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.News;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
 import com.bourse.dto.CrossAuditProcedureDTO;
-import com.bourse.dto.LowHighRobotsConfigDTO;
+import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.service.AdminService;
 import com.bourse.service.AssetClassService;
 import com.bourse.service.GroupsService;
@@ -100,16 +100,16 @@ public class AdminController {
 	}
 	
 	@PostMapping(value = "savelowhighrobots")
-	public LowHighRobotsConfiguration SaveLowHighRobots(@RequestBody LowHighRobotsConfigDTO lowHighRobotsConfigDTO) {
+	public RobotsConfiguration SaveLowHighRobots(@RequestBody RobotsConfigDTO lowHighRobotsConfigDTO) {
 	return adminService.SaveLowHighRobots(lowHighRobotsConfigDTO);
 	}
 	
 	@PostMapping(value = "updatelowhighrobotsbyconfigid")
-	public LowHighRobotsConfiguration UpdateLowHighRobotsByConfigId(@RequestBody LowHighRobotsConfigDTO lowHighRobotsConfigDTO) {
+	public RobotsConfiguration UpdateLowHighRobotsByConfigId(@RequestBody RobotsConfigDTO lowHighRobotsConfigDTO) {
 	return adminService.UpdateLowHighRobotsByConfigId(lowHighRobotsConfigDTO);
 	}
 	@GetMapping(value = "getlowhighrobotsbyconfigid/{configId}", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<LowHighRobotsConfiguration>  getLowHighRobotsByConfigId(@PathVariable String configId){
+    public  ResponseEntity<RobotsConfiguration>  getLowHighRobotsByConfigId(@PathVariable String configId){
 		return new ResponseEntity<>(adminService.getLowHighRobotsConfigurationByConfigId(configId), HttpStatus.OK);
     }
 	@GetMapping(value = "getcalendardata")

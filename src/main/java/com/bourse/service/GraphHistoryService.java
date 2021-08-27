@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.GraphHistory;
-import com.bourse.domain.LowHighRobotsConfiguration;
+import com.bourse.domain.RobotsConfiguration;
 import com.bourse.dto.GraphHistoryDTO;
 import com.bourse.repositories.GraphHistoryRepository;
 

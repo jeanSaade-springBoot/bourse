@@ -15,16 +15,16 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
-import com.bourse.domain.LowHighRobotsConfiguration;
+import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.News;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
 import com.bourse.dto.CrossAuditProcedureDTO;
-import com.bourse.dto.LowHighRobotsConfigDTO;
+import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.repositories.CalendarDatesRepository;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
-import com.bourse.repositories.LowHighRobotsConfigRepository;
+import com.bourse.repositories.RobotsConfigRepository;
 import com.bourse.repositories.NewsRepository;
 import com.bourse.repositories.SubGroupRepository;
 
@@ -41,7 +41,7 @@ public class AdminService
 	@Autowired
 	ColumnConfigurationRepository columnConfigurationRepository;
 	@Autowired
-	LowHighRobotsConfigRepository lowHighRobotsConfigRepository;
+	RobotsConfigRepository robotsConfigRepository;
 	@Autowired
 	CalendarDatesRepository calendarDatesRepository;
 	@Autowired
@@ -102,15 +102,15 @@ public class AdminService
 		 return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndDescription(groupId, subgroupId,description);
 	}
 
-	public LowHighRobotsConfiguration UpdateLowHighRobotsByConfigId(LowHighRobotsConfigDTO lowHighRobotsConfigDTO) {
+	public RobotsConfiguration UpdateLowHighRobotsByConfigId(RobotsConfigDTO lowHighRobotsConfigDTO) {
 		// TODO Auto-generated method stub
 		long id ;
-		Optional<LowHighRobotsConfiguration> robotConfig = lowHighRobotsConfigRepository.findByColumnDescription(lowHighRobotsConfigDTO.getColumnDescription());
+		Optional<RobotsConfiguration> robotConfig = robotsConfigRepository.findByColumnDescription(lowHighRobotsConfigDTO.getColumnDescription());
 	    if (robotConfig.isPresent())
 	    {
-	    	LowHighRobotsConfiguration entity = robotConfig.get();
+	    	RobotsConfiguration entity = robotConfig.get();
 	    	id = entity.getId();
-	    	entity = LowHighRobotsConfiguration.builder()
+	    	entity = RobotsConfiguration.builder()
 	    		 .id(id)
 				.columnDescription(lowHighRobotsConfigDTO.getColumnDescription())
 				.displayDescription(lowHighRobotsConfigDTO.getDisplayDescription())
@@ -120,10 +120,13 @@ public class AdminService
 				.threshHoldNotification(lowHighRobotsConfigDTO.getThreshHoldNotification())
 				.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
 				.isactive(lowHighRobotsConfigDTO.isIsactive())
+				.JumpPercentage(lowHighRobotsConfigDTO.getJumpPercentage())
+				.JumpValueTick(lowHighRobotsConfigDTO.getJumpValueTick())
+				.robotName(lowHighRobotsConfigDTO.getRobotName())
 				.build();
-		return lowHighRobotsConfigRepository.save(entity);
+		return robotsConfigRepository.save(entity);
 	    }else {
-	    	LowHighRobotsConfiguration lowHighRobotsConfiguration = LowHighRobotsConfiguration.builder()
+	    	RobotsConfiguration lowHighRobotsConfiguration = RobotsConfiguration.builder()
 					.columnDescription(lowHighRobotsConfigDTO.getColumnDescription())
 					.displayDescription(lowHighRobotsConfigDTO.getDisplayDescription())
 					.lastData(lowHighRobotsConfigDTO.getLastData())
@@ -132,13 +135,16 @@ public class AdminService
 					.threshHoldNotification(lowHighRobotsConfigDTO.getThreshHoldNotification())
 					.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
 					.isactive(lowHighRobotsConfigDTO.isIsactive())
+					.JumpPercentage(lowHighRobotsConfigDTO.getJumpPercentage())
+					.JumpValueTick(lowHighRobotsConfigDTO.getJumpValueTick())
+					.robotName(lowHighRobotsConfigDTO.getRobotName())
 					.build();
-			return lowHighRobotsConfigRepository.save(lowHighRobotsConfiguration);
+			return robotsConfigRepository.save(lowHighRobotsConfiguration);
 	    }
 	}
-	public LowHighRobotsConfiguration SaveLowHighRobots(LowHighRobotsConfigDTO lowHighRobotsConfigDTO)
+	public RobotsConfiguration SaveLowHighRobots(RobotsConfigDTO lowHighRobotsConfigDTO)
 	{
-		LowHighRobotsConfiguration lowHighRobotsConfiguration = LowHighRobotsConfiguration.builder()
+		RobotsConfiguration lowHighRobotsConfiguration = RobotsConfiguration.builder()
 				.columnDescription(lowHighRobotsConfigDTO.getColumnDescription())
 				.displayDescription(lowHighRobotsConfigDTO.getDisplayDescription())
 				.lastData(lowHighRobotsConfigDTO.getLastData())
@@ -146,17 +152,18 @@ public class AdminService
 				.template(lowHighRobotsConfigDTO.getTemplate())
 				.threshHoldNotification(lowHighRobotsConfigDTO.getThreshHoldNotification())
 				.threshholdTrigger(lowHighRobotsConfigDTO.getThreshholdTrigger())
+				.JumpPercentage(lowHighRobotsConfigDTO.getJumpPercentage())
+				.JumpValueTick(lowHighRobotsConfigDTO.getJumpValueTick())
+				.robotName(lowHighRobotsConfigDTO.getRobotName())
 				.build();
-		return lowHighRobotsConfigRepository.save(lowHighRobotsConfiguration);
+		return robotsConfigRepository.save(lowHighRobotsConfiguration);
 		
 	}
-	public LowHighRobotsConfiguration getLowHighRobotsConfigurationByConfigId(String configId)
+	public List<RobotsConfiguration> getLowHighRobotsConfigurationByConfigId(String configId)
 	{      
-		LowHighRobotsConfiguration resp = LowHighRobotsConfiguration.builder().build();
-		Optional<LowHighRobotsConfiguration> respOpt = lowHighRobotsConfigRepository.findByColumnDescriptionOrderById(configId);
-		if(respOpt.isPresent())
-			resp = respOpt.get();
-        return resp;
+		RobotsConfiguration resp = RobotsConfiguration.builder().build();
+		List<RobotsConfiguration> respOpt = robotsConfigRepository.findByColumnDescriptionOrderById(configId);
+        return respOpt;
 	}
 	
 	public List<CalendarDates> getCalendar()
