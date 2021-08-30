@@ -11,6 +11,6 @@ public interface RobotsConfigRepository extends JpaRepository<RobotsConfiguratio
 	
 	  public Optional<RobotsConfiguration> findByColumnDescription(String columnDescription);
 	  public Optional<RobotsConfiguration> findByColumnDescriptionAndRobotName(String columnDescription,String robotName);
-	   public List<RobotsConfiguration> findByColumnDescriptionOrderById(String configId);
+	  public List<RobotsConfiguration> findByColumnDescriptionOrderById(String configId);
 
 }

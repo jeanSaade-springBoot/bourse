@@ -102,9 +102,10 @@ public class AdminService
 		 return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndDescription(groupId, subgroupId,description);
 	}
 
-	public RobotsConfiguration UpdateRobotsByConfigId(RobotsConfigDTO robotsConfigDTO) {
+	public void UpdateRobotsByConfigId(List<RobotsConfigDTO> robotsConfigDTOLst) {
 		// TODO Auto-generated method stub
 		long id ;
+		for(RobotsConfigDTO robotsConfigDTO :robotsConfigDTOLst) {
 		Optional<RobotsConfiguration> robotConfig = robotsConfigRepository.findByColumnDescriptionAndRobotName(robotsConfigDTO.getColumnDescription(),robotsConfigDTO.getRobotName());
 	    if (robotConfig.isPresent())
 	    {
@@ -124,7 +125,7 @@ public class AdminService
 				.JumpValueTick(robotsConfigDTO.getJumpValueTick())
 				.robotName(robotsConfigDTO.getRobotName())
 				.build();
-		return robotsConfigRepository.save(entity);
+		//return robotsConfigRepository.save(entity);
 	    }else {
 	    	RobotsConfiguration robotsConfiguration = RobotsConfiguration.builder()
 					.columnDescription(robotsConfigDTO.getColumnDescription())
@@ -139,8 +140,10 @@ public class AdminService
 					.JumpValueTick(robotsConfigDTO.getJumpValueTick())
 					.robotName(robotsConfigDTO.getRobotName())
 					.build();
-			return robotsConfigRepository.save(robotsConfiguration);
+			//return robotsConfigRepository.save(robotsConfiguration);
 	    }
+	    //return robotsConfigRepository.findByColumnDescription(robotsConfigRepository.findByColumnDescription);
+		}
 	}
 	public RobotsConfiguration SaveRobots(RobotsConfigDTO RobotsConfigDTO)
 	{
