@@ -105,9 +105,14 @@ public class AdminController {
 	}
 	
 	@PostMapping(value = "updaterobotsbyconfigid")
-	public List<RobotsConfigDTO> UpdateRobotsByConfigId(@RequestBody  List<RobotsConfigDTO> RobotsConfigDTO) {
+	public boolean UpdateRobotsByConfigId(@RequestBody  List<RobotsConfigDTO> RobotsConfigDTO) {
+		for (int i=0; i<RobotsConfigDTO.size(); i++)
+		{
+			adminService.UpdateRobotsByConfigId(RobotsConfigDTO.get(i));
+		}
+		return true;
 		
-		return RobotsConfigDTO;
+	
 	//return adminService.UpdateRobotsByConfigId(RobotsConfigDTO);
 	}
 	@GetMapping(value = "getrobotsbyconfigid/{configId}", produces = "application/json;charset=UTF-8")
