@@ -102,42 +102,42 @@ public class AdminService
 		 return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndDescription(groupId, subgroupId,description);
 	}
 
-	public RobotsConfiguration UpdateRobotsByConfigId(RobotsConfigDTO RobotsConfigDTO) {
+	public RobotsConfiguration UpdateRobotsByConfigId(RobotsConfigDTO robotsConfigDTO) {
 		// TODO Auto-generated method stub
 		long id ;
-		Optional<RobotsConfiguration> robotConfig = robotsConfigRepository.findByColumnDescription(RobotsConfigDTO.getColumnDescription());
+		Optional<RobotsConfiguration> robotConfig = robotsConfigRepository.findByColumnDescriptionAndRobotName(robotsConfigDTO.getColumnDescription(),robotsConfigDTO.getRobotName());
 	    if (robotConfig.isPresent())
 	    {
 	    	RobotsConfiguration entity = robotConfig.get();
 	    	id = entity.getId();
 	    	entity = RobotsConfiguration.builder()
 	    		 .id(id)
-				.columnDescription(RobotsConfigDTO.getColumnDescription())
-				.displayDescription(RobotsConfigDTO.getDisplayDescription())
-				.lastData(RobotsConfigDTO.getLastData())
-				.rule(RobotsConfigDTO.getRule())
-				.template(RobotsConfigDTO.getTemplate())
-				.threshHoldNotification(RobotsConfigDTO.getThreshHoldNotification())
-				.threshholdTrigger(RobotsConfigDTO.getThreshholdTrigger())
-				.isactive(RobotsConfigDTO.isIsactive())
-				.JumpPercentage(RobotsConfigDTO.getJumpPercentage())
-				.JumpValueTick(RobotsConfigDTO.getJumpValueTick())
-				.robotName(RobotsConfigDTO.getRobotName())
+				.columnDescription(robotsConfigDTO.getColumnDescription())
+				.displayDescription(robotsConfigDTO.getDisplayDescription())
+				.lastData(robotsConfigDTO.getLastData())
+				.rule(robotsConfigDTO.getRule())
+				.template(robotsConfigDTO.getTemplate())
+				.threshHoldNotification(robotsConfigDTO.getThreshHoldNotification())
+				.threshholdTrigger(robotsConfigDTO.getThreshholdTrigger())
+				.isactive(robotsConfigDTO.isIsactive())
+				.JumpPercentage(robotsConfigDTO.getJumpPercentage())
+				.JumpValueTick(robotsConfigDTO.getJumpValueTick())
+				.robotName(robotsConfigDTO.getRobotName())
 				.build();
 		return robotsConfigRepository.save(entity);
 	    }else {
 	    	RobotsConfiguration robotsConfiguration = RobotsConfiguration.builder()
-					.columnDescription(RobotsConfigDTO.getColumnDescription())
-					.displayDescription(RobotsConfigDTO.getDisplayDescription())
-					.lastData(RobotsConfigDTO.getLastData())
-					.rule(RobotsConfigDTO.getRule())
-					.template(RobotsConfigDTO.getTemplate())
-					.threshHoldNotification(RobotsConfigDTO.getThreshHoldNotification())
-					.threshholdTrigger(RobotsConfigDTO.getThreshholdTrigger())
-					.isactive(RobotsConfigDTO.isIsactive())
-					.JumpPercentage(RobotsConfigDTO.getJumpPercentage())
-					.JumpValueTick(RobotsConfigDTO.getJumpValueTick())
-					.robotName(RobotsConfigDTO.getRobotName())
+					.columnDescription(robotsConfigDTO.getColumnDescription())
+					.displayDescription(robotsConfigDTO.getDisplayDescription())
+					.lastData(robotsConfigDTO.getLastData())
+					.rule(robotsConfigDTO.getRule())
+					.template(robotsConfigDTO.getTemplate())
+					.threshHoldNotification(robotsConfigDTO.getThreshHoldNotification())
+					.threshholdTrigger(robotsConfigDTO.getThreshholdTrigger())
+					.isactive(robotsConfigDTO.isIsactive())
+					.JumpPercentage(robotsConfigDTO.getJumpPercentage())
+					.JumpValueTick(robotsConfigDTO.getJumpValueTick())
+					.robotName(robotsConfigDTO.getRobotName())
 					.build();
 			return robotsConfigRepository.save(robotsConfiguration);
 	    }

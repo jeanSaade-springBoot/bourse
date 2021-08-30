@@ -10,7 +10,7 @@ import com.bourse.domain.RobotsConfiguration;
 public interface RobotsConfigRepository extends JpaRepository<RobotsConfiguration, Long> {
 	
 	  public Optional<RobotsConfiguration> findByColumnDescription(String columnDescription);
-
+	  public Optional<RobotsConfiguration> findByColumnDescriptionAndRobotName(String columnDescription,String robotName);
 	   public List<RobotsConfiguration> findByColumnDescriptionOrderById(String configId);
 
 }
