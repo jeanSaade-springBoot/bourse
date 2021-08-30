@@ -99,18 +99,20 @@ public class AdminController {
 	return adminService.UpdateColumnConfigurationById(columnConfiguration);
 	}
 	
-	@PostMapping(value = "savelowhighrobots")
-	public RobotsConfiguration SaveLowHighRobots(@RequestBody RobotsConfigDTO lowHighRobotsConfigDTO) {
-	return adminService.SaveLowHighRobots(lowHighRobotsConfigDTO);
+	@PostMapping(value = "saverobots")
+	public RobotsConfiguration SaveRobots(@RequestBody RobotsConfigDTO RobotsConfigDTO) {
+	return adminService.SaveRobots(RobotsConfigDTO);
 	}
 	
-	@PostMapping(value = "updatelowhighrobotsbyconfigid")
-	public RobotsConfiguration UpdateLowHighRobotsByConfigId(@RequestBody RobotsConfigDTO lowHighRobotsConfigDTO) {
-	return adminService.UpdateLowHighRobotsByConfigId(lowHighRobotsConfigDTO);
+	@PostMapping(value = "updaterobotsbyconfigid")
+	public List<RobotsConfigDTO> UpdateRobotsByConfigId(@RequestBody  List<RobotsConfigDTO> RobotsConfigDTO) {
+		
+		return RobotsConfigDTO;
+	//return adminService.UpdateRobotsByConfigId(RobotsConfigDTO);
 	}
-	@GetMapping(value = "getlowhighrobotsbyconfigid/{configId}", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<RobotsConfiguration>  getLowHighRobotsByConfigId(@PathVariable String configId){
-		return new ResponseEntity<>(adminService.getLowHighRobotsConfigurationByConfigId(configId), HttpStatus.OK);
+	@GetMapping(value = "getrobotsbyconfigid/{configId}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<List<RobotsConfiguration>>  getRobotsByConfigId(@PathVariable String configId){
+		return new ResponseEntity<>(adminService.getRobotsConfigurationByConfigId(configId), HttpStatus.OK);
     }
 	@GetMapping(value = "getcalendardata")
 	public ResponseEntity<List<CalendarDates>>  getCalendarDates() {

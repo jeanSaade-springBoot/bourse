@@ -23,11 +23,11 @@
     div#overlay {
     margin: 15% 40%;
 }
-   .jqx-widget-header:nth-child(27) {
+   .jqx-widget-header:nth-child(28) {
   background-color: #6495ed;
   color:white;
 } 
-  .jqx-widget-header:nth-child(28) {
+  .jqx-widget-header:nth-child(29) {
   background-color: #ffa500;
     color:white;
 } 
@@ -717,6 +717,7 @@
 				    <div class="col-12 row  mt-4">
 				            <div class="col-12">
 							   <form id="robotform">
+							   <div style="overflow-y: scroll;overflow-x: hidden; height:400px;">
 							     <div class="form-group row">
 							      <div class="col-2">
 							 <!--        <div class="form-group" style='margin: 35% 0;'>
@@ -724,16 +725,16 @@
 							        <div id='HighLowdropDown'>
                                        </div>
                                        </div> -->
-								  <div id='jqxCheckBoxHighLow' style='margin: 35% 0; padding-left: .75rem;text-align: left!important;'>
+								  <div id='highLow_jqxCheckBox' style='margin: 35% 0; padding-left: .75rem;text-align: left!important;'>
                                    HIGH LOW ROBOT</div> 
                                    </div>
                                     <div class="col-4">
                                     <div class="form-group">
 									    <label for="exampleFormControlTextarea1">Template</label>
-									    <textarea class="form-control" id="TemplateText" rows="3"></textarea>
+									    <textarea class="form-control" id="highLow_TemplateRobot" rows="3"></textarea>
 									   <div class="">
 									  Select Variables: 
-									   <ul onclick="addText(event)" class="list-inline">
+									   <ul onclick="addText(event,'highLow_TemplateRobot')" class="list-inline">
 										  <li class="list-inline-item">{ColumnTitle}</li>
 										  <li class="list-inline-item">{Time}</li>
 										  <li class="list-inline-item">{RuleResult}</li>
@@ -744,15 +745,15 @@
                                     </div>
                                      <div class="col-1">
                                      	        <div class="form-group" style='margin: 35% 0;'>
-									  <label for="thresholddl">threshold</label>
-                                      <div id='thresholddl'>
+									  <label for="highLow_thresholddl">threshold</label>
+                                      <div id='highLow_thresholddl'>
                                        </div>
                                        </div>
                                      </div>
                                        <div class="col-1">
                                      	        <div class="form-group" style='margin: 35% 0;'>
 									    <label for="highlightdropdown">Highlight</label>
-                                      <div id='highlightdropdown'>
+                                      <div id='highLow_thighlightdropdown'>
                                        </div> 
                                        </div>
                                        </div>
@@ -760,10 +761,104 @@
                                        <div class="form-group row"  style='margin: 17% 0;'>
                                       <label for="columnTitle" class="col-sm-8 col-form-label">Mark as important if Time >= </label>
 									   <div class="col-sm-4">
-									  	<input type="text" class="form-control" id="lastData">
+									  	<input type="text" class="form-control" id="highLow_highLow_lastData">
 									   </div>
 									   </div>
                                       </div>
+								  </div>
+								    <div class="form-group row">
+							      <div class="col-2">
+							 <!--        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="HighLowdropDown">High/Low Robot </label>
+							        <div id='HighLowdropDown'>
+                                       </div>
+                                       </div> -->
+								  <div id='jump_jqxCheckRobot' style='margin: 35% 0; padding-left: .75rem;text-align: left!important;'>
+                                   JUMP ROBOT</div> 
+                                   </div>
+                                    <div class="col-4">
+                                    <div class="form-group">
+									    <label for="exampleFormControlTextarea1">Template</label>
+									    <textarea class="form-control" id="jump_TemplateRobot" rows="3"></textarea>
+									   <div class="">
+									  Select Variables: 
+									   <ul onclick="addText(event,'jump_TemplateRobot')" class="list-inline">
+										  <li class="list-inline-item">{RuleResult}</li>
+										  <li class="list-inline-item">{P0}</li>
+										  <li class="list-inline-item">{P1}</li>
+										  <li class="list-inline-item">{JumpValue}</li>
+										  <li class="list-inline-item">{Jump%}</li>
+										</ul>
+										</div>
+									  </div>
+                                    </div>
+                                     <div class="col-1">
+                                     	        <div class="form-group" style='margin: 35% 0;'>
+									  <label for="triggerKey">Trigger Key</label>
+                                      		<div style="margin: 3px;" id="jump_isTick">
+              									  Ticks</div>
+								            <div style="margin: 3px;" id="jump_isPercentage">
+								                Percentage %</div>
+                                       </div>
+                                     </div>
+                                       <div class="col-1">
+                                     	        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="Trigger">Trigger</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="text" class="form-control" id="jump_Trigger">
+									   </div>
+                                       </div>
+                                       </div>
+                                        <div class="col-1">
+                                     	        <div class="form-group" style='margin:35% 0;'>
+									    <label for="Trigger">Highlight</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="text" class="form-control" id="jump_Highlight">
+									   </div>
+                                       </div>
+                                       </div>
+								  </div>
+								  <div class="form-group row">
+							      <div class="col-2">
+							 <!--        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="HighLowdropDown">High/Low Robot </label>
+							        <div id='HighLowdropDown'>
+                                       </div>
+                                       </div> -->
+								  <div id='trend_jqxCheckRobot' style='margin: 35% 0; padding-left: .75rem;text-align: left!important;'>
+                                   TREND ROBOT</div> 
+                                   </div>
+                                    <div class="col-4">
+                                    <div class="form-group">
+									    <label for="exampleFormControlTextarea1">Template</label>
+									    <textarea class="form-control" id="trend_TemplateRobot" rows="3"></textarea>
+									   <div class="">
+									  Select Variables: 
+									   <ul onclick="addText(event,'trend_TemplateRobot')" class="list-inline">
+										  <li class="list-inline-item">{RuleResult}</li>
+										  <li class="list-inline-item">{P0}</li>
+										  <li class="list-inline-item">{PN}</li>
+										  <li class="list-inline-item">{Time}</li>
+										</ul>
+										</div>
+									  </div>
+                                    </div>
+                                     <div class="col-3">
+                                     	        <div class="form-group" style='margin: 10% 0;'>
+									  <label for="triggerKey">Trending Description</label>
+                                      	 <div id='trend_Description'>
+                                       </div>	
+                                       </div>
+                                     </div>
+                                       <div class="col-1">
+                                     	        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="Trigger">Highlight</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="text" class="form-control" id="trend_Highlight">
+									   </div>
+                                       </div>
+                                       </div>
+								  </div>
 								  </div>
 								  <div class="form-group mt-4">
 								   <input id="updateRobots" type="button" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" value="Update" />
@@ -855,6 +950,7 @@
   <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
   <script src="/js/jqwidgets/jqxtree.js"></script>
   <script src="/js/jqwidgets/jqxcheckbox.js"></script>
+    <script src="/js/jqwidgets/jqxradiobutton.js"></script>
   <script src="/js/jqwidgets/jqxmenu.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
@@ -880,9 +976,9 @@
 	  $('#overlay').fadeOut();
 	  $('#nav-column-master').show();
   });
-  function addText(event) {
+  function addText(event,id) {
 	    var targ = event.target || event.srcElement;
-	    document.getElementById("TemplateText").value += targ.textContent || targ.innerText;
+	    document.getElementById(id).value += targ.textContent || targ.innerText;
 	}
   $(document).ready(function () {
 	  $("#startDate").jqxDateTimeInput({  theme:'dark', width: '100%', height: '25px',allowNullDate: true });
@@ -1073,23 +1169,29 @@
 	   // $("#jqxCheckBoxNegative").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});
 	    $("#jqxCheckBoxShowIndb").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});  
 	    $("#jqxCheckBoxShowInNews").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 192, height: 25});  
-	    $("#jqxCheckBoxHighLow").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
 	    
-	    $("#jqxCheckBoxHighLow").bind('change', function (event) {
+	    $("#highLow_jqxCheckBox").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
+	    $("#jump_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
+	    $("#trend_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
+	
+        $("#jump_isTick").jqxRadioButton({ theme: 'dark', checked: true});
+        $("#jump_isPercentage").jqxRadioButton({ theme: 'dark'});
+        
+	    $("#highLow_jqxCheckBox").bind('change', function (event) {
             var checked = event.args.checked;
           if (checked)
           {
-        	  $("#lastData").prop('disabled', false);
-        	  $("#TemplateText").prop('disabled', false);
-        	  $("#thresholddl").jqxDropDownList({disabled:false}); 
-        	  $("#highlightdropdown").jqxDropDownList({disabled:false}); 
+        	  $("#highLow_lastData").prop('disabled', false);
+        	  $("#highLow_TemplateRobot").prop('disabled', false);
+        	  $("#highLow_thresholddl").jqxDropDownList({disabled:false}); 
+        	  $("#highLow_thighlightdropdown").jqxDropDownList({disabled:false}); 
           }
 	      else
 	          {
-	    	   $("#lastData").prop('disabled', true);
-	    	   $("#TemplateText").prop('disabled', true);
-	    	   $("#thresholddl").jqxDropDownList({disabled:true}); 
-	    	   $("#highlightdropdown").jqxDropDownList({disabled:true}); 
+	    	   $("#highLow_lastData").prop('disabled', true);
+	    	   $("#highLow_TemplateRobot").prop('disabled', true);
+	    	   $("#highLow_thresholddl").jqxDropDownList({disabled:true}); 
+	    	   $("#highLow_thighlightdropdown").jqxDropDownList({disabled:true}); 
 	          }
         });
 	    
@@ -1106,11 +1208,16 @@
 					        	"3-month",
 					        	"6-month",
 					        	"1-year " ];
+        var trendingDescriptionsource = [ "Higher / Lower",
+        	"Increasing / Decreasing",
+        	"Streeper / Flastter"];
         
     // Create a jqxDropDownList
-    $("#thresholddl").jqxDropDownList({theme: 'dark', source: thresholdsource,width: 80, height: 30,dropDownHeight: 150});
-    $("#highlightdropdown").jqxDropDownList({theme: 'dark', source: thresholdsource, width: 80, height: 30,dropDownHeight: 150});
+    $("#highLow_thresholddl").jqxDropDownList({theme: 'dark', source: thresholdsource,width: 80, height: 30,dropDownHeight: 150});
+    $("#highLow_thighlightdropdown").jqxDropDownList({theme: 'dark', source: thresholdsource, width: 80, height: 30,dropDownHeight: 150});
     
+    
+    $("#trend_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 230, height: 30,dropDownHeight: 100});
    /*  var highlowsource = ["High",
 		"Low"];
     $("#HighLowdropDown").jqxDropDownList({theme: 'dark', source: highlowsource,width: 100, height: 30,dropDownHeight: 70});
@@ -1175,27 +1282,34 @@
        	   $("#dataFormat").jqxDropDownList('clearSelection'); 
       	   $("#yAxisFormats").jqxDropDownList('clearSelection'); 
      	   $("#graphscale").jqxDropDownList('clearSelection'); 
-    	   $("#highlightdropdown").jqxDropDownList('clearSelection'); 
-    	   $("#thresholddl").jqxDropDownList('clearSelection'); 
-    	   $("#jqxCheckBoxHighLow").jqxCheckBox('val',false)
+    	   $("#highLow_thighlightdropdown").jqxDropDownList('clearSelection'); 
+    	   $("#highLow_thresholddl").jqxDropDownList('clearSelection'); 
+    	   $("#highLow_jqxCheckBox").jqxCheckBox('val',false)
     	   $( "#nav-graphsData-tab" ).trigger('click');
        }); 
         $('#nav-robots-tab').click(function (event) {     
         	debugger;
         	   $.ajax({
        	        contentType: "application/json",
-       	        url: "/admin/getlowhighrobotsbyconfigid/"+$("#DisplayName").val(),
+       	        url: "/admin/getrobotsbyconfigid/"+$("#DisplayName").val(),
        	        dataType: 'json',
        	        async:true,
        	        cache: false,
        	        timeout: 600000,
        	        success: function (data) {
-       	         $("#graphTitle").val(data.displayDescription);
-       	         $("#TemplateText").val(data.template);
-                 $("#lastData").val(data.lastData);
-                 $("#thresholddl").jqxDropDownList('val', data.threshholdTrigger);
-                 $("#highlightdropdown").jqxDropDownList('val', data.threshHoldNotification);
-                 $("#jqxCheckBoxHighLow").jqxCheckBox('val', data.isactive==1?true:false)
+       	         for (i=0; i<data.length;i++)
+       	        	 {
+       	        	 if (data[i].robotName=="HighLowRobot")
+       	        		 {
+       	        		 $("#graphTitle").val(data[i].displayDescription);
+               	         $("#highLow_TemplateRobot").val(data[i].template);
+                         $("#highLow_lastData").val(data[i].lastData);
+                         $("#highLow_thresholddl").jqxDropDownList('val', data[i].threshholdTrigger);
+                         $("#highLow_thighlightdropdown").jqxDropDownList('val', data[i].threshHoldNotification);
+                         $("#highLow_jqxCheckBox").jqxCheckBox('val', data[i].isactive==1?true:false)}
+       	        	 
+       	        	 }
+       	        
        },
        	        error: function (e) {
        	        	
@@ -1204,20 +1318,20 @@
        	        }
        	    });
         	   
-           var checked = $("#jqxCheckBoxHighLow").jqxCheckBox('val');
+           var checked = $("#highLow_jqxCheckBox").jqxCheckBox('val');
           if (checked)
           {
-        	  $("#lastData").prop('disabled', false);
-        	  $("#TemplateText").prop('disabled', false);
-        	  $("#thresholddl").jqxDropDownList({disabled:false}); 
-        	  $("#highlightdropdown").jqxDropDownList({disabled:false}); 
+        	  $("#highLow_lastData").prop('disabled', false);
+        	  $("#highLow_TemplateRobot").prop('disabled', false);
+        	  $("#highLow_thresholddl").jqxDropDownList({disabled:false}); 
+        	  $("#highLow_thighlightdropdown").jqxDropDownList({disabled:false}); 
           }
 	      else
 	          {
-	    	   $("#lastData").prop('disabled', true);
-	    	   $("#TemplateText").prop('disabled', true);
-	    	   $("#thresholddl").jqxDropDownList({disabled:true}); 
-	    	   $("#highlightdropdown").jqxDropDownList({disabled:true}); 
+	    	   $("#highLow_lastData").prop('disabled', true);
+	    	   $("#highLow_TemplateRobot").prop('disabled', true);
+	    	   $("#highLow_thresholddl").jqxDropDownList({disabled:true}); 
+	    	   $("#highLow_thighlightdropdown").jqxDropDownList({disabled:true}); 
 	          }
         });
         // update the edited row when the user clicks the 'Save' button.
@@ -1277,23 +1391,53 @@
             }
         });
         $("#updateRobots").click(function () {
-        	 var checked = $("#jqxCheckBoxHighLow").jqxCheckBox('val');
-            var row = {
-            		"isactive":checked,
+        	
+            var rows = [{
+            	"robotName":"HighLowRobot",
+        		"isactive": $("#highLow_jqxCheckBox").jqxCheckBox('val'),
+        		"columnDescription":$("#DisplayName").val(),
+    		    "displayDescription": $("#graphTitle").val(),
+    		    "rule":$("#highLow_thighlightdropdown").jqxDropDownList('val'),
+    		    "template":$("#highLow_TemplateRobot").val(),
+    		    "lastData":$("#highLow_lastData").val(),
+    		    "threshholdTrigger": $("#highLow_thresholddl").jqxDropDownList('val'),
+    		    "threshHoldNotification": $("#highLow_thighlightdropdown").jqxDropDownList('val'),
+    		    "JumpValueTick":"",
+    		    "JumpPercentage":""
+    		    },
+    		    {
+    		    	"robotName":"JumpRobot",
+            		"isactive": $("#jump_jqxCheckRobot").jqxCheckBox('val'),
             		"columnDescription":$("#DisplayName").val(),
         		    "displayDescription": $("#graphTitle").val(),
-        		    "rule":$("#highlightdropdown").jqxDropDownList('val'),
-        		    "template":$("#TemplateText").val(),
-        		    "lastData":$("#lastData").val(),
-        		    "threshholdTrigger": $("#thresholddl").jqxDropDownList('val'),
-        		    "threshHoldNotification": $("#highlightdropdown").jqxDropDownList('val'),
-        		    };
+        		    "rule":"",
+        		    "template":$("#jump_TemplateRobot").val(),
+        		    "lastData":"",
+        		    "threshholdTrigger": $("#jump_Trigger").val(),
+        		    "threshHoldNotification": $("#jump_Highlight").val(),
+        		    "JumpValueTick":$('#jump_isTick').jqxRadioButton('val'),
+        		    "JumpPercentage":$('#jump_isPercentage').jqxRadioButton('val')
+        		    },
+    		    {
+        		    "robotName":"trendRobot",
+            		"isactive": $("#trend_jqxCheckRobot").jqxCheckBox('val'),
+            		"columnDescription":$("#DisplayName").val(),
+        		    "displayDescription": $("#graphTitle").val(),
+        		    "rule":"",
+        		    "template":"",
+        		    "lastData":"",
+        		    "threshholdTrigger": "",
+        		    "threshHoldNotification": "",
+        		    "JumpValueTick":"",
+        		    "JumpPercentage":""
+        		    }];
          	debugger;
+         	
 	       	  $.ajax({
 	    	        type: "POST",
 	    	        contentType: "application/json",
-	    	        url: "/admin/updatelowhighrobotsbyconfigid",
-	    	        data: JSON.stringify(row),
+	    	        url: "/admin/updaterobotsbyconfigid",
+	    	        data: JSON.stringify(rows),
 	    	        dataType: 'json',
 	    	        async:true,
 	    	        cache: false,
