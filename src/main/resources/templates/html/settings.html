@@ -864,7 +864,7 @@
 								   <input id="updateRobots" type="button" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" value="Update" />
 							       <input id="cancelRobots" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Close" />
 							       </div>
-							        <div class="form-group" id="notifcationContainerRobot" style=" margin-top: 3rem;">
+							        <div class="form-group" id="notifcationContainerRobot">
 								       <div id="jqxNotificationRobots">
 		        The Data has been updated</div>
 							       </div>
@@ -1319,7 +1319,10 @@
      	   $("#graphscale").jqxDropDownList('clearSelection'); 
     	   $("#highLow_thighlightdropdown").jqxDropDownList('clearSelection'); 
     	   $("#highLow_thresholddl").jqxDropDownList('clearSelection'); 
-    	   $("#highLow_jqxCheckBox").jqxCheckBox('val',false)
+    	   $("#highLow_jqxCheckBox").jqxCheckBox('val',false);
+    	   $("#trend_jqxCheckRobot").jqxCheckBox('val',false);
+    	   $("#jump_jqxCheckRobot").jqxCheckBox('val',false);
+    	   $("#trend_Description").jqxDropDownList('clearSelection')
     	   $( "#nav-graphsData-tab" ).trigger('click');
        }); 
         $('#nav-robots-tab').click(function (event) {     
