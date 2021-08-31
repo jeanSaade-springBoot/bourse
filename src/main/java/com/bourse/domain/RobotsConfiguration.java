@@ -23,6 +23,7 @@ public class RobotsConfiguration {
     private Long id;
 	private String columnDescription;
 	private String displayDescription;
+	private String description;
 	private String rule;
 	private String template;
 	private String lastData;

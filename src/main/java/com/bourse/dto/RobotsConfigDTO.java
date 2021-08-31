@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class RobotsConfigDTO {
 	private String columnDescription;
 	private String displayDescription;
+	private String description;
 	private String rule;
 	private String template;
 	private String lastData;

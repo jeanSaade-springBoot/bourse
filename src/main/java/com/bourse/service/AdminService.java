@@ -115,6 +115,7 @@ public class AdminService
 	    		 .id(id)
 				.columnDescription(robotsConfigDTO.getColumnDescription())
 				.displayDescription(robotsConfigDTO.getDisplayDescription())
+				.description(robotsConfigDTO.getDescription())
 				.lastData(robotsConfigDTO.getLastData())
 				.rule(robotsConfigDTO.getRule())
 				.template(robotsConfigDTO.getTemplate())
@@ -125,11 +126,12 @@ public class AdminService
 				.JumpValueTick(robotsConfigDTO.getJumpValueTick())
 				.robotName(robotsConfigDTO.getRobotName())
 				.build();
-		//return robotsConfigRepository.save(entity);
+	           robotsConfigRepository.save(entity);
 	    }else {
 	    	RobotsConfiguration robotsConfiguration = RobotsConfiguration.builder()
 					.columnDescription(robotsConfigDTO.getColumnDescription())
 					.displayDescription(robotsConfigDTO.getDisplayDescription())
+					.description(robotsConfigDTO.getDescription())
 					.lastData(robotsConfigDTO.getLastData())
 					.rule(robotsConfigDTO.getRule())
 					.template(robotsConfigDTO.getTemplate())
@@ -140,7 +142,7 @@ public class AdminService
 					.JumpValueTick(robotsConfigDTO.getJumpValueTick())
 					.robotName(robotsConfigDTO.getRobotName())
 					.build();
-			//return robotsConfigRepository.save(robotsConfiguration);
+			robotsConfigRepository.save(robotsConfiguration);
 	    }
 	    //return robotsConfigRepository.findByColumnDescription(robotsConfigRepository.findByColumnDescription);
 		}

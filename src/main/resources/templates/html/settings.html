@@ -717,7 +717,7 @@
 				    <div class="col-12 row  mt-4">
 				            <div class="col-12">
 							   <form id="robotform">
-							   <div style="overflow-y: scroll;overflow-x: hidden; height:400px;">
+							   <div style="overflow-y: scroll;overflow-x: hidden; height:350px;">
 							     <div class="form-group row">
 							      <div class="col-2">
 							 <!--        <div class="form-group" style='margin: 35% 0;'>
@@ -1195,6 +1195,41 @@
 	          }
         });
 	    
+	    $("#jump_jqxCheckRobot").bind('change', function (event) {
+            var checked = event.args.checked;
+          if (checked)
+          {
+        	  $("#jump_TemplateRobot").prop('disabled', false);
+        	  $("#jump_isTick").jqxRadioButton({disabled:false}); 
+        	  $("#jump_isPercentage").jqxRadioButton({disabled:false}); 
+        	  $("#jump_Trigger").prop('disabled', false);
+        	  $("#jump_Highlight").prop('disabled', false);
+          }
+	      else
+	          {
+	    	  $("#jump_TemplateRobot").prop('disabled', true);
+	    	  $("#jump_isTick").jqxRadioButton({disabled:true}); 
+        	  $("#jump_isPercentage").jqxRadioButton({disabled:true}); 
+        	  $("#jump_Trigger").prop('disabled', true);
+        	  $("#jump_Highlight").prop('disabled', true);
+	          }
+        });
+	    
+	    $("#trend_jqxCheckRobot").bind('change', function (event) {
+            var checked = event.args.checked;
+          if (checked)
+          {
+        	  $("#trend_TemplateRobot").prop('disabled', false);
+	    	  $("#trend_Highlight").prop('disabled', false);
+	    	  $("#trend_Description").jqxDropDownList({disabled:false});
+          }
+	      else
+	          {
+	    	   $("#trend_TemplateRobot").prop('disabled', true);
+	    	   $("#trend_Highlight").prop('disabled', true);
+	    	   $("#trend_Description").jqxDropDownList({disabled:true});
+	          }
+        });
 	    $("#update").jqxButton({ theme: 'dark',height:30,width:74  });
         $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
         
@@ -1306,9 +1341,29 @@
                          $("#highLow_lastData").val(data[i].lastData);
                          $("#highLow_thresholddl").jqxDropDownList('val', data[i].threshholdTrigger);
                          $("#highLow_thighlightdropdown").jqxDropDownList('val', data[i].threshHoldNotification);
-                         $("#highLow_jqxCheckBox").jqxCheckBox('val', data[i].isactive==1?true:false)}
+                         $("#highLow_jqxCheckBox").jqxCheckBox('val', data[i].isactive==1?true:false);
+                         }
        	        	 
+	       	          if (data[i].robotName=="JumpRobot")
+	         		 {
+	         		  $("#jump_TemplateRobot").val(data[i].template);
+	                  $("#jump_isTick").val(data[i].JumpValueTick);
+	                  $("#jump_isPercentage").val(data[i].JumpPercentage);
+	                  $("#jump_Trigger").val(data[i].threshholdTrigger);
+	                  $("#jump_Highlight").val(data[i].threshHoldNotification);
+	                  $("#jump_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
+	         		 }
+	       	          
+	       	       if (data[i].robotName=="TrendRobot")
+	         		 {
+	         		  $("#trend_TemplateRobot").val(data[i].template);
+	                  $("#trend_Description").val(data[i].description);
+	                  $("#trend_Highlight").val(data[i].threshHoldNotification);
+	                  $("#trend_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
+	         		 }
        	        	 }
+       	  
+       	      
        	        
        },
        	        error: function (e) {
@@ -1403,7 +1458,8 @@
     		    "threshholdTrigger": $("#highLow_thresholddl").jqxDropDownList('val'),
     		    "threshHoldNotification": $("#highLow_thighlightdropdown").jqxDropDownList('val'),
     		    "JumpValueTick":"",
-    		    "JumpPercentage":""
+    		    "JumpPercentage":"",
+    		    "description":"",
     		    },
     		    {
     		    	"robotName":"JumpRobot",
@@ -1416,20 +1472,22 @@
         		    "threshholdTrigger": $("#jump_Trigger").val(),
         		    "threshHoldNotification": $("#jump_Highlight").val(),
         		    "JumpValueTick":$('#jump_isTick').jqxRadioButton('val'),
-        		    "JumpPercentage":$('#jump_isPercentage').jqxRadioButton('val')
+        		    "JumpPercentage":$('#jump_isPercentage').jqxRadioButton('val'),
+        		    "description":"",
         		    },
     		    {
-        		    "robotName":"trendRobot",
+        		    "robotName":"TrendRobot",
             		"isactive": $("#trend_jqxCheckRobot").jqxCheckBox('val'),
             		"columnDescription":$("#DisplayName").val(),
         		    "displayDescription": $("#graphTitle").val(),
         		    "rule":"",
-        		    "template":"",
+        		    "template":$("#trend_TemplateRobot").val(),
         		    "lastData":"",
         		    "threshholdTrigger": "",
-        		    "threshHoldNotification": "",
+        		    "threshHoldNotification":$("#trend_Highlight").val(),
         		    "JumpValueTick":"",
-        		    "JumpPercentage":""
+        		    "JumpPercentage":"",
+        		    "description":$("#trend_Description").jqxDropDownList('val'),
         		    }];
          	debugger;
          	
