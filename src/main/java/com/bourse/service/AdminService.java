@@ -186,6 +186,26 @@ public class AdminService
 		return newsRepository.findAll();
 		
 	}
-	
+	public void deleteNews(long id)
+	{
+		 newsRepository.deleteById(id);;
+		
+	}
+	public News findNewsById(long id) 
+	{      
+        return newsRepository.findById(id);
+	}
+	public News updateNewsById(News news) 
+	{   
+		Optional<News> col = newsRepository.findById(news.getId());
+		News newsInstance = col.get();
+		newsInstance = News.builder()
+				          .id(news.getId())
+				          .isBold(news.getIsBold())     
+				          .template(news.getTemplate())
+				          .build();
+		
+        return newsRepository.save(newsInstance);
+	}
 	
 }

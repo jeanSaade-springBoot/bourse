@@ -571,6 +571,9 @@ input#triggerRobotButton {
      
      <div class="d-sm-flex align-items-center justify-content-between ">
 	  <div id="grid">
+	  </div>
+	  
+									  
           <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
             aria-hidden="true">
@@ -593,9 +596,13 @@ input#triggerRobotButton {
             </div>
           </div>
 
-        </div>
+        
         <!---Container Fluid-->
       </div>
+       <div class="form-group" id="notifcationContainer" style=" margin-top: 3rem;">
+								       <div id="jqxNotification">
+		        The Data has been updated</div>
+							       </div>
       <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
 				<div class="marquee-sibling">
@@ -650,6 +657,7 @@ input#triggerRobotButton {
   <script src="/js/jqwidgets/jqxinput.js"></script>
   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
+   <script src="/js/jqwidgets/jqxnotification.js"></script>
   <script>
   var selectedRow=this;
   var groupItem;
@@ -667,6 +675,10 @@ input#triggerRobotButton {
 	}
   $(document).ready(function () {
 	
+	  $("#jqxNotification").jqxNotification({ width: "100%",appendContainer: "#notifcationContainer",  opacity: 0.9,
+          autoOpen: false, animationOpenDelay: 800, autoClose:true , autoCloseDelay: 3000,  template: "success"
+      });
+	  
 	  $("#triggerRobotButton").jqxButton({  theme:'dark', width: 120, height: 30 });
 	  $("#publishNewsButton").jqxButton({  theme:'dark', width: 120, height: 30 });
       gridsource =
@@ -675,6 +687,7 @@ input#triggerRobotButton {
           datafields: [
         	  { name: 'template', type: 'string' },
         	  { name: 'isBold', type: 'string' },  
+        	  { name: 'id', type: 'string' },  
           ],
           async: true,
           url: '/admin/getnews'
@@ -719,6 +732,10 @@ input#triggerRobotButton {
         	      }
            },
            { text: '', datafield: 'isBold', hidden: true  },
+           { text: '', datafield: 'columnDescription', hidden: true  },
+           { text: '', datafield: 'robots', hidden: true  },
+           { text: '', datafield: 'generationDateDate', hidden: true  }, 
+           { text: '', datafield: 'id', hidden: true  },
            ]
          
       });
@@ -741,42 +758,39 @@ input#triggerRobotButton {
   function Update(row, event) {
 	 
 	   isupdate=true;
-	   var dataToBeUpdated = [];
 	   var updatedData = $("#grid").jqxGrid('getrowdata', row);
 	   selectedRow.editrow = -1;
 	    $("#grid").jqxGrid('endrowedit', row);
 	    var updatedData = $("#grid").jqxGrid('getrowdata', row);
-	
-	/* 		debugger;
+	    var row = {
+	    		 "id":updatedData.id,
+				   "template":updatedData.template,
+				   "columnDescription":updatedData.columnDescription,
+				   "robots":updatedData.robots,
+				   "isBold":updatedData.isBold,
+				   "generationDateDate":updatedData.generationDateDate,
+	    };
+		
+			debugger;
   	       	  $.ajax({
   	    	        type: "POST",
   	    	        contentType: "application/json",
-  	    	        url: "/bourse/updateauditdata",
-  	    	        data: JSON.stringify(dataToBeUpdated),
+  	    	        url: "/admin/updatenewsbyid",
+  	    	        data: JSON.stringify(row),
   	    	        dataType: 'json',
   	    	        async:true,
   	    	        cache: false,
   	    	        timeout: 600000,
   	    	        success: function (data) {
-  	    	       // alert("hi")
-  	    	        	 delete curvesGridSource.localdata;
-  					    curvesGridSource.url='/bourse/getcurvedata/'+date;
-  						 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
-  						 $('#curvesGrid').jqxGrid({source:dataAdapter});
-  						 
-  						 delete crossesGridSource.localdata;
-  						 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
-  						 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
-  						 $('#crossesGrid').jqxGrid({source:dataAdapter});
-  						 
-  						getFilterData();
+  	    	          $("#jqxNotification").jqxNotification("open");
+  	    	        
   	   },
   	    	        error: function (e) {
   	    	        	
   						  console.log("ERROR : ", e);
   	
   	    	        }
-  	    	    }); */
+  	    	    }); 
   	       	  
 	    if (event) {
 	    	if (event.preventDefault) {
@@ -793,10 +807,22 @@ input#triggerRobotButton {
     	
     	 var selectedrowindex = row;
          var rowscount = $("#grid").jqxGrid('getdatainformation').rowscount;
-         if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
-             var id = $("#grid").jqxGrid('getrowid', selectedrowindex);
-             var commit = $("#grid").jqxGrid('deleterow', id);
-         }
+         
+         var newsId = $('#grid').jqxGrid('getcellvalue', row, "id");
+         $.ajax({
+             type : "DELETE",
+             url : "/admin/deletenewsbyid/" + newsId,
+             success: function (result) {       
+            	 if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
+ 	                var id = $("#grid").jqxGrid('getrowid', selectedrowindex);
+ 	                var commit = $("#grid").jqxGrid('deleterow', id);
+ 	            } 
+             },
+             error: function (e) {
+                 console.log(e);
+             }
+         });
+   
  }
   $("#grid").click(function(e) {
 	  e.stopPropagation(); //stops click event from reaching document

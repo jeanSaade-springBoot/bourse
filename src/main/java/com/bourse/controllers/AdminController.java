@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -124,4 +125,14 @@ public class AdminController {
 		return new ResponseEntity<>( adminService.getNews(), HttpStatus.OK);
 	}
 	
+	@DeleteMapping(value = "deletenewsbyid/{id}")
+	public  ResponseEntity deleteNewsById(@PathVariable("id") long id) {
+		adminService.deleteNews(id);;
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+	@PostMapping(value = "updatenewsbyid")
+	public News UpdateNewsById(@RequestBody News news) {
+		return adminService.updateNewsById(news);
+	}
+
 }
