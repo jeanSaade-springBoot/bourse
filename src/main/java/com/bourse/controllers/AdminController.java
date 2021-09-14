@@ -115,6 +115,10 @@ public class AdminController {
     public  ResponseEntity<List<RobotsConfiguration>>  getRobotsByConfigId(@PathVariable String configId){
 		return new ResponseEntity<>(adminService.getRobotsConfigurationByConfigId(configId), HttpStatus.OK);
     }
+	@GetMapping(value = "getrobotsbycolumnconfigid/{configId}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<List<RobotsConfiguration>>  getRobotsByColumnConfigId(@PathVariable String configId){
+		return new ResponseEntity<>(adminService.getRobotsByColumnConfigId(configId), HttpStatus.OK);
+    }
 	@GetMapping(value = "getcalendardata")
 	public ResponseEntity<List<CalendarDates>>  getCalendarDates() {
 		return new ResponseEntity<>( adminService.getVacations(), HttpStatus.OK);

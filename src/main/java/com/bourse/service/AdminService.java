@@ -101,6 +101,7 @@ public class AdminService
 	public ColumnConfiguration getColumnsconfigurationByGroupAndSubgroupDescription(String groupId,String subgroupId,String description) {
 		 return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndDescription(groupId, subgroupId,description);
 	}
+	
 
 	public void UpdateRobotsByConfigId(List<RobotsConfigDTO> robotsConfigDTOLst) {
 		// TODO Auto-generated method stub
@@ -125,6 +126,9 @@ public class AdminService
 				.JumpPercentage(robotsConfigDTO.getJumpPercentage())
 				.JumpValueTick(robotsConfigDTO.getJumpValueTick())
 				.robotName(robotsConfigDTO.getRobotName())
+				.groupId(robotsConfigDTO.getGroupId())
+				.subgroupId(robotsConfigDTO.getSubgroupId())
+				.configId(robotsConfigDTO.getConfigId())
 				.build();
 	           robotsConfigRepository.save(entity);
 	    }else {
@@ -141,6 +145,9 @@ public class AdminService
 					.JumpPercentage(robotsConfigDTO.getJumpPercentage())
 					.JumpValueTick(robotsConfigDTO.getJumpValueTick())
 					.robotName(robotsConfigDTO.getRobotName())
+					.groupId(robotsConfigDTO.getGroupId())
+					.subgroupId(robotsConfigDTO.getSubgroupId())
+					.configId(robotsConfigDTO.getConfigId())
 					.build();
 			robotsConfigRepository.save(robotsConfiguration);
 	    }
@@ -160,6 +167,9 @@ public class AdminService
 				.JumpPercentage(RobotsConfigDTO.getJumpPercentage())
 				.JumpValueTick(RobotsConfigDTO.getJumpValueTick())
 				.robotName(RobotsConfigDTO.getRobotName())
+				.groupId(RobotsConfigDTO.getGroupId())
+				.subgroupId(RobotsConfigDTO.getSubgroupId())
+				.configId(RobotsConfigDTO.getConfigId())
 				.build();
 		return robotsConfigRepository.save(robotsConfiguration);
 		
@@ -169,6 +179,10 @@ public class AdminService
 		RobotsConfiguration resp = RobotsConfiguration.builder().build();
 		List<RobotsConfiguration> respOpt = robotsConfigRepository.findByColumnDescriptionOrderById(configId);
         return respOpt;
+	}
+	public List<RobotsConfiguration> getRobotsByColumnConfigId(String configId) {
+		// TODO Auto-generated method stub
+		  return robotsConfigRepository.getRobotsByConfigId(configId);
 	}
 	
 	public List<CalendarDates> getCalendar()
@@ -207,5 +221,6 @@ public class AdminService
 		
         return newsRepository.save(newsInstance);
 	}
+
 	
 }

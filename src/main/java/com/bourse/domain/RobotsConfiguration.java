@@ -32,5 +32,8 @@ public class RobotsConfiguration {
 	private String JumpValueTick;
 	private String JumpPercentage;
 	private String robotName;
+	private String groupId;
+	private String subgroupId;
+	private String configId;
 	private boolean isactive;
 }

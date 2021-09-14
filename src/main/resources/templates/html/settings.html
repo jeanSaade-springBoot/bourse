@@ -1190,59 +1190,7 @@
         $("#jump_isTick").jqxRadioButton({ theme: 'dark', checked: true});
         $("#jump_isPercentage").jqxRadioButton({ theme: 'dark'});
         
-	    $("#highLow_jqxCheckBox").bind('change', function (event) {
-            var checked = event.args.checked;
-          if (checked)
-          {
-        	  $("#highLow_lastData").prop('disabled', false);
-        	  $("#highLow_TemplateRobot").prop('disabled', false);
-        	  $("#highLow_thresholddl").jqxDropDownList({disabled:false}); 
-        	  $("#highLow_thighlightdropdown").jqxDropDownList({disabled:false}); 
-          }
-	      else
-	          {
-	    	   $("#highLow_lastData").prop('disabled', true);
-	    	   $("#highLow_TemplateRobot").prop('disabled', true);
-	    	   $("#highLow_thresholddl").jqxDropDownList({disabled:true}); 
-	    	   $("#highLow_thighlightdropdown").jqxDropDownList({disabled:true}); 
-	          }
-        });
-	    
-	    $("#jump_jqxCheckRobot").bind('change', function (event) {
-            var checked = event.args.checked;
-          if (checked)
-          {
-        	  $("#jump_TemplateRobot").prop('disabled', false);
-        	  $("#jump_isTick").jqxRadioButton({disabled:false}); 
-        	  $("#jump_isPercentage").jqxRadioButton({disabled:false}); 
-        	  $("#jump_Trigger").prop('disabled', false);
-        	  $("#jump_Highlight").prop('disabled', false);
-          }
-	      else
-	          {
-	    	  $("#jump_TemplateRobot").prop('disabled', true);
-	    	  $("#jump_isTick").jqxRadioButton({disabled:true}); 
-        	  $("#jump_isPercentage").jqxRadioButton({disabled:true}); 
-        	  $("#jump_Trigger").prop('disabled', true);
-        	  $("#jump_Highlight").prop('disabled', true);
-	          }
-        });
-	    
-	    $("#trend_jqxCheckRobot").bind('change', function (event) {
-            var checked = event.args.checked;
-          if (checked)
-          {
-        	  $("#trend_TemplateRobot").prop('disabled', false);
-	    	  $("#trend_Highlight").prop('disabled', false);
-	    	  $("#trend_Description").jqxDropDownList({disabled:false});
-          }
-	      else
-	          {
-	    	   $("#trend_TemplateRobot").prop('disabled', true);
-	    	   $("#trend_Highlight").prop('disabled', true);
-	    	   $("#trend_Description").jqxDropDownList({disabled:true});
-	          }
-        });
+	   
 	    $("#update").jqxButton({ theme: 'dark',height:30,width:74  });
         $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
         
@@ -1342,7 +1290,7 @@
         	debugger;
         	   $.ajax({
        	        contentType: "application/json",
-       	        url: "/admin/getrobotsbyconfigid/"+$("#DisplayName").val(),
+       	        url: "/admin/getrobotsbycolumnconfigid/"+ $("#configId").val(),
        	        dataType: 'json',
        	        async:true,
        	        cache: false,
@@ -1388,22 +1336,7 @@
 
        	        }
        	    });
-        	   
-           var checked = $("#highLow_jqxCheckBox").jqxCheckBox('val');
-          if (checked)
-          {
-        	  $("#highLow_lastData").prop('disabled', false);
-        	  $("#highLow_TemplateRobot").prop('disabled', false);
-        	  $("#highLow_thresholddl").jqxDropDownList({disabled:false}); 
-        	  $("#highLow_thighlightdropdown").jqxDropDownList({disabled:false}); 
-          }
-	      else
-	          {
-	    	   $("#highLow_lastData").prop('disabled', true);
-	    	   $("#highLow_TemplateRobot").prop('disabled', true);
-	    	   $("#highLow_thresholddl").jqxDropDownList({disabled:true}); 
-	    	   $("#highLow_thighlightdropdown").jqxDropDownList({disabled:true}); 
-	          }
+        
         });
         // update the edited row when the user clicks the 'Save' button.
         $("#update").click(function () {
@@ -1476,6 +1409,9 @@
     		    "JumpValueTick":"",
     		    "JumpPercentage":"",
     		    "description":"",
+    		    "groupId":groupItem.value,
+    		    "subgroupId":subGroupDropDown.value,
+    		    "configId":$("#configId").val(),
     		    },
     		    {
     		    	"robotName":"JumpRobot",
@@ -1490,6 +1426,9 @@
         		    "JumpValueTick":$('#jump_isTick').jqxRadioButton('val'),
         		    "JumpPercentage":$('#jump_isPercentage').jqxRadioButton('val'),
         		    "description":"",
+        		    "groupId":groupItem.value,
+        		    "subgroupId":subGroupDropDown.value,
+        		    "configId":$("#configId").val(),
         		    },
     		    {
         		    "robotName":"TrendRobot",
@@ -1504,6 +1443,9 @@
         		    "JumpValueTick":"",
         		    "JumpPercentage":"",
         		    "description":$("#trend_Description").jqxDropDownList('val'),
+        		    "groupId":groupItem.value,
+        		    "subgroupId":subGroupDropDown.value,
+        		    "configId":$("#configId").val(),
         		    }];
          	debugger;
          	
