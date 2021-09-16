@@ -18,8 +18,8 @@ public class RobotsConfigDTO {
 	private String lastData;
 	private String threshholdTrigger;
 	private String threshHoldNotification;
-	private String JumpValueTick;
-	private String JumpPercentage;
+	private String jumpValueTick;
+	private String jumpPercentage;
 	private String robotName;
 	private String groupId;
 	private String subgroupId;
