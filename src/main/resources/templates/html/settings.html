@@ -1311,8 +1311,8 @@
 	       	          if (data[i].robotName=="JumpRobot")
 	         		 {
 	         		  $("#jump_TemplateRobot").val(data[i].template);
-	                  $("#jump_isTick").val(data[i].JumpValueTick);
-	                  $("#jump_isPercentage").val(data[i].JumpPercentage);
+	                  $("#jump_isTick").val(data[i].jumpValueTick==1?true:false);
+	                  $("#jump_isPercentage").val(data[i].jumpPercentage==1?true:false);
 	                  $("#jump_Trigger").val(data[i].threshholdTrigger);
 	                  $("#jump_Highlight").val(data[i].threshHoldNotification);
 	                  $("#jump_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
@@ -1406,8 +1406,8 @@
     		    "lastData":$("#highLow_lastData").val(),
     		    "threshholdTrigger": $("#highLow_thresholddl").jqxDropDownList('val'),
     		    "threshHoldNotification": $("#highLow_thighlightdropdown").jqxDropDownList('val'),
-    		    "JumpValueTick":"",
-    		    "JumpPercentage":"",
+    		    "jumpValueTick":"",
+    		    "jumpPercentage":"",
     		    "description":"",
     		    "groupId":groupItem.value,
     		    "subgroupId":subGroupDropDown.value,
@@ -1423,8 +1423,8 @@
         		    "lastData":"",
         		    "threshholdTrigger": $("#jump_Trigger").val(),
         		    "threshHoldNotification": $("#jump_Highlight").val(),
-        		    "JumpValueTick":$('#jump_isTick').jqxRadioButton('val'),
-        		    "JumpPercentage":$('#jump_isPercentage').jqxRadioButton('val'),
+        		    "jumpValueTick":$('#jump_isTick').jqxRadioButton('val')==true?'1':'0',
+        		    "jumpPercentage":$('#jump_isPercentage').jqxRadioButton('val')==true?'1':'0',
         		    "description":"",
         		    "groupId":groupItem.value,
         		    "subgroupId":subGroupDropDown.value,
@@ -1440,8 +1440,8 @@
         		    "lastData":"",
         		    "threshholdTrigger": "",
         		    "threshHoldNotification":$("#trend_Highlight").val(),
-        		    "JumpValueTick":"",
-        		    "JumpPercentage":"",
+        		    "jumpValueTick":"",
+        		    "jumpPercentage":"",
         		    "description":$("#trend_Description").jqxDropDownList('val'),
         		    "groupId":groupItem.value,
         		    "subgroupId":subGroupDropDown.value,
