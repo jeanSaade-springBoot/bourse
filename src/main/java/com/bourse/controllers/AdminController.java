@@ -128,6 +128,10 @@ public class AdminController {
 	public ResponseEntity<List<News>>  getNews() {
 		return new ResponseEntity<>( adminService.getNews(), HttpStatus.OK);
 	}
+	@GetMapping(value = "getunpublishednews")
+	public ResponseEntity<List<News>>  getUnPublishedNews() {
+		return new ResponseEntity<>( adminService.getUnPublishedNews(), HttpStatus.OK);
+	}
 	
 	@DeleteMapping(value = "deletenewsbyid/{id}")
 	public  ResponseEntity deleteNewsById(@PathVariable("id") long id) {

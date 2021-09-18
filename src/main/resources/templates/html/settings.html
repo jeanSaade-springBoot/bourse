@@ -1283,7 +1283,9 @@
     	   $("#highLow_jqxCheckBox").jqxCheckBox('val',false);
     	   $("#trend_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#jump_jqxCheckRobot").jqxCheckBox('val',false);
-    	   $("#trend_Description").jqxDropDownList('clearSelection')
+    	   $("#trend_Description").jqxDropDownList('clearSelection');
+    	   $("#jump_isTick").jqxRadioButton({checked: true});
+    	   $("#jump_isPercentage").jqxRadioButton({checked: false});
     	   $( "#nav-graphsData-tab" ).trigger('click');
        }); 
         $('#nav-robots-tab').click(function (event) {     

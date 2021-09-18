@@ -200,6 +200,11 @@ public class AdminService
 		return newsRepository.findByIsPublished(isPublished);
 		
 	}
+	public List<News> getUnPublishedNews(){
+		String isPublished = "0";
+		return newsRepository.findByIsPublished(isPublished);
+		
+	}
 	public void deleteNews(long id)
 	{
 		 newsRepository.deleteById(id);;
