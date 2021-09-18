@@ -195,9 +195,9 @@ public class AdminService
 		return calendarDatesRepository.findByIsvacation("true");
 		
 	}
-	public List<News> getNews()
-	{
-		return newsRepository.findAll();
+	public List<News> getNews(){
+		String isPublished = "1";
+		return newsRepository.findByIsPublished(isPublished);
 		
 	}
 	public void deleteNews(long id)
