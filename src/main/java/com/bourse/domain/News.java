@@ -28,4 +28,5 @@ public class News {
     private String robots;
     private String isBold;
     private String generationDateDate;
+    private String isPublished;
     }
