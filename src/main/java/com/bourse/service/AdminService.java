@@ -217,6 +217,9 @@ public class AdminService
 				          .id(news.getId())
 				          .isBold(news.getIsBold())     
 				          .template(news.getTemplate())
+				          .robots(news.getRobots())
+				          .generationDateDate(news.getGenerationDateDate())
+				          .columnDescription(news.getColumnDescription())
 				          .build();
 		
         return newsRepository.save(newsInstance);
