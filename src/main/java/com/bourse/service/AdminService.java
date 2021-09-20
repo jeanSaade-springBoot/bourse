@@ -197,12 +197,12 @@ public class AdminService
 	}
 	public List<News> getNews(){
 		String isPublished = "1";
-		return newsRepository.findByIsPublished(isPublished);
+		return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
 		
 	}
 	public List<News> getUnPublishedNews(){
 		String isPublished = "0";
-		return newsRepository.findByIsPublished(isPublished);
+		return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
 		
 	}
 	public void deleteNews(long id)
