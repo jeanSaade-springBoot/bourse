@@ -38,8 +38,8 @@ public class RobotService
 		}
 	}
 	
-	public void callJumpRobots(){
-		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("robots_jump");
+	public void callRobots(){
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("robots_starter");
 		query.execute(); 
 	}
 	

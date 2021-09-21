@@ -52,7 +52,7 @@
     height: calc(1em + .75rem + 7px);
     }
     div#overlay {
-    margin: 15% 40%;
+       margin: 0 0 0 40%;
 }
    .jqx-widget-header:nth-child(16) {
   background-color: #6495ed;
@@ -579,7 +579,10 @@ input#triggerRobotButton {
             </ol>
           </div>
      <div class="d-sm-flex align-items-center justify-content-end ">
-     
+      <div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
+	
      <div  style="width: 100%;  margin-right: 10%!important;">
        <div class="form-group" id="notifcationContainer">
 								       <div id="jqxNotification">
@@ -597,12 +600,12 @@ input#triggerRobotButton {
     </div>
      
      </div>
-     
+    				
      <div class="d-sm-flex align-items-center justify-content-between ">
-	  <div id="grid">
-	  </div>
-	  
-									  
+	 
+		  <div id="grid">
+		  </div>
+	  				  
           <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
             aria-hidden="true">
@@ -692,7 +695,6 @@ input#triggerRobotButton {
   var gridsource;
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
-	  $('#nav-column-master').show();
   });
   function addText(event) {
 	    var targ = event.target || event.srcElement;
@@ -933,15 +935,16 @@ input#triggerRobotButton {
 	});
   
   $("#triggerRobotButton").click(function () {
-	  
+	  $('#overlay').fadeIn();
 	  $.ajax({
 	        contentType: "application/json",
-	        url: "/robot/callJumpRobots",
+	        url: "/robot/callRobots",
 	        dataType: 'text',
 	        async:true,
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
+	      	  $('#overlay').fadeOut();
 	       	 gridsource.url='/admin/getunpublishednews';
 			 dataAdapter = new $.jqx.dataAdapter(gridsource);
 			 $('#grid').jqxGrid({source:dataAdapter});

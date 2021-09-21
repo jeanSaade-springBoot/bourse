@@ -31,9 +31,9 @@ public class RobotsController {
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 	
-	@GetMapping(value = "callJumpRobots", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<HttpStatus>  callJumpRobots(){
-		robotService.callJumpRobots();
+	@GetMapping(value = "callRobots", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<HttpStatus>  callRobots(){
+		robotService.callRobots();
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 	
