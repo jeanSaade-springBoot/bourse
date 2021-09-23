@@ -201,8 +201,7 @@ public class AdminService
 		
 	}
 	public List<News> getUnPublishedNews(){
-		String isPublished = "0";
-		return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
+		return newsRepository.findAll(Sort.by("generationDateDate").descending());
 		
 	}
 	public void deleteNews(long id)
@@ -225,9 +224,15 @@ public class AdminService
 				          .robots(news.getRobots())
 				          .generationDateDate(news.getGenerationDateDate())
 				          .columnDescription(news.getColumnDescription())
+				          .isPublished(news.getIsPublished())
 				          .build();
 		
         return newsRepository.save(newsInstance);
+	}
+
+	public News saveNews(News news) {
+		
+		  return newsRepository.save(news);
 	}
 
 	

@@ -142,5 +142,8 @@ public class AdminController {
 	public News UpdateNewsById(@RequestBody News news) {
 		return adminService.updateNewsById(news);
 	}
-
+	@PostMapping(value = "savenews")
+	public News saveNews(@RequestBody News news) {
+		return adminService.saveNews(news);
+	}
 }
