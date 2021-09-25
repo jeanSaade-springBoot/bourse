@@ -1100,6 +1100,7 @@
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
+	        	debugger;
 	        	 $('#news').val('');
 	        	 $("#notificationContentSave").html('Data Inserted');
 	        	 $("#jqxNotificationSave").jqxNotification({  height: 30, width: "100%",appendContainer: "#notifcationContainerSave",  opacity: 0.9,
@@ -1107,9 +1108,8 @@
 	             });
 	        	 $("#jqxNotificationSave").jqxNotification("open");
 	        
-	        	 gridsource.url='/admin/getunpublishednews';
-				 dataAdapter = new $.jqx.dataAdapter(gridsource);
-				 $('#grid').jqxGrid({source:dataAdapter});
+	        	 $("#grid").jqxGrid('addrow', null, data, 'first');
+
 },
 	        error: function (e) {
 	        	
