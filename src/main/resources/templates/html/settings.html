@@ -770,14 +770,6 @@
                                        </div> 
                                        </div>
                                        </div>
-                                      <div class="col-3">
-                                       <div class="form-group row"  style='margin: 17% 0;'>
-                                      <label for="columnTitle" class="col-sm-8 col-form-label">Mark as important if Time >= </label>
-									   <div class="col-sm-4">
-									  	<input type="text" class="form-control" id="highLow_highLow_lastData">
-									   </div>
-									   </div>
-                                      </div>
 								  </div>
 								    <div class="form-group row">
 							      <div class="col-2">
@@ -806,8 +798,8 @@
 										</div>
 									  </div>
                                     </div>
-                                     <div class="col-1">
-                                     	        <div class="form-group" style='margin: 35% 0;'>
+                                     <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
 									  <label for="triggerKey">Trigger Key</label>
                                       		<div style="margin: 3px;" id="jump_isTick">
               									  Ticks</div>
@@ -815,16 +807,16 @@
 								                Percentage %</div>
                                        </div>
                                      </div>
-                                       <div class="col-1">
-                                     	        <div class="form-group" style='margin: 35% 0;'>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
 									    <label for="Trigger">Trigger</label>
                                         <div class="col-10" style='padding: 0;'>
 									  	<input type="text" class="form-control" id="jump_Trigger">
 									   </div>
                                        </div>
                                        </div>
-                                        <div class="col-1">
-                                     	        <div class="form-group" style='margin:35% 0;'>
+                                        <div class="col-2">
+                                     	        <div class="form-group" style='margin:15% 0;'>
 									    <label for="Trigger">Highlight</label>
                                         <div class="col-10" style='padding: 0;'>
 									  	<input type="text" class="form-control" id="jump_Highlight">
@@ -849,6 +841,7 @@
 									   <div class="">
 									  Select Variables: 
 									   <ul onclick="addText(event,'trend_TemplateRobot')" class="list-inline">
+									      <li class="list-inline-item">{ColumnTitle}</li>
 										  <li class="list-inline-item">{RuleResult}</li>
 										  <li class="list-inline-item">{P0}</li>
 										  <li class="list-inline-item">{PN}</li>
@@ -864,11 +857,51 @@
                                        </div>	
                                        </div>
                                      </div>
-                                       <div class="col-1">
-                                     	        <div class="form-group" style='margin: 35% 0;'>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
 									    <label for="Trigger">Highlight</label>
                                         <div class="col-10" style='padding: 0;'>
 									  	<input type="text" class="form-control" id="trend_Highlight">
+									   </div>
+                                       </div>
+                                       </div>
+								  </div>
+								  	  <div class="form-group row">
+							      <div class="col-2">
+							 <!--        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="HighLowdropDown">High/Low Robot </label>
+							        <div id='HighLowdropDown'>
+                                       </div>
+                                       </div> -->
+								  <div id='trendDepth_jqxCheckRobot' style='margin: 35% 0; padding-left: .75rem;text-align: left!important;'>
+                                   TREND DEPTH ROBOT</div> 
+                                   </div>
+                                    <div class="col-4">
+                                    <div class="form-group">
+									    <label for="exampleFormControlTextarea1">Template</label>
+									    <textarea class="form-control" id="trendDepth_TemplateRobot" rows="3"></textarea>
+									   <div class="">
+									  Select Variables: 
+									   <ul onclick="addText(event,'trendDepth_TemplateRobot')" class="list-inline">
+									      <li class="list-inline-item">{ColumnTitle}</li>
+										  <li class="list-inline-item">{RuleResult}</li>
+										  <li class="list-inline-item">{Time}</li>
+										</ul>
+										</div>
+									  </div>
+                                    </div>
+                                     <div class="col-3">
+                                     	        <div class="form-group" style='margin: 10% 0;'>
+									  <label for="triggerKey">Trending Description</label>
+                                      	 <div id='trendDepth_Description'>
+                                       </div>	
+                                       </div>
+                                     </div>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									    <label for="Trigger">Highlight</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="text" class="form-control" id="trendDepth_Highlight">
 									   </div>
                                        </div>
                                        </div>
@@ -1187,7 +1220,8 @@
 	    $("#highLow_jqxCheckBox").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
 	    $("#jump_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
 	    $("#trend_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
-	
+	    $("#trendDepth_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
+	    
         $("#jump_isTick").jqxRadioButton({ theme: 'dark', checked: true});
         $("#jump_isPercentage").jqxRadioButton({ theme: 'dark'});
         
@@ -1215,7 +1249,9 @@
     
     
     $("#trend_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 230, height: 30,dropDownHeight: 100});
-   /*  var highlowsource = ["High",
+    $("#trendDepth_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 230, height: 30,dropDownHeight: 100});
+    
+    /*  var highlowsource = ["High",
 		"Low"];
     $("#HighLowdropDown").jqxDropDownList({theme: 'dark', source: highlowsource,width: 100, height: 30,dropDownHeight: 70});
     */  
@@ -1283,8 +1319,10 @@
     	   $("#highLow_thresholddl").jqxDropDownList('clearSelection'); 
     	   $("#highLow_jqxCheckBox").jqxCheckBox('val',false);
     	   $("#trend_jqxCheckRobot").jqxCheckBox('val',false);
+    	   $("#trendDepth_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#jump_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#trend_Description").jqxDropDownList('clearSelection');
+    	   $("#trendDepth_Description").jqxDropDownList('clearSelection');
     	   $("#jump_isTick").jqxRadioButton({checked: true});
     	   $("#jump_isPercentage").jqxRadioButton({checked: false});
     	   $( "#nav-graphsData-tab" ).trigger('click');
@@ -1327,10 +1365,15 @@
 	                  $("#trend_Description").val(data[i].description);
 	                  $("#trend_Highlight").val(data[i].threshHoldNotification);
 	                  $("#trend_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
-	         		 }
-       	        	 }
-       	  
-       	      
+	         		 } 
+		       	      if (data[i].robotName=="TrendDepthRobot")
+		      		 {
+		      		  $("#trendDepth_TemplateRobot").val(data[i].template);
+		               $("#trendDepth_Description").val(data[i].description);
+		               $("#trendDepth_Highlight").val(data[i].threshHoldNotification);
+		               $("#trendDepth_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
+		      		 }
+       	        	 } 
        	        
        },
        	        error: function (e) {
@@ -1433,7 +1476,7 @@
         		    "subgroupId":subGroupDropDown.value,
         		    "configId":$("#configId").val(),
         		    },
-    		    {
+    		       {
         		    "robotName":"TrendRobot",
             		"isactive": $("#trend_jqxCheckRobot").jqxCheckBox('val'),
             		"columnDescription":$("#DisplayName").val(),
@@ -1449,7 +1492,25 @@
         		    "groupId":groupItem.value,
         		    "subgroupId":subGroupDropDown.value,
         		    "configId":$("#configId").val(),
-        		    }];
+        		    },
+        		    {
+            		    "robotName":"TrendDepthRobot",
+                		"isactive": $("#trendDepth_jqxCheckRobot").jqxCheckBox('val'),
+                		"columnDescription":$("#DisplayName").val(),
+            		    "displayDescription": $("#graphTitle").val(),
+            		    "rule":"",
+            		    "template":$("#trendDepth_TemplateRobot").val(),
+            		    "lastData":"",
+            		    "threshholdTrigger": "",
+            		    "threshHoldNotification":$("#trendDepth_Highlight").val(),
+            		    "jumpValueTick":"",
+            		    "jumpPercentage":"",
+            		    "description":$("#trendDepth_Description").jqxDropDownList('val'),
+            		    "groupId":groupItem.value,
+            		    "subgroupId":subGroupDropDown.value,
+            		    "configId":$("#configId").val(),
+            		    },
+        		    ];
          	debugger;
          	
 	       	  $.ajax({
