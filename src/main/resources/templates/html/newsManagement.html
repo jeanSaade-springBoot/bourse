@@ -785,7 +785,7 @@
         	  { name: 'id', type: 'string' },  
         	  { name: 'robots', type: 'string' },  
         	  { name: 'columnDescription', type: 'string' },  
-        	  { name: 'generationDateDate', type: 'string' },  
+        	  { name: 'generationDateDate', type: 'date' },  
         	  { name: 'isPublished', type: 'string' },  
         	  
           ],
@@ -822,7 +822,8 @@
           editmode: 'selectedrow',
           columns: [
         	 { text: 'Robot' ,editable:false, datafield: 'robots', width: '8%'},
-        	 { text: 'News', datafield: 'template', width: '77%',   cellclassname: cellclassname,
+        	 { text: 'Date', datafield: 'generationDateDate', width: '10%', editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
+        	 { text: 'News', datafield: 'template', width: '67%',   cellclassname: cellclassname,
         	   createfilterwidget: function (column, columnElement, widget) {
         	        widget.jqxInput({ width: '99%', height: 27, placeHolder: "Search" });
         	      }
@@ -863,7 +864,6 @@
       	   
            { text: '', datafield: 'isBold', hidden: true  },
            { text: '', datafield: 'columnDescription', hidden: true  },
-           { text: '', datafield: 'generationDateDate', hidden: true  }, 
            { text: '', datafield: 'isPublished', hidden: true  }, 
            { text: '', datafield: 'id', hidden: true  },
            ]
@@ -894,7 +894,7 @@
 	    $("#grid").jqxGrid('endrowedit', row);
 	    var updatedData = $("#grid").jqxGrid('getrowdata', row);
 	    var row = {
-	    		 "id":updatedData.id,
+	    		   "id":updatedData.id,
 				   "template":updatedData.template,
 				   "columnDescription":updatedData.columnDescription,
 				   "robots":updatedData.robots,
