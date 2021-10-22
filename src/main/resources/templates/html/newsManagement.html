@@ -1212,7 +1212,9 @@
 				  $("#Newslist li:nth-child("+(i+1)+")").addClass("red");
 				  }
 				  }
-				 createMarquee({});
+				// createMarquee({});
+				var durationvalue = data.length*5000;
+			    createMarquee({duration:durationvalue, padding:20});
 },
  	        error: function (e) {
  	        	
