@@ -21,6 +21,7 @@ import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.News;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
+import com.bourse.dto.ColumnConfigurationDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.service.AdminService;
@@ -93,6 +94,12 @@ public class AdminController {
     public  ResponseEntity<ColumnConfiguration> getColumnsconfigurationByGroupAndSubgroupDescription(@PathVariable String groupId
     		,@PathVariable String subgroupId,@PathVariable String description){
 		return new ResponseEntity<>( adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId,subgroupId,description), HttpStatus.OK);
+    }
+	
+	@GetMapping(value = "findNativeByGroupIdAndSubgroupId/{groupId}/{subgroupId}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<List<ColumnConfigurationDTO>> findNativeByGroupIdAndSubgroupId(@PathVariable String groupId
+    		,@PathVariable String subgroupId){
+		return new ResponseEntity<>( adminService.findNativeByGroupIdAndSubgroupId(groupId,subgroupId), HttpStatus.OK);
     }
 	
 	@PostMapping(value = "updatecolumnconfigurationbyid")

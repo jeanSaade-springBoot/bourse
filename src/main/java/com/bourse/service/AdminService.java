@@ -19,7 +19,9 @@ import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.News;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
+import com.bourse.dto.ColumnConfigurationDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
+
 import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.repositories.CalendarDatesRepository;
 import com.bourse.repositories.ColumnConfigurationRepository;
@@ -100,6 +102,10 @@ public class AdminService
 	
 	public ColumnConfiguration getColumnsconfigurationByGroupAndSubgroupDescription(String groupId,String subgroupId,String description) {
 		 return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndDescription(groupId, subgroupId,description);
+	}
+	
+	public List<ColumnConfigurationDTO> findNativeByGroupIdAndSubgroupId(String groupId,String subgroupId) {
+		 return columnConfigurationRepository.findNativeByGroupIdAndSubgroupId(groupId, subgroupId);
 	}
 	
 

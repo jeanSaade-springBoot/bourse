@@ -850,13 +850,21 @@
 										</div>
 									  </div>
                                     </div>
-                                     <div class="col-3">
+                                     <div class="col-2">
                                      	        <div class="form-group" style='margin: 10% 0;'>
 									  <label for="triggerKey">Trending Description</label>
                                       	 <div id='trend_Description'>
                                        </div>	
                                        </div>
                                      </div>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									    <label for="Trigger">Trigger</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="text" class="form-control" id="trend_Trigger">
+									   </div>
+                                       </div>
+                                       </div>
                                        <div class="col-2">
                                      	        <div class="form-group" style='margin: 15% 0;'>
 									    <label for="Trigger">Highlight</label>
@@ -969,7 +977,7 @@
 			</div>
 		</div>
       <!-- Footer -->
-      <footer class="sticky-footer bg-dark">
+      <footer class="sticky-footer bg-dark" style="display:none">
         <div class="my-auto">
           <div class="copyright text-center my-auto">
             <span>copyright &copy; <script></script> - developed by
@@ -1204,10 +1212,10 @@
 		   var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
 		$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: 190, height: 30});
 		$("#subGroupDropDown").on('select', function (event) {
-			debugger;
+			
             if (event.args) {
                subGroupDropDown = event.args.item;
-               gridsource.url='/admin/getcolumnsconfigurationBygroupandsubgroup/'+groupItem.value+'/'+subGroupDropDown.value;
+               gridsource.url='/admin/findNativeByGroupIdAndSubgroupId/'+groupItem.value+'/'+subGroupDropDown.value;
                var dataAdapter = new $.jqx.dataAdapter(gridsource);
                $('#grid').jqxGrid({source:dataAdapter});
        		
@@ -1248,7 +1256,7 @@
     $("#highLow_thighlightdropdown").jqxDropDownList({theme: 'dark', source: thresholdsource, width: 80, height: 30,dropDownHeight: 150});
     
     
-    $("#trend_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 230, height: 30,dropDownHeight: 100});
+    $("#trend_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 177, height: 30,dropDownHeight: 100});
     $("#trendDepth_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 230, height: 30,dropDownHeight: 100});
     
     /*  var highlowsource = ["High",
@@ -1271,9 +1279,9 @@
               { name: 'yAxisFormat', type: 'string' },
               { name: 'calculationType', type: 'string' },
               { name: 'startDate', type: 'string' },
-              { name: 'HighOrLow', type: 'string' },
-              { name: 'Jump', type: 'string' },
-              { name: 'Trend', type: 'string' },
+              { name: 'lowHighActive', type: 'bool' },
+              { name: 'jumpActive', type: 'bool' },
+              { name: 'trendActive', type: 'bool' },
               { name: 'MovAvg100dRobot', type: 'string' },
               { name: 'Crossing100d200dRobot', type: 'string' },
               { name: 'SignChange', type: 'string' },
@@ -1328,7 +1336,7 @@
     	   $( "#nav-graphsData-tab" ).trigger('click');
        }); 
         $('#nav-robots-tab').click(function (event) {     
-        	debugger;
+        	
         	   $.ajax({
        	        contentType: "application/json",
        	        url: "/admin/getrobotsbycolumnconfigid/"+ $("#configId").val(),
@@ -1363,6 +1371,7 @@
 	         		 {
 	         		  $("#trend_TemplateRobot").val(data[i].template);
 	                  $("#trend_Description").val(data[i].description);
+	                  $("#trend_Trigger").val(data[i].threshholdTrigger);
 	                  $("#trend_Highlight").val(data[i].threshHoldNotification);
 	                  $("#trend_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
 	         		 } 
@@ -1386,7 +1395,7 @@
         });
         // update the edited row when the user clicks the 'Save' button.
         $("#update").click(function () {
-        	debugger;
+        	
             if (editrow >= 0) {
             	 var rowID = $('#grid').jqxGrid('getrowid', editrow);
             	    var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
@@ -1416,7 +1425,7 @@
                 		    currency:$("#Currency").val()!=''?$("#Currency").val():null,
                 		    yAxisFormat:$("#yAxisFormats").val()!=''?$("#yAxisFormats").val():null,
                 		    };
-             	debugger;
+             	
     	       	  $.ajax({
     	    	        type: "POST",
     	    	        contentType: "application/json",
@@ -1484,7 +1493,7 @@
         		    "rule":"",
         		    "template":$("#trend_TemplateRobot").val(),
         		    "lastData":"",
-        		    "threshholdTrigger": "",
+        		    "threshholdTrigger": $("#trend_Trigger").val(),
         		    "threshHoldNotification":$("#trend_Highlight").val(),
         		    "jumpValueTick":"",
         		    "jumpPercentage":"",
@@ -1511,7 +1520,7 @@
             		    "configId":$("#configId").val(),
             		    },
         		    ];
-         	debugger;
+         	
          	
 	       	  $.ajax({
 	    	        type: "POST",
@@ -1603,16 +1612,16 @@
             { text: '', columngroup: 'TimeAndFormat', datafield: 'dataMinIncrement', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'Currency', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'description', hidden: true  }, 
-            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'columnName', width: '9%',color:'#3F0' },
-            { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', width: '9%' },
-            { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yAxisFormat', width: '9%'},
-            { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'calculationType', width: '9%' },
-            { text: 'HighOrLow', columngroup: 'NewsRobot', datafield: 'HighOrLow',columntype: 'checkbox', width: '9%' },
-            { text: 'Jump', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Jump', width: '9%' },
-            { text: 'Trend', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Trend', width: '9%' },
-            { text: 'Mov Avg(100d)Robot', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'MovAvg100dRobot', width: '9%' },
-            { text: 'Crossing 100d-200d Robot', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Crossing100d200dRobot', width: '9%' },
-            { text: 'SignChange', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'SignChange', width: '9%' }
+            { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'columnName', width: '12.84%',color:'#3F0' },
+            { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', width: '12.84%' },
+            { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yAxisFormat', width: '12.84%'},
+            { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'calculationType', width: '12.84%' },
+            { text: 'HighOrLow', columngroup: 'NewsRobot', datafield: 'lowHighActive',columntype: 'checkbox', width: '12.84%' },
+            { text: 'Jump', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'jumpActive', width: '12.84%' },
+            { text: 'Trend', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'trendActive', width: '12.84%' },
+            { text: 'Mov Avg(100d)Robot', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'MovAvg100dRobot', hidden: true },
+            { text: 'Crossing 100d-200d Robot', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Crossing100d200dRobot',hidden: true  },
+            { text: 'SignChange', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'SignChange',hidden: true  }
           ],
           columngroups: [
               { text: 'Title and Format', align: 'center', name: 'TimeAndFormat' },
