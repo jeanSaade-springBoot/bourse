@@ -1533,6 +1533,10 @@
 	    	        timeout: 600000,
 	    	        success: function (data) {
 	    	        
+	    	       gridsource.url='/admin/findNativeByGroupIdAndSubgroupId/'+groupItem.value+'/'+subGroupDropDown.value;
+	    	       var dataAdapter = new $.jqx.dataAdapter(gridsource);
+	    	       $('#grid').jqxGrid({source:dataAdapter});
+	    	       
                 $("#jqxNotificationRobots").jqxNotification("open");
              //   $("#popupWindow").jqxWindow('hide');
 	   },
