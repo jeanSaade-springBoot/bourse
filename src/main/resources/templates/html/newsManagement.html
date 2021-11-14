@@ -899,7 +899,7 @@
 				   "columnDescription":updatedData.columnDescription,
 				   "robots":updatedData.robots,
 				   "isBold":updatedData.isBold,
-				   "generationDateDate":updatedData.generationDateDate,
+				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
 				   "isPublished":updatedData.isPublished,
 	    };
 		
@@ -950,6 +950,8 @@
             	 if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
  	                var id = $("#grid").jqxGrid('getrowid', selectedrowindex);
  	                var commit = $("#grid").jqxGrid('deleterow', id);
+ 	               $("#notificationContent").html('Data has been deleted');
+	                   $("#jqxNotification").jqxNotification("open");
  	            } 
              },
              error: function (e) {
@@ -967,10 +969,11 @@
 				   "columnDescription":updatedData.columnDescription,
 				   "robots":updatedData.robots,
 				   "isBold":updatedData.isBold,
-				   "generationDateDate":updatedData.generationDateDate,
+				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
 				   "isPublished":'0',
 	    };
 		
+	    debugger;
  	       	  $.ajax({
  	    	        type: "POST",
  	    	        contentType: "application/json",
@@ -984,7 +987,7 @@
  	    	        	
  	    	           $("#notificationContent").html('Data has been recalled');
  	                   $("#jqxNotification").jqxNotification("open");
- 	                   
+ 	                  publishNews();
  	                  $('#grid').jqxGrid('updaterow', updatedData.uid, updatedData);
 		 	           
  	   },
@@ -1001,12 +1004,12 @@
 	    var updatedData = $("#grid").jqxGrid('getrowdata', row);
 	    updatedData.isPublished='1'
 	    var row = {
-	    		 "id":updatedData.id,
+	    		  "id":updatedData.id,
 				   "template":updatedData.template,
 				   "columnDescription":updatedData.columnDescription,
 				   "robots":updatedData.robots,
 				   "isBold":updatedData.isBold,
-				   "generationDateDate":updatedData.generationDateDate,
+				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
 				   "isPublished":'1',
 	    };
 		
@@ -1023,7 +1026,7 @@
  	    	        	
  	    	           $("#notificationContent").html('Data has been published');
  	                   $("#jqxNotification").jqxNotification("open");
- 	                   
+ 	             	 publishNews();
  	                  $('#grid').jqxGrid('updaterow', updatedData.uid, updatedData);
 		 	           
  	   },
@@ -1035,6 +1038,7 @@
  	    	    }); 
  	       	    
 	 }
+ 
  function publishNews()
  {
 	   $.ajax({
@@ -1045,6 +1049,8 @@
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
+	        	$("#Newslist").empty();
+
 				  var ul = document.getElementById("Newslist");
 				 for (i=0; i<data.length;i++)
 				  {var li = document.createElement("li");
@@ -1055,7 +1061,8 @@
 				   $("#Newslist li:nth-child("+(i+1)+")").addClass("red");
 				  }
 				  }
-				 createMarquee({});
+					var durationvalue = data.length*5000;
+				    createMarquee({duration:durationvalue, padding:20});
 },
 	        error: function (e) {
 	        	
@@ -1080,6 +1087,7 @@
 		 "generationDateDate":a.getFullYear()+"-"+("0" + (a.getMonth() + 1)).slice(-2)+"-"+("0" + a.getDate()).slice(-2)+" "+("0" + a.getHours()).slice(-2)+":"+("0" + a.getMinutes()).slice(-2)+":"+("0" + a.getSeconds()).slice(-2),
 		 "isPublished":'0'
 	  };
+	 debugger;
 	 if ($('#news').val()== '')
 	 {
 		 $("#notificationContentSave").html('News field is requiered');
@@ -1107,7 +1115,8 @@
 	                 animationOpenDelay: 800, autoClose:true , autoCloseDelay: 1000,  template: 'info'
 	             });
 	        	 $("#jqxNotificationSave").jqxNotification("open");
-	        
+	        	 var newdate =new Date(data.generationDateDate);
+	        	 data.generationDateDate=newdate;
 	        	 $("#grid").jqxGrid('addrow', null, data, 'first');
 
 },
@@ -1150,7 +1159,7 @@
 	       	 gridsource.url='/admin/getunpublishednews';
 			 dataAdapter = new $.jqx.dataAdapter(gridsource);
 			 $('#grid').jqxGrid({source:dataAdapter});
-		//	 publishNews()
+		
 			   $("#notificationContent").html('News are pubished');
                $("#jqxNotification").jqxNotification("open");
 },
