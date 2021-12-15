@@ -76,7 +76,11 @@ public class BourseController {
 		this.dataEntryFilterHistoryService = dataEntryFilterHistoryService;
 		this.skewsService             = skewsService;
 	}
-	
+	@RequestMapping( value =  "/pageunderconstruction")
+    public ModelAndView underConstructionPage(ModelMap model)
+    {
+		return new ModelAndView("html/pageUnderConstruction");
+    }
 	@RequestMapping( value =  "/home")
     public ModelAndView mainPage(ModelMap model)
     {

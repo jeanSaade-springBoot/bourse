@@ -3968,7 +3968,7 @@ of the horizontal scrollbar.*/
     -webkit-background-clip: padding-box;
     -webkit-tap-highlight-color: rgba(0,0,0,0);
     border-color: #c5c5c5;
-    background: #e8e8e8;
+    background: red;
 }
 
 .jqx-fill-state-normal {

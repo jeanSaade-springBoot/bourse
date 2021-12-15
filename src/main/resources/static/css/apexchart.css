@@ -18,7 +18,10 @@ body {
 /*     border: 1px solid #ddd; */
     box-shadow: 0 22px 35px -16px rgba(0,0,0, 0.1);
 }
-
+foreignObject.gridbackground {
+    background: linear-gradient(
+180deg, rgb(76 106 166) 5%, rgba(6,16,28,1)55%)!important;
+}
 select.flat-select {
     -moz-appearance: none;
     -webkit-appearance: none;
@@ -71,9 +74,8 @@ select.flat-select {
 
 .apexcharts-canvas {
     margin: 0 auto;
-    background: rgb(91,154,213) !important;
-    background: linear-gradient(180deg, rgba(91,154,213,1) 0%, rgba(68,84,106,1) 35%)!important;
-    border: 1px solid rgba(68,84,106,1);
+    background:#172568 !important;
+    border-radius: 0.2rem;
 }
 
 #html {

@@ -18,7 +18,7 @@ var chartOption = {
 									  customIcons: []
 									}
 								},
-   	  			          height: 400,
+   	  			          height: 450,
    	  			          type: 'line',
    	  			          animations: { enabled: false }
    	  			        },
@@ -57,7 +57,7 @@ var chartOption = {
   	    				           subtitle: {
 			      	    				        text: 'copyright LibVol.com',
 			      	    				        align: 'right',
-			      	    				        margin: 10,
+			      	    				        margin: 0,
 			      	    				        offsetX: -10,
 			      	    				        offsetY: 30,
 			      	    				        floating: false,
@@ -71,10 +71,10 @@ var chartOption = {
    	  			          enabled: false
    	  			        },
    	  			        xaxis: {
-	   	  			       labels:  {
-	   	  			         		  rotate: -45,
-					                  rotateAlways: true,
-					                  minHeight:60,
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: 0,
+					                  rotateAlways: false,
+					                  minHeight:30,
 					        		  style: {
 							        	  fontSize: fontSize,
 							        	 },
@@ -437,3 +437,4 @@ function getFormat(Format)
    }
    	return [valueFormat,FormatIsDecimal];
 }
+ 

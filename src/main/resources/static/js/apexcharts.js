@@ -6260,6 +6260,7 @@
 					} else t = i.globals.gridWidth / o.length, n = n + t + i.config.xaxis.labels.offsetX;
 					if (i.config.xaxis.labels.show)
 						for (var d = function (s) {
+							debugger;
 								var l = n - t / 2 + i.config.xaxis.labels.offsetX;
 								0 === s && 1 === h && t / 2 === n && 1 === i.globals.dataPoints && (l = i.globals.gridWidth / 2);
 								var c = e.axesUtils.getLabel(o, i.globals.timescaleLabels, l, s, e.drawnLabels, e.xaxisFontSize),
@@ -6280,11 +6281,11 @@
 								 c.text='';
 								}
 								else if (o.length>60 && o.length<300)
-								{if (i.globals.xaxisLabelsCount%25!=0)
+								{if (i.globals.xaxisLabelsCount%50!=0)
 								 c.text='';
 								}
 								else if (o.length>300)
-								{if (i.globals.xaxisLabelsCount%50!=0)
+								{if (i.globals.xaxisLabelsCount%100!=0)
 								 c.text='';
 								}
 								var g = a.drawText({
@@ -8635,6 +8636,14 @@
 							passive: !0
 						})
 					}))
+				
+debugger;
+                   var t = this.w.globals;
+					t.dom.elGridRect = document.createElementNS(t.SVGNS, "foreignObject");
+					var v = t.dom.elGridRect;
+					v.setAttribute("class", "gridbackground"),v.setAttribute("x", 0), v.setAttribute("y", 0), v.setAttribute("width", a.globals.gridWidth), v.setAttribute("height", a.globals.gridHeight), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
+				
+	                
 				}
 			}, {
 				key: "destroy",
