@@ -5,9 +5,9 @@
     --jqx-primary: rgb(var(--jqx-primary-rgb));
     --jqx-background: #272e48;
     --jqx-background-color: #8A99B5;
-    --jqx-surface:#40566f;
+    --jqx-surface:#48659e;
     --jqx-surface-color: #BDD1F8;
-    --jqx-border: #464D5C;
+    --jqx-border: #48659e;
     --jqx-background-hover-rgb: 48, 66, 86;
     --jqx-background-hover: rgb(var(--jqx-background-hover-rgb));
     --jqx-background-color-hover: rgba(255, 255, 255,.95);
@@ -144,6 +144,7 @@
     color: var(--jqx-background-color);
     background-color: var(--jqx-background);
     border-color: var(--jqx-border);
+    
 }
 .jqx-grid-table-dark.jqx-grid-table-one-cell {
     border-right-color: var(--jqx-border);
@@ -1631,6 +1632,7 @@
     color: var(--jqx-background-color);
     border-color: var(--jqx-background);
     border-bottom: 1px solid var(--jqx-border);
+    border-radius: 0.2rem;
 }
 .jqx-combobox-dark .jqx-combobox-arrow-normal-dark,
 .jqx-datetimeinput-dark .jqx-action-button-dark,

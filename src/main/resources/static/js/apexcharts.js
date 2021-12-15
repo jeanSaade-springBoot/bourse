@@ -6260,7 +6260,7 @@
 					} else t = i.globals.gridWidth / o.length, n = n + t + i.config.xaxis.labels.offsetX;
 					if (i.config.xaxis.labels.show)
 						for (var d = function (s) {
-							debugger;
+							
 								var l = n - t / 2 + i.config.xaxis.labels.offsetX;
 								0 === s && 1 === h && t / 2 === n && 1 === i.globals.dataPoints && (l = i.globals.gridWidth / 2);
 								var c = e.axesUtils.getLabel(o, i.globals.timescaleLabels, l, s, e.drawnLabels, e.xaxisFontSize),
@@ -7483,7 +7483,8 @@
 						m = s.color,
 						v = s.opacity,
 						y = t.config.xaxis.crosshairs.fill.color;
-					if (t.config.xaxis.crosshairs.show) {
+						
+					 if (t.config.xaxis.crosshairs.show){
 						"gradient" === r && (y = e.drawGradient("vertical", n, o, l, h, null, c, null));
 						var w = e.drawRect();
 						1 === t.config.xaxis.crosshairs.width && (w = e.drawLine()), w.attr({
@@ -7505,7 +7506,8 @@
 							blur: x,
 							color: m,
 							opacity: v
-						})), t.globals.dom.elGraphical.add(w)
+						})
+						), t.globals.dom.elGraphical.add(w)
 					}
 				}
 			}, {
@@ -8641,6 +8643,19 @@ debugger;
                    var t = this.w.globals;
 					t.dom.elGridRect = document.createElementNS(t.SVGNS, "foreignObject");
 					var v = t.dom.elGridRect;
+					var vLenght =this.w.config.series.length;
+					var value ='';
+					if (vLenght==1)
+						 value =this.w.config.series[0].type=='column';
+					if (vLenght==2)	
+					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column';
+				    if (vLenght==3)	
+					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column' || this.w.config.series[2].type=='column';
+					if (vLenght==4)	
+					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column'|| this.w.config.series[2].type=='column'|| this.w.config.series[3].type=='column';
+					if (value)
+					v.setAttribute("class", "gridbackground"),v.setAttribute("x", -(this.gridRect.getBBox().width-a.globals.gridWidth)/2), v.setAttribute("y", 0), v.setAttribute("width", this.gridRect.getBBox().width), v.setAttribute("height", this.gridRect.getBBox().height), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
+				   else 
 					v.setAttribute("class", "gridbackground"),v.setAttribute("x", 0), v.setAttribute("y", 0), v.setAttribute("width", a.globals.gridWidth), v.setAttribute("height", a.globals.gridHeight), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
 				
 	                
@@ -12862,6 +12877,7 @@ debugger;
 					}), t.dom.elAnnotations = t.dom.Paper.group().attr({
 						class: "apexcharts-annotations"
 					}), t.dom.elDefs = t.dom.Paper.defs(), t.dom.elLegendWrap = document.createElement("div"), t.dom.elLegendWrap.classList.add("apexcharts-legend"), t.dom.elWrap.appendChild(t.dom.elLegendWrap), t.dom.Paper.add(t.dom.elGraphical), t.dom.elGraphical.add(t.dom.elDefs)
+				
 				}
 			}, {
 				key: "plotChartType",

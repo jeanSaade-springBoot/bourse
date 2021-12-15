@@ -187,7 +187,7 @@ sup {
 }
 
 a {
-	color: #6777ef;
+	color: #98b3e0;
 	text-decoration: none;
 	background-color: transparent
 }
@@ -5185,7 +5185,7 @@ input[type=submit].btn-block {
 	flex-direction: column;
 	min-width: 0;
 	word-wrap: break-word;
-	color: #8A99B5;
+	color: #96b2e0;
        /* background-color: #272E48;*/
     border-color: #464D5C!important;
 	background-clip: border-box;
@@ -5238,9 +5238,9 @@ input[type=submit].btn-block {
 .card-header {
 	padding: .75rem 1.25rem;
 	margin-bottom: 0;
-	color: #8A99B5!important;
+	/* color: #8A99B5!important;
     background-color: #272E48;
-    border-color: #464D5C!important;
+    border-color: #464D5C!important; */
 }
 
 .card-header:first-child {
@@ -10735,8 +10735,8 @@ button.bg-dark:hover {
 }
 
 .text-primary {
-	color: #8A99B5!important;
-    background-color: #272E48;
+	color: #96b2df!important;
+    background-color: #00030600;
     border: 0px;
 }
 

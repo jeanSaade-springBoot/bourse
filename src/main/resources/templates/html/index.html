@@ -39,7 +39,7 @@
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
 			<a href="/bourse/pageunderconstruction" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/pageunderconstruction" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<a href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
 			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
@@ -281,7 +281,7 @@
   <script src="/js/marquee.js"></script>
   <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/ruang-admin.min.js"></script>
+  
   <script src="/js/jqwidgets/jqxcore.js"></script> 
   <script src="/js/jqwidgets/jqxbuttons.js"></script> 
   <script>
@@ -298,15 +298,7 @@
   $("#viewall").click(function () {
 	  // popupWindow('/bourse/pageunderconstruction', 'Liberty Options - View All News', window, 1300, 600);
   });
-  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-	  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-	];
-const DayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
-		  "Sun"];
-n =  new Date();
-m = n.getMonth() + 1;
-d = n.getDate();
-$('#todayDate').append(DayNames[n.getDay()-1] + " , " + d + " " + monthNames[m-1]);
+
 
   	$(function (){
 

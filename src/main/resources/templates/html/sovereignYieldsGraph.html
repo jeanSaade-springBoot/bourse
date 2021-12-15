@@ -9,6 +9,7 @@
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
   <title>libvol - Dashboard</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="/css/ruang-admin.min.css" rel="stylesheet">
@@ -66,7 +67,7 @@
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
 			<a href="/bourse/pageunderconstruction" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/pageunderconstruction" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<a href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
 			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
@@ -370,7 +371,7 @@
   <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
     <script src="/js/jqwidgets/jqxbuttons.js"></script> 
     <script src="/js/jqwidgets/jqxradiobutton.js"></script> 
-  <script src="/js/ruang-admin.min.js"></script>
+  
   <script src="/js/apexcharts.js"></script>
    <script src="/js/chart.js"></script>
   <script>
@@ -3258,7 +3259,7 @@
 		      	    	         	var getFormatResult1 = getFormat(response[1].config.dataFormat);
 		      	    	         	
 		      	    	          chartDbFontSize = response[0].config.chartSize;
-		      	    	       	  debugger; 
+		      	    	       	   
 		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 		      	    	       	  if (typeof activeFontSize == 'undefined')
 		      	    	           $('#'+chartDbFontSize).addClass("active");
@@ -3435,7 +3436,7 @@
 	      	    	        	var getFormatResult2 = getFormat(response[2].config.dataFormat);
 	      	    	        	
 	      	    	        	 chartDbFontSize = response[0].config.chartSize;
-		      	    	       	  debugger; 
+		      	    	       	   
 		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 		      	    	       	  if (typeof activeFontSize == 'undefined')
 		      	    	           $('#'+chartDbFontSize).addClass("active");
@@ -3622,7 +3623,7 @@
 	      	    			
 	      	    			
 	      	    		   chartDbFontSize = response[0].config.chartSize;
-	      	    	       	  debugger; 
+	      	    	       	   
 	      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 	      	    	       	  if (typeof activeFontSize == 'undefined')
 	      	    	           $('#'+chartDbFontSize).addClass("active");
@@ -3788,7 +3789,7 @@
 			      	    	            
 			      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 			      	    	       	    chartDbFontSize = response[0].config.chartSize;
-			      	    	       	  debugger; 
+			      	    	       	   
 			      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 			      	    	       	  if (typeof activeFontSize == 'undefined')
 			      	    	           $('#'+chartDbFontSize).addClass("active");
@@ -3916,16 +3917,7 @@
 		    	               $("#dateTo-mainChart").val(todate);
 							}
 			
-			  const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-				  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-				];
-			const DayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat",
-					  "Sun"];
-			n =  new Date();
-			m = n.getMonth() + 1;
-			d = n.getDate();
-			$('#todayDate').append(DayNames[n.getDay()-1] + " , " + d + " " + monthNames[m-1]);
-
+			
 			  	$(function (){
 
 					   $.ajax({
