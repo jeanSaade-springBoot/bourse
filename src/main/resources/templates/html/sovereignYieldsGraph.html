@@ -60,16 +60,16 @@
 	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">		
 		
 		<div class="navbar-nav mr-auto">
-		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
-			<a href="#" class="nav-item nav-link active"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+		  <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
+			<a href="/bourse/home" class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/pageunderconstruction" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
+			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/pageunderconstruction" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+			<a href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
 			<a href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+			<a href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
 			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-contactus.png" class="MainMenuIcon">email</a>		
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
@@ -130,11 +130,11 @@
     						 height: 35px;
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a class="naviagtion nav-item nav-link" id="nav-any2-tab"  href="/bourse/pageunderconstruction" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				    <a class="naviagtion nav-item nav-link active" id="nav-sovereign-yields-tab" href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-sovereign-yields" aria-selected="false">Sovereign Yields</a>
-				    <a class="naviagtion nav-item nav-link" id="nav-any2-tab"  href="/bourse/pageunderconstruction" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
-				    <a class="naviagtion nav-item nav-link" id="nav-any2-tab"  href="/bourse/pageunderconstruction" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
-				    <a class="naviagtion nav-item nav-link" id="nav-any2-tab"  href="/bourse/pageunderconstruction" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
+				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/pageunderconstruction" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
+				    <a class="navigation nav-item nav-link active" id="nav-sovereign-yields-tab" href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-sovereign-yields" aria-selected="false">Sovereign Yields</a>
+				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereigncurvesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
+				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/pageunderconstruction" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
+				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/pageunderconstruction" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
 				  </div>
 				</nav>
            
@@ -152,11 +152,12 @@
 				</div>
 				<div class="tab-pane fade active show" id="nav-sovereign-yields" role="tabpanel" aria-labelledby="nav-contact-tab">
 				<p class="mt-2" style=" margin-bottom: .5rem;">
-				  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors<img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
+				  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
+				  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
 					</p>
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse show" id="collapseFilter" style="margin: 0 8rem;">
+					    <div class="collapse multi-collapse show" id="collapseFilter" style="margin: 0px 8rem;">
 				<div class="row">
 				<div class="col-5">
                   <form  id="dataformInput">
@@ -282,7 +283,7 @@
 							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split"  style="display:none;">
 					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
 							  </div>
-					 	       <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+					 	      <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
 							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>

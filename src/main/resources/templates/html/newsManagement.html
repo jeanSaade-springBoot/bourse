@@ -8,6 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <title>libvol - Dashboard</title>
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -152,461 +153,54 @@
 
 <body id="page-top">
   <div id="wrapper">
-    <!-- Sidebar -->
-    <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
-      <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/bourse/home">
-        <div class="sidebar-brand-icon">
-         <!--  <img src="img/logo/logo2.png"> -->
-        </div>
-        <div class="sidebar-brand-text mx-3">libvol</div>
-      </a>
-      <hr class="sidebar-divider my-0">
-      <li class="nav-item">
-        <a class="nav-link" href="/bourse/home">
-          <i class="fas fa-fw fa-tachometer-alt"></i>
-          <span>Dashboard</span></a>
-      </li>
-      <hr class="sidebar-divider">
-      <div class="sidebar-heading">
-        Admin Section
-      </div>
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseDataEntry"
-          aria-expanded="true" aria-controls="collapseDataEntry">
-          <i class="fas fa-pen"></i>
-          <span>Data Entry</span>
-        </a>
-        <div id="collapseDataEntry" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Data Entry</h6>
-            <a class="collapse-item" href="/bourse/sovereignyields" >Sovereign Yields</a>
-            <a class="collapse-item" href="/bourse/skews" >Skews</a>
-            <a class="collapse-item" href="/bourse/preciousmetals" >Precious Metals</a>
-            <a class="collapse-item" href="/bourse/sovereignyields" >Fixed Income Future</a>
-          </div>
-        </div>
-      </li>
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSettings"
-          aria-expanded="true" aria-controls="collapseSettings">
-          <i class="fas fa-cogs"></i>
-          <span>Settings</span>
-        </a>
-        <div id="collapseSettings" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Settings</h6>
-            <a class="collapse-item" href="/bourse/settings" >Column Master</a>
-            <a class="collapse-item" href="/bourse/holidaycalendar" >Holiday Calendar</a>
-            <a class="collapse-item" href="/bourse/settings" >Help Descriptions</a>
-            <a class="collapse-item" href="/bourse/settings" >Robot Help</a>
-          </div>
-        </div>
-      </li>
-          <li class="nav-item active">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNews"
-          aria-expanded="true" aria-controls="collapseNews">
-         <i class="fas fa-newspaper"></i>
-          <span>News</span>
-        </a>
-         <div id="collapseNews" class="collapse show" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">News</h6>
-            <a class="collapse-item active" href="/bourse/newsmanagement" >News Management</a>
-          </div>
-        </div>
-      </li>
-      <hr class="sidebar-divider">
-      <div class="sidebar-heading">
-        Features
-      </div>
-      <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseMonitoring"
-          aria-expanded="true" aria-controls="collapseMonitoring">
-          <i class="fas fa-desktop"></i>
-          <span>Monitor</span>
-        </a>
-        <div id="collapseMonitoring" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Monitor</h6>
-            <a class="collapse-item" href="">Fast Chart</a>
-            <a class="collapse-item" href="/bourse/any2">Any 2</a>
-            <a class="collapse-item" href="/bourse/sovereignyieldsgraph">Sovereign yields</a>
-            <a class="collapse-item" href="/bourse/sovereigncurvesgraph">Yield Curves</a>
-            <a class="collapse-item" href="/bourse/sovereigncrossesgraph">Yield Crosses</a>
-            <a class="collapse-item" href="/bourse/spreadmakergraph">Spread Maker</a> 
-           </div>
-        </div>
-      </li>
-	   <li class="nav-item ">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAnalytics"
-          aria-expanded="true" aria-controls="collapseAnalytics">
-          <i class="fas fa-chart-bar"></i>
-          <span>Analytics</span>
-        </a>
-        <div id="collapseAnalytics" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Analytics</h6>
-            <a class="collapse-item " href="/bourse/returnfunction">Return Function</a>
-            <a class="collapse-item" href="/bourse/any2">Implied Vs Realized (Hi/lo)</a>
-            <a class="collapse-item" href="">Implied Vs Realized (Close)</a>
-            <a class="collapse-item" href="">Gamma Rents</a>
-          </div>
-        </div>
-      </li>
-	    <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseSkews"
-          aria-expanded="true" aria-controls="collapseSkews">
-          <i class="fas fa-chart-area"></i>
-          <span>Skews</span>
-        </a>
-        <div id="collapseSkews" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Skews</h6>
-            <a class="collapse-item" href="">Global Skew View</a>
-            <a class="collapse-item" href="">Skew Vs Implied</a>
-            <a class="collapse-item" href="">Skew Vs Futures</a>
-          </div>
-        </div>
-      </li>
-	     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseVolumes"
-          aria-expanded="true" aria-controls="collapseVolumes">
-          <i class="fas fa-project-diagram"></i>
-          <span>Volumes</span>
-        </a>
-        <div id="collapseVolumes" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Volumes</h6>
-            <a class="collapse-item" href="">Race Chart</a>
-            <a class="collapse-item" href="">Week After Week </a>
-            <a class="collapse-item" href="">Moving Average</a>
-          </div>
-        </div>
-      </li>
-	   <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseNormalizedSpace"
-          aria-expanded="true" aria-controls="collapseNormalizedSpace">
-          <i class="fas fa-chart-line"></i>
-          <span>Normalized Space</span>
-        </a>
-        <div id="collapseNormalizedSpace" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Normalized Space</h6>
-            <a class="collapse-item" href="">Create Normalized Vols</a>
-            <a class="collapse-item" href="">Durations And Dv01 </a>
-            <a class="collapse-item" href="">List of CTDs </a>
-          </div>
-        </div>
-      </li>
-	     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseIntermarkets"
-          aria-expanded="true" aria-controls="collapseIntermarkets">
-          <i class="fas fa-poll"></i>
-          <span>Inter-markets</span>
-        </a>
-        <div id="collapseIntermarkets" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Inter-markets</h6>
-            <a class="collapse-item" href="">Weightings</a>
-            <a class="collapse-item" href="">Straddle Ratios </a>
-            <a class="collapse-item" href="">Implied Vol Ratios </a>
-          </div>
-        </div>
-      </li>
-	       </li>
-	     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapsePaperwatch"
-          aria-expanded="true" aria-controls="collapsePaperwatch">
-          <i class="fab fa-buffer"></i>
-          <span>Paper-watch</span>
-        </a>
-        <div id="collapsePaperwatch" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Paper-watch</h6>
-            <a class="collapse-item" href="">Call/put Warning Indicator</a>
-          </div>
-        </div>
-      </li>
-	     <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseTheMathBox"
-          aria-expanded="true" aria-controls="collapseTheMathBox">
-          <i class="fas fa-box"></i>
-          <span>The Math Box</span>
-        </a>
-        <div id="collapseTheMathBox" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">The Math Box</h6>
-            <a class="collapse-item" href="">One Serie</a>
-            <a class="collapse-item" href="">Two Series</a>
-          </div>
-        </div>
-      </li>
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseAtAGlance"
-          aria-expanded="true" aria-controls="collapseAtAGlance">
-          <i class="fas fa-eye"></i>
-          <span>At A Glance</span>
-        </a>
-        <div id="collapseAtAGlance" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">At A Glance</h6>
-            <a class="collapse-item" href="">Futures </a>
-            <a class="collapse-item" href="">Implied Vols</a>
-			<a class="collapse-item" href="">Ranges And Realized</a>
-            <a class="collapse-item" href="">Yields And Curves</a>
-			<a class="collapse-item" href="">Precious Metals</a>
-            <a class="collapse-item" href="">Excess Liquidity</a>
-          </div>
-        </div>
-      </li>
-	     </li>
-        <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseCheckAnOptionStrategy"
-          aria-expanded="true" aria-controls="collapseCheckAnOptionStrategy">
-          <i class="fas fa-check-square"></i>
-          <span>Check An Option Strategy</span>
-        </a>
-        <div id="collapseCheckAnOptionStrategy" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Check An Option Strategy</h6>
-            <a class="collapse-item" href="">Fly Your Futures</a>
-            <a class="collapse-item" href="">Condors</a>
-			<a class="collapse-item" href="">Vertical Spreads</a>
-          </div>
-        </div>
-      </li>
-	        <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseLiveOptionFlows"
-          aria-expanded="true" aria-controls="collapseLiveOptionFlows">
-          <i class="fas fa-satellite-dish"></i>
-          <span>Live Option Flows</span>
-        </a>
-        <div id="collapseLiveOptionFlows" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Live Option Flows</h6>
-            <a class="collapse-item" href="">Flow Search Engine</a>
-            <a class="collapse-item" href="">Historical Flow</a>
-          </div>
-        </div>
-      </li>
-	          <li class="nav-item">
-        <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseScheduleMeetings"
-          aria-expanded="true" aria-controls="collapseScheduleMeetings">
-          <i class="fas fa-handshake"></i>
-          <span>Schedule Meetings</span>
-        </a>
-        <div id="collapseScheduleMeetings" class="collapse" aria-labelledby="headingBootstrap" data-parent="#accordionSidebar">
-          <div class="submenu py-2 collapse-inner rounded">
-            <h6 class="collapse-header">Schedule Meetings</h6>
-            <a class="collapse-item" href="">Host A Meeting</a>
-            <a class="collapse-item" href="">Join A Meeting</a>
-          </div>
-        </div>
-      </li>
-      <hr class="sidebar-divider">
-      <div class="version" id="version-ruangadmin"></div>
-    </ul>
-    <!-- Sidebar -->
+ 
     <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
+    <div id="content">
         <!-- TopBar -->
-        <nav class="navbar navbar-expand navbar-light bg-navbar topbar mb-1 static-top">
-          <button id="sidebarToggleTop" class="btn btn-link rounded-circle mr-3">
-            <i class="fa fa-bars"></i>
-          </button>
-          <ul class="navbar-nav ml-auto">
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="searchDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-search fa-fw"></i>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right p-3 shadow animated--grow-in"
-                aria-labelledby="searchDropdown">
-                <form class="navbar-search">
-                  <div class="input-group">
-                    <input type="text" class="form-control bg-light border-1 small" placeholder="What do you want to look for?"
-                      aria-label="Search" aria-describedby="basic-addon2" style="border-color: #3f51b5;">
-                    <div class="input-group-append">
-                      <button class="btn btn-primary" type="button">
-                        <i class="fas fa-search fa-sm"></i>
-                      </button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="alertsDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-bell fa-fw"></i>
-                <span class="badge badge-danger badge-counter">3+</span>
-              </a>
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="alertsDropdown">
-                <h6 class="dropdown-header">
-                  Alerts Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-primary">
-                      <i class="fas fa-file-alt text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 12, 2019</div>
-                    <span class="font-weight-bold">A new monthly report is ready to download!</span>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-success">
-                      <i class="fas fa-donate text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 7, 2019</div>
-                    $290.29 has been deposited into your account!
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="mr-3">
-                    <div class="icon-circle bg-warning">
-                      <i class="fas fa-exclamation-triangle text-white"></i>
-                    </div>
-                  </div>
-                  <div>
-                    <div class="small text-gray-500">December 2, 2019</div>
-                    Spending Alert: We've noticed unusually high spending for your account.
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Show All Alerts</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-envelope fa-fw"></i>
-                <span class="badge badge-warning badge-counter">2</span>
-              </a>
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                  Message Center
-                </h6>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-<!--                     <img class="rounded-circle" src="img/man.png" style="max-width: 60px" alt=""> -->
-                    <div class="status-indicator bg-success"></div>
-                  </div>
-                  <div class="font-weight-bold">
-                    <div class="text-truncate">Hi there! I am wondering if you can help me with a problem I've been
-                      having.</div>
-                    <div class="small text-gray-500">Udin Cilok · 58m</div>
-                  </div>
-                </a>
-                <a class="dropdown-item d-flex align-items-center" href="#">
-                  <div class="dropdown-list-image mr-3">
-<!--                     <img class="rounded-circle" src="img/girl.png" style="max-width: 60px" alt=""> -->
-                    <div class="status-indicator bg-default"></div>
-                  </div>
-                  <div>
-                    <div class="text-truncate">Am I a good boy? The reason I ask is because someone told me that people
-                      say this to all dogs, even if they aren't good...</div>
-                    <div class="small text-gray-500">Jaenab · 2w</div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">Read More Messages</a>
-              </div>
-            </li>
-            <li class="nav-item dropdown no-arrow mx-1">
-              <a class="nav-link dropdown-toggle" href="#" id="messagesDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <i class="fas fa-tasks fa-fw"></i>
-                <span class="badge badge-success badge-counter">3</span>
-              </a>
-              <div class="dropdown-list dropdown-menu dropdown-menu-right shadow animated--grow-in"
-                aria-labelledby="messagesDropdown">
-                <h6 class="dropdown-header">
-                  Task
-                </h6>
-                <a class="dropdown-item align-items-center" href="#">
-                  <div class="mb-3">
-                    <div class="small text-gray-500">Design Button
-                      <div class="small float-right"><b>50%</b></div>
-                    </div>
-                    <div class="progress" style="height: 12px;">
-                      <div class="progress-bar bg-success" role="progressbar" style="width: 50%" aria-valuenow="50"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </a>
-                <a class="dropdown-item align-items-center" href="#">
-                  <div class="mb-3">
-                    <div class="small text-gray-500">Make Beautiful Transitions
-                      <div class="small float-right"><b>30%</b></div>
-                    </div>
-                    <div class="progress" style="height: 12px;">
-                      <div class="progress-bar bg-warning" role="progressbar" style="width: 30%" aria-valuenow="30"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </a>
-                <a class="dropdown-item align-items-center" href="#">
-                  <div class="mb-3">
-                    <div class="small text-gray-500">Create Pie Chart
-                      <div class="small float-right"><b>75%</b></div>
-                    </div>
-                    <div class="progress" style="height: 12px;">
-                      <div class="progress-bar bg-danger" role="progressbar" style="width: 75%" aria-valuenow="75"
-                        aria-valuemin="0" aria-valuemax="100"></div>
-                    </div>
-                  </div>
-                </a>
-                <a class="dropdown-item text-center small text-gray-500" href="#">View All Taks</a>
-              </div>
-            </li>
-            <div class="topbar-divider d-none d-sm-block"></div>
-            <li class="nav-item dropdown no-arrow">
-              <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
-                aria-haspopup="true" aria-expanded="false">
-                <!-- <img class="img-profile rounded-circle" src="img/boy.png" style="max-width: 60px"> -->
-                <i class="fas fa-user"></i>
-                <span class="ml-2 d-none d-lg-inline text-white small">	Charbel Nacouzi</span>
-              </a>
-              <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in" aria-labelledby="userDropdown">
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Profile
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-cogs fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Settings
-                </a>
-                <a class="dropdown-item" href="#">
-                  <i class="fas fa-list fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Activity Log
-                </a>
-                <div class="dropdown-divider"></div>
-                <a class="dropdown-item" href="javascript:void(0);" data-toggle="modal" data-target="#logoutModal">
-                  <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
-                  Logout
-                </a>
-              </div>
-            </li>
-          </ul>
-        </nav>
+    <nav class="navbar navbar-expand navbar-light bg-navbar topbar static-top">
+	<img id="imglogo" src="../../img/logo.png" align="absmiddle" style="height:70px;margin-left: 3%;">
+	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<!-- Collection of nav links, forms, and other content for toggling -->
+	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">		
+		
+		<div class="navbar-nav mr-auto">
+		  <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
+			<a href="/bourse/home" class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+			<li class="rtbSeparator"><span class="rtbText"></span></li>
+			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
+			<li class="rtbSeparator"><span class="rtbText"></span></li>
+			<a href="/bourse/newsmanagement" class="nav-item nav-link active"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+			<li class="rtbSeparator"><span class="rtbText"></span></li>
+			<a href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<li class="rtbSeparator"><span class="rtbText"></span></li>
+			<a href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+			<li class="rtbSeparator"><span class="rtbText"></span></li>
+			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-contactus.png" class="MainMenuIcon">email</a>		
+			<li class="rtbSeparator"><span class="rtbText"></span></li>
+			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/animatedcam2.gif" class="MainMenuIcon">video</a>
+		    </div>
+		</div>
+			<div class="nav-item dropdown" style="width: 15%">
+				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline ">	Charbel Nacouzi</span><b class="caret"></b></a>
+				<div class="dropdown-menu">
+					<a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+					<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
+					<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
+					<div class="divider dropdown-divider"></div>
+					<a href="#" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a>
+				</div>
+		</div>
+    	</div>
+     </nav>
         <!-- Topbar -->
-
+<div class="d-sm-flex align-items-center">
+            	<h1 class="ml-6 text-darkorange">News Management</h1>
+            </div>
         <!-- Container Fluid-->
-        <div class="container-fluid" id="container-wrapper">
-          <div class="d-sm-flex align-items-center justify-content-between ">
-            <h1 class="h3 mb-0 text-gray-800">News Management</h1>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/bourse/home">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">News Management</li>
-            </ol>
-          </div>
-     <div class="d-sm-flex align-items-center justify-content-end ">
+     <div class="container-fluid" id="container-wrapper">
+  <div class="d-sm-flex justify-content-end "style="margin-top: 1.5rem;">
       <div id="overlay">
 		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
 		   </div>
@@ -619,19 +213,18 @@
 		         </div>
 							       </div>
 		  </div>			
-	 <div class="mb-4 mr-1">
+	 <div class="mb-4 mt-4 mr-1">
         <input type="button" value="Add News" id='addNews' />
     </div>	  		      
-      <div class="mb-4 mr-1">
+      <div class="mb-4 mt-4 mr-1">
         <input type="button" value="Trigger Robots" id='triggerRobotButton' />
     </div>
-   <div class="mb-4">
+   <div class="mb-4 mt-4">
         <input type="button" value="Publish News" id='publishNewsButton' />
     </div>
      
      </div>
-    				
-     <div class="d-sm-flex align-items-center justify-content-between ">
+           <div class="d-sm-flex  justify-content-between ">
 	 
 		  <div id="grid">
 		  </div>
@@ -663,34 +256,15 @@
 								   </div>
 							    </form>
 								</div>
-	      </div> 			  
-          <!-- Modal Logout -->
-          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>Are you sure you want to logout?</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                  <a href="login.html" class="btn btn-primary">Logout</a>
-                </div>
-              </div>
-            </div>
-          </div>
+	      </div> 			
 
-        
-        <!---Container Fluid-->
       </div>
+     
       <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
+				<div class="marquee-sibling-date">
+					<p id="todayDate"></p>
+				</div>
 				<div class="marquee-sibling">
 					NEWS
 				</div>
@@ -698,27 +272,19 @@
 					<ul id="Newslist" class="marquee-content-items">
 					</ul>
 				</div>
+				<div class="marquee-sibling-viewAll">
+					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
+				</div>
 			</div>
 		</div>
       <!-- Footer -->
-      <footer class="sticky-footer bg-dark">
-        <div class="my-auto" style="display:none;">
-          <div class="copyright text-center my-auto">
-            <span>copyright &copy; <script></script> - developed by
-              <b><a href="" target="_blank"></a></b>
-            </span>
-          </div>
-        </div>
-      </footer>
       <!-- Footer -->
     </div>
   </div>
 
-  <!-- Scroll to top -->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
-
+ 
+  </div>
+  </div>
   <script src="/vendor/jquery/jquery.min.js"></script>
   <script src="/js/marquee.js"></script>
   
@@ -759,6 +325,8 @@
 	    document.getElementById("TemplateText").value += targ.textContent || targ.innerText;
 	}
   $(document).ready(function () {
+	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
+	  $("#viewall").css("display","block");
 	  $("#saveNews").jqxButton({ theme: 'dark',height:30,width:74  });
       $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
 	  $("#jqxNotification").jqxNotification({  height: 30, width: "100%",appendContainer: "#notifcationContainer",  opacity: 0.9,
@@ -1204,35 +772,41 @@
 	$(function (){
 
 		   $.ajax({
- 	        contentType: "application/json",
- 	        url: "/admin/getnews",
- 	        dataType: 'json',
- 	        async:true,
- 	        cache: false,
- 	        timeout: 600000,
- 	        success: function (data) {
+	        contentType: "application/json",
+	        url: "/admin/getnews",
+	        dataType: 'json',
+	        async:true,
+	        cache: false,
+	        timeout: 600000,
+	        success: function (data) {
 				  var ul = document.getElementById("Newslist");
 				 for (i=0; i<data.length;i++)
 				  {var li = document.createElement("li");
 				  li.appendChild(document.createTextNode(data[i].template.split("<img")[0]));
-				  $('#Newslist').append('<li>' + data[i].template+ '</li>');
-				  if(data[i].isBold=="true")
+				   $('#Newslist').append('<li>' + data[i].template+ '</li>');
+				   if(data[i].isBold=="true")
+					   $('#Newslist').append('<li><span class="red">' + data[i].template+ '</span></li>');
+				   else
+					   $('#Newslist').append('<li>' + data[i].template+ '</li>');
+				  /*  if(data[i].isBold=="true")
 				  {
 				  $("#Newslist li:nth-child("+(i+1)+")").addClass("red");
+				  } */
+				  
 				  }
-				  }
-				// createMarquee({});
-				var durationvalue = data.length*5000;
-			    createMarquee({duration:durationvalue, padding:20});
+				 //createMarquee({});
+					var durationvalue = data.length*10000;
+				    createMarquee({duration:durationvalue, padding:20});
 },
- 	        error: function (e) {
- 	        	
+	        error: function (e) {
+	        	
 					  console.log("ERROR : ", e);
 
- 	        }
- 	    });
+	        }
+	    });
 		   
 	});
+
 		</script>
 <!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
 </body>

@@ -147,7 +147,7 @@ a.btn.select:hover {
 .mt-3.btn-toolbar.justify-content-between {
     margin: 0 8rem;
 }
-a.naviagtion.nav-item.nav-link {
+a.navigation.nav-item.nav-link {
     width: fit-content;
     background: #3e5789;
     margin-right: 0.2rem;
