@@ -18,6 +18,10 @@
   <link href="/css/jqx.dark.css" rel="stylesheet">
 </head>
 <style>
+   div#overlay {
+    margin: 15% 40%;
+    position: absolute;
+}
 .col-sm-1.col-custom {
     max-width: 12.33333%;
 }
@@ -145,7 +149,10 @@ font-size: 0.8rem;
             <div class="d-sm-flex align-items-center">
             	<h1 class="ml-6 text-darkorange">Sovereign Yields</h1>
             </div>
-        <div class="container-fluid" id="container-wrapper">
+            <div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
+        <div class="container-fluid" id="container-wrapper" style="display:none;">
         <div class="col-lg-12">
               <!-- Form Basic -->
             <div class="collapse show" id="collapseExample">
@@ -1158,7 +1165,9 @@ font-size: 0.8rem;
  		 var datatextarea = document.getElementById("data");
 		
 		 $(document).ready(function () {
-
+			   $('#overlay').fadeOut();
+			   $('#container-wrapper').show();
+		 	    
 			  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 			  $("#viewall").css("display","block");
 		

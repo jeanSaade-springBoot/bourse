@@ -23,6 +23,7 @@
     }
     div#overlay {
     margin: 15% 40%;
+    position: absolute;
 }
    .jqx-widget-header:nth-child(28) {
   background-color: #6495ed;
@@ -103,7 +104,11 @@
 				</nav>
            
           </div>
-        <div class="container-fluid" id="container-wrapper">
+          
+		<div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
+        <div class="container-fluid" id="container-wrapper" style="display:none;">
    
           <div class="row mb-3">
 			 <div class="bd-example bd-example-tabs col-12">
@@ -538,9 +543,6 @@
          
 
 
-		<div id="overlay">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
-		   </div>
           <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
             aria-hidden="true">
@@ -635,6 +637,8 @@
 	    document.getElementById(id).value += targ.textContent || targ.innerText;
 	}
   $(document).ready(function () {
+	   $('#container-wrapper').show();
+	    
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 	  $("#viewall").css("display","block");
 
@@ -1234,7 +1238,7 @@
               { text: 'News Robot', align: 'center', name: 'NewsRobot' }
           ]
       });
-     
+   
   });
 
 	$(function (){

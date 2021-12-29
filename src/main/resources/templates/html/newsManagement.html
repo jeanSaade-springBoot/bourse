@@ -199,7 +199,7 @@
             	<h1 class="ml-6 text-darkorange">News Management</h1>
             </div>
         <!-- Container Fluid-->
-     <div class="container-fluid" id="container-wrapper">
+     <div class="container-fluid" id="container-wrapper" style="display:none;">
   <div class="d-sm-flex justify-content-end "style="margin-top: 1.5rem;">
       <div id="overlay">
 		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
@@ -325,6 +325,8 @@
 	    document.getElementById("TemplateText").value += targ.textContent || targ.innerText;
 	}
   $(document).ready(function () {
+	   $('#container-wrapper').show();
+	    
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 	  $("#viewall").css("display","block");
 	  $("#saveNews").jqxButton({ theme: 'dark',height:30,width:74  });
