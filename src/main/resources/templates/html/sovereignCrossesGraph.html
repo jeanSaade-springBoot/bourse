@@ -9,6 +9,7 @@
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
   <title>libvol - Dashboard</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="/css/ruang-admin.min.css" rel="stylesheet">
@@ -59,7 +60,7 @@
 		
 		<div class="navbar-nav mr-auto">
 		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
-			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+			<a href="/bourse/home" class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
 			<a href="/bourse/pageunderconstruction" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
@@ -135,26 +136,28 @@
 		  </div>
 	 </div>
         <!-- Container Fluid-->
-        <div class="container-fluid" id="container-wrapper">
-          <div class="d-sm-flex align-items-center justify-content-between ">
-            <h1 class="h3 mb-0 text-gray-800">Monitoring</h1>
-            <ol class="breadcrumb">
-              <li class="breadcrumb-item"><a href="/bourse/home">Home</a></li>
-              <li class="breadcrumb-item active" aria-current="page">Monitoring</li>
-            </ol>
-          </div>
-
-          <div class="row mb-3">
-			 <div class="bd-example bd-example-tabs col-12">
-			 <nav>
+              <div class="d-sm-flex align-items-center">
+            <h1 class="ml-6 text-darkorange">Monitoring</h1>
+            	 <nav style="margin-left: 3rem;
+    						 height: 35px;
+    						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				    <a class="nav-item nav-link" id="nav-yields-tab"  href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-yields-crosses" aria-selected="false">Sovereign Yields</a>
-				    <a class="nav-item nav-link" id="nav-yields-curves-tab"  href="/bourse/sovereigncurvesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
-				    <a class="nav-item nav-link active" id="nav-yields-crosses-tab"  href="/bourse/sovereigncrossesgraph"  role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
-				  <a class="nav-item nav-link" id="nav-any2-tab"  href="/bourse/spreadmakergraph" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
-				    </div>
+				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
+				    <a class="navigation nav-item nav-link" id="nav-sovereign-yields-tab" href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-sovereign-yields" aria-selected="false">Sovereign Yields</a>
+				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereigncurvesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
+				    <a class="navigation nav-item nav-link active" id="nav-any2-tab"  href="/bourse/sovereigncrossesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
+				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/spreadmakergraph" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
+				  </div>
 				</nav>
+           
+          </div>
+           <div id="overlayChart" class="overlayChart" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
+        <div class="container-fluid" id="container-wrapper">
+
+          <div class="row">
+			 <div class="bd-example bd-example-tabs col-12">
 				<div class="tab-content" id="nav-tabContent"  style="display:none">
 				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
 				...
@@ -164,11 +167,12 @@
 				</div>
 				<div class="tab-pane fade active show" id="nav-yields-crosses" role="tabpanel" aria-labelledby="nav-contact-tab">
 				<p class="mt-2" style=" margin-bottom: .5rem;">
-				  <a class="" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors</a>
+							  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
+				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
 					</p>
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse show" id="collapseFilter">
+					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
 				<div class="row">
 				<div class="col-5">
                   <form  id="dataformInput">
@@ -293,25 +297,16 @@
 						    </div>
 						  </div>
 						</div>
-						 <div id="overlayChart" class="overlayChart" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   </div>
+						
 				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div></div>
 						
 						</div>
-						 <div class="row">
-						 	<div class='col-6'>
-						 		<div id="SubChart1" class="chart-box"></div>
-						 	</div>
-						 	<div class='col-6'>
-						 		<div id="SubChart2" class="chart-box"></div>
-						 	</div>
-						 </div>
+						
 					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
 							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split"  style="display:none;">
 					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
 							  </div>
-					 	       <div class="mt-4 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+					 	       <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
 							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
@@ -365,8 +360,11 @@
         </div>
         <!---Container Fluid-->
       </div>
-    <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+     <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
+				<div class="marquee-sibling-date">
+					<p id="todayDate"></p>
+				</div>
 				<div class="marquee-sibling">
 					NEWS
 				</div>
@@ -374,19 +372,13 @@
 					<ul id="Newslist" class="marquee-content-items">
 					</ul>
 				</div>
+				<div class="marquee-sibling-viewAll">
+					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
+				</div>
 			</div>
 		</div>
-		
       <!-- Footer -->
-      <footer class="sticky-footer bg-dark">
-        <div class="my-auto">
-          <div class="copyright text-center my-auto">
-            <span>copyright &copy; <script></script> - developed by
-              <b><a href="" target="_blank"></a></b>
-            </span>
-          </div>
-        </div>
-      </footer>
+      
       <!-- Footer -->
     </div>
   </div>
@@ -984,7 +976,11 @@
 	  $('#nav-tabContent').show();
   });
   $(document).ready(function () {
-	  
+	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35 ,template: "primary" });
+	  $("#viewall").css("display","block");
+	  $("#viewall").click(function () {
+		//  popupWindow('/bourse/pageunderconstruction', 'Liberty Options - View All News', window, 1300, 600);
+	  });
 	  $("div.btn-group-vertical button.btn").click(function(){
 		    $("div.btn-group-vertical").find(".active").removeClass("active");
 		    $(this).addClass("active");
@@ -2597,7 +2593,7 @@
   	 }); 
      
 	  
-     
+
   });
 	function navigationGraph(condition){
 		debugger;
@@ -2879,7 +2875,7 @@
 		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
-  	  			          height: 400,
+  	  			          height: 450,
   	  			          type: 'line',
   	  			     animations: { enabled: false }
   	  			        },
@@ -3213,6 +3209,7 @@
 							          data:response[1].graphResponseDTOLst
 							        }])
 							        $('#overlayChart').hide();
+		      	    	          
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -3841,38 +3838,42 @@
 		    	               $("#dateTo-mainChart").val(todate);
 							}
 			
-
-			$(function (){
+			
+		  	$(function (){
 
 				   $.ajax({
-		 	        contentType: "application/json",
-		 	        url: "/admin/getnews",
-		 	        dataType: 'json',
-		 	        async:true,
-		 	        cache: false,
-		 	        timeout: 600000,
-		 	        success: function (data) {
+			        contentType: "application/json",
+			        url: "/admin/getnews",
+			        dataType: 'json',
+			        async:true,
+			        cache: false,
+			        timeout: 600000,
+			        success: function (data) {
 						  var ul = document.getElementById("Newslist");
 						 for (i=0; i<data.length;i++)
 						  {var li = document.createElement("li");
 						  li.appendChild(document.createTextNode(data[i].template.split("<img")[0]));
 						   $('#Newslist').append('<li>' + data[i].template+ '</li>');
-						  if(data[i].isBold=="true")
+						   if(data[i].isBold=="true")
+							   $('#Newslist').append('<li><span class="red">' + data[i].template+ '</span></li>');
+						   else
+							   $('#Newslist').append('<li>' + data[i].template+ '</li>');
+						  /*  if(data[i].isBold=="true")
 						  {
 						  $("#Newslist li:nth-child("+(i+1)+")").addClass("red");
-						 // li.setAttribute("class", "red");
-						  }
+						  } */
+						  
 						  }
 						 //createMarquee({});
-							var durationvalue = data.length*5000;
+							var durationvalue = data.length*10000;
 						    createMarquee({duration:durationvalue, padding:20});
 		},
-		 	        error: function (e) {
-		 	        	
+			        error: function (e) {
+			        	
 							  console.log("ERROR : ", e);
 
-		 	        }
-		 	    });
+			        }
+			    });
 				   
 			});
 		</script>

@@ -6274,7 +6274,7 @@
 								 c.text='';
 								} 
 								else if (o.length>20  && o.length<40)
-								{if (i.globals.xaxisLabelsCount%4!=0)
+								{if (i.globals.xaxisLabelsCount%6!=0)
 								 c.text='';
 								}
 								else if (o.length>=40  && o.length<60)

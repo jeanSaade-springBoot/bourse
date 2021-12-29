@@ -1030,7 +1030,7 @@
     border-radius: 0px;
 }
 .jqx-checkbox-check-checked-dark {
-    background: none;
+    background: #9bb4e0;
     font-family: jqx-icons;
     display: flex;
     justify-content: center;
@@ -1038,6 +1038,8 @@
 
 .jqx-checkbox-check-checked-dark:after {
     content: var(--jqx-icon-check);
+    color: #002f5d;
+    font-weight: bold;
 }
 .jqx-checkbox-check-indeterminate-dark {
     width:14px !important;
