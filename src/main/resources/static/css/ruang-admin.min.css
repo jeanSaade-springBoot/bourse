@@ -19,7 +19,9 @@ body {
 	height: 100%;
 	background: #000306!important;
 }
-
+div#container-wrapper {
+    padding-bottom: 3.8rem;
+}
 a:focus {
 	outline: 0
 }

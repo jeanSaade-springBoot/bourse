@@ -129,6 +129,7 @@ color:red;
   <script src="/js/jqwidgets/jqxinput.js"></script>
   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
+  <script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
   <script>
   var groupItem;
   var subgroupsource;
@@ -151,6 +152,7 @@ color:red;
           datafields: [
         	  { name: 'template', type: 'string' },
         	  { name: 'isBold', type: 'string' },  
+        	  { name: 'generationDateDate', type: 'date' },  
           ],
           async: true,
           url: '/admin/getnews'
@@ -180,14 +182,18 @@ color:red;
           columnsheight: 30,
           pagesize: 10,
           autoheight: true,
+          groupable: true,
+          groupsexpandedbydefault: true,
           columns: [
+           { text: 'Date', datafield: 'generationDateDate', width: '10%', editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
            { text: 'All News', datafield: 'template', width: '100%',   cellclassname: cellclassname,
         	   createfilterwidget: function (column, columnElement, widget) {
         	        widget.jqxInput({ width: '99%', height: 27, placeHolder: "Search" });
         	      }
            },
            { text: '', datafield: 'isBold', hidden: true  },
-           ]
+           ],
+      groups: ['generationDateDate']
          
       });
      
