@@ -135,6 +135,19 @@ public class AdminController {
 	public ResponseEntity<List<News>>  getNews() {
 		return new ResponseEntity<>( adminService.getNews(), HttpStatus.OK);
 	}
+	@GetMapping(value = "findnewsformateddate")
+	public ResponseEntity<List<News>>  findByIsPublishedFormatedDate() {
+		return new ResponseEntity<>( adminService.findByIsPublishedFormatedDate(), HttpStatus.OK);
+	}
+	@GetMapping(value = "getnewsbyimportance/{isbold}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<List<News>>  getNewsByImportance(@PathVariable String isbold) {
+		return new ResponseEntity<>( adminService.getNewsByImportance(isbold), HttpStatus.OK);
+	}
+	@GetMapping(value = "findnewsbygroupidandsubgroupid/{groupId}/{subGroupId}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<List<News>>  findNewsByGroupIdAndSubgroupId(@PathVariable String groupId
+    		,@PathVariable String subGroupId) {
+		return new ResponseEntity<>( adminService.findNewsByGroupIdAndSubgroupId(groupId,subGroupId), HttpStatus.OK);
+	}
 	@GetMapping(value = "getunpublishednews")
 	public ResponseEntity<List<News>>  getUnPublishedNews() {
 		return new ResponseEntity<>( adminService.getUnPublishedNews(), HttpStatus.OK);

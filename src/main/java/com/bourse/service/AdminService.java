@@ -204,7 +204,16 @@ public class AdminService
 	public List<News> getNews(){
 		String isPublished = "1";
 		return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
+		}
+	public List<News> getNewsByImportance(String isBold){
+		return newsRepository.findByImportance(isBold);
 		
+	}
+	public List<News> findNewsByGroupIdAndSubgroupId(String groupId, String subGroupId) {
+		return newsRepository.findNewsByGroupIdAndSubgroupId(groupId,subGroupId);
+	}
+	public List<News> findByIsPublishedFormatedDate(){
+		return newsRepository.findByIsPublishedFormatedDate();
 	}
 	public List<News> getUnPublishedNews(){
 		return newsRepository.findAll(Sort.by("generationDateDate").descending());
@@ -240,6 +249,8 @@ public class AdminService
 		
 		  return newsRepository.save(news);
 	}
+
+	
 
 	
 }

@@ -15,6 +15,12 @@
   <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
   <link href="/css/jqx.base.css" rel="stylesheet">
   <style>
+  ::-webkit-scrollbar-track {
+    background-color: #CACACA;
+}
+  .jqx-rc-all.jqx-fill-state-normal {
+    top: 170px!important;
+}
   .form-control {
     height: calc(1em + .75rem + 7px);
     }
@@ -66,6 +72,27 @@ input[type="textarea"].jqx-widget-content-dark{
 .red{
 color:red;
 }
+.t-style{
+font-size: .7rem;
+    font-weight: bold;
+    font-family: 'Arial';
+}
+.jqx-grid-cell-left-align {
+  font-size: .7rem;
+}
+.jqx-widget-header {
+    color: white;
+    font-size: 1.5rem;
+    font-weight: bold;
+    font-family: 'Arial';
+}
+.jqx-grid-cell-alt {
+    background: #eee8c7;
+}
+.jqx-widget .jqx-grid-cell, .jqx-widget .jqx-grid-column-header, .jqx-widget .jqx-grid-group-cell {
+    border-color: #aaa;
+    border: 0px;
+}
   </style>
 </head>
 
@@ -80,29 +107,47 @@ color:red;
 
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
-       <div class="col-12 row mt-2">
-				 	 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
-						<label style="margin-right: 1.5rem;">Select Asset Class:</label>
+        
+        <div class="col-12 row mt-2">
+                   
+                    <div class="btn-group col-7 mb-2 pl-0 justify-content-center" >
+	                    <div id='IsImportant' class="t-style" style='color:red; text-align: left!important; margin-top: auto;'>
+	                                    Show only important news</div>
+                    </div>
+                   <div class="col-5 mb-2 p-0" role="group" aria-label="Second group">
+                      <div class="col-12 row p-0 m-0">
+						 <div class="col-4 p-0">
+						 <label class="t-style">Select Asset Class:&nbsp</label>
 							<div id='FamilyDropDown' style='border-radius: 0.2rem;'>
 							</div>
-						<label style="margin-right: 1.5rem;    margin-left: 1.5rem;">Select Group:</label>
+							</div>
+							<div class="col-5 pr-0">
+						<label class="t-style">&nbspSelect Group:&nbsp</label>
 							<div id='groupDropDown'  style='border-radius: 0.2rem;'>
 							</div>
-							<label style="margin-right: 1.5rem;    margin-left: 1.5rem;">Select Sub Goup:</label>
+							</div>
+							<div class="col-3">
+						<label class="t-style">&nbspSelect Sub Group:&nbsp</label>
 							<div id='subGroupDropDown'  style='border-radius: 0.2rem;'>
 							</div>
-			       </div> 
+							</div>
+						</div> 
+			      </div> 
 				 </div>
           <div class="row mb-3">
 	      <div class="col-12 row mt-2">
-	        <div class="col-8">
+	        <div class="col-7">
 		      <div id="grid"></div>
+	        </div>
+	          <div class="col-5 p-0">
+		      <div id="grid_filtered"></div>
 	        </div>
 	       </div>   
       </div>
     </div>
   </div>
-
+    </div>
+  </div>
   <!-- Scroll to top -->
 
   <script src="/vendor/jquery/jquery.min.js"></script>
@@ -145,7 +190,73 @@ color:red;
 	    document.getElementById("TemplateText").value += targ.textContent || targ.innerText;
 	}
   $(document).ready(function () {
-	
+		 
+		var familysource =
+	      {
+	          datatype: "json",
+	          datafields: [
+	              { name: 'id' },
+	              { name: 'description' }
+	          ],
+	          url: '/admin/getassetclass',
+	          async: true
+	      };
+		   var dataAdapter = new $.jqx.dataAdapter(familysource);
+		 	$("#FamilyDropDown").jqxDropDownList({ source: dataAdapter , displayMember: "description", valueMember: "id", theme: 'dark' , width: '100%', height: 30});
+		 	$("#FamilyDropDown").on('select', function (event) {
+	            if (event.args) {
+	               familyItem = event.args.item;
+	               groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
+	               var dataAdapter = new $.jqx.dataAdapter(groupsource);
+	               $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+	       		
+	            }
+	        });
+		   groupsource =
+		      {
+		          datatype: "json",
+		          datafields: [
+		              { name: 'id' },
+		              { name: 'description' }
+		          ],
+		          url: '',
+		          async: true
+		      };
+			   var dataAdapter = new $.jqx.dataAdapter(groupsource);
+			 
+			$("#groupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true,  displayMember: "description", valueMember: "id",theme: 'dark' , width: '100%', height: 30});
+			$("#groupDropDown").on('select', function (event) {
+	              if (event.args) {
+	                 groupItem = event.args.item;
+	                 subgroupsource.url='/admin/getsubgroupsbygroup/'+groupItem.value;
+	                 var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
+	                 $("#subGroupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+	         		
+	              }
+	          });
+			 subgroupsource =
+		      {
+		          datatype: "json",
+		          datafields: [
+		              { name: 'idSubGroup' },
+		              { name: 'description' }
+		          ],
+		          url: '',
+		          async: true
+		      };
+			   var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
+			$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: '100%', height: 30});
+			$("#subGroupDropDown").on('select', function (event) {
+				
+	            if (event.args) {
+	               subGroupDropDown = event.args.item;
+	               filteredgridsource.url='/admin/findnewsbygroupidandsubgroupid/'+groupItem.value+'/'+subGroupDropDown.value;
+	               var filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
+	               $('#grid_filtered').jqxGrid({source:filteredDataAdapter,  groups: ['generationDateDate']});
+	       		
+	            }
+	        });
+	  $("#IsImportant").jqxCheckBox({ width: 210, height: 25});  
       gridsource =
       {
           datatype: "json",
@@ -155,10 +266,25 @@ color:red;
         	  { name: 'generationDateDate', type: 'date' },  
           ],
           async: true,
-          url: '/admin/getnews'
+          url: '/admin/findnewsformateddate'
       };
-     
+      filteredgridsource =
+      {
+          datatype: "json",
+          datafields: [
+        	  { name: 'template', type: 'string' },
+        	  { name: 'isBold', type: 'string' },  
+        	  { name: 'generationDateDate', type: 'date' },  
+          ],
+          async: true,
+          url: ''
+      };
       var dataAdapter = new $.jqx.dataAdapter(gridsource, {
+          downloadComplete: function (data, status, xhr) { },
+          loadComplete: function (data) { },
+          loadError: function (xhr, status, error) { }
+      });
+      var filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource, {
           downloadComplete: function (data, status, xhr) { },
           loadComplete: function (data) { },
           loadError: function (xhr, status, error) { }
@@ -169,23 +295,39 @@ color:red;
               return "red";
           }
       }
+      $('#IsImportant').on('change', function (event) {
+    	  $('#grid').jqxGrid('showloadelement');
+          debugger;
+    	  var checked = event.args.checked;
+    	  if (checked)
+    	    gridsource.url='/admin/getnewsbyimportance/'+checked;
+    	  else
+    	    gridsource.url='/admin/findnewsformateddate';
+    	  
+          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+          $('#grid').jqxGrid({source:dataAdapter,
+        	  groups: ['generationDateDate']}
+          );
+          
+      });
       // initialize jqxGrid
       $("#grid").jqxGrid(
       {
           width: '100%',
           source: dataAdapter,                
           columnsresize: true,
-          pageable: true,
-          showfilterrow: true,
-          filterable: true,
+         // rowsheight: 40,
+          pageable: false,
           selectionmode: 'none',
-          columnsheight: 30,
-          pagesize: 10,
+          pagesize: 20,
           autoheight: true,
+          showgroupmenuitems: false,
+          altrows: true,
+          showgroupsheader: false,
           groupable: true,
           groupsexpandedbydefault: true,
           columns: [
-           { text: 'Date', datafield: 'generationDateDate', width: '10%', editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
+           { text: 'Date', datafield: 'generationDateDate', hidden: true,  editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
            { text: 'All News', datafield: 'template', width: '100%',   cellclassname: cellclassname,
         	   createfilterwidget: function (column, columnElement, widget) {
         	        widget.jqxInput({ width: '99%', height: 27, placeHolder: "Search" });
@@ -196,6 +338,35 @@ color:red;
       groups: ['generationDateDate']
          
       });
+      
+      $("#grid_filtered").jqxGrid(
+    	      {
+    	          width: '100%',
+    	          source: filteredDataAdapter,                
+    	          columnsresize: true,
+    	          pageable: false,
+    	          selectionmode: 'none',
+    	          columnsheight: 30,
+    	          pagesize: 10,
+    	          autoheight: true,
+    	          altrows: true,
+    	          autorowheight: true,
+    	          showgroupsheader: false,
+    	          groupable: true,
+    	          groupsexpandedbydefault: true,
+    	          columns: [
+    	           { text: 'Date', datafield: 'generationDateDate', hidden: true,  editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
+    	           { text: 'All News', datafield: 'template', width: '100%',   cellclassname: cellclassname,
+    	        	   createfilterwidget: function (column, columnElement, widget) {
+    	        	        widget.jqxInput({ width: '99%', height: 27, placeHolder: "Search" });
+    	        	      }
+    	           },
+    	           { text: '', datafield: 'isBold', hidden: true  },
+    	           ],
+    	      groups: ['generationDateDate']
+    	         
+    	      });
+    	      
      
   });
 
