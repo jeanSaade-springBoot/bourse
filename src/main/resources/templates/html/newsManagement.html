@@ -329,6 +329,9 @@
 	    
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 	  $("#viewall").css("display","block");
+	  $("#viewall").click(function () {
+			popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
+		  });
 	  $("#saveNews").jqxButton({ theme: 'dark',height:30,width:74  });
       $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
 	  $("#jqxNotification").jqxNotification({  height: 30, width: "100%",appendContainer: "#notifcationContainer",  opacity: 0.9,
