@@ -703,7 +703,7 @@ h5.jqyc-header {
 				  var ul = document.getElementById("Newslist");
 				 for (i=0; i<data.length;i++)
 				  {var li = document.createElement("li");
-				  li.appendChild(document.createTextNode(data[i].template.split("<img")[0]));
+				  // li.appendChild(document.createTextNode(data[i].template.split("<img")[0]));
 				   $('#Newslist').append('<li>' + data[i].template+ '</li>');
 				  if(data[i].isBold=="true")
 				  {
@@ -711,7 +711,7 @@ h5.jqyc-header {
 				 // li.setAttribute("class", "red");
 				  }
 				  }
-				 //createMarquee({});
+				 $('#Newslist').append('<li></li>');
 					var durationvalue = data.length*5000;
 				    createMarquee({duration:durationvalue, padding:20});
 },
