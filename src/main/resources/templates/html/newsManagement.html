@@ -148,6 +148,9 @@
 	.jqx-notification-close-button-ltr {
 	     right: 0;
 	}
+	.redColor{
+	   color: red !important;
+	}
   </style>
 </head>
 
@@ -374,7 +377,7 @@
       var cellclassname = function (row, column, value, data) {
           var isBold = $('#grid').jqxGrid('getcellvalue', row, "isBold");
           if (isBold=="true") {
-              return "red";
+              return "redColor";
           }
       }
       // initialize jqxGrid
