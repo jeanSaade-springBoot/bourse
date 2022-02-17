@@ -1,5 +1,6 @@
 package com.bourse.domain;
 
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -16,12 +17,13 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Entity
-@Table(name = "Groups")
-public class Groups {
+@Table(name = "NewsOrder")
+public class NewsOrder {
 	@Id
     @GeneratedValue
     private Long id;
-    private String description ;
-	private String assetId;
-	private String groupCode ;
+    private String robotCode ;
+	private String orderId;
+	private String state;
 }
+

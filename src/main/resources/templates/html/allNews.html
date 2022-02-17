@@ -110,9 +110,15 @@ font-size: .7rem;
         
         <div class="col-12 row mt-2">
                    
-                    <div class="btn-group col-7 mb-2 pl-0 justify-content-center" >
-	                    <div id='IsImportant' class="t-style" style='color:red; text-align: left!important; margin-top: auto;'>
+                    <div class="btn-group col-7 mb-2 pl-0 justify-content-end" >
+	                    <div id='IsImportant' class="t-style" style='color: white;
+	                  												 margin-top:0.5rem;
+																	 position: absolute;
+																   	 line-height: 25px;
+																	 z-index: 100;'>
 	                                    Show only important news</div>
+	                                      <div id="grid"></div>
+	                                    
                     </div>
                    <div class="col-5 mb-2 p-0" role="group" aria-label="Second group">
                       <div class="col-12 row p-0 m-0">
@@ -131,16 +137,17 @@ font-size: .7rem;
 							<div id='subGroupDropDown'  style='border-radius: 0.2rem;'>
 							</div>
 							</div>
-						</div> 
+						</div>
+						 <div id="grid_filtered" style="margin-top:.5rem"></div> 
 			      </div> 
 				 </div>
           <div class="row mb-3">
 	      <div class="col-12 row mt-2">
 	        <div class="col-7">
-		      <div id="grid"></div>
+		    
 	        </div>
 	          <div class="col-5 p-0">
-		      <div id="grid_filtered"></div>
+		     
 	        </div>
 	       </div>   
       </div>
@@ -206,9 +213,15 @@ font-size: .7rem;
 		 	$("#FamilyDropDown").on('select', function (event) {
 	            if (event.args) {
 	               familyItem = event.args.item;
-	               groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
-	               var dataAdapter = new $.jqx.dataAdapter(groupsource);
-	               $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+	              // groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
+	              debugger;
+	              $.get('/admin/getgroupsbyfamily/'+familyItem.value,  // url
+	            	      function (data, textStatus, jqXHR) {  // success callback
+	            	  data.push({id: 6, description: 'ALL', assetId: '1', groupCode: ''});
+	            	  groupsource.localdata=data;
+		               var dataAdapter = new $.jqx.dataAdapter(groupsource);
+		               $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+	            	    });
 	       		
 	            }
 	        });
@@ -228,9 +241,19 @@ font-size: .7rem;
 			$("#groupDropDown").on('select', function (event) {
 	              if (event.args) {
 	                 groupItem = event.args.item;
-	                 subgroupsource.url='/admin/getsubgroupsbygroup/'+groupItem.value;
-	                 var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
-	                 $("#subGroupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+	                 if (groupItem.value==6)
+	                	{
+	                	 subgroupsource.url='/admin/getsubgroupsbygroup/1';
+	                     var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
+	                     $("#subGroupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+	                	}
+	                 else
+	                 {
+	                	 subgroupsource.url='/admin/getsubgroupsbygroup/'+groupItem.value;
+	                     var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
+	                     $("#subGroupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+	                 }
+	              
 	         		
 	              }
 	          });
@@ -250,13 +273,20 @@ font-size: .7rem;
 				
 	            if (event.args) {
 	               subGroupDropDown = event.args.item;
-	               filteredgridsource.url='/admin/findnewsbygroupidandsubgroupid/'+groupItem.value+'/'+subGroupDropDown.value;
+	               if (groupItem.value==6)
+	            	{
+	            	   filteredgridsource.url='/admin/findallnewsbygroupidandsubgroupid/'+subGroupDropDown.label;
+		               var filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
+		               $('#grid_filtered').jqxGrid({source:filteredDataAdapter,  groups: ['generationDateDate']});
+	            	} 
+	               else
+	               { filteredgridsource.url='/admin/findnewsbygroupidandsubgroupid/'+groupItem.value+'/'+subGroupDropDown.value;
 	               var filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
 	               $('#grid_filtered').jqxGrid({source:filteredDataAdapter,  groups: ['generationDateDate']});
-	       		
+	               }
 	            }
 	        });
-	  $("#IsImportant").jqxCheckBox({ width: 210, height: 25});  
+	  $("#IsImportant").jqxCheckBox({ width: 200, height: 25});  
       gridsource =
       {
           datatype: "json",
@@ -315,13 +345,11 @@ font-size: .7rem;
       {
           width: '100%',
           source: dataAdapter,                
-          columnsresize: true,
-         // rowsheight: 40,
-          pageable: false,
-          selectionmode: 'none',
-          pagesize: 20,
-          autoheight: true,
-          showgroupmenuitems: false,
+         columnsresize: false,
+         pageable: false,
+         selectionmode: 'none',
+         pagesize: 20,
+         autoheight: true,
           altrows: true,
           showgroupsheader: false,
           groupable: true,
@@ -330,7 +358,7 @@ font-size: .7rem;
            { text: 'Date', datafield: 'generationDateDate', hidden: true,  editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
            { text: 'All News', datafield: 'template', width: '100%',   cellclassname: cellclassname,
         	   createfilterwidget: function (column, columnElement, widget) {
-        	        widget.jqxInput({ width: '99%', height: 27, placeHolder: "Search" });
+        	        widget.jqxInput({ width: '100%', height: 27, placeHolder: "Search" });
         	      }
            },
            { text: '', datafield: 'isBold', hidden: true  },

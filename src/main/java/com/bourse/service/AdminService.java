@@ -17,16 +17,18 @@ import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.News;
+import com.bourse.domain.NewsOrder;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
 import com.bourse.dto.ColumnConfigurationDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
-
+import com.bourse.dto.NewsOrderDTO;
 import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.repositories.CalendarDatesRepository;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
 import com.bourse.repositories.RobotsConfigRepository;
+import com.bourse.repositories.NewsOrderRepository;
 import com.bourse.repositories.NewsRepository;
 import com.bourse.repositories.SubGroupRepository;
 
@@ -44,6 +46,8 @@ public class AdminService
 	ColumnConfigurationRepository columnConfigurationRepository;
 	@Autowired
 	RobotsConfigRepository robotsConfigRepository;
+	@Autowired
+	NewsOrderRepository newsOrderRepository;
 	@Autowired
 	CalendarDatesRepository calendarDatesRepository;
 	@Autowired
@@ -108,7 +112,7 @@ public class AdminService
 		 return columnConfigurationRepository.findNativeByGroupIdAndSubgroupId(groupId, subgroupId);
 	}
 	
-
+   
 	public void UpdateRobotsByConfigId(List<RobotsConfigDTO> robotsConfigDTOLst) {
 		// TODO Auto-generated method stub
 		long id ;
@@ -188,7 +192,7 @@ public class AdminService
 	}
 	public List<RobotsConfiguration> getRobotsByColumnConfigId(String configId) {
 		// TODO Auto-generated method stub
-		  return robotsConfigRepository.getRobotsByConfigId(configId);
+		  return robotsConfigRepository.getColumnRobotsByConfigId(configId);
 	}
 	
 	public List<CalendarDates> getCalendar()
@@ -212,12 +216,15 @@ public class AdminService
 	public List<News> findNewsByGroupIdAndSubgroupId(String groupId, String subGroupId) {
 		return newsRepository.findNewsByGroupIdAndSubgroupId(groupId,subGroupId);
 	}
+	public List<News>  findAllNewsByGroupIdAndSubgroupId(String subGroupIdDescription) {
+		return newsRepository.findAllNewsByGroupIdAndSubgroupId(subGroupIdDescription.substring(0, 2));
+	}
 	public List<News> findByIsPublishedFormatedDate(){
 		return newsRepository.findByIsPublishedFormatedDate();
 	}
 	public List<News> getUnPublishedNews(){
-		return newsRepository.findAll(Sort.by("generationDateDate").descending());
-		
+		//return newsRepository.findAll(Sort.by("generationDateDate").descending());
+		return newsRepository.findAllOrder();
 	}
 	public void deleteNews(long id)
 	{
@@ -249,8 +256,17 @@ public class AdminService
 		
 		  return newsRepository.save(news);
 	}
+	 public List<NewsOrder> getActiveNewsOrder(){
+	    	
+	    	return newsOrderRepository.getActiveNewsOrder();
+	    }
 
-	
+	public void UpdateNewsOrder(NewsOrderDTO newsOrderDTOLst) {
+		newsOrderRepository.deleteByListOfId(newsOrderDTOLst.getListid());
+		newsOrderRepository.saveAll(newsOrderDTOLst.getNewsOrderList());
+	}
+
+
 
 	
 }

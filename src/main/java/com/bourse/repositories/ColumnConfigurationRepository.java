@@ -51,6 +51,7 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
 			"    show_in_database as showInDatabase,\r\n" + 
 			"    show_in_news_graph as showInNewsGraph,\r\n" + 
 			"    y_axis_format as yAxisFormat,\r\n" + 
+			"    column_code as columnCode,\r\n" + 
 			" ( select  n.isactive\r\n"
 			+ "           from bourse.robots_configuration n \r\n"
 			+ "       where n.config_id = cc.id\r\n"

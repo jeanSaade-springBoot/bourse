@@ -136,6 +136,11 @@ public class BourseController {
     {
 		return new ModelAndView("html/settings");
     }
+	@RequestMapping( value =  "robotnewsreorder")
+    public ModelAndView robotNewsReorderPage(ModelMap model)
+    {
+		return new ModelAndView("html/robotNewsReorder");
+    }
 	@RequestMapping( value =  "holidaycalendar")
     public ModelAndView holidayCalendarPage(ModelMap model)
     {

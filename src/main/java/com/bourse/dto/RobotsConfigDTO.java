@@ -25,4 +25,5 @@ public class RobotsConfigDTO {
 	private String subgroupId;
 	private String configId;
 	private boolean isactive;
+	private String robotCode;
 }

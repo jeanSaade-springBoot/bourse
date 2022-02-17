@@ -28,4 +28,5 @@ public interface ColumnConfigurationDTO {
 	public String getJumpActive();
 	public String getLowHighActive();
 	public String getTrendActive();
+	public String getColumnCode();
 }

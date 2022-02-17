@@ -36,4 +36,5 @@ public class RobotsConfiguration {
 	private String subgroupId;
 	private String configId;
 	private boolean isactive;
+	private String robotCode;
 }

@@ -25,11 +25,11 @@
     margin: 15% 40%;
     position: absolute;
 }
-   .jqx-widget-header:nth-child(28) {
+   .jqx-widget-header:nth-child(30) {
   background-color: #6495ed;
   color:white;
 } 
-  .jqx-widget-header:nth-child(29) {
+  .jqx-widget-header:nth-child(31) {
   background-color: #ffa500;
     color:white;
 } 
@@ -38,6 +38,12 @@
     -ms-flex: 0 0 8.33333%;
     flex: 0 0 8.33333%;
     max-width: 10.33333%;
+}
+.robotcode_style{
+    font-size: 0.7rem;
+    margin: 0 9%;
+    font-weight: bold;
+    COLOR: #719df0;
 }
   </style>
 </head>
@@ -97,9 +103,9 @@
 				  
 				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
 				    <a class="navigation nav-item nav-link active" id="nav-column-master-tab" data-toggle="tab"  href="#nav-column-master" role="tab" aria-controls="nav-any2" aria-selected="false">Column Master</a>
-				    <a class="navigation nav-item nav-link" id="nav-yields-curves-tab"  href="#" aria-controls="nav-any2" aria-selected="false">Holiday Calendar</a>
-				    <a class="navigation nav-item nav-link" id="nav-column-master-tab" data-toggle="tab"  href="#nav-any2" role="tab" aria-controls="nav-any2" aria-selected="false">Help Descriptions</a>
-				  <a class="navigation nav-item nav-link" id="nav-any2-tab" data-toggle="tab"  href="#nav-any2" role="tab" aria-controls="nav-any2" aria-selected="false">Robot Help</a>
+				    <!-- <a class="navigation nav-item nav-link" id="nav-yields-curves-tab"  href="#" aria-controls="nav-any2" aria-selected="false">Holiday Calendar</a>
+				    <a class="navigation nav-item nav-link" id="nav-column-master-tab" data-toggle="tab"  href="#nav-any2" role="tab" aria-controls="nav-any2" aria-selected="false">Help Descriptions</a> -->
+				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/robotnewsreorder" role="tab" aria-controls="nav-any2" aria-selected="false">Robot News reorder</a>
 				    </div>
 				</nav>
            
@@ -163,6 +169,12 @@
 								  	<div class="form-group row">
 									<label class="col-sm-8 col-form-label white"><b>Unconditional keys</b></label>
 								  </div>
+								<!--   	<div class="form-group row">
+									<label for="ColumnName" class="col-sm-4 col-form-label">Column Code</label>
+									<div class="col-sm-8">
+									  <input type="text" class="form-control" id="columnCode" disabled>
+									 </div>
+								  </div> -->
 								  	<div class="form-group row">
 									<label for="ColumnName" class="col-sm-4 col-form-label">Column Name</label>
 									<div class="col-sm-8">
@@ -336,7 +348,7 @@
 				    <div class="col-12 row  mt-4">
 				            <div class="col-12">
 							   <form id="robotform">
-							   <div style="overflow-y: scroll;overflow-x: hidden; height:390px;">
+							   <div style="overflow-y: scroll;overflow-x: hidden; height:520px;">
 							     <div class="form-group row">
 							      <div class="col-2">
 							 <!--        <div class="form-group" style='margin: 35% 0;'>
@@ -344,8 +356,9 @@
 							        <div id='HighLowdropDown'>
                                        </div>
                                        </div> -->
-								  <div id='highLow_jqxCheckBox' style='margin: 35% 0; padding-left: .75rem;text-align: left!important;'>
+								  <div id='highLow_jqxCheckBox' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
                                    HIGH LOW ROBOT</div> 
+                                   <h7 id="robotCodeHighLow" class="robotcode_style"></h7>
                                    </div>
                                     <div class="col-4">
                                     <div class="form-group">
@@ -384,9 +397,10 @@
 							        <div id='HighLowdropDown'>
                                        </div>
                                        </div> -->
-								  <div id='jump_jqxCheckRobot' style='margin: 35% 0; padding-left: .75rem;text-align: left!important;'>
+								  <div id='jump_jqxCheckRobot' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
                                    JUMP ROBOT</div> 
-                                   </div>
+                                  <h7 id="robotCodeJump" class="robotcode_style"></h7>
+                                  </div>
                                     <div class="col-4">
                                     <div class="form-group">
 									    <label for="exampleFormControlTextarea1">Template</label>
@@ -437,8 +451,10 @@
 							        <div id='HighLowdropDown'>
                                        </div>
                                        </div> -->
-								  <div id='trend_jqxCheckRobot' style='margin: 35% 0; padding-left: .75rem;text-align: left!important;'>
+								  <div id='trend_jqxCheckRobot' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
                                    TREND ROBOT</div> 
+                                 <h7 id="robotCodeTrend" class="robotcode_style"></h7>
+                                
                                    </div>
                                     <div class="col-4">
                                     <div class="form-group">
@@ -903,7 +919,9 @@
               { name: 'exchangeLink', type: 'string' }, 
               { name: 'dataMinIncrement', type: 'string' }, 
               { name: 'tickValue', type: 'string' },
-              { name: 'currency', type: 'string' }
+              { name: 'currency', type: 'string' },
+              { name: 'robotCode', type: 'string' },
+              { name: 'columnCode', type: 'string' }
           ],
           async: true,
           url: ''
@@ -915,7 +933,7 @@
           loadError: function (xhr, status, error) { }
       });
         $("#popupWindow").jqxWindow({
-            width: '100%',    height: '75%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
+            width: '100%',    height: '97%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
         });
        $('#popupWindow').on('close', function (event) {
     	   $('#robotform').trigger("reset");
@@ -958,6 +976,8 @@
        	        	 {
        	        	 if (data[i].robotName=="HighLowRobot")
        	        		 {
+       	        		 debugger;
+       	        		 $("#robotCodeHighLow").text(data[i].robotCode);
        	        		 $("#graphTitle").val(data[i].displayDescription);
                	         $("#highLow_TemplateRobot").val(data[i].template);
                          $("#highLow_lastData").val(data[i].lastData);
@@ -968,6 +988,7 @@
        	        	 
 	       	          if (data[i].robotName=="JumpRobot")
 	         		 {
+	       	          $("#robotCodeJump").text(data[i].robotCode);
 	         		  $("#jump_TemplateRobot").val(data[i].template);
 	                  $("#jump_isTick").val(data[i].jumpValueTick==1?true:false);
 	                  $("#jump_isPercentage").val(data[i].jumpPercentage==1?true:false);
@@ -978,6 +999,7 @@
 	       	          
 	       	       if (data[i].robotName=="TrendRobot")
 	         		 {
+	       	    	  $("#robotCodeTrend").text(data[i].robotCode);
 	         		  $("#trend_TemplateRobot").val(data[i].template);
 	                  $("#trend_Description").val(data[i].description);
 	                  $("#trend_Trigger").val(data[i].threshholdTrigger);
@@ -1156,7 +1178,7 @@
 	    	        }
 	    	    });
         });
-      // initialize jqxGrid
+      debugger;
       $("#grid").jqxGrid(
       {
           width: '100%',
@@ -1175,9 +1197,10 @@
                   // open the popup window when the user clicks a button.
                   editrow = row;
                   var offset = $("#grid").offset();
-                  $("#popupWindow").jqxWindow({ position: { x: window.top.outerHeight / 2 + window.top.screenY - (550 / 2), y:  window.top.outerWidth / 2 + window.top.screenX - ( 1400 / 2) } });
+                  $("#popupWindow").jqxWindow({ position: { x: window.top.outerHeight / 2 + window.top.screenY - (550 / 2), y:  window.top.outerWidth / 2 + window.top.screenX - ( 1500 / 2) } });
                   // get the clicked row's data and initialize the input fields.
                   var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
+                  //$("#columnCode").val(dataRecord.columnCode);
                   $("#configId").val(dataRecord.id);
                   $("#DisplayName").val(dataRecord.description);
                   $("#graphTitle").val(dataRecord.displayDescription);
@@ -1225,6 +1248,8 @@
             { text: '', columngroup: 'TimeAndFormat', datafield: 'dataMinIncrement', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'Currency', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'description', hidden: true  }, 
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'robotCode', hidden: true  }, 
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'columnCode', hidden: true  }, 
             { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'columnName', width: '12.84%',color:'#3F0' },
             { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', width: '12.84%' },
             { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yAxisFormat', width: '12.84%'},

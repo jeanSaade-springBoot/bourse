@@ -46,4 +46,5 @@ public class ColumnConfiguration {
 	private boolean showInNewsGraph;
 	@JsonProperty("yAxisFormat")
 	private String yAxisFormat;
+	private String columnCode;
 }

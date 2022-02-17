@@ -24,4 +24,5 @@ public class SubGroup {
 	 private String idSubGroup;
     private String description ;
 	private String groupId ;
+    private String subgroupCode ;
 }

@@ -19,10 +19,12 @@ import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.Groups;
 import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.News;
+import com.bourse.domain.NewsOrder;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
 import com.bourse.dto.ColumnConfigurationDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
+import com.bourse.dto.NewsOrderDTO;
 import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.service.AdminService;
 import com.bourse.service.AssetClassService;
@@ -130,6 +132,16 @@ public class AdminController {
 	public ResponseEntity<List<CalendarDates>>  getCalendarDates() {
 		return new ResponseEntity<>( adminService.getVacations(), HttpStatus.OK);
 	}
+	@GetMapping(value = "getnewsorder")
+	public ResponseEntity<List<NewsOrder>>  getActiveNewsOrder() {
+		return new ResponseEntity<>( adminService.getActiveNewsOrder(), HttpStatus.OK);
+	}
+	
+	@PostMapping(value = "updatenewsorder")
+	public boolean UpdateNewsOrder(@RequestBody NewsOrderDTO newsOrderDTOLst) {
+         adminService.UpdateNewsOrder(newsOrderDTOLst);
+		return true;
+	}
 	
 	@GetMapping(value = "getnews")
 	public ResponseEntity<List<News>>  getNews() {
@@ -147,6 +159,10 @@ public class AdminController {
 	public ResponseEntity<List<News>>  findNewsByGroupIdAndSubgroupId(@PathVariable String groupId
     		,@PathVariable String subGroupId) {
 		return new ResponseEntity<>( adminService.findNewsByGroupIdAndSubgroupId(groupId,subGroupId), HttpStatus.OK);
+	}
+	@GetMapping(value = "findallnewsbygroupidandsubgroupid/{subGroupIdDescription}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<List<News>>  findAllNewsByGroupIdAndSubgroupId(@PathVariable String subGroupIdDescription) {
+		return new ResponseEntity<>( adminService.findAllNewsByGroupIdAndSubgroupId(subGroupIdDescription), HttpStatus.OK);
 	}
 	@GetMapping(value = "getunpublishednews")
 	public ResponseEntity<List<News>>  getUnPublishedNews() {
