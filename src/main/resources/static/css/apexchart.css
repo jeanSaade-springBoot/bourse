@@ -98,3 +98,8 @@ text {
     margin: 40% 47%;
     z-index: 200;
 }
+.apexcharts-tooltip {
+    background: rgb(255 255 255 / 65%)!important;
+    color:black;
+  }
+  

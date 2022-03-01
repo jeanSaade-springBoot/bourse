@@ -268,23 +268,23 @@
 				   	     <div class="col-1">
 						 <div class="buttons">
 						    <div class="btn-group-vertical" role="group" aria-label="Vertical example">
-						      <button type="button" class="btn btn-info" id="12px" style="font-size: small;" onclick="updateGraphFont('12px')">A</button>
-						      <button type="button" class="btn btn-info" id="14px" style="font-size: medium;" onclick="updateGraphFont('14px')">A</button>
-						      <button type="button" class="btn btn-info" id="16px" style="font-size: large;" onclick="updateGraphFont('16px')">A</button>
+						      <button type="button" class="btn btn-info" id="12px" style="font-size: small;" onclick="graphfont('12px')">A</button>
+						      <button type="button" class="btn btn-info" id="14px" style="font-size: medium;" onclick="graphfont('14px')">A</button>
+						      <button type="button" class="btn btn-info" id="16px" style="font-size: large;" onclick="graphfont('16px')">A</button>
 						    </div>
 						  </div>
 						</div>
 							 <div id="overlayChart" class="overlayChart" style="display:none">
 		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
 		   </div>
-				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div></div>
+				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style="min-height: 365px;min-width: 1100px;  max-width:1100px"></div></div>
 						
 						</div>
 					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
 							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split"  style="display:none;">
 					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
 							  </div>
-					 	      <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+					 	      <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1078px; max-width: 1078px;">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
 							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
@@ -380,7 +380,7 @@
   var checkedItem   = 0;
   var checkedItemid = [];
   var monthDate     = new Date(); 
-  monthDate.setMonth(monthDate.getMonth() - 1);
+  monthDate.setMonth(monthDate.getMonth() - 3);
   monthDate.setHours(0,0,0,0);
   var startdate     = new Date();
   var date          = new Date();
@@ -401,6 +401,8 @@
   var startDateF5;
   var startDateF6;
   var yaxisformat;
+  var minvalue=0;
+  var maxvalue=0;
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
 	  "#jqxCheckBoxUSA-5",
@@ -1043,7 +1045,7 @@
       
      $("#show").click(function () {
     	  monthDate=new Date(); 
-    	  monthDate.setMonth(monthDate.getMonth() - 1);
+    	  monthDate.setMonth(monthDate.getMonth() - 3);
     	  monthDate.setHours(0,0,0,0);
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
@@ -1060,7 +1062,7 @@
       });
      $("#all30yr").click(function () {
     	  var monthDate=new Date(); 
-    	  monthDate.setMonth(monthDate.getMonth() - 1);
+    	  monthDate.setMonth(monthDate.getMonth() - 3);
     	  monthDate.setHours(0,0,0,0);
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
@@ -1073,7 +1075,7 @@
     	      });
      $("#all10yr").click(function () {
     	  var monthDate=new Date(); 
-    	  monthDate.setMonth(monthDate.getMonth() - 1);
+    	  monthDate.setMonth(monthDate.getMonth() - 3);
     	  monthDate.setHours(0,0,0,0);
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
@@ -1086,7 +1088,7 @@
 	      });
      $("#all5yr").click(function () {
     	  var monthDate=new Date(); 
-    	  monthDate.setMonth(monthDate.getMonth() - 1);
+    	  monthDate.setMonth(monthDate.getMonth() - 3);
     	  monthDate.setHours(0,0,0,0);
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
@@ -1099,7 +1101,7 @@
 	      });
      $("#all2yr").click(function () {
     	  var monthDate=new Date(); 
-    	  monthDate.setMonth(monthDate.getMonth() - 1);
+    	  monthDate.setMonth(monthDate.getMonth() - 3);
     	  monthDate.setHours(0,0,0,0);
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
@@ -1143,6 +1145,7 @@
 	   	         }
    	  }
    	  }); 
+     
        function checkifmovchecked()
        { if($("#M-100d").val()&&checkedItem==1)
 		 {
@@ -2590,7 +2593,7 @@
 		   	  	        right: 60,
 		   	  	    },  
    	  			},
-   	         colors: ["#F0AB2E", "#0097FE","#1c3b66","#7e95d9","#4768b3","#a3a3a5"],
+   	         colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
    	  			        fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -2665,16 +2668,10 @@
 				    	    }
 				    	  },
 			         yaxis: [{
-			        	labels: {
+			           labels: {
 			        		 style: {
 					        	  fontSize: fontsize,
-					        	 },
-			        	    formatter: function (value) {
-			        	    	if (isdecimal)
-				        	    	   return value.toFixed(yaxisformat);
-				        	    	else 
-				        	         return value.toFixed(yaxisformat) + "%";
-			        	    }
+					        	 }
 			        	  },
 			        	  axisBorder: {
 			        		  width: 3,
@@ -2749,20 +2746,14 @@
 				    	    }
 				    	  },
 			         yaxis: [{
-			        	labels: {
+			           labels: {
 			        		 style: {
 					        	  fontSize: fontsize,
-					        	 },
-			        	    formatter: function (value) {
-			        	    	if (isdecimal)
-				        	    	   return value.toFixed(yaxisformat);
-				        	    	else 
-				        	         return value.toFixed(yaxisformat) + "%";
-			        	    }
+					        	 }
 			        	  },
 			        
 			        }],
-   	  			     	        colors: ["#F0AB2E", "#0097FE","#1c3b66","#7e95d9","#4768b3","#a3a3a5"],
+   	  			     	        colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
    	  			      fill: {
    	    	            opacity: [1,1],
    	    	          },
@@ -2883,31 +2874,8 @@
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	        	 
 
-		      	    	        	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
-			      	    	           { 
-			      	    	        	 if (response[0].config.yAxisFormat.includes("%"))
-				      	    	           { isdecimal= false;
-				      	    	        	   if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
-				      	    	        		 yaxisformat=response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
-					      	    	            	else
-					      	    	            		yaxisformat=0;
-				      	    	           }
-			      	    	           else 
-			      	    	            	{
-			      	    	        	    if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
-			      	    	            	yaxisformat=response[0].config.yAxisFormat.split(".")[1].length
-			      	    	            	else 
-			      	    	            		yaxisformat=0
-			      	    	            		
-			      	    	            	 isdecimal= true;	
-			      	    	            	}
-			      	    	           }
-			      	    	           else
-			      	    	        	 yaxisformat=3;
-		      	    	        	
-		      	  				startDateF1=response[0].config.startDate;
+		      	    	      	startDateF1=response[0].config.startDate;
 	      	    	        	startDateF2=response[1].config.startDate;
 	      	    	        	startDateF3=response[2].config.startDate;
 	      	    	        	startDateF4=response[3].config.startDate;
@@ -2928,202 +2896,248 @@
 	      	    	            startDateF6 = new Date(startDateF6.split("-")[1]+"-"+startDateF6.split("-")[0]+"-"+startDateF6.split("-")[2]);
 		      	    	    
 	      	    	        	var dates=[];
-	      	    	      /*   	if(!fromNavigation)
-	      	    	        	{
-	      	    	        		if (startDateF1!=null)
-			      	    	        		{ 
-			      	    	        			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-			      	    	        			dates.push(DF1);
-			      	    	        		}
-			      	    	        		if (startDateF2!=null)
-			      	    	        		{ 
-			      	    	        			DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
-			      	    	        			dates.push(DF2);
-			      	    	        		}
-			      	    	        		if (startDateF3!=null)
-			      	    	        		{ 
-			      	    	        			DF3 = new Date(startDateF3.split("-")[1]+"-"+startDateF3.split("-")[0]+"-"+startDateF3.split("-")[2]);
-			      	    	        			dates.push(DF3);
-			      	    	        		}
-			      	    	        		if (startDateF4!=null)
-			      	    	        		{ 
-			      	    	        			DF4 = new Date(startDateF4.split("-")[1]+"-"+startDateF4.split("-")[0]+"-"+startDateF4.split("-")[2]);
-			      	    	        			dates.push(DF4);
-			      	    	        		}
-			      	    	        		if (startDateF5!=null)
-			      	    	        		{ 
-			      	    	        			DF5 = new Date(startDateF5.split("-")[1]+"-"+startDateF5.split("-")[0]+"-"+startDateF5.split("-")[2]);
-			      	    	        			dates.push(DF5);
-			      	    	        		}
-			      	    	        		if (startDateF6!=null)
-			      	    	        		{ 
-			      	    	        			DF6 = new Date(startDateF6.split("-")[1]+"-"+startDateF6.split("-")[0]+"-"+startDateF6.split("-")[2]);
-			      	    	        			dates.push(DF6);
-			      	    	        		}
-			      	    	        		 newstartdate=getMinDate(dates);
-											 
-			      	    	        	if(startDateF1==null && startDateF2==null && startDateF3==null && startDateF4==null && startDateF5==null && startDateF6==null)
-			      	    	        	{	
-											defaultmonthDate  = new Date(); 
-					      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
-					      	    	    		defaultmonthDate.setHours(0,0,0,0);
-					      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
-						      	    	    	{
-					      	    	    			startdate = defaultmonthDate;
-					      	    	    			monthDate = defaultmonthDate;
-						      	    	    		drawGraph();
-						      	    	    		return;
-						      	    	    	}
-			      	    	        	}
-			      	    	        	else 
-					      	    	    	if(newstartdate.getTime()!=startdate.getTime())
-					      	    	    	{
-					      	    	    		startdate=newstartdate;
-					      	    	    		if(monthDate.getTime()!=startdate.getTime())
-							      	    	    	{
-							      	    	    		monthDate = startdate;
-							      	    	    		drawGraph();
-							      	    	    		return;
-							      	    	    	}
-					      	    	    		}
-		      	    	        } */
+	      	    	   
 	      	    	        	title= "All "+Items.split("all")[1]+ " Benchmark YIELD";
-		      	    	        
-		      	    	  	var getFormatResult0 = getFormat(response[0].config.dataFormat);
-		      	  		    var getFormatResult1 = getFormat(response[1].config.dataFormat);
-		      	  		    var getFormatResult2 = getFormat(response[2].config.dataFormat);
-		      	        	var getFormatResult3 = getFormat(response[3].config.dataFormat);
-		    	  			var getFormatResult4 = getFormat(response[4].config.dataFormat);
-		    				var getFormatResult5 = getFormat(response[5].config.dataFormat); 
-		    		
-	      	    	        	chart.updateOptions({
-	      	    	        		 title: {
-	      	    				          text: title
-	      	    				        },
+		      	    	   
+		      	    	        	var getyaxisformatFormatResult = getFormat(response[0].config.yAxisFormat);
+		      	    	        	yaxisformat=getyaxisformatFormatResult[0];
+		      	    	        	isdecimal=getyaxisformatFormatResult[1];
+		      	    	        	
+		      	    	        	
+		      	    	      	var getFormatResult0 = getFormat(response[0].config.dataFormat);
+			      	  		    var getFormatResult1 = getFormat(response[1].config.dataFormat);
+			      	  		    var getFormatResult2 = getFormat(response[2].config.dataFormat);
+			      	        	var getFormatResult3 = getFormat(response[3].config.dataFormat);
+			    	  			var getFormatResult4 = getFormat(response[4].config.dataFormat);
+			    				var getFormatResult5 = getFormat(response[5].config.dataFormat); 
+			    		
+			    				 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
+		      	    	           { 
+		      	    	        	 if (response[0].config.yAxisFormat.includes("%"))
+			      	    	           { isdecimal= false;
+			      	    	        	   if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+			      	    	        		 yaxisformat=response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+				      	    	            	else
+				      	    	            		yaxisformat=0;
+			      	    	           }
+		      	    	           else 
+		      	    	            	{
+		      	    	        	    if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+		      	    	            	yaxisformat=response[0].config.yAxisFormat.split(".")[1].length
+		      	    	            	else 
+		      	    	            		yaxisformat=0
+		      	    	            		
+		      	    	            	 isdecimal= true;	
+		      	    	            	}
+		      	    	           }
+		      	    	           else
+		      	    	        	 yaxisformat=3;
+			    				 
+		      	    	        	chart.updateOptions({
+		      	    	        		 title: {
+		      	    				          text: title
+		      	    				        },
 
-				      				      fill: {
-				      			            type:'solid',
-				      			            opacity: [1,1],
-				      			          },
-				      			        xaxis: {
-								        	labels: {
-								        		  rotate:0,
-								                  rotateAlways: true,
-								                  minHeight:0,
-								        		 style: {
-										        	  fontSize: fontsize,
-										        	 }
-								        	  },
-								          type: 'datetime'
-								        },
-								        grid: {
-						   	  				   show:true,
-								        },
-								    	tooltip: {
-								    		 x: {
-								    	          show: true,
-								    	          format: 'dd MMM yy',
-								    	      },
-								  		  y: {
-								  			formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-								  			
-								  				if(seriesIndex == 0)
-								  				{
-								  				if (getFormatResult0[1])
-								  				  return  value.toFixed(getFormatResult0[0]);
-								  				else 
-								  				  return  value.toFixed(getFormatResult0[0]) + "%";
-								  				}else 
-								  					 if(seriesIndex == 1){
-								  					  if (getFormatResult1[1])
-								  						  return  value.toFixed(getFormatResult1[0]);
-								  						else 
-								  							 return  value.toFixed(getFormatResult1[0]) + "%";
-								  					 }else 
-								  						 if(seriesIndex == 2){
-								  						  if (getFormatResult2[1])
-								  							  return  value.toFixed(getFormatResult2[0]);
-								  							else 
-								  								 return  value.toFixed(getFormatResult2[0]) + "%";
-								  							}else
-								  								if(seriesIndex == 3)
-												  				{
-												  				if (getFormatResult3[1])
-												  				  return  value.toFixed(getFormatResult3[0]);
-												  				else 
-												  				  return  value.toFixed(getFormatResult3[0]) + "%";
-												  				}else 
-												  					 if(seriesIndex == 4){
-												  					  if (getFormatResult4[1])
-												  						  return  value.toFixed(getFormatResult4[0]);
-												  						else 
-												  							 return  value.toFixed(getFormatResult4[0]) + "%";
-												  					 }else 
-												  						 if(seriesIndex == 5){
-												  						  if (getFormatResult5[1])
-												  							  return  value.toFixed(getFormatResult5[0]);
-												  							else 
-												  								 return  value.toFixed(getFormatResult5[0]) + "%";
-												  							}
-								  			},
-						    				title: {
-						    		              formatter:  function (seriesName) {
-						    							 for (var i=0; i<response.length;i++)
-						    							 { 
-						    						  if (seriesName == response[i].config.displayDescription)
-						    		            	  return response[i].config.columnName;
-						    							 }
-									        	    }
-						    		          },
-								  		  },
-								  		}
-	      							});
-	      	    	          var dbchartType1=response[0].config.chartType;
-	      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
-							  
-	      	    	          var dbchartType2=response[1].config.chartType;
-	      	    	           chartType2 = getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
-							   
-	      	    	          var dbchartType3=response[2].config.chartType;
-                              chartType3 = getChartType(dbchartType3)[0]!='area'?getChartType(dbchartType3)[0]:'line';
-	      	    	         
-	      	    	           var dbchartType4=response[3].config.chartType;
-                              chartType4 = getChartType(dbchartType4)[0]!='area'?getChartType(dbchartType4)[0]:'line';
-							  
-							   var dbchartType5=response[4].config.chartType;
-	      	    	           chartType5 = getChartType(dbchartType5)[0]!='area'?getChartType(dbchartType5)[0]:'line';
-							  
-	      	    	          var dbchartType6=response[5].config.chartType;
-	      	    	           chartType6 = getChartType(dbchartType6)[0]!='area'?getChartType(dbchartType6)[0]:'line';
-	      	    	           
-		    			        chart.updateSeries([{
-		    			        	 name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
-									          type:  Daily?chartType1:'column',
-									          data: response[0].graphResponseDTOLst
-									        },{
-								        	   name:  response[1].config!=null?(response[1].config.displayDescription==null?'':response[1].config.displayDescription):'',
-									           type:  Daily?chartType2:'column',
-									           data: response[1].graphResponseDTOLst
-									          },
-									          { name: response[2].config!=null?(response[2].config.displayDescription==null?'':response[2].config.displayDescription):'',
-										          type:  Daily?chartType3:'column',
-										          data: response[2].graphResponseDTOLst
+					      				      fill: {
+					      			            type:'solid',
+					      			            opacity: [1,1],
+					      			          },
+					      			        xaxis: {
+									        	labels: {
+									        		  rotate:0,
+									                  rotateAlways: true,
+									                  minHeight:0,
+									        		 style: {
+											        	  fontSize: fontsize,
+											        	 }
+									        	  },
+									          type: 'datetime'
+									        },
+									        grid: {
+							   	  				   show:true,
+									        },
+					
+		      							});
+		      	    	        	
+		      	    			
+		      	    		   chartDbFontSize = response[0].config.chartSize;
+		      	    	       	   
+		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
+		      	    	       	if (typeof activeFontSize == 'undefined')
+		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
+		      	    	          	fontsize=chartDbFontSize;
+		      	    	       	  } else 
+		      	    	       		fontsize = activeFontSize;
+		      	    	  
+		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	       
+		      	    			
+		      	    	          var dbchartType1=response[0].config.chartType;
+		      	    	           chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
+								  
+		      	    	          var dbchartType2=response[1].config.chartType;
+		      	    	           chartType2 = getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
+								   
+		      	    	          var dbchartType3=response[2].config.chartType;
+	                              chartType3 = getChartType(dbchartType3)[0]!='area'?getChartType(dbchartType3)[0]:'line';
+		      	    	         
+		      	    	           var dbchartType4=response[3].config.chartType;
+	                              chartType4 = getChartType(dbchartType4)[0]!='area'?getChartType(dbchartType4)[0]:'line';
+								  
+								   var dbchartType5=response[4].config.chartType;
+		      	    	           chartType5 = getChartType(dbchartType5)[0]!='area'?getChartType(dbchartType5)[0]:'line';
+								  
+		      	    	          var dbchartType6=response[5].config.chartType;
+		      	    	           chartType6 = getChartType(dbchartType6)[0]!='area'?getChartType(dbchartType6)[0]:'line';
+		      	    	           
+		      	    	     	   min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        })),
+			      	    	        max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        }));
+									min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        })),
+			      	    	        max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        }));
+	    	    	                min3 = Math.min.apply(null, response[2].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        })),
+			      	    	        max3 = Math.max.apply(null, response[2].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        }));
+									min4 = Math.min.apply(null, response[3].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        })),
+			      	    	        max4 = Math.max.apply(null, response[3].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        }));
+									min5 = Math.min.apply(null, response[4].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        })),
+			      	    	        max5 = Math.max.apply(null, response[4].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        }));
+									min6 = Math.min.apply(null, response[5].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        })),
+			      	    	        max6 = Math.max.apply(null, response[5].graphResponseDTOLst.map(function(item) {
+			      	    	          return item.y;
+			      	    	        }));
+									min=Math.min(min1,min2,min3,min4,min5,min6);
+									max=Math.max(max1,max2,max3,max4,max5,max6);
+									 minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+				      	    	    	chart.updateOptions({
+				      	    	    	  extra:{
+												isDecimal: isdecimal,
+												yAxisFormat:yaxisformat,
+											},
+				      	    	    		 markers: {
+					      	    	    		   colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+					      	    	    		   strokeColors:["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"]
+					      	    	    		 },
+				     				       yaxis: {
+				     				    	  labels: {
+				     				    		 maxWidth: 50, 
+				 				        		 style: {
+				 						        	  fontSize: fontsize,
+				 						        	 }
+				 				        	  },
+				     				          tickAmount: 6,
+				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+				     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+				     				    			  axisBorder: {
+				     					                  width: 3,
+				     					                  show: true,
+				     					                  color: '#ffffff',
+				     					                  offsetX: 0,
+				     					                  offsetY: 0
+				     					              },
+				     				    	  },
+			    						  tooltip: {
+			    							  x: {
+			    						          show: false,
+			    						      },
+			    							  y: {
+			    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+			    									  if(seriesIndex == 0)
+										  				{
+										  				if (getFormatResult0[1])
+										  				  return  value.toFixed(getFormatResult0[0]);
+										  				else 
+										  				  return  value.toFixed(getFormatResult0[0]) + "%";
+										  				}else 
+										  					 if(seriesIndex == 1){
+										  					  if (getFormatResult1[1])
+										  						  return  value.toFixed(getFormatResult1[0]);
+										  						else 
+										  							 return  value.toFixed(getFormatResult1[0]) + "%";
+										  					 }else 
+										  						 if(seriesIndex == 2){
+										  						  if (getFormatResult2[1])
+										  							  return  value.toFixed(getFormatResult2[0]);
+										  							else 
+										  								 return  value.toFixed(getFormatResult2[0]) + "%";
+										  							}else
+										  								if(seriesIndex == 3)
+														  				{
+														  				if (getFormatResult3[1])
+														  				  return  value.toFixed(getFormatResult3[0]);
+														  				else 
+														  				  return  value.toFixed(getFormatResult3[0]) + "%";
+														  				}else 
+														  					 if(seriesIndex == 4){
+														  					  if (getFormatResult4[1])
+														  						  return  value.toFixed(getFormatResult4[0]);
+														  						else 
+														  							 return  value.toFixed(getFormatResult4[0]) + "%";
+														  					 }else 
+														  						 if(seriesIndex == 5){
+														  						  if (getFormatResult5[1])
+														  							  return  value.toFixed(getFormatResult5[0]);
+														  							else 
+														  								 return  value.toFixed(getFormatResult5[0]) + "%";
+														  							}
+			    								    },
+			    								    title: {
+			    							              formatter: (seriesName) => '',
+			    							          },
+			    					      },
+			    						}
+			      	    	    		});
+											
+				      	  	        chart.updateSeries([{
+			    			        	 name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
+										          type:  Daily?chartType1:'column',
+										          data: response[0].graphResponseDTOLst
 										        },{
-									        	   name: response[3].config!=null?(response[3].config.displayDescription==null?'':response[3].config.displayDescription):'',
-										           type:  Daily?chartType4:'column',
-										           data: response[3].graphResponseDTOLst
+									        	   name:  response[1].config!=null?(response[1].config.displayDescription==null?'':response[1].config.displayDescription):'',
+										           type:  Daily?chartType2:'column',
+										           data: response[1].graphResponseDTOLst
 										          },
-										          {
-											          name: response[4].config!=null?(response[4].config.displayDescription==null?'':response[4].config.displayDescription):'',
-											          type:  Daily?chartType5:'column',
-											          data: response[4].graphResponseDTOLst
+										          { name: response[2].config!=null?(response[2].config.displayDescription==null?'':response[2].config.displayDescription):'',
+											          type:  Daily?chartType3:'column',
+											          data: response[2].graphResponseDTOLst
 											        },{
-										        	   name: response[5].config!=null?(response[5].config.displayDescription==null?'':response[5].config.displayDescription):'',
-											           type:  Daily?chartType6:'column',
-											           data: response[5].graphResponseDTOLst
-											          }]);
-		    			     
-		    			        $('#overlayChart').hide();
+										        	   name: response[3].config!=null?(response[3].config.displayDescription==null?'':response[3].config.displayDescription):'',
+											           type:  Daily?chartType4:'column',
+											           data: response[3].graphResponseDTOLst
+											          },
+											          {
+												          name: response[4].config!=null?(response[4].config.displayDescription==null?'':response[4].config.displayDescription):'',
+												          type:  Daily?chartType5:'column',
+												          data: response[4].graphResponseDTOLst
+												        },{
+											        	   name: response[5].config!=null?(response[5].config.displayDescription==null?'':response[5].config.displayDescription):'',
+												           type:  Daily?chartType6:'column',
+												           data: response[5].graphResponseDTOLst
+												          }]);
+			    			     
+			    			        $('#overlayChart').hide();
+		      	    	        	
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -3193,45 +3207,7 @@
 			      	    	        if (startDateF2!=null)
 			      	    	        	 startDateF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
 		      	    	        	var dates=[];
-		      	    	      	/* if(!fromNavigation)
-	      	    	        	{
-		      	    	        		if (startDateF1!=null)
-		      	    	        			{ 
-		      	    	        				DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-		      	    	        				dates.push(DF1);
-		      	    	        			}
-		      	    	        			if (startDateF2!=null)
-		      	    	        			{ 
-		      	    	        				DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
-		      	    	        				dates.push(DF2);
-		      	    	        			}
-		      	    	        			newstartdate=getMinDate(dates);
-
-		      	    	        		if(startDateF1==null && startDateF2==null)
-		      	    	        		{	
-		      	    	        			defaultmonthDate  = new Date(); 
-		      	    	        			defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
-		      	    	        			defaultmonthDate.setHours(0,0,0,0);
-		      	    	        			if(monthDate.getTime()!=defaultmonthDate.getTime())
-		      	    	        			{
-		      	    	        				startdate = defaultmonthDate;
-		      	    	        				monthDate = defaultmonthDate;
-		      	    	        				drawGraph();
-		      	    	        				return;
-		      	    	        			}
-		      	    	        		}
-		      	    	        		else 
-		      	    	        		if(newstartdate.getTime()!=startdate.getTime())
-		      	    	        	    {
-		      	    	        		    startdate=newstartdate;
-		      	    	        			if(monthDate.getTime()!=startdate.getTime())
-		      	    	        			{
-		      	    	        				monthDate = startdate;
-		      	    	        				drawGraph();
-		      	    	        				return;
-		      	    	        			}
-		      	    	        		}
-	      	    	        	} */
+		      	    	  
 		      	    	      		T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
 		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
 		      	    	        	title= T1 +" vs "+ T2;
@@ -3263,9 +3239,10 @@
 		      	    	          chartDbFontSize = response[0].config.chartSize;
 		      	    	       	   
 		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-		      	    	       	  if (typeof activeFontSize == 'undefined')
-		      	    	           $('#'+chartDbFontSize).addClass("active");
-		      	    	       	  else 
+		      	    	       	if (typeof activeFontSize == 'undefined')
+		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
+		      	    	          	fontsize=chartDbFontSize;
+		      	    	       	  }else 
 		      	    	       		fontsize = activeFontSize;
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
@@ -3276,8 +3253,78 @@
 									  
 			      	    	          var dbchartType2=response[1].config.chartType;
 			      	    	           chartType2 = getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
-									
+			      	    	           debugger;
+			      	    	 		   min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+										min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
 		      	    	         
+										min=Math.min(min1,min2);
+										max=Math.max(max1,max2);
+										 minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+					      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+					      	    	    	chart.updateOptions({
+					      	    	    	  extra:{
+													isDecimal: isdecimal,
+													yAxisFormat:yaxisformat,
+												},
+					      	    	    		 markers: {
+					      	    	    		   colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+					      	    	    		   strokeColors:["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"]
+					      	    	    		 },
+					     				       yaxis: {
+
+						     				    	  labels: {
+						     				    		 maxWidth: 50, 
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+					     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: '#ffffff',
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    	  },
+												  tooltip: {
+													  x: {
+					    						          show: false,
+					    						      },
+					    							  y: {
+					    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+					    									  if(seriesIndex == 0)
+												  				{
+												  				if (getFormatResult0[1])
+												  				  return  value.toFixed(getFormatResult0[0]);
+												  				else 
+												  				  return  value.toFixed(getFormatResult0[0]) + "%";
+												  				}else 
+												  					 if(seriesIndex == 1){
+												  					  if (getFormatResult1[1])
+												  						  return  value.toFixed(getFormatResult1[0]);
+												  						else 
+												  							 return  value.toFixed(getFormatResult1[0]) + "%";
+												  					 }
+					    								    },
+					    								    title: {
+					    							              formatter: (seriesName) => '',
+					    							          },
+					    					      },
+					    						}
+				      	    	    		});
 		      	    	          chart.updateSeries([{
 							         name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
 							          type: Daily?chartType1:'column',
@@ -3362,51 +3409,7 @@
 		      	    	    if (startDateF3!=null)
 	      	    	            startDateF3 = new Date(startDateF3.split("-")[1]+"-"+startDateF3.split("-")[0]+"-"+startDateF3.split("-")[2]);
 		      	    	   
-      	    	  /*     	if(!fromNavigation)
-  	    	        	{
-							if (startDateF1!=null)
-      	    	        		{ 
-      	    	        			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-      	    	        			dates.push(DF1);
-      	    	        		}
-      	    	        		if (startDateF2!=null)
-      	    	        		{ 
-      	    	        			DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
-      	    	        			dates.push(DF2);
-      	    	        		}
-      	    	        		if (startDateF3!=null)
-      	    	        		{ 
-      	    	        			DF3 = new Date(startDateF3.split("-")[1]+"-"+startDateF3.split("-")[0]+"-"+startDateF3.split("-")[2]);
-      	    	        			dates.push(DF3);
-      	    	        		}
-      	    	        		
-      	    	        		newstartdate=getMinDate(dates);
-      	    	        		
-      	    	        	if(startDateF1==null && startDateF2==null && startDateF3==null)
-      	    	        	{	
-									defaultmonthDate  = new Date(); 
-		      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
-		      	    	    		defaultmonthDate.setHours(0,0,0,0);
-		      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
-			      	    	    	{
-		      	    	    			startdate = defaultmonthDate;
-		      	    	    			monthDate = defaultmonthDate;
-			      	    	    		drawGraph();
-			      	    	    		return;
-			      	    	    	}
-      	    	        	}
-      	    	        	else 
-		      	    	    	if(newstartdate.getTime()!=startdate.getTime())
-		      	    	    	{
-		      	    	    		startdate=newstartdate;
-		      	    	    		if(monthDate.getTime()!=startdate.getTime())
-				      	    	    	{
-				      	    	    		monthDate = startdate;
-				      	    	    		drawGraph();
-				      	    	    		return;
-				      	    	    	}
-		      	    	    		}
-  	    	        	} */
+      	    	
 	      	    				T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
 	      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
 								T3=response[2].config.displayDescription==null?itemValue[checkedItemValues[2]].title:response[2].config.displayDescription;
@@ -3440,9 +3443,10 @@
 	      	    	        	 chartDbFontSize = response[0].config.chartSize;
 		      	    	       	   
 		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-		      	    	       	  if (typeof activeFontSize == 'undefined')
-		      	    	           $('#'+chartDbFontSize).addClass("active");
-		      	    	       	  else 
+		      	    	       	if (typeof activeFontSize == 'undefined')
+		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
+		      	    	          	fontsize=chartDbFontSize;
+		      	    	       	  } else 
 		      	    	       		fontsize = activeFontSize;
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
@@ -3458,7 +3462,88 @@
 	      	    	          var dbchartType3=response[2].config.chartType;
                             chartType3 = getChartType(dbchartType3)[0]!='area'?getChartType(dbchartType3)[0]:'line';
 	      	    	    
-	      	    	         
+                			   min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        })),
+		      	    	        max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        }));
+								min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        })),
+		      	    	        max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        }));
+    	    	                min3 = Math.min.apply(null, response[2].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        })),
+		      	    	        max3 = Math.max.apply(null, response[2].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        }));
+								min=Math.min(min1,min2,min3);
+								max=Math.max(max1,max2,max3);
+								 minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+			      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+			      	    	    	chart.updateOptions({
+			      	    	    	  extra:{
+											isDecimal: isdecimal,
+											yAxisFormat:yaxisformat,
+										},
+			      	    	    		 markers: {
+				      	    	    		   colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+				      	    	    		   strokeColors:["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"]
+				      	    	    		 },
+			     				       yaxis: {
+				     				    	  labels: {
+				     				    		    maxWidth: 50, 
+					 				        		 style: {
+					 						        	  fontSize: fontsize,
+					 						        	 }
+					 				        	  },
+			     				          tickAmount: 6,
+			     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+			     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+			     				    			  axisBorder: {
+			     					                  width: 3,
+			     					                  show: true,
+			     					                  color: '#ffffff',
+			     					                  offsetX: 0,
+			     					                  offsetY: 0
+			     					              },
+			     				    	  },
+			    						  tooltip: {
+			    							  x: {
+			    						          show: false,
+			    						      },
+			    							  y: {
+			    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+			    										if(seriesIndex == 0)
+										  				{
+										  				if (getFormatResult0[1])
+										  				  return  value.toFixed(getFormatResult0[0]);
+										  				else 
+										  				  return  value.toFixed(getFormatResult0[0]) + "%";
+										  				}else 
+										  					 if(seriesIndex == 1){
+										  					  if (getFormatResult1[1])
+										  						  return  value.toFixed(getFormatResult1[0]);
+										  						else 
+										  							 return  value.toFixed(getFormatResult1[0]) + "%";
+										  					 }else 
+										  						 if(seriesIndex == 2){
+										  						  if (getFormatResult2[1])
+										  							  return  value.toFixed(getFormatResult2[0]);
+										  							else 
+										  								 return  value.toFixed(getFormatResult2[0]) + "%";
+										  							}
+			    								    },
+			    								    title: {
+			    							              formatter: (seriesName) => '',
+			    							          },
+			    					      },
+			    						}
+		      	    	    		});
+									
 	      	    	          chart.updateSeries([{
 						         name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
 						          type: Daily?chartType1:'column',
@@ -3556,58 +3641,7 @@
 			      	    	    if (startDateF4!=null)
 		      	    	            startDateF4 = new Date(startDateF4.split("-")[1]+"-"+startDateF4.split("-")[0]+"-"+startDateF4.split("-")[2]);
 			      	    	   
-	      	    /* 	      	if(!fromNavigation)
-      	    	        	{
-								if (startDateF1!=null)
-	      	    	        		{ 
-	      	    	        			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-	      	    	        			dates.push(DF1);
-	      	    	        		}
-	      	    	        		if (startDateF2!=null)
-	      	    	        		{ 
-	      	    	        			DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
-	      	    	        			dates.push(DF2);
-	      	    	        		}
-	      	    	        		if (startDateF3!=null)
-	      	    	        		{ 
-	      	    	        			DF3 = new Date(startDateF3.split("-")[1]+"-"+startDateF3.split("-")[0]+"-"+startDateF3.split("-")[2]);
-	      	    	        			dates.push(DF3);
-	      	    	        		}
-	      	    	        		if (startDateF4!=null)
-	      	    	        		{ 
-	      	    	        			DF4 = new Date(startDateF4.split("-")[1]+"-"+startDateF4.split("-")[0]+"-"+startDateF4.split("-")[2]);
-	      	    	        			dates.push(DF4);
-	      	    	        		}
-	      	    	        		
-	      	    	        		 newstartdate=getMinDate(dates);
-	      	    	        		
-									
-	      	    	        	if(startDateF1==null && startDateF2==null && startDateF3==null && startDateF4==null)
-	      	    	        	{	
-								
-			      	    	    		defaultmonthDate  = new Date(); 
-			      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
-			      	    	    		defaultmonthDate.setHours(0,0,0,0);
-			      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
-				      	    	    	{
-			      	    	    			startdate = defaultmonthDate;
-				      	    	    		monthDate = defaultmonthDate;
-				      	    	    		drawGraph();
-				      	    	    		return;
-				      	    	    	}
-	      	    	        	}
-	      	    	        	else 
-			      	    	    	if(newstartdate.getTime()!=startdate.getTime())
-			      	    	    	{
-			      	    	    		startdate=newstartdate;
-			      	    	    		if(monthDate.getTime()!=startdate.getTime())
-					      	    	    	{
-					      	    	    		monthDate = startdate;
-					      	    	    		drawGraph();
-					      	    	    		return;
-					      	    	    	}
-			      	    	    		}
-      	    	        	} */
+	      	  
 								T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
 	      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
 								T3=response[2].config.displayDescription==null?itemValue[checkedItemValues[2]].title:response[2].config.displayDescription;
@@ -3627,9 +3661,10 @@
 	      	    		   chartDbFontSize = response[0].config.chartSize;
 	      	    	       	   
 	      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-	      	    	       	  if (typeof activeFontSize == 'undefined')
-	      	    	           $('#'+chartDbFontSize).addClass("active");
-	      	    	       	  else 
+	      	    	       	if (typeof activeFontSize == 'undefined')
+	      	    	       	  { $('#'+chartDbFontSize).addClass("active");
+	      	    	          	fontsize=chartDbFontSize;
+	      	    	       	  }else 
 	      	    	       		fontsize = activeFontSize;
 	      	    	  
 	      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
@@ -3647,6 +3682,102 @@
 	      	    	           var dbchartType4=response[3].config.chartType;
                              chartType4 = getChartType(dbchartType4)[0]!='area'?getChartType(dbchartType4)[0]:'line';
                           
+             				   min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        })),
+		      	    	        max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        }));
+								min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        })),
+		      	    	        max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        }));
+    	    	                min3 = Math.min.apply(null, response[2].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        })),
+		      	    	        max3 = Math.max.apply(null, response[2].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        }));
+								min4 = Math.min.apply(null, response[3].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        })),
+		      	    	        max4 = Math.max.apply(null, response[3].graphResponseDTOLst.map(function(item) {
+		      	    	          return item.y;
+		      	    	        }));
+								min=Math.min(min1,min2,min3,min4);
+								max=Math.max(max1,max2,max3,max4);
+								 minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+			      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+			      	    	    	chart.updateOptions({
+			      	    	    	  extra:{
+											isDecimal: isdecimal,
+											yAxisFormat:yaxisformat,
+										},
+			      	    	    		 markers: {
+				      	    	    		   colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+				      	    	    		   strokeColors:["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"]
+				      	    	    		 },
+			     				       yaxis: {
+				     				    	  labels: {
+				     				    		     maxWidth: 50, 
+					 				        		 style: {
+					 						        	  fontSize: fontsize,
+					 						        	 }
+					 				        	  },
+			     				          tickAmount: 6,
+			     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+			     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+			     				    			  axisBorder: {
+			     					                  width: 3,
+			     					                  show: true,
+			     					                  color: '#ffffff',
+			     					                  offsetX: 0,
+			     					                  offsetY: 0
+			     					              },
+			     				    	  },
+			    						  tooltip: {
+			    							  x: {
+			    						          show: false,
+			    						      },
+			    							  y: {
+			    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+			    									  if(seriesIndex == 0)
+										  				{
+										  				if (getFormatResult0[1])
+										  				  return  value.toFixed(getFormatResult0[0]);
+										  				else 
+										  				  return  value.toFixed(getFormatResult0[0]) + "%";
+										  				}else 
+										  					 if(seriesIndex == 1){
+										  					  if (getFormatResult1[1])
+										  						  return  value.toFixed(getFormatResult1[0]);
+										  						else 
+										  							 return  value.toFixed(getFormatResult1[0]) + "%";
+										  					 }else 
+										  						 if(seriesIndex == 2){
+										  						  if (getFormatResult2[1])
+										  							  return  value.toFixed(getFormatResult2[0]);
+										  							else 
+										  								 return  value.toFixed(getFormatResult2[0]) + "%";
+										  							}else
+										  								if(seriesIndex == 3)
+														  				{
+														  				if (getFormatResult3[1])
+														  				  return  value.toFixed(getFormatResult3[0]);
+														  				else 
+														  				  return  value.toFixed(getFormatResult3[0]) + "%";
+														  				}
+			    								    },
+			    								    title: {
+			    							              formatter: (seriesName) => '',
+			    							          },
+			    					      },
+			    						}
+		      	    	    		});
+									
+                             
 	      	    	          chart.updateSeries([{
 						         name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
 						          type:  Daily?chartType1:'column',
@@ -3726,42 +3857,7 @@
 				      	    	    if (startDateF1!=null)
 				      	    	        startDateF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
 				      	    	    
-				      	    	
-				      	    /* 		if(!fromNavigation)
-		      	    	        	{ 
-				      	    	      if (startDateF1!=null)
-			      	    	    		{ 
-			      	    	    			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-			      	    	    			newstartdate=DF1;
-			      	    	    		}
-			      	    	    		
-				      	    	      var dates=[];
-				      	    	    	if(startDateF1==null)
-				      	    	    	{	
-				      	    	    		defaultmonthDate  = new Date(); 
-				      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
-				      	    	    		defaultmonthDate.setHours(0,0,0,0);
-				      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
-					      	    	    	{
-				      	    	    			startdate = defaultmonthDate;
-				      	    	    			monthDate = defaultmonthDate;
-					      	    	    		drawGraph();
-					      	    	    		return;
-					      	    	    	}
-				      	    	    	}
-				      	    	    	else 
-				      	    	    	if(newstartdate.getTime()!=startdate.getTime())
-				      	    	    	{
-				      	    	    		startdate=newstartdate;
-				      	    	    		if(monthDate.getTime()!=startdate.getTime())
-						      	    	    	{
-						      	    	    		monthDate = startdate;
-						      	    	    		drawGraph();
-						      	    	    		return;
-						      	    	    	}
-				      	    	    		}
-		      	    	        	} */
-		      	    	        	
+				      	    debugger;
 				      	    	    	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
 				      	    	    	title= T1;
 				      	    	    	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
@@ -3785,7 +3881,8 @@
 				      	    	           }
 				      	    	           else
 				      	    	        	 yaxisformat=3;
-			      	    	    		var dbchartType1=response[0].config.chartType;
+				      	    	    	 
+				      	    	    	var dbchartType1=response[0].config.chartType;
 			      	    	            chartType1 = getChartType(dbchartType1)[0];
 			      	    	            curve1 = getChartType(dbchartType1)[1];
 			      	    	            
@@ -3793,14 +3890,15 @@
 			      	    	       	    chartDbFontSize = response[0].config.chartSize;
 			      	    	       	   
 			      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-			      	    	       	  if (typeof activeFontSize == 'undefined')
-			      	    	           $('#'+chartDbFontSize).addClass("active");
-			      	    	       	  else 
+			      	    	       	if (typeof activeFontSize == 'undefined')
+			      	    	       	  { $('#'+chartDbFontSize).addClass("active");
+			      	    	          	fontsize=chartDbFontSize;
+			      	    	       	  } else 
 			      	    	       		fontsize = activeFontSize;
 			      	    	  
 			      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
-			      	    	        //  return 2; 
-				      	    	    	  if (chartType1=='area' && Daily==true)
+			      	    	
+				      	    	       if (chartType1=='area' && Daily==true)
 				      	    	        	{
 				      	    	    		if (response[0].config.chartColor=='#44546a')
 					      	    	    		chart.updateOptions({
@@ -3819,7 +3917,7 @@
 					      	    		              },	
 					      	    		            stroke: {
 							     				      	 colors: ["#ffffff"],
-						     				        },
+						     				        }
 					      	    	    		});
 				      	    	    		else 
 				      	    	        	chart.updateOptions({
@@ -3857,7 +3955,54 @@
 							      			            opacity: [1,1],
 							      			          }, 
 					      	    	    		});
-				      	    	    	
+				      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+				      	    	    	chart.updateOptions({
+				      	    	    	  extra:{
+												isDecimal: isdecimal,
+												yAxisFormat:yaxisformat,
+											},
+				     				       yaxis: {
+					     				    	  labels: {
+					     				    		     maxWidth: 50, 
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+				     				          tickAmount: 6,
+				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+				     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+				     				    			  axisBorder: {
+				     					                  width: 3,
+				     					                  show: true,
+				     					                  color: '#ffffff',
+				     					                  offsetX: 0,
+				     					                  offsetY: 0
+				     					              },
+				     				    	  },
+			    						  tooltip: {
+			    							  x: {
+			    						          show: false,
+			    						      },
+			    							  y: {
+			    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+			    									  if (getFormatResult[1])
+										  				  return  value.toFixed(getFormatResult[0]);
+										  				else 
+										  				  return  value.toFixed(getFormatResult[0]) + "%";
+			    								    },
+			    								    title: {
+			    							              formatter: (seriesName) => '',
+			    							          },
+			    					      },
+			    						}
+			      	    	    		});
 				      	    	         chart.updateSeries([{
 										         name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
 										          type: Daily?chartType1:'column',
@@ -3918,7 +4063,9 @@
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
 							}
-			
+			function graphfont(fontSize){
+		    	 updateGraphFont(fontSize,minvalue,maxvalue);
+		     }
 			
 			  	$(function (){
 

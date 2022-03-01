@@ -358,9 +358,9 @@
 				     <div class="col-1">
 						 <div class="buttons">
 						    <div class="btn-group-vertical" role="group" aria-label="Vertical example">
-						      <button type="button" class="btn btn-info" id="12px" style="font-size: small;" onclick="updateGraphFont('12px')">A</button>
-						      <button type="button" class="btn btn-info" id="14px" style="font-size: medium;" onclick="updateGraphFont('14px')">A</button>
-						      <button type="button" class="btn btn-info" id="16px" style="font-size: large;" onclick="updateGraphFont('16px')">A</button>
+						      <button type="button" class="btn btn-info" id="12px" style="font-size: small;" onclick="graphfont('12px')">A</button>
+						      <button type="button" class="btn btn-info" id="14px" style="font-size: medium;" onclick="graphfont('14px')">A</button>
+						      <button type="button" class="btn btn-info" id="16px" style="font-size: large;" onclick="graphfont('16px')">A</button>
 						     </div>
 						  </div>
 						</div>
@@ -368,8 +368,8 @@
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
 		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
 		   </div>
-						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;"></div>
-						 <div class="row">
+						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px"></div>
+						 <div class="row" style="min-width: 1153px;  max-width:1153px">
 						 	<div class='col-6'>
 						 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
 		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
@@ -387,7 +387,7 @@
 							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split">
 					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
 							  </div>
-					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups">
+					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
 							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
@@ -513,7 +513,7 @@
   var checkedItem = 0;
   var checkedItemid = [];
   var monthDate=new Date(); 
-  monthDate.setMonth(monthDate.getMonth() - 1);
+  monthDate.setMonth(monthDate.getMonth() - 3);
   monthDate.setHours(0,0,0,0);
   var startdate=new Date();
   var date=new Date();
@@ -523,7 +523,8 @@
   var chart2;
   var startDateF1;
   var startDateF2;
-
+  var minvalue=0;
+  var maxvalue=0;
   var fromNavigation = false;
   var isdecimal = false;
   var dataFormatIsDecimal=false;
@@ -1313,7 +1314,7 @@
 	
      $("#show").click(function () {
     	  monthDate=new Date(); 
-    	  monthDate.setMonth(monthDate.getMonth() - 1);
+    	  monthDate.setMonth(monthDate.getMonth() - 3);
     	  monthDate.setHours(0,0,0,0);
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
@@ -4747,7 +4748,7 @@
 		   	  	        right: 60,
 		   	  	    },  
    	  			},
-   	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#4768b3","#a3a3a5"],
+   	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#FAD7A0","#a3a3a5"],
    	  			        fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -4883,8 +4884,10 @@
 	      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
 	      	    		    chartDbFontSize = response[0].config.chartSize;
 	      	    	       activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-	      	    	       	  if (typeof activeFontSize == 'undefined')
-	      	    	           $('#'+chartDbFontSize).addClass("active");
+	      	    	     if (typeof activeFontSize == 'undefined')
+     	    	       	  { $('#'+chartDbFontSize).addClass("active");
+     	    	          	fontsize=chartDbFontSize;
+     	    	       	  }
 	      	    	       	  else 
 	      	    	       		fontsize = activeFontSize;
 	      	    	       chart1.updateOptions(getChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
@@ -4947,7 +4950,54 @@
 			      			            opacity: [1,1],
 			      			          }, 
 	      	    	    		});
-   	    	    	
+	      	    	    min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+	      	    	          return item.y;
+	      	    	        })),
+	      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+	      	    	          return item.y;
+	      	    	        }));
+	      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+	      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+	      	    	    	chart1.updateOptions({
+	      	    	    	  extra:{
+									isDecimal: isdecimal,
+									yAxisFormat:yaxisformat,
+								},
+	     				       yaxis: {
+		     				    	  labels: {
+		     				    		     maxWidth: 50, 
+			 				        		 style: {
+			 						        	  fontSize: fontsize,
+			 						        	 }
+			 				        	  },
+	     				          tickAmount: 6,
+	     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+	     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+	     				    			  axisBorder: {
+	     					                  width: 3,
+	     					                  show: true,
+	     					                  color: '#ffffff',
+	     					                  offsetX: 0,
+	     					                  offsetY: 0
+	     					              },
+	     				    	  },
+  						  tooltip: {
+  							  x: {
+  						          show: false,
+  						      },
+  							  y: {
+  								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+  									  if (getFormatResult[1])
+							  				  return  value.toFixed(getFormatResult[0]);
+							  				else 
+							  				  return  value.toFixed(getFormatResult[0]) + "%";
+  								    },
+  								    title: {
+  							              formatter: (seriesName) => '',
+  							          },
+  					      },
+  						}
+    	    	    		});
 		      	    	   chart1.updateSeries([{
 							          name: itemValue[checkedItemValues[0]].title,
 							          type: chartType1,
@@ -4996,7 +5046,7 @@
 			   	  	        right: 60,
 			   	  	    },  
 	   	  			},
-	   	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#4768b3","#a3a3a5"],
+	   	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#FAD7A0","#a3a3a5"],
 	   	  			        fill: {
 	   	  			            type:'solid',
 	   	  			            opacity: [1, 1],
@@ -5135,8 +5185,10 @@
 			      	    	         
 			      	    		    chartDbFontSize = response[0].config.chartSize;
 			      	    	       activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-			      	    	       	  if (typeof activeFontSize == 'undefined')
-			      	    	           $('#'+chartDbFontSize).addClass("active");
+			      	    	     if (typeof activeFontSize == 'undefined')
+		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
+		      	    	          	fontsize=chartDbFontSize;
+		      	    	       	  }
 			      	    	       	  else 
 			      	    	       		fontsize = activeFontSize;
 			      	    	       chart2.updateOptions(getChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
@@ -5199,7 +5251,54 @@
 						      			            opacity: [1,1],
 						      			          }, 
 				      	    	    		});
-			   	    	    	
+				      	    	    min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+				      	    	    	chart2.updateOptions({
+				      	    	    	  extra:{
+												isDecimal: isdecimal,
+												yAxisFormat:yaxisformat,
+											},
+				     				       yaxis: {
+					     				    	  labels: {
+					     				    		     maxWidth: 50, 
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+				     				          tickAmount: 6,
+				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+				     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+				     				    			  axisBorder: {
+				     					                  width: 3,
+				     					                  show: true,
+				     					                  color: '#ffffff',
+				     					                  offsetX: 0,
+				     					                  offsetY: 0
+				     					              },
+				     				    	  },
+			    						  tooltip: {
+			    							  x: {
+			    						          show: false,
+			    						      },
+			    							  y: {
+			    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+			    									  if (getFormatResult[1])
+										  				  return  value.toFixed(getFormatResult[0]);
+										  				else 
+										  				  return  value.toFixed(getFormatResult[0]) + "%";
+			    								    },
+			    								    title: {
+			    							              formatter: (seriesName) => '',
+			    							          },
+			    					      },
+			    						}
+			      	    	    		});
 			      	    	   chart2.updateSeries([{
 								          name: itemValue[checkedItemValues[1]].title,
 								          type: chartType2,
@@ -5219,7 +5318,7 @@
 				        $("#dateFrom-mainChart").val(fromdate);
 	    	            $("#dateTo-mainChart").val(todate);
 			}
-			function updateGraphFont(fontsize){
+			function updateGraphFont(fontsize,minvalue,maxvalue){
 				if(chart1!=null)
 					chart1.updateOptions({
 						xaxis: {
@@ -5253,26 +5352,24 @@
 					    	        return [img , seriesName]
 					    	    }
 					    	  },
-				         yaxis: [{
-				        	labels: {
-				        		 style: {
-						        	  fontSize: fontsize,
-						        	 },
-				        	    formatter: function (value) {
-				        	    	if (isdecimal)
-	 				        	    	   return value.toFixed(yaxisformat);
-	 				        	    	else 
-	 				        	         return value.toFixed(yaxisformat) + "%";
-				        	    }
-				        	  },
-				        	  axisBorder: {
-				                  width: 3,
-				                  show: true,
-				                  color: '#ffffff',
-				                  offsetX: 0,
-				                  offsetY: 0
-				              },
-				        }]
+					          yaxis: [
+								     {  tickAmount: 6,
+			 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+			 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)-0.1 : Math.abs(maxvalue)+0.1,
+							     	    labels: {
+							        		 maxWidth: 50, 
+							        		 style: {
+									        	  fontSize: fontsize,
+									        	 }
+							        	  },
+							        	  axisBorder: {
+							                  width: 3,
+							                  show: true,
+							                  color: '#ffffff',
+							                  offsetX: 0,
+							                  offsetY: 0
+							              },
+							        }]
 						})
 				 if(chart2!=null)
 					   chart2.updateOptions({
@@ -5307,26 +5404,24 @@
 						    	        return [img , seriesName]
 						    	    }
 						    	  },
-					         yaxis: [{
-					        	labels: {
-					        		 style: {
-							        	  fontSize: fontsize,
-							        	 },
-					        	    formatter: function (value) {
-					        	    	if (isdecimal)
-		 				        	    	   return value.toFixed(yaxisformat);
-		 				        	    	else 
-		 				        	         return value.toFixed(yaxisformat) + "%";
-					        	    }
-					        	  },
-					        	  axisBorder: {
-					                  width: 3,
-					                  show: true,
-					                  color: '#ffffff',
-					                  offsetX: 0,
-					                  offsetY: 0
-					              },
-					        }]
+						          yaxis: [
+									     {  tickAmount: 6,
+				 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+				 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+								     	    labels: {
+								        		 maxWidth: 50, 
+								        		 style: {
+										        	  fontSize: fontsize,
+										        	 }
+								        	  },
+								        	  axisBorder: {
+								                  width: 3,
+								                  show: true,
+								                  color: '#ffffff',
+								                  offsetX: 0,
+								                  offsetY: 0
+								              },
+								        }]
 							})
 				if(chart!=null)
 				chart.updateOptions({
@@ -5361,26 +5456,24 @@
 				    	        return [img , seriesName]
 				    	    }
 				    	  },
-			         yaxis: [{
-			        	labels: {
-			        		 style: {
-					        	  fontSize: fontsize,
-					        	 },
-			        	    formatter: function (value) {
-			        	    	if (isdecimal)
-				        	    	   return value.toFixed(yaxisformat);
-				        	    	else 
-				        	         return value.toFixed(yaxisformat) + "%";
-			        	    }
-			        	  },
-			        	  axisBorder: {
-			                  width: 3,
-			                  show: true,
-			                  color: '#ffffff',
-			                  offsetX: 0,
-			                  offsetY: 0
-			              },
-			        }]
+				          yaxis: [
+							     {  tickAmount: 6,
+		 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+		 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+						     	    labels: {
+						        		 maxWidth: 50, 
+						        		 style: {
+								        	  fontSize: fontsize,
+								        	 }
+						        	  },
+						        	  axisBorder: {
+						                  width: 3,
+						                  show: true,
+						                  color: '#ffffff',
+						                  offsetX: 0,
+						                  offsetY: 0
+						              },
+						        }]
 					})
 			}
 			function drawGraph(){
@@ -5474,7 +5567,7 @@
 					  		   	  	        right: 60,
 					  		   	  	    },  
 					     	  			},
-					     	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#4768b3","#a3a3a5"],
+					     	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#FAD7A0","#a3a3a5"],
 					     	  			        fill: {
 					     	  			            type:'solid',
 					     	  			            opacity: [1, 1],
@@ -5552,13 +5645,7 @@
 					  			        	labels: {
 					  			        		 style: {
 					  					        	  fontSize: fontsize,
-					  					        	 },
-					  			        	    formatter: function (value) {
-					  			        	    	if (isdecimal)
-					  				        	    	   return value.toFixed(yaxisformat);
-					  				        	    	else 
-					  				        	         return value.toFixed(yaxisformat) + "%";
-					  			        	    }
+					  					        	 }
 					  			        	  },
 					  			        	  axisBorder: {
 					  			        		  width: 3,
@@ -5598,45 +5685,7 @@
 		      	    	        	 if (startDateF2!=null)
 		      	    	        	 startDateF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
 		      	    	            var dates=[];
-		      	    	  /*     	if(!fromNavigation)
-	      	    	        	{
-		      	    	        		if (startDateF1!=null)
-		      	    	        			{ 
-		      	    	        				DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-		      	    	        				dates.push(DF1);
-		      	    	        			}
-		      	    	        			if (startDateF2!=null)
-		      	    	        			{ 
-		      	    	        				DF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
-		      	    	        				dates.push(DF2);
-		      	    	        			}
-		      	    	        			newstartdate=getMinDate(dates);
-
-		      	    	        		if(startDateF1==null && startDateF2==null)
-		      	    	        		{	
-		      	    	        			defaultmonthDate  = new Date(); 
-		      	    	        			defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
-		      	    	        			defaultmonthDate.setHours(0,0,0,0);
-		      	    	        			if(monthDate.getTime()!=defaultmonthDate.getTime())
-		      	    	        			{
-		      	    	        				startdate = defaultmonthDate;
-		      	    	        				monthDate = defaultmonthDate;
-		      	    	        				drawGraph();
-		      	    	        				return;
-		      	    	        			}
-		      	    	        		}
-		      	    	        		else 
-		      	    	        		if(newstartdate.getTime()!=startdate.getTime())
-		      	    	        	    {
-		      	    	        		    startdate=newstartdate;
-		      	    	        			if(monthDate.getTime()!=startdate.getTime())
-		      	    	        			{
-		      	    	        				monthDate = startdate;
-		      	    	        				drawGraph();
-		      	    	        				return;
-		      	    	        			}
-		      	    	        		}
-	      	    	        	} */
+		      	    	
 		      	    	        	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
 		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
 		      	    	        	title= T1 +" vs "+ T2;
@@ -5671,8 +5720,10 @@
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	       	  debugger; 
 		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-		      	    	       	  if (typeof activeFontSize == 'undefined')
-		      	    	           $('#'+chartDbFontSize).addClass("active");
+		      	    	       	if (typeof activeFontSize == 'undefined')
+		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
+		      	    	          	fontsize=chartDbFontSize;
+		      	    	       	  }
 		      	    	       	  else 
 		      	    	       		fontsize = activeFontSize;
 		      	    	  
@@ -5686,7 +5737,78 @@
 			      	    	          
 			      	    	          var dbchartType2=response[1].config.chartType;
 			      	    	            chartType2 =getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
-			      	    	          
+			      	    	          min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+										min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+		      	    	         
+			      	    	          min=Math.min(min1,min2);
+										max=Math.max(max1,max2);
+										 minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+					      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+					      	    	    	chart.updateOptions({
+					      	    	    	  extra:{
+													isDecimal: isdecimal,
+													yAxisFormat:yaxisformat,
+												},
+					      	    	    		 markers: {
+					      	    	    		   colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+					      	    	    		   strokeColors:["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"]
+					      	    	    		 },
+					     				       yaxis: {
+
+						     				    	  labels: {
+						     				    		 maxWidth: 50, 
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+					     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: '#ffffff',
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    	  },
+												  tooltip: {
+													  x: {
+					    						          show: false,
+					    						      },
+					    							  y: {
+					    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+					    									  if(seriesIndex == 0)
+												  				{
+												  				if (getFormatResult0[1])
+												  				  return  value.toFixed(getFormatResult0[0]);
+												  				else 
+												  				  return  value.toFixed(getFormatResult0[0]) + "%";
+												  				}else 
+												  					 if(seriesIndex == 1){
+												  					  if (getFormatResult1[1])
+												  						  return  value.toFixed(getFormatResult1[0]);
+												  						else 
+												  							 return  value.toFixed(getFormatResult1[0]) + "%";
+												  					 }
+					    								    },
+					    								    title: {
+					    							              formatter: (seriesName) => '',
+					    							          },
+					    					      },
+					    						}
+				      	    	    		});     
+			      	    	           
 		      	    	          chart.updateSeries([{
 							          name: response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription,
 							          type: chartType1,
@@ -5774,7 +5896,7 @@
 			   	  	        right: 60,
 			   	  	    },  
 	   	  			},
-	   	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#4768b3","#a3a3a5"],
+	   	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#FAD7A0","#a3a3a5"],
 	   	  			        fill: {
 	   	  			            type:'solid',
 	   	  			            opacity: [1, 1],
@@ -5931,47 +6053,16 @@
 				      	    	      startDateF1=response[0].config.startDate;
 				      	    	    if (startDateF1!=null)
 				      	    	      startDateF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-				      	    	/* 	if(!fromNavigation)
-		      	    	        	{
-				      	    	      if (startDateF1!=null)
-			      	    	    		{ 
-			      	    	    			DF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-			      	    	    			newstartdate=DF1;
-			      	    	    		}
-			      	    	    		
-				      	    	      var dates=[];
-				      	    	    	if(startDateF1==null)
-				      	    	    	{	
-				      	    	    		defaultmonthDate  = new Date(); 
-				      	    	    		defaultmonthDate.setMonth(defaultmonthDate.getMonth() - 1);
-				      	    	    		defaultmonthDate.setHours(0,0,0,0);
-				      	    	    		if(monthDate.getTime()!=defaultmonthDate.getTime())
-					      	    	    	{
-				      	    	    			startdate = defaultmonthDate;
-					      	    	    		monthDate = defaultmonthDate;
-					      	    	    		drawGraph();
-					      	    	    		return;
-					      	    	    	}
-				      	    	    	}
-				      	    	    	else 
-				      	    	    	if(newstartdate.getTime()!=startdate.getTime())
-				      	    	    	{
-				      	    	    		startdate=newstartdate;
-				      	    	    		if(monthDate.getTime()!=startdate.getTime())
-						      	    	    	{
-						      	    	    		monthDate = startdate;
-						      	    	    		drawGraph();
-						      	    	    		return;
-						      	    	    	}
-				      	    	    		}
-		      	    	        	} */
+				      	    	
 		      	    	        	 
 		      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	       	  debugger; 
 		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-		      	    	       	  if (typeof activeFontSize == 'undefined')
-		      	    	           $('#'+chartDbFontSize).addClass("active");
+		      	    	       	if (typeof activeFontSize == 'undefined')
+		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
+		      	    	          	fontsize=chartDbFontSize;
+		      	    	       	  }
 		      	    	       	  else 
 		      	    	       		fontsize = activeFontSize;
 		      	    	  
@@ -6035,7 +6126,54 @@
 						      			          }, 
 				      	    	    		});
 			      	    	    	
-			      	    	    	  
+			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+				      	    	    	chart.updateOptions({
+				      	    	    	  extra:{
+												isDecimal: isdecimal,
+												yAxisFormat:yaxisformat,
+											},
+				     				       yaxis: {
+					     				    	  labels: {
+					     				    		     maxWidth: 50, 
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+				     				          tickAmount: 6,
+				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+				     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+				     				    			  axisBorder: {
+				     					                  width: 3,
+				     					                  show: true,
+				     					                  color: '#ffffff',
+				     					                  offsetX: 0,
+				     					                  offsetY: 0
+				     					              },
+				     				    	  },
+			    						  tooltip: {
+			    							  x: {
+			    						          show: false,
+			    						      },
+			    							  y: {
+			    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+			    									  if (getFormatResult[1])
+										  				  return  value.toFixed(getFormatResult[0]);
+										  				else 
+										  				  return  value.toFixed(getFormatResult[0]) + "%";
+			    								    },
+			    								    title: {
+			    							              formatter: (seriesName) => '',
+			    							          },
+			    					      },
+			    						}
+			      	    	    		});
 				      	    	        chart.updateSeries([{
 									          name: response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription,
 									          type: chartType1,
@@ -6074,7 +6212,12 @@
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
 							}
-		  	$(function (){
+		  	
+			function graphfont(fontSize){
+				debugger;
+		    	 updateGraphFont(fontSize,minvalue,maxvalue);
+		     }
+			$(function (){
 
 				   $.ajax({
 			        contentType: "application/json",

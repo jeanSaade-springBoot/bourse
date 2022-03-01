@@ -2653,6 +2653,10 @@
 								}
 							}
 						},
+						extra:{
+							isDecimal: void 0,
+							yAxisFormat:void 1,
+						},
 						yaxis: this.yAxis,
 						theme: {
 							mode: "light",
@@ -5976,6 +5980,7 @@
 			}, {
 				key: "heatmapLabelFormatters",
 				value: function () {
+					//debugger;
 					var t = this.w;
 					if ("heatmap" === t.config.chart.type) {
 						t.globals.yAxisScale[0].result = t.globals.seriesNames.slice();
@@ -6259,16 +6264,30 @@
 						t = i.globals.gridWidth / c, n = n + t / 2 + i.config.xaxis.labels.offsetX
 					} else t = i.globals.gridWidth / o.length, n = n + t + i.config.xaxis.labels.offsetX;
 					if (i.config.xaxis.labels.show)
-						for (var d = function (s) {
-							
+					{
+						//debugger;
+						var counter= 0;
+						var v2=1;
+					  for (var d = function (s) {
 								var l = n - t / 2 + i.config.xaxis.labels.offsetX;
 								0 === s && 1 === h && t / 2 === n && 1 === i.globals.dataPoints && (l = i.globals.gridWidth / 2);
 								var c = e.axesUtils.getLabel(o, i.globals.timescaleLabels, l, s, e.drawnLabels, e.xaxisFontSize),
 									d = 28;
 								i.globals.rotateXLabels && (d = 22);
 								(c = void 0 !== i.config.xaxis.tickAmount && "dataPoints" !== i.config.xaxis.tickAmount && "datetime" !== i.config.xaxis.type ? e.axesUtils.checkLabelBasedOnTickamount(s, c, h) : e.axesUtils.checkForOverflowingLabels(s, c, h, e.drawnLabels, e.drawnLabelsRects)).text && i.globals.xaxisLabelsCount++;
-							debugger;	
-								if (o.length<=20)
+							//debugger;	
+							var v1 = o.length/25;
+						
+							counter++;
+						if (counter>=v2)
+						{
+							v2=v2+v1;
+						}
+						else {
+							 c.text='';
+						}
+						
+							/*	if (o.length%20)
 								{
 								if (i.globals.xaxisLabelsCount%5!=0)
 								 c.text='';
@@ -6293,7 +6312,8 @@
 								{if (i.globals.xaxisLabelsCount%75!=0)
 								 c.text='';
 								}
-								var g = a.drawText({
+						*/
+							var g = a.drawText({
 									x: c.x,
 									y: e.offY + i.config.xaxis.labels.offsetY + d - ("top" === i.config.xaxis.position ? i.globals.xAxisHeight + i.config.xaxis.axisTicks.height - 2 : 0),
 									text: c.text,
@@ -6309,6 +6329,8 @@
 								var u = document.createElementNS(i.globals.SVGNS, "title");
 								u.textContent = Array.isArray(c.text) ? c.text.join(" ") : c.text, g.node.appendChild(u), "" !== c.text && (e.drawnLabels.push(c.text), e.drawnLabelsRects.push(c)), n += t
 							}, g = 0; g <= h - 1; g++) d(g);
+							
+							}
 					if (void 0 !== i.config.xaxis.title.text) {
 						var u = a.group({
 								class: "apexcharts-xaxis-title"
@@ -6683,6 +6705,7 @@
 			}, {
 				key: "renderGrid",
 				value: function () {
+					//debugger;
 					var t = this.w,
 						e = new b(this.ctx);
 					this.elg = e.group({
@@ -6695,10 +6718,12 @@
 					for (var i, a = t.globals.yAxisScale.length ? t.globals.yAxisScale[0].result.length - 1 : 5, s = 0; s < t.globals.series.length && (void 0 !== t.globals.yAxisScale[s] && (a = t.globals.yAxisScale[s].result.length - 1), !(a > 2)); s++);
 					return !t.globals.isBarHorizontal || this.isTimelineBar ? (i = this.xaxisLabels.length, this.isTimelineBar && (a = t.globals.labels.length, t.config.xaxis.tickAmount && t.config.xaxis.labels.formatter && (i = t.config.xaxis.tickAmount)), this._drawXYLines({
 						xCount: i,
-						tickAmount: a
+						tickAmount: a 
+						// tickAmount:t.config.yaxis[0].tickAmount mn
 					})) : (i = a, a = t.globals.xTickAmount, this._drawInvertedXYLines({
 						xCount: i,
-						tickAmount: a
+						tickAmount: a 
+						// tickAmount:t.config.yaxis[0].tickAmount mn
 					})), this.drawGridBands(i, a), {
 						el: this.elg,
 						xAxisTickWidth: t.globals.gridWidth / i
@@ -6736,6 +6761,7 @@
 			return a(t, [{
 				key: "niceScale",
 				value: function (t, e) {
+					
 					var i = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 10,
 						a = arguments.length > 3 && void 0 !== arguments[3] ? arguments[3] : 0,
 						s = arguments.length > 4 ? arguments[4] : void 0,
@@ -6780,13 +6806,25 @@
 			}, {
 				key: "linearScale",
 				value: function (t, e) {
+					var p=20;
 					var i = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 10,
 						a = Math.abs(e - t),
 						s = a / i;
+					
 					i === Number.MAX_VALUE && (i = 10, s = 1);
 					for (var r = [], n = t; i >= 0;) r.push(n), n += s, i -= 1;
+					
+					var r_mod=[];
+					for (var i = 0; i<r.length; i++)
+					{
+						if (this.w.config.extra.isDecimal)
+						 r_mod.push((Math.ceil(r[i]*p)/p).toFixed(this.w.config.extra.yAxisFormat))
+					   else 
+						r_mod.push((Math.ceil(r[i]*p)/p).toFixed(this.w.config.extra.yAxisFormat)+'%')
+					}
+					debugger;
 					return {
-						result: r,
+						result: r_mod,
 						niceMin: r[0],
 						niceMax: r[r.length - 1]
 					}
@@ -6816,6 +6854,7 @@
 						r = a.isBarHorizontal ? s.xaxis : s.yaxis[t];
 					void 0 === a.yAxisScale[t] && (a.yAxisScale[t] = []);
 					var n = Math.abs(i - e);
+					//debugger;
 					if (r.logarithmic && n <= 5 && (a.invalidLogScale = !0), r.logarithmic && n > 5) a.allSeriesCollapsed = !1, a.yAxisScale[t] = this.logarithmicScale(t, e, i, r.tickAmount ? r.tickAmount : Math.floor(Math.log10(i)));
 					else if (i !== -Number.MAX_VALUE && f.isNumber(i))
 						if (a.allSeriesCollapsed = !1, void 0 === r.min && void 0 === r.max || r.forceNiceScale) {
@@ -7125,6 +7164,7 @@
 			return a(t, [{
 				key: "drawYaxis",
 				value: function (t) {
+					//debugger;
 					var e = this,
 						i = this.w,
 						a = new b(this.ctx),
@@ -8644,7 +8684,7 @@
 						})
 					}))
 				
-debugger;
+//debugger;
                    var t = this.w.globals;
 					t.dom.elGridRect = document.createElementNS(t.SVGNS, "foreignObject");
 					var v = t.dom.elGridRect;

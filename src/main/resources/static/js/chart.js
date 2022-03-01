@@ -31,7 +31,7 @@ var chartOption = {
 		   	  	        right: 60,
 		   	  	    },  
    	  			},
-   	  			        colors: ["#F0AB2E", "#0097FE","#1c3b66","#7e95d9","#4768b3","#a3a3a5"],
+   	  			        colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
    	  			        fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -72,7 +72,7 @@ var chartOption = {
    	  			        },
    	  			        xaxis: {
 	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: 0,
+	   	  			         		  rotate: -70,
 					                  rotateAlways: false,
 					                  minHeight:30,
 					        		  style: {
@@ -105,17 +105,12 @@ var chartOption = {
 				    	        return [img , seriesName]
 				    	    }
 				    	  },
-			         yaxis: [{
+			         yaxis: [{ 
+				        tickAmount: 6,
 			        	labels: {
 			        		 style: {
 					        	  fontSize: fontSize,
-					        	 },
-			        	    formatter: function (value) {
-			        	    	if (isdecimal)
-				        	    	   return value.toFixed(yaxisformat);
-				        	    	else 
-				        	         return value.toFixed(yaxisformat) + "%";
-			        	    }
+					        	 }
 			        	  },
 			         axisBorder: {
 			                  width: 3,
@@ -182,22 +177,17 @@ var chartOption = {
 				    	    	img= getCountryFlag(seriesName);
 				    	        return [img , seriesName]
 				    	    }
-				    	  },
-			         yaxis: [{
+				    	  }, 
+			         yaxis: [{ 
+				        tickAmount: 6,
 			        	labels: {
 			        		 style: {
 					        	  fontSize: 12,
-					        	 },
-			        	    formatter: function (value) {
-			        	    	if (isdecimal)
-				        	    	   return value.toFixed(yaxisformat);
-				        	    	else 
-				        	         return value.toFixed(yaxisformat) + "%";
-			        	    }
+					        	 }
 			        	  },
 			        
 			        }],
-   	  			      colors: ["#F0AB2E", "#0097FE","#1c3b66","#7e95d9","#4768b3","#a3a3a5"],
+   	  			      colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
    	  			      fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -208,7 +198,7 @@ var chartOption = {
  			        }
    	    	          };
    	    	          
-function updateGraphFont(fontsize){
+function updateGraphFont(fontsize,minvalue,maxvalue){
 				var Daily = $("#DailyRadioButton").val();
 				if(Daily)
 					chart.updateOptions({
@@ -244,18 +234,15 @@ function updateGraphFont(fontsize){
 					    	        return [img , seriesName]
 					    	    }
 					    	  },
-				         yaxis: [{
-				        	labels: {
-				        		 minHeight:60,
+				         yaxis: [
+					     {  tickAmount: 6,
+ 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+ 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+				     	    labels: {
+				        		 maxWidth: 50, 
 				        		 style: {
 						        	  fontSize: fontsize,
-						        	 },
-				        	    formatter: function (value) {
-				        	    	if (isdecimal)
-					        	    	   return value.toFixed(yaxisformat);
-					        	    	else 
-					        	         return value.toFixed(yaxisformat) + "%";
-				        	    }
+						        	 }
 				        	  },
 				        	  axisBorder: {
 				                  width: 3,
@@ -300,16 +287,14 @@ function updateGraphFont(fontsize){
 						    	    }
 						    	  },
 					         yaxis: [{
-					        	labels: {
+						    tickAmount: 6,
+ 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+ 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+				     	   	labels: {
+					 				 maxWidth: 50, 
 					        		 style: {
 							        	  fontSize: fontsize,
-							        	 },
-					        	    formatter: function (value) {
-					        	    	if (isdecimal)
-						        	    	   return value.toFixed(yaxisformat);
-						        	    	else 
-						        	         return value.toFixed(yaxisformat) + "%";
-					        	    }
+							        	 }
 					        	  },
 					        	  axisBorder: {
 					                  width: 3,
@@ -323,47 +308,48 @@ function updateGraphFont(fontsize){
 	
 			};   	    	          
 function getCountryFlag(seriesName)
-{var img;
-	if (seriesName.includes("Germany"))
+{
+	var img;
+	if (seriesName.toUpperCase().includes("GERMAN"))
 	  img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/germany.png'/>";
 	else
-		if (seriesName.includes("USA"))
+		if (seriesName.toUpperCase().includes("USA"))
 	    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/united-states.png'/>";
 		else
-			if (seriesName.includes("France"))
+			if (seriesName.toUpperCase().includes("FRANCE"))
 		    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/france.png'/>";
 			else
-				if (seriesName.includes("Uk"))
+				if (seriesName.toUpperCase().includes("UK"))
 			    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/united-kingdom.png'/>";
 				else
-					if (seriesName.includes("Italy"))
+					if (seriesName.toUpperCase().includes("ITALY"))
 				    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/italy.png'/>";
 					else
-						if (seriesName.includes("Spain"))
+						if (seriesName.toUpperCase().includes("SPAIN"))
 					    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/spain.png'/>";
 						else
-						  if (seriesName.includes("FRA-GER"))
+						  if (seriesName.toUpperCase().includes("FRA-GER"))
 						  img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/fra-ger.png'/>";
 						else
-							if (seriesName.includes("ITA-GER"))
+							if (seriesName.toUpperCase().includes("ITA-GER"))
 						    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/ita-ger.png'/>";
 							else
-								if (seriesName.includes("SPN-GER"))
+								if (seriesName.toUpperCase().includes("SPN-GER"))
 							    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/spn-ger.png'/>";
 								else
-									if (seriesName.includes("UK-GER"))
+									if (seriesName.toUpperCase().includes("UK-GER"))
 								    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/uk-ger.png'/>";
 									else
-										if (seriesName.includes("USA-GER"))
+										if (seriesName.toUpperCase().includes("USA-GER"))
 									    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/usa-ger.png'/>";
 										else
-											if (seriesName.includes("USA-UK"))
+											if (seriesName.toUpperCase().includes("USA-UK"))
 										    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/usa-uk.png'/>";
 											else
-												if (seriesName.includes("ITA-FRA"))
+												if (seriesName.toUpperCase().includes("ITA-FRA"))
 											    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/ita-fra.png'/>";
 												else
-													if (seriesName.includes("ITA-SPN"))
+													if (seriesName.toUpperCase().includes("ITA-SPN"))
 												    img= "<img width='18' style='float: left; margin-right: .5rem;' src='/img/flag/ita-spn.png'/>";
 	return img;
 }
