@@ -5980,7 +5980,7 @@
 			}, {
 				key: "heatmapLabelFormatters",
 				value: function () {
-					//debugger;
+					
 					var t = this.w;
 					if ("heatmap" === t.config.chart.type) {
 						t.globals.yAxisScale[0].result = t.globals.seriesNames.slice();
@@ -6265,7 +6265,7 @@
 					} else t = i.globals.gridWidth / o.length, n = n + t + i.config.xaxis.labels.offsetX;
 					if (i.config.xaxis.labels.show)
 					{
-						//debugger;
+						
 						var counter= 0;
 						var v2=1;
 					  for (var d = function (s) {
@@ -6275,7 +6275,7 @@
 									d = 28;
 								i.globals.rotateXLabels && (d = 22);
 								(c = void 0 !== i.config.xaxis.tickAmount && "dataPoints" !== i.config.xaxis.tickAmount && "datetime" !== i.config.xaxis.type ? e.axesUtils.checkLabelBasedOnTickamount(s, c, h) : e.axesUtils.checkForOverflowingLabels(s, c, h, e.drawnLabels, e.drawnLabelsRects)).text && i.globals.xaxisLabelsCount++;
-							//debugger;	
+								
 							var v1 = o.length/25;
 						
 							counter++;
@@ -6475,7 +6475,8 @@
 						a = t.globals.dom.baseEl.querySelectorAll(".apexcharts-xaxis-texts-g text"),
 						s = t.globals.dom.baseEl.querySelectorAll(".apexcharts-yaxis-inversed text"),
 						r = t.globals.dom.baseEl.querySelectorAll(".apexcharts-xaxis-inversed-texts-g text tspan");
-					if (t.globals.rotateXLabels || t.config.xaxis.labels.rotateAlways)
+					//if (t.globals.rotateXLabels || t.config.xaxis.labels.rotateAlways)
+					if (t.globals.rotateXLabels)
 						for (var n = 0; n < a.length; n++) {
 							var o = e.rotateAroundCenter(a[n]);
 							o.y = o.y - 1, o.x = o.x + 1, a[n].setAttribute("transform", "rotate(".concat(t.config.xaxis.labels.rotate, " ").concat(o.x, " ").concat(o.y, ")")), a[n].setAttribute("text-anchor", "end");
@@ -6705,7 +6706,7 @@
 			}, {
 				key: "renderGrid",
 				value: function () {
-					//debugger;
+					
 					var t = this.w,
 						e = new b(this.ctx);
 					this.elg = e.group({
@@ -6822,7 +6823,7 @@
 					   else 
 						r_mod.push((Math.ceil(r[i]*p)/p).toFixed(this.w.config.extra.yAxisFormat)+'%')
 					}
-					debugger;
+					
 					return {
 						result: r_mod,
 						niceMin: r[0],
@@ -6854,7 +6855,7 @@
 						r = a.isBarHorizontal ? s.xaxis : s.yaxis[t];
 					void 0 === a.yAxisScale[t] && (a.yAxisScale[t] = []);
 					var n = Math.abs(i - e);
-					//debugger;
+					
 					if (r.logarithmic && n <= 5 && (a.invalidLogScale = !0), r.logarithmic && n > 5) a.allSeriesCollapsed = !1, a.yAxisScale[t] = this.logarithmicScale(t, e, i, r.tickAmount ? r.tickAmount : Math.floor(Math.log10(i)));
 					else if (i !== -Number.MAX_VALUE && f.isNumber(i))
 						if (a.allSeriesCollapsed = !1, void 0 === r.min && void 0 === r.max || r.forceNiceScale) {
@@ -7164,7 +7165,7 @@
 			return a(t, [{
 				key: "drawYaxis",
 				value: function (t) {
-					//debugger;
+					
 					var e = this,
 						i = this.w,
 						a = new b(this.ctx),
@@ -8684,7 +8685,7 @@
 						})
 					}))
 				
-//debugger;
+
                    var t = this.w.globals;
 					t.dom.elGridRect = document.createElementNS(t.SVGNS, "foreignObject");
 					var v = t.dom.elGridRect;

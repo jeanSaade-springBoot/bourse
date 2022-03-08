@@ -3,6 +3,152 @@
 	src: url(../font/Nunito-Regular.ttf);
 	src: url(../font/Nunito-Regular.ttf) format('ttf'), url(../font/Nunito-Regular.ttf) format('truetype')
 }
+.chart-option {
+    margin-top: 1.2rem;
+    background: #172568;
+    width: 110px;
+    border-radius: 0.2rem;
+    height: 450px;
+    padding-left: 0.1rem;
+}
+.chart-option-title {
+    text-align: center;
+    text-transform: uppercase;
+    font-size: .7rem;
+    font-weight: bold;
+    color: white;
+    padding-top: 0.5rem;
+}
+button.btn.btn-option {
+    padding: 0.2rem;
+}
+.icon-small-a{
+  background-image : url(/img/small-a.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-medium-a{
+  background-image : url(/img/medium-a.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-large-a{
+  background-image : url(/img/large-a.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-linechart{
+  background-image : url(/img/line-chart.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-areachart{
+  background-image : url(/img/area-chart.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-bigmarkerchart{
+  background-image : url(/img/big-marker-chart.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-smallmarkerchart{
+  background-image : url(/img/small-marker-chart.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-barchart{
+  background-image : url(/img/bar-chart.png);
+  background-size: cover;
+  display: inline-block;
+   height: 24px;
+  width: 24px;
+}
+.icon-goldchart{
+  background-image : url(/img/gold.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-goldchart-25{
+  background-image : url(/img/gold.png);
+  opacity: 0.75;
+  background-size: cover;
+  display: inline-block;
+   height: 24px;
+  width: 24px;
+}
+.icon-goldchart-50{
+  background-image : url(/img/gold.png);
+  opacity: 0.5;
+  background-size: cover;
+  display: inline-block;
+   height: 24px;
+  width: 24px;
+}
+.icon-bluechart{
+  background-image : url(/img/blue.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-darkchart{
+  background-image : url(/img/dark.png);
+  background-size: cover;
+  display: inline-block;
+   height: 24px;
+  width: 24px;
+}
+.icon-legendchart{
+  background-image : url(/img/Legend-chart.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-nolegendchart{
+  background-image : url(/img/noLegend-chart.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-withLinechart{
+  background-image : url(/img/withLine.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-withoutLinechart{
+  background-image : url(/img/withoutLine.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+button.active.btn.btn-option {
+    background: rgb(90 141 237 / 45%);
+    width: 34px;
+    border-radius: 0.2rem;
+    height: 34px;
+}
 .red{
 	/*color:red !important;*/
 	font-weight: bold !important;

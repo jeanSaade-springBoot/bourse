@@ -225,7 +225,7 @@ box-shadow: #323232 0 0px 0px;
 	  // var data = getListOrder();
 	   var data = {"listid":getListOrder()[0],
 			       "newsOrderList":getListOrder()[1]};
-		  debugger;
+		 
        	  $.ajax({
   	        type: "POST",
   	        contentType: "application/json",
@@ -287,7 +287,7 @@ $('#kanban1').jqxKanban({
   function getListOrder() {
 	    data = [];
 	    listOfId = [];
-	  debugger;
+	 
 	       var list = document.getElementById("kanban1-column-container-0").childNodes;
 	       var listLength = list.length;
 	       var i=0;

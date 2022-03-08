@@ -214,7 +214,7 @@ font-size: .7rem;
 	            if (event.args) {
 	               familyItem = event.args.item;
 	              // groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
-	              debugger;
+	             
 	              $.get('/admin/getgroupsbyfamily/'+familyItem.value,  // url
 	            	      function (data, textStatus, jqXHR) {  // success callback
 	            	  data.push({id: 6, description: 'ALL', assetId: '1', groupCode: ''});
@@ -327,7 +327,7 @@ font-size: .7rem;
       }
       $('#IsImportant').on('change', function (event) {
     	  $('#grid').jqxGrid('showloadelement');
-          debugger;
+         
     	  var checked = event.args.checked;
     	  if (checked)
     	    gridsource.url='/admin/getnewsbyimportance/'+checked;

@@ -558,7 +558,7 @@
 				   "isPublished":'0',
 	    };
 		
-	    debugger;
+	   
  	       	  $.ajax({
  	    	        type: "POST",
  	    	        contentType: "application/json",
@@ -678,7 +678,7 @@
 		 "generationDateDate":a.getFullYear()+"-"+("0" + (a.getMonth() + 1)).slice(-2)+"-"+("0" + a.getDate()).slice(-2)+" "+("0" + a.getHours()).slice(-2)+":"+("0" + a.getMinutes()).slice(-2)+":"+("0" + a.getSeconds()).slice(-2),
 		 "isPublished":'0'
 	  };
-	 debugger;
+	
 	 if ($('#news').val()== '')
 	 {
 		 $("#notificationContentSave").html('News field is requiered');
@@ -699,7 +699,7 @@
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
-	        	debugger;
+	        	
 	        	 $('#news').val('');
 	        	 $("#notificationContentSave").html('Data Inserted');
 	        	 $("#jqxNotificationSave").jqxNotification({  height: 30, width: "100%",appendContainer: "#notifcationContainerSave",  opacity: 0.9,
@@ -802,7 +802,7 @@
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
-	 debugger;
+	
 				  var ul = document.getElementById("Newslist");
 				 for (i=0; i<data.length;i++)
 				  {var li = document.createElement("li");

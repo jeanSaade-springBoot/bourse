@@ -893,7 +893,7 @@
 		        cache: false,
 		        timeout: 600000,
 		        success: function (data) {
-		        	debugger;
+		        	
 		        	if (data.parameter!=null)
 		        	{   checkedItemId=JSON.parse(data.parameter);
 		        	     for(j=0; j<checkedItemId.length; j++)
@@ -941,7 +941,7 @@
       });
       
      $("#show").click(function () {
-    	 debugger;
+    	
       monthDate=new Date(); 
    	  monthDate.setMonth(monthDate.getMonth() - 3);
    	  monthDate.setHours(0,0,0,0);
@@ -2958,7 +2958,7 @@
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
-				debugger;
+				
 				var fontsize='12px';
 				var fromdate = formatDate(monthDate);
 				var todate = formatDate(date);
@@ -3160,7 +3160,7 @@
 					        			title=itemValue[checkedItemValues[0]].title
 					        			
 					        			$('#overlayChart').show();
-			        debugger;		
+			       		
 			  	       	  $.ajax({
 			  	       	        type: "POST",
 		      	    	        contentType:  "application/json; charset=utf-8",
@@ -3185,7 +3185,7 @@
 	      	    	        	T2H=response[0].config[1].columnName==null?itemValue[checkedItemValues[1]].title:response[0].config[1].columnName;
 	      	    	        
 		      	    	        	titleOnHover= T1H +" vs "+ T2H;
-debugger;
+
 		      	    	        	 if (response[0].config[0].yAxisFormat!=null && response[0].config[0].yAxisFormat!="")
 			      	    	           { 
 			      	    	        	 if (response[0].config[0].yAxisFormat.includes("%"))
@@ -3207,7 +3207,7 @@ debugger;
 			      	    	           }
 			      	    	           else
 			      	    	        	 yaxisformat=3;
-		      	    	        	 debugger;
+		      	    	        	
 		      	    	        	 chartDbFontSize = response[0].config[0].chartSize;
 		      	    	     	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 		      	    	       	  if (typeof activeFontSize == 'undefined')
@@ -3216,7 +3216,7 @@ debugger;
 		      	    	       	  }
 		      	    	       	  else 
 		      	    	       		fontsize = activeFontSize;
-		      	    	  debugger;
+		      	    	 
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config[0].chartShowgrid,fontsize,response[0].config[0].chartshowMarkes));
 		      	    	     
 	    	   		
@@ -3230,7 +3230,7 @@ debugger;
 				      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        }));
-		      	    	           debugger;
+		      	    	          
 				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
 				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	    	chart.updateOptions({
@@ -3244,7 +3244,7 @@ debugger;
 											},
 				     				       yaxis: {
 					     				    	  labels: {
-					     				    		     maxWidth: 50, 
+					     				    		     maxWidth: 60, 
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
 						 						        	 }
@@ -3294,7 +3294,7 @@ debugger;
 						   		"screenName":"spreadmaker",
 						   	    "parameter":JSON.stringify(checkedItemValues)
 								   };	  
-	   	    	        debugger;
+	   	    	       
 						$.ajax({
 							        type: "POST",
 						     contentType:  "application/json; charset=utf-8",

@@ -2500,7 +2500,7 @@
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
-				debugger;
+				
 				var title;
 				var fromdate = formatDate(monthDate);
 				var todate = formatDate(date);
@@ -2855,7 +2855,7 @@
 		 		        	    "country6":itemValue["#jqxCheckBoxSpain-2over5"].country,
 		 		        	    "yieldCurveCross6": itemValue["#jqxCheckBoxSpain-2over5"].yieldCurveCross,
 		 	     			   };
-				       debugger;
+				      
 	    	        
 			  	       	  $.ajax({
 			  	       	        type: "POST",
@@ -2921,7 +2921,7 @@
 						      	    	        
 		      	    	        
 			    				 chartDbFontSize = response[0].config.chartSize;
-		      	    	       	  debugger; 
+		      	    	       	  
 		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 		      	    	       	if (typeof activeFontSize == 'undefined')
 		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
@@ -2988,7 +2988,7 @@
 			      	    	        }));
 									min=Math.min(min1,min2,min3,min4,min5,min6);
 									max=Math.max(max1,max2,max3,max4,max5,max6);
-									 debugger;
+									
 									minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
 				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	    	chart.updateOptions({
@@ -3002,7 +3002,7 @@
 					      	    	    		 },
 				     				       yaxis: {
 				     				    	  labels: {
-				     				    		 maxWidth: 50, 
+				     				    		 maxWidth: 60, 
 				 				        		 style: {
 				 						        	  fontSize: fontsize,
 				 						        	 }
@@ -3109,7 +3109,7 @@
 					   		"screenName":"curves",
 					 	    "parameter":'['+'[]'+','+'['+Daily+']'+','+'["'+Items+'"]]'
 							   };	  
-   	    	        debugger;
+   	    	       
 					$.ajax({
 						        type: "POST",
 					     contentType:  "application/json; charset=utf-8",
@@ -3150,7 +3150,7 @@
 						        		else 
 						        			title=itemValue[checkedItemValues[0]].title
 				       
-				        debugger;			    	
+				       			    	
 				  	       	  $.ajax({
 				  	       	        type: "POST",
 			      	    	        contentType:  "application/json; charset=utf-8",
@@ -3200,7 +3200,7 @@
 			      	    	            var getFormatResult1 = getFormat(response[1].config.dataFormat);
 			      	    	          
 			      	    	          chartDbFontSize = response[0].config.chartSize;
-			      	    	       	  debugger; 
+			      	    	       	  
 			      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 			      	    	       	if (typeof activeFontSize == 'undefined')
 			      	    	       	  { $('#'+chartDbFontSize).addClass("active");
@@ -3247,7 +3247,7 @@
 					     				       yaxis: {
 
 						     				    	  labels: {
-						     				    		 maxWidth: 50, 
+						     				    		 maxWidth: 60, 
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
 						 						        	 }
@@ -3354,7 +3354,7 @@
 					        		else 
 					        			title=itemValue[checkedItemValues[0]].title
 			       
-			        debugger;			    	
+			       			    	
 			  	       	  $.ajax({
 			  	       	        type: "POST",
 		      	    	        contentType:  "application/json; charset=utf-8",
@@ -3407,7 +3407,7 @@
 		      	    			var getFormatResult2 = getFormat(response[2].config.dataFormat);
 		      	    			
 		      	    			 chartDbFontSize = response[0].config.chartSize;
-		      	    	       	  debugger; 
+		      	    	       	  
 		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 		      	    	       	if (typeof activeFontSize == 'undefined')
 		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
@@ -3462,7 +3462,7 @@
 					      	    	    		 },
 				     				       yaxis: {
 					     				    	  labels: {
-					     				    		    maxWidth: 50, 
+					     				    		    maxWidth: 60, 
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
 						 						        	 }
@@ -3585,7 +3585,7 @@
 					        		else 
 					        			title=itemValue[checkedItemValues[0]].title
 			       
-			        debugger;			    	
+			       			    	
 			  	       	  $.ajax({
 			  	       	        type: "POST",
 		      	    	        contentType:  "application/json; charset=utf-8",
@@ -3645,7 +3645,7 @@
 	      	    	        	
 	      	    	  	
 	      	    	  	 chartDbFontSize = response[0].config.chartSize;
-     	    	       	  debugger; 
+     	    	       	  
      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
      	    	       	if (typeof activeFontSize == 'undefined')
     	    	       	  { $('#'+chartDbFontSize).addClass("active");
@@ -3709,7 +3709,7 @@
 				      	    	    		 },
 			     				       yaxis: {
 				     				    	  labels: {
-				     				    		     maxWidth: 50, 
+				     				    		     maxWidth: 60, 
 					 				        		 style: {
 					 						        	  fontSize: fontsize,
 					 						        	 }
@@ -3831,7 +3831,7 @@
 	   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
 	   		        	   };
 			        
-			       debugger;
+			      
 						       	  $.ajax({
 					  	       	        type: "POST",
 				      	    	        contentType:  "application/json; charset=utf-8",
@@ -3878,7 +3878,7 @@
 
 					      	    	    	 var getFormatResult = getFormat(response[0].config.dataFormat);
 					      	    	       	    chartDbFontSize = response[0].config.chartSize;
-					      	    	       	  debugger; 
+					      	    	       	  
 					      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 					      	    	       	if (typeof activeFontSize == 'undefined')
 					      	    	       	  { $('#'+chartDbFontSize).addClass("active");
@@ -3962,7 +3962,7 @@
 												},
 					     				       yaxis: {
 						     				    	  labels: {
-						     				    		     maxWidth: 50, 
+						     				    		     maxWidth: 60, 
 							 				        		 style: {
 							 						        	  fontSize: fontsize,
 							 						        	 }

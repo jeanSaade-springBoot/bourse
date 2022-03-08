@@ -264,20 +264,90 @@
 									           Weekly</div>
 								</div>
 				     	</div>
-						   <div class='row'>
+						 <div class='row'>
 				   	     <div class="col-1">
-						 <div class="buttons">
-						    <div class="btn-group-vertical" role="group" aria-label="Vertical example">
-						      <button type="button" class="btn btn-info" id="12px" style="font-size: small;" onclick="graphfont('12px')">A</button>
-						      <button type="button" class="btn btn-info" id="14px" style="font-size: medium;" onclick="graphfont('14px')">A</button>
-						      <button type="button" class="btn btn-info" id="16px" style="font-size: large;" onclick="graphfont('16px')">A</button>
-						    </div>
-						  </div>
+				   	        <div class="chart-option">
+				   	        <div class="chart-option-title">Chart option</div>
+				   	          <div class="btn-group  mt-2" role="group" aria-label="Vertical" id="chartTypes">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+						            <button class="btn btn-option"  id="area" onclick="graphTypeOption('area')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-areachart"></i></button>
+								     <button class="btn btn-option"  id="line" onclick="graphTypeOption('line')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
+									  <button class="btn btn-option" id="column" onclick="graphTypeOption('column')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-barchart"></i></button>
+								 </div>
+   						   </div>
+   						    <div class="btn-group  mt-2" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
+									  <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-bluechart"></i></button>
+									   <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-darkchart"></i></button>
+								 </div>
+   						   </div>
+   						    <div class="btn-group  mt-2" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
+									  <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart-25"></i></button>
+									   <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart-50"></i></button>
+								 </div>
+   						   </div>
+   						       <div class="btn-group  mt-2" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
+									  <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-smallmarkerchart"></i></button>
+									   <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-bigmarkerchart"></i></button>
+								 </div>
+   						   </div>
+						    <div class="btn-group mt-2"  role="group" aria-label="Vertical " id="fontOptions">
+						      <div class="" role="group" aria-label="Vertical example">
+						      <button type="button" class="btn btn-option" id="12px" onclick="graphfont('12px')"><i class="icon-small-a"></i></button>
+						      <button type="button" class="btn btn-option" id="14px" onclick="graphfont('14px')"><i class="icon-medium-a"></i></button>
+						      <button type="button" class="btn btn-option" id="16px" onclick="graphfont('16px')"><i class="icon-large-a"></i></button>
+						     </div>
+						   </div>
+						   <div class="btn-group  mt-2" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-withLinechart"></i></button>
+									 <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-withoutLinechart"></i></button>
+								 </div>
+   						   </div>
+						      <div class="btn-group  mt-2" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-legendchart"></i></button>
+									 <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-nolegendchart"></i></button>
+								 </div>
+   						   </div>
+   						   	<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="display:none;    margin: 1.1rem;
+    color: white;
+    font-size: 0.54rem;
+    height: 30px;
+    position: absolute;
+    bottom: 4px;
+    font-weight: bold;
+    left: -1px;
+    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
+						   </div>
 						</div>
-							 <div id="overlayChart" class="overlayChart" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   </div>
-				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style="min-height: 365px;min-width: 1100px;  max-width:1100px"></div></div>
+				    <div id="overlayChart" class="overlayChart" style="display:none">
+				     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+				   </div>
+				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style="min-height: 365px;min-width: 1100px;  max-width:1100px"></div>
+				     
+				     </div>
 						
 						</div>
 					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
@@ -375,7 +445,8 @@
     <script src="/js/jqwidgets/jqxradiobutton.js"></script> 
   
   <script src="/js/apexcharts.js"></script>
-   <script src="/js/chart.js"></script>
+  <script src="/js/chart.js"></script>
+  <script src="/js/chartOptions.js"></script> 
   <script>
   var checkedItem   = 0;
   var checkedItemid = [];
@@ -960,10 +1031,7 @@
 	     $("#WeeklyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25 , rtl:true});
 		 $("#DailyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25, rtl:true});
 		 
-		  $("div.btn-group-vertical button.btn").click(function(){
-			    $("div.btn-group-vertical").find(".active").removeClass("active");
-			    $(this).addClass("active");
-			  });  
+		 
 		 $.ajax({
 		        contentType: "application/json",
 		        url: "/bourse/findgraphhistorybyscreenname/yield",
@@ -1033,6 +1101,7 @@
 	  $("#all2yr").jqxButton({ theme: 'dark',height:22,width:74,template: "danger"  });
 	  
       $("#show").jqxButton({ theme: 'dark',height:30,width:74 });
+      $("#SaveToFavorites").jqxButton({ theme: 'dark',height:30,width:100 });
       
       $("#Clearfilter").click(function () {
     	  uncheckAll();
@@ -2960,15 +3029,8 @@
 		      							});
 		      	    	        	
 		      	    			
-		      	    		   chartDbFontSize = response[0].config.chartSize;
-		      	    	       	   
-		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-		      	    	       	if (typeof activeFontSize == 'undefined')
-		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
-		      	    	          	fontsize=chartDbFontSize;
-		      	    	       	  } else 
-		      	    	       		fontsize = activeFontSize;
-		      	    	  
+		      	    		        chartDbFontSize = response[0].config.chartSize;
+		      	    	       	    fontsize=getFontSize(chartDbFontSize);
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	       
 		      	    			
@@ -3041,7 +3103,7 @@
 					      	    	    		 },
 				     				       yaxis: {
 				     				    	  labels: {
-				     				    		 maxWidth: 50, 
+				     				    		 maxWidth: 60, 
 				 				        		 style: {
 				 						        	  fontSize: fontsize,
 				 						        	 }
@@ -3236,14 +3298,9 @@
 		      	    	        	var getFormatResult0 = getFormat(response[0].config.dataFormat);
 		      	    	         	var getFormatResult1 = getFormat(response[1].config.dataFormat);
 		      	    	         	
-		      	    	          chartDbFontSize = response[0].config.chartSize;
-		      	    	       	   
-		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-		      	    	       	if (typeof activeFontSize == 'undefined')
-		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
-		      	    	          	fontsize=chartDbFontSize;
-		      	    	       	  }else 
-		      	    	       		fontsize = activeFontSize;
+		      	    	            chartDbFontSize = response[0].config.chartSize;
+		      	    	       	    fontsize=getFontSize(chartDbFontSize);
+		      	    	          	
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	       
@@ -3253,7 +3310,7 @@
 									  
 			      	    	          var dbchartType2=response[1].config.chartType;
 			      	    	           chartType2 = getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
-			      	    	           debugger;
+			      	    	          
 			      	    	 		   min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        })),
@@ -3283,7 +3340,7 @@
 					     				       yaxis: {
 
 						     				    	  labels: {
-						     				    		 maxWidth: 50, 
+						     				    		 maxWidth: 60, 
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
 						 						        	 }
@@ -3440,14 +3497,9 @@
 	      	    	        	var getFormatResult1 = getFormat(response[1].config.dataFormat);
 	      	    	        	var getFormatResult2 = getFormat(response[2].config.dataFormat);
 	      	    	        	
-	      	    	        	 chartDbFontSize = response[0].config.chartSize;
-		      	    	       	   
-		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-		      	    	       	if (typeof activeFontSize == 'undefined')
-		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
-		      	    	          	fontsize=chartDbFontSize;
-		      	    	       	  } else 
-		      	    	       		fontsize = activeFontSize;
+	      	    	            chartDbFontSize = response[0].config.chartSize;
+	      	    	       	    fontsize=getFontSize(chartDbFontSize);
+	      	    	          	
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	       
@@ -3495,7 +3547,7 @@
 				      	    	    		 },
 			     				       yaxis: {
 				     				    	  labels: {
-				     				    		    maxWidth: 50, 
+				     				    		    maxWidth: 60, 
 					 				        		 style: {
 					 						        	  fontSize: fontsize,
 					 						        	 }
@@ -3658,14 +3710,9 @@
 	      	    			var getFormatResult3 = getFormat(response[3].config.dataFormat);
 	      	    			
 	      	    			
-	      	    		   chartDbFontSize = response[0].config.chartSize;
-	      	    	       	   
-	      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-	      	    	       	if (typeof activeFontSize == 'undefined')
-	      	    	       	  { $('#'+chartDbFontSize).addClass("active");
-	      	    	          	fontsize=chartDbFontSize;
-	      	    	       	  }else 
-	      	    	       		fontsize = activeFontSize;
+	      	    		    chartDbFontSize = response[0].config.chartSize;
+    	    	       	    fontsize=getFontSize(chartDbFontSize);
+    	    	          	
 	      	    	  
 	      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 	      	    	       
@@ -3721,7 +3768,7 @@
 				      	    	    		 },
 			     				       yaxis: {
 				     				    	  labels: {
-				     				    		     maxWidth: 50, 
+				     				    		     maxWidth: 60, 
 					 				        		 style: {
 					 						        	  fontSize: fontsize,
 					 						        	 }
@@ -3857,7 +3904,7 @@
 				      	    	    if (startDateF1!=null)
 				      	    	        startDateF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
 				      	    	    
-				      	    debugger;
+				      	   
 				      	    	    	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
 				      	    	    	title= T1;
 				      	    	    	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
@@ -3888,16 +3935,11 @@
 			      	    	            
 			      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 			      	    	       	    chartDbFontSize = response[0].config.chartSize;
-			      	    	       	   
-			      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-			      	    	       	if (typeof activeFontSize == 'undefined')
-			      	    	       	  { $('#'+chartDbFontSize).addClass("active");
-			      	    	          	fontsize=chartDbFontSize;
-			      	    	       	  } else 
-			      	    	       		fontsize = activeFontSize;
-			      	    	  
+			      	    	       	    fontsize=getFontSize(chartDbFontSize);
+			      	    	          	
+			      	    	       	    chartType1 = getDBChartType(getChartType(dbchartType1)[0]);
 			      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
-			      	    	
+			      	    	          debugger;
 				      	    	       if (chartType1=='area' && Daily==true)
 				      	    	        	{
 				      	    	    		if (response[0].config.chartColor=='#44546a')
@@ -3970,7 +4012,7 @@
 											},
 				     				       yaxis: {
 					     				    	  labels: {
-					     				    		     maxWidth: 50, 
+					     				    		     maxWidth: 60, 
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
 						 						        	 }

@@ -73,7 +73,7 @@ var chartOption = {
    	  			        xaxis: {
 	   	  			       labels:  { hideOverlappingLabels: false,
 	   	  			         		  rotate: -70,
-					                  rotateAlways: false,
+					                  rotateAlways: true,
 					                  minHeight:30,
 					        		  style: {
 							        	  fontSize: fontSize,
@@ -239,7 +239,7 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
  				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
  				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
 				     	    labels: {
-				        		 maxWidth: 50, 
+				        		 maxWidth: 60, 
 				        		 style: {
 						        	  fontSize: fontsize,
 						        	 }
@@ -291,7 +291,7 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
  				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
  				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
 				     	   	labels: {
-					 				 maxWidth: 50, 
+					 				 maxWidth: 60, 
 					        		 style: {
 							        	  fontSize: fontsize,
 							        	 }

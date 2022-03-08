@@ -1164,7 +1164,7 @@
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
-	        	debugger;
+	        	
 	        	     checkedItemId=JSON.parse(data.parameter);
 	        	     for(j=0; j<checkedItemId.length; j++)
 	    			   {
@@ -4876,7 +4876,7 @@
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	        debugger; 
+		      	    	        
 		      	    	      var dbchartType1=response[0].config.chartType;
 	      	    	           chartType1 = getChartType(dbchartType1)[0];
 	      	    	           
@@ -4965,7 +4965,7 @@
 								},
 	     				       yaxis: {
 		     				    	  labels: {
-		     				    		     maxWidth: 50, 
+		     				    		     maxWidth: 60, 
 			 				        		 style: {
 			 						        	  fontSize: fontsize,
 			 						        	 }
@@ -5266,7 +5266,7 @@
 											},
 				     				       yaxis: {
 					     				    	  labels: {
-					     				    		     maxWidth: 50, 
+					     				    		     maxWidth: 60, 
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
 						 						        	 }
@@ -5357,7 +5357,7 @@
 			 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
 			 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)-0.1 : Math.abs(maxvalue)+0.1,
 							     	    labels: {
-							        		 maxWidth: 50, 
+							        		 maxWidth: 60, 
 							        		 style: {
 									        	  fontSize: fontsize,
 									        	 }
@@ -5409,7 +5409,7 @@
 				 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
 				 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
 								     	    labels: {
-								        		 maxWidth: 50, 
+								        		 maxWidth: 60, 
 								        		 style: {
 										        	  fontSize: fontsize,
 										        	 }
@@ -5461,7 +5461,7 @@
 		 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
 		 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
 						     	    labels: {
-						        		 maxWidth: 50, 
+						        		 maxWidth: 60, 
 						        		 style: {
 								        	  fontSize: fontsize,
 								        	 }
@@ -5481,7 +5481,7 @@
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
-				debugger;
+				
 				var title;
 				var fontsize='12px';
 				var fromdate = formatDate(monthDate);
@@ -5677,7 +5677,7 @@
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	        	debugger;
+		      	    	        	
 		      	    	        	startDateF1=response[0].config.startDate;
 		      	    	        	startDateF2=response[1].config.startDate;
 		      	    	        	 if (startDateF1!=null)
@@ -5718,7 +5718,7 @@
 		      	    	          
 		      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
-		      	    	       	  debugger; 
+		      	    	       	  
 		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 		      	    	       	if (typeof activeFontSize == 'undefined')
 		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
@@ -5766,7 +5766,7 @@
 					     				       yaxis: {
 
 						     				    	  labels: {
-						     				    		 maxWidth: 50, 
+						     				    		 maxWidth: 60, 
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
 						 						        	 }
@@ -6014,7 +6014,7 @@
 				      	    	        dataType: 'json',
 				      	    	        timeout: 600000,
 				      	    	        success: function (response) {
-				      	    	        debugger;
+				      	    	       
 				      	    	        var T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
 			      	    	        	title= T1;
 			      	    	        	 var dbchartType1=response[0].config.chartType;
@@ -6041,7 +6041,7 @@
 				      	    	           }
 				      	    	           else
 				      	    	        	 yaxisformat=3;
-			      	    	        	debugger;
+			      	    	        	
 			      	    	        	
 			      	    	        	var getFormatResult = getFormat(response[0].config.dataFormat);
 			      	    	        	dataFormat= getFormatResult[0];
@@ -6057,7 +6057,7 @@
 		      	    	        	 
 		      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
-		      	    	       	  debugger; 
+		      	    	       	  
 		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
 		      	    	       	if (typeof activeFontSize == 'undefined')
 		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
@@ -6141,7 +6141,7 @@
 											},
 				     				       yaxis: {
 					     				    	  labels: {
-					     				    		     maxWidth: 50, 
+					     				    		     maxWidth: 60, 
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
 						 						        	 }
@@ -6214,7 +6214,7 @@
 							}
 		  	
 			function graphfont(fontSize){
-				debugger;
+				
 		    	 updateGraphFont(fontSize,minvalue,maxvalue);
 		     }
 			$(function (){
