@@ -7,11 +7,45 @@ $("#chartTypes button.btn").click(function(){
 			    $("#chartTypes").find(".active").removeClass("active");
 			    $(this).addClass("active");
 			  }); 
-
+function disableChartType(isdisabled)
+{
+    $("#area").prop('disabled', isdisabled);
+    $("#line").prop('disabled', isdisabled);
+    $("#column").prop('disabled', isdisabled);
+}
+function resetActiveChartType()
+{
+   $("#chartTypes").find(".active").removeClass("active");
+}
+function resetActiveFontSize()
+{
+   $("#fontOptions").find(".active").removeClass("active");
+}
 function graphTypeOption(chartType)
 {
-   chart.updateOptions({
-	  extra:{
+
+if (chartColor=='#44546a' && chartType=='area')
+    		chart.updateOptions({
+	  xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: $("#fontOptions").find(".active")[0].id,
+							        	 },
+					        	  },
+   	  			           type: 'category',
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+    		 extra:{
 			isDecimal: isdecimal,
 			yAxisFormat:yaxisformat,
 		},
@@ -19,7 +53,7 @@ function graphTypeOption(chartType)
 	    	  labels: {
 	    		     maxWidth: 60, 
 	        		 style: {
-			        	  fontSize: fontsize,
+			        	  fontSize: $("#fontOptions").find(".active")[0].id,
 			        	 }
 	        	  },
           tickAmount: 6,
@@ -33,17 +67,105 @@ function graphTypeOption(chartType)
 	                  offsetY: 0
 	              },
     	  },
+    			colors: ['#44546a'],
+		        fill: {
+	                type: 'gradient',
+	                gradient: {
+				    gradientToColors: '#5b9ad5',
+				      shadeIntensity: 0,
+				      type: "vertical",
+				     inverseColors: false,
+				      stops: [30, 90, 100],
+				      opacityFrom: 1,
+				      opacityTo: eval(chartTransparency),
+	                }
+	              },
+	               markers: {
+			   colors: "#ffffff",
+			   strokeColors:"#ffffff"
+		     },	
+	            stroke: {
+			      	 colors: ["#ffffff"],
+		        }
+    		});
+		else 
+   chart.updateOptions({
+	  colors: [chartColor=='#44546a'?'#5b9ad5':chartColor],
+  xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: $("#fontOptions").find(".active")[0].id,
+							        	 },
+					        	  },
+   	  			           type: 'category',
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+	  extra:{
+			isDecimal: isdecimal,
+			yAxisFormat:yaxisformat,
+		},
+       yaxis: {
+	    	  labels: {
+	    		     maxWidth: 60, 
+	        		 style: {
+			        	  fontSize: $("#fontOptions").find(".active")[0].id,
+			        	 }
+	        	  },
+          tickAmount: 6,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    			  axisBorder: {
+	                  width: 3,
+	                  show: true,
+	                  color: '#ffffff',
+	                  offsetX: 0,
+	                  offsetY: 0
+	              },
+    	  },
+  fill: {
+            type:'solid',
+            opacity: [1,1],
+          }, 
    stroke: {
-		      	 colors: chartType=="area"? ["#ffffff"]:["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+		      	 colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#5b9ad5':chartColor],
 	        },
     markers: {
-			   colors: chartType=="area"?"#ffffff":["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
-			   strokeColors:chartType=="area"?"#ffffff":["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"]
+			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor],
+			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor]
 		     }
 		 });
 	chart.updateSeries([{ type:chartType}]);
 }
-
+function checkActiveFontSize(activeFontSize,dbFontSize)
+{
+	if (typeof  activeFontSize == 'undefined')
+	  { fontsize=getFontSize(dbFontSize);
+	  } else 
+		{
+		  fontsize = activeFontSize.id;
+		}
+		return fontsize;
+}
+function checkActiveChartType(activeChartType,dbchartType,Daily)
+{
+	if (typeof  activeChartType == 'undefined')
+	  { chartType1 =getDBChartType(dbchartType,Daily);
+	  } else 
+		{
+		  chartType1 =  activeChartType.id;
+		}
+		return chartType1;
+}
 function getFontSize(chartDbFontSize)
 {
    activeFontSize = $('#fontOptions > .btn.active').attr('id');
@@ -56,12 +178,12 @@ function getFontSize(chartDbFontSize)
 		return fontsize;
 }
 
-function getDBChartType(DbchartType)
+function getDBChartType(DbchartType,Daily)
 {
    activeChartType = $('#chartTypes > .btn.active').attr('id');
 	if (typeof activeChartType == 'undefined')
-	  { $('#'+DbchartType.toLowerCase()).addClass("active");
-	  	chartType=DbchartType;
+	  { $(Daily?'#'+DbchartType.toLowerCase():'#column').addClass("active");
+	  	chartType=Daily?DbchartType:'column';
 	  } else 
 		chartType = activeChartType;
 		

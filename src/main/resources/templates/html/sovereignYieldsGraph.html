@@ -268,7 +268,7 @@
 				   	     <div class="col-1">
 				   	        <div class="chart-option">
 				   	        <div class="chart-option-title">Chart option</div>
-				   	          <div class="btn-group  mt-2" role="group" aria-label="Vertical" id="chartTypes">
+				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 						            <button class="btn btn-option"  id="area" onclick="graphTypeOption('area')" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-areachart"></i></button>
@@ -278,7 +278,7 @@
 									 data-resumetext="Resume" ><i class="icon-barchart"></i></button>
 								 </div>
    						   </div>
-   						    <div class="btn-group  mt-2" role="group" aria-label="Vertical" style="display:none;">
+   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 								     <button class="btn btn-option" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
@@ -288,7 +288,7 @@
 									 data-resumetext="Resume" ><i class="icon-darkchart"></i></button>
 								 </div>
    						   </div>
-   						    <div class="btn-group  mt-2" role="group" aria-label="Vertical" style="display:none;">
+   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 								     <button class="btn btn-option" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
@@ -298,7 +298,7 @@
 									 data-resumetext="Resume" ><i class="icon-goldchart-50"></i></button>
 								 </div>
    						   </div>
-   						       <div class="btn-group  mt-2" role="group" aria-label="Vertical" style="display:none;">
+   						       <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 								     <button class="btn btn-option" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
@@ -308,14 +308,14 @@
 									 data-resumetext="Resume" ><i class="icon-bigmarkerchart"></i></button>
 								 </div>
    						   </div>
-						    <div class="btn-group mt-2"  role="group" aria-label="Vertical " id="fontOptions">
+						    <div class="btn-group mt-2 ml-1"  role="group" aria-label="Vertical " id="fontOptions">
 						      <div class="" role="group" aria-label="Vertical example">
 						      <button type="button" class="btn btn-option" id="12px" onclick="graphfont('12px')"><i class="icon-small-a"></i></button>
 						      <button type="button" class="btn btn-option" id="14px" onclick="graphfont('14px')"><i class="icon-medium-a"></i></button>
 						      <button type="button" class="btn btn-option" id="16px" onclick="graphfont('16px')"><i class="icon-large-a"></i></button>
 						     </div>
 						   </div>
-						   <div class="btn-group  mt-2" role="group" aria-label="Vertical" style="display:none;">
+						   <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 								     <button class="btn btn-option" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-withLinechart"></i></button>
@@ -323,7 +323,7 @@
 									 data-resumetext="Resume" ><i class="icon-withoutLinechart"></i></button>
 								 </div>
    						   </div>
-						      <div class="btn-group  mt-2" role="group" aria-label="Vertical" style="display:none;">
+						      <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 								     <button class="btn btn-option" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-legendchart"></i></button>
@@ -474,6 +474,8 @@
   var yaxisformat;
   var minvalue=0;
   var maxvalue=0;
+  var chartColor=0;
+  var chartTransparency=0;
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
 	  "#jqxCheckBoxUSA-5",
@@ -1083,10 +1085,14 @@
 	 
 	
 	 $('#WeeklyRadioButton').on('change', function (event) { 
+		 resetActiveChartType();
+   	     resetActiveFontSize();
 		 drawGraph();
 	 }); 
 
 	 $('#DailyRadioButton').on('change', function (event) { 
+		 resetActiveChartType();
+   	     resetActiveFontSize();
 		 drawGraph();
 	 }); 
 
@@ -1116,6 +1122,8 @@
     	  monthDate=new Date(); 
     	  monthDate.setMonth(monthDate.getMonth() - 3);
     	  monthDate.setHours(0,0,0,0);
+    	  resetActiveChartType();
+    	  resetActiveFontSize();
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
     	 fromNavigation =false;
@@ -2933,7 +2941,7 @@
 		 		        	    "yieldCurveCross6": itemValue["#jqxCheckBoxSpain-2"].yieldCurveCross,
 		 	     			   };
 				        
-				       
+		    		     disableChartType(true);
    	    	        
 			  	       	  $.ajax({
 			  	       	        type: "POST",
@@ -3030,7 +3038,7 @@
 		      	    	        	
 		      	    			
 		      	    		        chartDbFontSize = response[0].config.chartSize;
-		      	    	       	    fontsize=getFontSize(chartDbFontSize);
+		      	    	       	   	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	       
 		      	    			
@@ -3252,7 +3260,8 @@
 					        		else 
 					        			title=itemValue[checkedItemValues[0]].title
 			       
-			         			    	
+					      disableChartType(true);
+						 
 			  	       	  $.ajax({
 			  	       	        type: "POST",
 		      	    	        contentType:  "application/json; charset=utf-8",
@@ -3299,7 +3308,7 @@
 		      	    	         	var getFormatResult1 = getFormat(response[1].config.dataFormat);
 		      	    	         	
 		      	    	            chartDbFontSize = response[0].config.chartSize;
-		      	    	       	    fontsize=getFontSize(chartDbFontSize);
+		      	    	       	   	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 		      	    	          	
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
@@ -3446,7 +3455,7 @@
 				        		else 
 				        			title=itemValue[checkedItemValues[0]].title
 		       
-		         			    	
+				     disableChartType(true);  	
 		  	       	  $.ajax({
 		  	       	        type: "POST",
 	      	    	        contentType:  "application/json; charset=utf-8",
@@ -3498,7 +3507,7 @@
 	      	    	        	var getFormatResult2 = getFormat(response[2].config.dataFormat);
 	      	    	        	
 	      	    	            chartDbFontSize = response[0].config.chartSize;
-	      	    	       	    fontsize=getFontSize(chartDbFontSize);
+	      	    	       	   	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	      	    	          	
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
@@ -3669,7 +3678,7 @@
 				        		else 
 				        			title=itemValue[checkedItemValues[0]].title
 		       
-		         			    	
+				      disableChartType(true);		    	
 		  	       	  $.ajax({
 		  	       	        type: "POST",
 	      	    	        contentType:  "application/json; charset=utf-8",
@@ -3711,7 +3720,7 @@
 	      	    			
 	      	    			
 	      	    		    chartDbFontSize = response[0].config.chartSize;
-    	    	       	    fontsize=getFontSize(chartDbFontSize);
+    	    	       	   	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
     	    	          	
 	      	    	  
 	      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
@@ -3889,7 +3898,8 @@
 	   		        	    "country1":itemValue[checkedItemValues[0]].country,
 	   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
 	   		        	   };
-			
+			        disableChartType(false);
+					
 			        $.ajax({
 					  	       	        type: "POST",
 				      	    	        contentType:  "application/json; charset=utf-8",
@@ -3935,11 +3945,14 @@
 			      	    	            
 			      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 			      	    	       	    chartDbFontSize = response[0].config.chartSize;
-			      	    	       	    fontsize=getFontSize(chartDbFontSize);
-			      	    	          	
-			      	    	       	    chartType1 = getDBChartType(getChartType(dbchartType1)[0]);
+			      	    	        	chartColor=response[0].config.chartColor;
+			      	    	        	chartTransparency=response[0].config.chartTransparency;
+			      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+			      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,Daily);
+			      	    	       	    
 			      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
-			      	    	          debugger;
+			      	    	         
+			      	    	           
 				      	    	       if (chartType1=='area' && Daily==true)
 				      	    	        	{
 				      	    	    		if (response[0].config.chartColor=='#44546a')
@@ -3954,7 +3967,7 @@
 					      	    					     inverseColors: false,
 													      stops: [30, 90, 100],
 													      opacityFrom: 1,
-													      opacityTo: eval(response[0].config.chartTransparency),
+													      opacityTo: eval(chartTransparency),
 					      	    		                }
 					      	    		              },	
 					      	    		            stroke: {
@@ -3982,11 +3995,18 @@
 				      	    	        		if (response[0].config.chartColor=='#44546a')
 				      	    	        		{
 				      	    	        			chart.updateOptions({
-					      	    	    				colors: ['#27303d'],
+					      	    	    				colors: ['#5b9ad5'],
 								      				       fill: {
 								      			            type:'solid',
 								      			            opacity: [1,1],
 								      			          }, 
+								      			        stroke: {
+							      	    			      	 colors: ['#5b9ad5'],
+							      	    		        },
+							      	    	         markers: {
+							      	    				   colors: ['#5b9ad5'],
+							      	    				   strokeColors:['#5b9ad5']
+							      	    			     }
 						      	    	    		});
 				      	    	        		}
 				      	    	        	else 
@@ -3996,6 +4016,13 @@
 							      			            type:'solid',
 							      			            opacity: [1,1],
 							      			          }, 
+							      			        stroke: {
+						      	    			      	 colors: [response[0].config.chartColor],
+						      	    		        },
+						      	    	         markers: {
+						      	    				   colors: [response[0].config.chartColor],
+						      	    				   strokeColors:[response[0].config.chartColor]
+						      	    			     }
 					      	    	    		});
 				      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
@@ -4006,6 +4033,13 @@
 				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
 				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	    	chart.updateOptions({
+				      	    	    		 stroke: {
+					      	    	 		      colors: chartType1=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#5b9ad5':chartColor],
+					      	    	 	        },
+					      	    	       markers: {
+					      	    	 			   colors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor],
+					      	    	 			   strokeColors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor]
+					      	    	 		     },
 				      	    	    	  extra:{
 												isDecimal: isdecimal,
 												yAxisFormat:yaxisformat,
@@ -4047,7 +4081,7 @@
 			      	    	    		});
 				      	    	         chart.updateSeries([{
 										         name: response[0].config!=null?(response[0].config.displayDescription==null?'':response[0].config.displayDescription):'',
-										          type: Daily?chartType1:'column',
+										          type: chartType1,
 										          data: response[0].graphResponseDTOLst
 										        }]);
 				      	    	       

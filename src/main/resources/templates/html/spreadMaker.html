@@ -293,13 +293,81 @@
 				    <div id="grid-content" style="display:none;">
 							   <div class='row'>
 				   	     <div class="col-1">
-						 <div class="buttons">
-						    <div class="btn-group-vertical" role="group" aria-label="Vertical example">
-						      <button type="button" class="btn btn-info" id="12px" style="font-size: small;" onclick="graphfont('12px')">A</button>
-						      <button type="button" class="btn btn-info" id="14px" style="font-size: medium;" onclick="graphfont('14px')">A</button>
-						      <button type="button" class="btn btn-info" id="16px" style="font-size: large;" onclick="graphfont('16px')">A</button>
-						      </div>
-						  </div>
+							   	        <div class="chart-option">
+				   	        <div class="chart-option-title">Chart option</div>
+				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+						            <button class="btn btn-option"  id="area" onclick="graphTypeOption('area')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-areachart"></i></button>
+								     <button class="btn btn-option"  id="line" onclick="graphTypeOption('line')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
+									  <button class="btn btn-option" id="column" onclick="graphTypeOption('column')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-barchart"></i></button>
+								 </div>
+   						   </div>
+   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
+									  <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-bluechart"></i></button>
+									   <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-darkchart"></i></button>
+								 </div>
+   						   </div>
+   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
+									  <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart-25"></i></button>
+									   <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart-50"></i></button>
+								 </div>
+   						   </div>
+   						       <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
+									  <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-smallmarkerchart"></i></button>
+									   <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-bigmarkerchart"></i></button>
+								 </div>
+   						   </div>
+						    <div class="btn-group mt-2 ml-1"  role="group" aria-label="Vertical " id="fontOptions">
+						      <div class="" role="group" aria-label="Vertical example">
+						      <button type="button" class="btn btn-option" id="12px" onclick="graphfont('12px')"><i class="icon-small-a"></i></button>
+						      <button type="button" class="btn btn-option" id="14px" onclick="graphfont('14px')"><i class="icon-medium-a"></i></button>
+						      <button type="button" class="btn btn-option" id="16px" onclick="graphfont('16px')"><i class="icon-large-a"></i></button>
+						     </div>
+						   </div>
+						   <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-withLinechart"></i></button>
+									 <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-withoutLinechart"></i></button>
+								 </div>
+   						   </div>
+						      <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-legendchart"></i></button>
+									 <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-nolegendchart"></i></button>
+								 </div>
+   						   </div>
+   						   	<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="display:none;    margin: 1.1rem;
+    color: white;
+    font-size: 0.54rem;
+    height: 30px;
+    position: absolute;
+    bottom: 4px;
+    font-weight: bold;
+    left: -1px;
+    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
+						   </div>
 						</div>
 						  <div id="overlayChart" class="overlayChart" style="display:none">
 						     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
@@ -453,6 +521,7 @@
   
   <script src="/js/apexcharts.js"></script>
   <script src="/js/chart.js"></script>
+  <script src="/js/chartOptions.js"></script> 
   
   <script>
   var checkedItem   = 0;
@@ -475,6 +544,10 @@
   var yaxisformat=3;
   var startDateF1;
   var startDateF2;
+  var minvalue=0;
+  var maxvalue=0;
+  var chartColor=0;
+  var chartTransparency=0;
   var allitems=[
 	  "#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
@@ -945,6 +1018,8 @@
       monthDate=new Date(); 
    	  monthDate.setMonth(monthDate.getMonth() - 3);
    	  monthDate.setHours(0,0,0,0);
+   	  resetActiveChartType();
+	  resetActiveFontSize();
    	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
    	  fromNavigation =false;
@@ -3207,23 +3282,20 @@
 			      	    	           }
 			      	    	           else
 			      	    	        	 yaxisformat=3;
-		      	    	        	
-		      	    	        	 chartDbFontSize = response[0].config[0].chartSize;
-		      	    	     	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-		      	    	       	  if (typeof activeFontSize == 'undefined')
-		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
-		      	    	          	fontsize=chartDbFontSize;
-		      	    	       	  }
-		      	    	       	  else 
-		      	    	       		fontsize = activeFontSize;
-		      	    	 
-		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config[0].chartShowgrid,fontsize,response[0].config[0].chartshowMarkes));
+		      	    	        	var dbchartType1=response[0].config[0].chartType;
+		      	    	        	 chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
+									
+		      	    	         chartDbFontSize = response[0].config[0].chartSize;
+		      	    	        chartColor=response[0].config[0].chartColor;
+	      	    	        	chartTransparency=response[0].config[0].chartTransparency;
+	      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
+	      	    	       	    
+		      	    	       	chart.updateOptions(getChartDailyOption(title,response[0].config[0].chartShowgrid,fontsize,response[0].config[0].chartshowMarkes));
 		      	    	     
 	    	   		
 		      	    	        	
-		      	    	        	 var dbchartType1=response[0].config[0].chartType;
-		      	    	        	 chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
-									
+		      	    	        	 
 		      	    	               min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        })),
@@ -3234,10 +3306,13 @@
 				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
 				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	    	chart.updateOptions({
-				      	    	    		 markers: {
-					      	    	    		   colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
-					      	    	    		   strokeColors:["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"]
-					      	    	    		 },
+				      	    	    		 stroke: {
+				      	    	 		      colors: chartType1=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#5b9ad5':chartColor],
+				      	    	 	        },
+				      	    	       markers: {
+				      	    	 			   colors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor],
+				      	    	 			   strokeColors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor]
+				      	    	 		     },
 				      	    	    	  extra:{
 												isDecimal: isdecimal,
 												yAxisFormat:yaxisformat,

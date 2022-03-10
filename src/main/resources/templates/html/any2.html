@@ -356,13 +356,81 @@
 				 
 				    <div class="row">
 				     <div class="col-1">
-						 <div class="buttons">
-						    <div class="btn-group-vertical" role="group" aria-label="Vertical example">
-						      <button type="button" class="btn btn-info" id="12px" style="font-size: small;" onclick="graphfont('12px')">A</button>
-						      <button type="button" class="btn btn-info" id="14px" style="font-size: medium;" onclick="graphfont('14px')">A</button>
-						      <button type="button" class="btn btn-info" id="16px" style="font-size: large;" onclick="graphfont('16px')">A</button>
+							   	        <div class="chart-option">
+				   	        <div class="chart-option-title">Chart option</div>
+				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+						            <button class="btn btn-option"  id="area" onclick="graphTypeOption('area')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-areachart"></i></button>
+								     <button class="btn btn-option"  id="line" onclick="graphTypeOption('line')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
+									  <button class="btn btn-option" id="column" onclick="graphTypeOption('column')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-barchart"></i></button>
+								 </div>
+   						   </div>
+   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
+									  <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-bluechart"></i></button>
+									   <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-darkchart"></i></button>
+								 </div>
+   						   </div>
+   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
+									  <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart-25"></i></button>
+									   <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart-50"></i></button>
+								 </div>
+   						   </div>
+   						       <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
+									  <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-smallmarkerchart"></i></button>
+									   <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-bigmarkerchart"></i></button>
+								 </div>
+   						   </div>
+						    <div class="btn-group mt-2 ml-1"  role="group" aria-label="Vertical " id="fontOptions">
+						      <div class="" role="group" aria-label="Vertical example">
+						      <button type="button" class="btn btn-option" id="12px" onclick="graphfont('12px')"><i class="icon-small-a"></i></button>
+						      <button type="button" class="btn btn-option" id="14px" onclick="graphfont('14px')"><i class="icon-medium-a"></i></button>
+						      <button type="button" class="btn btn-option" id="16px" onclick="graphfont('16px')"><i class="icon-large-a"></i></button>
 						     </div>
-						  </div>
+						   </div>
+						   <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-withLinechart"></i></button>
+									 <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-withoutLinechart"></i></button>
+								 </div>
+   						   </div>
+						      <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-legendchart"></i></button>
+									 <button class="btn btn-option" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-nolegendchart"></i></button>
+								 </div>
+   						   </div>
+   						   	<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="display:none;    margin: 1.1rem;
+    color: white;
+    font-size: 0.54rem;
+    height: 30px;
+    position: absolute;
+    bottom: 4px;
+    font-weight: bold;
+    left: -1px;
+    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
+						   </div>
 						</div>
 						 <div class="col-10">
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
@@ -509,6 +577,7 @@
   
   <script src="/js/apexcharts.js"></script>
   <script src="/js/chart.js"></script>
+  <script src="/js/chartOptions.js"></script> 
   <script>
   var checkedItem = 0;
   var checkedItemid = [];
@@ -525,6 +594,8 @@
   var startDateF2;
   var minvalue=0;
   var maxvalue=0;
+  var chartColor=0;
+  var chartTransparency=0;
   var fromNavigation = false;
   var isdecimal = false;
   var dataFormatIsDecimal=false;
@@ -1316,6 +1387,8 @@
     	  monthDate=new Date(); 
     	  monthDate.setMonth(monthDate.getMonth() - 3);
     	  monthDate.setHours(0,0,0,0);
+    	  resetActiveChartType();
+    	  resetActiveFontSize();
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
     	 fromNavigation=false;
@@ -4683,6 +4756,8 @@
 			  }
 			function splitGraph()
 			{
+				
+				$(".chart-option").hide();
 				mode="split";
 				var title1;
 				var title2;
@@ -4827,12 +4902,6 @@
 			        		 style: {
 					        	  fontSize: fontsize,
 					        	 },
-			        	    formatter: function (value) {
-			        	    	if (isdecimal)
-				        	    	   return value.toFixed(yaxisformat);
-				        	    	else 
-				        	         return value.toFixed(yaxisformat) + "%";
-			        	    }
 			        	  },
 			        	  axisBorder: {
 			        		  width: 3,
@@ -4883,13 +4952,8 @@
 	      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
 	      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
 	      	    		    chartDbFontSize = response[0].config.chartSize;
-	      	    	       activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-	      	    	     if (typeof activeFontSize == 'undefined')
-     	    	       	  { $('#'+chartDbFontSize).addClass("active");
-     	    	          	fontsize=chartDbFontSize;
-     	    	       	  }
-	      	    	       	  else 
-	      	    	       		fontsize = activeFontSize;
+	      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+  	    	          	  
 	      	    	       chart1.updateOptions(getChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    
 	      	    	
@@ -4935,21 +4999,35 @@
    	    	        		if (response[0].config.chartColor=='#44546a')
    	    	        		{
    	    	        			chart1.updateOptions({
-	      	    	    				colors: ['#27303d'],
-				      				       fill: {
-				      			            type:'solid',
-				      			            opacity: [1,1],
-				      			          }, 
-		      	    	    		});
-   	    	        		}
-   	    	        	else 
-   	    	        		chart1.updateOptions({
-   	    	    				colors: [response[0].config.chartColor],
+      	    	    				colors: ['#5b9ad5'],
 			      				       fill: {
 			      			            type:'solid',
 			      			            opacity: [1,1],
 			      			          }, 
+			      			        stroke: {
+		      	    			      	 colors: ['#5b9ad5'],
+		      	    		        },
+		      	    	         markers: {
+		      	    				   colors: ['#5b9ad5'],
+		      	    				   strokeColors:['#5b9ad5']
+		      	    			     }
 	      	    	    		});
+   	    	        		}
+   	    	        	else 
+   	    	        		chart1.updateOptions({
+  	    	    				colors: [response[0].config.chartColor],
+		      				       fill: {
+		      			            type:'solid',
+		      			            opacity: [1,1],
+		      			          }, 
+		      			        stroke: {
+	      	    			      	 colors: [response[0].config.chartColor],
+	      	    		        },
+	      	    	         markers: {
+	      	    				   colors: [response[0].config.chartColor],
+	      	    				   strokeColors:[response[0].config.chartColor]
+	      	    			     }
+      	    	    		});
 	      	    	    min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 	      	    	          return item.y;
 	      	    	        })),
@@ -5169,7 +5247,7 @@
 		   		        	    "country1":itemValue[checkedItemValues[1]].country,
 		   		        	    "yieldCurveCross1": itemValue[checkedItemValues[1]].yieldCurveCross
 		   	     			   };
-			    	    
+			    	          disableChartType(false);
 				  	       	  $.ajax({
 				  	       	        type: "POST",
 			      	    	        contentType:  "application/json; charset=utf-8",
@@ -5184,13 +5262,8 @@
 			      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
 			      	    	         
 			      	    		    chartDbFontSize = response[0].config.chartSize;
-			      	    	       activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-			      	    	     if (typeof activeFontSize == 'undefined')
-		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
-		      	    	          	fontsize=chartDbFontSize;
-		      	    	       	  }
-			      	    	       	  else 
-			      	    	       		fontsize = activeFontSize;
+			      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+		    	    	          	
 			      	    	       chart2.updateOptions(getChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 			   		      	    
 			   	      	    	
@@ -5236,21 +5309,35 @@
 			   	    	        		if (response[0].config.chartColor=='#44546a')
 			   	    	        		{
 			   	    	        			chart2.updateOptions({
-				      	    	    				colors: ['#27303d'],
-							      				       fill: {
-							      			            type:'solid',
-							      			            opacity: [1,1],
-							      			          }, 
-					      	    	    		});
-			   	    	        		}
-			   	    	        	else 
-			   	    	        		chart2.updateOptions({
-			   	    	    				colors: [response[0].config.chartColor],
+			      	    	    				colors: ['#5b9ad5'],
 						      				       fill: {
 						      			            type:'solid',
 						      			            opacity: [1,1],
 						      			          }, 
+						      			        stroke: {
+					      	    			      	 colors: ['#5b9ad5'],
+					      	    		        },
+					      	    	         markers: {
+					      	    				   colors: ['#5b9ad5'],
+					      	    				   strokeColors:['#5b9ad5']
+					      	    			     }
 				      	    	    		});
+			   	    	        		}
+			   	    	        	else 
+			   	    	        		chart2.updateOptions({
+		      	    	    				colors: [response[0].config.chartColor],
+					      				       fill: {
+					      			            type:'solid',
+					      			            opacity: [1,1],
+					      			          }, 
+					      			        stroke: {
+				      	    			      	 colors: [response[0].config.chartColor],
+				      	    		        },
+				      	    	         markers: {
+				      	    				   colors: [response[0].config.chartColor],
+				      	    				   strokeColors:[response[0].config.chartColor]
+				      	    			     }
+			      	    	    		});
 				      	    	    min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        })),
@@ -5478,6 +5565,7 @@
 			}
 			function drawGraph(){
 				   $('#overlayChart').show(); 
+				   $(".chart-option").show(); 
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
@@ -5531,7 +5619,7 @@
 		 		        	    "country2":itemValue[checkedItemValues[1]].country,
 		 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross
 		 	     			   };
-				       
+				         disableChartType(true);
 						 if(checkedItemValues.length>1)
 					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
 					        		else 
@@ -5718,14 +5806,8 @@
 		      	    	          
 		      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
-		      	    	       	  
-		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-		      	    	       	if (typeof activeFontSize == 'undefined')
-		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
-		      	    	          	fontsize=chartDbFontSize;
-		      	    	       	  }
-		      	    	       	  else 
-		      	    	       		fontsize = activeFontSize;
+		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+	    	    	          	
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	       
@@ -5975,12 +6057,6 @@
 				        		 style: {
 						        	  fontSize: fontsize,
 						        	 },
-				        	    formatter: function (value) {
-				        	    	if (isdecimal)
-					        	    	   return value.toFixed(yaxisformat);
-					        	    	else 
-					        	         return value.toFixed(yaxisformat) + "%";
-				        	    }
 				        	  },
 				        	  axisBorder: {
 				        		  width: 3,
@@ -6058,13 +6134,11 @@
 		      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	       	  
-		      	    	       	  activeFontSize = $('.btn-group-vertical > .btn.active').attr('id');
-		      	    	       	if (typeof activeFontSize == 'undefined')
-		      	    	       	  { $('#'+chartDbFontSize).addClass("active");
-		      	    	          	fontsize=chartDbFontSize;
-		      	    	       	  }
-		      	    	       	  else 
-		      	    	       		fontsize = activeFontSize;
+		      	    	       	chartColor=response[0].config.chartColor;
+	      	    	        	chartTransparency=response[0].config.chartTransparency;
+	      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
+	      	    	       	    
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	        //  return 2; 
@@ -6110,20 +6184,34 @@
 			      	    	        		if (response[0].config.chartColor=='#44546a')
 			      	    	        		{
 			      	    	        			chart.updateOptions({
-				      	    	    				colors: ['#27303d'],
+				      	    	    				colors: ['#5b9ad5'],
 							      				       fill: {
 							      			            type:'solid',
 							      			            opacity: [1,1],
 							      			          }, 
+							      			        stroke: {
+						      	    			      	 colors: ['#5b9ad5'],
+						      	    		        },
+						      	    	         markers: {
+						      	    				   colors: ['#5b9ad5'],
+						      	    				   strokeColors:['#5b9ad5']
+						      	    			     }
 					      	    	    		});
 			      	    	        		}
 			      	    	        	else 
-			      	    	    			chart.updateOptions({
+			      	    	        		chart.updateOptions({
 			      	    	    				colors: [response[0].config.chartColor],
 						      				       fill: {
 						      			            type:'solid',
 						      			            opacity: [1,1],
 						      			          }, 
+						      			        stroke: {
+					      	    			      	 colors: [response[0].config.chartColor],
+					      	    		        },
+					      	    	         markers: {
+					      	    				   colors: [response[0].config.chartColor],
+					      	    				   strokeColors:[response[0].config.chartColor]
+					      	    			     }
 				      	    	    		});
 			      	    	    	
 			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
