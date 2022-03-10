@@ -51,7 +51,7 @@ if (chartColor=='#44546a' && chartType=='area')
 		},
        yaxis: {
 	    	  labels: {
-	    		     maxWidth: 60, 
+	    		     minWidth: 75,maxWidth: 75,
 	        		 style: {
 			        	  fontSize: $("#fontOptions").find(".active")[0].id,
 			        	 }
@@ -116,7 +116,7 @@ if (chartColor=='#44546a' && chartType=='area')
 		},
        yaxis: {
 	    	  labels: {
-	    		     maxWidth: 60, 
+	    		     minWidth: 75,maxWidth: 75,
 	        		 style: {
 			        	  fontSize: $("#fontOptions").find(".active")[0].id,
 			        	 }
@@ -137,7 +137,7 @@ if (chartColor=='#44546a' && chartType=='area')
             opacity: [1,1],
           }, 
    stroke: {
-		      	 colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#5b9ad5':chartColor],
+		      colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#5b9ad5':chartColor],
 	        },
     markers: {
 			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor],
