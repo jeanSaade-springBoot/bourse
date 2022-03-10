@@ -4946,9 +4946,9 @@
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
 		      	    	        
-		      	    	      var dbchartType1=response[0].config.chartType;
+		      	    	    var dbchartType1=response[0].config.chartType;
 	      	    	           chartType1 = getChartType(dbchartType1)[0];
-	      	    	           
+	      	    	         var getFormatResult = getFormat(response[0].config.dataFormat); 
 	      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
 	      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
 	      	    		    chartDbFontSize = response[0].config.chartSize;
@@ -5202,13 +5202,7 @@
 				        	labels: {
 				        		 style: {
 						        	  fontSize: fontsize,
-						        	 },
-				        	    formatter: function (value) {
-				        	    	if (isdecimal)
-					        	    	   return value.toFixed(yaxisformat);
-					        	    	else 
-					        	         return value.toFixed(yaxisformat) + "%";
-				        	    }
+						        	 }
 				        	  },
 				        	  axisBorder: {
 				        		  width: 3,
@@ -5247,8 +5241,7 @@
 		   		        	    "country1":itemValue[checkedItemValues[1]].country,
 		   		        	    "yieldCurveCross1": itemValue[checkedItemValues[1]].yieldCurveCross
 		   	     			   };
-			    	          disableChartType(false);
-				  	       	  $.ajax({
+			    	          $.ajax({
 				  	       	        type: "POST",
 			      	    	        contentType:  "application/json; charset=utf-8",
 			      	    	        url: "/bourse/getgraphdata",
@@ -5256,6 +5249,7 @@
 			      	    	        dataType: 'json',
 			      	    	        timeout: 600000,
 			      	    	        success: function (response) {
+			      	    	         var getFormatResult = getFormat(response[0].config.dataFormat);
 			      	    	          var dbchartType2=response[0].config.chartType;
 			      	    	           chartType2 = getChartType(dbchartType2)[0];
 			      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
@@ -6081,7 +6075,8 @@
 				        	}
 	   	  			        };
 			         chart = new ApexCharts(document.querySelector("#mainChart"), options);
-					        
+			         disableChartType(false);
+		  	       	 
 						       	  $.ajax({
 					  	       	        type: "POST",
 				      	    	        contentType:  "application/json; charset=utf-8",
