@@ -8699,6 +8699,8 @@
 					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column' || this.w.config.series[2].type=='column';
 					if (vLenght==4)	
 					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column'|| this.w.config.series[2].type=='column'|| this.w.config.series[3].type=='column';
+					if (vLenght==6)	
+					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column'|| this.w.config.series[2].type=='column'|| this.w.config.series[3].type=='column' || this.w.config.series[4].type=='column' ||this.w.config.series[5].type=='column';
 					if (value)
 					v.setAttribute("class", "gridbackground"),v.setAttribute("x", -(this.gridRect.getBBox().width-a.globals.gridWidth)/2), v.setAttribute("y", 0), v.setAttribute("width", this.gridRect.getBBox().width), v.setAttribute("height", this.gridRect.getBBox().height), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
 				   else 
