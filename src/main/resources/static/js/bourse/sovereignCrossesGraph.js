@@ -629,12 +629,14 @@
 	 $('#WeeklyRadioButton').on('change', function (event) { 
 		 resetActiveChartType();
    	     resetActiveFontSize();
+		 resetActiveChartColor();
 		 drawGraph();
 	 }); 
 
 	 $('#DailyRadioButton').on('change', function (event) { 
 		 resetActiveChartType();
    	     resetActiveFontSize();
+		 resetActiveChartColor();
 		 drawGraph();
 	 }); 
 	 
@@ -701,6 +703,7 @@
     	  monthDate.setHours(0,0,0,0);
     	  resetActiveChartType();
     	  resetActiveFontSize();
+		  resetActiveChartColor();
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
     	  fromNavigation =false;
@@ -2699,7 +2702,8 @@
 					        		else 
 					        			title=itemValue[checkedItemValues[0]].title
 			       
-					        			 disableChartType(true);	    	
+					        			 disableChartType(true);
+	    								 disableChartColor(true);
 			  	       	  $.ajax({
 			  	       	        type: "POST",
 		      	    	        contentType:  "application/json; charset=utf-8",
@@ -2895,7 +2899,8 @@
 				        		else 
 				        			title=itemValue[checkedItemValues[0]].title
 		       
-				        			 disableChartType(true);	    	
+				        			 disableChartType(true);	
+									 disableChartColor(true);    	
 		  	       	  $.ajax({
 		  	       	        type: "POST",
 	      	    	        contentType:  "application/json; charset=utf-8",
@@ -3116,7 +3121,8 @@
 				        		else 
 				        			title=itemValue[checkedItemValues[0]].title
 		       
-				        			 disableChartType(true);	    	
+				        			 disableChartType(true);	
+									 disableChartColor(true);    	
 		  	       	  $.ajax({
 		  	       	        type: "POST",
 	      	    	        contentType:  "application/json; charset=utf-8",
@@ -3354,6 +3360,7 @@
 	   		        	   };
 			        
 			             disableChartType(false);
+						 disableChartColor(false);
 						       	  $.ajax({
 					  	       	        type: "POST",
 				      	    	        contentType:  "application/json; charset=utf-8",
@@ -3401,84 +3408,14 @@
 				      	    	           
 				      	    	         var getFormatResult = getFormat(response[0].config.dataFormat);
 				      	    	       	    chartDbFontSize = response[0].config.chartSize;
-					      	    	       	chartColor=response[0].config.chartColor;
-				      	    	        	chartTransparency=response[0].config.chartTransparency;
+					      	    	       	chartColor=checkActiveChartColor($("#chartColor").find(".active")[0],response[0].config.chartColor);
+			      	    	        		chartTransparency=response[0].config.chartTransparency;
 				      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 				      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,Daily);
 				      	    	       	    
 				      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
-				      	    	       
-				      	    	          if (chartType1=='area' && Daily==true)
-				      	    	        	{
-				      	    	    		if (response[0].config.chartColor=='#44546a')
-					      	    	    		chart.updateOptions({
-					      	    	    			colors: ['#44546a'],
-							      			        fill: {
-					      	    		                type: 'gradient',
-					      	    		                gradient: {
-					      	    					    gradientToColors: '#5b9ad5',
-					      	    					      shadeIntensity: 0,
-					      	    					      type: "vertical",
-					      	    					     inverseColors: false,
-													      stops: [30, 90, 100],
-													      opacityFrom: 1,
-													      opacityTo: eval(response[0].config.chartTransparency),
-					      	    		                }
-					      	    		              },	
-					      	    		            stroke: {
-							     				      	 colors: ["#ffffff"],
-						     				        },
-					      	    	    		});
-				      	    	    		else 
-				      	    	        	chart.updateOptions({
-				      	    	        		colors: [response[0].config.chartColor],
-				      	    	        		fill: {
-					      	    	        		  type: 'gradient',
-					      	    	        		  gradient: {
-					      	    	        		    shade: 'dark',
-					      	    	        		    type: "vertical",
-					      	    	        		    shadeIntensity: 0.2,
-					      	    	        		    opacityFrom: 1,
-												        opacityTo: eval(response[0].config.chartTransparency),
-					      	    	        		    inverseColors: false,
-					      	    	        		  },}
-				      	    	        		, stroke: {
-						     				      	 colors: ["#ffffff"],
-					     				        },
-				      							});
-				      	    	        	} else 	
-				      	    	        		if (response[0].config.chartColor=='#44546a')
-				      	    	        		{
-				      	    	        			chart.updateOptions({
-					      	    	    				colors: ['#5b9ad5'],
-								      				       fill: {
-								      			            type:'solid',
-								      			            opacity: [1,1],
-								      			          }, 
-								      			        stroke: {
-							      	    			      	 colors: ['#5b9ad5'],
-							      	    		        },
-							      	    	         markers: {
-							      	    				   colors: ['#5b9ad5'],
-							      	    				   strokeColors:['#5b9ad5']
-							      	    			     }
-						      	    	    		});
-				      	    	        		}
-				      	    	        	else 
-				      	    	        		chart.updateOptions({
-				      	    	    				colors: [response[0].config.chartColor],
-							      				       fill: {
-							      			            type:'solid',
-							      			            opacity: [1,1],
-							      			          }, 
-							      			        stroke: {
-						      	    			      	 colors: [response[0].config.chartColor],
-						      	    		        },
-						      	    	         markers: {
-						      	    				   colors: [response[0].config.chartColor],
-						      	    				   strokeColors:[response[0].config.chartColor]
-						      	    			     }
-					      	    	    		});
+				      	    	            updateChartOption(Daily);
+
 				      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 					      	    	          return item.y;
 					      	    	        })),
@@ -3489,11 +3426,11 @@
 					      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 					      	    	    	chart.updateOptions({
 					      	    	    		 stroke: {
-						      	    	 		      colors: chartType1=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#5b9ad5':chartColor],
+						      	    	 		      colors: chartType1=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
 						      	    	 	        },
 						      	    	       markers: {
-						      	    	 			   colors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor],
-						      	    	 			   strokeColors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor]
+						      	    	 			   colors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
+						      	    	 			   strokeColors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor]
 						      	    	 		     },
 					      	    	    	  extra:{
 													isDecimal: isdecimal,

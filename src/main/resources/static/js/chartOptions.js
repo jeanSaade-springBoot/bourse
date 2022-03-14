@@ -7,11 +7,22 @@ $("#chartTypes button.btn").click(function(){
 			    $("#chartTypes").find(".active").removeClass("active");
 			    $(this).addClass("active");
 			  }); 
+	
+$("#chartColor button.btn").click(function(){
+			    $("#chartColor").find(".active").removeClass("active");
+			    $(this).addClass("active");
+			  });	
 function disableChartType(isdisabled)
 {
     $("#area").prop('disabled', isdisabled);
     $("#line").prop('disabled', isdisabled);
     $("#column").prop('disabled', isdisabled);
+}
+function disableChartColor(isdisabled)
+{
+    $("#F0AB2E").prop('disabled', isdisabled);
+    $("#0097FE").prop('disabled', isdisabled);
+    $("#44546a").prop('disabled', isdisabled);
 }
 function resetActiveChartType()
 {
@@ -21,9 +32,12 @@ function resetActiveFontSize()
 {
    $("#fontOptions").find(".active").removeClass("active");
 }
+function resetActiveChartColor()
+{
+   $("#chartColor").find(".active").removeClass("active");
+}
 function graphTypeOption(chartType)
 {
-
 if (chartColor=='#44546a' && chartType=='area')
     		chart.updateOptions({
 	  xaxis: {
@@ -67,11 +81,11 @@ if (chartColor=='#44546a' && chartType=='area')
 	                  offsetY: 0
 	              },
     	  },
-    			colors: ['#44546a'],
+    			colors: ['#222a35'],
 		        fill: {
 	                type: 'gradient',
 	                gradient: {
-				    gradientToColors: '#5b9ad5',
+				    gradientToColors: '#2e75b6',
 				      shadeIntensity: 0,
 				      type: "vertical",
 				     inverseColors: false,
@@ -90,7 +104,7 @@ if (chartColor=='#44546a' && chartType=='area')
     		});
 		else 
    chart.updateOptions({
-	  colors: [chartColor=='#44546a'?'#5b9ad5':chartColor],
+	  colors: [chartColor=='#44546a'?'#2e75b6':chartColor],
   xaxis: {
 	   	  			       labels:  { hideOverlappingLabels: false,
 	   	  			         		  rotate: -70,
@@ -137,14 +151,141 @@ if (chartColor=='#44546a' && chartType=='area')
             opacity: [1,1],
           }, 
    stroke: {
-		      colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#5b9ad5':chartColor],
+		      colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
 	        },
     markers: {
-			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor],
-			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor]
+			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
+			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor]
 		     }
 		 });
 	chart.updateSeries([{ type:chartType}]);
+}
+
+function chartColorOption(selectedChartColor)
+{
+chartColor=selectedChartColor;
+chartType=$("#chartTypes").find(".active")[0].id;
+if (chartColor=='#44546a' && chartType=='area')
+    		chart.updateOptions({
+	  xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: $("#fontOptions").find(".active")[0].id,
+							        	 },
+					        	  },
+   	  			           type: 'category',
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+    		 extra:{
+			isDecimal: isdecimal,
+			yAxisFormat:yaxisformat,
+		},
+       yaxis: {
+	    	  labels: {
+	    		     minWidth: 75,maxWidth: 75,
+	        		 style: {
+			        	  fontSize: $("#fontOptions").find(".active")[0].id,
+			        	 }
+	        	  },
+          tickAmount: 6,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    			  axisBorder: {
+	                  width: 3,
+	                  show: true,
+	                  color: '#ffffff',
+	                  offsetX: 0,
+	                  offsetY: 0
+	              },
+    	  },
+    			colors: ['#222a35'],
+		        fill: {
+	                type: 'gradient',
+	                gradient: {
+				    gradientToColors: '#2e75b6',
+				      shadeIntensity: 0,
+				      type: "vertical",
+				     inverseColors: false,
+				      stops: [30, 90, 100],
+				      opacityFrom: 1,
+				      opacityTo: eval(chartTransparency),
+	                }
+	              },
+	               markers: {
+			   colors: "#ffffff",
+			   strokeColors:"#ffffff"
+		     },	
+	            stroke: {
+			      	 colors: ["#ffffff"],
+		        }
+    		});
+		else 
+   chart.updateOptions({
+	  colors: [chartColor=='#44546a'?'#2e75b6':chartColor],
+  xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: $("#fontOptions").find(".active")[0].id,
+							        	 },
+					        	  },
+   	  			           type: 'category',
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+	  extra:{
+			isDecimal: isdecimal,
+			yAxisFormat:yaxisformat,
+		},
+       yaxis: {
+	    	  labels: {
+	    		     minWidth: 75,maxWidth: 75,
+	        		 style: {
+			        	  fontSize: $("#fontOptions").find(".active")[0].id,
+			        	 }
+	        	  },
+          tickAmount: 6,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    			  axisBorder: {
+	                  width: 3,
+	                  show: true,
+	                  color: '#ffffff',
+	                  offsetX: 0,
+	                  offsetY: 0
+	              },
+    	  },
+  fill: {
+            type:'solid',
+            opacity: [1,1],
+          }, 
+   stroke: {
+		      colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
+	        },
+    markers: {
+			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
+			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor]
+		     }
+		 });
+	
 }
 function checkActiveFontSize(activeFontSize,dbFontSize)
 {
@@ -159,12 +300,22 @@ function checkActiveFontSize(activeFontSize,dbFontSize)
 function checkActiveChartType(activeChartType,dbchartType,Daily)
 {
 	if (typeof  activeChartType == 'undefined')
-	  { chartType1 =getDBChartType(dbchartType,Daily);
+	  { chartType1 = getDBChartType(dbchartType,Daily);
 	  } else 
 		{
 		  chartType1 =  activeChartType.id;
 		}
 		return chartType1;
+}
+function checkActiveChartColor(activeChartColor,chartColor)
+{
+	if (typeof  activeChartColor == 'undefined')
+	  { nchartColor = getChartColor(chartColor);
+	  } else 
+		{
+		  nchartColor = '#'+activeChartColor.id;
+		}
+		return nchartColor;
 }
 function getFontSize(chartDbFontSize)
 {
@@ -188,4 +339,15 @@ function getDBChartType(DbchartType,Daily)
 		chartType = activeChartType;
 		
 		return chartType;
-}			  
+}	
+function getChartColor(chartColor)
+{
+   activeChartColor = $('#chartColor > .btn.active').attr('id');
+	if (typeof activeChartColor == 'undefined')
+	  { $('#'+chartColor.split("#")[1]).addClass("active");
+	  	nChartColor=chartColor;
+	  } else 
+		nChartColor = activeChartColor;
+		
+		return nChartColor;
+}		  

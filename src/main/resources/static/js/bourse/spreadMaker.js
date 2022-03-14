@@ -494,6 +494,7 @@
    	  monthDate.setHours(0,0,0,0);
    	  resetActiveChartType();
 	  resetActiveFontSize();
+	  resetActiveChartColor();
    	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
    	  fromNavigation =false;
@@ -2759,17 +2760,15 @@
 		      	    	        	var dbchartType1=response[0].config[0].chartType;
 		      	    	        	 chartType1 = (getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
 									
-		      	    	         chartDbFontSize = response[0].config[0].chartSize;
-		      	    	        chartColor=response[0].config[0].chartColor;
-	      	    	        	chartTransparency=response[0].config[0].chartTransparency;
-	      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+		      	    	        chartDbFontSize = response[0].config[0].chartSize;
+		      	    	        chartColor=checkActiveChartColor($("#chartColor").find(".active")[0],response[0].config[0].chartColor);
+							    chartTransparency=eval(response[0].config.chartTransparency);
+			      	    	    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
-	      	    	       	    
+	      	    	       	   
 		      	    	       	chart.updateOptions(getChartDailyOption(title,response[0].config[0].chartShowgrid,fontsize,response[0].config[0].chartshowMarkes));
-		      	    	     
-	    	   		
-		      	    	        	
-		      	    	        	 
+		      	    	        updateChartOption(true);
+	    	   		 
 		      	    	               min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        })),
@@ -2781,11 +2780,11 @@
 				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	    	chart.updateOptions({
 				      	    	    		 stroke: {
-				      	    	 		      colors: chartType1=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#5b9ad5':chartColor],
+				      	    	 		      colors: chartType1=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
 				      	    	 	        },
 				      	    	       markers: {
-				      	    	 			   colors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor],
-				      	    	 			   strokeColors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#5b9ad5':chartColor]
+				      	    	 			   colors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
+				      	    	 			   strokeColors: chartType1=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor]
 				      	    	 		     },
 				      	    	    	  extra:{
 												isDecimal: isdecimal,

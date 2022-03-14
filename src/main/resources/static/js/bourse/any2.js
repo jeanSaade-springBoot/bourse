@@ -1,4 +1,4 @@
-var checkedItem = 0;
+  var checkedItem = 0;
   var checkedItemid = [];
   var monthDate=new Date(); 
   monthDate.setMonth(monthDate.getMonth() - 3);
@@ -808,6 +808,7 @@ var checkedItem = 0;
     	  monthDate.setHours(0,0,0,0);
     	  resetActiveChartType();
     	  resetActiveFontSize();
+		  resetActiveChartColor();
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
     	 fromNavigation=false;
@@ -4380,11 +4381,11 @@ var checkedItem = 0;
    	    	        	{
    	    	    		if (response[0].config.chartColor=='#44546a')
    	    	    			chart1.updateOptions({
-	      	    	    			colors: ['#44546a'],
+	      	    	    			colors: ['#222a35'],
 			      			        fill: {
 	      	    		                type: 'gradient',
 	      	    		                gradient: {
-	      	    					    gradientToColors: '#5b9ad5',
+	      	    					    gradientToColors: '#2e75b6',
 	      	    					      shadeIntensity: 0,
 	      	    					      type: "vertical",
 	      	    					     inverseColors: false,
@@ -4418,17 +4419,17 @@ var checkedItem = 0;
    	    	        		if (response[0].config.chartColor=='#44546a')
    	    	        		{
    	    	        			chart1.updateOptions({
-      	    	    				colors: ['#5b9ad5'],
+      	    	    				colors: ['#2e75b6'],
 			      				       fill: {
 			      			            type:'solid',
 			      			            opacity: [1,1],
 			      			          }, 
 			      			        stroke: {
-		      	    			      	 colors: ['#5b9ad5'],
+		      	    			      	 colors: ['#2e75b6'],
 		      	    		        },
 		      	    	         markers: {
-		      	    				   colors: ['#5b9ad5'],
-		      	    				   strokeColors:['#5b9ad5']
+		      	    				   colors: ['#2e75b6'],
+		      	    				   strokeColors:['#2e75b6']
 		      	    			     }
 	      	    	    		});
    	    	        		}
@@ -4684,11 +4685,11 @@ var checkedItem = 0;
 			   	    	        	{
 			   	    	    		if (response[0].config.chartColor=='#44546a')
 			   	    	    			chart2.updateOptions({
-				      	    	    			colors: ['#44546a'],
+				      	    	    			colors: ['#222a35'],
 						      			        fill: {
 				      	    		                type: 'gradient',
 				      	    		                gradient: {
-				      	    					    gradientToColors: '#5b9ad5',
+				      	    					    gradientToColors: '#2e75b6',
 				      	    					      shadeIntensity: 0,
 				      	    					      type: "vertical",
 				      	    					     inverseColors: false,
@@ -4722,17 +4723,17 @@ var checkedItem = 0;
 			   	    	        		if (response[0].config.chartColor=='#44546a')
 			   	    	        		{
 			   	    	        			chart2.updateOptions({
-			      	    	    				colors: ['#5b9ad5'],
+			      	    	    				colors: ['#2e75b6'],
 						      				       fill: {
 						      			            type:'solid',
 						      			            opacity: [1,1],
 						      			          }, 
 						      			        stroke: {
-					      	    			      	 colors: ['#5b9ad5'],
+					      	    			      	 colors: ['#2e75b6'],
 					      	    		        },
 					      	    	         markers: {
-					      	    				   colors: ['#5b9ad5'],
-					      	    				   strokeColors:['#5b9ad5']
+					      	    				   colors: ['#2e75b6'],
+					      	    				   strokeColors:['#2e75b6']
 					      	    			     }
 				      	    	    		});
 			   	    	        		}
@@ -5033,6 +5034,7 @@ var checkedItem = 0;
 		 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross
 		 	     			   };
 				         disableChartType(true);
+						 disableChartColor(true);
 						 if(checkedItemValues.length>1)
 					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
 					        		else 
@@ -5495,7 +5497,7 @@ var checkedItem = 0;
 	   	  			        };
 			         chart = new ApexCharts(document.querySelector("#mainChart"), options);
 			         disableChartType(false);
-		  	       	 
+		  	       	 disableChartColor(false);
 						       	  $.ajax({
 					  	       	        type: "POST",
 				      	    	        contentType:  "application/json; charset=utf-8",
@@ -5548,85 +5550,14 @@ var checkedItem = 0;
 		      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	       	  
-		      	    	       	chartColor=response[0].config.chartColor;
-	      	    	        	chartTransparency=response[0].config.chartTransparency;
+		      	    	       	chartColor=checkActiveChartColor($("#chartColor").find(".active")[0],response[0].config.chartColor);
+			      	    	    chartTransparency=response[0].config.chartTransparency;
 	      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
 	      	    	       	    
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
-		      	    	        //  return 2; 
-			      	    	    	  if (chartType1=='area')
-			      	    	        	{
-			      	    	    		if (response[0].config.chartColor=='#44546a')
-				      	    	    		chart.updateOptions({
-				      	    	    			colors: ['#44546a'],
-						      			        fill: {
-				      	    		                type: 'gradient',
-				      	    		                gradient: {
-				      	    					    gradientToColors: '#5b9ad5',
-				      	    					      shadeIntensity: 0,
-				      	    					      type: "vertical",
-				      	    					     inverseColors: false,
-												      stops: [30, 90, 100],
-												      opacityFrom: 1,
-												      opacityTo: eval(response[0].config.chartTransparency),
-				      	    		                }
-				      	    		              },	
-				      	    		            stroke: {
-						     				      	 colors: ["#ffffff"],
-					     				        },
-				      	    	    		});
-			      	    	    		else 
-			      	    	        	chart.updateOptions({
-			      	    	        		colors: [response[0].config.chartColor],
-			      	    	        		fill: {
-				      	    	        		  type: 'gradient',
-				      	    	        		  gradient: {
-				      	    	        		    shade: 'dark',
-				      	    	        		    type: "vertical",
-				      	    	        		    shadeIntensity: 0.2,
-				      	    	        		    opacityFrom: 1,
-											        opacityTo: eval(response[0].config.chartTransparency),
-				      	    	        		    inverseColors: false,
-				      	    	        		  },}
-			      	    	        		, stroke: {
-					     				      	 colors: ["#ffffff"],
-				     				        },
-			      							});
-			      	    	        	} else 	
-			      	    	        		if (response[0].config.chartColor=='#44546a')
-			      	    	        		{
-			      	    	        			chart.updateOptions({
-				      	    	    				colors: ['#5b9ad5'],
-							      				       fill: {
-							      			            type:'solid',
-							      			            opacity: [1,1],
-							      			          }, 
-							      			        stroke: {
-						      	    			      	 colors: ['#5b9ad5'],
-						      	    		        },
-						      	    	         markers: {
-						      	    				   colors: ['#5b9ad5'],
-						      	    				   strokeColors:['#5b9ad5']
-						      	    			     }
-					      	    	    		});
-			      	    	        		}
-			      	    	        	else 
-			      	    	        		chart.updateOptions({
-			      	    	    				colors: [response[0].config.chartColor],
-						      				       fill: {
-						      			            type:'solid',
-						      			            opacity: [1,1],
-						      			          }, 
-						      			        stroke: {
-					      	    			      	 colors: [response[0].config.chartColor],
-					      	    		        },
-					      	    	         markers: {
-					      	    				   colors: [response[0].config.chartColor],
-					      	    				   strokeColors:[response[0].config.chartColor]
-					      	    			     }
-				      	    	    		});
+		      	    	            updateChartOption(true);
 			      	    	    	
 			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
