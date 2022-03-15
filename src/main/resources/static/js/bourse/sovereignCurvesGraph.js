@@ -9,6 +9,7 @@ var mode = "merge";
 var fromNavigation = false;
 var Items = "";
 var chart;
+var chartType1 = 'area';
 var yaxisformat = 3;
 var fontsize = '12px';
 var startDateF1;
@@ -2263,7 +2264,7 @@ function drawGraph() {
 
 		disableChartType(true);
 		disableChartColor(true);
-
+        disableChartColorTransparency(true);
 		$.ajax({
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
@@ -2549,6 +2550,7 @@ function drawGraph() {
 
 			disableChartType(true);
 			disableChartColor(true);
+			disableChartColorTransparency(true);
 			$.ajax({
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
@@ -2744,6 +2746,7 @@ function drawGraph() {
 
 				disableChartType(true);
 				disableChartColor(true);
+				disableChartColorTransparency(true);
 				$.ajax({
 					type: "POST",
 					contentType: "application/json; charset=utf-8",
@@ -2966,6 +2969,7 @@ function drawGraph() {
 
 					disableChartType(true);
 					disableChartColor(true);
+					disableChartColorTransparency(true);
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
@@ -3201,6 +3205,7 @@ function drawGraph() {
 					};
 					disableChartType(false);
 					disableChartColor(false);
+					activateChartTrasnparency(chartType1);
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
@@ -3246,13 +3251,13 @@ function drawGraph() {
 							var getFormatResult = getFormat(response[0].config.dataFormat);
 							chartDbFontSize = response[0].config.chartSize;
 							chartColor = checkActiveChartColor($("#chartColor").find(".active")[0], response[0].config.chartColor);
-							chartTransparency = response[0].config.chartTransparency;
+							chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config.chartTransparency);
 							fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
 							chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], chartType1, Daily);
 
 
 							chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
-							updateChartOption(Daily);
+							updateChartOption();
 
 							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 								return item.y;

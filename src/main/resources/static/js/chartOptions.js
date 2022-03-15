@@ -12,6 +12,10 @@ $("#chartColor button.btn").click(function(){
 			    $("#chartColor").find(".active").removeClass("active");
 			    $(this).addClass("active");
 			  });	
+$("#chartColorTransparency button.btn").click(function(){
+			    $("#chartColorTransparency").find(".active").removeClass("active");
+			    $(this).addClass("active");
+			  });	
 function disableChartType(isdisabled)
 {
     $("#area").prop('disabled', isdisabled);
@@ -23,6 +27,12 @@ function disableChartColor(isdisabled)
     $("#F0AB2E").prop('disabled', isdisabled);
     $("#0097FE").prop('disabled', isdisabled);
     $("#44546a").prop('disabled', isdisabled);
+}
+function disableChartColorTransparency(isdisabled)
+{
+    $("#1").prop('disabled', isdisabled);
+    $("#75").prop('disabled', isdisabled);
+    $("#5").prop('disabled', isdisabled);
 }
 function resetActiveChartType()
 {
@@ -36,9 +46,24 @@ function resetActiveChartColor()
 {
    $("#chartColor").find(".active").removeClass("active");
 }
-function graphTypeOption(chartType)
+function resetActiveChartColorTransparency()
 {
-if (chartColor=='#44546a' && chartType=='area')
+   $("#chartColorTransparency").find(".active").removeClass("active");
+}
+function activateChartTrasnparency(chartType){
+	
+	if(chartType!='area')
+		disableChartColorTransparency(true);
+	else
+		disableChartColorTransparency(false);
+}
+function graphTypeOption(chartType)
+{   chartType1=chartType;
+	chartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
+    chartColor='#'+$("#chartColor").find(".active")[0].id;
+	activateChartTrasnparency(chartType);
+	
+if (chartType=='area')
     		chart.updateOptions({
 	  xaxis: {
 	   	  			       labels:  { hideOverlappingLabels: false,
@@ -81,17 +106,17 @@ if (chartColor=='#44546a' && chartType=='area')
 	                  offsetY: 0
 	              },
     	  },
-    			colors: ['#222a35'],
+    			colors: chartColor=='#44546a'?['#222a35']:[chartColor],
 		        fill: {
 	                type: 'gradient',
 	                gradient: {
-				    gradientToColors: '#2e75b6',
+				    gradientToColors: chartColor=='#44546a'?'#2e75b6':chartColor,
 				      shadeIntensity: 0,
 				      type: "vertical",
 				     inverseColors: false,
 				      stops: [30, 90, 100],
-				      opacityFrom: 1,
-				      opacityTo: eval(chartTransparency),
+				     opacityFrom: eval(chartTransparency)==1? 1:(eval(chartTransparency)==0.75 ? 0.8 :(eval(chartTransparency)==0.5?0.60:1)),
+				     opacityTo: eval(chartTransparency),
 	                }
 	              },
 	               markers: {
@@ -165,7 +190,8 @@ function chartColorOption(selectedChartColor)
 {
 chartColor=selectedChartColor;
 chartType=$("#chartTypes").find(".active")[0].id;
-if (chartColor=='#44546a' && chartType=='area')
+chartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
+if (chartType=='area')
     		chart.updateOptions({
 	  xaxis: {
 	   	  			       labels:  { hideOverlappingLabels: false,
@@ -208,16 +234,16 @@ if (chartColor=='#44546a' && chartType=='area')
 	                  offsetY: 0
 	              },
     	  },
-    			colors: ['#222a35'],
+    			colors: chartColor=='#44546a'?['#222a35']:[chartColor],
 		        fill: {
 	                type: 'gradient',
 	                gradient: {
-				    gradientToColors: '#2e75b6',
+				    gradientToColors: chartColor=='#44546a'?'#2e75b6':chartColor,
 				      shadeIntensity: 0,
 				      type: "vertical",
 				     inverseColors: false,
 				      stops: [30, 90, 100],
-				      opacityFrom: 1,
+				      opacityFrom: eval(chartTransparency)==1? 1:(eval(chartTransparency)==0.75 ? 0.8 :(eval(chartTransparency)==0.5?0.60:1)),
 				      opacityTo: eval(chartTransparency),
 	                }
 	              },
@@ -285,7 +311,132 @@ if (chartColor=='#44546a' && chartType=='area')
 			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor]
 		     }
 		 });
-	
+}
+function chartTransparencyOption(selectedChartTransparency)
+{
+chartTransparency=selectedChartTransparency;
+chartType=$("#chartTypes").find(".active")[0].id;
+chartColor='#'+$("#chartColor").find(".active")[0].id;
+if (chartType=='area')
+    		chart.updateOptions({
+	  xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: $("#fontOptions").find(".active")[0].id,
+							        	 },
+					        	  },
+   	  			           type: 'category',
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+    		 extra:{
+			isDecimal: isdecimal,
+			yAxisFormat:yaxisformat,
+		},
+       yaxis: {
+	    	  labels: {
+	    		     minWidth: 75,maxWidth: 75,
+	        		 style: {
+			        	  fontSize: $("#fontOptions").find(".active")[0].id,
+			        	 }
+	        	  },
+          tickAmount: 6,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    			  axisBorder: {
+	                  width: 3,
+	                  show: true,
+	                  color: '#ffffff',
+	                  offsetX: 0,
+	                  offsetY: 0
+	              },
+    	  },
+    			colors: chartColor=='#44546a'?['#222a35']:[chartColor],
+		        fill: {
+	                type: 'gradient',
+	                gradient: {
+				    gradientToColors: chartColor=='#44546a'?'#2e75b6':chartColor,
+				      shadeIntensity: 0,
+				      type: "vertical",
+				     inverseColors: false,
+				      stops: [30, 90, 100],
+				      opacityFrom: eval(chartTransparency)==1? 1:(eval(chartTransparency)==0.75 ? 0.8 :(eval(chartTransparency)==0.5?0.60:1)),
+				      opacityTo: eval(chartTransparency),
+	                }
+	              },
+	               markers: {
+			   colors: "#ffffff",
+			   strokeColors:"#ffffff"
+		     },	
+	            stroke: {
+			      	 colors: ["#ffffff"],
+		        }
+    		});
+		else 
+   chart.updateOptions({
+	  colors: [chartColor=='#44546a'?'#2e75b6':chartColor],
+  xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: $("#fontOptions").find(".active")[0].id,
+							        	 },
+					        	  },
+   	  			           type: 'category',
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+	  extra:{
+			isDecimal: isdecimal,
+			yAxisFormat:yaxisformat,
+		},
+       yaxis: {
+	    	  labels: {
+	    		     minWidth: 75,maxWidth: 75,
+	        		 style: {
+			        	  fontSize: $("#fontOptions").find(".active")[0].id,
+			        	 }
+	        	  },
+          tickAmount: 6,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    			  axisBorder: {
+	                  width: 3,
+	                  show: true,
+	                  color: '#ffffff',
+	                  offsetX: 0,
+	                  offsetY: 0
+	              },
+    	  },
+  fill: {
+            type:'solid',
+            opacity: [1,1],
+          }, 
+   stroke: {
+		      colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
+	        },
+    markers: {
+			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
+			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor]
+		     }
+		 });
 }
 function checkActiveFontSize(activeFontSize,dbFontSize)
 {
@@ -317,37 +468,52 @@ function checkActiveChartColor(activeChartColor,chartColor)
 		}
 		return nchartColor;
 }
+function checkActiveChartColorTransparency(activeChartTransparency,chartTransparency)
+{
+	if (typeof  activeChartTransparency == 'undefined')
+	  { nchartTransparency = getChartColorTransparency(chartTransparency);
+	  } else 
+		{
+	    if(activeChartTransparency.id!=1)
+			activeChartTransparencyID='0.'+activeChartTransparency.id;
+		else 
+			activeChartTransparencyID=activeChartTransparency.id;
+		
+		  nchartTransparency = activeChartTransparencyID;
+		}
+		return nchartTransparency;
+}
 function getFontSize(chartDbFontSize)
 {
-   activeFontSize = $('#fontOptions > .btn.active').attr('id');
-	if (typeof activeFontSize == 'undefined')
-	  { $('#'+chartDbFontSize).addClass("active");
+    $('#'+chartDbFontSize).addClass("active");
 	  	fontsize=chartDbFontSize;
-	  } else 
-		fontsize = activeFontSize;
-		
+	  	
 		return fontsize;
 }
 
 function getDBChartType(DbchartType,Daily)
 {
-   activeChartType = $('#chartTypes > .btn.active').attr('id');
-	if (typeof activeChartType == 'undefined')
-	  { $(Daily?'#'+DbchartType.toLowerCase():'#column').addClass("active");
+    $(Daily?'#'+DbchartType.toLowerCase():'#column').addClass("active");
 	  	chartType=Daily?DbchartType:'column';
-	  } else 
-		chartType = activeChartType;
-		
-		return chartType;
+
+	  activateChartTrasnparency(chartType);
+
+    return chartType;
 }	
 function getChartColor(chartColor)
 {
-   activeChartColor = $('#chartColor > .btn.active').attr('id');
-	if (typeof activeChartColor == 'undefined')
-	  { $('#'+chartColor.split("#")[1]).addClass("active");
+   $('#'+chartColor.split("#")[1]).addClass("active");
 	  	nChartColor=chartColor;
-	  } else 
-		nChartColor = activeChartColor;
-		
-		return nChartColor;
+	 
+   return nChartColor;
+}	
+function getChartColorTransparency(chartTransparency)
+{ if(chartTransparency.split("0.").length==1)
+	nChartTransparency =chartTransparency.split("0.")[0];
+	else 
+	nChartTransparency =chartTransparency.split("0.")[1];
+	
+    $('#'+nChartTransparency).addClass("active");
+	  
+     return chartTransparency;
 }		  

@@ -636,6 +636,7 @@ $(document).ready(function() {
 		resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
+		resetActiveChartColorTransparency();
 		drawGraph();
 	});
 
@@ -643,6 +644,7 @@ $(document).ready(function() {
 		resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
+		resetActiveChartColorTransparency();
 		drawGraph();
 	});
 
@@ -674,6 +676,7 @@ $(document).ready(function() {
 		resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
+		resetActiveChartColorTransparency();
 		$("#button-monthBackward").prop('disabled', false);
 		$("#button-yearBackward").prop('disabled', false);
 		fromNavigation = false;
@@ -693,6 +696,7 @@ $(document).ready(function() {
 		resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
+		resetActiveChartColorTransparency();
 		$("#button-monthBackward").prop('disabled', false);
 		$("#button-yearBackward").prop('disabled', false);
 		uncheckAll();
@@ -709,6 +713,7 @@ $(document).ready(function() {
 		resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
+		resetActiveChartColorTransparency();
 		$("#button-monthBackward").prop('disabled', false);
 		$("#button-yearBackward").prop('disabled', false);
 		uncheckAll();
@@ -725,6 +730,7 @@ $(document).ready(function() {
 		resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
+		resetActiveChartColorTransparency();
 		$("#button-monthBackward").prop('disabled', false);
 		$("#button-yearBackward").prop('disabled', false);
 		uncheckAll();
@@ -741,6 +747,7 @@ $(document).ready(function() {
 		resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
+		resetActiveChartColorTransparency();
 		$("#button-monthBackward").prop('disabled', false);
 		$("#button-yearBackward").prop('disabled', false);
 		uncheckAll();
@@ -2316,6 +2323,7 @@ function drawGraph() {
 
 		disableChartType(true);
 		disableChartColor(true);
+		disableChartColorTransparency(true);
 		$.ajax({
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
@@ -2631,6 +2639,7 @@ function drawGraph() {
 
 			disableChartType(true);
 			disableChartColor(true);
+			disableChartColorTransparency(true);
 			$.ajax({
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
@@ -2822,6 +2831,7 @@ function drawGraph() {
 
 				disableChartType(true);
 				disableChartColor(true);
+				disableChartColorTransparency(true);
 				$.ajax({
 					type: "POST",
 					contentType: "application/json; charset=utf-8",
@@ -3042,6 +3052,7 @@ function drawGraph() {
 
 					disableChartType(true);
 					disableChartColor(true);
+					disableChartColorTransparency(true);
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
@@ -3260,6 +3271,8 @@ function drawGraph() {
 					};
 					disableChartType(false);
 					disableChartColor(false);
+					activateChartTrasnparency(chartType1);
+					
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
@@ -3303,14 +3316,14 @@ function drawGraph() {
 
 							var getFormatResult = getFormat(response[0].config.dataFormat);
 							chartDbFontSize = response[0].config.chartSize;
-							chartTransparency = response[0].config.chartTransparency;
+							chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config.chartTransparency);
 							chartColor = checkActiveChartColor($("#chartColor").find(".active")[0], response[0].config.chartColor);
 							fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
 							chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], chartType1, Daily);
 
 
 							chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
-							updateChartOption(Daily);
+							updateChartOption();
 							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 								return item.y;
 							})),

@@ -290,14 +290,14 @@
 									 data-resumetext="Resume" ><i class="icon-darkchart"></i></button>
 								 </div>
    						   </div>
-   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColorTransparency">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
-									  <button class="btn btn-option" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-goldchart-25"></i></button>
-									   <button class="btn btn-option" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-goldchart-50"></i></button>
+								     <button class="btn btn-option" id="1" onclick="chartTransparencyOption('1')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><label class="transparency-text"><span>&shy;</span>&nbsp;0%</label><i class="icon-chart-1"></i></button>
+									  <button class="btn btn-option" id="75" onclick="chartTransparencyOption('0.75')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><label class="transparency-text">25%</label><i class="icon-chart-25"></i></button>
+									   <button class="btn btn-option" id="5" onclick="chartTransparencyOption('0.50')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><label class="transparency-text">50%</label><i class="icon-chart-50"></i></button>
 								 </div>
    						   </div>
    						       <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">

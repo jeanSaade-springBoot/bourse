@@ -423,47 +423,30 @@ function getFormat(Format)
    }
    	return [valueFormat,FormatIsDecimal];
 }
- function updateChartOption(isDaily)
+ function updateChartOption()
 {
 	
-	  if (chartType1=='area' && isDaily==true)
+	  if (chartType1=='area')
 		{
-		if (chartColor=='#44546a')
-			chart.updateOptions({
-				colors: ['#222a35'],
+		   chart.updateOptions({
+				colors: chartColor=='#44546a'?['#222a35']:[chartColor],
 		        fill: {
 	                type: 'gradient',
 	                gradient: {
-				    gradientToColors: '#2e75b6',
+				    gradientToColors: chartColor=='#44546a'?'#2e75b6':chartColor,
 				      shadeIntensity: 0,
 				      type: "vertical",
 				     inverseColors: false,
 				      stops: [30, 90, 100],
-				      opacityFrom: 1,
-				      opacityTo: chartTransparency,
+				      opacityFrom: eval(chartTransparency)==1? 1:(eval(chartTransparency)==0.75 ? 0.8 :(eval(chartTransparency)==0.5?0.60:1)),
+				      opacityTo: eval(chartTransparency),
 	                }
 	              },	
 	            stroke: {
 			      	 colors: ["#ffffff"],
 		        },
 			});
-		else 
-		chart.updateOptions({
-			colors: [chartColor],
-			fill: {
-	    		  type: 'gradient',
-	    		  gradient: {
-	    		    shade: 'dark',
-	    		    type: "vertical",
-	    		    shadeIntensity: 0.2,
-	    		    opacityFrom: 1,
-			        opacityTo: chartTransparency,
-	    		    inverseColors: false,
-	    		  },}
-			, stroke: {
-		      	 colors: ["#ffffff"],
-	        },
-			});
+			
 		} else 	
 			if (chartColor=='#44546a')
 			{

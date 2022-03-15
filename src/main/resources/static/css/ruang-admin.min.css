@@ -85,16 +85,23 @@ button.btn.btn-option {
   height: 24px;
   width: 24px;
 }
-.icon-goldchart-25{
-  background-image : url(/img/gold.png);
+.icon-chart-1{
+  background-image : url(/img/tranparency.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-chart-25{
+  background-image : url(/img/tranparency.png);
   opacity: 0.75;
   background-size: cover;
   display: inline-block;
    height: 24px;
   width: 24px;
 }
-.icon-goldchart-50{
-  background-image : url(/img/gold.png);
+.icon-chart-50{
+  background-image : url(/img/tranparency.png);
   opacity: 0.5;
   background-size: cover;
   display: inline-block;
@@ -142,6 +149,14 @@ button.btn.btn-option {
   display: inline-block;
   height: 24px;
   width: 24px;
+}
+label.transparency-text {
+    position: absolute;
+    font-size: .6rem;
+    color: black;
+    font-weight: bold;
+    margin: 0.3rem 0.15rem;
+    z-index: 1;
 }
 button.active.btn.btn-option {
     background: rgb(90 141 237 / 45%);

@@ -6,6 +6,7 @@
   var startdate=new Date();
   var date=new Date();
   var mode="merge";
+  var chartType1 = 'area';
   var chart;
   var chart1;
   var chart2;
@@ -5035,6 +5036,8 @@
 		 	     			   };
 				         disableChartType(true);
 						 disableChartColor(true);
+					     disableChartColorTransparency(true);
+
 						 if(checkedItemValues.length>1)
 					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
 					        		else 
@@ -5498,6 +5501,7 @@
 			         chart = new ApexCharts(document.querySelector("#mainChart"), options);
 			         disableChartType(false);
 		  	       	 disableChartColor(false);
+					 activateChartTrasnparency(chartType1);
 						       	  $.ajax({
 					  	       	        type: "POST",
 				      	    	        contentType:  "application/json; charset=utf-8",
@@ -5551,13 +5555,13 @@
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	       	  
 		      	    	       	chartColor=checkActiveChartColor($("#chartColor").find(".active")[0],response[0].config.chartColor);
-			      	    	    chartTransparency=response[0].config.chartTransparency;
-	      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+			      	    	    chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config.chartTransparency);
+							    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
 	      	    	       	    
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
-		      	    	            updateChartOption(true);
+		      	    	            updateChartOption();
 			      	    	    	
 			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;

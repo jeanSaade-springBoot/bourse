@@ -2762,12 +2762,12 @@
 									
 		      	    	        chartDbFontSize = response[0].config[0].chartSize;
 		      	    	        chartColor=checkActiveChartColor($("#chartColor").find(".active")[0],response[0].config[0].chartColor);
-							    chartTransparency=eval(response[0].config.chartTransparency);
-			      	    	    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+							    chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config[0].chartTransparency);
+							    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
 	      	    	       	   
 		      	    	       	chart.updateOptions(getChartDailyOption(title,response[0].config[0].chartShowgrid,fontsize,response[0].config[0].chartshowMarkes));
-		      	    	        updateChartOption(true);
+		      	    	        updateChartOption();
 	    	   		 
 		      	    	               min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
