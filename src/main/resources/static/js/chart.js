@@ -18,7 +18,7 @@ var chartOption = {
 									  customIcons: []
 									}
 								},
-   	  			          height: 450,
+   	  			          height: 500,
    	  			          type: 'line',
    	  			          animations: { enabled: false }
    	  			        },

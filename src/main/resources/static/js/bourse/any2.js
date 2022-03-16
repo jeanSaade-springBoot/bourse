@@ -4230,7 +4230,7 @@
 		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
-   	  			          height: 450,
+   	  			          height: 500,
    	  			          type: 'line',
    	  			     animations: { enabled: false }
    	  			        },
@@ -4531,7 +4531,7 @@
 			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 			   	  			          customIcons: []
 			   	  			        }},
-	   	  			          height: 450,
+	   	  			          height: 500,
 	   	  			          type: 'line',
 	   	  			     animations: { enabled: false }
 	   	  			        },
@@ -5059,7 +5059,7 @@
 					  		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 					  		   	  			          customIcons: []
 					  		   	  			        }},
-					     	  			          height: 450,
+					     	  			          height: 500,
 					     	  			          type: 'line',
 					     	  			     animations: { enabled: false }
 					     	  			        },
@@ -5382,7 +5382,7 @@
 			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 			   	  			          customIcons: []
 			   	  			        }},
-	   	  			          height: 450,
+	   	  			          height: 500,
 	   	  			          type: 'line',
 	   	  			     animations: { enabled: false }
 	   	  			        },
