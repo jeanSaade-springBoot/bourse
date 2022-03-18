@@ -15,6 +15,7 @@
   var minvalue=0;
   var maxvalue=0;
   var chartColor=0;
+  var markerSize=0;
   var chartTransparency=0;
   var fromNavigation = false;
   var isdecimal = false;
@@ -5034,11 +5035,8 @@
 		 		        	    "country2":itemValue[checkedItemValues[1]].country,
 		 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross
 		 	     			   };
-				         disableChartType(true);
-						 disableChartColor(true);
-					     disableChartColorTransparency(true);
-
-						 if(checkedItemValues.length>1)
+				        disableOptions(true);
+					    if(checkedItemValues.length>1)
 					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
 					        		else 
 					        			title=itemValue[checkedItemValues[0]].title
@@ -5499,9 +5497,7 @@
 				        	}
 	   	  			        };
 			         chart = new ApexCharts(document.querySelector("#mainChart"), options);
-			         disableChartType(false);
-		  	       	 disableChartColor(false);
-					 activateChartTrasnparency(chartType1);
+			         disableOptions(false);
 						       	  $.ajax({
 					  	       	        type: "POST",
 				      	    	        contentType:  "application/json; charset=utf-8",
@@ -5558,9 +5554,10 @@
 			      	    	    chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config.chartTransparency);
 							    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
-	      	    	       	    
+	      	    	       	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+
 		      	    	  
-		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,markerSize));
 		      	    	            updateChartOption();
 			      	    	    	
 			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {

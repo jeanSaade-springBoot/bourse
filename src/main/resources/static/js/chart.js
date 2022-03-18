@@ -141,7 +141,7 @@ var chartOption = {
 		   	  			          customIcons: []
 		   	  			        }},
    	    	            type: 'bar',
-   	    	            height: 450
+   	    	            height: 500,
    	    	          },
 					  grid: {
 						borderColor: '#f0e68c',

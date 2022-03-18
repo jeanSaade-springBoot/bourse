@@ -25,6 +25,7 @@ var yaxisformat;
 var minvalue = 0;
 var maxvalue = 0;
 var chartColor = 0;
+var markerSize=0;
 var chartTransparency = 0;
 var allitems = ["#jqxCheckBoxUSA-30",
 	"#jqxCheckBoxUSA-10",
@@ -2170,7 +2171,7 @@ function drawGraph() {
 				}
 			},
 			type: 'line',
-			height: 450
+			height: 500,
 		},
 		plotOptions: {
 			bar: {
@@ -2321,9 +2322,7 @@ function drawGraph() {
 				"yieldCurveCross6": itemValue["#jqxCheckBoxSpain-2"].yieldCurveCross,
 			};
 
-		disableChartType(true);
-		disableChartColor(true);
-		disableChartColorTransparency(true);
+		disableOptions(true);
 		$.ajax({
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
@@ -2637,9 +2636,7 @@ function drawGraph() {
 			else
 				title = itemValue[checkedItemValues[0]].title
 
-			disableChartType(true);
-			disableChartColor(true);
-			disableChartColorTransparency(true);
+			disableOptions(true);
 			$.ajax({
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
@@ -2829,9 +2826,7 @@ function drawGraph() {
 				else
 					title = itemValue[checkedItemValues[0]].title
 
-				disableChartType(true);
-				disableChartColor(true);
-				disableChartColorTransparency(true);
+				disableOptions(true);
 				$.ajax({
 					type: "POST",
 					contentType: "application/json; charset=utf-8",
@@ -3050,9 +3045,7 @@ function drawGraph() {
 					else
 						title = itemValue[checkedItemValues[0]].title
 
-					disableChartType(true);
-					disableChartColor(true);
-					disableChartColorTransparency(true);
+					disableOptions(true);
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
@@ -3269,10 +3262,7 @@ function drawGraph() {
 						"country1": itemValue[checkedItemValues[0]].country,
 						"yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
 					};
-					disableChartType(false);
-					disableChartColor(false);
-					activateChartTrasnparency(chartType1);
-					
+					disableOptions(false);
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
@@ -3320,9 +3310,9 @@ function drawGraph() {
 							chartColor = checkActiveChartColor($("#chartColor").find(".active")[0], response[0].config.chartColor);
 							fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
 							chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], chartType1, Daily);
+							markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 
-
-							chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
+							chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, markerSize));
 							updateChartOption();
 							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 								return item.y;

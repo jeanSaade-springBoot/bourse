@@ -1,4 +1,4 @@
-var groupItem;
+  var groupItem;
   var subgroupsource;
   var familyItem;
   var groupsource;
