@@ -6715,7 +6715,9 @@
 						class: "apexcharts-gridlines-horizontal"
 					}), this.elgridLinesV = e.group({
 						class: "apexcharts-gridlines-vertical"
-					}), this.elg.add(this.elgridLinesH), this.elg.add(this.elgridLinesV), t.config.grid.show || (this.elgridLinesV.hide(), this.elgridLinesH.hide());
+					}), 
+					this.elg.add(this.elgridLinesH), this.elg.add(this.elgridLinesV), t.config.grid.show || (this.elgridLinesV.hide(), this.elgridLinesH.hide());
+					
 					for (var i, a = t.globals.yAxisScale.length ? t.globals.yAxisScale[0].result.length - 1 : 5, s = 0; s < t.globals.series.length && (void 0 !== t.globals.yAxisScale[s] && (a = t.globals.yAxisScale[s].result.length - 1), !(a > 2)); s++);
 					return !t.globals.isBarHorizontal || this.isTimelineBar ? (i = this.xaxisLabels.length, this.isTimelineBar && (a = t.globals.labels.length, t.config.xaxis.tickAmount && t.config.xaxis.labels.formatter && (i = t.config.xaxis.tickAmount)), this._drawXYLines({
 						xCount: i,
@@ -8691,6 +8693,7 @@
 					var v = t.dom.elGridRect;
 					var vLenght =this.w.config.series.length;
 					var value ='';
+					// mns
 					if (vLenght==1)
 						 value =this.w.config.series[0].type=='column';
 					if (vLenght==2)	
@@ -8702,8 +8705,11 @@
 					if (vLenght==6)	
 					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column'|| this.w.config.series[2].type=='column'|| this.w.config.series[3].type=='column' || this.w.config.series[4].type=='column' ||this.w.config.series[5].type=='column';
 					if (value)
-					v.setAttribute("class", "gridbackground"),v.setAttribute("x", -(this.gridRect.getBBox().width-a.globals.gridWidth)/2), v.setAttribute("y", 0), v.setAttribute("width", this.gridRect.getBBox().width), v.setAttribute("height", this.gridRect.getBBox().height), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
-				   else 
+					{if (!a.config.grid.show)
+						v.setAttribute("class", "gridbackground"),v.setAttribute("x", -((this.gridRect.getBBox().width+(931-this.gridRect.getBBox().width))-a.globals.gridWidth)/2), v.setAttribute("y", 0), v.setAttribute("width", (this.gridRect.getBBox().width+(931-this.gridRect.getBBox().width))), v.setAttribute("height", this.gridRect.getBBox().height), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
+				     else 
+						v.setAttribute("class", "gridbackground"),v.setAttribute("x", -(this.gridRect.getBBox().width-a.globals.gridWidth)/2), v.setAttribute("y", 0), v.setAttribute("width", this.gridRect.getBBox().width), v.setAttribute("height", this.gridRect.getBBox().height), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
+				   }else 
 					v.setAttribute("class", "gridbackground"),v.setAttribute("x", 0), v.setAttribute("y", 0), v.setAttribute("width", a.globals.gridWidth), v.setAttribute("height", a.globals.gridHeight), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
 				
 	                

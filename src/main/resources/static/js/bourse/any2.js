@@ -16,6 +16,7 @@
   var maxvalue=0;
   var chartColor=0;
   var markerSize=0;
+  var showGrid=true;
   var chartTransparency=0;
   var fromNavigation = false;
   var isdecimal = false;
@@ -811,6 +812,8 @@
     	  resetActiveChartType();
     	  resetActiveFontSize();
 		  resetActiveChartColor();
+		  resetActiveChartColorTransparency();
+		  resetActiveChartGrid();
     	  $("#button-monthBackward").prop('disabled', false);
 		  $("#button-yearBackward").prop('disabled', false);
     	 fromNavigation=false;
@@ -4231,7 +4234,8 @@
 		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
-   	  			          height: 500,
+   	  			          height: 525,
+ 						  width: 543,
    	  			          type: 'line',
    	  			     animations: { enabled: false }
    	  			        },
@@ -4376,7 +4380,7 @@
 	      	    		    chartDbFontSize = response[0].config.chartSize;
 	      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
   	    	          	  
-	      	    	       chart1.updateOptions(getChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+	      	    	       chart1.updateOptions(getSubChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    
 	      	    	
 	      	    	     if (chartType1=='area')
@@ -4532,7 +4536,8 @@
 			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 			   	  			          customIcons: []
 			   	  			        }},
-	   	  			          height: 500,
+	   	  			          height: 525,
+							  width: 543,
 	   	  			          type: 'line',
 	   	  			     animations: { enabled: false }
 	   	  			        },
@@ -4680,7 +4685,7 @@
 			      	    		    chartDbFontSize = response[0].config.chartSize;
 			      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 		    	    	          	
-			      	    	       chart2.updateOptions(getChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+			      	    	       chart2.updateOptions(getSubChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 			   		      	    
 			   	      	    	
 				      	    	     if (chartType2=='area')
@@ -5057,7 +5062,7 @@
 					  		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 					  		   	  			          customIcons: []
 					  		   	  			        }},
-					     	  			          height: 500,
+					     	  			          height: 525,
 					     	  			          type: 'line',
 					     	  			     animations: { enabled: false }
 					     	  			        },
@@ -5380,7 +5385,7 @@
 			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 			   	  			          customIcons: []
 			   	  			        }},
-	   	  			          height: 500,
+	   	  			          height: 525,
 	   	  			          type: 'line',
 	   	  			     animations: { enabled: false }
 	   	  			        },
@@ -5555,10 +5560,10 @@
 							    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
 	      	    	       	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
-
-		      	    	  
-		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,markerSize));
-		      	    	            updateChartOption();
+								showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+							
+							    chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));  
+							    updateChartOption();
 			      	    	    	
 			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
@@ -5651,3 +5656,29 @@
 				
 		    	 updateGraphFont(fontSize,minvalue,maxvalue);
 		     }
+				function getFormat(Format)
+				{
+				 var valueFormat=3;
+				  var  FormatIsDecimal= false;
+				  
+				  if (Format!=null && Format!="")
+				   { 
+					 if (Format.includes("%"))
+				       { FormatIsDecimal= false;
+				    	   if (typeof Format.split(".")[1] != 'undefined')
+				    		 valueFormat=Format.split("%")[0].split(".")[1].length;
+				            	else
+				            		valueFormat=0;
+				       }
+				   else 
+				    	{
+					    if (typeof Format.split(".")[1] != 'undefined')
+				    	valueFormat=Format.split(".")[1].length
+				    	else 
+				    		valueFormat=0;
+				    		
+				    		FormatIsDecimal= true;	
+				    	}
+				   }
+				   	return [valueFormat,FormatIsDecimal];
+				}

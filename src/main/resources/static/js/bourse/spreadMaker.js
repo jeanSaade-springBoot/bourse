@@ -23,6 +23,7 @@
   var chartColor=0;
   var chartTransparency=0;
   var markerSize=0;
+  var showGrid=true;
   var allitems=[
 	  "#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
@@ -2555,7 +2556,7 @@
 		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
-  	  			          height: 500,
+  	  			          height: 525,
   	  			          type: 'line',
   	  			     animations: { enabled: false }
   	  			        },
@@ -2767,9 +2768,10 @@
 							    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
 	      	    	       	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config[0].chartshowMarkes);
-
-		      	    	       	chart.updateOptions(getChartDailyOption(title,response[0].config[0].chartShowgrid,fontsize,markerSize));
-		      	    	        updateChartOption();
+								showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+							
+								chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
+								updateChartOption();
 	    	   		 
 		      	    	               min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;

@@ -13,7 +13,7 @@ License: https://jqwidgets.com/license/
                 adaptivewidth: 600,
                 disabled: false,
                 width: 600,
-                height: 500,
+                height: 525,
                 pagerheight: 40,
                 groupsheaderheight: 34,
                 pagesize: 10,
@@ -188,7 +188,7 @@ License: https://jqwidgets.com/license/
                     colorScheme: "scheme02",
                     dialog: {
                         header: "Data Visualization",
-                        height: 500,
+                        height: 525,
                         width: 400,
                         position: "center",
                         enabled: true
@@ -1893,7 +1893,7 @@ License: https://jqwidgets.com/license/
             });
             var k = new jqxWindow(l, {
                 width: 400,
-                height: 500,
+                height: 525,
                 position: "center",
                 isModal: true
             });

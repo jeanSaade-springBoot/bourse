@@ -18,7 +18,8 @@ var chartOption = {
 									  customIcons: []
 									}
 								},
-   	  			          height: 500,
+   	  			          height: 525,
+						  width: 1078,
    	  			          type: 'line',
    	  			          animations: { enabled: false }
    	  			        },
@@ -141,7 +142,8 @@ var chartOption = {
 		   	  			          customIcons: []
 		   	  			        }},
    	    	            type: 'bar',
-   	    	            height: 500,
+   	    	            height: 525,
+ 						width: 1078,
    	    	          },
 					  grid: {
 						borderColor: '#f0e68c',
@@ -197,7 +199,208 @@ var chartOption = {
 	  			        	tickPlacement: 'on' 
  			        }
    	    	          };
-   	    	          
+function getSubChartDailyOption(title,showgrid,fontSize,markerSize)
+{
+var chartOption = {
+   	  			          series: [],
+   	  			          chart: {
+		   	  			         toolbar: {
+									show: true,
+									offsetX: 0,
+									offsetY: 0,
+									tools: {
+									  download: false,
+									  selection: true,
+									  zoom: true,
+									  zoomin: true,
+									  zoomout: true,
+									  pan: true,
+									  reset: true | '<img src="/static/icons/reset.png" width="20">',
+									  customIcons: []
+									}
+								},
+   	  			          height: 525,
+ 						  width: 543,
+   	  			          type: 'line',
+   	  			          animations: { enabled: false }
+   	  			        },
+   	  			   grid: {
+				  show:eval(showgrid),
+   	  			  borderColor: '#f0e68c',
+   	  			  strokeDashArray:1,
+   	  		       opacity: 0.5,
+		   	  		  padding: {
+		   	  	        right: 60,
+		   	  	    },  
+   	  			},
+   	  			        colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+   	  			        fill: {
+   	  			            type:'solid',
+   	  			            opacity: [1, 1],
+   	  			          },
+   	  			        stroke: {
+   	  			        	 curve: 'straight',
+   	  			        	   width: 2.25
+   	  			        },
+   	  			        markers: {
+   	  			       colors: '#ffffff',
+                        size: markerSize,
+                        shape:'square',
+   	  			        },
+   	  			        title: {
+  	    				          text: title,
+  	    				            margin: 35,
+  	    				          align: 'center',
+  	    				        style: {
+  	    				          fontWeight:  'bold',
+  	    				          color:  '#263238'
+  	    				          },
+  	    				        },
+  	    				           subtitle: {
+			      	    				        text: 'copyright LibVol.com',
+			      	    				        align: 'right',
+			      	    				        margin: 0,
+			      	    				        offsetX: -10,
+			      	    				        offsetY: 30,
+			      	    				        floating: false,
+			      	    				        style: {
+			      	    				          fontSize:  '10px',
+			      	    				          fontWeight:  'normal',
+			      	    				          color:  '#9699a2'
+			      	    				        },
+			      	    				    },
+   	  			        dataLabels: {
+   	  			          enabled: false
+   	  			        },
+   	  			        xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: fontSize,
+							        	 },
+					        	  },
+   	  			           type: 'category',
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+   	  			   legend: {
+		   	  			   fontSize: fontSize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    }
+				    	  },
+			         yaxis: [{ 
+				        tickAmount: 6,
+			        	labels: {
+			        		 style: {
+					        	  fontSize: fontSize,
+					        	 }
+			        	  },
+			         axisBorder: {
+			                  width: 3,
+			                  show: true,
+			                  color: '#ffffff',
+			                  offsetX: 0,
+			                  offsetY: 0
+			              },
+			        }],
+   	  			        };
+   	  			        return chartOption;
+   	  			        }
+ var chartoptionsWeekly = {
+   	    	          series: [],
+   	    	            chart: {
+   	    	             toolbar: {
+		   	  			        show: true,
+		   	  			        offsetX: 0,
+		   	  			        offsetY: 0,
+		   	  			        tools: {
+		   	  			          download: false,
+		   	  			          selection: true,
+		   	  			          zoom: true,
+		   	  			          zoomin: true,
+		   	  			          zoomout: true,
+		   	  			          pan: true,
+		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          customIcons: []
+		   	  			        }},
+   	    	            type: 'bar',
+   	    	            height: 525,
+  						width: 543,
+   	    	          },
+					  grid: {
+						borderColor: '#f0e68c',
+						strokeDashArray:1,
+						opacity: 0.5,
+   	  		              },
+   	    	          plotOptions: {
+   	    	            bar: {
+   	    	              horizontal: false,
+   	    	              columnWidth: '70%'
+   	    	            },
+   	    	          },
+   	    	          dataLabels: {
+   	    	            enabled: false
+   	    	          },
+   	    	          stroke: {
+   	    	            show: true,
+   	    	            width: 2,
+   	    	            colors: ['transparent']
+   	    	          },
+   	    	       legend: {
+			        	   fontSize: 12,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    }
+				    	  }, 
+			         yaxis: [{ 
+				        tickAmount: 6,
+			        	labels: {
+			        		 style: {
+					        	  fontSize: 12,
+					        	 }
+			        	  },
+			        
+			        }],
+   	  			      colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+   	  			      fill: {
+   	  			            type:'solid',
+   	  			            opacity: [1, 1],
+   	  			              },
+			        xaxis: {
+	  			           type: '',
+	  			        	tickPlacement: 'on' 
+ 			        }
+   	    	          };
+   	    	             	    	          
 function updateGraphFont(fontsize,minvalue,maxvalue){
 				var Daily = $("#DailyRadioButton").val();
 				if(Daily)

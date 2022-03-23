@@ -22,6 +22,7 @@ var minvalue = 0;
 var maxvalue = 0;
 var chartColor = 0;
 var markerSize=0;
+var showGrid=true;
 var chartTransparency = 0;
 var allitems = ["#jqxCheckBoxfrc-ger-30",
 	"#jqxCheckBoxfrc-ger-10",
@@ -630,6 +631,8 @@ $(document).ready(function() {
 		resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
+		resetActiveChartColorTransparency();  
+		resetActiveChartGrid();
 		drawGraph();
 	});
 
@@ -637,6 +640,8 @@ $(document).ready(function() {
 		resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
+		resetActiveChartColorTransparency();
+		resetActiveChartGrid();
 		drawGraph();
 	});
 
@@ -703,6 +708,8 @@ $(document).ready(function() {
 		resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
+		resetActiveChartColorTransparency();
+		resetActiveChartGrid();
 		$("#button-monthBackward").prop('disabled', false);
 		$("#button-yearBackward").prop('disabled', false);
 		fromNavigation = false;
@@ -2247,7 +2254,7 @@ function drawGraph() {
 					customIcons: []
 				}
 			},
-			height: 500,
+			height: 525,
 			type: 'line',
 			animations: { enabled: false }
 		},
@@ -2383,7 +2390,7 @@ function drawGraph() {
 				}
 			},
 			type: 'line',
-			height: 500,
+			height: 525,
 		},
 		plotOptions: {
 			bar: {
@@ -3158,8 +3165,9 @@ function drawGraph() {
 						fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
 						chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], chartType1, Daily);
 						markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
-
-						chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, markerSize));
+						showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+							
+						chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
 						updateChartOption();
 
 						min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
