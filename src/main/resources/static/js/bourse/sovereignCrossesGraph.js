@@ -23,6 +23,7 @@ var maxvalue = 0;
 var chartColor = 0;
 var markerSize=0;
 var showGrid=true;
+var showLegend='legendtrue';
 var chartTransparency = 0;
 var allitems = ["#jqxCheckBoxfrc-ger-30",
 	"#jqxCheckBoxfrc-ger-10",
@@ -2236,215 +2237,7 @@ function drawGraph() {
 		chart.destroy();
 
 
-	var options = {
-		series: [],
-		chart: {
-			toolbar: {
-				show: true,
-				offsetX: 0,
-				offsetY: 0,
-				tools: {
-					download: false,
-					selection: true,
-					zoom: true,
-					zoomin: true,
-					zoomout: true,
-					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
-					customIcons: []
-				}
-			},
-			height: 525,
-			type: 'line',
-			animations: { enabled: false }
-		},
-		grid: {
-
-			show: false,
-			borderColor: '#f0e68c',
-			strokeDashArray: 1,
-			opacity: 0.5,
-			padding: {
-				right: 60,
-			},
-		},
-		colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
-		fill: {
-			type: 'solid',
-			opacity: [1, 1],
-		},
-		stroke: {
-			curve: 'straight',
-			width: 2.25
-		},
-		markers: {
-			colors: '#ffffff',
-			size: 2,
-			shape: 'square',
-		},
-		title: {
-			text: '',
-			align: 'center',
-			margin: 10,
-			style: {
-				fontWeight: 'bold',
-				color: '#263238'
-			},
-		},
-		subtitle: {
-			text: 'copyright LibVol.com',
-			align: 'right',
-			margin: 10,
-			offsetX: -10,
-			offsetY: 30,
-			floating: false,
-			style: {
-				fontSize: '10px',
-				fontWeight: 'normal',
-				color: '#9699a2'
-			},
-		},
-		dataLabels: {
-			enabled: false
-		},
-		xaxis: {
-			labels: {
-				rotate: -45,
-				rotateAlways: true,
-				minHeight: 60,
-				style: {
-					fontSize: fontsize,
-				},
-			},
-			type: 'category',
-			axisBorder: {
-				show: true,
-				color: '#ffffff',
-				height: 3,
-				width: '100%',
-				offsetX: 0,
-				offsetY: 0
-			},
-		},
-		legend: {
-			fontSize: fontsize,
-			showForSingleSeries: true,
-			labels: {
-				colors: 'White',
-				useSeriesColors: false
-			},
-			markers: {
-				width: 12,
-				height: 2
-			},
-			formatter: function(seriesName, opts) {
-				img = getCountryFlag(seriesName);
-				return [img, seriesName]
-			}
-		},
-		yaxis: [{
-			labels: {
-				style: {
-					fontSize: fontsize,
-				}
-			},
-			axisBorder: {
-				width: 3,
-				show: true,
-				color: '#ffffff',
-				offsetX: 0,
-				offsetY: 0
-			},
-
-		}],
-		noData: {
-			text: 'No data In this date range',
-			align: 'center',
-			verticalAlign: 'middle',
-			offsetX: 0,
-			offsetY: 0,
-			style: {
-				color: undefined,
-				fontSize: '14px',
-				fontFamily: undefined
-			}
-		}
-	};
-
-	var optionsWeekly = {
-		series: [],
-		chart: {
-			toolbar: {
-				show: true,
-				offsetX: 0,
-				offsetY: 0,
-				tools: {
-					download: false,
-					selection: true,
-					zoom: true,
-					zoomin: true,
-					zoomout: true,
-					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
-					customIcons: []
-				}
-			},
-			type: 'line',
-			height: 525,
-		},
-		plotOptions: {
-			bar: {
-				horizontal: false,
-				columnWidth: '70%'
-			},
-		},
-		dataLabels: {
-			enabled: false
-		},
-		stroke: {
-			show: true,
-			width: 2,
-			colors: ['transparent']
-		},
-		legend: {
-			fontSize: fontsize,
-			showForSingleSeries: true,
-			labels: {
-				colors: 'White',
-				useSeriesColors: false
-			},
-			markers: {
-				width: 12,
-				height: 2
-			},
-			formatter: function(seriesName, opts) {
-				img = getCountryFlag(seriesName);
-				return [img, seriesName]
-			}
-		},
-		yaxis: [{
-			labels: {
-				style: {
-					fontSize: fontsize,
-				},
-				formatter: function(value) {
-					if (isdecimal)
-						return value.toFixed(yaxisformat);
-					else
-						return value.toFixed(yaxisformat) + "%";
-				}
-			},
-
-		}],
-		colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
-		fill: {
-			opacity: 1
-		},
-		xaxis: {
-			type: '',
-			tickPlacement: 'on'
-		}
-	};
+	
 	chart = new ApexCharts(document.querySelector("#mainChart"), Daily ? options : optionsWeekly);
 	chart.render();
 
@@ -2525,7 +2318,7 @@ function drawGraph() {
 
 				chartDbFontSize = response[0].config.chartSize;
 				fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
-
+				showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 				chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
 
@@ -2715,6 +2508,7 @@ function drawGraph() {
 
 					chartDbFontSize = response[0].config.chartSize;
 					fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
+					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 
 					chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
@@ -2941,6 +2735,7 @@ function drawGraph() {
 
 						chartDbFontSize = response[0].config.chartSize;
 						fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
+						showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 						chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
 
@@ -3166,7 +2961,8 @@ function drawGraph() {
 						chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], chartType1, Daily);
 						markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 						showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
-							
+						showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+	
 						chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
 						updateChartOption();
 

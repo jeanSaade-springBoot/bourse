@@ -23,7 +23,12 @@ $("#chartMarker button.btn").click(function(){
 $("#gridOptions button.btn").click(function(){
 			    $("#gridOptions").find(".active").removeClass("active");
 			    $(this).addClass("active");
+			  });	
+$("#gridLegend button.btn").click(function(){
+			    $("#gridLegend").find(".active").removeClass("active");
+			    $(this).addClass("active");
 			  });		
+	
 function disableChartType(isdisabled)
 {
     $("#area").prop('disabled', isdisabled);
@@ -761,6 +766,31 @@ if (chartType=='area')
 		     }
 		 });
 }
+function chartLegendOption(selectedChartLegend)
+{
+showLegend=selectedChartLegend;
+
+    chart.updateOptions({
+	 	   legend: {
+						   show:eval(showLegend.split('legend')[1]),
+		   	  			   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	         return [img , seriesName];
+				    	    }
+				    	  },
+    		});
+		
+}
 function checkActiveFontSize(activeFontSize,dbFontSize)
 {
 	if (typeof  activeFontSize == 'undefined')
@@ -826,6 +856,16 @@ function checkActiveChartGrid(activeChartGrid,dbChartGrid)
 		}
 		return showGrid;
 }
+function checkActiveChartLegend(activeChartLegend,dbChartLegend)
+{
+	if (typeof  activeChartLegend == 'undefined')
+	  { showLegend = getChartLegend(dbChartLegend);
+	  } else 
+		{
+		  showLegend =  activeChartLegend.id;
+		}
+		return showLegend;
+}
 function getFontSize(chartDbFontSize)
 {
     $('#'+chartDbFontSize).addClass("active");
@@ -873,4 +913,11 @@ function getChartGrid(chartGrid)
 	  	showGrid=chartGrid;
 	 
    return showGrid;
+}	
+function getChartLegend(chartLegend)
+{
+   $('#'+chartLegend).addClass("active");
+	  	showLegend=chartLegend;
+	 
+   return showLegend;
 }		  

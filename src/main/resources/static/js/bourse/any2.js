@@ -17,6 +17,8 @@
   var chartColor=0;
   var markerSize=0;
   var showGrid=true;
+  var showLegend='legendtrue';
+  var fontsize = '12px';
   var chartTransparency=0;
   var fromNavigation = false;
   var isdecimal = false;
@@ -5228,7 +5230,8 @@
 		      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
-	    	    	          	
+	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+
 		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	       
@@ -5561,7 +5564,8 @@
 	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
 	      	    	       	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 								showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
-							
+							    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+
 							    chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));  
 							    updateChartOption();
 			      	    	    	

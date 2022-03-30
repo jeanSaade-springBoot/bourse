@@ -267,7 +267,7 @@
 								</div>
 				     	</div>
 						   <div class='row'>
-				   	     <div class="col-1">
+				   	    <div class="col-1" style="z-index: 1;">
 						 	   	        <div class="chart-option">
 				   	        <div class="chart-option-title">Chart option</div>
 				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
@@ -325,11 +325,11 @@
 									 data-resumetext="Resume" ><i class="icon-withoutLinechart"></i></button>
 								 </div>
    						   </div>
-						      <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" style="display:none;">
+						        <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="gridLegend" >
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" data-pausetext="Break In" 
+								     <button class="btn btn-option" id="legendtrue"  onclick="chartLegendOption('legendtrue')" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-legendchart"></i></button>
-									 <button class="btn btn-option" data-pausetext="Break In" 
+									 <button class="btn btn-option"  id="legendfalse"   onclick="chartLegendOption('legendfalse')" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-nolegendchart"></i></button>
 								 </div>
    						   </div>
@@ -459,9 +459,9 @@
   <script src="/js/jqwidgets/jqxradiobutton.js"></script> 
   
      <script src="/js/apexcharts.js"></script>
-     <script src="/js/chart.js"></script>
      <script src="/js/chartOptions.js"></script> 
      <script src="/js/bourse/sovereignCurvesGraph.js"></script> 
+     <script src="/js/chart.js"></script>
      <script src="/js/bourse/scrollBarNews.js"></script> 
 
 </body>
