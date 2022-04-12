@@ -1,8 +1,6 @@
 package com.bourse.controllers;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
@@ -17,35 +15,29 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bourse.domain.DataEntryFilterHistory;
 import com.bourse.domain.GraphHistory;
-import com.bourse.domain.Person;
+import com.bourse.domain.News;
 import com.bourse.domain.SkewsData;
 import com.bourse.domain.SovereignData;
 import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataDTO;
-import com.bourse.dto.DataEntryFilterHistoryDTO;
 import com.bourse.dto.DataGraphDTO;
-import com.bourse.dto.DataInputDTO;
-import com.bourse.dto.DynamicGridResultClassDTO;
-import com.bourse.dto.DynamicGridRows;
 import com.bourse.dto.GraphHistoryDTO;
+import com.bourse.dto.GraphNewsDTO;
 import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseColConfigListDTO;
-import com.bourse.dto.GraphResponseDTO;
-import com.bourse.dto.PersonReqDTO;
 import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.service.DataEntryFilterHistoryService;
 import com.bourse.service.GraphHistoryService;
-import com.bourse.service.PersonService;
+import com.bourse.service.GraphNewsService;
 import com.bourse.service.SkewsService;
 import com.bourse.service.SovereignYieldsService;
 import com.bourse.util.SovereignUtil;
@@ -54,8 +46,6 @@ import com.bourse.util.SovereignUtil;
 public class BourseController {
 
 	@Autowired
-	private final PersonService personService;
-	@Autowired
 	private final SovereignYieldsService sovereignYieldsService;
 	@Autowired
 	private final GraphHistoryService graphHistoryService;
@@ -63,18 +53,21 @@ public class BourseController {
 	private final DataEntryFilterHistoryService dataEntryFilterHistoryService;
 	@Autowired
 	private final SkewsService skewsService;
+	@Autowired
+	private final GraphNewsService graphNewsService;
 	
-	public BourseController(PersonService personService,
+	public BourseController(
 			SovereignYieldsService sovereignYieldsService,
 			GraphHistoryService graphHistoryService,
 			DataEntryFilterHistoryService dataEntryFilterHistoryService,
-			SkewsService skewsService)
+			SkewsService skewsService,
+			GraphNewsService graphNewsService)
 	{
-		this.personService            = personService;
 		this.sovereignYieldsService   = sovereignYieldsService;
 		this.graphHistoryService      = graphHistoryService;
 		this.dataEntryFilterHistoryService = dataEntryFilterHistoryService;
 		this.skewsService             = skewsService;
+		this.graphNewsService         = graphNewsService;
 	}
 	@RequestMapping( value =  "/pageunderconstruction")
     public ModelAndView underConstructionPage(ModelMap model)
@@ -350,7 +343,10 @@ public class BourseController {
 //	return new ResponseEntity<>(true,HttpStatus.OK);
 //	} 
 //	
-
+	@PostMapping(value = "findselectedgraphnews")
+	public List<News> findSelectedGraphNews(@RequestBody GraphNewsDTO graphNewsDTO) {
+		return graphNewsService.findSelectedGraphNews(graphNewsDTO.getSelectedGraphs());
+	}
 	@PostMapping(value = "getgriddata")
 	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody SearchFilterDTO searchFilterDTO) {
 		return new ResponseEntity<>(sovereignYieldsService.getGridData(searchFilterDTO),HttpStatus.OK);

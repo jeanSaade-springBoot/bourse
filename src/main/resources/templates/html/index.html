@@ -16,12 +16,25 @@
   <link href="/css/marquee.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
   <link href="/css/jqx.dark.css" rel="stylesheet">
+  
+  <style>
+div#content {
+    position: absolute;
+    top: 70px;
+    color: #8A99B5;
+    background-image: linear-gradient(#4c6aa6 -1%, #000306 21%);
+    border: #464D5C;
+    width: 100%;
+    overflow-x: hidden;
+    min-height: 650px;
+}
+</style>
 </head>
 <body id="page-top">
   <div id="wrapper">
   
     <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
+    <div id="fixedMenu">
         <!-- TopBar -->
    <nav class="navbar navbar-expand navbar-light bg-navbar topbar static-top">
 	<img id="imglogo" src="../../img/logo.png" align="absmiddle" style="height:70px;margin-left: 3%;">
@@ -61,7 +74,8 @@
 	</div>
 </nav>
         <!-- Topbar -->
-
+ </div>
+   <div id="content">
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
           <div class="d-sm-flex align-items-center justify-content-between mb-4" style="display: none !important;">

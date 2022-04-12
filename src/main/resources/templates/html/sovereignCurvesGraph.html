@@ -2,468 +2,697 @@
 <html lang="en">
 
 <head>
-  <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-  <meta name="description" content="">
-  <meta name="author" content="">
-  <link href="img/logo/logo.png" rel="icon">
-  <title>libvol - Dashboard</title>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="/css/ruang-admin.min.css" rel="stylesheet">
-  <link href="/css/marquee.css" rel="stylesheet">
-  <link href="/css/apexchart.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-  <link href="/css/jqx.dark.css" rel="stylesheet">
-  <style>
-   .inputdate{
-    width: 22%;
-    margin: 0 .5rem;
-    text-align: center;
-        border: 1px solid rgba(0, 0, 0, .125);
-    background-color: #272E48!important;
-    border-color: #464D5C;
-    color: #ffffff;
-  }
-  .edit{
-    margin: .5rem;
-    color: white;
-    background-color: #719DF0!important;
-    border-color: var(--jqx-border);
-    border-radius: 4px;
-    border: 1px solid transparent;
-        padding: 1px 42px;
- 
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport"
+	content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta name="description" content="">
+<meta name="author" content="">
+<link href="img/logo/logo.png" rel="icon">
+<title>libvol - Dashboard</title>
+<link rel="icon" href="/favicon.ico" type="image/x-icon">
+<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+	type="text/css">
+<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+	type="text/css">
+<link href="/css/ruang-admin.min.css" rel="stylesheet">
+<link href="/css/marquee.css" rel="stylesheet">
+<link href="/css/apexchart.css" rel="stylesheet">
+<link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+<link href="/css/jqx.dark.css" rel="stylesheet">
+<link href="/css/custom.grid.css" rel="stylesheet">
+<style>
+.inputdate {
+	width: 22%;
+	margin: 0 .5rem;
+	text-align: center;
+	border: 1px solid rgba(0, 0, 0, .125);
+	background-color: #272E48 !important;
+	border-color: #464D5C;
+	color: #ffffff;
 }
- div#overlay {
-    margin: 15% 40%;
-    position: absolute;
+
+.edit {
+	margin: .5rem;
+	color: white;
+	background-color: #719DF0 !important;
+	border-color: var(- -jqx-border);
+	border-radius: 4px;
+	border: 1px solid transparent;
+	padding: 1px 42px;
 }
- </style>
+
+div#overlay {
+	margin: 15% 40%;
+	position: absolute;
+}
+</style>
 </head>
 
 <body id="page-top">
-  <div id="wrapper">
-    <!-- Sidebar -->
-    <!-- Sidebar -->
-    <div id="content-wrapper" class="d-flex flex-column">
-      <div id="content">
-        <!-- TopBar -->
-        <nav class="navbar navbar-expand navbar-light bg-navbar topbar static-top">
-	<img id="imglogo" src="../../img/logo.png" align="absmiddle" style="height:70px;margin-left: 3%;">
-	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
-		<span class="navbar-toggler-icon"></span>
-	</button>
-	<!-- Collection of nav links, forms, and other content for toggling -->
-	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">		
-		
-		<div class="navbar-nav mr-auto">
-		  <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
-			<a href="/bourse/home" class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-contactus.png" class="MainMenuIcon">email</a>		
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/animatedcam2.gif" class="MainMenuIcon">video</a>
-		    </div>
-		</div>
-			<div class="nav-item dropdown" style="width: 15%">
-				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline ">	Charbel Nacouzi</span><b class="caret"></b></a>
-				<div class="dropdown-menu">
-					<a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
-					<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
-					<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
-					<div class="divider dropdown-divider"></div>
-					<a href="#" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a>
-				</div>
-		</div>
-	</div>
-</nav>
-        <!-- Topbar -->
-	<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-		    <div class="modal-content">
-		
-		      <div class="modal-header bg-warning">
-		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">×</span>
-		        </button>
-		      </div>
-		      <div class="modal-body">
-		        You must select at least one record.
-		      </div>
-		    </div>
-		  </div>
-	 </div>
-	 	 	<div id="alertStartDate-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-		    <div class="modal-content">
-		
-		      <div class="modal-header bg-warning">
-		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">×</span>
-		        </button>
-		      </div>
-		      <div class="modal-body" id="startdatetext">
-		      </div>
-		    </div>
-		  </div>
-	 </div>
-        <!-- Container Fluid-->
-             <div class="d-sm-flex align-items-center">
-            <h1 class="ml-6 text-darkorange">Monitoring</h1>
-            	 <nav style="margin-left: 3rem;
-    						 height: 35px;
-    						 margin-top: 0.5rem;">
-				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				    <a class="navigation nav-item nav-link" id="nav-sovereign-yields-tab" href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-sovereign-yields" aria-selected="false">Sovereign Yields</a>
-				    <a class="navigation nav-item nav-link active" id="nav-any2-tab"  href="/bourse/sovereigncurvesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
-				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereigncrossesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
-				    <a class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/spreadmakergraph" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
-				  </div>
-				</nav>
-           
-          </div>
- <div class="container-fluid" id="container-wrapper">
-          <div class="row mb-3">
-			 <div class="bd-example bd-example-tabs col-12">
-			
-				<div class="tab-content" id="nav-tabContent" style="display:none;">
-				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
-				...
-					 </div>
-				  <div class="tab-pane fade" id="nav-any2" role="tabpanel" aria-labelledby="nav-any2-tab">	<p class="mt-2" style=" margin-bottom: .5rem;">
-				    ...
-				</div>
-				<div class="tab-pane fade active show" id="nav-sovereign-curves" role="tabpanel" aria-labelledby="nav-contact-tab">
-				<p class="mt-2" style=" margin-bottom: .5rem;">
-				  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
-				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
-					</p>
-					<div class="row">
-					  <div class="col">
-					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
-				<div class="row">
-				<div class="col-5">
-                  <form  id="dataformInput">
-                  <div class="form-group" style=" margin-top: 0">
-                      <div  style=" display: flex;">
-                         <div class="col-1"></div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/united-states.png">
-						    </div>
-						   <div class="col-2"><img  height="48" width="48" src="/img/flag/germany.png">
-						    </div>
-						 <div class="col-2"><img height="48" width="48" src="/img/flag/france.png">
-						    </div>
-						   <div class="col-2"><img height="48" width="48" src="/img/flag/united-kingdom.png">
-						    </div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/italy.png">
-						    </div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/spain.png">
-						    </div>
-						</div>
-		                   <div style=" display: flex;">
-		                       <div class="col-2"  style=" max-width: 11% ;padding: 0 ;">
-		                      	<div>10's/30's</div>
-								<div>5's/30's</div>
-								<div>5's/10's</div>
-								<div>2's/10's</div>
-								<div>2's/5's</div>
-								</div>
-		                    <div class="col-2">
-									<div id='jqxCheckBoxUSA-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-									<div id='jqxCheckBoxGermany-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxFrance-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxUk-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxItaly-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxSpain-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-2over5' style='float: left;'></div>
-								</div>
-								<div class="col-3">
-								   	<input id="all10over30" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="All 10's/30's" />
-									<input id="all5over30" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="All 5's/30's" />
-									<input id="all5over10" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="All 5's/10's" />
-									<input id="all2over10" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="All 2's/10's" />
-									<input id="all2over5" type="button" style="margin-right: 1rem!important;    padding: 0;" class="btn btn-light-secondary mr-1 mb-1" value="All 2's/5's" />
-								</div>
-								<div class="col-2">
-								</div>
-								<div class="">
-								<div class="row mb-3"  style="display:none;">
-								   <div style='padding-left: .75rem;' id='jqxDailyRadioButton'>
-									            <span>Daily</span></div>
-									<div id='jqxWeeklyRadioButton'>
-									           Weekly</div>
-								</div>
-								    <div id='M-100d' style='float: left;'>100d Moving Average</div>
-									<div id='M-200d' style='float: left;'>200d Moving Average</div>
-								</div>
-		                    </div>
-                     </div>
+	<div id="wrapper">
+		<!-- Sidebar -->
+		<!-- Sidebar -->
+		<div id="content-wrapper" class="d-flex flex-column">
 
-                    </form>
-                 </div>
-                 		
-                     </div>
-                     	<div class="row">
-							<div class='col-12 d-flex justify-content-end'>
-							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
-							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			<!-- TopBar -->
+			<div id="fixedMenu">
+				<nav
+					class="navbar navbar-expand navbar-light bg-navbar topbar static-top">
+					<img id="imglogo" src="../../img/logo.png" align="absmiddle"
+						style="height: 70px; margin-left: 3%;">
+					<button type="button" class="navbar-toggler" data-toggle="collapse"
+						data-target="#navbarCollapse">
+						<span class="navbar-toggler-icon"></span>
+					</button>
+					<!-- Collection of nav links, forms, and other content for toggling -->
+					<div id="navbarCollapse"
+						class="collapse navbar-collapse justify-content-start">
+
+						<div class="navbar-nav mr-auto">
+							<div
+								style="background: url(../../img/WebResource.png) top left repeat-x; display: flex; border-radius: 0.2rem; padding: 0.2rem;">
+								<a href="/bourse/home" class="nav-item nav-link"><img alt=""
+									src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+								<li class="rtbSeparator"><span class="rtbText"></span></li> <a
+									href="#" class="nav-item nav-link"><img alt=""
+									src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
+								<li class="rtbSeparator"><span class="rtbText"></span></li> <a
+									href="/bourse/newsmanagement" class="nav-item nav-link"><img
+									alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+								<li class="rtbSeparator"><span class="rtbText"></span></li> <a
+									href="/bourse/sovereignyields" class="nav-item nav-link"><img
+									alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+								<li class="rtbSeparator"><span class="rtbText"></span></li> <a
+									href="/bourse/settings" class="nav-item nav-link"><img
+									alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+								<li class="rtbSeparator"><span class="rtbText"></span></li> <a
+									href="#" class="nav-item nav-link"><img alt=""
+									src="../../img/ico-contactus.png" class="MainMenuIcon">email</a>
+								<li class="rtbSeparator"><span class="rtbText"></span></li> <a
+									href="#" class="nav-item nav-link"><img alt=""
+									src="../../img/animatedcam2.gif" class="MainMenuIcon">video</a>
 							</div>
 						</div>
-					    </div>
-				    <div id="grid-content" style="display:none;">
-				<div class='row'>
-				   	  	   <div class="row col-2">
-								   <div style='padding-left: .75rem;' id='DailyRadioButton'>
-									            <span>Daily</span></div>
-									<div id='WeeklyRadioButton'>
-									           Weekly</div>
-								</div>
-				     	</div>
-						   <div class='row'>
-				   	    <div class="col-1" style="z-index: 1;">
-						 	   	        <div class="chart-option">
-				   	        <div class="chart-option-title">Chart option</div>
-				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-						            <button class="btn btn-option"  id="area" onclick="graphTypeOption('area')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-areachart"></i></button>
-								     <button class="btn btn-option"  id="line" onclick="graphTypeOption('line')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
-									  <button class="btn btn-option" id="column" onclick="graphTypeOption('column')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-barchart"></i></button>
-								 </div>
-   						   </div>
-   						     <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColor">
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" id="F0AB2E" onclick="chartColorOption('#F0AB2E')"  data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
-									  <button class="btn btn-option" id="0097FE" onclick="chartColorOption('#0097FE')"  data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-bluechart"></i></button>
-									   <button class="btn btn-option" id="44546a" onclick="chartColorOption('#44546a')"  data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-darkchart"></i></button>
-								 </div>
-   						   </div>
-   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColorTransparency">
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" id="1" onclick="chartTransparencyOption('1')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><label class="transparency-text"><span>&shy;</span>&nbsp;0%</label><i class="icon-chart-1"></i></button>
-									  <button class="btn btn-option" id="75" onclick="chartTransparencyOption('0.75')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><label class="transparency-text">25%</label><i class="icon-chart-25"></i></button>
-									   <button class="btn btn-option" id="5" onclick="chartTransparencyOption('0.50')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><label class="transparency-text">50%</label><i class="icon-chart-50"></i></button>
-								 </div>
-   						   </div>
-   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartMarker">
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" id="1-0" onclick="chartMarkerOption('0')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
-									  <button class="btn btn-option" id="1-1" onclick="chartMarkerOption('1')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-smallmarkerchart"></i></button>
-									   <button class="btn btn-option" id="1-3" onclick="chartMarkerOption('3')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-bigmarkerchart"></i></button>
-								 </div>
-   						   </div>
-						    <div class="btn-group mt-2 ml-1"  role="group" aria-label="Vertical " id="fontOptions">
-						      <div class="" role="group" aria-label="Vertical example">
-						      <button type="button" class="btn btn-option" id="12px" onclick="graphfont('12px')"><i class="icon-small-a"></i></button>
-						      <button type="button" class="btn btn-option" id="14px" onclick="graphfont('14px')"><i class="icon-medium-a"></i></button>
-						      <button type="button" class="btn btn-option" id="16px" onclick="graphfont('16px')"><i class="icon-large-a"></i></button>
-						     </div>
-						   </div>
-						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical"  id="gridOptions">
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option"  id="true"  onclick="chartGridOption('true')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-withLinechart"></i></button>
-									 <button class="btn btn-option"  id="false"  onclick="chartGridOption('false')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-withoutLinechart"></i></button>
-								 </div>
-   						   </div>
-						        <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="gridLegend" >
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" id="legendtrue"  onclick="chartLegendOption('legendtrue')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-legendchart"></i></button>
-									 <button class="btn btn-option"  id="legendfalse"   onclick="chartLegendOption('legendfalse')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-nolegendchart"></i></button>
-								 </div>
-   						   </div>
-   						   	<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="display:none;    margin: 1.1rem;
-    color: white;
-    font-size: 0.54rem;
-    height: 30px;
-    position: absolute;
-    bottom: 4px;
-    font-weight: bold;
-    left: -1px;
-    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
-						   </div>
-						</div>
-						 <div id="overlayChart" class="overlayChart" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   </div>
-				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px"></div></div>
-						
-						</div>
-					    <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
-							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split" style="display:none;">
-					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
-							  </div>
-					 	       <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1078px; max-width: 1078px;">
-							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
-							  </div>
-							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
-							       <label>From</label>
-							       <input id="dateFrom-mainChart" type="text" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
-							       <label>To</label>
-							       <input id="dateTo-mainChart" type="text" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
-							  </div>
-							  <div class="btn-group" role="group" aria-label="Third group">
-							   <button type="button" id="button-monthForward" class="btn btn-secondary" onclick="navigationGraph('monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
-							   <button type="button" id="button-yearForward" class="btn btn-secondary" onclick="navigationGraph('yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
-							  </div>
+						<div class="nav-item dropdown" style="width: 15%">
+							<a href="#" data-toggle="dropdown"
+								class="nav-item nav-link dropdown-toggle user-action"><i
+								class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline ">
+									Charbel Nacouzi</span><b class="caret"></b></a>
+							<div class="dropdown-menu">
+								<a href="#" class="dropdown-item"><i class="fa fa-user-o"></i>
+									Profile</a> <a href="#" class="dropdown-item"><i
+									class="fa fa-calendar-o"></i> Calendar</a> <a href="#"
+									class="dropdown-item"><i class="fa fa-sliders"></i>
+									Settings</a>
+								<div class="divider dropdown-divider"></div>
+								<a href="#" class="dropdown-item"><i class="material-icons">&#xE8AC;</i>
+									Logout</a>
 							</div>
-						  </div>
-					  </div>
+						</div>
+					</div>
+				</nav>
+				<!-- Topbar -->
+				<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm"
+					tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel"
+					aria-hidden="true">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+
+							<div class="modal-header bg-warning">
+								<h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<div class="modal-body">You must select at least one
+								record.</div>
+						</div>
 					</div>
 				</div>
-			    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+				<div id="alertStartDate-modal"
+					class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"
+					aria-labelledby="myLargeModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+
+							<div class="modal-header bg-warning">
+								<h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<div class="modal-body" id="startdatetext"></div>
+						</div>
+					</div>
+				</div>
+				<!-- Container Fluid-->
+				<div class="d-sm-flex align-items-center">
+					<h1 class="ml-6 text-darkorange">Monitoring</h1>
+					<nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
+						<div class="nav nav-tabs" id="nav-tab" role="tablist">
+							<a class="navigation nav-item nav-link" id="nav-any2-tab"
+								href="/bourse/any2" role="tab" aria-controls="nav-any2"
+								aria-selected="false">Any2</a> <a
+								class="navigation nav-item nav-link"
+								id="nav-sovereign-yields-tab"
+								href="/bourse/sovereignyieldsgraph" role="tab"
+								aria-controls="nav-sovereign-yields" aria-selected="false">Sovereign
+								Yields</a> <a class="navigation nav-item nav-link active"
+								id="nav-any2-tab" href="/bourse/sovereigncurvesgraph" role="tab"
+								aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
+							<a class="navigation nav-item nav-link" id="nav-any2-tab"
+								href="/bourse/sovereigncrossesgraph" role="tab"
+								aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
+							<a class="navigation nav-item nav-link" id="nav-any2-tab"
+								href="/bourse/spreadmakergraph" role="tab"
+								aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
+						</div>
+					</nav>
+
 				</div>
 			</div>
-          </div>
-           <div id="overlay">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
-		   </div>
-          <!-- Modal Logout -->
-          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
-            aria-hidden="true">
-            <div class="modal-dialog" role="document">
-              <div class="modal-content">
-                <div class="modal-header">
-                  <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
-                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <span aria-hidden="true">&times;</span>
-                  </button>
-                </div>
-                <div class="modal-body">
-                  <p>Are you sure you want to logout?</p>
-                </div>
-                <div class="modal-footer">
-                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
-                  <a href="login.html" class="btn btn-primary">Logout</a>
-                </div>
-              </div>
-            </div>
-          </div>
+			<div id="content">
+				<div class="container-fluid" id="container-wrapper">
+					<div class="row mb-3">
+						<div class="bd-example bd-example-tabs col-12">
 
-        </div>
-       <div id="alertStartDate-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-		    <div class="modal-content">
-		
-		      <div class="modal-header bg-warning">
-		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">×</span>
-		        </button>
-		      </div>
-		      <div class="modal-body" id="startdatetext">
-		      </div>
-		    </div>
-		  </div>
-	    </div>
-	  </div>
-        <!---Container Fluid-->
-      </div>
-       <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
-      	<div class="simple-marquee-container">
+							<div class="tab-content" id="nav-tabContent"
+								style="display: none;">
+								<div class="tab-pane fade" id="nav-home" role="tabpanel"
+									aria-labelledby="nav-home-tab">...</div>
+								<div class="tab-pane fade" id="nav-any2" role="tabpanel"
+									aria-labelledby="nav-any2-tab">
+									<p class="mt-2" style="margin-bottom: .5rem;">...
+								</div>
+								<div class="tab-pane fade active show" id="nav-sovereign-curves"
+									role="tabpanel" aria-labelledby="nav-contact-tab">
+									<p class="mt-2" style="margin-bottom: .5rem;">
+										<a class="btn select" data-toggle="collapse"
+											href="#collapseFilter" role="button" aria-expanded="false"
+											aria-controls="collapseFilter">Select Factors <img
+											style="width: 12px; margin-left: .6rem;"
+											id="ContentPlaceHolder1_Image13" src="../../img/down.png"
+											align="absmiddle"></a>
+									</p>
+									<div class="row">
+										<div class="col">
+											<div class="collapse multi-collapse" id="collapseFilter"
+												style="margin: 0px 8rem;">
+												<div class="row">
+													<div class="col-5">
+														<form id="dataformInput">
+															<div class="form-group" style="margin-top: 0">
+																<div style="display: flex;">
+																	<div class="col-1"></div>
+																	<div class="col-2">
+																		<img height="48" width="48"
+																			src="/img/flag/united-states.png">
+																	</div>
+																	<div class="col-2">
+																		<img height="48" width="48"
+																			src="/img/flag/germany.png">
+																	</div>
+																	<div class="col-2">
+																		<img height="48" width="48" src="/img/flag/france.png">
+																	</div>
+																	<div class="col-2">
+																		<img height="48" width="48"
+																			src="/img/flag/united-kingdom.png">
+																	</div>
+																	<div class="col-2">
+																		<img height="48" width="48" src="/img/flag/italy.png">
+																	</div>
+																	<div class="col-2">
+																		<img height="48" width="48" src="/img/flag/spain.png">
+																	</div>
+																</div>
+																<div style="display: flex;">
+																	<div class="col-2" style="max-width: 11%; padding: 0;">
+																		<div>10's/30's</div>
+																		<div>5's/30's</div>
+																		<div>5's/10's</div>
+																		<div>2's/10's</div>
+																		<div>2's/5's</div>
+																	</div>
+																	<div class="col-2">
+																		<div id='jqxCheckBoxUSA-10over30' style='float: left;'></div>
+																		<div id='jqxCheckBoxUSA-5over30' style='float: left;'></div>
+																		<div id='jqxCheckBoxUSA-5over10' style='float: left;'></div>
+																		<div id='jqxCheckBoxUSA-2over10' style='float: left;'></div>
+																		<div id='jqxCheckBoxUSA-2over5' style='float: left;'></div>
+																	</div>
+																	<div class="col-2">
+																		<div id='jqxCheckBoxGermany-10over30'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxGermany-5over30'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxGermany-5over10'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxGermany-2over10'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxGermany-2over5'
+																			style='float: left;'></div>
+																	</div>
+																	<div class="col-2">
+																		<div id='jqxCheckBoxFrance-10over30'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxFrance-5over30'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxFrance-5over10'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxFrance-2over10'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxFrance-2over5'
+																			style='float: left;'></div>
+																	</div>
+																	<div class="col-2">
+																		<div id='jqxCheckBoxUk-10over30' style='float: left;'></div>
+																		<div id='jqxCheckBoxUk-5over30' style='float: left;'></div>
+																		<div id='jqxCheckBoxUk-5over10' style='float: left;'></div>
+																		<div id='jqxCheckBoxUk-2over10' style='float: left;'></div>
+																		<div id='jqxCheckBoxUk-2over5' style='float: left;'></div>
+																	</div>
+																	<div class="col-2">
+																		<div id='jqxCheckBoxItaly-10over30'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxItaly-5over30'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxItaly-5over10'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxItaly-2over10'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxItaly-2over5' style='float: left;'></div>
+																	</div>
+																	<div class="col-2">
+																		<div id='jqxCheckBoxSpain-10over30'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxSpain-5over30'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxSpain-5over10'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxSpain-2over10'
+																			style='float: left;'></div>
+																		<div id='jqxCheckBoxSpain-2over5' style='float: left;'></div>
+																	</div>
+																	<div class="col-3">
+																		<input id="all10over30" type="button"
+																			style="margin-right: 1rem !important; padding: 0;"
+																			class="btn btn-light-secondary mr-1 mb-1"
+																			value="All 10's/30's" /> <input id="all5over30"
+																			type="button"
+																			style="margin-right: 1rem !important; padding: 0;"
+																			class="btn btn-light-secondary mr-1 mb-1"
+																			value="All 5's/30's" /> <input id="all5over10"
+																			type="button"
+																			style="margin-right: 1rem !important; padding: 0;"
+																			class="btn btn-light-secondary mr-1 mb-1"
+																			value="All 5's/10's" /> <input id="all2over10"
+																			type="button"
+																			style="margin-right: 1rem !important; padding: 0;"
+																			class="btn btn-light-secondary mr-1 mb-1"
+																			value="All 2's/10's" /> <input id="all2over5"
+																			type="button"
+																			style="margin-right: 1rem !important; padding: 0;"
+																			class="btn btn-light-secondary mr-1 mb-1"
+																			value="All 2's/5's" />
+																	</div>
+																	<div class="col-2"></div>
+																	<div class="">
+																		<div class="row mb-3" style="display: none;">
+																			<div style='padding-left: .75rem;'
+																				id='jqxDailyRadioButton'>
+																				<span>Daily</span>
+																			</div>
+																			<div id='jqxWeeklyRadioButton'>Weekly</div>
+																		</div>
+																		<div id='M-100d' style='float: left;'>100d
+																			Moving Average</div>
+																		<div id='M-200d' style='float: left;'>200d
+																			Moving Average</div>
+																	</div>
+																</div>
+															</div>
+
+														</form>
+													</div>
+
+												</div>
+												<div class="row">
+													<div class='col-12 d-flex justify-content-end'>
+														<input aria-expanded="true" aria-controls="collapseFilter"
+															class="btn btn-primary mr-1 mb-1"
+															style="margin-right: 1rem !important; color: white;"
+															type="button" id="show" value="Show" /> <input
+															id="Clearfilter" type="button"
+															style="margin-right: 1rem !important;"
+															class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+													</div>
+												</div>
+											</div>
+											<div id="grid-content" style="display: none;">
+												<div class='row'>
+													<div class="row col-2">
+														<div style='padding-left: .75rem;' id='DailyRadioButton'>
+															<span>Daily</span>
+														</div>
+														<div id='WeeklyRadioButton'>Weekly</div>
+													</div>
+												</div>
+												<div class='row'>
+													<div class="col-1" style="z-index: 1;">
+														<div class="chart-option">
+															<div class="chart-option-title">Chart option</div>
+															<div class="btn-group  mt-2 ml-1" role="group"
+																aria-label="Vertical" id="chartTypes">
+																<div class="" role="group"
+																	aria-label="Button group with nested dropdown">
+																	<button class="btn btn-option" id="area"
+																		onclick="graphTypeOption('area')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-areachart"></i>
+																	</button>
+																	<button class="btn btn-option" id="line"
+																		onclick="graphTypeOption('line')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-linechart"></i>
+																	</button>
+																	<button class="btn btn-option" id="column"
+																		onclick="graphTypeOption('column')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-barchart"></i>
+																	</button>
+																</div>
+															</div>
+															<div class="btn-group  mt-2 ml-1" role="group"
+																aria-label="Vertical" id="chartColor">
+																<div class="" role="group"
+																	aria-label="Button group with nested dropdown">
+																	<button class="btn btn-option" id="F0AB2E"
+																		onclick="chartColorOption('#F0AB2E')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-goldchart"></i>
+																	</button>
+																	<button class="btn btn-option" id="0097FE"
+																		onclick="chartColorOption('#0097FE')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-bluechart"></i>
+																	</button>
+																	<button class="btn btn-option" id="44546a"
+																		onclick="chartColorOption('#44546a')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-darkchart"></i>
+																	</button>
+																</div>
+															</div>
+															<div class="btn-group  mt-2 ml-1" role="group"
+																aria-label="Vertical" id="chartColorTransparency">
+																<div class="" role="group"
+																	aria-label="Button group with nested dropdown">
+																	<button class="btn btn-option" id="1"
+																		onclick="chartTransparencyOption('1')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<label class="transparency-text"><span>&shy;</span>&nbsp;0%</label><i
+																			class="icon-chart-1"></i>
+																	</button>
+																	<button class="btn btn-option" id="75"
+																		onclick="chartTransparencyOption('0.75')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<label class="transparency-text">25%</label><i
+																			class="icon-chart-25"></i>
+																	</button>
+																	<button class="btn btn-option" id="5"
+																		onclick="chartTransparencyOption('0.50')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<label class="transparency-text">50%</label><i
+																			class="icon-chart-50"></i>
+																	</button>
+																</div>
+															</div>
+															<div class="btn-group  mt-2 ml-1" role="group"
+																aria-label="Vertical" id="chartMarker">
+																<div class="" role="group"
+																	aria-label="Button group with nested dropdown">
+																	<button class="btn btn-option" id="1-0"
+																		onclick="chartMarkerOption('0')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-linechart"></i>
+																	</button>
+																	<button class="btn btn-option" id="1-1"
+																		onclick="chartMarkerOption('1')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-smallmarkerchart"></i>
+																	</button>
+																	<button class="btn btn-option" id="1-3"
+																		onclick="chartMarkerOption('3')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-bigmarkerchart"></i>
+																	</button>
+																</div>
+															</div>
+															<div class="btn-group mt-2 ml-1" role="group"
+																aria-label="Vertical " id="fontOptions">
+																<div class="" role="group" aria-label="Vertical example">
+																	<button type="button" class="btn btn-option" id="12px"
+																		onclick="graphfont('12px')">
+																		<i class="icon-small-a"></i>
+																	</button>
+																	<button type="button" class="btn btn-option" id="14px"
+																		onclick="graphfont('14px')">
+																		<i class="icon-medium-a"></i>
+																	</button>
+																	<button type="button" class="btn btn-option" id="16px"
+																		onclick="graphfont('16px')">
+																		<i class="icon-large-a"></i>
+																	</button>
+																</div>
+															</div>
+															<div class="btn-group  mt-2 ml-1" role="group"
+																aria-label="Vertical" id="gridOptions">
+																<div class="" role="group"
+																	aria-label="Button group with nested dropdown">
+																	<button class="btn btn-option" id="true"
+																		onclick="chartGridOption('true')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-withLinechart"></i>
+																	</button>
+																	<button class="btn btn-option" id="false"
+																		onclick="chartGridOption('false')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-withoutLinechart"></i>
+																	</button>
+																</div>
+															</div>
+															<div class="btn-group  mt-2 ml-1" role="group"
+																aria-label="Vertical" id="gridLegend">
+																<div class="" role="group"
+																	aria-label="Button group with nested dropdown">
+																	<button class="btn btn-option" id="legendtrue"
+																		onclick="chartLegendOption('legendtrue')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-legendchart"></i>
+																	</button>
+																	<button class="btn btn-option" id="legendfalse"
+																		onclick="chartLegendOption('legendfalse')"
+																		data-pausetext="Break In" data-resumetext="Resume">
+																		<i class="icon-nolegendchart"></i>
+																	</button>
+																</div>
+															</div>
+															<input aria-expanded="true"
+																aria-controls="collapseFilter"
+																class="btn btn-primary mr-1 mb-1"
+																style="display: none; margin: 1.1rem; color: white; font-size: 0.54rem; height: 30px; position: absolute; bottom: 4px; font-weight: bold; left: -1px; text-transform: uppercase;"
+																type="button" id="SaveToFavorites"
+																value="Save To Favorites" />
+														</div>
+													</div>
+													<div id="overlayChart" class="overlayChart"
+														style="display: none">
+														<img src="/css/images/loader.gif" alt="Loading"
+															style="width: 100%;" />
+													</div>
+													<div class="col-10">
+														<div id="mainChart" class="chart-box col-12"
+															style="min-height: 365px; min-width: 1100px; max-width: 1100px"></div>
+													</div>
+
+												</div>
+												<div class="col-12"
+													style="justify-content: center; text-align: center; margin-top: .5rem">
+													<input class="edit" type="button" onclick="splitGraph()"
+														id="split" value="Split" style="display: none;"> <input
+														class="edit" type="button" onclick="drawGraph()"
+														id="merge" value="Merge" style="display: none;">
+												</div>
+												<div class="mt-3 btn-toolbar justify-content-between"
+													role="toolbar" aria-label="Toolbar with button groups"
+													style="min-width: 1078px; max-width: 1078px;">
+													<div class="btn-group mr-2" role="group"
+														aria-label="First group">
+														<button type="button" id="button-yearBackward"
+															class="btn btn-secondary"
+															onclick="navigationGraph('yearBackward')">
+															<i class="fas fa-angle-double-left"></i> 1 Year
+														</button>
+														<button type="button" id="button-monthBackward"
+															class="btn btn-secondary"
+															onclick="navigationGraph('monthBackward')">
+															<i class="fas fa-angle-double-left"></i> 1 Month
+														</button>
+													</div>
+													<div class="btn-group mr-2"
+														style="justify-content: center;" role="group"
+														aria-label="Second group">
+														<label>From</label> <input id="dateFrom-mainChart"
+															type="text"
+															class="inputdate form-control form-control-sm"
+															placeholder="" aria-controls="DataTables_Table_4"
+															disabled> <label>To</label> <input
+															id="dateTo-mainChart" type="text"
+															class="inputdate form-control form-control-sm"
+															placeholder="" aria-controls="DataTables_Table_4"
+															disabled>
+													</div>
+													<div class="btn-group" role="group"
+														aria-label="Third group">
+														<button type="button" id="button-monthForward"
+															class="btn btn-secondary"
+															onclick="navigationGraph('monthForward')">
+															1 Month <i class="fas fa-angle-double-right"></i>
+														</button>
+														<button type="button" id="button-yearForward"
+															class="btn btn-secondary"
+															onclick="navigationGraph('yearForward')">
+															1 Year <i class="fas fa-angle-double-right"></i>
+														</button>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="tab-pane fade" id="nav-contact" role="tabpanel"
+									aria-labelledby="nav-contact-tab">...</div>
+							</div>
+						</div>
+					</div>
+					<div id="overlay">
+						<img src="/css/images/loader.gif" alt="Loading"
+							style="width: 50%;" />
+					</div>
+					<!-- Modal Logout -->
+					<div class="modal fade" id="logoutModal" tabindex="-1"
+						role="dialog" aria-labelledby="exampleModalLabelLogout"
+						aria-hidden="true">
+						<div class="modal-dialog" role="document">
+							<div class="modal-content">
+								<div class="modal-header">
+									<h5 class="modal-title" id="exampleModalLabelLogout">Ohh
+										No!</h5>
+									<button type="button" class="close" data-dismiss="modal"
+										aria-label="Close">
+										<span aria-hidden="true">&times;</span>
+									</button>
+								</div>
+								<div class="modal-body">
+									<p>Are you sure you want to logout?</p>
+								</div>
+								<div class="modal-footer">
+									<button type="button" class="btn btn-outline-primary"
+										data-dismiss="modal">Cancel</button>
+									<a href="login.html" class="btn btn-primary">Logout</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12">
+
+							<div class="mt-3 btn-toolbar justify-content-between"
+								role="toolbar" aria-label="Toolbar with button groups"
+								style="min-width: 1078px; max-width: 1078px;">
+								<div id="grid_filtered" style="margin-top: .5rem"></div>
+							</div>
+
+						</div>
+					</div>
+				</div>
+				<div id="alertStartDate-modal"
+					class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog"
+					aria-labelledby="myLargeModalLabel" aria-hidden="true">
+					<div class="modal-dialog modal-sm">
+						<div class="modal-content">
+
+							<div class="modal-header bg-warning">
+								<h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+								<button type="button" class="close" data-dismiss="modal"
+									aria-label="Close">
+									<span aria-hidden="true">×</span>
+								</button>
+							</div>
+							<div class="modal-body" id="startdatetext"></div>
+						</div>
+					</div>
+				</div>
+
+			</div>
+			<!---Container Fluid-->
+		</div>
+		<div class="NewsBack container"
+			style="position: fixed; bottom: 0px; left: 0px; max-width: 100%; border: 2px; border-color: black;">
+			<div class="simple-marquee-container">
 				<div class="marquee-sibling-date">
 					<p id="todayDate"></p>
 				</div>
-				<div class="marquee-sibling">
-					NEWS
-				</div>
+				<div class="marquee-sibling">NEWS</div>
 				<div class="marquee">
 					<ul id="Newslist" class="marquee-content-items">
 					</ul>
 				</div>
 				<div class="marquee-sibling-viewAll">
-					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
+					<input type="button" value="VIEW ALL" id='viewall'
+						style="display: none;" />
 				</div>
 			</div>
 		</div>
-      <!-- Footer -->
-      <!-- Footer -->
-    </div>
-  </div>
+		<!-- Footer -->
+		<!-- Footer -->
+	</div>
+	</div>
 
-  <!-- Scroll to top -->
-  <a class="scroll-to-top rounded" href="#page-top">
-    <i class="fas fa-angle-up"></i>
-  </a>
+	<!-- Scroll to top -->
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+	</a>
 
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/js/jqwidgets/jqxcore.js"></script> 
-  <script src="/js/jqwidgets/jqxcheckbox.js"></script>
-  <script src="/js/marquee.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
-  <script src="/js/jqwidgets/jqxradiobutton.js"></script> 
-  
-     <script src="/js/apexcharts.js"></script>
-     <script src="/js/chartOptions.js"></script> 
-     <script src="/js/bourse/sovereignCurvesGraph.js"></script> 
-     <script src="/js/chart.js"></script>
-     <script src="/js/bourse/scrollBarNews.js"></script> 
+	<script src="/vendor/jquery/jquery.min.js"></script>
+	<script src="/js/jqwidgets/jqxcore.js"></script>
+	<script src="/js/jqwidgets/jqxcheckbox.js"></script>
+	<script src="/js/marquee.js"></script>
+	<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+	<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+	<script src="/js/jqwidgets/jqxbuttons.js"></script>
+	<script src="/js/jqwidgets/jqxradiobutton.js"></script>
 
+	<script src="/js/apexcharts.js"></script>
+	<script src="/js/chartOptions.js"></script>
+	<script src="/js/bourse/jsonCheckBoxArray.js"></script>  
+	<script src="/js/bourse/sovereignCurvesGraph.js"></script>
+	<script src="/js/chart.js"></script>
+	<script src="/js/jqwidgets/jqxdata.js"></script>
+	<script src="/js/jqwidgets/jqxgrid.js"></script>
+	<script src="/js/jqwidgets/jqxgrid.filter.js"></script>
+	<script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
+	<script src="/js/jqwidgets/jqxscrollbar.js"></script>
+	<script src="/js/jqwidgets/jqxmenu.js"></script>
+	<script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script>
+	<script src="/js/jqwidgets/jqxgrid.selection.js"></script>
+	<script src="/js/jqwidgets/jqxcore.js"></script>
+	<script src="/js/bourse/scrollBarNews.js"></script>
+	<script src="/js/bourse/inGraphNews.js"></script>
 </body>
 
 </html>

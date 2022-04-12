@@ -134,11 +134,13 @@
 			  "factor":"30yr",
 			  "country":"1",
 			  "yieldCurveCross":"spreadmaker",
+			  "description": "USA-30",
 			  "title":"USA 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUSA-10":{
 			  "factor":"10yr",
 			  "country":"1",
+			  "description": "USA-10",
 			  "yieldCurveCross":"spreadmaker",
 			   "title":"USA 10-yr Benchmark YIELD"
 			 },
@@ -146,11 +148,13 @@
 			  "factor":"5yr",
 			  "country":"1",
 			  "yieldCurveCross":"spreadmaker",
+		      "description": "USA-5",
 			  "title":"USA 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUSA-2":{
 			  "factor":"2yr",
 			  "country":"1",
+	          "description": "USA-2",
 			  "yieldCurveCross":"spreadmaker",
 			  "title":"USA 2-yr Benchmark YIELD"
 			 },
@@ -158,42 +162,49 @@
 			  "factor":"30yr",
 			  "country":"3",
 			  "yieldCurveCross":"spreadmaker",
+	          "description": "GERMANY-30",
 			  "title":"Germany 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-10":{
 			  "factor":"10yr",
 			  "country":"3",
 			  "yieldCurveCross":"spreadmaker",
+	 		  "description": "GERMANY-10",
 			  "title":"Germany 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-5":{
 			  "factor":"5yr",
 			  "country":"3",
 			  "yieldCurveCross":"spreadmaker",
+	          "description": "GERMANY-5",
 			  "title":"Germany 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxGermany-2":{
 			  "factor":"2yr",
 			  "country":"3",
 			  "yieldCurveCross":"spreadmaker",
+	          "description": "GERMANY-2",
 			  "title":"Germany 2-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-30":{
 			  "factor":"30yr",
 			  "country":"2",
 			  "yieldCurveCross":"spreadmaker",
+		          "description": "FRANCE-30",
 			  "title":"France 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-10":{
 			  "factor":"10yr",
 			  "country":"2",
 			  "yieldCurveCross":"spreadmaker",
+		          "description": "FRANCE-10",
 			  "title":"France 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxFrance-5":{
 			  "factor":"5yr",
 			  "country":"2",
 			  "yieldCurveCross":"spreadmaker",
+		          "description": "FRANCE-5",
 			  "title":"France 5-yr Benchmark YIELD"
 			  
 			 },
@@ -201,101 +212,118 @@
 			  "factor":"2yr",
 			  "country":"2",
 			  "yieldCurveCross":"spreadmaker",
+		          "description": "FRANCE-2",
 			  "title":"France 2-yr Benchmark YIELD"
 			 },	
 "#jqxCheckBoxUk-30":{
 			  "factor":"30yr",
 			  "country":"4",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "UK-30",
 			  "title":"Uk 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUk-10":{
 			  "factor":"10yr",
 			  "country":"4",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "UK-10",
 			  "title":"Uk 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUk-5":{
 			  "factor":"5yr",
 			  "country":"4",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "UK-5",
 			  "title":"Uk 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxUk-2":{
 			  "factor":"2yr",
 			  "country":"4",
 			  "yieldCurveCross":"spreadmaker",
+		      "description": "UK-2",
 			  "title":"Uk 2-yr Benchmark YIELD"
 			 },	
 "#jqxCheckBoxItaly-30":{
 			  "factor":"30yr",
 			  "country":"5",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "ITALY-30",
 			  "title":"Italy 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxItaly-10":{
 			  "factor":"10yr",
 			  "country":"5",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "ITALY-10",
 			  "title":"Italy 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxItaly-5":{
 			  "factor":"5yr",
 			  "country":"5",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "ITALY-5",
 			  "title":"Italy 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxItaly-2":{
 			  "factor":"2yr",
 			  "country":"5",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "ITALY-2",
 			  "title":"Italy 2-yr Benchmark YIELD"
 			 },		
 "#jqxCheckBoxSpain-30":{
 			  "factor":"30yr",
 			  "country":"6",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "SPAIN-30",
 			  "title":"Spain 30-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxSpain-10":{
 			  "factor":"10yr",
 			  "country":"6",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "SPAIN-10",
 			  "title":"Spain 10-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxSpain-5":{
 			  "factor":"5yr",
 			  "country":"6",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "SPAIN-5",
 			  "title":"Spain 5-yr Benchmark YIELD"
 			 },
 "#jqxCheckBoxSpain-2":{
 			  "factor":"2yr",
 			  "country":"6",
 			  "yieldCurveCross":"spreadmaker",
+		       "description": "SPAIN-2",
 			  "title":"Spain 2-yr Benchmark YIELD"
 			 },	
 			 "#jqxCheckBoxUSA-30_1":{
 				  "factor":"30yr",
 				  "country":"1",
 				  "yieldCurveCross":"spreadmaker",
+				  "description": "USA-30",
 				  "title":"USA 30-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxUSA-10_1":{
 				  "factor":"10yr",
 				  "country":"1",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "USA-10",
 				   "title":"USA 10-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxUSA-5_1":{
 				  "factor":"5yr",
 				  "country":"1",
 				  "yieldCurveCross":"spreadmaker",
+				  "description": "USA-5",
 				  "title":"USA 5-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxUSA-2_1":{
 				  "factor":"2yr",
 				  "country":"1",
+		          "description": "USA-2",
 				  "yieldCurveCross":"spreadmaker",
 				  "title":"USA 2-yr Benchmark YIELD"
 				 },
@@ -303,42 +331,49 @@
 				  "factor":"30yr",
 				  "country":"3",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "GERMANY-30",
 				  "title":"Germany 30-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxGermany-10_1":{
 				  "factor":"10yr",
 				  "country":"3",
 				  "yieldCurveCross":"spreadmaker",
+				  "description": "GERMANY-10",
 				  "title":"Germany 10-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxGermany-5_1":{
 				  "factor":"5yr",
 				  "country":"3",
 				  "yieldCurveCross":"spreadmaker",
+		 		  "description": "GERMANY-5",
 				  "title":"Germany 5-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxGermany-2_1":{
 				  "factor":"2yr",
 				  "country":"3",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "GERMANY-2",
 				  "title":"Germany 2-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxFrance-30_1":{
 				  "factor":"30yr",
 				  "country":"2",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "FRANCE-30",
 				  "title":"France 30-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxFrance-10_1":{
 				  "factor":"10yr",
 				  "country":"2",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "FRANCE-10",
 				  "title":"France 10-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxFrance-5_1":{
 				  "factor":"5yr",
 				  "country":"2",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "FRANCE-5",
 				  "title":"France 5-yr Benchmark YIELD"
 				  
 				 },
@@ -346,78 +381,91 @@
 				  "factor":"2yr",
 				  "country":"2",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "FRANCE-2",
 				  "title":"France 2-yr Benchmark YIELD"
 				 },	
 	"#jqxCheckBoxUk-30_1":{
 				  "factor":"30yr",
 				  "country":"4",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "UK-30",
 				  "title":"Uk 30-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxUk-10_1":{
 				  "factor":"10yr",
 				  "country":"4",
 				  "yieldCurveCross":"spreadmaker",
+		       "description": "UK-10",
 				  "title":"Uk 10-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxUk-5_1":{
 				  "factor":"5yr",
 				  "country":"4",
 				  "yieldCurveCross":"spreadmaker",
+		       "description": "UK-5",
 				  "title":"Uk 5-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxUk-2_1":{
 				  "factor":"2yr",
 				  "country":"4",
 				  "yieldCurveCross":"spreadmaker",
+		       "description": "UK-2",
 				  "title":"Uk 2-yr Benchmark YIELD"
 				 },	
 	"#jqxCheckBoxItaly-30_1":{
 				  "factor":"30yr",
 				  "country":"5",
 				  "yieldCurveCross":"spreadmaker",
+		       "description": "ITALY-30",
 				  "title":"Italy 30-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxItaly-10_1":{
 				  "factor":"10yr",
 				  "country":"5",
 				  "yieldCurveCross":"spreadmaker",
+		         "description": "ITALY-10",
 				  "title":"Italy 10-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxItaly-5_1":{
 				  "factor":"5yr",
 				  "country":"5",
 				  "yieldCurveCross":"spreadmaker",
+		       "description": "ITALY-5",
 				  "title":"Italy 5-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxItaly-2_1":{
 				  "factor":"2yr",
 				  "country":"5",
 				  "yieldCurveCross":"spreadmaker",
+		       "description": "ITALY-2",
 				  "title":"Italy 2-yr Benchmark YIELD"
 				 },		
 	"#jqxCheckBoxSpain-30_1":{
 				  "factor":"30yr",
 				  "country":"6",
 				  "yieldCurveCross":"spreadmaker",
+		         "description": "SPAIN-30",
 				  "title":"Spain 30-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxSpain-10_1":{
 				  "factor":"10yr",
 				  "country":"6",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "SPAIN-10",
 				  "title":"Spain 10-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxSpain-5_1":{
 				  "factor":"5yr",
 				  "country":"6",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "SPAIN-5",
 				  "title":"Spain 5-yr Benchmark YIELD"
 				 },
 	"#jqxCheckBoxSpain-2_1":{
 				  "factor":"2yr",
 				  "country":"6",
 				  "yieldCurveCross":"spreadmaker",
+		          "description": "SPAIN-2",
 				  "title":"Spain 2-yr Benchmark YIELD"
 				 }
 };
@@ -426,7 +474,7 @@
 	  $('#nav-tabContent').show();
   });
   $(document).ready(function () {
-	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35 ,template: "primary" });
+	 $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35 ,template: "primary" });
 	  $("#viewall").css("display","block");
 	  $("#viewall").click(function () {
 		popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
@@ -2738,6 +2786,8 @@
 		    	  
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
+
+			inGraphNews(getSelectedFields(checkedItemValues));
 							}
 			function graphfont(fontSize){
 		    	 updateGraphFont(fontSize,minvalue,maxvalue);

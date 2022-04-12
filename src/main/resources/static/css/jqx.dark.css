@@ -1475,9 +1475,9 @@
 }
 
 .jqx-widget-dark .jqx-grid-column-header, .jqx-widget-dark .jqx-grid-group-cell {
-    border-color: var(--jqx-border);
+   /*  border-color: var(--jqx-border);
     color: var(--jqx-surface-color);
-    background: var(--jqx-surface);
+    background: var(--jqx-surface); */
 }
 
 .jqx-widget-dark .jqx-grid-column-header-dark {

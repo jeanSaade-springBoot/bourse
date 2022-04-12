@@ -11,17 +11,14 @@ import javax.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.PathVariable;
 
 import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.News;
 import com.bourse.domain.NewsOrder;
-import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
 import com.bourse.dto.ColumnConfigurationDTO;
-import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.NewsOrderDTO;
 import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.repositories.CalendarDatesRepository;

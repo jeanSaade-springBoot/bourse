@@ -168,4 +168,38 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 		 		+ "    news_order.order_id asc;" , 
 		 		  nativeQuery = true)   	
 	 List<News> findAllNewsByGroupIdAndSubgroupId(@Param("subGroupIdDescription") String subGroupIdDescription);
+
+	 @Query( value ="select   tab.id, \r\n"
+	 		+ "		 tab.template, \r\n"
+	 		+ "		 tab.column_Description, \r\n"
+	 		+ "		 tab.robots, \r\n"
+	 		+ "		 tab.is_Bold, \r\n"
+	 		+ "		 date(tab.generation_Date_Date) as generation_Date_Date, \r\n"
+	 		+ "		 tab.is_Published from ( \r\n"
+	 		+ "		 		 SELECT t.id, \r\n"
+	 		+ "		 		 t.template, \r\n"
+	 		+ "		 		 t.column_Description, \r\n"
+	 		+ "		 		 t.robots, \r\n"
+	 		+ "		 		 t.is_Bold, \r\n"
+	 		+ "		 		 t.generation_Date_Date, \r\n"
+	 		+ "		 		 t.is_Published, \r\n"
+	 		+ "                 c.factor,\r\n"
+	 		+ "		 		  CONCAT(a.asset_Code,g.group_Code,s.subgroup_Code,c.column_Code,'LAST',r.robot_Code) as robot_code \r\n"
+	 		+ "		 		  FROM News t, Column_Configuration c, robots_configuration r,  Asset_Class a, Groups g, SubGroup s \r\n"
+	 		+ "		 		    WHERE t.column_Description=c.description \r\n"
+	 		+ "		 		 	and t.robots= r.robot_name \r\n"
+	 		+ "		 		     and  r.column_description=c.description \r\n"
+	 		+ "		 		     and s.group_Id = c.group_Id \r\n"
+	 		+ "		 		     and s.id_Sub_Group=c.subgroup_Id \r\n"
+	 		+ "		 		     and g.id = c.group_Id \r\n"
+	 		+ "		 		     and g.asset_Id=a.id \r\n"
+	 		+ "		 		 	and t.is_Published=1  \r\n"
+	 		+ "				  and c.description in (:selectedGraphNews) \r\n"
+	 		+ "		 		    )tab, news_order \r\n"
+	 		+ "		 		     where tab.robot_code=news_order.robot_code \r\n"
+	 		+ "		 		     order by date(generation_Date_Date) desc, \r\n"
+	 		+ "		 		     news_order.order_id asc;" , 
+		 		  nativeQuery = true)   	
+	 List<News> findSelectedGraphNews(@Param("selectedGraphNews") List<String> selectedGraphNews);
+	 
 }

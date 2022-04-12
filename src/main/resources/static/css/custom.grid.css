@@ -1,0 +1,34 @@
+.jqx-grid-group-cell {
+    overflow: hidden;
+    position: absolute !important;
+    height: 100%;
+    background: #1f2d49;
+}
+.jqx-widget-content-dark {
+     border-color: #293856;
+}
+.jqx-grid-cell-alt-dark {
+    background: #182339!important;
+    color: var(--jqx-surface-color);
+}
+/* .jqx-widget-header {
+    -moz-box-sizing: content-box;
+    box-sizing: content-box;
+    -ms-touch-action: none;
+    -moz-background-clip: padding;
+    -webkit-text-size-adjust: none;
+    background-clip: padding-box;
+    -webkit-background-clip: padding-box;
+    -webkit-tap-highlight-color: rgba(0,0,0,0);
+    border-color: #c5c5c5;
+    background: #3654a4;
+    COLOR: WHITE;
+    FONT-WEIGHT: BOLD;
+} */
+.jqx-widget .jqx-grid-cell, .jqx-widget .jqx-grid-column-header, .jqx-widget .jqx-grid-group-cell {
+    border-color: #293856;
+}
+.red-row {
+    color: red !important;
+    font-weight: bold;
+}
