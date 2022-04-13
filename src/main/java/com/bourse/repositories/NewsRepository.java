@@ -195,7 +195,8 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 	 		+ "		 		     and g.asset_Id=a.id \r\n"
 	 		+ "		 		 	and t.is_Published=1  \r\n"
 	 		+ "				  and c.description in (:selectedGraphNews) \r\n"
-	 		+ "		 		    )tab, news_order \r\n"
+	 		+ "		 		      and t.generation_Date_Date between sysdate() - INTERVAL 6 MONTH and sysdate()"
+	 		+ ")tab, news_order \r\n"
 	 		+ "		 		     where tab.robot_code=news_order.robot_code \r\n"
 	 		+ "		 		     order by date(generation_Date_Date) desc, \r\n"
 	 		+ "		 		     news_order.order_id asc;" , 
