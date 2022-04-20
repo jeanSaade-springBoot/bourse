@@ -97,6 +97,7 @@ public class AdminService
 				                         .yAxisFormat(columnConfiguration.getYAxisFormat())
 				                         .showInDatabase(columnConfiguration.isShowInDatabase())
 				                         .showInNewsGraph(columnConfiguration.isShowInNewsGraph())
+				                         .columnCode(columnConfiguration.getColumnCode())
 				                         .build();
         return columnConfigurationRepository.save(colInstance);
 	}

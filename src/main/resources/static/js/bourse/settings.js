@@ -391,6 +391,7 @@
             	    var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
                  var row = { id : dataRecord.id,
                 		    description:$("#DisplayName").val(),
+							columnCode:$("#columnCode").val(),
                 		    displayDescription: $("#graphTitle").val()!=''?$("#graphTitle").val():null,
                 		    columnName: $("#columnName").val()!=''?$("#columnName").val():null,
                 		    groupId:groupItem.value,
@@ -562,6 +563,7 @@
                   //$("#columnCode").val(dataRecord.columnCode);
                   $("#configId").val(dataRecord.id);
                   $("#DisplayName").val(dataRecord.description);
+   				  $("#columnCode").val(dataRecord.columnCode);
                   $("#graphTitle").val(dataRecord.displayDescription);
                   $("#columnName").val(dataRecord.columnName);
                   $("#dataFormat").jqxDropDownList('val', dataRecord.dataFormat);              
