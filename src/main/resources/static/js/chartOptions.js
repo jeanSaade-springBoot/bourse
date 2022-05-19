@@ -801,10 +801,10 @@ function checkActiveFontSize(activeFontSize,dbFontSize)
 		}
 		return fontsize;
 }
-function checkActiveChartType(activeChartType,dbchartType,Daily)
+function checkActiveChartType(activeChartType,dbchartType,Period)
 {
 	if (typeof  activeChartType == 'undefined')
-	  { chartType1 = getDBChartType(dbchartType,Daily);
+	  { chartType1 = getDBChartType(dbchartType,Period);
 	  } else 
 		{
 		  chartType1 =  activeChartType.id;
@@ -873,10 +873,10 @@ function getFontSize(chartDbFontSize)
 	  	
 		return fontsize;
 }
-function getDBChartType(DbchartType,Daily)
+function getDBChartType(DbchartType,Period)
 {
-    $(Daily?'#'+DbchartType.toLowerCase():'#column').addClass("active");
-	  	chartType=Daily?DbchartType:'column';
+    $(Period=='d'?'#'+DbchartType.toLowerCase():'#column').addClass("active");
+	  	chartType=Period=='d'?DbchartType:'column';
 
 	  activateChartTrasnparency(chartType);
 	  activateChartMarker(chartType);
@@ -920,4 +920,79 @@ function getChartLegend(chartLegend)
 	  	showLegend=chartLegend;
 	 
    return showLegend;
-}		  
+}	
+function getChartPeriod(){
+	
+	 period=getChartPeriodCode($('#groupOfPeriod').jqxButtonGroup('getSelection'));
+
+ return period;
+}
+function getSelectedType()
+{
+	return $("#dropDownType").jqxDropDownList('getSelectedItem').value;
+}
+function getChartPeriodCode(period)
+{
+  var code='';	
+	switch(period) {
+	  
+	 case 0: 
+	   code='d'
+	        break;
+	 case 1: 
+	   code='w'
+	        break;
+	 case 2: 
+		   code='m'
+		    break;
+	 case 3: 
+		   code='q'
+		    break;
+	 case 4: 
+		   code='y'
+		    break;
+	}
+return code;
+}
+function getChartPeriodIndex(period)
+{
+  var index='';	
+	switch(period) {
+	  
+	 case 'd': 
+	   index=0
+	        break;
+	 case 'w': 
+	   index=1
+	        break;
+	 case 'm': 
+	   index=2
+		    break;
+	 case 'q': 
+       index=3
+		    break;
+	 case 'y': 
+	   index=4
+		    break;
+	}
+return index;
+}		
+	
+ $("#groupOfPeriod").on('buttonclick', function () {
+                 
+	    resetActiveChartType();
+		resetActiveFontSize();
+		resetActiveChartColor();
+		resetActiveChartColorTransparency();
+		resetActiveChartGrid();
+		drawGraph();
+                });  
+$('#dropDownType').on('select', function (event)
+{
+    resetActiveChartType();
+		resetActiveFontSize();
+		resetActiveChartColor();
+		resetActiveChartColorTransparency();
+		resetActiveChartGrid();
+		drawGraph();                      
+});

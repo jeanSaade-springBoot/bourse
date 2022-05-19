@@ -3842,7 +3842,7 @@
 		    	   dataParam = { 
    		        		"fromdate":fromdate,
    		        	    "todate":todate,
-   		        	    "dailyOrWeekly":"d",
+   		        	    "period":"d",
    		        	    "factor1":itemValue[checkedItemValues[0]].factor,
    		        	    "country1":itemValue[checkedItemValues[0]].country,
    		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross
@@ -4147,7 +4147,7 @@
 			    	    dataParam = { 
 		   		        		"fromdate":fromdate,
 		   		        	    "todate":todate,
-		   		        	    "dailyOrWeekly":"d",
+		   		        	    "period":"d",
 		   		        	    "factor1":itemValue[checkedItemValues[1]].factor,
 		   		        	    "country1":itemValue[checkedItemValues[1]].country,
 		   		        	    "yieldCurveCross1": itemValue[checkedItemValues[1]].yieldCurveCross
@@ -4516,7 +4516,7 @@
 				        dataParam = { 
 		 		        		"fromdate":fromdate,
 		 		        	    "todate":todate,
-		 		        	    "dailyOrWeekly":"d",
+		 		        	    "period":"d",
 		 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
 		 		        	    "country1":itemValue[checkedItemValues[0]].country,
 		 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
@@ -4847,7 +4847,7 @@
 			        dataParam = { 
 	   		        		"fromdate":fromdate,
 	   		        	    "todate":todate,
-	   		        	    "dailyOrWeekly":"d",
+	   		        	    "period":"d",
 	   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
 	   		        	    "country1":itemValue[checkedItemValues[0]].country,
 	   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,

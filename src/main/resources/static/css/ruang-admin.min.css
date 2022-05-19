@@ -9,6 +9,10 @@
     height: 103px;
     z-index: 100;
 }
+.modal-backdrop.show {
+    opacity: .5;
+    z-index: 1;
+}
 div#content {
     position: absolute;
     top: 103px;
@@ -37,6 +41,27 @@ div#content {
 }
 button.btn.btn-option {
     padding: 0.2rem;
+}
+div#d {
+    border-top-left-radius:0.2rem;
+    border-top-right-radius:  0px;
+    border-bottom-right-radius:0px;
+    border-bottom-left-radius:0.2rem;
+}
+div#w {
+    border-radius: 0;
+}
+div#m {
+    border-radius: 0;
+}
+div#q {
+    border-radius: 0;
+}
+div#y {
+    border-top-left-radius: 0px;
+    border-top-right-radius: 0.2rem;
+    border-bottom-right-radius: 0.2rem;
+    border-bottom-left-radius: 0px;
 }
 .icon-small-a{
   background-image : url(/img/small-a.png);
@@ -338,7 +363,6 @@ a.btn.select {
     border-color: #3c558d;
     height: 35px;
     font-size: 0.8rem;
-    margin-left: 1.5rem;
     text-transform: uppercase;
 }
 .text-darkorange{

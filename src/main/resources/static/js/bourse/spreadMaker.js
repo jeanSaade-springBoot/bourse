@@ -2616,7 +2616,7 @@
 				        dataParam = { 
 		 		        		"fromdate":fromdate,
 		 		        	    "todate":todate,
-		 		        	    "dailyOrWeekly":"d",
+		 		        	    "period":"d",
 		 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
 		 		        	    "country1":itemValue[checkedItemValues[0]].country,
 		 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,

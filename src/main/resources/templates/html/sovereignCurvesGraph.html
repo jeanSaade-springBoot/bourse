@@ -353,14 +353,23 @@ div#overlay {
 												</div>
 											</div>
 											<div id="grid-content" style="display: none;">
-												<div class='row'>
-													<div class="row col-2">
-														<div style='padding-left: .75rem;' id='DailyRadioButton'>
-															<span>Daily</span>
-														</div>
-														<div id='WeeklyRadioButton'>Weekly</div>
+												   <div class='row'>
+										   	  	   <div class="row col-12">
+										   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
+											            <button style="padding:4px 16px;" id="d">
+											                Daily</button>
+											            <button style="padding:4px 16px;" id="w">
+											                Weekly</button>
+											            <button style="padding:4px 16px;" id="m">
+											                Monthly</button>
+														 <button style="padding:4px 16px;" id="q">
+															Quarterly</button>
+														 <button style="padding:4px 16px;" id="y">
+															Yearly</button>
+											        </div>
+													<div id='dropDownType' style='border-radius: 0.2rem;     margin-left: 2.4rem;'></div> 
 													</div>
-												</div>
+										     	</div>
 												<div class='row'>
 													<div class="col-1" style="z-index: 1;">
 														<div class="chart-option">
@@ -676,7 +685,7 @@ div#overlay {
 	<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 	<script src="/js/jqwidgets/jqxbuttons.js"></script>
 	<script src="/js/jqwidgets/jqxradiobutton.js"></script>
-
+    <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
 	<script src="/js/apexcharts.js"></script>
 	<script src="/js/chartOptions.js"></script>
 	<script src="/js/bourse/jsonCheckBoxArray.js"></script>  
@@ -691,6 +700,8 @@ div#overlay {
 	<script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script>
 	<script src="/js/jqwidgets/jqxgrid.selection.js"></script>
 	<script src="/js/jqwidgets/jqxcore.js"></script>
+  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
+  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
 	<script src="/js/bourse/scrollBarNews.js"></script>
 	<script src="/js/bourse/inGraphNews.js"></script>
 </body>

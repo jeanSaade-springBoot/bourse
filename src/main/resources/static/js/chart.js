@@ -608,8 +608,8 @@ var chartOption = {
    	    	          };
    	    	             	    	          
 function updateGraphFont(fontsize,minvalue,maxvalue){
-				var Daily = $("#DailyRadioButton").val();
-				if(Daily)
+				var Period = $("#DailyRadioButton").val();
+				if(Period)
 					chart.updateOptions({
 						xaxis: {
 				        	labels: {
@@ -663,7 +663,7 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 				              },
 				        }]
 						})
-				 if(!Daily)
+				 if(!Period)
 					   chart.updateOptions({
 							xaxis: {
 					        	labels: {

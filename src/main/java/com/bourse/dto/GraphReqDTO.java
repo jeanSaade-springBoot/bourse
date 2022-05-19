@@ -39,7 +39,8 @@ public class GraphReqDTO {
 	private String factor7;
 	private String yieldCurveCross7;
 	
-	private String dailyOrWeekly;  //d or w
+	private String period;  //d or w or m or q or y
+	private String type;  //0 or 1 or 2 or 3
 	
 	private String movingAverage;
 	private String movingTwoHundereOrOneHundred;

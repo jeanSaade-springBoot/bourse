@@ -68,9 +68,30 @@ $(document).ready(function() {
 	$("#viewall").click(function() {
 		popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
 	});
-	$("#WeeklyRadioButton").jqxRadioButton({ theme: 'dark', width: 70, height: 25, rtl: true });
-	$("#DailyRadioButton").jqxRadioButton({ theme: 'dark', width: 70, height: 25, rtl: true });
-
+	
+	$("#groupOfPeriod").jqxButtonGroup({theme: 'dark', mode: 'radio' });
+		
+	var  dropDownSource =[{"type":"AVG",
+                            "value":"0"}, 
+					        {"type":"MAX",
+                             "value":"1"},
+							{"type":"MIN",
+                             "value":"2"},
+							{"type":"LAST",
+                             "value":"3"},];
+   var source =
+     {
+         datatype: "json",
+         datafields: [
+             { name: 'type' },
+             { name: 'value' }
+         ],
+         localdata: dropDownSource,
+         async: true
+     };
+	  var dataAdapter = new $.jqx.dataAdapter(source);
+	 $("#dropDownType").jqxDropDownList({selectedIndex: 0, dropDownHeight: 130,  source: dataAdapter,displayMember: "type",valueMember: "value", theme: 'dark' , width: 70, height: 25});
+	
 
 	$.ajax({
 		contentType: "application/json",
@@ -88,16 +109,13 @@ $(document).ready(function() {
 			checkedItem = checkedItemId.length;
 			$("#collapseFilter").removeClass('show');
 			$('#grid-content').css('display', 'block');
-
-			if (JSON.parse(data.parameter)[1][0]) {
-				$('#WeeklyRadioButton').jqxRadioButton({ checked: false });
-				$('#DailyRadioButton').jqxRadioButton({ checked: true });
-			} else {
-				$('#WeeklyRadioButton').jqxRadioButton({ checked: true });
-				$('#DailyRadioButton').jqxRadioButton({ checked: false });
-			}
+			$('#groupOfPeriod').jqxButtonGroup('setSelection', getChartPeriodIndex(JSON.parse(data.parameter)[1][0]));
+		
 			if (JSON.parse(data.parameter)[2] != null)
-				Items = JSON.parse(data.parameter)[2][0];
+			Items = JSON.parse(data.parameter)[2][0];
+			
+			type=JSON.parse(data.parameter)[3][0];
+			$("#dropDownType").jqxDropDownList('selectIndex', type ); 	
 
 			drawGraph();
 
@@ -116,28 +134,6 @@ $(document).ready(function() {
 	for (i = 0; i < allitems.length; i++) {
 		$(allitems[i]).jqxCheckBox({ theme: 'dark', width: 120, height: 26 });
 	}
-
-	// $("#jqxWeeklyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25});
-	// $("#jqxDailyRadioButton").jqxRadioButton({theme:'dark', width: 70, height: 25, checked: true});
-
-
-	$('#WeeklyRadioButton').on('change', function(event) {
-		resetActiveChartType();
-		resetActiveFontSize();
-		resetActiveChartColor();
-		resetActiveChartColorTransparency();
-		resetActiveChartGrid();
-		drawGraph();
-	});
-
-	$('#DailyRadioButton').on('change', function(event) {
-		resetActiveChartType();
-		resetActiveFontSize();
-		resetActiveChartColor();
-		resetActiveChartColorTransparency();
-		resetActiveChartGrid();
-		drawGraph();
-	});
 
 	$("#M-100d").jqxCheckBox({ theme: 'dark', width: 120, height: 26 });
 	$("#M-200d").jqxCheckBox({ theme: 'dark', width: 120, height: 26 });
@@ -1505,13 +1501,14 @@ function drawGraph() {
 		$("#button-yearForward").prop('disabled', true);
 	}
 
-	var Daily = $("#DailyRadioButton").jqxRadioButton('val');
+	var Period = getChartPeriod();
+	var type = getSelectedType();
 	if (chart != null)
 		chart.destroy();
 
 	
 
-	chart = new ApexCharts(document.querySelector("#mainChart"), Daily ? options : optionsWeekly);
+	chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options : optionsWeekly);
 	chart.render();
 	//return 0;
 	if (Items != "") {
@@ -1519,7 +1516,7 @@ function drawGraph() {
 			dataParam = {
 				"fromdate": fromdate,
 				"todate": todate,
-				"dailyOrWeekly": Daily ? "d" : "w",
+				"period":  Period,"type": type,
 				"factor1": itemValue["#jqxCheckBoxUSA-30"].factor,
 				"country1": itemValue["#jqxCheckBoxUSA-30"].country,
 				"yieldCurveCross1": itemValue["#jqxCheckBoxUSA-30"].yieldCurveCross,
@@ -1543,7 +1540,7 @@ function drawGraph() {
 			dataParam = {
 				"fromdate": fromdate,
 				"todate": todate,
-				"dailyOrWeekly": Daily ? "d" : "w",
+				"period":  Period,"type": type,
 				"factor1": itemValue["#jqxCheckBoxUSA-10"].factor,
 				"country1": itemValue["#jqxCheckBoxUSA-10"].country,
 				"yieldCurveCross1": itemValue["#jqxCheckBoxUSA-10"].yieldCurveCross,
@@ -1567,7 +1564,7 @@ function drawGraph() {
 			dataParam = {
 				"fromdate": fromdate,
 				"todate": todate,
-				"dailyOrWeekly": Daily ? "d" : "w",
+				"period":  Period,"type": type,
 				"factor1": itemValue["#jqxCheckBoxUSA-5"].factor,
 				"country1": itemValue["#jqxCheckBoxUSA-5"].country,
 				"yieldCurveCross1": itemValue["#jqxCheckBoxUSA-5"].yieldCurveCross,
@@ -1591,7 +1588,7 @@ function drawGraph() {
 			dataParam = {
 				"fromdate": fromdate,
 				"todate": todate,
-				"dailyOrWeekly": Daily ? "d" : "w",
+				"period":  Period,"type": type,
 				"factor1": itemValue["#jqxCheckBoxUSA-2"].factor,
 				"country1": itemValue["#jqxCheckBoxUSA-2"].country,
 				"yieldCurveCross1": itemValue["#jqxCheckBoxUSA-2"].yieldCurveCross,
@@ -1616,7 +1613,7 @@ function drawGraph() {
 		$.ajax({
 			type: "POST",
 			contentType: "application/json; charset=utf-8",
-			url: "/bourse/getgraphdata",
+			url: "/bourse/getgraphdatabytype",
 			data: JSON.stringify(dataParam),
 			dataType: 'json',
 			timeout: 600000,
@@ -1851,29 +1848,29 @@ function drawGraph() {
 
 				chart.updateSeries([{
 					name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-					type: Daily ? chartType1 : 'column',
+					type:Period=='d' ? chartType1 : 'column',
 					data: response[0].graphResponseDTOLst
 				}, {
 					name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-					type: Daily ? chartType2 : 'column',
+					type:Period=='d' ? chartType2 : 'column',
 					data: response[1].graphResponseDTOLst
 				},
 				{
 					name: response[2].config != null ? (response[2].config.displayDescription == null ? '' : response[2].config.displayDescription) : '',
-					type: Daily ? chartType3 : 'column',
+					type: Period=='d' ? chartType3 : 'column',
 					data: response[2].graphResponseDTOLst
 				}, {
 					name: response[3].config != null ? (response[3].config.displayDescription == null ? '' : response[3].config.displayDescription) : '',
-					type: Daily ? chartType4 : 'column',
+					type: Period=='d' ? chartType4 : 'column',
 					data: response[3].graphResponseDTOLst
 				},
 				{
 					name: response[4].config != null ? (response[4].config.displayDescription == null ? '' : response[4].config.displayDescription) : '',
-					type: Daily ? chartType5 : 'column',
+					type: Period=='d' ? chartType5 : 'column',
 					data: response[4].graphResponseDTOLst
 				}, {
 					name: response[5].config != null ? (response[5].config.displayDescription == null ? '' : response[5].config.displayDescription) : '',
-					type: Daily ? chartType6 : 'column',
+					type: Period=='d' ? chartType6 : 'column',
 					data: response[5].graphResponseDTOLst
 				}]);
 
@@ -1888,7 +1885,7 @@ function drawGraph() {
 		});
 		graphHistory = {
 			"screenName": "yield",
-			"parameter": '[' + '[]' + ',' + '[' + Daily + ']' + ',' + '["' + Items + '"]]'
+			"parameter": '[' + '[]' + ',' + '["' + Period + '"]' + ',' + '["' + Items + '"]'+ ',' +'["' + type + '"]]'
 		};
 
 		$.ajax({
@@ -1916,7 +1913,7 @@ function drawGraph() {
 			dataParam = {
 				"fromdate": fromdate,
 				"todate": todate,
-				"dailyOrWeekly": Daily ? "d" : "w",
+				"period":  Period,"type": type,
 				"factor1": itemValue[checkedItemValues[0]].factor,
 				"country1": itemValue[checkedItemValues[0]].country,
 				"yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
@@ -1934,7 +1931,7 @@ function drawGraph() {
 			$.ajax({
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
-				url: "/bourse/getgraphdata",
+				url: "/bourse/getgraphdatabytype",
 				data: JSON.stringify(dataParam),
 				dataType: 'json',
 				timeout: 600000,
@@ -2060,11 +2057,11 @@ function drawGraph() {
 					});
 					chart.updateSeries([{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-						type: Daily ? chartType1 : 'column',
+						type:Period=='d' ? chartType1 : 'column',
 						data: response[0].graphResponseDTOLst
 					}, {
 						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-						type: Daily ? chartType2 : 'column',
+						type:Period=='d' ? chartType2 : 'column',
 						data: response[1].graphResponseDTOLst
 					}])
 					$('#overlayChart').hide();
@@ -2077,7 +2074,7 @@ function drawGraph() {
 			});
 			graphHistory = {
 				"screenName": "yield",
-				"parameter": "[" + JSON.stringify(checkedItemValues) + "," + "[" + Daily + "]]"
+				 "parameter": "[" + JSON.stringify(checkedItemValues) + "," + "[" + JSON.stringify(Period) + "]"+ ",["+JSON.stringify('')+"]," + "[" + JSON.stringify(type) + "]]"
 			};
 
 			$.ajax({
@@ -2105,7 +2102,7 @@ function drawGraph() {
 				dataParam = {
 					"fromdate": fromdate,
 					"todate": todate,
-					"dailyOrWeekly": Daily ? "d" : "w",
+					"period":  Period,"type": type,
 					"factor1": itemValue[checkedItemValues[0]].factor,
 					"country1": itemValue[checkedItemValues[0]].country,
 					"yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
@@ -2125,7 +2122,7 @@ function drawGraph() {
 				$.ajax({
 					type: "POST",
 					contentType: "application/json; charset=utf-8",
-					url: "/bourse/getgraphdata",
+					url: "/bourse/getgraphdatabytype",
 					data: JSON.stringify(dataParam),
 					dataType: 'json',
 					timeout: 600000,
@@ -2271,16 +2268,16 @@ function drawGraph() {
 
 						chart.updateSeries([{
 							name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-							type: Daily ? chartType1 : 'column',
+							type:Period=='d' ? chartType1 : 'column',
 							data: response[0].graphResponseDTOLst
 						}, {
 							name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-							type: Daily ? chartType2 : 'column',
+							type:Period=='d' ? chartType2 : 'column',
 							data: response[1].graphResponseDTOLst
 						}
 							, {
 							name: response[2].config != null ? (response[2].config.displayDescription == null ? '' : response[2].config.displayDescription) : '',
-							type: Daily ? chartType3 : 'column',
+							type: Period=='d' ? chartType3 : 'column',
 							data: response[2].graphResponseDTOLst
 						}])
 						$('#overlayChart').hide();
@@ -2294,7 +2291,7 @@ function drawGraph() {
 
 				graphHistory = {
 					"screenName": "yield",
-					"parameter": "[" + JSON.stringify(checkedItemValues) + "," + "[" + Daily + "]]"
+						"parameter": "[" + JSON.stringify(checkedItemValues) + "," + "[" + JSON.stringify(Period) + "]"+ ",["+JSON.stringify('')+"]," + "[" + JSON.stringify(type) + "]]"
 				};
 
 				$.ajax({
@@ -2321,7 +2318,7 @@ function drawGraph() {
 					dataParam = {
 						"fromdate": fromdate,
 						"todate": todate,
-						"dailyOrWeekly": Daily ? "d" : "w",
+						"period":  Period,"type": type,
 						"factor1": itemValue[checkedItemValues[0]].factor,
 						"country1": itemValue[checkedItemValues[0]].country,
 						"yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
@@ -2345,7 +2342,7 @@ function drawGraph() {
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
-						url: "/bourse/getgraphdata",
+						url: "/bourse/getgraphdatabytype",
 						data: JSON.stringify(dataParam),
 						dataType: 'json',
 						timeout: 600000,
@@ -2498,20 +2495,20 @@ function drawGraph() {
 
 							chart.updateSeries([{
 								name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-								type: Daily ? chartType1 : 'column',
+								type:Period=='d' ? chartType1 : 'column',
 								data: response[0].graphResponseDTOLst
 							}, {
 								name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-								type: Daily ? chartType2 : 'column',
+								type:Period=='d' ? chartType2 : 'column',
 								data: response[1].graphResponseDTOLst
 							}, {
 								name: response[2].config != null ? (response[2].config.displayDescription == null ? '' : response[2].config.displayDescription) : '',
-								type: Daily ? chartType3 : 'column',
+								type: Period=='d' ? chartType3 : 'column',
 								data: response[2].graphResponseDTOLst
 							}
 								, {
 								name: response[3].config != null ? (response[3].config.displayDescription == null ? '' : response[3].config.displayDescription) : '',
-								type: Daily ? chartType4 : 'column',
+								type: Period=='d' ? chartType4 : 'column',
 								data: response[3].graphResponseDTOLst
 							}])
 							$('#overlayChart').hide();
@@ -2524,7 +2521,7 @@ function drawGraph() {
 					});
 					graphHistory = {
 						"screenName": "yield",
-						"parameter": "[" + JSON.stringify(checkedItemValues) + "," + "[" + Daily + "]]"
+							"parameter": "[" + JSON.stringify(checkedItemValues) + "," + "[" + JSON.stringify(Period) + "]"+ ",["+JSON.stringify('')+"]," + "[" + JSON.stringify(type) + "]]"
 					};
 
 					$.ajax({
@@ -2554,7 +2551,7 @@ function drawGraph() {
 					dataParam = {
 						"fromdate": fromdate,
 						"todate": todate,
-						"dailyOrWeekly": Daily ? "d" : "w",
+						"period":  Period,"type": type,
 						"factor1": itemValue[checkedItemValues[0]].factor,
 						"country1": itemValue[checkedItemValues[0]].country,
 						"yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
@@ -2563,7 +2560,7 @@ function drawGraph() {
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
-						url: "/bourse/getgraphdata",
+						url: "/bourse/getgraphdatabytype",
 						data: JSON.stringify(dataParam),
 						dataType: 'json',
 						timeout: 600000,
@@ -2606,7 +2603,7 @@ function drawGraph() {
 							chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config.chartTransparency);
 							chartColor = checkActiveChartColor($("#chartColor").find(".active")[0], response[0].config.chartColor);
 							fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
-							chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], chartType1, Daily);
+							chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], chartType1, Period);
 							markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
 							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
@@ -2683,7 +2680,7 @@ function drawGraph() {
 								timeout: 600000,
 								success: function(data) {
 									/*
-									if (Daily)     
+									if (Period)     
 										  chart.zoomX(undefined, new Date(data).getTime()) //new
 									  */
 
@@ -2705,7 +2702,7 @@ function drawGraph() {
 					});
 					graphHistory = {
 						"screenName": "yield",
-						"parameter": "[" + JSON.stringify(checkedItemValues) + "," + "[" + Daily + "]]"
+							"parameter": "[" + JSON.stringify(checkedItemValues) + "," + "[" + JSON.stringify(Period) + "]"+ ",["+JSON.stringify('')+"]," + "[" + JSON.stringify(type) + "]]"
 					};
 
 					$.ajax({

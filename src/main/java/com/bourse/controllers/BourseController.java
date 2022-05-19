@@ -324,6 +324,10 @@ public class BourseController {
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
 	} 
+	@PostMapping(value = "getgraphdatabytype")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphReqDTO graphReqDTO) {
+	return new ResponseEntity<>(sovereignYieldsService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
+	} 
 	@PostMapping(value = "getgraphdatalistconfig")
 	public ResponseEntity<List<GraphResponseColConfigListDTO>> getGraphDataListConfig(@RequestBody  GraphReqDTO graphReqDTO) {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphDataListConfig(graphReqDTO),HttpStatus.OK);

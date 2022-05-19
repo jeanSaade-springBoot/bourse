@@ -168,7 +168,6 @@ public class SovereignYieldsService
 		List<CrossAuditProcedureDTO> crossAuditProcedureDTO = (List<CrossAuditProcedureDTO>) query.getResultList();
 		return crossAuditProcedureDTO; 
 	}
-	
 	public List<GraphResponseColConfigDTO> getGraphData(GraphReqDTO graphReqDTO)
 	{
 		
@@ -238,13 +237,13 @@ public class SovereignYieldsService
 			query.setParameter("country",graphReqDTO.getCountry1() );
 			
 			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			query.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			query.setParameter("dayOrweek",graphReqDTO.getPeriod() );
 			
 			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
+			query.setParameter("movingAverage",graphReqDTO.getPeriod() );
 			
 			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
+			query.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
 			
 			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -319,13 +318,13 @@ public class SovereignYieldsService
 			query1.setParameter("country",graphReqDTO.getCountry2() );
 			
 			query1.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			query1.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			query1.setParameter("dayOrweek",graphReqDTO.getPeriod() );
 			
 			query1.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query1.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
+			query1.setParameter("movingAverage",graphReqDTO.getPeriod() );
 			
 			query1.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query1.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
+			query1.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
 			
 			query1.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query1.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -398,13 +397,13 @@ public class SovereignYieldsService
 			query2.setParameter("country",graphReqDTO.getCountry3() );
 			
 			query2.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			query2.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			query2.setParameter("dayOrweek",graphReqDTO.getPeriod() );
 			
 			query2.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query2.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
+			query2.setParameter("movingAverage",graphReqDTO.getPeriod() );
 			
 			query2.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query2.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
+			query2.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
 			
 			query2.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query2.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -477,13 +476,13 @@ public class SovereignYieldsService
 			query3.setParameter("country",graphReqDTO.getCountry4() );
 			
 			query3.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			query3.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			query3.setParameter("dayOrweek",graphReqDTO.getPeriod() );
 			
 			query3.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query3.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
+			query3.setParameter("movingAverage",graphReqDTO.getPeriod() );
 			
 			query3.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query3.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
+			query3.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
 			
 			query3.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query3.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -556,13 +555,13 @@ public class SovereignYieldsService
 			query4.setParameter("country",graphReqDTO.getCountry5() );
 			
 			query4.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			query4.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			query4.setParameter("dayOrweek",graphReqDTO.getPeriod() );
 			
 			query4.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query4.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
+			query4.setParameter("movingAverage",graphReqDTO.getPeriod() );
 			
 			query4.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query4.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
+			query4.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
 			
 			query4.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query4.setParameter("minusfactor",graphReqDTO.getFactor1());
@@ -635,19 +634,530 @@ public class SovereignYieldsService
 			query5.setParameter("country",graphReqDTO.getCountry6() );
 			
 			query5.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			query5.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			query5.setParameter("dayOrweek",graphReqDTO.getPeriod() );
 			
 			query5.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query5.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
+			query5.setParameter("movingAverage",graphReqDTO.getPeriod() );
 			
 			query5.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query5.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
+			query5.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
 			
 			query5.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query5.setParameter("minusfactor",graphReqDTO.getFactor1());
 			
 			query5.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
 			query5.setParameter("minuscountry",graphReqDTO.getFactor1());
+			
+			query5.execute();
+			List<GraphResponseDTO> graphResponseDTOlst6 = (List<GraphResponseDTO>) query5.getResultList();
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+	                  .graphResponseDTOLst(graphResponseDTOlst6)
+	                  .config(config)
+	                  .build();
+			l1.add(graphResponseColConfigDTO);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		return l1; 
+	}
+	public List<GraphResponseColConfigDTO> getGraphDataByType(GraphReqDTO graphReqDTO)
+	{
+		
+		//yield:1
+		//curve:2
+		//cross:3
+
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
+		StoredProcedureQuery query1 = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
+		StoredProcedureQuery query2 = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
+		StoredProcedureQuery query3 = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
+		StoredProcedureQuery query4 = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
+		StoredProcedureQuery query5 = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
+		// List<List<GraphResponseDTO>> l1 = new ArrayList<>();
+		List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+		ColumnConfiguration config = null;
+		if(graphReqDTO.getYieldCurveCross1()!=null)
+		{
+			if(graphReqDTO.getYieldCurveCross1().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry1(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross1().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry1(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross1().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry1(); 
+				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+					
+			System.out.println(graphReqDTO.getYieldCurveCross1() +"\n"+
+					graphReqDTO.getFactor1()+"\n"+
+					graphReqDTO.getCountry1());
+			query.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross1() );
+			
+			query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query.setParameter("factor",graphReqDTO.getFactor1() );
+			
+			query.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query.setParameter("country",graphReqDTO.getCountry1() );
+			
+			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query.setParameter("dayOrweek",graphReqDTO.getPeriod() );
+			
+			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query.setParameter("movingAverage",graphReqDTO.getPeriod() );
+			
+			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
+			query.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
+			
+			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query.setParameter("minusfactor",graphReqDTO.getFactor1());
+			
+			query.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query.setParameter("minuscountry",graphReqDTO.getFactor1());
+			
+			query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			query.setParameter("type",graphReqDTO.getType());
+			query.execute();
+			
+			
+			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+					                  .graphResponseDTOLst(graphResponseDTOlst1)
+					                  .config(config)
+					                  .build();
+			l1.add(graphResponseColConfigDTO);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		if(graphReqDTO.getYieldCurveCross2()!=null)
+		{
+			
+			if(graphReqDTO.getYieldCurveCross2().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry2(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry2()))+"-"+graphReqDTO.getFactor2().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross2().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry2(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry2()))+"-"+graphReqDTO.getFactor2().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross2().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry2(); 
+				String description = (CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry2()))+"-"+graphReqDTO.getFactor2().replace("yr", "")).replace("_", "-");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			
+			System.out.println(graphReqDTO.getYieldCurveCross2() +"\n"+
+					graphReqDTO.getFactor2()+"\n"+
+					graphReqDTO.getCountry2());
+			
+			query1.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query1.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross2() );
+			
+			query1.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query1.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query1.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query1.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query1.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query1.setParameter("factor",graphReqDTO.getFactor2() );
+			
+			query1.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query1.setParameter("country",graphReqDTO.getCountry2() );
+			
+			query1.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query1.setParameter("dayOrweek",graphReqDTO.getPeriod() );
+			
+			query1.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query1.setParameter("movingAverage",graphReqDTO.getPeriod() );
+			
+			query1.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
+			query1.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
+			
+			query1.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query1.setParameter("minusfactor",graphReqDTO.getFactor1());
+			
+			query1.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query1.setParameter("minuscountry",graphReqDTO.getFactor1());
+			
+			query1.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			query1.setParameter("type",graphReqDTO.getType());
+			
+			query1.execute();
+			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query1.getResultList();
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+	                  .graphResponseDTOLst(graphResponseDTOlst2)
+	                  .config(config)
+	                  .build();
+			l1.add(graphResponseColConfigDTO);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		if(graphReqDTO.getYieldCurveCross3()!=null)
+		{
+			System.out.println(graphReqDTO.getYieldCurveCross3() +"\n"+
+					graphReqDTO.getFactor3()+"\n"+
+					graphReqDTO.getCountry3());
+			
+			if(graphReqDTO.getYieldCurveCross3().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry3(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry3()))+"-"+graphReqDTO.getFactor3().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross3().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry3(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry3()))+"-"+graphReqDTO.getFactor3().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross3().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry3(); 
+				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry3()))+"-"+graphReqDTO.getFactor3().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			
+			query2.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query2.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross3() );
+			
+			query2.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query2.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query2.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query2.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query2.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query2.setParameter("factor",graphReqDTO.getFactor3() );
+			
+			query2.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query2.setParameter("country",graphReqDTO.getCountry3() );
+			
+			query2.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query2.setParameter("dayOrweek",graphReqDTO.getPeriod() );
+			
+			query2.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query2.setParameter("movingAverage",graphReqDTO.getPeriod() );
+			
+			query2.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
+			query2.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
+			
+			query2.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query2.setParameter("minusfactor",graphReqDTO.getFactor1());
+			
+			query2.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query2.setParameter("minuscountry",graphReqDTO.getFactor1());
+			
+			query2.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			query2.setParameter("type",graphReqDTO.getType());
+			
+			query2.execute();
+			List<GraphResponseDTO> graphResponseDTOlst3 = (List<GraphResponseDTO>) query2.getResultList();
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+	                  .graphResponseDTOLst(graphResponseDTOlst3)
+	                  .config(config)
+	                  .build();
+			l1.add(graphResponseColConfigDTO);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		if(graphReqDTO.getYieldCurveCross4()!=null)
+		{
+			System.out.println(graphReqDTO.getYieldCurveCross4() +"\n"+
+					graphReqDTO.getFactor4()+"\n"+
+					graphReqDTO.getCountry4());
+			
+			if(graphReqDTO.getYieldCurveCross4().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry4(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry4()))+"-"+graphReqDTO.getFactor4().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross4().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry4(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry4()))+"-"+graphReqDTO.getFactor4().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross4().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry4(); 
+				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry4()))+"-"+graphReqDTO.getFactor4().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			
+			query3.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query3.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross4() );
+			
+			query3.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query3.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query3.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query3.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query3.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query3.setParameter("factor",graphReqDTO.getFactor4() );
+			
+			query3.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query3.setParameter("country",graphReqDTO.getCountry4() );
+			
+			query3.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query3.setParameter("dayOrweek",graphReqDTO.getPeriod() );
+			
+			query3.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query3.setParameter("movingAverage",graphReqDTO.getPeriod() );
+			
+			query3.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
+			query3.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
+			
+			query3.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query3.setParameter("minusfactor",graphReqDTO.getFactor1());
+			
+			query3.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query3.setParameter("minuscountry",graphReqDTO.getFactor1());
+			
+			query3.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			query3.setParameter("type",graphReqDTO.getType());
+			
+			query3.execute();
+			List<GraphResponseDTO> graphResponseDTOlst4 = (List<GraphResponseDTO>) query3.getResultList();
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+	                  .graphResponseDTOLst(graphResponseDTOlst4)
+	                  .config(config)
+	                  .build();
+			l1.add(graphResponseColConfigDTO);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		if(graphReqDTO.getYieldCurveCross5()!=null)
+		{
+			System.out.println(graphReqDTO.getYieldCurveCross5() +"\n"+
+					graphReqDTO.getFactor5()+"\n"+
+					graphReqDTO.getCountry5());
+			
+			if(graphReqDTO.getYieldCurveCross5().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry5(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry5()))+"-"+graphReqDTO.getFactor5().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross5().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry5(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry5()))+"-"+graphReqDTO.getFactor5().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross5().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry5(); 
+				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry5()))+"-"+graphReqDTO.getFactor5().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			
+			query4.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query4.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross5() );
+			
+			query4.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query4.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query4.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query4.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query4.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query4.setParameter("factor",graphReqDTO.getFactor5() );
+			
+			query4.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query4.setParameter("country",graphReqDTO.getCountry5() );
+			
+			query4.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query4.setParameter("dayOrweek",graphReqDTO.getPeriod() );
+			
+			query4.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query4.setParameter("movingAverage",graphReqDTO.getPeriod() );
+			
+			query4.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
+			query4.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
+			
+			query4.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query4.setParameter("minusfactor",graphReqDTO.getFactor1());
+			
+			query4.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query4.setParameter("minuscountry",graphReqDTO.getFactor1());
+			
+			query4.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			query4.setParameter("type",graphReqDTO.getType());
+			
+			query4.execute();
+			List<GraphResponseDTO> graphResponseDTOlst5 = (List<GraphResponseDTO>) query4.getResultList();
+			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+	                  .graphResponseDTOLst(graphResponseDTOlst5)
+	                  .config(config)
+	                  .build();
+			l1.add(graphResponseColConfigDTO);
+			entityManager.clear();
+			entityManager.close();
+		}
+		
+		if(graphReqDTO.getYieldCurveCross6()!=null)
+		{
+			System.out.println(graphReqDTO.getYieldCurveCross6() +"\n"+
+					graphReqDTO.getFactor6()+"\n"+
+					graphReqDTO.getCountry6());
+			
+			if(graphReqDTO.getYieldCurveCross6().equals("yield"))
+			{
+				String groupId ="1";
+				String subGroupId = graphReqDTO.getCountry6(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry6()))+"-"+graphReqDTO.getFactor6().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			if(graphReqDTO.getYieldCurveCross6().equals("curve"))
+			{
+				String groupId ="2";
+				String subGroupId =  graphReqDTO.getCountry6(); 
+				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry6()))+"-"+graphReqDTO.getFactor6().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+				
+			if(graphReqDTO.getYieldCurveCross6().equals("cross"))
+			{
+				String groupId ="3";
+				String subGroupId =  graphReqDTO.getCountry6(); 
+				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry6()))+"-"+graphReqDTO.getFactor6().replace("yr", "");
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			}
+			
+			query5.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+			query5.setParameter("YieldCurveCross",graphReqDTO.getYieldCurveCross6() );
+			
+			query5.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query5.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query5.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query5.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query5.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query5.setParameter("factor",graphReqDTO.getFactor6() );
+			
+			query5.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+			query5.setParameter("country",graphReqDTO.getCountry6() );
+			
+			query5.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query5.setParameter("dayOrweek",graphReqDTO.getPeriod() );
+			
+			query5.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
+			query5.setParameter("movingAverage",graphReqDTO.getPeriod() );
+			
+			query5.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
+			query5.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
+			
+			query5.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
+			query5.setParameter("minusfactor",graphReqDTO.getFactor1());
+			
+			query5.registerStoredProcedureParameter("minuscountry", String.class, ParameterMode.IN);
+			query5.setParameter("minuscountry",graphReqDTO.getFactor1());
+			
+			query5.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			query5.setParameter("type",graphReqDTO.getType());
 			
 			query5.execute();
 			List<GraphResponseDTO> graphResponseDTOlst6 = (List<GraphResponseDTO>) query5.getResultList();
@@ -707,13 +1217,13 @@ public class SovereignYieldsService
 			query.setParameter("country",graphReqDTO.getCountry1() );
 			
 			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			query.setParameter("dayOrweek",graphReqDTO.getDailyOrWeekly() );
+			query.setParameter("dayOrweek",graphReqDTO.getPeriod() );
 			
 			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query.setParameter("movingAverage",graphReqDTO.getDailyOrWeekly() );
+			query.setParameter("movingAverage",graphReqDTO.getPeriod() );
 			
 			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getDailyOrWeekly() );
+			query.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
 			
 			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query.setParameter("minusfactor",graphReqDTO.getMinusfactor());
