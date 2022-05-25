@@ -927,9 +927,23 @@ function getChartPeriod(){
 
  return period;
 }
+function getChartPeriodName(){
+	
+	 period=getChartPeriodFullName($('#groupOfPeriod').jqxButtonGroup('getSelection'));
+
+ return period;
+}
 function getSelectedType()
 {
 	return $("#dropDownType").jqxDropDownList('getSelectedItem').value;
+}
+function getSelectedTypeLabel()
+{
+    return  $("#dropDownType").jqxDropDownList('getSelectedItem').label;
+}
+function getTitlePeriodAndType()
+{
+    return  ' - '+getChartPeriodName()+' '+getSelectedTypeLabel();
 }
 function getChartPeriodCode(period)
 {
@@ -977,7 +991,30 @@ function getChartPeriodIndex(period)
 	}
 return index;
 }		
-	
+function getChartPeriodFullName(period)
+{
+  var fullName='';	
+	switch(period) {
+	  
+	 case 0: 
+	   fullName='DAILY'
+	        break;
+	 case 1: 
+	   fullName='WEEKLY'
+	        break;
+	 case 2: 
+	   fullName='MONTHLY'
+		    break;
+	 case 3: 
+       fullName='QUARTELY'
+		    break;
+	 case 4: 
+	   fullName='YEARLY'
+		    break;
+	}
+return fullName;
+}		
+		
  $("#groupOfPeriod").on('buttonclick', function () {
                  
 	    resetActiveChartType();

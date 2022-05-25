@@ -1708,7 +1708,7 @@ function drawGraph() {
 				showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
 			    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
-				chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
+				chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 
 				var dbchartType1 = response[0].config.chartType;
@@ -1977,7 +1977,7 @@ function drawGraph() {
 					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 		
-				chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
+				chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 					var dbchartType1 = response[0].config.chartType;
 					chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
@@ -2173,7 +2173,7 @@ function drawGraph() {
 						showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 						showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 	
-						chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
+						chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 
 						var dbchartType1 = response[0].config.chartType;
@@ -2385,7 +2385,7 @@ function drawGraph() {
 							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 			
-							chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
+							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 							var dbchartType1 = response[0].config.chartType;
 							chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
@@ -2608,7 +2608,7 @@ function drawGraph() {
 							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
 							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
  
-							chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
+							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 							updateChartOption();
 							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 								return item.y;

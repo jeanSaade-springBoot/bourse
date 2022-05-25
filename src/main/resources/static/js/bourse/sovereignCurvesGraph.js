@@ -1961,7 +1961,7 @@ function drawGraph() {
 				showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 
-				chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
+				chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
 
 
 				var dbchartType1 = response[0].config.chartType;
@@ -2231,7 +2231,7 @@ function drawGraph() {
 					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 
-					chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
+					chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
 
 
 					var dbchartType1 = response[0].config.chartType;
@@ -2429,7 +2429,7 @@ function drawGraph() {
 					    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 
-						chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
+						chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
 
 
 						var dbchartType1 = response[0].config.chartType;
@@ -2657,7 +2657,7 @@ function drawGraph() {
 							fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
 							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
-							chart.updateOptions(getChartDailyOption(title, response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
+							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), response[0].config.chartShowgrid, fontsize, response[0].config.chartshowMarkes));
 
 
 							var dbchartType1 = response[0].config.chartType;
@@ -2883,7 +2883,7 @@ function drawGraph() {
 							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
 							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
-							chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
+							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 							updateChartOption();
 
 							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {

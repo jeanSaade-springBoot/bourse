@@ -21,7 +21,7 @@ div#content {
     border: #464D5C;
     width: 100%;
     overflow-x: hidden;
-    min-height: 650px;
+    max-height: 650px;
 }
 .chart-option {
     margin-top: 1.2rem;
