@@ -933,6 +933,17 @@ function getChartPeriodName(){
 
  return period;
 }
+$('#groupOfPeriod').on('selected', function () { 
+	
+	var selected = $('#groupOfPeriod').jqxButtonGroup('getSelection');
+	if (selected==0)
+     $("#dropDownType").jqxDropDownList({ disabled: true }); 
+    else 
+     $("#dropDownType").jqxDropDownList({ disabled: false }); 
+	 }); 
+
+
+
 function getSelectedType()
 {
 	return $("#dropDownType").jqxDropDownList('getSelectedItem').value;

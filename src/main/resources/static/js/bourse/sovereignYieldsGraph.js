@@ -116,7 +116,7 @@ $(document).ready(function() {
 			
 			type=JSON.parse(data.parameter)[3][0];
 			$("#dropDownType").jqxDropDownList('selectIndex', type ); 	
-
+          
 			drawGraph();
 
 		},
