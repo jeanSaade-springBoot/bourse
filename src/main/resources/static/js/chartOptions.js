@@ -943,6 +943,9 @@ function getSelectedTypeLabel()
 }
 function getTitlePeriodAndType()
 {
+	if (getChartPeriodName()=='DAILY')
+	return''; 
+	else
     return  ' - '+getChartPeriodName()+' '+getSelectedTypeLabel();
 }
 function getChartPeriodCode(period)
