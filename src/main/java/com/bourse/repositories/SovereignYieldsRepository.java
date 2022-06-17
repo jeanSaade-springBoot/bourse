@@ -6,6 +6,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bourse.domain.SovereignData;
 import com.bourse.dto.CurveSoveriegnDTO;
@@ -108,4 +109,27 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
 				      nativeQuery = true)
 	  public void  updatethirteeyrfactorSovereignBysubgroupIdAndDate(@Param("subgroupId") String subgroupId,@Param("referdate") String referdate ,@Param(value = "value") String value);
 
+	 @Modifying
+	 @Transactional
+	 @Query(value = "delete from sovereign_data where refer_date =:referDate",
+             nativeQuery = true)
+     public void deleteSovereignDataByReferDate(@Param("referDate") String referDate);
+	 
+	 @Modifying
+	 @Transactional
+	 @Query(value = "delete from tmp_audit_yields where refer_date =:referDate",
+             nativeQuery = true)
+     public void deleteTmpAuditYieldsByReferDate(@Param("referDate") String referDate);
+	 
+	 @Modifying
+	 @Transactional
+	 @Query(value = "delete from tmp_audit_curve where refer_date =:referDate",
+             nativeQuery = true)
+     public void deleteTmpAuditCurveByReferDate(@Param("referDate") String referDate);
+	 
+	 @Modifying
+	 @Transactional
+	 @Query(value = "delete from tmp_audit_cross where refer_date =:referDate",
+             nativeQuery = true)
+     public void deleteTmpAuditCrossByReferDate(@Param("referDate") String referDate);
 }

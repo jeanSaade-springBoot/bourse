@@ -1379,5 +1379,12 @@ public class SovereignYieldsService
 		
 		return "2021-06-12";
 	}
+	public void deleteSovereignByReferDate(String referDate) {
+		
+		sovereignYieldsRepository.deleteSovereignDataByReferDate(referDate);
+		sovereignYieldsRepository.deleteTmpAuditYieldsByReferDate(referDate);
+		sovereignYieldsRepository.deleteTmpAuditCurveByReferDate(referDate);
+		sovereignYieldsRepository.deleteTmpAuditCrossByReferDate(referDate);
+	}
 
 }

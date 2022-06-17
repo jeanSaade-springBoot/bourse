@@ -421,8 +421,14 @@
 			  
 			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' });
 			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
-			
-			 for(i=0; i<allitems.length; i++)
+			 $("#deleteByDate").jqxButton({  theme:'dark', width: 110, height: 35,template: "danger" });
+		     $("#deleteByDate").click(function () {
+				$('#alertDeleteDataByDate-modal').modal('show'); 
+		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				  $( "#alertTextDeleteDataByDate" ).empty();
+		 		  $( "#alertTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all record for the date '"+date+"'?</p>" );
+				 });	 
+	 	    for(i=0; i<allitems.length; i++)
 			   {
 		    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
 		       }
@@ -620,42 +626,7 @@
 		                ]
 		            });
 		            
-
-					 $.ajax({
-			    	        contentType: "application/json",
-			    	        url: "/bourse/getlatestsovereignyields",
-			    	        dataType: 'text',
-			    	        async:true,
-			    	        cache: false,
-			    	        timeout: 600000,
-			    	        success: function (response) {
-			    	        	
-			    	        	$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
-			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
-			    	        	    
-			    				    filterDate=date;
-			    				    delete auditGridSource.localdata;
-			    				     auditGridSource.url='/bourse/getauditdata/'+date;
-			    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-			    					 $('#auditGrid').jqxGrid({source:dataAdapter});
-			    					 
-			    				    delete curvesGridSource.localdata;
-			    				     curvesGridSource.url='/bourse/getcurvedata/'+date;
-			    					 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
-			    					 $('#curvesGrid').jqxGrid({source:dataAdapter});
-			    					 
-			    					 delete crossesGridSource.localdata;
-			    					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
-			    					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
-			    					 $('#crossesGrid').jqxGrid({source:dataAdapter});
-			    	        },
-			    	        error: function (e) {
-			    	        	
-								  console.log("ERROR : ", e);
-			
-			    	        }
-			    	    });
-			
+             getAuditGridSource();
 			 var dropDownSource = [
                  "now",
                  "after 3 hours",
@@ -1840,4 +1811,66 @@
 					  
 					  }
 				});
-			  
+			  function deleteDataByDate()
+				{
+					$('#alertDeleteDataByDate-modal').modal('hide'); 
+					date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				    
+			     $.ajax({
+			             type : "DELETE",
+			             url : "/bourse/deletesovereignbyreferdate/" + date,
+			             success: function (result) {   
+				    getAuditGridSource();  
+					getFilterData();  
+			        $('#alertDeleteDataByDate-modal').modal('hide');
+
+ 					$( "#successDelete" ).empty();
+		 		    $( "#successDelete" ).append( "<p> All record for the date '"+date+"' has been deleted</p>" );
+				
+					$('#alertInfoDeleteDataByDate-modal').modal('show');  
+			             },
+			             error: function (e) {
+			                 console.log(e);
+			             }
+			         });
+				
+				
+				}
+			function getAuditGridSource(){
+				
+					 $.ajax({
+			    	        contentType: "application/json",
+			    	        url: "/bourse/getlatestsovereignyields",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function (response) {
+			    	        	
+			    	        	$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
+			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
+			    	        	    
+			    				    filterDate=date;
+			    				    delete auditGridSource.localdata;
+			    				     auditGridSource.url='/bourse/getauditdata/'+date;
+			    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+			    					 $('#auditGrid').jqxGrid({source:dataAdapter});
+			    					 
+			    				    delete curvesGridSource.localdata;
+			    				     curvesGridSource.url='/bourse/getcurvedata/'+date;
+			    					 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+			    					 $('#curvesGrid').jqxGrid({source:dataAdapter});
+			    					 
+			    					 delete crossesGridSource.localdata;
+			    					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
+			    					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+			    					 $('#crossesGrid').jqxGrid({source:dataAdapter});
+			    	        },
+			    	        error: function (e) {
+			    	        	
+								  console.log("ERROR : ", e);
+			
+			    	        }
+			    	    });
+			
+			}

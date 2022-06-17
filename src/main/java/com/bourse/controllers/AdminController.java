@@ -170,7 +170,7 @@ public class AdminController {
 	}
 	
 	@DeleteMapping(value = "deletenewsbyid/{id}")
-	public  ResponseEntity deleteNewsById(@PathVariable("id") long id) {
+	public  ResponseEntity<Object> deleteNewsById(@PathVariable("id") long id) {
 		adminService.deleteNews(id);;
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

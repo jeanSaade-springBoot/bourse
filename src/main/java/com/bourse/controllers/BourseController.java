@@ -240,6 +240,13 @@ public class BourseController {
 	return sovereignYieldsService.findSovereignById(id);
 	}
 	
+	@DeleteMapping(value = "deletesovereignbyreferdate/{referDate}")
+	public ResponseEntity<Object>  deleteSovereignByReferDate(@PathVariable("referDate") String referDate) {
+	 sovereignYieldsService.deleteSovereignByReferDate(referDate);
+	 return new ResponseEntity<>(HttpStatus.OK);
+	}
+	
+	
 	@PostMapping(value = "updatesovereignbyid")
 	public SovereignData UpdateSovereignById(@RequestBody SovereignData sovereignData) {
 	SovereignData originalObject = sovereignYieldsService.findSovereignById(sovereignData.getId());

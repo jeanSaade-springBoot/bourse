@@ -18,6 +18,13 @@
   <link href="/css/jqx.dark.css" rel="stylesheet">
 </head>
 <style>
+.jqx-danger-dark {
+    text-shadow: none !important;
+    color: #fbd9d9 !important;
+    font-weight: bold;
+    background: #ff4b5552 !important;
+    border-color: #d9534f !important;
+}
    div#overlay {
     margin: 15% 40%;
     position: absolute;
@@ -170,7 +177,10 @@ font-size: 0.8rem;
                    <div class="col-3">
                    <div id='dateInputAudit'></div>
                    </div>
-                   <div class="col-3"></div>
+                    <div class="col-2"></div>
+                   <div class="col-1" style="padding:0;">
+                    <button id="deleteByDate" style="font-size: .8rem;">Delete By Date</button> 
+                   </div>
                 </div>
                 <div class="card-body" style="  padding-top: 0;
 											    padding-right: 1.25rem;
@@ -592,6 +602,43 @@ font-size: 0.8rem;
 		  </div>
 	 </div>
 
+<div id="alertDeleteDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-danger">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Are you sure?</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="alertTextDeleteDataByDate">
+
+		      </div>
+		       <div class="modal-footer justify-content-between">
+		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-primary" onclick="deleteDataByDate()">Delete Record</button>
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div id="alertInfoDeleteDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-success">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Sucess</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="successDelete">
+             
+		      </div>
+		       
+		    </div>
+		  </div>
+	 </div>
 	<div id="alert-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 		    <div class="modal-content">
