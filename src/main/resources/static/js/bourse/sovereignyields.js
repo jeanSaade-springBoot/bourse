@@ -419,8 +419,8 @@
 					popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
 				  });
 			  
-			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '172px', height: '25px' });
-			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '172px', height: '25px' }); 
+			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' });
+			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' }); 
 			 $("#deleteByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
 		     $("#deleteByDate").click(function () {
 				$('#alertDeleteDataByDate-modal').modal('show'); 
