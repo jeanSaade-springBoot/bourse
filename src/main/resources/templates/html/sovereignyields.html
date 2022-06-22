@@ -105,6 +105,10 @@ font-size: 0.8rem;
 .card-img-top {
     width: 112%;
     }
+button#deleteByDate {
+    position: absolute;
+    margin-top: -0.3rem;
+}
 </style>
 <body id="page-top">
   <div id="wrapper">
@@ -174,12 +178,8 @@ font-size: 0.8rem;
                    <div class="col-3">
                      <div id='dateInput'></div>
                    </div>
-                   <div class="col-3">
+                   <div class="col-6">
                    <div id='dateInputAudit'></div>
-                   </div>
-                    <div class="col-2"></div>
-                   <div class="col-1" style="padding:0;">
-                    <button id="deleteByDate" style="font-size: .8rem;">Delete By Date</button> 
                    </div>
                 </div>
                 <div class="card-body" style="  padding-top: 0;
@@ -227,13 +227,19 @@ font-size: 0.8rem;
                  </div>
                  <div class="col-1"></div>
                     <div class="col-6">
-                    <nav style="padding-top: 0;">
-					  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-					    <a class="nav-item nav-link active" id="nav-yields-tab" data-toggle="tab" href="#nav-yields" role="tab" aria-controls="nav-yields" aria-selected="true">Yields</a>
-					    <a class="nav-item nav-link" id="nav-curves-tab" data-toggle="tab" href="#nav-curves" role="tab" aria-controls="nav-curves" aria-selected="false">Curves</a>
-					    <a class="nav-item nav-link" id="nav-crosses-tab" data-toggle="tab" href="#nav-crosses" role="tab" aria-controls="nav-crosses" aria-selected="false">Crosses</a>
-					  </div>
-					</nav>
+                   <div class="d-flex">
+	                    <div class="col-10 p-0"> <nav style="padding-top: 0;">
+						  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+						    <a class="nav-item nav-link active" id="nav-yields-tab" data-toggle="tab" href="#nav-yields" role="tab" aria-controls="nav-yields" aria-selected="true">Yields</a>
+						    <a class="nav-item nav-link" id="nav-curves-tab" data-toggle="tab" href="#nav-curves" role="tab" aria-controls="nav-curves" aria-selected="false">Curves</a>
+						    <a class="nav-item nav-link" id="nav-crosses-tab" data-toggle="tab" href="#nav-crosses" role="tab" aria-controls="nav-crosses" aria-selected="false">Crosses</a>
+						  </div>
+						</nav>
+						</div>
+						<div class="col-1">
+						 <button id="deleteByDate" style="font-size: .8rem;">Delete</button> 
+	                   </div>
+                   </div>
 					<div class="tab-content" id="nav-tabContent">
 					  <div class="tab-pane fade show active" id="nav-yields" role="tabpanel" aria-labelledby="nav-yields-tab">  <div id="auditGrid"></div></div>
 					  <div class="tab-pane fade" id="nav-curves" role="tabpanel" aria-labelledby="nav-curves-tab"> <div id="curvesGrid"></div> </div>
