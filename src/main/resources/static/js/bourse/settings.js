@@ -211,7 +211,9 @@
 	    
 	    $("#highLow_jqxCheckBox").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
 	    $("#jump_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
-	    $("#trend_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
+		$("#trend_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
+	    $("#moving100_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
+	    $("#moving200_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
 	    $("#trendDepth_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
 	    
         $("#jump_isTick").jqxRadioButton({ theme: 'dark', checked: true});
@@ -312,7 +314,9 @@
     	   $("#highLow_thighlightdropdown").jqxDropDownList('clearSelection'); 
     	   $("#highLow_thresholddl").jqxDropDownList('clearSelection'); 
     	   $("#highLow_jqxCheckBox").jqxCheckBox('val',false);
-    	   $("#trend_jqxCheckRobot").jqxCheckBox('val',false);
+		   $("#trend_jqxCheckRobot").jqxCheckBox('val',false);
+		   $("#moving100_jqxCheckRobot").jqxCheckBox('val',false);
+		   $("#moving200_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#trendDepth_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#jump_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#trend_Description").jqxDropDownList('clearSelection');
@@ -367,10 +371,26 @@
 	         		 } 
 		       	      if (data[i].robotName=="TrendDepthRobot")
 		      		 {
-		      		  $("#trendDepth_TemplateRobot").val(data[i].template);
+		      		   $("#trendDepth_TemplateRobot").val(data[i].template);
 		               $("#trendDepth_Description").val(data[i].description);
 		               $("#trendDepth_Highlight").val(data[i].threshHoldNotification);
 		               $("#trendDepth_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
+					   }
+					   if (data[i].robotName=="100DMovingAverageRobot")
+		      		 {
+		      		   $("#moving100_TemplateRobot").val(data[i].template);
+					   $("#moving100_Description").val(data[i].description);
+					   $("#moving100_Trigger").val(data[i].threshholdTrigger);
+		               $("#moving100_Highlight").val(data[i].threshHoldNotification);
+		               $("#moving100_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
+					   }
+					    if (data[i].robotName=="200DMovingAverageRobot")
+		      		 {
+		      		   $("#moving200_TemplateRobot").val(data[i].template);
+					   $("#moving200_Description").val(data[i].description);
+					   $("#moving200_Trigger").val(data[i].threshholdTrigger);
+		               $("#moving200_Highlight").val(data[i].threshHoldNotification);
+		               $("#moving200_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
 		      		 }
        	        	 } 
        	        
@@ -458,7 +478,8 @@
     		    "groupId":groupItem.value,
     		    "subgroupId":subGroupDropDown.value,
     		    "configId":$("#configId").val(),
-    		    },
+				"robotCode":"HILO",
+			     },
     		    {
     		    	"robotName":"JumpRobot",
             		"isactive": $("#jump_jqxCheckRobot").jqxCheckBox('val'),
@@ -475,7 +496,8 @@
         		    "groupId":groupItem.value,
         		    "subgroupId":subGroupDropDown.value,
         		    "configId":$("#configId").val(),
-        		    },
+					"robotCode":"JUMP",
+				  },
     		       {
         		    "robotName":"TrendRobot",
             		"isactive": $("#trend_jqxCheckRobot").jqxCheckBox('val'),
@@ -491,7 +513,8 @@
         		    "description":$("#trend_Description").jqxDropDownList('val'),
         		    "groupId":groupItem.value,
         		    "subgroupId":subGroupDropDown.value,
-        		    "configId":$("#configId").val(),
+					"configId":$("#configId").val(),
+					"robotCode":"TRND",
         		    },
         		    {
             		    "robotName":"TrendDepthRobot",
@@ -509,7 +532,42 @@
             		    "groupId":groupItem.value,
             		    "subgroupId":subGroupDropDown.value,
             		    "configId":$("#configId").val(),
-            		    },
+						},
+						   {
+            		    "robotName":"100DMovingAverageRobot",
+                		"isactive": $("#moving100_jqxCheckRobot").jqxCheckBox('val'),
+                		"columnDescription":$("#DisplayName").val(),
+            		    "displayDescription": $("#graphTitle").val(),
+            		    "rule":"",
+            		    "template":$("#moving100_TemplateRobot").val(),
+            		    "lastData":"",
+            		    "threshholdTrigger": $("#moving100_Trigger").val(),
+            		    "threshHoldNotification":$("#moving100_Highlight").val(),
+            		    "jumpValueTick":"",
+            		    "jumpPercentage":"",
+            		    "description":"",
+            		    "groupId":groupItem.value,
+            		    "subgroupId":subGroupDropDown.value,
+            		    "configId":$("#configId").val(),
+            		    "robotCode":"100D"},
+						   {
+            		    "robotName":"200DMovingAverageRobot",
+                		"isactive": $("#moving200_jqxCheckRobot").jqxCheckBox('val'),
+                		"columnDescription":$("#DisplayName").val(),
+            		    "displayDescription": $("#graphTitle").val(),
+            		    "rule":"",
+            		    "template":$("#moving200_TemplateRobot").val(),
+            		    "lastData":"",
+            		    "threshholdTrigger": $("#moving200_Trigger").val(),
+            		    "threshHoldNotification":$("#moving200_Highlight").val(),
+            		    "jumpValueTick":"",
+            		    "jumpPercentage":"",
+            		    "description":"",
+            		    "groupId":groupItem.value,
+            		    "subgroupId":subGroupDropDown.value,
+            		    "configId":$("#configId").val(),
+						"robotCode":"200D"
+					    },
         		    ];
          	
          	

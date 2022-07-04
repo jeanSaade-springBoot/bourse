@@ -137,6 +137,7 @@ public class AdminService
 				.groupId(robotsConfigDTO.getGroupId())
 				.subgroupId(robotsConfigDTO.getSubgroupId())
 				.configId(robotsConfigDTO.getConfigId())
+				.robotCode(robotsConfigDTO.getRobotCode())
 				.build();
 	           robotsConfigRepository.save(entity);
 	    }else {
@@ -156,6 +157,7 @@ public class AdminService
 					.groupId(robotsConfigDTO.getGroupId())
 					.subgroupId(robotsConfigDTO.getSubgroupId())
 					.configId(robotsConfigDTO.getConfigId())
+					.robotCode(robotsConfigDTO.getRobotCode())
 					.build();
 			robotsConfigRepository.save(robotsConfiguration);
 	    }

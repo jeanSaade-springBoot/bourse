@@ -27,6 +27,7 @@ import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataDTO;
+import com.bourse.dto.DataFunctionReqDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.GraphHistoryDTO;
 import com.bourse.dto.GraphNewsDTO;
@@ -36,6 +37,7 @@ import com.bourse.dto.GraphResponseColConfigListDTO;
 import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.service.DataEntryFilterHistoryService;
+import com.bourse.service.DataFunctionService;
 import com.bourse.service.GraphHistoryService;
 import com.bourse.service.GraphNewsService;
 import com.bourse.service.SkewsService;
@@ -55,19 +57,23 @@ public class BourseController {
 	private final SkewsService skewsService;
 	@Autowired
 	private final GraphNewsService graphNewsService;
+	@Autowired
+	private final DataFunctionService dataFunctionService;
 	
 	public BourseController(
 			SovereignYieldsService sovereignYieldsService,
 			GraphHistoryService graphHistoryService,
 			DataEntryFilterHistoryService dataEntryFilterHistoryService,
 			SkewsService skewsService,
-			GraphNewsService graphNewsService)
+			GraphNewsService graphNewsService,
+			DataFunctionService dataFunctionService)
 	{
 		this.sovereignYieldsService   = sovereignYieldsService;
 		this.graphHistoryService      = graphHistoryService;
 		this.dataEntryFilterHistoryService = dataEntryFilterHistoryService;
 		this.skewsService             = skewsService;
 		this.graphNewsService         = graphNewsService;
+		this.dataFunctionService         = dataFunctionService;
 	}
 	@RequestMapping( value =  "/pageunderconstruction")
     public ModelAndView underConstructionPage(ModelMap model)
@@ -153,6 +159,11 @@ public class BourseController {
     public ModelAndView newsManagement(ModelMap model)
     {
 		return new ModelAndView("html/newsManagement");
+    }
+	@RequestMapping( value =  "/datafunctiondisplay")
+    public ModelAndView dataFunctionDisplay(ModelMap model)
+    {
+		return new ModelAndView("html/dataFunctionDisplay");
     }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
@@ -354,6 +365,10 @@ public class BourseController {
 	@PostMapping(value = "getgriddata")
 	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody SearchFilterDTO searchFilterDTO) {
 		return new ResponseEntity<>(sovereignYieldsService.getGridData(searchFilterDTO),HttpStatus.OK);
+	}
+	@PostMapping(value = "getgriddatafunction")
+	public ResponseEntity<HashMap<String,List>> getGridDataFunction(@RequestBody DataFunctionReqDTO dataFunctionReqDTO) {
+		return new ResponseEntity<>(dataFunctionService.getGridDataFunction(dataFunctionReqDTO),HttpStatus.OK);
 	}
 	
 }

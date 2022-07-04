@@ -434,7 +434,7 @@
                                      	        <div class="form-group" style='margin: 15% 0;'>
 									    <label for="Trigger">Trigger</label>
                                         <div class="col-10" style='padding: 0;'>
-									  	<input type="text" class="form-control" id="jump_Trigger">
+									  	<input type="number" class="form-control" id="jump_Trigger">
 									   </div>
                                        </div>
                                        </div>
@@ -442,7 +442,7 @@
                                      	        <div class="form-group" style='margin:15% 0;'>
 									    <label for="Trigger">Highlight</label>
                                         <div class="col-10" style='padding: 0;'>
-									  	<input type="text" class="form-control" id="jump_Highlight">
+									  	<input type="number" class="form-control" id="jump_Highlight">
 									   </div>
                                        </div>
                                        </div>
@@ -486,7 +486,7 @@
                                      	        <div class="form-group" style='margin: 15% 0;'>
 									    <label for="Trigger">Trigger</label>
                                         <div class="col-10" style='padding: 0;'>
-									  	<input type="text" class="form-control" id="trend_Trigger">
+									  	<input type="number" class="form-control" id="trend_Trigger">
 									   </div>
                                        </div>
                                        </div>
@@ -494,7 +494,97 @@
                                      	        <div class="form-group" style='margin: 15% 0;'>
 									    <label for="Trigger">Highlight</label>
                                         <div class="col-10" style='padding: 0;'>
-									  	<input type="text" class="form-control" id="trend_Highlight">
+									  	<input type="number" class="form-control" id="trend_Highlight">
+									   </div>
+                                       </div>
+                                       </div>
+								  </div>
+								  	  <div class="form-group row">
+							      <div class="col-2">
+							 <!--        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="HighLowdropDown">High/Low Robot </label>
+							        <div id='HighLowdropDown'>
+                                       </div>
+                                       </div> -->
+								  <div id='moving100_jqxCheckRobot' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
+                                  100D MOVING AVG<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ROBOT</div> 
+                                 <h7 id="robotCodeMoving100" class="robotcode_style"></h7>
+                                
+                                   </div>
+                                    <div class="col-4">
+                                    <div class="form-group">
+									    <label for="exampleFormControlTextarea1">Template</label>
+									    <textarea class="form-control" id="moving100_TemplateRobot" rows="3"></textarea>
+									   <div class="">
+									  Select Variables: 
+									   <ul onclick="addText(event,'moving100_TemplateRobot')" class="list-inline">
+									      <li class="list-inline-item">{ColumnTitle}</li>
+										  <li class="list-inline-item">{RuleResult}</li>
+										  <li class="list-inline-item">{P0}</li>
+										  <li class="list-inline-item">{PN}</li>
+										  <li class="list-inline-item">{Time}</li>
+										</ul>
+										</div>
+									  </div>
+                                    </div>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									    <label for="Trigger">Trigger</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="number" class="form-control" id="moving100_Trigger">
+									   </div>
+                                       </div>
+                                       </div>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									    <label for="Trigger">Highlight</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="number" class="form-control" id="moving100_Highlight">
+									   </div>
+                                       </div>
+                                       </div>
+								  </div>
+								  	  <div class="form-group row">
+							      <div class="col-2">
+							 <!--        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="HighLowdropDown">High/Low Robot </label>
+							        <div id='HighLowdropDown'>
+                                       </div>
+                                       </div> -->
+								  <div id='moving200_jqxCheckRobot' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
+                                  200D MOVING AVG<br>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ROBOT</div> 
+                                 <h7 id="robotCodeMoving200" class="robotcode_style"></h7>
+                                
+                                   </div>
+                                    <div class="col-4">
+                                    <div class="form-group">
+									    <label for="exampleFormControlTextarea1">Template</label>
+									    <textarea class="form-control" id="moving200_TemplateRobot" rows="3"></textarea>
+									   <div class="">
+									  Select Variables: 
+									   <ul onclick="addText(event,'moving200_TemplateRobot')" class="list-inline">
+									      <li class="list-inline-item">{ColumnTitle}</li>
+										  <li class="list-inline-item">{RuleResult}</li>
+										  <li class="list-inline-item">{P0}</li>
+										  <li class="list-inline-item">{PN}</li>
+										  <li class="list-inline-item">{Time}</li>
+										</ul>
+										</div>
+									  </div>
+                                    </div>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									    <label for="Trigger">Trigger</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="number" class="form-control" id="moving200_Trigger">
+									   </div>
+                                       </div>
+                                       </div>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									    <label for="Trigger">Highlight</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="number" class="form-control" id="moving200_Highlight">
 									   </div>
                                        </div>
                                        </div>

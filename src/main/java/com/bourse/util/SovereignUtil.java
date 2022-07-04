@@ -8,6 +8,7 @@ import java.util.List;
 
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SovereignDataCorrected;
+import com.bourse.dto.DataFunctionReqDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.SovereignYiledCurveSearchDTO;
@@ -124,6 +125,12 @@ public class SovereignUtil {
 		return originalObject;
 	}
 	
+	
+	public static QueryColumnsDTO buildDynamicDataFunctionGridQuery(DataFunctionReqDTO dataFunctionReqDTO)
+	{
+		return null;
+		
+	}
 	
 	public static QueryColumnsDTO buildDynamicGridQuery(SearchFilterDTO searchFilterDTO,boolean onServer)
 	{

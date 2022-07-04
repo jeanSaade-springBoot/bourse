@@ -16,8 +16,7 @@ public interface RobotsConfigRepository extends JpaRepository<RobotsConfiguratio
 	  public List<RobotsConfiguration> findByColumnDescriptionOrderById(String configId);
 	  public List<RobotsConfiguration> getRobotsByConfigId(String configId);
 	  
-	  
-	   @Query("SELECT new com.bourse.domain.RobotsConfiguration(rc.id,\r\n"
+	  @Query("SELECT new com.bourse.domain.RobotsConfiguration(rc.id,\r\n"
 													 		+ " rc.columnDescription,\r\n"
 													 		+ " rc.displayDescription,\r\n"
 													 		+ " rc.description,\r\n"

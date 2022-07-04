@@ -899,7 +899,7 @@
       	    	        
                         $('#grid').jqxGrid('updaterow', rowID, data);
                         $("#popupWindow").jqxWindow('hide');
-      	   },
+      	  			 },
       	    	        error: function (e) {
       	    	        	
       						  console.log("ERROR : ", e);
