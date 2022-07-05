@@ -378,6 +378,7 @@
 					   }
 					   if (data[i].robotName=="100DMovingAverageRobot")
 		      		 {
+					   $("#robotCodeMoving100").text(data[i].robotCode);
 		      		   $("#moving100_TemplateRobot").val(data[i].template);
 					   $("#moving100_Description").val(data[i].description);
 					   $("#moving100_Trigger").val(data[i].threshholdTrigger);
@@ -386,6 +387,7 @@
 					   }
 					    if (data[i].robotName=="200DMovingAverageRobot")
 		      		 {
+					   $("#robotCodeMoving200").text(data[i].robotCode);
 		      		   $("#moving200_TemplateRobot").val(data[i].template);
 					   $("#moving200_Description").val(data[i].description);
 					   $("#moving200_Trigger").val(data[i].threshholdTrigger);
