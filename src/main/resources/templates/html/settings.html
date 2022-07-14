@@ -44,6 +44,10 @@
     margin: 0 9%;
     font-weight: bold;
     COLOR: #719df0;
+    white-space: nowrap;
+    width: 187px;
+    overflow: hidden;
+    text-overflow: ellipsis;
 }
   </style>
 </head>
@@ -145,9 +149,10 @@
             <div style="overflow: hidden;">
            	 <nav>
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				     <a class="navigation nav-item nav-link active" id="nav-graphsData-tab" data-toggle="tab"  href="#nav-graphs-data" role="tab" aria-controls="nav-graphs-data" aria-selected="false">Graphs and Data</a>
+				    <a class="navigation nav-item nav-link active" id="nav-graphsData-tab" data-toggle="tab"  href="#nav-graphs-data" role="tab" aria-controls="nav-graphs-data" aria-selected="false">Graphs and Data</a>
 				    <a class="navigation nav-item nav-link" id="nav-robots-tab" data-toggle="tab"  href="#nav-robots" role="tab" aria-controls="nav-other" aria-selected="false">Robots</a>
-				    <a class="navigation nav-item nav-link" id="nav-description-tab" data-toggle="tab"  href="#nav-other" role="tab" aria-controls="nav-any2" aria-selected="false">Descripton</a>
+				    <a class="navigation nav-item nav-link" id="nav-functions-tab" data-toggle="tab"  href="#nav-functions" role="tab" aria-controls="nav-other" aria-selected="false">Functions</a>
+				    <a class="navigation nav-item nav-link" id="nav-description-tab" data-toggle="tab"  href="#nav-other" role="tab" aria-controls="nav-any2" aria-selected="false">Description</a>
 				    </div>
 				</nav>
 				
@@ -361,7 +366,7 @@
                                        </div> -->
 								  <div id='highLow_jqxCheckBox' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
                                    HIGH LOW ROBOT</div> 
-                                   <h7 id="robotCodeHighLow" class="robotcode_style"></h7>
+                                   <div id="robotCodeHighLow" class="robotcode_style"></div>
                                    </div>
                                     <div class="col-4">
                                     <div class="form-group">
@@ -402,7 +407,7 @@
                                        </div> -->
 								  <div id='jump_jqxCheckRobot' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
                                    JUMP ROBOT</div> 
-                                  <h7 id="robotCodeJump" class="robotcode_style"></h7>
+                                  <div id="robotCodeJump" class="robotcode_style"></div>
                                   </div>
                                     <div class="col-4">
                                     <div class="form-group">
@@ -456,7 +461,7 @@
                                        </div> -->
 								  <div id='trend_jqxCheckRobot' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
                                    TREND ROBOT</div> 
-                                 <h7 id="robotCodeTrend" class="robotcode_style"></h7>
+                                 <div id="robotCodeTrend" class="robotcode_style"></div>
                                 
                                    </div>
                                     <div class="col-4">
@@ -495,96 +500,6 @@
 									    <label for="Trigger">Highlight</label>
                                         <div class="col-10" style='padding: 0;'>
 									  	<input type="number" class="form-control" id="trend_Highlight">
-									   </div>
-                                       </div>
-                                       </div>
-								  </div>
-								  	  <div class="form-group row">
-							      <div class="col-2">
-							 <!--        <div class="form-group" style='margin: 35% 0;'>
-									    <label for="HighLowdropDown">High/Low Robot </label>
-							        <div id='HighLowdropDown'>
-                                       </div>
-                                       </div> -->
-								  <div id='moving100_jqxCheckRobot' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
-                                  100D MOVING AVG</div> 
-                                 <h7 id="robotCodeMoving100" class="robotcode_style"></h7>
-                                
-                                   </div>
-                                    <div class="col-4">
-                                    <div class="form-group">
-									    <label for="exampleFormControlTextarea1">Template</label>
-									    <textarea class="form-control" id="moving100_TemplateRobot" rows="3"></textarea>
-									   <div class="">
-									  Select Variables: 
-									   <ul onclick="addText(event,'moving100_TemplateRobot')" class="list-inline">
-									      <li class="list-inline-item">{ColumnTitle}</li>
-										  <li class="list-inline-item">{RuleResult}</li>
-										  <li class="list-inline-item">{P0}</li>
-										  <li class="list-inline-item">{PN}</li>
-										  <li class="list-inline-item">{Time}</li>
-										</ul>
-										</div>
-									  </div>
-                                    </div>
-                                       <div class="col-2">
-                                     	        <div class="form-group" style='margin: 15% 0;'>
-									    <label for="Trigger">Trigger</label>
-                                        <div class="col-10" style='padding: 0;'>
-									  	<input type="number" class="form-control" id="moving100_Trigger">
-									   </div>
-                                       </div>
-                                       </div>
-                                       <div class="col-2">
-                                     	        <div class="form-group" style='margin: 15% 0;'>
-									    <label for="Trigger">Highlight</label>
-                                        <div class="col-10" style='padding: 0;'>
-									  	<input type="number" class="form-control" id="moving100_Highlight">
-									   </div>
-                                       </div>
-                                       </div>
-								  </div>
-								  	  <div class="form-group row">
-							      <div class="col-2">
-							 <!--        <div class="form-group" style='margin: 35% 0;'>
-									    <label for="HighLowdropDown">High/Low Robot </label>
-							        <div id='HighLowdropDown'>
-                                       </div>
-                                       </div> -->
-								  <div id='moving200_jqxCheckRobot' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
-                                  200D MOVING AVG</div> 
-                                 <h7 id="robotCodeMoving200" class="robotcode_style"></h7>
-                                
-                                   </div>
-                                    <div class="col-4">
-                                    <div class="form-group">
-									    <label for="exampleFormControlTextarea1">Template</label>
-									    <textarea class="form-control" id="moving200_TemplateRobot" rows="3"></textarea>
-									   <div class="">
-									  Select Variables: 
-									   <ul onclick="addText(event,'moving200_TemplateRobot')" class="list-inline">
-									      <li class="list-inline-item">{ColumnTitle}</li>
-										  <li class="list-inline-item">{RuleResult}</li>
-										  <li class="list-inline-item">{P0}</li>
-										  <li class="list-inline-item">{PN}</li>
-										  <li class="list-inline-item">{Time}</li>
-										</ul>
-										</div>
-									  </div>
-                                    </div>
-                                       <div class="col-2">
-                                     	        <div class="form-group" style='margin: 15% 0;'>
-									    <label for="Trigger">Trigger</label>
-                                        <div class="col-10" style='padding: 0;'>
-									  	<input type="number" class="form-control" id="moving200_Trigger">
-									   </div>
-                                       </div>
-                                       </div>
-                                       <div class="col-2">
-                                     	        <div class="form-group" style='margin: 15% 0;'>
-									    <label for="Trigger">Highlight</label>
-                                        <div class="col-10" style='padding: 0;'>
-									  	<input type="number" class="form-control" id="moving200_Highlight">
 									   </div>
                                        </div>
                                        </div>
@@ -642,16 +557,361 @@
 								</div>
 				</div>
 				</div>
-            </div>
+				<div class="tab-pane fade" id="nav-functions" role="tabpanel" aria-labelledby="nav-any2-tab">	
+				  	 <div class="p-2 mr-0 col-12 pl-0 d-flex" style="background-image: linear-gradient(#4c6aa6 -80%, #272e48 79%);">
+					    <label style="margin-right: 1.5rem;     margin-top: .5rem;">Select Function:</label>
+					   	<div id='functionDropDown' style='border-radius: 0.2rem;'></div>
+				
+					</div>
+				<div class="d-flex">
+				<div class="col-12">
+				 <div class="d-none" id="nav-functionWithName">
+				 <nav>
+				   <div class="nav nav-tabs d-none" id="nav-tab-function" role="tablist">
+				    <a class="navigation nav-item nav-link active" id="nav-graphsDataFunction-tab" data-toggle="tab"  href="#nav-graphs-data-function" role="tab" aria-controls="nav-graphs-data" aria-selected="false">Data</a>
+				    <a class="navigation nav-item nav-link" id="nav-robotsFunction-tab" data-toggle="tab"  href="#nav-robots-function" role="tab" aria-controls="nav-other" aria-selected="false">Robots</a>
+				   </div>
+				</nav> 
+				<b style="right: 14px; top: 0; position: absolute;" id="functionColumn"></b>
+				</div>
+				 
+			    <div class="tab-content">
+				<div class="tab-pane fade" id="nav-graphs-data-function" role="tabpanel" aria-labelledby="nav-any2-tab">
+				    <p class="mt-2" style="margin-bottom: .5rem;">
+				    <div class="col-12 row  mt-4">
+				            <div class="col-6">
+							   <form id="graphDataform1_f">
+							        <input type="hidden" class="form-control" id="id_f" disabled>
+							        <input type="hidden" class="form-control" id="function_id" disabled>
+								  	<div class="form-group row">
+									<label class="col-sm-8 col-form-label white"><b>Unconditional keys</b></label>
+								  </div>
+							      <div class="form-group row">
+									<label for="ColumnName" class="col-sm-4 col-form-label">Column Name</label>
+									<div class="col-sm-8">
+									  <input type="text" class="form-control" id="columnName_f">
+									 </div>
+								  </div>
+								    <div class="form-group row">
+									<label for="dataFormat" class="col-sm-4 col-form-label">Data Format</label>
+									<div class="col-sm-8">
+									 <div id='dataFormat_f' style='border-radius: 0.2rem;'></div> 
+<!-- 									<input type="text" class="form-control" id="dataFormat"> -->
+									</div>
+								  </div>
+								   <div class="form-group row">
+									<label for="DataMinIncrement" class="col-sm-4 col-form-label">Data Min Increment</label>
+									<div class="col-sm-8">
+									<input type="text" class="form-control" id="DataMinIncrement_f">
+									</div>
+								  </div>
+								    <div class="form-group row">
+									<label for="DataTickValue" class="col-sm-4 col-form-label">Data Tick Value</label>
+									<div class="col-sm-8">
+									<input type="text" class="form-control" id="tickvalue_f">
+									</div>
+								  </div>
+								 <div class="form-group row">
+									<label for="DataTickCurrency" class="col-sm-4 col-form-label">Data Tick Currency</label>
+									<div class="col-sm-8">
+									<input type="text" class="form-control" id="Currency_f">
+									</div>
+								  </div>
+								     <div class="form-group row">
+									<label for="DataStartDate" class="col-sm-4 col-form-label">Data Start Date</label>
+									<div class="col-sm-8">
+									  <div id='startDate_f'></div>
+									</div>
+								  </div>
+							
+								   <div class="form-group mt-4">
+								   <input id="update_f" type="button" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" value="Update" />
+							       <input id="cancel_f" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Close" />
+							       </div>
+							    </form>
+								</div>
+							   <div class="col-6">
+							   <form id="graphDataform2_f">
+							      <div class="form-group row">
+									<label for="columnTitle" class="col-sm-4 col-form-label">Exchange Link</label>
+									<div class="col-sm-8">
+									    <div id='exchangeLink_f' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+							   	    <div class="form-group row">
+									<label for="columnTitle" class="col-sm-4 col-form-label">Factor Calc Type</label>
+									<div class="col-sm-8">
+									    <div id='factorcalctype_f' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  
+								  <div class="row">
+								 <!--  <div class="form-group">
+								  <div id='jqxCheckBoxNegative' style='padding-left: .75rem;text-align: left!important;'>
+                                    Can data be negative?</div>
+									</div> -->
+								   <div class="form-group">
+								   <div id='jqxCheckBoxShowIndb_f' style='padding-left: .75rem;text-align: left!important; color: red;'>
+                                    SHOW in DATABASE?</div>
+									 </div>
+								  </div>
+								  <div class="d-none">
+								  	<div class="form-group row ">
+									<label class="col-sm-8 col-form-label white"><b>Graphing keys</b></label>
+								  </div>
+								  	<div class="form-group row">
+									<label for="graphTitle" class="col-sm-4 col-form-label">Graph Title</label>
+									<div class="col-sm-8">
+									  <input type="text" class="form-control" id="graphTitle_f">
+									 </div>
+								  </div>
+							   
+							   	  <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">Chart Type</label>
+									<div class="col-sm-8">
+									    <div id='chartType_f' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  
+							   	  <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">Chart color</label>
+									<div class="col-sm-8">
+								       <div id='chartColor_f' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  
+							   	  <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">Show markers</label>
+									<div class="col-sm-8">
+									    <div id='showMarkes_f' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  </div>
+								</form>
+								</div>
+							   <div class="col-6">
+							   <form id="graphDataform3">
+							     <div class="d-none">
+							    <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">Character Size</label>
+									<div class="col-sm-8">
+									    <div id='chartSize_f' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  
+								   <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">Transparency</label>
+									<div class="col-sm-8">
+									    <div id='transparency_f' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  
+								    <div class="form-group row">
+									<label for="ChartType" class="col-sm-4 col-form-label">show grid</label>
+									<div class="col-sm-8">
+									    <div id='showgrid_f' style='border-radius: 0.2rem;'></div> 
+									</div>
+								  </div>
+								  
+								     <div class="form-group row">
+									<label for="YAxisFormat" class="col-sm-4 col-form-label">Y Axis Format</label>
+									<div class="col-sm-8">
+									 <div id='yAxisFormats_f' style='border-radius: 0.2rem;'></div> 
+<!-- 									<input type="text" class="form-control" id="yAxisFormats"> -->
+									</div>
+								  </div>
+								  <div class="form-group">
+								  <div id='jqxCheckBoxShowInNews_f' style='text-align: left!important;'>
+                                   Show in news graph?</div>
+									</div>
+								
+							       </div>
+							       <div class="form-group" id="notifcationContainer_f" style=" margin-top: 3rem;">
+								       <div id="jqxNotification_f">
+		        The Data has been updated</div>
+							       </div>
+								</form>
+								</div>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="nav-robots-function" role="tabpanel" aria-labelledby="nav-any2-tab">	
+				    <p class="mt-2" style=" margin-bottom: .5rem;">
+				    <div class="row  mt-4">
+				            <div>
+							   <form id="robotform_f">
+							   <div style="overflow-y: scroll;overflow-x: hidden; height:520px;">
+							     <div class="form-group row">
+							      <div class="col-2">
+							 <!--        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="HighLowdropDown">High/Low Robot </label>
+							        <div id='HighLowdropDown'>
+                                       </div>
+                                       </div> -->
+								  <div id='highLow_jqxCheckBox_f' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
+                                   HIGH LOW ROBOT</div> 
+                                   <div id="robotCodeHighLow_f" class="robotcode_style"></div>
+                                   </div>
+                                    <div class="col-4">
+                                    <div class="form-group">
+									    <label for="exampleFormControlTextarea1">Template</label>
+									    <textarea class="form-control" id="highLow_TemplateRobot_f" rows="3"></textarea>
+									   <div class="">
+									  Select Variables: 
+									   <ul onclick="addText(event,'highLow_TemplateRobot_f')" class="list-inline">
+										  <li class="list-inline-item">{ColumnTitle}</li>
+										  <li class="list-inline-item">{Time}</li>
+										  <li class="list-inline-item">{RuleResult}</li>
+										  <li class="list-inline-item">{P0}</li>
+										</ul>
+										</div>
+									  </div>
+                                    </div>
+                                     <div class="col-1">
+                                     	        <div class="form-group" style='margin: 35% 0;'>
+									  <label for="highLow_thresholddl">threshold</label>
+                                      <div id='highLow_thresholddl_f'>
+                                       </div>
+                                       </div>
+                                     </div>
+                                       <div class="col-1">
+                                     	        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="highlightdropdown">Highlight</label>
+                                      <div id='highLow_thighlightdropdown_f'>
+                                       </div> 
+                                       </div>
+                                       </div>
+								  </div>
+								    <div class="form-group row">
+							      <div class="col-2">
+							 <!--        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="HighLowdropDown">High/Low Robot </label>
+							        <div id='HighLowdropDown'>
+                                       </div>
+                                       </div> -->
+								  <div id='jump_jqxCheckRobot_f' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
+                                   JUMP ROBOT</div> 
+                                  <div id="robotCodeJump_f" class="robotcode_style"></div>
+                                  </div>
+                                    <div class="col-4">
+                                    <div class="form-group">
+									    <label for="exampleFormControlTextarea1">Template</label>
+									    <textarea class="form-control" id="jump_TemplateRobot_f" rows="3"></textarea>
+									   <div class="">
+									  Select Variables: 
+									   <ul onclick="addText(event,'jump_TemplateRobot_f')" class="list-inline">
+									   	  <li class="list-inline-item">{ColumnTitle}</li>
+										  <li class="list-inline-item">{RuleResult}</li>
+										  <li class="list-inline-item">{P0}</li>
+										  <li class="list-inline-item">{P1}</li>
+										  <li class="list-inline-item">{JumpValue}</li>
+										  <li class="list-inline-item">{Jump%}</li>
+										</ul>
+										</div>
+									  </div>
+                                    </div>
+                                     <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									  <label for="triggerKey">Trigger Key</label>
+                                      		<div style="margin: 3px;" id="jump_isTick_f">
+              									  Ticks</div>
+								            <div style="margin: 3px;" id="jump_isPercentage_f">
+								                Percentage %</div>
+                                       </div>
+                                     </div>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									    <label for="Trigger">Trigger</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="number" class="form-control" id="jump_Trigger_f">
+									   </div>
+                                       </div>
+                                       </div>
+                                        <div class="col-2">
+                                     	        <div class="form-group" style='margin:15% 0;'>
+									    <label for="Trigger">Highlight</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="number" class="form-control" id="jump_Highlight_f">
+									   </div>
+                                       </div>
+                                       </div>
+								  </div>
+								  <div class="form-group row">
+							      <div class="col-2">
+							 <!--        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="HighLowdropDown">High/Low Robot </label>
+							        <div id='HighLowdropDown'>
+                                       </div>
+                                       </div> -->
+								  <div id='trend_jqxCheckRobot_f' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
+                                   TREND ROBOT</div> 
+                                 <div id="robotCodeTrend_f" class="robotcode_style"></div>
+                                
+                                   </div>
+                                    <div class="col-4">
+                                    <div class="form-group">
+									    <label for="exampleFormControlTextarea1">Template</label>
+									    <textarea class="form-control" id="trend_TemplateRobot_f" rows="3"></textarea>
+									   <div class="">
+									  Select Variables: 
+									   <ul onclick="addText(event,'trend_TemplateRobot_f')" class="list-inline">
+									      <li class="list-inline-item">{ColumnTitle}</li>
+										  <li class="list-inline-item">{RuleResult}</li>
+										  <li class="list-inline-item">{P0}</li>
+										  <li class="list-inline-item">{PN}</li>
+										  <li class="list-inline-item">{Time}</li>
+										</ul>
+										</div>
+									  </div>
+                                    </div>
+                                     <div class="col-2">
+                                     	        <div class="form-group" style='margin: 10% 0;'>
+									  <label for="triggerKey">Trending Description</label>
+                                      	 <div id='trend_Description_f'>
+                                       </div>	
+                                       </div>
+                                     </div>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									    <label for="Trigger">Trigger</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="number" class="form-control" id="trend_Trigger_f">
+									   </div>
+                                       </div>
+                                       </div>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									    <label for="Trigger">Highlight</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="number" class="form-control" id="trend_Highlight_f">
+									   </div>
+                                       </div>
+                                       </div>
+								  </div>
+						
+								  </div>
+								  <div class="form-group">
+								   <input id="updateRobots_f" type="button" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" value="Update" />
+							       <input id="cancelRobots_f" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Close" />
+							       </div>
+							        <div class="form-group" id="notifcationContainerRobot_f">
+								       <div id="jqxNotificationRobots_f">
+		        The Data has been updated</div>
+							       </div>
+							    </form>
+								</div>
+				</div>
+				</div>
+				</div>
+			  </div>
+			</div>
+		</div>
+     </div>
 		          </div>
 				</div>
 			    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
 				</div>
 			</div>
           </div>
-         
-
-
           <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
             aria-hidden="true">

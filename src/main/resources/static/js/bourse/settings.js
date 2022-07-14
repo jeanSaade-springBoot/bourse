@@ -21,23 +21,33 @@
 		  });
 	  
 	  $("#startDate").jqxDateTimeInput({  theme:'dark', width: '100%', height: '25px',allowNullDate: true });
-	    $("#jqxNotification").jqxNotification({ width: "100%",appendContainer: "#notifcationContainer",  opacity: 0.9,
+	  $("#startDate_f").jqxDateTimeInput({ theme:'dark', width: '100%', height: '25px',allowNullDate: true });
+	  
+	  $("#jqxNotification").jqxNotification({ width: "100%",appendContainer: "#notifcationContainer",  opacity: 0.9,
             autoOpen: false, animationOpenDelay: 800, autoClose:true , autoCloseDelay: 3000,  template: "success"
         });
 	    $("#jqxNotificationRobots").jqxNotification({ width: "100%",appendContainer: "#notifcationContainerRobot",  opacity: 0.9,
             autoOpen: false, animationOpenDelay: 800, autoClose:true , autoCloseDelay: 3000,  template: "success"
-        });
+		});
+		 $("#jqxNotification_f").jqxNotification({ width: "100%",appendContainer: "#notifcationContainer_f",  opacity: 0.9,
+            autoOpen: false, animationOpenDelay: 800, autoClose:true , autoCloseDelay: 3000,  template: "success"
+		});
+		  $("#jqxNotificationRobots_f").jqxNotification({ width: "100%",appendContainer: "#notifcationContainerRobot_f",  opacity: 0.9,
+            autoOpen: false, animationOpenDelay: 800, autoClose:true , autoCloseDelay: 3000,  template: "success"
+		});
 	  factorcalctypeSource =["INPUT","CALCULATED"];
 	 $("#factorcalctype").jqxDropDownList({ dropDownHeight: 70, source: factorcalctypeSource, theme: 'dark' , width: '100%', height: 30});
+	 $("#factorcalctype_f").jqxDropDownList({ dropDownHeight: 70, source: factorcalctypeSource, theme: 'dark' , width: '100%', height: 30});
 	 
 	  formatSource =["0","0.0","0.00","0.000","0.0000","0%","0.0%","0.00%","0.000%","0.0000%"];
 		 $("#dataFormat").jqxDropDownList({ dropDownHeight:320, source: formatSource, theme: 'dark' , width: '100%', height: 30});
 		 $("#yAxisFormats").jqxDropDownList({ dropDownHeight: 320, source: formatSource, theme: 'dark' , width: '100%', height: 30});
+		 $("#dataFormat_f").jqxDropDownList({ dropDownHeight:320, source: formatSource, theme: 'dark' , width: '100%', height: 30});
+		 $("#yAxisFormats_f").jqxDropDownList({ dropDownHeight: 320, source: formatSource, theme: 'dark' , width: '100%', height: 30});
 		 
-	 
 	 chartTypeSource =["Area","Bars","Line","Line Spline"];
 	 $("#chartType").jqxDropDownList({dropDownHeight: 120,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
-	 
+	 $("#chartType_f").jqxDropDownList({dropDownHeight: 120,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
 	var  chartColorSource =[{"colorName":"Gold",
                              "colorCode":"#F0AB2E"}, 
 					        {"colorName":"Blue",
@@ -56,6 +66,7 @@
      };
 	  var dataAdapterColor = new $.jqx.dataAdapter(sourceColor);
 	 $("#chartColor").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterColor,displayMember: "colorName",valueMember: "colorCode", theme: 'dark' , width: '100%', height: 30});
+	 $("#chartColor_f").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterColor,displayMember: "colorName",valueMember: "colorCode", theme: 'dark' , width: '100%', height: 30});
 	
 		
 	 var  showMarkesSource =[{"showMarkes":"None",
@@ -76,6 +87,7 @@
 			};
 			var dataAdapterMarker = new $.jqx.dataAdapter(makerSource);
 			$("#showMarkes").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterMarker,displayMember: "showMarkes",valueMember: "showMarkesValue", theme: 'dark' , width: '100%', height: 30});
+			$("#showMarkes_f").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterMarker,displayMember: "showMarkes",valueMember: "showMarkesValue", theme: 'dark' , width: '100%', height: 30});
 
 
 	 var  chartSizeSource =[{"chartSize":"Small",
@@ -96,6 +108,7 @@
 		};
 		var dataAdapterSize = new $.jqx.dataAdapter(sizeSource);
 		$("#chartSize").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterSize,displayMember: "chartSize",valueMember: "chartSizeValue", theme: 'dark' , width: '100%', height: 30});
+		$("#chartSize_f").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterSize,displayMember: "chartSize",valueMember: "chartSizeValue", theme: 'dark' , width: '100%', height: 30});
 
 		var  transparencySource =[{"transparency":"0%",
             "transparencyValue":"1"}, 
@@ -115,6 +128,7 @@
 		};
 		var dataAdapterTrans = new $.jqx.dataAdapter(transSource);
 		$("#transparency").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterTrans,displayMember: "transparency",valueMember: "transparencyValue", theme: 'dark' , width: '100%', height: 30});
+		$("#transparency_f").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterTrans,displayMember: "transparency",valueMember: "transparencyValue", theme: 'dark' , width: '100%', height: 30});
 
 	 var  showgridSource =[{"Showgrid":"Yes",
                               "ShowgridValue":"true"}, 
@@ -132,14 +146,41 @@
 		};
 		var dataAdapterGrid = new $.jqx.dataAdapter(gridSource);
 		$("#showgrid").jqxDropDownList({dropDownHeight: 70,  source: dataAdapterGrid,displayMember: "Showgrid",valueMember: "ShowgridValue", theme: 'dark' , width: '100%', height: 30});
+		$("#showgrid_f").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterTrans,displayMember: "transparency",valueMember: "transparencyValue", theme: 'dark' , width: '100%', height: 30});
 
 	 
 	 
 	 exchangeLinkSource =["NONE","EUREX","ICE","CME","CBOT"];
-	 $("#exchangeLink").jqxDropDownList({dropDownHeight: 160,  source: exchangeLinkSource, theme: 'dark' , width: '100%', height: 30});
+	$("#exchangeLink").jqxDropDownList({dropDownHeight: 160,  source: exchangeLinkSource, theme: 'dark' , width: '100%', height: 30});
+	$("#exchangeLink_f").jqxDropDownList({dropDownHeight: 160,  source: exchangeLinkSource, theme: 'dark' , width: '100%', height: 30});
 	// no data source
 	$("#graphscale").jqxDropDownList({dropDownHeight: 100,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
-		 
+	
+	var functionSource =
+      {
+          datatype: "json",
+          datafields: [
+              { name: 'id' },
+              { name: 'description' }
+          ],
+          url: '/admin/getfunctions',
+          async: true
+      };
+	   var dataAdapter = new $.jqx.dataAdapter(functionSource);
+	 	$("#functionDropDown").jqxDropDownList({ source: dataAdapter , displayMember: "description", valueMember: "id", theme: 'dark' , width: 210, height: 30});
+	 	$("#functionDropDown").on('select', function (event) {
+            if (event.args) {
+			   functionItem = event.args.item;
+			    var rowID = $('#grid').jqxGrid('getrowid', editrow);
+				var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
+				
+				$('#functionColumn').empty();
+				$('#functionColumn').append(dataRecord.columnName+' - '+functionItem.label);
+				functionSelected(dataRecord.id,functionItem.value);
+				getRobotFunctionsConfiguration(dataRecord.id,functionItem.value);
+            }
+		}); 
+			 
 	var familysource =
       {
           datatype: "json",
@@ -208,24 +249,39 @@
 	   // $("#jqxCheckBoxNegative").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});
 	    $("#jqxCheckBoxShowIndb").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});  
 	    $("#jqxCheckBoxShowInNews").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 192, height: 25});  
-	    
+	    $("#jqxCheckBoxShowIndb_f").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});  
+		$("#jqxCheckBoxShowInNews_f").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 192, height: 25});  
+		
 	    $("#highLow_jqxCheckBox").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
 	    $("#jump_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
 		$("#trend_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
-	    $("#moving100_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
-	    $("#moving200_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
-	    $("#trendDepth_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
+		$("#trendDepth_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
+		
+		 $("#highLow_jqxCheckBox_f").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
+	    $("#jump_jqxCheckRobot_f").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
+		$("#trend_jqxCheckRobot_f").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
 	    
         $("#jump_isTick").jqxRadioButton({ theme: 'dark', checked: true});
         $("#jump_isPercentage").jqxRadioButton({ theme: 'dark'});
-        
+        $("#jump_isTick_f").jqxRadioButton({ theme: 'dark', checked: true});
+        $("#jump_isPercentage_f").jqxRadioButton({ theme: 'dark'});
 	   
 	    $("#update").jqxButton({ theme: 'dark',height:30,width:74  });
         $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
+        $("#update_f").jqxButton({ theme: 'dark',height:30,width:74  });
+        $("#cancel_f").jqxButton({ theme: 'dark',height:30,width:74 });
         
         $("#updateRobots").jqxButton({ theme: 'dark',height:30,width:74});
-        $("#cancelRobots").jqxButton({ theme: 'dark',height:30,width:74});
+		$("#cancelRobots").jqxButton({ theme: 'dark',height:30,width:74});
+	    $("#updateRobots_f").jqxButton({ theme: 'dark',height:30,width:74});
+        $("#cancelRobots_f").jqxButton({ theme: 'dark',height:30,width:74});
         $('#cancelRobots').click(function () {
+            $('#popupWindow').jqxWindow('close');
+		});
+		 $('#cancelRobots_f').click(function () {
+            $('#popupWindow').jqxWindow('close');
+		});
+		$('#cancel_f').click(function () {
             $('#popupWindow').jqxWindow('close');
         });
         var thresholdsource = [ "2 weeks",
@@ -240,16 +296,14 @@
     // Create a jqxDropDownList
     $("#highLow_thresholddl").jqxDropDownList({theme: 'dark', source: thresholdsource,width: 80, height: 30,dropDownHeight: 150});
     $("#highLow_thighlightdropdown").jqxDropDownList({theme: 'dark', source: thresholdsource, width: 80, height: 30,dropDownHeight: 150});
-    
+    $("#highLow_thresholddl_f").jqxDropDownList({theme: 'dark', source: thresholdsource,width: 80, height: 30,dropDownHeight: 150});
+    $("#highLow_thighlightdropdown_f").jqxDropDownList({theme: 'dark', source: thresholdsource, width: 80, height: 30,dropDownHeight: 150});
     
     $("#trend_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 177, height: 30,dropDownHeight: 100});
-    $("#trendDepth_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 230, height: 30,dropDownHeight: 100});
-    
-    /*  var highlowsource = ["High",
-		"Low"];
-    $("#HighLowdropDown").jqxDropDownList({theme: 'dark', source: highlowsource,width: 100, height: 30,dropDownHeight: 70});
-    */  
-    // prepare the data
+	$("#trendDepth_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 230, height: 30,dropDownHeight: 100});
+    $("#trend_Description_f").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 177, height: 30,dropDownHeight: 100});
+     
+   
       gridsource =
       {
           datatype: "json",
@@ -299,7 +353,7 @@
        $('#popupWindow').on('close', function (event) {
     	   $('#robotform').trigger("reset");
     	   $('#graphDataform1').trigger("reset"); 
-    	   $('#graphDataform2').trigger("reset"); 
+		   $('#graphDataform2').trigger("reset"); 
     	   $("#factorcalctype").jqxDropDownList('clearSelection'); 
     	   $("#exchangeLink").jqxDropDownList('clearSelection'); 
       	   $("#chartType").jqxDropDownList('clearSelection'); 
@@ -315,15 +369,17 @@
     	   $("#highLow_thresholddl").jqxDropDownList('clearSelection'); 
     	   $("#highLow_jqxCheckBox").jqxCheckBox('val',false);
 		   $("#trend_jqxCheckRobot").jqxCheckBox('val',false);
-		   $("#moving100_jqxCheckRobot").jqxCheckBox('val',false);
-		   $("#moving200_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#trendDepth_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#jump_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#trend_Description").jqxDropDownList('clearSelection');
     	   $("#trendDepth_Description").jqxDropDownList('clearSelection');
     	   $("#jump_isTick").jqxRadioButton({checked: true});
     	   $("#jump_isPercentage").jqxRadioButton({checked: false});
-    	   $( "#nav-graphsData-tab" ).trigger('click');
+		   $( "#nav-graphsData-tab" ).trigger('click');
+		   $("#functionDropDown").jqxDropDownList('clearSelection'); 
+	
+		   resetFunctionSection();
+		  
        }); 
         $('#nav-robots-tab').click(function (event) {     
         	
@@ -376,24 +432,7 @@
 		               $("#trendDepth_Highlight").val(data[i].threshHoldNotification);
 		               $("#trendDepth_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
 					   }
-					   if (data[i].robotName=="100DMovingAverageRobot")
-		      		 {
-					   $("#robotCodeMoving100").text(data[i].robotCode);
-		      		   $("#moving100_TemplateRobot").val(data[i].template);
-					   $("#moving100_Description").val(data[i].description);
-					   $("#moving100_Trigger").val(data[i].threshholdTrigger);
-		               $("#moving100_Highlight").val(data[i].threshHoldNotification);
-		               $("#moving100_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
-					   }
-					    if (data[i].robotName=="200DMovingAverageRobot")
-		      		 {
-					   $("#robotCodeMoving200").text(data[i].robotCode);
-		      		   $("#moving200_TemplateRobot").val(data[i].template);
-					   $("#moving200_Description").val(data[i].description);
-					   $("#moving200_Trigger").val(data[i].threshholdTrigger);
-		               $("#moving200_Highlight").val(data[i].threshHoldNotification);
-		               $("#moving200_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
-		      		 }
+					   
        	        	 } 
        	        
        },
@@ -410,7 +449,7 @@
         	
             if (editrow >= 0) {
             	 var rowID = $('#grid').jqxGrid('getrowid', editrow);
-            	    var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
+            	 var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
                  var row = { id : dataRecord.id,
                 		    description:$("#DisplayName").val(),
 							columnCode:$("#columnCode").val(),
@@ -535,41 +574,6 @@
             		    "subgroupId":subGroupDropDown.value,
             		    "configId":$("#configId").val(),
 						},
-						   {
-            		    "robotName":"100DMovingAverageRobot",
-                		"isactive": $("#moving100_jqxCheckRobot").jqxCheckBox('val'),
-                		"columnDescription":$("#DisplayName").val(),
-            		    "displayDescription": $("#graphTitle").val(),
-            		    "rule":"",
-            		    "template":$("#moving100_TemplateRobot").val(),
-            		    "lastData":"",
-            		    "threshholdTrigger": $("#moving100_Trigger").val(),
-            		    "threshHoldNotification":$("#moving100_Highlight").val(),
-            		    "jumpValueTick":"",
-            		    "jumpPercentage":"",
-            		    "description":"",
-            		    "groupId":groupItem.value,
-            		    "subgroupId":subGroupDropDown.value,
-            		    "configId":$("#configId").val(),
-            		    "robotCode":"100D"},
-						   {
-            		    "robotName":"200DMovingAverageRobot",
-                		"isactive": $("#moving200_jqxCheckRobot").jqxCheckBox('val'),
-                		"columnDescription":$("#DisplayName").val(),
-            		    "displayDescription": $("#graphTitle").val(),
-            		    "rule":"",
-            		    "template":$("#moving200_TemplateRobot").val(),
-            		    "lastData":"",
-            		    "threshholdTrigger": $("#moving200_Trigger").val(),
-            		    "threshHoldNotification":$("#moving200_Highlight").val(),
-            		    "jumpValueTick":"",
-            		    "jumpPercentage":"",
-            		    "description":"",
-            		    "groupId":groupItem.value,
-            		    "subgroupId":subGroupDropDown.value,
-            		    "configId":$("#configId").val(),
-						"robotCode":"200D"
-					    },
         		    ];
          	
          	
@@ -598,7 +602,133 @@
 	    	        }
 	    	    });
         });
-     
+      $("#update_f").click(function () {
+        	
+            if (editrow >= 0) {
+            	 var rowID = $('#grid').jqxGrid('getrowid', editrow);
+            	 var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
+				 var row = { id : $("#id_f").val(),
+							functionId:$("#function_id").val(),
+							configId:dataRecord.id,
+							description:$("#DisplayName").val(),
+							groupId:groupItem.value,
+                		    subgroupId:subGroupDropDown.value,
+                		    columnName: $("#columnName_f").val()!=''?$("#columnName_f").val():null,
+                		    dataFormat:$("#dataFormat_f").val()!=''?$("#dataFormat_f").val():null,
+                		    showInDatabase:$('#jqxCheckBoxShowIndb_f').jqxCheckBox('checked')?true:false,
+                		    showInNewsGraph:$('#jqxCheckBoxShowInNews_f').jqxCheckBox('checked')?true:false,
+                		    startDate:$("#startDate_f").jqxDateTimeInput('getDate')==null?null:$.jqx.dataFormat.formatdate($("#startDate_f").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
+                		    calculationType:$("#factorcalctype_f").val()!=''?$("#factorcalctype_f").val():null,
+                		    exchangeLink:$("#exchangeLink_f").val()!=''?$("#exchangeLink_f").val():null,
+                		    dataMinIncrement:$("#DataMinIncrement_f").val()!=''?$("#DataMinIncrement_f").val():null,
+                		    tickValue:$("#tickvalue_f").val()!=''?$("#tickvalue_f").val():null,
+                		    currency:$("#Currency_f").val()!=''?$("#Currency_f").val():null,
+                		    };
+             	
+    	       	  $.ajax({
+    	    	        type: "POST",
+    	    	        contentType: "application/json",
+    	    	        url: "/admin/updatefunctionconfiguration",
+    	    	        data: JSON.stringify(row),
+    	    	        dataType: 'json',
+    	    	        async:true,
+    	    	        cache: false,
+    	    	        timeout: 600000,
+    	    	        success: function (data) {
+    	    	    
+                      $("#jqxNotification_f").jqxNotification("open");
+                   //   $("#popupWindow").jqxWindow('hide');
+    	   },
+    	    	        error: function (e) {
+    	    	        	
+    						  console.log("ERROR : ", e);
+    	
+    	    	        }
+    	    	    });
+            }
+		});
+		  $("#updateRobots_f").click(function () {
+        	
+            var rows = [{
+            	"robotName":"HighLowRobot",
+        		"isactive": $("#highLow_jqxCheckBox_f").jqxCheckBox('val'),
+        		"columnDescription":$("#DisplayName").val(),
+    		    "displayDescription": $("#graphTitle").val(),
+    		    "rule":$("#highLow_thighlightdropdown_f").jqxDropDownList('val'),
+    		    "template":$("#highLow_TemplateRobot_f").val(),
+    		    "lastData":$("#highLow_lastData_f").val(),
+    		    "threshholdTrigger": $("#highLow_thresholddl_f").jqxDropDownList('val'),
+    		    "threshHoldNotification": $("#highLow_thighlightdropdown_f").jqxDropDownList('val'),
+    		    "jumpValueTick":"",
+    		    "jumpPercentage":"",
+    		    "description":"",
+    		    "groupId":groupItem.value,
+    		    "subgroupId":subGroupDropDown.value,
+				"configId":$("#configId").val(),
+				"functionId":$("#function_id").val(),
+				"robotCode":"HILO",
+			     },
+    		    {
+    		    	"robotName":"JumpRobot",
+            		"isactive": $("#jump_jqxCheckRobot_f").jqxCheckBox('val'),
+            		"columnDescription":$("#DisplayName").val(),
+        		    "displayDescription": $("#graphTitle").val(),
+        		    "rule":"",
+        		    "template":$("#jump_TemplateRobot_f").val(),
+        		    "lastData":"",
+        		    "threshholdTrigger": $("#jump_Trigger_f").val(),
+        		    "threshHoldNotification": $("#jump_Highlight_f").val(),
+        		    "jumpValueTick":$('#jump_isTick_f').jqxRadioButton('val')==true?'1':'0',
+        		    "jumpPercentage":$('#jump_isPercentage_f').jqxRadioButton('val')==true?'1':'0',
+        		    "description":"",
+        		    "groupId":groupItem.value,
+        		    "subgroupId":subGroupDropDown.value,
+					"configId":$("#configId").val(),
+					"functionId":$("#function_id").val(),
+					"robotCode":"JUMP",
+				  },
+    		       {
+        		    "robotName":"TrendRobot",
+            		"isactive": $("#trend_jqxCheckRobot_f").jqxCheckBox('val'),
+            		"columnDescription":$("#DisplayName").val(),
+        		    "displayDescription": $("#graphTitle").val(),
+        		    "rule":"",
+        		    "template":$("#trend_TemplateRobot_f").val(),
+        		    "lastData":"",
+        		    "threshholdTrigger": $("#trend_Trigger_f").val(),
+        		    "threshHoldNotification":$("#trend_Highlight_f").val(),
+        		    "jumpValueTick":"",
+        		    "jumpPercentage":"",
+        		    "description":$("#trend_Description_f").jqxDropDownList('val'),
+        		    "groupId":groupItem.value,
+        		    "subgroupId":subGroupDropDown.value,
+					"configId":$("#configId").val(),
+					"functionId":$("#function_id").val(),
+					"robotCode":"TRND",
+        		    },
+        		    ];
+         	
+         	
+	       	  $.ajax({
+	    	        type: "POST",
+	    	        contentType: "application/json",
+	    	        url: "/admin/updaterobotsfunction",
+	    	        data: JSON.stringify(rows),
+	    	        dataType: 'json',
+	    	        async:true,
+	    	        cache: false,
+	    	        timeout: 600000,
+	    	        success: function (data) {
+	    	       
+                $("#jqxNotificationRobots_f").jqxNotification("open");
+	   },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });
+        });
       $("#grid").jqxGrid(
       {
           width: '100%',
@@ -689,3 +819,126 @@
       });
    
   });
+async function resetFunctionSection()
+{
+	$("#nav-graphs-data-function").removeClass('active');
+	$("#nav-graphs-data-function").removeClass('show');
+	$("#nav-robotsFunction-tab").removeClass("active");
+	$("#nav-graphsDataFunction-tab").addClass("active");
+	$("#nav-robots-function").removeClass('active');
+	$("#nav-robots-function").removeClass('show');
+	$("#nav-tab-function").addClass("d-none");
+    $("#nav-functionWithName").addClass("d-none");
+	$('#robotform_f').trigger("reset");
+
+	$("#highLow_thighlightdropdown_f").jqxDropDownList('clearSelection'); 
+	$("#highLow_thresholddl_f").jqxDropDownList('clearSelection'); 
+	$("#highLow_jqxCheckBox_f").jqxCheckBox('val',false);
+	$("#trend_jqxCheckRobot_f").jqxCheckBox('val',false);
+	$("#jump_jqxCheckRobot_f").jqxCheckBox('val',false);
+	$("#trend_Description_f").jqxDropDownList('clearSelection');
+	$("#jump_isTick_f").jqxRadioButton({checked: true});
+	$("#jump_isPercentage_f").jqxRadioButton({checked: false});
+		   
+	$("#factorcalctype_f").jqxDropDownList('clearSelection'); 
+	$("#exchangeLink_f").jqxDropDownList('clearSelection'); 
+	$("#dataFormat_f").jqxDropDownList('clearSelection'); 
+	return;
+}
+async function functionSelected(configId,functionId){
+	await resetFunctionSection();
+	 $.ajax({
+       	        contentType: "application/json",
+       	        url: "/admin/findfuntionconfiguration/"+configId+"/"+functionId,
+       	        dataType: 'json',
+       	        async:true,
+       	        cache: false,
+       	        timeout: 600000,
+       	        success: function (data) {
+					   
+				  $("#id_f").val(data.id);
+				  $("#function_id").val(data.functionId);
+                  $("#columnName_f").val(data.columnName);
+                  $("#dataFormat_f").jqxDropDownList('val', data.dataFormat);      
+                  if(data.startDate!=null)
+                    $('#startDate_f').jqxDateTimeInput('setDate', data.startDate.split("-")[2]+","+data.startDate.split("-")[1]+","+data.startDate.split("-")[0]);
+                  else
+					 $("#startDate_f").jqxDateTimeInput({ value: null });
+					  
+					$("#jqxCheckBoxShowIndb_f").val(data.showInDatabase);
+					$("#factorcalctype_f").jqxDropDownList('val', data.calculationType);
+					$("#exchangeLink_f").jqxDropDownList('val', data.exchangeLink);      
+					$("#DataMinIncrement_f").val(data.dataMinIncrement);
+					$("#tickvalue_f").val(data.tickValue);
+					$("#Currency_f").val(data.currency);
+
+					$("#nav-graphs-data-function").addClass('active');
+					$("#nav-graphs-data-function").addClass('show');
+					$("#nav-tab-function").removeClass("d-none");
+					$("#nav-functionWithName").removeClass("d-none");
+       		  
+				 },
+       	        error: function (e) {
+       	        	
+       					  console.log("ERROR : ", e);
+
+       	        }
+       	    });
+				
+}
+
+function getRobotFunctionsConfiguration(configId,functionId)
+{
+   $.ajax({
+       	        contentType: "application/json",
+       	        url: "/admin/getrobotsfunctionbycolumnconfigidandfunctionid/"+configId+"/"+functionId,
+       	        dataType: 'json',
+       	        async:true,
+       	        cache: false,
+       	        timeout: 600000,
+       	        success: function (data) {
+       	         for (i=0; i<data.length;i++)
+       	        	 {
+       	        	 if (data[i].robotName=="HighLowRobot")
+       	        		 {
+       	        		
+       	        		 $("#robotCodeHighLow_f").text(data[i].robotCode);
+               	         $("#highLow_TemplateRobot_f").val(data[i].template);
+                         $("#highLow_lastData_f").val(data[i].lastData);
+                         $("#highLow_thresholddl_f").jqxDropDownList('val', data[i].threshholdTrigger);
+                         $("#highLow_thighlightdropdown_f").jqxDropDownList('val', data[i].threshHoldNotification);
+                         $("#highLow_jqxCheckBox_f").jqxCheckBox('val', data[i].isactive==1?true:false);
+                         }
+       	        	 
+	       	          if (data[i].robotName=="JumpRobot")
+	         		 {
+	       	          $("#robotCodeJump_f").text(data[i].robotCode);
+	         		  $("#jump_TemplateRobot_f").val(data[i].template);
+	                  $("#jump_isTick_f").val(data[i].jumpValueTick==1?true:false);
+	                  $("#jump_isPercentage_f").val(data[i].jumpPercentage==1?true:false);
+	                  $("#jump_Trigger_f").val(data[i].threshholdTrigger);
+	                  $("#jump_Highlight_f").val(data[i].threshHoldNotification);
+	                  $("#jump_jqxCheckRobot_f").jqxCheckBox('val', data[i].isactive==1?true:false);
+	         		 }
+	       	          
+	       	       if (data[i].robotName=="TrendRobot")
+	         		 {
+	       	    	  $("#robotCodeTrend_f").text(data[i].robotCode);
+	         		  $("#trend_TemplateRobot_f").val(data[i].template);
+	                  $("#trend_Description_f").val(data[i].description);
+	                  $("#trend_Trigger_f").val(data[i].threshholdTrigger);
+	                  $("#trend_Highlight_f").val(data[i].threshHoldNotification);
+	                  $("#trend_jqxCheckRobot_f").jqxCheckBox('val', data[i].isactive==1?true:false);
+	         		 } 
+					   
+       	        } 
+       	        
+       },
+       	        error: function (e) {
+       	        	
+       					  console.log("ERROR : ", e);
+
+       	        }
+       	    });
+
+}

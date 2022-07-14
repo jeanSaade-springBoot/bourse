@@ -239,4 +239,136 @@ SET bourse.column_configuration.display_description
 
 ALTER TABLE `bourse`.`column_configuration` MODIFY  `can_be_negative` BIT(1) null;
 update `bourse`.`column_configuration` set `can_be_negative` = 0;
+------------------------ new --------------------------
+CREATE TABLE `functions` (
+  `id` bigint(20) NOT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `function_code` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
 
+INSERT INTO `bourse`.`functions`
+(`id`,
+`description`,
+`function_code`)
+VALUES
+('1',
+'100d MovAvg',
+'CaD3');
+
+INSERT INTO `bourse`.`functions`
+(`id`,
+`description`,
+`function_code`)
+VALUES
+('2',
+'200d MovAvg',
+'CaD4');
+CREATE TABLE `function_configuration` (
+  `id` bigint(20) NOT NULL,
+  `calculation_type` varchar(255) DEFAULT NULL,
+  `data_format` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `display_description` varchar(255) DEFAULT NULL,
+  `group_id` varchar(255) DEFAULT NULL,
+  `start_date` varchar(255) DEFAULT NULL,
+  `subgroup_id` varchar(255) DEFAULT NULL,
+  `config_id` varchar(255) DEFAULT NULL,
+  `function_id` varchar(255) DEFAULT NULL,
+  `tick_value` varchar(255) DEFAULT NULL,
+  `chart_type` varchar(255) DEFAULT NULL,
+  `y_axis_format` varchar(255) DEFAULT NULL,
+  `factor` varchar(255) DEFAULT NULL,
+  `descwitoutfactor` varchar(255) DEFAULT NULL,
+  `column_name` varchar(255) DEFAULT NULL,
+  `data_min_increment` varchar(255) DEFAULT NULL,
+  `chart_color` varchar(255) DEFAULT NULL,
+  `chart_showgrid` varchar(255) DEFAULT NULL,
+  `chart_size` varchar(255) DEFAULT NULL,
+  `chart_transparency` varchar(255) DEFAULT NULL,
+  `chartshow_markes` varchar(255) DEFAULT NULL,
+  `exchange_link` varchar(255) DEFAULT NULL,
+  `show_in_database` bit(1) NOT NULL,
+  `show_in_news_graph` bit(1) NOT NULL,
+  `currency` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+INSERT INTO `bourse`.`function_configuration`
+(`id`,
+`config_id`,
+`function_id`,
+`description`,
+`display_description`,
+`group_id`,
+`subgroup_id`,
+`factor`,`show_in_database`,`show_in_news_graph`)
+SELECT (@row_number:=@row_number + 1)  as id,
+       c.id as config_id,
+       f.id as function_id, 
+       c.description,
+       c.display_description,
+       c.group_id, 
+       c.subgroup_id,
+       c.factor,0,0
+FROM bourse.column_configuration c,
+functions f,
+(SELECT @row_number:=0) AS t;
+
+CREATE TABLE `robots_function_configuration` (
+  `id` bigint(20) NOT NULL,
+  `jump_percentage` varchar(255) DEFAULT NULL,
+  `jump_value_tick` varchar(255) DEFAULT NULL,
+  `column_description` varchar(255) DEFAULT NULL,
+  `config_id` varchar(255) DEFAULT NULL,
+  `function_id` varchar(255) DEFAULT NULL,
+  `description` varchar(255) DEFAULT NULL,
+  `display_description` varchar(255) DEFAULT NULL,
+  `group_id` varchar(255) DEFAULT NULL,
+  `isactive` bit(1) NOT NULL,
+  `last_data` varchar(255) DEFAULT NULL,
+  `robot_name` varchar(255) DEFAULT NULL,
+  `rule` varchar(255) DEFAULT NULL,
+  `subgroup_id` varchar(255) DEFAULT NULL,
+  `template` varchar(255) DEFAULT NULL,
+  `thresh_hold_notification` varchar(255) DEFAULT NULL,
+  `threshhold_trigger` varchar(255) DEFAULT NULL,
+  `robot_code` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+
+INSERT INTO `bourse`.`robots_function_configuration`
+(`id`,
+`config_id`,
+`function_id`,
+`robot_name`,
+`column_description`,
+`display_description`,
+`group_id`,
+`subgroup_id`,
+`robot_code`,
+`isactive`)
+SELECT (@row_number:=@row_number + 1)  as id,
+       c.config_id as config_id,
+       f.id as function_id, 
+       c.robot_name,
+       c.column_description,
+       c.display_description,
+       c.group_id, 
+       c.subgroup_id,
+       c.robot_code,
+	   0
+FROM bourse.robots_configuration c,
+functions f,
+(SELECT @row_number:=0) AS t;
+
+CREATE TABLE `moving_average` (
+  `id` bigint(20) NOT NULL,
+  `average_type` varchar(255) DEFAULT NULL,
+  `factor` varchar(255) DEFAULT NULL,
+  `group_id` varchar(255) DEFAULT NULL,
+  `subgroup_id` varchar(255) DEFAULT NULL,
+  `value` varchar(255) DEFAULT NULL,
+  `refer_date` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=MyISAM DEFAULT CHARSET=latin1;

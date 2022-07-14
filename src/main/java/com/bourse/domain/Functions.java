@@ -5,7 +5,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -16,15 +15,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Entity
-@Table(name = "News")
-public class News {
+@Table(name = "functions")
+public class Functions {
 	@Id
     @GeneratedValue
     private Long id;
-    private String template;
-    private String columnDescription;
-    private String robots;
-    private String isBold;
-    private String generationDateDate;
-    private String isPublished;
-    }
+    private String description ;
+    private String functionCode ;
+}

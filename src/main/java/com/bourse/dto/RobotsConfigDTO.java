@@ -24,6 +24,7 @@ public class RobotsConfigDTO {
 	private String groupId;
 	private String subgroupId;
 	private String configId;
+	private String functionId;
 	private boolean isactive;
 	private String robotCode;
 }
