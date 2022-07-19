@@ -39,6 +39,14 @@ public class FunctionConfigurationService {
 				                         .exchangeLink(functionConfigurationDTO.getExchangeLink())
 				                         .showInDatabase(functionConfigurationDTO.isShowInDatabase())
 				                         .showInNewsGraph(functionConfigurationDTO.isShowInNewsGraph())
+				                         .displayDescription(functionConfigurationDTO.getDisplayDescription())
+				                         .chartType(functionConfigurationDTO.getChartType())
+				                         .chartColor(functionConfigurationDTO.getChartColor())
+				                         .chartshowMarkes(functionConfigurationDTO.getChartshowMarkes())
+				                         .chartSize(functionConfigurationDTO.getChartSize())
+				                         .chartTransparency(functionConfigurationDTO.getChartTransparency())
+				                         .chartShowgrid(functionConfigurationDTO.getChartShowgrid())
+				                         .yAxisFormat(functionConfigurationDTO.getYAxisFormat())
 				                         .build();
         return functionConfigurationRepository.save(funcInstance);
 	}

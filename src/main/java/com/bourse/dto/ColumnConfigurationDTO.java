@@ -22,7 +22,7 @@ public interface ColumnConfigurationDTO {
 	public String getChartTransparency();
 	public String getChartShowgrid();
 	public String getExchangeLink();
-	public boolean showInDatabase();
+	public boolean isShowInDatabase();
 	public boolean isShowInNewsGraph();
 	public String getYAxisFormat();
 	public String getJumpActive();

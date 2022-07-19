@@ -1,24 +1,18 @@
 package com.bourse.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.Id;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-@Entity
+
 @Data
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor
 public class FunctionConfigurationDTO {
 	
-	@Id
-	  private Long id;
+	    private Long id;
 		private String calculationType;
 		private String dataFormat;
 	    private String description;

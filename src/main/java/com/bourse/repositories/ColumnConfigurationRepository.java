@@ -27,46 +27,50 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
        nativeQuery = true)
 	public String findColumnDataFormat(@Param("description") String description);
 	
-	@Query(value = " select id,\r\n" + 
-			"	description,\r\n" + 
-			"    display_description as displayDescription,\r\n" + 
-			"    column_name as columnName,\r\n" + 
-			"    group_id as groupId,\r\n" + 
-			"    subgroup_id as subgroupId,\r\n" + 
-			"    data_format as dataFormat,\r\n" + 
-			"    can_be_negative as canBeNegative,\r\n" + 
-			"    graph_scale as graphScale,\r\n" + 
-			"    start_date as startDate,\r\n" + 
-			"    calculation_type as calculationType,\r\n" + 
-			"    data_min_increment as dataMinIncrement,\r\n" + 
-			"    tick_value as tickValue,\r\n" + 
-			"    currency as currency,\r\n" + 
-			"    chart_type as chartType,\r\n" + 
-			"    chart_color as chartColor,\r\n" + 
-			"    chart_size as chartSize,\r\n" + 
-			"    chartshow_markes as chartshowMarkes,\r\n" + 
-			"    chart_transparency as chartTransparency,\r\n" + 
-			"    chart_showgrid as chartShowgrid,\r\n" + 
-			"    exchange_link as exchangeLink,\r\n" + 
-			"    show_in_database as showInDatabase,\r\n" + 
-			"    show_in_news_graph as showInNewsGraph,\r\n" + 
-			"    y_axis_format as yAxisFormat,\r\n" + 
-			"    column_code as columnCode,\r\n" + 
-			" ( select  n.isactive\r\n"
-			+ "           from bourse.robots_configuration n \r\n"
-			+ "       where n.config_id = cc.id\r\n"
-			+ "         and n.robot_name ='JumpRobot')  as jumpActive,\r\n"
-			+ "     ( select  n.isactive\r\n"
-			+ "           from bourse.robots_configuration n \r\n"
-			+ "       where n.config_id = cc.id\r\n"
-			+ "         and n.robot_name ='HighLowRobot')  as lowHighActive,\r\n"
-			+ "      ( select  n.isactive\r\n"
-			+ "           from bourse.robots_configuration n \r\n"
-			+ "       where n.config_id = cc.id\r\n"
-			+ "         and n.robot_name ='TrendRobot')  as trendActive "+
-			"  from bourse.column_configuration cc \r\n" + 
-			" where group_id = :groupId\r\n" + 
-			"    and subgroup_id = :subGroupId",
+	@Query(value = "		select cc.id, \r\n"
+			+ "				cc.description, \r\n"
+			+ "			    cc.display_description as displayDescription, \r\n"
+			+ "			    cc.column_name as columnName, \r\n"
+			+ "			    cc.group_id as groupId, \r\n"
+			+ "			    cc.subgroup_id as subgroupId, \r\n"
+			+ "			    cc.data_format as dataFormat, \r\n"
+			+ "			    cc.can_be_negative as canBeNegative, \r\n"
+			+ "			    CONCAT(ac.asset_Code,gc.group_Code,sc.subgroup_Code,cc.column_Code) as graphScale, \r\n" // return the fullcode since i dont have a graphscale and i don't wont to change the exisiting column code 
+			+ "			    cc.start_date as startDate, \r\n"
+			+ "			    cc.calculation_type as calculationType, \r\n"
+			+ "			    cc.data_min_increment as dataMinIncrement, \r\n"
+			+ "			    cc.tick_value as tickValue, \r\n"
+			+ "			    cc.currency as currency, \r\n"
+			+ "			    cc.chart_type as chartType, \r\n"
+			+ "			    cc.chart_color as chartColor, \r\n"
+			+ "			    cc.chart_size as chartSize, \r\n"
+			+ "			    cc.chartshow_markes as chartshowMarkes, \r\n"
+			+ "			    cc.chart_transparency as chartTransparency, \r\n"
+			+ "			    cc.chart_showgrid as chartShowgrid, \r\n"
+			+ "			    cc.exchange_link as exchangeLink, \r\n"
+			+ "			    cc.show_in_database as showInDatabase, \r\n"
+			+ "			    cc.show_in_news_graph as showInNewsGraph, \r\n"
+			+ "			    cc.y_axis_format as yAxisFormat, \r\n"
+			+ "			    cc.column_Code as columnCode, \r\n"
+			+ "			 ( select  n.isactive\r\n"
+			+ "			           from bourse.robots_configuration n \r\n"
+			+ "			       where n.config_id = cc.id\r\n"
+			+ "			         and n.robot_name ='JumpRobot')  as jumpActive,\r\n"
+			+ "			     ( select  n.isactive\r\n"
+			+ "			           from bourse.robots_configuration n \r\n"
+			+ "			       where n.config_id = cc.id\r\n"
+			+ "			         and n.robot_name ='HighLowRobot')  as lowHighActive,\r\n"
+			+ "			      ( select  n.isactive\r\n"
+			+ "			           from bourse.robots_configuration n \r\n"
+			+ "			       where n.config_id = cc.id\r\n"
+			+ "			         and n.robot_name ='TrendRobot')  as trendActive \r\n"
+			+ "			  from bourse.column_configuration cc,  Asset_Class ac, Groups gc, SubGroup sc  \r\n"
+			+ " where    sc.group_Id = cc.group_Id\r\n"
+			+ "				   and sc.id_Sub_Group=cc.subgroup_Id\r\n"
+			+ "				   and gc.id = cc.group_Id\r\n"
+			+ "				   and gc.asset_Id=ac.id"
+			+ "				   and cc.group_id = :groupId \r\n"
+			+ "				   and cc.subgroup_id = :subGroupId",
        nativeQuery = true)
 	public List<ColumnConfigurationDTO> findNativeByGroupIdAndSubgroupId(@Param("groupId") String groupId,
 			                                                       @Param("subGroupId") String subGroupId);

@@ -316,13 +316,13 @@
         	  { name: 'displayDescription', type: 'string' },
         	  { name: 'columnName', type: 'string' }, 
               { name: 'dataFormat', type: 'string' },
-              { name: 'yAxisFormat', type: 'string' },
+              { name: 'yaxisFormat', type: 'string' },
               { name: 'calculationType', type: 'string' },
               { name: 'startDate', type: 'string' },
               { name: 'lowHighActive', type: 'bool' },
               { name: 'jumpActive', type: 'bool' },
               { name: 'trendActive', type: 'bool' },
-              { name: 'MovAvg100dRobot', type: 'string' },
+              { name: 'graphScale', type: 'string' },
               { name: 'Crossing100d200dRobot', type: 'string' },
               { name: 'SignChange', type: 'string' },
               { name: 'chartType', type: 'string' },
@@ -377,7 +377,8 @@
     	   $("#jump_isPercentage").jqxRadioButton({checked: false});
 		   $( "#nav-graphsData-tab" ).trigger('click');
 		   $("#functionDropDown").jqxDropDownList('clearSelection'); 
-	
+		   $('#jqxCheckBoxShowIndb').jqxCheckBox('val',false);
+		   
 		   resetFunctionSection();
 		  
        }); 
@@ -448,7 +449,9 @@
         $("#update").click(function () {
         	
             if (editrow >= 0) {
-            	 var rowID = $('#grid').jqxGrid('getrowid', editrow);
+				 var rowID = $('#grid').jqxGrid('getrowid', editrow);
+				 var selectedrowindex = $('#grid').jqxGrid('getselectedrowindexes');
+				 var rowdata=$('#grid').jqxGrid('getrowdata', selectedrowindex);
             	 var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
                  var row = { id : dataRecord.id,
                 		    description:$("#DisplayName").val(),
@@ -489,7 +492,35 @@
     	    	        timeout: 600000,
     	    	        success: function (data) {
     	    	        
-                      $('#grid').jqxGrid('updaterow', rowID, data);
+                      $('#grid').jqxGrid('updaterow', rowID, { id : dataRecord.id,
+                		    description:$("#DisplayName").val(),
+							columnCode:$("#columnCode").val(),
+                		    displayDescription: $("#graphTitle").val()!=''?$("#graphTitle").val():null,
+                		    columnName: $("#columnName").val()!=''?$("#columnName").val():null,
+                		    groupId:groupItem.value,
+                		    subgroupId:subGroupDropDown.value,
+                		    dataFormat:$("#dataFormat").val()!=''?$("#dataFormat").val():null,
+                		    canBeNegative:false,
+                		    showInDatabase:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?true:false,
+                		    showInNewsGraph:$('#jqxCheckBoxShowInNews').jqxCheckBox('checked')?true:false,
+                		    graphScale:$('#ColumnCodeDisplay')[0].innerText,
+                		    startDate:$("#startDate").jqxDateTimeInput('getDate')==null?null:$.jqx.dataFormat.formatdate($("#startDate").jqxDateTimeInput('getDate'),  'dd-MM-yyyy'),
+                		    calculationType:$("#factorcalctype").val()!=''?$("#factorcalctype").val():null,
+                		    chartType:$("#chartType").val()!=''?$("#chartType").val():null,
+                		    chartColor:$("#chartColor").val()!=''?$("#chartColor").val():null,
+                		    chartshowMarkes:$("#showMarkes").val()!=''?$("#showMarkes").val():null,
+                		    chartSize:$("#chartSize").val()!=''?$("#chartSize").val():null,
+                		    chartTransparency:$("#transparency").val()!=''?$("#transparency").val():null,
+                		    chartShowgrid:$("#showgrid").val()!=''?$("#showgrid").val():null,
+                		    exchangeLink:$("#exchangeLink").val()!=''?$("#exchangeLink").val():null,
+                		    dataMinIncrement:$("#DataMinIncrement").val()!=''?$("#DataMinIncrement").val():null,
+                		    tickValue:$("#tickvalue").val()!=''?$("#tickvalue").val():null,
+                		    currency:$("#Currency").val()!=''?$("#Currency").val():null,
+							yaxisFormat:$("#yAxisFormats").val()!=''?$("#yAxisFormats").val():null,
+							lowHighActive:rowdata.lowHighActive,
+							jumpActive:rowdata.jumpActive,
+							trendActive:rowdata.trendActive
+                		    });
                       $("#jqxNotification").jqxNotification("open");
                    //   $("#popupWindow").jqxWindow('hide');
     	   },
@@ -613,7 +644,8 @@
 							description:$("#DisplayName").val(),
 							groupId:groupItem.value,
                 		    subgroupId:subGroupDropDown.value,
-                		    columnName: $("#columnName_f").val()!=''?$("#columnName_f").val():null,
+							columnName: $("#columnName_f").val()!=''?$("#columnName_f").val():null,
+							displayDescription: $("#graphTitle_f").val()!=''?$("#graphTitle_f").val():null,
                 		    dataFormat:$("#dataFormat_f").val()!=''?$("#dataFormat_f").val():null,
                 		    showInDatabase:$('#jqxCheckBoxShowIndb_f').jqxCheckBox('checked')?true:false,
                 		    showInNewsGraph:$('#jqxCheckBoxShowInNews_f').jqxCheckBox('checked')?true:false,
@@ -622,7 +654,14 @@
                 		    exchangeLink:$("#exchangeLink_f").val()!=''?$("#exchangeLink_f").val():null,
                 		    dataMinIncrement:$("#DataMinIncrement_f").val()!=''?$("#DataMinIncrement_f").val():null,
                 		    tickValue:$("#tickvalue_f").val()!=''?$("#tickvalue_f").val():null,
-                		    currency:$("#Currency_f").val()!=''?$("#Currency_f").val():null,
+							currency:$("#Currency_f").val()!=''?$("#Currency_f").val():null,
+							chartType:$("#chartType_f").val()!=''?$("#chartType_f").val():null,
+                		    chartColor:$("#chartColor_f").val()!=''?$("#chartColor_f").val():null,
+                		    chartshowMarkes:$("#showMarkes_f").val()!=''?$("#showMarkes_f").val():null,
+                		    chartSize:$("#chartSize_f").val()!=''?$("#chartSize_f").val():null,
+                		    chartTransparency:$("#transparency_f").val()!=''?$("#transparency_f").val():null,
+							chartShowgrid:$("#showgrid_f").val()!=''?$("#showgrid_f").val():null,
+                		    yaxisFormat:$("#yAxisFormats_f").val()!=''?$("#yAxisFormats_f").val():null,
                 		    };
              	
     	       	  $.ajax({
@@ -750,14 +789,16 @@
                   $("#popupWindow").jqxWindow({ position: { x: window.top.outerHeight / 2 + window.top.screenY - (550 / 2), y:  window.top.outerWidth / 2 + window.top.screenX - ( 1500 / 2) } });
                   // get the clicked row's data and initialize the input fields.
                   var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
-                  //$("#columnCode").val(dataRecord.columnCode);
+				  $("#ColumnCodeDisplay").empty();
+				  $("#ColumnCodeDisplay").append(dataRecord.graphScale);
+				  $("#columnCode").val(dataRecord.columnCode);
                   $("#configId").val(dataRecord.id);
                   $("#DisplayName").val(dataRecord.description);
    				  $("#columnCode").val(dataRecord.columnCode);
                   $("#graphTitle").val(dataRecord.displayDescription);
                   $("#columnName").val(dataRecord.columnName);
                   $("#dataFormat").jqxDropDownList('val', dataRecord.dataFormat);              
-                  $("#yAxisFormats").jqxDropDownList('val', dataRecord.yAxisFormat);   
+                  $("#yAxisFormats").jqxDropDownList('val', dataRecord.yaxisFormat);   
 //                   $("#dataFormat").val(dataRecord.dataFormat);
 //                   $("#yAxisFormats").val(dataRecord.yAxisFormat);
                   if(dataRecord.startDate!=null)
@@ -803,12 +844,12 @@
             { text: '', columngroup: 'TimeAndFormat', datafield: 'columnCode', hidden: true  }, 
             { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'columnName', width: '12.84%',color:'#3F0' },
             { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', width: '12.84%' },
-            { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yAxisFormat', width: '12.84%'},
+            { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yaxisFormat', width: '12.84%'},
             { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'calculationType', width: '12.84%' },
             { text: 'HighOrLow', columngroup: 'NewsRobot', datafield: 'lowHighActive',columntype: 'checkbox', width: '12.84%' },
             { text: 'Jump', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'jumpActive', width: '12.84%' },
             { text: 'Trend', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'trendActive', width: '12.84%' },
-            { text: 'Mov Avg(100d)Robot', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'MovAvg100dRobot', hidden: true },
+            { text: '', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'graphScale', hidden: true },
             { text: 'Crossing 100d-200d Robot', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Crossing100d200dRobot',hidden: true  },
             { text: 'SignChange', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'SignChange',hidden: true  }
           ],
@@ -840,9 +881,20 @@ async function resetFunctionSection()
 	$("#jump_isTick_f").jqxRadioButton({checked: true});
 	$("#jump_isPercentage_f").jqxRadioButton({checked: false});
 		   
+	$("#chartType_f").jqxDropDownList('clearSelection'); 
+	$("#chartColor_f").jqxDropDownList('clearSelection'); 
+	$("#chartSize_f").jqxDropDownList('clearSelection'); 
+	$("#showMarkes_f").jqxDropDownList('clearSelection'); 
+	$("#transparency_f").jqxDropDownList('clearSelection'); 
+	$("#showgrid_f").jqxDropDownList('clearSelection'); 
+	$("#dataFormat_f").jqxDropDownList('clearSelection'); 
+	$("#yAxisFormats_f").jqxDropDownList('clearSelection'); 
+			 
 	$("#factorcalctype_f").jqxDropDownList('clearSelection'); 
 	$("#exchangeLink_f").jqxDropDownList('clearSelection'); 
 	$("#dataFormat_f").jqxDropDownList('clearSelection'); 
+	$('#jqxCheckBoxShowIndb_f').jqxCheckBox('val',false);
+	$('#jqxCheckBoxShowInNews_f').jqxCheckBox('val',false);
 	return;
 }
 async function functionSelected(configId,functionId){
@@ -866,12 +918,21 @@ async function functionSelected(configId,functionId){
 					 $("#startDate_f").jqxDateTimeInput({ value: null });
 					  
 					$("#jqxCheckBoxShowIndb_f").val(data.showInDatabase);
+					$("#jqxCheckBoxShowInNews_f").val(data.showInNewsGraph);
 					$("#factorcalctype_f").jqxDropDownList('val', data.calculationType);
 					$("#exchangeLink_f").jqxDropDownList('val', data.exchangeLink);      
 					$("#DataMinIncrement_f").val(data.dataMinIncrement);
 					$("#tickvalue_f").val(data.tickValue);
 					$("#Currency_f").val(data.currency);
-
+					$("#factorcalctype_f").val(data.calculationType);
+					$("#chartType_f").val(data.chartType);
+					$("#chartColor_f").val(data.chartColor);
+					$("#showMarkes_f").val(data.chartshowMarkes);
+					$("#chartSize_f").val(data.chartSize);
+					$("#transparency_f").val(data.chartTransparency);
+					$("#showgrid_f").val(data.chartShowgrid);
+					$("#yAxisFormats_f").val(data.yAxisFormat);
+					$("#graphTitle_f").val(data.displayDescription);		
 					$("#nav-graphs-data-function").addClass('active');
 					$("#nav-graphs-data-function").addClass('show');
 					$("#nav-tab-function").removeClass("d-none");
