@@ -27,7 +27,7 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
        nativeQuery = true)
 	public String findColumnDataFormat(@Param("description") String description);
 	
-	@Query(value = "		select cc.id, \r\n"
+	@Query(value = "select  cc.id, \r\n"
 			+ "				cc.description, \r\n"
 			+ "			    cc.display_description as displayDescription, \r\n"
 			+ "			    cc.column_name as columnName, \r\n"
@@ -64,7 +64,7 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
 			+ "			           from bourse.robots_configuration n \r\n"
 			+ "			       where n.config_id = cc.id\r\n"
 			+ "			         and n.robot_name ='TrendRobot')  as trendActive \r\n"
-			+ "			  from bourse.column_configuration cc,  Asset_Class ac, Groups gc, SubGroup sc  \r\n"
+			+ "			  from bourse.column_configuration cc,  Asset_Class ac, groups_table gc, SubGroup sc  \r\n"
 			+ " where    sc.group_Id = cc.group_Id\r\n"
 			+ "				   and sc.id_Sub_Group=cc.subgroup_Id\r\n"
 			+ "				   and gc.id = cc.group_Id\r\n"

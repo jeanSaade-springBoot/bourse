@@ -146,7 +146,7 @@
 		};
 		var dataAdapterGrid = new $.jqx.dataAdapter(gridSource);
 		$("#showgrid").jqxDropDownList({dropDownHeight: 70,  source: dataAdapterGrid,displayMember: "Showgrid",valueMember: "ShowgridValue", theme: 'dark' , width: '100%', height: 30});
-		$("#showgrid_f").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterTrans,displayMember: "transparency",valueMember: "transparencyValue", theme: 'dark' , width: '100%', height: 30});
+		$("#showgrid_f").jqxDropDownList({dropDownHeight: 90,  source: dataAdapterGrid,displayMember: "Showgrid",valueMember: "ShowgridValue", theme: 'dark' , width: '100%', height: 30});
 
 	 
 	 

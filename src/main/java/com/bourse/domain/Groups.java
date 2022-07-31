@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Entity
-@Table(name = "Groups")
+@Table(name = "groups_table")
 public class Groups {
 	@Id
     @GeneratedValue

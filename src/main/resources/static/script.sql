@@ -362,13 +362,17 @@ FROM bourse.robots_configuration c,
 functions f,
 (SELECT @row_number:=0) AS t;
 
-CREATE TABLE `moving_average` (
-  `id` bigint(20) NOT NULL,
-  `average_type` varchar(255) DEFAULT NULL,
-  `factor` varchar(255) DEFAULT NULL,
-  `group_id` varchar(255) DEFAULT NULL,
-  `subgroup_id` varchar(255) DEFAULT NULL,
-  `value` varchar(255) DEFAULT NULL,
-  `refer_date` varchar(255) DEFAULT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM DEFAULT CHARSET=latin1;
+-- sequence section 
+
+ create table manual_news (id bigint not null, news_id varchar(10), primary key (id));
+ create table manual_news_sequence (next_val bigint);
+ INSERT INTO manual_news_sequence (next_val) VALUES (1);
+
+ create table news_sequence (next_val bigint);
+ INSERT INTO  news_sequence (next_val) select max(id)+1 from news;
+
+ create table news_order_sequence (next_val bigint);
+ INSERT INTO  news_order_sequence (next_val) select max(id)+1 from news_order;
+
+ create table sovereign_data_sequence (next_val bigint);
+ INSERT INTO  sovereign_data_sequence (next_val)  select max(id)+1 from sovereign_data;

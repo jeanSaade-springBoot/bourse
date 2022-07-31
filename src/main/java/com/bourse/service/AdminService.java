@@ -49,6 +49,9 @@ public class AdminService
 	CalendarDatesRepository calendarDatesRepository;
 	@Autowired
 	NewsRepository newsRepository;
+	@Autowired
+	ManualNewsService manualNewsService;
+	
 	public List<SubGroup> getAllSubGroups()
 	{      
         return subGroupRepository.findAll(Sort.by("id").descending());
@@ -253,8 +256,9 @@ public class AdminService
 	}
 
 	public News saveNews(News news) {
-		
-		  return newsRepository.save(news);
+		  News savedNews = newsRepository.save(news);
+		  manualNewsService.saveManualNews(String. valueOf(savedNews.getId()));
+		  return savedNews;
 	}
 	 public List<NewsOrder> getActiveNewsOrder(){
 	    	

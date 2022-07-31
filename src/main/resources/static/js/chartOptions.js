@@ -898,7 +898,7 @@ function getChartMarker(ChartMarker)
    return markerSize;
 }		
 function getChartColorTransparency(chartTransparency)
-{ if(chartTransparency.split("0.").length==1)
+{   if(chartTransparency.split("0.").length==1)
 	nChartTransparency =chartTransparency.split("0.")[0];
 	else 
 	nChartTransparency =chartTransparency.split("0.")[1];
@@ -937,9 +937,15 @@ $('#groupOfPeriod').on('selected', function () {
 	
 	var selected = $('#groupOfPeriod').jqxButtonGroup('getSelection');
 	if (selected==0)
-     $("#dropDownType").jqxDropDownList({ disabled: true }); 
+	 {$("#dropDownType").jqxDropDownList({ disabled: true }); 
+	 	$("#M-100d").jqxCheckBox({ disabled: false });
+		$("#M-200d").jqxCheckBox({ disabled: false });
+	  }
     else 
-     $("#dropDownType").jqxDropDownList({ disabled: false }); 
+	{ $("#dropDownType").jqxDropDownList({ disabled: false }); 
+	 	$("#M-100d").jqxCheckBox({ disabled: true });
+		$("#M-200d").jqxCheckBox({ disabled: true });
+     }
 	 }); 
 
 

@@ -63,6 +63,12 @@ $(window).on('load', function() {
 });
 $(document).ready(function() {
 	
+	if (checkedItem==0)
+	{
+			$("#M-100d").jqxCheckBox({ disabled: true });
+			$("#M-200d").jqxCheckBox({ disabled: true });
+	}
+
 	$("#viewall").jqxButton({ theme: 'dark', width: 110, height: 35, template: "primary" });
 	$("#viewall").css("display", "block");
 	$("#viewall").click(function() {
@@ -252,27 +258,49 @@ $(document).ready(function() {
 			for (i = 0; i < allitems.length; i++) {
 				$(allitems[i]).jqxCheckBox({ disabled: true });
 			}
+			 $("#M-200d").jqxCheckBox({ disabled: true });
+			 
+			$( "#all30yr" ).prop( "disabled", true );
+			$( "#all10yr" ).prop( "disabled", true );
+			$( "#all5yr" ).prop( "disabled", true );
+			$( "#all2yr" ).prop( "disabled", true );
 		}
 		else {
 			for (i = 0; i < allitems.length; i++) {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
+				$("#M-200d").jqxCheckBox({ disabled: false });
+				$( "#all30yr" ).prop( "disabled", false );
+				$( "#all10yr" ).prop( "disabled", false );
+				$( "#all5yr" ).prop( "disabled", false );
+				$( "#all2yr" ).prop( "disabled", false );
 		}
 	});
+	
 	$('#M-200d').on('change', function(event) {
 		var ischecked = event.args.checked;
 		if (ischecked && checkedItem == 1) {
 			for (i = 0; i < allitems.length; i++) {
 				$(allitems[i]).jqxCheckBox({ disabled: true });
 			}
+			$("#M-100d").jqxCheckBox({ disabled: true });
+			$( "#all30yr" ).prop( "disabled", true );
+			$( "#all10yr" ).prop( "disabled", true );
+			$( "#all5yr" ).prop( "disabled", true );
+			$( "#all2yr" ).prop( "disabled", true );
 		}
 		else {
 			for (i = 0; i < allitems.length; i++) {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
+				$("#M-100d").jqxCheckBox({ disabled: false });
+				$( "#all30yr" ).prop( "disabled", false );
+				$( "#all10yr" ).prop( "disabled", false );
+				$( "#all5yr" ).prop( "disabled", false );
+				$( "#all2yr" ).prop( "disabled", false );
 		}
 	});
-
+	
 	function checkifmovchecked() {
 		if ($("#M-100d").val() && checkedItem == 1) {
 			for (i = 0; i < allitems.length; i++) {
@@ -330,7 +358,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -370,7 +398,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -410,7 +438,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -450,7 +478,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -490,7 +518,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -529,7 +557,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -568,7 +596,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -607,7 +635,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -646,7 +674,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -685,7 +713,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -724,7 +752,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -763,7 +791,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -803,7 +831,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -842,7 +870,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -881,7 +909,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -920,7 +948,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -959,7 +987,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -998,7 +1026,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1037,7 +1065,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1076,7 +1104,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1115,7 +1143,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1154,7 +1182,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1193,7 +1221,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1232,7 +1260,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1486,7 +1514,12 @@ function drawGraph() {
 	var todate = formatDate(date);
 	$("#mainChart").html("");
 	$("#mainChart").css("display", "block");
-
+	var MovingAverageTypeIfSelected =  '';
+	if ($("#M-100d").jqxCheckBox('val'))
+	    MovingAverageTypeIfSelected= 'M100';
+	else if ($("#M-200d").jqxCheckBox('val'))
+		MovingAverageTypeIfSelected= 'M200';
+		
 	if (checkDateMonth(monthDate, date)) {
 		$("#button-monthForward").prop('disabled', false);
 	}
@@ -2547,7 +2580,7 @@ function drawGraph() {
 							checkedItemValues.push(checkedItemid[i]);
 					}
 					title = itemValue[checkedItemValues[0]].title;
-
+debugger;
 					dataParam = {
 						"fromdate": fromdate,
 						"todate": todate,
@@ -2555,6 +2588,8 @@ function drawGraph() {
 						"factor1": itemValue[checkedItemValues[0]].factor,
 						"country1": itemValue[checkedItemValues[0]].country,
 						"yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+						"isMovingAverage":MovingAverageTypeIfSelected==''?false:true,
+						"movingTwoHundereOrOneHundred":MovingAverageTypeIfSelected
 					};
 					disableOptions(false);
 					$.ajax({
@@ -2733,4 +2768,5 @@ function drawGraph() {
 function graphfont(fontSize) {
 	updateGraphFont(fontSize, minvalue, maxvalue);
 }
+
 

@@ -42,7 +42,7 @@ public class GraphReqDTO {
 	private String period;  //d or w or m or q or y
 	private String type;  //0 or 1 or 2 or 3
 	
-	private String movingAverage;
+	private String isMovingAverage;
 	private String movingTwoHundereOrOneHundred;
 	
 	private String fromdate;

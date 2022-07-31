@@ -69,6 +69,11 @@ $(document).ready(function() {
 	$("#viewall").click(function() {
 		popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
 	});
+	if (checkedItem==0)
+	{
+			$("#M-100d").jqxCheckBox({ disabled: true });
+			$("#M-200d").jqxCheckBox({ disabled: true });
+	}
 	$("div.btn-group-vertical button.btn").click(function() {
 		$("div.btn-group-vertical").find(".active").removeClass("active");
 		$(this).addClass("active");
@@ -274,11 +279,24 @@ $(document).ready(function() {
 			for (i = 0; i < allitems.length; i++) {
 				$(allitems[i]).jqxCheckBox({ disabled: true });
 			}
+			 $("#M-200d").jqxCheckBox({ disabled: true });
+			  
+			$( "#all10over30" ).prop( "disabled", true );
+			$( "#all5over30" ).prop( "disabled", true );
+			$( "#all5over10" ).prop( "disabled", true );
+			$( "#all2over10" ).prop( "disabled", true );
+			$( "#all2over5" ).prop( "disabled", true );
 		}
 		else {
 			for (i = 0; i < allitems.length; i++) {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
+				$("#M-200d").jqxCheckBox({ disabled: false });
+				$( "#all10over30" ).prop( "disabled", false );
+				$( "#all5over30" ).prop( "disabled", false );
+				$( "#all5over10" ).prop( "disabled", false );
+				$( "#all2over10" ).prop( "disabled", false );
+				$( "#all2over5" ).prop( "disabled", false );
 		}
 	});
 	$('#M-200d').on('change', function(event) {
@@ -287,11 +305,23 @@ $(document).ready(function() {
 			for (i = 0; i < allitems.length; i++) {
 				$(allitems[i]).jqxCheckBox({ disabled: true });
 			}
+			$("#M-100d").jqxCheckBox({ disabled: true });
+			$( "#all10over30" ).prop( "disabled", true );
+			$( "#all5over30" ).prop( "disabled", true );
+			$( "#all5over10" ).prop( "disabled", true );
+			$( "#all2over10" ).prop( "disabled", true );
+			$( "#all2over5" ).prop( "disabled", true );
 		}
 		else {
 			for (i = 0; i < allitems.length; i++) {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
+				$("#M-100d").jqxCheckBox({ disabled: false });
+				$( "#all10over30" ).prop( "disabled", false );
+				$( "#all5over30" ).prop( "disabled", false );
+				$( "#all5over10" ).prop( "disabled", false );
+				$( "#all2over10" ).prop( "disabled", false );
+				$( "#all2over5" ).prop( "disabled", false );
 		}
 	});
 	function checkifmovchecked() {
@@ -351,7 +381,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -390,7 +420,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -429,7 +459,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -468,7 +498,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -508,7 +538,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -547,7 +577,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -586,7 +616,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -625,7 +655,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -664,7 +694,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -704,7 +734,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -744,7 +774,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -783,7 +813,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -822,7 +852,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -861,7 +891,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -901,7 +931,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -940,7 +970,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -979,7 +1009,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1018,7 +1048,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1057,7 +1087,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1097,7 +1127,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1136,7 +1166,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1175,7 +1205,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1214,7 +1244,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1253,7 +1283,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1293,7 +1323,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1333,7 +1363,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1372,7 +1402,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1411,7 +1441,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1450,7 +1480,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1490,7 +1520,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem > 1) {
+		if (checkedItem == 0 || checkedItem > 1) {
 			$("#M-100d").jqxCheckBox({ disabled: true });
 			$("#M-200d").jqxCheckBox({ disabled: true });
 		}
@@ -1741,6 +1771,12 @@ function drawGraph() {
 	mode = "merge";
 	var dataParam;
 	var checkedItemValues = [];
+	var MovingAverageTypeIfSelected =  '';
+	if ($("#M-100d").jqxCheckBox('val'))
+	    MovingAverageTypeIfSelected= 'M100';
+	else if ($("#M-200d").jqxCheckBox('val'))
+		MovingAverageTypeIfSelected= 'M200';
+		
 
 	var title;
 	var fromdate = formatDate(monthDate);
@@ -2829,6 +2865,8 @@ function drawGraph() {
 						"factor1": itemValue[checkedItemValues[0]].factor,
 						"country1": itemValue[checkedItemValues[0]].country,
 						"yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+						"isMovingAverage":MovingAverageTypeIfSelected==''?false:true,
+						"movingTwoHundereOrOneHundred":MovingAverageTypeIfSelected
 					};
 					disableOptions(false);
 					$.ajax({
