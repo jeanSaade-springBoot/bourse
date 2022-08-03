@@ -47,6 +47,7 @@ public class FunctionConfigurationService {
 				                         .chartTransparency(functionConfigurationDTO.getChartTransparency())
 				                         .chartShowgrid(functionConfigurationDTO.getChartShowgrid())
 				                         .yAxisFormat(functionConfigurationDTO.getYAxisFormat())
+				                         .columnCode(functionConfigurationDTO.getColumnCode())
 				                         .build();
         return functionConfigurationRepository.save(funcInstance);
 	}

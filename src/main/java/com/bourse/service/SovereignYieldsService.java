@@ -685,45 +685,49 @@ public class SovereignYieldsService
 		{
 					
 			if(graphReqDTO.getYieldCurveCross1().equals("yield"))
-			{
-				if(graphReqDTO.getIsMovingAverage().equals("true"))
-				{
-				String groupId ="1";
-				String subGroupId = graphReqDTO.getCountry1(); 
-				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
-				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
-				fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getMovingTwoHundereOrOneHundred().equals("M100")?"1":"2");
-				config = ColumnConfiguration.builder()
-						.chartColor(fConfig.getChartColor()==null?"#F0AB2E":fConfig.getChartColor())
-						.chartShowgrid(fConfig.getChartShowgrid())
-						.chartSize(fConfig.getChartSize())
-						.chartTransparency(fConfig.getChartTransparency()==null?"0.50":fConfig.getChartTransparency())
-						.chartType(fConfig.getChartType())
-						.chartshowMarkes(fConfig.getChartshowMarkes())
-						.displayDescription(fConfig.getDisplayDescription())
-						.yAxisFormat(fConfig.getYAxisFormat())
-						.startDate(fConfig.getStartDate())
-						.dataFormat(fConfig.getDataFormat())
-						.build();
-					System.out.println("goupid: "+groupId);    
-					System.out.println("moving average : "+graphReqDTO.getMovingTwoHundereOrOneHundred());
-				    System.out.println("subGroupId: "+subGroupId);
-				    System.out.println("description: "+description);
-				}else {
+			{  
+				 if(graphReqDTO.getIsMovingAverage()!=null?graphReqDTO.getIsMovingAverage().equals("true"):false)
+					{
 					String groupId ="1";
 					String subGroupId = graphReqDTO.getCountry1(); 
 					String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
 					config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
-					 System.out.println("goupid: "+groupId);
+					fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getMovingTwoHundereOrOneHundred().equals("M100")?"1":"2");
+					config = ColumnConfiguration.builder()
+							.chartColor(fConfig.getChartColor()==null?"#F0AB2E":fConfig.getChartColor())
+							.chartShowgrid(fConfig.getChartShowgrid())
+							.chartSize(fConfig.getChartSize())
+							.chartTransparency(fConfig.getChartTransparency()==null?"0.50":fConfig.getChartTransparency())
+							.chartType(fConfig.getChartType())
+							.chartshowMarkes(fConfig.getChartshowMarkes())
+							.displayDescription(fConfig.getDisplayDescription())
+							.yAxisFormat(fConfig.getYAxisFormat())
+							.startDate(fConfig.getStartDate())
+							.dataFormat(fConfig.getDataFormat())
+							.build();
+						System.out.println("goupid: "+groupId);    
+						System.out.println("moving average : "+graphReqDTO.getMovingTwoHundereOrOneHundred());
 					    System.out.println("subGroupId: "+subGroupId);
 					    System.out.println("description: "+description);
-				  }
-				
+					    if(graphReqDTO.getMovingTwoHundereOrOneHundred().equals("M100"))
+						    graphReqDTO.setType("4");
+						    else 
+						    	graphReqDTO.setType("5");
+					}
+				 else {
+						String groupId ="1";
+						String subGroupId = graphReqDTO.getCountry1(); 
+						String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
+						config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+						 System.out.println("goupid: "+groupId);
+						    System.out.println("subGroupId: "+subGroupId);
+						    System.out.println("description: "+description);
+					  }
 			   
 			}
 			if(graphReqDTO.getYieldCurveCross1().equals("curve"))
 			{
-				if(graphReqDTO.getIsMovingAverage().equals("true"))
+				if(graphReqDTO.getIsMovingAverage()!=null?graphReqDTO.getIsMovingAverage().equals("true"):false)
 				{
 				String groupId ="2";
 				String subGroupId =  graphReqDTO.getCountry1(); 
@@ -745,6 +749,10 @@ public class SovereignYieldsService
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
+			    if(graphReqDTO.getMovingTwoHundereOrOneHundred().equals("M100"))
+				    graphReqDTO.setType("4");
+				    else 
+				    	graphReqDTO.setType("5");
 				}else {
 					String groupId ="2";
 					String subGroupId =  graphReqDTO.getCountry1(); 
@@ -760,7 +768,7 @@ public class SovereignYieldsService
 				
 			if(graphReqDTO.getYieldCurveCross1().equals("cross"))
 			{
-				if(graphReqDTO.getIsMovingAverage().equals("true"))
+				if(graphReqDTO.getIsMovingAverage()!=null?graphReqDTO.getIsMovingAverage().equals("true"):false)
 				{
 				String groupId ="3";
 				String subGroupId =  graphReqDTO.getCountry1(); 
@@ -782,6 +790,10 @@ public class SovereignYieldsService
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
+			    if(graphReqDTO.getMovingTwoHundereOrOneHundred().equals("M100"))
+			    graphReqDTO.setType("4");
+			    else 
+			    	graphReqDTO.setType("5");
 				}else {
 					String groupId ="3";
 					String subGroupId =  graphReqDTO.getCountry1(); 
@@ -816,10 +828,10 @@ public class SovereignYieldsService
 			query.setParameter("dayOrweek",graphReqDTO.getPeriod() );
 			
 			query.registerStoredProcedureParameter("movingAverage", String.class, ParameterMode.IN);
-			query.setParameter("movingAverage",graphReqDTO.getIsMovingAverage() );
+			query.setParameter("movingAverage",graphReqDTO.getPeriod() );
 			
 			query.registerStoredProcedureParameter("movingTwoHundereOrOneHundred", String.class, ParameterMode.IN);
-			query.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getMovingTwoHundereOrOneHundred() );
+			query.setParameter("movingTwoHundereOrOneHundred",graphReqDTO.getPeriod() );
 			
 			query.registerStoredProcedureParameter("minusfactor", String.class, ParameterMode.IN);
 			query.setParameter("minusfactor",graphReqDTO.getFactor1());

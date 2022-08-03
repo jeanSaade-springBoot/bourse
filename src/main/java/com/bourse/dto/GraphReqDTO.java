@@ -40,7 +40,7 @@ public class GraphReqDTO {
 	private String yieldCurveCross7;
 	
 	private String period;  //d or w or m or q or y
-	private String type;  //0 or 1 or 2 or 3
+	private String type;  //0 or 1 or 2 or 3 or 4
 	
 	private String isMovingAverage;
 	private String movingTwoHundereOrOneHundred;

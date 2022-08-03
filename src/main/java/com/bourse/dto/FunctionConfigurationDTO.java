@@ -33,6 +33,7 @@ public class FunctionConfigurationDTO {
 		private String chartTransparency;
 		private String chartshowMarkes;
 		private String exchangeLink;
+		private String columnCode;
 		private boolean showInDatabase;
 		private boolean showInNewsGraph;
 		private String currency;

@@ -122,7 +122,11 @@ $(document).ready(function() {
 			
 			type=JSON.parse(data.parameter)[3][0];
 			$("#dropDownType").jqxDropDownList('selectIndex', type ); 	
-          
+            if (checkedItem>1)
+            {
+             $("#M-200d").jqxCheckBox({ disabled: true });
+             $("#M-100d").jqxCheckBox({ disabled: true });
+            }
 			drawGraph();
 
 		},
@@ -253,11 +257,13 @@ $(document).ready(function() {
 	});
 
 	$('#M-100d').on('change', function(event) {
+		
 		var ischecked = event.args.checked;
 		if (ischecked && checkedItem == 1) {
 			for (i = 0; i < allitems.length; i++) {
 				$(allitems[i]).jqxCheckBox({ disabled: true });
 			}
+			
 			 $("#M-200d").jqxCheckBox({ disabled: true });
 			 
 			$( "#all30yr" ).prop( "disabled", true );
@@ -2580,7 +2586,7 @@ function drawGraph() {
 							checkedItemValues.push(checkedItemid[i]);
 					}
 					title = itemValue[checkedItemValues[0]].title;
-debugger;
+
 					dataParam = {
 						"fromdate": fromdate,
 						"todate": todate,

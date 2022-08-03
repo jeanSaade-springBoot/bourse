@@ -46,4 +46,5 @@ public class FunctionConfiguration {
 	private boolean showInDatabase;
 	private boolean showInNewsGraph;
 	private String currency;
+	private String columnCode;
 }

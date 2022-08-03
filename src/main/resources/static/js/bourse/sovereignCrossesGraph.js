@@ -99,7 +99,11 @@ $(document).ready(function() {
 			
 			type=JSON.parse(data.parameter)[3][0];
 			$("#dropDownType").jqxDropDownList('selectIndex', type ); 	
-			
+			  if (checkedItem>1)
+            {
+             $("#M-200d").jqxCheckBox({ disabled: true });
+             $("#M-100d").jqxCheckBox({ disabled: true });
+            }
 			drawGraph();
 
 		},

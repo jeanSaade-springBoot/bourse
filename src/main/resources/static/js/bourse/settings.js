@@ -645,6 +645,7 @@
 							groupId:groupItem.value,
                 		    subgroupId:subGroupDropDown.value,
 							columnName: $("#columnName_f").val()!=''?$("#columnName_f").val():null,
+							columnCode: $("#columnCode_f").val()!=''?$("#columnCode_f").val():null,
 							displayDescription: $("#graphTitle_f").val()!=''?$("#graphTitle_f").val():null,
                 		    dataFormat:$("#dataFormat_f").val()!=''?$("#dataFormat_f").val():null,
                 		    showInDatabase:$('#jqxCheckBoxShowIndb_f').jqxCheckBox('checked')?true:false,
@@ -911,6 +912,7 @@ async function functionSelected(configId,functionId){
 				  $("#id_f").val(data.id);
 				  $("#function_id").val(data.functionId);
                   $("#columnName_f").val(data.columnName);
+                  $("#columnCode_f").val(data.columnCode);
                   $("#dataFormat_f").jqxDropDownList('val', data.dataFormat);      
                   if(data.startDate!=null)
                     $('#startDate_f').jqxDateTimeInput('setDate', data.startDate.split("-")[2]+","+data.startDate.split("-")[1]+","+data.startDate.split("-")[0]);

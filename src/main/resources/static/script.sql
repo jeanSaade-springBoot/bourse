@@ -376,3 +376,39 @@ functions f,
 
  create table sovereign_data_sequence (next_val bigint);
  INSERT INTO  sovereign_data_sequence (next_val)  select max(id)+1 from sovereign_data;
+ 
+ --  get the code for functions 
+     select
+     CONCAT(a.asset_Code,g.group_Code,s.subgroup_Code,fc.column_Code,'LAST',r.robot_Code,f.function_code) as robot_code
+      FROM function_configuration fc,  Asset_Class a, groups_table g, SubGroup s, robots_function_configuration r,functions f
+      where g.asset_Id=a.id
+      and g.id = fc.group_Id
+	  and s.group_Id = fc.group_Id
+      and s.id_Sub_Group=fc.subgroup_Id
+      and r.config_id=fc.config_id
+      and r.column_description=fc.description
+      and fc.function_id=f.id
+	  and r.function_id=f.id;
+      
+    insert into news_order (id,order_id,robot_code,state)
+    select @rownum1:=@rownum1 + 1  as id, @rownum:=@rownum + 1  as order_id,tab.robot_code,'new'
+    from (
+    select
+     CONCAT(a.asset_Code,g.group_Code,s.subgroup_Code,fc.column_Code,'LAST',r.robot_Code,f.function_code) as robot_code
+      FROM function_configuration fc,  Asset_Class a, groups_table g, SubGroup s, robots_function_configuration r,functions f
+      where g.asset_Id=a.id
+      and g.id = fc.group_Id
+	  and s.group_Id = fc.group_Id
+      and s.id_Sub_Group=fc.subgroup_Id
+      and r.config_id=fc.config_id
+	-- and 'HighLowRobot'= r.robot_name
+    and r.column_description=fc.description
+    and fc.function_id=f.id
+    and r.function_id=f.id) tab, 
+     (SELECT @rownum:=258) t,
+     (SELECT @rownum1:=6676) t1
+     where tab.robot_code is not null ;
+-- -----------------------------
+
+create table News_function as select * from news limit 0;
+-- ----------------
