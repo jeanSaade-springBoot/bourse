@@ -25,6 +25,7 @@ public class FunctionConfiguration {
 	private String calculationType;
 	private String dataFormat;
     private String description;
+    private String factor;
 	private String displayDescription;
 	private String groupId;
 	private String startDate;

@@ -28,6 +28,7 @@ import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataDTO;
 import com.bourse.dto.DataFunctionReqDTO;
+import com.bourse.dto.DataFunctionRespDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.GraphHistoryDTO;
 import com.bourse.dto.GraphNewsDTO;
@@ -374,7 +375,7 @@ public class BourseController {
 		return new ResponseEntity<>(sovereignYieldsService.getGridData(searchFilterDTO),HttpStatus.OK);
 	}
 	@PostMapping(value = "getgriddatafunction")
-	public ResponseEntity<HashMap<String,List>> getGridDataFunction(@RequestBody DataFunctionReqDTO dataFunctionReqDTO) {
+	public ResponseEntity<List<DataFunctionRespDTO>> getGridDataFunction(@RequestBody DataFunctionReqDTO dataFunctionReqDTO) {
 		return new ResponseEntity<>(dataFunctionService.getGridDataFunction(dataFunctionReqDTO),HttpStatus.OK);
 	}
 	

@@ -309,6 +309,7 @@
           datatype: "json",
           datafields: [
         	  { name: 'id', type: 'long' },
+ 			  { name: 'factor', type: 'string' },
         	  { name: 'canBeNegative', type: 'long' }, 
         	  { name: 'showInDatabase', type: 'long' }, 
         	  { name: 'showInNewsGraph', type: 'long' },  
@@ -454,6 +455,7 @@
 				 var rowdata=$('#grid').jqxGrid('getrowdata', selectedrowindex);
             	 var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
                  var row = { id : dataRecord.id,
+							factor : dataRecord.factor,
                 		    description:$("#DisplayName").val(),
 							columnCode:$("#columnCode").val(),
                 		    displayDescription: $("#graphTitle").val()!=''?$("#graphTitle").val():null,
@@ -493,7 +495,7 @@
     	    	        success: function (data) {
     	    	        
                       $('#grid').jqxGrid('updaterow', rowID, { id : dataRecord.id,
-                		    description:$("#DisplayName").val(),
+  							description:$("#DisplayName").val(),
 							columnCode:$("#columnCode").val(),
                 		    displayDescription: $("#graphTitle").val()!=''?$("#graphTitle").val():null,
                 		    columnName: $("#columnName").val()!=''?$("#columnName").val():null,
@@ -640,6 +642,7 @@
             	 var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
 				 var row = { id : $("#id_f").val(),
 							functionId:$("#function_id").val(),
+							factor:$("#function_factor").val(),
 							configId:dataRecord.id,
 							description:$("#DisplayName").val(),
 							groupId:groupItem.value,
@@ -826,6 +829,7 @@
               }
              },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'id', hidden: true  },
+ 			{ text: '', columngroup: 'TimeAndFormat', datafield: 'factor', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'canBeNegative', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'showInDatabase', hidden: true  },
             { text: '', columngroup: 'TimeAndFormat', datafield: 'showInNewsGraph', hidden: true  },
@@ -911,6 +915,7 @@ async function functionSelected(configId,functionId){
 					   
 				  $("#id_f").val(data.id);
 				  $("#function_id").val(data.functionId);
+		          $("#function_factor").val(data.factor);
                   $("#columnName_f").val(data.columnName);
                   $("#columnCode_f").val(data.columnCode);
                   $("#dataFormat_f").jqxDropDownList('val', data.dataFormat);      

@@ -2,6 +2,7 @@ package com.bourse.dto;
 
 public interface ColumnConfigurationDTO {
 	public Long getId();
+	public String getFactor() ;
 	public String getDescription() ;
 	public String getDisplayDescription();
 	public String getColumnName();

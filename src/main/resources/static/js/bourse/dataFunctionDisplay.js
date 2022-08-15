@@ -1,6 +1,7 @@
   var checkedItem = 0;
   var gridIdIncrement = 0;
   var checkedItemid = [];
+  var Items = [];
   var monthDate=new Date(); 
       monthDate.setMonth(monthDate.getMonth() - 3);
   var allitems=["#jqxCheckBoxUSA-30",
@@ -98,24 +99,9 @@
 					"#jqx10yrPercentile",
 					"#jqx20yrPercentile",
 					"#jqxCenturyPercentile",
+					"#jqx100dMovAvg",
+					"#jqx200dMovAvg"
 					];
-
-var source =  {
-	           datatype: "json",
-	           datafields: [
- 		                    { name: 'refer_date', type: 'date' },
- 		                    { name: 'dailyInput', type: 'float' },
- 		                    { name: 'DCP', type: 'float' },
-							{ name: 'DCI', type: 'float' },
-							{ name: 'WCP', type: 'float' },
-							{ name: 'WCI', type: 'float' },
-							{ name: '10YP', type: 'float' },
-							{ name: '20YP', type: 'float' },
-							{ name: 'CP', type: 'float' }
- 		                 ],
-                         id: 'id',
-                         localdata: ''
-		             };
 
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
@@ -135,7 +121,7 @@ var source =  {
      
 	 for(i=0; i<allitems.length; i++)
 	   {
-    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 120, height: 25});
+    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 40, height: 25});
        }
 
     for(i=0; i<funcionFilter.length; i++)
@@ -263,6 +249,8 @@ var source =  {
 		  $("#jqx10yrPercentile").jqxCheckBox({checked: false });
     	  $("#jqx20yrPercentile").jqxCheckBox({checked: false });
     	  $("#jqxCenturyPercentile").jqxCheckBox({checked: false });
+	  	  $("#jqx100dMovAvg").jqxCheckBox({checked: false }); 
+		  $("#jqx200dMovAvg").jqxCheckBox({checked: false });
     	  
     	  for(i=0; i<allitems.length; i++)
 		   {
@@ -273,11 +261,12 @@ var source =  {
       });
 	
      $("#show").click(function () {
-    	
+    	Items = [];
+ 		gridIdIncrement = 0;
     	if(checkedItem>0)
     	{
     		 $("#collapseFilter").removeClass('show');
-	    	$('#grid-content').css('display', 'block');
+	    	 $('#grid-content').css('display', 'block');
 	    	 drawGrids();
     	}
     	else 
@@ -303,7 +292,7 @@ var source =  {
   			 delete checkedItemid[i];
   		   }
   	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -341,7 +330,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -379,7 +368,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -417,7 +406,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -455,7 +444,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -492,7 +481,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -529,7 +518,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -566,7 +555,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -603,7 +592,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -640,7 +629,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -677,7 +666,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -714,7 +703,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -752,7 +741,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -789,7 +778,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -826,7 +815,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -863,7 +852,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -900,7 +889,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -937,7 +926,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -974,7 +963,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1011,7 +1000,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1048,7 +1037,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1085,7 +1074,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1122,7 +1111,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1159,7 +1148,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1197,7 +1186,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1234,7 +1223,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1271,7 +1260,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1308,7 +1297,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1346,7 +1335,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1383,7 +1372,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1420,7 +1409,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1457,7 +1446,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1494,7 +1483,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1532,7 +1521,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1570,7 +1559,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1607,7 +1596,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1644,7 +1633,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1681,7 +1670,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1719,7 +1708,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1756,7 +1745,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1793,7 +1782,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1830,7 +1819,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1867,7 +1856,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1905,7 +1894,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1942,7 +1931,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1979,7 +1968,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2016,7 +2005,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2053,7 +2042,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2091,7 +2080,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2129,7 +2118,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2166,7 +2155,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2203,7 +2192,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2240,7 +2229,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2278,7 +2267,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2315,7 +2304,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2352,7 +2341,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2389,7 +2378,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2426,7 +2415,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2463,7 +2452,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2500,7 +2489,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2537,7 +2526,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2574,7 +2563,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2612,7 +2601,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2649,7 +2638,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2686,7 +2675,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2723,7 +2712,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2760,7 +2749,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2797,7 +2786,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2834,7 +2823,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2871,7 +2860,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2909,7 +2898,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2946,7 +2935,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2983,7 +2972,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3020,7 +3009,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3058,7 +3047,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3095,7 +3084,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3132,7 +3121,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3169,7 +3158,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3206,7 +3195,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3243,7 +3232,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3280,7 +3269,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3317,7 +3306,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3356,7 +3345,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3393,7 +3382,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3430,7 +3419,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3467,7 +3456,7 @@ var source =  {
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=10)
+  	   if(checkedItem>=2)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3496,28 +3485,31 @@ var source =  {
   });
 
 		
-			function drawGrids(){
+			async function drawGrids(){
 				
-				   $('#overlayChart').show(); 
+				  $('#overlayChart').show(); 
 			  	  $("#grids-container").empty();
 				 for(i=0; i<checkedItemid.length; i++)
-				   		   {
-				   	  		 if(checkedItemid[i]!=null)
-				   	  		  getgridData(checkedItemid[i],getSelectedFunction());
-				   	       }	
+		   		   {
+			        $('#overlay').show();
+		   	  		 if(checkedItemid[i]!=null)
+						{Items.push(checkedItemid[i]);
+						await getgridData(checkedItemid[i],getSelectedFunction());
+	                   }
+		   	       }
+                   $('#overlay').fadeOut();	
             
 			}
 			function getgridData(item,functions){
 				 dataParam = { 
-		 		        		"fromdate":"",
-		 		        	    "todate":"",
+		 		        		"fromdate":$.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'),  'yyyy-MM-dd'),
+		 		        	    "todate":$.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'),  'yyyy-MM-dd'),
 		 		        	    "factor":itemValue[item].factor,
 		 		        	    "country":itemValue[item].country,
 		 		        	    "yieldCurveCross": itemValue[item].yieldCurveCross,
 		 	     			    "functions":functions
 								};
-								addDataGrid(dataParam,'');
-								return;
+								 return new Promise((resolve, reject) => {
 								 $.ajax({
 					  	       	        type: "POST",
 				      	    	        contentType:  "application/json; charset=utf-8",
@@ -3526,36 +3518,39 @@ var source =  {
 				      	    	        dataType: 'json',
 				      	    	        timeout: 600000,
 				      	    	        success: function (response) {
+					 					resolve(response);
+										addDataGrid(dataParam,response);
+					         
 									  },
-			     	    	        error: function (e) {
-			     	    	        	
-			     						  console.log("ERROR : ", e);
-			     	
+			     	    	        error: function (error) {
+			     	    	        	reject(error)
 			     	    	        }
 			     	    	    });	
-				      	    	       
-								
-								
+ 					});	
 								
 			}
 			function addDataGrid(dataParam,data){
+				debugger;
 			 var source =
 	            {
 	           datatype: "json",
 	           datafields: [
- 		                    { name: 'refer_date', type: 'date' },
- 		                    { name: 'dailyInput', type: 'float' },
- 		                    { name: 'DCP', type: 'float' },
-							{ name: 'DCI', type: 'float' },
-							{ name: 'WCP', type: 'float' },
-							{ name: 'WCI', type: 'float' },
-							{ name: '10YP', type: 'float' },
-							{ name: '20YP', type: 'float' },
-							{ name: 'CP', type: 'float' }
+ 		                    { name: 'referDate', type: 'string' },
+ 		                    { name: 'dailyInput', type: 'string' },
+ 		                    { name: 'value1', type: 'string' },
+							{ name: 'value2', type: 'string' },
+							{ name: 'value3', type: 'string' },
+							{ name: 'WCI', type: 'string' },
+							{ name: '10YP', type: 'string' },
+							{ name: '20YP', type: 'string' },
+							{ name: '100D', type: 'string' },
+							{ name: '200D', type: 'string' },
+							{ name: 'CP', type: 'string' }
  		                 ],
 	                id: 'id',
-	                localdata: []
+	                localdata: data
 	            };
+                dataArray=['value1','value2','value3']
   				var dataAdapter = new $.jqx.dataAdapter(source);
 				var gridId = "grid_"+gridIdIncrement;
 				$("#grids-container").append('<div id="'+gridId+'" class= "item m-2"></div>');
@@ -3565,53 +3560,38 @@ var source =  {
 				                    	width:(dataParam.functions.length==0)?250:((dataParam.functions.length>=1 && dataParam.functions.length<3)?600:((dataParam.functions.length>=3 && dataParam.functions.length<5)?750:850)),
 				  		                columnsresize: true,
 				  		                theme:'dark',
-				  		                pageable: false,
-				  		             // pagesize: 10,
+				  		                pageable: true,
+				  		                pagesize: 10,
 										source: dataAdapter,  
 				  		                showfilterrow: true,
 				  		                filterable: true,
 				  		                autoheight: true,
 				                        columnsresize: false,
 				                        columns: dynamicColumns,
-				                     columngroups: [
-              { text: getCountryFlagById(dataParam.country,dataParam.yieldCurveCross)+'<span style="font-size: 1.5rem;     vertical-align: bottom;">'+getFactorDesc(dataParam.factor,dataParam.yieldCurveCross)+'</span>', align: 'center', name: 'country' },
+				                        columngroups: [
+              { text: getCountryFlagById(itemValue[Items[gridIdIncrement]].country,itemValue[Items[gridIdIncrement]].yieldCurveCross)+'<span style="font-size: 1.5rem;     vertical-align: bottom;">'+getFactorDesc(itemValue[Items[gridIdIncrement]].factor,itemValue[Items[gridIdIncrement]].yieldCurveCross)+'</span>', align: 'center', name: 'country' },
              ]
 });
 		
-	         /*    delete source.url;
-	             source.localdata=data.rows;
-    	         dataAdapter = new $.jqx.dataAdapter(source);
-    	         $('#'+gridId).jqxGrid('hideloadelement');
-    	         
-    	         for(i=0; i<data.columns.length;i++)
-    	         {  if(data.columns[i].datafield=="refer_date")
-    	           { 
-    	        	 data.columns[i].cellsformat='dd-MMM-yyyy'; 
-    	           break;
-    	           }
-    	         }
-				 $('#'+gridId).jqxGrid({source:dataAdapter,
-					                    columns: data.columns});*/
-
-			gridIdIncrement++;
+      gridIdIncrement++;
 		}
 		
 		function getColumns(dataParam){
 			if (dataParam.functions.length==0)
 			{
-				return[     { text: 'REFER DATE',columngroup: 'country', datafield: 'refer_date', width: '50%' },
+				return[     { text: 'REFER DATE',columngroup: 'country', datafield: 'referDate', width: '50%' },
 			                { text: 'DAILY INPUT', columngroup: 'country', datafield: 'dailyInput',cellclassname: 'factorBold', width: '50%'}
 				       ]
 			} 
 			else 
 			{
 				columnWidth = 100/(dataParam.functions.length+2);
-				columns=[ { text: 'REFER DATE',columngroup: 'country', datafield: 'refer_date', width: columnWidth+'%' },
+				columns=[ { text: 'REFER DATE',columngroup: 'country', datafield: 'referDate', width: columnWidth+'%' },
 			                { text: 'DAILY INPUT', columngroup: 'country', datafield: 'dailyInput',cellclassname: 'factorBold', width: columnWidth+'%'}]
 				
 				 for(j=0; j<dataParam.functions.length; j++)
 				  {
-					columns.push({ text: getFunctionDesc(dataParam.functions[j]),columngroup: 'country', datafield: dataParam.functions[j] , width:columnWidth+'%'})
+					columns.push({ text: getFunctionDesc(dataParam.functions[j]),columngroup: 'country', datafield: dataArray[j] , width:columnWidth+'%'})
 			      }
 			return columns;
 		   }
@@ -3627,6 +3607,8 @@ var source =  {
 				 $("#jqx10yrPercentile").jqxCheckBox('val')?selectedFunctions.push('10YP'):'';
 				 $("#jqx20yrPercentile").jqxCheckBox('val')?selectedFunctions.push('20YP'):'';
 		         $("#jqxCenturyPercentile").jqxCheckBox('val')?selectedFunctions.push('CP'):'';
+ 				 $("#jqx100dMovAvg").jqxCheckBox('val')?selectedFunctions.push('100D'):'';
+				 $("#jqx200dMovAvg").jqxCheckBox('val')?selectedFunctions.push('200D'):'';
 				
 			    return selectedFunctions;
 			}
@@ -3656,6 +3638,12 @@ var source =  {
 				    break;
 			case 'CP': 
 				    desc="Century Percentile"
+				    break;
+            case '100D': 
+				    desc="100d MovAvg"
+				    break;
+			case '200D': 
+				    desc="200d MovAvg"
 				    break;
 			}
 		return desc.toUpperCase();

@@ -207,9 +207,9 @@ public class AdminController {
 		return new ResponseEntity<>( adminService.getUnPublishedNews(), HttpStatus.OK);
 	}
 	
-	@DeleteMapping(value = "deletenewsbyid/{id}")
-	public  ResponseEntity<Object> deleteNewsById(@PathVariable("id") long id) {
-		adminService.deleteNews(id);;
+	@DeleteMapping(value = "deletenewsbyid/{id}/{isFunctionNews}")
+	public  ResponseEntity<Object> deleteNewsById(@PathVariable("id") long id,@PathVariable("isFunctionNews") String isFunctionNews) {
+		adminService.deleteNews(id,isFunctionNews);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	@PostMapping(value = "updatenewsbyid")

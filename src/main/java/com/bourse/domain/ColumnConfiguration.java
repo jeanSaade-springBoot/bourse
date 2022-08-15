@@ -27,6 +27,7 @@ public class ColumnConfiguration {
 	private String columnName;
 	private String groupId;
 	private String subgroupId;
+	private String factor;
 	private String dataFormat;
 	private boolean canBeNegative;
 	private String graphScale;

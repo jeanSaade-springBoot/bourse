@@ -24,6 +24,7 @@ public class FunctionConfigurationService {
 		FunctionConfiguration funcInstance = col.get();
 		funcInstance = FunctionConfiguration.builder()
 				                         .id(functionConfigurationDTO.getId())
+				                         .factor(functionConfigurationDTO.getFactor())
 				                         .configId(functionConfigurationDTO.getConfigId())
 				                         .functionId(functionConfigurationDTO.getFunctionId())
 				                         .groupId(functionConfigurationDTO.getGroupId())

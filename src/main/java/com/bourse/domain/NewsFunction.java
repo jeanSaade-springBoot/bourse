@@ -18,15 +18,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Entity
-@Table(name = "News")
-public class News {
+@Table(name = "news_function")
+public class NewsFunction {
    @Id
-   @GeneratedValue(generator = "news_sequence")
+   @GeneratedValue(generator = "news_function_sequence")
    @GenericGenerator(
-      name = "news_sequence",
+      name = "news_function_sequence",
       strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
       parameters = {
-        @Parameter(name = "sequence_name", value = "news_sequence"),
+        @Parameter(name = "sequence_name", value = "news_function_sequence"),
         @Parameter(name = "initial_value", value = "1"),
         @Parameter(name = "increment_size", value = "1")
         }
@@ -38,5 +38,5 @@ public class News {
     private String isBold;
     private String generationDateDate;
     private String isPublished;
-    private String isFunctionNews;
+    private String functionId;
     }

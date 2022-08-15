@@ -16,6 +16,7 @@ import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.News;
+import com.bourse.domain.NewsFunction;
 import com.bourse.domain.NewsOrder;
 import com.bourse.domain.SubGroup;
 import com.bourse.dto.ColumnConfigurationDTO;
@@ -24,6 +25,7 @@ import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.repositories.CalendarDatesRepository;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
+import com.bourse.repositories.NewsFunctionRepository;
 import com.bourse.repositories.RobotsConfigRepository;
 import com.bourse.repositories.NewsOrderRepository;
 import com.bourse.repositories.NewsRepository;
@@ -51,6 +53,8 @@ public class AdminService
 	NewsRepository newsRepository;
 	@Autowired
 	ManualNewsService manualNewsService;
+	@Autowired
+	NewsFunctionRepository newsFunctionRepository;
 	
 	public List<SubGroup> getAllSubGroups()
 	{      
@@ -81,6 +85,7 @@ public class AdminService
 				                         .groupId(columnConfiguration.getGroupId())
 				                         .subgroupId(columnConfiguration.getSubgroupId())
 				                         .description(columnConfiguration.getDescription())
+				                         .factor(columnConfiguration.getFactor())
 				                         .calculationType(columnConfiguration.getCalculationType())
 				                         .canBeNegative(columnConfiguration.isCanBeNegative())
 				                         .currency(columnConfiguration.getCurrency())
@@ -229,9 +234,11 @@ public class AdminService
 		//return newsRepository.findAll(Sort.by("generationDateDate").descending());
 		return newsRepository.findAllOrder();
 	}
-	public void deleteNews(long id)
-	{
-		 newsRepository.deleteById(id);;
+	public void deleteNews(long id, String isFunctionNews)
+	{  if (isFunctionNews.equalsIgnoreCase("0"))
+		 newsRepository.deleteById(id);
+	  else 
+		  newsFunctionRepository.deleteById(id);
 		
 	}
 	public News findNewsById(long id) 
@@ -240,6 +247,8 @@ public class AdminService
 	}
 	public News updateNewsById(News news) 
 	{   
+	  if (news.getIsFunctionNews().equalsIgnoreCase("0"))
+	  {
 		Optional<News> col = newsRepository.findById(news.getId());
 		News newsInstance = col.get();
 		newsInstance = News.builder()
@@ -253,6 +262,24 @@ public class AdminService
 				          .build();
 		
         return newsRepository.save(newsInstance);
+        }else 
+        {
+
+			NewsFunction newsFunction = newsFunctionRepository.findById(news.getId()).get();
+			newsFunction.setTemplate(news.getTemplate());
+			newsFunction.setIsPublished(news.getIsPublished());
+			NewsFunction savedFunctionNews = newsFunctionRepository.save(newsFunction);
+			News updatedNews = News.builder().id(savedFunctionNews.getId())
+									  .columnDescription(savedFunctionNews.getColumnDescription())
+									  .generationDateDate(savedFunctionNews.getGenerationDateDate())
+									  .isBold(savedFunctionNews.getIsBold())
+									  .isPublished(savedFunctionNews.getIsPublished())
+									  .isFunctionNews("1")
+									  .template(savedFunctionNews.getTemplate())
+									  .robots(savedFunctionNews.getRobots())
+									  .build();
+			 return updatedNews;
+        }
 	}
 
 	public News saveNews(News news) {

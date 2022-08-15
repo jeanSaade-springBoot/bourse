@@ -28,6 +28,7 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
 	public String findColumnDataFormat(@Param("description") String description);
 	
 	@Query(value = "select  cc.id, \r\n"
+			+ "				cc.factor, \r\n"
 			+ "				cc.description, \r\n"
 			+ "			    cc.display_description as displayDescription, \r\n"
 			+ "			    cc.column_name as columnName, \r\n"
@@ -74,4 +75,6 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
        nativeQuery = true)
 	public List<ColumnConfigurationDTO> findNativeByGroupIdAndSubgroupId(@Param("groupId") String groupId,
 			                                                       @Param("subGroupId") String subGroupId);
+
+	ColumnConfiguration findByGroupIdAndSubgroupIdAndFactor(String groupIdByName, String country, String factor);
 }

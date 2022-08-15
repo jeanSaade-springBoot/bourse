@@ -19,6 +19,7 @@ public class NewsDTO {
     private String isBold;
     private String generationDateDate; 
     private String isPublished;
+    private String isFunctionNews;
     
     public News fromDToToObject(NewsDTO dto){
     	

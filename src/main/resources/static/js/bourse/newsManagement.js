@@ -43,6 +43,7 @@
         	  { name: 'template', type: 'string' },
         	  { name: 'isBold', type: 'string' },  
         	  { name: 'id', type: 'string' },  
+			  { name: 'isFunctionNews', type: 'string' },  
         	  { name: 'robots', type: 'string' },  
         	  { name: 'columnDescription', type: 'string' },  
         	  { name: 'generationDateDate', type: 'date' },  
@@ -126,6 +127,7 @@
            { text: '', datafield: 'columnDescription', hidden: true  },
            { text: '', datafield: 'isPublished', hidden: true  }, 
            { text: '', datafield: 'id', hidden: true  },
+		   { text: '', datafield: 'isFunctionNews', hidden: true  },
            ]
          
       });
@@ -161,6 +163,7 @@
 				   "isBold":updatedData.isBold,
 				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
 				   "isPublished":updatedData.isPublished,
+				   "isFunctionNews":updatedData.isFunctionNews,
 	    };
 		
   	       	  $.ajax({
@@ -203,9 +206,10 @@
          var rowscount = $("#grid").jqxGrid('getdatainformation').rowscount;
          
          var newsId = $('#grid').jqxGrid('getcellvalue', row, "id");
+		 var isFunctionNews = $('#grid').jqxGrid('getcellvalue', row, "isFunctionNews");
          $.ajax({
              type : "DELETE",
-             url : "/admin/deletenewsbyid/" + newsId,
+             url : "/admin/deletenewsbyid/" + newsId+"/"+isFunctionNews,
              success: function (result) {       
             	 if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
  	                var id = $("#grid").jqxGrid('getrowid', selectedrowindex);
@@ -231,6 +235,7 @@
 				   "isBold":updatedData.isBold,
 				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
 				   "isPublished":'0',
+	 			   "isFunctionNews":updatedData.isFunctionNews,
 	    };
 		
 	   
@@ -271,6 +276,7 @@
 				   "isBold":updatedData.isBold,
 				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
 				   "isPublished":'1',
+		           "isFunctionNews":updatedData.isFunctionNews,
 	    };
 		
 				  $.ajax({

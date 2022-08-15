@@ -71,7 +71,9 @@
 }
  div#overlay {
     margin: 15% 40%;
-      position: absolute;
+    position: absolute;
+    top: 0;
+    z-index: 998;
 }
   </style>
 </head>
@@ -97,7 +99,7 @@
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
 			<a href="/bourse/pageunderconstruction" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/pageunderconstruction" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+			<a href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
 			<a href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
@@ -135,7 +137,7 @@
               </div>
                <div id="content">
         <!-- Container Fluid-->
-        <div class="container-fluid" id="container-wrapper">
+        <div class="container-fluid" id="container-wrapper" style="min-height: 500px;">
 
           <div class="row mb-3">
 			 <div class="bd-example bd-example-tabs col-12">
@@ -150,7 +152,7 @@
 				  	  	</p>
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse" id="collapseFilter">
+					    <div class="collapse multi-collapse show" id="collapseFilter">
 				<div class="row">
 		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
 			<label style="margin-right: 1.5rem;">From</label>
@@ -377,19 +379,23 @@
 		                 </div>
 		                   <div class='col-1'></div>
 		                 <div class='col-2 pt-4 cb-1'>
-		                   <div id='jqxDailyChangeInPercentage' style="margin-top:.6rem">
+		                   <div class="d-none" id='jqxDailyChangeInPercentage'>
                            Daily change in %</div>
-                           <div id='jqxDailyChangeIncrement' style="margin-top:.6rem">
+                           <div class="d-none" id='jqxDailyChangeIncrement'>
                            Daily change increment</div>
-                           <div id='jqxWeeklyChangeInPercentage' style="margin-top:.6rem">
+                           <div id='jqx100dMovAvg'>
+                           100d MovAvg</div>
+                           <div id='jqx200dMovAvg'>
+                           200d MovAvg</div>
+                           <div class="d-none" id='jqxWeeklyChangeInPercentage'>
                            Weekly change in %</div>
-                           <div id='jqxWeeklyChangeIncrement' style="margin-top:.6rem">
+                           <div class="d-none" id='jqxWeeklyChangeIncrement'>
                            Weekly change increment</div>
-                           <div id='jqx10yrPercentile' style="margin-top:.6rem">
+                           <div class="d-none" id='jqx10yrPercentile'>
                            10 YR Percentile</div>
-                           <div id='jqx20yrPercentile' style="margin-top:.6rem">
+                           <div class="d-none" id='jqx20yrPercentile'>
                            20 YR Percentile</div>
-                           <div id='jqxCenturyPercentile' style="margin-top:.6rem">
+                           <div class="d-none" id='jqxCenturyPercentile'>
                            Century Percentile</div>
 		                 </div>
                      </div>

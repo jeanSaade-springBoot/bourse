@@ -14,6 +14,7 @@ public class FunctionConfigurationDTO {
 	
 	    private Long id;
 		private String calculationType;
+		private String factor;
 		private String dataFormat;
 	    private String description;
 		private String displayDescription;
