@@ -495,6 +495,7 @@
     	    	        success: function (data) {
     	    	        
                       $('#grid').jqxGrid('updaterow', rowID, { id : dataRecord.id,
+							factor : dataRecord.factor,
   							description:$("#DisplayName").val(),
 							columnCode:$("#columnCode").val(),
                 		    displayDescription: $("#graphTitle").val()!=''?$("#graphTitle").val():null,

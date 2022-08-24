@@ -151,7 +151,24 @@ public class DataFunctionService {
 				if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("200D"))
 				{
 					functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"2"));
-				}
+				}else 
+					if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCP"))
+					{
+						functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"3"));
+					}else 
+						if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCI"))
+						{
+							functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"4"));
+						}
+						else 
+							if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCP"))
+							{
+								functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"5"));
+							}else 
+								if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCI"))
+								{
+									functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"6"));
+								}
 		}
 		
 		List<DataFunctionRespDTO> lst = new ArrayList<DataFunctionRespDTO>();
@@ -164,9 +181,9 @@ public class DataFunctionService {
 				DataFunctionRespDTO data = DataFunctionRespDTO.builder()
 						                 .referDate(participantJsonList.get(0))
 						                 .dailyInput(data1.get(0).contains("%")?String.format("%."+data1.get(1)+"f",Double.valueOf(participantJsonList.get(1)))+"%":String.format("%."+data1.get(1)+"f",Double.valueOf(participantJsonList.get(1))))
-						                 .value1(participantJsonList.size()>=3?(functionData.get(0).get(0).contains("%")?String.format("%."+functionData.get(0).get(1)+"f",Double.valueOf(participantJsonList.get(2)))+"%":String.format("%."+functionData.get(0).get(1)+"f",Double.valueOf(participantJsonList.get(2)))):null)
-						                 .value2(participantJsonList.size()>=4?participantJsonList.get(3):null)
-						                 .value3(participantJsonList.size()>=5?participantJsonList.get(4):null)
+						                 .value1(participantJsonList.size()>=3?(!participantJsonList.get(2).isEmpty()?(functionData.get(0).get(0).contains("%")?String.format("%."+functionData.get(0).get(1)+"f",Double.valueOf(participantJsonList.get(2)))+"%":String.format("%."+functionData.get(0).get(1)+"f",Double.valueOf(participantJsonList.get(2)))):null):"")
+						                 .value2(participantJsonList.size()>=4?(!participantJsonList.get(3).isEmpty()?(functionData.get(1).get(0).contains("%")?String.format("%."+functionData.get(1).get(1)+"f",Double.valueOf(participantJsonList.get(3)))+"%":String.format("%."+functionData.get(1).get(1)+"f",Double.valueOf(participantJsonList.get(3)))):null):"")
+						                 .value3(participantJsonList.size()>=5?(!participantJsonList.get(4).isEmpty()?(functionData.get(2).get(0).contains("%")?String.format("%."+functionData.get(2).get(1)+"f",Double.valueOf(participantJsonList.get(4)))+"%":String.format("%."+functionData.get(2).get(1)+"f",Double.valueOf(participantJsonList.get(4)))):null):"")
 							             .build();
 				lst.add(data);
 			}
