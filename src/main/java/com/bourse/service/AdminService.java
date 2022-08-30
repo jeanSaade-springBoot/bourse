@@ -1,5 +1,8 @@
 package com.bourse.service;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -7,7 +10,7 @@ import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
 
-
+import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -15,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.RobotsConfiguration;
+import com.bourse.domain.Status;
 import com.bourse.domain.News;
 import com.bourse.domain.NewsFunction;
 import com.bourse.domain.NewsOrder;
@@ -27,10 +31,11 @@ import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
 import com.bourse.repositories.NewsFunctionRepository;
 import com.bourse.repositories.RobotsConfigRepository;
+import com.bourse.repositories.StatusRepository;
 import com.bourse.repositories.NewsOrderRepository;
 import com.bourse.repositories.NewsRepository;
 import com.bourse.repositories.SubGroupRepository;
-
+import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class AdminService 
@@ -55,12 +60,15 @@ public class AdminService
 	ManualNewsService manualNewsService;
 	@Autowired
 	NewsFunctionRepository newsFunctionRepository;
-	
+	@Autowired
+	StatusRepository statusRepository;
+	private String encDecKey="secretKey";
+  
+    
 	public List<SubGroup> getAllSubGroups()
 	{      
         return subGroupRepository.findAll(Sort.by("id").descending());
 	}
-	
 	public List<SubGroup> getSubGroupsByGroupId(String groupId)
 	{      
         return subGroupRepository.findByGroupId(groupId);
@@ -115,7 +123,10 @@ public class AdminService
 	}
 	
 	public List<ColumnConfigurationDTO> findNativeByGroupIdAndSubgroupId(String groupId,String subgroupId) {
-		 return columnConfigurationRepository.findNativeByGroupIdAndSubgroupId(groupId, subgroupId);
+		boolean status= getStatus();
+		if(!status)
+			return null; 
+		return columnConfigurationRepository.findNativeByGroupIdAndSubgroupId(groupId, subgroupId);
 	}
 	
    
@@ -214,6 +225,9 @@ public class AdminService
 		
 	}
 	public List<News> getNews(){
+		boolean status= getStatus();
+		if(!status)
+			return null;
 		String isPublished = "1";
 		return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
 		}
@@ -231,7 +245,9 @@ public class AdminService
 		return newsRepository.findByIsPublishedFormatedDate();
 	}
 	public List<News> getUnPublishedNews(){
-		//return newsRepository.findAll(Sort.by("generationDateDate").descending());
+		boolean status= getStatus();
+		if(!status)
+			return null;
 		return newsRepository.findAllOrder();
 	}
 	public void deleteNews(long id, String isFunctionNews)
@@ -297,7 +313,21 @@ public class AdminService
 		newsOrderRepository.saveAll(newsOrderDTOLst.getNewsOrderList());
 	}
 
-
+	public boolean getStatus()
+	{   boolean status = true;
+	    String value = statusRepository.findById((long) 1).get().getValue();
+		try {
+		    StandardPBEStringEncryptor decryptor = new StandardPBEStringEncryptor();
+		    decryptor.setPassword(encDecKey);
+			Date isValid=new SimpleDateFormat("dd/MM/yyyy").parse(decryptor.decrypt(value));
+			 status = (isValid.compareTo(new Date())==-1)?false:true;
+			 return status;
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return status;
+	}
 
 	
 }

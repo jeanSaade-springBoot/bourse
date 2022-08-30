@@ -12,8 +12,12 @@ import com.bourse.repositories.NewsRepository;
 public class GraphNewsService {
 	@Autowired
 	NewsRepository newsRepository;
-	
+	@Autowired
+	AdminService adminService;
 	public List<News> findSelectedGraphNews(List<String> selectedGraphs) {
+		boolean status= adminService.getStatus();
+		if(!status)
+			return null;
 		return newsRepository.findSelectedGraphNews(selectedGraphs);
 	}
 

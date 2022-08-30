@@ -58,7 +58,9 @@ public class SovereignYieldsService
         return sovereignYieldsRepository.findAll(Sort.by("id").descending());
 	}
 	public String findLatestSovereignData()
-	{      
+	{   boolean status= adminService.getStatus();
+	    if(!status)
+		return null;
         return sovereignYieldsRepository.findLatestSovereignData();
 	}
 	public List<SovereignData> SaveSovereignDatas(List<SovereignData> plst) 
@@ -144,6 +146,9 @@ public class SovereignYieldsService
 	
 	public List<AuditProcedureDTO> getAuditData(String referDate)
 	{
+		boolean status= adminService.getStatus();
+		if(!status)
+			return null;
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_yield",AuditProcedureDTO.class);
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate",referDate );
@@ -154,6 +159,9 @@ public class SovereignYieldsService
 	
 	public List<AuditProcedureDTO> getCurveData(String referDate)
 	{
+		boolean status= adminService.getStatus();
+		if(!status)
+			return null;
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_curve",AuditProcedureDTO.class);
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate",referDate );
@@ -164,6 +172,9 @@ public class SovereignYieldsService
 	
 	public List<CrossAuditProcedureDTO> getCrossAuditData(String referDate)
 	{
+		boolean status= adminService.getStatus();
+		if(!status)
+			return null;
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_cross",CrossAuditProcedureDTO.class);
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate",referDate );
@@ -173,7 +184,9 @@ public class SovereignYieldsService
 	}
 	public List<GraphResponseColConfigDTO> getGraphData(GraphReqDTO graphReqDTO)
 	{
-		
+		boolean status= adminService.getStatus();
+		if(!status)
+			return null;
 		//yield:1
 		//curve:2
 		//cross:3
@@ -666,7 +679,9 @@ public class SovereignYieldsService
 	}
 	public List<GraphResponseColConfigDTO> getGraphDataByType(GraphReqDTO graphReqDTO)
 	{
-		
+		boolean status= adminService.getStatus();
+		if(!status)
+			return null;
 		//yield:1
 		//curve:2
 		//cross:3
@@ -1270,7 +1285,9 @@ public class SovereignYieldsService
 	
 	public List<GraphResponseColConfigListDTO> getGraphDataListConfig(GraphReqDTO graphReqDTO)
 	{
-		
+		boolean status= adminService.getStatus();
+		if(!status)
+			return null;
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		List<GraphResponseColConfigListDTO> l2 = new ArrayList<>();
 		ColumnConfiguration config = null;

@@ -20,9 +20,13 @@ public class DataEntryFilterHistoryService
     private EntityManager entityManager;
 	@Autowired
 	DataEntryFilterHistoryRepository dataEntryFilterHistoryRepository;
+	@Autowired
+	AdminService adminService;
 	
 	public List<DataEntryFilterHistory> findDataEntryFilterHistory() 
-	{      
+	{   boolean status= adminService.getStatus();
+	    if(!status)
+		return null;   
         return dataEntryFilterHistoryRepository.findAll();
 	}
 	public DataEntryFilterHistory SaveDataEntryFilterHistory(DataEntryFilterHistory dataEntryFilterHistory) 

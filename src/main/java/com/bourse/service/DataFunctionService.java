@@ -40,10 +40,14 @@ public class DataFunctionService {
 	ColumnConfigurationRepository columnConfigurationRepository;
 	@Autowired
 	FunctionConfigurationRepository functionConfigurationRepository;
+	@Autowired
+	AdminService adminService;
 	
 	// List<DataFunctionRespDTO> 
 	public List<DataFunctionRespDTO> getGridDataFunction(DataFunctionReqDTO dataFunctionReqDTO) {
-		
+		  boolean status= adminService.getStatus();
+		    if(!status)
+			return null;   
 		List<String> tableNames = new ArrayList<String>();
 		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
 			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("function_grid_main",GraphResponseDTO.class);
