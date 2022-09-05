@@ -24,8 +24,8 @@ public class DataEntryFilterHistoryService
 	AdminService adminService;
 	
 	public List<DataEntryFilterHistory> findDataEntryFilterHistory() 
-	{   boolean status= adminService.getStatus();
-	    if(!status)
+	{   boolean hasData= adminService.getData();
+	    if(!hasData)
 		return null;   
         return dataEntryFilterHistoryRepository.findAll();
 	}

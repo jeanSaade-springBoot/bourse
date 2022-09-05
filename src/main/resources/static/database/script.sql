@@ -814,4 +814,406 @@ insert into news_order (id,order_id,robot_code,state)
      (SELECT @rownum1:=8842) t1
      where tab.robot_code is not null ;
      
-     create table status_table (id bigint not null, value varchar(255), primary key (id))
+ --    create table status_table (id bigint not null, value varchar(255), primary key (id))
+ 
+ INSERT INTO `bourse`.`functions`
+(`id`,
+`description`,
+`function_code`)
+VALUES
+(7,
+'10yr %ile',
+'CaD5');
+
+SELECT MAX(ID) FROM function_configuration;
+INSERT INTO `bourse`.`function_configuration`
+(`id`,
+`calculation_type`,
+`data_format`,
+`description`,
+`display_description`,
+`group_id`,
+`start_date`,
+`subgroup_id`,
+`config_id`,
+`function_id`,
+`tick_value`,
+`chart_type`,
+`y_axis_format`,
+`factor`,
+`descwitoutfactor`,
+`column_name`,
+`data_min_increment`,
+`chart_color`,
+`chart_showgrid`,
+`chart_size`,
+`chart_transparency`,
+`chartshow_markes`,
+`exchange_link`,
+`show_in_database`,
+`show_in_news_graph`,
+`currency`,
+`column_code`)
+SELECT 
+(@row_number:=@row_number + 1) AS id,
+    null,
+    '0.0000%',
+    `function_configuration`.`description`,
+     null,
+    `function_configuration`.`group_id`,
+     null,
+    `function_configuration`.`subgroup_id`,
+    `function_configuration`.`config_id`,
+    '7',
+    `function_configuration`.`tick_value`,
+    `function_configuration`.`chart_type`,
+    `function_configuration`.`y_axis_format`,
+    `function_configuration`.`factor`,
+    `function_configuration`.`descwitoutfactor`,
+    null,
+    `function_configuration`.`data_min_increment`,
+    `function_configuration`.`chart_color`,
+    `function_configuration`.`chart_showgrid`,
+    `function_configuration`.`chart_size`,
+    `function_configuration`.`chart_transparency`,
+    `function_configuration`.`chartshow_markes`,
+    null,
+    `function_configuration`.`show_in_database`,
+    `function_configuration`.`show_in_news_graph`,
+    `function_configuration`.`currency`,
+    `function_configuration`.`column_code`
+FROM `bourse`.`function_configuration`,
+	 (SELECT @row_number:=516) AS t
+where function_id = 1;
+
+SELECT MAX(ID) FROM robots_function_configuration;
+INSERT INTO `bourse`.`robots_function_configuration`
+(`id`,
+`jump_percentage`,
+`jump_value_tick`,
+`column_description`,
+`config_id`,
+`function_id`,
+`description`,
+`display_description`,
+`group_id`,
+`isactive`,
+`last_data`,
+`robot_name`,
+`rule`,
+`subgroup_id`,
+`template`,
+`thresh_hold_notification`,
+`threshhold_trigger`,
+`robot_code`)
+select 
+(@row_number:=@row_number + 1) AS id,
+`jump_percentage`,
+`jump_value_tick`,
+`column_description`,
+`config_id`,
+'7',
+`description`,
+`display_description`,
+`group_id`,
+0,
+`last_data`,
+`robot_name`,
+'',
+`subgroup_id`,
+'',
+'',
+'',
+`robot_code` from robots_function_configuration ,
+	 (SELECT @row_number:=2064) AS t
+where function_id =1;
+
+select max(id), max(order_id) from news_order;
+insert into news_order (id,order_id,robot_code,state)
+    select @rownum1:=@rownum1 + 1  as id, @rownum:=@rownum + 1  as order_id,tab.robot_code,'new'
+    from (
+    select
+     CONCAT(a.asset_Code,g.group_Code,s.subgroup_Code,fc.column_Code,'LAST',r.robot_Code,f.function_code) as robot_code
+      FROM function_configuration fc,  Asset_Class a, groups_table g, SubGroup s, robots_function_configuration r,functions f
+      where g.asset_Id=a.id
+      and g.id = fc.group_Id
+	  and s.group_Id = fc.group_Id
+      and s.id_Sub_Group=fc.subgroup_Id
+      and r.config_id=fc.config_id
+	-- and 'HighLowRobot'= r.robot_name
+    and r.column_description=fc.description
+    and fc.function_id=f.id
+    and r.function_id=f.id
+    and fc.function_id=7
+    and r.function_id=7) tab, 
+     (SELECT @rownum:=1806) t,
+     (SELECT @rownum1:=9100) t1
+     where tab.robot_code is not null ;
+     
+ INSERT INTO `bourse`.`functions`
+(`id`,
+`description`,
+`function_code`)
+VALUES
+(8,
+'20yr %ile',
+'CaD6');
+
+SELECT MAX(ID) FROM function_configuration;
+INSERT INTO `bourse`.`function_configuration`
+(`id`,
+`calculation_type`,
+`data_format`,
+`description`,
+`display_description`,
+`group_id`,
+`start_date`,
+`subgroup_id`,
+`config_id`,
+`function_id`,
+`tick_value`,
+`chart_type`,
+`y_axis_format`,
+`factor`,
+`descwitoutfactor`,
+`column_name`,
+`data_min_increment`,
+`chart_color`,
+`chart_showgrid`,
+`chart_size`,
+`chart_transparency`,
+`chartshow_markes`,
+`exchange_link`,
+`show_in_database`,
+`show_in_news_graph`,
+`currency`,
+`column_code`)
+SELECT 
+(@row_number:=@row_number + 1) AS id,
+    null,
+    '0.0000%',
+    `function_configuration`.`description`,
+     null,
+    `function_configuration`.`group_id`,
+     null,
+    `function_configuration`.`subgroup_id`,
+    `function_configuration`.`config_id`,
+    '8',
+    `function_configuration`.`tick_value`,
+    `function_configuration`.`chart_type`,
+    `function_configuration`.`y_axis_format`,
+    `function_configuration`.`factor`,
+    `function_configuration`.`descwitoutfactor`,
+    null,
+    `function_configuration`.`data_min_increment`,
+    `function_configuration`.`chart_color`,
+    `function_configuration`.`chart_showgrid`,
+    `function_configuration`.`chart_size`,
+    `function_configuration`.`chart_transparency`,
+    `function_configuration`.`chartshow_markes`,
+    null,
+    `function_configuration`.`show_in_database`,
+    `function_configuration`.`show_in_news_graph`,
+    `function_configuration`.`currency`,
+    `function_configuration`.`column_code`
+FROM `bourse`.`function_configuration`,
+	 (SELECT @row_number:=602) AS t
+where function_id = 1;
+
+SELECT MAX(ID) FROM robots_function_configuration;
+INSERT INTO `bourse`.`robots_function_configuration`
+(`id`,
+`jump_percentage`,
+`jump_value_tick`,
+`column_description`,
+`config_id`,
+`function_id`,
+`description`,
+`display_description`,
+`group_id`,
+`isactive`,
+`last_data`,
+`robot_name`,
+`rule`,
+`subgroup_id`,
+`template`,
+`thresh_hold_notification`,
+`threshhold_trigger`,
+`robot_code`)
+select 
+(@row_number:=@row_number + 1) AS id,
+`jump_percentage`,
+`jump_value_tick`,
+`column_description`,
+`config_id`,
+'8',
+`description`,
+`display_description`,
+`group_id`,
+0,
+`last_data`,
+`robot_name`,
+'',
+`subgroup_id`,
+'',
+'',
+'',
+`robot_code` from robots_function_configuration ,
+	 (SELECT @row_number:=2408) AS t
+where function_id =1;
+
+select max(id), max(order_id) from news_order;
+insert into news_order (id,order_id,robot_code,state)
+    select @rownum1:=@rownum1 + 1  as id, @rownum:=@rownum + 1  as order_id,tab.robot_code,'new'
+    from (
+    select
+     CONCAT(a.asset_Code,g.group_Code,s.subgroup_Code,fc.column_Code,'LAST',r.robot_Code,f.function_code) as robot_code
+      FROM function_configuration fc,  Asset_Class a, groups_table g, SubGroup s, robots_function_configuration r,functions f
+      where g.asset_Id=a.id
+      and g.id = fc.group_Id
+	  and s.group_Id = fc.group_Id
+      and s.id_Sub_Group=fc.subgroup_Id
+      and r.config_id=fc.config_id
+	-- and 'HighLowRobot'= r.robot_name
+    and r.column_description=fc.description
+    and fc.function_id=f.id
+    and r.function_id=f.id
+    and fc.function_id=8
+    and r.function_id=8) tab, 
+     (SELECT @rownum:=2064) t,
+     (SELECT @rownum1:=9358) t1
+     where tab.robot_code is not null ;
+     
+      INSERT INTO `bourse`.`functions`
+(`id`,
+`description`,
+`function_code`)
+VALUES
+(9,
+'century %ile',
+'CaD7');
+
+SELECT MAX(ID) FROM function_configuration;
+INSERT INTO `bourse`.`function_configuration`
+(`id`,
+`calculation_type`,
+`data_format`,
+`description`,
+`display_description`,
+`group_id`,
+`start_date`,
+`subgroup_id`,
+`config_id`,
+`function_id`,
+`tick_value`,
+`chart_type`,
+`y_axis_format`,
+`factor`,
+`descwitoutfactor`,
+`column_name`,
+`data_min_increment`,
+`chart_color`,
+`chart_showgrid`,
+`chart_size`,
+`chart_transparency`,
+`chartshow_markes`,
+`exchange_link`,
+`show_in_database`,
+`show_in_news_graph`,
+`currency`,
+`column_code`)
+SELECT 
+(@row_number:=@row_number + 1) AS id,
+    null,
+    '0.0000%',
+    `function_configuration`.`description`,
+     null,
+    `function_configuration`.`group_id`,
+     null,
+    `function_configuration`.`subgroup_id`,
+    `function_configuration`.`config_id`,
+    '9',
+    `function_configuration`.`tick_value`,
+    `function_configuration`.`chart_type`,
+    `function_configuration`.`y_axis_format`,
+    `function_configuration`.`factor`,
+    `function_configuration`.`descwitoutfactor`,
+    null,
+    `function_configuration`.`data_min_increment`,
+    `function_configuration`.`chart_color`,
+    `function_configuration`.`chart_showgrid`,
+    `function_configuration`.`chart_size`,
+    `function_configuration`.`chart_transparency`,
+    `function_configuration`.`chartshow_markes`,
+    null,
+    `function_configuration`.`show_in_database`,
+    `function_configuration`.`show_in_news_graph`,
+    `function_configuration`.`currency`,
+    `function_configuration`.`column_code`
+FROM `bourse`.`function_configuration`,
+	 (SELECT @row_number:=688) AS t
+where function_id = 1;
+
+SELECT MAX(ID) FROM robots_function_configuration;
+INSERT INTO `bourse`.`robots_function_configuration`
+(`id`,
+`jump_percentage`,
+`jump_value_tick`,
+`column_description`,
+`config_id`,
+`function_id`,
+`description`,
+`display_description`,
+`group_id`,
+`isactive`,
+`last_data`,
+`robot_name`,
+`rule`,
+`subgroup_id`,
+`template`,
+`thresh_hold_notification`,
+`threshhold_trigger`,
+`robot_code`)
+select 
+(@row_number:=@row_number + 1) AS id,
+`jump_percentage`,
+`jump_value_tick`,
+`column_description`,
+`config_id`,
+'9',
+`description`,
+`display_description`,
+`group_id`,
+0,
+`last_data`,
+`robot_name`,
+'',
+`subgroup_id`,
+'',
+'',
+'',
+`robot_code` from robots_function_configuration ,
+	 (SELECT @row_number:=2752) AS t
+where function_id =1;
+
+select max(id), max(order_id) from news_order;
+insert into news_order (id,order_id,robot_code,state)
+    select @rownum1:=@rownum1 + 1  as id, @rownum:=@rownum + 1  as order_id,tab.robot_code,'new'
+    from (
+    select
+     CONCAT(a.asset_Code,g.group_Code,s.subgroup_Code,fc.column_Code,'LAST',r.robot_Code,f.function_code) as robot_code
+      FROM function_configuration fc,  Asset_Class a, groups_table g, SubGroup s, robots_function_configuration r,functions f
+      where g.asset_Id=a.id
+      and g.id = fc.group_Id
+	  and s.group_Id = fc.group_Id
+      and s.id_Sub_Group=fc.subgroup_Id
+      and r.config_id=fc.config_id
+	-- and 'HighLowRobot'= r.robot_name
+    and r.column_description=fc.description
+    and fc.function_id=f.id
+    and r.function_id=f.id
+    and fc.function_id=9
+    and r.function_id=9) tab, 
+     (SELECT @rownum:=2322) t,
+     (SELECT @rownum1:=9616) t1
+     where tab.robot_code is not null;

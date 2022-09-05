@@ -48,4 +48,5 @@ public class ColumnConfiguration {
 	@JsonProperty("yAxisFormat")
 	private String yAxisFormat;
 	private String columnCode;
+	private String status;
 }

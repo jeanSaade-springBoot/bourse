@@ -15,8 +15,8 @@ public class GraphNewsService {
 	@Autowired
 	AdminService adminService;
 	public List<News> findSelectedGraphNews(List<String> selectedGraphs) {
-		boolean status= adminService.getStatus();
-		if(!status)
+		boolean hasData= adminService.getData();
+	    if(!hasData)
 			return null;
 		return newsRepository.findSelectedGraphNews(selectedGraphs);
 	}

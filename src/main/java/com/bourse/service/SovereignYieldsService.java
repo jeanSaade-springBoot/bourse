@@ -58,8 +58,8 @@ public class SovereignYieldsService
         return sovereignYieldsRepository.findAll(Sort.by("id").descending());
 	}
 	public String findLatestSovereignData()
-	{   boolean status= adminService.getStatus();
-	    if(!status)
+	{   boolean hasData= adminService.getData();
+    if(!hasData)
 		return null;
         return sovereignYieldsRepository.findLatestSovereignData();
 	}
@@ -146,8 +146,8 @@ public class SovereignYieldsService
 	
 	public List<AuditProcedureDTO> getAuditData(String referDate)
 	{
-		boolean status= adminService.getStatus();
-		if(!status)
+		boolean hasData= adminService.getData();
+	    if(!hasData)
 			return null;
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_yield",AuditProcedureDTO.class);
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
@@ -159,8 +159,8 @@ public class SovereignYieldsService
 	
 	public List<AuditProcedureDTO> getCurveData(String referDate)
 	{
-		boolean status= adminService.getStatus();
-		if(!status)
+		boolean hasData= adminService.getData();
+	    if(!hasData)
 			return null;
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_curve",AuditProcedureDTO.class);
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
@@ -172,8 +172,8 @@ public class SovereignYieldsService
 	
 	public List<CrossAuditProcedureDTO> getCrossAuditData(String referDate)
 	{
-		boolean status= adminService.getStatus();
-		if(!status)
+		boolean hasData= adminService.getData();
+	    if(!hasData)
 			return null;
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_cross",CrossAuditProcedureDTO.class);
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
@@ -184,8 +184,8 @@ public class SovereignYieldsService
 	}
 	public List<GraphResponseColConfigDTO> getGraphData(GraphReqDTO graphReqDTO)
 	{
-		boolean status= adminService.getStatus();
-		if(!status)
+		boolean hasData= adminService.getData();
+	    if(!hasData)
 			return null;
 		//yield:1
 		//curve:2
@@ -679,8 +679,8 @@ public class SovereignYieldsService
 	}
 	public List<GraphResponseColConfigDTO> getGraphDataByType(GraphReqDTO graphReqDTO)
 	{
-		boolean status= adminService.getStatus();
-		if(!status)
+		boolean hasData= adminService.getData();
+	    if(!hasData)
 			return null;
 		//yield:1
 		//curve:2
@@ -1285,8 +1285,8 @@ public class SovereignYieldsService
 	
 	public List<GraphResponseColConfigListDTO> getGraphDataListConfig(GraphReqDTO graphReqDTO)
 	{
-		boolean status= adminService.getStatus();
-		if(!status)
+		boolean hasData= adminService.getData();
+	    if(!hasData)
 			return null;
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_graph",GraphResponseDTO.class);
 		List<GraphResponseColConfigListDTO> l2 = new ArrayList<>();

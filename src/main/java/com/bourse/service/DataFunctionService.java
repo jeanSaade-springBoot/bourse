@@ -45,8 +45,8 @@ public class DataFunctionService {
 	
 	// List<DataFunctionRespDTO> 
 	public List<DataFunctionRespDTO> getGridDataFunction(DataFunctionReqDTO dataFunctionReqDTO) {
-		  boolean status= adminService.getStatus();
-		    if(!status)
+		boolean hasData= adminService.getData();
+	      if(!hasData)
 			return null;   
 		List<String> tableNames = new ArrayList<String>();
 		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
@@ -163,8 +163,7 @@ public class DataFunctionService {
 						if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCI"))
 						{
 							functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"4"));
-						}
-						else 
+						}else 
 							if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCP"))
 							{
 								functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"5"));
@@ -172,7 +171,19 @@ public class DataFunctionService {
 								if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCI"))
 								{
 									functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"6"));
-								}
+								}else 
+									if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("10YP"))
+									{
+										functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"7"));
+									}else 
+										if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("20YP"))
+										{
+											functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"8"));
+										}else 
+											if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("CP"))
+											{
+												functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"9"));
+											}
 		}
 		
 		List<DataFunctionRespDTO> lst = new ArrayList<DataFunctionRespDTO>();

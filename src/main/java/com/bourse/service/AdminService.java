@@ -60,11 +60,9 @@ public class AdminService
 	ManualNewsService manualNewsService;
 	@Autowired
 	NewsFunctionRepository newsFunctionRepository;
-	@Autowired
-	StatusRepository statusRepository;
+	
 	private String encDecKey="secretKey";
-  
-    
+	
 	public List<SubGroup> getAllSubGroups()
 	{      
         return subGroupRepository.findAll(Sort.by("id").descending());
@@ -114,6 +112,7 @@ public class AdminService
 				                         .showInDatabase(columnConfiguration.isShowInDatabase())
 				                         .showInNewsGraph(columnConfiguration.isShowInNewsGraph())
 				                         .columnCode(columnConfiguration.getColumnCode())
+				                         .status(columnConfiguration.getStatus())
 				                         .build();
         return columnConfigurationRepository.save(colInstance);
 	}
@@ -123,8 +122,8 @@ public class AdminService
 	}
 	
 	public List<ColumnConfigurationDTO> findNativeByGroupIdAndSubgroupId(String groupId,String subgroupId) {
-		boolean status= getStatus();
-		if(!status)
+		boolean hasData= getData();
+		if(!hasData)
 			return null; 
 		return columnConfigurationRepository.findNativeByGroupIdAndSubgroupId(groupId, subgroupId);
 	}
@@ -225,8 +224,8 @@ public class AdminService
 		
 	}
 	public List<News> getNews(){
-		boolean status= getStatus();
-		if(!status)
+		boolean hasData= getData();
+		if(!hasData)
 			return null;
 		String isPublished = "1";
 		return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
@@ -245,8 +244,8 @@ public class AdminService
 		return newsRepository.findByIsPublishedFormatedDate();
 	}
 	public List<News> getUnPublishedNews(){
-		boolean status= getStatus();
-		if(!status)
+		boolean hasData= getData();
+		if(!hasData)
 			return null;
 		return newsRepository.findAllOrder();
 	}
@@ -313,20 +312,20 @@ public class AdminService
 		newsOrderRepository.saveAll(newsOrderDTOLst.getNewsOrderList());
 	}
 
-	public boolean getStatus()
-	{   boolean status = true;
-	    String value = statusRepository.findById((long) 1).get().getValue();
+	public boolean getData()
+	{   boolean hasData = true;
+	    String value = columnConfigurationRepository.findById((long) 1).get().getStatus();
 		try {
 		    StandardPBEStringEncryptor decryptor = new StandardPBEStringEncryptor();
 		    decryptor.setPassword(encDecKey);
 			Date isValid=new SimpleDateFormat("dd/MM/yyyy").parse(decryptor.decrypt(value));
-			 status = (isValid.compareTo(new Date())==-1)?false:true;
-			 return status;
+			hasData = (isValid.compareTo(new Date())==-1)?false:true;
+			 return hasData;
 		} catch (ParseException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		return status;
+		return hasData;
 	}
 
 	

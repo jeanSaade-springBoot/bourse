@@ -310,6 +310,7 @@
           datafields: [
         	  { name: 'id', type: 'long' },
  			  { name: 'factor', type: 'string' },
+              { name: 'status', type: 'string' },
         	  { name: 'canBeNegative', type: 'long' }, 
         	  { name: 'showInDatabase', type: 'long' }, 
         	  { name: 'showInNewsGraph', type: 'long' },  
@@ -456,6 +457,7 @@
             	 var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
                  var row = { id : dataRecord.id,
 							factor : dataRecord.factor,
+							status : dataRecord.status,
                 		    description:$("#DisplayName").val(),
 							columnCode:$("#columnCode").val(),
                 		    displayDescription: $("#graphTitle").val()!=''?$("#graphTitle").val():null,
@@ -496,6 +498,7 @@
     	    	        
                       $('#grid').jqxGrid('updaterow', rowID, { id : dataRecord.id,
 							factor : dataRecord.factor,
+							status : dataRecord.status,
   							description:$("#DisplayName").val(),
 							columnCode:$("#columnCode").val(),
                 		    displayDescription: $("#graphTitle").val()!=''?$("#graphTitle").val():null,
