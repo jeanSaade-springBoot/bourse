@@ -48,7 +48,7 @@
   }
 
   .items.active {
-    background: rgb(57 80 126 / 30%);
+  /* background: rgb(57 80 126 / 30%); */
     cursor: grabbing;
     cursor: -webkit-grabbing;
     transform: scale(1);

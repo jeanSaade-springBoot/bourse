@@ -858,15 +858,15 @@
 }
 
 .jqx-scrollbar-state-normal-dark {
-    background-color: var(--jqx-scrollbar-background);
-    border: 1px solid var(--jqx-scrollbar-background);
+    background-color: #1a233a;
+    border: 1px solid #1a233a;
     border-left-color: var(--jqx-scrollbar-border);
 }
 
 .jqx-scrollbar-thumb-state-normal-dark, .jqx-scrollbar-thumb-state-normal-horizontal-dark {
-    background: var(--jqx-scrollbar-thumb-background);
-    border-color: var(--jqx-scrollbar-thumb-border);
-    border-radius: 0px;
+    background: #40566f;
+    border-color: #40566f;
+    border-radius: 0.4rem;
 }
 
 .jqx-scrollbar-thumb-state-hover-dark, .jqx-scrollbar-thumb-state-hover-horizontal-dark {

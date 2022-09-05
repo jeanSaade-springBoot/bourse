@@ -108,6 +108,7 @@
 	  $('#nav-tabContent').show();
   });
   $(document).ready(function () {
+	
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35 ,template: "primary" });
 	  $("#viewall").css("display","block");
 	  $("#viewall").click(function () {
@@ -3553,40 +3554,41 @@
                 dataArray=['value1','value2','value3']
   				var dataAdapter = new $.jqx.dataAdapter(source);
 				var gridId = "grid_"+gridIdIncrement;
-				$("#grids-container").append('<div id="'+gridId+'" class= "item m-2"></div>');
+				$("#grids-container").append('<div id="'+gridId+'" class= "item m-2 align-items-top"></div>');
 			    dynamicColumns= getColumns(dataParam);
 				$('#'+gridId).jqxGrid(
 				                    {
-				                    	width:(dataParam.functions.length==0)?250:((dataParam.functions.length>=1 && dataParam.functions.length<3)?600:((dataParam.functions.length>=3 && dataParam.functions.length<5)?750:850)),
+				                    	width:(dataParam.functions.length==0)?2*110:(2+dataParam.functions.length)*110,
 				  		                columnsresize: true,
 				  		                theme:'dark',
 				  		                pageable: true,
-				  		                pagesize: 10,
+				  		                pagesize: 100,
+										pagesizeoptions: ['50', '100', '200'],
 										source: dataAdapter,  
 				  		                showfilterrow: true,
 				  		                filterable: true,
-				  		                autoheight: true,
+				  		              //  autoheight: true,
 				                        columnsresize: false,
 				                        columns: dynamicColumns,
 				                        columngroups: [
               { text: getCountryFlagById(itemValue[Items[gridIdIncrement]].country,itemValue[Items[gridIdIncrement]].yieldCurveCross)+'<span style="font-size: 1.5rem;     vertical-align: bottom;">'+getFactorDesc(itemValue[Items[gridIdIncrement]].factor,itemValue[Items[gridIdIncrement]].yieldCurveCross)+'</span>', align: 'center', name: 'country' },
              ]
-});
-		
+		});
+
       gridIdIncrement++;
 		}
 		
 		function getColumns(dataParam){
 			if (dataParam.functions.length==0)
 			{
-				return[     { text: 'REFER DATE',columngroup: 'country', datafield: 'referDate', width: '50%' },
+				return[     { text: ' DATE',columngroup: 'country', datafield: 'referDate', width: '50%' },
 			                { text: 'DAILY INPUT', columngroup: 'country', datafield: 'dailyInput',cellclassname: 'factorBold', width: '50%'}
 				       ]
 			} 
 			else 
 			{
 				columnWidth = 100/(dataParam.functions.length+2);
-				columns=[ { text: 'REFER DATE',columngroup: 'country', datafield: 'referDate', width: columnWidth+'%' },
+				columns=[ { text: ' DATE',columngroup: 'country', datafield: 'referDate', width: columnWidth+'%' },
 			                { text: 'DAILY INPUT', columngroup: 'country', datafield: 'dailyInput',cellclassname: 'factorBold', width: columnWidth+'%'}]
 				
 				 for(j=0; j<dataParam.functions.length; j++)

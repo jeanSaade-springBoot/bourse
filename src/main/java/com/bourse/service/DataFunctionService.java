@@ -71,7 +71,7 @@ public class DataFunctionService {
 	}
 	public String buildDyamicQuery(List<String> tableNames,DataFunctionReqDTO dataFunctionReqDTO)
 	{
-		String query="select t.refer_date,";
+		String query="select DATE_FORMAT(STR_TO_DATE(t.refer_date,'%d-%m-%Y'), '%d-%b-%Y') as refer_date,";
 		String queryValues="", queryTables="",  queryAnd="";
 		if (dataFunctionReqDTO.getYieldCurveCross().equalsIgnoreCase("yield"))
 		{
