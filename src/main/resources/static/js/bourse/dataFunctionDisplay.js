@@ -3531,7 +3531,6 @@
 								
 			}
 			function addDataGrid(dataParam,data){
-				debugger;
 			 var source =
 	            {
 	           datatype: "json",
