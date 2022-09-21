@@ -1217,3 +1217,21 @@ insert into news_order (id,order_id,robot_code,state)
      (SELECT @rownum:=2322) t,
      (SELECT @rownum1:=9616) t1
      where tab.robot_code is not null;
+  -- ------------------   
+ create table robot_initializer_sequence (next_val bigint);
+ INSERT INTO robot_initializer_sequence (next_val) VALUES (1);
+ create table robot_initializer (id bigint not null, column_name varchar(255), robot_name varchar(255), primary key (id));
+
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`robot_name`,
+`column_name`
+)
+select @row_number:=@row_number + 1 AS id,'robots_highlow_mono',description from column_configuration,(SELECT @row_number:=0) AS t;
+
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`robot_name`,
+`column_name`
+)
+select @row_number:=@row_number + 1 AS id,'robots_highlow_mod_100DAVG_mono',description from column_configuration,(SELECT @row_number:=86) AS t;
