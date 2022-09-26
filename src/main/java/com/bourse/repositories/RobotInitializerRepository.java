@@ -8,6 +8,6 @@ import com.bourse.domain.RobotInitializer;
 
 public interface RobotInitializerRepository extends JpaRepository<RobotInitializer, Long> {
 
-	List<RobotInitializer> findByRobotName(String robotName);
+	List<RobotInitializer> findByProcessName(String processName);
 
 }

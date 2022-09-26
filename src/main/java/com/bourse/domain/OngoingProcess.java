@@ -1,9 +1,13 @@
 package com.bourse.domain;
 
+import java.util.Date;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
@@ -18,21 +22,27 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Entity
-@Table(name = "RobotInitializer")
-public class RobotInitializer {
+@Table(name = "OngoingProcess")
+public class OngoingProcess {
 	@Id
-    @GeneratedValue(generator = "robot_initializer_sequence")
-	   @GenericGenerator(
-	      name = "robot_initializer_sequence",
+    @GeneratedValue(generator = "ongoing_process_sequence")
+	@GenericGenerator(
+	      name = "ongoing_process_sequence",
 	      strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
 	      parameters = {
-	        @Parameter(name = "sequence_name", value = "robot_initializer_sequence"),
+	        @Parameter(name = "sequence_name", value = "ongoing_process_sequence"),
 	        @Parameter(name = "initial_value", value = "1"),
 	        @Parameter(name = "increment_size", value = "1")
 	        }
 	    )
     private Long id;
-    private String robotName;
-    private String columnName;
     private String processName;
+    private boolean status;
+    @Temporal(TemporalType.TIMESTAMP)
+    private Date updateDate;
+    @Temporal(TemporalType.TIME)
+    private Date startTime;
+    @Temporal(TemporalType.TIME)
+    private Date endTime;
+    private boolean mustBeTrigger;
 }

@@ -1075,7 +1075,7 @@
 		    	    	        timeout: 600000,
 		    	    	        success: function (data) {
 		    	    	        	
-		    	    	        	
+		    	    	        	updateOngoinProcessTable();
 		    	    	        	getFilterData();
 		    	    	        	  
 		  						 datatextarea.value="";
@@ -1660,7 +1660,8 @@
 		      	    	        cache: false,
 		      	    	        timeout: 600000,
 		      	    	        success: function (data) {
-		      	    	       // alert("hi")
+									updateOngoinProcessTable();
+		      	    	       
 		      	    	        	 delete curvesGridSource.localdata;
 		      					    curvesGridSource.url='/bourse/getcurvedata/'+date;
 		      						 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
@@ -1819,7 +1820,8 @@
 			     $.ajax({
 			             type : "DELETE",
 			             url : "/bourse/deletesovereignbyreferdate/" + date,
-			             success: function (result) {   
+			             success: function (result) {
+				    updateOngoinProcessTable();   
 				    getAuditGridSource();  
 					getFilterData();  
 			        $('#alertDeleteDataByDate-modal').modal('hide');
@@ -1873,4 +1875,22 @@
 			    	        }
 			    	    });
 			
+			}
+			function updateOngoinProcessTable()
+			{
+					 $.ajax({
+			    	        type: "POST",
+      	    	            contentType: "application/json",
+			    	        url: "/process/updateongoingprocess",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function () {
+			    	        
+			    	        },
+			    	        error: function (e) {
+								  console.log("ERROR : ", e);
+			    	        }
+			    	    });
 			}

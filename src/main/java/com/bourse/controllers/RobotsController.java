@@ -42,13 +42,20 @@ public class RobotsController {
 		robotService.callRobots();
 		return new ResponseEntity<>(HttpStatus.OK);
     }
-	@GetMapping(value = "callRobotsAsync/{robotName}", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<HttpStatus> callRobotsAsync(@PathVariable String robotName){
-		robotInitializerService.callRobotsAsync(robotName);
+
+	@GetMapping(value = "callrobotswithoutfunctionasync", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<HttpStatus> callrobotswithoutfunctionasync(){
+		robotInitializerService.callrobotswithoutfunctionasync();
 		
 		// robotService.triggerRobotAsync(listOfRobots);
 		return new ResponseEntity<>(HttpStatus.OK);
     }
-	
+	@GetMapping(value = "callrobotswithfunctionasync", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<HttpStatus> callrobotswithfunctionasync(){
+		robotInitializerService.callrobotswithfunctionasync();
+		
+		// robotService.triggerRobotAsync(listOfRobots);
+		return new ResponseEntity<>(HttpStatus.OK);
+    }
 	
 }

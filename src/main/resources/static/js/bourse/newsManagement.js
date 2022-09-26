@@ -445,29 +445,53 @@
 	});
   
   $("#triggerRobotButton").click(function () {
+	  var triggerRobotWithFunction=true;
+      var triggerRobotWithoutFunction=true;
 	  $('#overlay').fadeIn();
 	  $.ajax({
 	        contentType: "application/json",
-	        url: "/robot/callRobots",
+	        url: "/robot/callrobotswithoutfunctionasync",
 	        dataType: 'text',
-	        async:true,
+			async:true,
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
-	      	  $('#overlay').fadeOut();
-	       	 gridsource.url='/admin/getunpublishednews';
-			 dataAdapter = new $.jqx.dataAdapter(gridsource);
-			 $('#grid').jqxGrid({source:dataAdapter});
-			 
-			 $("#notificationContent").html('Done');
-             $("#jqxNotification").jqxNotification("open");
-},
+	          triggerRobotWithFunction = false;
+			},
 	        error: function (e) {
 	        	
 					  console.log("ERROR : ", e);
 
 	        }
 	    });
+       $.ajax({
+	        contentType: "application/json",
+	        url: "/robot/callrobotswithfunctionasync",
+	        dataType: 'text',
+	        cache: false,
+			async:true,
+	        timeout: 600000,
+	        success: function (data) {
+	          triggerRobotWithoutFunction = false;
+			},
+	        error: function (e) {
+	        	
+					  console.log("ERROR : ", e);
+
+	        }
+	    });
+ // while ((triggerRobotWithFunction)||(triggerRobotWithoutFunction)) {};
+debugger;
+    if((!triggerRobotWithFunction)||(!triggerRobotWithoutFunction))
+	{
+			  $('#overlay').fadeOut();
+	       	 gridsource.url='/admin/getunpublishednews';
+			 dataAdapter = new $.jqx.dataAdapter(gridsource);
+			 $('#grid').jqxGrid({source:dataAdapter});
+			 
+			 $("#notificationContent").html('Done');
+             $("#jqxNotification").jqxNotification("open");
+	}
 	  
 	});
 	
