@@ -6,13 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bourse.domain.News;
+import com.bourse.dto.UpdatedColumnDTO;
 import com.bourse.service.RobotInitializerService;
 import com.bourse.service.RobotService;
 @RestController
@@ -31,9 +30,9 @@ public class RobotsController {
 		this.robotInitializerService = robotInitializerService;
 	}
 	
-	@PostMapping(value = "publishNews", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<HttpStatus>  publishNews(@RequestBody List<News> newsLst){
-		robotService.publishNews(newsLst);
+	@GetMapping(value = "publishNews", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<HttpStatus>  publishNews(){
+		robotService.publishNews();
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 	
@@ -43,19 +42,22 @@ public class RobotsController {
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 
-	@GetMapping(value = "callrobotswithoutfunctionasync", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<HttpStatus> callrobotswithoutfunctionasync(){
-		robotInitializerService.callrobotswithoutfunctionasync();
+	@GetMapping(value = "callrobotsasync", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<HttpStatus> callrobotsasync(){
+		String withFunctionProcess = "PROCESS_WITH_FUNCTION";
+		String withoutFunctionProcess = "PROCESS_WITHOUT_FUNCTION";
+		String withFunctionInitiateProc = "INITIATE_ROBOT_WITH_FUNCTION";
+		String withoutFunctionInitiateProc = "INITIATE_ROBOT_WITHOUT_FUNCTION";
+		String withFunctionFinalizationProc = "INSERT_ROBOTS_WITH_FUNCTION_NEWS";
+		String withoutFunctionFinalizationProc = "INSERT_ROBOTS_WITHOUT_FUNCTION_NEWS";
 		
-		// robotService.triggerRobotAsync(listOfRobots);
+		robotInitializerService.callRobotsAsync(withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess);
+		robotInitializerService.callRobotsAsync(withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess);
 		return new ResponseEntity<>(HttpStatus.OK);
     }
-	@GetMapping(value = "callrobotswithfunctionasync", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<HttpStatus> callrobotswithfunctionasync(){
-		robotInitializerService.callrobotswithfunctionasync();
-		
-		// robotService.triggerRobotAsync(listOfRobots);
+	@PostMapping(value ="updaterobotnewsonchangecolumns")
+	public ResponseEntity<HttpStatus> UpdateColumnConfigurationById(@RequestBody List<UpdatedColumnDTO> updatedColumnDTOList) {
+		robotInitializerService.UpdateColumnConfigurationById(updatedColumnDTOList);
 		return new ResponseEntity<>(HttpStatus.OK);
-    }
-	
+	}
 }

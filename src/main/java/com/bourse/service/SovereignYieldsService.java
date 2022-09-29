@@ -95,13 +95,13 @@ public class SovereignYieldsService
 		for(UpdateDataDTO updateDataDTO:updateDataDTOlst)
 		{
 			sovereignData = sovereignYieldsRepository.findSovereignByReferDateAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getSubgroupId()));
-		    if(updateDataDTO.getFatcor().contains("30"))
+		    if(updateDataDTO.getFactor().contains("30"))
 		    	sovereignData.setThirteeYrFactor(updateDataDTO.getValue());
-		    if(updateDataDTO.getFatcor().contains("5"))
+		    if(updateDataDTO.getFactor().contains("5"))
 		    	sovereignData.setFiveYrFactor(updateDataDTO.getValue());
-		    if(updateDataDTO.getFatcor().contains("10"))
+		    if(updateDataDTO.getFactor().contains("10"))
 		    	sovereignData.setTenYrFactor(updateDataDTO.getValue());
-		    if(updateDataDTO.getFatcor().contains("2"))
+		    if(updateDataDTO.getFactor().contains("2"))
 		    	sovereignData.setTwoYrFactor(updateDataDTO.getValue());
 		    sovereignYieldsRepository.save(sovereignData);
 		}

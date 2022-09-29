@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bourse.domain.OngoingProcess;
 import com.bourse.service.OngoingProcessService;
 
 @RestController
@@ -18,9 +19,20 @@ public class CheckProcessExecutionController {
 	OngoingProcessService ongoingProcessService;
 	
 	@GetMapping(value = "isrobottriggered", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<HttpStatus>  checkProcessStatus(){
-	
-		return new ResponseEntity<>(HttpStatus.OK);
+    public  ResponseEntity<Boolean> CheckProcessStatus(){
+		OngoingProcess ongoingProcess= ongoingProcessService.checkIfExist(true);
+		Boolean isRunnig =false;
+		if(ongoingProcess!=null)
+			isRunnig = true;
+		return new ResponseEntity<>(isRunnig, HttpStatus.OK);
+    }
+	@GetMapping(value = "mustbetriggered", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<Boolean> MustBeTriggered(){
+		OngoingProcess ongoingProcess= ongoingProcessService.checkIfMustBeTriggered(true);
+		Boolean mustBeTriggered =false;
+		if(ongoingProcess!=null)
+			mustBeTriggered = true;
+		return new ResponseEntity<>(mustBeTriggered, HttpStatus.OK);
     }
 	@PostMapping(value = "updateongoingprocess", produces = "application/json;charset=UTF-8")
     public  ResponseEntity<HttpStatus>  updateOngoingProcess(){

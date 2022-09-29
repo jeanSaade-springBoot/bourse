@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import com.bourse.domain.AllNewsView;
 import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.RobotsConfiguration;
@@ -26,6 +27,7 @@ import com.bourse.domain.SubGroup;
 import com.bourse.dto.ColumnConfigurationDTO;
 import com.bourse.dto.NewsOrderDTO;
 import com.bourse.dto.RobotsConfigDTO;
+import com.bourse.repositories.AllNewsViewRepository;
 import com.bourse.repositories.CalendarDatesRepository;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
@@ -56,6 +58,8 @@ public class AdminService
 	CalendarDatesRepository calendarDatesRepository;
 	@Autowired
 	NewsRepository newsRepository;
+	@Autowired
+	AllNewsViewRepository allNewsViewRepository;
 	@Autowired
 	ManualNewsService manualNewsService;
 	@Autowired
@@ -243,17 +247,17 @@ public class AdminService
 	public List<News> findByIsPublishedFormatedDate(){
 		return newsRepository.findByIsPublishedFormatedDate();
 	}
-	public List<News> getUnPublishedNews(){
+	public List<AllNewsView> getUnPublishedNews(){
 		boolean hasData= getData();
 		if(!hasData)
 			return null;
-		return newsRepository.findAllOrder();
+		return allNewsViewRepository.findAll();
 	}
 	public void deleteNews(long id, String isFunctionNews)
 	{  if (isFunctionNews.equalsIgnoreCase("0"))
 		 newsRepository.deleteById(id);
 	  else 
-		  newsFunctionRepository.deleteById(id);
+		 newsFunctionRepository.deleteById(id);
 		
 	}
 	public News findNewsById(long id) 
@@ -274,6 +278,7 @@ public class AdminService
 				          .generationDateDate(news.getGenerationDateDate())
 				          .columnDescription(news.getColumnDescription())
 				          .isPublished(news.getIsPublished())
+				          .isVisible(news.getIsVisible())
 				          .build();
 		
         return newsRepository.save(newsInstance);
@@ -292,6 +297,7 @@ public class AdminService
 									  .isFunctionNews("1")
 									  .template(savedFunctionNews.getTemplate())
 									  .robots(savedFunctionNews.getRobots())
+									  .isVisible(savedFunctionNews.getIsVisible())
 									  .build();
 			 return updatedNews;
         }

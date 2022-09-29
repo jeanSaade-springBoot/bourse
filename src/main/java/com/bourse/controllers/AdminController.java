@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bourse.domain.AllNewsView;
 import com.bourse.domain.AssetClass;
 import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
@@ -203,7 +204,7 @@ public class AdminController {
 		return new ResponseEntity<>( adminService.findAllNewsByGroupIdAndSubgroupId(subGroupIdDescription), HttpStatus.OK);
 	}
 	@GetMapping(value = "getunpublishednews")
-	public ResponseEntity<List<News>>  getUnPublishedNews() {
+	public ResponseEntity<List<AllNewsView>>  getUnPublishedNews() {
 		return new ResponseEntity<>( adminService.getUnPublishedNews(), HttpStatus.OK);
 	}
 	

@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.domain.News;
 import com.bourse.domain.RobotInitializer;
+import com.bourse.repositories.NewsFunctionRepository;
 import com.bourse.repositories.NewsRepository;
 
 @Service
@@ -20,6 +21,8 @@ public class RobotService
 {
 	@Autowired
 	NewsRepository newsRepository;
+	@Autowired
+	NewsFunctionRepository newsFunctionRepository;
 	@Autowired
 	TriggerRobotService triggerRobotService;
 	@PersistenceContext
@@ -30,16 +33,9 @@ public class RobotService
         return newsRepository.findAll();
 	}
 	
-	public void publishNews(List<News> newsLst) {
-		News updatedObject;
-		for(News n :newsLst) {
-			Optional<News> optionalObject= newsRepository.findById(n.getId());
-			if(optionalObject.isPresent()) {
-				updatedObject = optionalObject.get();
-				updatedObject.setIsPublished("1");
-				newsRepository.save(updatedObject);
-			}
-		}
+	public void publishNews() {
+		newsRepository.publishNews();
+		newsFunctionRepository.publishNews();
 	}
 	
 	public void callRobots(){

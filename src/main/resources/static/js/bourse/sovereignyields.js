@@ -10,6 +10,7 @@
          monthDate.setMonth(monthDate.getMonth() - 1);
          var source;
          var date=new Date();
+         var oldDataJson;
          var allitems=[
           "#jqxCheckBoxUSA-30",
        	  "#jqxCheckBoxUSA-10",
@@ -1061,53 +1062,78 @@
 	    	        cache: false,
 	    	        timeout: 600000,
 	    	        success: function (response) {
-	    	        	
 	    	        	if(response)
 	    	        	{
-		    	       	  $.ajax({
-		    	    	        type: "POST",
-		    	    	        contentType: "application/json",
-		    	    	        url: "/bourse/savesovereigndata",
-		    	    	        data: JSON.stringify(dataToBeInserted),
-		    	    	        dataType: 'json',
-		    	    	        async:true,
-		    	    	        cache: false,
-		    	    	        timeout: 600000,
-		    	    	        success: function (data) {
-		    	    	        	
-		    	    	        	updateOngoinProcessTable();
-		    	    	        	getFilterData();
-		    	    	        	  
-		  						 datatextarea.value="";
-		  		            	  $("#dataformInput").css("display","block");
-		  						  $("#dataInputButtons").css("display","none"); 
-		  						  $("#dataInputGrid").css("display","none");
-		  						
-		  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
-		    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
-		    	        	    
-		    				    filterDate=date;
-		    				    delete auditGridSource.localdata;   
-		    				     auditGridSource.url='/bourse/getauditdata/'+date;
-		    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-		    					 $('#auditGrid').jqxGrid({source:dataAdapter});
-		    					 
-		    				    delete curvesGridSource.localdata;
-		    				     curvesGridSource.url='/bourse/getcurvedata/'+date;
-		    					 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
-		    					 $('#curvesGrid').jqxGrid({source:dataAdapter});
-		    					 
-		    					 delete crossesGridSource.localdata;
-		    					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
-		    					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
-		    					 $('#crossesGrid').jqxGrid({source:dataAdapter}); 
-		    	            },
-		    	    	        error: function (e) {
-		    	    	        	
-		    						  console.log("ERROR : ", e);
-		    	
-		    	    	        }
-		    	    	    });
+							 $.ajax({
+						        contentType: "application/json",
+						        url: "/process/isrobottriggered",
+						        dataType: 'text',
+								async:true,
+						        cache: false,
+						        timeout: 600000,
+						        success: function (data) {
+				      
+								if(data=='true')
+								   $('#alert-modal-robot').modal('show'); 
+								else{
+									
+		
+						    	       	  $.ajax({
+						    	    	        type: "POST",
+						    	    	        contentType: "application/json",
+						    	    	        url: "/bourse/savesovereigndata",
+						    	    	        data: JSON.stringify(dataToBeInserted),
+						    	    	        dataType: 'json',
+						    	    	        async:true,
+						    	    	        cache: false,
+						    	    	        timeout: 600000,
+						    	    	        success: function (data) {
+						    	    	        
+												 getFilterData();
+						    	    	        	  
+						  						 datatextarea.value="";
+						  		            	  $("#dataformInput").css("display","block");
+						  						  $("#dataInputButtons").css("display","none"); 
+						  						  $("#dataInputGrid").css("display","none");
+						  						
+						  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
+						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+						    	        	    
+						    				    filterDate=date;
+						    				    delete auditGridSource.localdata;   
+						    				     auditGridSource.url='/bourse/getauditdata/'+date;
+						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+						    					 $('#auditGrid').jqxGrid({source:dataAdapter});
+						    					 
+						    				    delete curvesGridSource.localdata;
+						    				     curvesGridSource.url='/bourse/getcurvedata/'+date;
+						    					 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+						    					 $('#curvesGrid').jqxGrid({source:dataAdapter});
+						    					 
+						    					 delete crossesGridSource.localdata;
+						    					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
+						    					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+						    					 $('#crossesGrid').jqxGrid({source:dataAdapter}); 
+						
+						    	    	         triggerRobots();	
+						    	    	         
+						    	            },
+						    	    	        error: function (e) {
+						    	    	        	
+						    						  console.log("ERROR : ", e);
+						    	
+						    	    	        }
+						    	    	    });
+										}
+					
+								},
+						        error: function (e) {
+						        	
+										  console.log("ERROR : ", e);
+					
+						        }
+						    });
+
 	    	        	}
 	    	        	else{
 	    	        		$('#alert-modal').modal('show'); 
@@ -1561,7 +1587,18 @@
 	    	    });
 			}
 			 function Edit(row, event) {
+				
 				     isedit=true;
+					 var data=$("#auditGrid").jqxGrid('getrowdata', row);	
+				     oldDataJson={
+					   "factor":data.factor,
+		               "france":data.france,
+					   "germany":data.germany,
+					   "italy":data.italy,
+					   "spain":data.spain,
+					   "uk":data.uk,
+					   "usa":data.usa,
+				     };
 				     selectedRow.editrow = row;
 				     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				     if(auditGridSource.url=='' || date!=filterDate)
@@ -1604,48 +1641,64 @@
 				     }, 300);
 			    }
 			  function Update(row, event) {
-				 
+				   
 				   isupdate=true;
 				   var dataToBeUpdated = [];
 				   var updatedData = $("#auditGrid").jqxGrid('getrowdata', row);
 				   selectedRow.editrow = -1;
 				    $("#auditGrid").jqxGrid('endrowedit', row);
 				    var updatedData = $("#auditGrid").jqxGrid('getrowdata', row);
-				
-					 	dataToBeUpdated.push({
+				    var updatedDataJson={
+					   "factor":updatedData.factor,
+		               "france":updatedData.france,
+					   "germany":updatedData.germany,
+					   "italy":updatedData.italy,
+					   "spain":updatedData.spain,
+					   "uk":updatedData.uk,
+					   "usa":updatedData.usa,
+				     };
+                    var keys=["factor","france","germany","italy","spain","uk","usa"];
+                    var updatedCountriesJson=[];
+                    for (let i = 0; i < keys.length; i++) {
+	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
+                          updatedCountriesJson.push({"factor": updatedDataJson.factor.replace("yr",""),
+												 "country":	getCountryDbDescription(keys[i])});
+	                }
+                    
+					dataToBeUpdated.push({
 	         			   "subgroupId":"1",
 	         			   "value":updatedData.usa,
-	         			   "fatcor":updatedData.factor,
+	         			   "factor":updatedData.factor,
 	         			   "referdate": date
 	         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"3",
 		         			   "value":updatedData.germany,
-		         			   "fatcor":updatedData.factor,
+		         			   "factor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"2",
 		         			   "value":updatedData.france,
-		         			   "fatcor":updatedData.factor,
+		         			   "factor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"4",
 		         			   "value":updatedData.uk,
-		         			   "fatcor":updatedData.factor,
+		         			   "factor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"5",
 		         			   "value":updatedData.italy,
-		         			   "fatcor":updatedData.factor,
+		         			   "factor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"6",
 		         			   "value":updatedData.spain,
-		         			   "fatcor":updatedData.factor,
+		         			   "factor":updatedData.factor,
 		         			   "referdate": date
 		         			});
 						
@@ -1660,8 +1713,8 @@
 		      	    	        cache: false,
 		      	    	        timeout: 600000,
 		      	    	        success: function (data) {
-									updateOngoinProcessTable();
-		      	    	       
+			  
+		                            updateRobotNewsOnChangeColumns(updatedCountriesJson);
 		      	    	        	 delete curvesGridSource.localdata;
 		      					    curvesGridSource.url='/bourse/getcurvedata/'+date;
 		      						 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
@@ -1680,7 +1733,24 @@
 		      	
 		      	    	        }
 		      	    	    });
-		      	       	  
+		      	       	/* $.ajax({
+		      	    	        type: "POST",
+		      	    	        contentType: "application/json",
+		      	    	        url: "/column/updatedcolumn",
+		      	    	        data: JSON.stringify(dataToBeUpdated),
+		      	    	        dataType: 'json',
+		      	    	        async:true,
+		      	    	        cache: false,
+		      	    	        timeout: 600000,
+		      	    	        success: function (data) {
+		      	        			},
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    }); */
+
 				    if (event) {
 				    	if (event.preventDefault) {
 				    		event.preventDefault();
@@ -1820,8 +1890,7 @@
 			     $.ajax({
 			             type : "DELETE",
 			             url : "/bourse/deletesovereignbyreferdate/" + date,
-			             success: function (result) {
-				    updateOngoinProcessTable();   
+			             success: function (result) {   
 				    getAuditGridSource();  
 					getFilterData();  
 			        $('#alertDeleteDataByDate-modal').modal('hide');
@@ -1876,21 +1945,69 @@
 			    	    });
 			
 			}
-			function updateOngoinProcessTable()
-			{
-					 $.ajax({
-			    	        type: "POST",
-      	    	            contentType: "application/json",
-			    	        url: "/process/updateongoingprocess",
-			    	        dataType: 'text',
-			    	        async:true,
-			    	        cache: false,
-			    	        timeout: 600000,
-			    	        success: function () {
-			    	        
-			    	        },
-			    	        error: function (e) {
-								  console.log("ERROR : ", e);
-			    	        }
-			    	    });
-			}
+	function triggerRobots()
+	{
+		 $.ajax({
+	       	        contentType:  "application/json; charset=utf-8",
+	    	        url: "/robot/callrobotsasync",
+	    	        dataType: 'json',
+	    	        timeout: 600000,
+	    	        async:true,
+	    	        success: function (response) {
+	    	        	
+	                  },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });	
+	}	
+	
+	function updateRobotNewsOnChangeColumns(ArrayOfColumns)
+	{	
+		 $.ajax({
+       	            type: "POST",
+  	    	        contentType: "application/json",
+  	    	        url: "/robot/updaterobotnewsonchangecolumns",
+  	    	        data: JSON.stringify(ArrayOfColumns),
+	    	        dataType: 'json',
+	    	        timeout: 600000,
+	    	        async:true,
+	    	        success: function (response) {
+	    	        	
+	                  },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });	
+	}
+		
+ 	function getCountryDbDescription(country)
+	{
+	  var fullName='';	
+		switch(country) {
+		  
+		 case 'france': 
+		   fullName='FRA'
+		        break;
+		 case 'germany': 
+		   fullName='GER'
+		        break;
+		 case 'italy': 
+		   fullName='ITA'
+			    break;
+		 case 'spain': 
+	       fullName='SP'
+			    break;
+		 case 'uk': 
+		   fullName='UK'
+			    break;
+		case 'usa': 
+		   fullName='USA'
+			    break;
+		}
+	return fullName;
+	}	

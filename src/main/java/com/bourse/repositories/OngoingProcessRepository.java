@@ -13,4 +13,8 @@ public interface OngoingProcessRepository  extends JpaRepository<OngoingProcess,
 	 @Query(value = "update ongoing_process set must_be_trigger = true",
              nativeQuery = true)
      public void updateOngoingProcess();
+
+	public OngoingProcess findTopByMustBeTrigger(boolean value);
+
+	public OngoingProcess findTopByStatus(boolean value);
 }

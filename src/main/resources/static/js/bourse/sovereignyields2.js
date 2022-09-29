@@ -10,7 +10,6 @@
          monthDate.setMonth(monthDate.getMonth() - 1);
          var source;
          var date=new Date();
-         var oldDataJson;
          var allitems=[
           "#jqxCheckBoxUSA-30",
        	  "#jqxCheckBoxUSA-10",
@@ -1076,8 +1075,8 @@
 		    	    	        timeout: 600000,
 		    	    	        success: function (data) {
 		    	    	        	
-		    	    	         triggerRobotsOnInsert();	
-		    	    	         getFilterData();
+		    	    	        	updateOngoinProcessTable();
+		    	    	        	getFilterData();
 		    	    	        	  
 		  						 datatextarea.value="";
 		  		            	  $("#dataformInput").css("display","block");
@@ -1562,18 +1561,7 @@
 	    	    });
 			}
 			 function Edit(row, event) {
-				debugger;
 				     isedit=true;
-					 var data=$("#auditGrid").jqxGrid('getrowdata', 0);	
-				     oldDataJson={
-					   "factor":data.factor,
-		               "france":data.france,
-					   "germany":data.germany,
-					   "italy":data.italy,
-					   "spain":data.spain,
-					   "uk":data.uk,
-					   "usa":data.usa,
-				     };
 				     selectedRow.editrow = row;
 				     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				     if(auditGridSource.url=='' || date!=filterDate)
@@ -1616,31 +1604,15 @@
 				     }, 300);
 			    }
 			  function Update(row, event) {
-				   debugger;
+				 
 				   isupdate=true;
 				   var dataToBeUpdated = [];
 				   var updatedData = $("#auditGrid").jqxGrid('getrowdata', row);
 				   selectedRow.editrow = -1;
 				    $("#auditGrid").jqxGrid('endrowedit', row);
 				    var updatedData = $("#auditGrid").jqxGrid('getrowdata', row);
-				    var updatedDataJson={
-					   "factor":updatedData.factor,
-		               "france":updatedData.france,
-					   "germany":updatedData.germany,
-					   "italy":updatedData.italy,
-					   "spain":updatedData.spain,
-					   "uk":updatedData.uk,
-					   "usa":updatedData.usa,
-				     };
-                    var keys=["factor","france","germany","italy","spain","uk","usa"];
-                    var updatedCountriesJson=[];
-                    for (let i = 0; i < keys.length; i++) {
-	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
-                          updatedCountriesJson.push({"factor": updatedDataJson.factor.replace("yr",""),
-												 "country":	getCountryDbDescription(keys[i])});
-	                }
-                    
-					dataToBeUpdated.push({
+				
+					 	dataToBeUpdated.push({
 	         			   "subgroupId":"1",
 	         			   "value":updatedData.usa,
 	         			   "factor":updatedData.factor,
@@ -1688,7 +1660,8 @@
 		      	    	        cache: false,
 		      	    	        timeout: 600000,
 		      	    	        success: function (data) {
-			
+									updateOngoinProcessTable();
+		      	    	       
 		      	    	        	 delete curvesGridSource.localdata;
 		      					    curvesGridSource.url='/bourse/getcurvedata/'+date;
 		      						 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
@@ -1707,24 +1680,7 @@
 		      	
 		      	    	        }
 		      	    	    });
-		      	       	/* $.ajax({
-		      	    	        type: "POST",
-		      	    	        contentType: "application/json",
-		      	    	        url: "/column/updatedcolumn",
-		      	    	        data: JSON.stringify(dataToBeUpdated),
-		      	    	        dataType: 'json',
-		      	    	        async:true,
-		      	    	        cache: false,
-		      	    	        timeout: 600000,
-		      	    	        success: function (data) {
-		      	        			},
-		      	    	        error: function (e) {
-		      	    	        	
-		      						  console.log("ERROR : ", e);
-		      	
-		      	    	        }
-		      	    	    }); */
-
+		      	       	  
 				    if (event) {
 				    	if (event.preventDefault) {
 				    		event.preventDefault();
@@ -1864,7 +1820,8 @@
 			     $.ajax({
 			             type : "DELETE",
 			             url : "/bourse/deletesovereignbyreferdate/" + date,
-			             success: function (result) {   
+			             success: function (result) {
+				    updateOngoinProcessTable();   
 				    getAuditGridSource();  
 					getFilterData();  
 			        $('#alertDeleteDataByDate-modal').modal('hide');
@@ -1919,47 +1876,21 @@
 			    	    });
 			
 			}
-	function triggerRobotsOnInsert()
-	{
-		 $.ajax({
-	       	        contentType:  "application/json; charset=utf-8",
-	    	        url: "/robot/callRobotsAsync/"+"robots_highlow_mono",
-	    	        dataType: 'json',
-	    	        timeout: 600000,
-	    	        async:false,
-	    	        success: function (response) {
-	    	        	
-	                  },
-	    	        error: function (e) {
-	    	        	
-						  console.log("ERROR : ", e);
-	
-	    	        }
-	    	    });	
-	}		
- 	function getCountryDbDescription(country)
-	{
-	  var fullName='';	
-		switch(country) {
-		  
-		 case 'france': 
-		   fullName='FRA'
-		        break;
-		 case 'germany': 
-		   fullName='GER'
-		        break;
-		 case 'italy': 
-		   fullName='ITA'
-			    break;
-		 case 'spain': 
-	       fullName='SP'
-			    break;
-		 case 'uk': 
-		   fullName='UK'
-			    break;
-		case 'usa': 
-		   fullName='USA'
-			    break;
-		}
-	return fullName;
-	}	
+			function updateOngoinProcessTable()
+			{
+					 $.ajax({
+			    	        type: "POST",
+      	    	            contentType: "application/json",
+			    	        url: "/process/updateongoingprocess",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function () {
+			    	        
+			    	        },
+			    	        error: function (e) {
+								  console.log("ERROR : ", e);
+			    	        }
+			    	    });
+			}

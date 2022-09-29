@@ -1220,7 +1220,13 @@ insert into news_order (id,order_id,robot_code,state)
   -- ------------------   
  create table robot_initializer_sequence (next_val bigint);
  INSERT INTO robot_initializer_sequence (next_val) VALUES (1);
- create table robot_initializer (id bigint not null, column_name varchar(255), robot_name varchar(255), primary key (id));
+CREATE TABLE `robot_initializer` (
+  `id` bigint NOT NULL,
+  `column_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `robot_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `process_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE `tmp_news_robot` (
   `column_description` varchar(255) DEFAULT NULL,
@@ -1249,21 +1255,26 @@ INSERT INTO `bourse`.`ongoing_process`
 (`id`,
 `process_name`,
 `status`,
+`must_be_trigger`,
 `update_date`)
 VALUES
 ('1',
 'PROCESS_WITHOUT_FUNCTION',
-'0',
+false,
+false,
 null);
+
 INSERT INTO `bourse`.`ongoing_process`
 (`id`,
 `process_name`,
 `status`,
+`must_be_trigger`,
 `update_date`)
 VALUES
 ('2',
 'PROCESS_WITH_FUNCTION',
-'0',
+false,
+false,
 null);
 
 INSERT INTO `bourse`.`robot_initializer`
@@ -1348,6 +1359,41 @@ INSERT INTO `bourse`.`robot_initializer`
 )
 select @row_number:=@row_number + 1 AS id,'robots_highlow_10YR_Percentile_mono',description,'PROCESS_WITH_FUNCTION' 
 from column_configuration,(SELECT @row_number:=774) AS t;
+INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`robot_name`,
+`column_name`,
+`process_name`
+)
+select @row_number:=@row_number + 1 AS id,'robots_highlow_Century_Percentile_mono',description,'PROCESS_WITH_FUNCTION' 
+from column_configuration,(SELECT @row_number:=860) AS t;
+
+INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`robot_name`,
+`column_name`,
+`process_name`
+)
+select @row_number:=@row_number + 1 AS id,'robots_highlow_20YR_Percentile_mono',description,'PROCESS_WITH_FUNCTION' 
+from column_configuration,(SELECT @row_number:=946) AS t;
+
+INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`robot_name`,
+`column_name`,
+`process_name`
+)
+select @row_number:=@row_number + 1 AS id,'robots_jump_100DAVG_mono',description,'PROCESS_WITH_FUNCTION' 
+from column_configuration,(SELECT @row_number:=1032) AS t;
+
+INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`robot_name`,
+`column_name`,
+`process_name`
+)
+select @row_number:=@row_number + 1 AS id,'robots_jump_200DAVG_mono',description,'PROCESS_WITH_FUNCTION' 
+from column_configuration,(SELECT @row_number:=1118) AS t;
 CREATE TABLE  tmp_news_function_robot AS
 SELECT 
     `news_function`.`column_description`,
@@ -1363,6 +1409,7 @@ CREATE TABLE debugging_procedure_logs (
     id int NOT NULL AUTO_INCREMENT,
     procedure_name varchar(255) NOT NULL,
     parameters varchar(255),
-    execution_date DATETIME,
+	`start_time` time DEFAULT NULL,
+	`end_time` time DEFAULT NULL,
     PRIMARY KEY (id)
 );

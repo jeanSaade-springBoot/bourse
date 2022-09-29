@@ -3,8 +3,10 @@ import java.util.List;
 
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.bourse.domain.News;
 import com.bourse.dto.NewsDTO;
@@ -39,6 +41,7 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 	 		+ "	 								and s.id_Sub_Group=c.subgroup_Id\r\n"
 	 		+ "	 								and g.id = c.group_Id\r\n"
 	 		+ "	 								and g.asset_Id=a.id\r\n"
+	 		+ "									and t.is_visible=1 "
 	 		+ "	 		\r\n"
 	 		+ "	 		   union\r\n"
 	 		+ "	 						SELECT t.id,\r\n"
@@ -62,6 +65,7 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 	 		+ "	 				  and fc.function_id=f.id\r\n"
 	 		+ "	 				  and r.function_id=f.id\r\n"
 	 		+ "	 		          and r.column_description=fc.description\r\n"
+	 		+ "					  and t.is_visible=1 \r\n"
 	 		+ "	 		         )tab4 , news_order\r\n"
 	 		+ "	 							where tab4.robot_code=news_order.robot_code\r\n"
 	 		+ "	 							order by \r\n"
@@ -372,5 +376,15 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 	 		+ "	 							news_order.order_id asc " , 
 		 		  nativeQuery = true)   	
 	 List<News> findSelectedGraphNews(@Param("selectedGraphNews") List<String> selectedGraphNews);
+	 
+	  @Transactional
+	  @Modifying
+	  @Query("Update News set isVisible=1")
+	  void showGeneratedNews();
+	  
+	  @Transactional
+	  @Modifying
+	  @Query("Update News set isPublished=1")
+	  public void publishNews();
 	 
 }

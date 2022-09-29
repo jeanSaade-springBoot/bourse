@@ -39,4 +39,5 @@ public class News {
     private String generationDateDate;
     private String isPublished;
     private String isFunctionNews;
+    private String isVisible;
     }

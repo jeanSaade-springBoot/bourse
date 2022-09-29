@@ -164,6 +164,7 @@
 				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
 				   "isPublished":updatedData.isPublished,
 				   "isFunctionNews":updatedData.isFunctionNews,
+				   "isVisible":"1",
 	    };
 		
   	       	  $.ajax({
@@ -236,6 +237,7 @@
 				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
 				   "isPublished":'0',
 	 			   "isFunctionNews":updatedData.isFunctionNews,
+ 				   "isVisible":"1",
 	    };
 		
 	   
@@ -277,6 +279,7 @@
 				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
 				   "isPublished":'1',
 		           "isFunctionNews":updatedData.isFunctionNews,
+ 				   "isVisible":"1",
 	    };
 		
 				  $.ajax({
@@ -418,10 +421,8 @@
 		  }
  
  	  $.ajax({
-	        type: "POST",
 	        contentType: "application/json",
 	        url: "/robot/publishNews",
-	        data: JSON.stringify(publishedRows),
 	        dataType: 'text',
 	        async:true,
 	        cache: false,
@@ -443,20 +444,50 @@
 	    }); 
 	  
 	});
-  
+ 
   $("#triggerRobotButton").click(function () {
-	  var triggerRobotWithFunction=true;
-      var triggerRobotWithoutFunction=true;
-	  $('#overlay').fadeIn();
-	  $.ajax({
+	  
+
+   $.ajax({
 	        contentType: "application/json",
-	        url: "/robot/callrobotswithoutfunctionasync",
+	        url: "/process/isrobottriggered",
 	        dataType: 'text',
 			async:true,
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
-	          triggerRobotWithFunction = false;
+	      
+					if(data=='false')
+					    $.ajax({
+					        contentType: "application/json",
+					        url: "/process/mustbetriggered",
+					        dataType: 'text',
+							async:true,
+					        cache: false,
+					        timeout: 600000,
+					        success: function (data) {
+						  
+						 	 			if(data==true)
+				                          {
+										  $('#overlay').fadeIn();
+										   triggerRobot();
+										   }
+											else{
+												showGeneratedNews();
+											    }
+									},
+					        error: function (e) {
+					        	
+									  console.log("ERROR : ", e);
+				
+					        }
+					    });
+					else{ 
+				
+				     $('#alert-modal-robot').modal('show'); 
+			
+					   }
+
 			},
 	        error: function (e) {
 	        	
@@ -464,37 +495,63 @@
 
 	        }
 	    });
-       $.ajax({
-	        contentType: "application/json",
-	        url: "/robot/callrobotswithfunctionasync",
-	        dataType: 'text',
-	        cache: false,
-			async:true,
-	        timeout: 600000,
-	        success: function (data) {
-	          triggerRobotWithoutFunction = false;
-			},
-	        error: function (e) {
-	        	
-					  console.log("ERROR : ", e);
 
-	        }
-	    });
- // while ((triggerRobotWithFunction)||(triggerRobotWithoutFunction)) {};
-debugger;
-    if((!triggerRobotWithFunction)||(!triggerRobotWithoutFunction))
+	});
+	function ReCallTriggerRobot() {
+      $("#triggerRobotButton").trigger("click");
+   }
+  $("#grid").click(function(e) {
+	  e.stopPropagation(); //stops click event from reaching document
+	});
+	
+	function triggerRobot()
 	{
-			  $('#overlay').fadeOut();
+		  $.ajax({
+	        contentType: "application/json",
+	        url: "/robot/callrobotsasync",
+	        dataType: 'text',
+			async:true,
+	        cache: false,
+	        timeout: 600000,
+	        success: function (data) {
+	         $('#overlay').fadeOut();
 	       	 gridsource.url='/admin/getunpublishednews';
 			 dataAdapter = new $.jqx.dataAdapter(gridsource);
 			 $('#grid').jqxGrid({source:dataAdapter});
 			 
 			 $("#notificationContent").html('Done');
              $("#jqxNotification").jqxNotification("open");
+			},
+	        error: function (e) {
+	        	
+					  console.log("ERROR : ", e);
+
+	        }
+	    });
 	}
-	  
-	});
 	
-  $("#grid").click(function(e) {
-	  e.stopPropagation(); //stops click event from reaching document
-	});
+	function showGeneratedNews()
+	{
+		  $.ajax({
+	        contentType: "application/json",
+	        url: "/news/showvisiblenews",
+	        dataType: 'text',
+			async:true,
+	        cache: false,
+	        timeout: 600000,
+	        success: function (data) {
+	         $('#overlay').fadeOut();
+	       	 gridsource.url='/admin/getunpublishednews';
+			 dataAdapter = new $.jqx.dataAdapter(gridsource);
+			 $('#grid').jqxGrid({source:dataAdapter});
+			 
+			 $("#notificationContent").html('Done');
+             $("#jqxNotification").jqxNotification("open");
+			},
+	        error: function (e) {
+	        	
+					  console.log("ERROR : ", e);
+
+	        }
+	    });
+	}
