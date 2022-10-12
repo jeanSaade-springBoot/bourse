@@ -1519,8 +1519,11 @@
 						n = this._getY1Y2("y1", t),
 						o = t.label.text;
 					if (null === t.y2 || void 0 === t.y2) {
-						var l = this.annoCtx.graphics.drawLine(0 + t.offsetX, n + t.offsetY, s.globals.gridWidth + t.offsetX, n + t.offsetY, t.borderColor, r, t.borderWidth);
-						e.appendChild(l.node), t.id && l.node.classList.add(t.id)
+						if(n<s.globals.gridHeight && Math.sign(n) !== -1)
+						{
+							var l = this.annoCtx.graphics.drawLine(0 + t.offsetX, n + t.offsetY, s.globals.gridWidth + t.offsetX, n + t.offsetY, t.borderColor, r, t.borderWidth);
+							e.appendChild(l.node), t.id && l.node.classList.add(t.id)
+						}
 					} else {
 						if ((a = this._getY1Y2("y2", t)) > n) {
 							var h = n;
@@ -1529,21 +1532,24 @@
 						var c = this.annoCtx.graphics.drawRect(0 + t.offsetX, a + t.offsetY, s.globals.gridWidth + t.offsetX, n - a, 0, t.fillColor, t.opacity, 1, t.borderColor, r);
 						c.node.classList.add("apexcharts-annotation-rect"), c.attr("clip-path", "url(#gridRectMask".concat(s.globals.cuid, ")")), e.appendChild(c.node), t.id && c.node.classList.add(t.id)
 					}
-					var d = "right" === t.label.position ? s.globals.gridWidth : 0,
-						g = this.annoCtx.graphics.drawText({
-							x: d + t.label.offsetX,
-							y: (a || n) + t.label.offsetY - 3,
-							text: o,
-							textAnchor: t.label.textAnchor,
-							fontSize: t.label.style.fontSize,
-							fontFamily: t.label.style.fontFamily,
-							fontWeight: t.label.style.fontWeight,
-							foreColor: t.label.style.color,
-							cssClass: "apexcharts-yaxis-annotation-label ".concat(t.label.style.cssClass, " ").concat(t.id ? t.id : "")
-						});
-					g.attr({
-						rel: i
-					}), e.appendChild(g.node)
+					if(n<s.globals.gridHeight && Math.sign(n) !== -1)
+						{
+						var d = "right" === t.label.position ? s.globals.gridWidth : 0,
+							g = this.annoCtx.graphics.drawText({
+								x: d + t.label.offsetX,
+								y: (a || n) + t.label.offsetY - 3,
+								text: o,
+								textAnchor: t.label.textAnchor,
+								fontSize: t.label.style.fontSize,
+								fontFamily: t.label.style.fontFamily,
+								fontWeight: t.label.style.fontWeight,
+								foreColor: t.label.style.color,
+								cssClass: "apexcharts-yaxis-annotation-label ".concat(t.label.style.cssClass, " ").concat(t.id ? t.id : "")
+							});
+						g.attr({
+							rel: i
+						}), e.appendChild(g.node)
+					}
 				}
 			}, {
 				key: "_getY1Y2",

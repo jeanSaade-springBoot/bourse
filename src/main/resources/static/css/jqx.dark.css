@@ -450,7 +450,7 @@
 
 .jqx-primary-dark {
     color: var(--jqx-primary) !important;
-    background: #fff !important;
+    background: #000306 !important;
     border-color: var(--jqx-primary) !important;
     text-shadow: none !important;
 }

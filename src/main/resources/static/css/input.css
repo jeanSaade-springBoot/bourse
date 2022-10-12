@@ -1,0 +1,194 @@
+.form-control:focus {
+    color: #fff;
+    background-color: #18243a;
+    outline: 0;
+}
+
+input {
+  color-scheme: dark;
+}
+
+.textfield-outlined {
+  position: relative;
+  margin-bottom: 20px;
+  padding-top: 6px;
+  font-size: 16px;
+  line-height: 1.5;
+  letter-spacing: 0.4px;
+}
+.btn-style{
+	background-color: #3c558d!important;
+    border-color: #3c558d;
+}
+.textfield-outlined > input {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 9px 13px 9px;
+  font-size: 14px;
+  line-height: inherit;
+  color: #e0e9f3;
+  border-style: solid;
+  border-width: 1px;
+  border-color: transparent #bac8d7 #bac8d7;
+  border-radius: 4px;
+  -webkit-text-fill-color: currentColor;
+  background-color: transparent;
+  caret-color: #d6e7ff ;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.textfield-outlined > input:not(:focus):-moz-placeholder-shown{
+  border-top-color: #bac8d7;
+}
+
+.textfield-outlined > input:not(:focus):-ms-input-placeholder{
+  border-top-color: #bac8d7;
+}
+
+.textfield-outlined > input:not(:focus):placeholder-shown,
+.textfield-outlined > textarea:not(:focus):placeholder-shown {
+  border-top-color: #bac8d7;
+}
+
+.textfield-outlined > input + label,
+.textfield-outlined > textarea + label {
+  display: flex;
+  width: 100%;
+  max-height: 100%;
+  position: absolute;
+  top: 0;
+  left: 0;
+  font-size: 12px;
+  line-height: 15px;
+  color: #bac8d7;
+  cursor: text;
+  transition: color 0.2s, font-size 0.2s, line-height 0.2s;
+}
+
+.textfield-outlined > input:not(:focus):-moz-placeholder-shown + label{
+  font-size: 14px;
+  line-height: 54px;
+}
+
+.textfield-outlined > input:not(:focus):-ms-input-placeholder + label{
+  font-size: 14px;
+  line-height: 54px;
+}
+
+.textfield-outlined > input:not(:focus):placeholder-shown + label {
+  font-size: 14px;
+  line-height: 54px;
+}
+
+.textfield-outlined > input + label::before,
+.textfield-outlined > input + label::after{
+  content: "";
+  display: block;
+  box-sizing: border-box;
+  height: 8px;
+  min-width: 10px;
+  margin-top: 6px;
+  border-top: solid 1px #bac8d7;
+  pointer-events: none;
+  box-shadow: inset 0 1px transparent;
+  transition: border 0.2s, box-shadow 0.2s;
+}
+
+.textfield-outlined > input + label::before{
+  margin-right: 4px;
+  border-left: solid 1px transparent;
+  border-radius: 4px 0;
+}
+
+.textfield-outlined > input + label::after{
+  flex-grow: 1;
+  margin-left: 4px;
+  border-right: solid 1px transparent;
+  border-radius: 0 4px;
+}
+
+.textfield-outlined > input:not(:focus):-moz-placeholder-shown + label::before, .textfield-outlined > input:not(:focus):-moz-placeholder-shown + label::after{
+  border-top-color: transparent;
+}
+
+.textfield-outlined > input:not(:focus):-ms-input-placeholder + label::before, .textfield-outlined > input:not(:focus):-ms-input-placeholder + label::after{
+  border-top-color: transparent;
+}
+
+.textfield-outlined > input:not(:focus):placeholder-shown + label::before,
+.textfield-outlined > input:not(:focus):placeholder-shown + label::after {
+  border-top-color: transparent;
+}
+
+.textfield-outlined ~ label:hover > input {
+  border-color: transparent #272e36 #272e36;
+}
+
+.textfield-outlined label:hover > input + label::before,
+.textfield-outlined label:hover > input + label::after{
+  border-top-color: #272e36;
+}
+
+.textfield-outlined label:hover > input:not(:focus):-moz-placeholder-shown{
+  border-color: #272e36;
+}
+
+.textfield-outlined label:hover > input:not(:focus):-ms-input-placeholder{
+  border-color: #272e36;
+}
+
+.textfield-outlined label:hover > input:not(:focus):placeholder-shown{
+  border-color: #272e36;
+}
+
+.textfield-outlined > input:focus{
+  border-color: transparent #d6e7ff  #d6e7ff ;
+  outline: none;
+}
+
+.textfield-outlined > input:focus + label{
+  color: #d6e7ff ;
+}
+
+.textfield-outlined > input:focus + label::before,
+.textfield-outlined > input:focus + label::after{
+  border-top-color: #d6e7ff  !important;
+}
+
+.textfield-outlined > input:disabled,
+.textfield-outlined > input:disabled + label{
+  color: #bac8d7;
+  border-color: transparent #bac8d7 #bac8d7 !important;
+  pointer-events: none;
+}
+
+.textfield-outlined > input:disabled + label::before,
+.textfield-outlined > input:disabled + label::after{
+  border-top-color: #bac8d7 !important;
+}
+
+.textfield-outlined > input:disabled:-moz-placeholder-shown, .textfield-outlined > input:disabled:-moz-placeholder-shown + label{
+  border-top-color: #bac8d7 !important;
+}
+
+.textfield-outlined > input:disabled:-ms-input-placeholder, .textfield-outlined > input:disabled:-ms-input-placeholder + label{
+  border-top-color: #bac8d7 !important;
+}
+
+.textfield-outlined > input:disabled:placeholder-shown,
+.textfield-outlined > input:disabled:placeholder-shown + label{
+  border-top-color: #bac8d7 !important;
+}
+
+.textfield-outlined > input:disabled:-moz-placeholder-shown + label::before, .textfield-outlined > input:disabled:-moz-placeholder-shown + label::after{
+  border-top-color: transparent !important;
+}
+
+.textfield-outlined > input:disabled:-ms-input-placeholder + label::before, .textfield-outlined > input:disabled:-ms-input-placeholder + label::after{
+  border-top-color: transparent !important;
+}
+
+.textfield-outlined > input:disabled:placeholder-shown + label::before,
+.textfield-outlined > input:disabled:placeholder-shown + label::after {
+  border-top-color: transparent !important;
+}

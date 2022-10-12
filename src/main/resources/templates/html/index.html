@@ -55,24 +55,20 @@ div#content {
 			<a href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
 			<li class="rtbSeparator"><span class="rtbText"></span></li>
 			<a href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/ico-contactus.png" class="MainMenuIcon">email</a>		
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="#" class="nav-item nav-link"><img alt="" src="../../img/animatedcam2.gif" class="MainMenuIcon">video</a>
 		    </div>
 		</div>
 			<div class="nav-item dropdown" style="width: 15%">
-				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline ">	Charbel Nacouzi</span><b class="caret"></b></a>
+				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline " id="firstLastName"></span><b class="caret"></b></a>
 				<div class="dropdown-menu">
-					<a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
-					<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
-					<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
-					<div class="divider dropdown-divider"></div>
-					<a href="#" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a>
+				<!--    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
+						<div class="divider dropdown-divider"></div> -->
+					<a href="/logout" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 				</div>
 		</div>
 	</div>
-</nav>
+ </nav>
         <!-- Topbar -->
  </div>
    <div id="content">
@@ -97,6 +93,7 @@ div#content {
 		    </div>
 		    </div> -->
               <div class="card">
+   <div sec:authorize="hasRole('ROLE_SUPER_ADMIN')">
     <div class="card-body">
       <h5 class="card-title card-title-color">Yields</h5>
       <ul class="fa-ul">
@@ -107,6 +104,8 @@ div#content {
    <li><a href="/bourse/spreadmakergraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Spread Maker</a></li>
 </ul>
     </div>
+    
+      </div>
   </div>
    <div class="card">
     <div class="card-body">
@@ -306,6 +305,7 @@ div#content {
   
   <script src="/js/jqwidgets/jqxcore.js"></script> 
   <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  <script src="/js/config/session_storage.js"></script>
   <script src="/js/bourse/index.js"></script> 
   <script src="/js/bourse/scrollBarNews.js"></script> 
   

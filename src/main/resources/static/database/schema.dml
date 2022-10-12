@@ -1,0 +1,49 @@
+
+INSERT INTO `bourse`.`users`
+(`id`,
+`country`,
+`created_on`,
+`first_name`,
+`password`,
+`sur_name`,
+`user_name`,
+`is_first_login`)
+VALUES
+(1,
+'Lebanon',
+now(),
+'Charbel',
+'$2a$12$GFOd7M2iYWcgvUIY7sRki.Ytz.aG3qC/2u2MyxWA72l8T.jMMt0MO',
+'Nacouzi',
+'Charbel',
+false);
+
+INSERT INTO roles( id, name )
+	VALUES ('1', 'ROLE_SUPER_ADMIN');
+	
+INSERT INTO roles( id, name )
+	VALUES ('2', 'ROLE_ADMIN');
+	
+INSERT INTO roles( id, name )
+	VALUES ('3', 'ROLE_USER');
+	
+INSERT INTO user_roles(
+	user_id, role_id)
+	VALUES (1, 1);
+	
+INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(1,'READ');
+INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(2,'WRITE');
+INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(3,'DELETE');
+INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(4,'APPROVE');
+INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(5,'TRIGGER_ROBOT');
+INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(6,'VIEW_GRAPHS');
+
+INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(1,1,1);
+INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(2,2,1);
+INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(3,3,1);
+INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(4,4,1);
+INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(5,5,1);
+INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(6,6,1);
+
+INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(7,1,2);
+	

@@ -19,7 +19,6 @@ import com.bourse.domain.AllNewsView;
 import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.RobotsConfiguration;
-import com.bourse.domain.Status;
 import com.bourse.domain.News;
 import com.bourse.domain.NewsFunction;
 import com.bourse.domain.NewsOrder;
@@ -33,11 +32,9 @@ import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.ConfigurationRepository;
 import com.bourse.repositories.NewsFunctionRepository;
 import com.bourse.repositories.RobotsConfigRepository;
-import com.bourse.repositories.StatusRepository;
 import com.bourse.repositories.NewsOrderRepository;
 import com.bourse.repositories.NewsRepository;
 import com.bourse.repositories.SubGroupRepository;
-import org.springframework.beans.factory.annotation.Value;
 
 @Service
 public class AdminService 
@@ -64,6 +61,8 @@ public class AdminService
 	ManualNewsService manualNewsService;
 	@Autowired
 	NewsFunctionRepository newsFunctionRepository;
+	@Autowired
+	AllNewsViewService allNewsViewService;
 	
 	private String encDecKey="secretKey";
 	
@@ -234,24 +233,24 @@ public class AdminService
 		String isPublished = "1";
 		return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
 		}
-	public List<News> getNewsByImportance(String isBold){
-		return newsRepository.findByImportance(isBold);
+	public List<AllNewsView> getNewsByImportance(String isBold){
+		return allNewsViewService.findByIsPublishedAndIsBold(isBold);
 		
 	}
-	public List<News> findNewsByGroupIdAndSubgroupId(String groupId, String subGroupId) {
-		return newsRepository.findNewsByGroupIdAndSubgroupId(groupId,subGroupId);
+	public List<AllNewsView> findNewsByGroupIdAndSubgroupId(String groupId, String subGroupId) {
+		return allNewsViewService.findNewsByIsPublishedAndGroupIdAndSubgroupId(groupId,subGroupId);
 	}
-	public List<News>  findAllNewsByGroupIdAndSubgroupId(String subGroupIdDescription) {
-		return newsRepository.findAllNewsByGroupIdAndSubgroupId(subGroupIdDescription.substring(0, 2));
+	public List<AllNewsView>  findAllNewsByGroupIdAndSubgroupId(String subGroupIdDescription) {
+		return allNewsViewService.findAllNewsBySubGroupIdDescription(subGroupIdDescription.substring(0, 2));
 	}
-	public List<News> findByIsPublishedFormatedDate(){
-		return newsRepository.findByIsPublishedFormatedDate();
+	public List<AllNewsView> findByIsPublishedFormatedDate(){
+		return allNewsViewService.findByIsPublishedFormatedDate();
 	}
-	public List<AllNewsView> getUnPublishedNews(){
+	public List<AllNewsView> getAllNews(){
 		boolean hasData= getData();
 		if(!hasData)
 			return null;
-		return allNewsViewRepository.findAll();
+		return allNewsViewService.getAllNews();
 	}
 	public void deleteNews(long id, String isFunctionNews)
 	{  if (isFunctionNews.equalsIgnoreCase("0"))

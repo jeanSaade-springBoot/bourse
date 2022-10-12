@@ -26,4 +26,7 @@ public class AllNewsView {
     private String generationDateDate;
     private String isPublished;
     private String isFunctionNews;
+    private String groupId;
+    private String subgroupId;
+    private String description;
 }

@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="img/logo/logo.png" rel="icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <title>Liberty Options - Dashboard</title>
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/ruang-admin.min.css" rel="stylesheet">
+  <link href="/css/marquee.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+  <link href="/css/jqx.dark.css" rel="stylesheet">
+  
+  <style>
+div#content {
+    position: absolute;
+    top: 70px;
+    color: #8A99B5;
+    background-image: linear-gradient(#4c6aa6 -1%, #000306 21%);
+    border: #464D5C;
+    width: 100%;
+    overflow-x: hidden;
+    min-height: 650px;
+}
+a.sign-up-style {
+    color: darkorange;
+    font-weight: bold;
+    font-size: 0.6875rem;
+}
+</style>
+</head>
+<body id="page-top">
+  <div id="wrapper">
+  
+    <div id="content-wrapper" class="d-flex flex-column">
+    <div id="fixedMenu">
+        <!-- TopBar -->
+   <nav class="navbar navbar-expand navbar-light bg-navbar topbar static-top">
+	<img id="imglogo" src="../../img/logo.png" align="absmiddle" style="height:70px;margin-left: 3%;">
+	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<!-- Collection of nav links, forms, and other content for toggling -->
+	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">		
+		
+		<div class="navbar-nav mr-auto">
+		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
+			<a href="/bourse/home" class="nav-item nav-link active"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+		    </div>
+		</div>
+	    <div style="margin-right: 2.5rem;"> 
+	    	 <button id="clientLogin" class="jqx-rc-all jqx-rc-all-dark jqx-button jqx-button-dark jqx-widget jqx-widget-dark buttonRipple jqx-fill-state-normal jqx-fill-state-normal-dark jqx-primary jqx-primary-dark">
+		        SIGN IN
+		           <i class="fa-solid fa-right-to-bracket"></i>
+		        </button>
+	    	 <a id="" class="sign-up-style" href="">Not a member? Register</a>
+	    </div>
+	</div>
+</nav>
+        <!-- Topbar -->
+ </div>
+   <div id="content">
+        <!-- Container Fluid-->
+        <div class="container-fluid" id="container-wrapper">
+          <div class="d-sm-flex align-items-center justify-content-between mb-4" style="display: none !important;">
+            <h1 class="h3 mb-0 text-gray-800">Dashboard</h1>
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="./">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+            </ol>
+          </div>
+
+          <div class="row mb-3">
+          <div class="card-columns col-12">
+            <!--   <div class="card">
+		           <div class="card-body">
+		      <h5 class="card-title card-title-color">News</h5>
+		      <ul class="fa-ul">
+		  <li><a href="/bourse/allnews"><img id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">All news</a></li>
+		  </ul>
+		    </div>
+		    </div> -->
+              <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Yields</h5>
+      <ul class="fa-ul">
+  <li><a href="/bourse/any2"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+  <li><a href="/bourse/sovereignyieldsgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Sovereign Yields</a></li>
+  <li><a href="/bourse/sovereigncurvesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Curves</a></li>
+  <li><a href="/bourse/sovereigncrossesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Crosses</a></li>
+   <li><a href="/bourse/spreadmakergraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Spread Maker</a></li>
+</ul>
+    </div>
+  </div>
+   <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Database</h5>
+      <ul class="fa-ul">
+  <li ><a href="/bourse/datafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Data Function display</a></li>
+</ul>
+    </div>
+  </div>
+            <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Monitoring</h5>
+      <ul class="fa-ul">
+  <li ><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Fast Chart</li>
+  <li><a href="/bourse/any2"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+</ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Analytics</h5>
+      <ul class="fa-ul">
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Return Function</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Implied Vs Realized (Hi/lo)</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Implied Vs Realized (Close)</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Gamma Rents</li>
+</ul>
+    </div>
+  </div>
+              <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Skews</h5>
+      <ul class="fa-ul">
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Global Skew View</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Skew Vs Implied</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Skew Vs Futures</li>
+</ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Volumes</h5>
+      <ul class="fa-ul">
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Race Chart</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Week After Week </li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Moving Average</li>
+</ul>
+    </div>
+  </div>
+              <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Normalized Space</h5>
+      <ul class="fa-ul">
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Create Normalized Vols</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Durations And Dv01</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">List of CTDs </li>
+</ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Inter-markets</h5>
+      <ul class="fa-ul">
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">Weightings</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Straddle Ratios</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Implied Vol Ratios</li>
+ </ul>
+    </div>
+  </div>
+              <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Paper-watch</h5>
+      <ul class="fa-ul">
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Call/put Warning Indicator</li>
+</ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">The Math Box</h5>
+      <ul class="fa-ul">
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">One Serie</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Two Series</li>
+</ul>
+    </div>
+  </div>
+              <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">At A Glance</h5>
+      <ul class="fa-ul">
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Futures</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Implied Vols</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Ranges And Realized</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yields And Curves</li>
+   <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</li>
+    <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Excess Liquidity</li>
+</ul>
+    </div>
+  </div>
+  <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Check An Option Strategy</h5>
+      <ul class="fa-ul">
+   <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Fly Your Futures</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Condors</li>
+  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Vertical Spreads</li>
+</ul>
+    </div>
+  </div>
+    <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color"><div class="blink">Live Option Flows</div></h5>
+      <ul class="fa-ul">
+  <li><span class="fa-li"></span>Flow Search Engine</li>
+  <li><span class="fa-li"></span>Historical Flow</li>
+</ul>
+    </div>
+  </div>
+    <div class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color"><div class="blink">Schedule Meetings</div></h5>
+      <ul class="fa-ul">
+  <li><span class="fa-li"></span>Host A Meeting</li>
+  <li><span class="fa-li"></span>Join A Meeting</li>
+</ul>
+    </div>
+  </div>
+</div>
+          </div>
+         
+
+          <!-- Modal Logout -->
+          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to logout?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                  <a href="login.html" class="btn btn-primary">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!---Container Fluid-->
+      </div>
+     
+      <!-- Footer -->
+      <footer class="sticky-footer bg-dark">
+        <div class=" my-auto">
+          <div class="copyright text-center my-auto">
+            <span>copyright &copy; <script> document.write(new Date().getFullYear()); </script> - developed by
+              <b><a href="" target="_blank"></a></b>
+            </span>
+          </div>
+        </div>
+      </footer>
+      <!-- Footer -->
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+</body>
+  <script src="/js/jqwidgets/jqxcore.js"></script> 
+  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  <script src="/js/bourse/default.js"></script> 
+</html>

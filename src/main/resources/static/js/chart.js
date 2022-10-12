@@ -131,6 +131,26 @@ var options = {
 				fontSize: '14px',
 				fontFamily: undefined
 			}
+		},
+		annotations: {
+		  yaxis: [{
+		    y: 0,
+			strokeDashArray: 0,
+			offsetX: 0,
+			 width: '100%',
+			 borderColor: '#00E396',
+		      label: {
+			    position: 'left',
+			    offsetX: 50,
+                offsetY: 0,
+		        borderColor: '#00E396',
+		        style: {
+		          color: '#fff',
+		          background: '#00E396'
+		        },
+		        text: '0 Y-axis'
+		      }
+		  }]
 		}
 	};
 	var optionsWeekly = {

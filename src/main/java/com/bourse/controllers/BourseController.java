@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.bourse.domain.AllNewsView;
 import com.bourse.domain.DataEntryFilterHistory;
 import com.bourse.domain.GraphHistory;
 import com.bourse.domain.News;
@@ -336,8 +337,7 @@ public class BourseController {
 	} 
 	@GetMapping(value = "getlatestgraphdate/{country}/{factor}/{yieldCurveCross}")
 	public String getLatestGraphDate(@PathVariable("country") long country,@PathVariable("factor") String factor,@PathVariable("yieldCurveCross") String yieldCurveCross) {
-          System.out.print("hi------------------"+country+"   "+factor+"   "+yieldCurveCross);
-		return sovereignYieldsService.getLatestGraphDate(country,factor,yieldCurveCross);
+      	return sovereignYieldsService.getLatestGraphDate(country,factor,yieldCurveCross);
 	} 
 	@PostMapping(value = "getgraphdata")
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
@@ -367,7 +367,7 @@ public class BourseController {
 //	} 
 //	
 	@PostMapping(value = "findselectedgraphnews")
-	public List<News> findSelectedGraphNews(@RequestBody GraphNewsDTO graphNewsDTO) {
+	public List<AllNewsView> findSelectedGraphNews(@RequestBody GraphNewsDTO graphNewsDTO) {
 		return graphNewsService.findSelectedGraphNews(graphNewsDTO.getSelectedGraphs());
 	}
 	@PostMapping(value = "getgriddata")

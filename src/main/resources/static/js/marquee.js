@@ -54,7 +54,7 @@ Only need to call the createMarquee() function. Optionally: pass through the fol
 			n =  new Date();
 			m = n.getMonth() + 1;
 			d = n.getDate();
-			$('#todayDate').append(DayNames[n.getDay()-1] + " , " + d + " " + monthNames[m-1]);
+			$('#todayDate').append(DayNames[n.getDay()] + " , " + d + " " + monthNames[m-1]);
 
  function popupWindow(url, windowName, win, w, h) {
 		    const y = win.top.outerHeight / 2 + win.top.screenY - ( h / 2);

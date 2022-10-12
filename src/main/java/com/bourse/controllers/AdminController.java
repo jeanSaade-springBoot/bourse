@@ -187,25 +187,25 @@ public class AdminController {
 		return new ResponseEntity<>( adminService.getNews(), HttpStatus.OK);
 	}
 	@GetMapping(value = "findnewsformateddate")
-	public ResponseEntity<List<News>>  findByIsPublishedFormatedDate() {
+	public ResponseEntity<List<AllNewsView>>  findByIsPublishedFormatedDate() {
 		return new ResponseEntity<>( adminService.findByIsPublishedFormatedDate(), HttpStatus.OK);
 	}
 	@GetMapping(value = "getnewsbyimportance/{isbold}", produces = "application/json;charset=UTF-8")
-	public ResponseEntity<List<News>>  getNewsByImportance(@PathVariable String isbold) {
+	public ResponseEntity<List<AllNewsView>>  getNewsByImportance(@PathVariable String isbold) {
 		return new ResponseEntity<>( adminService.getNewsByImportance(isbold), HttpStatus.OK);
 	}
 	@GetMapping(value = "findnewsbygroupidandsubgroupid/{groupId}/{subGroupId}", produces = "application/json;charset=UTF-8")
-	public ResponseEntity<List<News>>  findNewsByGroupIdAndSubgroupId(@PathVariable String groupId
+	public ResponseEntity<List<AllNewsView>>  findNewsByGroupIdAndSubgroupId(@PathVariable String groupId
     		,@PathVariable String subGroupId) {
 		return new ResponseEntity<>( adminService.findNewsByGroupIdAndSubgroupId(groupId,subGroupId), HttpStatus.OK);
 	}
 	@GetMapping(value = "findallnewsbygroupidandsubgroupid/{subGroupIdDescription}", produces = "application/json;charset=UTF-8")
-	public ResponseEntity<List<News>>  findAllNewsByGroupIdAndSubgroupId(@PathVariable String subGroupIdDescription) {
+	public ResponseEntity<List<AllNewsView>>  findAllNewsByGroupIdAndSubgroupId(@PathVariable String subGroupIdDescription) {
 		return new ResponseEntity<>( adminService.findAllNewsByGroupIdAndSubgroupId(subGroupIdDescription), HttpStatus.OK);
 	}
 	@GetMapping(value = "getunpublishednews")
 	public ResponseEntity<List<AllNewsView>>  getUnPublishedNews() {
-		return new ResponseEntity<>( adminService.getUnPublishedNews(), HttpStatus.OK);
+		return new ResponseEntity<>( adminService.getAllNews(), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "deletenewsbyid/{id}/{isFunctionNews}")

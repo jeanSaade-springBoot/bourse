@@ -467,7 +467,7 @@
 					        timeout: 600000,
 					        success: function (data) {
 						  
-						 	 			if(data==true)
+						 	 			if(data=="true")
 				                          {
 										  $('#overlay').fadeIn();
 										   triggerRobot();
