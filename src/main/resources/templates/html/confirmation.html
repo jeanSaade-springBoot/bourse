@@ -60,7 +60,7 @@ a.sign-up-style {
 		        SIGN IN
 		           <i class="fa-solid fa-right-to-bracket"></i>
 		        </button>
-	    	 <a id="" class="sign-up-style" href="/register">Not a member? Register</a>
+	    	 <a id="" class="sign-up-style" href="#">Not a member? Register</a>
 	    </div>
 	</div>
 </nav>
@@ -77,48 +77,12 @@ a.sign-up-style {
             </ol>
           </div>
 
-          <div class="mt-5 row g-3">
+           <div class="mt-5 row g-3">
             <div class="col-3"></div>
-            <div class="col-5 card">
-			<h1 class="form-label fw-bold mt-4 mb-4" >Login to Your Account</h1>
-            	 
-				  <form>
-					  <!-- Email input -->
-					  <div class="form-outline mb-4 textfield-outlined">
-					    <input type="text" id="username" class="form-control"  placeholder=" "/>
-					    <label class="form-label" for="username">Username</label>
-					  </div>
-					
-					  <!-- Password input -->
-					  <div class="form-outline mb-4 textfield-outlined">
-					    <input type="password" id="password" class="form-control"  placeholder=" " />
-					     <label class="form-label" for="password">Password</label>
-					  </div>
-					
-					  <!-- 2 column grid layout for inline styling -->
-					  <div class="row mb-4">
-					    <div class="col d-flex justify-content-start">
-					      <!-- Checkbox -->
-					      <div class="form-check">
-					        <input class="form-check-input" type="checkbox" value="" id="formLogin" checked />
-					        <label class="form-check-label" for="formLogin"> Remember me </label>
-					      </div>
-					    </div>
-					
-					    <div class="col d-flex justify-content-end">
-					      <!-- Simple link -->
-					      <a href="#!">Forgot password?</a>
-					    </div>
-					  </div>
-					
-					  <!-- Submit button -->
-					  <button type="button" class="btn btn-primary btn-block btn-style mb-4" id="signIn">Sign in</button>
-					  <!-- Register buttons -->
-					  <div class="text-center">
-					    <p>Not a member? <a href="/register">Register</a></p>
-					  </div>
-					  <div id="ErrorMessage" class="alert alert-danger" style="display:none"></div>
-					</form>  
+            <div class="col-5 card text-center bg-success text-white">
+			   <h5 class="card-title">Your request has been submitted. please wait for confirmation from the Admin!</h5>
+			   <p>
+  			   <p class="card-text">You will receive an email when your request is approved.</p>
 			</div>
           </div>
          
@@ -173,5 +137,5 @@ a.sign-up-style {
   <script src="/js/jqwidgets/jqxcore.js"></script> 
   <script src="/js/jqwidgets/jqxbuttons.js"></script> 
   <script src="/js/config/session_storage.js"></script>
-  <script src="/js/bourse/login.js"></script> 
+  <script src="/js/bourse/confirmation.js"></script> 
 </html>

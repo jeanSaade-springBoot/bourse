@@ -17,50 +17,36 @@ import com.bourse.authsecurity.domain.User;
 import com.bourse.authsecurity.dto.LoginRequestDTO;
 import com.bourse.authsecurity.dto.UserDTO;
 import com.bourse.authsecurity.dto.UserInfoResponseDTO;
-import com.bourse.authsecurity.security.jwt.JwtUtils;
+import com.bourse.authsecurity.dto.UserRequestedDTO;
 import com.bourse.authsecurity.service.UserService;
 
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
 
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @Autowired
 	private final UserService userService;
-    
-    @Autowired
-    private JwtUtils jwtUtils;
-    
+  
 	public AuthController(UserService userService)
 	{
 		this.userService   = userService;
 	}
 	
     @PostMapping("/signin")
-	public ResponseEntity<?> authenticateUserJwt(@Valid @RequestBody LoginRequestDTO loginRequest) {
-		Authentication authentication = authenticationManager.authenticate(
-				new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
-		
-	  	 SecurityContextHolder.getContext().setAuthentication(authentication);
-	  	 User user = userService.getUserInfoByUsername(authentication.getName());
-	  	 
-	     String jwt =  jwtUtils.generateJwtToken(user.getUserName());
-	   
-         return ResponseEntity.ok()
-        		 .body(new UserInfoResponseDTO(user.getId(), 
-        				 					   user.getUserName(),
-        				 					   user.getFirstName(),
-        				 					   user.getSurName(),
-        				 					   user.getIsFirstLogin(),
-        		 							   jwt));
+	public ResponseEntity<UserInfoResponseDTO> authenticateUserJwt(@Valid @RequestBody LoginRequestDTO loginRequest) {
+    	return ResponseEntity.ok()
+          		 .body(userService.getUserInfoResponseDTOByUsername(loginRequest));
      }
     @PostMapping("/changepassword")
-	public ResponseEntity<?> changeUserPassword(@RequestBody @Valid UserDTO userDTO) {
+	public ResponseEntity<User> changeUserPassword(@RequestBody @Valid UserDTO userDTO) {
     	return ResponseEntity.ok()
        		 .body(userService.saveChangedPassword(userDTO));
     }
     
-   
+    @PostMapping("/register")
+  	public ResponseEntity<User> registerNewUser(@RequestBody @Valid UserRequestedDTO userRequestedDTO) {
+      	return ResponseEntity.ok()
+         		 .body(userService.registerNewUserAccount(userRequestedDTO));
+      }
 }

@@ -1,20 +1,72 @@
+.col, .col-1, .col-10, .col-11, .col-12, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-auto, .col-lg, .col-lg-1, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-auto, .col-md, .col-md-1, .col-md-10, .col-md-11, .col-md-12, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-auto, .col-sm, .col-sm-1, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-auto, .col-xl, .col-xl-1, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-auto {
+    margin-right: 0.75rem;
+    margin-left: 0.75rem;
+    padding-right: 0;
+    padding-left: 0;
+}
+input:focus ~ .jqx-input-label-dark, textarea:focus ~ .jqx-input-label-dark, .jqx-input-widget-dark[hint=true] .jqx-input-label, .jqx-text-area-dark[hint=true] .jqx-input-label, .jqx-dropdownlist-state-selected-dark .jqx-input-label, .jqx-dropdownlist-state-normal-dark[hint=true] .jqx-input-label, .jqx-combobox-state-normal-dark[hint=true] .jqx-input-label, .jqx-combobox-dark .jqx-input-label.focused, .jqx-dropdownlist-dark .jqx-input-label.focused, .jqx-datetimeinput-dark[hint=true] .jqx-input-label, .jqx-maskedinput-dark[hint=true] .jqx-input-label, .jqx-numberinput-dark[hint=true] .jqx-input-label, .jqx-formattedinput-dark[hint=true] .jqx-input-label {
+    color: #e0e9f3;
+    padding-left: 0;
+}
+.jqx-input-label-dark {
+    color: #bac8d7;
+    opacity: 1;
+  /* font-size: 11px;*/
+    padding-left: 0.75rem;
+}
+.jqx-input-dark input, .jqx-dropdownlist-state-normal-dark, .jqx-combobox-state-normal-dark, .jqx-numberinput-dark, .jqx-maskedinput-dark, .jqx-datetimeinput-dark {
+  color: #e5eef8;
+}
+.jqx-input-dark input, .jqx-dropdownlist-state-normal-dark, .jqx-combobox-state-normal-dark, .jqx-numberinput-dark, .jqx-maskedinput-dark, .jqx-datetimeinput-dark {
+    background: #1b284000;
+    border-color: #bac8d7;
+    border-radius: 4px!important;
+    color: var(--jqx-surface-color);
+    box-shadow: none;
+    border-bottom: 1px solid #bac8d7;
+    outline: none;
+}
+
+.card{
+	border: 1px solid #445d90!important;
+    border-radius: .4rem;
+    box-shadow: rgb(0 0 0 / 25%) 0px 54px 55px, rgb(0 0 0 / 12%) 0px -12px 30px, rgb(0 0 0 / 12%) 0px 4px 6px, rgb(0 0 0 / 17%) 0px 12px 13px, rgb(0 0 0 / 9%) 0px -3px 5px;
+    padding: 2rem;
+    padding-right: 2.5rem;
+}
+.bg-success {
+    background: #66bb6a75!important;
+    border: 1px solid #66bb6a!important;
+}
 .form-control:focus {
     color: #fff;
     background-color: #18243a;
     outline: 0;
 }
-
+.alert {
+    padding: 0.1rem 1rem;
+    border-radius: 0.2rem;
+    color: #fafafa!important;
+    margin-bottom:0;
+}
+.alert-danger {
+    background-color: #ff0d0057;
+    border: 1px solid red;
+    font-size: 0.8rem;
+}
 input {
   color-scheme: dark;
 }
 
 .textfield-outlined {
   position: relative;
-  margin-bottom: 20px;
+  margin-bottom: 10px;
+  margin-right: 0;
   padding-top: 6px;
   font-size: 16px;
   line-height: 1.5;
   letter-spacing: 0.4px;
+  
 }
 .btn-style{
 	background-color: #3c558d!important;

@@ -28,10 +28,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-       User user = userRepository.findByUserName(username)
+       User user = userRepository.findByUsername(username)
                .orElseThrow(() ->
                        new UsernameNotFoundException("User not found with username :" + username));
-        return new org.springframework.security.core.userdetails.User(user.getUserName(),
+        return new org.springframework.security.core.userdetails.User(user.getUsername(),
                 user.getPassword(), mapRolesToAuthorities(user.getRoles()));
     }
     private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles){

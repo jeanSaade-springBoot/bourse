@@ -6,7 +6,6 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 @RestController
-@RequestMapping(value="libvol")
 public class RedirectController {
 
 	@RequestMapping(value="/default")
@@ -18,4 +17,20 @@ public class RedirectController {
 	public ModelAndView loginPage(ModelMap model) {
 		return new ModelAndView("html/login");
 	}
+	
+	@RequestMapping(value="/register")
+	public ModelAndView registerPage(ModelMap model) {
+		return new ModelAndView("html/signup");
+	}
+	
+	@RequestMapping(value="/confirmation")
+	public ModelAndView confirmation(ModelMap model) {
+		return new ModelAndView("html/confirmation");
+	}
+	
+	@RequestMapping(value="/invalidSession")
+	public ModelAndView invalidSession(ModelMap model) {
+		return new ModelAndView("html/invalidSession");
+	}
+	
 }

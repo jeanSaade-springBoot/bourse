@@ -115,6 +115,7 @@ public interface SovereignYieldsRepository extends JpaRepository<SovereignData, 
              nativeQuery = true)
      public void deleteSovereignDataByReferDate(@Param("referDate") String referDate);
 	 
+
 	 @Modifying
 	 @Transactional
 	 @Query(value = "delete from tmp_audit_yields where refer_date =:referDate",

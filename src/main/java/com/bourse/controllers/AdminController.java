@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -13,6 +14,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.bourse.authsecurity.domain.User;
+import com.bourse.authsecurity.dto.UserStatusMembershipDTO;
+import com.bourse.authsecurity.service.UserService;
 import com.bourse.domain.AllNewsView;
 import com.bourse.domain.AssetClass;
 import com.bourse.domain.CalendarDates;
@@ -20,12 +24,14 @@ import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.Functions;
 import com.bourse.domain.Groups;
+import com.bourse.domain.MembershipDuration;
 import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.RobotsFunctionConfiguration;
 import com.bourse.domain.News;
 import com.bourse.domain.NewsOrder;
 import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
+import com.bourse.domain.UsersMembershipView;
 import com.bourse.dto.ColumnConfigurationDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.FunctionConfigurationDTO;
@@ -36,11 +42,14 @@ import com.bourse.service.AssetClassService;
 import com.bourse.service.FunctionConfigurationService;
 import com.bourse.service.FunctionsService;
 import com.bourse.service.GroupsService;
+import com.bourse.service.MembershipDurationService;
 import com.bourse.service.RobotsFunctionService;
 import com.bourse.service.SubGroupService;
+import com.bourse.service.UsersMembershipViewService;
 import com.bourse.util.SovereignUtil;
 @RestController
 @RequestMapping(value = "admin")
+@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
 public class AdminController {
 
 	@Autowired
@@ -57,7 +66,12 @@ public class AdminController {
 	private final FunctionConfigurationService functionConfigurationService;
 	@Autowired
 	private final RobotsFunctionService robotsFunctionService;
-	
+	@Autowired 
+	private final UserService userService;
+	@Autowired
+	private final UsersMembershipViewService usersMembershipViewService;
+	@Autowired 
+	private final MembershipDurationService membershipDurationService;
 	
 	public AdminController(AssetClassService assetClassService,
 						   GroupsService groupsService,
@@ -65,7 +79,10 @@ public class AdminController {
 						   AdminService adminService,
 						   FunctionsService functionsService,
 						   FunctionConfigurationService functionConfigurationService,
-						   RobotsFunctionService robotsFunctionService)
+						   RobotsFunctionService robotsFunctionService,
+						   UserService userService,
+						   UsersMembershipViewService usersMembershipViewService,
+						   MembershipDurationService membershipDurationService)
 	{
 		this.assetClassService   = assetClassService;
 		this.groupsService   = groupsService;
@@ -74,6 +91,9 @@ public class AdminController {
 		this.functionsService = functionsService;
 		this.functionConfigurationService = functionConfigurationService;
 		this.robotsFunctionService = robotsFunctionService;
+		this.userService = userService;
+		this.usersMembershipViewService = usersMembershipViewService;
+		this.membershipDurationService = membershipDurationService;
 	}
 	
 	@GetMapping(value = "getassetclass", produces = "application/json;charset=UTF-8")
@@ -220,5 +240,17 @@ public class AdminController {
 	@PostMapping(value = "savenews")
 	public News saveNews(@RequestBody News news) {
 		return adminService.saveNews(news);
+	}
+	@GetMapping(value = "getuserbystatus/{status}")
+	public ResponseEntity<List<UsersMembershipView>>  getUserByStatus(@PathVariable("status") String status) {
+		return new ResponseEntity<>( usersMembershipViewService.getUsersMembershipByStatus(status), HttpStatus.OK);
+	}
+	@PostMapping(value = "updateuserstatusandmembership")
+	public ResponseEntity<UsersMembershipView> updateUserStatusAndMember(@RequestBody UserStatusMembershipDTO userStatusMembershipDTO) {
+		return new ResponseEntity<>(userService.updateUserStatusAndMember(userStatusMembershipDTO), HttpStatus.OK);
+	}
+	@GetMapping(value = "getmembershipduration")
+	public ResponseEntity<List<MembershipDuration>> getMembershipDuration() {
+		return new ResponseEntity<>( membershipDurationService.findAll(), HttpStatus.OK);
 	}
 }

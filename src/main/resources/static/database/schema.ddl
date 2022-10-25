@@ -35,3 +35,47 @@ CREATE TABLE IF NOT EXISTS user_roles
 create table privilege (id bigint not null, name varchar(255), primary key (id));
 
 create table roles_privileges (id bigint not null, privilege_id bigint not null, role_id bigint not null, primary key (id)) ;
+
+CREATE TABLE `membership_duration` (
+  `id` bigint NOT NULL,
+  `value` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `description` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
+
+create table user_membership (id bigint not null, created_on datetime, is_active bit not null, md_id bigint not null, user_id bigint not null, primary key (id));
+
+CREATE VIEW `users_membership_view` AS
+
+select id,
+country,
+address1,
+address2,
+company,
+created_on,
+email,
+first_name,
+is_first_login,
+last_login,
+mobile,
+phone,
+post_code,
+status,
+sur_name,
+title
+           ,(select md.description
+               from user_membership um ,
+				    membership_duration md
+			  where um.is_active=true
+				and md.id = um.md_id
+                 and u.id = um.user_id) as md_description,
+			(select md_id
+               from user_membership um ,
+				    membership_duration md
+			  where um.is_active=true
+				and md.id = um.md_id
+                 and u.id = um.user_id) as md_id
+		from users u;
+		
+create table pages (id bigint not null, name varchar(255), primary key (id));
+create table roles_pages (id bigint not null, page_id bigint not null, role_id bigint not null, primary key (id));

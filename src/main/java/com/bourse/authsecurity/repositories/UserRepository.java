@@ -7,6 +7,7 @@ import com.bourse.authsecurity.domain.User;
 
 @Repository
 public interface UserRepository extends JpaRepository<User, Long> {
-	Optional<User> findByUserName(String username);
-	User findUserByUserName(String username);
+	Optional<User> findByUsername(String username);
+	User findUserByUsername(String username);
+	boolean existsByUsername(String username);
 }

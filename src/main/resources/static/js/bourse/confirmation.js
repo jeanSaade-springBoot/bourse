@@ -76,8 +76,15 @@ $("#signIn").click(function () {
 					}*/
 				},
 				error: function(e) {
-						$("#ErrorMessage").show().html(e.responseJSON.message);
-					
+					if (e.status = 401) {
+						$("#notificationText").empty();
+						$("#messageNotification").jqxNotification({
+							template: "danger"
+						});
+						$("#notificationText").append("invalid username or password");
+						$("#messageNotification").jqxNotification("open");
+					}
+
 					console.log("ERROR : ", e);
 
 				}

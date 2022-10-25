@@ -1,14 +1,40 @@
 package com.bourse.authsecurity.service;
 
+import java.sql.Timestamp;
+import java.util.Arrays;
+import java.util.Date;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bourse.authsecurity.domain.Role;
 import com.bourse.authsecurity.domain.User;
+import com.bourse.authsecurity.dto.LoginRequestDTO;
 import com.bourse.authsecurity.dto.UserDTO;
+import com.bourse.authsecurity.dto.UserInfoResponseDTO;
+import com.bourse.authsecurity.dto.UserRequestedDTO;
+import com.bourse.authsecurity.dto.UserStatusMembershipDTO;
+import com.bourse.authsecurity.enums.FailureEnum;
+import com.bourse.authsecurity.enums.MessageEnum;
+import com.bourse.authsecurity.exception.BadRequestException;
+import com.bourse.authsecurity.repositories.RoleRepository;
 import com.bourse.authsecurity.repositories.UserRepository;
+import com.bourse.authsecurity.security.jwt.JwtUtils;
+import com.bourse.domain.UserMembership;
+import com.bourse.domain.UsersMembershipView;
+import com.bourse.service.UserMembershipService;
+import com.bourse.service.UsersMembershipViewService;
 
 @Service
 public class UserService {
@@ -17,13 +43,52 @@ public class UserService {
 UserRepository userRepository;
 
 @Autowired
+private RoleRepository roleRepository;
+
+@Autowired
 private PasswordEncoder passwordEncoder;
+
+@Autowired
+private AuthenticationManager authenticationManager;
+
+@Autowired
+private UserMembershipService userMembershipService;
+
+@Autowired
+private UsersMembershipViewService usersMembershipViewService;
+@Autowired
+private JwtUtils jwtUtils;
 
 public User getUserInfoByUsername(String userName)
 {      
-    return userRepository.findUserByUserName(userName);
+    return userRepository.findUserByUsername(userName);
 }
+public UserInfoResponseDTO getUserInfoResponseDTOByUsername(LoginRequestDTO loginRequest)
+{   UserInfoResponseDTO userInfoResponseDTO = null;  
+	Authentication authentication = authenticationManager.authenticate(
+		new UsernamePasswordAuthenticationToken(loginRequest.getUserName(), loginRequest.getPassword()));
 
+	 User user = getUserInfoByUsername(authentication.getName());
+	 if (user.getStatus().equalsIgnoreCase("DISABLED"))
+		 throw new BadRequestException(MessageEnum.DISABLED_USER.message, FailureEnum.DISABLED_USER_ACCOUNT, MessageEnum.DISABLED_USER.service);
+	 else if (user.getStatus().equalsIgnoreCase("DECLINED"))
+		 throw new BadRequestException(MessageEnum.DECLINED_USER.message, FailureEnum.DECLINED_USER_ACCOUNT, MessageEnum.DECLINED_USER.service);
+	 
+	 userMembershipService.checkUserMembershipDurationIfActive(user.getId());
+	 
+  	  SecurityContextHolder.getContext().setAuthentication(authentication);
+  	  String jwt =  jwtUtils.generateJwtToken(user.getUsername());
+  	  userInfoResponseDTO = UserInfoResponseDTO.builder()
+  											 .id(user.getId())
+  											 .firstName(user.getFirstName())
+  											 .username(user.getUsername())
+  											 .lastName(user.getSurName())
+  											 .isFirstLogin(user.getIsFirstLogin())
+  											 .jwt(jwt)
+  											  .build();
+     
+  	return userInfoResponseDTO;
+}
 public User saveChangedPassword(@Valid UserDTO userDTO) {
 	User user = getUserInfoByUsername(userDTO.getUserName());
 	user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
@@ -31,4 +96,68 @@ public User saveChangedPassword(@Valid UserDTO userDTO) {
 	return userRepository.save(user);
 }
 
+public boolean checkifUsernameExistsInUserRequested(String username) {
+	boolean exists = userRepository.existsByUsername(username);
+		return exists;
+}
+
+public User registerNewUserAccount(@Valid UserRequestedDTO userRequestedDTO) {
+	User userRequested = null;
+	boolean hasUsername = checkifUsernameExistsInUserRequested(userRequestedDTO.getUserName());
+	if (hasUsername)
+	{
+		throw new BadRequestException(MessageEnum.USERNAME_EXISTS.message, FailureEnum.SAVE_REQUESTED_USER_FAILED, MessageEnum.USERNAME_EXISTS.service);
+	}	
+	else {	
+		 userRequested = User.builder()
+						   .title(userRequestedDTO.getTitle())
+						   .firstName(userRequestedDTO.getFirstName())
+						   .surName(userRequestedDTO.getSurName())
+						   .phone(userRequestedDTO.getPhone())
+						   .mobile(userRequestedDTO.getMobile())
+						   .address1(userRequestedDTO.getAddress1())
+						   .address2(userRequestedDTO.getAddress2())
+						   .postCode(userRequestedDTO.getPostCode())
+						   .Country(userRequestedDTO.getCountry())
+						   .company(userRequestedDTO.getCompany())
+						   .email(userRequestedDTO.getEmail())
+						   .username(userRequestedDTO.getUserName())
+						   .password(passwordEncoder.encode(userRequestedDTO.getPassword()))
+						   .passwordHint(userRequestedDTO.getPasswordHint())
+						   .status(userRequestedDTO.getStatus())
+						   .isFirstLogin(true)
+						   .createdOn(new Timestamp((new Date()).getTime()))
+						   .build();
+		 userRequested.setRoles( roleRepository.findByName("ROLE_USER"));
+		 userRepository.save(userRequested);
+		 
+		 
+	}
+	
+	return userRequested;
+}
+	public UsersMembershipView updateUserStatusAndMember(UserStatusMembershipDTO userStatusMembershipDTO) {
+		  if(!userStatusMembershipDTO.getStatus().equalsIgnoreCase("DECLINED"))
+		  {   UserMembership userMembership = userMembershipService.findMembershipByUserId(userStatusMembershipDTO.getUserId(), true);
+			  if (userMembership!=null)
+			  {userMembership.setMdId(userStatusMembershipDTO.getMembershipDurationId());
+			  }
+			  else 
+			  {
+				  userMembership = UserMembership.builder()
+						  		                 .mdId(userStatusMembershipDTO.getMembershipDurationId())
+						  		                 .userId(userStatusMembershipDTO.getUserId())
+						  		                 .isActive(true)
+						  		                 .createdOn(new Timestamp((new Date()).getTime()))
+						  		                 .build();
+			  }
+			  userMembershipService.saveUserMembership(userMembership);
+		  }
+		User user = userRepository.findById(userStatusMembershipDTO.getUserId()).get();
+		user.setStatus(userStatusMembershipDTO.getStatus());
+		user.setUpdatedOn(new Timestamp((new Date()).getTime()));
+		userRepository.save(user);
+		
+		return usersMembershipViewService.findById(userStatusMembershipDTO.getUserId());
+	}
 }

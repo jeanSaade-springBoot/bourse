@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -47,6 +48,7 @@ import com.bourse.service.SovereignYieldsService;
 import com.bourse.util.SovereignUtil;
 @RestController
 @RequestMapping(value = "bourse")
+@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
 public class BourseController {
 
 	@Autowired
@@ -83,7 +85,7 @@ public class BourseController {
 		return new ModelAndView("html/pageUnderConstruction");
     }
 	@RequestMapping( value =  "/home")
-    public ModelAndView mainPage(ModelMap model)
+	 public ModelAndView mainPage(ModelMap model)
     {
 		return new ModelAndView("html/index");
     }
@@ -166,6 +168,16 @@ public class BourseController {
     public ModelAndView dataFunctionDisplay(ModelMap model)
     {
 		return new ModelAndView("html/dataFunctionDisplay");
+    }
+	@RequestMapping( value =  "/users")
+    public ModelAndView userPage(ModelMap model)
+    {
+		return new ModelAndView("html/userPage");
+    }
+	@RequestMapping( value =  "/roles")
+    public ModelAndView rolePage(ModelMap model)
+    {
+		return new ModelAndView("html/rolePage");
     }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){

@@ -5,6 +5,6 @@
   });
  
   $("#clientLogin").click(function () {
-	  window.location.href='/libvol/login';
+	  window.location.href='/login';
   });
 
