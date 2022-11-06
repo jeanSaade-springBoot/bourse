@@ -1,8 +1,3 @@
-create table user_requested_sequence (next_val bigint);
-INSERT INTO user_requested_sequence (next_val) VALUES (1);
- 
-CREATE TABLE IF NOT EXISTS user_requested (id bigint not null, country varchar(255), address1 varchar(255), address2 varchar(255), company varchar(255), created_on datetime, email varchar(255), first_name varchar(255), last_login datetime, mobile varchar(255), password varchar(255), password_hint varchar(255), phone varchar(255), post_code varchar(255), status varchar(255), sur_name varchar(255), title varchar(255), updated_on datetime, user_id bigint, user_name varchar(255), primary key (id), CONSTRAINT uk_user_requested_username UNIQUE (user_name)); 
- 
 CREATE TABLE IF NOT EXISTS user_sequence (next_val bigint);
 INSERT INTO user_sequence (next_val) VALUES (1);
 
@@ -11,11 +6,13 @@ CREATE TABLE IF NOT EXISTS users (id bigint not null, country varchar(255), addr
 CREATE TABLE IF NOT EXISTS role_sequence (next_val bigint);
 INSERT INTO role_sequence (next_val) VALUES (1);
 
-CREATE TABLE `privilege` (
+CREATE  TABLE `privilege` (
   `id` bigint NOT NULL,
-  `name` varchar(255) DEFAULT NULL,
+  `name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `is_screen` bit(1) DEFAULT NULL,
+  `parent_id` bigint DEFAULT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS privilege_sequence (next_val bigint);
 INSERT INTO  privilege_sequence (next_val) VALUES (1);

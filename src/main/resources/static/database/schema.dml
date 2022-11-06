@@ -6,7 +6,7 @@ INSERT INTO `bourse`.`users`
 `first_name`,
 `password`,
 `sur_name`,
-`username`,
+`user_name`,
 `is_first_login`)
 VALUES
 (1,
@@ -39,21 +39,6 @@ INSERT INTO `bourse`.`membership_duration` (`id`, `value`,`description`) VALUES 
 INSERT INTO `bourse`.`user_membership` (`id`, `created_on`, `is_active`, `md_id`, `user_id`)
  VALUES ('1', now(), true, '1', '1');
  
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('1', 'home');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('2', 'sovereignyields');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('3', 'any2');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('4', 'sovereignyieldsgraph');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('5', 'sovereigncurvesgraph');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('6', 'sovereigncrossesgraph');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('7', 'spreadmakergraph');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('8', 'settings');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('9', 'robotnewsreorder');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('10', 'allnews');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('11', 'newsmanagement');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('12', 'datafunctiondisplay');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('13', 'users');
-INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('14', 'roles');
-
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('1', 'HOME_SCREEN',true);
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('2','ADMIN_SCREEN',true);
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('3','USERS_SCREEN',true,'2');
