@@ -1,6 +1,7 @@
 var source;
 var MDdataAdapter;
- cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
+var selectedRow=this;
+var cellsrenderer = function (row, columnfield, value, defaulthtml, columnproperties) {
 				var dataRecord = $("#grid").jqxGrid('getrowdata', row).mdDescription;
 				if (dataRecord == null)
                 var newHTML = defaulthtml + "Please Select<div class='jqx-icon-arrow-down jqx-icon-arrow-down-dark jqx-icon jqx-icon-dark' style='width: 16px; height: 16px;     position: absolute;right: 0;'></div>";
@@ -9,14 +10,14 @@ var MDdataAdapter;
                 
 				return newHTML;
             };
-var pendingApprovalColumns=[
+			var pendingApprovalColumns=[
                       { text: 'Title', datafield: 'title', width: '4%', editable:false},
-                      { text: 'First Name', datafield: 'firstName', width: '8%', editable:false },
-                      { text: 'Last Name', datafield: 'surName', width: '8%', editable:false  },
- 					  { text: 'Company', datafield: 'company', width: '10%', editable:false  },
+                      { text: 'First Name', datafield: 'firstName', width: '6%', editable:false },
+                      { text: 'Last Name', datafield: 'surName', width: '6%', editable:false  },
+ 					  { text: 'Company', datafield: 'company', width: '8%', editable:false  },
                       { text: 'Received on', datafield: 'createdOn',cellsformat: 'dd-MMM-yyyy hh:mm:ss',width: '12%', editable:false   },
- 					  { text: 'Email', datafield: 'email' ,width: '18%', editable:false  },
-					  { text: 'Phone', datafield: 'phone', width: '10%', editable:false  },
+ 					  { text: 'Email', datafield: 'email' ,width: '16%', editable:false  },
+					  { text: 'Phone', datafield: 'phone', width: '8%', editable:false  },
 					  { text: 'Membership Duration', datafield: 'mdId', displayfield: 'mdDescription', width: '10%', columntype: 'dropdownlist', cellsrenderer: cellsrenderer,
                         createeditor: function (row, column, editor) {
                             editor.jqxDropDownList({ autoDropDownHeight: true, source: MDdataAdapter, displayMember: "description",valueMember: "id" });
@@ -26,6 +27,10 @@ var pendingApprovalColumns=[
                             if (newvalue == "") return oldvalue;
                         }
                     },
+                     {text: '', width: '10%' , datafield: 'EDIT',filterable:false, editable:false , cellsrenderer: function (row) {
+						 return "<input class=\"edit-style\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='UpdateUserData("+row+","+0+","+false+")' class=\"accept-style\" type=\"button\" id=\"update\" value=\"Save\" /><input  onclick='Cancel(" + row + ", event)' class=\"cancel-style\" type=\"button\" id=\"cancel\" value=\"cancel\" /></div>";
+           		               
+					}},
 					{text: '', width: '10%' , datafield: 'Accept',filterable:false, editable:false , cellsrenderer: function (row) {
 							                  return "<div class='accept-style' id='accept' onclick='UpdateUserData("+row+","+0+","+true+")'>Accept</div>";
 							               }
@@ -38,11 +43,11 @@ var pendingApprovalColumns=[
 
 var declinedColumns=[
                       { text: 'Title', datafield: 'title', width: '4%', editable:false},
-                      { text: 'First Name', datafield: 'firstName', width: '10%', editable:false },
-                      { text: 'Last Name', datafield: 'surName', width: '10%', editable:false  },
- 					  { text: 'Company', datafield: 'company', width: '12%', editable:false  },
+                      { text: 'First Name', datafield: 'firstName', width: '8%', editable:false },
+                      { text: 'Last Name', datafield: 'surName', width: '8%', editable:false  },
+ 					  { text: 'Company', datafield: 'company', width: '8%', editable:false  },
                       { text: 'Received on', datafield: 'createdOn',cellsformat: 'dd-MMM-yyyy hh:mm:ss',width: '16%', editable:false   },
- 					  { text: 'Email', datafield: 'email' ,width: '18%', editable:false  },
+ 					  { text: 'Email', datafield: 'email' ,width: '16%', editable:false  },
 					  { text: 'Phone', datafield: 'phone', width: '10%', editable:false  },
 					  { text: 'Membership Duration', datafield: 'mdId', displayfield: 'mdDescription', width: '10%', columntype: 'dropdownlist', cellsrenderer: cellsrenderer,
                         createeditor: function (row, column, editor) {
@@ -52,7 +57,12 @@ var declinedColumns=[
                             // return the old value, if the new value is empty.
                             if (newvalue == "") return oldvalue;
                         }
-                     },	{text: '', width: '10%' , datafield: 'Accept',filterable:false, editable:false , cellsrenderer: function (row) {
+                     },
+ 					{text: '', width: '10%' , datafield: 'EDIT',filterable:false, editable:false , cellsrenderer: function (row) {
+						 return "<input class=\"edit-style\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='UpdateUserData("+row+","+0+","+false+")' class=\"save-style\" type=\"button\" id=\"update\" value=\"Save\" /><input  onclick='Cancel(" + row + ", event)' class=\"cancel-style\" type=\"button\" id=\"cancel\" value=\"cancel\" /></div>";
+           		               
+					}},	
+					{text: '', width: '10%' , datafield: 'Accept',filterable:false, editable:false , cellsrenderer: function (row) {
 							                  return "<div class='accept-style' id='accept' onclick='UpdateUserData("+row+","+0+","+true+")'>Accept</div>";
 							               }
 					},
@@ -62,8 +72,8 @@ var activeColumns=[
                       { text: 'First Name', datafield: 'firstName', width: '8%', editable:false },
                       { text: 'Last Name', datafield: 'surName', width: '8%', editable:false  },
  					  { text: 'Company', datafield: 'company', width: '12%', editable:false  },
-                      { text: 'Received on', datafield: 'createdOn',cellsformat: 'dd-MMM-yyyy hh:mm:ss',width: '10%', editable:false   },
- 					  { text: 'Email', datafield: 'email' ,width: '18%', editable:false  },
+                      { text: 'Received on', datafield: 'createdOn',cellsformat: 'dd-MMM-yyyy hh:mm:ss',width: '12%', editable:false   },
+ 					  { text: 'Email', datafield: 'email' ,width: '16%', editable:false  },
 					  { text: 'Phone', datafield: 'phone', width: '10%', editable:false  },
 					  { text: 'Membership Duration', datafield: 'mdId', displayfield: 'mdDescription', width: '10%', columntype: 'dropdownlist', cellsrenderer: cellsrenderer,
                         createeditor: function (row, column, editor) {
@@ -73,22 +83,26 @@ var activeColumns=[
                             // return the old value, if the new value is empty.
                             if (newvalue == "") return oldvalue;
                         }
-                    },	{text: '', width: '10%' , datafield: 'Accept',filterable:false, editable:false , cellsrenderer: function (row) {
-							                  return "<div class='accept-style' id='save' onclick='UpdateUserData("+row+","+0+","+false+")'>Update</div>";
-							               }
+                    },
+					{text: '', width: '10%' , datafield: 'edit',filterable:false, editable:false , cellsrenderer: function (row) {
+						//if(hasUpdateUserAction)
+						return "<input  class=\"edit-style\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='UpdateUserData("+row+","+0+","+false+")' class=\"accept-style\" type=\"button\" id=\"update\" value=\"Save\" /><input  onclick='Cancel(" + row + ", event)' class=\"cancel-style\" type=\"button\" id=\"cancel\" value=\"cancel\" /></div>";
+           		          
+					}
 					},
 						{text: '', width: '10%' , datafield: 'Disabled',filterable:false, editable:false , cellsrenderer: function (row) {
-							                  return "<div class='decline-style' id='save' onclick='UpdateUserData("+row+","+2+","+true+")'>Disable</div>";
+						//if(hasDisableUserAction)							             
+    					 return "<div class='decline-style' id='disable' style='margin-left: 0.5rem;' onclick='UpdateUserData("+row+","+2+","+true+")'>Disable</div>";
 							               }
 					},
                   ];
-var disabledColumns=[
+				var disabledColumns=[
                       { text: 'Title', datafield: 'title', width: '4%', editable:false},
-                      { text: 'First Name', datafield: 'firstName', width: '10%', editable:false },
-                      { text: 'Last Name', datafield: 'surName', width: '10%', editable:false  },
+                      { text: 'First Name', datafield: 'firstName', width: '8%', editable:false },
+                      { text: 'Last Name', datafield: 'surName', width: '8%', editable:false  },
  					  { text: 'Company', datafield: 'company', width: '12%', editable:false  },
-                      { text: 'Received on', datafield: 'createdOn',cellsformat: 'dd-MMM-yyyy hh:mm:ss',width: '16%', editable:false   },
- 					  { text: 'Email', datafield: 'email' ,width: '18%', editable:false  },
+                      { text: 'Received on', datafield: 'createdOn',cellsformat: 'dd-MMM-yyyy hh:mm:ss',width: '12%', editable:false   },
+ 					  { text: 'Email', datafield: 'email' ,width: '16%', editable:false  },
 					  { text: 'Phone', datafield: 'phone', width: '10%', editable:false  },
 					  { text: 'Membership Duration', datafield: 'mdId', displayfield: 'mdDescription', width: '10%', columntype: 'dropdownlist', cellsrenderer: cellsrenderer,
                         createeditor: function (row, column, editor) {
@@ -98,7 +112,11 @@ var disabledColumns=[
                             // return the old value, if the new value is empty.
                             if (newvalue == "") return oldvalue;
                         }
-                     },	{text: '', width: '10%' , datafield: 'Accept',filterable:false, editable:false , cellsrenderer: function (row) {
+                     },
+ 					{text: '', width: '10%' , datafield: 'EDIT',filterable:false, editable:false , cellsrenderer: function (row) {
+						 return "<input class=\"edit-style\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='UpdateUserData("+row+","+0+","+false+")' class=\"accept-style\" type=\"button\" id=\"update\" value=\"Save\" /><input  onclick='Cancel(" + row + ", event)' class=\"cancel-style\" type=\"button\" id=\"cancel\" value=\"cancel\" /></div>";
+           		               
+					}},	{text: '', width: '10%' , datafield: 'Accept',filterable:false, editable:false , cellsrenderer: function (row) {
 							                  return "<div class='accept-style' id='enable' onclick='UpdateUserData("+row+","+0+","+true+")'>Enable</div>";
 							               }
 					},
@@ -121,15 +139,16 @@ var disabledColumns=[
 
  		$("#userTabs").jqxButtonGroup({ theme:'dark', mode: 'radio' });
 		$('#userTabs').jqxButtonGroup('setSelection', 0);
-		var MDSource =
+	$.get( "/getmembershipduration", function( data ) {	
+	  var MDSource =
       {
           datatype: "json",
           datafields: [
               { name: 'id' },
               { name: 'description' }
           ],
-          url: '/admin/getmembershipduration',
-          async: true
+         // url: '/getmembershipduration',
+		localData:data
       };
 	  MDdataAdapter = new $.jqx.dataAdapter(MDSource);
 	 
@@ -204,7 +223,7 @@ var disabledColumns=[
 				  { name: 'mdId', value: 'mdDescription', values: { source: MDdataAdapter, value: 'id', name: 'description' } },
 	   	       ],
 	          async: true,
-	          url: '/admin/getuserbystatus/'+getSelectedValue($('#userTabs').jqxButtonGroup('getSelection'))[0]
+	          url: '/getuserbystatus/'+getSelectedValue(jQuery('#userTabs').find('div.jqx-fill-state-pressed').attr('id'))[0]
             };
             var dataAdapter = new $.jqx.dataAdapter(source);
  			
@@ -218,18 +237,19 @@ var disabledColumns=[
                 rowdetailstemplate: { rowdetails: "<div style='margin: 10px;'><div class='information'></div></div>", rowdetailsheight: 220 },
                 initrowdetails: initrowdetails,
  			    selectionmode: 'none',
+ 				editmode: 'selectedrow',
                 editable: true,
  				showfilterrow: true,
 				filterable: true,
 				rowsheight: 45,
-				columns:pendingApprovalColumns
+				columns:getSelectedValue(jQuery('#userTabs').find('div.jqx-fill-state-pressed').attr('id'))[1]
             });
-
+		});
   });
 
 $('#userTabs').on('buttonclick', function () { 
-	   value=getSelectedValue($('#userTabs').jqxButtonGroup('getSelection'));
-	   source.url='/admin/getuserbystatus/'+value[0];
+	   value=getSelectedValue(jQuery('#userTabs').find('div.jqx-fill-state-pressed').attr('id'));
+	   source.url='/getuserbystatus/'+value[0];
        var dataAdapter = new $.jqx.dataAdapter(source);
        $('#grid').jqxGrid({source:dataAdapter, columns: value[1]});
 }); 
@@ -237,13 +257,13 @@ $('#userTabs').on('buttonclick', function () {
 function getSelectedValue(value)
 {
 	switch(value){
-	case 0:
+	case "PENDING_APPROVAL":
 		return ["PENDING_APPROVAL", pendingApprovalColumns]
-	case 1:
+	case "DECLINED":
 		return ["DECLINED", declinedColumns]
-	case 2: 
+	case "ACTIVE": 
 		return ["ACTIVE", activeColumns]
-	case 3:
+	case "DISABLED":
 		return ["DISABLED", disabledColumns]
 		}
 }
@@ -274,7 +294,7 @@ function UpdateUserData(row,userStatus,updateGrid) {
 		 $.ajax({
   	    	        type: "POST",
   	    	        contentType: "application/json",
-  	    	        url: "/admin/updateuserstatusandmembership",
+  	    	        url: "/updateuserstatusandmembership",
   	    	        data: JSON.stringify(dataParam),
   	    	        dataType: 'json',
   	    	        async:true,
@@ -297,3 +317,22 @@ function UpdateUserData(row,userStatus,updateGrid) {
   	    	    });
 		}
     }
+function Edit(row, event) {
+	     isedit=true;
+	     selectedRow.editrow = row;
+	   
+		    	$("#grid").jqxGrid('beginrowedit', row);
+		    	$("#edit"+row).css("display","none");
+				$("#actionButtons"+row).css("display","contents"); 
+		    	if (event) {
+		    		if (event.preventDefault) {
+		    			event.preventDefault();
+		    		}
+		    	} 
+    }
+ function Cancel(row, event) {
+				  isedit=false;
+				  isupdate=false;
+				   selectedRow.editrow = row;
+			    	$("#grid").jqxGrid('endrowedit', row, true);
+			 }

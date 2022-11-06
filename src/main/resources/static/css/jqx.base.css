@@ -4003,7 +4003,7 @@ of the horizontal scrollbar.*/
 .jqx-fill-state-disabled {
     cursor: default;
     color: #000;
-    opacity: .55;
+    opacity: .85;
     filter: Alpha(Opacity=45);
 }
 .jqx-grid.jqx-fill-state-disabled {

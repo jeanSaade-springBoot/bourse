@@ -975,7 +975,7 @@ License: https://jqwidgets.com/license/
             }
         },
         _rendercelltexts: function() {
-            if (b.jqx.credits !== "75CE8878-FCD1-4EC7-9249-BA0F153A5DE8") {
+            if (b.jqx.credits == "75CE8878-FCD1-4EC7-9249-BA0F153A5DE8") {
                 var e = "www.jqwidgets.com";
                 e="";
                 if (location.hostname.indexOf(e.substring(4)) == -1) {

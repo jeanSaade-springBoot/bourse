@@ -46,27 +46,28 @@ div#content {
 		
 		<div class="navbar-nav mr-auto">
 		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
-			<a href="/bourse/home" class="nav-item nav-link active"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/users" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+			<a sec:authorize="hasAuthority('HOME_SCREEN')" href="/bourse/home" class="nav-item nav-link active"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+			<li sec:authorize="hasAuthority('ADMIN_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('ADMIN_SCREEN')" href="/bourse/users" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
+			<li sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+			<li sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')"class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<li sec:authorize="hasAuthority('SETTINGS_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
 		    </div>
 		</div>
 			<div class="nav-item dropdown" style="width: 15%">
-				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline " id="firstLastName"></span><b class="caret"></b></a>
-				<div class="dropdown-menu">
+				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline " th:text="${#authentication.principal.firstName}"></span><span class="ml-1 d-none d-lg-inline " th:text="${#authentication.principal.lastName}"></span><b class="caret"></b></a>
+				<div class="dropdown-menu logout">
 				<!--    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
 						<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
 						<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
 						<div class="divider dropdown-divider"></div> -->
 					<a href="/logout" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 				</div>
-		</div>
+			</div>
+			<a href="#" id="termsConditions" class="">T &amp; C</a>
 	</div>
  </nav>
         <!-- Topbar -->
@@ -92,27 +93,24 @@ div#content {
 		  </ul>
 		    </div>
 		    </div> -->
-              <div class="card">
-   <div sec:authorize="hasRole('ROLE_SUPER_ADMIN')">
+   <div  sec:authorize="hasAuthority('ANY2_GRAPH_SCREEN') OR hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') OR hasAuthority('YIELD_CURVES_GRAPH_SCREEN') OR hasAuthority('YIELD_CROSSES_GRAPH_SCREEN') OR hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')" class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Yields</h5>
       <ul class="fa-ul">
-  <li><a href="/bourse/any2"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-  <li><a href="/bourse/sovereignyieldsgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Sovereign Yields</a></li>
-  <li><a href="/bourse/sovereigncurvesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Curves</a></li>
-  <li><a href="/bourse/sovereigncrossesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Crosses</a></li>
-   <li><a href="/bourse/spreadmakergraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Spread Maker</a></li>
-</ul>
+		  <li sec:authorize="hasAuthority('ANY2_GRAPH_SCREEN')" ><a href="/bourse/any2"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+		  <li sec:authorize="hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN')"><a href="/bourse/sovereignyieldsgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Sovereign Yields</a></li>
+		  <li sec:authorize="hasAuthority('YIELD_CURVES_GRAPH_SCREEN')"><a href="/bourse/sovereigncurvesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Curves</a></li>
+		  <li sec:authorize="hasAuthority('YIELD_CROSSES_GRAPH_SCREEN')"><a href="/bourse/sovereigncrossesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Crosses</a></li>
+		  <li sec:authorize="hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')"><a href="/bourse/spreadmakergraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Spread Maker</a></li>
+		</ul>
     </div>
-    
-      </div>
   </div>
-   <div class="card">
+   <div  sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')" class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Database</h5>
       <ul class="fa-ul">
-  <li ><a href="/bourse/datafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Data Function display</a></li>
-</ul>
+		  <li><a href="/bourse/datafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Data Function display</a></li>
+		</ul>
     </div>
   </div>
             <div class="card">
@@ -120,7 +118,7 @@ div#content {
       <h5 class="card-title card-title-color">Monitoring</h5>
       <ul class="fa-ul">
   <li ><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Fast Chart</li>
-  <li><a href="/bourse/any2"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+  <li><a href="#"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
 </ul>
     </div>
   </div>
@@ -274,7 +272,7 @@ div#content {
 					<ul id="Newslist" class="marquee-content-items">
 					</ul>
 				</div>
-				<div class="marquee-sibling-viewAll">
+				<div class="marquee-sibling-viewAll" sec:authorize="hasAuthority('VIEW_ALL_NEWS')" >
 					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
 				</div>
 			</div>
@@ -308,7 +306,7 @@ div#content {
   <script src="/js/config/session_storage.js"></script>
   <script src="/js/bourse/index.js"></script> 
   <script src="/js/bourse/scrollBarNews.js"></script> 
-  
+  <script src="/js/common.js"></script>
 </body>
 
 </html>

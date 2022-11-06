@@ -18,35 +18,19 @@ now(),
 'Charbel',
 false);
 
-INSERT INTO roles( id, name )
+INSERT INTO role( id, name )
 	VALUES ('1', 'ROLE_SUPER_ADMIN');
 	
-INSERT INTO roles( id, name )
+INSERT INTO role( id, name )
 	VALUES ('2', 'ROLE_ADMIN');
 	
-INSERT INTO roles( id, name )
+INSERT INTO role( id, name )
 	VALUES ('3', 'ROLE_USER');
 	
-INSERT INTO user_roles(
+INSERT INTO users_roles(
 	user_id, role_id)
 	VALUES (1, 1);
 	
-INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(1,'READ');
-INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(2,'WRITE');
-INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(3,'DELETE');
-INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(4,'APPROVE');
-INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(5,'TRIGGER_ROBOT');
-INSERT INTO `bourse`.`privilege`(`id`,`name`)VALUES(6,'VIEW_GRAPHS');
-
-INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(1,1,1);
-INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(2,2,1);
-INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(3,3,1);
-INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(4,4,1);
-INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(5,5,1);
-INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(6,6,1);
-
-INSERT INTO `bourse`.`roles_privileges`(`id`,`privilege_id`,`role_id`)VALUES(7,1,2);
-
 INSERT INTO `bourse`.`membership_duration` (`id`, `value`,`description`) VALUES ('1','1', '1 Month');
 INSERT INTO `bourse`.`membership_duration` (`id`,`value`,`description`) VALUES ('2','4', '4 Months');
 INSERT INTO `bourse`.`membership_duration` (`id`,`value`,`description`) VALUES ('3','12', '1 Year');
@@ -69,3 +53,39 @@ INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('11', 'newsmanagement');
 INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('12', 'datafunctiondisplay');
 INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('13', 'users');
 INSERT INTO `bourse`.`pages` (`id`, `name`) VALUES ('14', 'roles');
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('1', 'HOME_SCREEN',true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('2','ADMIN_SCREEN',true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('3','USERS_SCREEN',true,'2');
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('4','PENDING_APPROVAL_GRID',false,'3');
+/*INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('5','ACCEPT_USER_ACTION',false,'4');
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('6','DECLINE_USER_ACTION',false,'4');*/
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('7','DECLINED_USER_GRID',false,'3');
+/*INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('8','ACCPECT_USER_ACTION',false,'7');*/
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('9','ACTIVE_USER_GRID',false,'3');
+/*INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('10','UPDATE_USER_ACTION',false,'9');
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('11','DISABLE_USER_ACTION',false,'9');*/
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('12', 'ROLE_SCREEN', TRUE, '2');
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('13', 'MANAGE_ROLE_PRIVILGE',FALSE, '12');
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('14', 'MANAGE_ROLE_USERS', FALSE, '12');
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('15', 'NEWS_SCREEN', TRUE, NULL);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('16', 'NEWS_MANAGEMENT_SCREEN', TRUE, 15);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (17, 'ADD_NEWS_ACTION', FALSE, 16);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (18, 'TRIGGER_ROBOTS_ACTION', FALSE, 16);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (19, 'PUBLISH_ALL_NEWS_ACTION', FALSE, 16);
+/*INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (20, 'EDIT_NEWS_ACTION', FALSE, 16);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (21, 'DELETE_NEWS_ACTION', FALSE, 16);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (22, 'PUBLISH_NEWS_ACTION', FALSE, 16);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (23, 'RECALL_NEWS_ACTION', FALSE, 16);*/
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (24, 'DISABLED_USER_GRID', FALSE, 3);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (25, 'DATABASE_INPUT_SCREEN', true, null);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (26, 'SETTINGS_SCREEN', true, null);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (27, 'ANY2_GRAPH_SCREEN', true, null);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (28, 'SOVEREIGN_YIELDS_GRAPH_SCREEN', true, null);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (29, 'YIELD_CURVES_GRAPH_SCREEN', true, null);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (30, 'YIELD_CROSSES_GRAPH_SCREEN', true, null);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (31, 'SPREAD_MAKER_GRAPH_SCREEN', true, null);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (32, 'DATA_FUNCTION_DISPLAY_SCREEN', true, null);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (33, 'VIEW_ALL_NEWS', true, null);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (34, 'ROBOT_NEWS_REORDER_SCREEN', true, 15);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (35, 'DELETE_INPUT_DATA_ACTION', false, 25);

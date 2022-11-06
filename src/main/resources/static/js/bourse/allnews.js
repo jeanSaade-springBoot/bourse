@@ -157,15 +157,19 @@ var groupItem;
           
       });
       // initialize jqxGrid
-      $("#grid").jqxGrid(
+    $("#grid").jqxGrid(
       {
           width: '100%',
+		  height:670,
           source: dataAdapter,                
          columnsresize: false,
-         pageable: false,
+         pageable: true,
          selectionmode: 'none',
-         pagesize: 20,
-         autoheight: true,
+         pagesize: 15,
+	     pagesizeoptions: ['15', '50', '100'],
+           autoheight: true,
+		  columnsheight: 30,
+		  autorowheight: true,
           altrows: true,
           showgroupsheader: false,
           groupable: true,
@@ -182,17 +186,23 @@ var groupItem;
       groups: ['generationDateDate']
          
       });
+      $("#grid").on("pagechanged", function (event) 
+		{
+		   $("#grid").jqxGrid('expandallgroups');
+		});          
       
       $("#grid_filtered").jqxGrid(
     	      {
     	          width: '100%',
-    	          source: filteredDataAdapter,                
+    	          source: filteredDataAdapter,     
+ 				  height:602,           
     	          columnsresize: true,
-    	          pageable: false,
+    	          pageable: true,
     	          selectionmode: 'none',
     	          columnsheight: 30,
-    	          pagesize: 10,
-    	          autoheight: true,
+    	          pagesize: 15,
+	   			  pagesizeoptions: ['15', '50', '100'],
+           autoheight: true,
     	          altrows: true,
     	          autorowheight: true,
     	          showgroupsheader: false,
@@ -210,8 +220,12 @@ var groupItem;
     	      groups: ['generationDateDate']
     	         
     	      });
-    	      
-     
+    	$("#grid_filtered").on("pagechanged", function (event) 
+		{
+		   $("#grid_filtered").jqxGrid('expandallgroups');
+		});          
+      
+           
   });
 
 	

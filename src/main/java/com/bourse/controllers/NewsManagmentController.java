@@ -12,7 +12,7 @@ import com.bourse.service.NewsManagmentService;
 
 @RestController
 @RequestMapping(value = "news")
-@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
+//@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
 public class NewsManagmentController {
 	@Autowired
 	NewsManagmentService newsManagmentService;

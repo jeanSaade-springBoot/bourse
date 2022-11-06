@@ -1,15 +1,15 @@
-package com.bourse.service;
+package com.bourse.authsecurity.service;
 
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bourse.authsecurity.domain.UserMembership;
 import com.bourse.authsecurity.enums.FailureEnum;
 import com.bourse.authsecurity.enums.MessageEnum;
 import com.bourse.authsecurity.exception.BadRequestException;
-import com.bourse.domain.UserMembership;
-import com.bourse.repositories.UserMembershipRepository;
+import com.bourse.authsecurity.repositories.UserMembershipRepository;
 
 @Service
 public class UserMembershipService {

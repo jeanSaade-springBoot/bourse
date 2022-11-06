@@ -48,7 +48,7 @@ import com.bourse.service.SovereignYieldsService;
 import com.bourse.util.SovereignUtil;
 @RestController
 @RequestMapping(value = "bourse")
-@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
+//@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
 public class BourseController {
 
 	@Autowired
@@ -84,11 +84,13 @@ public class BourseController {
     {
 		return new ModelAndView("html/pageUnderConstruction");
     }
+	@PreAuthorize("hasAuthority('HOME_SCREEN')")
 	@RequestMapping( value =  "/home")
 	 public ModelAndView mainPage(ModelMap model)
     {
 		return new ModelAndView("html/index");
     }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN')")
 	@RequestMapping( value =  "/sovereignyields")
     public ModelAndView dataEntryPage(ModelMap model)
     {
@@ -109,36 +111,43 @@ public class BourseController {
     {
 		return new ModelAndView("html/returnFunction");
     }
+	@PreAuthorize("hasAuthority('ANY2_GRAPH_SCREEN')")
 	@RequestMapping( value =  "/any2")
     public ModelAndView anyTwoPage(ModelMap model)
     {
 		return new ModelAndView("html/any2");
     }
+	@PreAuthorize("hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN')")
 	@RequestMapping( value =  "sovereignyieldsgraph")
     public ModelAndView sovereignYieldsGraphPage(ModelMap model)
     {
 		return new ModelAndView("html/sovereignYieldsGraph");
     }
+	@PreAuthorize("hasAuthority('YIELD_CURVES_GRAPH_SCREEN')")
 	@RequestMapping( value =  "sovereigncurvesgraph")
     public ModelAndView sovereignCurvesGraphPage(ModelMap model)
     {
 		return new ModelAndView("html/sovereignCurvesGraph");
     }
+	@PreAuthorize("hasAuthority('YIELD_CROSSES_GRAPH_SCREEN')")
 	@RequestMapping( value =  "sovereigncrossesgraph")
     public ModelAndView sovereignCrossesGraphPage(ModelMap model)
     {
 		return new ModelAndView("html/sovereignCrossesGraph");
     }
+	@PreAuthorize("hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')")
 	@RequestMapping( value =  "spreadmakergraph")
     public ModelAndView spreadMakerGraphPage(ModelMap model)
     {
 		return new ModelAndView("html/spreadMaker");
     }
+	@PreAuthorize("hasAuthority('SETTINGS_SCREEN')")
 	@RequestMapping( value =  "settings")
     public ModelAndView settingsPage(ModelMap model)
     {
 		return new ModelAndView("html/settings");
     }
+	@PreAuthorize("hasAuthority('ROBOT_NEWS_REORDER_SCREEN')")
 	@RequestMapping( value =  "robotnewsreorder")
     public ModelAndView robotNewsReorderPage(ModelMap model)
     {
@@ -154,26 +163,36 @@ public class BourseController {
     {
 		return new ModelAndView("html/helpDescription");
     }
+	@PreAuthorize("hasAuthority('VIEW_ALL_NEWS')")
 	@RequestMapping( value =  "allnews")
     public ModelAndView allNewsPage(ModelMap model)
     {
 		return new ModelAndView("html/allNews");
     }
+	@RequestMapping( value =  "termsandconditions")
+    public ModelAndView termsAndConditions(ModelMap model)
+    {
+		return new ModelAndView("html/termsAndConditions");
+    }
+	@PreAuthorize("hasAuthority('NEWS_MANAGEMENT_SCREEN')")
 	@RequestMapping( value =  "/newsmanagement")
     public ModelAndView newsManagement(ModelMap model)
     {
 		return new ModelAndView("html/newsManagement");
     }
+	@PreAuthorize("hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')")
 	@RequestMapping( value =  "/datafunctiondisplay")
     public ModelAndView dataFunctionDisplay(ModelMap model)
     {
 		return new ModelAndView("html/dataFunctionDisplay");
     }
+	@PreAuthorize("hasAuthority('USERS_SCREEN')")
 	@RequestMapping( value =  "/users")
     public ModelAndView userPage(ModelMap model)
     {
 		return new ModelAndView("html/userPage");
     }
+	@PreAuthorize("hasAuthority('ROLE_SCREEN')")
 	@RequestMapping( value =  "/roles")
     public ModelAndView rolePage(ModelMap model)
     {

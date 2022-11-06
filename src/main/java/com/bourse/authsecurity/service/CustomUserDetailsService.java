@@ -1,40 +1,78 @@
 package com.bourse.authsecurity.service;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import javax.annotation.PostConstruct;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.bourse.authsecurity.domain.Privilege;
 import com.bourse.authsecurity.domain.Role;
 import com.bourse.authsecurity.domain.User;
 import com.bourse.authsecurity.repositories.UserRepository;
-
+import com.bourse.authsecurity.dto.CustomuserdetailsDTO;
 
 
 @Service
 public class CustomUserDetailsService implements UserDetailsService {
 
     private UserRepository userRepository;
+    private final Map<String, CustomuserdetailsDTO> userRegistry = new HashMap<>();
 
     public CustomUserDetailsService(UserRepository userRepository) {
         this.userRepository = userRepository;
     }
-
+    
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
        User user = userRepository.findByUsername(username)
                .orElseThrow(() ->
                        new UsernameNotFoundException("User not found with username :" + username));
-        return new org.springframework.security.core.userdetails.User(user.getUsername(),
-                user.getPassword(), mapRolesToAuthorities(user.getRoles()));
+       UserDetails userDetails = userRegistry.put(user.getUsername(), new CustomuserdetailsDTO.Builder().withFirstName(user.getFirstName())
+ 	          .withLastName(user.getSurName())
+ 	          .withEmail(user.getEmail())
+ 	          .withUsername(user.getUsername())
+ 	          .withPassword(user.getPassword())
+ 	          .withAuthorities(mapRolesToAuthorities(user.getRoles()))
+ 	          .build());
+       return userDetails;
+       /* return new org.springframework.security.core.userdetails.User(user.getUsername(),
+                user.getPassword(), mapRolesToAuthorities(user.getRoles()));*/
     }
-    private Collection< ? extends GrantedAuthority> mapRolesToAuthorities(Set<Role> roles){
-        return roles.stream().map(role -> new SimpleGrantedAuthority(role.getName())).collect(Collectors.toList());
+    private Collection<? extends GrantedAuthority> mapRolesToAuthorities(final Collection<Role> roles) {
+        return getGrantedAuthorities(getPrivileges(roles));
+    }
+    private List<String> getPrivileges(final Collection<Role> roles) {
+        final List<String> privileges = new ArrayList<>();
+        final List<Privilege> collection = new ArrayList<>();
+        for (final Role role : roles) {
+            privileges.add(role.getName());
+            collection.addAll(role.getPrivileges());
+        }
+        for (final Privilege item : collection) {
+            privileges.add(item.getName());
+        }
+
+        return privileges;
+    }
+    private List<GrantedAuthority> getGrantedAuthorities(final List<String> privileges) {
+        final List<GrantedAuthority> authorities = new ArrayList<>();
+        for (final String privilege : privileges) {
+            authorities.add(new SimpleGrantedAuthority(privilege));
+        }
+        return authorities;
     }
 }

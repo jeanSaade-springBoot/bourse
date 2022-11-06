@@ -28,7 +28,6 @@ import org.springframework.security.web.authentication.AuthenticationFailureHand
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.RememberMeServices;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
-import org.springframework.security.web.authentication.logout.LogoutSuccessHandler;
 import org.springframework.security.web.authentication.rememberme.InMemoryTokenRepositoryImpl;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 
@@ -48,6 +47,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
+    
+    @Autowired
+    private AuthenticationFailureHandler authenticationFailureHandler;
     
     @Bean
     public AuthTokenFilter authenticationJwtTokenFilter() {
@@ -75,6 +77,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .antMatchers("/resources/**")
             .antMatchers("/h2/**");
     }
+   
     @Override
     protected void configure(HttpSecurity http) throws Exception {
     	
@@ -87,6 +90,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    			 "/register",
    			 "/default",
    			 "/confirmation",
+   			"/forgotpassword",
    			 "/js/**",
              "/css/**",
              "/img/**","/resources/**").permitAll()
@@ -98,6 +102,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .loginPage("/login")
             .defaultSuccessUrl("/homepage.html")
             .failureUrl("/login?error=true")
+            .failureHandler(authenticationFailureHandler)
         .permitAll()
             .and()
         .sessionManagement()

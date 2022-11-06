@@ -11,30 +11,39 @@ CREATE TABLE IF NOT EXISTS users (id bigint not null, country varchar(255), addr
 CREATE TABLE IF NOT EXISTS role_sequence (next_val bigint);
 INSERT INTO role_sequence (next_val) VALUES (1);
 
-CREATE TABLE IF NOT EXISTS roles (
-	id  bigint not null,
-	name VARCHAR ( 60 ) NOT NULL
-	, CONSTRAINT uk_roles_id UNIQUE (id)
-);
+CREATE TABLE `privilege` (
+  `id` bigint NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-CREATE TABLE IF NOT EXISTS user_roles
-(	
-    user_id bigint not null,
-    role_id bigint not null,
-    CONSTRAINT user_roles_pkey PRIMARY KEY (user_id, role_id),
-    CONSTRAINT user_roles_roleId_pkey FOREIGN KEY (role_id)
-        REFERENCES roles (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
-    CONSTRAINT user_roles_userId_pkey FOREIGN KEY (user_id)
-        REFERENCES users (id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-);
+CREATE TABLE IF NOT EXISTS privilege_sequence (next_val bigint);
+INSERT INTO  privilege_sequence (next_val) VALUES (1);
 
-create table privilege (id bigint not null, name varchar(255), primary key (id));
+CREATE TABLE `role` (
+  `id` bigint NOT NULL,
+  `name` varchar(255) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 
-create table roles_privileges (id bigint not null, privilege_id bigint not null, role_id bigint not null, primary key (id)) ;
+CREATE TABLE `users_roles` (
+  `user_id` bigint NOT NULL,
+  `role_id` bigint NOT NULL,
+  KEY `FKt4v0rrweyk393bdgt107vdx0x` (`role_id`),
+  KEY `FKci4mdvg1fmo9eqmwno1y9o0fa` (`user_id`),
+  CONSTRAINT `FKci4mdvg1fmo9eqmwno1y9o0fa` FOREIGN KEY (`user_id`) REFERENCES `users` (`id`),
+  CONSTRAINT `FKt4v0rrweyk393bdgt107vdx0x` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+CREATE TABLE `roles_privileges` (
+  `role_id` bigint NOT NULL,
+  `privilege_id` bigint NOT NULL,
+  KEY `FK5yjwxw2gvfyu76j3rgqwo685u` (`privilege_id`),
+  KEY `FK9h2vewsqh8luhfq71xokh4who` (`role_id`),
+  CONSTRAINT `FK5yjwxw2gvfyu76j3rgqwo685u` FOREIGN KEY (`privilege_id`) REFERENCES `privilege` (`id`),
+  CONSTRAINT `FK9h2vewsqh8luhfq71xokh4who` FOREIGN KEY (`role_id`) REFERENCES `role` (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
 
 CREATE TABLE `membership_duration` (
   `id` bigint NOT NULL,
@@ -43,8 +52,12 @@ CREATE TABLE `membership_duration` (
   PRIMARY KEY (`id`)
 );
 
-create table user_membership (id bigint not null, created_on datetime, is_active bit not null, md_id bigint not null, user_id bigint not null, primary key (id));
+CREATE TABLE IF NOT EXISTS membership_duration_sequence (next_val bigint);
+INSERT INTO  membership_duration_sequence (next_val) VALUES (1);
 
+create table user_membership (id bigint not null, created_on datetime, is_active bit not null, md_id bigint not null, user_id bigint not null, primary key (id));
+CREATE TABLE IF NOT EXISTS user_membership_sequence (next_val bigint);
+INSERT INTO  user_membership_sequence (next_val) VALUES (1);
 CREATE VIEW `users_membership_view` AS
 
 select id,
@@ -77,5 +90,30 @@ title
                  and u.id = um.user_id) as md_id
 		from users u;
 		
-create table pages (id bigint not null, name varchar(255), primary key (id));
-create table roles_pages (id bigint not null, page_id bigint not null, role_id bigint not null, primary key (id));
+		CREATE 
+VIEW `users_roles_view` AS
+    SELECT 
+        `u`.`id` AS `id`,
+        `u`.`email` AS `email`,
+        `u`.`first_name` AS `first_name`,
+        `u`.`status` AS `status`,
+        `u`.`sur_name` AS `sur_name`,
+        `u`.`title` AS `title`,
+        (SELECT 
+                `r`.`name`
+            FROM
+                (`users_roles` `ur`
+                JOIN `role` `r`)
+            WHERE
+                ((`ur`.`role_id` = `r`.`id`)
+                    AND (`u`.`id` = `ur`.`user_id`))) AS `role`,
+        (SELECT 
+                `r`.`id`
+            FROM
+                (`users_roles` `ur`
+                JOIN `role` `r`)
+            WHERE
+                ((`ur`.`role_id` = `r`.`id`)
+                    AND (`u`.`id` = `ur`.`user_id`))) AS `role_id`
+    FROM
+        `users` `u`;

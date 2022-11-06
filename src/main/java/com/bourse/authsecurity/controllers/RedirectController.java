@@ -32,5 +32,9 @@ public class RedirectController {
 	public ModelAndView invalidSession(ModelMap model) {
 		return new ModelAndView("html/invalidSession");
 	}
+	@RequestMapping(value="/forgotpassword")
+	public ModelAndView forgotPasswordPage(ModelMap model) {
+		return new ModelAndView("html/forgotPassword");
+	}
 	
 }

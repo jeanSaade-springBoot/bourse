@@ -17,7 +17,7 @@ import com.bourse.service.RobotInitializerService;
 import com.bourse.service.RobotService;
 @RestController
 @RequestMapping(value = "robot")
-@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
+//@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
 public class RobotsController {
 
 	@Autowired

@@ -29,36 +29,6 @@
 	.jqx-group-button-normal.jqx-fill-state-pressed {
 	    border-radius: 4px;
 	}
-	.accept-style {
-	    background: #19ff0024;
-	    height: 32px;
-	    border: 1px solid #19ff00;
-	    margin: 5%;
-	    text-align: center;
-	    padding: 5%;
-	    color: white;
-	    font-weight: bold;
-	    border-radius: 0.2rem;
-	}
-	.accept-style:hover {
-      background: #19ff0073;
-	  cursor: pointer;
-	}
-	.decline-style {
-	    background: #ff000024;
-	    height: 32px;
-	    border: 1px solid #ff0000;
-	    margin: 5%;
-	    text-align: center;
-	    padding: 5%;
-	    color: white;
-	    font-weight: bold;
-	    border-radius: 0.2rem;
-	}
-	.decline-style:hover {
-      background: #ff000073;
-	  cursor: pointer;
-	}
 	.jqx-notification-info, .jqx-info {
 	    color: #ffffff !important;
 	    text-shadow: 0 -1px 0 rgb(0 0 0 / 25%) !important;
@@ -96,32 +66,33 @@
 		<span class="navbar-toggler-icon"></span>
 	</button>
 	<!-- Collection of nav links, forms, and other content for toggling -->
-	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">		
+		<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">		
 		
 		<div class="navbar-nav mr-auto">
-		  <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
-			<a href="/bourse/home" class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/users" class="nav-item nav-link active"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
-			<li class="rtbSeparator"><span class="rtbText"></span></li>
-			<a href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
+			<a sec:authorize="hasAuthority('HOME_SCREEN')" href="/bourse/home" class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+			<li sec:authorize="hasAuthority('ADMIN_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('ADMIN_SCREEN')" href="/bourse/users" class="nav-item nav-link active"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
+			<li sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+			<li sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')"class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<li sec:authorize="hasAuthority('SETTINGS_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
 		    </div>
 		</div>
 			<div class="nav-item dropdown" style="width: 15%">
-				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline ">	Charbel Nacouzi</span><b class="caret"></b></a>
-				<div class="dropdown-menu">
-					<a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
-					<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
-					<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
-					<div class="divider dropdown-divider"></div>
-					<a href="#" class="dropdown-item"><i class="material-icons">&#xE8AC;</i> Logout</a>
+				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline " th:text="${#authentication.principal.firstName}"></span><span class="ml-1 d-none d-lg-inline " th:text="${#authentication.principal.lastName}"></span><b class="caret"></b></a>
+				<div class="dropdown-menu logout">
+				<!--    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
+						<div class="divider dropdown-divider"></div> -->
+					<a href="/logout" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 				</div>
 		</div>
-    	</div>
+			<a href="#" id="termsConditions" class="">T &amp; C</a>
+	</div>
      </nav>
              <div class="d-sm-flex align-items-center">
             <h1 class="ml-6 text-darkorange">Admin</h1>
@@ -130,8 +101,8 @@
     						 margin-top: 0.5rem;">
 				  
 				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
-				    <a class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/users" role="tab" aria-controls="nav-any2" aria-selected="false">Users</a>
-				    <a class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/roles" role="tab" aria-controls="nav-any2" aria-selected="false">Roles</a>
+				    <a sec:authorize="hasAuthority('USERS_SCREEN')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/users" role="tab" aria-controls="nav-any2" aria-selected="false">Users</a>
+				    <a sec:authorize="hasAuthority('ROLE_SCREEN')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/roles" role="tab" aria-controls="nav-any2" aria-selected="false">Roles</a>
 				  </div>
 				</nav>
             </div>
@@ -149,10 +120,10 @@
 	 		  <div class="row g-2 mb-4 mt-2 ">
 	 		  	<div class="col">
 					<div id='userTabs'>
-			            <button style="padding:4px 16px;line-height: 2rem; border-bottom-right-radius: 0;border-top-right-radius: 0;" id="pendingApprove" >Pending Approval</button>
-			            <button style="padding:4px 16px;line-height: 2rem; border-radius:0" id="declined">Declined</button>
-			            <button style="padding:4px 16px;line-height: 2rem; border-bottom-left-radius: 0;border-top-left-radius: 0;" id="active">Active</button>
-			            <button style="padding:4px 16px;line-height: 2rem; border-bottom-left-radius: 0;border-top-left-radius: 0;" id="disable">Disabled</button>
+			            <button sec:authorize="hasAuthority('PENDING_APPROVAL_GRID')" style="padding:4px 16px;line-height: 2rem; border-bottom-right-radius: 0;border-top-right-radius: 0;" id="PENDING_APPROVAL" >Pending Approval</button>
+			            <button sec:authorize="hasAuthority('DECLINED_USER_GRID')" style="padding:4px 16px;line-height: 2rem; border-radius:0" id="DECLINED">Declined</button>
+			            <button sec:authorize="hasAuthority('ACTIVE_USER_GRID')" style="padding:4px 16px;line-height: 2rem; border-bottom-left-radius: 0;border-top-left-radius: 0;" id="ACTIVE">Active</button>
+			            <button sec:authorize="hasAuthority('DISABLED_USER_GRID')" style="padding:4px 16px;line-height: 2rem; border-bottom-left-radius: 0;border-top-left-radius: 0;" id="DISABLED">Disabled</button>
 			        </div>
 				</div>
 	 		  	<div class="col-8">
@@ -252,6 +223,16 @@
   <script src="/js/jqwidgets/jqxnotification.js"></script>
   <script src="/js/bourse/userPage.js"></script> 
   <script src="/js/bourse/scrollBarNews.js"></script> 
+   <script src="/js/common.js"></script>
+  <script th:inline="javascript">
+    var user = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+    const  hasUpdateUserAction= user.filter(item => {
+    	   return item.authority === 'UPDATE_USER_ACTION'
+    })[0]!== undefined;
+    const  hasDisableUserAction= user.filter(item => {
+ 	   return item.authority === 'DISABLE_USER_ACTION'
+ })[0]!== undefined;
+</script>
 </body>
 
 </html>

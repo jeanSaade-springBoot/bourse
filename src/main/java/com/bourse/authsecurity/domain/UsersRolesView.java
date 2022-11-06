@@ -1,8 +1,6 @@
 package com.bourse.authsecurity.domain;
 
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
@@ -16,13 +14,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Entity
-@Table(name = "roles_privileges")
-public class RolesPrivileges {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private long id;
-    private long role_id;
-    private long privilege_id;
-
+@Table(name = "users_roles_view")
+public class UsersRolesView {
+	@Id
+    private Long id;
+	private Long roleId;
+	private String firstName;
+	private String surName;
+	private String title;
+	private String status;
+	private String email;
+	private String role;
 }

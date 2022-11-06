@@ -1,4 +1,4 @@
-package com.bourse.domain;
+package com.bourse.authsecurity.domain;
 
 
 import java.sql.Timestamp;

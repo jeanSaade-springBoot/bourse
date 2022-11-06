@@ -3558,7 +3558,6 @@
 				$('#'+gridId).jqxGrid(
 				                    {
 				                    	width:(dataParam.functions.length==0)?2*110:(2+dataParam.functions.length)*110,
-				  		                columnsresize: true,
 				  		                theme:'dark',
 				  		                pageable: true,
 				  		                pagesize: 100,

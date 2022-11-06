@@ -38,10 +38,11 @@ function inGraphNews(selectedGraphs){
 						    	          width: '100%',
 						    	          source: filteredDataAdapter,                
 						    	          columnsresize: true,
-						    	          pageable: false,
+						    	          pageable: true,
 						    	          selectionmode: 'none',
 						    	          columnsheight: 30,
-						    	          pagesize: 10,
+						    	      	  pagesize: 15,
+	     								  pagesizeoptions: ['15', '50', '100'],
 						    	          autoheight: true,
 						    	          altrows: true,
 						    	          autorowheight: true,
@@ -60,7 +61,10 @@ function inGraphNews(selectedGraphs){
 						    	      groups: ['generationDateDate']
 						    	         
 						    	      });
-    	      
+					    	        $("#grid_filtered").on("pagechanged", function (event) 
+										{
+										   $("#grid_filtered").jqxGrid('expandallgroups');
+										});
 	  					},
     	    	        error: function (e) {
     	    	        	

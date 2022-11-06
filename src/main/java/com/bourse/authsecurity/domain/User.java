@@ -1,12 +1,15 @@
 package com.bourse.authsecurity.domain;
 
 import java.sql.Timestamp;
+import java.util.Collection;
 import java.util.Set;
 
 import javax.persistence.*;
 
 import org.hibernate.annotations.GenericGenerator;
 import org.hibernate.annotations.Parameter;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -55,8 +58,13 @@ public class User {
     private Timestamp lastLogin;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
-    @JoinTable(name = "user_roles",
+    @JoinTable(name = "users_roles",
         joinColumns = @JoinColumn(name = "user_id", referencedColumnName = "id"),
         inverseJoinColumns = @JoinColumn(name = "role_id", referencedColumnName = "id"))
-    private Set<Role> roles;
+    @JsonManagedReference
+    private Collection<Role> roles;
+    
+    public void removeRoles( Collection<Role> role) {
+    	roles.removeAll(role);
+    }
 }

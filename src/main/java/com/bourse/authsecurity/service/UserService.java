@@ -20,6 +20,8 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.authsecurity.domain.Role;
 import com.bourse.authsecurity.domain.User;
+import com.bourse.authsecurity.domain.UserMembership;
+import com.bourse.authsecurity.domain.UsersMembershipView;
 import com.bourse.authsecurity.dto.LoginRequestDTO;
 import com.bourse.authsecurity.dto.UserDTO;
 import com.bourse.authsecurity.dto.UserInfoResponseDTO;
@@ -31,10 +33,6 @@ import com.bourse.authsecurity.exception.BadRequestException;
 import com.bourse.authsecurity.repositories.RoleRepository;
 import com.bourse.authsecurity.repositories.UserRepository;
 import com.bourse.authsecurity.security.jwt.JwtUtils;
-import com.bourse.domain.UserMembership;
-import com.bourse.domain.UsersMembershipView;
-import com.bourse.service.UserMembershipService;
-import com.bourse.service.UsersMembershipViewService;
 
 @Service
 public class UserService {
@@ -160,4 +158,5 @@ public User registerNewUserAccount(@Valid UserRequestedDTO userRequestedDTO) {
 		
 		return usersMembershipViewService.findById(userStatusMembershipDTO.getUserId());
 	}
+	
 }
