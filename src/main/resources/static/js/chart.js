@@ -141,14 +141,14 @@ var options = {
 			 borderColor: '#00E396',
 		      label: {
 			    position: 'left',
-			    offsetX: 50,
+			    offsetX: -10,
                 offsetY: 0,
-		        borderColor: '#00E396',
+		        borderColor: '#172568',
 		        style: {
 		          color: '#fff',
-		          background: '#00E396'
+		          background: '#172568'
 		        },
-		        text: '0 Y-axis'
+		        text: ''
 		      }
 		  }]
 		}

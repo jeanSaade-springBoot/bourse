@@ -3,6 +3,7 @@
 	src: url(../font/Nunito-Regular.ttf);
 	src: url(../font/Nunito-Regular.ttf) format('ttf'), url(../font/Nunito-Regular.ttf) format('truetype')
 }
+
 .logout {
     background: #cddef8;
     border-color: #a0b0d1;

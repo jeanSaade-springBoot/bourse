@@ -6,8 +6,9 @@ INSERT INTO `bourse`.`users`
 `first_name`,
 `password`,
 `sur_name`,
-`user_name`,
-`is_first_login`)
+`username`,
+`is_first_login`,
+`status`)
 VALUES
 (1,
 'Lebanon',
@@ -16,7 +17,8 @@ now(),
 '$2a$12$GFOd7M2iYWcgvUIY7sRki.Ytz.aG3qC/2u2MyxWA72l8T.jMMt0MO',
 'Nacouzi',
 'Charbel',
-false);
+false,
+'ACTIVE');
 
 INSERT INTO role( id, name )
 	VALUES ('1', 'ROLE_SUPER_ADMIN');
@@ -75,4 +77,4 @@ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (34, 'ROBOT_NEWS_REORDER_SCREEN', true, 15);
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES (35, 'DELETE_INPUT_DATA_ACTION', false, 25);
 
-INSERT INTO `roles_privileges` VALUES (3,1),(8,1),(1,12),(1,3),(1,15),(1,29),(1,2),(1,30),(1,14),(1,32),(1,13),(1,19),(1,28),(1,33),(1,7),(1,4),(1,31),(1,9),(1,16),(1,35),(1,18),(1,17),(1,26),(1,1),(1,27),(1,24),(1,25),(1,34);
+INSERT INTO `roles_privileges` VALUES (1,12),(1,3),(1,15),(1,29),(1,2),(1,30),(1,14),(1,32),(1,13),(1,19),(1,28),(1,33),(1,7),(1,4),(1,31),(1,9),(1,16),(1,35),(1,18),(1,17),(1,26),(1,1),(1,27),(1,24),(1,25),(1,34);

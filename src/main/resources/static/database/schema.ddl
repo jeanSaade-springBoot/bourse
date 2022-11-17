@@ -1,10 +1,33 @@
 CREATE TABLE IF NOT EXISTS user_sequence (next_val bigint);
-INSERT INTO user_sequence (next_val) VALUES (1);
+INSERT INTO user_sequence (next_val) VALUES (2);
 
-CREATE TABLE IF NOT EXISTS users (id bigint not null, country varchar(255), address1 varchar(255), address2 varchar(255), company varchar(255), created_on datetime, email varchar(255), first_name varchar(255), is_first_login bit, last_login datetime, mobile varchar(255), password varchar(255), password_hint varchar(255), phone varchar(255), post_code varchar(255), status varchar(255), sur_name varchar(255), title varchar(255), updated_on datetime, user_name varchar(255), primary key (id), CONSTRAINT uk_user_username UNIQUE (user_name));
+CREATE TABLE IF NOT EXISTS `users` (
+  `id` bigint NOT NULL,
+  `country` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address1` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `address2` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `company` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `created_on` datetime DEFAULT NULL,
+  `email` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `first_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `is_first_login` bit(1) DEFAULT NULL,
+  `last_login` datetime DEFAULT NULL,
+  `mobile` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `password` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `password_hint` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `phone` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `post_code` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `status` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `sur_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `title` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `updated_on` datetime DEFAULT NULL,
+  `username` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UKr43af9ap4edm43mmtq01oddj6` (`username`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS role_sequence (next_val bigint);
-INSERT INTO role_sequence (next_val) VALUES (1);
+INSERT INTO role_sequence (next_val) VALUES (4);
 
 CREATE  TABLE `privilege` (
   `id` bigint NOT NULL,
@@ -15,7 +38,7 @@ CREATE  TABLE `privilege` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 CREATE TABLE IF NOT EXISTS privilege_sequence (next_val bigint);
-INSERT INTO  privilege_sequence (next_val) VALUES (1);
+INSERT INTO  privilege_sequence (next_val) VALUES (36);
 
 CREATE TABLE `role` (
   `id` bigint NOT NULL,
@@ -50,11 +73,11 @@ CREATE TABLE `membership_duration` (
 );
 
 CREATE TABLE IF NOT EXISTS membership_duration_sequence (next_val bigint);
-INSERT INTO  membership_duration_sequence (next_val) VALUES (1);
+INSERT INTO  membership_duration_sequence (next_val) VALUES (5);
 
 create table user_membership (id bigint not null, created_on datetime, is_active bit not null, md_id bigint not null, user_id bigint not null, primary key (id));
 CREATE TABLE IF NOT EXISTS user_membership_sequence (next_val bigint);
-INSERT INTO  user_membership_sequence (next_val) VALUES (1);
+INSERT INTO  user_membership_sequence (next_val) VALUES (5);
 CREATE VIEW `users_membership_view` AS
 
 select id,

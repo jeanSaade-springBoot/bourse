@@ -1035,7 +1035,7 @@ function getChartPeriodFullName(period)
 return fullName;
 }		
 		
- $("#groupOfPeriod").on('buttonclick', function () {
+ $("#groupOfPeriod").on('buttonclick', function (event) {
                  
 	    resetActiveChartType();
 		resetActiveFontSize();
@@ -1043,6 +1043,7 @@ return fullName;
 		resetActiveChartColorTransparency();
 		resetActiveChartGrid();
 		drawGraph();
+
                 });  
 $('#dropDownType').on('select', function (event)
 {

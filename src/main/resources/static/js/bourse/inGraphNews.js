@@ -38,7 +38,7 @@ function inGraphNews(selectedGraphs){
 						    	          width: '100%',
 						    	          source: filteredDataAdapter,                
 						    	          columnsresize: true,
-						    	          pageable: true,
+						    	          pageable: false,
 						    	          selectionmode: 'none',
 						    	          columnsheight: 30,
 						    	      	  pagesize: 15,
