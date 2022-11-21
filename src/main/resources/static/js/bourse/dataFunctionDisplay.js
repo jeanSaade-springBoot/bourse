@@ -293,7 +293,7 @@
   			 delete checkedItemid[i];
   		   }
   	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -331,7 +331,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -369,7 +369,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -407,7 +407,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -445,7 +445,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -482,7 +482,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -519,7 +519,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -556,7 +556,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -593,7 +593,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -630,7 +630,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -667,7 +667,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -704,7 +704,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -742,7 +742,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -779,7 +779,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -816,7 +816,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -853,7 +853,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -890,7 +890,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -927,7 +927,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -964,7 +964,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1001,7 +1001,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1038,7 +1038,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1075,7 +1075,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1112,7 +1112,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1149,7 +1149,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1187,7 +1187,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1224,7 +1224,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1261,7 +1261,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1298,7 +1298,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1336,7 +1336,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1373,7 +1373,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1410,7 +1410,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1447,7 +1447,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1484,7 +1484,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1522,7 +1522,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1560,7 +1560,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1597,7 +1597,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1634,7 +1634,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1671,7 +1671,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1709,7 +1709,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1746,7 +1746,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1783,7 +1783,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1820,7 +1820,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1857,7 +1857,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1895,7 +1895,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1932,7 +1932,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -1969,7 +1969,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2006,7 +2006,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2043,7 +2043,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2081,7 +2081,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2119,7 +2119,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2156,7 +2156,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2193,7 +2193,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2230,7 +2230,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2268,7 +2268,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2305,7 +2305,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2342,7 +2342,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2379,7 +2379,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2416,7 +2416,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2453,7 +2453,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2490,7 +2490,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2527,7 +2527,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2564,7 +2564,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2602,7 +2602,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2639,7 +2639,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2676,7 +2676,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2713,7 +2713,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2750,7 +2750,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2787,7 +2787,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2824,7 +2824,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2861,7 +2861,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2899,7 +2899,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2936,7 +2936,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -2973,7 +2973,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3010,7 +3010,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3048,7 +3048,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3085,7 +3085,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3122,7 +3122,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3159,7 +3159,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3196,7 +3196,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3233,7 +3233,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3270,7 +3270,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3307,7 +3307,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3346,7 +3346,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3383,7 +3383,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3420,7 +3420,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3457,7 +3457,7 @@
 					 delete checkedItemid[i];
 				   }
 	    }
-  	   if(checkedItem>=2)
+  	   if(checkedItem>=4)
   	   {
 		    for(i=0; i<allitems.length; i++)
 			   {
@@ -3558,6 +3558,7 @@
 				$('#'+gridId).jqxGrid(
 				                    {
 				                    	width:(dataParam.functions.length==0)?2*110:(2+dataParam.functions.length)*110,
+										height:710,
 				  		                theme:'dark',
 				  		                pageable: true,
 				  		                pagesize: 100,
@@ -3568,6 +3569,7 @@
 				  		              //  autoheight: true,
 				                        columnsresize: false,
 				                        columns: dynamicColumns,
+										selectionmode:'none',
 				                        columngroups: [
               { text: getCountryFlagById(itemValue[Items[gridIdIncrement]].country,itemValue[Items[gridIdIncrement]].yieldCurveCross)+'<span style="font-size: 1.5rem;     vertical-align: bottom;">'+getFactorDesc(itemValue[Items[gridIdIncrement]].factor,itemValue[Items[gridIdIncrement]].yieldCurveCross)+'</span>', align: 'center', name: 'country' },
              ]

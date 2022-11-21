@@ -14,14 +14,17 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.stereotype.Service;
 
 import com.bourse.authsecurity.domain.Role;
 import com.bourse.authsecurity.domain.User;
 import com.bourse.authsecurity.domain.UserMembership;
 import com.bourse.authsecurity.domain.UsersMembershipView;
+import com.bourse.authsecurity.dto.CustomuserdetailsDTO;
 import com.bourse.authsecurity.dto.LoginRequestDTO;
 import com.bourse.authsecurity.dto.UserDTO;
 import com.bourse.authsecurity.dto.UserInfoResponseDTO;
@@ -82,6 +85,7 @@ public UserInfoResponseDTO getUserInfoResponseDTOByUsername(LoginRequestDTO logi
   											 .username(user.getUsername())
   											 .lastName(user.getSurName())
   											 .isFirstLogin(user.getIsFirstLogin())
+  											 .tacAccepted(user.getTacAccepted())
   											 .jwt(jwt)
   											  .build();
      
@@ -91,6 +95,20 @@ public User saveChangedPassword(@Valid UserDTO userDTO) {
 	User user = getUserInfoByUsername(userDTO.getUserName());
 	user.setPassword(passwordEncoder.encode(userDTO.getPassword()));
 	user.setIsFirstLogin(false);
+	return userRepository.save(user);
+}
+public User saveTermsAndConditionsAccepted(@Valid UserDTO userDTO) {
+	User user = getUserInfoByUsername(userDTO.getUserName());
+	user.setTacAccepted(true);
+	user.setIsFirstLogin(false);
+	
+	Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+	CustomuserdetailsDTO customuserdetailsDTO =(CustomuserdetailsDTO)principal;
+	customuserdetailsDTO.setTacAccepted(true);
+	UsernamePasswordAuthenticationToken auth = new UsernamePasswordAuthenticationToken(
+			customuserdetailsDTO, null, customuserdetailsDTO.getAuthorities());
+	SecurityContextHolder.getContext().setAuthentication(auth);
+    
 	return userRepository.save(user);
 }
 
@@ -124,6 +142,7 @@ public User registerNewUserAccount(@Valid UserRequestedDTO userRequestedDTO) {
 						   .passwordHint(userRequestedDTO.getPasswordHint())
 						   .status(userRequestedDTO.getStatus())
 						   .isFirstLogin(true)
+						   .tacAccepted(false)
 						   .createdOn(new Timestamp((new Date()).getTime()))
 						   .build();
 		 userRequested.setRoles( roleRepository.findByName("ROLE_USER"));

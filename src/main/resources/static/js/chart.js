@@ -132,7 +132,7 @@ var options = {
 				fontFamily: undefined
 			}
 		},
-		annotations: {
+	/*	annotations: {
 		  yaxis: [{
 		    y: 0,
 			strokeDashArray: 0,
@@ -151,7 +151,7 @@ var options = {
 		        text: ''
 		      }
 		  }]
-		}
+		}*/
 	};
 	var optionsWeekly = {
 		series: [],

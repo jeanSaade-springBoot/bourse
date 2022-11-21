@@ -8,37 +8,31 @@
 	  window.location.href='/login';
   });
 
-$("#signIn").click(function () {
-			dataParam = {
-				"userName": $('#username').val(),
-				"password": $('#password').val()
-			};
-			$.ajax({
+	$("#approved").change(function() {
+	    if(this.checked) 
+	         $('#continue').removeAttr('disabled');
+	    else
+			$('#continue').attr('disabled', 'disabled');
+	});
+	$('#continue').click(function () {
+		const dataParam ={userName:username};
+				$.ajax({
 				type: "POST",
 				contentType: "application/json",
-				url: "/api/auth/signin",
+				url: "/api/auth/termsandconditionsaccepted",
 				data: JSON.stringify(dataParam),
 				dataType: 'json',
 				async: true,
 				cache: false,
 				timeout: 600000,
 				success: function(data) {
-
-				if (!data.tacAccepted)
-					{
-						window.location.href = '/termsandconditionsconfirmation'
-					}
-					else {
-					
-						window.location.href = '/bourse/home';
-					}
+					window.location.href = '/bourse/home';
 				},
 				error: function(e) {
-						$("#ErrorMessage").show().html(e.responseJSON.message);
-					
+					$("#ErrorMessage").show().html(e.responseJSON.message);
 					console.log("ERROR : ", e);
 
 				}
 			});
-});
-
+		
+		 });

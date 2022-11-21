@@ -56,6 +56,7 @@ public class User {
     private Timestamp createdOn;
     private Timestamp updatedOn;
     private Timestamp lastLogin;
+    private Boolean tacAccepted;
 
     @ManyToMany(fetch = FetchType.EAGER, cascade = CascadeType.ALL)
     @JoinTable(name = "users_roles",

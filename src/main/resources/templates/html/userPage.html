@@ -17,6 +17,7 @@
   <link href="/css/apexchart.css" rel="stylesheet">
   <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
   <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link href="/css/notification.css" rel="stylesheet">
   <style>
 	   div#overlay {
 	       margin: 0 40%;
@@ -72,7 +73,7 @@
 		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
 			<a sec:authorize="hasAuthority('HOME_SCREEN')" href="/bourse/home" class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
 			<li sec:authorize="hasAuthority('ADMIN_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
-			<a sec:authorize="hasAuthority('ADMIN_SCREEN')" href="/bourse/users" class="nav-item nav-link active"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">Admin</a>
+			<a sec:authorize="hasAuthority('ADMIN_SCREEN')" href="/bourse/users" class="nav-item nav-link active"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon"><span id="notification" class="notification"></span>Admin</a>
 			<li sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
 			<a sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
 			<li sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')"class="rtbSeparator"><span class="rtbText"></span></li>
@@ -101,6 +102,7 @@
     						 margin-top: 0.5rem;">
 				  
 				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
+				   	<span id="notification1" class="notification"></span>
 				    <a sec:authorize="hasAuthority('USERS_SCREEN')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/users" role="tab" aria-controls="nav-any2" aria-selected="false">Users</a>
 				    <a sec:authorize="hasAuthority('ROLE_SCREEN')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/roles" role="tab" aria-controls="nav-any2" aria-selected="false">Roles</a>
 				  </div>
@@ -119,6 +121,7 @@
           <div class="justify-content-between ">
 	 		  <div class="row g-2 mb-4 mt-2 ">
 	 		  	<div class="col">
+	 		  	<span id="notification2" class="notification"></span>
 					<div id='userTabs'>
 			            <button sec:authorize="hasAuthority('PENDING_APPROVAL_GRID')" style="padding:4px 16px;line-height: 2rem; border-bottom-right-radius: 0;border-top-right-radius: 0;" id="PENDING_APPROVAL" >Pending Approval</button>
 			            <button sec:authorize="hasAuthority('DECLINED_USER_GRID')" style="padding:4px 16px;line-height: 2rem; border-radius:0" id="DECLINED">Declined</button>
@@ -223,16 +226,18 @@
   <script src="/js/jqwidgets/jqxnotification.js"></script>
   <script src="/js/bourse/userPage.js"></script> 
   <script src="/js/bourse/scrollBarNews.js"></script> 
-   <script src="/js/common.js"></script>
+  <script src="/js/common.js"></script>
+  <script src="/js/notification/sockjs.js"></script>
+  <script src="/js/notification/stomp.js"></script>
+  <script src="/js/notification/config.js"></script>
   <script th:inline="javascript">
-    var user = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
-    const  hasUpdateUserAction= user.filter(item => {
-    	   return item.authority === 'UPDATE_USER_ACTION'
+    const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+    const hasPendingApprovalGrid= authorities.filter(item => {
+    	   return item.authority === "PENDING_APPROVAL_GRID"
     })[0]!== undefined;
-    const  hasDisableUserAction= user.filter(item => {
- 	   return item.authority === 'DISABLE_USER_ACTION'
- })[0]!== undefined;
-</script>
+   
+  </script>
+ 
 </body>
 
 </html>

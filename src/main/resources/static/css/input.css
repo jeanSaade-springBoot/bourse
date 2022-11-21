@@ -244,3 +244,19 @@ input {
 .textfield-outlined > input:disabled:placeholder-shown + label::after {
   border-top-color: transparent !important;
 }
+.terms-content{
+  height:450px;
+  overflow:auto;
+  background:#3c538378;
+}
+p {
+   font-size: .8rem;
+}
+.check{
+	margin: -1rem 0.5rem 1rem;
+    cursor: pointer;
+    width: 20px;
+}
+.text-style{
+	font-weight: bold;
+}

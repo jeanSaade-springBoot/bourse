@@ -6822,7 +6822,7 @@
 					
 					i === Number.MAX_VALUE && (i = 10, s = 1);
 					for (var r = [], n = t; i >= 0;) r.push(n), n += s, i -= 1;
-					
+					/* rounding the value
 					var r_mod=[];
 					for (var i = 0; i<r.length; i++)
 					{
@@ -6830,6 +6830,15 @@
 						 r_mod.push((Math.ceil(r[i]*p)/p).toFixed(this.w.config.extra.yAxisFormat))
 					   else 
 						r_mod.push((Math.ceil(r[i]*p)/p).toFixed(this.w.config.extra.yAxisFormat)+'%')
+					} //mn
+					*/
+					var r_mod=[];
+					for (var i = 0; i<r.length; i++)
+					{
+						if (this.w.config.extra.isDecimal)
+						 r_mod.push((r[i]).toFixed(this.w.config.extra.yAxisFormat))
+					   else 
+						r_mod.push((r[i]).toFixed(this.w.config.extra.yAxisFormat)+'%')
 					}
 					
 					return {

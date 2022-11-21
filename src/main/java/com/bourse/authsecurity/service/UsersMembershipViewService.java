@@ -17,7 +17,10 @@ public class UsersMembershipViewService {
   {
 	  return usersMembershipViewRepository.findAllByStatus(status);
   }
-
+  public int getPendingApprovalUsers()
+  {
+	  return usersMembershipViewRepository.findAllByStatus("PENDING_APPROVAL").size();
+  } 
 public UsersMembershipView findById(Long userId) {
 	// TODO Auto-generated method stub
 	return usersMembershipViewRepository.findById(userId).get();

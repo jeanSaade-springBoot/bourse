@@ -137,3 +137,6 @@ VIEW `users_roles_view` AS
                     AND (`u`.`id` = `ur`.`user_id`))) AS `role_id`
     FROM
         `users` `u`;
+-- new
+alter table users add column tac_accepted bit
+update users set tac_accepted = false;

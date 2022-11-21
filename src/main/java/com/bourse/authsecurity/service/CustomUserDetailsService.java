@@ -2,21 +2,15 @@ package com.bourse.authsecurity.service;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-import javax.annotation.PostConstruct;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.bourse.authsecurity.domain.Privilege;
@@ -41,14 +35,15 @@ public class CustomUserDetailsService implements UserDetailsService {
        User user = userRepository.findByUsername(username)
                .orElseThrow(() ->
                        new UsernameNotFoundException("User not found with username :" + username));
-       UserDetails userDetails = userRegistry.put(user.getUsername(), new CustomuserdetailsDTO.Builder().withFirstName(user.getFirstName())
- 	          .withLastName(user.getSurName())
- 	          .withEmail(user.getEmail())
- 	          .withUsername(user.getUsername())
- 	          .withPassword(user.getPassword())
- 	          .withAuthorities(mapRolesToAuthorities(user.getRoles()))
- 	          .build());
-       return userDetails;
+     
+       return new CustomuserdetailsDTO.Builder().withFirstName(user.getFirstName())
+  	          .withLastName(user.getSurName())
+  	          .withEmail(user.getEmail())
+  	          .withUsername(user.getUsername())
+  	          .withPassword(user.getPassword())
+  	          .withTacAccepted(user.getTacAccepted())
+  	          .withAuthorities(mapRolesToAuthorities(user.getRoles()))
+  	          .build();
        /* return new org.springframework.security.core.userdetails.User(user.getUsername(),
                 user.getPassword(), mapRolesToAuthorities(user.getRoles()));*/
     }

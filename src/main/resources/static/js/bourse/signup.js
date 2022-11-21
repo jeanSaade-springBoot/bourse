@@ -71,6 +71,7 @@ $("#register").click(function () {
 				cache: false,
 				timeout: 600000,
 				success: function() {
+				   sendNotification();
 				   window.location.href = '/confirmation';
 				},
 				error: function(e) {

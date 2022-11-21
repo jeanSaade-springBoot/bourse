@@ -32,7 +32,6 @@ import com.bourse.authsecurity.service.UsersMembershipViewService;
 import com.bourse.authsecurity.service.UsersRolesViewService;
 
 @RestController
-//@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
 public class AdministrationController {
 
 	@Autowired 

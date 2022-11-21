@@ -12,7 +12,6 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 
 import com.bourse.authsecurity.enums.FailureEnum;
-import com.bourse.authsecurity.enums.MessageEnum;
 import com.bourse.authsecurity.exception.BadRequestException;
 @Component
 public class AuthEntryPointJwt implements AuthenticationEntryPoint {
@@ -22,8 +21,11 @@ public class AuthEntryPointJwt implements AuthenticationEntryPoint {
       throws IOException, ServletException {
     logger.error("Unauthorized error: {}", authException.getMessage());
     //response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Error: Unauthorized");
-    //response.sendRedirect("/login");
-   // throw new BadRequestException(authException.getMessage(), FailureEnum.UNAUTHORIZED_ERROR, "AuthEntryPointJwt");
+   if (authException.getMessage().equalsIgnoreCase("Bad credentials"))
+	   throw new BadRequestException(authException.getMessage(), FailureEnum.UNAUTHORIZED_ERROR, "AuthEntryPointJwt");
+   else
+    response.sendRedirect("/login");
+  
     
   }
 }

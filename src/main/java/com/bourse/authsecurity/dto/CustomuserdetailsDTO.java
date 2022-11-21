@@ -11,12 +11,14 @@ public class CustomuserdetailsDTO extends User {
     private final String firstName;
     private final String lastName;
     private final String email;
+    private Boolean tacAccepted;
 
     private CustomuserdetailsDTO(Builder builder) {
         super(builder.username, builder.password, builder.authorities);
         this.firstName = builder.firstName;
         this.lastName = builder.lastName;
         this.email = builder.email;
+        this.tacAccepted = builder.tacAccepted;
     }
 
     public String getLastName() {
@@ -31,6 +33,12 @@ public class CustomuserdetailsDTO extends User {
         return email;
     }
 
+    public Boolean getTacAccepted() {
+        return this.tacAccepted;
+    }
+    public void setTacAccepted(Boolean tacAccepted) {
+    	this.tacAccepted = tacAccepted;
+    }
     @Override
     public boolean equals(Object o) {
         if (this == o)
@@ -39,20 +47,21 @@ public class CustomuserdetailsDTO extends User {
             return false;
         if (!super.equals(o))
             return false;
-        CustomuserdetailsDTO that = (CustomuserdetailsDTO) o;
-        return firstName.equals(that.firstName) && lastName.equals(that.lastName) && email.equals(that.email);
+        CustomuserdetailsDTO that = (CustomuserdetailsDTO) o; 
+        return firstName.equals(that.firstName) && lastName.equals(that.lastName) && email.equals(that.email) && tacAccepted.equals(that.tacAccepted);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(super.hashCode(), firstName, lastName, email);
+        return Objects.hash(super.hashCode(), firstName, lastName, email, tacAccepted);
     }
 
     public static class Builder {
 
-        private String firstName;
+		private String firstName;
         private String lastName;
         private String email;
+        public Boolean tacAccepted;
         private String username;
         private String password;
         private Collection<? extends GrantedAuthority> authorities;
@@ -71,7 +80,10 @@ public class CustomuserdetailsDTO extends User {
             this.email = email;
             return this;
         }
-
+        public Builder withTacAccepted(Boolean tacAccepted) {
+            this.tacAccepted = tacAccepted;
+            return this;
+        }
         public Builder withUsername(String username) {
             this.username = username;
             return this;

@@ -49,4 +49,11 @@ public class AuthController {
       	return ResponseEntity.ok()
          		 .body(userService.registerNewUserAccount(userRequestedDTO));
       }
+    @PostMapping("/termsandconditionsaccepted")
+   	public ResponseEntity<User> termsAndConditionsAccepted(@RequestBody @Valid UserDTO userDTO) {
+       	return ResponseEntity.ok()
+          		 .body(userService.saveTermsAndConditionsAccepted(userDTO));
+       }
+       
+    
 }

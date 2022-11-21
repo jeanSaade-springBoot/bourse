@@ -1432,6 +1432,7 @@ public class SovereignYieldsService
 		 {
 			 columnWidth=String.valueOf(100/(count-1))+"%"; // 1 to remove the id column size it will not be presented i the grid
 		 }
+		 
 		 String columnDisplayDesc = "";
 		 String dataFormat = "";
 		 while (it.hasNext()) {
@@ -1447,7 +1448,7 @@ public class SovereignYieldsService
 		        {
 		        	if (!StringUtils.isNotBlank(columnDisplayDesc))
 		        		columnDisplayDesc = colsName; 
-			        configColumns.put("text",columnDisplayDesc);
+			        configColumns.put("text",columnDisplayDesc.equalsIgnoreCase("refer_date")?"Date":columnDisplayDesc);
 			        configColumns.put("datafield",colsName);
 			        configColumns.put("width",columnWidth);
 			       

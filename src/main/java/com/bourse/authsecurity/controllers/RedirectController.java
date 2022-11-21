@@ -36,5 +36,9 @@ public class RedirectController {
 	public ModelAndView forgotPasswordPage(ModelMap model) {
 		return new ModelAndView("html/forgotPassword");
 	}
-	
+	@RequestMapping( value =  "termsandconditionsconfirmation")
+    public ModelAndView termsAndConditionsConfirmation(ModelMap model)
+    {
+		return new ModelAndView("html/termsAndConditionsConfirmation");
+    }
 }

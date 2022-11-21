@@ -124,6 +124,7 @@ var activeColumns=[
 
   $(window).on('load', function(){
      $('#overlay').fadeOut();
+
   });
 
   $(document).ready(function () {
@@ -306,7 +307,7 @@ function UpdateUserData(row,userStatus,updateGrid) {
 					
   	    	           $("#notificationContent").html('Data has been updated');
   	                   $("#jqxNotification").jqxNotification("open");
-  	                
+  	                   sendNotification();
   	    	        
   	 			  },
   	    	        error: function (e) {
