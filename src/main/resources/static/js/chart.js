@@ -627,6 +627,158 @@ var chartOption = {
  			        }
    	    	          };
    	    	             	    	          
+function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
+	console.log(fontsize,min1,max1,min2,max2);
+				var Period = $("#DailyRadioButton").val();
+				if(Period)
+					chart.updateOptions({
+						xaxis: {
+				        	labels: {
+				        		 style: {
+						        	  fontSize: fontsize,
+						        	 },
+						        	 axisBorder: {
+										  show: true,
+										  color: '#ffffff',
+										  height: 3,
+										  width: '100%',
+										  offsetX: 0,
+										  offsetY: 0
+									  },
+				        	  },
+				         // type: 'datetime'
+				        },
+				       legend: {
+						   show:eval(showLegend.split('legend')[1]),
+		   	  			   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	         return [img , seriesName];
+				    	    }
+				    	  },
+				         yaxis: [
+					     {
+														 labels: {
+						     				    		 minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-0.1 : Math.abs(min1)-0.1,
+					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+0.1 : Math.abs(max1)+0.1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: "#FFFFFF",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 },
+														{
+ 													  opposite: true,
+						     				    	  labels: {
+						     				    		 minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-0.1 : Math.abs(min2)-0.1,
+					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+0.1 : Math.abs(max2)+0.1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: "#FF0000",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 }]
+						})
+				 if(!Period)
+					   chart.updateOptions({
+							xaxis: {
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 }
+					        	  },
+					        	  axisBorder: {
+									  show: true,
+									  color: '#ffffff',
+									  height: 3,
+									  width: '100%',
+									  offsetX: 0,
+									  offsetY: 0
+								  },
+					        },
+					     legend: {
+						   show:eval(showLegend.split('legend')[1]),
+		   	  			   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	         return [img , seriesName];
+				    	    }
+				    	  },
+					         yaxis: [{
+														 labels: {
+						     				    		 minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-0.1 : Math.abs(min1)-0.1,
+					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+0.1 : Math.abs(max1)+0.1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: "#FFFFFF",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 },
+														{
+ 													  opposite: true,
+						     				    	  labels: {
+						     				    		 minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-0.1 : Math.abs(min2)-0.1,
+					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+0.1 : Math.abs(max2)+0.1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: "#FF0000",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 }]
+							})
+	
+			};  
+			  	    	             	    	          
 function updateGraphFont(fontsize,minvalue,maxvalue){
 				var Period = $("#DailyRadioButton").val();
 				if(Period)
@@ -737,7 +889,7 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 					        }]
 							})
 	
-			};   	    	          
+			};   	    	           	    	          
 function getCountryFlag(seriesName)
 {
 	var img;

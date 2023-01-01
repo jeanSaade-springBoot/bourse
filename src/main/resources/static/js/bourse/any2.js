@@ -119,15 +119,18 @@
   var chartType2='line'; 
   var yaxisformat=3;
   var dataFormat=3;
+  var TestOptions;
+
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
 	  $('#nav-tabContent').show();
   });
   $(document).ready(function () {
+	
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35 ,template: "primary" });
 	  $("#viewall").css("display","block");
 	  $("#viewall").click(function () {
-		popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
+		popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 	  });
 	  $("div.btn-group-vertical button.btn").click(function(){
 		    $("div.btn-group-vertical").find(".active").removeClass("active");
@@ -142,17 +145,17 @@
 	        timeout: 600000,
 	        success: function (data) {
 	        	
-	        	     checkedItemId=JSON.parse(data.parameter);
-	        	     for(j=0; j<checkedItemId.length; j++)
-	    			   {
-	    		    	$(checkedItemId[j]).jqxCheckBox({checked:true});
-	    		       } 
-	        	     checkedItem=checkedItemId.length;
-	        		 $("#collapseFilter").removeClass('show');
-	     	    	 $('#grid-content').css('display', 'block');
-	        		 drawGraph();
+	    	     checkedItemId=JSON.parse(data.parameter);
+	    	     for(j=0; j<checkedItemId.length; j++)
+				   {
+			    	$(checkedItemId[j]).jqxCheckBox({checked:true});
+			       } 
+	    	     checkedItem=checkedItemId.length;
+	    		 $("#collapseFilter").removeClass('show');
+	 	    	 $('#grid-content').css('display', 'block');
+	    		 drawGraph();
 	        		
-},
+			},
 	        error: function (e) {
 	        	
 					  console.log("ERROR : ", e);
@@ -4708,7 +4711,6 @@
 		      	    	        	var getFormatResult0 = getFormat(response[0].config.dataFormat);
 		      	    	        	var getFormatResult1 = getFormat(response[1].config.dataFormat);
 		      	    	        	 
-		      	    	          
 		      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
@@ -4725,7 +4727,7 @@
 			      	    	          
 			      	    	          var dbchartType2=response[1].config.chartType;
 			      	    	            chartType2 =getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
-			      	    	          min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+			      	    	            min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        })),
 				      	    	        max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
@@ -4738,7 +4740,7 @@
 				      	    	          return item.y;
 				      	    	        }));
 		      	    	         
-			      	    	          min=Math.min(min1,min2);
+			      	    	            min=Math.min(min1,min2);
 										max=Math.max(max1,max2);
 										 minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
 					      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
@@ -4747,12 +4749,31 @@
 													isDecimal: isdecimal,
 													yAxisFormat:yaxisformat,
 												},
+												 colors: ["#FFFFFF", "#FF0000"],
 					      	    	    		 markers: {
-					      	    	    		   colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
-					      	    	    		   strokeColors:["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"]
+					      	    	    		   colors: ["#FFFFFF", "#FF0000"],
+					      	    	    		   strokeColors:["#FFFFFF", "#FF0000"]
 					      	    	    		 },
-					     				       yaxis: {
-
+					     				       yaxis: [{
+														 labels: {
+						     				    		 minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-0.1 : Math.abs(min1)-0.1,
+					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+0.1 : Math.abs(max1)+0.1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: "#FFFFFF",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 },
+														{
+ 													  opposite: true,
 						     				    	  labels: {
 						     				    		 minWidth: 75,maxWidth: 75,
 						 				        		 style: {
@@ -4760,16 +4781,16 @@
 						 						        	 }
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-					     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-0.1 : Math.abs(min2)-0.1,
+					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+0.1 : Math.abs(max2)+0.1,
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
-					     					                  color: '#ffffff',
+					     					                  color: "#FF0000",
 					     					                  offsetX: 0,
 					     					                  offsetY: 0
 					     					              },
-					     				    	  },
+					     				    			 }],
 												  tooltip: {
 													  x: {
 					    						          show: false,
@@ -5141,8 +5162,9 @@
 							}
 		  	
 			function graphfont(fontSize){
-				
-		    	 updateGraphFont(fontSize,minvalue,maxvalue);
+				console.log('teset')
+		    	// updateGraphFont(fontSize,minvalue,maxvalue);
+				 updateGraphFont2YAxis(fontsize,min1,max1,min2,max2)
 		     }
 				function getFormat(Format)
 				{

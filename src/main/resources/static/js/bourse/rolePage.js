@@ -17,7 +17,7 @@ var activeRole;
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 	  $("#viewall").css("display","block");
 	  $("#viewall").click(function () {
-			popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
+			popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 		  });
 	 
   	 $("#popupWindow").jqxWindow({
@@ -49,7 +49,7 @@ var activeRole;
   	    	        cache: false,
   	    	        timeout: 600000,
   	    	        success: function (data) {
-  	    	            var menuBody="<button class='nav-link' id='"+'role_'+data.id+"' data-toggle='pill' data-target='#v-pills-home' type='button' role='tab' aria-controls='v-pills-home' aria-selected='true' onclick='getRolePrivilege("+data.id+")'>"+data.name+"</button>";
+  	    	            var menuBody="<button class='nav-link' id='"+'role_'+data.id+"' data-toggle='pill' data-target='#v-pills-home' type='button' role='tab' aria-controls='v-pills-home' aria-selected='true' onclick='getRolePrivilege("+data.id+")'>"+data.name.split("ROLE_")[1]+"</button>";
 						$( "#roleMenu" ).append( menuBody );
 				
   	    	           $("#notificationContentSave").html('Role has been created');
@@ -71,8 +71,8 @@ var activeRole;
 		$('#roleTabs').jqxButtonGroup('setSelection', 0);
 	
        
-				$.get( "/getroles", function( data ) {
-					   var menuBody;
+	    $.get( "/getroles", function( data ) {
+					  var menuBody;
 		              for (let i = 0; i < data.length; i++) {
 						  menuBody="";
 				          if(i==0)
@@ -117,7 +117,7 @@ var activeRole;
  				$('#privilegeTree').jqxTree('expandAll');
 				$('#privilegeTree').jqxTree({  disabled:true});
 				$('#privilegeTree').prepend( "<label class='title-style ml-2'>Privileges</label>" );
-				
+			
 				 var roleSource =
 			      {
 			          datatype: "json",
@@ -232,7 +232,7 @@ function editPrivilege()
 				{
 					selectedItems.push(items[key].id);
 					 var selectedItemParentId=0;
-					 var selectedParentId=$('#privilegeTree').jqxTree('getItem',  $('#'+key)[0]);
+					 var selectedParentId=$('#privilegeTree').jqxTree('getItem',  $('#'+items[key].id)[0]);
 						if(selectedParentId!=null)
 						{selectedItemParentId = selectedParentId.parentId;
 						  if (selectedItemParentId!=0)					     
@@ -313,11 +313,11 @@ function Edit(row, event) {
 			    	$("#grid").jqxGrid('endrowedit', row, true);
 			 }
 function UpdateUserRole(row)
-{
+{    debugger;
 	 $("#grid").jqxGrid('endrowedit', row);
 	   var updatedData = $("#grid").jqxGrid('getrowdata', row);
 	   var dataParam = {userId:updatedData.id,
-						roleName:updatedData.role}
+						roleName:'ROLE_'+updatedData.role}
 						
 	  $.ajax({
   	    	        type: "POST",

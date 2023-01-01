@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+   <!--  Hi <span th:text="${recipientName}"></span>, -->
+    <p>You have a new registration request</p>
+    <span th:text="${Title}"></span> <span th:text="${FirstName}"></span> <span th:text="${SurName}"></span> from <span th:text="${Company}"></span> has requested access to Libvol.
+    <br>
+   <!--  <p>Regards, -->
+    <p>
+      <em th:text="${senderName}"></em> <br />
+      <!--  <img src="../../img/logo.png" /> -->
+    </p>
+  </body>
+</html>

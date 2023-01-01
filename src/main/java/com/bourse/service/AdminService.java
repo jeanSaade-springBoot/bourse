@@ -313,7 +313,8 @@ public class AdminService
 	    }
 
 	public void UpdateNewsOrder(NewsOrderDTO newsOrderDTOLst) {
-		newsOrderRepository.deleteByListOfId(newsOrderDTOLst.getListid());
+	//	newsOrderRepository.deleteByListOfId(newsOrderDTOLst.getListid());
+		newsOrderRepository.deleteAll();
 		newsOrderRepository.saveAll(newsOrderDTOLst.getNewsOrderList());
 	}
 

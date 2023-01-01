@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
+  </head>
+  <body>
+   <!--  Hi <span th:text="${recipientName}"></span>, -->
+    Hello <span th:text="${Title}"></span> <span th:text="${FirstName}"></span> <span th:text="${SurName}"></span>
+    <br>
+    <p>Your Account has been <span th:text="${Status}"></span></p> 
+    
+   <!--  <p>Regards, -->
+    <p>
+      <em th:text="${senderName}"></em> <br />
+      <!--  <img src="../../img/logo.png" /> -->
+    </p>
+  </body>
+</html>

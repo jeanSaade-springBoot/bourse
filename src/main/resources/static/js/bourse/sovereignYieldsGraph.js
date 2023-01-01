@@ -63,18 +63,11 @@ $(window).on('load', function() {
 });
 $(document).ready(function() {
 	
-	if (checkedItem==0)
-	{
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-	}
-
 	$("#viewall").jqxButton({ theme: 'dark', width: 110, height: 35, template: "primary" });
 	$("#viewall").css("display", "block");
 	$("#viewall").click(function() {
-		popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
+		popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 	});
-	
 	$("#groupOfPeriod").jqxButtonGroup({theme: 'dark', mode: 'radio' });
 		
 	var  dropDownSource =[{"type":"AVG",
@@ -85,20 +78,54 @@ $(document).ready(function() {
                              "value":"2"},
 							{"type":"LAST",
                              "value":"3"},];
-   var source =
-     {
-         datatype: "json",
-         datafields: [
-             { name: 'type' },
-             { name: 'value' }
-         ],
-         localdata: dropDownSource,
-         async: true
-     };
+	  var source =
+	     {
+	         datatype: "json",
+	         datafields: [
+	             { name: 'type' },
+	             { name: 'value' }
+	         ],
+	         localdata: dropDownSource,
+	         async: true
+	     };
 	  var dataAdapter = new $.jqx.dataAdapter(source);
 	 $("#dropDownType").jqxDropDownList({selectedIndex: 0, dropDownHeight: 130,  source: dataAdapter,displayMember: "type",valueMember: "value", theme: 'dark' , width: 70, height: 25});
 	
-
+	 var  dropDownFunctionSource =[
+							{"name":"100D moving average",
+                            "value":"1"}, 
+					        {"name":"200D moving average",
+                             "value":"2"},
+							{"name":"Daily Change In %",
+                             "value":"3"},
+							{"name":"Daily Change Increment",
+                             "value":"4"},
+						    {"name":"Weekly Change In %",
+                             "value":"5"},
+							{"name":"Weekly Change Increment",
+							  "value":"6"},
+							{"name":"10 Yr Percentile",
+							  "value":"7"},
+							{"name":"20 Yr Percentile",
+							  "value":"8"},
+							{"name":"Century Percentile",
+							  "value":"9"}];
+   var functionSource =
+     {
+         datatype: "json",
+         datafields: [
+             { name: 'name' },
+             { name: 'value' }
+         ],
+         localdata: dropDownFunctionSource,
+         async: true
+     };
+	  var functionDataAdapter = new $.jqx.dataAdapter(functionSource);
+	 $("#dropDownFunctions").jqxDropDownList({dropDownHeight: 280,  source: functionDataAdapter, placeHolder: "Select a Function",  displayMember: "name",valueMember: "value", theme: 'dark' , width: 200, height: 25});
+	 $("#reset").click(function() {
+		 $("#dropDownFunctions").jqxDropDownList({selectedIndex: -1});
+	});
+	
 	$.ajax({
 		contentType: "application/json",
 		url: "/bourse/findgraphhistorybyscreenname/yield",
@@ -122,11 +149,7 @@ $(document).ready(function() {
 			
 			type=JSON.parse(data.parameter)[3][0];
 			$("#dropDownType").jqxDropDownList('selectIndex', type ); 	
-            if (checkedItem>1)
-            {
-             $("#M-200d").jqxCheckBox({ disabled: true });
-             $("#M-100d").jqxCheckBox({ disabled: true });
-            }
+           
 			drawGraph();
 
 		},
@@ -144,10 +167,6 @@ $(document).ready(function() {
 	for (i = 0; i < allitems.length; i++) {
 		$(allitems[i]).jqxCheckBox({ theme: 'dark', width: 120, height: 26 });
 	}
-
-	$("#M-100d").jqxCheckBox({ theme: 'dark', width: 120, height: 26 });
-	$("#M-200d").jqxCheckBox({ theme: 'dark', width: 120, height: 26 });
-
 	$("#Clearfilter").jqxButton({ theme: 'dark', height: 30, width: 74 });
 
 	$("#all30yr").jqxButton({ theme: 'dark', height: 22, width: 74, template: "danger" });
@@ -256,85 +275,7 @@ $(document).ready(function() {
 		drawGraph();
 	});
 
-	$('#M-100d').on('change', function(event) {
-		
-		var ischecked = event.args.checked;
-		if (ischecked && checkedItem == 1) {
-			for (i = 0; i < allitems.length; i++) {
-				$(allitems[i]).jqxCheckBox({ disabled: true });
-			}
-			
-			 $("#M-200d").jqxCheckBox({ disabled: true });
-			 
-			$( "#all30yr" ).prop( "disabled", true );
-			$( "#all10yr" ).prop( "disabled", true );
-			$( "#all5yr" ).prop( "disabled", true );
-			$( "#all2yr" ).prop( "disabled", true );
-		}
-		else {
-			for (i = 0; i < allitems.length; i++) {
-				$(allitems[i]).jqxCheckBox({ disabled: false });
-			}
-				$("#M-200d").jqxCheckBox({ disabled: false });
-				$( "#all30yr" ).prop( "disabled", false );
-				$( "#all10yr" ).prop( "disabled", false );
-				$( "#all5yr" ).prop( "disabled", false );
-				$( "#all2yr" ).prop( "disabled", false );
-		}
-	});
 	
-	$('#M-200d').on('change', function(event) {
-		var ischecked = event.args.checked;
-		if (ischecked && checkedItem == 1) {
-			for (i = 0; i < allitems.length; i++) {
-				$(allitems[i]).jqxCheckBox({ disabled: true });
-			}
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$( "#all30yr" ).prop( "disabled", true );
-			$( "#all10yr" ).prop( "disabled", true );
-			$( "#all5yr" ).prop( "disabled", true );
-			$( "#all2yr" ).prop( "disabled", true );
-		}
-		else {
-			for (i = 0; i < allitems.length; i++) {
-				$(allitems[i]).jqxCheckBox({ disabled: false });
-			}
-				$("#M-100d").jqxCheckBox({ disabled: false });
-				$( "#all30yr" ).prop( "disabled", false );
-				$( "#all10yr" ).prop( "disabled", false );
-				$( "#all5yr" ).prop( "disabled", false );
-				$( "#all2yr" ).prop( "disabled", false );
-		}
-	});
-	
-	function checkifmovchecked() {
-		if ($("#M-100d").val() && checkedItem == 1) {
-			for (i = 0; i < allitems.length; i++) {
-				$(allitems[i]).jqxCheckBox({ disabled: true });
-			}
-
-			for (i = 0; i < checkedItemid.length; i++) {
-				if (checkedItemid[i] != null)
-					$(checkedItemid[i]).jqxCheckBox({ disabled: false });
-			}
-			return true;
-		}
-		else
-			if ($("#M-200d").val() && checkedItem == 1) {
-				for (i = 0; i < allitems.length; i++) {
-					$(allitems[i]).jqxCheckBox({ disabled: true });
-				}
-
-				for (i = 0; i < checkedItemid.length; i++) {
-					if (checkedItemid[i] != null)
-						$(checkedItemid[i]).jqxCheckBox({ disabled: false });
-				}
-				return true;
-			}
-			else
-				return false;
-	}
-
 	$('#jqxCheckBoxUSA-30').on('change', function(event) {
 		var checked = event.args.checked; Items = "";
 		if (checked) {
@@ -364,14 +305,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -404,14 +338,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -444,14 +371,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+	
 	});
 
 
@@ -484,14 +404,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -524,14 +437,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+	
 	});
 
 	$('#jqxCheckBoxGermany-10').on('change', function(event) {
@@ -563,14 +469,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxGermany-5').on('change', function(event) {
@@ -602,14 +501,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+	
 	});
 
 	$('#jqxCheckBoxGermany-2').on('change', function(event) {
@@ -641,14 +533,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxFrance-30').on('change', function(event) {
@@ -680,14 +565,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxFrance-10').on('change', function(event) {
@@ -719,14 +597,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxFrance-5').on('change', function(event) {
@@ -758,14 +629,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxFrance-2').on('change', function(event) {
@@ -797,14 +661,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -837,14 +694,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxUk-10').on('change', function(event) {
@@ -876,14 +726,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxUk-5').on('change', function(event) {
@@ -915,14 +758,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxUk-2').on('change', function(event) {
@@ -954,14 +790,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxItaly-30').on('change', function(event) {
@@ -993,14 +822,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxItaly-10').on('change', function(event) {
@@ -1032,14 +854,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxItaly-5').on('change', function(event) {
@@ -1071,14 +886,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxItaly-2').on('change', function(event) {
@@ -1110,14 +918,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxSpain-30').on('change', function(event) {
@@ -1149,14 +950,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxSpain-10').on('change', function(event) {
@@ -1188,14 +982,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxSpain-5').on('change', function(event) {
@@ -1227,14 +1014,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxSpain-2').on('change', function(event) {
@@ -1266,14 +1046,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -1521,11 +1294,9 @@ function drawGraph() {
 	$("#mainChart").html("");
 	$("#mainChart").css("display", "block");
 	var MovingAverageTypeIfSelected =  '';
-	if ($("#M-100d").jqxCheckBox('val'))
-	    MovingAverageTypeIfSelected= 'M100';
-	else if ($("#M-200d").jqxCheckBox('val'))
-		MovingAverageTypeIfSelected= 'M200';
-		
+	
+	var functionId = '';
+	
 	if (checkDateMonth(monthDate, date)) {
 		$("#button-monthForward").prop('disabled', false);
 	}
@@ -2594,8 +2365,8 @@ function drawGraph() {
 						"factor1": itemValue[checkedItemValues[0]].factor,
 						"country1": itemValue[checkedItemValues[0]].country,
 						"yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
-						"isMovingAverage":MovingAverageTypeIfSelected==''?false:true,
-						"movingTwoHundereOrOneHundred":MovingAverageTypeIfSelected
+						"isFunctionGraph":functionId==''?false:true,
+						"functionId":functionId
 					};
 					disableOptions(false);
 					$.ajax({
@@ -2606,7 +2377,166 @@ function drawGraph() {
 						dataType: 'json',
 						timeout: 600000,
 						success: function(response) {
+						 if(functionId!='')
+							{
+						
+		      	    	        	startDateF1=response[0].config.startDate;
+		      	    	        	startDateF2=response[1].config.startDate;
+		      	    	        	 if (startDateF1!=null)
+		      	    	        	startDateF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+		      	    	        	 if (startDateF2!=null)
+		      	    	        	 startDateF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+		      	    	            var dates=[];
+		      	    	
+		      	    	        	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+		      	    	        	title= T1 +" vs "+ T2;
 
+		      	    	        	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
+			      	    	           { 
+			      	    	        	 if (response[0].config.yAxisFormat.includes("%"))
+				      	    	           { isdecimal= false;
+				      	    	        	   if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+				      	    	        		 yaxisformat=response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+					      	    	            	else
+					      	    	            		yaxisformat=0;
+				      	    	           }
+			      	    	           else 
+			      	    	            	{
+			      	    	        	    if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+			      	    	            	yaxisformat=response[0].config.yAxisFormat.split(".")[1].length
+			      	    	            	else 
+			      	    	            		yaxisformat=0
+			      	    	            		
+			      	    	            	 isdecimal= true;	
+			      	    	            	}
+			      	    	           }
+			      	    	           else
+			      	    	        	 yaxisformat=3;
+		      	    	        	
+		      	    	        	var getFormatResult0 = getFormat(response[0].config.dataFormat);
+		      	    	        	var getFormatResult1 = getFormat(response[1].config.dataFormat);
+		      	    	        	 
+		      	    	          
+		      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
+		      	    	       	    chartDbFontSize = response[0].config.chartSize;
+		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+
+		      	    	  
+		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	       
+		      	    	        	
+		      	    	          
+		      	    	        	
+			      	    	          var dbchartType1=response[0].config.chartType;
+			      	    	            chartType1 =(getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
+			      	    	          
+			      	    	          var dbchartType2=response[1].config.chartType;
+			      	    	            chartType2 =getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
+			      	    	            min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+										min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+		      	    	         
+			      	    	            min=Math.min(min1,min2);
+										max=Math.max(max1,max2);
+										 minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+					      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+					      	    	    	chart.updateOptions({
+					      	    	    	  extra:{
+													isDecimal: isdecimal,
+													yAxisFormat:yaxisformat,
+												},
+												// colors: ["#FFFFFF", "#FF0000"],
+					      	    	    		 markers: {
+					      	    	    		   	colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
+													strokeColors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"]
+					      	    	    		 },
+					     				       yaxis: [{
+														 labels: {
+						     				    		 minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-0.1 : Math.abs(min1)-0.1,
+					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+0.1 : Math.abs(max1)+0.1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color:"#F0AB2E",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 },
+														{
+ 													  opposite: true,
+						     				    	  labels: {
+						     				    		 minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-0.1 : Math.abs(min2)-0.1,
+					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+0.1 : Math.abs(max2)+0.1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: "#0097FE",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 }],
+												  tooltip: {
+													  x: {
+					    						          show: false,
+					    						      },
+					    							  y: {
+					    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+					    									  if(seriesIndex == 0)
+												  				{
+												  				if (getFormatResult0[1])
+												  				  return  value.toFixed(getFormatResult0[0]);
+												  				else 
+												  				  return  value.toFixed(getFormatResult0[0]) + "%";
+												  				}else 
+												  					 if(seriesIndex == 1){
+												  					  if (getFormatResult1[1])
+												  						  return  value.toFixed(getFormatResult1[0]);
+												  						else 
+												  							 return  value.toFixed(getFormatResult1[0]) + "%";
+												  					 }
+					    								    },
+					    								    title: {
+					    							              formatter: (seriesName) => '',
+					    							          },
+					    					      },
+					    						}
+				      	    	    		});     
+			      	    	           
+		      	    	          chart.updateSeries([{
+							          name: response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription,
+							          type: chartType1,
+							          data: response[0].graphResponseDTOLst
+							        },{
+							          name: response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription,
+							          type: chartType2,
+							          data:response[1].graphResponseDTOLst
+							        }])
+							        $('#overlayChart').hide();
+							}
+							else{
 							newstartdate = new Date();
 							startDateF1 = response[0].config.startDate;
 							if (startDateF1 != null)
@@ -2732,6 +2662,7 @@ function drawGraph() {
 
 								}
 							});
+							}
 							$('#overlayChart').hide();
 
 						},

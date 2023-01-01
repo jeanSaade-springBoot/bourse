@@ -157,22 +157,71 @@ var groupItem;
           
       });
       // initialize jqxGrid
+ var pagerrenderer = function () {
+	 			var theme;
+                var element = $("<div style='margin-right: 10px; margin-top: 11px; width: 100%; height: 100%;'></div>");
+                var datainfo = $("#grid").jqxGrid('getdatainformation');
+                var paginginfo = datainfo.paginginformation;
+  				var label = $("<div style='font-size: 11px; margin: 2px 3px; margin-top:-5px; font-weight: bold; float: right;'></div>");
+                //label.text("1-" + paginginfo.pagesize + ' of ' + datainfo.rowscount);
+				label.text("Show More");
+                var leftButton = $("<div style='padding: 0px; float: right;'><div ><i class='fa-regular fa-square-caret-left'></i></div></div>");
+                leftButton.find('div').addClass('btn-style');
+               // leftButton.jqxButton({ theme: theme });
+                var rightButton = $("<div style='padding: 0px; margin: 0px 3px; float: right;'><div ><i class='fa-regular fa-square-caret-right'></i></div></div>");
+                rightButton.find('div').addClass('btn-style');
+               // rightButton.jqxButton({ theme: theme });
+
+                rightButton.appendTo(element);
+                leftButton.appendTo(element);
+                label.appendTo(element);
+
+                self.label = label;
+                // update buttons states.
+                var handleStates = function (event, button, className, add) {
+                    button.on(event, function () {
+                        if (add == true) {
+                            button.find('div').addClass(className);
+                        }
+                        else button.find('div').removeClass(className);
+                    });
+                }
+                if (theme != '') {
+                    handleStates('mousedown', rightButton, 'jqx-icon-arrow-right-selected-' + theme, true);
+                    handleStates('mouseup', rightButton, 'jqx-icon-arrow-right-selected-' + theme, false);
+                    handleStates('mousedown', leftButton, 'jqx-icon-arrow-left-selected-' + theme, true);
+                    handleStates('mouseup', leftButton, 'jqx-icon-arrow-left-selected-' + theme, false);
+                    handleStates('mouseenter', rightButton, 'jqx-icon-arrow-right-hover-' + theme, true);
+                    handleStates('mouseleave', rightButton, 'jqx-icon-arrow-right-hover-' + theme, false);
+                    handleStates('mouseenter', leftButton, 'jqx-icon-arrow-left-hover-' + theme, true);
+                    handleStates('mouseleave', leftButton, 'jqx-icon-arrow-left-hover-' + theme, false);
+                }
+                rightButton.click(function () {
+                    $("#grid").jqxGrid('gotonextpage');
+                });
+                leftButton.click(function () {
+                    $("#grid").jqxGrid('gotoprevpage');
+                });
+                return element;
+            };
+
     $("#grid").jqxGrid(
       {
           width: '100%',
 		  height:670,
           source: dataAdapter,                
-         columnsresize: false,
-         pageable: true,
-         selectionmode: 'none',
-         pagesize: 15,
-	     pagesizeoptions: ['15', '50', '100'],
-           autoheight: true,
+          columnsresize: false,
+          pageable: true,
+          selectionmode: 'none',
+          pagesize: 200,
+	      //pagesizeoptions: ['15', '50', '100'],
+          autoheight: true,
 		  columnsheight: 30,
 		  autorowheight: true,
           altrows: true,
           showgroupsheader: false,
           groupable: true,
+  		  pagerrenderer: pagerrenderer,
           groupsexpandedbydefault: true,
           columns: [
            { text: 'Date', datafield: 'generationDateDate', hidden: true,  editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
@@ -200,13 +249,14 @@ var groupItem;
     	          pageable: true,
     	          selectionmode: 'none',
     	          columnsheight: 30,
-    	          pagesize: 15,
-	   			  pagesizeoptions: ['15', '50', '100'],
-           autoheight: true,
+    	          pagesize: 100,
+	   			 // pagesizeoptions: ['15', '50', '100'],
+          		  autoheight: true,
     	          altrows: true,
     	          autorowheight: true,
     	          showgroupsheader: false,
     	          groupable: true,
+ 				  pagerrenderer: pagerrenderer,
     	          groupsexpandedbydefault: true,
     	          columns: [
     	           { text: 'Date', datafield: 'generationDateDate', hidden: true,  editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 

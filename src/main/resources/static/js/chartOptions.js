@@ -938,13 +938,9 @@ $('#groupOfPeriod').on('selected', function () {
 	var selected = $('#groupOfPeriod').jqxButtonGroup('getSelection');
 	if (selected==0)
 	 {$("#dropDownType").jqxDropDownList({ disabled: true }); 
-	 	$("#M-100d").jqxCheckBox({ disabled: false });
-		$("#M-200d").jqxCheckBox({ disabled: false });
 	  }
     else 
 	{ $("#dropDownType").jqxDropDownList({ disabled: false }); 
-	 	$("#M-100d").jqxCheckBox({ disabled: true });
-		$("#M-200d").jqxCheckBox({ disabled: true });
      }
 	 }); 
 
@@ -1046,6 +1042,15 @@ return fullName;
 
                 });  
 $('#dropDownType').on('select', function (event)
+{
+    resetActiveChartType();
+		resetActiveFontSize();
+		resetActiveChartColor();
+		resetActiveChartColorTransparency();
+		resetActiveChartGrid();
+		drawGraph();                      
+});
+$('#dropDownFunctionss').on('select', function (event)
 {
     resetActiveChartType();
 		resetActiveFontSize();

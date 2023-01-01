@@ -16,7 +16,7 @@ $(window).on('load', function(){
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 	  $("#viewall").css("display","block");
 	  $("#viewall").click(function () {
-			popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
+			popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 		  });
 	  
 	  $("#save").jqxButton({  theme:'dark', width: 110, height: 35,template: "success"});
@@ -31,7 +31,7 @@ $(window).on('load', function(){
   	        url: "/admin/updatenewsorder",
   	        data: JSON.stringify(data),
   	        dataType: 'json',
-  	        async:true,
+  	        async:false,
   	        cache: false,
   	        timeout: 600000,
   	        success: function (data) {

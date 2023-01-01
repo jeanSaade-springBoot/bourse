@@ -25,8 +25,12 @@ public class RoleService {
 		else return false;
 	}
  	public List<Role> getRoles()
-	 {
-		 return roleRepository.findAll();
+	 {   List<Role> roles = roleRepository.findAll();
+	     roles.replaceAll(role -> {
+	    	 role.setName(role.getName().replace("ROLE_", ""));
+	         return role;
+	     });
+		 return roles;
 	 }
 
 	public Role createRole(CreateRoleDTO createRoleDTO) {

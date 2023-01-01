@@ -66,9 +66,4 @@ public interface NewsOrderRepository extends JpaRepository<NewsOrder, Long> {
 		       nativeQuery = true)
 	  List<NewsOrder> getActiveNewsOrder();
 	
-	  @Transactional
-	  @Modifying
-	  @Query("delete from NewsOrder \r\n"
-			+ " where id in (:listid)")
-	  void deleteByListOfId(@Param("listid") Long[] listid);
 }

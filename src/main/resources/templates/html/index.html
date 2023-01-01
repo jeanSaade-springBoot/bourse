@@ -9,7 +9,7 @@
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <title>Liberty Options - Dashboard</title>
+  <title>Libvol - Dashboard</title>
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
   <link href="/css/ruang-admin.min.css" rel="stylesheet">
@@ -102,14 +102,7 @@ div#content {
 		  <li sec:authorize="hasAuthority('YIELD_CURVES_GRAPH_SCREEN')"><a href="/bourse/sovereigncurvesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Curves</a></li>
 		  <li sec:authorize="hasAuthority('YIELD_CROSSES_GRAPH_SCREEN')"><a href="/bourse/sovereigncrossesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Crosses</a></li>
 		  <li sec:authorize="hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')"><a href="/bourse/spreadmakergraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Spread Maker</a></li>
-		</ul>
-    </div>
-  </div>
-   <div  sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')" class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Database</h5>
-      <ul class="fa-ul">
-		  <li><a href="/bourse/datafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Data Function display</a></li>
+		  <li sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/datafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Data End Function display</a></li>
 		</ul>
     </div>
   </div>

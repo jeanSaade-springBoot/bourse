@@ -7,6 +7,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+import javax.mail.MessagingException;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,6 +37,7 @@ import com.bourse.authsecurity.exception.BadRequestException;
 import com.bourse.authsecurity.repositories.RoleRepository;
 import com.bourse.authsecurity.repositories.UserRepository;
 import com.bourse.authsecurity.security.jwt.JwtUtils;
+import com.bourse.mail.service.EmailService;
 
 @Service
 public class UserService {
@@ -57,8 +59,12 @@ private UserMembershipService userMembershipService;
 
 @Autowired
 private UsersMembershipViewService usersMembershipViewService;
+
 @Autowired
 private JwtUtils jwtUtils;
+
+@Autowired
+private EmailService emailService;
 
 public User getUserInfoByUsername(String userName)
 {      
@@ -145,10 +151,17 @@ public User registerNewUserAccount(@Valid UserRequestedDTO userRequestedDTO) {
 						   .tacAccepted(false)
 						   .createdOn(new Timestamp((new Date()).getTime()))
 						   .build();
-		 userRequested.setRoles( roleRepository.findByName("ROLE_USER"));
+		 userRequested.setRoles( roleRepository.findByName("ROLE_BASIC_USER"));
 		 userRepository.save(userRequested);
-		 
-		 
+		
+			/*
+			 * try { emailService.sendMessageUsingThymeleafTemplate("test@gmail.com",
+			 * "New Libvol Registration Request",
+			 * userRequestedDTO.getUserName(),"/mail-templates/register-mail.html"); } catch
+			 * (MessagingException e) { e.printStackTrace(); };
+			 */
+			 
+			
 	}
 	
 	return userRequested;

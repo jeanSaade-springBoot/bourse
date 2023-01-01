@@ -3,7 +3,7 @@ package com.bourse.enums;
 public enum FunctionEnum {
 	
 	ONE_HUNDRED_DAY_MOVING_AVERAGE(1,"100D","100D moving average"),
-	TWO_HUNDRED_DAY_MOVING_AVERAGE(2,"200D","100D moving average"),
+	TWO_HUNDRED_DAY_MOVING_AVERAGE(2,"200D","200D moving average"),
 	DAILY_CHANGE_IN_PERCENTAGE(3,"DCP","Daily Change In %"), 
 	DAILY_CHANGE_INCREMENT(4,"DCI","Daily Change Increment"), 
 	WEEKLY_CHANGE_IN_PERCENTAGE(5,"WCP","Weekly Change In %"), 

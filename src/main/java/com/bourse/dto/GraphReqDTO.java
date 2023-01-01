@@ -50,5 +50,8 @@ public class GraphReqDTO {
 	
 	private String minusfactor;
 	private String minuscountry;
+	
+	private String isFunctionGraph;
+	private String functionId;
 
 }

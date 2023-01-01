@@ -17,7 +17,7 @@
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 	  $("#viewall").css("display","block");
 	  $("#viewall").click(function () {
-			popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
+			popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 		  });
 	  
 	  $("#startDate").jqxDateTimeInput({  theme:'dark', width: '100%', height: '25px',allowNullDate: true });

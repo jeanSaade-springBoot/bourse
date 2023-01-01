@@ -159,7 +159,16 @@ button#deleteByDate {
 
         <!-- Container Fluid-->
             <div class="d-sm-flex align-items-center">
-            	<h1 class="ml-6 text-darkorange">Sovereign Yields</h1>
+            	<h1 class="ml-6 text-darkorange">Data Input</h1>
+            	 <nav style="margin-left: 3rem;
+    						 height: 35px;
+    						 margin-top: 0.5rem;">
+				  
+				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/sovereignyields" role="tab" aria-controls="nav-any2" aria-selected="false">SOVEREIGN YIELDS</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREENN')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/sovereignyields" role="tab" aria-controls="nav-any2" aria-selected="false">NEW ASSET</a>
+				  </div>
+				</nav>
             </div>
             <div id="overlay">
 		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
@@ -788,7 +797,7 @@ button#deleteByDate {
       <!-- Footer -->
     </div>
   </div>
-
+</div>
   <!-- Scroll to top -->
   <a class="scroll-to-top rounded" href="#page-top">
     <i class="fas fa-angle-up"></i>

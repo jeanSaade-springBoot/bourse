@@ -17,7 +17,7 @@
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 	  $("#viewall").css("display","block");
 	  $("#viewall").click(function () {
-			popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
+			popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 		  });
 	  $("#saveNews").jqxButton({ theme: 'dark',height:30,width:74  });
       $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
@@ -76,9 +76,9 @@
           showfilterrow: true,
           filterable: true,
           columnsheight: 30,
-          pagesize: 15,
-		  pagesizeoptions: ['15', '50', '100'],
-          //autoheight: true,
+          pagesize: 10,
+		  pagesizeoptions: ['10', '50', '100'],
+          autoheight: true,
           editable: true,
           selectionmode: 'none',
           editmode: 'selectedrow',

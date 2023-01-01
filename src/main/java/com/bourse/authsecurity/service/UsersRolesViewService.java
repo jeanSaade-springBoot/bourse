@@ -16,6 +16,7 @@ public class UsersRolesViewService {
   public List<UsersRolesView> getUsersRoles()
   {
 	  return usersRolesViewRepository.findAll();
+	  
   }
 
 }

@@ -67,13 +67,9 @@ $(document).ready(function() {
 	$("#viewall").jqxButton({ theme: 'dark', width: 110, height: 35, template: "primary" });
 	$("#viewall").css("display", "block");
 	$("#viewall").click(function() {
-		popupWindow('/bourse/allnews', 'Liberty Options - View All News', window, 1300, 600);
+		popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 	});
-	if (checkedItem==0)
-	{
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-	}
+	
 	$("div.btn-group-vertical button.btn").click(function() {
 		$("div.btn-group-vertical").find(".active").removeClass("active");
 		$(this).addClass("active");
@@ -101,11 +97,7 @@ $(document).ready(function() {
 				
 			type=JSON.parse(data.parameter)[3][0];
 			$("#dropDownType").jqxDropDownList('selectIndex', type ); 	
-  if (checkedItem>1)
-            {
-             $("#M-200d").jqxCheckBox({ disabled: true });
-             $("#M-100d").jqxCheckBox({ disabled: true });
-            }
+ 
 			drawGraph();
 
 		},
@@ -145,9 +137,42 @@ $(document).ready(function() {
 	  var dataAdapter = new $.jqx.dataAdapter(source);
 	 $("#dropDownType").jqxDropDownList({selectedIndex: 0, dropDownHeight: 130,  source: dataAdapter,displayMember: "type",valueMember: "value", theme: 'dark' , width: 70, height: 25});
 	
+	 var  dropDownFunctionSource =[
+							{"name":"100D moving average",
+                            "value":"1"}, 
+					        {"name":"200D moving average",
+                             "value":"2"},
+							{"name":"Daily Change In %",
+                             "value":"3"},
+							{"name":"Daily Change Increment",
+                             "value":"4"},
+						    {"name":"Weekly Change In %",
+                             "value":"5"},
+							{"name":"Weekly Change Increment",
+							  "value":"6"},
+							{"name":"10 Yr Percentile",
+							  "value":"7"},
+							{"name":"20 Yr Percentile",
+							  "value":"8"},
+							{"name":"Century Percentile",
+							  "value":"9"}];
+   var functionSource =
+     {
+         datatype: "json",
+         datafields: [
+             { name: 'name' },
+             { name: 'value' }
+         ],
+         localdata: dropDownFunctionSource,
+         async: true
+     };
+	  var functionDataAdapter = new $.jqx.dataAdapter(functionSource);
+	 $("#dropDownFunctions").jqxDropDownList({dropDownHeight: 280,  source: functionDataAdapter, placeHolder: "Select a Function",  displayMember: "name",valueMember: "value", theme: 'dark' , width: 200, height: 25});
+	 $("#reset").click(function() {
+		 $("#dropDownFunctions").jqxDropDownList({selectedIndex: -1});
+	});
 	
-	$("#M-100d").jqxCheckBox({ theme: 'dark', width: 120, height: 26 });
-	$("#M-200d").jqxCheckBox({ theme: 'dark', width: 120, height: 26 });
+	
 
 	$("#Clearfilter").jqxButton({ theme: 'dark', height: 30, width: 74 });
 
@@ -277,85 +302,7 @@ $(document).ready(function() {
 		}
 	});
 
-	$('#M-100d').on('change', function(event) {
-		var ischecked = event.args.checked;
-		if (ischecked && checkedItem == 1) {
-			for (i = 0; i < allitems.length; i++) {
-				$(allitems[i]).jqxCheckBox({ disabled: true });
-			}
-			 $("#M-200d").jqxCheckBox({ disabled: true });
-			  
-			$( "#all10over30" ).prop( "disabled", true );
-			$( "#all5over30" ).prop( "disabled", true );
-			$( "#all5over10" ).prop( "disabled", true );
-			$( "#all2over10" ).prop( "disabled", true );
-			$( "#all2over5" ).prop( "disabled", true );
-		}
-		else {
-			for (i = 0; i < allitems.length; i++) {
-				$(allitems[i]).jqxCheckBox({ disabled: false });
-			}
-				$("#M-200d").jqxCheckBox({ disabled: false });
-				$( "#all10over30" ).prop( "disabled", false );
-				$( "#all5over30" ).prop( "disabled", false );
-				$( "#all5over10" ).prop( "disabled", false );
-				$( "#all2over10" ).prop( "disabled", false );
-				$( "#all2over5" ).prop( "disabled", false );
-		}
-	});
-	$('#M-200d').on('change', function(event) {
-		var ischecked = event.args.checked;
-		if (ischecked && checkedItem == 1) {
-			for (i = 0; i < allitems.length; i++) {
-				$(allitems[i]).jqxCheckBox({ disabled: true });
-			}
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$( "#all10over30" ).prop( "disabled", true );
-			$( "#all5over30" ).prop( "disabled", true );
-			$( "#all5over10" ).prop( "disabled", true );
-			$( "#all2over10" ).prop( "disabled", true );
-			$( "#all2over5" ).prop( "disabled", true );
-		}
-		else {
-			for (i = 0; i < allitems.length; i++) {
-				$(allitems[i]).jqxCheckBox({ disabled: false });
-			}
-				$("#M-100d").jqxCheckBox({ disabled: false });
-				$( "#all10over30" ).prop( "disabled", false );
-				$( "#all5over30" ).prop( "disabled", false );
-				$( "#all5over10" ).prop( "disabled", false );
-				$( "#all2over10" ).prop( "disabled", false );
-				$( "#all2over5" ).prop( "disabled", false );
-		}
-	});
-	function checkifmovchecked() {
-		if ($("#M-100d").val() && checkedItem == 1) {
-			for (i = 0; i < allitems.length; i++) {
-				$(allitems[i]).jqxCheckBox({ disabled: true });
-			}
-
-			for (i = 0; i < checkedItemid.length; i++) {
-				if (checkedItemid[i] != null)
-					$(checkedItemid[i]).jqxCheckBox({ disabled: false });
-			}
-			return true;
-		}
-		else
-			if ($("#M-200d").val() && checkedItem == 1) {
-				for (i = 0; i < allitems.length; i++) {
-					$(allitems[i]).jqxCheckBox({ disabled: true });
-				}
-
-				for (i = 0; i < checkedItemid.length; i++) {
-					if (checkedItemid[i] != null)
-						$(checkedItemid[i]).jqxCheckBox({ disabled: false });
-				}
-				return true;
-			}
-			else
-				return false;
-	}
-
+	
 	$('#jqxCheckBoxUSA-10over30').on('change', function(event) {
 		var checked = event.args.checked; Items = "";
 		if (checked) {
@@ -385,14 +332,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxUSA-5over30').on('change', function(event) {
@@ -424,14 +364,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxUSA-5over10').on('change', function(event) {
@@ -463,14 +396,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxUSA-2over10').on('change', function(event) {
@@ -502,14 +428,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -542,14 +461,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxGermany-10over30').on('change', function(event) {
@@ -581,14 +493,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxGermany-5over30').on('change', function(event) {
@@ -620,14 +525,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxGermany-5over10').on('change', function(event) {
@@ -659,14 +557,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxGermany-2over10').on('change', function(event) {
@@ -698,14 +589,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -738,14 +622,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -778,14 +655,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxFrance-5over30').on('change', function(event) {
@@ -817,14 +687,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxFrance-5over10').on('change', function(event) {
@@ -856,14 +719,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxFrance-2over10').on('change', function(event) {
@@ -895,14 +751,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -935,14 +784,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxUk-10over30').on('change', function(event) {
@@ -974,14 +816,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+	
 	});
 
 	$('#jqxCheckBoxUk-5over30').on('change', function(event) {
@@ -1013,14 +848,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxUk-5over10').on('change', function(event) {
@@ -1052,14 +880,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxUk-2over10').on('change', function(event) {
@@ -1091,14 +912,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -1131,14 +945,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxItaly-10over30').on('change', function(event) {
@@ -1170,14 +977,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxItaly-5over30').on('change', function(event) {
@@ -1209,14 +1009,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+	
 	});
 
 	$('#jqxCheckBoxItaly-5over10').on('change', function(event) {
@@ -1248,14 +1041,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+	
 	});
 
 	$('#jqxCheckBoxItaly-2over10').on('change', function(event) {
@@ -1287,14 +1073,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -1327,14 +1106,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -1367,14 +1139,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+	
 	});
 
 	$('#jqxCheckBoxSpain-5over30').on('change', function(event) {
@@ -1406,14 +1171,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 	$('#jqxCheckBoxSpain-5over10').on('change', function(event) {
@@ -1445,14 +1203,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+	
 	});
 
 	$('#jqxCheckBoxSpain-2over10').on('change', function(event) {
@@ -1484,14 +1235,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -1524,14 +1268,7 @@ $(document).ready(function() {
 				$(allitems[i]).jqxCheckBox({ disabled: false });
 			}
 		}
-		if (checkedItem == 0 || checkedItem > 1) {
-			$("#M-100d").jqxCheckBox({ disabled: true });
-			$("#M-200d").jqxCheckBox({ disabled: true });
-		}
-		else {
-			$("#M-100d").jqxCheckBox({ disabled: false });
-			$("#M-200d").jqxCheckBox({ disabled: false });
-		}
+		
 	});
 
 
@@ -1776,12 +1513,7 @@ function drawGraph() {
 	var dataParam;
 	var checkedItemValues = [];
 	var MovingAverageTypeIfSelected =  '';
-	if ($("#M-100d").jqxCheckBox('val'))
-	    MovingAverageTypeIfSelected= 'M100';
-	else if ($("#M-200d").jqxCheckBox('val'))
-		MovingAverageTypeIfSelected= 'M200';
-		
-
+	
 	var title;
 	var fromdate = formatDate(monthDate);
 	var todate = formatDate(date);

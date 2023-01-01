@@ -7182,7 +7182,7 @@
 			return a(t, [{
 				key: "drawYaxis",
 				value: function (t) {
-					
+					debugger;
 					var e = this,
 						i = this.w,
 						a = new b(this.ctx),
@@ -7190,10 +7190,11 @@
 						r = s.fontSize,
 						n = s.fontFamily,
 						o = s.fontWeight,
+						w = (t==0)?i.globals.translateYAxisX[t]:i.globals.translateYAxisX[t]-49, // added to fix the 2 y axis  mmn
 						l = a.group({
 							class: "apexcharts-yaxis",
 							rel: t,
-							transform: "translate(" + i.globals.translateYAxisX[t] + ", 0)"
+							transform: "translate(" + w + ", 0)"
 						});
 					if (this.axesUtils.isYAxisHidden(t)) return l;
 					var h = a.group({

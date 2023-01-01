@@ -48,7 +48,7 @@ $("#register").click(function () {
 			checkPhone = validateField('#phone',"#ErrorPhone","Phone is required");
 			checkMobile = validateField('#mobile',"#ErrorMobile","Mobile is required");
 			checkCompany = validateField('#company',"#ErrorCompany","Company is required");
-			checkAddress = validateField('#address',"#ErrorAddress","Address is required");
+			// checkAddress = validateField('#address',"#ErrorAddress","Address is required");
 			checkPostCode = validateField('#postCode',"#ErrorPostCode","Post Code is required");
 			checkCountry = validateField('#country',"#ErrorCountry","Country is required");
 			checkEmail = validateField('#email',"#ErrorEmail","Email is required");
@@ -59,7 +59,7 @@ $("#register").click(function () {
 			checkMatchPasswords= checkIfPasswordMatch();
 			isValidEmail=CheckIfEmailIsValid();
 			if(checkTitle && checkFirstname && checkSurname && checkPhone && checkMobile &&
-			   checkCompany && checkAddress && checkPostCode && checkCountry && checkEmail &&
+			   checkCompany  && checkPostCode && checkCountry && checkEmail &&
                checkUsername && checkPassword && checkPasswordHint && checkMatchEmails && checkMatchPasswords && isValidEmail)
 			$.ajax({
 				type: "POST",
