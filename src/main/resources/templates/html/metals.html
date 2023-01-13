@@ -1,0 +1,589 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="img/logo/logo.png" rel="icon">
+  <title>libvol - Dashboard</title>
+   <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/ruang-admin.min.css" rel="stylesheet">
+  <link href="/css/marquee.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+  <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link href="/css/notification.css" rel="stylesheet">
+</head>
+<style>
+.jqx-danger-dark {
+    text-shadow: none !important;
+    color: #fbd9d9 !important;
+    font-weight: bold;
+    background: #ff4b5552 !important;
+    border-color: #d9534f !important;
+}
+   div#overlay {
+    margin: 15% 40%;
+    position: absolute;
+}
+.factorBold{
+    font-weight:bold;
+    color: white!important;
+}
+.edit {
+    margin: 0.5rem;
+    color: white;
+    background-color: #719DF0!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+    padding: 0.1rem 28%;
+}
+.update{
+    margin: .5rem;
+    color: white;
+    background-color: #009a4e!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+        padding: 1px 3px;
+}
+.cancel{
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0rem;
+    color: white;
+    background-color:#506B8B!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+        padding: 1px 3px;
+}
+:checked {
+font-weight:bold;
+}
+.fontTitle{
+    font-size: .8rem;
+}
+.checkboxesTitle{
+font-size: 0.8rem;
+}
+.jqx-widget-dark .jqx-grid-column-header-dark {
+    font-size: .67rem;
+}
+.jqx-tree-dark .jqx-checkbox-dark .jqx-checkbox-default-dark, .jqx-checkbox-dark[checked] .jqx-checkbox-default-dark, .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-dark, .jqx-radiobutton-dark[checked] .jqx-radiobutton-default-dark {
+    border: #b7b9cc solid 0px;
+    background-color: #304256;
+    border-color: #5A627D;
+}
+.jqx-checkbox-default.jqx-checkbox-default-dark.jqx-fill-state-normal.jqx-fill-state-normal-dark.jqx-rc-all.jqx-rc-all-dark.ripple {
+    display: none;
+}
+.jqx-checkbox-dark .ripple, .jqx-radiobutton-dark .ripple {
+    overflow: visible;
+    display: none;
+}
+[aria-checked="true"] {
+    font-weight: bold;
+    color: #e2e2e2!important;
+   text-shadow: 1px 1px 0px #060605;
+}
+.jqx-checkbox-dark {
+    text-align: center;
+}
+.card-body .filter{
+ text-align: center;
+}
+.card-img-top {
+    width: 112%;
+    }
+button#deleteByDate {
+    position: absolute;
+    margin-top: -0.3rem;
+}
+.jqx-grid-cell-left-align {
+    text-align: center;
+}
+.container, .container-fluid, .container-login {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+</style>
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <!-- Sidebar -->
+    <div id="content-wrapper" class="d-flex flex-column">
+        <!-- TopBar -->
+         <div id="fixedMenu">
+              <nav class="navbar navbar-expand navbar-light bg-navbar topbar static-top">
+	<img id="imglogo" src="../../img/logo.png" align="absmiddle" style="height:70px;margin-left: 3%;">
+	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<!-- Collection of nav links, forms, and other content for toggling -->
+	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">		
+		
+		<div class="navbar-nav mr-auto">
+		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
+			<a sec:authorize="hasAuthority('HOME_SCREEN')" href="/bourse/home" class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+			<li sec:authorize="hasAuthority('ADMIN_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('ADMIN_SCREEN')" href="/bourse/users" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon"><span id="notification" class="notification"></span>Admin</a>
+			<li sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+			<li sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')"class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields" class="nav-item nav-link active"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<li sec:authorize="hasAuthority('SETTINGS_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+		    </div>
+		</div>
+			<div class="nav-item dropdown" style="width: 15%">
+				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline " th:text="${#authentication.principal.firstName}"></span><span class="ml-1 d-none d-lg-inline " th:text="${#authentication.principal.lastName}"></span><b class="caret"></b></a>
+				<div class="dropdown-menu logout">
+				<!--    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
+						<div class="divider dropdown-divider"></div> -->
+					<a href="/logout" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+				</div>
+		</div>
+			<a href="#" id="termsConditions" class="">T &amp; C</a>
+	</div>
+</nav>
+        <!-- Topbar -->
+
+        <!-- Container Fluid-->
+            <div class="d-sm-flex align-items-center">
+            	<h1 class="ml-6 text-darkorange">Data Input</h1>
+            	 <nav style="margin-left: 3rem;
+    						 height: 35px;
+    						 margin-top: 0.5rem;">
+				  
+				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SOVEREIGN')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/sovereignyields" role="tab" aria-controls="nav-any2" aria-selected="false">SOVEREIGN YIELDS</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_METALS')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/metals" role="tab" aria-controls="nav-any2" aria-selected="false">METALS</a>
+				  </div>
+				</nav>
+            </div>
+            <div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
+		   </div>
+		   <div id="content">
+     
+        <div class="container-fluid" id="container-wrapper" style="display:none;">
+           <div class="col-lg-12">
+              <!-- Form Basic -->
+            <div class="collapse show" id="collapseExample">
+  			 <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
+                 <div class="col-4 d-flex justify-content-between">
+                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input - Metals</h6>
+                  <div id='dateInput'></div>
+                   </div>
+                   <div class="col-8">
+                   <div id='dateInputAudit'></div>
+                   </div>
+                </div>
+                <div class="card-body" style="  padding-top: 0;
+											    padding-right: 1.25rem;
+											    padding-bottom: 0;
+											    padding-left: 1.25rem;">
+                 <div class="row">
+                 <div class="col-4 d-flex justify-content-between">
+                	 <div class="col-5 pr-0">
+	                	 <div class="col pl-0 ">Precious</div>
+		                 <div class="col p-0 ">
+		                  <form  id="dataformInput">
+		                  <div class="form-group" style=" margin-top: 0">
+		                      <div  style=" display: flex;">
+								    <div class="col pl-0"><img height="48" width="48" src="/img/gold.png">
+								    </div>
+								    <div class="col pl-0"><img  height="48" width="48" src="/img/platinum.png">
+								    </div>
+								    <div class="col pl-0"><img height="48" width="48" src="/img/silver.png">
+								    </div>
+								 </div>
+			                   <div style=" display: flex;">
+			                      <input type="text" class="form-control" id="precious-input" autocomplete="off">
+			                    </div>
+		                     </div>
+		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
+		                    </form>
+		                   <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtons" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadPreciousData" value="Load " />
+							<input id="CancelPreciousData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+	                 </div>
+	                 	 <div class="col-7 p-0">
+	                	 <div class="col">Base</div>
+		                 <div class="col pr-0">
+		                  <form  id="baseDataformInput">
+		                  <div class="form-group" style=" margin-top: 0">
+		                      <div  style=" display: flex;">
+								    <div class="col pl-0"><img height="48" width="48" src="/img/copper.png">
+								    </div>
+								    <div class="col pl-0"><img  height="48" width="48" src="/img/aluminum.png">
+								    </div>
+								    <div class="col pl-0"><img height="48" width="48" src="/img/steel.png">
+								    </div>
+								    <div class="col pl-0"><img height="48" width="48" src="/img/lumber.png">
+								    </div>
+								 </div>
+			                   <div style=" display: flex;">
+			                    <input type="text" class="form-control" id="base-input" autocomplete="off">
+			                    </div>
+		                     </div>
+		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
+		                    </form>
+		                   <div id="baseDataInputGrid" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="baseDataInputButtons" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadBaseData" value="Load " />
+							<input id="CancelBaseData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+	                 </div>
+               </div>
+               <div class="col-8 d-flex justify-content-between">
+                   <div class="col-7 p-0">
+                       <div class="d-flex justify-content-between pb-1">
+		                    <div class="col-9 p-0"> 
+		                    	Precious
+							</div>
+							<div class="col-3 p-0">
+							 <button id="deletePreciousByDate" style="font-size: .8rem; float: right;">Delete</button> 
+		                   </div>
+                       </div>
+					  <div id="preciousAuditGrid"></div>
+					</div>
+					<div class="col-5 ">
+                       <div class="d-flex justify-content-between pb-1">
+	                    <div class="col-9 p-0"> 
+	                    	Base
+						</div>
+						<div class="col-3 p-0">
+						 <button id="deleteBaseByDate" style="font-size: .8rem;">Delete</button> 
+	                   </div>
+                       </div>
+					  <div id="baseAuditGrid"></div>
+					</div>
+                 </div>
+              </div>
+          </div>
+     </div>
+</div>
+</div>
+
+<div class="">
+
+<div class="card-header accordion md-accordion" id="accordionFilter" style="padding:.2rem 2.5rem .2rem 2.5rem;">
+<p>
+  <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+   Collapse Data Entry Section
+  </a>
+</p>
+  <div class="card">
+      <h6 class="mb-0">
+        <button class="collapsed m-0 font-weight-bold text-primary" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
+        Filters  <i class="fas fa-angle-down rotate-icon"></i>
+        </button>
+      </h6>
+     <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
+  	 <div class="card-body">
+		<div class="row">
+		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
+			<label style="margin-right: 1.5rem;">From</label>
+				<div id='dateInputFrom' style='border-radius: 0.2rem;'>
+				</div>
+			<label style="margin-right: 1.5rem;    margin-left: 1.5rem;">To</label>
+				<div id='dateInputTo'  style='border-radius: 0.2rem;'>
+				</div>
+       </div> 
+       </div>
+   
+    <div class="row mt-2">
+     <div class="col border ml-2 p-1 rounded">
+        <div class="row">
+          <div class="col-sm-4">
+             <h6 class="col font-weight-bold">Precious</h6>
+             <div class="d-flex justify-content-between">
+             	<div id='jqxCheckBoxGold' style='float: left;'><span class="checkboxesTitle">Gold</span></div> 
+             	<div id='jqxCheckBoxPlatinum' style='float: left;'><span class="checkboxesTitle">Platinum</span></div>
+             	<div id='jqxCheckBoxSilver' style='float: left;'><span class="checkboxesTitle">Silver</span></div>
+             	<div id='jqxCheckBoxPlatGold' style='float: left;'><span class="checkboxesTitle">Plat-gold</span></div>
+             	<div id='jqxCheckBoxGoldSilv' style='float: left;'><span class="checkboxesTitle">Gold/Silv</span></div>
+         	 </div>
+           </div>
+           <div class="col-sm-3">
+             <h6 class="col font-weight-bold">base</h6>
+                <div class="d-flex justify-content-between">
+             	<div id='jqxCheckBoxCopper' style='float: left;'><span class="checkboxesTitle">Copper</span></div> 
+             	<div id='jqxCheckBoxAluminum' style='float: left;'><span class="checkboxesTitle">Aluminum</span></div>
+             	<div id='jqxCheckBoxSteel' style='float: left;'><span class="checkboxesTitle">Steel</span></div>
+             	<div id='jqxCheckBoxLumber' style='float: left;'><span class="checkboxesTitle">Lumber</span></div>
+         	 </div>
+          </div>
+    	</div>
+    </div>
+   </div>
+    <div class="row mt-2 mb-2">
+			<div class='col-12 d-flex justify-content-end'>
+			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
+			<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			</div>
+	</div>
+	</div> 
+	</div>
+	</div>
+		<div id="alertDate-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        Please Select a date smaller then Today's date.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+
+<div id="alertDeleteDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-danger">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Are you sure?</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="alertTextDeleteDataByDate">
+
+		      </div>
+		       <div class="modal-footer justify-content-between">
+		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-primary" onclick="deleteDataByDate()">Delete Record</button>
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div id="alertInfoDeleteDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-success">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Sucess</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="successDelete">
+             
+		      </div>
+		       
+		    </div>
+		  </div>
+	 </div>
+	<div id="alert-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      The date you are trying to insert has already data in the database please choose a valid date
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 	<div id="alert-modal-robot" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		         Please wait, robot are under execution.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div id="alert-modal-weekend" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      It is not allowed to enter data on weekend days
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 	<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You must select at least one record.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	  	<div id="alertFiltterMax-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You cannot select more than 15 criteria
+		      </div>
+		    </div>
+		  </div>
+	 	</div>
+           <div id="grid">
+           </div> 
+           <div id="popupWindow" style="display:none;">
+            <div>Edit</div>
+            <div style="overflow: hidden;">
+                <table>
+                    <tr>
+                  <td align="right">  <div id="subgroupdropDownSource" style="float: left; margin-left: .5rem;"> </div></td>
+                    </tr>
+                    <tr>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">30yr long :</td>
+                        <td align="left"><input id="thirteeYrFactor" /></td>
+                    </tr>
+                     <tr>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">10yr bench :</td>
+                        <td align="left"><input id=tenYrFactor /></td>
+                    </tr>
+                     <tr>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">5yr :</td>
+                        <td align="left"><input id="fiveYrFactor" /></td>
+                    </tr>
+                     <tr>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">2yr :</td>
+                        <td align="left"><input id="twoYrFactor" /></td>
+                    </tr>
+                     <tr>
+                      <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">Recalculate :</td>
+                     <td align="left">  <div id="recalculatedropDown" style="float: left;"> </div></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 1.5rem;padding-bottom: 1.5rem;" align="left"></td>
+                        <td style="padding-top: 1.5rem;padding-bottom: 1.5rem;" align="left"><input class="btn btn-primary mr-1 mb-1" style="margin-right: 5px;color:white;" type="button" id="Save" value="Save" /><input id="Cancel" type="button" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" /></td>
+                    </tr>
+                </table>
+            </div>
+       </div>
+        </div>
+        <!---Container Fluid-->
+      </div>
+       <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+      	<div class="simple-marquee-container">
+				<div class="marquee-sibling-date">
+					<p id="todayDate"></p>
+				</div>
+				<div class="marquee-sibling">
+					NEWS
+				</div>
+				<div class="marquee">
+					<ul id="Newslist" class="marquee-content-items">
+					</ul>
+				</div>
+				<div class="marquee-sibling-viewAll">
+					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
+				</div>
+			</div>
+		</div>
+		
+      <!-- Footer -->
+     
+      <!-- Footer -->
+    </div>
+  </div>
+</div>
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/js/marquee.js"></script>
+  
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/jqwidgets/jqxcore.js"></script> 
+  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
+  <script src="/js/jqwidgets/jqxcheckbox.js"></script>
+  <script src="/js/jqwidgets/jqxmenu.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
+  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
+  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
+  <script src="/js/jqwidgets/jqxdata.js"></script> 
+  <script src="/js/jqwidgets/jqxwindow.js"></script>
+  <script src="/js/jqwidgets/jqxinput.js"></script>
+  <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
+  <script src="/js/jqwidgets/jqxcalendar.js"></script>
+  <script src="/js/bourse/metals.js"></script> 
+  <script src="/js/bourse/scrollBarNews.js"></script> 
+  <script src="/js/common.js"></script>
+  <script src="/js/notification/sockjs.js"></script>
+  <script src="/js/notification/stomp.js"></script>
+  <script src="/js/notification/config.js"></script>
+  <script th:inline="javascript">
+	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+	  const hasPendingApprovalGrid= authorities.filter(item => {
+	  	   return item.authority === "PENDING_APPROVAL_GRID"
+	  })[0]!== undefined;
+	 
+  </script>
+</body>
+
+</html>

@@ -100,10 +100,10 @@ public class BourseController {
     {
 		return new ModelAndView("html/skews");
     }
-	@RequestMapping( value =  "/preciousmetals")
+	@RequestMapping( value =  "/metals")
     public ModelAndView dataEntryPreciousMetalsPage(ModelMap model)
     {
-		return new ModelAndView("html/preciousMetals");
+		return new ModelAndView("html/metals");
     }
 	@RequestMapping( value =  "/returnfunction")
     public ModelAndView returnFunctionPage(ModelMap model)
