@@ -26,7 +26,7 @@ div#content {
     border: #464D5C;
     width: 100%;
     overflow-x: hidden;
-    min-height: 650px;
+    min-height: 841px;
 }
 </style>
 </head>
@@ -106,7 +106,18 @@ div#content {
 		</ul>
     </div>
   </div>
-            <div class="card">
+  <div  sec:authorize="hasAuthority('ANY2_GRAPH_SCREEN') OR hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') OR hasAuthority('YIELD_CURVES_GRAPH_SCREEN') OR hasAuthority('YIELD_CROSSES_GRAPH_SCREEN') OR hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')" class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Metals</h5>
+      <ul class="fa-ul">
+		  <li sec:authorize="hasAuthority('ANY2_GRAPH_SCREEN')" ><a href="/bourse/any2"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+		  <li sec:authorize="hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN')"><a href="/bourse/sovereignyieldsgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious</a></li>
+		  <li sec:authorize="hasAuthority('YIELD_CURVES_GRAPH_SCREEN')"><a href="/bourse/sovereigncurvesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Base</a></li>
+		  <li sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/datafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Data End Function display</a></li>
+		</ul>
+    </div>
+  </div>
+  <div class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Monitoring</h5>
       <ul class="fa-ul">
