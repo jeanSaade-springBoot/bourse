@@ -112,19 +112,19 @@ public class SovereignYieldsService
 	{ 
 		if(factor.equals("2"))
 			 return sovereignYieldsRepository.findGraphDataForTwoBySubroupId(id);
-		 if(factor.equals("5"))
+		if(factor.equals("5"))
 			 return sovereignYieldsRepository.findGraphDataForFiveBySubroupId(id);
 		if(factor.equals("10"))
 			 return sovereignYieldsRepository.findGraphDataForTenBySubroupId(id);
-	     if(factor.equals("2over5"))
+	    if(factor.equals("2over5"))
 	    	 return sovereignYieldsRepository.findGraphDataForTwoOverFiveBySubroupId(id);
-	     if(factor.equals("2over10"))
+	    if(factor.equals("2over10"))
 	    	 return sovereignYieldsRepository.findGraphDataForTwoOverTenBySubroupId(id);
-	      if(factor.equals("5over10"))
+	    if(factor.equals("5over10"))
 	    	 return sovereignYieldsRepository.findGraphDataForFiveOverTenBySubroupId(id);
-	      if(factor.equals("5over30"))
+	    if(factor.equals("5over30"))
 	    	 return sovereignYieldsRepository.findGraphDataForFiveOverThirteeBySubroupId(id);
-	      if(factor.equals("10over30"))
+	    if(factor.equals("10over30"))
 	    	  return sovereignYieldsRepository.findGraphDataForTenOverThirteeBySubroupId(id);
 	      return null;
 	}

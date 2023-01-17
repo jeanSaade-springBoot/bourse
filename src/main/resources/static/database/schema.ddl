@@ -140,3 +140,25 @@ VIEW `users_roles_view` AS
 -- new
 alter table users add column tac_accepted bit
 update users set tac_accepted = false;
+
+-------------------------------------------------- new
+
+CREATE TABLE IF NOT EXISTS precious_metals_sequence (next_val bigint);
+INSERT INTO  precious_metals_sequence (next_val) VALUES (1);
+
+CREATE TABLE IF NOT EXISTS base_metals_sequence (next_val bigint);
+INSERT INTO  base_metals_sequence (next_val) VALUES (1);
+
+create table precious_metals (id bigint not null, refer_date varchar(255),
+							 subgroup_id bigint, 
+							 value varchar(255), 
+							 primary key (id));
+							 
+create table base_metals (id bigint not null, refer_date varchar(255),
+							 subgroup_id bigint, 
+							 value varchar(255), 
+							 primary key (id));
+
+create table audit_precious_sequence (next_val bigint);
+INSERT INTO  audit_precious_sequence (next_val) VALUES (1);
+create table tmp_audit_precious (id bigint not null, gold varchar(255), gold_silv varchar(255), plat_gold varchar(255), platinum varchar(255), refer_date varchar(255), silver varchar(255), primary key (id)) ;				
