@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -18,17 +19,17 @@ public class CheckProcessExecutionController {
 	@Autowired
 	OngoingProcessService ongoingProcessService;
 	
-	@GetMapping(value = "isrobottriggered", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<Boolean> CheckProcessStatus(){
+	@GetMapping(value = "isrobottriggered/{assetId}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<Boolean> CheckProcessStatus(@PathVariable("assetId") int assetId){
 		OngoingProcess ongoingProcess= ongoingProcessService.checkIfExist(true);
 		Boolean isRunnig =false;
 		if(ongoingProcess!=null)
 			isRunnig = true;
 		return new ResponseEntity<>(isRunnig, HttpStatus.OK);
     }
-	@GetMapping(value = "mustbetriggered", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<Boolean> MustBeTriggered(){
-		OngoingProcess ongoingProcess= ongoingProcessService.checkIfMustBeTriggered(true);
+	@GetMapping(value = "mustbetriggered/{assetId}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<Boolean> MustBeTriggered(@PathVariable("assetId") int assetId){
+		OngoingProcess ongoingProcess= ongoingProcessService.checkIfMustBeTriggeredByAssetId(true,assetId);
 		Boolean mustBeTriggered =false;
 		if(ongoingProcess!=null)
 			mustBeTriggered = true;

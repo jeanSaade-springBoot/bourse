@@ -14,16 +14,16 @@ public class AllNewsViewService {
 	@Autowired
 	AllNewsViewRepository allNewsViewRepository;
 	
-	public List<AllNewsView> getAllNews(){
-		return allNewsViewRepository.findAll();
+	public List<AllNewsView> getAllNews(String assetId){
+		return allNewsViewRepository.findByAssetId(assetId);
 	}
 	
-	public List<AllNewsView> findByIsPublishedFormatedDate(){
-		return allNewsViewRepository.findByIsPublished("1");
+	public List<AllNewsView> findByIsPublishedFormatedDate(String assetId){
+		return allNewsViewRepository.findByIsPublishedAndAssetId("1",assetId);
 	}
 
-	public List<AllNewsView> findByIsPublishedAndIsBold(String isBold) {
-		return allNewsViewRepository.findByIsPublishedAndIsBold("1",isBold);
+	public List<AllNewsView> findByIsPublishedAndIsBold(String isBold, String assetId) {
+		return allNewsViewRepository.findByIsPublishedAndIsBoldAndAssetId("1",isBold,assetId);
 	}
 
 	public List<AllNewsView> findNewsByIsPublishedAndGroupIdAndSubgroupId(String groupId, String subGroupId) {

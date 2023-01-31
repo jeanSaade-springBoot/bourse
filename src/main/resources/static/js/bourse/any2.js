@@ -3826,7 +3826,7 @@
 			        
 			        }],
 			        noData: {
-			        	  text: 'No data In this date range',
+			        	  text: '',
 			        	  align: 'center',
 			        	  verticalAlign: 'middle',
 			        	  offsetX: 0,
@@ -4128,7 +4128,7 @@
 				        
 				        }],
 				        noData: {
-				        	  text: 'No data In this date range',
+				        	  text: '',
 				        	  align: 'center',
 				        	  verticalAlign: 'middle',
 				        	  offsetX: 0,
@@ -4653,7 +4653,7 @@
 					  			        
 					  			        }],
 					  			        noData: {
-					  			        	  text: 'No data In this date range',
+					  			        	  text: '',
 					  			        	  align: 'center',
 					  			        	  verticalAlign: 'middle',
 					  			        	  offsetX: 0,
@@ -4995,7 +4995,7 @@
 				        
 				        }],
 				        noData: {
-				        	  text: 'No data In this date range',
+				        	  text: '',
 				        	  align: 'center',
 				        	  verticalAlign: 'middle',
 				        	  offsetX: 0,
@@ -5064,7 +5064,7 @@
 		      	    	       	chartColor=checkActiveChartColor($("#chartColor").find(".active")[0],response[0].config.chartColor);
 			      	    	    chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config.chartTransparency);
 							    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
-	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,true);
+	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],chartType1,'d');
 	      	    	       	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 								showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
 							    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
@@ -5075,7 +5075,7 @@
 			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        })),
-				      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	    max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        }));
 				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
@@ -5154,7 +5154,7 @@
 			     	    	        }
 			     	    	    });		 
 				              }
-		    	  updateGraphFont('12px');
+				              
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
 
@@ -5162,9 +5162,11 @@
 							}
 		  	
 			function graphfont(fontSize){
-				console.log('teset')
-		    	// updateGraphFont(fontSize,minvalue,maxvalue);
-				 updateGraphFont2YAxis(fontsize,min1,max1,min2,max2)
+				
+		    	if (typeof min1 != 'undefined')
+				 updateGraphFont2YAxis(fontSize,min1,max1,min2,max2);
+				 else 
+				 updateGraphFont(fontSize,minvalue,maxvalue);
 		     }
 				function getFormat(Format)
 				{

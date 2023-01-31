@@ -20,7 +20,7 @@ public class OngoingProcessService {
 		return ongoingProcessRepository.findTopByStatus(value);
 	}
 
-	public OngoingProcess checkIfMustBeTriggered(boolean value) {
-		return ongoingProcessRepository.findTopByMustBeTrigger(value);
+	public OngoingProcess checkIfMustBeTriggeredByAssetId(boolean value, int assetId) {
+		return ongoingProcessRepository.findTopByMustBeTriggerAndAssetId(value,assetId);
 	}
 }

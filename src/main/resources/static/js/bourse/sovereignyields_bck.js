@@ -1562,7 +1562,7 @@
 	    	    });
 			}
 			 function Edit(row, event) {
-				debugger;
+				
 				     isedit=true;
 					 var data=$("#auditGrid").jqxGrid('getrowdata', 0);	
 				     oldDataJson={
@@ -1616,7 +1616,7 @@
 				     }, 300);
 			    }
 			  function Update(row, event) {
-				   debugger;
+				   
 				   isupdate=true;
 				   var dataToBeUpdated = [];
 				   var updatedData = $("#auditGrid").jqxGrid('getrowdata', row);

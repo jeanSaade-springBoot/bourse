@@ -30,7 +30,7 @@ public class AssetClassService
 	
 	public List<AssetClass> getAllAssetClass()
 	{      
-        return assetClassRepository.findAll(Sort.by("id").descending());
+        return assetClassRepository.findAll();
 	}
 
 

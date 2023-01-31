@@ -22,4 +22,5 @@ public class DataEntryFilterHistory {
     @GeneratedValue
     private Long id;
 	private String FilterHistory;
+	private String screenName;
 }

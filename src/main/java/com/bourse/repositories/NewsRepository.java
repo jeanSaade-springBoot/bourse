@@ -378,14 +378,8 @@ public interface NewsRepository extends JpaRepository<News, Long> {
 		 		  nativeQuery = true)   	
 	 List<News> findSelectedGraphNews(@Param("selectedGraphNews") List<String> selectedGraphNews);
 	 
-	  @Transactional
-	  @Modifying
-	  @Query("Update News set isVisible=1")
-	  void showGeneratedNews();
+	  public List<News> findAllByAssetIdAndIsPublished(String assetId, String isPublished);
 	  
-	  @Transactional
-	  @Modifying
-	  @Query("Update News set isPublished=1")
-	  public void publishNews();
+	  public List<News> findAllByAssetIdAndIsVisible(String assetId, String isVisible);
 	 
 }

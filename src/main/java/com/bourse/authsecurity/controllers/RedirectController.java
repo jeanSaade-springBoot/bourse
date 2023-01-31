@@ -8,7 +8,7 @@ import org.springframework.web.servlet.ModelAndView;
 @RestController
 public class RedirectController {
 
-	@RequestMapping(value="/default")
+	@RequestMapping(value="/")
 	public ModelAndView defaultPage(ModelMap model) {
 		return new ModelAndView("html/default");
 	}

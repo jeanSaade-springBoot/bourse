@@ -23,15 +23,16 @@ public class DataEntryFilterHistoryService
 	@Autowired
 	AdminService adminService;
 	
-	public List<DataEntryFilterHistory> findDataEntryFilterHistory() 
+	public DataEntryFilterHistory findDataEntryFilterHistoryByScreenName(String screenName) 
 	{   boolean hasData= adminService.getData();
 	    if(!hasData)
 		return null;   
-        return dataEntryFilterHistoryRepository.findAll();
+        return dataEntryFilterHistoryRepository.findByScreenName(screenName);
 	}
 	public DataEntryFilterHistory SaveDataEntryFilterHistory(DataEntryFilterHistory dataEntryFilterHistory) 
 	{     
-		dataEntryFilterHistoryRepository.deleteAll();
-        return dataEntryFilterHistoryRepository.save(dataEntryFilterHistory);
+		DataEntryFilterHistory data = dataEntryFilterHistoryRepository.findByScreenName(dataEntryFilterHistory.getScreenName());
+		data.setFilterHistory(dataEntryFilterHistory.getFilterHistory());
+        return dataEntryFilterHistoryRepository.save(data);
 	}
 }

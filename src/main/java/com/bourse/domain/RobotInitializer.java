@@ -35,4 +35,5 @@ public class RobotInitializer {
     private String robotName;
     private String columnName;
     private String processName;
+    private int assetId;
 }

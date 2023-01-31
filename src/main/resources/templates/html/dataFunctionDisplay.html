@@ -141,13 +141,14 @@
 </nav>
         <!-- Topbar -->
   <div class="d-sm-flex align-items-center">
-            <h1 class="ml-6 text-darkorange">DATABASE</h1>
+            <h1 class="ml-6 text-darkorange">DATA END FUNCTION DISPLAY</h1>
             	 <nav style="margin-left: 3rem;
     						 height: 35px;
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a class="navigation nav-item nav-link active" id="nav-datafunctiondisplay-tab"  href="/bourse/datafunctiondisplay" role="tab" aria-controls="nav-datafunctiondisplay" aria-selected="false">Sovereign yields</a>
-				    </div>
+				    <a sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')" class="navigation nav-item nav-link active" id="nav-datafunctiondisplay-tab"  href="/bourse/datafunctiondisplay" role="tab" aria-controls="nav-datafunctiondisplay" aria-selected="false">Sovereign yields</a>
+				    <a sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/metaldatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">Metals</a>
+				   </div>
 				</nav>
            
           </div>

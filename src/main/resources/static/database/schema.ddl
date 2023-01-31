@@ -137,11 +137,9 @@ VIEW `users_roles_view` AS
                     AND (`u`.`id` = `ur`.`user_id`))) AS `role_id`
     FROM
         `users` `u`;
--- new
+
 alter table users add column tac_accepted bit
 update users set tac_accepted = false;
-
--------------------------------------------------- new
 
 CREATE TABLE IF NOT EXISTS precious_metals_sequence (next_val bigint);
 INSERT INTO  precious_metals_sequence (next_val) VALUES (1);
@@ -162,3 +160,43 @@ create table base_metals (id bigint not null, refer_date varchar(255),
 create table audit_precious_sequence (next_val bigint);
 INSERT INTO  audit_precious_sequence (next_val) VALUES (1);
 create table tmp_audit_precious (id bigint not null, gold varchar(255), gold_silv varchar(255), plat_gold varchar(255), platinum varchar(255), refer_date varchar(255), silver varchar(255), primary key (id)) ;				
+create table tmp_audit_base (id bigint not null, aluminum varchar(255), copper varchar(255), lumber varchar(255), steel varchar(255), refer_date varchar(255), primary key (id))
+
+ALTER TABLE `bourse`.`tmp_news_robot` 
+ADD COLUMN `asset_id` INT NOT NULL AFTER `is_function_news`;
+
+ALTER TABLE `bourse`.`news` 
+ADD COLUMN `asset_id` INT NOT NULL AFTER `is_visible`;
+update news set asset_id = 1;
+
+ALTER TABLE `bourse`.`news_function` 
+ADD COLUMN `asset_id` INT NOT NULL AFTER `is_visible`;
+update news_function set asset_id = 1;
+
+ALTER TABLE `bourse`.`tmp_news_function_robot` 
+ADD COLUMN `asset_id` INT NOT NULL;
+update tmp_news_function_robot set asset_id = 1;
+
+ALTER TABLE `bourse`.`ongoing_process` 
+ADD COLUMN `asset_id` INT NOT NULL AFTER `end_time`;
+
+ALTER TABLE `bourse`.`robot_initializer` 
+ADD COLUMN `asset_id` INT NOT NULL AFTER `process_name`;
+update robot_initializer set asset_id = 1;
+
+UPDATE `bourse`.`ongoing_process` SET `asset_id` = '1' WHERE (`id` = '1');
+UPDATE `bourse`.`ongoing_process` SET `asset_id` = '1' WHERE (`id` = '2');
+
+create table asset_news_order_sequence (next_val bigint);
+INSERT INTO  asset_news_order_sequence (next_val) VALUES (1);
+
+CREATE TABLE `asset_news_order` (
+  `id` bigint NOT NULL,
+  `asset_code` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `asset_name` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `order_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  `asset_id` varchar(255) COLLATE utf8mb4_general_ci DEFAULT NULL,
+  PRIMARY KEY (`id`));
+
+alter table news_order add column asset_id integer not null;
+update news_order set asset_id = 1;

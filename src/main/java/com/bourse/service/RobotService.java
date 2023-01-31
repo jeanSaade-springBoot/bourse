@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.News;
+import com.bourse.domain.NewsFunction;
 import com.bourse.domain.RobotInitializer;
 import com.bourse.repositories.NewsFunctionRepository;
 import com.bourse.repositories.NewsRepository;
@@ -33,9 +34,14 @@ public class RobotService
         return newsRepository.findAll();
 	}
 	
-	public void publishNews() {
-		newsRepository.publishNews();
-		newsFunctionRepository.publishNews();
+	public void publishNews(int assetId) {
+		List<News> newsList = newsRepository.findAllByAssetIdAndIsPublished(String.valueOf(assetId),"0");
+		newsList.forEach(news -> news.setIsPublished("1"));
+		newsRepository.saveAll(newsList);
+		
+		List<NewsFunction> newsFunctionList = newsFunctionRepository.findAllByAssetIdAndIsPublished(String.valueOf(assetId),"0");
+		newsList.forEach(news -> news.setIsPublished("1"));
+		newsFunctionRepository.saveAll(newsFunctionList);
 	}
 	
 	public void callRobots(){

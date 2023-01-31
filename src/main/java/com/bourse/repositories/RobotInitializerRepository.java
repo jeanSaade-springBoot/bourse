@@ -15,4 +15,6 @@ public interface RobotInitializerRepository extends JpaRepository<RobotInitializ
     ("SELECT u FROM RobotInitializer u WHERE u.columnName in ?1 and u.processName = ?2")
 	List<RobotInitializer> findRelatedColumn(List<String> lstRelatedColumn, String processName);
 
+	List<RobotInitializer> findByProcessNameAndAssetId(String processName, int assetId);
+
 }

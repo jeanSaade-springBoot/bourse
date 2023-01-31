@@ -100,6 +100,7 @@ public class BourseController {
     {
 		return new ModelAndView("html/skews");
     }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_METALS') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/metals")
     public ModelAndView dataEntryPreciousMetalsPage(ModelMap model)
     {
@@ -115,6 +116,24 @@ public class BourseController {
     public ModelAndView anyTwoPage(ModelMap model)
     {
 		return new ModelAndView("html/any2");
+    }
+	@PreAuthorize("hasAuthority('ANY2_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/any2metals")
+    public ModelAndView anyTwoMetalsPage(ModelMap model)
+    {
+		return new ModelAndView("html/any2metals");
+    }
+	@PreAuthorize("hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/precious")
+    public ModelAndView preciousMetalsPage(ModelMap model)
+    {
+		return new ModelAndView("html/precious");
+    }
+	@PreAuthorize("hasAuthority('BASE_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/base")
+    public ModelAndView baseMetalsPage(ModelMap model)
+    {
+		return new ModelAndView("html/base");
     }
 	@PreAuthorize("hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereignyieldsgraph")
@@ -184,6 +203,12 @@ public class BourseController {
     public ModelAndView dataFunctionDisplay(ModelMap model)
     {
 		return new ModelAndView("html/dataFunctionDisplay");
+    }
+	@PreAuthorize("hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/metaldatafunctiondisplay")
+    public ModelAndView metalDataFunctionDisplay(ModelMap model)
+    {
+		return new ModelAndView("html/metaldataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('USERS_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/users")
@@ -268,9 +293,9 @@ public class BourseController {
 		DataEntryFilterHistory filterHistory = dataEntryFilterHistoryService.SaveDataEntryFilterHistory(dataEntryFilterHistory);
 	  return filterHistory;
     }
-	@GetMapping(value = "getdataentryfilterhistory",produces = "application/json;charset=UTF-8")
-    public List<DataEntryFilterHistory> GetDataEntryFilterHistory(){
-		return dataEntryFilterHistoryService.findDataEntryFilterHistory();
+	@GetMapping(value = "getdataentryfilterhistory/{screenName}",produces = "application/json;charset=UTF-8")
+    public DataEntryFilterHistory GetDataEntryFilterHistory(@PathVariable("screenName") String screenName){
+		return dataEntryFilterHistoryService.findDataEntryFilterHistoryByScreenName(screenName);
     }
 	
 	@GetMapping(value = "getskews", produces = "application/json;charset=UTF-8")

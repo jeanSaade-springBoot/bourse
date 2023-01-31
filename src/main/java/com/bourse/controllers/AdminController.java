@@ -5,7 +5,6 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -14,11 +13,9 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.bourse.authsecurity.domain.User;
-import com.bourse.authsecurity.dto.UserStatusMembershipDTO;
-import com.bourse.authsecurity.service.UserService;
 import com.bourse.domain.AllNewsView;
 import com.bourse.domain.AssetClass;
+import com.bourse.domain.AssetNewsOrder;
 import com.bourse.domain.CalendarDates;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
@@ -28,21 +25,20 @@ import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.RobotsFunctionConfiguration;
 import com.bourse.domain.News;
 import com.bourse.domain.NewsOrder;
-import com.bourse.domain.SovereignData;
 import com.bourse.domain.SubGroup;
+import com.bourse.dto.AssetNewsOrderDTO;
 import com.bourse.dto.ColumnConfigurationDTO;
-import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.FunctionConfigurationDTO;
 import com.bourse.dto.NewsOrderDTO;
 import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.service.AdminService;
 import com.bourse.service.AssetClassService;
+import com.bourse.service.AssetNewsOrderService;
 import com.bourse.service.FunctionConfigurationService;
 import com.bourse.service.FunctionsService;
 import com.bourse.service.GroupsService;
 import com.bourse.service.RobotsFunctionService;
 import com.bourse.service.SubGroupService;
-import com.bourse.util.SovereignUtil;
 @RestController
 @RequestMapping(value = "admin")
 //@PreAuthorize("hasRole('ROLE_USER') or hasRole('ROLE_ADMIN') or hasRole('ROLE_SUPER_ADMIN')")
@@ -62,6 +58,8 @@ public class AdminController {
 	private final FunctionConfigurationService functionConfigurationService;
 	@Autowired
 	private final RobotsFunctionService robotsFunctionService;
+	@Autowired
+	private final AssetNewsOrderService assetNewsOrderService;
 	
 	public AdminController(AssetClassService assetClassService,
 						   GroupsService groupsService,
@@ -69,7 +67,8 @@ public class AdminController {
 						   AdminService adminService,
 						   FunctionsService functionsService,
 						   FunctionConfigurationService functionConfigurationService,
-						   RobotsFunctionService robotsFunctionService)
+						   RobotsFunctionService robotsFunctionService,
+						   AssetNewsOrderService assetNewsOrderService)
 	{
 		this.assetClassService   = assetClassService;
 		this.groupsService   = groupsService;
@@ -78,8 +77,16 @@ public class AdminController {
 		this.functionsService = functionsService;
 		this.functionConfigurationService = functionConfigurationService;
 		this.robotsFunctionService = robotsFunctionService;
+		this.assetNewsOrderService = assetNewsOrderService;
 	}
-	
+	@GetMapping(value = "getassetnewsorder", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<List<AssetNewsOrder>>  getAssetNewsOrder(){
+		return new ResponseEntity<>(assetNewsOrderService.getAssetNewsOrder(), HttpStatus.OK);
+    }
+	@PostMapping(value = "updateassetnewsorder", produces = "application/json;charset=UTF-8")
+    public boolean updateAssetNewsOrder(@RequestBody  List<AssetNewsOrderDTO> AssetNewsOrderDTOlst){
+		return assetNewsOrderService.updateAssetNewsOrder(AssetNewsOrderDTOlst);
+    }
 	@GetMapping(value = "getassetclass", produces = "application/json;charset=UTF-8")
     public  ResponseEntity<List<AssetClass>>  getAssetClass(){
 		return new ResponseEntity<>(assetClassService.getAllAssetClass(), HttpStatus.OK);
@@ -175,9 +182,9 @@ public class AdminController {
 	public ResponseEntity<List<CalendarDates>>  getCalendarDates() {
 		return new ResponseEntity<>( adminService.getVacations(), HttpStatus.OK);
 	}
-	@GetMapping(value = "getnewsorder")
-	public ResponseEntity<List<NewsOrder>>  getActiveNewsOrder() {
-		return new ResponseEntity<>( adminService.getActiveNewsOrder(), HttpStatus.OK);
+	@GetMapping(value = "getnewsorder/{assetId}")
+	public ResponseEntity<List<NewsOrder>>  getActiveNewsOrder(@PathVariable("assetId") String assetId) {
+		return new ResponseEntity<>( adminService.getActiveNewsOrder(assetId), HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "updatenewsorder")
@@ -190,13 +197,13 @@ public class AdminController {
 	public ResponseEntity<List<News>>  getNews() {
 		return new ResponseEntity<>( adminService.getNews(), HttpStatus.OK);
 	}
-	@GetMapping(value = "findnewsformateddate")
-	public ResponseEntity<List<AllNewsView>>  findByIsPublishedFormatedDate() {
-		return new ResponseEntity<>( adminService.findByIsPublishedFormatedDate(), HttpStatus.OK);
+	@GetMapping(value = "findnewsformateddate/{assetId}")
+	public ResponseEntity<List<AllNewsView>>  findByIsPublishedFormatedDate(@PathVariable("assetId") String assetId) {
+		return new ResponseEntity<>( adminService.findByIsPublishedFormatedDate(assetId), HttpStatus.OK);
 	}
-	@GetMapping(value = "getnewsbyimportance/{isbold}", produces = "application/json;charset=UTF-8")
-	public ResponseEntity<List<AllNewsView>>  getNewsByImportance(@PathVariable String isbold) {
-		return new ResponseEntity<>( adminService.getNewsByImportance(isbold), HttpStatus.OK);
+	@GetMapping(value = "getnewsbyimportance/{isbold}/{assetId}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<List<AllNewsView>>  getNewsByImportance(@PathVariable String isbold,@PathVariable String assetId) {
+		return new ResponseEntity<>( adminService.getNewsByImportance(isbold,assetId), HttpStatus.OK);
 	}
 	@GetMapping(value = "findnewsbygroupidandsubgroupid/{groupId}/{subGroupId}", produces = "application/json;charset=UTF-8")
 	public ResponseEntity<List<AllNewsView>>  findNewsByGroupIdAndSubgroupId(@PathVariable String groupId
@@ -207,9 +214,9 @@ public class AdminController {
 	public ResponseEntity<List<AllNewsView>>  findAllNewsByGroupIdAndSubgroupId(@PathVariable String subGroupIdDescription) {
 		return new ResponseEntity<>( adminService.findAllNewsByGroupIdAndSubgroupId(subGroupIdDescription), HttpStatus.OK);
 	}
-	@GetMapping(value = "getunpublishednews")
-	public ResponseEntity<List<AllNewsView>>  getUnPublishedNews() {
-		return new ResponseEntity<>( adminService.getAllNews(), HttpStatus.OK);
+	@GetMapping(value = "getunpublishednews/{assetId}")
+	public ResponseEntity<List<AllNewsView>>  getUnPublishedNews(@PathVariable("assetId") String assetId) {
+		return new ResponseEntity<>( adminService.getAllNews(assetId), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "deletenewsbyid/{id}/{isFunctionNews}")

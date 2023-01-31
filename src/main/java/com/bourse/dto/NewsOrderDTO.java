@@ -15,6 +15,7 @@ import lombok.NoArgsConstructor;
 public class NewsOrderDTO {
 	private Long[] listid;
 	private List<NewsOrder> newsOrderList;
+	private String assetId;
 }
 
 

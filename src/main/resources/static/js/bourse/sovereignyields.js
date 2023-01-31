@@ -437,15 +437,15 @@
 			
 			   $.ajax({
 	       	        contentType:  "application/json; charset=utf-8",
-	    	        url: "/bourse/getdataentryfilterhistory",
+	    	        url: "/bourse/getdataentryfilterhistory/"+"DATABASE_INPUT_SCREEN_SOVEREIGN",
 	    	        dataType: 'json',
 	    	        timeout: 600000,
 	    	        async:false,
 	    	        success: function (response) {
-	    	        	
-	    	       if (response.length>0)
+	    	        
+	    	       if (response.filterHistory.length>0)
 	    	    	   {
-	    	    	   var filterresponse = response[0].filterHistory;
+	    	    	   var filterresponse = response.filterHistory;
 	    	    	   for(i=0; i<filterresponse.split(",").length; i++)
 	    			   {
 	    		    	$(filterresponse.split(",")[i]).jqxCheckBox({checked:true});
@@ -1011,7 +1011,11 @@
          	 
 	   		  
             });
-            $("#loadData").click(function () {
+            $("#loadData").on('click', function(e) {
+			 e.preventDefault();
+			$("#loadData").prop('disabled',true);
+			document.querySelector('#loadData').disabled = true;
+			
             	var date = new Date();
             	var dataToBeInserted = [];
             	var usaObject=["1"];
@@ -1066,7 +1070,7 @@
 	    	        	{
 							 $.ajax({
 						        contentType: "application/json",
-						        url: "/process/isrobottriggered",
+						        url: "/process/isrobottriggered/1",
 						        dataType: 'text',
 								async:true,
 						        cache: false,
@@ -1526,6 +1530,7 @@
 	  						 
 	  						var filterHistory = { 
 			   		        	  "filterHistory":checkedItem.toString(),
+			   		        	  "screenName":"DATABASE_INPUT_SCREEN_SOVEREIGN"
 			   	     			   };
 	  					   $.ajax({
 			  	       	        type: "POST",
@@ -1662,7 +1667,8 @@
                     for (let i = 0; i < keys.length; i++) {
 	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
                           updatedCountriesJson.push({"factor": updatedDataJson.factor.replace("yr",""),
-												 "country":	getCountryDbDescription(keys[i])});
+													 "value" : getCountryDbDescription(keys[i]),
+													 "assetId":1});
 	                }
                     
 					dataToBeUpdated.push({
@@ -1949,7 +1955,7 @@
 	{
 		 $.ajax({
 	       	        contentType:  "application/json; charset=utf-8",
-	    	        url: "/robot/callrobotsasync",
+	    	        url: "/robot/callrobotsasync/"+"1",
 	    	        dataType: 'json',
 	    	        timeout: 600000,
 	    	        async:true,

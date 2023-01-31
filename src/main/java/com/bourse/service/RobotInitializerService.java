@@ -41,17 +41,19 @@ public class RobotInitializerService {
 		this.restTemplate = restTemplate;
 	}
 	
-	public List<RobotInitializer> getRobotsInitializer(String processName)
+	public List<RobotInitializer> getRobotsInitializer(String processName,int assetId)
 	{
-		return robotInitializerRepository.findByProcessName(processName);
+		return robotInitializerRepository.findByProcessNameAndAssetId(processName,assetId);
 	}
-	public void callRobotsForUpdateColumnAsync(List<RobotInitializer> listOfRobots,String ProcedureInitialization,String ProcedureFinalization,String proccessName){
+	public void callRobotsForUpdateColumnAsync(List<RobotInitializer> listOfRobots,String ProcedureInitialization,String ProcedureFinalization,String proccessName,int assetId){
 		
 		List<CompletableFuture<Boolean>> futures = new ArrayList<>();
 		
 		 StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery(ProcedureInitialization);
 		 query.registerStoredProcedureParameter("processName", String.class, ParameterMode.IN);
 		 query.setParameter("processName",proccessName);
+		 query.registerStoredProcedureParameter("assetId", Integer.class, ParameterMode.IN);
+		 query.setParameter("assetId",assetId);
 		 query.execute();
 		 
 		for(RobotInitializer myObject:listOfRobots) {
@@ -68,17 +70,19 @@ public class RobotInitializerService {
 			}
 		}
 		
-			PublishNewsAfterAllThreadAreExcuted(futures,ProcedureFinalization,proccessName);
+			PublishNewsAfterAllThreadAreExcuted(futures,ProcedureFinalization,proccessName, assetId);
 		
 		}	
-public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinalization,String proccessName){
+public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinalization,String proccessName,int assetId){
 	
-	List<RobotInitializer> listOfRobots =  getRobotsInitializer(proccessName);
+	List<RobotInitializer> listOfRobots =  getRobotsInitializer(proccessName, assetId);
 	List<CompletableFuture<Boolean>> futures = new ArrayList<>();
 	
 	 StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery(ProcedureInitialization);
 	 query.registerStoredProcedureParameter("processName", String.class, ParameterMode.IN);
 	 query.setParameter("processName",proccessName);
+	 query.registerStoredProcedureParameter("assetId", Integer.class, ParameterMode.IN);
+	 query.setParameter("assetId",assetId);
 	 query.execute();
 	 
 	for(RobotInitializer myObject:listOfRobots) {
@@ -95,11 +99,11 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 		}
 	}
 	
-		PublishNewsAfterAllThreadAreExcuted(futures,ProcedureFinalization,proccessName);
+		PublishNewsAfterAllThreadAreExcuted(futures,ProcedureFinalization,proccessName, assetId);
 	
 	}
 
-	public void PublishNewsAfterAllThreadAreExcuted(List<CompletableFuture<Boolean>> com,String procedureName,String proccessName) {
+	public void PublishNewsAfterAllThreadAreExcuted(List<CompletableFuture<Boolean>> com,String procedureName,String proccessName,int assetId) {
 		CompletableFuture<Void> resultantCf = CompletableFuture.allOf(com.toArray(new CompletableFuture<?>[0]));
 		CompletableFuture<Object> allFutureResults = resultantCf.thenApply(t -> com.stream().map(CompletableFuture::join).collect(Collectors.toList()));
 		try {
@@ -107,6 +111,8 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 			  StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery(procedureName);
 			  query.registerStoredProcedureParameter("processName", String.class, ParameterMode.IN);
 			  query.setParameter("processName",proccessName);
+			  query.registerStoredProcedureParameter("assetId", Integer.class, ParameterMode.IN);
+			  query.setParameter("assetId",assetId);
 			  query.execute();
 			System.out.println("PROCEDURE DONE");
 		} catch (InterruptedException e) {
@@ -136,12 +142,12 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 		String withoutFunctionFinalizationProc = "INSERT_ROBOTS_WITHOUT_FUNCTION_NEWS";
 		
 		List<String> lstRelatedColumn = getRelatedColumn(buildDyamicQuery(updatedColumnDTOList));
-		
+		int assetId = updatedColumnDTOList.get(0).getAssetId();
 		List<RobotInitializer> columnWithFunction = robotInitializerRepository.findRelatedColumn(lstRelatedColumn,withFunctionProcess);
 		List<RobotInitializer> columnWithoutFunction = robotInitializerRepository.findRelatedColumn(lstRelatedColumn,withoutFunctionProcess);
 		
-		callRobotsForUpdateColumnAsync(columnWithoutFunction,withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess);
-		callRobotsForUpdateColumnAsync(columnWithFunction,withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess);
+		callRobotsForUpdateColumnAsync(columnWithoutFunction,withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess,assetId);
+		callRobotsForUpdateColumnAsync(columnWithFunction,withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess,assetId);
 		
 	}
 	public String buildDyamicQuery(List<UpdatedColumnDTO> updatedColumnDTOList)
@@ -150,9 +156,13 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 		Iterator<UpdatedColumnDTO> iterator = updatedColumnDTOList.iterator();
 		  while (iterator.hasNext()) {
 			  UpdatedColumnDTO UpdatedColumn = iterator.next();
-			  query+="select description from column_configuration where description like'%"+UpdatedColumn.getCountry()+"%"+UpdatedColumn.getFactor()+"%'";
-			  
-		        if (iterator.hasNext()) {
+			
+			  if(UpdatedColumn.getAssetId()==1)
+			    query+="select description from column_configuration where description like'%"+UpdatedColumn.getValue()+"%"+UpdatedColumn.getFactor()+"%'";
+			  else if(UpdatedColumn.getAssetId()==2)
+				query+="select description from column_configuration where description like'%"+UpdatedColumn.getValue()+"%'";
+		       
+			  if (iterator.hasNext()) {
 		        	query+=" union "; 
 		        }
 		  }

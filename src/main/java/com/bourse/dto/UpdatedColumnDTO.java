@@ -11,5 +11,6 @@ import lombok.NoArgsConstructor;
 public class UpdatedColumnDTO {
 	
 	    private String factor;
-	    private String country;
+	    private String value;
+	    private int assetId;
 }

@@ -45,4 +45,5 @@ public class OngoingProcess {
     @Temporal(TemporalType.TIME)
     private Date endTime;
     private boolean mustBeTrigger;
+    private int assetId;
 }

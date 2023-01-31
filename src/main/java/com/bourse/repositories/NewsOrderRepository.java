@@ -18,7 +18,8 @@ public interface NewsOrderRepository extends JpaRepository<NewsOrder, Long> {
 			+ "  n.id , \r\n"
 			+ "  n.robot_code , \r\n"
 			+ "  n.order_id , \r\n"
-			+ "  n.state \r\n"
+			+ "  n.state ,\r\n"
+			+ "  n.asset_id\r\n"
 			+ "from news_order n \r\n"
 			+ "where n.robot_code in ( select concat( a.asset_code, g.group_code, \r\n"
 			+ "                                       s.subgroup_code, c.column_code, \r\n"
@@ -39,7 +40,8 @@ public interface NewsOrderRepository extends JpaRepository<NewsOrder, Long> {
 			+ "  n.id , \r\n"
 			+ "  n.robot_code , \r\n"
 			+ "  n.order_id , \r\n"
-			+ "  n.state \r\n"
+			+ "  n.state ,\r\n"
+			+ "  n.asset_id\r\n"
 			+ "from news_order n \r\n"
 			+ "where n.robot_code in (\r\n"
 			+ "  select \r\n"
@@ -61,9 +63,12 @@ public interface NewsOrderRepository extends JpaRepository<NewsOrder, Long> {
 			+ "      and fc.function_id=f.id\r\n"
 			+ "      and r.function_id=f.id\r\n"
 			+ "      and r.isactive = 1))tab\r\n"
-			+ "                              \r\n"
-			+ "                       order by  tab.order_id asc;       \r\n",
+			+ "	where tab.asset_id=:assetId		 \r\n"
+			+ "order by  tab.order_id asc;       ",
 		       nativeQuery = true)
-	  List<NewsOrder> getActiveNewsOrder();
+	  List<NewsOrder> getActiveNewsOrder(@Param("assetId") String assetId);
+
+	  @Transactional
+	  void deleteAllByAssetId(int assetId);
 	
 }

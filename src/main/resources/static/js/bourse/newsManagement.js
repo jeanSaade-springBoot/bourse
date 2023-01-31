@@ -1,9 +1,12 @@
- var selectedRow=this;
+  var selectedRow=this;
   var groupItem;
   var subgroupsource;
   var familyItem;
   var groupsource;
   var gridsource;
+  var dbOrderJson;
+  var activeAssetId;
+  var source;
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
   });
@@ -12,30 +15,32 @@
 	    document.getElementById("TemplateText").value += targ.textContent || targ.innerText;
 	}
   $(document).ready(function () {
-	   $('#container-wrapper').show();
+	  $('#container-wrapper').show();
 	    
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 	  $("#viewall").css("display","block");
 	  $("#viewall").click(function () {
 			popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 		  });
-	  $("#saveNews").jqxButton({ theme: 'dark',height:30,width:74  });
-      $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
-	  $("#jqxNotification").jqxNotification({  height: 30, width: "100%",appendContainer: "#notifcationContainer",  opacity: 0.9,
-           animationOpenDelay: 800, autoClose:true , autoCloseDelay: 1000,  template: 'info'
-      });
-	  $("#jqxNotificationSave").jqxNotification({  height: 30, width: "100%",appendContainer: "#notifcationContainerSave",  opacity: 0.9,
-          animationOpenDelay: 800, autoClose:true , autoCloseDelay: 1000,  template: 'info'
-      }); 
-	  $("#popupWindow").jqxWindow({
-          width: '50%',    height: '38%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
-      });
 	  
-	  $("#IsBold").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 90, height: 25});  
-	  
-	  $("#addNews").jqxButton({  theme:'dark', width: 120, height: 30 });
-	  $("#triggerRobotButton").jqxButton({  theme:'dark', width: 120, height: 30 });
-	  $("#publishNewsButton").jqxButton({  theme:'dark', width: 120, height: 30 });
+	   $.ajax({
+	        contentType: "application/json",
+	        url: "/admin/getassetnewsorder",
+	        dataType: 'json',
+	        async:true,
+	        cache: false,
+	        timeout: 600000,
+	        success: function (data) {
+				dbOrderJson=data;
+	        	for (let i = 0; i < data.length; i++) {
+					if(i==0)
+	        	  	  $("#nav-tab").append("<a class='navigation nav-item nav-link active' id='"+data[i].assetCode+"' data-assetid='"+data[i].assetId+"' data-toggle='tab'  href='#' role='tab' aria-controls='nav-any2' aria-selected='false'  onClick='showSelectedAsset("+data[i].assetId+");'>"+data[i].assetName+"</a>");
+			    	else 
+			    	  $("#nav-tab").append("<a class='navigation nav-item nav-link' id='"+data[i].assetCode+"' data-assetid='"+data[i].assetId+"' data-toggle='tab'  href='#' role='tab' aria-controls='nav-any2' aria-selected='false' onClick='showSelectedAsset("+data[i].assetId+");'>"+data[i].assetName+"</a>");
+			    	
+			    }
+			    activeAssetId=$('div#nav-tab a.active')[0].dataset.assetid;
+			  
       gridsource =
       {
           datatype: "json",
@@ -48,10 +53,10 @@
         	  { name: 'columnDescription', type: 'string' },  
         	  { name: 'generationDateDate', type: 'date' },  
         	  { name: 'isPublished', type: 'string' },  
-        	  
+        	  { name: 'assetId', type: 'string' }, 
           ],
           async: true,
-          url: '/admin/getunpublishednews'
+          url: '/admin/getunpublishednews/'+activeAssetId
       };
      
       var dataAdapter = new $.jqx.dataAdapter(gridsource, {
@@ -129,10 +134,164 @@
            { text: '', datafield: 'isPublished', hidden: true  }, 
            { text: '', datafield: 'id', hidden: true  },
 		   { text: '', datafield: 'isFunctionNews', hidden: true  },
+		   { text: '', datafield: 'assetId', hidden: true  },
            ]
          
       });
+			},
+	        error: function (e) {
+	        	
+					  console.log("ERROR : ", e);
+
+	        }
+	    });
+	  $(".sortable").sortable({
+        update: function(event, ui) {
+            const tab = document.getElementById("nav-tab").children;
+            var updatedOrder=[];
+			for (let i = 0; i < tab.length; i++) {
+			  var object = dbOrderJson.filter(a => a.assetCode == tab[i].id);
+			  updatedOrder.push({
+				 id:object[0].id,
+			     assetCode:object[0].assetCode,
+			     assetId:object[0].assetId,
+				 assetName:object[0].assetName,
+				 orderId:i+1,
+			  });
+			}
+				
+  	       	  $.ajax({
+  	    	        type: "POST",
+  	    	        contentType: "application/json",
+  	    	        url: "/admin/updateassetnewsorder",
+  	    	        data: JSON.stringify(updatedOrder),
+  	    	        dataType: 'json',
+  	    	        async:true,
+  	    	        cache: false,
+  	    	        timeout: 600000,
+  	    	        success: function (data) {
+  	    	        	console.log(data)
+  	    	     },
+  	    	        error: function (e) {
+  	    	        	
+  						  console.log("ERROR : ", e);
+  	
+  	    	        }
+  	    	    }); 
+        }
+      });
+	  $("#newsTabs").jqxButtonGroup({ theme:'dark', mode: 'radio' });
+	  $('#newsTabs').jqxButtonGroup('setSelection', 0);
+	 
+	  $("#saveNews").jqxButton({ theme: 'dark',height:30,width:74  });
+      $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
+	  $("#jqxNotification").jqxNotification({  height: 30, width: "100%",appendContainer: "#notifcationContainer",  opacity: 0.9,
+           animationOpenDelay: 800, autoClose:true , autoCloseDelay: 1000,  template: 'info'
+      });
+	  $("#jqxNotificationSave").jqxNotification({  height: 30, width: "100%",appendContainer: "#notifcationContainerSave",  opacity: 0.9,
+          animationOpenDelay: 800, autoClose:true , autoCloseDelay: 1000,  template: 'info'
+      }); 
+      $("#jqxNotificationRobots").jqxNotification({ width: "90%",appendContainer: "#notifcationContainerRobot",  opacity: 0.9,
+           autoOpen: false, animationOpenDelay: 800, autoClose:true , autoCloseDelay: 3000,  template: "success"
+       }); 
+	   
+	   
+	  $("#popupWindow").jqxWindow({
+          width: '50%',    height: '38%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
+      });
+	  
+	  $("#IsBold").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 90, height: 25});  
+	  
+	  $("#addNews").jqxButton({  theme:'dark', width: 120, height: 30 });
+	  $("#triggerRobotButton").jqxButton({  theme:'dark', width: 120, height: 30 });
+	  $("#publishNewsButton").jqxButton({  theme:'dark', width: 120, height: 30 });
      
+      $('#newsTabs').on('buttonclick', function () { 
+	   value= $('#newsTabs').jqxButtonGroup('getSelection');
+		  if (value==0)
+		  {
+			    $("#newsGrid").css("display","block");
+				$("#newsOrder").css("display","none");
+		  }
+		  else if (value==1)
+			{
+		        source.url='/admin/getnewsorder/'+activeAssetId;
+  	        	var dataAdapter = new $.jqx.dataAdapter(source);
+  	        	$('#kanban1').jqxKanban({source: dataAdapter});
+			   
+				$("#newsGrid").css("display","none");
+				$("#newsOrder").css("display","block");
+				
+				$('#nav-column-master').show();
+			}
+			
+		});
+		
+		  
+	  $("#save").jqxButton({  theme:'dark', width: 110, height: 35,template: "success"});
+	  $("#save").click(function () {
+	  // var data = getListOrder();
+	   var data = {"listid":getListOrder()[0],
+			       "newsOrderList":getListOrder()[1],
+			        "assetId":activeAssetId
+			        };
+
+       	  $.ajax({
+  	        type: "POST",
+  	        contentType: "application/json",
+  	        url: "/admin/updatenewsorder/",
+  	        data: JSON.stringify(data),
+  	        dataType: 'json',
+  	        async:false,
+  	        cache: false,
+  	        timeout: 600000,
+  	        success: function (data) {
+  	            source.url='/admin/getnewsorder/'+activeAssetId;
+  	        	var dataAdapter = new $.jqx.dataAdapter(source);
+  	        	$('#kanban1').jqxKanban({source: dataAdapter});
+  	          $("#jqxNotificationRobots").jqxNotification("open");
+ },
+  	        error: function (e) {
+  	        	
+					  console.log("ERROR : ", e);
+
+  	        }
+  	    });
+		 
+		   
+		  });
+		var fields = [
+          { name: "id", map: "id", type: "string" },
+          { name: "status", map: "state", type: "string" },
+          { name: "text", map: "robotCode", type: "string" }
+			];
+			 source =
+			 {
+			     dataType: "json",
+			     dataFields: fields,
+			     url:''
+			 };
+			
+			var dataAdapter = new $.jqx.dataAdapter(source);
+			
+			$('#kanban1').jqxKanban({
+			    width: '100%',
+			    height: '500px',
+			    theme:'dark',
+			    source: dataAdapter,
+			    columns: [
+			        { text: "News reorder", dataField: "new"}                
+			    ],
+			    // render column headers.
+			    columnRenderer: function (element, collapsedElement, column) {
+			        var columnItems = $("#kanban1").jqxKanban('getColumnItems', column.dataField).length;
+			        // update header's status.
+			        element.find(".jqx-kanban-column-header-status").html(" (" + columnItems + "/" + column.maxItems + ")");
+			        // update collapsed header's status.
+			        collapsedElement.find(".jqx-kanban-column-header-status").html(" (" + columnItems + "/" + column.maxItems + ")");
+			    }
+			});
+		 
   });
 	 function Edit(row, event) {
 	     isedit=true;
@@ -166,6 +325,7 @@
 				   "isPublished":updatedData.isPublished,
 				   "isFunctionNews":updatedData.isFunctionNews,
 				   "isVisible":"1",
+				   "assetId":updatedData.assetId
 	    };
 		
   	       	  $.ajax({
@@ -239,6 +399,7 @@
 				   "isPublished":'0',
 	 			   "isFunctionNews":updatedData.isFunctionNews,
  				   "isVisible":"1",
+ 				   "assetId":updatedData.assetId
 	    };
 		
 	   
@@ -281,6 +442,7 @@
 				   "isPublished":'1',
 		           "isFunctionNews":updatedData.isFunctionNews,
  				   "isVisible":"1",
+ 				   "assetId":updatedData.assetId
 	    };
 		
 				  $.ajax({
@@ -313,7 +475,7 @@
  {
 	   $.ajax({
 	        contentType: "application/json",
-	        url: "/admin/getnews",
+	        url: "/admin/getnews/",
 	        dataType: 'json',
 	        async:true,
 	        cache: false,
@@ -339,7 +501,7 @@
 					 $('#Newslist').append('<li></li>');
 						var durationvalue = data.length*10000;
 					    createMarquee({duration:durationvalue, padding:20});
-},
+				},
 	        error: function (e) {
 	        	
 					  console.log("ERROR : ", e);
@@ -361,7 +523,8 @@
 	     "robots":'Admin',
 		 "isBold":$('#IsBold').jqxCheckBox('checked'),
 		 "generationDateDate":a.getFullYear()+"-"+("0" + (a.getMonth() + 1)).slice(-2)+"-"+("0" + a.getDate()).slice(-2)+" "+("0" + a.getHours()).slice(-2)+":"+("0" + a.getMinutes()).slice(-2)+":"+("0" + a.getSeconds()).slice(-2),
-		 "isPublished":'0'
+		 "isPublished":'0',
+		 "assetId":activeAssetId
 	  };
 	
 	 if ($('#news').val()== '')
@@ -423,14 +586,14 @@
  
  	  $.ajax({
 	        contentType: "application/json",
-	        url: "/robot/publishNews",
+	        url: "/robot/publishNews/"+activeAssetId,
 	        dataType: 'text',
 	        async:true,
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
 	        	
-	       	 gridsource.url='/admin/getunpublishednews';
+	       	 gridsource.url='/admin/getunpublishednews/'+activeAssetId;
 			 dataAdapter = new $.jqx.dataAdapter(gridsource);
 			 $('#grid').jqxGrid({source:dataAdapter});
 		
@@ -451,7 +614,7 @@
 
    $.ajax({
 	        contentType: "application/json",
-	        url: "/process/isrobottriggered",
+	        url: "/process/isrobottriggered/"+activeAssetId,
 	        dataType: 'text',
 			async:true,
 	        cache: false,
@@ -461,7 +624,7 @@
 					if(data=='false')
 					    $.ajax({
 					        contentType: "application/json",
-					        url: "/process/mustbetriggered",
+					        url: "/process/mustbetriggered/"+activeAssetId,
 					        dataType: 'text',
 							async:true,
 					        cache: false,
@@ -509,14 +672,14 @@
 	{
 		  $.ajax({
 	        contentType: "application/json",
-	        url: "/robot/callrobotsasync",
+	        url: "/robot/callrobotsasync/"+activeAssetId,
 	        dataType: 'text',
 			async:true,
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
 	         $('#overlay').fadeOut();
-	       	 gridsource.url='/admin/getunpublishednews';
+	       	 gridsource.url='/admin/getunpublishednews/'+activeAssetId;
 			 dataAdapter = new $.jqx.dataAdapter(gridsource);
 			 $('#grid').jqxGrid({source:dataAdapter});
 			 
@@ -535,14 +698,14 @@
 	{
 		  $.ajax({
 	        contentType: "application/json",
-	        url: "/news/showvisiblenews",
+	        url: "/news/showvisiblenews/"+activeAssetId,
 	        dataType: 'text',
 			async:true,
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
 	         $('#overlay').fadeOut();
-	       	 gridsource.url='/admin/getunpublishednews';
+	       	 gridsource.url='/admin/getunpublishednews/'+activeAssetId;
 			 dataAdapter = new $.jqx.dataAdapter(gridsource);
 			 $('#grid').jqxGrid({source:dataAdapter});
 			 
@@ -556,3 +719,45 @@
 	        }
 	    });
 	}
+	
+	function showSelectedAsset(assetId){
+		activeAssetId=assetId;
+		value= $('#newsTabs').jqxButtonGroup('getSelection');
+		 if (value==0)
+			{
+				 gridsource.url='/admin/getunpublishednews/'+activeAssetId;
+			     dataAdapter = new $.jqx.dataAdapter(gridsource);
+			     $('#grid').jqxGrid({source:dataAdapter});
+			}
+			else if (value==1)
+			{
+				source.url='/admin/getnewsorder/'+activeAssetId;
+  	        	var dataAdapter = new $.jqx.dataAdapter(source);
+  	        	$('#kanban1').jqxKanban({source: dataAdapter});
+			   
+			}
+	}
+	 function getListOrder() {
+	    data = [];
+	    listOfId = [];
+	 
+	       var list = document.getElementById("kanban1-column-container-0").childNodes;
+	       var listLength = list.length;
+	       var i=0;
+	       var counter=1;
+	          
+	       for(var i=0; i<listLength; i++){
+	    	    ids = {};
+	            item = {};
+	            ids = list.item(i).id.split("_")[1];
+	             // item ["id"] = list.item(i).id.split("_")[1];
+	            item ["robotCode"] = list.item(i).outerText;
+	            item ["orderId"] = counter++ ;
+	            item ["state"] = 'new' ;
+	            item ["assetId"] = activeAssetId ;
+	            data.push(item);
+	            listOfId.push(ids);
+	          
+	       }
+	       return [listOfId,data];
+	  } 

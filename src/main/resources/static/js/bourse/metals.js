@@ -10,6 +10,16 @@
          			   "#jqxCheckBoxAluminum",
          			   "#jqxCheckBoxSteel",
          			   "#jqxCheckBoxLumber"];
+         var metalsPreciousItem	=["#jqxCheckBoxGold",
+         			   "#jqxCheckBoxPlatinum",
+         			   "#jqxCheckBoxSilver",
+         			   "#jqxCheckBoxPlatGold",
+         			   "#jqxCheckBoxGoldSilv"];	
+         var metalsBaseItem=[
+         			   "#jqxCheckBoxCopper",
+         			   "#jqxCheckBoxAluminum",
+         			   "#jqxCheckBoxSteel",
+         			   "#jqxCheckBoxLumber"];   
          			   
 		 var preciousAuditDefaultData=[{
              "gold": "",
@@ -22,7 +32,7 @@
              "steel": "",
              "lumber": "",
            }];  
-           
+         var source;
          var inputDataPresious = document.getElementById("precious-input");
          var inputDataBase = document.getElementById("base-input");
          
@@ -35,6 +45,8 @@
 			  $("#viewall").click(function () {
 					popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 				  });
+			  $('[data-toggle="tooltip"]').tooltip();   
+			  
 			  $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' });
               $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' }); 
 		      $("#deletePreciousByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
@@ -125,7 +137,24 @@
 		                  { text: 'LUMBER', datafield: 'lumber', width: '19.5%'},
 	                ]
 	            });
-	            
+	              source =
+		             {
+		                 datatype: "json",
+		                 datafields: [
+	 		                    { name: 'refer_date', type: 'date' },
+	 		                    { name: 'GOLD', type: 'float' },
+	 		                    { name: 'SILVER',  type: 'float'},
+	 		                    { name: 'PLATINUM',  type: 'float'},
+	 		                    { name: 'PLATINUM_GOLD',  type: 'float'},
+	 		                    { name: 'GOLD_SILVER',  type: 'float'},
+	 		                    { name: 'COPPER',  type: 'float'},
+	 		                    { name: 'ALUMINUM',  type: 'float'},
+	 		                    { name: 'STEEL',  type: 'float'},
+	 		                    { name: 'LUMBER',  type: 'float'}
+	 		                 ],
+	                         id: 'id',
+	                         localdata: ''
+		             };
 	            $("#grid").jqxGrid(
 		                    {
 		                    	width: '100%',
@@ -139,8 +168,41 @@
 		                        columnsresize: true,
 		                        pagesizeoptions: ['10', '20', '50']
 		                    });
-		         // getFilterData();
-		         //$("#grid").jqxGrid('showloadelement');           
+		                    
+		           $.ajax({
+	       	        contentType:  "application/json; charset=utf-8",
+	    	        url: "/bourse/getdataentryfilterhistory/"+"DATABASE_INPUT_SCREEN_METALS",
+	    	        dataType: 'json',
+	    	        timeout: 600000,
+	    	        async:false,
+	    	        success: function (response) {
+	    	        
+	    	       if (response.filterHistory!=null)
+	    	    	   {
+	    	    	   var filterresponse = response.filterHistory;
+	    	    	   for(i=0; i<filterresponse.split(",").length; i++)
+		    			   {
+		    		    	$(filterresponse.split(",")[i]).jqxCheckBox({checked:true});
+		    		       } 
+	    	    	   }
+	    	       else{
+	    	    	   for(i=0; i<metalsPreciousItem.length; i++)
+	    			   {
+	    		    	$(metalsPreciousItem[i]).jqxCheckBox({checked:true});
+	    		       } 
+	    	       }
+	                  },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });	
+	    	    
+		          $("#grid").jqxGrid('showloadelement');  
+	    	      getPreciousAuditGridSource();
+          		  getBaseAuditGridSource();
+		          getFilterData();         
 		           
 		          inputDataPresious.addEventListener("blur", function() {
 				  if($("#precious-input").val()!="")
@@ -261,7 +323,7 @@
             	var goldObject=["1"];
             	var platinumObject=["3"];
             	var silverbject=["2"];
-				debugger;
+				
             	var rows = $('#dataInputGrid').jqxGrid('getrows');
             	for (i = 0; i < rows.length; i++) {
             	   goldObject.push(rows[i].gold);
@@ -280,7 +342,7 @@
             			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
             			});
             	 }
-            	 debugger;
+            	 
             	 if($("#dateInput").jqxDateTimeInput('getDate')<date)
            	     {
             		 var today = $("#dateInput").jqxDateTimeInput('getDate');
@@ -300,9 +362,9 @@
 	    	        success: function (response) {
 	    	        	if(response)
 	    	        	{
-							/* $.ajax({
+							 $.ajax({
 						        contentType: "application/json",
-						        url: "/process/isrobottriggered",
+						        url: "/process/isrobottriggered/2",
 						        dataType: 'text',
 								async:true,
 						        cache: false,
@@ -312,7 +374,7 @@
 								if(data=='true')
 								   $('#alert-modal-robot').modal('show'); 
 								else{
-								*/	
+								
 		
 						    	       	  $.ajax({
 						    	    	        type: "POST",
@@ -324,9 +386,9 @@
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {
-													alert("sucess");
+													
 						    	    	        
-												// getFilterData();
+												 getFilterData();
 						    	    	        	  
 						  						 inputDataPresious.value="";
 						  		            	  $("#dataformInput").css("display","block");
@@ -342,7 +404,12 @@
 						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 						    					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
 						    					
-						    	    	        // triggerRobots();	
+						    					 delete auditBaseGridSource.localdata;   
+							    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
+							    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
+							    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+						    					 
+						    	    	         triggerRobots();	
 						    	    	         
 						    	            },
 						    	    	        error: function (e) {
@@ -351,7 +418,7 @@
 						    	
 						    	    	        }
 						    	    	    });
-										/*	}
+											}
 					
 								},
 						        error: function (e) {
@@ -359,7 +426,7 @@
 										  console.log("ERROR : ", e);
 					
 						        }
-						    });*/
+						    });
 
 	    	        	}
 	    	        	else{
@@ -384,7 +451,7 @@
             	var aluminumObject=["2"];
             	var steelObject=["3"];
             	var lumberObject=["4"];
-				debugger;
+				
             	var rows = $('#baseDataInputGrid').jqxGrid('getrows');
             	for (i = 0; i < rows.length; i++) {
             	   copperObject.push(rows[i].copper);
@@ -404,7 +471,7 @@
             			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
             			});
             	 }
-            	 debugger;
+            	 
             	 if($("#dateInput").jqxDateTimeInput('getDate')<date)
            	     {
             		 var today = $("#dateInput").jqxDateTimeInput('getDate');
@@ -424,9 +491,9 @@
 	    	        success: function (response) {
 	    	        	if(response)
 	    	        	{
-							/* $.ajax({
+							 $.ajax({
 						        contentType: "application/json",
-						        url: "/process/isrobottriggered",
+						        url: "/process/isrobottriggered/2",
 						        dataType: 'text',
 								async:true,
 						        cache: false,
@@ -436,7 +503,7 @@
 								if(data=='true')
 								   $('#alert-modal-robot').modal('show'); 
 								else{
-								*/	
+									
 		
 						    	       	  $.ajax({
 						    	    	        type: "POST",
@@ -448,25 +515,30 @@
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {
-													alert("sucess");
+													
 						    	    	        
-												// getFilterData();
+												getFilterData();
 						    	    	        	  
-						  						 datatextarea.value="";
-						  		            	  $("#basedataformInput").css("display","block");
-						  						  $("#basedataInputButtons").css("display","none"); 
-						  						  $("#basedataInputGrid").css("display","none");
+						  						 inputDataBase.value="";
+						  		            	  $("#baseDataformInput").css("display","block");
+						  						  $("#baseDataInputButtons").css("display","none"); 
+						  						  $("#baseDataInputGrid").css("display","none");
 						  						
-						  						$('#basedateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
+						  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
 						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
-						    	        	    
-						    				    filterDate=date;
+						    	        	  
+						    				     filterDate=date;
+						    				     delete auditGridSource.localdata;   
+						    				     auditGridSource.url='/metals/getpreciousauditdata/'+date;
+						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+						    					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
+						    					 
 						    				      delete auditBaseGridSource.localdata;   
 							    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
 							    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
 							    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
 						    					 
-						    	    	       //  triggerRobots();	
+						    	    	         triggerRobots();	
 						    	    	         
 						    	            },
 						    	    	        error: function (e) {
@@ -475,7 +547,7 @@
 						    	
 						    	    	        }
 						    	    	    });
-										/*	}
+											}
 					
 								},
 						        error: function (e) {
@@ -483,7 +555,7 @@
 										  console.log("ERROR : ", e);
 					
 						        }
-						    });*/
+						    });
 
 	    	        	}
 	    	        	else{
@@ -501,11 +573,12 @@
             		 $('#alertDate-modal').modal('show'); 
             	 }
                });  
-             
+               
+               
              	 $('#dateInputAudit').on('change', function (event) 
 				 {  date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				    filterDate=date;
-				    debugger;
+				    
     				     delete auditGridSource.localdata;   
     				     auditGridSource.url='/metals/getpreciousauditdata/'+date;
     					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
@@ -521,10 +594,20 @@
 				$('#alertDeleteDataByDate-modal').modal('show'); 
 		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				  $( "#alertTextDeleteDataByDate" ).empty();
-		 		  $( "#alertTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all record for the date '"+date+"'?</p>" );
+		 		  $( "#alertTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all Precious metals record for the date '"+date+"'?</p>" );
 				 });
-				    
-		   });
+				 
+				$("#deleteBaseByDate").click(function () {
+				$('#alertDeleteBaseDataByDate-modal').modal('show'); 
+		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				  $( "#alertBaseTextDeleteDataByDate" ).empty();
+		 		  $( "#alertBaseTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all Base metals record for the date '"+date+"'?</p>" );
+				 }); 
+			$("#filter").click(function () {
+            	
+            	getFilterData();
+               });    
+		   });// end document ready
 		   
 	 function Edit(row, event) {
 				
@@ -606,7 +689,7 @@
 			    
 			    
 			    function Update(row, event) {
-				   
+				   debugger;
 				   isupdate=true;
 				   var dataToBeUpdated = [];
 				   var updatedData = $("#preciousAuditGrid").jqxGrid('getrowdata', row);
@@ -619,27 +702,28 @@
 					   "platinum":updatedData.platinum,
 				     };
 				     
-                    var keys=["france","germany","italy","spain","uk","usa"];
-                    var updatedCountriesJson=[];
+                    var keys=["gold","silver","platinum"];
+                    var updatedMetalsJson=[];
                     for (let i = 0; i < keys.length; i++) {
 	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
-                          updatedCountriesJson.push({"factor": updatedDataJson.factor.replace("yr",""),
-												 "country":	getCountryDbDescription(keys[i])});
+                          updatedMetalsJson.push({"assetId": 2,
+												  "value": keys[i].toUpperCase()});
+									  
 	                }
                     
 					dataToBeUpdated.push({
 	         			   "subgroupId":"1",
-	         			   "value":updatedData.gold,
+	         			   "value":updatedData.gold.replaceAll(',',''),
 	         			   "referdate": date
 	         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"3",
-		         			   "value":updatedData.platinum,
+		         			   "value":updatedData.platinum.replaceAll(',',''),
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"2",
-		         			   "value":updatedData.silver,
+		         			   "value":updatedData.silver.replaceAll(',',''),
 		         			   "referdate": date
 		         			});
 						
@@ -654,7 +738,7 @@
 		      	    	        timeout: 600000,
 		      	    	        success: function (data) {
 			  
-		                          //  updateRobotNewsOnChangeColumns(updatedCountriesJson);
+		                             updateRobotNewsOnChangeColumns(updatedMetalsJson);
 		                          
 		      	    	        	  delete auditGridSource.localdata;   
 				    				     auditGridSource.url='/metals/getpreciousauditdata/'+date;
@@ -680,7 +764,7 @@
 			    }
 			    
 			    function UpdateBase(row, event) {
-				   
+				   debugger;
 				   isupdate=true;
 				   var dataToBeUpdated = [];
 				   var updatedData = $("#baseAuditGrid").jqxGrid('getrowdata', row);
@@ -694,32 +778,32 @@
 					   "lumber":updatedData.lumber
 				     };
 				     
-                  /*  var keys=["copper","aluminum","steel","lumber"];
-                    var updatedCountriesJson=[];
+                    var keys=["copper","aluminum","steel","lumber"];
+                    var updatedMetalsJson=[];
                     for (let i = 0; i < keys.length; i++) {
 	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
-                          updatedCountriesJson.push({"factor": updatedDataJson.factor.replace("yr",""),
-												 "country":	getCountryDbDescription(keys[i])});
+                          updatedMetalsJson.push({"assetId": 2,
+												  "value": keys[i].toUpperCase()});
 	                }
-                    */
-					dataToBeUpdated.push({
+                   
+					    dataToBeUpdated.push({
 	         			   "subgroupId":"1",
-	         			   "value":updatedData.copper,
+	         			   "value":updatedData.copper.replaceAll(',',''),
 	         			   "referdate": date
 	         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"2",
-		         			   "value":updatedData.aluminum,
+		         			   "value":updatedData.aluminum.replaceAll(',',''),
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"3",
-		         			   "value":updatedData.steel,
+		         			   "value":updatedData.steel.replaceAll(',',''),
 		         			   "referdate": date
 		         			});
 						dataToBeUpdated.push({
 		         			   "subgroupId":"4",
-		         			   "value":updatedData.lumber,
+		         			   "value":updatedData.lumber.replaceAll(',',''),
 		         			   "referdate": date
 		         			});
 		      	       	  $.ajax({
@@ -733,14 +817,14 @@
 		      	    	        timeout: 600000,
 		      	    	        success: function (data) {
 			  
-		                          //  updateRobotNewsOnChangeColumns(updatedCountriesJson);
+		                           		 updateRobotNewsOnChangeColumns(updatedMetalsJson);
 		                          
-		      	    	        		    delete auditBaseGridSource.localdata;   
-					    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
-					    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
-					    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+	      	    	        		     delete auditBaseGridSource.localdata;   
+				    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
+				    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
+				    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
 		      						 
-		      						//getFilterData();
+		      						getFilterData();
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -780,7 +864,7 @@
 			             url : "/metals/deletepreciousbyreferdate/" + date,
 			             success: function (result) {   
 				    getPreciousAuditGridSource();  
-					//getFilterData();  
+					getFilterData();  
 			        $('#alertDeleteDataByDate-modal').modal('hide');
 
  					$( "#successDelete" ).empty();
@@ -794,19 +878,42 @@
 			         });
 				
 				}
+				    function deleteBaseDataByDate()
+				{
+					$('#alertDeleteBaseDataByDate-modal').modal('hide'); 
+					date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				    
+			     $.ajax({
+			             type : "DELETE",
+			             url : "/metals/deletebasebyreferdate/" + date,
+			             success: function (result) {   
+				    getBaseAuditGridSource();  
+					getFilterData();  
+			        $('alertDeleteBaseDataByDate-modal').modal('hide');
+
+ 					$( "#successDelete" ).empty();
+		 		    $( "#successDelete" ).append( "<p> All record for the date '"+date+"' has been deleted</p>" );
 				
+					$('#alertInfoDeleteDataByDate-modal').modal('show');  
+			             },
+			             error: function (e) {
+			                 console.log(e);
+			             }
+			         });
+				
+				}
 				function getPreciousAuditGridSource(){
 				
 					 $.ajax({
 			    	        contentType: "application/json",
-			    	        url: "/bourse/getlatestprecious",
+			    	        url: "/metals/getlatestprecious",
 			    	        dataType: 'text',
 			    	        async:true,
 			    	        cache: false,
 			    	        timeout: 600000,
 			    	        success: function (response) {
-			    	        	
-			    	        	$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
+			    	        	if(response!='')
+			    	        	  {$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
 			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
 			    	        	    
 			    				    filterDate=date;
@@ -814,6 +921,7 @@
 						    				     auditGridSource.url='/metals/getpreciousauditdata/'+date;
 						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 						    					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
+			    	   			   }
 			    	        },
 			    	        error: function (e) {
 			    	        	
@@ -823,3 +931,196 @@
 			    	    });
 			
 			}
+			
+				function getBaseAuditGridSource(){
+				
+					 $.ajax({
+			    	        contentType: "application/json",
+			    	        url: "/metals/getlatestbase",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function (response) {
+			    	        	if(response!='')
+			    	        	 {$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
+			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
+			    	        	    
+			    				    filterDate=date;
+						    	    delete auditBaseGridSource.localdata;   
+				    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
+				    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
+				    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+			    	        	}
+			    	        },
+			    	        error: function (e) {
+			    	        	
+								  console.log("ERROR : ", e);
+			
+			    	        }
+			    	    });
+			
+			}
+		  function getFilterData()
+		  {
+          	var SelectedSearchDTO=[];
+          	var allItems=0;
+          	var checkedItem=[];
+          	var json;
+          	var precious=[];
+          	var base=[];
+            $('#grid').jqxGrid({ showdefaultloadelement: true}); 
+          	var itemPrecious = 0;
+          	var itemBase = 0;
+            
+         	for (i = 0; i < metalsPreciousItem.length; i++) {
+         		if($(metalsPreciousItem[i]).jqxCheckBox('checked'))
+         		{		
+         		    precious.push(metalsPreciousItem[i].split("Box")[1].toUpperCase());	
+          			itemPrecious=1;
+          			allItems=allItems+1;
+          			checkedItem.push(metalsPreciousItem[i]);
+         		}
+          	}
+         	
+          	if(itemPrecious!=0)
+          	{
+          		SelectedSearchDTO.push({
+          		   "groupId":"1",
+       			   "selectedValues":precious,
+       			});
+          		 precious=[];
+          	}
+          	
+        	for (i = 0; i < metalsBaseItem.length; i++) {
+         		if($(metalsBaseItem[i]).jqxCheckBox('checked'))
+         		{		
+         		    base.push(metalsBaseItem[i].split("Box")[1].toUpperCase());	
+          			itemBase=1;
+          			allItems=allItems+1;
+          			checkedItem.push(metalsBaseItem[i]);
+         		}
+          	}
+         	
+          	if(itemBase!=0)
+          	{
+          		SelectedSearchDTO.push({
+          		   "groupId":"2",
+       			   "selectedValues":base,
+       			});
+          		 base=[];
+          	}
+        	
+          	if(allItems!=0)
+          	{
+          	json={"selectedSearchDTOlst":SelectedSearchDTO,
+       		       "fromDate":$.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'),  'yyyy-MM-dd'),
+       		       "toDate":$.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'),  'yyyy-MM-dd')
+       		       };
+       		       
+          	if (allItems <= 9)
+        	{
+            $.ajax({
+    	    	        type: "POST",
+    	    	        contentType: "application/json",
+    	    	        url: "/metals/getgriddata",
+    	    	        data: JSON.stringify(json),
+    	    	        dataType: 'json',
+    	    	        async:true,
+    	    	        cache: false,
+    	    	        timeout: 600000,
+    	    	        success: function (data) {
+    	    	        	 delete source.url;
+    	    	             source.localdata=data.rows;
+	    	    	         dataAdapter = new $.jqx.dataAdapter(source);
+	    	    	         $('#grid').jqxGrid('hideloadelement');
+	    	    	         
+	    	    	         for(i=0; i<data.columns.length;i++)
+	    	    	         {  if(data.columns[i].datafield=="refer_date")
+	    	    	           { 
+	    	    	        	 data.columns[i].cellsformat='dd-MMM-yyyy'; 
+	    	    	           break;
+	    	    	           }
+	    	    	         }
+	  						 $('#grid').jqxGrid({source:dataAdapter,
+	  							                 columns: data.columns});
+	  						 
+	  						var filterHistory = { 
+			   		        	  "filterHistory":checkedItem.toString(),
+			   		        	  "screenName":"DATABASE_INPUT_SCREEN_METALS"
+			   	     			   };
+	  					   $.ajax({
+			  	       	        type: "POST",
+		     	    	        contentType:  "application/json; charset=utf-8",
+		     	    	        url: "/bourse/savedataentryfilterhistory",
+		     	    	        data: JSON.stringify(filterHistory),
+		     	    	        dataType: 'json',
+		     	    	        timeout: 600000,
+		     	    	        success: function (response) {
+		     	    	        	    
+		     	                  },
+		     	    	        error: function (e) {
+		     	    	        	
+		     						  console.log("ERROR : ", e);
+		     	
+		     	    	        }
+		     	    	    });	
+    	   },
+    	    	        error: function (e) {
+    	    	        	
+    						  console.log("ERROR : ", e);
+    	
+    	    	        }
+    	    	    });
+        	    }
+               	else {
+               		$('#alertFiltterMax-modal').modal('show');
+              	    $('#grid').jqxGrid('hideloadelement');
+               	}
+          	}
+          	else
+          	{
+          		$('#alertFiltter-modal').modal('show');
+          	    $('#grid').jqxGrid('hideloadelement');
+          	}
+		  }
+		  
+	  	function triggerRobots()
+		{
+			 $.ajax({
+		       	        contentType:  "application/json; charset=utf-8",
+		    	        url: "/robot/callrobotsasync/2",
+		    	        dataType: 'json',
+		    	        timeout: 600000,
+		    	        async:true,
+		    	        success: function (response) {
+		    	        	
+		                  },
+		    	        error: function (e) {
+		    	        	
+							  console.log("ERROR : ", e);
+		
+		    	        }
+		    	    });	
+		}	
+
+	function updateRobotNewsOnChangeColumns(ArrayOfColumns)
+	{	
+		 $.ajax({
+       	            type: "POST",
+  	    	        contentType: "application/json",
+  	    	        url: "/robot/updaterobotnewsonchangecolumns",
+  	    	        data: JSON.stringify(ArrayOfColumns),
+	    	        dataType: 'json',
+	    	        timeout: 600000,
+	    	        async:true,
+	    	        success: function (response) {
+	    	        	
+	                  },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });	
+	}  

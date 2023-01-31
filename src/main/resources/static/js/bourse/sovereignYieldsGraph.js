@@ -29,7 +29,7 @@ var markerSize=0;
 var showGrid=true;
 var showLegend='legendtrue';
 var chartTransparency = 0;
-
+var functionId=-1;
 
 var allitems = ["#jqxCheckBoxUSA-30",
 	"#jqxCheckBoxUSA-10",
@@ -124,6 +124,32 @@ $(document).ready(function() {
 	 $("#dropDownFunctions").jqxDropDownList({dropDownHeight: 280,  source: functionDataAdapter, placeHolder: "Select a Function",  displayMember: "name",valueMember: "value", theme: 'dark' , width: 200, height: 25});
 	 $("#reset").click(function() {
 		 $("#dropDownFunctions").jqxDropDownList({selectedIndex: -1});
+	});
+	$('#dropDownFunctions').on('change', function (event)
+	{     
+	    var args = event.args;
+	    if (args) {
+	    // index represents the item's index.                      
+	    var index = args.index;
+	    
+	   if(functionId>-1 && checkedItem==1)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+	    
+		   functionId=index;
+		   drawGraph();
+	 } 
 	});
 	
 	$.ajax({
@@ -1295,8 +1321,6 @@ function drawGraph() {
 	$("#mainChart").css("display", "block");
 	var MovingAverageTypeIfSelected =  '';
 	
-	var functionId = '';
-	
 	if (checkDateMonth(monthDate, date)) {
 		$("#button-monthForward").prop('disabled', false);
 	}
@@ -1714,6 +1738,220 @@ function drawGraph() {
 			}
 		});
 	}
+	else 
+	    if (functionId!=-1)
+		{
+				for (i = 0; i < checkedItemid.length; i++) {
+				if (checkedItemid[i] != null)
+					checkedItemValues.push(checkedItemid[i]);
+			}
+		dataParam = { 
+	        		"fromdate":fromdate,
+	        	    "todate":todate,
+	        	    "period":"d",
+	        	    "type": type,
+	        	    "factor1": itemValue[checkedItemValues[0]].factor,
+	        	    "country1":itemValue[checkedItemValues[0]].country,
+	        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+	        	    "isFunctionGraph":true,
+					"functionId":functionId+1
+     			   };
+
+			if (checkedItemValues.length > 1)
+				title = itemValue[checkedItemValues[0]].title + " vs " + itemValue[checkedItemValues[1]].title
+			else
+				title = itemValue[checkedItemValues[0]].title
+
+			disableOptions(true);
+			$.ajax({
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				url: "/bourse/getgraphdatabytype",
+				data: JSON.stringify(dataParam),
+				dataType: 'json',
+				timeout: 600000,
+				success: function(response) {
+					startDateF1 = response[0].config.startDate;
+					startDateF2 = response[1].config.startDate;
+
+					if (startDateF1 != null)
+						startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
+					if (startDateF2 != null)
+						startDateF2 = new Date(startDateF2.split("-")[1] + "-" + startDateF2.split("-")[0] + "-" + startDateF2.split("-")[2]);
+					var dates = [];
+
+					T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
+					T2 = response[1].config.displayDescription == null ? itemValue[checkedItemValues[1]].title : response[1].config.displayDescription;
+					title = T1 + " vs " + T2;
+					if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
+						if (response[0].config.yAxisFormat.includes("%")) {
+							isdecimal = false;
+							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+								yaxisformat = response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+							else
+								yaxisformat = 0;
+						}
+						else {
+							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+								yaxisformat = response[0].config.yAxisFormat.split(".")[1].length
+							else
+								yaxisformat = 0
+
+							isdecimal = true;
+						}
+					}
+					else
+						yaxisformat = 3;
+
+					var getFormatResult0 = getFormat(response[0].config.dataFormat);
+					var getFormatResult1 = getFormat(response[1].config.dataFormat);
+
+					chartDbFontSize = response[0].config.chartSize;
+					fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
+					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
+					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+		
+				chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+
+					var dbchartType1 = response[0].config.chartType;
+					chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
+
+					var dbchartType2 = response[1].config.chartType;
+					chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
+
+					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
+						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+							return item.y;
+						}));
+					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
+						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+							return item.y;
+						}));
+
+					min = Math.min(min1, min2);
+					max = Math.max(max1, max2);
+					minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
+					maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
+					 var value1 = getlength(min1)>=3?10:0.1; 
+										var value2 = getlength(min2)>=3?10:0.1; 
+										
+					      	    	    	chart.updateOptions({
+					      	    	    	  extra:{
+													isDecimal: isdecimal,
+													yAxisFormat:yaxisformat,
+												},
+												 colors: ["#FFFFFF", "#FF0000"],
+					      	    	    		 markers: {
+					      	    	    		   colors: ["#FFFFFF", "#FF0000"],
+					      	    	    		   strokeColors:["#FFFFFF", "#FF0000"]
+					      	    	    		 },
+					     				       yaxis: [{
+														 labels: {
+						     				    		 minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-value1 : Math.abs(min1)-value1,
+					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+value1 : Math.abs(max1)+value1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: "#FFFFFF",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 },
+														{
+ 													  opposite: true,
+						     				    	  labels: {
+						     				    		 minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-value2 : Math.abs(min2)-value2,
+					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+value2 : Math.abs(max2)+value2,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: "#FF0000",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 }],
+												  tooltip: {
+													  x: {
+					    						          show: false,
+					    						      },
+					    							  y: {
+					    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+					    									  if(seriesIndex == 0)
+												  				{
+												  				if (getFormatResult0[1])
+												  				  return  value.toFixed(getFormatResult0[0]);
+												  				else 
+												  				  return  value.toFixed(getFormatResult0[0]) + "%";
+												  				}else 
+												  					 if(seriesIndex == 1){
+												  					  if (getFormatResult1[1])
+												  						  return  value.toFixed(getFormatResult1[0]);
+												  						else 
+												  							 return  value.toFixed(getFormatResult1[0]) + "%";
+												  					 }
+					    								    },
+					    								    title: {
+					    							              formatter: (seriesName) => '',
+					    							          },
+					    					      },
+					    						}
+				      	    	    		}); 
+					chart.updateSeries([{
+						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
+						type:Period=='d' ? chartType1 : 'column',
+						data: response[0].graphResponseDTOLst
+					}, {
+						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
+						type:Period=='d' ? chartType2 : 'column',
+						data: response[1].graphResponseDTOLst
+					}])
+					$('#overlayChart').hide();
+				},
+				error: function(e) {
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+		/*	graphHistory = {
+				"screenName": "precious",
+				 "parameter": "[" + JSON.stringify(checkedItemValues) + "," + "[" + JSON.stringify(Period) + "]"+ ",["+JSON.stringify('')+"]," + "[" + JSON.stringify(type) + "]]"
+			};
+
+			$.ajax({
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				url: "/bourse/savegraphhistory",
+				data: JSON.stringify(graphHistory),
+				dataType: 'json',
+				timeout: 600000,
+				success: function(response) {
+				},
+				error: function(e) {
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+*/
+		} 
 	else
 		if (checkedItem == 2) {
 			for (i = 0; i < checkedItemid.length; i++) {
@@ -2365,7 +2603,7 @@ function drawGraph() {
 						"factor1": itemValue[checkedItemValues[0]].factor,
 						"country1": itemValue[checkedItemValues[0]].country,
 						"yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
-						"isFunctionGraph":functionId==''?false:true,
+						"isFunctionGraph":functionId=='-1'?false:true,
 						"functionId":functionId
 					};
 					disableOptions(false);
@@ -2377,7 +2615,7 @@ function drawGraph() {
 						dataType: 'json',
 						timeout: 600000,
 						success: function(response) {
-						 if(functionId!='')
+						 if(functionId!='-1')
 							{
 						
 		      	    	        	startDateF1=response[0].config.startDate;

@@ -1,5 +1,6 @@
 package com.bourse.repositories;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -14,14 +15,8 @@ public interface NewsFunctionRepository extends JpaRepository<NewsFunction, Long
 
 	public Optional<NewsFunction> findById(Long id);
 
-	  @Transactional
-	  @Modifying
-	  @Query("Update NewsFunction set isVisible=1")
-	 void showGeneratedNews();
-	  
-	  @Transactional
-	  @Modifying
-	  @Query("Update NewsFunction set isPublished=1")
-	  public void publishNews();
+	  public List<NewsFunction> findAllByAssetIdAndIsPublished(String assetId, String isPublished);
+
+	  public List<NewsFunction> findAllByAssetIdAndIsVisible(String assetId, String isVisible);
 	 
 }

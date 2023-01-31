@@ -3,9 +3,7 @@ package com.bourse.domain;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.SequenceGenerator;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.GenericGenerator;
@@ -38,5 +36,6 @@ public class NewsOrder {
     private String robotCode ;
 	private String orderId;
 	private String state;
+	private int assetId;
 }
 

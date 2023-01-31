@@ -111,6 +111,19 @@ div#pagergrid {
  cursor:pointer;
  color: #ffc9c9;
 }
+.card-header {
+    padding: 0;
+    margin-bottom: 0;
+    color: #ffffff!important;
+    background-color: #ff0000;
+    border-color: #ff0000!important;
+    font-weight: bold;
+}
+.btn-link:hover {
+    color: #a40404;
+    text-decoration: underline;
+    box-shadow: none!important;
+}
   </style>
 </head>
 
@@ -129,28 +142,26 @@ div#pagergrid {
         <div class="col-12 row mt-2">
                    
                     <div class="btn-group col-7 mb-2 pl-0 justify-content-end" >
-	                    <div id='IsImportant' class="t-style" style='color: white;
-	                  												 margin-top:0.5rem;
-																	 position: absolute;
-																   	 line-height: 25px;
-																	 z-index: 100;'>
-	                                    Show only important news</div>
-	                                      <div id="grid"></div>
+	                                    
+	                    <div id="assetGrid" style="width: 100%;">
+						 
+						</div>                    
 	                                    
                     </div>
+                  
                    <div class="col-5 mb-2 p-0" role="group" aria-label="Second group">
                       <div class="col-12 row p-0 m-0">
-						 <div class="col-4 p-0">
+						 <div class="col p-0">
 						 <label class="t-style">Select Asset Class:&nbsp</label>
 							<div id='FamilyDropDown' style='border-radius: 0.2rem;'>
 							</div>
 							</div>
-							<div class="col-5 pr-0">
+							<div class="col pr-0">
 						<label class="t-style">&nbspSelect Group:&nbsp</label>
 							<div id='groupDropDown'  style='border-radius: 0.2rem;'>
 							</div>
 							</div>
-							<div class="col-3">
+							<div class="col">
 						<label class="t-style">&nbspSelect Sub Group:&nbsp</label>
 							<div id='subGroupDropDown'  style='border-radius: 0.2rem;'>
 							</div>

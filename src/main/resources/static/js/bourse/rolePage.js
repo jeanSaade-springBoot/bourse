@@ -313,7 +313,7 @@ function Edit(row, event) {
 			    	$("#grid").jqxGrid('endrowedit', row, true);
 			 }
 function UpdateUserRole(row)
-{    debugger;
+{    
 	 $("#grid").jqxGrid('endrowedit', row);
 	   var updatedData = $("#grid").jqxGrid('getrowdata', row);
 	   var dataParam = {userId:updatedData.id,

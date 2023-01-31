@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.SovereignData;
+import com.bourse.domain.TmpAuditBase;
 import com.bourse.domain.TmpAuditPrecious;
 import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.UpdateDataDTO;

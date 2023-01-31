@@ -7182,7 +7182,7 @@
 			return a(t, [{
 				key: "drawYaxis",
 				value: function (t) {
-					debugger;
+					
 					var e = this,
 						i = this.w,
 						a = new b(this.ctx),

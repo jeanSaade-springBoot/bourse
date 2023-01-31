@@ -244,6 +244,12 @@ input {
 .textfield-outlined > input:disabled:placeholder-shown + label::after {
   border-top-color: transparent !important;
 }
+
+input:-webkit-autofill + label {
+  -webkit-transform-origin: 0 0;
+  transform-origin: 0 0;
+}
+
 .terms-content{
   height:450px;
   overflow:auto;

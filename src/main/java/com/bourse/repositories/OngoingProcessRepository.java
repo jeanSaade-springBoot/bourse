@@ -17,4 +17,6 @@ public interface OngoingProcessRepository  extends JpaRepository<OngoingProcess,
 	public OngoingProcess findTopByMustBeTrigger(boolean value);
 
 	public OngoingProcess findTopByStatus(boolean value);
+
+	public OngoingProcess findTopByMustBeTriggerAndAssetId(boolean value, int assetId);
 }

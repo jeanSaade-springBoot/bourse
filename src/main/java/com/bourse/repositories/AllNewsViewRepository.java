@@ -22,4 +22,10 @@ public interface AllNewsViewRepository extends JpaRepository<AllNewsView, Long> 
 	
 	@Query("select a from AllNewsView a where a.isPublished='1' and a.description LIKE CONCAT('%',:subGroupIdDescription,'%')")
 	List<AllNewsView> findAllNewsByDescription(@Param("subGroupIdDescription") String subGroupIdDescription);
+
+	List<AllNewsView> findByAssetId(String assetId);
+
+	List<AllNewsView> findByIsPublishedAndAssetId(String string, String assetId);
+
+	List<AllNewsView> findByIsPublishedAndIsBoldAndAssetId(String string, String isBold, String assetId);
 }

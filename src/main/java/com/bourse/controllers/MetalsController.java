@@ -1,5 +1,6 @@
 package com.bourse.controllers;
 
+import java.util.HashMap;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,8 +18,18 @@ import com.bourse.domain.BaseMetals;
 import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditBase;
 import com.bourse.domain.TmpAuditPrecious;
+import com.bourse.dto.DataFunctionReqDTO;
+import com.bourse.dto.DataFunctionRespDTO;
+import com.bourse.dto.GraphReqDTO;
+import com.bourse.dto.GraphRequestDTO;
+import com.bourse.dto.GraphResponseColConfigDTO;
+import com.bourse.dto.MainSearchFilterDTO;
+import com.bourse.dto.MetalsDataFunctionReqDTO;
+import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.service.BaseMetalsService;
+import com.bourse.service.DataFunctionService;
+import com.bourse.service.MetalsService;
 import com.bourse.service.PerciousMetalsService;
 
 @RestController
@@ -29,14 +40,21 @@ public class MetalsController {
 	private final PerciousMetalsService perciousMetalsService;
 	@Autowired
 	private final BaseMetalsService baseMetalsService;
-	
+	@Autowired
+	private final MetalsService metalsService;
+	@Autowired
+	private final DataFunctionService dataFunctionService;
 	
 	public MetalsController(
 			PerciousMetalsService perciousMetalsService,
-			BaseMetalsService baseMetalsService)
+			BaseMetalsService baseMetalsService,
+			MetalsService metalsService,
+			DataFunctionService dataFunctionService)
 	{
 		this.perciousMetalsService   = perciousMetalsService;
 		this.baseMetalsService = baseMetalsService;
+		this.metalsService = metalsService;
+		this.dataFunctionService = dataFunctionService;
 	}
 	@GetMapping(value = "checkifcansaveprecious/{referDate}")
 	public ResponseEntity<Boolean> CheckIfCanSavePrecious(@PathVariable String referDate) 
@@ -111,5 +129,20 @@ public class MetalsController {
 		baseMetalsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
-	
+	@PostMapping(value = "getgriddata")
+	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody MainSearchFilterDTO mainSearchFilterDTO) {
+		return new ResponseEntity<>(metalsService.getGridData(mainSearchFilterDTO),HttpStatus.OK);
+	}
+	@PostMapping(value = "getgraphdata")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphData(@RequestBody  GraphRequestDTO graphReqDTO) {
+	return new ResponseEntity<>(metalsService.getGraphData(graphReqDTO),HttpStatus.OK);
+	} 
+	@PostMapping(value = "getgraphdatabytype")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
+	return new ResponseEntity<>(metalsService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
+	} 
+	@PostMapping(value = "getgriddatafunction")
+	public ResponseEntity<List<DataFunctionRespDTO>> getGridDataFunction(@RequestBody MetalsDataFunctionReqDTO dataFunctionReqDTO) {
+		return new ResponseEntity<>(dataFunctionService.getGridMetalsDataFunction(dataFunctionReqDTO),HttpStatus.OK);
+	}
 }

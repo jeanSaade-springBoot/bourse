@@ -819,7 +819,7 @@ public class SovereignYieldsService
 				String subGroupId =  graphReqDTO.getCountry1(); 
 				String description = SubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
 				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
-				fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getMovingTwoHundereOrOneHundred().equals("M100")?"1":"2");
+				fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getFunctionId());
 				config = ColumnConfiguration.builder()
 						.chartColor(fConfig.getChartColor()==null?"#F0AB2E":fConfig.getChartColor())
 						.chartShowgrid(fConfig.getChartShowgrid())
@@ -835,11 +835,7 @@ public class SovereignYieldsService
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
-			    if(graphReqDTO.getMovingTwoHundereOrOneHundred().equals("M100"))
-				    graphReqDTO.setType("4");
-				    else 
-				    	graphReqDTO.setType("5");
-				
+
 			}
 				
 			if(graphReqDTO.getYieldCurveCross1().equals("cross"))
@@ -849,7 +845,7 @@ public class SovereignYieldsService
 				String subGroupId =  graphReqDTO.getCountry1(); 
 				String description = CrossCountryEnum.getCrossByID(Integer.valueOf(graphReqDTO.getCountry1()))+"-"+graphReqDTO.getFactor1().replace("yr", "");
 				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
-				fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getMovingTwoHundereOrOneHundred().equals("M100")?"1":"2");
+				fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getFunctionId());
 				config = ColumnConfiguration.builder()
 						.chartColor(fConfig.getChartColor()==null?"#F0AB2E":fConfig.getChartColor())
 						.chartShowgrid(fConfig.getChartShowgrid())
@@ -865,10 +861,7 @@ public class SovereignYieldsService
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
-			    if(graphReqDTO.getMovingTwoHundereOrOneHundred().equals("M100"))
-			    graphReqDTO.setType("4");
-			    else 
-			    	graphReqDTO.setType("5");
+			   
 			}
 			
 			functionQuery.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);

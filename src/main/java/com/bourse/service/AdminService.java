@@ -233,8 +233,8 @@ public class AdminService
 		String isPublished = "1";
 		return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
 		}
-	public List<AllNewsView> getNewsByImportance(String isBold){
-		return allNewsViewService.findByIsPublishedAndIsBold(isBold);
+	public List<AllNewsView> getNewsByImportance(String isBold, String assetId){
+		return allNewsViewService.findByIsPublishedAndIsBold(isBold,assetId);
 		
 	}
 	public List<AllNewsView> findNewsByGroupIdAndSubgroupId(String groupId, String subGroupId) {
@@ -243,14 +243,14 @@ public class AdminService
 	public List<AllNewsView>  findAllNewsByGroupIdAndSubgroupId(String subGroupIdDescription) {
 		return allNewsViewService.findAllNewsBySubGroupIdDescription(subGroupIdDescription.substring(0, 2));
 	}
-	public List<AllNewsView> findByIsPublishedFormatedDate(){
-		return allNewsViewService.findByIsPublishedFormatedDate();
+	public List<AllNewsView> findByIsPublishedFormatedDate(String assetId){
+		return allNewsViewService.findByIsPublishedFormatedDate(assetId);
 	}
-	public List<AllNewsView> getAllNews(){
+	public List<AllNewsView> getAllNews(String assetId){
 		boolean hasData= getData();
 		if(!hasData)
 			return null;
-		return allNewsViewService.getAllNews();
+		return allNewsViewService.getAllNews(assetId);
 	}
 	public void deleteNews(long id, String isFunctionNews)
 	{  if (isFunctionNews.equalsIgnoreCase("0"))
@@ -278,6 +278,7 @@ public class AdminService
 				          .columnDescription(news.getColumnDescription())
 				          .isPublished(news.getIsPublished())
 				          .isVisible(news.getIsVisible())
+				          .assetId(news.getAssetId())
 				          .build();
 		
         return newsRepository.save(newsInstance);
@@ -297,6 +298,7 @@ public class AdminService
 									  .template(savedFunctionNews.getTemplate())
 									  .robots(savedFunctionNews.getRobots())
 									  .isVisible(savedFunctionNews.getIsVisible())
+									  .assetId(news.getAssetId())
 									  .build();
 			 return updatedNews;
         }
@@ -307,17 +309,23 @@ public class AdminService
 		  manualNewsService.saveManualNews(String. valueOf(savedNews.getId()));
 		  return savedNews;
 	}
-	 public List<NewsOrder> getActiveNewsOrder(){
+	 public List<NewsOrder> getActiveNewsOrder(String assetId){
 	    	
-	    	return newsOrderRepository.getActiveNewsOrder();
+	    	return newsOrderRepository.getActiveNewsOrder(assetId);
 	    }
 
 	public void UpdateNewsOrder(NewsOrderDTO newsOrderDTOLst) {
-	//	newsOrderRepository.deleteByListOfId(newsOrderDTOLst.getListid());
-		newsOrderRepository.deleteAll();
+	    deleteByListOfId(newsOrderDTOLst.getListid());
+		//newsOrderRepository.deleteAllByAssetId(Integer.valueOf(newsOrderDTOLst.getAssetId()));
 		newsOrderRepository.saveAll(newsOrderDTOLst.getNewsOrderList());
 	}
-
+    private void deleteByListOfId(Long[] listid) {
+		for (Long id: listid)
+		{
+			newsOrderRepository.deleteById(id);
+		}
+	}
+	
 	public boolean getData()
 	{   boolean hasData = true;
 	    String value = columnConfigurationRepository.findById((long) 1).get().getStatus();

@@ -115,6 +115,7 @@ function graphTypeOption(chartType)
     chartColor='#'+$("#chartColor").find(".active")[0].id;
 	activateChartTrasnparency(chartType);
 	activateChartMarker(chartType);
+	var value = getlength(minvalue)>=3?10:0.1; 
 if (chartType=='area')
     		chart.updateOptions({
 	  xaxis: {
@@ -148,8 +149,8 @@ if (chartType=='area')
 			        	 }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
     			  axisBorder: {
 	                  width: 3,
 	                  show: true,
@@ -213,8 +214,8 @@ if (chartType=='area')
 			        	 }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
     			  axisBorder: {
 	                  width: 3,
 	                  show: true,
@@ -243,6 +244,7 @@ function chartColorOption(selectedChartColor)
 chartColor=selectedChartColor;
 chartType=$("#chartTypes").find(".active")[0].id;
 chartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
+var value = getlength(minvalue)>=3?10:0.1; 
 if (chartType=='area')
     		chart.updateOptions({
 	  xaxis: {
@@ -276,8 +278,8 @@ if (chartType=='area')
 			        	 }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
     			  axisBorder: {
 	                  width: 3,
 	                  show: true,
@@ -369,6 +371,8 @@ function chartTransparencyOption(selectedChartTransparency)
 chartTransparency=selectedChartTransparency;
 chartType=$("#chartTypes").find(".active")[0].id;
 chartColor='#'+$("#chartColor").find(".active")[0].id;
+var value = getlength(minvalue)>=3?10:0.1; 
+
 if (chartType=='area')
     		chart.updateOptions({
 	  xaxis: {
@@ -402,8 +406,8 @@ if (chartType=='area')
 			        	 }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
     			  axisBorder: {
 	                  width: 3,
 	                  show: true,
@@ -496,6 +500,8 @@ markerSize = selectedChartMarker;
 chartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
 chartType=$("#chartTypes").find(".active")[0].id;
 chartColor='#'+$("#chartColor").find(".active")[0].id;
+var value = getlength(minvalue)>=3?10:0.1; 
+
 if (chartType=='area')
     		chart.updateOptions({
 	  xaxis: {
@@ -529,8 +535,8 @@ if (chartType=='area')
 			        	 }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
     			  axisBorder: {
 	                  width: 3,
 	                  show: true,
@@ -625,6 +631,7 @@ showGrid=selectedChartGrid;
 chartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
 chartType=$("#chartTypes").find(".active")[0].id;
 chartColor='#'+$("#chartColor").find(".active")[0].id;
+var value = getlength(minvalue)>=3?10:0.1; 
 if (chartType=='area')
     		chart.updateOptions({
 	  xaxis: {
@@ -658,8 +665,8 @@ if (chartType=='area')
 			        	 }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
     			  axisBorder: {
 	                  width: 3,
 	                  show: true,
@@ -937,12 +944,17 @@ $('#groupOfPeriod').on('selected', function () {
 	
 	var selected = $('#groupOfPeriod').jqxButtonGroup('getSelection');
 	if (selected==0)
-	 {$("#dropDownType").jqxDropDownList({ disabled: true }); 
+	 {
+		 $("#dropDownType").jqxDropDownList({ disabled: true }); 
+		 $("#dropDownFunctions").jqxDropDownList({ disabled: false }); 
 	  }
     else 
-	{ $("#dropDownType").jqxDropDownList({ disabled: false }); 
+	{ 
+		$("#dropDownType").jqxDropDownList({ disabled: false });
+		$("#dropDownFunctions").jqxDropDownList({selectedIndex: -1}); 
+		$("#dropDownFunctions").jqxDropDownList({ disabled: true }); 
      }
-	 }); 
+}); 
 
 
 

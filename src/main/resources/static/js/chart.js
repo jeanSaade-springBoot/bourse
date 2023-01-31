@@ -121,7 +121,7 @@ var options = {
 
 		}],
 		noData: {
-			text: 'No data In this date range',
+			text: '',
 			align: 'center',
 			verticalAlign: 'middle',
 			offsetX: 0,
@@ -628,8 +628,10 @@ var chartOption = {
    	    	          };
    	    	             	    	          
 function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
-	console.log(fontsize,min1,max1,min2,max2);
+	
 				var Period = $("#DailyRadioButton").val();
+				var value1 = getlength(min1)>=3?10:0.1; 
+				var value2 = getlength(min2)>=3?10:0.1; 
 				if(Period)
 					chart.updateOptions({
 						xaxis: {
@@ -674,8 +676,8 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 						 						        	 }
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-0.1 : Math.abs(min1)-0.1,
-					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+0.1 : Math.abs(max1)+0.1,
+					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-value : Math.abs(min1)-value,
+					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+value : Math.abs(max1)+value,
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
@@ -693,8 +695,8 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 						 						        	 }
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-0.1 : Math.abs(min2)-0.1,
-					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+0.1 : Math.abs(max2)+0.1,
+					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-value2 : Math.abs(min2)-value2,
+					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+value2 : Math.abs(max2)+value2,
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
@@ -746,8 +748,8 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 						 						        	 }
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-0.1 : Math.abs(min1)-0.1,
-					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+0.1 : Math.abs(max1)+0.1,
+					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-value1 : Math.abs(min1)-value1,
+					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+value1 : Math.abs(max1)+value1,
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
@@ -765,8 +767,8 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 						 						        	 }
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-0.1 : Math.abs(min2)-0.1,
-					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+0.1 : Math.abs(max2)+0.1,
+					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-value2 : Math.abs(min2)-value2,
+					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+value2 : Math.abs(max2)+value2,
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
@@ -781,6 +783,7 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 			  	    	             	    	          
 function updateGraphFont(fontsize,minvalue,maxvalue){
 				var Period = $("#DailyRadioButton").val();
+				var value = getlength(minvalue)>=3?10:0.1; 
 				if(Period)
 					chart.updateOptions({
 						xaxis: {
@@ -818,8 +821,8 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 				    	  },
 				         yaxis: [
 					     {  tickAmount: 6,
- 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
- 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+ 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+ 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
 				     	    labels: {
 				        		 minWidth: 75,maxWidth: 75,
 				        		 style: {
@@ -871,8 +874,8 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 				    	  },
 					         yaxis: [{
 						    tickAmount: 6,
- 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
- 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+ 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+ 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
 				     	   	labels: {
 					 				 minWidth: 75,maxWidth: 75,
 					        		 style: {
@@ -1065,3 +1068,7 @@ function getFormat(Format)
 			});
 		      	    	        	 
 }
+
+ function getlength(number) {
+				    return number.toString().split(".")[0].length;
+				} 
