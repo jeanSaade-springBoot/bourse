@@ -863,8 +863,29 @@
 			             type : "DELETE",
 			             url : "/metals/deletepreciousbyreferdate/" + date,
 			             success: function (result) {   
-				    getPreciousAuditGridSource();  
-					getFilterData();  
+					$.ajax({
+		    	        contentType: "application/json",
+		    	        url: "/metals/checkifcansavebase/"+date,
+		    	        dataType: 'json',
+		    	        async:true,
+		    	        cache: false,
+		    	        timeout: 600000,
+		    	        success: function (response) {
+		    	        	if(!response)
+		    	        	{	 delete auditGridSource.localdata;   
+		    				     auditGridSource.url='';
+		    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+		    					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
+		    					 }
+		    	        	else{
+							 getPreciousAuditGridSource();  
+							 }
+		    	        	},
+				             error: function (e) {
+				                 console.log(e);
+				             }
+				         });
+				    getFilterData();  
 			        $('#alertDeleteDataByDate-modal').modal('hide');
 
  					$( "#successDelete" ).empty();
@@ -886,8 +907,30 @@
 			     $.ajax({
 			             type : "DELETE",
 			             url : "/metals/deletebasebyreferdate/" + date,
-			             success: function (result) {   
-				    getBaseAuditGridSource();  
+			             success: function (result) { 
+							 $.ajax({
+		    	        contentType: "application/json",
+		    	        url: "/metals/checkifcansaveprecious/"+date,
+		    	        dataType: 'json',
+		    	        async:true,
+		    	        cache: false,
+		    	        timeout: 600000,
+		    	        success: function (response) {
+		    	        	if(!response)
+		    	        	{	 delete auditBaseGridSource.localdata;   
+		    				     auditBaseGridSource.url='';
+		    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
+		    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+						    }
+		    	        	else{
+							  getBaseAuditGridSource(); 
+							 }
+		    	        	},
+				             error: function (e) {
+				                 console.log(e);
+				             }
+				         });
+							    
 					getFilterData();  
 			        $('alertDeleteBaseDataByDate-modal').modal('hide');
 
@@ -913,14 +956,21 @@
 			    	        timeout: 600000,
 			    	        success: function (response) {
 			    	        	if(response!='')
-			    	        	  {$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
-			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
-			    	        	    
-			    				    filterDate=date;
+			    	        	  {
+									$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
+			    	        	     date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
+			    	        	     
+			    	        	     var dbDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
+									 var systemDate=new Date();
+			    	        	     systemDate.setHours(0,0,0,0);
+			    				  
+										if( dbDate.toDateString() == systemDate.toDateString())
+										 {		filterDate=date;
 						    				    delete auditGridSource.localdata;   
 						    				     auditGridSource.url='/metals/getpreciousauditdata/'+date;
 						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 						    					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
+						    			 }
 			    	   			   }
 			    	        },
 			    	        error: function (e) {
@@ -945,12 +995,18 @@
 			    	        	if(response!='')
 			    	        	 {$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
 			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
-			    	        	    
-			    				    filterDate=date;
-						    	    delete auditBaseGridSource.localdata;   
-				    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
-				    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
-				    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+			    	        	  var dbDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
+								  var systemDate=new Date();
+			    	        	  systemDate.setHours(0,0,0,0);
+			    				  
+								if( dbDate.toDateString() == systemDate.toDateString())
+								 {	  
+			    				     filterDate=date;
+						    	     delete auditBaseGridSource.localdata;   
+			    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
+			    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
+			    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+			    					 }
 			    	        	}
 			    	        },
 			    	        error: function (e) {

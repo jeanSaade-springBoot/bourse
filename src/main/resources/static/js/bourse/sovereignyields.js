@@ -1926,7 +1926,12 @@
 			    	        	
 			    	        	$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
 			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
-			    	        	    
+			    	        	  var dbDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
+								  var systemDate=new Date();
+			    	        	  systemDate.setHours(0,0,0,0);
+			    				  
+								if( dbDate.toDateString() == systemDate.toDateString())
+								 {	     
 			    				    filterDate=date;
 			    				    delete auditGridSource.localdata;
 			    				     auditGridSource.url='/bourse/getauditdata/'+date;
@@ -1942,6 +1947,7 @@
 			    					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
 			    					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
 			    					 $('#crossesGrid').jqxGrid({source:dataAdapter});
+			    					}
 			    	        },
 			    	        error: function (e) {
 			    	        	
