@@ -2055,90 +2055,31 @@ function drawGraph() {
 					minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
 					maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 					 var value1 = getlength(min1)>=3?10:0.1; 
-										var value2 = getlength(min2)>=3?10:0.1; 
+					 var value2 = getlength(min2)>=3?10:0.1; 
 										
-					      	    	    	chart.updateOptions({
-					      	    	    	  extra:{
-													isDecimal: isdecimal,
-													yAxisFormat:yaxisformat,
-												},
-												 colors: ["#FFFFFF", "#FF0000"],
-					      	    	    		 markers: {
-					      	    	    		   colors: ["#FFFFFF", "#FF0000"],
-					      	    	    		   strokeColors:["#FFFFFF", "#FF0000"]
-					      	    	    		 },
-					     				       yaxis: [{
-														 labels: {
-						     				    		 minWidth: 75,maxWidth: 75,
-						 				        		 style: {
-						 						        	  fontSize: fontsize,
-						 						        	 }
-						 				        	  },
-					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-value1 : Math.abs(min1)-value1,
-					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+value1 : Math.abs(max1)+value1,
-					     				    			  axisBorder: {
-					     					                  width: 3,
-					     					                  show: true,
-					     					                  color: "#FFFFFF",
-					     					                  offsetX: 0,
-					     					                  offsetY: 0
-					     					              },
-					     				    			 },
-														{
- 													  opposite: true,
-						     				    	  labels: {
-						     				    		 minWidth: 75,maxWidth: 75,
-						 				        		 style: {
-						 						        	  fontSize: fontsize,
-						 						        	 }
-						 				        	  },
-					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-value2 : Math.abs(min2)-value2,
-					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+value2 : Math.abs(max2)+value2,
-					     				    			  axisBorder: {
-					     					                  width: 3,
-					     					                  show: true,
-					     					                  color: "#FF0000",
-					     					                  offsetX: 0,
-					     					                  offsetY: 0
-					     					              },
-					     				    			 }],
-												  tooltip: {
-													  x: {
-					    						          show: false,
-					    						      },
-					    							  y: {
-					    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-					    									  if(seriesIndex == 0)
-												  				{
-												  				if (getFormatResult0[1])
-												  				  return  value.toFixed(getFormatResult0[0]);
-												  				else 
-												  				  return  value.toFixed(getFormatResult0[0]) + "%";
-												  				}else 
-												  					 if(seriesIndex == 1){
-												  					  if (getFormatResult1[1])
-												  						  return  value.toFixed(getFormatResult1[0]);
-												  						else 
-												  							 return  value.toFixed(getFormatResult1[0]) + "%";
-												  					 }
-					    								    },
-					    								    title: {
-					    							              formatter: (seriesName) => '',
-					    							          },
-					    					      },
-					    						}
-				      	    	    		}); 
-					chart.updateSeries([{
-						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-						type:Period=='d' ? chartType1 : 'column',
-						data: response[0].graphResponseDTOLst
-					}, {
-						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-						type:Period=='d' ? chartType2 : 'column',
-						data: response[1].graphResponseDTOLst
-					}])
+					 	var chartConfigSettings={functionId:functionId+1,
+											 isDecimal:isdecimal,
+											 yAxisFormat:yaxisformat,
+											 fontSize:fontsize,
+											 min1:min1,
+											 max1:max1,
+											 min2:min2,
+											 max2:max2,
+											 min:min,
+											 max:max,
+											 minvalue:minvalue,
+											 maxvalue:maxvalue,
+											 value1:value1,
+											 value2:value2,
+											 chartType1:chartType1,
+											 chartType2:chartType2,
+											 getFormatResult0:getFormatResult0,
+											 getFormatResult1:getFormatResult1,
+											 response:response,
+											 Period:  Period};
+											 	
+					updateChartByFunctionId(chartConfigSettings);	
+					
 					$('#overlayChart').hide();
 				},
 				error: function(e) {

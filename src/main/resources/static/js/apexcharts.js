@@ -7190,7 +7190,7 @@
 						r = s.fontSize,
 						n = s.fontFamily,
 						o = s.fontWeight,
-						w = (t==0)?i.globals.translateYAxisX[t]:i.globals.translateYAxisX[t]-49, // added to fix the 2 y axis  mmn
+						w = (t==0)?i.globals.translateYAxisX[t]:i.globals.translateYAxisX[t]-48, // added to fix the 2 y axis  mmn
 						l = a.group({
 							class: "apexcharts-yaxis",
 							rel: t,
