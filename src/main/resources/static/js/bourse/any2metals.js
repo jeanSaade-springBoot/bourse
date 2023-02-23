@@ -1562,9 +1562,9 @@
 										max=Math.max(max1,max2);
 										minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
 					      	    	    maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-					      	    	     debugger;
-					      	    	    var value1 = getlength(min1)>=3?10:0.1; 
-										var value2 = getlength(min2)>=3?10:0.1; 
+					      	    	     
+					      	    	    var value1 = getMarginLenght(min1); 
+										var value2 = getMarginLenght(min2); 
 										
 					      	    	    	chart.updateOptions({
 					      	    	    	  extra:{
@@ -1901,52 +1901,25 @@
 				      	    	        }));
 				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
 				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-				      	    	     var value = getlength(minvalue)>=3?10:0.1; 
-				      	    	    	chart.updateOptions({
-				      	    	    	  extra:{
-												isDecimal: isdecimal,
-												yAxisFormat:yaxisformat,
-											},
-				     				       yaxis: {
-					     				    	  labels: {
-					     				    		     minWidth: 75,maxWidth: 75,
-						 				        		 style: {
-						 						        	  fontSize: fontsize,
-						 						        	 }
-						 				        	  },
-				     				          tickAmount: 6,
-				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-				     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-				     				    			  axisBorder: {
-				     					                  width: 3,
-				     					                  show: true,
-				     					                  color: '#ffffff',
-				     					                  offsetX: 0,
-				     					                  offsetY: 0
-				     					              },
-				     				    	  },
-			    						  tooltip: {
-			    							  x: {
-			    						          show: false,
-			    						      },
-			    							  y: {
-			    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-			    									  if (getFormatResult[1])
-										  				  return  value.toFixed(getFormatResult[0]);
-										  				else 
-										  				  return  value.toFixed(getFormatResult[0]) + "%";
-			    								    },
-			    								    title: {
-			    							              formatter: (seriesName) => '',
-			    							          },
-			    					      },
-			    						}
-			      	    	    		});
-				      	    	        chart.updateSeries([{
-									          name: response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription,
-									          type: chartType1,
-									          data: response[0].graphResponseDTOLst
-									        }]);
+				      	    	     	var getFormatResult0 = getFormat(response[0].config.dataFormat);
+					       
+							var chartConfigSettings={
+											 isDecimal:isdecimal,
+											 yAxisFormat:yaxisformat,
+											 fontSize:fontsize,
+											 min:min,
+											 max:max,
+											 minvalue:minvalue,
+											 maxvalue:maxvalue,
+											 chartType1:chartType1,
+											 getFormatResult0:getFormatResult0,
+											 response:response,
+											 chartColor:chartColor,
+											 chartTransparency:chartTransparency,
+											 checkedItem:checkedItem};
+							
+							updateChartSelectedItem(chartConfigSettings);
+							
 				      	    	      $('#overlayChart').hide();
 				      	   },
 				      	    	        error: function (e) {
@@ -1984,7 +1957,7 @@
 		  	
 			function graphfont(fontSize){
 				
-		    	if (typeof min1 != 'undefined')
+		    	if (typeof min1 != 'undefined' && checkedItem==2)
 				 updateGraphFont2YAxis(fontSize,min1,max1,min2,max2);
 				 else 
 				 updateGraphFont(fontSize,minvalue,maxvalue);

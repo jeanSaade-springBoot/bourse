@@ -144,9 +144,13 @@
                 }
                 rightButton.click(function () {
                     $("#grid0").jqxGrid('gotonextpage');
+                     let div = document.getElementById("grid0");
+					 div.scrollIntoView(true);
                 });
                 leftButton.click(function () {
                     $("#grid0").jqxGrid('gotoprevpage');
+                     let div = document.getElementById("grid0");
+					 div.scrollIntoView(true);
                 });
                 return element;
             };
@@ -191,9 +195,13 @@
                 }
                 rightButton.click(function () {
                     $("#grid1").jqxGrid('gotonextpage');
+                     let div = document.getElementById("grid1");
+					 div.scrollIntoView(true);
                 });
                 leftButton.click(function () {
                     $("#grid1").jqxGrid('gotoprevpage');
+                    let div = document.getElementById("grid1");
+					div.scrollIntoView(true);
                 });
                 return element;
             };
@@ -481,9 +489,13 @@
                 }
                 rightButton.click(function () {
                     $("#grid_filtered").jqxGrid('gotonextpage');
+                     let div = document.getElementById("grid_filtered");
+					 div.scrollIntoView(true);
                 });
                 leftButton.click(function () {
                     $("#grid_filtered").jqxGrid('gotoprevpage');
+                     let div = document.getElementById("grid_filtered");
+					 div.scrollIntoView(true);
                 });
                 return element;
             };

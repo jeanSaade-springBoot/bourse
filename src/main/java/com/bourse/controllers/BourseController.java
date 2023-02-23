@@ -222,6 +222,11 @@ public class BourseController {
     {
 		return new ModelAndView("html/rolePage");
     }
+	@RequestMapping(value =  "/readexcelwritedb")
+    public ModelAndView dataReadRxcelWritedb(ModelMap model)
+    {
+		return new ModelAndView("html/readExcelWriteDB");
+    }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
 		

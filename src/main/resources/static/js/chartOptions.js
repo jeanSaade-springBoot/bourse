@@ -53,6 +53,12 @@ function disableChartMarker(isdisabled)
     $("#1-1").prop('disabled', isdisabled);
     $("#1-3").prop('disabled', isdisabled);
 }
+function disableChartLegend(isdisabled)
+{
+    $("#legendtrue").prop('disabled', isdisabled);
+    $("#legendfalse").prop('disabled', isdisabled);
+}
+
 function disableChartGrid(isdisabled)
 {
     $("#true").prop('disabled', isdisabled);
@@ -65,14 +71,18 @@ function disableOptions(isdisabled)
 	 disableChartColor(true);
      disableChartColorTransparency(true);
 	 disableChartMarker(true);
-	 disableChartGrid(true)
+	 disableChartGrid(true);
+	 disableChartLegend(true);
+	 
 	}
 	else{
 		disableChartType(false);
 		disableChartColor(false);
-		disableChartGrid(false)
+		disableChartGrid(false);
+		disableChartLegend(false);
 		activateChartTrasnparency(chartType1);
 		activateChartMarker(chartType1);
+		
 	}
 }
 function resetActiveChartType()
@@ -109,677 +119,23 @@ function activateChartMarker(chartType){
 	else
 		disableChartMarker(true);
 }
-function graphTypeOption(chartType)
-{   chartType1=chartType;
-	chartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
-    chartColor='#'+$("#chartColor").find(".active")[0].id;
-	activateChartTrasnparency(chartType);
-	activateChartMarker(chartType);
-	var value = getlength(minvalue)>=3?10:0.1; 
-if (chartType=='area')
-    		chart.updateOptions({
-	  xaxis: {
-	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: -70,
-					                  rotateAlways: true,
-					                  minHeight:30,
-					        		  style: {
-							        	  fontSize: $("#fontOptions").find(".active")[0].id,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-						    axisBorder: {
-							  show: true,
-							  color: '#ffffff',
-							  height: 3,
-							  width: '100%',
-							  offsetX: 0,
-							  offsetY: 0
-						  },
-   	  			        },
-    		 extra:{
-			isDecimal: isdecimal,
-			yAxisFormat:yaxisformat,
-		},
-       yaxis: {
-	    	  labels: {
-	    		     minWidth: 75,maxWidth: 75,
-	        		 style: {
-			        	  fontSize: $("#fontOptions").find(".active")[0].id,
-			        	 }
-	        	  },
-          tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-    			  axisBorder: {
-	                  width: 3,
-	                  show: true,
-	                  color: '#ffffff',
-	                  offsetX: 0,
-	                  offsetY: 0
-	              },
-    	  },
-    			colors: chartColor=='#44546a'?['#222a35']:[chartColor],
-		        fill: {
-	                type: 'gradient',
-	                gradient: {
-				    gradientToColors: chartColor=='#44546a'?'#2e75b6':chartColor,
-				      shadeIntensity: 0,
-				      type: "vertical",
-				     inverseColors: false,
-				      stops: [30, 90, 100],
-				     opacityFrom: eval(chartTransparency)==1? 1:(eval(chartTransparency)==0.75 ? 0.8 :(eval(chartTransparency)==0.5?0.60:1)),
-				     opacityTo: eval(chartTransparency),
-	                }
-	              },
-	               markers: {
-			   colors: "#ffffff",
-			   strokeColors:"#ffffff"
-		     },	
-	            stroke: {
-			      	 colors: ["#ffffff"],
-		        }
-    		});
-		else 
-   chart.updateOptions({
-	  colors: [chartColor=='#44546a'?'#2e75b6':chartColor],
-  xaxis: {
-	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: -70,
-					                  rotateAlways: true,
-					                  minHeight:30,
-					        		  style: {
-							        	  fontSize: $("#fontOptions").find(".active")[0].id,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-						    axisBorder: {
-							  show: true,
-							  color: '#ffffff',
-							  height: 3,
-							  width: '100%',
-							  offsetX: 0,
-							  offsetY: 0
-						  },
-   	  			        },
-	  extra:{
-			isDecimal: isdecimal,
-			yAxisFormat:yaxisformat,
-		},
-       yaxis: {
-	    	  labels: {
-	    		     minWidth: 75,maxWidth: 75,
-	        		 style: {
-			        	  fontSize: $("#fontOptions").find(".active")[0].id,
-			        	 }
-	        	  },
-          tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-    			  axisBorder: {
-	                  width: 3,
-	                  show: true,
-	                  color: '#ffffff',
-	                  offsetX: 0,
-	                  offsetY: 0
-	              },
-    	  },
-  fill: {
-            type:'solid',
-            opacity: [1,1],
-          }, 
-   stroke: {
-		      colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
-	        },
-    markers: {
-			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
-			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor]
-		     }
-		 });
-	chart.updateSeries([{ type:chartType}]);
+function activateChartLegend(chartType){
+	
+	if(chartType!='column')
+		disableChartLegend(false);
+	else
+		disableChartLegend(true);
 }
-
-function chartColorOption(selectedChartColor)
-{
-chartColor=selectedChartColor;
-chartType=$("#chartTypes").find(".active")[0].id;
-chartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
-var value = getlength(minvalue)>=3?10:0.1; 
-if (chartType=='area')
-    		chart.updateOptions({
-	  xaxis: {
-	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: -70,
-					                  rotateAlways: true,
-					                  minHeight:30,
-					        		  style: {
-							        	  fontSize: $("#fontOptions").find(".active")[0].id,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-						    axisBorder: {
-							  show: true,
-							  color: '#ffffff',
-							  height: 3,
-							  width: '100%',
-							  offsetX: 0,
-							  offsetY: 0
-						  },
-   	  			        },
-    		 extra:{
-			isDecimal: isdecimal,
-			yAxisFormat:yaxisformat,
-		},
-       yaxis: {
-	    	  labels: {
-	    		     minWidth: 75,maxWidth: 75,
-	        		 style: {
-			        	  fontSize: $("#fontOptions").find(".active")[0].id,
-			        	 }
-	        	  },
-          tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-    			  axisBorder: {
-	                  width: 3,
-	                  show: true,
-	                  color: '#ffffff',
-	                  offsetX: 0,
-	                  offsetY: 0
-	              },
-    	  },
-    			colors: chartColor=='#44546a'?['#222a35']:[chartColor],
-		        fill: {
-	                type: 'gradient',
-	                gradient: {
-				    gradientToColors: chartColor=='#44546a'?'#2e75b6':chartColor,
-				      shadeIntensity: 0,
-				      type: "vertical",
-				     inverseColors: false,
-				      stops: [30, 90, 100],
-				      opacityFrom: eval(chartTransparency)==1? 1:(eval(chartTransparency)==0.75 ? 0.8 :(eval(chartTransparency)==0.5?0.60:1)),
-				      opacityTo: eval(chartTransparency),
-	                }
-	              },
-	               markers: {
-			   colors: "#ffffff",
-			   strokeColors:"#ffffff"
-		     },	
-	            stroke: {
-			      	 colors: ["#ffffff"],
-		        }
-    		});
-		else 
-   chart.updateOptions({
-	  colors: [chartColor=='#44546a'?'#2e75b6':chartColor],
-  xaxis: {
-	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: -70,
-					                  rotateAlways: true,
-					                  minHeight:30,
-					        		  style: {
-							        	  fontSize: $("#fontOptions").find(".active")[0].id,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-						    axisBorder: {
-							  show: true,
-							  color: '#ffffff',
-							  height: 3,
-							  width: '100%',
-							  offsetX: 0,
-							  offsetY: 0
-						  },
-   	  			        },
-	  extra:{
-			isDecimal: isdecimal,
-			yAxisFormat:yaxisformat,
-		},
-       yaxis: {
-	    	  labels: {
-	    		     minWidth: 75,maxWidth: 75,
-	        		 style: {
-			        	  fontSize: $("#fontOptions").find(".active")[0].id,
-			        	 }
-	        	  },
-          tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
-    			  axisBorder: {
-	                  width: 3,
-	                  show: true,
-	                  color: '#ffffff',
-	                  offsetX: 0,
-	                  offsetY: 0
-	              },
-    	  },
-  fill: {
-            type:'solid',
-            opacity: [1,1],
-          }, 
-   stroke: {
-		      colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
-	        },
-    markers: {
-			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
-			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor]
-		     }
-		 });
-}
-function chartTransparencyOption(selectedChartTransparency)
-{
-chartTransparency=selectedChartTransparency;
-chartType=$("#chartTypes").find(".active")[0].id;
-chartColor='#'+$("#chartColor").find(".active")[0].id;
-var value = getlength(minvalue)>=3?10:0.1; 
-
-if (chartType=='area')
-    		chart.updateOptions({
-	  xaxis: {
-	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: -70,
-					                  rotateAlways: true,
-					                  minHeight:30,
-					        		  style: {
-							        	  fontSize: $("#fontOptions").find(".active")[0].id,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-						    axisBorder: {
-							  show: true,
-							  color: '#ffffff',
-							  height: 3,
-							  width: '100%',
-							  offsetX: 0,
-							  offsetY: 0
-						  },
-   	  			        },
-    		 extra:{
-			isDecimal: isdecimal,
-			yAxisFormat:yaxisformat,
-		},
-       yaxis: {
-	    	  labels: {
-	    		     minWidth: 75,maxWidth: 75,
-	        		 style: {
-			        	  fontSize: $("#fontOptions").find(".active")[0].id,
-			        	 }
-	        	  },
-          tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-    			  axisBorder: {
-	                  width: 3,
-	                  show: true,
-	                  color: '#ffffff',
-	                  offsetX: 0,
-	                  offsetY: 0
-	              },
-    	  },
-    			colors: chartColor=='#44546a'?['#222a35']:[chartColor],
-		        fill: {
-	                type: 'gradient',
-	                gradient: {
-				    gradientToColors: chartColor=='#44546a'?'#2e75b6':chartColor,
-				      shadeIntensity: 0,
-				      type: "vertical",
-				     inverseColors: false,
-				      stops: [30, 90, 100],
-				      opacityFrom: eval(chartTransparency)==1? 1:(eval(chartTransparency)==0.75 ? 0.8 :(eval(chartTransparency)==0.5?0.60:1)),
-				      opacityTo: eval(chartTransparency),
-	                }
-	              },
-	               markers: {
-			   colors: "#ffffff",
-			   strokeColors:"#ffffff"
-		     },	
-	            stroke: {
-			      	 colors: ["#ffffff"],
-		        }
-    		});
-		else 
-   chart.updateOptions({
-	  colors: [chartColor=='#44546a'?'#2e75b6':chartColor],
-  xaxis: {
-	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: -70,
-					                  rotateAlways: true,
-					                  minHeight:30,
-					        		  style: {
-							        	  fontSize: $("#fontOptions").find(".active")[0].id,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-						    axisBorder: {
-							  show: true,
-							  color: '#ffffff',
-							  height: 3,
-							  width: '100%',
-							  offsetX: 0,
-							  offsetY: 0
-						  },
-   	  			        },
-	  extra:{
-			isDecimal: isdecimal,
-			yAxisFormat:yaxisformat,
-		},
-       yaxis: {
-	    	  labels: {
-	    		     minWidth: 75,maxWidth: 75,
-	        		 style: {
-			        	  fontSize: $("#fontOptions").find(".active")[0].id,
-			        	 }
-	        	  },
-          tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
-    			  axisBorder: {
-	                  width: 3,
-	                  show: true,
-	                  color: '#ffffff',
-	                  offsetX: 0,
-	                  offsetY: 0
-	              },
-    	  },
-  fill: {
-            type:'solid',
-            opacity: [1,1],
-          }, 
-   stroke: {
-		      colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
-	        },
-    markers: {
-			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
-			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor]
-		     }
-		 });
-}
-function chartMarkerOption(selectedChartMarker)
-{
-markerSize = selectedChartMarker;
-chartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
-chartType=$("#chartTypes").find(".active")[0].id;
-chartColor='#'+$("#chartColor").find(".active")[0].id;
-var value = getlength(minvalue)>=3?10:0.1; 
-
-if (chartType=='area')
-    		chart.updateOptions({
-	  xaxis: {
-	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: -70,
-					                  rotateAlways: true,
-					                  minHeight:30,
-					        		  style: {
-							        	  fontSize: $("#fontOptions").find(".active")[0].id,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-						    axisBorder: {
-							  show: true,
-							  color: '#ffffff',
-							  height: 3,
-							  width: '100%',
-							  offsetX: 0,
-							  offsetY: 0
-						  },
-   	  			        },
-    		 extra:{
-			isDecimal: isdecimal,
-			yAxisFormat:yaxisformat,
-		},
-       yaxis: {
-	    	  labels: {
-	    		     minWidth: 75,maxWidth: 75,
-	        		 style: {
-			        	  fontSize: $("#fontOptions").find(".active")[0].id,
-			        	 }
-	        	  },
-          tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-    			  axisBorder: {
-	                  width: 3,
-	                  show: true,
-	                  color: '#ffffff',
-	                  offsetX: 0,
-	                  offsetY: 0
-	              },
-    	  },
-    			colors: chartColor=='#44546a'?['#222a35']:[chartColor],
-		        fill: {
-	                type: 'gradient',
-	                gradient: {
-				    gradientToColors: chartColor=='#44546a'?'#2e75b6':chartColor,
-				      shadeIntensity: 0,
-				      type: "vertical",
-				     inverseColors: false,
-				      stops: [30, 90, 100],
-				      opacityFrom: eval(chartTransparency)==1? 1:(eval(chartTransparency)==0.75 ? 0.8 :(eval(chartTransparency)==0.5?0.60:1)),
-				      opacityTo: eval(chartTransparency),
-	                }
-	              },
-	               markers: {
-			   colors: "#ffffff",
-			   strokeColors:"#ffffff",
- 			   size: markerSize,
-		     },	
-	            stroke: {
-			      	 colors: ["#ffffff"],
-		        }
-    		});
-		else 
-   chart.updateOptions({
-	  colors: [chartColor=='#44546a'?'#2e75b6':chartColor],
-  xaxis: {
-	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: -70,
-					                  rotateAlways: true,
-					                  minHeight:30,
-					        		  style: {
-							        	  fontSize: $("#fontOptions").find(".active")[0].id,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-						    axisBorder: {
-							  show: true,
-							  color: '#ffffff',
-							  height: 3,
-							  width: '100%',
-							  offsetX: 0,
-							  offsetY: 0
-						  },
-   	  			        },
-	  extra:{
-			isDecimal: isdecimal,
-			yAxisFormat:yaxisformat,
-		},
-       yaxis: {
-	    	  labels: {
-	    		     minWidth: 75,maxWidth: 75,
-	        		 style: {
-			        	  fontSize: $("#fontOptions").find(".active")[0].id,
-			        	 }
-	        	  },
-          tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
-    			  axisBorder: {
-	                  width: 3,
-	                  show: true,
-	                  color: '#ffffff',
-	                  offsetX: 0,
-	                  offsetY: 0
-	              },
-    	  },
-  fill: {
-            type:'solid',
-            opacity: [1,1],
-          }, 
-   stroke: {
-		      colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
-	        },
-    markers: {
-			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
-			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
- 			   size: markerSize,
-		     }
-		 });
-}
-function chartGridOption(selectedChartGrid)
-{
-showGrid=selectedChartGrid;
-chartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
-chartType=$("#chartTypes").find(".active")[0].id;
-chartColor='#'+$("#chartColor").find(".active")[0].id;
-var value = getlength(minvalue)>=3?10:0.1; 
-if (chartType=='area')
-    		chart.updateOptions({
-	  xaxis: {
-	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: -70,
-					                  rotateAlways: true,
-					                  minHeight:30,
-					        		  style: {
-							        	  fontSize: $("#fontOptions").find(".active")[0].id,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-						    axisBorder: {
-							  show: true,
-							  color: '#ffffff',
-							  height: 3,
-							  width: '100%',
-							  offsetX: 0,
-							  offsetY: 0
-						  },
-   	  			        },
-    		 extra:{
-			isDecimal: isdecimal,
-			yAxisFormat:yaxisformat,
-		},
-       yaxis: {
-	    	  labels: {
-	    		     minWidth: 75,maxWidth: 75,
-	        		 style: {
-			        	  fontSize: $("#fontOptions").find(".active")[0].id,
-			        	 }
-	        	  },
-          tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-    			  axisBorder: {
-	                  width: 3,
-	                  show: true,
-	                  color: '#ffffff',
-	                  offsetX: 0,
-	                  offsetY: 0
-	              },
-    	  },
-          grid: {
-				  show:eval(showGrid),
-   	  			  borderColor: '#f0e68c',
-   	  			  strokeDashArray:1,
-   	  		       opacity: 0.5,
-		   	  		  padding: {
-		   	  	        right: 60,
-		   	  	    },  
-   	  			},
-    			colors: chartColor=='#44546a'?['#222a35']:[chartColor],
-		        fill: {
-	                type: 'gradient',
-	                gradient: {
-				    gradientToColors: chartColor=='#44546a'?'#2e75b6':chartColor,
-				      shadeIntensity: 0,
-				      type: "vertical",
-				     inverseColors: false,
-				      stops: [30, 90, 100],
-				      opacityFrom: eval(chartTransparency)==1? 1:(eval(chartTransparency)==0.75 ? 0.8 :(eval(chartTransparency)==0.5?0.60:1)),
-				      opacityTo: eval(chartTransparency),
-	                }
-	              },
-	               markers: {
-			   colors: "#ffffff",
-			   strokeColors:"#ffffff",
- 			   size: markerSize,
-		     },	
-	            stroke: {
-			      	 colors: ["#ffffff"],
-		        }
-    		});
-		else 
-   chart.updateOptions({
-	   grid: {
-				  show:eval(showGrid),
-   	  			  borderColor: '#f0e68c',
-   	  			  strokeDashArray:1,
-   	  		       opacity: 0.5,
-		   	  		  padding: {
-		   	  	        right: 60,
-		   	  	    },  
-   	  			},
-	  colors: [chartColor=='#44546a'?'#2e75b6':chartColor],
-  xaxis: {
-	   	  			       labels:  { hideOverlappingLabels: false,
-	   	  			         		  rotate: -70,
-					                  rotateAlways: true,
-					                  minHeight:30,
-					        		  style: {
-							        	  fontSize: $("#fontOptions").find(".active")[0].id,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-						    axisBorder: {
-							  show: true,
-							  color: '#ffffff',
-							  height: 3,
-							  width: '100%',
-							  offsetX: 0,
-							  offsetY: 0
-						  },
-   	  			        },
-	  extra:{
-			isDecimal: isdecimal,
-			yAxisFormat:yaxisformat,
-		},
-       yaxis: {
-	    	  labels: {
-	    		     minWidth: 75,maxWidth: 75,
-	        		 style: {
-			        	  fontSize: $("#fontOptions").find(".active")[0].id,
-			        	 }
-	        	  },
-          tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
-    			  axisBorder: {
-	                  width: 3,
-	                  show: true,
-	                  color: '#ffffff',
-	                  offsetX: 0,
-	                  offsetY: 0
-	              },
-    	  },
-  fill: {
-            type:'solid',
-            opacity: [1,1],
-          }, 
-   stroke: {
-		      colors: chartType=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
-	        },
-    markers: {
-			   colors: chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
-			   strokeColors:chartType=="area"?"#ffffff":[chartColor=='#44546a'?'#2e75b6':chartColor],
- 			   size: markerSize,
-		     }
-		 });
-}
-function chartLegendOption(selectedChartLegend)
-{
-showLegend=selectedChartLegend;
-
-    chart.updateOptions({
-	 	   legend: {
-						   show:eval(showLegend.split('legend')[1]),
+function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
+{   console.log(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
+	activateChartTrasnparency(SelectedchartType);
+	activateChartMarker(SelectedchartType);
+	activateChartLegend(SelectedchartType);
+	var value = getMarginLenght(minvalue);  
+	if (SelectedchartType=='area')
+      chart.updateOptions({
+		     legend: {
+						   show:eval(selectedChartLegend.split('legend')[1]),
 		   	  			   fontSize: fontsize,
 			        	   showForSingleSeries: true,
 				    	   labels: {
@@ -795,8 +151,244 @@ showLegend=selectedChartLegend;
 				    	         return [img , seriesName];
 				    	    }
 				    	  },
+	 		 xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: $("#fontOptions").find(".active")[0].id,
+							        	 },
+					        	  },
+   	  			           type: 'category',
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+    		 extra:{
+			isDecimal: isdecimal,
+			yAxisFormat:yaxisformat,
+		},
+       yaxis: {
+	    	  labels: {
+	    		     minWidth: 75,maxWidth: 75,
+	        		 style: {
+			        	  fontSize: $("#fontOptions").find(".active")[0].id,
+			        	 },
+			        	  formatter: function(val, index) {
+										 if (notDecimal)
+						  				  return  val.toFixed(nbrOfDigits);
+						  				else 
+						  				  return  val.toFixed(nbrOfDigits) + "%";
+									      }
+	        	  },
+          tickAmount: 6,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
+    			  axisBorder: {
+	                  width: 3,
+	                  show: true,
+	                  color: '#ffffff',
+	                  offsetX: 0,
+	                  offsetY: 0
+	              },
+    	  },
+    	    grid: {
+                  show:eval(selectedChartGrid),
+                       borderColor: '#f0e68c',
+                       strokeDashArray:1,
+                    opacity: 0.5,
+                               padding: {
+                             right: 60,
+                         },  
+                     },
+    			colors: selectedChartColor=='#44546a'?['#222a35']:[selectedChartColor],
+		        fill: {
+	                type: 'gradient',
+	                gradient: {
+				    gradientToColors: selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor,
+				      shadeIntensity: 0,
+				      type: "vertical",
+				     inverseColors: false,
+				      stops: [30, 90, 100],
+				     opacityFrom: eval(selectedChartTransparency)==1? 1:(eval(selectedChartTransparency)==0.75 ? 0.8 :(eval(selectedChartTransparency)==0.5?0.60:1)),
+				     opacityTo: eval(selectedChartTransparency),
+	                }
+	              },
+	               markers: {
+			  		 colors: "#ffffff",
+			  		 strokeColors:"#ffffff",
+			    	 size: selectedChartMarker,
+		     },	
+	            stroke: {
+			      	 colors: ["#ffffff"],
+		        }
     		});
-		
+		else 
+   		chart.updateOptions({
+	      legend: {
+						   show:eval(selectedChartLegend.split('legend')[1]),
+		   	  			   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	         return [img , seriesName];
+				    	    }
+				    	  },
+	       grid: {
+                  show:eval(selectedChartGrid),
+                       borderColor: '#f0e68c',
+                       strokeDashArray:1,
+                    opacity: 0.5,
+                               padding: {
+                             right: 60,
+                         },  
+                     },
+	  colors: [selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor],
+  	  xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: $("#fontOptions").find(".active")[0].id,
+							        	 },
+					        	  },
+   	  			           type: 'category',
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+	  extra:{
+			isDecimal: isdecimal,
+			yAxisFormat:yaxisformat,
+		},
+       yaxis: {
+	    	  labels: {
+	    		     minWidth: 75,maxWidth: 75,
+	        		 style: {
+			        	  fontSize: $("#fontOptions").find(".active")[0].id,
+			        	 },
+			        	  formatter: function(val, index) {
+										 if (notDecimal)
+						  				  return  val.toFixed(nbrOfDigits);
+						  				else 
+						  				  return  val.toFixed(nbrOfDigits) + "%";
+									      }
+	        	  },
+          tickAmount: 6,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
+    			  axisBorder: {
+	                  width: 3,
+	                  show: true,
+	                  color: '#ffffff',
+	                  offsetX: 0,
+	                  offsetY: 0
+	              },
+    	  },
+  fill: {
+            type:'solid',
+            opacity: [1,1],
+          }, 
+   stroke: {
+		      colors: SelectedchartType=="area"? ["#ffffff"]:[selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor],
+	        },
+    markers: {
+			   colors: SelectedchartType=="area"?"#ffffff":[selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor],
+			   strokeColors:SelectedchartType=="area"?"#ffffff":[selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor],
+		       size: selectedChartMarker,
+		     }
+		 });
+	chart.updateSeries([{ type:SelectedchartType}]);
+}
+function graphTypeOption(chartType)
+{
+	SelectedchartType=chartType;
+	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
+    selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
+    selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
+    selectedChartGrid=$("#gridOptions").find(".active")[0].id;
+    selectedChartLegend=$("#gridLegend").find(".active")[0].id;
+      
+	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+}
+
+function chartColorOption(selectedChartColor)
+{   
+	SelectedchartType=$("#chartTypes").find(".active")[0].id;
+	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
+    selectedChartColor=selectedChartColor;
+    selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
+    selectedChartGrid=$("#gridOptions").find(".active")[0].id;
+    selectedChartLegend=$("#gridLegend").find(".active")[0].id;
+      
+	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+
+}
+
+function chartTransparencyOption(selectedChartTransparency)
+{
+	SelectedchartType=$("#chartTypes").find(".active")[0].id;
+	selectedChartTransparency=selectedChartTransparency;
+    selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
+    selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
+    selectedChartGrid=$("#gridOptions").find(".active")[0].id;
+    selectedChartLegend=$("#gridLegend").find(".active")[0].id;
+      
+	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+}
+function chartMarkerOption(selectedChartMarker)
+{
+	SelectedchartType=$("#chartTypes").find(".active")[0].id;
+	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
+    selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
+    selectedChartMarker=selectedChartMarker;
+    selectedChartGrid=$("#gridOptions").find(".active")[0].id;
+    selectedChartLegend=$("#gridLegend").find(".active")[0].id;
+      
+	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+}
+function chartGridOption(selectedChartGrid)
+{
+	SelectedchartType=$("#chartTypes").find(".active")[0].id;
+	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
+    selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
+    selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
+    selectedChartGrid=selectedChartGrid;
+    selectedChartLegend=$("#gridLegend").find(".active")[0].id;
+      
+	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+}
+
+function chartLegendOption(selectedChartLegend)
+{
+	SelectedchartType=$("#chartTypes").find(".active")[0].id;
+	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
+    selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
+    selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
+    selectedChartGrid=$("#gridOptions").find(".active")[0].id;
+    selectedChartLegend=selectedChartLegend;
+      
+	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);	
 }
 function checkActiveFontSize(activeFontSize,dbFontSize)
 {
@@ -947,6 +539,7 @@ $('#groupOfPeriod').on('selected', function () {
 	 {
 		 $("#dropDownType").jqxDropDownList({ disabled: true }); 
 		 $("#dropDownFunctions").jqxDropDownList({ disabled: false }); 
+		 $("#dropDownType").jqxDropDownList({selectedIndex: 0});  
 	  }
     else 
 	{ 

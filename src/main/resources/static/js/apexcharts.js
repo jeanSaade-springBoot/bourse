@@ -6842,7 +6842,8 @@
 					}
 					
 					return {
-						result: r_mod,
+						//result: r_mod, // mn removed to format 2 y axis 
+						result: r,
 						niceMin: r[0],
 						niceMax: r[r.length - 1]
 					}

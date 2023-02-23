@@ -689,7 +689,7 @@
 			    
 			    
 			    function Update(row, event) {
-				   debugger;
+				   
 				   isupdate=true;
 				   var dataToBeUpdated = [];
 				   var updatedData = $("#preciousAuditGrid").jqxGrid('getrowdata', row);
@@ -764,7 +764,7 @@
 			    }
 			    
 			    function UpdateBase(row, event) {
-				   debugger;
+				   
 				   isupdate=true;
 				   var dataToBeUpdated = [];
 				   var updatedData = $("#baseAuditGrid").jqxGrid('getrowdata', row);

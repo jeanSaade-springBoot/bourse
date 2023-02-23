@@ -628,12 +628,16 @@ var chartOption = {
    	    	          };
    	    	             	    	          
 function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
-	
+          
 				var Period = $("#DailyRadioButton").val();
-				var value1 = getlength(min1)>=3?10:0.1; 
-				var value2 = getlength(min2)>=3?10:0.1; 
+				var valueMin1 = getMarginLenght(min1);  
+				var valueMin2 = getMarginLenght(min2);  
+				var valueMax1 = getMarginLenght(max1);  
+				var valueMax2 = getMarginLenght(max2);  
+				console.log(fontsize,min1,max1,min2,max2,valueMin1,valueMin2,valueMax1,valueMax2)
 				if(Period)
 					chart.updateOptions({
+						
 						xaxis: {
 				        	labels: {
 				        		 style: {
@@ -669,15 +673,15 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 				    	  },
 				         yaxis: [
 					     {
-														 labels: {
-						     				    		 minWidth: 75,maxWidth: 75,
-						 				        		 style: {
-						 						        	  fontSize: fontsize,
-						 						        	 }
-						 				        	  },
+										 labels: {
+		     				    		 minWidth: 75,maxWidth: 75,
+		 				        		 style: {
+		 						        	  fontSize: fontsize,
+		 						        	 }
+		 				        			  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-value : Math.abs(min1)-value,
-					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+value : Math.abs(max1)+value,
+					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-valueMin1 : Math.abs(min1)-valueMin1,
+					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+valueMax1 : Math.abs(max1)+valueMax1,
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
@@ -695,12 +699,13 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 						 						        	 }
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-value2 : Math.abs(min2)-value2,
-					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+value2 : Math.abs(max2)+value2,
+					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-valueMin2 : Math.abs(min2)-valueMin2,
+					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+valueMax2 : Math.abs(max2)+valueMax2,
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
-					     					                  color: "#FF0000",
+					     					                  color: (typeof functionId != 'undefined')?(functionId+1>=7?"#00c9ff96" :"#FF0000" ):"#FF0000",
+					     					                  
 					     					                  offsetX: 0,
 					     					                  offsetY: 0
 					     					              },
@@ -708,6 +713,7 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 						})
 				 if(!Period)
 					   chart.updateOptions({
+						   
 							xaxis: {
 					        	labels: {
 					        		 style: {
@@ -741,38 +747,48 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 				    	    }
 				    	  },
 					         yaxis: [{
-														 labels: {
-						     				    		 minWidth: 75,maxWidth: 75,
-						 				        		 style: {
-						 						        	  fontSize: fontsize,
-						 						        	 }
-						 				        	  },
-					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-value1 : Math.abs(min1)-value1,
-					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+value1 : Math.abs(max1)+value1,
-					     				    			  axisBorder: {
-					     					                  width: 3,
-					     					                  show: true,
-					     					                  color: "#FFFFFF",
-					     					                  offsetX: 0,
-					     					                  offsetY: 0
-					     					              },
-					     				    			 },
-														{
+										 labels: {
+		     				    		 minWidth: 75,maxWidth: 75,
+		 				        		 style: {
+		 						        	  fontSize: fontsize,
+		 						        	 }, formatter: function(val, index) {
+										 if (notDecimal)
+						  				  return  val.toFixed(nbrOfDigits);
+						  				else 
+						  				  return  val.toFixed(nbrOfDigits) + "%";
+									      }
+		 				        	  },
+		     				          tickAmount: 6,
+		     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-valueMin1 : Math.abs(min1)-valueMin1,
+		     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+valueMax1 : Math.abs(max1)+valueMax1,
+		     				    			  axisBorder: {
+		     					                  width: 3,
+		     					                  show: true,
+		     					                  color: "#FFFFFF",
+		     					                  offsetX: 0,
+		     					                  offsetY: 0
+		     					              },
+		     				    			 },
+											{
  													  opposite: true,
 						     				    	  labels: {
-						     				    		 minWidth: 75,maxWidth: 75,
+						     				    		 minWidth: (fontsize=='12px')?75:120,maxWidth:  (fontsize=='12px')?75:120,
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
-						 						        	 }
+						 						        	 }, formatter: function(val, index) {
+										 if (notDecimal1)
+						  				  return  val.toFixed(nbrOfDigits1);
+						  				else 
+						  				  return  val.toFixed(nbrOfDigits1) + "%";
+									      }
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-value2 : Math.abs(min2)-value2,
-					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+value2 : Math.abs(max2)+value2,
+					     				    	  min:(typeof functionId != 'undefined')?(functionId+1>=7?Math.sign(min2)==-1 ? -Math.abs(min2) : Math.abs(min2) :Math.sign(min2)==-1 ? -Math.abs(min2)-valueMin2 : Math.abs(min2)-valueMin2 ):Math.sign(min2)==-1 ? -Math.abs(min2)-valueMin2 : Math.abs(min2)-valueMin2,
+					     				    	  max:(typeof functionId != 'undefined')?(functionId+1>=7?Math.sign(max2)==-1 ? -Math.abs(max2) : Math.abs(max2)  :Math.sign(max2)==-1 ? -Math.abs(max2)+valueMax2 : Math.abs(max2)+valueMax2 ):Math.sign(max2)==-1 ? -Math.abs(max2)+valueMax2 : Math.abs(max2)+valueMax2,
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
-					     					                  color: "#FF0000",
+					     					                  color: (typeof functionId != 'undefined')?(functionId+1>=7?"#00c9ff96" :"#FF0000" ):"#FF0000",
 					     					                  offsetX: 0,
 					     					                  offsetY: 0
 					     					              },
@@ -782,8 +798,10 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 			};  
 			  	    	             	    	          
 function updateGraphFont(fontsize,minvalue,maxvalue){
+	console.log(minvalue,maxvalue)
 				var Period = $("#DailyRadioButton").val();
-				var value = getlength(minvalue)>=3?10:0.1; 
+				var valueMin = getMarginLenght(minvalue); 
+				var valueMax = getMarginLenght(maxvalue); 
 				if(Period)
 					chart.updateOptions({
 						xaxis: {
@@ -821,13 +839,19 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 				    	  },
 				         yaxis: [
 					     {  tickAmount: 6,
- 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
- 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
+ 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+ 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
 				     	    labels: {
 				        		 minWidth: 75,maxWidth: 75,
 				        		 style: {
 						        	  fontSize: fontsize,
-						        	 }
+						        	 },
+						        	  formatter: function(val, index) {
+										 if (notDecimal)
+						  				  return  val.toFixed(nbrOfDigits);
+						  				else 
+						  				  return  val.toFixed(nbrOfDigits) + "%";
+									      }
 				        	  },
 				        	  axisBorder: {
 				                  width: 3,
@@ -874,13 +898,19 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 				    	  },
 					         yaxis: [{
 						    tickAmount: 6,
- 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
- 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
+ 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+ 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
 				     	   	labels: {
 					 				 minWidth: 75,maxWidth: 75,
 					        		 style: {
 							        	  fontSize: fontsize,
-							        	 }
+							        	 },
+							        	  formatter: function(val, index) {
+										 if (notDecimal)
+						  				  return  val.toFixed(nbrOfDigits);
+						  				else 
+						  				  return  val.toFixed(nbrOfDigits) + "%";
+									      }
 					        	  },
 					        	  axisBorder: {
 					                  width: 3,
@@ -1072,8 +1102,24 @@ function getFormat(Format)
  function getlength(number) {
 				    return number.toString().split(".")[0].length;
 				} 
+function getMarginLenght(value){
+	return getlength(value)>=3?10:(value<=0.1)?0.01:0.05; 
+}			
+ function enableDisableDropDowns(value){
+	 
+	  $("#dropDownType").jqxDropDownList({ disabled: value }); 
+	  $("#dropDownType").jqxDropDownList({selectedIndex: 0});  
+	  $("#dropDownFunctions").jqxDropDownList({ disabled: value }); 
+	  $("#dropDownFunctions").jqxDropDownList({selectedIndex: -1}); 
+	  $('#groupOfPeriod').jqxButtonGroup({disabled: value });
+	  $('#groupOfPeriod').jqxButtonGroup('setSelection', 0);
+ }
  function updateChartByFunctionId(chartConfigSettings){
-			
+			 var valueMin = getMarginLenght(chartConfigSettings.min); 
+			 var valueMax = getMarginLenght(chartConfigSettings.max); 
+			 var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
+			 var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
+						console.log(chartConfigSettings.fontSize,chartConfigSettings.min1,chartConfigSettings.max1,chartConfigSettings.min2,chartConfigSettings.max2,valueMin,valueMin1,valueMax,valueMax1)
 			     if(chartConfigSettings.functionId==1 || chartConfigSettings.functionId==2)
 			     {
 					 chart.updateOptions({
@@ -1081,23 +1127,32 @@ function getFormat(Format)
 							isDecimal: chartConfigSettings.isDecimal,
 							yAxisFormat:chartConfigSettings.yAxisFormat,
 						},
-						 colors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
-  	    	    		 markers: {
+						colors: chartConfigSettings.functionId==1?[chartColorOpacity(chartConfigSettings.chartColor), "#FF0000"]:[chartColorOpacity(chartConfigSettings.chartColor), "#ffa4c5"],
+  	    	    	    markers: {
   	    	    		   colors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
   	    	    		   strokeColors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
   	    	    		   size: 0.01,
   	    	    		 },
+  	    	    		  stroke: {
+						      	 colors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
+					        },
  				         yaxis: {
 
 							labels: {
 								minWidth: 75, maxWidth: 75,
 								style: {
 									fontSize:chartConfigSettings.fontSize,
-								}
+								},
+								 formatter: function(val, index) {
+										 if (chartConfigSettings.getFormatResult0[1])
+						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+						  				else 
+						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+									      }
 							},
 							tickAmount: 6,
-							min: Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - 0.1 : Math.abs(chartConfigSettings.minvalue) - 0.1,
-							max: Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + 0.1 : Math.abs(chartConfigSettings.maxvalue) + 0.1,
+							min: Math.sign(chartConfigSettings.min) == -1 ? -Math.abs(chartConfigSettings.min) - valueMin : Math.abs(chartConfigSettings.min) - valueMin,
+							max: Math.sign(chartConfigSettings.max) == -1 ? -Math.abs(chartConfigSettings.max) + valueMax : Math.abs(chartConfigSettings.max) + valueMax,
 							axisBorder: {
 								width: 3,
 								show: true,
@@ -1135,7 +1190,7 @@ function getFormat(Format)
     	    		
 					chart.updateSeries([{
 						name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-						type:chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
+						type:'area',
 						data: chartConfigSettings.response[0].graphResponseDTOLst
 					}, {
 						name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
@@ -1151,21 +1206,27 @@ function getFormat(Format)
 							isDecimal: chartConfigSettings.isDecimal,
 							yAxisFormat:chartConfigSettings.yAxisFormat,
 						},
-						 colors: ["#FFFFFF", "#ff000059"],
+						 colors: ["#FFFFFF", "#00c9ff96"],
   	    	    		 markers: {
-  	    	    		   colors: ["#FFFFFF", "#ff000059"],
-  	    	    		   strokeColors:["#FFFFFF", "#ff000059"]
+  	    	    		   colors: ["#FFFFFF", "#00c9ff96"],
+  	    	    		   strokeColors:["#FFFFFF", "#00c9ff96"]
   	    	    		 },
- 				       yaxis: [{
+ 				       	 yaxis: [{
 								 labels: {
      				    		 minWidth:75,maxWidth: 75,
  				        		 style: {
  						        	  fontSize: chartConfigSettings.fontSize,
- 						        	 }
+ 						        	 },
+ 						        	  formatter: function(val, index) {
+											if (chartConfigSettings.getFormatResult0[1])
+								  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+								  				else 
+								  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+									      }
  				        	  },
  				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-chartConfigSettings.value1 : Math.abs(chartConfigSettings.min1)-chartConfigSettings.value1,
- 				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+chartConfigSettings.value1 : Math.abs(chartConfigSettings.max1)+chartConfigSettings.value1,
+ 				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1,
+ 				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
  				    			  axisBorder: {
  					                  width: 3,
  					                  show: true,
@@ -1181,7 +1242,14 @@ function getFormat(Format)
      				    		    // minWidth: -50,maxWidth: -50,
 	 				        		 style: {
 	 						        	  fontSize: chartConfigSettings.fontSize,
-	 						        	 }
+	 						        	 },
+	 						        	  formatter: function(val, index) {
+										  if (chartConfigSettings.getFormatResult1[1])
+								  						  return  val.toFixed(chartConfigSettings.getFormatResult1[0]);
+								  						else 
+								  							 return  val.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+								  							
+									      }
 		 				        	  },
 		 				          tickAmount: 6,
 		 				    	  min:min2,
@@ -1189,7 +1257,7 @@ function getFormat(Format)
  				    			  axisBorder: {
  					                  width: 3,
  					                  show: true,
- 					                  color: "#FF0000",
+ 					                  color: "#00c9ff96",
  					                  offsetX: 0,
  					                  offsetY: 0
  					              },
@@ -1247,11 +1315,17 @@ function getFormat(Format)
      				    		 minWidth: 75,maxWidth: 75,
  				        		 style: {
  						        	  fontSize: chartConfigSettings.fontSize,
- 						        	 }
+ 						        	 },
+ 						        	 formatter: function(val, index) {
+										 if (chartConfigSettings.getFormatResult0[1])
+						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+						  				else 
+						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+									      }
  				        	  },
  				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-chartConfigSettings.value1 : Math.abs(chartConfigSettings.min1)-chartConfigSettings.value1,
- 				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+chartConfigSettings.value1 : Math.abs(chartConfigSettings.max1)+chartConfigSettings.value1,
+ 				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1,
+ 				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
  				    			  axisBorder: {
  					                  width: 3,
  					                  show: true,
@@ -1266,7 +1340,14 @@ function getFormat(Format)
      				    		 minWidth: 75,maxWidth: 75,
  				        		 style: {
  						        	  fontSize: chartConfigSettings.fontSize,
- 						        	 }
+ 						        	 },
+ 						        	 formatter: function(val, index) {
+										  if (chartConfigSettings.getFormatResult1[1])
+								  						  return  val.toFixed(chartConfigSettings.getFormatResult1[0]);
+								  						else 
+								  							 return  val.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+								  							
+									      }
  				        	  },
  				          tickAmount: 6,
  				    	  min:Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue) : Math.abs(selectedValue),
@@ -1337,4 +1418,196 @@ function getFormat(Format)
 						data: chartConfigSettings.response[1].graphResponseDTOLst
 					}]);
 				}
+}
+function updateChartSelectedItem(chartConfigSettings){
+			
+			     if(chartConfigSettings.checkedItem ==1 )
+			     {
+					
+					 var valueMin = getMarginLenght(chartConfigSettings.min); 
+			 		 var valueMax = getMarginLenght(chartConfigSettings.max);  				 	
+							
+							chart.updateOptions({
+								stroke: {
+									colors: chartConfigSettings.chartType1 == "area" ? ["#ffffff"] : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
+								},
+								markers: {
+									colors: chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
+									strokeColors: chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor]
+								},
+								extra: {
+									isDecimal: chartConfigSettings.isdecimal,
+									yAxisFormat: chartConfigSettings.yaxisformat,
+								},
+								yaxis: {
+									labels: {
+										minWidth: 75, maxWidth: 75,
+										style: {
+											fontSize: fontsize,
+										},
+										 formatter: function(val, index) {
+										 if (chartConfigSettings.getFormatResult0[1])
+						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+						  					else 
+						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+									      }
+									},
+									tickAmount: 6,
+									min: Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin,
+									max: Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax,
+									axisBorder: {
+										width: 3,
+										show: true,
+										color: '#ffffff',
+										offsetX: 0,
+										offsetY: 0
+									},
+								},
+								tooltip: {
+									x: {
+										show: false,
+									},
+									y: {
+										formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+											if (chartConfigSettings.getFormatResult0[1])
+												return value.toFixed(chartConfigSettings.getFormatResult0[0]);
+											else
+												return value.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+										},
+										title: {
+											formatter: (seriesName) => '',
+										},
+									},
+								}
+							});
+							chart.updateSeries([{
+								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
+								type: chartConfigSettings.chartType1,
+								data: chartConfigSettings.response[0].graphResponseDTOLst
+							}]);
+
+				}
+				else if(chartConfigSettings.checkedItem ==2 )
+				{
+						 var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
+						 var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
+						 var valueMin2 = getMarginLenght(chartConfigSettings.min2);
+						 var valueMax2 = getMarginLenght(chartConfigSettings.max2); 
+						 
+      	    	    	chart.updateOptions({
+      	    	    	  extra:{
+								isDecimal: chartConfigSettings.isdecimal,
+								yAxisFormat:chartConfigSettings.yaxisformat,
+							},
+							 colors: ["#FFFFFF", "#FF0000"],
+      	    	    		 markers: {
+      	    	    		   colors: ["#FFFFFF", "#FF0000"],
+      	    	    		   strokeColors:["#FFFFFF", "#FF0000"]
+      	    	    		 },
+     				       yaxis: [{
+									 labels: {
+	     				    		 minWidth: 75,maxWidth: 75,
+	 				        		 style: {
+	 						        	  fontSize: chartConfigSettings.fontSize,
+	 						        	 },
+										 formatter: function(val, index) {
+										 if (chartConfigSettings.getFormatResult0[1])
+						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+						  				else 
+						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+									      }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1,
+					     				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: "#FFFFFF",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 },
+														{
+ 													  opposite: true,
+						     				    	  labels: {
+						     				    		 minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: chartConfigSettings.fontSize,
+						 						        	 },
+						 						        	 formatter: function(val, index) {
+															 if (chartConfigSettings.getFormatResult0[1])
+											  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+											  				else 
+											  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+														      }
+						 				        	  },
+					     				          tickAmount: 6,
+					     				    	  min:Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(chartConfigSettings.min2)-valueMin2 : Math.abs(chartConfigSettings.min2)-valueMin2,
+					     				    	  max:Math.sign(chartConfigSettings.max2)==-1 ? -Math.abs(chartConfigSettings.max2)+valueMax2 : Math.abs(chartConfigSettings.max2)+valueMax2,
+					     				    			  axisBorder: {
+					     					                  width: 3,
+					     					                  show: true,
+					     					                  color: "#FF0000",
+					     					                  offsetX: 0,
+					     					                  offsetY: 0
+					     					              },
+					     				    			 }],
+												  tooltip: {
+													  x: {
+					    						          show: false,
+					    						      },
+					    							  y: {
+					    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+					    									  if(seriesIndex == 0)
+												  				{
+												  				if (chartConfigSettings.getFormatResult1[1])
+												  				  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
+												  				else 
+												  				  return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+												  				}else 
+												  					 if(seriesIndex == 1){
+												  					  if (chartConfigSettings.getFormatResult1[1])
+												  						  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
+												  						else 
+												  							 return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+												  					 }
+					    								    },
+					    								    title: {
+					    							              formatter: (seriesName) => '',
+					    							          },
+					    					      },
+					    						}
+				      	    	    		});     
+			      	    	           
+		      	    	          chart.updateSeries([{
+							          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
+							          type: chartConfigSettings.chartType1,
+							          data: chartConfigSettings.response[0].graphResponseDTOLst
+							        },{
+							          name: chartConfigSettings.response[1].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[1]].title:chartConfigSettings.response[1].config.displayDescription,
+							          type: chartConfigSettings.chartType2,
+							          data: chartConfigSettings.response[1].graphResponseDTOLst
+							        }])
+				}
+}
+
+
+
+function chartColorOpacity(chartColor)
+{
+  var colorCode='';	
+	switch(chartColor) {
+	  
+	 case '#F0AB2E': 
+	   colorCode='#F0AB2E75'
+	        break;
+	 case '#0097FE': 
+	   colorCode='#0097FE75'
+	        break;
+	 case '#44546a': 
+	   colorCode='#44546a75'
+		    break;
+	}
+return colorCode;
 }

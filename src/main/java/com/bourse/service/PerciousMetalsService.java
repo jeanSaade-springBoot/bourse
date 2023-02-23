@@ -11,10 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.PreciousMetals;
-import com.bourse.domain.SovereignData;
-import com.bourse.domain.TmpAuditBase;
 import com.bourse.domain.TmpAuditPrecious;
-import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.PreciousMetalsRepository;
 import com.bourse.repositories.TmpAuditPreciousRepository;
@@ -45,6 +42,11 @@ public class PerciousMetalsService
 		query.setParameter("referDate",referDate );
 		query.execute();
 	}
+    public void doCaclulation()
+   	{
+   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_precious_main");
+   		query.execute();
+   	}
 	public List<PreciousMetals> SavePreciousData(List<PreciousMetals> preciousDataList) {
 		
 		return preciousMetalsRepository.saveAll(preciousDataList);

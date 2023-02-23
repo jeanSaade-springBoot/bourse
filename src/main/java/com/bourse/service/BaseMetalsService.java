@@ -78,6 +78,11 @@ public class BaseMetalsService
 		query.setParameter("referDate",referDate );
 		query.execute();
 	}
+	 public void doCaclulation()
+	   	{
+		 	StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_base_main");
+			query.execute();
+	   	}
 	 public void updateBaseData(List<UpdateDataDTO> updateDataDTOlst) {
 		
 		BaseMetals baseMetals;

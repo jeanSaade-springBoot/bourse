@@ -26,6 +26,9 @@
   var markerSize=0;
   var showGrid=true;
   var showLegend='legendtrue';
+  var notDecimal;
+  var nbrOfDigits;
+  
   var allitems=[
 	  "#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
@@ -2701,7 +2704,10 @@
 		      	    	          
 				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
 				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-				      	    	    	chart.updateOptions({
+				      	    	     notDecimal=getFormatResult[1];
+									 nbrOfDigits=getFormatResult[0];
+									 
+				      	    	     chart.updateOptions({
 				      	    	    		 stroke: {
 				      	    	 		      colors: chartType1=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
 				      	    	 	        },
@@ -2718,7 +2724,13 @@
 					     				    		     minWidth: 75,maxWidth: 75,
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
-						 						        	 }
+						 						        	 },
+												 formatter: function(val, index) {
+															 if (getFormatResult[1])
+											  				  return  val.toFixed(getFormatResult[0]);
+											  				else 
+											  				  return  val.toFixed(getFormatResult[0]) + "%";
+														      }
 						 				        	  },
 				     				          tickAmount: 6,
 				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,

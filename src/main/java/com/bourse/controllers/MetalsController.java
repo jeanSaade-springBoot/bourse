@@ -18,14 +18,11 @@ import com.bourse.domain.BaseMetals;
 import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditBase;
 import com.bourse.domain.TmpAuditPrecious;
-import com.bourse.dto.DataFunctionReqDTO;
 import com.bourse.dto.DataFunctionRespDTO;
-import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.MetalsDataFunctionReqDTO;
-import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.service.BaseMetalsService;
 import com.bourse.service.DataFunctionService;
@@ -78,7 +75,7 @@ public class MetalsController {
 	@PostMapping(value = "savebasedata")
     public List<BaseMetals> saveBaseData(@RequestBody List<BaseMetals> baseInputDataList){
 		List<BaseMetals> baseDatalst= baseMetalsService.SaveBaseData(baseInputDataList);
-	   baseMetalsService.doCaclulation(baseInputDataList.get(0).getReferDate());
+	    baseMetalsService.doCaclulation(baseInputDataList.get(0).getReferDate());
 	  return baseDatalst;
     }
 	@GetMapping(value = "getpreciousauditdata/{referDate}")

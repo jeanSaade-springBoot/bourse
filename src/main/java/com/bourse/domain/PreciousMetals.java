@@ -1,5 +1,6 @@
 package com.bourse.domain;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -33,6 +34,7 @@ public class PreciousMetals {
 	    )
 	private Long id;
     private String value;
+    @Column(unique = true)
     private String referDate;
     private Long subgroupId;
 }

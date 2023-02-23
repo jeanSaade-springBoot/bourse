@@ -30,7 +30,11 @@ var showGrid=true;
 var showLegend='legendtrue';
 var chartTransparency = 0;
 var functionId =-1;
-	
+var notDecimal;
+var nbrOfDigits;
+var notDecimal1;
+var nbrOfDigits1;
+
   var allitems=["#jqxCheckBoxCopper",
 			    "#jqxCheckBoxAluminum",
 			    "#jqxCheckBoxSteel",
@@ -112,21 +116,6 @@ $(document).ready(function() {
 	    if (args) {
 	    // index represents the item's index.                      
 	    var index = args.index;
-	    
-	   if(functionId>-1 && checkedItem==1)
-  	   {
-		    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({disabled: true});
-		     }
-		   	 
-		  	 for(i=0; i<checkedItemid.length; i++)
-			   {
-		  		 if(checkedItemid[i]!=null)
-					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
-		       }
-  	  
-  	   }
 	    
 		   functionId=index;
 		   drawGraph();
@@ -235,13 +224,14 @@ $(document).ready(function() {
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
+  	      enableDisableDropDowns(true);
   	   }
   	   else{
   		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
+	      enableDisableDropDowns(false);
   	   }
   	 }); 
      
@@ -272,13 +262,14 @@ $(document).ready(function() {
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
+  	    enableDisableDropDowns(true);
   	   }
   	   else{
   		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
+  	      enableDisableDropDowns(false);
   	   }
   	 }); 
      
@@ -309,13 +300,14 @@ $(document).ready(function() {
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
+  	    enableDisableDropDowns(true);
   	   }
   	   else{
   		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
+  	      enableDisableDropDowns(false);
   	   }
   	 }); 
      
@@ -333,6 +325,7 @@ $(document).ready(function() {
 				   if(checkedItemid[i]=="#jqxCheckBoxLumber")
 					 delete checkedItemid[i];
 				   }
+				   
 	    }
   	    if(checkedItem>=2 || (functionId>-1 && checkedItem==1))
   	   {
@@ -346,13 +339,14 @@ $(document).ready(function() {
 		  		 if(checkedItemid[i]!=null)
 					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
 		       }
-  	  
+  	    enableDisableDropDowns(true);
   	   }
   	   else{
   		 for(i=0; i<allitems.length; i++)
 		   {
 			 $(allitems[i]).jqxCheckBox({disabled: false});
 	     }
+	     enableDisableDropDowns(false);
   	   }
   	 }); 
      
@@ -402,6 +396,7 @@ function drawGraph() {
 	chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options : optionsWeekly);
 	chart.render();
 	//return 0;
+	
 	   if (functionId!=-1)
 		{	
 			for (i = 0; i < checkedItemid.length; i++) {
@@ -498,11 +493,22 @@ function drawGraph() {
 
 					min = Math.min(min1, min2);
 					max = Math.max(max1, max2);
-					minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
-					maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
-					var value1 = getlength(min1)>=3?10:0.1; 
-					var value2 = getlength(min2)>=3?10:0.1; 
-						var chartConfigSettings={functionId:functionId+1,
+					//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
+					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
+					minvalue = min;
+					maxvalue = max;
+					var value1 = getMarginLenght(min1); 
+					var value2 = getMarginLenght(min2); 
+					
+					notDecimal=getFormatResult0[1];
+					nbrOfDigits=getFormatResult0[0];
+					notDecimal1=getFormatResult1[1];
+					nbrOfDigits1=getFormatResult1[0];
+					
+					chartColor = response[0].config.chartColor;
+					chartTransparency=response[0].config.chartTransparency;
+					
+					var chartConfigSettings={functionId:functionId+1,
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
 											 fontSize:fontsize,
@@ -521,7 +527,9 @@ function drawGraph() {
 											 getFormatResult0:getFormatResult0,
 											 getFormatResult1:getFormatResult1,
 											 response:response,
-											 Period:  Period};
+											 Period:Period,
+											 chartColor:chartColor,
+											 chartTransparency:chartTransparency};
 											 	
 					updateChartByFunctionId(chartConfigSettings);	
 					$('#overlayChart').hide();
@@ -570,7 +578,7 @@ function drawGraph() {
 	        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
 	        	    "groupId2": itemValue[checkedItemValues[1]].GroupId
      			   };
-
+           enableDisableDropDowns(true);
 			if (checkedItemValues.length > 1)
 				title = itemValue[checkedItemValues[0]].title + " vs " + itemValue[checkedItemValues[1]].title
 			else
@@ -649,8 +657,13 @@ function drawGraph() {
 
 					min = Math.min(min1, min2);
 					max = Math.max(max1, max2);
-					minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
-					maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
+					//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
+					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
+					minvalue = min;
+					maxvalue = max;
+					notDecimal=getFormatResult0[1];
+			    	nbrOfDigits=getFormatResult0[0];
+					
 					chart.updateOptions({
 						extra: {
 							isDecimal: isdecimal,
@@ -666,7 +679,13 @@ function drawGraph() {
 								minWidth: 75, maxWidth: 75,
 								style: {
 									fontSize: fontsize,
-								}
+								},
+								 formatter: function(val, index) {
+										 if (getFormatResult0[1])
+						  				  return  val.toFixed(getFormatResult0[0]);
+						  				else 
+						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+									      }
 							},
 							tickAmount: 6,
 							min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - 0.1 : Math.abs(minvalue) - 0.1,
@@ -770,166 +789,7 @@ function drawGraph() {
 						dataType: 'json',
 						timeout: 600000,
 						success: function(response) {
-						 if(functionId!='-1')
-							{
 						
-		      	    	        	startDateF1=response[0].config.startDate;
-		      	    	        	startDateF2=response[1].config.startDate;
-		      	    	        	 if (startDateF1!=null)
-		      	    	        	startDateF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
-		      	    	        	 if (startDateF2!=null)
-		      	    	        	 startDateF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
-		      	    	            var dates=[];
-		      	    	
-		      	    	        	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
-		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
-		      	    	        	title= T1 +" vs "+ T2;
-
-		      	    	        	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
-			      	    	           { 
-			      	    	        	 if (response[0].config.yAxisFormat.includes("%"))
-				      	    	           { isdecimal= false;
-				      	    	        	   if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
-				      	    	        		 yaxisformat=response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
-					      	    	            	else
-					      	    	            		yaxisformat=0;
-				      	    	           }
-			      	    	           else 
-			      	    	            	{
-			      	    	        	    if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
-			      	    	            	yaxisformat=response[0].config.yAxisFormat.split(".")[1].length
-			      	    	            	else 
-			      	    	            		yaxisformat=0
-			      	    	            		
-			      	    	            	 isdecimal= true;	
-			      	    	            	}
-			      	    	           }
-			      	    	           else
-			      	    	        	 yaxisformat=3;
-		      	    	        	
-		      	    	        	var getFormatResult0 = getFormat(response[0].config.dataFormat);
-		      	    	        	var getFormatResult1 = getFormat(response[1].config.dataFormat);
-		      	    	        	 
-		      	    	          
-		      	    	       	    var getFormatResult = getFormat(response[0].config.dataFormat);
-		      	    	       	    chartDbFontSize = response[0].config.chartSize;
-		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
-	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-
-		      	    	  
-		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
-		      	    	       
-		      	    	        	
-		      	    	          
-		      	    	        	
-			      	    	          var dbchartType1=response[0].config.chartType;
-			      	    	            chartType1 =(getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
-			      	    	          
-			      	    	          var dbchartType2=response[1].config.chartType;
-			      	    	            chartType2 =getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
-			      	    	            min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-				      	    	          return item.y;
-				      	    	        })),
-				      	    	        max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-				      	    	          return item.y;
-				      	    	        }));
-										min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-				      	    	          return item.y;
-				      	    	        })),
-				      	    	        max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-				      	    	          return item.y;
-				      	    	        }));
-		      	    	         
-			      	    	            min=Math.min(min1,min2);
-										max=Math.max(max1,max2);
-										 minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
-					      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-					      	    	    	chart.updateOptions({
-					      	    	    	  extra:{
-													isDecimal: isdecimal,
-													yAxisFormat:yaxisformat,
-												},
-												// colors: ["#FFFFFF", "#FF0000"],
-					      	    	    		 markers: {
-					      	    	    		   	colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
-													strokeColors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"]
-					      	    	    		 },
-					     				       yaxis: [{
-														 labels: {
-						     				    		 minWidth: 75,maxWidth: 75,
-						 				        		 style: {
-						 						        	  fontSize: fontsize,
-						 						        	 }
-						 				        	  },
-					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-0.1 : Math.abs(min1)-0.1,
-					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+0.1 : Math.abs(max1)+0.1,
-					     				    			  axisBorder: {
-					     					                  width: 3,
-					     					                  show: true,
-					     					                  color:"#F0AB2E",
-					     					                  offsetX: 0,
-					     					                  offsetY: 0
-					     					              },
-					     				    			 },
-														{
- 													  opposite: true,
-						     				    	  labels: {
-						     				    		 minWidth: 75,maxWidth: 75,
-						 				        		 style: {
-						 						        	  fontSize: fontsize,
-						 						        	 }
-						 				        	  },
-					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-0.1 : Math.abs(min2)-0.1,
-					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+0.1 : Math.abs(max2)+0.1,
-					     				    			  axisBorder: {
-					     					                  width: 3,
-					     					                  show: true,
-					     					                  color: "#0097FE",
-					     					                  offsetX: 0,
-					     					                  offsetY: 0
-					     					              },
-					     				    			 }],
-												  tooltip: {
-													  x: {
-					    						          show: false,
-					    						      },
-					    							  y: {
-					    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-					    									  if(seriesIndex == 0)
-												  				{
-												  				if (getFormatResult0[1])
-												  				  return  value.toFixed(getFormatResult0[0]);
-												  				else 
-												  				  return  value.toFixed(getFormatResult0[0]) + "%";
-												  				}else 
-												  					 if(seriesIndex == 1){
-												  					  if (getFormatResult1[1])
-												  						  return  value.toFixed(getFormatResult1[0]);
-												  						else 
-												  							 return  value.toFixed(getFormatResult1[0]) + "%";
-												  					 }
-					    								    },
-					    								    title: {
-					    							              formatter: (seriesName) => '',
-					    							          },
-					    					      },
-					    						}
-				      	    	    		});     
-			      	    	           
-		      	    	          chart.updateSeries([{
-							          name: response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription,
-							          type: chartType1,
-							          data: response[0].graphResponseDTOLst
-							        },{
-							          name: response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription,
-							          type: chartType2,
-							          data:response[1].graphResponseDTOLst
-							        }])
-							        $('#overlayChart').hide();
-							}
-							else{
 							newstartdate = new Date();
 							startDateF1 = response[0].config.startDate;
 							if (startDateF1 != null)
@@ -980,65 +840,33 @@ function drawGraph() {
 								max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 									return item.y;
 								}));
-							minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
-							maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
-							var value = getlength(minvalue)>=3?10:0.1; 
-								
-							chart.updateOptions({
-								stroke: {
-									colors: chartType1 == "area" ? ["#ffffff"] : [chartColor == '#44546a' ? '#2e75b6' : chartColor],
-								},
-								markers: {
-									colors: chartType1 == "area" ? "#ffffff" : [chartColor == '#44546a' ? '#2e75b6' : chartColor],
-									strokeColors: chartType1 == "area" ? "#ffffff" : [chartColor == '#44546a' ? '#2e75b6' : chartColor]
-								},
-								extra: {
-									isDecimal: isdecimal,
-									yAxisFormat: yaxisformat,
-								},
-								yaxis: {
-									labels: {
-										minWidth: 75, maxWidth: 75,
-										style: {
-											fontSize: fontsize,
-										}
-									},
-									tickAmount: 6,
-									min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - value : Math.abs(minvalue) - value,
-									max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + value : Math.abs(maxvalue) + value,
-									axisBorder: {
-										width: 3,
-										show: true,
-										color: '#ffffff',
-										offsetX: 0,
-										offsetY: 0
-									},
-								},
-								tooltip: {
-									x: {
-										show: false,
-									},
-									y: {
-										formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-											if (getFormatResult[1])
-												return value.toFixed(getFormatResult[0]);
-											else
-												return value.toFixed(getFormatResult[0]) + "%";
-										},
-										title: {
-											formatter: (seriesName) => '',
-										},
-									},
-								}
-							});
-							chart.updateSeries([{
-								name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-								type: chartType1,
-								data: response[0].graphResponseDTOLst
-							}]);
-
+							//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
+							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
+							minvalue = min;
+							maxvalue = max;
+							notDecimal=getFormatResult[1];
+					        nbrOfDigits=getFormatResult[0];
+							
+							var getFormatResult0 = getFormat(response[0].config.dataFormat);
+					       
+							var chartConfigSettings={functionId:functionId+1,
+											 isDecimal:isdecimal,
+											 yAxisFormat:yaxisformat,
+											 fontSize:fontsize,
+											 min:min,
+											 max:max,
+											 minvalue:minvalue,
+											 maxvalue:maxvalue,
+											 chartType1:chartType1,
+											 getFormatResult0:getFormatResult0,
+											 response:response,
+											 Period:Period,
+											 chartColor:chartColor,
+											 chartTransparency:chartTransparency,
+											 checkedItem:checkedItem};
+							
+							updateChartSelectedItem(chartConfigSettings);
 						
-							}
 							$('#overlayChart').hide();
 
 						},
@@ -1079,8 +907,11 @@ function drawGraph() {
 
 	
 }
-function graphfont(fontSize) {
-	updateGraphFont(fontSize, minvalue, maxvalue);
-}
+function graphfont(fontSize){
+		if (typeof min1 != 'undefined' && functionId>=3)
+				 updateGraphFont2YAxis(fontSize,min1,max1,min2,max2);
+				 else 
+				 updateGraphFont(fontSize,minvalue,maxvalue);
+		     }
 
 
