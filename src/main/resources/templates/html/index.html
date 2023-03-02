@@ -108,11 +108,11 @@ div#content {
   </div>
   <div sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN') OR hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') OR hasAuthority('YIELD_CURVES_GRAPH_SCREEN') OR hasAuthority('YIELD_CROSSES_GRAPH_SCREEN') OR hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')" class="card">
     <div class="card-body">
-      <h5 class="card-title card-title-color">Metals</h5>
+      <h5 class="card-title card-title-color">Commodities</h5>
       <ul class="fa-ul">
 		  <li sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN')" ><a href="/bourse/any2metals"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-		  <li sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')"><a href="/bourse/precious"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious</a></li>
-		  <li sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')"><a href="/bourse/base"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Base</a></li>
+		  <li sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')"><a href="/bourse/precious"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</a></li>
+		  <li sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')"><a href="/bourse/base"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Base Metals</a></li>
 		  <li sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/metaldatafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Data End Function display</a></li>
 		</ul>
     </div>

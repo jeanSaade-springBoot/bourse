@@ -200,8 +200,9 @@
 	    	    });	
 	    	    
 		          $("#grid").jqxGrid('showloadelement');  
-	    	      getPreciousAuditGridSource();
-          		  getBaseAuditGridSource();
+	    	      // getPreciousAuditGridSource();
+          		  // getBaseAuditGridSource();
+          		  getAuditGridSource();
 		          getFilterData();         
 		           
 		          inputDataPresious.addEventListener("blur", function() {
@@ -1016,6 +1017,109 @@
 			    	        }
 			    	    });
 			
+			}
+				function getAuditGridSource(){
+				    var preciousDate=null;
+				    var baseDate=null;
+				    var preciousDateResponce=null;
+				    var baseDateResponce=null;
+				    
+					 $.ajax({
+			    	        contentType: "application/json",
+			    	        url: "/metals/getlatestprecious",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function (response) {
+			    	        	if(response!='')
+			    	        	  { preciousDateResponce = response;
+									preciousDate = new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
+								   }
+								   	 $.ajax({
+			    	        contentType: "application/json",
+			    	        url: "/metals/getlatestbase",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function (response) {
+			    	        	if(response!='')
+			    	        	 {
+								   baseDateResponce = response;
+			    	        	   baseDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
+								  }
+								   
+			    	    if(preciousDate <= baseDate)
+			    	         {
+									$('#dateInputAudit').jqxDateTimeInput('setDate', baseDate);
+			    	        	     date=$.jqx.dataFormat.formatdate(new Date(baseDateResponce),  'dd-MM-yyyy');
+			    	        	     
+			    	        	     var dbDate=  baseDate;
+									 var systemDate=new Date();
+			    	        	     systemDate.setHours(0,0,0,0);
+			    				  
+										if( dbDate.toDateString() == systemDate.toDateString())
+										 {		filterDate=date;
+						    				    delete auditGridSource.localdata;   
+						    				     auditGridSource.url='/metals/getpreciousauditdata/'+date;
+						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+						    					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
+						    			 }
+						    			 
+						    			 if( dbDate.toDateString() == systemDate.toDateString())
+										 {	  
+				    				     filterDate=date;
+							    	     delete auditBaseGridSource.localdata;   
+				    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
+				    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
+				    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+				    					 }
+			    	        	}
+			    	       else 
+			    	         {
+									$('#dateInputAudit').jqxDateTimeInput('setDate', preciousDate);
+			    	        	     date=$.jqx.dataFormat.formatdate(new Date(preciousDateResponce),  'dd-MM-yyyy');
+			    	        	     
+			    	        	     var dbDate=  preciousDate;
+									 var systemDate=new Date();
+			    	        	     systemDate.setHours(0,0,0,0);
+			    				  
+										if( dbDate.toDateString() == systemDate.toDateString())
+										 {		filterDate=date;
+						    				    delete auditGridSource.localdata;   
+						    				     auditGridSource.url='/metals/getpreciousauditdata/'+date;
+						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+						    					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
+						    			 }
+						    			 
+						    			 if( dbDate.toDateString() == systemDate.toDateString())
+										 {	  
+				    				     filterDate=date;
+							    	     delete auditBaseGridSource.localdata;   
+				    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
+				    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
+				    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+				    					 }
+			    	        	}
+			    	        	 
+			
+			    	        },
+			    	        error: function (e) {
+			    	        	
+								  console.log("ERROR : ", e);
+			
+			    	        }
+			    	    });
+			    	        },
+			    	        error: function (e) {
+			    	        	
+								  console.log("ERROR : ", e);
+			
+			    	        }
+			    	    });
+				
+			    	   
 			}
 		  function getFilterData()
 		  {

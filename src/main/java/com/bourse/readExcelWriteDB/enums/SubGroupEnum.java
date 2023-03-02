@@ -6,7 +6,7 @@ public enum SubGroupEnum {
 	ALUMINUM(6,3,"2"),
 	SILVER(6,2,"3"), 
 	COPPER(7,1,"1"), 
-	PLATINUM(7,2,"2"),
+	PLATINUM(7,3,"2"),
 	STEEL(7,3,"3"), 
 	LUMBER(7,4,"4"), 
 	OTHER(0,0,"OTHER");
@@ -27,9 +27,9 @@ public enum SubGroupEnum {
 				switch (subGroupId) {
 		            case 1:
 		                return GOLD.index;
-		            case 2:
-		                return PLATINUM.index;
 		            case 3:
+		                return PLATINUM.index;
+		            case 2:
 		                return SILVER.index;
 		        }
 		else if(groupId==7)

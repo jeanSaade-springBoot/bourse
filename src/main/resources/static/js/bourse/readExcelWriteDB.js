@@ -110,8 +110,9 @@ var familysource =
 			    processData: false,
 			    contentType: false,
 			    success: function(response) {
+				    $("input[type='file']").val('');
+					$("span.inf__hint").html('or drag and drop files here');
 					
-				
 					$("#result").css("color","black");
 					$("#result").css("background","#00e7b8");
 					$("#result").css("margin-top","1rem");

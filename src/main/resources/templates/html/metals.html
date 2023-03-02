@@ -166,7 +166,7 @@ button#deleteByDate {
 				  
 				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
 				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SOVEREIGN')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/sovereignyields" role="tab" aria-controls="nav-any2" aria-selected="false">SOVEREIGN YIELDS</a>
-				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_METALS')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/metals" role="tab" aria-controls="nav-any2" aria-selected="false">METALS</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_METALS')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/metals" role="tab" aria-controls="nav-any2" aria-selected="false">COMMODITIES</a>
 				  </div>
 				</nav>
             </div>
@@ -183,7 +183,7 @@ button#deleteByDate {
   			 <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
                  <div class="col-4 d-flex justify-content-between">
-                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input - Metals</h6>
+                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input - Commodities</h6>
                   <div id='dateInput'></div>
                    </div>
                    <div class="col-8">
@@ -197,7 +197,7 @@ button#deleteByDate {
                  <div class="row">
                  <div class="col-4 d-flex justify-content-between">
                 	 <div class="col-5 pr-0">
-	                	 <div class="col pl-0 ">Precious</div>
+	                	 <div class="col pl-0 ">Precious Metals</div>
 		                 <div class="col p-0 ">
 		                  <form  id="dataformInput">
 		                  <div class="form-group" style=" margin-top: 0">
@@ -225,7 +225,7 @@ button#deleteByDate {
 		                 </div>
 	                 </div>
 	                 	 <div class="col-7 p-0">
-	                	 <div class="col">Base</div>
+	                	 <div class="col">Base Metals </div>
 		                 <div class="col pr-0">
 		                  <form  id="baseDataformInput">
 		                  <div class="form-group" style=" margin-top: 0">
@@ -259,7 +259,7 @@ button#deleteByDate {
                    <div class="col-7 p-0">
                        <div class="d-flex justify-content-between pb-1">
 		                    <div class="col-9 p-0"> 
-		                    	Precious
+		                    	Precious Metals
 							</div>
 							<div class="col-3 p-0">
 							 <button id="deletePreciousByDate" style="font-size: .8rem; float: right;">Delete</button> 
@@ -270,7 +270,7 @@ button#deleteByDate {
 					<div class="col-5 ">
                        <div class="d-flex justify-content-between pb-1">
 	                    <div class="col-9 p-0"> 
-	                    	Base
+	                    	Base Metals
 						</div>
 						<div class="col-3 p-0">
 						 <button id="deleteBaseByDate" style="font-size: .8rem;">Delete</button> 
@@ -316,7 +316,7 @@ button#deleteByDate {
      <div class="col border ml-2 p-1 rounded">
         <div class="row">
           <div class="col-sm-4">
-             <h6 class="col font-weight-bold">Precious</h6>
+             <h6 class="col font-weight-bold">Precious Metals</h6>
              <div class="d-flex justify-content-between">
              	<div id='jqxCheckBoxGold' style='float: left;'><span class="checkboxesTitle">Gold</span></div> 
              	<div id='jqxCheckBoxPlatinum' style='float: left;'><span class="checkboxesTitle">Platinum</span></div>
@@ -326,7 +326,7 @@ button#deleteByDate {
          	 </div>
            </div>
            <div class="col-sm-3">
-             <h6 class="col font-weight-bold">base</h6>
+             <h6 class="col font-weight-bold">Base Metals</h6>
                 <div class="d-flex justify-content-between">
              	<div id='jqxCheckBoxCopper' style='float: left;'><span class="checkboxesTitle">Copper</span></div> 
              	<div id='jqxCheckBoxAluminum' style='float: left;'><span class="checkboxesTitle">Aluminum</span></div>

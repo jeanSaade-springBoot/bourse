@@ -200,3 +200,7 @@ CREATE TABLE `asset_news_order` (
 
 alter table news_order add column asset_id integer not null;
 update news_order set asset_id = 1;
+
+UPDATE `bourse`.`asset_class` SET `description` = 'COMMODITIES', `asset_code` = 'COM' WHERE (`id` = '2');
+UPDATE `bourse`.`groups_table` SET `description` = 'PRECIOUS METALS' WHERE (`id` = '6');
+UPDATE `bourse`.`groups_table` SET `description` = 'BASE METALS' WHERE (`id` = '7');

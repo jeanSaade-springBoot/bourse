@@ -22,6 +22,7 @@ import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
+import com.bourse.dto.SelectedSearchDTO;
 import com.bourse.enums.BaseSubGroupEnum;
 import com.bourse.enums.CrossCountryEnum;
 import com.bourse.enums.FunctionEnum;
@@ -44,20 +45,17 @@ public class MetalsService {
 	
 	public HashMap<String,List> getGridData( MainSearchFilterDTO mainSearchFilterDTO)
 	{
-       
 		QueryColumnsDTO queryColumnsDTO = MetalsUtil.buildDynamicGridQuery(mainSearchFilterDTO);
 		String queryStr = queryColumnsDTO.getQuery();
 		System.out.println("queryStr:--------------: \n\n"+queryStr+"\n--------------------------");
 		HashMap<Integer,String>  colHash= new HashMap<Integer, String>(); 
 		colHash = queryColumnsDTO.getColHash();
-	
 
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("GetDynnamicGridData");
 		query.registerStoredProcedureParameter("sqlQuery", String.class, ParameterMode.IN);
 		query.setParameter("sqlQuery",queryStr );
 		List<Object[]> lstdata = query.getResultList();
           
-		
 		int i=1;
 		HashMap<String,List> hashData = new HashMap<String, List>();
 		HashMap<String,String> hashRows = new HashMap<String, String>();
@@ -86,6 +84,7 @@ public class MetalsService {
 		hashData.put("columns", lstRowsConfig);
 		return hashData;
 	}
+	
 	
 	public List buildColumns(HashMap<Integer,String>  colHash)
 	{
