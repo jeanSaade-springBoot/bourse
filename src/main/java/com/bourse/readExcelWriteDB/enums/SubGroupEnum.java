@@ -3,10 +3,10 @@ package com.bourse.readExcelWriteDB.enums;
 public enum SubGroupEnum {
 	
 	GOLD(6,1,"1"), 
-	ALUMINUM(6,3,"2"),
+	PLATINUM(6,3,"2"),
 	SILVER(6,2,"3"), 
-	COPPER(7,1,"1"), 
-	PLATINUM(7,3,"2"),
+	COPPER(7,1,"1"),
+	ALUMINUM(7,2,"2"),
 	STEEL(7,3,"3"), 
 	LUMBER(7,4,"4"), 
 	OTHER(0,0,"OTHER");

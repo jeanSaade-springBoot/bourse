@@ -236,12 +236,9 @@ public class SovereignUtil {
 					 colHash.put(columnsId, CrossCountryEnum.getCrossByID(crossInst.getCrossGroupId())+"_"+yield);
 					 columnsId++;
 					 counter = counter+1;	 
+				 }
 			 }
 			 
-			 
-
-		 }
-		 
 		 for(int i=1; i<counter;i++)
 		 {
 			 if(i<counter-1)

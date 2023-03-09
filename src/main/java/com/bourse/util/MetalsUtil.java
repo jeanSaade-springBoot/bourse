@@ -160,7 +160,7 @@ public class MetalsUtil {
 					 +forUsetables.replaceAll("LEFT", "RIGHT")
 					 +forUseWhere
 					 +"  ) tab,(SELECT @row_number := 0) AS t  \r\n"
-					 + "ORDER BY tab.refer_date desc;";
+					 + "ORDER BY STR_TO_DATE(tab.refer_date, '%m-%d-%Y') desc;";
 		 
 		 QueryColumnsDTO queryColumnsDTO = QueryColumnsDTO.builder()
 				 .colHash(colHash)
