@@ -53,5 +53,22 @@ var itemValue = {
 			"description": "LUMBER",
 			"title": "LUMBER"
 		},
-
+		"#jqxCheckBoxCorn": {
+			"subGroupId": "1",
+			"GroupId": "8",
+			"description": "CORN",
+			"title": "CORN"
+		},
+		"#jqxCheckBoxSugar": {
+			"subGroupId": "2",
+			"GroupId": "8",
+			"description": "SUGAR",
+			"title": "SUGAR"
+		},
+		"#jqxCheckBoxWheat": {
+			"subGroupId": "3",
+			"GroupId": "8",
+			"description": "WHEAT",
+			"title": "WHEAT"
+		},
 	};

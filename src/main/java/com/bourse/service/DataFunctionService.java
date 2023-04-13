@@ -207,7 +207,24 @@ public class DataFunctionService {
 				
 				query=query+ queryTables+ "  where  (STR_TO_DATE( t.refer_date,'%d-%m-%Y') between '"+dataFunctionReqDTO.getFromdate()+"' and '"+dataFunctionReqDTO.getTodate()+"') "+ queryAnd;
 				query=query+"  order by STR_TO_DATE(t.refer_date,'%d-%m-%Y') desc";
-			}
+			}else
+				if (dataFunctionReqDTO.getGroupId().equalsIgnoreCase("8"))
+				{
+					for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
+						queryValues=queryValues+",t"+i+".value as "+dataFunctionReqDTO.getFunctions()[i];
+						queryTables=queryTables+" ,"+tableNames.get(i)+" t"+i;
+						queryAnd = queryAnd + " and t.refer_date =t"+i+".refer_date";
+					}
+					query=query+" REPLACE(CASE\r\n"
+							+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 1 THEN t.CORN\r\n"
+							+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 2 THEN t.SUGAR\r\n"
+							+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 3 THEN t.WHEAT END ,'%','')  as daily_input ";
+					
+					query=query + queryValues+" from tmp_audit_foodstuff t ";
+					
+					query=query+ queryTables+ "  where  (STR_TO_DATE( t.refer_date,'%d-%m-%Y') between '"+dataFunctionReqDTO.getFromdate()+"' and '"+dataFunctionReqDTO.getTodate()+"') "+ queryAnd;
+					query=query+"  order by STR_TO_DATE(t.refer_date,'%d-%m-%Y') desc";
+				}
 		return query;
 	}
 	

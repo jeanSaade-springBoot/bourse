@@ -749,7 +749,7 @@
 					img = '<img height="48" width="48" src="/img/gold-silver.png">'
 					break;
 			}
-			else 
+			else if (GroupId=='7')
 			switch(subGroupId) {
 			  
 				case '1':
@@ -763,6 +763,18 @@
 					break;
 				case '4':
 					img = '<img height="48" width="48" src="/img/lumber.png">'
+					break;
+			}else if (GroupId=='8')
+			switch(subGroupId) {
+			  
+				case '1':
+					img = '<img height="48" width="48" src="/img/corn.png">'
+					break;
+				case '2':
+					img = '<img height="48" width="48" src="/img/sugar.png">'
+					break;
+				case '3':
+					img = '<img height="48" width="48" src="/img/wheat.png">'
 					break;
 			}
 		return img;
