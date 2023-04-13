@@ -76,7 +76,7 @@ public class DataFunctionService {
 			return null;   
 		List<String> tableNames = new ArrayList<String>();
 		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
-			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("metals_function_grid_main",GraphResponseDTO.class);
+			/*StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("metals_function_grid_main",GraphResponseDTO.class);
 			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
 			query.setParameter("groupId",dataFunctionReqDTO.getGroupId() );
 	
@@ -85,14 +85,32 @@ public class DataFunctionService {
 			
 			query.registerStoredProcedureParameter("functionId", String.class, ParameterMode.IN);
 			query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByDesc(dataFunctionReqDTO.getFunctions()[i])));
-			query.execute();
-			tableNames.add(getMetalTableName(dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId(),dataFunctionReqDTO.getFunctions()[i]));
+			query.execute();*/
+			String generatedTableName="";
+			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dyncamic_table_function_generator",GraphResponseDTO.class);
+			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+			query.setParameter("groupId",dataFunctionReqDTO.getGroupId() );
+	
+			query.registerStoredProcedureParameter("subGroupId", String.class, ParameterMode.IN);
+			query.setParameter("subGroupId",dataFunctionReqDTO.getSubgroupId());
+			
+			query.registerStoredProcedureParameter("factorInput", String.class, ParameterMode.IN);
+			query.setParameter("factorInput","");
+			
+			query.registerStoredProcedureParameter("functionId", String.class, ParameterMode.IN);
+			query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByDesc(dataFunctionReqDTO.getFunctions()[i])));
+			
+			query.registerStoredProcedureParameter("generatedTableName", String.class, ParameterMode.INOUT);
+			query.setParameter("generatedTableName",generatedTableName);
+			
+			generatedTableName = query.getOutputParameterValue("generatedTableName").toString();
+			System.out.println("generatedTableName = "+generatedTableName);
+			// tableNames.add(getMetalTableName(dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId(),dataFunctionReqDTO.getFunctions()[i]));
+			 tableNames.add(generatedTableName);
 		}
 		List<DataFunctionRespDTO> data = getListDataFunctionFromProcedure(buildDyamicQueryForMetals(tableNames,dataFunctionReqDTO),2,null,dataFunctionReqDTO);
 		return data;
-	    
 	}
-	
 	
 	public String buildDyamicQuery(List<String> tableNames,DataFunctionReqDTO dataFunctionReqDTO)
 	{
