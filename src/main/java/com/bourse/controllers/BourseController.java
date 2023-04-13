@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -102,8 +103,8 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_METALS') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/metals")
-    public ModelAndView dataEntryPreciousMetalsPage(ModelMap model)
-    {
+    public ModelAndView dataEntryPreciousMetalsPage(@RequestParam("commodity") String commodity,ModelMap model)
+    {   model.addAttribute("commodity", Integer.valueOf(commodity));
 		return new ModelAndView("html/metals");
     }
 	@RequestMapping( value =  "/returnfunction")

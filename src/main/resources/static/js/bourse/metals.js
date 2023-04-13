@@ -20,6 +20,10 @@
          			   "#jqxCheckBoxAluminum",
          			   "#jqxCheckBoxSteel",
          			   "#jqxCheckBoxLumber"];   
+          var foodStuffItem=[
+         			   "#jqxCheckBoxCorn",
+         			   "#jqxCheckBoxSugar",
+         			   "#jqxCheckBoxWheat"]; 			   
          			   
 		 var preciousAuditDefaultData=[{
              "gold": "",
@@ -32,10 +36,17 @@
              "steel": "",
              "lumber": "",
            }];  
+          var foodStuffAuditDefaultData=[{
+             "corn": "",
+             "sugar": "",
+             "wheat": ""
+           }];  
          var source;
          var inputDataPresious = document.getElementById("precious-input");
          var inputDataBase = document.getElementById("base-input");
+         var inputDataFoodStuff = document.getElementById("foodStuff-input");
          
+         const commoditySubGroupValue = $("#commoditySubGroup")[0].innerText;
 		 $(document).ready(function () {
 			  $('#overlay').fadeOut();
 			  $('#container-wrapper').show();
@@ -47,97 +58,28 @@
 				  });
 			  $('[data-toggle="tooltip"]').tooltip();   
 			  
+			  if(commoditySubGroupValue==1){
+				 $("#precious-btn").addClass('active');
+			  }else 
+			   if(commoditySubGroupValue==2){
+			   $("#base-btn").addClass('active');
+			   }else 
+			   if(commoditySubGroupValue==3){
+			   $("#foodStuff-btn").addClass('active');
+			   }
+			   
+			  rendercommoditySubGroup(commoditySubGroupValue);
+    
 			  $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' });
               $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' }); 
-		      $("#deletePreciousByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
-		      $("#deleteBaseByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
+		     
 		      $("#dateInputFrom").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px'});
               $("#dateInputFrom").jqxDateTimeInput('setDate', monthDate);
         	  $("#dateInputTo").jqxDateTimeInput({  theme:'dark', width: '200px', height: '25px' }); 
 		      $("#filter").jqxButton({ theme: 'dark',height:30,width:74  });
 	          $("#Clearfilter").jqxButton({ theme: 'dark',height:30,width:74 });
-	          $("#CancelPreciousData").jqxButton({ theme: 'dark',height:30,width:74 });
-	          $("#loadPreciousData").jqxButton({ theme: 'dark',height:30,width:74 }); 
-		      $("#CancelBaseData").jqxButton({ theme: 'dark',height:30,width:74 });
-	          $("#loadBaseData").jqxButton({ theme: 'dark',height:30,width:74 }); 
-		      
-		        for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
-		       }
-		       
-		       auditGridSource =
-	            {    
-	            localdata:preciousAuditDefaultData,
-	            datatype: "json",
-                datafields: [
-                    { name: 'gold', type: 'string' },
-                    { name: 'platinum', type: 'string' },
-                    { name: 'silver', type: 'string' },
-                    { name: 'platinum_GOLD', type: 'string' },
-                    { name: 'gold_SILVER', type: 'string' }
-                    
-                ],
-                url:''
-	            };
-	            var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-	            var eventName = "onclick";
-	            $("#preciousAuditGrid").jqxGrid(
-	            {
-	                width: '100%',
-	                source: dataAdapter,  
-	                theme:'dark',
-	                autoheight: true,
-	                editable: true,
-	                selectionmode: 'none',
-	                editmode: 'selectedrow',
-	                columns: [ 
-	                	   { text: '',editable:false, datafield: 'Edit',width:'24%',cellsrenderer: function (row) {
-		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
-		                   }
-		                  },  
-		                  { text: 'GOLD', datafield: 'gold', width: '15.2%' },
-		                  { text: 'PLATINUM', datafield: 'platinum', width: '15.2%' },
-		                  { text: 'SILVER', datafield: 'silver', width: '15.2%' },
-		                  { text: 'PLAT-GOLD', datafield: 'platinum_GOLD', width: '15.2%',editable: false, },
-		                  { text: 'GOLD/SILV', datafield: 'gold_SILVER', width: '15.2%', editable: false, },
-	                ]
-	            });
-	            auditBaseGridSource =
-	            {    
-	            localdata:baseAuditDefaultData,
-	            datatype: "json",
-                datafields: [
-                    { name: 'copper', type: 'string' },
-                    { name: 'aluminum', type: 'string' },
-                    { name: 'steel', type: 'string' },
-                    { name: 'lumber', type: 'string' }
-                ],
-                url:''
-	            };
-	            var baseDataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
-	            $("#baseAuditGrid").jqxGrid(
-	            {
-	                width: '100%',
-	                source: baseDataAdapter,  
-	                theme:'dark',
-	                autoheight: true,
-	                editable: true,
-	                selectionmode: 'none',
-	                editmode: 'selectedrow',
-	                columns: [ 
-	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
-		                	return "<input class=\"edit\" type=\"button\" onclick='EditBase(" + row + ", event)' id=\"editBase"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtonsBase"+row+"\" style=\"display:none\"><input  onclick='UpdateBase(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='CancelBase(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
-		                    
-		                  }
-		                  },  
-		                  { text: 'COPPER', datafield: 'copper', width: '19.5%' },
-		                  { text: 'ALUMINUM', datafield: 'aluminum', width: '19.5%' },
-		                  { text: 'STEEL', datafield: 'steel', width: '19.5%' },
-		                  { text: 'LUMBER', datafield: 'lumber', width: '19.5%'},
-	                ]
-	            });
-	              source =
+	         
+	          source =
 		             {
 		                 datatype: "json",
 		                 datafields: [
@@ -150,7 +92,10 @@
 	 		                    { name: 'COPPER',  type: 'float'},
 	 		                    { name: 'ALUMINUM',  type: 'float'},
 	 		                    { name: 'STEEL',  type: 'float'},
-	 		                    { name: 'LUMBER',  type: 'float'}
+	 		                    { name: 'LUMBER',  type: 'float'},
+	 		                    { name: 'CORN',  type: 'float'},
+	 		                    { name: 'SUGAR',  type: 'float'},
+	 		                    { name: 'WHEAT',  type: 'float'}
 	 		                 ],
 	                         id: 'id',
 	                         localdata: ''
@@ -168,142 +113,12 @@
 		                        columnsresize: true,
 		                        pagesizeoptions: ['10', '20', '50']
 		                    });
-		                    
-		           $.ajax({
-	       	        contentType:  "application/json; charset=utf-8",
-	    	        url: "/bourse/getdataentryfilterhistory/"+"DATABASE_INPUT_SCREEN_METALS",
-	    	        dataType: 'json',
-	    	        timeout: 600000,
-	    	        async:false,
-	    	        success: function (response) {
-	    	        
-	    	       if (response.filterHistory!=null)
-	    	    	   {
-	    	    	   var filterresponse = response.filterHistory;
-	    	    	   for(i=0; i<filterresponse.split(",").length; i++)
-		    			   {
-		    		    	$(filterresponse.split(",")[i]).jqxCheckBox({checked:true});
-		    		       } 
-	    	    	   }
-	    	       else{
-	    	    	   for(i=0; i<metalsPreciousItem.length; i++)
-	    			   {
-	    		    	$(metalsPreciousItem[i]).jqxCheckBox({checked:true});
-	    		       } 
-	    	       }
-	                  },
-	    	        error: function (e) {
-	    	        	
-						  console.log("ERROR : ", e);
+		     	 getFilterHistory(commoditySubGroupValue);
 	
-	    	        }
-	    	    });	
-	    	    
 		          $("#grid").jqxGrid('showloadelement');  
-	    	      // getPreciousAuditGridSource();
-          		  // getBaseAuditGridSource();
-          		  getAuditGridSource();
-		          getFilterData();         
-		           
-		          inputDataPresious.addEventListener("blur", function() {
-				  if($("#precious-input").val()!="")
-					  {
-					  $("#dataformInput").css("display","none");
-					  $("#dataInputGrid").css("display","block"); 
-					  $("#dataInputButtons").css("display","block"); 
-			
-					  var localdata = [];
-
-					  var dataIput =$("#precious-input").val()
-					  var dataInputRows = dataIput.split(/\r?\n/);
-					  var rowData = dataInputRows[0].split(/\r?\t/);
-					   localdata.push({
-					  			"gold": rowData[0],
-					  			"platinum":  rowData[1],
-					  			"silver": rowData[2]
-					  		});
-					  
-					  var dataInputGridSource =
-			            {
-			                datatype: "json",
-			                datafields: [
-			                    { name: 'gold', type: 'string' },
-			                    { name: 'platinum', type: 'string' },
-			                    { name: 'silver', type: 'string' },
-			                ],
-			                localData:localdata
-			            };
-			             var dataAdapter = new $.jqx.dataAdapter(dataInputGridSource);
-			            // initialize jqxGrid
-			            $("#dataInputGrid").jqxGrid(
-			            {
-			                width: '100%',
-			                source: dataAdapter,  
-			                theme:'dark',
-			                enabletooltips: true,
-			                selectionmode: 'none',
-			                autoheight: true,
-			                columns: [ 
-			                      { text: '<img height="48" width="48" src="/img/gold.png">', datafield: 'gold', width: '33.3%' },
-				                  { text: '<img height="48" width="48" src="/img/platinum.png">', datafield: 'platinum', width: '33.3%'},
-				                  { text: '<img height="48" width="48" src="/img/silver.png">', datafield: 'silver', width: '33.3%' }
-			                ]
-			            });
-					  
-					  }
-				});
-				
-				inputDataBase.addEventListener("blur", function() {
-				  if($("#base-input").val()!="")
-					  {
-					  $("#baseDataformInput").css("display","none");
-					  $("#baseDataInputGrid").css("display","block"); 
-					  $("#baseDataInputButtons").css("display","block"); 
-			
-					  var localdata = [];
-
-					  var dataIput =$("#base-input").val()
-					  var dataInputRows = dataIput.split(/\r?\n/);
-					  var rowData = dataInputRows[0].split(/\r?\t/);
-					   localdata.push({
-					  			"copper": rowData[0],
-					  			"aluminum":  rowData[1],
-					  			"steel": rowData[2],
-					  			"lumber": rowData[3]
-					  		});
-					  
-					  var dataInputGridSource =
-			            {
-			                datatype: "json",
-			                datafields: [
-			                    { name: 'copper', type: 'string' },
-			                    { name: 'aluminum', type: 'string' },
-			                    { name: 'steel', type: 'string' },
-			                    { name: 'lumber', type: 'string' },
-			                ],
-			                localData:localdata
-			            };
-			             var dataAdapter = new $.jqx.dataAdapter(dataInputGridSource);
-			            // initialize jqxGrid
-			            $("#baseDataInputGrid").jqxGrid(
-			            {
-			                width: '100%',
-			                source: dataAdapter,  
-			                theme:'dark',
-			                enabletooltips: true,
-			                selectionmode: 'none',
-			                autoheight: true,
-			                columns: [ 
-			                      { text: '<img height="48" width="48" src="/img/copper.png">', datafield: 'copper', width: '25%' },
-				                  { text: '<img height="48" width="48" src="/img/aluminum.png">', datafield: 'aluminum', width: '25%'},
-				                  { text: '<img height="48" width="48" src="/img/steel.png">', datafield: 'steel', width: '25%' },
-				                  { text: '<img height="48" width="48" src="/img/lumber.png">', datafield: 'lumber', width: '25%' }
-			                ]
-			            });
-					  
-					  }
-				});  
-				
+	    	    
+		          getFilterData(commoditySubGroupValue);         
+		         
 				$("#CancelPreciousData").click(function () {
             	  inputDataPresious.value="";
             	  $("#dataformInput").css("display","block");
@@ -316,7 +131,14 @@
             	  $("#baseDataformInput").css("display","block");
 				  $("#baseDataInputButtons").css("display","none"); 
 				  $("#baseDataInputGrid").css("display","none"); 
-               });  
+               }); 
+                
+                $("#CancelFoodStuffData").click(function () {
+            	  inputDataFoodStuff.value="";
+            	  $("#foodStuffDataformInput").css("display","block");
+				  $("#foodStuffDataInputButtons").css("display","none"); 
+				  $("#foodStuffDataInputGrid").css("display","none"); 
+               }); 
                
              $("#loadPreciousData").click(function () {
             	var date = new Date();
@@ -365,7 +187,7 @@
 	    	        	{
 							 $.ajax({
 						        contentType: "application/json",
-						        url: "/process/isrobottriggered/2",
+						        url: "/process/isrobottriggered/2/6",
 						        dataType: 'text',
 								async:true,
 						        cache: false,
@@ -389,7 +211,7 @@
 						    	    	        success: function (data) {
 													
 						    	    	        
-												 getFilterData();
+												 getFilterData(commoditySubGroupValue);
 						    	    	        	  
 						  						 inputDataPresious.value="";
 						  		            	  $("#dataformInput").css("display","block");
@@ -405,11 +227,6 @@
 						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 						    					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
 						    					
-						    					 delete auditBaseGridSource.localdata;   
-							    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
-							    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
-							    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
-						    					 
 						    	    	         triggerRobots();	
 						    	    	         
 						    	            },
@@ -445,7 +262,7 @@
             		 $('#alertDate-modal').modal('show'); 
             	 }
              });
-                   $("#loadBaseData").click(function () {
+             $("#loadBaseData").click(function () {
             	var date = new Date();
             	var dataToBeInserted = [];
             	var copperObject=["1"];
@@ -494,7 +311,7 @@
 	    	        	{
 							 $.ajax({
 						        contentType: "application/json",
-						        url: "/process/isrobottriggered/2",
+						        url: "/process/isrobottriggered/2/7",
 						        dataType: 'text',
 								async:true,
 						        cache: false,
@@ -518,7 +335,7 @@
 						    	    	        success: function (data) {
 													
 						    	    	        
-												getFilterData();
+												getFilterData(commoditySubGroupValue);
 						    	    	        	  
 						  						 inputDataBase.value="";
 						  		            	  $("#baseDataformInput").css("display","block");
@@ -529,15 +346,133 @@
 						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 						    	        	  
 						    				     filterDate=date;
-						    				     delete auditGridSource.localdata;   
-						    				     auditGridSource.url='/metals/getpreciousauditdata/'+date;
-						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-						    					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
-						    					 
+						    				    
 						    				      delete auditBaseGridSource.localdata;   
-							    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
-							    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
-							    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+							    				  auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
+							    				  basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
+							    				  $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+						    					 
+						    	    	         triggerRobots();	
+						    	    	         
+						    	            },
+						    	    	        error: function (e) {
+						    	    	        	
+						    						  console.log("ERROR : ", e);
+						    	
+						    	    	        }
+						    	    	    });
+											}
+					
+								},
+						        error: function (e) {
+						        	
+										  console.log("ERROR : ", e);
+					
+						        }
+						    });
+
+	    	        	}
+	    	        	else{
+	    	        		$('#alert-modal').modal('show'); 
+	    	        	}
+	            },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });
+           	     }
+            	 else {
+            		 $('#alertDate-modal').modal('show'); 
+            	 }
+               });  
+                $("#loadFoodStuffData").click(function () {
+            	var date = new Date();
+            	var dataToBeInserted = [];
+            	
+            	var cornObject=["1"];
+            	var sugarObject=["2"];
+            	var wheatObject=["3"];
+				
+            	var rows = $('#foodStuffDataInputGrid').jqxGrid('getrows');
+            	for (i = 0; i < rows.length; i++) {
+            	   cornObject.push(rows[i].corn);
+            	   sugarObject.push(rows[i].sugar);
+            	   wheatObject.push(rows[i].wheat);
+            	}
+
+            	var listObject=["cornObject","sugarObject","wheatObject"];
+            	 
+            	 for (i = 0; i < listObject.length; i++) {
+
+            	      var value = eval(listObject[i]);
+            		 	dataToBeInserted.push({
+            			   "subgroupId":value[0],
+            			   "value":value[1],
+            			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+            			});
+            	 }
+            	 
+            	 if($("#dateInput").jqxDateTimeInput('getDate')<date)
+           	     {
+            		 var today = $("#dateInput").jqxDateTimeInput('getDate');
+            		 if(today.getDay() == 6 || today.getDay() == 0)
+            		 { 
+            			 $('#alert-modal-weekend').modal('show'); 
+            			 return;
+            		 }
+            		 today=$.jqx.dataFormat.formatdate(today,  'dd-MM-yyyy')
+            		 $.ajax({
+	    	        contentType: "application/json",
+	    	        url: "/metals/checkifcansavefoodstuff/"+today, 
+	    	        dataType: 'json',
+	    	        async:true,
+	    	        cache: false,
+	    	        timeout: 600000,
+	    	        success: function (response) {
+	    	        	if(response)
+	    	        	{
+							 $.ajax({
+						        contentType: "application/json",
+						        url: "/process/isrobottriggered/2/8",
+						        dataType: 'text',
+								async:true,
+						        cache: false,
+						        timeout: 600000,
+						        success: function (data) {
+				      
+								if(data=='true')
+								   $('#alert-modal-robot').modal('show'); 
+								else{
+									
+						    	       	  $.ajax({
+						    	    	        type: "POST",
+						    	    	        contentType: "application/json",
+						    	    	        url: "/metals/savefoodstuffdata",
+						    	    	        data: JSON.stringify(dataToBeInserted),
+						    	    	        dataType: 'json',
+						    	    	        async:true,
+						    	    	        cache: false,
+						    	    	        timeout: 600000,
+						    	    	        success: function (data) {
+													
+													getFilterData(commoditySubGroupValue);
+						    	    	        	  
+						  						 inputDataFoodStuff.value="";
+						  		            	  $("#foodStuffDataformInput").css("display","block");
+						  						  $("#foodStuffDataInputButtons").css("display","none"); 
+						  						  $("#foodStuffDataInputGrid").css("display","none");
+						  						
+						  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
+						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+						    	        	  
+						    				    filterDate=date;
+						    				    
+						    				      delete auditFoodStuffGridSource.localdata;   
+							    				  auditFoodStuffGridSource.url='/metals/getfoodstuffauditdata/'+date;
+							    				  foodStuffdataAdapter = new $.jqx.dataAdapter(auditFoodStuffGridSource);
+							    				  $('#foodStuffAuditGrid').jqxGrid({source:foodStuffdataAdapter});
 						    					 
 						    	    	         triggerRobots();	
 						    	    	         
@@ -579,16 +514,22 @@
              	 $('#dateInputAudit').on('change', function (event) 
 				 {  date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				    filterDate=date;
-				    
-    				     delete auditGridSource.localdata;   
+				     if (commoditySubGroupValue==1)
+    				   {  delete auditGridSource.localdata;   
     				     auditGridSource.url='/metals/getpreciousauditdata/'+date;
     					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
     					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
-    					 
-    					    delete auditBaseGridSource.localdata;   
+    					}else if (commoditySubGroupValue==2)
+    					{ delete auditBaseGridSource.localdata;   
     				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
     					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
     					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
+    					 }else if (commoditySubGroupValue==3)
+    					{ delete auditFoodStuffGridSource.localdata;   
+    				     auditFoodStuffGridSource.url='/metals/getfoodstuffauditdata/'+date;
+    					 foodStuffdataAdapter = new $.jqx.dataAdapter(auditFoodStuffGridSource);
+    					 $('#foodStuffAuditGrid').jqxGrid({source:foodStuffdataAdapter});
+    					 }
 				 }); 
 
                $("#deletePreciousByDate").click(function () {
@@ -604,9 +545,17 @@
 				  $( "#alertBaseTextDeleteDataByDate" ).empty();
 		 		  $( "#alertBaseTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all Base metals record for the date '"+date+"'?</p>" );
 				 }); 
+				 
+				$("#deleteFoodStuffByDate").click(function () {
+				$('#alertDeleteFoodStuffDataByDate-modal').modal('show'); 
+		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				  $( "#alertFoodStuffTextDeleteDataByDate" ).empty();
+		 		  $( "#alertFoodStuffTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all FoodStuff record for the date '"+date+"'?</p>" );
+				 }); 
+				 
 			$("#filter").click(function () {
             	
-            	getFilterData();
+            	getFilterData(commoditySubGroupValue);
                });    
 		   });// end document ready
 		   
@@ -661,11 +610,11 @@
 				     };
 				     selectedRow.editrow = row;
 				     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
-				     if(auditGridSource.url=='' || date!=filterDate)
+				     if(auditBaseGridSource.url=='' || date!=filterDate)
 				     { 
-				    	 delete auditGridSource.localdata;   
-    				     auditGridSource.url='/metals/getbaseauditdata/'+date;
-    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+				    	 delete auditBaseGridSource.localdata;   
+    				     auditBaseGridSource.url='/metals/getbaseauditdata/'+date;
+    					 dataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
     					 $('#baseAuditGrid').jqxGrid({source:dataAdapter});
 				     } 
 				     setTimeout(function(){
@@ -677,6 +626,43 @@
 					    	$("#baseAuditGrid").jqxGrid('beginrowedit', row);
 					    	$("#editBase"+row).css("display","none");
 							$("#actionButtonsBase"+row).css("display","contents"); 
+					    	if (event) {
+					    		if (event.preventDefault) {
+					    			event.preventDefault();
+					    		}
+					    	} 
+						}
+				    	
+				    	return false;
+				     }, 300);
+			    }	 
+			     function EditFoodStuff(row, event) {
+				
+				     isedit=true;
+					 var data=$("#foodStuffAuditGrid").jqxGrid('getrowdata', row);	
+				     oldDataJson={
+		               "corn":data.corn,
+					   "sugar":data.sugar,
+					   "wheat":data.wheat,
+					   
+				     };
+				     selectedRow.editrow = row;
+				     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				     if(auditFoodStuffGridSource.url=='' || date!=filterDate)
+				     { 
+				    	 delete auditFoodStuffGridSource.localdata;   
+    				     auditFoodStuffGridSource.url='/metals/getfoodstuffauditdata/'+date;
+    					 dataAdapter = new $.jqx.dataAdapter(auditFoodStuffGridSource);
+    					 $('#foodStuffAuditGrid').jqxGrid({source:dataAdapter});
+				     } 
+				     setTimeout(function(){
+				    	  if(($('#foodStuffAuditGrid').jqxGrid('getrows')[0].corn!=null)&&
+				    		 ($('#foodStuffAuditGrid').jqxGrid('getrows')[0].sugar!=null)&&
+				    		 ($('#foodStuffAuditGrid').jqxGrid('getrows')[0].wheat!=null))
+						{
+					    	$("#foodStuffAuditGrid").jqxGrid('beginrowedit', row);
+					    	$("#editFoodstuff"+row).css("display","none");
+							$("#actionButtonsFoodstuff"+row).css("display","contents"); 
 					    	if (event) {
 					    		if (event.preventDefault) {
 					    			event.preventDefault();
@@ -708,8 +694,8 @@
                     for (let i = 0; i < keys.length; i++) {
 	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
                           updatedMetalsJson.push({"assetId": 2,
-												  "value": keys[i].toUpperCase()});
-									  
+                          						  "groupId":getGroupId(commoditySubGroupValue),
+												  "value": keys[i].toUpperCase()});  
 	                }
                     
 					dataToBeUpdated.push({
@@ -746,7 +732,7 @@
 				    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 				    					 $('#preciousAuditGrid').jqxGrid({source:dataAdapter});
 		      						 
-		      						getFilterData();
+		      						getFilterData(commoditySubGroupValue);
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -763,8 +749,7 @@
 				    }
 				    return false;
 			    }
-			    
-			    function UpdateBase(row, event) {
+			       function UpdateBase(row, event) {
 				   
 				   isupdate=true;
 				   var dataToBeUpdated = [];
@@ -784,6 +769,7 @@
                     for (let i = 0; i < keys.length; i++) {
 	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
                           updatedMetalsJson.push({"assetId": 2,
+                         						  "groupId":getGroupId(commoditySubGroupValue),
 												  "value": keys[i].toUpperCase()});
 	                }
                    
@@ -825,7 +811,80 @@
 				    					 basedataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
 				    					 $('#baseAuditGrid').jqxGrid({source:basedataAdapter});
 		      						 
-		      						getFilterData();
+		      						getFilterData(commoditySubGroupValue);
+		      	   },
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    });
+		      	      
+
+				    if (event) {
+				    	if (event.preventDefault) {
+				    		event.preventDefault();
+				    	}
+				    }
+				    return false;
+			    }
+			    function UpdateFoodStuff(row, event) {
+				   
+				   isupdate=true;
+				   var dataToBeUpdated = [];
+				   var updatedData = $("#foodStuffAuditGrid").jqxGrid('getrowdata', row);
+				   selectedRow.editrow = -1;
+				    $("#foodStuffAuditGrid").jqxGrid('endrowedit', row);
+				    var updatedData = $("#foodStuffAuditGrid").jqxGrid('getrowdata', row);
+				    var updatedDataJson={
+		               "corn":updatedData.corn,
+					   "sugar":updatedData.sugar,
+					   "wheat":updatedData.wheat
+				     };
+				     
+                    var keys=["corn","sugar","wheat"];
+                    var updatedMetalsJson=[];
+                    for (let i = 0; i < keys.length; i++) {
+	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
+                          updatedMetalsJson.push({"assetId": 2,
+                       						      "groupId":getGroupId(commoditySubGroupValue),
+												  "value": keys[i].toUpperCase()});
+	                }
+                   
+					    dataToBeUpdated.push({
+	         			   "subgroupId":"1",
+	         			   "value":updatedData.corn.replaceAll(',',''),
+	         			   "referdate": date
+	         			});
+						dataToBeUpdated.push({
+		         			   "subgroupId":"2",
+		         			   "value":updatedData.sugar.replaceAll(',',''),
+		         			   "referdate": date
+		         			});
+						dataToBeUpdated.push({
+		         			   "subgroupId":"3",
+		         			   "value":updatedData.wheat.replaceAll(',',''),
+		         			   "referdate": date
+		         			});
+		      	       	  $.ajax({
+		      	    	        type: "POST",
+		      	    	        contentType: "application/json",
+		      	    	        url: "/metals/updatefoodstuffauditdata",
+		      	    	        data: JSON.stringify(dataToBeUpdated),
+		      	    	        dataType: 'json',
+		      	    	        async:true,
+		      	    	        cache: false,
+		      	    	        timeout: 600000,
+		      	    	        success: function (data) {
+			  
+		                           		 updateRobotNewsOnChangeColumns(updatedMetalsJson);
+		                          
+	      	    	        		     delete auditFoodStuffGridSource.localdata;   
+				    				     auditFoodStuffGridSource.url='/metals/getfoodstuffauditdata/'+date;
+				    					 foodStuffdataAdapter = new $.jqx.dataAdapter(auditFoodStuffGridSource);
+				    					 $('#foodStuffAuditGrid').jqxGrid({source:foodStuffdataAdapter});
+		      						 
+		      						getFilterData(commoditySubGroupValue);
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -849,11 +908,17 @@
 				   selectedRow.editrow = row;
 			    	$("#preciousAuditGrid").jqxGrid('endrowedit', row, true);
 			 }
-			   function CancelBase(row) {
+			 function CancelBase(row) {
 				  isedit=false;
 				  isupdate=false;
 				   selectedRow.editrow = row;
 			    	$("#baseAuditGrid").jqxGrid('endrowedit', row, true);
+			 }
+			  function CancelFoodStuff(row) {
+				  isedit=false;
+				  isupdate=false;
+				   selectedRow.editrow = row;
+			    	$("#foodStuffAuditGrid").jqxGrid('endrowedit', row, true);
 			 }
 			    function deleteDataByDate()
 				{
@@ -886,7 +951,7 @@
 				                 console.log(e);
 				             }
 				         });
-				    getFilterData();  
+				    getFilterData(commoditySubGroupValue);  
 			        $('#alertDeleteDataByDate-modal').modal('hide');
 
  					$( "#successDelete" ).empty();
@@ -900,7 +965,7 @@
 			         });
 				
 				}
-				    function deleteBaseDataByDate()
+				function deleteBaseDataByDate()
 				{
 					$('#alertDeleteBaseDataByDate-modal').modal('hide'); 
 					date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
@@ -911,7 +976,7 @@
 			             success: function (result) { 
 							 $.ajax({
 		    	        contentType: "application/json",
-		    	        url: "/metals/checkifcansaveprecious/"+date,
+		    	        url: "/metals/checkifcansavebase/"+date,
 		    	        dataType: 'json',
 		    	        async:true,
 		    	        cache: false,
@@ -932,8 +997,54 @@
 				             }
 				         });
 							    
-					getFilterData();  
-			        $('alertDeleteBaseDataByDate-modal').modal('hide');
+					getFilterData(commoditySubGroupValue);  
+			        $('#alertDeleteBaseDataByDate-modal').modal('hide');
+
+ 					$( "#successDelete" ).empty();
+		 		    $( "#successDelete" ).append( "<p> All record for the date '"+date+"' has been deleted</p>" );
+				
+					$('#alertInfoDeleteDataByDate-modal').modal('show');  
+			             },
+			             error: function (e) {
+			                 console.log(e);
+			             }
+			         });
+				
+				}
+				function deleteFoodStuffDataByDate()
+				{
+					$('#alertDeleteFoodStuffDataByDate-modal').modal('hide'); 
+					date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				    
+			     $.ajax({
+			             type : "DELETE",
+			             url : "/metals/deletefoodstuffbyreferdate/" + date,
+			             success: function (result) { 
+							 $.ajax({
+					    	        contentType: "application/json",
+					    	        url: "/metals/checkifcansavefoodstuff/"+date,
+					    	        dataType: 'json',
+					    	        async:true,
+					    	        cache: false,
+					    	        timeout: 600000,
+					    	        success: function (response) {
+					    	        	if(!response)
+					    	        	{	 delete auditFoodStuffGridSource.localdata;   
+					    				     auditFoodStuffGridSource.url='';
+					    					 foodStuffdataAdapter = new $.jqx.dataAdapter(auditFoodStuffGridSource);
+					    					 $('#foodStuffAuditGrid').jqxGrid({source:foodStuffdataAdapter});
+									    }
+					    	        	else{
+										  getFoodStuffAuditGridSource(); 
+										 }
+					    	        	},
+							             error: function (e) {
+							                 console.log(e);
+							             }
+							         });
+							    
+					getFilterData(commoditySubGroupValue);  
+			        $('#alertDeleteFoodStuffDataByDate-modal').modal('hide');
 
  					$( "#successDelete" ).empty();
 		 		    $( "#successDelete" ).append( "<p> All record for the date '"+date+"' has been deleted</p>" );
@@ -1018,6 +1129,42 @@
 			    	    });
 			
 			}
+				function getFoodStuffAuditGridSource(){
+				
+					 $.ajax({
+			    	        contentType: "application/json",
+			    	        url: "/metals/getlatestfoodstuff",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function (response) {
+			    	        	if(response!='')
+			    	        	 {$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
+			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
+			    	        	  var dbDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
+								  var systemDate=new Date();
+			    	        	  systemDate.setHours(0,0,0,0);
+			    				  
+								if( dbDate.toDateString() == systemDate.toDateString())
+								 {	  
+			    				     filterDate=date;
+						    	     delete auditFoodStuffGridSource.localdata;   
+			    				     auditFoodStuffGridSource.url='/metals/getfoodstuffauditdata/'+date;
+			    					 foodStuffDataAdapter = new $.jqx.dataAdapter(auditFoodStuffGridSource);
+			    					 $('#foodStuffAuditGrid').jqxGrid({source:foodStuffDataAdapter});
+			    					 }
+			    	        	}
+			    	        },
+			    	        error: function (e) {
+			    	        	
+								  console.log("ERROR : ", e);
+			
+			    	        }
+			    	    });
+			
+			}
+			
 				function getAuditGridSource(){
 				    var preciousDate=null;
 				    var baseDate=null;
@@ -1121,7 +1268,7 @@
 				
 			    	   
 			}
-		  function getFilterData()
+		  function getFilterData(commoditySubGroupValue)
 		  {
           	var SelectedSearchDTO=[];
           	var allItems=0;
@@ -1129,48 +1276,71 @@
           	var json;
           	var precious=[];
           	var base=[];
+          	var foodStuff=[];
             $('#grid').jqxGrid({ showdefaultloadelement: true}); 
           	var itemPrecious = 0;
           	var itemBase = 0;
-            
-         	for (i = 0; i < metalsPreciousItem.length; i++) {
-         		if($(metalsPreciousItem[i]).jqxCheckBox('checked'))
-         		{		
-         		    precious.push(metalsPreciousItem[i].split("Box")[1].toUpperCase());	
-          			itemPrecious=1;
-          			allItems=allItems+1;
-          			checkedItem.push(metalsPreciousItem[i]);
-         		}
-          	}
-         	
-          	if(itemPrecious!=0)
-          	{
-          		SelectedSearchDTO.push({
-          		   "groupId":"1",
-       			   "selectedValues":precious,
-       			});
-          		 precious=[];
-          	}
-          	
-        	for (i = 0; i < metalsBaseItem.length; i++) {
-         		if($(metalsBaseItem[i]).jqxCheckBox('checked'))
-         		{		
-         		    base.push(metalsBaseItem[i].split("Box")[1].toUpperCase());	
-          			itemBase=1;
-          			allItems=allItems+1;
-          			checkedItem.push(metalsBaseItem[i]);
-         		}
-          	}
-         	
-          	if(itemBase!=0)
-          	{
-          		SelectedSearchDTO.push({
-          		   "groupId":"2",
-       			   "selectedValues":base,
-       			});
-          		 base=[];
-          	}
-        	
+            if (commoditySubGroupValue==1)
+		     {	for (i = 0; i < metalsPreciousItem.length; i++) {
+		         		if($(metalsPreciousItem[i]).jqxCheckBox('checked'))
+		         		{		
+		         		    precious.push(metalsPreciousItem[i].split("Box")[1].toUpperCase());	
+		          			itemPrecious=1;
+		          			allItems=allItems+1;
+		          			checkedItem.push(metalsPreciousItem[i]);
+		         		}
+		          	}
+		         	
+		          	if(itemPrecious!=0)
+		          	{
+		          		SelectedSearchDTO.push({
+		          		   "groupId":"1",
+		       			   "selectedValues":precious,
+		       			});
+		          		 precious=[];
+		          	}
+          	} else if (commoditySubGroupValue==2)
+	        	 {
+					for (i = 0; i < metalsBaseItem.length; i++) {
+	         		if($(metalsBaseItem[i]).jqxCheckBox('checked'))
+	         		{		
+	         		    base.push(metalsBaseItem[i].split("Box")[1].toUpperCase());	
+	          			itemBase=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(metalsBaseItem[i]);
+	         		}
+		          	}
+		         	
+		          	if(itemBase!=0)
+		          	{
+		          		SelectedSearchDTO.push({
+		          		   "groupId":"2",
+		       			   "selectedValues":base,
+		       			});
+		          		 base=[];
+	          	}
+        	}
+        	 else if (commoditySubGroupValue==3)
+	        	 {
+					for (i = 0; i < foodStuffItem.length; i++) {
+	         		if($(foodStuffItem[i]).jqxCheckBox('checked'))
+	         		{		
+	         		    foodStuff.push(foodStuffItem[i].split("Box")[1].toUpperCase());	
+	          			itemBase=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(foodStuffItem[i]);
+	         		}
+		          	}
+		         	
+		          	if(itemBase!=0)
+		          	{
+		          		SelectedSearchDTO.push({
+		          		   "groupId":"3",
+		       			   "selectedValues":foodStuff,
+		       			});
+		          		foodStuff=[];
+	          	}
+        	}
           	if(allItems!=0)
           	{
           	json={"selectedSearchDTOlst":SelectedSearchDTO,
@@ -1204,27 +1374,8 @@
 	    	    	         }
 	  						 $('#grid').jqxGrid({source:dataAdapter,
 	  							                 columns: data.columns});
-	  						 
-	  						var filterHistory = { 
-			   		        	  "filterHistory":checkedItem.toString(),
-			   		        	  "screenName":"DATABASE_INPUT_SCREEN_METALS"
-			   	     			   };
-	  					   $.ajax({
-			  	       	        type: "POST",
-		     	    	        contentType:  "application/json; charset=utf-8",
-		     	    	        url: "/bourse/savedataentryfilterhistory",
-		     	    	        data: JSON.stringify(filterHistory),
-		     	    	        dataType: 'json',
-		     	    	        timeout: 600000,
-		     	    	        success: function (response) {
-		     	    	        	    
-		     	                  },
-		     	    	        error: function (e) {
-		     	    	        	
-		     						  console.log("ERROR : ", e);
-		     	
-		     	    	        }
-		     	    	    });	
+	  							                 
+	  					saveFilterHistory(commoditySubGroupValue,checkedItem);
     	   },
     	    	        error: function (e) {
     	    	        	
@@ -1249,7 +1400,7 @@
 		{
 			 $.ajax({
 		       	        contentType:  "application/json; charset=utf-8",
-		    	        url: "/robot/callrobotsasync/2",
+		    	        url: "/robot/callrobotsasync/2/"+getGroupId(commoditySubGroupValue),
 		    	        dataType: 'json',
 		    	        timeout: 600000,
 		    	        async:true,
@@ -1266,6 +1417,7 @@
 
 	function updateRobotNewsOnChangeColumns(ArrayOfColumns)
 	{	
+		debugger;
 		 $.ajax({
        	            type: "POST",
   	    	        contentType: "application/json",
@@ -1278,9 +1430,414 @@
 	    	        	
 	                  },
 	    	        error: function (e) {
+						  console.log("ERROR : ", e);
+	    	        }
+	    	    });	
+	}  
+	
+	function toggleDivVisibility(divNum) {
+		    
+			location.href = "/bourse/metals?commodity=" + divNum;
+		}
+	function rendercommoditySubGroup(commoditySubGroupValue){
+		
+		if(commoditySubGroupValue==1)
+		{
+			 $("#deletePreciousByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
+			 $("#CancelPreciousData").jqxButton({ theme: 'dark',height:30,width:74 });
+	         $("#loadPreciousData").jqxButton({ theme: 'dark',height:30,width:74 }); 
+		     
+		    for(i=0; i<metalsPreciousItem.length; i++)
+			   {
+		    	$(metalsPreciousItem[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+		       }  
+		          $('#precious-input').on('keydown', function(event) {
+					  if (event.keyCode === 13) {
+					    event.preventDefault(); // prevent form submission
+					    $('#precious-input').blur();
+					  }
+					});
+		          inputDataPresious.addEventListener("blur", function() {
+				  if($("#precious-input").val()!="")
+					  {
+					  $("#dataformInput").css("display","none");
+					  $("#dataInputGrid").css("display","block"); 
+					  $("#dataInputButtons").css("display","block"); 
+			
+					  var localdata = [];
+
+					  var dataIput =$("#precious-input").val()
+					  var dataInputRows = dataIput.split(/\r?\n/);
+					  var rowData = dataInputRows[0].split(/\r?\t/);
+					   localdata.push({
+					  			"gold": rowData[0],
+					  			"platinum":  rowData[1],
+					  			"silver": rowData[2]
+					  		});
+					  
+					  var dataInputGridSource =
+			            {
+			                datatype: "json",
+			                datafields: [
+			                    { name: 'gold', type: 'string' },
+			                    { name: 'platinum', type: 'string' },
+			                    { name: 'silver', type: 'string' },
+			                ],
+			                localData:localdata
+			            };
+			             var dataAdapter = new $.jqx.dataAdapter(dataInputGridSource);
+			            // initialize jqxGrid
+			            $("#dataInputGrid").jqxGrid(
+			            {
+			                width: '100%',
+			                source: dataAdapter,  
+			                theme:'dark',
+			                enabletooltips: true,
+			                selectionmode: 'none',
+			                autoheight: true,
+			                columns: [ 
+			                      { text: '<img height="48" width="48" src="/img/gold.png">', datafield: 'gold', width: '33.3%' },
+				                  { text: '<img height="48" width="48" src="/img/platinum.png">', datafield: 'platinum', width: '33.3%'},
+				                  { text: '<img height="48" width="48" src="/img/silver.png">', datafield: 'silver', width: '33.3%' }
+			                ]
+			            });
+					  
+					  }
+				});
+				
+		       auditGridSource =
+	            {    
+	            localdata:preciousAuditDefaultData,
+	            datatype: "json",
+                datafields: [
+                    { name: 'gold', type: 'string' },
+                    { name: 'platinum', type: 'string' },
+                    { name: 'silver', type: 'string' },
+                    { name: 'platinum_GOLD', type: 'string' },
+                    { name: 'gold_SILVER', type: 'string' }
+                    
+                ],
+                url:''
+	            };
+	            var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+	            var eventName = "onclick";
+	            $("#preciousAuditGrid").jqxGrid(
+	            {
+	                width: '100%',
+	                source: dataAdapter,  
+	                theme:'dark',
+	                autoheight: true,
+	                editable: true,
+	                selectionmode: 'none',
+	                editmode: 'selectedrow',
+	                columns: [ 
+	                	   { text: '',editable:false, datafield: 'Edit',width:'24%',cellsrenderer: function (row) {
+		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                   }
+		                  },  
+		                  { text: 'GOLD', datafield: 'gold', width: '15.2%' },
+		                  { text: 'PLATINUM', datafield: 'platinum', width: '15.2%' },
+		                  { text: 'SILVER', datafield: 'silver', width: '15.2%' },
+		                  { text: 'PLAT-GOLD', datafield: 'platinum_GOLD', width: '15.2%',editable: false, },
+		                  { text: 'GOLD/SILV', datafield: 'gold_SILVER', width: '15.2%', editable: false, },
+	                ]
+	            });
+	           getPreciousAuditGridSource();
+		}
+		else
+			if (commoditySubGroupValue==2)
+			{
+				
+		      $("#deleteBaseByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
+			  $("#CancelBaseData").jqxButton({ theme: 'dark',height:30,width:74 });
+	          $("#loadBaseData").jqxButton({ theme: 'dark',height:30,width:74 }); 
+	          
+	           for(i=0; i<metalsBaseItem.length; i++)
+			   {
+		    	$(metalsBaseItem[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+		       }
+		       
+		        auditBaseGridSource =
+	            {    
+	            localdata:baseAuditDefaultData,
+	            datatype: "json",
+                datafields: [
+                    { name: 'copper', type: 'string' },
+                    { name: 'aluminum', type: 'string' },
+                    { name: 'steel', type: 'string' },
+                    { name: 'lumber', type: 'string' }
+                ],
+                url:''
+	            };
+	            var baseDataAdapter = new $.jqx.dataAdapter(auditBaseGridSource);
+	            $("#baseAuditGrid").jqxGrid(
+	            {
+	                width: '100%',
+	                source: baseDataAdapter,  
+	                theme:'dark',
+	                autoheight: true,
+	                editable: true,
+	                selectionmode: 'none',
+	                editmode: 'selectedrow',
+	                columns: [ 
+	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
+		                	return "<input class=\"edit\" type=\"button\" onclick='EditBase(" + row + ", event)' id=\"editBase"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtonsBase"+row+"\" style=\"display:none\"><input  onclick='UpdateBase(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='CancelBase(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                    
+		                  }
+		                  },  
+		                  { text: 'COPPER', datafield: 'copper', width: '19.5%' },
+		                  { text: 'ALUMINUM', datafield: 'aluminum', width: '19.5%' },
+		                  { text: 'STEEL', datafield: 'steel', width: '19.5%' },
+		                  { text: 'LUMBER', datafield: 'lumber', width: '19.5%'},
+	                ]
+	            });
+		       $('#base-input').on('keydown', function(event) {
+					  if (event.keyCode === 13) {
+					    event.preventDefault(); // prevent form submission
+					    $('#base-input').blur();
+					  }
+					});
+	          inputDataBase.addEventListener("blur", function() {
+				  if($("#base-input").val()!="")
+					  {
+					  $("#baseDataformInput").css("display","none");
+					  $("#baseDataInputGrid").css("display","block"); 
+					  $("#baseDataInputButtons").css("display","block"); 
+			
+					 for(i=0; i<metalsBaseItem.length; i++)
+					   {
+				    	$(metalsBaseItem[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+				       }
+				       
+			
+					  var localdata = [];
+
+					  var dataIput =$("#base-input").val()
+					  var dataInputRows = dataIput.split(/\r?\n/);
+					  var rowData = dataInputRows[0].split(/\r?\t/);
+					   localdata.push({
+					  			"copper": rowData[0],
+					  			"aluminum":  rowData[1],
+					  			"steel": rowData[2],
+					  			"lumber": rowData[3]
+					  		});
+					  
+					  var dataInputGridSource =
+			            {
+			                datatype: "json",
+			                datafields: [
+			                    { name: 'copper', type: 'string' },
+			                    { name: 'aluminum', type: 'string' },
+			                    { name: 'steel', type: 'string' },
+			                    { name: 'lumber', type: 'string' },
+			                ],
+			                localData:localdata
+			            };
+			             var dataAdapter = new $.jqx.dataAdapter(dataInputGridSource);
+			            // initialize jqxGrid
+			            $("#baseDataInputGrid").jqxGrid(
+			            {
+			                width: '100%',
+			                source: dataAdapter,  
+			                theme:'dark',
+			                enabletooltips: true,
+			                selectionmode: 'none',
+			                autoheight: true,
+			                columns: [ 
+			                      { text: '<img height="48" width="48" src="/img/copper.png">', datafield: 'copper', width: '25%' },
+				                  { text: '<img height="48" width="48" src="/img/aluminum.png">', datafield: 'aluminum', width: '25%'},
+				                  { text: '<img height="48" width="48" src="/img/steel.png">', datafield: 'steel', width: '25%' },
+				                  { text: '<img height="48" width="48" src="/img/lumber.png">', datafield: 'lumber', width: '25%' }
+			                ]
+			            });
+					  
+					  }
+				});  
+				getBaseAuditGridSource();
+			}else
+			if (commoditySubGroupValue==3)
+			{
+				
+		      $("#deleteFoodStuffByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
+			  $("#CancelFoodStuffData").jqxButton({ theme: 'dark',height:30,width:74 });
+	          $("#loadFoodStuffData").jqxButton({ theme: 'dark',height:30,width:74 }); 
+	          
+	           for(i=0; i<foodStuffItem.length; i++)
+			   {
+		    	$(foodStuffItem[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+		       }
+		       
+		        auditFoodStuffGridSource =
+	            {    
+	            localdata:foodStuffAuditDefaultData,
+	            datatype: "json",
+                datafields: [
+                    { name: 'corn', type: 'string' },
+                    { name: 'sugar', type: 'string' },
+                    { name: 'wheat', type: 'string' }
+                ],
+                url:''
+	            };
+	            var foodStuffDataAdapter = new $.jqx.dataAdapter(auditFoodStuffGridSource);
+	            $("#foodStuffAuditGrid").jqxGrid(
+	            {
+	                width: '100%',
+	                source: foodStuffDataAdapter,  
+	                theme:'dark',
+	                autoheight: true,
+	                editable: true,
+	                selectionmode: 'none',
+	                editmode: 'selectedrow',
+	                columns: [ 
+	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
+		                	return "<input class=\"edit\" type=\"button\" onclick='EditFoodStuff(" + row + ", event)' id=\"editFoodstuff"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtonsFoodstuff"+row+"\" style=\"display:none\"><input  onclick='UpdateFoodStuff(" + row + ", event)' class=\"update\" type=\"button\" id=\"updatefoodstuff\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='CancelFoodStuff(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                    
+		                  }
+		                  },  
+		                  { text: 'CORN', datafield: 'corn', width: '26%' },
+		                  { text: 'SUGAR', datafield: 'sugar', width: '26%' },
+		                  { text: 'WHEAT', datafield: 'wheat', width: '26%' },
+	                ]
+	            });
+		       $('#foodStuff-input').on('keydown', function(event) {
+					  if (event.keyCode === 13) {
+					    event.preventDefault(); // prevent form submission
+					    $('#foodStuff-input').blur();
+					  }
+					});
+	          inputDataFoodStuff.addEventListener("blur", function() {
+				  if($("#foodStuff-input").val()!="")
+					  {
+					  $("#foodStuffDataformInput").css("display","none");
+					  $("#foodStuffDataInputGrid").css("display","block"); 
+					  $("#foodStuffDataInputButtons").css("display","block"); 
+			
+					 for(i=0; i<foodStuffItem.length; i++)
+					   {
+				    	$(foodStuffItem[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+				       }
+				       
+			
+					  var localdata = [];
+
+					  var dataIput =$("#foodStuff-input").val()
+					  var dataInputRows = dataIput.split(/\r?\n/);
+					  var rowData = dataInputRows[0].split(/\r?\t/);
+					   localdata.push({
+					  			"corn": rowData[0],
+					  			"sugar":  rowData[1],
+					  			"wheat": rowData[2],
+					  		});
+					  
+					  var dataInputGridSource =
+			            {
+			                datatype: "json",
+			                datafields: [
+			                    { name: 'corn', type: 'string' },
+			                    { name: 'sugar', type: 'string' },
+			                    { name: 'wheat', type: 'string' }
+			                ],
+			                localData:localdata
+			            };
+			             var dataAdapter = new $.jqx.dataAdapter(dataInputGridSource);
+			            // initialize jqxGrid
+			            $("#foodStuffDataInputGrid").jqxGrid(
+			            {
+			                width: '100%',
+			                source: dataAdapter,  
+			                theme:'dark',
+			                enabletooltips: true,
+			                selectionmode: 'none',
+			                autoheight: true,
+			                columns: [ 
+			                      { text: '<img height="48" width="48" src="/img/corn.png">', datafield: 'corn', width: '33.3%' },
+				                  { text: '<img height="48" width="48" src="/img/sugar.png">', datafield: 'sugar', width: '33.3%'},
+				                  { text: '<img height="48" width="48" src="/img/wheat.png">', datafield: 'wheat', width: '33.3%' }
+			                ]
+			            });
+					  
+					  }
+				});  
+				getFoodStuffAuditGridSource();
+			}
+	}
+	function saveFilterHistory(commoditySubGroupValue,checkedItem){
+		
+			 
+	  						var filterHistory = { 
+			   		        	  "filterHistory":checkedItem.toString(),
+			   		        	  "screenName":"DATABASE_INPUT_SCREEN_METALS-"+commoditySubGroupValue
+			   	     			   };
+	  					   $.ajax({
+			  	       	        type: "POST",
+		     	    	        contentType:  "application/json; charset=utf-8",
+		     	    	        url: "/bourse/savedataentryfilterhistory",
+		     	    	        data: JSON.stringify(filterHistory),
+		     	    	        dataType: 'json',
+		     	    	        timeout: 600000,
+		     	    	        success: function (response) {
+		     	    	        	    
+		     	                  },
+		     	    	        error: function (e) {
+		     	    	        	
+		     						  console.log("ERROR : ", e);
+		     	
+		     	    	        }
+		     	    	    });	
+	}
+	function getFilterHistory(commoditySubGroupValue){
+		              
+		           $.ajax({
+	       	        contentType:  "application/json; charset=utf-8",
+	    	        url: "/bourse/getdataentryfilterhistory/"+"DATABASE_INPUT_SCREEN_METALS-"+commoditySubGroupValue,
+	    	        dataType: 'json',
+	    	        timeout: 600000,
+	    	        async:false,
+	    	        success: function (response) {
+	    	        
+	    	       if (response.filterHistory!=null)
+	    	    	   {
+	    	    	   var filterresponse = response.filterHistory;
+	    	    	   for(i=0; i<filterresponse.split(",").length; i++)
+		    			   {
+		    		    	$(filterresponse.split(",")[i]).jqxCheckBox({checked:true});
+		    		       } 
+	    	    	   }
+	    	       else{
+					   if(commoditySubGroupValue ==1)
+		    	    	   for(i=0; i<metalsPreciousItem.length; i++)
+		    			   {
+		    		    	$(metalsPreciousItem[i]).jqxCheckBox({checked:true});
+		    		       }
+	    		       else if(commoditySubGroupValue ==2)
+	    		       	for(i=0; i<metalsBaseItem.length; i++)
+		    			   {
+		    		    	$(metalsBaseItem[i]).jqxCheckBox({checked:true});
+		    		       }
+	    	       }
+	                  },
+	    	        error: function (e) {
 	    	        	
 						  console.log("ERROR : ", e);
 	
 	    	        }
 	    	    });	
-	}  
+	}
+	
+	function getGroupId(commoditySubGroupValue)
+	{
+	  var groupId='';	
+		switch(commoditySubGroupValue) {
+		  
+		 case '1': 
+		   groupId='6'
+		        break;
+		 case '2': 
+		   groupId='7'
+		        break;
+		 case '3': 
+		   groupId='8'
+		        break;
+		}
+	return groupId;
+	}		

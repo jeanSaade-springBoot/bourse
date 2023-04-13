@@ -12,7 +12,10 @@
 			    "#jqxCheckBoxCopper",
 			    "#jqxCheckBoxAluminum",
 			    "#jqxCheckBoxSteel",
-			    "#jqxCheckBoxLumber"];
+			    "#jqxCheckBoxLumber",
+			    "#jqxCheckBoxCorn",
+ 			    "#jqxCheckBoxSugar",
+ 			    "#jqxCheckBoxWheat"];
 			    
  var funcionFilter=["#jqxDailyChangeInPercentage",
 					"#jqxDailyChangeIncrement",
@@ -59,7 +62,7 @@
       
       $("#Clearfilter").click(function () {
     	  
-    	 $("#jqxCheckBoxGold").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGold").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxPlatinum").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxSilver").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxPlatGold").jqxCheckBox({checked: false });
@@ -69,6 +72,10 @@
     	  $("#jqxCheckBoxAluminum").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxSteel").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxLumber").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxCorn").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxSugar").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxWheat").jqxCheckBox({checked: false });
     	  
           $("#jqxDailyChangeInPercentage").jqxCheckBox({checked: false });
     	  $("#jqxDailyChangeIncrement").jqxCheckBox({checked: false });
@@ -441,7 +448,118 @@
 	     }
   	   }
   	 }); 
+      $('#jqxCheckBoxCorn').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxCorn");
+  	    }
+  	    else
+  	    {
+  	    	checkedItem=checkedItem - 1;
+  	   for(i=0; i<checkedItemid.length; i++)
+  		   {
+  		   if(checkedItemid[i]=="#jqxCheckBoxCorn")
+  			 delete checkedItemid[i];
+  		   }
+  	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+				 $(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		  }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+      $('#jqxCheckBoxSugar').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxSugar");
+  	    }
+  	    else
+  	    {
+  	    	checkedItem=checkedItem - 1;
+  	   for(i=0; i<checkedItemid.length; i++)
+  		   {
+  		   if(checkedItemid[i]=="#jqxCheckBoxSugar")
+  			 delete checkedItemid[i];
+  		   }
+  	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+				 $(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		  }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
      
+      $('#jqxCheckBoxWheat').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+  	    {
+  	    	checkedItem=checkedItem + 1;
+  	    	checkedItemid.push("#jqxCheckBoxWheat");
+  	    }
+  	    else
+  	    {
+  	    	checkedItem=checkedItem - 1;
+  	   for(i=0; i<checkedItemid.length; i++)
+  		   {
+  		   if(checkedItemid[i]=="#jqxCheckBoxWheat")
+  			 delete checkedItemid[i];
+  		   }
+  	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+				 $(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		  }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
      
   });
 

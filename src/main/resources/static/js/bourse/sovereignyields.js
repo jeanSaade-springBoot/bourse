@@ -1668,7 +1668,8 @@
 	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
                           updatedCountriesJson.push({"factor": updatedDataJson.factor.replace("yr",""),
 													 "value" : getCountryDbDescription(keys[i]),
-													 "assetId":1});
+													 "assetId":1,
+													  "groupId":0});
 	                }
                     
 					dataToBeUpdated.push({
@@ -1961,7 +1962,7 @@
 	{
 		 $.ajax({
 	       	        contentType:  "application/json; charset=utf-8",
-	    	        url: "/robot/callrobotsasync/"+"1",
+	    	        url: "/robot/callrobotsasync/"+"1/0",
 	    	        dataType: 'json',
 	    	        timeout: 600000,
 	    	        async:true,

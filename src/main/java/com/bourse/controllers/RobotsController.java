@@ -44,8 +44,9 @@ public class RobotsController {
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 
-	@GetMapping(value = "callrobotsasync/{assetId}", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<HttpStatus> callrobotsasync(@PathVariable("assetId") int assetId){
+	@GetMapping(value = "callrobotsasync/{assetId}/{groupId}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<HttpStatus> callrobotsasync(@PathVariable("assetId") int assetId,@PathVariable("groupId") int groupId){ 
+		
 		String withFunctionProcess = "PROCESS_WITH_FUNCTION";
 		String withoutFunctionProcess = "PROCESS_WITHOUT_FUNCTION";
 		String withFunctionInitiateProc = "INITIATE_ROBOT_WITH_FUNCTION";
@@ -53,8 +54,8 @@ public class RobotsController {
 		String withFunctionFinalizationProc = "INSERT_ROBOTS_WITH_FUNCTION_NEWS";
 		String withoutFunctionFinalizationProc = "INSERT_ROBOTS_WITHOUT_FUNCTION_NEWS";
 		
-		robotInitializerService.callRobotsAsync(withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess, assetId);
-		robotInitializerService.callRobotsAsync(withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess, assetId);
+		robotInitializerService.callRobotsAsync(withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess, assetId,groupId);
+		robotInitializerService.callRobotsAsync(withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess, assetId,groupId);
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 	@PostMapping(value ="updaterobotnewsonchangecolumns")

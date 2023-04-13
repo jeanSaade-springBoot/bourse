@@ -20,8 +20,16 @@ public class CheckProcessExecutionController {
 	OngoingProcessService ongoingProcessService;
 	
 	@GetMapping(value = "isrobottriggered/{assetId}", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<Boolean> CheckProcessStatus(@PathVariable("assetId") int assetId){
-		OngoingProcess ongoingProcess= ongoingProcessService.checkIfExist(true);
+    public  ResponseEntity<Boolean> CheckProcessStatus(@PathVariable("assetId") int assetId ){
+		OngoingProcess ongoingProcess= ongoingProcessService.checkIfExistByAssetId(true,assetId);
+		Boolean isRunnig =false;
+		if(ongoingProcess!=null)
+			isRunnig = true;
+		return new ResponseEntity<>(isRunnig, HttpStatus.OK);
+    }
+	@GetMapping(value = "isrobottriggered/{assetId}/{groupId}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<Boolean> CheckProcessStatus(@PathVariable("assetId") int assetId , @PathVariable("groupId") int groupId){
+		OngoingProcess ongoingProcess= ongoingProcessService.checkIfExistByAssetIdAndGroupId(true,assetId,groupId);
 		Boolean isRunnig =false;
 		if(ongoingProcess!=null)
 			isRunnig = true;
@@ -30,6 +38,14 @@ public class CheckProcessExecutionController {
 	@GetMapping(value = "mustbetriggered/{assetId}", produces = "application/json;charset=UTF-8")
     public  ResponseEntity<Boolean> MustBeTriggered(@PathVariable("assetId") int assetId){
 		OngoingProcess ongoingProcess= ongoingProcessService.checkIfMustBeTriggeredByAssetId(true,assetId);
+		Boolean mustBeTriggered =false;
+		if(ongoingProcess!=null)
+			mustBeTriggered = true;
+		return new ResponseEntity<>(mustBeTriggered, HttpStatus.OK);
+    }
+	@GetMapping(value = "mustbetriggered/{assetId}/{groupId}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<Boolean> MustBeTriggered(@PathVariable("assetId") int assetId,@PathVariable("groupId") int groupId){
+		OngoingProcess ongoingProcess= ongoingProcessService.checkIfMustBeTriggeredByAssetIdAndGroupId(true,assetId,groupId);
 		Boolean mustBeTriggered =false;
 		if(ongoingProcess!=null)
 			mustBeTriggered = true;

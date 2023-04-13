@@ -204,3 +204,51 @@ update news_order set asset_id = 1;
 UPDATE `bourse`.`asset_class` SET `description` = 'COMMODITIES', `asset_code` = 'COM' WHERE (`id` = '2');
 UPDATE `bourse`.`groups_table` SET `description` = 'PRECIOUS METALS' WHERE (`id` = '6');
 UPDATE `bourse`.`groups_table` SET `description` = 'BASE METALS' WHERE (`id` = '7');
+
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('2', 'DATABASE_INPUT_SCREEN_METALS-1');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('3', 'DATABASE_INPUT_SCREEN_METALS-2');
+
+
+CREATE TABLE `bourse`.`table_management` (
+  `id` INT UNSIGNED NOT NULL,
+  `asset_id` VARCHAR(45) NOT NULL,
+  `group_id` VARCHAR(45) NOT NULL,
+  `subgroup_id` VARCHAR(45) NOT NULL,
+  `column_name` VARCHAR(45) NOT NULL,
+  `table_name` VARCHAR(250) NOT NULL);
+/*
+INSERT INTO `bourse`.`table_management`
+(id,
+`asset_id`,
+`group_id`,
+`subgroup_id`,
+`column_name`,
+`table_name`)
+select @rownum:=@rownum + 1  as rown, tab.* from (select distinct '2' as asset_id, group_id, subgroup_id, descwitoutfactor as column_name,'tmp_audit_base' as table_name from column_configuration ) tab ,
+							  (SELECT @rownum:=(select max(id) from table_management)) r where group_id = 7;  
+  */
+  
+   
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_trend_mono' as robot_name,
+		'PROCESS_WITHOUT_FUNCTION' as process_name,
+		2 as asset_id,
+		7 as group_id,
+        null as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id = 7;
+ 
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+
+

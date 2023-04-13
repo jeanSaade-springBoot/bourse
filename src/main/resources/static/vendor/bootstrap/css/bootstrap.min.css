@@ -2828,7 +2828,7 @@ fieldset:disabled a.btn {
 	border-radius: .25rem;
 	border: 1px solid rgba(0, 0, 0, .125);
     background-color: #272E48;
-    border-color: #464D5C;
+    border-color: #48659e;
     color: #8A99B5;
 }
 
@@ -2855,8 +2855,8 @@ fieldset:disabled a.btn {
 .btn-secondary:not(:disabled):not(.disabled):active,
 .show>.btn-secondary.dropdown-toggle {
 	color: #fff;
-	background-color: #616161;
-	border-color: #616161
+	background-color: #719df0;
+	border-color: #719df0
 }
 
 .btn-secondary:not(:disabled):not(.disabled).active:focus,

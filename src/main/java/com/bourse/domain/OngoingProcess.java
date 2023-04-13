@@ -46,4 +46,5 @@ public class OngoingProcess {
     private Date endTime;
     private boolean mustBeTrigger;
     private int assetId;
+    private int groupId;
 }

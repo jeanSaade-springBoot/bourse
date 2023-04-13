@@ -12,4 +12,5 @@ import lombok.NoArgsConstructor;
 public class RobotInitializerDTO {
 	private String robotName;
     private String columnName;
+    private String functionId;
 }

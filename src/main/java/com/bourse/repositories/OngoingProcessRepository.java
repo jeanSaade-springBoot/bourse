@@ -19,4 +19,10 @@ public interface OngoingProcessRepository  extends JpaRepository<OngoingProcess,
 	public OngoingProcess findTopByStatus(boolean value);
 
 	public OngoingProcess findTopByMustBeTriggerAndAssetId(boolean value, int assetId);
+
+	public OngoingProcess findTopByMustBeTriggerAndAssetIdAndGroupId(boolean value, int assetId, int groupId);
+
+	public OngoingProcess findTopByStatusAndAssetIdAndGroupId(boolean value, int assetId, int groupId);
+
+	public OngoingProcess findTopByStatusAndAssetId(boolean value, int assetId);
 }

@@ -16,11 +16,19 @@ public class OngoingProcessService {
 		ongoingProcessRepository.updateOngoingProcess();
 	}
 
-	public OngoingProcess checkIfExist(boolean value) {
-		return ongoingProcessRepository.findTopByStatus(value);
+	public OngoingProcess checkIfExistByAssetId(boolean value, int assetId) {
+		return ongoingProcessRepository.findTopByStatusAndAssetId(value,assetId);
+	}
+	public OngoingProcess checkIfExistByAssetIdAndGroupId(boolean value, int assetId, int groupId) {
+		return ongoingProcessRepository.findTopByStatusAndAssetIdAndGroupId(value,assetId,groupId);
 	}
 
 	public OngoingProcess checkIfMustBeTriggeredByAssetId(boolean value, int assetId) {
 		return ongoingProcessRepository.findTopByMustBeTriggerAndAssetId(value,assetId);
 	}
+
+	public OngoingProcess checkIfMustBeTriggeredByAssetIdAndGroupId(boolean value, int assetId, int groupId) {
+		return ongoingProcessRepository.findTopByMustBeTriggerAndAssetIdAndGroupId(value,assetId,groupId);
+	}
+
 }

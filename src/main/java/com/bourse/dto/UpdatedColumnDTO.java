@@ -13,4 +13,5 @@ public class UpdatedColumnDTO {
 	    private String factor;
 	    private String value;
 	    private int assetId;
+	    private int groupId;
 }

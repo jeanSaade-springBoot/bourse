@@ -23,7 +23,6 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import com.bourse.domain.RobotInitializer;
-import com.bourse.dto.DataFunctionReqDTO;
 import com.bourse.dto.RobotInitializerDTO;
 import com.bourse.dto.UpdatedColumnDTO;
 import com.bourse.repositories.RobotInitializerRepository;
@@ -41,11 +40,11 @@ public class RobotInitializerService {
 		this.restTemplate = restTemplate;
 	}
 	
-	public List<RobotInitializer> getRobotsInitializer(String processName,int assetId)
+	public List<RobotInitializer> getRobotsInitializer(String processName,int assetId , int groupId)
 	{
-		return robotInitializerRepository.findByProcessNameAndAssetId(processName,assetId);
+		return robotInitializerRepository.findByProcessNameAndAssetIdAndGroupId(processName,assetId ,groupId);
 	}
-	public void callRobotsForUpdateColumnAsync(List<RobotInitializer> listOfRobots,String ProcedureInitialization,String ProcedureFinalization,String proccessName,int assetId){
+	public void callRobotsForUpdateColumnAsync(List<RobotInitializer> listOfRobots,String ProcedureInitialization,String ProcedureFinalization,String proccessName,int assetId,int groupId){
 		
 		List<CompletableFuture<Boolean>> futures = new ArrayList<>();
 		
@@ -54,6 +53,8 @@ public class RobotInitializerService {
 		 query.setParameter("processName",proccessName);
 		 query.registerStoredProcedureParameter("assetId", Integer.class, ParameterMode.IN);
 		 query.setParameter("assetId",assetId);
+		 query.registerStoredProcedureParameter("groupId", Integer.class, ParameterMode.IN);
+		 query.setParameter("groupId",groupId); 
 		 query.execute();
 		 
 		for(RobotInitializer myObject:listOfRobots) {
@@ -61,6 +62,7 @@ public class RobotInitializerService {
 				 RobotInitializerDTO robotdto = RobotInitializerDTO.builder()
 		                 .columnName(myObject.getColumnName())
 		                 .robotName(myObject.getRobotName())
+		                 .functionId(myObject.getFunctionId())
 		                 .build();
 				  
 				 futures.add(CompletableFuture.supplyAsync(() -> executeRobots(robotdto)));
@@ -70,12 +72,12 @@ public class RobotInitializerService {
 			}
 		}
 		
-			PublishNewsAfterAllThreadAreExcuted(futures,ProcedureFinalization,proccessName, assetId);
+			PublishNewsAfterAllThreadAreExcuted(futures,ProcedureFinalization,proccessName, assetId, groupId);
 		
 		}	
-public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinalization,String proccessName,int assetId){
+public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinalization,String proccessName,int assetId, int groupId){
 	
-	List<RobotInitializer> listOfRobots =  getRobotsInitializer(proccessName, assetId);
+	List<RobotInitializer> listOfRobots =  getRobotsInitializer(proccessName, assetId, groupId);
 	List<CompletableFuture<Boolean>> futures = new ArrayList<>();
 	
 	 StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery(ProcedureInitialization);
@@ -83,6 +85,8 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 	 query.setParameter("processName",proccessName);
 	 query.registerStoredProcedureParameter("assetId", Integer.class, ParameterMode.IN);
 	 query.setParameter("assetId",assetId);
+	 query.registerStoredProcedureParameter("groupId", Integer.class, ParameterMode.IN);
+	 query.setParameter("groupId",groupId);
 	 query.execute();
 	 
 	for(RobotInitializer myObject:listOfRobots) {
@@ -90,6 +94,7 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 			 RobotInitializerDTO robotdto = RobotInitializerDTO.builder()
 	                 .columnName(myObject.getColumnName())
 	                 .robotName(myObject.getRobotName())
+	                 .functionId(myObject.getFunctionId())
 	                 .build();
 			  
 			 futures.add(CompletableFuture.supplyAsync(() -> executeRobots(robotdto)));
@@ -99,11 +104,11 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 		}
 	}
 	
-		PublishNewsAfterAllThreadAreExcuted(futures,ProcedureFinalization,proccessName, assetId);
+		PublishNewsAfterAllThreadAreExcuted(futures,ProcedureFinalization,proccessName, assetId,groupId);
 	
 	}
 
-	public void PublishNewsAfterAllThreadAreExcuted(List<CompletableFuture<Boolean>> com,String procedureName,String proccessName,int assetId) {
+	public void PublishNewsAfterAllThreadAreExcuted(List<CompletableFuture<Boolean>> com,String procedureName,String proccessName,int assetId, int groupId) {
 		CompletableFuture<Void> resultantCf = CompletableFuture.allOf(com.toArray(new CompletableFuture<?>[0]));
 		CompletableFuture<Object> allFutureResults = resultantCf.thenApply(t -> com.stream().map(CompletableFuture::join).collect(Collectors.toList()));
 		try {
@@ -113,6 +118,9 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 			  query.setParameter("processName",proccessName);
 			  query.registerStoredProcedureParameter("assetId", Integer.class, ParameterMode.IN);
 			  query.setParameter("assetId",assetId);
+			  query.registerStoredProcedureParameter("groupId", Integer.class, ParameterMode.IN);
+			  query.setParameter("groupId",groupId);
+			  
 			  query.execute();
 			System.out.println("PROCEDURE DONE");
 		} catch (InterruptedException e) {
@@ -143,11 +151,12 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 		
 		List<String> lstRelatedColumn = getRelatedColumn(buildDyamicQuery(updatedColumnDTOList));
 		int assetId = updatedColumnDTOList.get(0).getAssetId();
+		int groupId = updatedColumnDTOList.get(0).getGroupId();
 		List<RobotInitializer> columnWithFunction = robotInitializerRepository.findRelatedColumn(lstRelatedColumn,withFunctionProcess);
 		List<RobotInitializer> columnWithoutFunction = robotInitializerRepository.findRelatedColumn(lstRelatedColumn,withoutFunctionProcess);
 		
-		callRobotsForUpdateColumnAsync(columnWithoutFunction,withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess,assetId);
-		callRobotsForUpdateColumnAsync(columnWithFunction,withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess,assetId);
+		callRobotsForUpdateColumnAsync(columnWithoutFunction,withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess,assetId,groupId);
+		callRobotsForUpdateColumnAsync(columnWithFunction,withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess,assetId,groupId);
 		
 	}
 	public String buildDyamicQuery(List<UpdatedColumnDTO> updatedColumnDTOList)
