@@ -181,6 +181,16 @@ public class MetalsService {
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
+			}else if(graphReqDTO.getGroupId1().equals("8"))
+			{
+				String groupId = graphReqDTO.getGroupId1();
+				String subGroupId =  graphReqDTO.getSubGroupId1(); 
+				String description = FoodStuffSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
 			}
 			
 			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
@@ -205,10 +215,9 @@ public class MetalsService {
 			query.setParameter("functionCode", "");
 			
 			query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
-			query.setParameter("type","d");
+			query.setParameter("type","0");
 			
 			query.execute();
-			
 			
 			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
 			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
@@ -242,6 +251,16 @@ public class MetalsService {
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
+			}else if(graphReqDTO.getGroupId2().equals("8"))
+			{
+				String groupId = graphReqDTO.getGroupId2();
+				String subGroupId =  graphReqDTO.getSubGroupId2(); 
+				String description = FoodStuffSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId2()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
 			}
 				
 			query1.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
@@ -266,7 +285,7 @@ public class MetalsService {
 			query1.setParameter("functionCode", "");
 			
 			query1.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
-			query1.setParameter("type","d");
+			query1.setParameter("type","0");
 			
 			query1.execute();
 			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query1.getResultList();
@@ -470,7 +489,17 @@ public class MetalsService {
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
 			}
-			
+			if(graphReqDTO.getGroupId1().equals("8"))
+			{
+				String groupId = graphReqDTO.getGroupId1();
+				String subGroupId =  graphReqDTO.getSubGroupId1(); 
+				String description = FoodStuffSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
+			}
 			String functionId=FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId()!=null?(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())):0);
 			
 			query1.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
