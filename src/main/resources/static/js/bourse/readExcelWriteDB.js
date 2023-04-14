@@ -136,7 +136,7 @@ var familysource =
   });
   
   function getImagePath(groupId)
-  {console.log(groupId)
+  {
 	 var imagePath='';	
 	switch(groupId) {
 	  
