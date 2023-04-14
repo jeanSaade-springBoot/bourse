@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>libvol - Precious</title>
+  <title>libvol - Base</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -108,9 +108,9 @@
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				    <a sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2metals" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				    <a sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-sovereign-yields-tab" href="/bourse/precious" role="tab" aria-controls="nav-precious" aria-selected="false">Precious</a>
-				    <a sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/base" role="tab" aria-controls="nav-base" aria-selected="false">Base</a>
-					<a sec:authorize="hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/foodstuff" role="tab" aria-controls="nav-base" aria-selected="false">Foodstuff</a>
+				    <a sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-sovereign-yields-tab" href="/bourse/precious" role="tab" aria-controls="nav-precious" aria-selected="false">Precious</a>
+				    <a sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-any2-tab"  href="/bourse/base" role="tab" aria-controls="nav-base" aria-selected="false">Base</a>
+				 	<a sec:authorize="hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-any2-tab"  href="/bourse/foodstuff" role="tab" aria-controls="nav-base" aria-selected="false">Foodstuff</a>
 				  </div>
 				</nav>
            
@@ -136,39 +136,28 @@
 					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
 				<div class="row">
 				<div class="col-5">
-                		<div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" width="48" src="/img/gold.png" data-toggle="tooltip" title="Gold" >
+				 <div  style=" display: flex;">
+								    <div class="col pl-0"><img height="48"  width="48"  src="/img/corn.png" class="img-icon" data-toggle="tooltip" title="Corn">
 								    </div>
-								    <div class="col pl-0"><img  height="48" width="48" src="/img/platinum.png" data-toggle="tooltip" title="Platinum" >
+								    <div class="col pl-0"><img  height="48"  width="48"  src="/img/sugar.png" class="img-icon" data-toggle="tooltip" title="Sugar">
 								    </div>
-								    <div class="col pl-0"><img height="48" width="48" src="/img/silver.png" data-toggle="tooltip" title="Silver" >
-								    </div>
-								    <div class="col pl-0"><img height="48" width="48" src="/img/plat-gold.png" data-toggle="tooltip" title="PLAT-GOLD sprd" >
-								    </div>
-								    <div class="col pl-0"><img height="48" width="48" src="/img/gold-silver.png" data-toggle="tooltip" title="GOLD/SILV ratio" >
-								    </div>
+								    <div class="col pl-0"><img height="48"  width="48"  src="/img/wheat.png" class="img-icon" data-toggle="tooltip" title="Wheat">
 								 </div>
-		                   <div style=" display: flex;">
+								 </div>
+				                      <div style=" display: flex;">
 		                    <div class="col pl-0">
-									<div id='jqxCheckBoxGold' style='float: left;'></div>
+									<div id='jqxCheckBoxCorn' style='float: left;'></div>
 								 </div>
 								 <div class="col pl-0">
-									<div id='jqxCheckBoxPlatinum' style='float: left;'></div>
+									<div id='jqxCheckBoxSugar' style='float: left;'></div>
 								</div>
 								 <div class="col pl-0">
-								    <div id='jqxCheckBoxSilver' style='float: left;'></div>
-								</div>
-								 <div class="col pl-0">
-								    <div id='jqxCheckBoxPlatGold' style='float: left;'></div>
-								</div>
-								 <div class="col pl-0">
-								    <div id='jqxCheckBoxGoldSilv' style='float: left;'></div>
+								    <div id='jqxCheckBoxWheat' style='float: left;'></div>
 								</div>
 		                    </div>
                  		</div>
                  		<div class="col-2"></div>
                  		<div class="col-5">
-		                     
 		                 </div>
                      </div>
                      	<div class="row pt-2">
@@ -433,7 +422,7 @@
   <script src="/js/apexcharts.js"></script>
   <script src="/js/chartOptions.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArrayMetals.js"></script>  
-  <script src="/js/bourse/precious.js"></script> 
+  <script src="/js/bourse/foodstuff.js"></script> 
   <script src="/js/chart.js"></script>
    <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 

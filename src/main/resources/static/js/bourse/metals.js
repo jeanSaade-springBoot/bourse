@@ -1694,9 +1694,9 @@
 		                    
 		                  }
 		                  },  
-		                  { text: 'CORN', datafield: 'corn', width: '26%' },
-		                  { text: 'SUGAR', datafield: 'sugar', width: '26%' },
-		                  { text: 'WHEAT', datafield: 'wheat', width: '26%' },
+		                  { text: 'TON of CORN', datafield: 'corn', width: '26%' },
+		                  { text: 'TON of SUGAR', datafield: 'sugar', width: '26%' },
+		                  { text: 'TON of WHEAT', datafield: 'wheat', width: '26%' },
 	                ]
 	            });
 		       $('#foodStuff-input').on('keydown', function(event) {

@@ -149,6 +149,9 @@ var familysource =
 	 case 7: 
 	   imagePath='/css/images/format/base_format.png'
 		    break;
+	  case 8:
+		  imagePath='/css/images/format/foodstuff_format.png'
+		    break;
 	}
 return imagePath;
   }

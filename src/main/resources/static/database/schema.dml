@@ -1121,4 +1121,7 @@ INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('60840','1
 INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('60841','133','COMFODWHE00LASTTRNDCaD7','new',2);
 INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('60842','134','COMFODSUG00LASTTRNDCaD7','new',2);
 INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('60843','135','COMFODCOR00LASTTRNDCaD7','new',2);
- 
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('42', 'FOODSTUFF_COMMODITY_GRAPH_SCREEN', true);
+
+INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('foodstuff', '1');

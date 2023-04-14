@@ -136,6 +136,12 @@ public class BourseController {
     {
 		return new ModelAndView("html/base");
     }
+	@PreAuthorize("hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/foodstuff")
+    public ModelAndView foodStuffCommodityPage(ModelMap model)
+    {
+		return new ModelAndView("html/foodstuff");
+    }
 	@PreAuthorize("hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereignyieldsgraph")
     public ModelAndView sovereignYieldsGraphPage(ModelMap model)

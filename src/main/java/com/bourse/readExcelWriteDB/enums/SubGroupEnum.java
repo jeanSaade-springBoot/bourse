@@ -8,7 +8,10 @@ public enum SubGroupEnum {
 	COPPER(7,1,"1"),
 	ALUMINUM(7,2,"2"),
 	STEEL(7,3,"3"), 
-	LUMBER(7,4,"4"), 
+	LUMBER(7,4,"4"),
+	CORN(8,1,"1"),
+	SUGAR(8,2,"2"),
+	WHEAT(8,3,"3"), 
 	OTHER(0,0,"OTHER");
 	
 	public int groupId;
@@ -43,6 +46,15 @@ public enum SubGroupEnum {
             case 4:
                 return LUMBER.index;
         }
+		else if(groupId==8)
+			switch (subGroupId) {
+	            case 1:
+	                return CORN.index;
+	            case 2:
+	                return SUGAR.index;
+	            case 3:
+	                return WHEAT.index;
+	        }
         return OTHER.index;
     }
 }
