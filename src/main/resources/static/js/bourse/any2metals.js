@@ -23,7 +23,12 @@
   var fromNavigation = false;
   var isdecimal = false;
   var dataFormatIsDecimal=false;
-  var allitems=["#jqxCheckBoxGold",
+  var notDecimal;
+  var nbrOfDigits;
+  var notDecimal1;
+  var nbrOfDigits1;
+  
+   var allitems=["#jqxCheckBoxGold",
 		   		"#jqxCheckBoxPlatinum",
 			    "#jqxCheckBoxSilver",
 			    "#jqxCheckBoxPlatGold",
@@ -60,9 +65,7 @@
 	  $("div.btn-group-vertical button.btn").click(function(){
 		    $("div.btn-group-vertical").find(".active").removeClass("active");
 		    $(this).addClass("active");
-		  }); 
-	 $('[data-toggle="tooltip"]').tooltip();   
-	   
+		  });  
 	   $.ajax({
 	        contentType: "application/json",
 	        url: "/bourse/findgraphhistorybyscreenname/any2Metals",
@@ -89,7 +92,7 @@
 
 	        }
 	    });
-	 
+	   
 	  $("#button-yearForward").prop('disabled', true); 
 	  $("#button-monthForward").prop('disabled', true); 
 
@@ -102,7 +105,7 @@
       $("#show").jqxButton({ theme: 'dark',height:30,width:74 });
       
       $("#Clearfilter").click(function () {
-		  
+    	  
     	  $("#jqxCheckBoxGold").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxPlatinum").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxSilver").jqxCheckBox({checked: false });
@@ -117,6 +120,7 @@
     	  $("#jqxCheckBoxCorn").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxSugar").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxWheat").jqxCheckBox({checked: false });
+    	  
     	  for(i=0; i<allitems.length; i++)
 		   {
 	    	$(allitems[i]).jqxCheckBox({disabled: false});
@@ -139,7 +143,7 @@
     	 fromNavigation=false;
     	if(checkedItem>0)
     	{
-    		$("#collapseFilter").removeClass('show');
+    		 $("#collapseFilter").removeClass('show');
 	    	$('#grid-content').css('display', 'block');
 	    	 drawGraph();
     	}
@@ -149,6 +153,7 @@
    		    $("#collapseFilter").addClass('show');
     		}
       });
+	  
 	  
      $('#jqxCheckBoxGold').on('change', function (event) {
   	   var checked = event.args.checked;
@@ -604,7 +609,148 @@
    
      
   });
-		
+			
+	function navigationGraph(condition){
+		fromNavigation=true;
+		const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+			  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+			];
+				if(condition=="yearBackward")
+				{ 
+					expectedmonthdate = new Date(monthDate.getMonth()+"-"+monthDate.getDay()+"-"+(monthDate.getFullYear()-1));
+					if (startDateF1!=null)
+					 {if (expectedmonthdate<=startDateF1)
+						{
+							$("#button-yearBackward").prop('disabled', true);
+							$('#startdatetext').empty();
+							$('#startdatetext').append("No data available before "+monthNames[startDateF1.getMonth()]+" "+startDateF1.getFullYear())
+							$('#alertStartDate-modal').modal('show');
+						return;
+						}
+					 }
+					else
+						if (startDateF2!=null)
+						{ 
+							if (expectedmonthdate<=startDateF2)
+						   {
+								$("#button-yearBackward").prop('disabled', true);
+								$('#startdatetext').empty();
+								$('#startdatetext').append("No data available before "+monthNames[startDateF2.getMonth()]+" "+startDateF2.getFullYear())
+								$('#alertStartDate-modal').modal('show');
+							return;
+							}
+						}
+				monthDate.setFullYear(monthDate.getFullYear() - 1);
+				if(mode=="merge") 
+				  drawGraph();
+					else
+						splitGraph();
+				}else
+					if(condition=="monthBackward")
+				  {   
+					
+					    expectedmonthdate = new Date(monthDate.getMonth()+"-"+monthDate.getDay()+"-"+monthDate.getFullYear());
+					    if (startDateF1!=null)
+					     {
+					    	if (expectedmonthdate<=startDateF1)
+					        {
+							$("#button-monthBackward").prop('disabled', true);
+							$("#button-yearBackward").prop('disabled', true);
+							$('#startdatetext').empty();
+							$('#startdatetext').append("No data available before "+monthNames[startDateF1.getMonth()]+" "+startDateF1.getFullYear())
+							$('#alertStartDate-modal').modal('show');
+							return;
+							}
+					     }
+					    else
+							if (startDateF2!=null)
+							{ 
+								if (expectedmonthdate<=startDateF2)
+							   {
+									$("#button-monthBackward").prop('disabled', true);
+									$("#button-yearBackward").prop('disabled', true);
+									$('#startdatetext').empty();
+									$('#startdatetext').append("No data available before "+monthNames[startDateF2.getMonth()]+" "+startDateF2.getFullYear())
+									$('#alertStartDate-modal').modal('show');
+								return;
+								}
+							}
+				    monthDate.setMonth(monthDate.getMonth() - 1);
+				    if(mode=="merge") 
+						  drawGraph();
+							else
+								splitGraph();
+					}
+					else
+						if(condition=="monthForward")
+					  {   
+						$("#button-monthBackward").prop('disabled', false);
+					    monthDate.setMonth(monthDate.getMonth() + 1);
+					    if(mode=="merge") 
+							  drawGraph();
+								else
+									splitGraph();
+						}
+						else
+							if(condition=="yearForward")
+						  {   
+							$("#button-yearBackward").prop('disabled', false);
+							monthDate.setFullYear(monthDate.getFullYear() + 1);
+							if(mode=="merge") 
+								  drawGraph();
+									else
+										splitGraph();
+							}
+
+					if   (checkDateMonth(monthDate,date))
+					   {
+						  $("#button-monthForward").prop('disabled', false);
+						}
+						else
+						{
+							$("#button-monthForward").prop('disabled', true);
+						}
+					
+					if   (checkDateYear(monthDate,date))
+					   {
+						  $("#button-yearForward").prop('disabled', false);
+						}
+						else
+						{
+							$("#button-yearForward").prop('disabled', true);
+						} 
+			}
+			  function formatDate(date) {
+				    var d = new Date(date),
+				        month = '' + (d.getMonth() + 1),
+				        day = '' + d.getDate(),
+				        year = d.getFullYear();
+			
+				    if (month.length < 2) 
+				        month = '0' + month;
+				    if (day.length < 2) 
+				        day = '0' + day;
+			
+				    return [year, month, day].join('-');
+				}
+			  function checkDateMonth(monthDate,date)
+			  {    var d = new Date(monthDate);
+				   d.setMonth(monthDate.getMonth() + 1);
+				   
+				   if(d<date)
+					   return true;
+				   else
+					   return false;
+			  }
+			function checkDateYear(monthDate,date)
+			  {    var d = new Date(monthDate);
+				   d.setFullYear(monthDate.getFullYear() + 1);
+				   
+				   if(d<date)
+					   return true;
+				   else
+					   return false;
+			  }
 			function splitGraph()
 			{
 				
@@ -753,7 +899,7 @@
 			        	labels: {
 			        		 style: {
 					        	  fontSize: fontsize,
-					        	 },
+					        	 }
 			        	  },
 			        	  axisBorder: {
 			        		  width: 3,
@@ -779,15 +925,15 @@
    	  			        };
 
  			    	   
- 			    	 chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
+ 			    	    chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
  				     
-		    	    dataParam = { 
-		 		        		"fromdate":fromdate,
+		    	   dataParam = { 
+   		        				"fromdate":fromdate,
 		 		        	    "todate":todate,
 		 		        	    "period":"d",
 		 		        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
-		 	     			   };	
+   	     			   };
 			  	       	  $.ajax({
 			  	       	        type: "POST",
 		      	    	        contentType:  "application/json; charset=utf-8",
@@ -885,11 +1031,13 @@
 	      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 	      	    	          return item.y;
 	      	    	        }));
-	      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
-	      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-	      	    	     
-	      	    	     var value = getlength(minvalue)>=3?10:0.1; 
-	      	    	     
+	      	    	    // minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+	      	    	   //  maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+	      	    	   minvalue=min;
+	      	    	   maxvalue=max;
+	      	    	   
+	      	    	     notDecimal=getFormatResult[1];
+				         nbrOfDigits=getFormatResult[0];
 	      	    	    	chart1.updateOptions({
 	      	    	    	  extra:{
 									isDecimal: isdecimal,
@@ -900,11 +1048,17 @@
 		     				    		     minWidth: 75,maxWidth: 75,
 			 				        		 style: {
 			 						        	  fontSize: fontsize,
-			 						        	 }
+			 						        	 },
+							 formatter: function(val, index) {
+										 if (getFormatResult[1])
+						  				  return  val.toFixed(getFormatResult[0]);
+						  				else 
+						  				  return  val.toFixed(getFormatResult[0]) + "%";
+									      }
 			 				        	  },
 	     				          tickAmount: 6,
-	     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-	     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
+	     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+	     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
 	     				    			  axisBorder: {
 	     					                  width: 3,
 	     					                  show: true,
@@ -1087,15 +1241,14 @@
 	      	    	   	  $('#overlayChart2').show(); 
 	     			    	    chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
 	     					      
-	     			    	
-		   	     		  dataParam = { 
-		 		        		"fromdate":fromdate,
+	     			    	 
+			    	    dataParam = { 
+		   		        		"fromdate":fromdate,
 		 		        	    "todate":todate,
 		 		        	    "period":"d",
 		 		        	    "subGroupId1":itemValue[checkedItemValues[1]].subGroupId,
 		 		        	    "groupId1": itemValue[checkedItemValues[1]].GroupId,
-		 	     			   };	
-		 	     			      
+		   	     			   };
 			    	          $.ajax({
 				  	       	        type: "POST",
 			      	    	        contentType:  "application/json; charset=utf-8",
@@ -1193,10 +1346,13 @@
 				      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        }));
-				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
-				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-				      	    	     
-				      	    	    var value = getlength(minvalue)>=3?10:0.1; 
+				      	    	    // minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+				      	    	     minvalue=min;
+	      	    	  				 maxvalue=max;
+	      	    	   
+				      	    	     notDecimal=getFormatResult[1];
+								     nbrOfDigits=getFormatResult[0];
 				      	    	    	chart2.updateOptions({
 				      	    	    	  extra:{
 												isDecimal: isdecimal,
@@ -1207,11 +1363,17 @@
 					     				    		     minWidth: 75,maxWidth: 75,
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
-						 						        	 }
+						 						        	 },
+												 formatter: function(val, index) {
+															 if (getFormatResult[1])
+											  				  return  val.toFixed(getFormatResult[0]);
+											  				else 
+											  				  return  val.toFixed(getFormatResult[0]) + "%";
+														      }
 						 				        	  },
 				     				          tickAmount: 6,
-				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-				     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
+				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+				     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
 				     				    			  axisBorder: {
 				     					                  width: 3,
 				     					                  show: true,
@@ -1257,8 +1419,6 @@
 	    	            $("#dateTo-mainChart").val(todate);
 			}
 			function updateGraphFont(fontsize,minvalue,maxvalue){
-				  var value = getlength(minvalue)>=3?10:0.1;
-				
 				if(chart1!=null)
 					chart1.updateOptions({
 						xaxis: {
@@ -1294,13 +1454,19 @@
 					    	  },
 					          yaxis: [
 								     {  tickAmount: 6,
-			 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-			 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)-value : Math.abs(maxvalue)+value,
+			 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+			 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)-0.1 : Math.abs(maxvalue)+0.1,
 							     	    labels: {
 							        		 minWidth: 75,maxWidth: 75,
 							        		 style: {
 									        	  fontSize: fontsize,
-									        	 }
+									        	 },
+							 formatter: function(val, index) {
+										 if (getFormatResult0[1])
+						  				  return  val.toFixed(getFormatResult0[0]);
+						  				else 
+						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+									      }
 							        	  },
 							        	  axisBorder: {
 							                  width: 3,
@@ -1346,13 +1512,19 @@
 						    	  },
 						          yaxis: [
 									     {  tickAmount: 6,
-				 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-				 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
+				 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+				 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
 								     	    labels: {
 								        		 minWidth: 75,maxWidth: 75,
 								        		 style: {
 										        	  fontSize: fontsize,
-										        	 }
+										        	 },
+							 formatter: function(val, index) {
+										 if (getFormatResult0[1])
+						  				  return  val.toFixed(getFormatResult0[0]);
+						  				else 
+						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+									      }
 								        	  },
 								        	  axisBorder: {
 								                  width: 3,
@@ -1398,13 +1570,19 @@
 				    	  },
 				          yaxis: [
 							     {  tickAmount: 6,
-		 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-		 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
+		 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
+		 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
 						     	    labels: {
 						        		 minWidth: 75,maxWidth: 75,
 						        		 style: {
 								        	  fontSize: fontsize,
-								        	 }
+								        	 },
+							 		 	 formatter: function(val, index) {
+										 if (getFormatResult0[1])
+						  				  return  val.toFixed(getFormatResult0[0]);
+						  				else 
+						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+									      }
 						        	  },
 						        	  axisBorder: {
 						                  width: 3,
@@ -1653,13 +1831,17 @@
 		      	    	        	
 		      	    	        	var getFormatResult0 = getFormat(response[0].config.dataFormat);
 		      	    	        	var getFormatResult1 = getFormat(response[1].config.dataFormat);
-
+		      	    	        	 
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
+		      	    	  
 		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	       
+		      	    	        	
+		      	    	          
+		      	    	        	
 			      	    	          var dbchartType1=response[0].config.chartType;
 			      	    	            chartType1 =(getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
 			      	    	          
@@ -1680,95 +1862,39 @@
 		      	    	         
 			      	    	            min=Math.min(min1,min2);
 										max=Math.max(max1,max2);
-										minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
-					      	    	    maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-					      	    	     
-					      	    	    var value1 = getMarginLenght(min1); 
-										var value2 = getMarginLenght(min2); 
-										
-					      	    	    	chart.updateOptions({
-					      	    	    	  extra:{
-													isDecimal: isdecimal,
-													yAxisFormat:yaxisformat,
-												},
-												 colors: ["#FFFFFF", "#FF0000"],
-					      	    	    		 markers: {
-					      	    	    		   colors: ["#FFFFFF", "#FF0000"],
-					      	    	    		   strokeColors:["#FFFFFF", "#FF0000"]
-					      	    	    		 },
-					     				       yaxis: [{
-														 labels: {
-						     				    		 minWidth: 75,maxWidth: 75,
-						 				        		 style: {
-						 						        	  fontSize: fontsize,
-						 						        	 }
-						 				        	  },
-					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min1)==-1 ? -Math.abs(min1)-value1 : Math.abs(min1)-value1,
-					     				    	  max:Math.sign(max1)==-1 ? -Math.abs(max1)+value1 : Math.abs(max1)+value1,
-					     				    			  axisBorder: {
-					     					                  width: 3,
-					     					                  show: true,
-					     					                  color: "#FFFFFF",
-					     					                  offsetX: 0,
-					     					                  offsetY: 0
-					     					              },
-					     				    			 },
-														{
- 													  opposite: true,
-						     				    	  labels: {
-						     				    		 minWidth: 75,maxWidth: 75,
-						 				        		 style: {
-						 						        	  fontSize: fontsize,
-						 						        	 }
-						 				        	  },
-					     				          tickAmount: 6,
-					     				    	  min:Math.sign(min2)==-1 ? -Math.abs(min2)-value2 : Math.abs(min2)-value2,
-					     				    	  max:Math.sign(max2)==-1 ? -Math.abs(max2)+value2 : Math.abs(max2)+value2,
-					     				    			  axisBorder: {
-					     					                  width: 3,
-					     					                  show: true,
-					     					                  color: "#FF0000",
-					     					                  offsetX: 0,
-					     					                  offsetY: 0
-					     					              },
-					     				    			 }],
-												  tooltip: {
-													  x: {
-					    						          show: false,
-					    						      },
-					    							  y: {
-					    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-					    									  if(seriesIndex == 0)
-												  				{
-												  				if (getFormatResult0[1])
-												  				  return  value.toFixed(getFormatResult0[0]);
-												  				else 
-												  				  return  value.toFixed(getFormatResult0[0]) + "%";
-												  				}else 
-												  					 if(seriesIndex == 1){
-												  					  if (getFormatResult1[1])
-												  						  return  value.toFixed(getFormatResult1[0]);
-												  						else 
-												  							 return  value.toFixed(getFormatResult1[0]) + "%";
-												  					 }
-					    								    },
-					    								    title: {
-					    							              formatter: (seriesName) => '',
-					    							          },
-					    					      },
-					    						}
-				      	    	    		});     
-			      	    	           
-		      	    	          chart.updateSeries([{
-							          name: response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription,
-							          type: chartType1,
-							          data: response[0].graphResponseDTOLst
-							        },{
-							          name: response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription,
-							          type: chartType2,
-							          data:response[1].graphResponseDTOLst
-							        }])
+									 // minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+				      	    	     minvalue=min;
+	      	    	  				 maxvalue=max;
+	      	    	  				 
+				      	    	     notDecimal=getFormatResult0[1];
+									 nbrOfDigits=getFormatResult0[0];
+									 notDecimal1=getFormatResult1[1];
+									 nbrOfDigits1=getFormatResult1[0];
+										 
+									var chartConfigSettings={
+											 isDecimal:isdecimal,
+											 yAxisFormat:yaxisformat,
+											 fontSize:fontsize,
+											 min1:min1,
+											 max1:max1,
+											 min2:min2,
+											 max2:max2,
+											 min:min,
+											 max:max,
+											 minvalue:minvalue,
+											 maxvalue:maxvalue,
+											 chartType1:chartType1,
+											 chartType2:chartType2,
+											 getFormatResult0:getFormatResult0,
+											 getFormatResult1:getFormatResult1,
+											 response:response,
+											 chartColor:chartColor,
+											 chartTransparency:chartTransparency,
+											 checkedItem:checkedItem};
+											 	
+											 updateChartSelectedItem(chartConfigSettings);
+									
 							        $('#overlayChart').hide();
 		      	   },
 		      	    	        error: function (e) {
@@ -1808,13 +1934,13 @@
 					   title=itemValue[checkedItemValues[0]].title;
 					   
 			        dataParam = { 
-		 		        		"fromdate":fromdate,
+	   		        			"fromdate":fromdate,
 		 		        	    "todate":todate,
 		 		        	    "period":"d",
 		 		        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
-		 	     			   };	
-		 	     			   
+	   		        	    };
+					 
 					  var options = {
 	   	  			          series: [],
 	   	  			          chart: {
@@ -1924,7 +2050,7 @@
 				        	labels: {
 				        		 style: {
 						        	  fontSize: fontsize,
-						        	 },
+						        	 }
 				        	  },
 				        	  axisBorder: {
 				        		  width: 3,
@@ -2013,15 +2139,20 @@
 							    chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));  
 							    updateChartOption();
 			      	    	    	
-			      	    	            min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        })),
-				      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	    max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        }));
-				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
-				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-				      	    	     	var getFormatResult0 = getFormat(response[0].config.dataFormat);
+				      	    	     // minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+				      	    	     minvalue=min;
+	      	    	  				 maxvalue=max;
+				      	    	     notDecimal=getFormatResult[1];
+				                     nbrOfDigits=getFormatResult[0];	
+				      	    	   
+							var getFormatResult0 = getFormat(response[0].config.dataFormat);
 					       
 							var chartConfigSettings={
 											 isDecimal:isdecimal,
@@ -2039,7 +2170,6 @@
 											 checkedItem:checkedItem};
 							
 							updateChartSelectedItem(chartConfigSettings);
-							
 				      	    	      $('#overlayChart').hide();
 				      	   },
 				      	    	        error: function (e) {
@@ -2069,6 +2199,7 @@
 			     	    	        }
 			     	    	    });		 
 				              }
+				              
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
 

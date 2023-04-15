@@ -2623,7 +2623,7 @@ function drawGraph() {
 						"isFunctionGraph":functionId=='-1'?false:true,
 						"functionId":functionId
 					};
-					disableOptions(false);
+					
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
@@ -2674,7 +2674,7 @@ function drawGraph() {
 							markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
 							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
- 
+ 							disableOptions(false);
 							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 							updateChartOption();
 							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {

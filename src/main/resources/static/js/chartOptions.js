@@ -657,7 +657,7 @@ $('#dropDownType').on('select', function (event)
 });
 $('#dropDownFunctionss').on('select', function (event)
 {
-    resetActiveChartType();
+        resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
 		resetActiveChartColorTransparency();

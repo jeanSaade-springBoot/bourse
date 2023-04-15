@@ -1017,7 +1017,7 @@ select
 		 s.description as `column_name`,
 		null as `data_min_increment`,
 		'#44546a' as `chart_color`,
-		true as `chart_showgrid`,
+		1 as `chart_showgrid`,
 		'12px' as `chart_size`,
 		1 as `chart_transparency`,
 		1 as `chartshow_markes`,

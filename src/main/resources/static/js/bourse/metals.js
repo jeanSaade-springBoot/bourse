@@ -1417,7 +1417,7 @@
 
 	function updateRobotNewsOnChangeColumns(ArrayOfColumns)
 	{	
-		debugger;
+		
 		 $.ajax({
        	            type: "POST",
   	    	        contentType: "application/json",

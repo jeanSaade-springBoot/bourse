@@ -2888,7 +2888,7 @@ function drawGraph() {
 						"isMovingAverage":MovingAverageTypeIfSelected==''?false:true,
 						"movingTwoHundereOrOneHundred":MovingAverageTypeIfSelected
 					};
-					disableOptions(false);
+					
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
@@ -2930,7 +2930,7 @@ function drawGraph() {
 							chartType1 = getChartType(dbchartType1)[0];
 							curve1 = getChartType(dbchartType1)[1];
 							var getFormatResult = getFormat(response[0].config.dataFormat);
-
+							disableOptions(false);
 							var getFormatResult = getFormat(response[0].config.dataFormat);
 							chartDbFontSize = response[0].config.chartSize;
 							chartColor = checkActiveChartColor($("#chartColor").find(".active")[0], response[0].config.chartColor);

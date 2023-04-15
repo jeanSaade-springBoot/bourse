@@ -15,7 +15,7 @@ function inGraphNews(selectedGraphs){
               return "red-row";
           }
       }  
- 
+ debugger;
       json = {"selectedGraphs":selectedGraphs,
       }
       $.ajax({

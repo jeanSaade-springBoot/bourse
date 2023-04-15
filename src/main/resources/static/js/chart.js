@@ -1564,7 +1564,8 @@ function updateChartSelectedItem(chartConfigSettings){
 												  				if (chartConfigSettings.getFormatResult1[1])
 												  				  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
 												  				else 
-												  				  return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+												  				  {  
+																		return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";}
 												  				}else 
 												  					 if(seriesIndex == 1){
 												  					  if (chartConfigSettings.getFormatResult1[1])

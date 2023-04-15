@@ -821,7 +821,7 @@ function drawGraph() {
 						"isFunctionGraph":functionId=='-1'?false:true,
 						"functionId":functionId
 					};
-					disableOptions(false);
+				
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
@@ -863,7 +863,7 @@ function drawGraph() {
 							var dbchartType1 = response[0].config.chartType;
 							chartType1 = getChartType(dbchartType1)[0];
 							curve1 = getChartType(dbchartType1)[1];
-
+							disableOptions(false);
 							var getFormatResult = getFormat(response[0].config.dataFormat);
 							chartDbFontSize = response[0].config.chartSize;
 							chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config.chartTransparency);
