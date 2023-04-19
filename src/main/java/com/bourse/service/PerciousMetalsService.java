@@ -35,6 +35,11 @@ public class PerciousMetalsService
 		boolean returnvalue = (cnt == 0) ? true : false;
 		return returnvalue;
 	}
+    public boolean CheckIfCanSave(String referDate,Long subgroupId)
+   	{
+   	
+   		return  preciousMetalsRepository.existsByReferDateAndSubgroupId(referDate,subgroupId);
+   	}
     public void doCaclulation(String referDate)
 	{
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_precious");

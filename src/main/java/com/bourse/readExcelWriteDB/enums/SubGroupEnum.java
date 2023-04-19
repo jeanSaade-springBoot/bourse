@@ -12,6 +12,11 @@ public enum SubGroupEnum {
 	CORN(8,1,"1"),
 	SUGAR(8,2,"2"),
 	WHEAT(8,3,"3"), 
+	OIL(9,1,"1"),
+	GASOLINEGALL(9,2,"2"),
+	DIESELGALL(9,3,"3"), 
+	NATGASUSD(9,4,"4"),
+	NATGASEUR(9,5,"5"), 
 	OTHER(0,0,"OTHER");
 	
 	public int groupId;
@@ -54,6 +59,18 @@ public enum SubGroupEnum {
 	                return SUGAR.index;
 	            case 3:
 	                return WHEAT.index;
+	        }else if(groupId==9)
+			switch (subGroupId) {
+	            case 1:
+	                return OIL.index;
+	            case 2:
+	                return GASOLINEGALL.index;
+	            case 3:
+	                return DIESELGALL.index;
+	            case 4:
+	                return NATGASUSD.index;
+	            case 5:
+	                return NATGASEUR.index;
 	        }
         return OTHER.index;
     }

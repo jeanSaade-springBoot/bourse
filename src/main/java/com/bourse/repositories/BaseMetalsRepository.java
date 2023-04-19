@@ -17,4 +17,6 @@ public interface BaseMetalsRepository extends JpaRepository<BaseMetals, Long>{
 	public String findLatestBaseData();
 
 	public BaseMetals findBaseMetalsByReferDateAndSubgroupId(String referdate, Long valueOf);
+
+	public boolean existsByReferDateAndSubgroupId(String referDate, Long subgroupId);
 }

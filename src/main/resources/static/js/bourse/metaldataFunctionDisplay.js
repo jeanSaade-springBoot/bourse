@@ -15,7 +15,14 @@
 			    "#jqxCheckBoxLumber",
 			    "#jqxCheckBoxCorn",
  			    "#jqxCheckBoxSugar",
- 			    "#jqxCheckBoxWheat"];
+ 			    "#jqxCheckBoxWheat",
+ 			    "#jqxCheckBoxOil",
+ 			    "#jqxCheckBoxGASOLINE_GALL",
+ 			    "#jqxCheckBoxGASOLINE_LITRE",
+ 			    "#jqxCheckBoxDIESEL_GALL",
+ 			    "#jqxCheckBoxDIESEL_TON",
+ 			    "#jqxCheckBoxNATGAS_USD",
+ 			    "#jqxCheckBoxNATGAS_EUR"];
 			    
  var funcionFilter=["#jqxDailyChangeInPercentage",
 					"#jqxDailyChangeIncrement",
@@ -49,7 +56,7 @@
       
 	 for(i=0; i<allitems.length; i++)
 	   {
-    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 40, height: 25});
+    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 50, height: 25});
        }
 
     for(i=0; i<funcionFilter.length; i++)
@@ -76,6 +83,14 @@
     	  $("#jqxCheckBoxCorn").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxSugar").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxWheat").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxOil").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGASOLINE_GALL").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGASOLINE_LITRE").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxDIESEL_GALL").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxDIESEL_TON").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxNATGAS_USD").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxNATGAS_EUR").jqxCheckBox({checked: false });
     	  
           $("#jqxDailyChangeInPercentage").jqxCheckBox({checked: false });
     	  $("#jqxDailyChangeIncrement").jqxCheckBox({checked: false });
@@ -560,7 +575,272 @@
 	     }
   	   }
   	 }); 
+     	   $('#jqxCheckBoxOil').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxOil");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxOil")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	      enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
      
+     $('#jqxCheckBoxGASOLINE_GALL').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGASOLINE_GALL");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGASOLINE_GALL")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxGASOLINE_LITRE').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGASOLINE_LITRE");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGASOLINE_LITRE")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+     
+        $('#jqxCheckBoxDIESEL_GALL').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxDIESEL_GALL");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxDIESEL_GALL")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+  	 
+          $('#jqxCheckBoxDIESEL_TON').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxDIESEL_TON");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxDIESEL_TON")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+  	 
+  	      $('#jqxCheckBoxNATGAS_USD').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxNATGAS_USD");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxNATGAS_USD")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+  	 
+  	      $('#jqxCheckBoxNATGAS_EUR').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxNATGAS_EUR");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxNATGAS_EUR")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+  	 
   });
 
 		
@@ -775,6 +1055,30 @@
 					break;
 				case '3':
 					img = '<img height="48" width="48" src="/img/wheat.png">'
+					break;
+			}else if (GroupId=='9')
+			switch(subGroupId) {
+			  
+				case '1':
+					img = '<img height="48" width="48" src="/img/oil.png">'
+					break;
+				case '2':
+					img = '<img height="48" width="48" src="/img/gazoline.png">'
+					break;
+				case '3':
+					img = '<img height="48" width="48" src="/img/diezel.png">'
+					break;
+			    case '4':
+					img = '<img height="48" width="48" src="/img/natgasUs.png">'
+					break;
+				case '5':
+					img = '<img height="48" width="48" src="/img/natgasEur.png">'
+					break;
+				case '6':
+					img = '<img height="48" width="48" src="/img/gazoline_20.png">'
+					break;
+				case '7':
+					img = '<img height="48" width="48" src="/img/diezel_ton.png">'
 					break;
 			}
 		return img;

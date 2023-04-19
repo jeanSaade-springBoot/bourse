@@ -1,8 +1,6 @@
 package com.bourse.service;
 
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -10,22 +8,20 @@ import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
 
-import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 
+import com.bourse.domain.TableManagement;
 import com.bourse.dto.DataFunctionReqDTO;
 import com.bourse.dto.DataFunctionRespDTO;
 import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.MetalsDataFunctionReqDTO;
-import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.enums.FunctionEnum;
 import com.bourse.enums.GroupEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.DataFunctionRepository;
 import com.bourse.repositories.FunctionConfigurationRepository;
-import com.bourse.util.SovereignUtil;
+import com.bourse.repositories.TableManagementRepository;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.gson.Gson;
@@ -41,6 +37,8 @@ public class DataFunctionService {
 	ColumnConfigurationRepository columnConfigurationRepository;
 	@Autowired
 	FunctionConfigurationRepository functionConfigurationRepository;
+	@Autowired
+	TableManagementRepository tableManagementRepository;
 	@Autowired
 	AdminService adminService;
 	
@@ -188,7 +186,22 @@ public class DataFunctionService {
 	{
 		String query="select DATE_FORMAT(STR_TO_DATE(t.refer_date,'%d-%m-%Y'), '%d-%b-%Y') as refer_date,";
 		String queryValues="", queryTables="",  queryAnd="";
-		if (dataFunctionReqDTO.getGroupId().equalsIgnoreCase("6"))
+		TableManagement tableManagement = tableManagementRepository.findByAssetIdAndGroupIdAndSubgroupId("2",dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId());
+		
+		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
+			queryValues=queryValues+",t"+i+".value as "+dataFunctionReqDTO.getFunctions()[i];
+			queryTables=queryTables+" ,"+tableNames.get(i)+" t"+i;
+			queryAnd = queryAnd + " and t.refer_date =t"+i+".refer_date";
+		}
+		query=query+" REPLACE(`"+tableManagement.getColumnName()+"`,'%','') as daily_input ";
+		
+		query=query + queryValues+" from "+tableManagement.getTableName()+" t ";
+		
+		query=query+ queryTables+ "  where (STR_TO_DATE( t.refer_date,'%d-%m-%Y') between '"+dataFunctionReqDTO.getFromdate()+"' and '"+dataFunctionReqDTO.getTodate()+"') " + queryAnd;
+		query=query+"  order by STR_TO_DATE(t.refer_date,'%d-%m-%Y') desc";
+		
+		
+		/*if (dataFunctionReqDTO.getGroupId().equalsIgnoreCase("6"))
 		{
 			for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
 				queryValues=queryValues+",t"+i+".value as "+dataFunctionReqDTO.getFunctions()[i];
@@ -242,7 +255,24 @@ public class DataFunctionService {
 					
 					query=query+ queryTables+ "  where  (STR_TO_DATE( t.refer_date,'%d-%m-%Y') between '"+dataFunctionReqDTO.getFromdate()+"' and '"+dataFunctionReqDTO.getTodate()+"') "+ queryAnd;
 					query=query+"  order by STR_TO_DATE(t.refer_date,'%d-%m-%Y') desc";
-				}
+				}else
+					if (dataFunctionReqDTO.getGroupId().equalsIgnoreCase("8"))
+					{
+						for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
+							queryValues=queryValues+",t"+i+".value as "+dataFunctionReqDTO.getFunctions()[i];
+							queryTables=queryTables+" ,"+tableNames.get(i)+" t"+i;
+							queryAnd = queryAnd + " and t.refer_date =t"+i+".refer_date";
+						}
+						query=query+" REPLACE(CASE\r\n"
+								+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 1 THEN t.CORN\r\n"
+								+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 2 THEN t.SUGAR\r\n"
+								+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 3 THEN t.WHEAT END ,'%','')  as daily_input ";
+						
+						query=query + queryValues+" from tmp_audit_energy t ";
+						
+						query=query+ queryTables+ "  where  (STR_TO_DATE( t.refer_date,'%d-%m-%Y') between '"+dataFunctionReqDTO.getFromdate()+"' and '"+dataFunctionReqDTO.getTodate()+"') "+ queryAnd;
+						query=query+"  order by STR_TO_DATE(t.refer_date,'%d-%m-%Y') desc";
+					}*/
 		return query;
 	}
 	

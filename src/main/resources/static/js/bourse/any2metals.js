@@ -39,7 +39,14 @@
 			    "#jqxCheckBoxLumber",
 			    "#jqxCheckBoxCorn",
 			    "#jqxCheckBoxSugar",
-			    "#jqxCheckBoxWheat"];
+			    "#jqxCheckBoxWheat",
+			    "#jqxCheckBoxOil",
+ 			    "#jqxCheckBoxGASOLINE_GALL",
+ 			    "#jqxCheckBoxGASOLINE_LITRE",
+ 			    "#jqxCheckBoxDIESEL_GALL",
+ 			    "#jqxCheckBoxDIESEL_TON",
+ 			    "#jqxCheckBoxNATGAS_USD",
+ 			    "#jqxCheckBoxNATGAS_EUR"];
 
   var fromHistory=false;
   var historyDataParam;
@@ -120,6 +127,14 @@
     	  $("#jqxCheckBoxCorn").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxSugar").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxWheat").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxOil").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGASOLINE_GALL").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxGASOLINE_LITRE").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxDIESEL_GALL").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxDIESEL_TON").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxNATGAS_USD").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxNATGAS_EUR").jqxCheckBox({checked: false });
     	  
     	  for(i=0; i<allitems.length; i++)
 		   {
@@ -605,7 +620,271 @@
   	      enableDisableDropDowns(false);
   	   }
   	 }); 
+        $('#jqxCheckBoxOil').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxOil");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxOil")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	      enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
      
+     $('#jqxCheckBoxGASOLINE_GALL').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGASOLINE_GALL");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGASOLINE_GALL")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxGASOLINE_LITRE').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxGASOLINE_LITRE");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxGASOLINE_LITRE")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+     
+        $('#jqxCheckBoxDIESEL_GALL').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxDIESEL_GALL");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxDIESEL_GALL")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+  	 
+          $('#jqxCheckBoxDIESEL_TON').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxDIESEL_TON");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxDIESEL_TON")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+  	 
+  	      $('#jqxCheckBoxNATGAS_USD').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxNATGAS_USD");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxNATGAS_USD")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+  	 
+  	      $('#jqxCheckBoxNATGAS_EUR').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxNATGAS_EUR");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxNATGAS_EUR")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
    
      
   });

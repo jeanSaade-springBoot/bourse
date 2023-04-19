@@ -102,30 +102,40 @@ var familysource =
   			  formData.append("subgroupId", subGroupId);
   			  const groupId = $("#groupDropDown").val();
   			  formData.append("groupId", groupId);
-  			  
-			  $.ajax({
-			    url: "/db/read",
-			    type: "POST",
-			    data: formData,
-			    processData: false,
-			    contentType: false,
-			    success: function(response) {
-				    $("input[type='file']").val('');
-					$("span.inf__hint").html('or drag and drop files here');
-					
-					$("#result").css("color","black");
-					$("#result").css("background","#00e7b8");
-					$("#result").css("margin-top","1rem");
-					$("#result").append("File uploaded successfully!");
-					
-			    },
-			    error: function(error) {
-			     	$("#result").css("color","black");
-					$("#result").css("background","red");
-					$("#result").css("margin-top","1rem");
-					$("#result").append(error.responseJSON.message);
-			    }
-			  });
+  			  if (typeof file != 'undefined')
+					  $.ajax({
+					    url: "/db/read",
+					    type: "POST",
+					    data: formData,
+					    processData: false,
+					    contentType: false,
+					    async :false,
+					    success: function(response) {
+						    $("input[type='file']").val('');
+							$("span.inf__hint").html('or drag and drop files here');
+							
+							$("#result").css("color","black");
+							$("#result").css("background","#00e7b8");
+							$("#result").css("margin-top","1rem");
+							$("#result").append("File uploaded successfully!");
+							
+					    },
+					    error: function(error) {
+						     $("input[type='file']").val('');
+							 $("span.inf__hint").html('or drag and drop files here');
+							  
+					     	$("#result").css("color","black");
+							$("#result").css("background","red");
+							$("#result").css("margin-top","1rem");
+							$("#result").append(error.responseJSON.message);
+					    }
+					  });
+					  else {
+						  $("#result").css("color","black");
+							$("#result").css("background","red");
+							$("#result").css("margin-top","1rem");
+							$("#result").append("Please upload a file");
+					  }
 			});
 	        
    });
@@ -151,6 +161,9 @@ var familysource =
 		    break;
 	  case 8:
 		  imagePath='/css/images/format/foodstuff_format.png'
+		    break;
+	  case 9:
+		  imagePath='/css/images/format/energy_format.jpg'
 		    break;
 	}
 return imagePath;

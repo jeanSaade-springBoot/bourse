@@ -20,4 +20,6 @@ public interface PreciousMetalsRepository extends JpaRepository<PreciousMetals, 
 
 	public PreciousMetals findPreciousMetalsByReferDateAndSubgroupId(String referdate, Long valueOf);
 
+	public boolean existsByReferDateAndSubgroupId(String referDate, Long subgroupId);
+
 }

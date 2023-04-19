@@ -16,5 +16,7 @@ public interface FoodStuffRepository extends JpaRepository<FoodStuffData, Long>{
              nativeQuery = true)
 	public String findLatestFoodStuffData();
 
-	public FoodStuffData findBaseMetalsByReferDateAndSubgroupId(String referdate, Long valueOf);
+	public FoodStuffData findFoodStuffByReferDateAndSubgroupId(String referdate, Long valueOf);
+
+	public boolean existsByReferDateAndSubgroupId(String referDate, Long subgroupId);
 }

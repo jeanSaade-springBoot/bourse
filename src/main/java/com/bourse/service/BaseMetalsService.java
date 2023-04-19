@@ -36,6 +36,11 @@ public class BaseMetalsService
 		boolean returnvalue = (cnt == 0) ? true : false;
 		return returnvalue;
 	}
+    public boolean CheckIfCanSave(String referDate,Long subgroupId)
+   	{
+   	
+   		return  baseMetalsRepository.existsByReferDateAndSubgroupId(referDate,subgroupId);
+   	}
 	public List<BaseMetals> SaveBaseData(List<BaseMetals> baseDataList) {
 		
 		return baseMetalsRepository.saveAll(baseDataList);

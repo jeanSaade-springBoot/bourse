@@ -25,6 +25,7 @@ import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.SelectedSearchDTO;
 import com.bourse.enums.BaseSubGroupEnum;
 import com.bourse.enums.CrossCountryEnum;
+import com.bourse.enums.EnergySubGroupEnum;
 import com.bourse.enums.FoodStuffSubGroupEnum;
 import com.bourse.enums.FunctionEnum;
 import com.bourse.enums.PreciousSubGroupEnum;
@@ -191,6 +192,16 @@ public class MetalsService {
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
 				
+			}else if(graphReqDTO.getGroupId1().equals("9"))
+			{
+				String groupId = graphReqDTO.getGroupId1();
+				String subGroupId =  graphReqDTO.getSubGroupId1(); 
+				String description = EnergySubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
 			}
 			
 			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
@@ -256,6 +267,16 @@ public class MetalsService {
 				String groupId = graphReqDTO.getGroupId2();
 				String subGroupId =  graphReqDTO.getSubGroupId2(); 
 				String description = FoodStuffSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId2()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
+			}else if(graphReqDTO.getGroupId2().equals("9"))
+			{
+				String groupId = graphReqDTO.getGroupId2();
+				String subGroupId =  graphReqDTO.getSubGroupId2(); 
+				String description = EnergySubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId2()));
 				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
@@ -354,6 +375,17 @@ public class MetalsService {
 			    System.out.println("description: "+description);
 				
 			}
+			if(graphReqDTO.getGroupId1().equals("9"))
+			{
+				String groupId = graphReqDTO.getGroupId1();
+				String subGroupId =  graphReqDTO.getSubGroupId1(); 
+				String description = EnergySubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
+			}
 			
 			String functionId=FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId()!=null?(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())):0);
 			
@@ -406,6 +438,8 @@ public class MetalsService {
 					 description = BaseSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
 					else if (groupId.equals("8"))
 						description = FoodStuffSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+					else if (groupId.equals("9"))
+						description = EnergySubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
 					
 					config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 					fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getFunctionId());
@@ -494,6 +528,16 @@ public class MetalsService {
 				String groupId = graphReqDTO.getGroupId1();
 				String subGroupId =  graphReqDTO.getSubGroupId1(); 
 				String description = FoodStuffSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
+			}if(graphReqDTO.getGroupId1().equals("9"))
+			{
+				String groupId = graphReqDTO.getGroupId1();
+				String subGroupId =  graphReqDTO.getSubGroupId1(); 
+				String description = EnergySubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
 				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);

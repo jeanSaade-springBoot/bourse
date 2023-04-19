@@ -183,6 +183,7 @@ button#deleteByDate {
               <div class="btn-group" role="group" aria-label="First group">
 			    <button type="button" class="btn btn-secondary mw-100" id="precious-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">Precious</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="base-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">Base</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="energy-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">Energy</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="foodStuff-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">FoodStuff</button>
 			  </div>
 			</div>
@@ -264,6 +265,38 @@ button#deleteByDate {
 						  </div>
 		                 </div>
 	                 </div>
+	                   <div th:if="${commodity == 4}" class="col-12 p-0" id="energyCommodity-input">
+	                	 <div class="col">ENERGY</div>
+		                 <div class="col pr-0">
+		                  <form  id="energyDataformInput">
+		                  <div class="form-group" style=" margin-top: 0">
+		                      <div  style=" display: flex;">
+								    <div class="col pl-0"><img height="48" src="/img/oil.png" class="img-icon" data-toggle="tooltip" title="SPOT CRUDE OIL ">
+								    </div>
+								    <div class="col pl-0"><img  height="48" src="/img/gazoline.png" class="img-icon" data-toggle="tooltip" title="US GASOLINE - US GALL">
+								    </div>
+								    <div class="col pl-0"><img height="48" src="/img/diezel.png" class="img-icon" data-toggle="tooltip" title="US DIESEL - US GALL">
+								    </div>
+								     <div class="col pl-0"><img height="48" src="/img/natgasUs.png" class="img-icon" data-toggle="tooltip" title="US NatGas 1MwH in USD">
+								    </div>
+								     <div class="col pl-0"><img height="48" src="/img/natgasEur.png" class="img-icon" data-toggle="tooltip" title="EU NatGas 1MwH in EUR">
+								    </div>
+								 </div>
+			                   <div style=" display: flex;">
+			                    <input type="text" class="form-control" id="energy-input" autocomplete="off">
+			                    </div>
+		                     </div>
+		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
+		                    </form>
+		                   <div id="energyDataInputGrid" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="energyDataInputButtons" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadEnergyData" value="Load " />
+							<input id="CancelEnergyData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+	                 </div>
 	                <div th:if="${commodity == 3}" class="col-12 p-0" id="foodStuffCommodity-input">
 	                	 <div class="col">FOODSTUFF</div>
 		                 <div class="col pr-0">
@@ -316,6 +349,17 @@ button#deleteByDate {
 	                   </div>
                        </div>
 					  <div id="baseAuditGrid"></div>
+					</div>
+					<div th:if="${commodity == 4}" class="col-12 p-0"  id="energy-audit">
+                       <div class="d-flex justify-content-between pb-1">
+	                    <div class="col-9 p-0"> 
+	                    	Energy
+						</div>
+						<div class="col-3 p-0">
+						 <button id="deleteEnergyByDate" style="float: right; font-size: .8rem;">Delete</button> 
+	                   </div>
+                       </div>
+					  <div id="energyAuditGrid"></div>
 					</div>
 					<div th:if="${commodity == 3}" class="col-12 p-0"  id="foodStuff-audit">
                        <div class="d-flex justify-content-between pb-1">
@@ -383,6 +427,18 @@ button#deleteByDate {
              	<div id='jqxCheckBoxSteel' style='float: left;'><span class="checkboxesTitle">Steel</span></div>
              	<div id='jqxCheckBoxLumber' style='float: left;'><span class="checkboxesTitle">Lumber</span></div>
          	 </div>
+          </div>
+          <div th:if="${commodity == 4}" class="col-sm-11" id="energyMetals-filter">
+             <h6 class="col font-weight-bold">FoodStuff</h6>
+                <div class="d-flex justify-content-between">
+	             	<div id='jqxCheckBoxOil' style='float: left;'><span class="checkboxesTitle">SPOT CRUDE OIL </span></div> 
+	             	<div id='jqxCheckBoxGASOLINE_GALL' style='float: left;'><span class="checkboxesTitle">US GASOLINE-US GALL</span></div>
+	             	<div id='jqxCheckBoxGASOLINE_LITRE' style='float: left;'><span class="checkboxesTitle">US GASOLINE-20L/$</span></div>
+	             	<div id='jqxCheckBoxDIESEL_GALL' style='float: left;'><span class="checkboxesTitle">US DIESEL-US Gall</span></div>
+	             	<div id='jqxCheckBoxDIESEL_TON' style='float: left;'><span class="checkboxesTitle">US DIESEL-1 TON</span></div>
+	             	<div id='jqxCheckBoxNATGAS_USD' style='float: left;'><span class="checkboxesTitle">US NatGas 1MwH in USD</span></div>
+	             	<div id='jqxCheckBoxNATGAS_EUR' style='float: left;'><span class="checkboxesTitle">EU NatGas 1MwH in EUR</span></div>
+              </div>
           </div>
           <div th:if="${commodity == 3}" class="col-sm-4" id="foodStuffMetals-filter">
              <h6 class="col font-weight-bold">FoodStuff</h6>
@@ -461,7 +517,7 @@ button#deleteByDate {
 		    </div>
 		  </div>
 	 </div>
-		 <div id="alertDeleteFoodStuffDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	<div id="alertDeleteFoodStuffDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 		    <div class="modal-content">
 		
@@ -477,6 +533,25 @@ button#deleteByDate {
 		       <div class="modal-footer justify-content-between">
 		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
 		        <button type="button" class="btn btn-primary" onclick="deleteFoodStuffDataByDate()">Delete Record</button>
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div id="alertDeleteEnergyDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-danger">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Are you sure?</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="alertEnergyTextDeleteDataByDate">
+ 			  </div>
+		       <div class="modal-footer justify-content-between">
+		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-primary" onclick="deleteEnergyDataByDate()">Delete Record</button>
 		      </div>
 		    </div>
 		  </div>

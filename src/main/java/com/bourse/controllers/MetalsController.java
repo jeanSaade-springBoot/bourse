@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bourse.domain.BaseMetals;
+import com.bourse.domain.EnergyData;
 import com.bourse.domain.FoodStuffData;
 import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditBase;
+import com.bourse.domain.TmpAuditEnergy;
 import com.bourse.domain.TmpAuditFoodStuff;
 import com.bourse.domain.TmpAuditPrecious;
 import com.bourse.dto.DataFunctionRespDTO;
@@ -30,6 +32,7 @@ import com.bourse.dto.MetalsDataFunctionReqDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.service.BaseMetalsService;
 import com.bourse.service.DataFunctionService;
+import com.bourse.service.EnergyService;
 import com.bourse.service.FoodStuffService;
 import com.bourse.service.MetalsService;
 import com.bourse.service.PerciousMetalsService;
@@ -48,19 +51,23 @@ public class MetalsController {
 	private final DataFunctionService dataFunctionService;
 	@Autowired
 	private final FoodStuffService foodStuffService;
+	@Autowired
+	private final EnergyService energyService;
 	
 	public MetalsController(
 			PerciousMetalsService perciousMetalsService,
 			BaseMetalsService baseMetalsService,
 			MetalsService metalsService,
 			DataFunctionService dataFunctionService,
-			FoodStuffService foodStuffService)
+			FoodStuffService foodStuffService,
+			EnergyService energyService)
 	{
 		this.perciousMetalsService   = perciousMetalsService;
 		this.baseMetalsService = baseMetalsService;
 		this.metalsService = metalsService;
 		this.dataFunctionService = dataFunctionService;
 		this.foodStuffService = foodStuffService;
+		this.energyService = energyService;
 	}
 	@GetMapping(value = "checkifcansaveprecious/{referDate}")
 	public ResponseEntity<Boolean> CheckIfCanSavePrecious(@PathVariable String referDate) 
@@ -81,6 +88,12 @@ public class MetalsController {
 		 boolean checkifcanSave= foodStuffService.CheckIfCanSave(referDate);
 		 return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
+	@GetMapping(value = "checkifcansaveenergy/{referDate}")
+	public ResponseEntity<Boolean> CheckIfCanSaveEnergy(@PathVariable String referDate) 
+	{
+		 boolean checkifcanSave= energyService.CheckIfCanSave(referDate);
+		 return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
+	}
 	@PostMapping(value = "savepreciousdata")
     public List<PreciousMetals> savePreciousData(@RequestBody List<PreciousMetals> preciousInputDataList){
 		List<PreciousMetals> preciousDatalst= perciousMetalsService.SavePreciousData(preciousInputDataList);
@@ -98,6 +111,12 @@ public class MetalsController {
 		List<FoodStuffData> foodStuffDatalst= foodStuffService.SaveFoodStuffData(foodStuffInputDataList);
 	    foodStuffService.doCaclulation(foodStuffInputDataList.get(0).getReferDate());
 	  return foodStuffDatalst;
+    }
+	@PostMapping(value = "saveenergydata")
+    public List<EnergyData> saveEnergyData(@RequestBody List<EnergyData> energyInputDataList){
+		List<EnergyData> energyDatalst= energyService.SaveEnergyData(energyInputDataList);
+		energyService.doCaclulation(energyInputDataList.get(0).getReferDate());
+	  return energyDatalst;
     }
 	@GetMapping(value = "getpreciousauditdata/{referDate}")
 	public ResponseEntity<List<TmpAuditPrecious>> getAuditData(@PathVariable("referDate") String referDate) {
@@ -131,6 +150,10 @@ public class MetalsController {
 	public ResponseEntity<List<TmpAuditFoodStuff>> getFoodStuffAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(foodStuffService.getAuditData(referDate),HttpStatus.OK);
 	} 
+	@GetMapping(value = "getenergyauditdata/{referDate}")
+	public ResponseEntity<List<TmpAuditEnergy>> getEnergyAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(energyService.getAuditData(referDate),HttpStatus.OK);
+	} 
 	@DeleteMapping(value = "deletebasebyreferdate/{referDate}")
 	public ResponseEntity<Object>  deleteBaseByReferDate(@PathVariable("referDate") String referDate) {
 		baseMetalsService.deleteBaseByReferDate(referDate);
@@ -139,6 +162,11 @@ public class MetalsController {
 	@DeleteMapping(value = "deletefoodstuffbyreferdate/{referDate}")
 	public ResponseEntity<Object>  deleteFoodStuffByReferDate(@PathVariable("referDate") String referDate) {
 		foodStuffService.deleteFoodStuffByReferDate(referDate);
+	 return new ResponseEntity<>(HttpStatus.OK);
+	}
+	@DeleteMapping(value = "deleteenergybyreferdate/{referDate}")
+	public ResponseEntity<Object>  deleteEnergyByReferDate(@PathVariable("referDate") String referDate) {
+		energyService.deleteEnergyByReferDate(referDate);
 	 return new ResponseEntity<>(HttpStatus.OK);
 	}
 	@GetMapping(value = "getlatestbase", produces = "application/json;charset=UTF-8")
@@ -150,7 +178,10 @@ public class MetalsController {
     public ResponseEntity <String> getLatestFoodStuff(){
 		return new ResponseEntity<>(foodStuffService.findLatestFoodStuffData(), HttpStatus.OK);
     }
-	
+	@GetMapping(value = "getlatestenergy", produces = "application/json;charset=UTF-8")
+    public ResponseEntity <String> getLatestEnergy(){
+		return new ResponseEntity<>(energyService.findLatestEnergyData(), HttpStatus.OK);
+    }
 	@PostMapping(value = "updatebaseauditdata")
 	public ResponseEntity<Boolean> updateBaseAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
@@ -165,6 +196,13 @@ public class MetalsController {
 	
 		foodStuffService.updateFoodStuffData(updateDataDTOlst);
 		foodStuffService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "updateenergyauditdata")
+	public ResponseEntity<Boolean> updateEnergyAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{
+		energyService.updateEnergyData(updateDataDTOlst);
+		energyService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "getgriddata")

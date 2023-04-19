@@ -71,4 +71,46 @@ var itemValue = {
 			"description": "WHEAT",
 			"title": "WHEAT"
 		},
+		"#jqxCheckBoxOil": {
+			"subGroupId": "1",
+			"GroupId": "9",
+			"description": "OIL",
+			"title": "OIL"
+		},
+		"#jqxCheckBoxGASOLINE_GALL": {
+			"subGroupId": "2",
+			"GroupId": "9",
+			"description": "GASOLINE-GALL",
+			"title": "GASOLINE-GALL"
+		},
+		"#jqxCheckBoxDIESEL_GALL": {
+			"subGroupId": "3",
+			"GroupId": "9",
+			"description": "DIESEL-GALL",
+			"title": "DIESEL-GALL"
+		},
+		"#jqxCheckBoxNATGAS_USD": {
+			"subGroupId": "4",
+			"GroupId": "9",
+			"description": "NATGAS-USD",
+			"title": "NATGAS-USD"
+		},
+		"#jqxCheckBoxNATGAS_EUR": {
+			"subGroupId": "5",
+			"GroupId": "9",
+			"description": "NATGAS-EUR",
+			"title": "NATGAS-EUR"
+		},
+		"#jqxCheckBoxGASOLINE_LITRE": {
+			"subGroupId": "6",
+			"GroupId": "9",
+			"description": "GASOLINE-LITRE",
+			"title": "GASOLINE-LITRE"
+		},
+		"#jqxCheckBoxDIESEL_TON": {
+			"subGroupId": "7",
+			"GroupId": "9",
+			"description": "DIESEL-TON",
+			"title": "DIESEL-TON"
+		},
 	};

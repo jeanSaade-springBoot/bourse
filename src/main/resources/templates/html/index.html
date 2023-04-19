@@ -113,9 +113,10 @@ div#content {
 		  <li sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN')" ><a href="/bourse/any2metals"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
 		  <li sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')"><a href="/bourse/precious"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</a></li>
 		  <li sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')"><a href="/bourse/base"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Base Metals</a></li>
-		   <li sec:authorize="hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN')"><a href="/bourse/foodstuff"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Foodstuff</a></li>
+		  <li sec:authorize="hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN')"><a href="/bourse/foodstuff"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Foodstuff</a></li>
+		  <li sec:authorize="hasAuthority('ENERGY_COMMODITY_GRAPH_SCREEN')"><a href="/bourse/energy"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Energy</a></li>
 		  <li sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/metaldatafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
-		</ul>
+		 </ul>
     </div>
   </div>
   <div class="card">
@@ -317,7 +318,7 @@ div#content {
   <script src="/js/notification/config.js"></script>
   <script th:inline="javascript">
      const authorities1 = /*[[${session.SPRING_SECURITY_CONTEXT.authentication}]]*/ "";
-     console.log(authorities1)
+     // console.log(authorities1)
 	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
 	  const hasPendingApprovalGrid= authorities.filter(item => {
 	  	   return item.authority === "PENDING_APPROVAL_GRID"

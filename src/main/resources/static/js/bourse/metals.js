@@ -24,7 +24,15 @@
          			   "#jqxCheckBoxCorn",
          			   "#jqxCheckBoxSugar",
          			   "#jqxCheckBoxWheat"]; 			   
-         			   
+          var energyItem=[
+         			   "#jqxCheckBoxOil",
+         			   "#jqxCheckBoxGASOLINE_GALL",
+         			   "#jqxCheckBoxGASOLINE_LITRE",
+         			   "#jqxCheckBoxDIESEL_GALL",
+         			   "#jqxCheckBoxDIESEL_TON",
+         			   "#jqxCheckBoxNATGAS_USD",
+         			   "#jqxCheckBoxNATGAS_EUR"]; 		
+         			      
 		 var preciousAuditDefaultData=[{
              "gold": "",
              "platinum": "",
@@ -41,11 +49,19 @@
              "sugar": "",
              "wheat": ""
            }];  
+           var energyAuditDefaultData=[{
+             "oil": "",
+             "gasgall": "",
+             "dieselgall": "",
+             "natgasus": "",
+             "natgaseur": ""
+           }];  
          var source;
          var inputDataPresious = document.getElementById("precious-input");
          var inputDataBase = document.getElementById("base-input");
          var inputDataFoodStuff = document.getElementById("foodStuff-input");
-         
+         var inputDataEnergy = document.getElementById("energy-input");
+          
          const commoditySubGroupValue = $("#commoditySubGroup")[0].innerText;
 		 $(document).ready(function () {
 			  $('#overlay').fadeOut();
@@ -66,6 +82,9 @@
 			   }else 
 			   if(commoditySubGroupValue==3){
 			   $("#foodStuff-btn").addClass('active');
+			   }else 
+			   if(commoditySubGroupValue==4){
+			   $("#energy-btn").addClass('active');
 			   }
 			   
 			  rendercommoditySubGroup(commoditySubGroupValue);
@@ -95,7 +114,14 @@
 	 		                    { name: 'LUMBER',  type: 'float'},
 	 		                    { name: 'CORN',  type: 'float'},
 	 		                    { name: 'SUGAR',  type: 'float'},
-	 		                    { name: 'WHEAT',  type: 'float'}
+	 		                    { name: 'WHEAT',  type: 'float'},
+	 		                    { name: 'OIL',  type: 'float'},
+	 		                    { name: 'GASOLINE_GALL',  type: 'float'},
+	 		                    { name: 'DIESEL_GALL',  type: 'float'},
+	 		                    { name: 'NATGAS_USD',  type: 'float'},
+	 		                    { name: 'NATGAS_EUR',  type: 'float'},
+	 		                    { name: 'GASOLINE_LITRE',  type: 'float'},
+	 		                    { name: 'DIESEL_TON',  type: 'float'}
 	 		                 ],
 	                         id: 'id',
 	                         localdata: ''
@@ -138,6 +164,13 @@
             	  $("#foodStuffDataformInput").css("display","block");
 				  $("#foodStuffDataInputButtons").css("display","none"); 
 				  $("#foodStuffDataInputGrid").css("display","none"); 
+               }); 
+                
+                $("#CancelEnergyData").click(function () {
+            	  inputDataEnergy.value="";
+            	  $("#energyDataformInput").css("display","block");
+				  $("#energyDataInputButtons").css("display","none"); 
+				  $("#energyDataInputGrid").css("display","none"); 
                }); 
                
              $("#loadPreciousData").click(function () {
@@ -509,6 +542,133 @@
             		 $('#alertDate-modal').modal('show'); 
             	 }
                });  
+                  $("#loadEnergyData").click(function () {
+            	var date = new Date();
+            	var dataToBeInserted = [];
+            	
+            	var oilObject=["1"];
+            	var gazObject=["2"];
+            	var diezelObject=["3"];
+				var natgazUsObject=["4"];
+				var natgazEurObject=["5"];
+				
+            	var rows = $('#energyDataInputGrid').jqxGrid('getrows');
+            	for (i = 0; i < rows.length; i++) {
+            	   oilObject.push(rows[i].oil);
+            	   gazObject.push(rows[i].gasgall);
+            	   diezelObject.push(rows[i].dieselgall);
+            	   natgazUsObject.push(rows[i].natgasus);
+            	   natgazEurObject.push(rows[i].natgaseur);
+            	}
+
+            	var listObject=["oilObject","gazObject","diezelObject","natgazUsObject","natgazEurObject"];
+            	 
+            	 for (i = 0; i < listObject.length; i++) {
+
+            	      var value = eval(listObject[i]);
+            		 	dataToBeInserted.push({
+            			   "subgroupId":value[0],
+            			   "value":value[1],
+            			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+            			});
+            	 }
+            	 
+            	 if($("#dateInput").jqxDateTimeInput('getDate')<date)
+           	     {
+            		 var today = $("#dateInput").jqxDateTimeInput('getDate');
+            		 if(today.getDay() == 6 || today.getDay() == 0)
+            		 { 
+            			 $('#alert-modal-weekend').modal('show'); 
+            			 return;
+            		 }
+            		 today=$.jqx.dataFormat.formatdate(today,  'dd-MM-yyyy')
+            		 $.ajax({
+	    	        contentType: "application/json",
+	    	        url: "/metals/checkifcansaveenergy/"+today, 
+	    	        dataType: 'json',
+	    	        async:true,
+	    	        cache: false,
+	    	        timeout: 600000,
+	    	        success: function (response) {
+	    	        	if(response)
+	    	        	{
+							 $.ajax({
+						        contentType: "application/json",
+						        url: "/process/isrobottriggered/2/9",
+						        dataType: 'text',
+								async:true,
+						        cache: false,
+						        timeout: 600000,
+						        success: function (data) {
+				      
+								if(data=='true')
+								   $('#alert-modal-robot').modal('show'); 
+								else{
+									
+						    	       	  $.ajax({
+						    	    	        type: "POST",
+						    	    	        contentType: "application/json",
+						    	    	        url: "/metals/saveenergydata",
+						    	    	        data: JSON.stringify(dataToBeInserted),
+						    	    	        dataType: 'json',
+						    	    	        async:true,
+						    	    	        cache: false,
+						    	    	        timeout: 600000,
+						    	    	        success: function (data) {
+													
+													getFilterData(commoditySubGroupValue);
+						    	    	        	  
+						  						 inputDataEnergy.value="";
+						  		            	  $("#energyDataformInput").css("display","block");
+						  						  $("#energyDataInputButtons").css("display","none"); 
+						  						  $("#energyDataInputGrid").css("display","none");
+						  						
+						  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
+						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+						    	        	  
+						    				    filterDate=date;
+						    				    
+						    				      delete auditEnergyGridSource.localdata;   
+							    				  auditEnergyGridSource.url='/metals/getenergyauditdata/'+date;
+							    				  energydataAdapter = new $.jqx.dataAdapter(auditEnergyGridSource);
+							    				  $('#energyAuditGrid').jqxGrid({source:energydataAdapter});
+						    					 
+						    	    	         triggerRobots();	
+						    	    	         
+						    	            },
+						    	    	        error: function (e) {
+						    	    	        	
+						    						  console.log("ERROR : ", e);
+						    	
+						    	    	        }
+						    	    	    });
+											}
+					
+								},
+						        error: function (e) {
+						        	
+										  console.log("ERROR : ", e);
+					
+						        }
+						    });
+
+	    	        	}
+	    	        	else{
+	    	        		$('#alert-modal').modal('show'); 
+	    	        	}
+	            },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });
+           	     }
+            	 else {
+            		 $('#alertDate-modal').modal('show'); 
+            	 }
+               });  
+               
                
                
              	 $('#dateInputAudit').on('change', function (event) 
@@ -529,6 +689,11 @@
     				     auditFoodStuffGridSource.url='/metals/getfoodstuffauditdata/'+date;
     					 foodStuffdataAdapter = new $.jqx.dataAdapter(auditFoodStuffGridSource);
     					 $('#foodStuffAuditGrid').jqxGrid({source:foodStuffdataAdapter});
+    					 }else if (commoditySubGroupValue==4)
+    					{ delete auditEnergyGridSource.localdata;   
+    				     auditEnergyGridSource.url='/metals/getenergyauditdata/'+date;
+    					 energydataAdapter = new $.jqx.dataAdapter(auditEnergyGridSource);
+    					 $('#energyAuditGrid').jqxGrid({source:energydataAdapter});
     					 }
 				 }); 
 
@@ -551,6 +716,13 @@
 		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				  $( "#alertFoodStuffTextDeleteDataByDate" ).empty();
 		 		  $( "#alertFoodStuffTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all FoodStuff record for the date '"+date+"'?</p>" );
+				 }); 
+				 
+				$("#deleteEnergyByDate").click(function () {
+				$('#alertDeleteEnergyDataByDate-modal').modal('show'); 
+		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				  $( "#alertEnergyTextDeleteDataByDate" ).empty();
+		 		  $( "#alertEnergyTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all Energy record for the date '"+date+"'?</p>" );
 				 }); 
 				 
 			$("#filter").click(function () {
@@ -663,6 +835,48 @@
 					    	$("#foodStuffAuditGrid").jqxGrid('beginrowedit', row);
 					    	$("#editFoodstuff"+row).css("display","none");
 							$("#actionButtonsFoodstuff"+row).css("display","contents"); 
+					    	if (event) {
+					    		if (event.preventDefault) {
+					    			event.preventDefault();
+					    		}
+					    	} 
+						}
+				    	
+				    	return false;
+				     }, 300);
+			    }	 
+			    
+			  function EditEnergy(row, event) {
+				
+				     isedit=true;
+					 var data=$("#energyAuditGrid").jqxGrid('getrowdata', row);	
+				     oldDataJson={
+		               "oil":data.oil,
+					   "gasolineGall":data.gasolineGall,
+					   "dieselGall":data.dieselGall,
+					   "natgasUsd":data.natgasUsd,
+					   "natgasEur":data.natgasEur
+					   
+				     };
+				     selectedRow.editrow = row;
+				     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				     if(auditEnergyGridSource.url=='' || date!=filterDate)
+				     { 
+				    	 delete auditEnergyGridSource.localdata;   
+    				     auditEnergyGridSource.url='/metals/getenergyauditdata/'+date;
+    					 dataAdapter = new $.jqx.dataAdapter(auditEnergyGridSource);
+    					 $('#energyAuditGrid').jqxGrid({source:dataAdapter});
+				     } 
+				     setTimeout(function(){
+				    	  if(($('#energyAuditGrid').jqxGrid('getrows')[0].oil!=null)&&
+				    		 ($('#energyAuditGrid').jqxGrid('getrows')[0].gasolineGall!=null)&&
+				    		 ($('#energyAuditGrid').jqxGrid('getrows')[0].dieselGall!=null)&&
+				    		 ($('#energyAuditGrid').jqxGrid('getrows')[0].natgasUsd!=null)&&
+				    		 ($('#energyAuditGrid').jqxGrid('getrows')[0].natgasEur!=null))
+						{
+					    	$("#energyAuditGrid").jqxGrid('beginrowedit', row);
+					    	$("#editEnergy"+row).css("display","none");
+							$("#actionButtonsEnergy"+row).css("display","contents"); 
 					    	if (event) {
 					    		if (event.preventDefault) {
 					    			event.preventDefault();
@@ -901,7 +1115,91 @@
 				    }
 				    return false;
 			    }
-			    
+			   function UpdateEnergy(row, event) {
+				
+				   isupdate=true;
+				   var dataToBeUpdated = [];
+				   var updatedData = $("#energyAuditGrid").jqxGrid('getrowdata', row);
+				   selectedRow.editrow = -1;
+				    $("#energyAuditGrid").jqxGrid('endrowedit', row);
+				    var updatedData = $("#energyAuditGrid").jqxGrid('getrowdata', row);
+				    var updatedDataJson={
+		               "oil":updatedData.oil,
+					   "gasolineGall":updatedData.gasolineGall,
+					   "dieselGall":updatedData.dieselGall,
+					   "natgasUsd":updatedData.natgasUsd,
+					   "natgasEur":updatedData.natgasEur
+				     };
+				      
+                    var keys=["oil","gasolineGall","dieselGall","natgasUsd","natgasEur"];
+                    var updatedMetalsJson=[];
+                    for (let i = 0; i < keys.length; i++) {
+	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
+                          updatedMetalsJson.push({"assetId": 2,
+                       						      "groupId":getGroupId(commoditySubGroupValue),
+												  "value": keys[i].toUpperCase()});
+	                }
+                   
+					    dataToBeUpdated.push({
+	         			   "subgroupId":"1",
+	         			   "value":updatedData.oil.replaceAll(',',''),
+	         			   "referdate": date
+	         			});
+						dataToBeUpdated.push({
+		         			   "subgroupId":"2",
+		         			   "value":updatedData.gasolineGall.replaceAll(',',''),
+		         			   "referdate": date
+		         			});
+						dataToBeUpdated.push({
+		         			   "subgroupId":"3",
+		         			   "value":updatedData.dieselGall.replaceAll(',',''),
+		         			   "referdate": date
+		         			});
+		         		dataToBeUpdated.push({
+		         			   "subgroupId":"4",
+		         			   "value":updatedData.natgasUsd.replaceAll(',',''),
+		         			   "referdate": date
+		         			});
+		         		dataToBeUpdated.push({
+		         			   "subgroupId":"5",
+		         			   "value":updatedData.natgasEur.replaceAll(',',''),
+		         			   "referdate": date
+		         			});
+		      	       	  $.ajax({
+		      	    	        type: "POST",
+		      	    	        contentType: "application/json",
+		      	    	        url: "/metals/updateenergyauditdata",
+		      	    	        data: JSON.stringify(dataToBeUpdated),
+		      	    	        dataType: 'json',
+		      	    	        async:true,
+		      	    	        cache: false,
+		      	    	        timeout: 600000,
+		      	    	        success: function (data) {
+			  
+		                           		 updateRobotNewsOnChangeColumns(updatedMetalsJson);
+		                          
+	      	    	        		     delete auditEnergyGridSource.localdata;   
+				    				     auditEnergyGridSource.url='/metals/getenergyauditdata/'+date;
+				    					 energydataAdapter = new $.jqx.dataAdapter(auditEnergyGridSource);
+				    					 $('#energyAuditGrid').jqxGrid({source:energydataAdapter});
+		      						 
+		      						getFilterData(commoditySubGroupValue);
+		      	   },
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    });
+		      	      
+
+				    if (event) {
+				    	if (event.preventDefault) {
+				    		event.preventDefault();
+				    	}
+				    }
+				    return false;
+			    }  
 			  function Cancel(row) {
 				  isedit=false;
 				  isupdate=false;
@@ -919,6 +1217,12 @@
 				  isupdate=false;
 				   selectedRow.editrow = row;
 			    	$("#foodStuffAuditGrid").jqxGrid('endrowedit', row, true);
+			 }
+			   function CancelEnergy(row) {
+				  isedit=false;
+				  isupdate=false;
+				  selectedRow.editrow = row;
+			    	$("#energyAuditGrid").jqxGrid('endrowedit', row, true);
 			 }
 			    function deleteDataByDate()
 				{
@@ -1057,6 +1361,52 @@
 			         });
 				
 				}
+				function deleteEnergyDataByDate()
+				{
+					$('#alertDeleteEnergyDataByDate-modal').modal('hide'); 
+					date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				    
+			     $.ajax({
+			             type : "DELETE",
+			             url : "/metals/deleteenergybyreferdate/" + date,
+			             success: function (result) { 
+							 $.ajax({
+					    	        contentType: "application/json",
+					    	        url: "/metals/checkifcansaveenergy/"+date,
+					    	        dataType: 'json',
+					    	        async:true,
+					    	        cache: false,
+					    	        timeout: 600000,
+					    	        success: function (response) {
+					    	        	if(!response)
+					    	        	{	 delete auditEnergyGridSource.localdata;   
+					    				     auditEnergyGridSource.url='';
+					    					 energydataAdapter = new $.jqx.dataAdapter(auditEnergyGridSource);
+					    					 $('#energyAuditGrid').jqxGrid({source:energydataAdapter});
+									    }
+					    	        	else{
+										  getEnergyAuditGridSource(); 
+										 }
+					    	        	},
+							             error: function (e) {
+							                 console.log(e);
+							             }
+							         });
+							    
+					getFilterData(commoditySubGroupValue);  
+			        $('#alertDeleteEnergyDataByDate-modal').modal('hide');
+
+ 					$( "#successDelete" ).empty();
+		 		    $( "#successDelete" ).append( "<p> All record for the date '"+date+"' has been deleted</p>" );
+				
+					$('#alertInfoDeleteDataByDate-modal').modal('show');  
+			             },
+			             error: function (e) {
+			                 console.log(e);
+			             }
+			         });
+				
+				}
 				function getPreciousAuditGridSource(){
 				
 					 $.ajax({
@@ -1129,7 +1479,8 @@
 			    	    });
 			
 			}
-				function getFoodStuffAuditGridSource(){
+			
+			function getFoodStuffAuditGridSource(){
 				
 					 $.ajax({
 			    	        contentType: "application/json",
@@ -1163,7 +1514,42 @@
 			    	        }
 			    	    });
 			
-			}
+					}
+			function getEnergyAuditGridSource(){
+				
+					 $.ajax({
+			    	        contentType: "application/json",
+			    	        url: "/metals/getlatestenergy",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function (response) {
+			    	        	if(response!='')
+			    	        	 {$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
+			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
+			    	        	  var dbDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
+								  var systemDate=new Date();
+			    	        	  systemDate.setHours(0,0,0,0);
+			    				  
+								if( dbDate.toDateString() == systemDate.toDateString())
+								 {	  
+			    				     filterDate=date;
+						    	     delete auditEnergyGridSource.localdata;   
+			    				     auditEnergyGridSource.url='/metals/getenergyauditdata/'+date;
+			    					 energyDataAdapter = new $.jqx.dataAdapter(auditEnergyGridSource);
+			    					 $('#energyAuditGrid').jqxGrid({source:energyDataAdapter});
+			    					 }
+			    	        	}
+			    	        },
+			    	        error: function (e) {
+			    	        	
+								  console.log("ERROR : ", e);
+			
+			    	        }
+			    	    });
+			
+					}
 			
 				function getAuditGridSource(){
 				    var preciousDate=null;
@@ -1277,9 +1663,13 @@
           	var precious=[];
           	var base=[];
           	var foodStuff=[];
+          	var energy=[];
             $('#grid').jqxGrid({ showdefaultloadelement: true}); 
           	var itemPrecious = 0;
           	var itemBase = 0;
+          	var itemfoodStuff = 0;
+            var itemEnergy = 0;
+            
             if (commoditySubGroupValue==1)
 		     {	for (i = 0; i < metalsPreciousItem.length; i++) {
 		         		if($(metalsPreciousItem[i]).jqxCheckBox('checked'))
@@ -1326,19 +1716,39 @@
 	         		if($(foodStuffItem[i]).jqxCheckBox('checked'))
 	         		{		
 	         		    foodStuff.push(foodStuffItem[i].split("Box")[1].toUpperCase());	
-	          			itemBase=1;
+	          			itemfoodStuff=1;
 	          			allItems=allItems+1;
 	          			checkedItem.push(foodStuffItem[i]);
 	         		}
 		          	}
 		         	
-		          	if(itemBase!=0)
+		          	if(itemfoodStuff!=0)
 		          	{
 		          		SelectedSearchDTO.push({
 		          		   "groupId":"3",
 		       			   "selectedValues":foodStuff,
 		       			});
-		          		foodStuff=[];
+		          		itemfoodStuff=[];
+	          	}
+        	} else if (commoditySubGroupValue==4)
+	        	 {
+					for (i = 0; i < energyItem.length; i++) {
+	         		if($(energyItem[i]).jqxCheckBox('checked'))
+	         		{		
+	         		    energy.push(energyItem[i].split("Box")[1].toUpperCase());	
+	          			itemEnergy=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(energyItem[i]);
+	         		}
+		          	}
+		         	
+		          	if(itemEnergy!=0)
+		          	{
+		          		SelectedSearchDTO.push({
+		          		   "groupId":"4",
+		       			   "selectedValues":energy,
+		       			});
+		          		itemEnergy=[];
 	          	}
         	}
           	if(allItems!=0)
@@ -1759,6 +2169,125 @@
 					  }
 				});  
 				getFoodStuffAuditGridSource();
+			}else
+			if (commoditySubGroupValue==4)
+			{
+				
+		      $("#deleteEnergyByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
+			  $("#CancelEnergyData").jqxButton({ theme: 'dark',height:30,width:74 });
+	          $("#loadEnergyData").jqxButton({ theme: 'dark',height:30,width:74 }); 
+	          
+	           for(i=0; i<energyItem.length; i++)
+			   {
+		    	$(energyItem[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+		       }
+		       
+		        auditEnergyGridSource =
+	            {    
+	            localdata:energyAuditDefaultData,
+	            datatype: "json",
+                datafields: [
+                    { name: 'oil', type: 'string' },
+                    { name: 'gasolineGall', type: 'string' },
+                    { name: 'gasolineLitre', type: 'string' },
+                    { name: 'dieselGall', type: 'string' },
+                    { name: 'dieselTon', type: 'string' },
+                    { name: 'natgasUsd', type: 'string' },
+                    { name: 'natgasEur', type: 'string' }
+                ],
+                url:''
+	            };
+	            var energyDataAdapter = new $.jqx.dataAdapter(auditEnergyGridSource);
+	            $("#energyAuditGrid").jqxGrid(
+	            {
+	                width: '100%',
+	                source: energyDataAdapter,  
+	                theme:'dark',
+	                autoheight: true,
+	                editable: true,
+	                selectionmode: 'none',
+	                editmode: 'selectedrow',
+	                columns: [ 
+	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
+		                	return "<input class=\"edit\" type=\"button\" onclick='EditEnergy(" + row + ", event)' id=\"editEnergy"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtonsEnergy"+row+"\" style=\"display:none\"><input  onclick='UpdateEnergy(" + row + ", event)' class=\"update\" type=\"button\" id=\"updateEnergy\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='CancelEnergy(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                    
+		                  }
+		                  },  
+		                  { text: 'SPOT CRUDE OIL', datafield: 'oil', width: '11.14%' },
+		                  { text: 'US GASOLINE-US GALL', datafield: 'gasolineGall', width: '11.14%' },
+		                  { text: 'US GASOLINE-20L/$', datafield: 'gasolineLitre', width: '11.14%',editable: false },
+		                  { text: 'US DIESEL-US GALL', datafield: 'dieselGall', width: '11.14%' },
+		                  { text: 'US DIESEL-1 TON', datafield: 'dieselTon', width: '11.14%',editable: false },
+		                  { text: 'US NatGas 1MwH in USD', datafield: 'natgasUsd', width: '11.14%' },
+		                  { text: 'EU NatGas 1MwH in EUR', datafield: 'natgasEur', width: '11.14%' },
+	                ]
+	            });
+		       $('#energy-input').on('keydown', function(event) {
+					  if (event.keyCode === 13) {
+					    event.preventDefault(); // prevent form submission
+					    $('#energy-input').blur();
+					  }
+					});
+	          inputDataEnergy.addEventListener("blur", function() {
+				  if($("#energy-input").val()!="")
+					  {
+					  $("#energyDataformInput").css("display","none");
+					  $("#energyDataInputGrid").css("display","block"); 
+					  $("#energyDataInputButtons").css("display","block"); 
+			
+					 for(i=0; i<energyItem.length; i++)
+					   {
+				    	$(energyItem[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+				       }
+				       
+			
+					  var localdata = [];
+
+					  var dataIput =$("#energy-input").val()
+					  var dataInputRows = dataIput.split(/\r?\n/);
+					  var rowData = dataInputRows[0].split(/\r?\t/);
+					   localdata.push({
+					  			"oil": rowData[0],
+					  			"gasgall":  rowData[1],
+					  			"dieselgall": rowData[2],
+					  			"natgasus": rowData[3],
+					  			"natgaseur": rowData[4],
+					  		});
+					  
+					  var dataInputGridSource =
+			            {
+			                datatype: "json",
+			                datafields: [
+			                    { name: 'oil', type: 'string' },
+			                    { name: 'gasgall', type: 'string' },
+			                    { name: 'dieselgall', type: 'string' },
+			                    { name: 'natgasus', type: 'string' },
+			                    { name: 'natgaseur', type: 'string' }
+			                ],
+			                localData:localdata
+			            };
+			             var dataAdapter = new $.jqx.dataAdapter(dataInputGridSource);
+			            // initialize jqxGrid
+			            $("#energyDataInputGrid").jqxGrid(
+			            {
+			                width: '100%',
+			                source: dataAdapter,  
+			                theme:'dark',
+			                enabletooltips: true,
+			                selectionmode: 'none',
+			                autoheight: true,
+			                columns: [ 
+			                      { text: '<img height="48" width="48" src="/img/oil.png">', datafield: 'oil', width: '20%' },
+				                  { text: '<img height="48" width="48" src="/img/gazoline.png">', datafield: 'gasgall', width: '20%'},
+				                  { text: '<img height="48" width="48" src="/img/diezel.png">', datafield: 'dieselgall', width: '20%' },
+				                  { text: '<img height="48" width="48" src="/img/natgasUs.png">', datafield: 'natgasus', width: '20%' },
+				                  { text: '<img height="48" width="48" src="/img/natgasEur.png">', datafield: 'natgaseur', width: '20%' }
+			                ]
+			            });
+					  
+					  }
+				});  
+				getEnergyAuditGridSource();
 			}
 	}
 	function saveFilterHistory(commoditySubGroupValue,checkedItem){
@@ -1837,6 +2366,9 @@
 		        break;
 		 case '3': 
 		   groupId='8'
+		        break;
+		  case '4': 
+		   groupId='9'
 		        break;
 		}
 	return groupId;

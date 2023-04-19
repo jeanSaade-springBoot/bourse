@@ -36,6 +36,11 @@ public class FoodStuffService
 		boolean returnvalue = (cnt == 0) ? true : false;
 		return returnvalue;
 	}
+    public boolean CheckIfCanSave(String referDate,Long subgroupId)
+	{
+	
+		return  foodStuffRepository.existsByReferDateAndSubgroupId(referDate,subgroupId);
+	}
 	public List<FoodStuffData> SaveFoodStuffData(List<FoodStuffData> foodStuffDataList) {
 		
 		return foodStuffRepository.saveAll(foodStuffDataList);
@@ -54,15 +59,15 @@ public class FoodStuffService
 		return auditProcedureDTOLst;
 	}
 	public void deleteFoodStuffByReferDate(String referDate) {
-		List<FoodStuffData> baseList = foodStuffRepository.findByReferDate(referDate);
-		baseList.forEach(
-	            (base) -> {
-	            	foodStuffRepository.deleteById(base.getId());
+		List<FoodStuffData> foodstuffList = foodStuffRepository.findByReferDate(referDate);
+		foodstuffList.forEach(
+	            (foodstuff) -> {
+	            	foodStuffRepository.deleteById(foodstuff.getId());
 	            });
-		List<TmpAuditFoodStuff> baseAuditList = tmpAuditFoodStuffRepository.findByReferDate(referDate);
-		baseAuditList.forEach(
-	            (base) -> {
-	            	tmpAuditFoodStuffRepository.deleteById(base.getId());
+		List<TmpAuditFoodStuff> foodstuffAuditList = tmpAuditFoodStuffRepository.findByReferDate(referDate);
+		foodstuffAuditList.forEach(
+	            (foodstuff) -> {
+	            	tmpAuditFoodStuffRepository.deleteById(foodstuff.getId());
 	            });
 	}
 	public String findLatestFoodStuffData() {
@@ -88,7 +93,7 @@ public class FoodStuffService
 		 FoodStuffData foodStuffData;
 		for(UpdateDataDTO updateDataDTO:updateDataDTOlst)
 		{
-			foodStuffData = foodStuffRepository.findBaseMetalsByReferDateAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getSubgroupId()));
+			foodStuffData = foodStuffRepository.findFoodStuffByReferDateAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getSubgroupId()));
 			foodStuffData.setValue(updateDataDTO.getValue());
 			foodStuffRepository.save(foodStuffData);
 		}
