@@ -1123,8 +1123,6 @@ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('42', 'FOOD
 
 INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('foodstuff', '1');
 
--- new
-
 INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('9', '2', 'ENERGY', 'ENR');
 
 INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('33', 'OIL', '9', '1', 'ENERGY', 'OIL');
@@ -2154,4 +2152,874 @@ INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('
 
 update column_configuration set chart_showgrid = 'true'  WHERE GROUP_ID=9;
 update function_configuration set chart_showgrid = 'true'  WHERE GROUP_ID=9;
+
+--NEW
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('10', '2', 'TRANSPORTATION', 'TRA');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('40', 'BALTIC DRY INDEX', '10', '1', 'TRANSPORTATION', 'BAL');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('41', '40ft Container', '10', '2', 'TRANSPORTATION', 'CON');
+
+
+
+INSERT INTO `bourse`.`column_configuration`
+		(`id`,
+		`calculation_type`,
+		`can_be_negative`,
+		`currency`,
+		`data_format`,
+		`description`,
+		`display_description`,
+		`graph_scale`,
+		`group_id`,
+		`start_date`,
+		`subgroup_id`,
+		`tick_value`,
+		`chart_type`,
+		`y_axis_format`,
+		`factor`,
+		`descwitoutfactor`,
+		`column_name`,
+		`data_min_increment`,
+		`chart_color`,
+		`chart_showgrid`,
+		`chart_size`,
+		`chart_transparency`,
+		`chartshow_markes`,
+		`exchange_link`,
+		`show_in_database`,
+		`show_in_news_graph`,
+		`column_code`,
+		`status`)
+		select 
+		 @row_number:=@row_number + 1 as id ,
+		'INPUT' as `calculation_type`,
+		 false as `can_be_negative`,
+		 null as `currency`,
+		'0.000%' as `data_format`,
+		s.description as `description`,
+		s.description as `display_description`,
+		null as `graph_scale`,
+		s.group_Id as `group_id`,
+		'03-01-2000' as `start_date`,
+		s.id_sub_group as`subgroup_id`,
+		null as `tick_value`,
+		'Area' as `chart_type`,
+		'0.00%' as `y_axis_format`,
+		 0 as `factor`,
+		 s.description as `descwitoutfactor`,
+		 s.description as `column_name`,
+		null as `data_min_increment`,
+		'#44546a' as `chart_color`,
+		1 as `chart_showgrid`,
+		'12px' as `chart_size`,
+		1 as `chart_transparency`,
+		1 as `chartshow_markes`,
+		null as `exchange_link`,
+		false as `show_in_database`,
+		false as `show_in_news_graph`,
+		'00' as `column_code`,
+		'Ti3lZXf6Pk2NuA3KpLTEUv4voVgsqAR2' as `status`
+		 from  subgroup s,
+(SELECT @row_number:=(SELECT max(id) from column_configuration)) AS t where s.group_id=10 ;
+
+INSERT INTO `bourse`.`ongoing_process` (`id`, `process_name`, `status`, `must_be_trigger`, `asset_id`, `group_id`) VALUES ('11', 'PROCESS_WITHOUT_FUNCTION', false, false, '2', '10');
+INSERT INTO `bourse`.`ongoing_process` (`id`, `process_name`, `status`, `must_be_trigger`, `asset_id`, `group_id`) VALUES ('12', 'PROCESS_WITH_FUNCTION', false, false, '2', '10');
+
+create table transportation_data (id bigint not null, refer_date varchar(255), subgroup_id bigint, value varchar(255), primary key (id)) ;
+
+create table transportation_data_sequence (next_val bigint) ;
+insert into transportation_data_sequence values ( 1 );
+
+create table tmp_audit_transportation (id bigint not null, 
+ BALTIC varchar(255), 
+`CONTAINER` varchar(255), 
+ refer_date varchar(255), primary key (id));
+ 
+
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_highlow_mono' as robot_name,
+		'PROCESS_WITHOUT_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        null as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where  group_id =10;
+ 
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+   
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_jump_mono' as robot_name,
+		'PROCESS_WITHOUT_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        null as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where  group_id =10;
+ 
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+   
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_trend_mono' as robot_name,
+		'PROCESS_WITHOUT_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        null as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where  group_id =10;
+ 
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+
+INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_trend_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        1 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_trend_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        2 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_trend_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        3 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_trend_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        4 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_trend_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        5 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_trend_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        6 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_trend_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        7 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_trend_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        8 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_trend_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        9 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_jump_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        1 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_jump_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        2 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_jump_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        3 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_jump_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        4 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_jump_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        5 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_jump_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        6 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_jump_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        7 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_jump_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        8 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_jump_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        9 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_highlow_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        1 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_highlow_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        2 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_highlow_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        3 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_highlow_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        4 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_highlow_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        5 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_highlow_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        6 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_highlow_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        7 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_highlow_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        8 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+select @rownum:=@rownum + 1  as id ,
+		description,
+		'dyncamic_robots_function_highlow_mono' as robot_name,
+		'PROCESS_WITH_FUNCTION' as process_name,
+		2 as asset_id,
+		10 as group_id,
+        9 as function_id
+ from column_configuration,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+ where group_id =10;
+ 
+ update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+ 
+
+ INSERT INTO `bourse`.`table_management`
+(`id`,
+`asset_id`,
+`group_id`,
+`subgroup_id`,
+`column_name`,
+`table_name`)
+select
+@rownum:=@rownum + 1  as id ,
+2,
+s.group_id,
+s.id_sub_group,
+CASE WHEN s.id_sub_group=1 THEN 'BALTIC' ELSE 'CONTAINER' END ,
+'tmp_audit_transportation' from subgroup s,
+ (SELECT @rownum:=(select max(id) from table_management)) r where s.group_id=10;
+ 
+
+ 
+ 
+ 
+ INSERT INTO `bourse`.`function_configuration`
+(`id`,
+`calculation_type`,
+`data_format`,
+`description`,
+`display_description`,
+`group_id`,
+`start_date`,
+`subgroup_id`,
+`config_id`,
+`function_id`,
+`tick_value`,
+`chart_type`,
+`y_axis_format`,
+`factor`,
+`descwitoutfactor`,
+`column_name`,
+`data_min_increment`,
+`chart_color`,
+`chart_showgrid`,
+`chart_size`,
+`chart_transparency`,
+`chartshow_markes`,
+`exchange_link`,
+`show_in_database`,
+`show_in_news_graph`,
+`currency`,
+`column_code`)
+select 
+		 @row_number:=@row_number + 1 as id ,
+		'CALCULATED' as `calculation_type`,
+		'0.000%' as `data_format`,
+		s.description as `description`,
+		s.description as `display_description`,
+		s.group_Id as `group_id`,
+		'03-01-2000' as `start_date`,
+		s.subgroup_id as`subgroup_id`,
+		s.id  as`config_id`,
+        f.id as `function_id`,
+		null as `tick_value`,
+		'Area' as `chart_type`,
+		'0.00%' as `y_axis_format`,
+		 0 as `factor`,
+		 s.description as `descwitoutfactor`,
+		 s.description as `column_name`,
+		null as `data_min_increment`,
+		'#44546a' as `chart_color`,
+		1 as `chart_showgrid`,
+		'12px' as `chart_size`,
+		1 as `chart_transparency`,
+		1 as `chartshow_markes`,
+		null as `exchange_link`,
+		false as `show_in_database`,
+		false as `show_in_news_graph`,
+		null as `currency`,
+		'00' as `column_code`
+		 from  column_configuration s,
+				functions f,
+(SELECT @row_number:=(SELECT max(id) from function_configuration)) AS t where s.group_id=10 ;
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('44', 'TRANSPORTATION_COMMODITY_GRAPH_SCREEN', true);
+
+INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('transportation', '3');
+
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('6', 'DATABASE_INPUT_SCREEN_METALS-5');
+
+update column_configuration set chart_showgrid = 'true'  WHERE GROUP_ID=10;
+update function_configuration set chart_showgrid = 'true'  WHERE GROUP_ID=10;
+
+
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61054','346','COMTRABAL00LASTHILO','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61055','347','COMTRACON00LASTHILO','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61056','348','COMTRABAL00LASTJUMP','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61057','349','COMTRACON00LASTJUMP','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61058','350','COMTRABAL00LASTTRND','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61059','351','COMTRACON00LASTTRND','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61060','352','COMTRACON00LASTHILOCaD3','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61061','353','COMTRABAL00LASTHILOCaD3','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61062','354','COMTRACON00LASTHILOCaD4','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61063','355','COMTRABAL00LASTHILOCaD4','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61064','356','COMTRACON00LASTHILOCaD1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61065','357','COMTRABAL00LASTHILOCaD1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61066','358','COMTRACON00LASTHILOCaD2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61067','359','COMTRABAL00LASTHILOCaD2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61068','360','COMTRACON00LASTHILOCAW1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61069','361','COMTRABAL00LASTHILOCAW1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61070','362','COMTRACON00LASTHILOCAW2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61071','363','COMTRABAL00LASTHILOCAW2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61072','364','COMTRACON00LASTHILOCaD5','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61073','365','COMTRABAL00LASTHILOCaD5','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61074','366','COMTRACON00LASTHILOCaD6','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61075','367','COMTRABAL00LASTHILOCaD6','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61076','368','COMTRACON00LASTHILOCaD7','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61077','369','COMTRABAL00LASTHILOCaD7','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61078','370','COMTRACON00LASTJUMPCaD3','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61079','371','COMTRABAL00LASTJUMPCaD3','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61080','372','COMTRACON00LASTJUMPCaD4','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61081','373','COMTRABAL00LASTJUMPCaD4','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61082','374','COMTRACON00LASTJUMPCaD1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61083','375','COMTRABAL00LASTJUMPCaD1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61084','376','COMTRACON00LASTJUMPCaD2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61085','377','COMTRABAL00LASTJUMPCaD2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61086','378','COMTRACON00LASTJUMPCAW1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61087','379','COMTRABAL00LASTJUMPCAW1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61088','380','COMTRACON00LASTJUMPCAW2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61089','381','COMTRABAL00LASTJUMPCAW2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61090','382','COMTRACON00LASTJUMPCaD5','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61091','383','COMTRABAL00LASTJUMPCaD5','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61092','384','COMTRACON00LASTJUMPCaD6','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61093','385','COMTRABAL00LASTJUMPCaD6','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61094','386','COMTRACON00LASTJUMPCaD7','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61095','387','COMTRABAL00LASTJUMPCaD7','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61096','388','COMTRACON00LASTTRNDCaD3','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61097','389','COMTRABAL00LASTTRNDCaD3','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61098','390','COMTRACON00LASTTRNDCaD4','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61099','391','COMTRABAL00LASTTRNDCaD4','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61100','392','COMTRACON00LASTTRNDCaD1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61101','393','COMTRABAL00LASTTRNDCaD1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61102','394','COMTRACON00LASTTRNDCaD2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61103','395','COMTRABAL00LASTTRNDCaD2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61104','396','COMTRACON00LASTTRNDCAW1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61105','397','COMTRABAL00LASTTRNDCAW1','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61106','398','COMTRACON00LASTTRNDCAW2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61107','399','COMTRABAL00LASTTRNDCAW2','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61108','400','COMTRACON00LASTTRNDCaD5','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61109','401','COMTRABAL00LASTTRNDCaD5','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61110','402','COMTRACON00LASTTRNDCaD6','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61111','403','COMTRABAL00LASTTRNDCaD6','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61112','404','COMTRACON00LASTTRNDCaD7','new',2);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('61113','405','COMTRABAL00LASTTRNDCaD7','new',2);
 

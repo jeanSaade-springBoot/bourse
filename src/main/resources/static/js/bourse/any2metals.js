@@ -46,7 +46,9 @@
  			    "#jqxCheckBoxDIESEL_GALL",
  			    "#jqxCheckBoxDIESEL_TON",
  			    "#jqxCheckBoxNATGAS_USD",
- 			    "#jqxCheckBoxNATGAS_EUR"];
+ 			    "#jqxCheckBoxNATGAS_EUR",
+			    "#jqxCheckBoxBaltic",
+	     		"#jqxCheckBoxContainer"];
 
   var fromHistory=false;
   var historyDataParam;
@@ -112,7 +114,6 @@
       $("#show").jqxButton({ theme: 'dark',height:30,width:74 });
       
       $("#Clearfilter").click(function () {
-    	  
     	  $("#jqxCheckBoxGold").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxPlatinum").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxSilver").jqxCheckBox({checked: false });
@@ -135,6 +136,9 @@
     	  $("#jqxCheckBoxDIESEL_TON").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxNATGAS_USD").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxNATGAS_EUR").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxBaltic").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxContainer").jqxCheckBox({checked: false });
     	  
     	  for(i=0; i<allitems.length; i++)
 		   {
@@ -885,7 +889,82 @@
   	      enableDisableDropDowns(false);
   	   }
   	 }); 
-   
+     $('#jqxCheckBoxBaltic').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxBaltic");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxBaltic")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	      enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+     
+     $('#jqxCheckBoxContainer').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxContainer");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxContainer")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	    enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+     
      
   });
 			
@@ -1205,13 +1284,14 @@
 
  			    	   
  			    	    chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
- 				     
+
 		    	   dataParam = { 
    		        				"fromdate":fromdate,
 		 		        	    "todate":todate,
 		 		        	    "period":"d",
 		 		        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
+		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?itemValue[checkedItemValues[0]].subGroupId==2?"true":false:false,
    	     			   };
 			  	       	  $.ajax({
 			  	       	        type: "POST",
@@ -1527,6 +1607,7 @@
 		 		        	    "period":"d",
 		 		        	    "subGroupId1":itemValue[checkedItemValues[1]].subGroupId,
 		 		        	    "groupId1": itemValue[checkedItemValues[1]].GroupId,
+		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?itemValue[checkedItemValues[0]].subGroupId==2?"true":false:false,
 		   	     			   };
 			    	          $.ajax({
 				  	       	        type: "POST",
@@ -1925,7 +2006,9 @@
 		 		        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
 		 		        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
-		 		        	    "groupId2": itemValue[checkedItemValues[1]].GroupId
+		 		        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
+		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?itemValue[checkedItemValues[0]].subGroupId==2?"true":false:false,
+		 		        	    "removeEmpty2": itemValue[checkedItemValues[1]].GroupId==10?itemValue[checkedItemValues[1]].subGroupId==2?"true":false:false,
 		 	     			   };
 				        disableOptions(true);
 					    if(checkedItemValues.length>1)
@@ -2218,6 +2301,7 @@
 		 		        	    "period":"d",
 		 		        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
+		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?itemValue[checkedItemValues[0]].subGroupId==2?"true":false:false,
 	   		        	    };
 					 
 					  var options = {

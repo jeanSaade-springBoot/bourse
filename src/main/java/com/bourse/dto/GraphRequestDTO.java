@@ -28,4 +28,7 @@ public class GraphRequestDTO {
 	
 	private String isFunctionGraph;
 	private String functionId;
+	
+	private String removeEmpty1;
+	private String removeEmpty2;
 }

@@ -148,6 +148,12 @@ public class BourseController {
     {
 		return new ModelAndView("html/energy");
     }
+	@PreAuthorize("hasAuthority('TRANSPORTATION_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/transportation")
+    public ModelAndView transportationCommodityPage(ModelMap model)
+    {
+		return new ModelAndView("html/transportation");
+    }
 	@PreAuthorize("hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereignyieldsgraph")
     public ModelAndView sovereignYieldsGraphPage(ModelMap model)

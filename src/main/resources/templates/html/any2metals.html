@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>libvol - Dashboard</title>
+  <title>Libvol - Dashboard</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -111,7 +111,8 @@
 				    <a sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-sovereign-yields-tab" href="/bourse/precious" role="tab" aria-controls="nav-precious" aria-selected="false">Precious</a>
 				    <a sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/base" role="tab" aria-controls="nav-base" aria-selected="false">Base</a>
 				    <a sec:authorize="hasAuthority('ENERGY_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/energy" role="tab" aria-controls="nav-base" aria-selected="false">Energy</a>
-				    <a sec:authorize="hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/foodstuff" role="tab" aria-controls="nav-base" aria-selected="false">Foodstuff</a>
+				    <a sec:authorize="hasAuthority('TRANSPORTATION_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/transportation" role="tab" aria-controls="nav-base" aria-selected="false">Transportation</a>
+				 	<a sec:authorize="hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/foodstuff" role="tab" aria-controls="nav-base" aria-selected="false">Foodstuff</a>
 				  </div>
 				</nav>
            
@@ -259,7 +260,28 @@
 													</div>
 					                    </div>
                  		</div>
-	              		    </div>
+	              		</div>
+	              		<div class="row mt-5">
+							<div class="col-5">
+										<div  style=" display: flex;">
+											    <div class="col pl-0"><img height="48" src="/img/baltic.png" class="img-icon" data-toggle="tooltip" title="BALTIC DRY INDEX">
+														    </div>
+														    <div class="col pl-0"><img  height="48" src="/img/container.png" class="img-icon" data-toggle="tooltip" title="40ft Container">
+														    </div>
+											 </div>
+							                <div style=" display: flex;">
+							                         <div class="col pl-0">
+														<div id='jqxCheckBoxBaltic' style='float: left;'></div>
+													 </div>
+													 <div class="col pl-0">
+														<div id='jqxCheckBoxContainer' style='float: left;'></div>
+													</div>
+					                    </div>
+			                 		</div>
+			                 		<div class="col-2"></div>
+			                 		<div class="col-5">
+					                 </div>
+			                     </div>
                      	<div class="row pt-2">
 							<div class='col-12 d-flex justify-content-end'>
 							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />

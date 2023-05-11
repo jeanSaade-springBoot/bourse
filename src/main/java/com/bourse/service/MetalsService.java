@@ -30,6 +30,7 @@ import com.bourse.enums.FoodStuffSubGroupEnum;
 import com.bourse.enums.FunctionEnum;
 import com.bourse.enums.PreciousSubGroupEnum;
 import com.bourse.enums.SubGroupEnum;
+import com.bourse.enums.TransportationSubGroupEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.util.MetalsUtil;
 
@@ -202,6 +203,16 @@ public class MetalsService {
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
 				
+			}else if(graphReqDTO.getGroupId1().equals("10"))
+			{
+				String groupId = graphReqDTO.getGroupId1();
+				String subGroupId =  graphReqDTO.getSubGroupId1(); 
+				String description = TransportationSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
 			}
 			
 			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
@@ -231,6 +242,15 @@ public class MetalsService {
 			query.execute();
 			
 			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+			
+			if (graphReqDTO.getRemoveEmpty1()!=null)
+				if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
+				{	
+					List<GraphResponseDTO> graphResponseDTOlst= MetalsUtil.removeEmptyY(graphResponseDTOlst1);
+					graphResponseDTOlst1.clear();
+					graphResponseDTOlst1=graphResponseDTOlst;
+				}
+			
 			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
 					                  .graphResponseDTOLst(graphResponseDTOlst1)
 					                  .config(config)
@@ -322,7 +342,7 @@ public class MetalsService {
 		return l1; 
 	}
 
-		public List<GraphResponseColConfigDTO> getGraphDataByType(GraphRequestDTO graphReqDTO)
+	public List<GraphResponseColConfigDTO> getGraphDataByType(GraphRequestDTO graphReqDTO)
 	{
 		boolean hasData= adminService.getData();
 	    if(!hasData)
@@ -386,6 +406,17 @@ public class MetalsService {
 			    System.out.println("description: "+description);
 				
 			}
+			if(graphReqDTO.getGroupId1().equals("10"))
+			{
+				String groupId = graphReqDTO.getGroupId1();
+				String subGroupId =  graphReqDTO.getSubGroupId1(); 
+				String description = TransportationSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
+			}
 			
 			String functionId=FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId()!=null?(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())):0);
 			
@@ -416,6 +447,14 @@ public class MetalsService {
 			query.execute();
 			
 			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+			if (graphReqDTO.getRemoveEmpty1()!=null)
+			if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
+			{	
+				List<GraphResponseDTO> graphResponseDTOlst= MetalsUtil.removeEmptyY(graphResponseDTOlst1);
+				graphResponseDTOlst1.clear();
+				graphResponseDTOlst1=graphResponseDTOlst;
+			}
+			
 			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
 					                  .graphResponseDTOLst(graphResponseDTOlst1)
 					                  .config(config)
@@ -440,6 +479,8 @@ public class MetalsService {
 						description = FoodStuffSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
 					else if (groupId.equals("9"))
 						description = EnergySubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+					else if (groupId.equals("10"))
+						description = TransportationSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
 					
 					config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 					fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getFunctionId());
@@ -455,6 +496,7 @@ public class MetalsService {
 							.startDate(fConfig.getStartDate())
 							.dataFormat(fConfig.getDataFormat())
 							.build();
+					
 						System.out.println("goupid: "+groupId);    
 						System.out.println("moving average : "+graphReqDTO.getMovingTwoHundereOrOneHundred());
 					    System.out.println("subGroupId: "+subGroupId);
@@ -492,6 +534,14 @@ public class MetalsService {
 			functionQuery.execute();
 			
 			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) functionQuery.getResultList();
+			if (graphReqDTO.getRemoveEmpty1()!=null)
+				if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
+				{	
+					List<GraphResponseDTO> graphResponseDTOlst= MetalsUtil.removeEmptyY(graphResponseDTOlst1);
+					graphResponseDTOlst1.clear();
+					graphResponseDTOlst1=graphResponseDTOlst;
+				}
+			
 			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
 					                  .graphResponseDTOLst(graphResponseDTOlst1)
 					                  .config(config)
@@ -543,6 +593,16 @@ public class MetalsService {
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
 				
+			}if(graphReqDTO.getGroupId1().equals("10"))
+			{
+				String groupId = graphReqDTO.getGroupId1();
+				String subGroupId =  graphReqDTO.getSubGroupId1(); 
+				String description = TransportationSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
 			}
 			String functionId=FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId()!=null?(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())):0);
 			
@@ -572,6 +632,13 @@ public class MetalsService {
 			
 			query1.execute();
 			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query1.getResultList();
+
+			if (graphReqDTO.getRemoveEmpty2().equalsIgnoreCase("true"))
+			{	
+				List<GraphResponseDTO> graphResponseDTOlst= MetalsUtil.removeEmptyY(graphResponseDTOlst2);
+				graphResponseDTOlst2.clear();
+				graphResponseDTOlst2=graphResponseDTOlst;
+			}
 			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
 	                  .graphResponseDTOLst(graphResponseDTOlst2)
 	                  .config(config)
@@ -585,3 +652,5 @@ public class MetalsService {
 	}
 	
 }
+
+

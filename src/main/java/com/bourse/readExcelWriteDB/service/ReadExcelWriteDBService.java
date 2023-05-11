@@ -14,6 +14,7 @@ import com.bourse.domain.BaseMetals;
 import com.bourse.domain.EnergyData;
 import com.bourse.domain.FoodStuffData;
 import com.bourse.domain.PreciousMetals;
+import com.bourse.domain.TransportationData;
 import com.bourse.readExcelWriteDB.dto.DataDTO;
 import com.bourse.readExcelWriteDB.dto.ReadExcelWriteDBDTO;
 import com.bourse.readExcelWriteDB.enums.SubGroupEnum;
@@ -22,6 +23,7 @@ import com.bourse.service.BaseMetalsService;
 import com.bourse.service.EnergyService;
 import com.bourse.service.FoodStuffService;
 import com.bourse.service.PerciousMetalsService;
+import com.bourse.service.TransportationService;
 
 @Service
 public class ReadExcelWriteDBService {
@@ -34,6 +36,8 @@ public class ReadExcelWriteDBService {
     FoodStuffService foodStuffService;
     @Autowired 
     EnergyService energyService;
+    @Autowired
+    TransportationService transportationService;
     
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
 		List<DataDTO> rowData = new ArrayList<>();
@@ -131,7 +135,28 @@ public class ReadExcelWriteDBService {
 						   }
 						   energyService.doCaclulation();
 					}
-
+				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("10"))
+				{
+					   List<TransportationData> transportation = new ArrayList<>();
+					   List<String> subgroups = Arrays.asList("1", "2");
+					   for (String subGroupId: subgroups) {
+							   rowData.clear();
+							   transportation.clear();
+							   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",SubGroupEnum.getIndexByGroupAndSubGroupgroupId(10, Integer.valueOf(subGroupId)));
+							   for (DataDTO data: rowData) {
+								 if(transportationService.CheckIfCanSave(data.getDate(),Long.valueOf(subGroupId)))
+								 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+								 TransportationData transportationData = TransportationData.builder().referDate(data.getDate())
+							   												  .subgroupId(Long.valueOf(subGroupId))
+							   												  .value(data.getValue()==null?"":data.getValue())
+							   												  .build();
+								   
+								   transportation.add(transportationData);
+					      }
+							   transportationService.SaveTransportationData(transportation);
+					   }
+					   transportationService.doCaclulation();
+				}
 
 	}
 

@@ -113,4 +113,16 @@ var itemValue = {
 			"description": "DIESEL-TON",
 			"title": "DIESEL-TON"
 		},
+		"#jqxCheckBoxBaltic": {
+			"subGroupId": "1",
+			"GroupId": "10",
+			"description": "BALTIC DRY INDEX",
+			"title": "BALTIC DRY INDEX"
+		},
+		"#jqxCheckBoxContainer": {
+			"subGroupId": "2",
+			"GroupId": "10",
+			"description": "40ft Container",
+			"title": "40ft Container"
+		},
 	};

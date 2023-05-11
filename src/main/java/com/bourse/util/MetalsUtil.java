@@ -1,25 +1,15 @@
 package com.bourse.util;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 
-import com.bourse.domain.SovereignData;
-import com.bourse.domain.SovereignDataCorrected;
 import com.bourse.dto.DataFunctionReqDTO;
+import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
-import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.SelectedSearchDTO;
-import com.bourse.dto.SovereignYiledCurveSearchDTO;
-import com.bourse.dto.SoveriegnCrossSearchDTO;
-import com.bourse.enums.CrossCountryEnum;
-import com.bourse.enums.CurvesEnum;
 import com.bourse.enums.PreciousSubGroupEnum;
-import com.bourse.enums.SubGroupEnum;
-
 public class MetalsUtil {
 	
 
@@ -325,7 +315,44 @@ public class MetalsUtil {
 								 counter = counter+1;	 
 						 }
 						 
-						}
+						}else
+							if(selectedSearchDTO.getGroupId() == 5) 
+							{
+							if(counter == 1)
+							 {
+								 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+								 colHash.put(columnsId, "refer_date");
+								 columnsId++;
+								 
+								 forUsetables = " From ";
+							 }
+							 
+							 if(selectedSearchDTO.getSelectedValues()!=null)
+							 for(String value : selectedSearchDTO.getSelectedValues())
+							 {
+									 if(counter == 1)
+									 {
+										 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+										 		+ "\n            and '"+toDate+"')\n";
+									 }
+									 else
+										 forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+									 		    + "\n          and '"+toDate+"')\n";
+									 
+									 
+									 forUsetables = forUsetables + tableSchema+"tmp_audit_transportation";
+				    				 forUsetables = forUsetables + " s"+counter+" ,";
+								 	 forUseSelect = forUseSelect+", \n"+ 
+									                         " s"+counter+"."+value+
+											         " as '"+value+"'";
+								 	 colHash.put(columnsId, value);
+								 	 columnsId++;
+									 
+									 counter = counter+1;	 
+							 }
+							 
+							}
+
 
 		 }
 		
@@ -349,5 +376,18 @@ public class MetalsUtil {
 				 .build();
 		return queryColumnsDTO;
 	}
-
+	
+	public static List<GraphResponseDTO> removeEmptyY(List<GraphResponseDTO> graphResponseDTO) {
+		  List<GraphResponseDTO> updatedGraphResponseDTO = new ArrayList<>();
+		  for (GraphResponseDTO graphResponse : graphResponseDTO) {
+		    String y = graphResponse.getY();
+		    if (y != null && !y.isEmpty()) {
+		    	updatedGraphResponseDTO.add(graphResponse);
+		    }
+		  }
+		  return updatedGraphResponseDTO;
+		}
+	
 }
+
+

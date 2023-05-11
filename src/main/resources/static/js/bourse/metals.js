@@ -9,7 +9,9 @@
          			   "#jqxCheckBoxCopper",
          			   "#jqxCheckBoxAluminum",
          			   "#jqxCheckBoxSteel",
-         			   "#jqxCheckBoxLumber"];
+         			   "#jqxCheckBoxLumber",
+		 			    "jqxCheckBoxBaltic",
+		 			    "jqxCheckBoxContainer"];
          var metalsPreciousItem	=["#jqxCheckBoxGold",
          			   "#jqxCheckBoxPlatinum",
          			   "#jqxCheckBoxSilver",
@@ -31,7 +33,9 @@
          			   "#jqxCheckBoxDIESEL_GALL",
          			   "#jqxCheckBoxDIESEL_TON",
          			   "#jqxCheckBoxNATGAS_USD",
-         			   "#jqxCheckBoxNATGAS_EUR"]; 		
+         			   "#jqxCheckBoxNATGAS_EUR"]; 
+          var transportationItem=[ "#jqxCheckBoxBaltic",
+				 			  	   "#jqxCheckBoxContainer"]; 		
          			      
 		 var preciousAuditDefaultData=[{
              "gold": "",
@@ -56,12 +60,17 @@
              "natgasus": "",
              "natgaseur": ""
            }];  
+            var transportationAuditDefaultData=[{
+             "baltic": "",
+             "container": ""
+           }];  
          var source;
          var inputDataPresious = document.getElementById("precious-input");
          var inputDataBase = document.getElementById("base-input");
          var inputDataFoodStuff = document.getElementById("foodStuff-input");
          var inputDataEnergy = document.getElementById("energy-input");
-          
+         var inputDataTransportation = document.getElementById("transportation-input");
+         
          const commoditySubGroupValue = $("#commoditySubGroup")[0].innerText;
 		 $(document).ready(function () {
 			  $('#overlay').fadeOut();
@@ -85,6 +94,9 @@
 			   }else 
 			   if(commoditySubGroupValue==4){
 			   $("#energy-btn").addClass('active');
+			   }else
+			    if(commoditySubGroupValue==5){
+			   $("#transportation-btn").addClass('active');
 			   }
 			   
 			  rendercommoditySubGroup(commoditySubGroupValue);
@@ -121,7 +133,9 @@
 	 		                    { name: 'NATGAS_USD',  type: 'float'},
 	 		                    { name: 'NATGAS_EUR',  type: 'float'},
 	 		                    { name: 'GASOLINE_LITRE',  type: 'float'},
-	 		                    { name: 'DIESEL_TON',  type: 'float'}
+	 		                    { name: 'DIESEL_TON',  type: 'float'},
+	 		                    { name: 'BALTIC',  type: 'float'},
+	 		                    { name: 'CONTAINER',  type: 'float'}
 	 		                 ],
 	                         id: 'id',
 	                         localdata: ''
@@ -171,6 +185,12 @@
             	  $("#energyDataformInput").css("display","block");
 				  $("#energyDataInputButtons").css("display","none"); 
 				  $("#energyDataInputGrid").css("display","none"); 
+               }); 
+               $("#CanceltransportationData").click(function () {
+            	  inputDataTransportation.value="";
+            	  $("#transportationDataformInput").css("display","block");
+				  $("#transportationDataInputButtons").css("display","none"); 
+				  $("#transportationDataInputGrid").css("display","none"); 
                }); 
                
              $("#loadPreciousData").click(function () {
@@ -669,6 +689,123 @@
             	 }
                });  
                
+             $("#loadtransportationData").click(function () {
+            	var date = new Date();
+            	var dataToBeInserted = [];
+            	
+            	var balticObject=["1"];
+            	var containerObject=["2"];
+				
+            	var rows = $('#transportationDataInputGrid').jqxGrid('getrows');
+            	for (i = 0; i < rows.length; i++) {
+	            	   balticObject.push(rows[i].baltic);
+	            	   containerObject.push(rows[i].cantainer);
+            	}
+
+            	var listObject=["balticObject","containerObject"];
+            	for (i = 0; i < listObject.length; i++) {
+            	      var value = eval(listObject[i]);
+            		 	dataToBeInserted.push({
+            			   "subgroupId":value[0],
+            			   "value":value[1],
+            			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+            			});
+            	 }
+            	 
+            	 if($("#dateInput").jqxDateTimeInput('getDate')<date)
+           	     {
+            		 var today = $("#dateInput").jqxDateTimeInput('getDate');
+            		 if(today.getDay() == 6 || today.getDay() == 0)
+            		 { 
+            			 $('#alert-modal-weekend').modal('show'); 
+            			 return;
+            		 }
+            		 today=$.jqx.dataFormat.formatdate(today,  'dd-MM-yyyy')
+            		 $.ajax({
+	    	        contentType: "application/json",
+	    	        url: "/metals/checkifcansavetransportation/"+today, 
+	    	        dataType: 'json',
+	    	        async:true,
+	    	        cache: false,
+	    	        timeout: 600000,
+	    	        success: function (response) {
+	    	        	if(response)
+	    	        	{
+							 $.ajax({
+						        contentType: "application/json",
+						        url: "/process/isrobottriggered/2/10",
+						        dataType: 'text',
+								async:true,
+						        cache: false,
+						        timeout: 600000,
+						        success: function (data) {
+				      
+								if(data=='true')
+								   $('#alert-modal-robot').modal('show'); 
+								else{
+									
+						    	       	  $.ajax({
+						    	    	        type: "POST",
+						    	    	        contentType: "application/json",
+						    	    	        url: "/metals/savetransportationdata",
+						    	    	        data: JSON.stringify(dataToBeInserted),
+						    	    	        dataType: 'json',
+						    	    	        async:true,
+						    	    	        cache: false,
+						    	    	        timeout: 600000,
+						    	    	        success: function (data) {
+													
+													getFilterData(commoditySubGroupValue);
+						    	    	        	  
+						  						 inputDataTransportation.value="";
+						  		            	  $("#transportationDataformInput").css("display","block");
+						  						  $("#transportationDataInputButtons").css("display","none"); 
+						  						  $("#transportationDataInputGrid").css("display","none");
+						  						
+						  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
+						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+						    	        	  
+						    				    filterDate=date;
+						    				      delete auditTransportationGridSource.localdata;   
+							    				  auditTransportationGridSource.url='/metals/gettransportationauditdata/'+date;
+							    				  transportationdataAdapter = new $.jqx.dataAdapter(auditTransportationGridSource);
+							    				  $('#transportationAuditGrid').jqxGrid({source:transportationdataAdapter});
+						    					 
+						    	    	         triggerRobots();	
+						    	    	         
+						    	            },
+						    	    	        error: function (e) {
+						    	    	        	
+						    						  console.log("ERROR : ", e);
+						    	
+						    	    	        }
+						    	    	    });
+											}
+					
+								},
+						        error: function (e) {
+						        	
+										  console.log("ERROR : ", e);
+					
+						        }
+						    });
+
+	    	        	}
+	    	        	else{
+	    	        		$('#alert-modal').modal('show'); 
+	    	        	}
+	            },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });
+           	     }
+            	 else {
+            		 $('#alertDate-modal').modal('show'); 
+            	 }
+               });  
                
                
              	 $('#dateInputAudit').on('change', function (event) 
@@ -694,6 +831,11 @@
     				     auditEnergyGridSource.url='/metals/getenergyauditdata/'+date;
     					 energydataAdapter = new $.jqx.dataAdapter(auditEnergyGridSource);
     					 $('#energyAuditGrid').jqxGrid({source:energydataAdapter});
+    					 }else if (commoditySubGroupValue==5)
+    					{ delete auditTransportationGridSource.localdata;   
+    				     auditTransportationGridSource.url='/metals/gettransportationauditdata/'+date;
+    					 transportationdataAdapter = new $.jqx.dataAdapter(auditTransportationGridSource);
+    					 $('#transportationAuditGrid').jqxGrid({source:transportationdataAdapter});
     					 }
 				 }); 
 
@@ -723,6 +865,13 @@
 		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				  $( "#alertEnergyTextDeleteDataByDate" ).empty();
 		 		  $( "#alertEnergyTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all Energy record for the date '"+date+"'?</p>" );
+				 }); 
+				 
+			  $("#deletetransportationByDate").click(function () {
+				$('#alertDeleteTransportationDataByDate-modal').modal('show'); 
+		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				  $( "#alertTransportationTextDeleteDataByDate" ).empty();
+		 		  $( "#alertTransportationTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all Energy record for the date '"+date+"'?</p>" );
 				 }); 
 				 
 			$("#filter").click(function () {
@@ -888,6 +1037,41 @@
 				     }, 300);
 			    }	 
 			    
+			    function EditTransportation(row, event) {
+				
+				     isedit=true;
+					 var data=$("#transportationAuditGrid").jqxGrid('getrowdata', row);	
+				     oldDataJson={
+		               "baltic":data.baltic,
+					   "container":data.container,
+					   
+				     };
+				     selectedRow.editrow = row;
+				     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				     if(auditTransportationGridSource.url=='' || date!=filterDate)
+				     { 
+				    	 delete auditTransportationGridSource.localdata;   
+    				     auditTransportationGridSource.url='/metals/gettransportationauditdata/'+date;
+    					 dataAdapter = new $.jqx.dataAdapter(auditTransportationGridSource);
+    					 $('#transportationAuditGrid').jqxGrid({source:dataAdapter});
+				     } 
+				     setTimeout(function(){
+				    	  if(($('#transportationAuditGrid').jqxGrid('getrows')[0].baltic!=null)&&
+				    		 ($('#transportationAuditGrid').jqxGrid('getrows')[0].container!=null))
+						{
+					    	$("#transportationAuditGrid").jqxGrid('beginrowedit', row);
+					    	$("#editTransportation"+row).css("display","none");
+							$("#actionButtonsTransportation"+row).css("display","contents"); 
+					    	if (event) {
+					    		if (event.preventDefault) {
+					    			event.preventDefault();
+					    		}
+					    	} 
+						}
+				    	
+				    	return false;
+				     }, 300);
+			    }	 
 			    
 			    function Update(row, event) {
 				   
@@ -1200,6 +1384,75 @@
 				    }
 				    return false;
 			    }  
+			    
+			    function UpdateTransportation(row, event) {
+				
+				   isupdate=true;
+				   var dataToBeUpdated = [];
+				   var updatedData = $("#transportationAuditGrid").jqxGrid('getrowdata', row);
+				   selectedRow.editrow = -1;
+				    $("#transportationAuditGrid").jqxGrid('endrowedit', row);
+				    var updatedData = $("#transportationAuditGrid").jqxGrid('getrowdata', row);
+				    var updatedDataJson={
+		               "baltic":updatedData.baltic,
+					   "container":updatedData.container
+				     };
+				      
+                    var keys=["baltic","container"];
+                    var updatedMetalsJson=[];
+                    for (let i = 0; i < keys.length; i++) {
+	                    if(updatedDataJson[keys[i]]!=oldDataJson[keys[i]])
+                          updatedMetalsJson.push({"assetId": 2,
+                       						      "groupId":getGroupId(commoditySubGroupValue),
+												  "value": keys[i].toUpperCase()});
+	                }
+				    dataToBeUpdated.push({
+         			   "subgroupId":"1",
+         			   "value":updatedData.baltic.replaceAll(',',''),
+         			   "referdate": date
+         			});
+					dataToBeUpdated.push({
+	         			   "subgroupId":"2",
+	         			   "value":updatedData.container.replaceAll(',',''),
+	         			   "referdate": date
+	         		});
+					
+		      	       	  $.ajax({
+		      	    	        type: "POST",
+		      	    	        contentType: "application/json",
+		      	    	        url: "/metals/updatetransportationauditdata",
+		      	    	        data: JSON.stringify(dataToBeUpdated),
+		      	    	        dataType: 'json',
+		      	    	        async:true,
+		      	    	        cache: false,
+		      	    	        timeout: 600000,
+		      	    	        success: function (data) {
+			  
+		                           		 updateRobotNewsOnChangeColumns(updatedMetalsJson);
+		                          
+	      	    	        		     delete auditTransportationGridSource.localdata;   
+				    				     auditTransportationGridSource.url='/metals/gettransportationauditdata/'+date;
+				    					 transportationdataAdapter = new $.jqx.dataAdapter(auditTransportationGridSource);
+				    					 $('#transportationAuditGrid').jqxGrid({source:transportationdataAdapter});
+		      						 
+		      						getFilterData(commoditySubGroupValue);
+		      	   },
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    });
+		      	      
+
+				    if (event) {
+				    	if (event.preventDefault) {
+				    		event.preventDefault();
+				    	}
+				    }
+				    return false;
+			    } 
+			    
 			  function Cancel(row) {
 				  isedit=false;
 				  isupdate=false;
@@ -1223,6 +1476,12 @@
 				  isupdate=false;
 				  selectedRow.editrow = row;
 			    	$("#energyAuditGrid").jqxGrid('endrowedit', row, true);
+			 } 
+			 function CancelTransportation(row) {
+				  isedit=false;
+				  isupdate=false;
+				  selectedRow.editrow = row;
+			    	$("#transportationAuditGrid").jqxGrid('endrowedit', row, true);
 			 }
 			    function deleteDataByDate()
 				{
@@ -1349,6 +1608,52 @@
 							    
 					getFilterData(commoditySubGroupValue);  
 			        $('#alertDeleteFoodStuffDataByDate-modal').modal('hide');
+
+ 					$( "#successDelete" ).empty();
+		 		    $( "#successDelete" ).append( "<p> All record for the date '"+date+"' has been deleted</p>" );
+				
+					$('#alertInfoDeleteDataByDate-modal').modal('show');  
+			             },
+			             error: function (e) {
+			                 console.log(e);
+			             }
+			         });
+				
+				}
+				function deleteTransportationDataByDate()
+				{
+					$('#alertDeleteTransportationDataByDate-modal').modal('hide'); 
+					date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				    
+			     $.ajax({
+			             type : "DELETE",
+			             url : "/metals/deletetransportationbyreferdate/" + date,
+			             success: function (result) { 
+							 $.ajax({
+					    	        contentType: "application/json",
+					    	        url: "/metals/checkifcansavetransportation/"+date,
+					    	        dataType: 'json',
+					    	        async:true,
+					    	        cache: false,
+					    	        timeout: 600000,
+					    	        success: function (response) {
+					    	        	if(!response)
+					    	        	{	 delete auditTransportationGridSource.localdata;   
+					    				     auditTransportationGridSource.url='';
+					    					 transportationdataAdapter = new $.jqx.dataAdapter(auditTransportationGridSource);
+					    					 $('#transportationAuditGrid').jqxGrid({source:transportationdataAdapter});
+									    }
+					    	        	else{
+										  getTransportationAuditGridSource(); 
+										 }
+					    	        	},
+							             error: function (e) {
+							                 console.log(e);
+							             }
+							         });
+							    
+					getFilterData(commoditySubGroupValue);  
+			        $('#alertDeleteTransportationDataByDate-modal').modal('hide');
 
  					$( "#successDelete" ).empty();
 		 		    $( "#successDelete" ).append( "<p> All record for the date '"+date+"' has been deleted</p>" );
@@ -1531,7 +1836,7 @@
 			    	        	  var dbDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
 								  var systemDate=new Date();
 			    	        	  systemDate.setHours(0,0,0,0);
-			    				  
+			    				 
 								if( dbDate.toDateString() == systemDate.toDateString())
 								 {	  
 			    				     filterDate=date;
@@ -1550,7 +1855,41 @@
 			    	    });
 			
 					}
+				function getTransportationAuditGridSource(){
+				
+					 $.ajax({
+			    	        contentType: "application/json",
+			    	        url: "/metals/getlatesttrasnportation",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function (response) {
+			    	        	if(response!='')
+			    	        	 {$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
+			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
+			    	        	  var dbDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
+								  var systemDate=new Date();
+			    	        	  systemDate.setHours(0,0,0,0);
+			    				  
+								if( dbDate.toDateString() == systemDate.toDateString())
+								 {	  
+			    				     filterDate=date;
+						    	     delete auditTransportationGridSource.localdata;   
+			    				     auditTransportationGridSource.url='/metals/gettransportationauditdata/'+date;
+			    					 transportationDataAdapter = new $.jqx.dataAdapter(auditTransportationGridSource);
+			    					 $('#transportationAuditGrid').jqxGrid({source:transportationDataAdapter});
+			    					 }
+			    	        	}
+			    	        },
+			    	        error: function (e) {
+			    	        	
+								  console.log("ERROR : ", e);
 			
+			    	        }
+			    	    });
+			
+					}
 				function getAuditGridSource(){
 				    var preciousDate=null;
 				    var baseDate=null;
@@ -1664,12 +2003,14 @@
           	var base=[];
           	var foodStuff=[];
           	var energy=[];
+          	var transportation=[];
             $('#grid').jqxGrid({ showdefaultloadelement: true}); 
           	var itemPrecious = 0;
           	var itemBase = 0;
           	var itemfoodStuff = 0;
             var itemEnergy = 0;
-            
+            var itemTransportation = 0;
+              
             if (commoditySubGroupValue==1)
 		     {	for (i = 0; i < metalsPreciousItem.length; i++) {
 		         		if($(metalsPreciousItem[i]).jqxCheckBox('checked'))
@@ -1749,6 +2090,26 @@
 		       			   "selectedValues":energy,
 		       			});
 		          		itemEnergy=[];
+	          	}
+        	} else if (commoditySubGroupValue==5)
+	        	 {
+					for (i = 0; i < transportationItem.length; i++) {
+	         		if($(transportationItem[i]).jqxCheckBox('checked'))
+	         		{		
+	         		    transportation.push(transportationItem[i].split("Box")[1].toUpperCase());	
+	          			itemTransportation=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(transportationItem[i]);
+	         		}
+		          	}
+		         	
+		          	if(itemTransportation!=0)
+		          	{
+		          		SelectedSearchDTO.push({
+		          		   "groupId":"5",
+		       			   "selectedValues":transportation,
+		       			});
+		          		itemTransportation=[];
 	          	}
         	}
           	if(allItems!=0)
@@ -2288,6 +2649,105 @@
 					  }
 				});  
 				getEnergyAuditGridSource();
+			}else
+			if (commoditySubGroupValue==5)
+			{
+				
+		      $("#deletetransportationByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
+			  $("#CanceltransportationData").jqxButton({ theme: 'dark',height:30,width:74 });
+	          $("#loadtransportationData").jqxButton({ theme: 'dark',height:30,width:74 }); 
+	          
+	           for(i=0; i<transportationItem.length; i++)
+			   {
+		    	$(transportationItem[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+		       }
+		       
+		        auditTransportationGridSource =
+	            {    
+	            localdata:transportationAuditDefaultData,
+	            datatype: "json",
+                datafields: [
+                    { name: 'baltic', type: 'string' },
+                    { name: 'container', type: 'string' }
+                ],
+                url:''
+	            };
+	            var transportationDataAdapter = new $.jqx.dataAdapter(auditTransportationGridSource);
+	            $("#transportationAuditGrid").jqxGrid(
+	            {
+	                width: '100%',
+	                source: transportationDataAdapter,  
+	                theme:'dark',
+	                autoheight: true,
+	                editable: true,
+	                selectionmode: 'none',
+	                editmode: 'selectedrow',
+	                columns: [ 
+	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
+		                	return "<input class=\"edit\" type=\"button\" onclick='EditTransportation(" + row + ", event)' id=\"editTransportation"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtonsTransportation"+row+"\" style=\"display:none\"><input  onclick='UpdateTransportation(" + row + ", event)' class=\"update\" type=\"button\" id=\"updateTransportation\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='CancelTransportation(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                    }
+		                  },  
+		                  { text: 'BALTIC DRY INDEX', datafield: 'baltic', width: '39%' },
+		                  { text: '40ft Container', datafield: 'container', width: '39%' }
+	                ]
+	            });
+		       $('#transportation-input').on('keydown', function(event) {
+					  if (event.keyCode === 13) {
+					    event.preventDefault(); // prevent form submission
+					    $('#transportation-input').blur();
+					  }
+					});
+	          inputDataTransportation.addEventListener("blur", function() {
+				  if($("#transportation-input").val()!="")
+					  {
+					  $("#transportationDataformInput").css("display","none");
+					  $("#transportationDataInputGrid").css("display","block"); 
+					  $("#transportationDataInputButtons").css("display","block"); 
+			
+					 for(i=0; i<transportationItem.length; i++)
+					   {
+				    	$(transportationItem[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+				       }
+				       
+			
+					  var localdata = [];
+
+					  var dataIput =$("#transportation-input").val()
+					  var dataInputRows = dataIput.split(/\r?\n/);
+					  var rowData = dataInputRows[0].split(/\r?\t/);
+					   localdata.push({
+					  			"baltic": rowData[0],
+					  			"cantainer":  rowData[1]
+					  		});
+				 
+					  var dataInputGridSource =
+			            {
+			                datatype: "json",
+			                datafields: [
+			                    { name: 'baltic', type: 'string' },
+			                    { name: 'cantainer', type: 'string' }
+			                ],
+			                localData:localdata
+			            };
+			             var dataAdapter = new $.jqx.dataAdapter(dataInputGridSource);
+			            // initialize jqxGrid
+			            $("#transportationDataInputGrid").jqxGrid(
+			            {
+			                width: '100%',
+			                source: dataAdapter,  
+			                theme:'dark',
+			                enabletooltips: true,
+			                selectionmode: 'none',
+			                autoheight: true,
+			                columns: [ 
+			                      { text: '<img height="48" width="48" src="/img/baltic.png">', datafield: 'baltic', width: '50%' },
+				                  { text: '<img height="48" width="48" src="/img/container.png">', datafield: 'cantainer', width: '50%'}
+			                ]
+			            });
+					  
+					  }
+				});  
+				getTransportationAuditGridSource();
 			}
 	}
 	function saveFilterHistory(commoditySubGroupValue,checkedItem){
@@ -2369,6 +2829,9 @@
 		        break;
 		  case '4': 
 		   groupId='9'
+		        break;
+		  case '5': 
+		   groupId='10'
 		        break;
 		}
 	return groupId;

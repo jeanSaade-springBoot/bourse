@@ -21,7 +21,6 @@ var options = {
 			animations: { enabled: false }
 		},
 		grid: {
-
 			show: false,
 			borderColor: '#f0e68c',
 			strokeDashArray: 1,
@@ -153,6 +152,8 @@ var options = {
 		  }]
 		}*/
 	};
+	
+	
 	var optionsWeekly = {
 		series: [],
 		chart: {

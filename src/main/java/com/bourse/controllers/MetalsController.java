@@ -24,6 +24,8 @@ import com.bourse.domain.TmpAuditBase;
 import com.bourse.domain.TmpAuditEnergy;
 import com.bourse.domain.TmpAuditFoodStuff;
 import com.bourse.domain.TmpAuditPrecious;
+import com.bourse.domain.TmpAuditTransportation;
+import com.bourse.domain.TransportationData;
 import com.bourse.dto.DataFunctionRespDTO;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
@@ -36,6 +38,7 @@ import com.bourse.service.EnergyService;
 import com.bourse.service.FoodStuffService;
 import com.bourse.service.MetalsService;
 import com.bourse.service.PerciousMetalsService;
+import com.bourse.service.TransportationService;
 
 @RestController
 @RequestMapping(value = "metals")
@@ -53,6 +56,8 @@ public class MetalsController {
 	private final FoodStuffService foodStuffService;
 	@Autowired
 	private final EnergyService energyService;
+	@Autowired
+	private final TransportationService transportationService;
 	
 	public MetalsController(
 			PerciousMetalsService perciousMetalsService,
@@ -60,7 +65,8 @@ public class MetalsController {
 			MetalsService metalsService,
 			DataFunctionService dataFunctionService,
 			FoodStuffService foodStuffService,
-			EnergyService energyService)
+			EnergyService energyService,
+			TransportationService transportationService)
 	{
 		this.perciousMetalsService   = perciousMetalsService;
 		this.baseMetalsService = baseMetalsService;
@@ -68,6 +74,7 @@ public class MetalsController {
 		this.dataFunctionService = dataFunctionService;
 		this.foodStuffService = foodStuffService;
 		this.energyService = energyService;
+		this.transportationService = transportationService;
 	}
 	@GetMapping(value = "checkifcansaveprecious/{referDate}")
 	public ResponseEntity<Boolean> CheckIfCanSavePrecious(@PathVariable String referDate) 
@@ -94,6 +101,12 @@ public class MetalsController {
 		 boolean checkifcanSave= energyService.CheckIfCanSave(referDate);
 		 return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
+	@GetMapping(value = "checkifcansavetransportation/{referDate}")
+	public ResponseEntity<Boolean> CheckIfCanSaveTransportation(@PathVariable String referDate) 
+	{
+		 boolean checkifcanSave= transportationService.CheckIfCanSave(referDate);
+		 return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
+	}
 	@PostMapping(value = "savepreciousdata")
     public List<PreciousMetals> savePreciousData(@RequestBody List<PreciousMetals> preciousInputDataList){
 		List<PreciousMetals> preciousDatalst= perciousMetalsService.SavePreciousData(preciousInputDataList);
@@ -117,6 +130,12 @@ public class MetalsController {
 		List<EnergyData> energyDatalst= energyService.SaveEnergyData(energyInputDataList);
 		energyService.doCaclulation(energyInputDataList.get(0).getReferDate());
 	  return energyDatalst;
+    }
+	@PostMapping(value = "savetransportationdata")
+    public List<TransportationData> saveTransportationData(@RequestBody List<TransportationData> transportationInputDataList){
+		List<TransportationData> transportationDatalst= transportationService.SaveTransportationData(transportationInputDataList);
+		transportationService.doCaclulation(transportationDatalst.get(0).getReferDate());
+	  return transportationDatalst;
     }
 	@GetMapping(value = "getpreciousauditdata/{referDate}")
 	public ResponseEntity<List<TmpAuditPrecious>> getAuditData(@PathVariable("referDate") String referDate) {
@@ -154,6 +173,10 @@ public class MetalsController {
 	public ResponseEntity<List<TmpAuditEnergy>> getEnergyAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(energyService.getAuditData(referDate),HttpStatus.OK);
 	} 
+	@GetMapping(value = "gettransportationauditdata/{referDate}")
+	public ResponseEntity<List<TmpAuditTransportation>> getTransportationAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(transportationService.getAuditData(referDate),HttpStatus.OK);
+	}
 	@DeleteMapping(value = "deletebasebyreferdate/{referDate}")
 	public ResponseEntity<Object>  deleteBaseByReferDate(@PathVariable("referDate") String referDate) {
 		baseMetalsService.deleteBaseByReferDate(referDate);
@@ -169,6 +192,11 @@ public class MetalsController {
 		energyService.deleteEnergyByReferDate(referDate);
 	 return new ResponseEntity<>(HttpStatus.OK);
 	}
+	@DeleteMapping(value = "deletetransportationbyreferdate/{referDate}")
+	public ResponseEntity<Object>  deleteTransportationByReferDate(@PathVariable("referDate") String referDate) {
+		transportationService.deletetransportationByReferDate(referDate);
+	 return new ResponseEntity<>(HttpStatus.OK);
+	}
 	@GetMapping(value = "getlatestbase", produces = "application/json;charset=UTF-8")
     public ResponseEntity <String> getLatestBase(){
 		return new ResponseEntity<>(baseMetalsService.findLatestBaseData(), HttpStatus.OK);
@@ -181,6 +209,10 @@ public class MetalsController {
 	@GetMapping(value = "getlatestenergy", produces = "application/json;charset=UTF-8")
     public ResponseEntity <String> getLatestEnergy(){
 		return new ResponseEntity<>(energyService.findLatestEnergyData(), HttpStatus.OK);
+    }
+	@GetMapping(value = "getlatesttrasnportation", produces = "application/json;charset=UTF-8")
+    public ResponseEntity <String> getLatestTransportation(){
+		return new ResponseEntity<>(transportationService.findLatestTransportationData(), HttpStatus.OK);
     }
 	@PostMapping(value = "updatebaseauditdata")
 	public ResponseEntity<Boolean> updateBaseAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
@@ -203,6 +235,13 @@ public class MetalsController {
 	{
 		energyService.updateEnergyData(updateDataDTOlst);
 		energyService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "updatetransportationauditdata")
+	public ResponseEntity<Boolean> updateTransportationAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{
+		transportationService.updateTransportationData(updateDataDTOlst);
+		transportationService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "getgriddata")

@@ -165,6 +165,9 @@ var familysource =
 	  case 9:
 		  imagePath='/css/images/format/energy_format.jpg'
 		    break;
+	  case 10:
+		   imagePath='/css/images/format/transportation_format.png'
+		    break;
 	}
 return imagePath;
   }

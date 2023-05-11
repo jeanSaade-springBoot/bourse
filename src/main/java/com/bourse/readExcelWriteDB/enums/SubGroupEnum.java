@@ -17,6 +17,8 @@ public enum SubGroupEnum {
 	DIESELGALL(9,3,"3"), 
 	NATGASUSD(9,4,"4"),
 	NATGASEUR(9,5,"5"), 
+	BALTIC(10,1,"1"),
+	CONTAINER(10,2,"2"),
 	OTHER(0,0,"OTHER");
 	
 	public int groupId;
@@ -72,6 +74,13 @@ public enum SubGroupEnum {
 	            case 5:
 	                return NATGASEUR.index;
 	        }
+	        else if(groupId==10)
+				switch (subGroupId) {
+		            case 1:
+		                return BALTIC.index;
+		            case 2:
+		                return CONTAINER.index;
+		        }
         return OTHER.index;
     }
 }
