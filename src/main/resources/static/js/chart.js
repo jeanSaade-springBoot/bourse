@@ -153,7 +153,6 @@ var options = {
 		}*/
 	};
 	
-	
 	var optionsWeekly = {
 		series: [],
 		chart: {

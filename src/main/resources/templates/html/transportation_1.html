@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>CodePen - Tooltip intersect</title>
+  <link href="/css/apexchart.css" rel="stylesheet">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<div id="chart">
+</div>
+<!-- partial -->
+ <!--  <script src='https://cdn.jsdelivr.net/npm/apexcharts@latest'></script> -->
+   <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/js/apexcharts.js"></script>
+  <script>
+  var dataParam={
+		  fromdate: "2020-01-11",
+		  groupId1: "10",
+		  groupId2: "10",
+		  period: "d",
+		  removeEmpty1: "true",
+		  removeEmpty2: false,
+		  subGroupId1: "2",
+		  subGroupId2: "1",
+		  todate: "2023-05-11",
+		  type: "0"
+		}
+  $.ajax({
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				url: "/metals/getgraphdatabytype",
+				data: JSON.stringify(dataParam),
+				dataType: 'json',
+				timeout: 600000,
+				success: function(response) {
+  
+					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
+						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+							return item.y;
+						}));
+					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
+						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+							return item.y;
+						}));
+
+					min = Math.min(min1, min2);
+					max = Math.max(max1, max2);
+					//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
+					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
+					valueMin = min;
+					valueMax = max;
+					
+		var optionss = {
+			  xaxis: {
+				type: 'datetime',
+				tickAmount: 20,
+			  },
+			  chart: {
+				height: 380,
+				width: "100%",
+				type: "line"
+			  },
+			  markers: {
+				size: 5
+			  },
+			  series: [
+				{
+				  name: 'Series 1',
+				  data: response[0].graphResponseDTOLst
+				},
+				{
+				  name: 'Series 2',
+				  data: response[1].graphResponseDTOLst
+				}
+			  ]
+			};
+		var options = {
+				  series: [
+						{
+						  name: 'Series 1',
+						  data: response[0].graphResponseDTOLst
+						},
+						{
+						  name: 'Series 2',
+						  data: response[1].graphResponseDTOLst
+						}
+					  ],
+				chart: {
+					toolbar: {
+						show: true,
+						offsetX: 0,
+						offsetY: 0,
+						tools: {
+							download: false,
+							selection: true,
+							zoom: true,
+							zoomin: true,
+							zoomout: true,
+							pan: true,
+							reset: true | '<img src="/static/icons/reset.png" width="20">',
+							customIcons: []
+						}
+					},
+					height: 525,
+					type: 'line',
+					animations: { enabled: false }
+				},
+				grid: {
+					show: false,
+					borderColor: '#f0e68c',
+					strokeDashArray: 1,
+					opacity: 0.5,
+					padding: {
+						right: 60,
+					},
+				},
+				colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
+				fill: {
+					type: 'solid',
+					opacity: [1, 1],
+				},
+				stroke: {
+					curve: 'straight',
+					width: 2.25
+				},
+				markers: {
+					colors: '#ffffff',
+					size: 2,
+					shape: 'square',
+				},
+				title: {
+					text: '',
+					align: 'center',
+					margin: 10,
+					style: {
+						fontWeight: 'bold',
+						color: '#263238'
+					},
+				},
+				subtitle: {
+					text: 'copyright LibVol.com',
+					align: 'right',
+					margin: 10,
+					offsetX: -10,
+					offsetY: 30,
+					floating: false,
+					style: {
+						fontSize: '10px',
+						fontWeight: 'normal',
+						color: '#9699a2'
+					},
+				},
+				dataLabels: {
+					enabled: false
+				},
+				xaxis: {
+					labels: {
+						rotate: -65,
+						rotateAlways: true,
+						minHeight: 0,
+						style: {
+							fontSize: '12px',
+						},
+						formatter: function(value, timestamp, opts) {
+							const options = { 
+									  day: 'numeric', 
+									  month: 'short', 
+									  year: 'numeric' 
+									};
+									const formattedDate = new Date(value).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');
+									
+				            return formattedDate;
+				          }
+					},
+					type: 'datetime',
+					axisBorder: {
+						show: true,
+						color: '#ffffff',
+						height: 3,
+						width: '100%',
+						offsetX: 0,
+						offsetY: 0
+					},
+				},
+				legend: {
+				   show:true,
+				   fontSize: '12px',
+		    	   showForSingleSeries: true,
+		    	   labels: {
+		    	          colors: 'White',
+		    	          useSeriesColors: false
+		    	   },
+		    	      markers: {
+		    	          width: 12,
+		    	          height: 2
+		    	      },
+		    	   /* formatter: function(seriesName, opts) {
+		    	    	img= getCountryFlag(seriesName);
+		    	         return [img , seriesName];
+		    	    }*/
+		    	  },
+				yaxis: [{
+					labels: {
+						style: {
+							fontSize: '12px',
+						}
+					},
+					axisBorder: {
+						width: 3,
+						show: true,
+						color: '#ffffff',
+						offsetX: 0,
+						offsetY: 0
+					},
+					tickAmount: 6,
+					//min: Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin,
+					//max: Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax,
+					
+				}],
+				noData: {
+					text: '',
+					align: 'center',
+					verticalAlign: 'middle',
+					offsetX: 0,
+					offsetY: 0,
+					style: {
+						color: undefined,
+						fontSize: '14px',
+						fontFamily: undefined
+					}
+				},
+				  tooltip: {
+					  x: {
+				          show: false,
+				      },
+					  y: {
+						  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+							  if(seriesIndex == 0)
+				  				{
+				  				  return  value.toFixed(3) + "%";
+				  				}else 
+				  					 if(seriesIndex == 1){
+				  					 return  value.toFixed(3) + "%";
+				  					 }
+						    },
+						    title: {
+					              formatter: (seriesName) => '',
+					          },
+			      },
+				}
+			};
+			
+			var chart = new ApexCharts(document.querySelector("#chart"), options);
+
+			chart.render();
+
+			},
+				error: function(e) {
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+  </script>
+
+</body>
+</html>

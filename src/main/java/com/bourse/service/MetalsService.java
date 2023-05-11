@@ -16,20 +16,16 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
-import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
-import com.bourse.dto.SelectedSearchDTO;
 import com.bourse.enums.BaseSubGroupEnum;
-import com.bourse.enums.CrossCountryEnum;
 import com.bourse.enums.EnergySubGroupEnum;
 import com.bourse.enums.FoodStuffSubGroupEnum;
 import com.bourse.enums.FunctionEnum;
 import com.bourse.enums.PreciousSubGroupEnum;
-import com.bourse.enums.SubGroupEnum;
 import com.bourse.enums.TransportationSubGroupEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.util.MetalsUtil;
@@ -242,6 +238,9 @@ public class MetalsService {
 			query.execute();
 			
 			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+			List<GraphResponseDTO> graphResponseDTOlstEmpty= MetalsUtil.removeReplaceEmptyValueWithNull(graphResponseDTOlst1);
+			graphResponseDTOlst1.clear();
+			graphResponseDTOlst1=graphResponseDTOlstEmpty;
 			
 			if (graphReqDTO.getRemoveEmpty1()!=null)
 				if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
@@ -447,6 +446,10 @@ public class MetalsService {
 			query.execute();
 			
 			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+			List<GraphResponseDTO> graphResponseDTOlstEmpty= MetalsUtil.removeReplaceEmptyValueWithNull(graphResponseDTOlst1);
+			graphResponseDTOlst1.clear();
+			graphResponseDTOlst1=graphResponseDTOlstEmpty;
+			
 			if (graphReqDTO.getRemoveEmpty1()!=null)
 			if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
 			{	
@@ -534,6 +537,10 @@ public class MetalsService {
 			functionQuery.execute();
 			
 			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) functionQuery.getResultList();
+			List<GraphResponseDTO> graphResponseDTOlstEmpty= MetalsUtil.removeReplaceEmptyValueWithNull(graphResponseDTOlst1);
+			graphResponseDTOlst1.clear();
+			graphResponseDTOlst1=graphResponseDTOlstEmpty;
+			
 			if (graphReqDTO.getRemoveEmpty1()!=null)
 				if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
 				{	
@@ -632,7 +639,12 @@ public class MetalsService {
 			
 			query1.execute();
 			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query1.getResultList();
-
+			
+			List<GraphResponseDTO> graphResponseDTOlstEmpty= MetalsUtil.removeReplaceEmptyValueWithNull(graphResponseDTOlst2);
+			graphResponseDTOlst2.clear();
+			graphResponseDTOlst2=graphResponseDTOlstEmpty;
+			
+			if (graphReqDTO.getRemoveEmpty2()!=null)
 			if (graphReqDTO.getRemoveEmpty2().equalsIgnoreCase("true"))
 			{	
 				List<GraphResponseDTO> graphResponseDTOlst= MetalsUtil.removeEmptyY(graphResponseDTOlst2);

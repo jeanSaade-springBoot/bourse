@@ -2007,8 +2007,8 @@
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
 		 		        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
 		 		        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
-		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?itemValue[checkedItemValues[0]].subGroupId==2?"true":false:false,
-		 		        	    "removeEmpty2": itemValue[checkedItemValues[1]].GroupId==10?itemValue[checkedItemValues[1]].subGroupId==2?"true":false:false,
+		 		        	   // "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?itemValue[checkedItemValues[0]].subGroupId==2?"true":false:false,
+		 		        	   // "removeEmpty2": itemValue[checkedItemValues[1]].GroupId==10?itemValue[checkedItemValues[1]].subGroupId==2?"true":false:false,
 		 	     			   };
 				        disableOptions(true);
 					    if(checkedItemValues.length>1)

@@ -387,6 +387,20 @@ public class MetalsUtil {
 		  }
 		  return updatedGraphResponseDTO;
 		}
+	public static List<GraphResponseDTO> removeReplaceEmptyValueWithNull(List<GraphResponseDTO> graphResponseDTO) {
+		  List<GraphResponseDTO> updatedGraphResponseDTO = new ArrayList<>();
+		  for (GraphResponseDTO graphResponse : graphResponseDTO) {
+		    String y = graphResponse.getY();
+		    if (y.isEmpty()) {
+		    		graphResponse.setY(null);
+		    	updatedGraphResponseDTO.add(graphResponse);
+		    }else
+		    {
+		    	updatedGraphResponseDTO.add(graphResponse);
+		    }
+		  }
+		  return updatedGraphResponseDTO;
+		}
 	
 }
 

@@ -330,7 +330,7 @@ function drawGraph() {
 	        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
 	        	    "isFunctionGraph":true,
 					"functionId":functionId+1,
-					"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
+					//"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
      			   };
 
 			if (checkedItemValues.length > 1)
@@ -492,8 +492,8 @@ function drawGraph() {
 	        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
 	        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
 	        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
-	        	    "removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false,
-	        	    "removeEmpty2":itemValue[checkedItemValues[1]].subGroupId==2?"true":false
+	        	  //  "removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false,
+	        	   // "removeEmpty2":itemValue[checkedItemValues[1]].subGroupId==2?"true":false
      			   };
            enableDisableDropDowns(true);
 			if (checkedItemValues.length > 1)
