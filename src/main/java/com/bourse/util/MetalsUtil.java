@@ -391,7 +391,7 @@ public class MetalsUtil {
 		  List<GraphResponseDTO> updatedGraphResponseDTO = new ArrayList<>();
 		  for (GraphResponseDTO graphResponse : graphResponseDTO) {
 		    String y = graphResponse.getY();
-		    if (y.isEmpty()) {
+		    if ( y != null && y.isEmpty()) {
 		    		graphResponse.setY(null);
 		    	updatedGraphResponseDTO.add(graphResponse);
 		    }else

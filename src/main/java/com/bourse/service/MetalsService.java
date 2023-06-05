@@ -301,6 +301,16 @@ public class MetalsService {
 			    System.out.println("subGroupId: "+subGroupId);
 			    System.out.println("description: "+description);
 				
+			}else if(graphReqDTO.getGroupId2().equals("10"))
+			{
+				String groupId = graphReqDTO.getGroupId2();
+				String subGroupId =  graphReqDTO.getSubGroupId2(); 
+				String description = TransportationSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId2()));
+				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+				
 			}
 				
 			query1.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
@@ -329,6 +339,15 @@ public class MetalsService {
 			
 			query1.execute();
 			List<GraphResponseDTO> graphResponseDTOlst2 = (List<GraphResponseDTO>) query1.getResultList();
+			
+			if (graphReqDTO.getRemoveEmpty2()!=null)
+				if (graphReqDTO.getRemoveEmpty2().equalsIgnoreCase("true"))
+				{	
+					List<GraphResponseDTO> graphResponseDTOlst= MetalsUtil.removeEmptyY(graphResponseDTOlst2);
+					graphResponseDTOlst2.clear();
+					graphResponseDTOlst2=graphResponseDTOlst;
+				}
+			
 			GraphResponseColConfigDTO graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
 	                  .graphResponseDTOLst(graphResponseDTOlst2)
 	                  .config(config)
@@ -582,9 +601,9 @@ public class MetalsService {
 			}
 			if(graphReqDTO.getGroupId1().equals("8"))
 			{
-				String groupId = graphReqDTO.getGroupId1();
-				String subGroupId =  graphReqDTO.getSubGroupId1(); 
-				String description = FoodStuffSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				String groupId = graphReqDTO.getGroupId2();
+				String subGroupId =  graphReqDTO.getSubGroupId2(); 
+				String description = FoodStuffSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId2()));
 				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
@@ -592,9 +611,9 @@ public class MetalsService {
 				
 			}if(graphReqDTO.getGroupId1().equals("9"))
 			{
-				String groupId = graphReqDTO.getGroupId1();
-				String subGroupId =  graphReqDTO.getSubGroupId1(); 
-				String description = EnergySubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				String groupId = graphReqDTO.getGroupId2();
+				String subGroupId =  graphReqDTO.getSubGroupId2(); 
+				String description = EnergySubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId2()));
 				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);
@@ -602,9 +621,9 @@ public class MetalsService {
 				
 			}if(graphReqDTO.getGroupId1().equals("10"))
 			{
-				String groupId = graphReqDTO.getGroupId1();
-				String subGroupId =  graphReqDTO.getSubGroupId1(); 
-				String description = TransportationSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId1()));
+				String groupId = graphReqDTO.getGroupId2();
+				String subGroupId =  graphReqDTO.getSubGroupId2(); 
+				String description = TransportationSubGroupEnum.getCountryBySubGroupID(Integer.valueOf(graphReqDTO.getSubGroupId2()));
 				config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 				System.out.println("goupid: "+groupId);
 			    System.out.println("subGroupId: "+subGroupId);

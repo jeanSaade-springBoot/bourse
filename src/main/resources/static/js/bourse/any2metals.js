@@ -27,8 +27,9 @@
   var nbrOfDigits;
   var notDecimal1;
   var nbrOfDigits1;
+  var hasMissingDates=false;
   
-   var allitems=["#jqxCheckBoxGold",
+  var allitems=["#jqxCheckBoxGold",
 		   		"#jqxCheckBoxPlatinum",
 			    "#jqxCheckBoxSilver",
 			    "#jqxCheckBoxPlatGold",
@@ -1218,24 +1219,32 @@
    	  			        dataLabels: {
    	  			          enabled: false
    	  			        },
-   	  			        xaxis: {
-   	  			        	   labels:  {
-					        		  rotate: -45,
+   	  			         xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
 					                  rotateAlways: true,
-					                  minHeight:60,
+					                  minHeight:30,
 					        		  style: {
 							        	  fontSize: fontsize,
 							        	 },
+							        formatter: function(value, timestamp, opts) {
+											
+											let a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
+											let s =  (isTimestamp(value))?join(value, a, '-'):value;
+											
+								            return s;
+								          }	 
 					        	  },
-   	  			           type: 'category',
-   	  			      axisBorder: {
-   	  		          show: true,
-   	  		          color: '#ffffff',
-   	  		          height: 3,
-   	  		          width: '100%',
-   	  		          offsetX: 0,
-   	  		          offsetY: 0
-   	  		      },
+   	  			            type: (itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)?'datetime':'category',
+	   	  			        tickAmount: 19,
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
    	  			        },
    	  			   legend: {
 		   	  			   fontSize: fontsize,
@@ -1291,8 +1300,9 @@
 		 		        	    "period":"d",
 		 		        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
-		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?itemValue[checkedItemValues[0]].subGroupId==2?"true":false:false,
+		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?"true":false,
    	     			   };
+   	     			   hasMissingDates = itemValue[checkedItemValues[0]].GroupId==10?"true":false;
 			  	       	  $.ajax({
 			  	       	        type: "POST",
 		      	    	        contentType:  "application/json; charset=utf-8",
@@ -1303,7 +1313,7 @@
 		      	    	        success: function (response) {
 		      	    	        
 		      	    	    var dbchartType1=response[0].config.chartType;
-	      	    	           chartType1 = getChartType(dbchartType1)[0];
+	      	    	            chartType1 = getChartType(dbchartType1)[0];
 	      	    	         var getFormatResult = getFormat(response[0].config.dataFormat); 
 	      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
 	      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
@@ -1531,25 +1541,33 @@
 	   	  			        dataLabels: {
 	   	  			          enabled: false
 	   	  			        },
-	   	  			        xaxis: {
-	   	  			        	   labels:  {
-						        		 // rotate: -45,
-						                  rotateAlways: true,
-						                  minHeight:60,
-						        		  style: {
-								        	  fontSize: fontsize,
-								        	 },
-						        	  },
-	   	  			           type: 'category',
-	   	  			      axisBorder: {
-	   	  		          show: true,
-	   	  		          color: '#ffffff',
-	   	  		          height: 3,
-	   	  		          width: '100%',
-	   	  		          offsetX: 0,
-	   	  		          offsetY: 0
-	   	  		      },
-	   	  			        },
+	   	  			   xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: fontsize,
+							        	 },
+							        formatter: function(value, timestamp, opts) {
+											
+											let a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
+											let s =  (isTimestamp(value))?join(value, a, '-'):value;
+											
+								            return s;
+								          }	 
+					        	  },
+   	  			            type: (itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)?'datetime':'category',
+	   	  			        tickAmount: 19,
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
 	   	  			   legend: {
 			   	  			   fontSize: fontsize,
 				        	   showForSingleSeries: true,
@@ -1607,8 +1625,9 @@
 		 		        	    "period":"d",
 		 		        	    "subGroupId1":itemValue[checkedItemValues[1]].subGroupId,
 		 		        	    "groupId1": itemValue[checkedItemValues[1]].GroupId,
-		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?itemValue[checkedItemValues[0]].subGroupId==2?"true":false:false,
+		 		        	    "removeEmpty1": itemValue[checkedItemValues[1]].GroupId==10?"true":false,
 		   	     			   };
+		   	     			   hasMissingDates = itemValue[checkedItemValues[1]].GroupId==10?"true":false;
 			    	          $.ajax({
 				  	       	        type: "POST",
 			      	    	        contentType:  "application/json; charset=utf-8",
@@ -1897,6 +1916,7 @@
 							})
 				if(chart!=null)
 				chart.updateOptions({
+					
 					xaxis: {
 			        	labels: {
 			        		 style: {
@@ -2007,15 +2027,17 @@
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
 		 		        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
 		 		        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
-		 		        	   // "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?itemValue[checkedItemValues[0]].subGroupId==2?"true":false:false,
-		 		        	   // "removeEmpty2": itemValue[checkedItemValues[1]].GroupId==10?itemValue[checkedItemValues[1]].subGroupId==2?"true":false:false,
+		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?"true":false,
+		 		        	    "removeEmpty2": itemValue[checkedItemValues[1]].GroupId==10?"true":false,
 		 	     			   };
+		 	     			   hasMissingDates = itemValue[checkedItemValues[0]].GroupId==10?"true":false;
 				        disableOptions(true);
 					    if(checkedItemValues.length>1)
 					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
 					        		else 
 					        			title=itemValue[checkedItemValues[0]].title
-					        			  var options = {
+					        	
+					        	 var options = {
 					     	  			          series: [],
 					     	  			          chart: {
 					  		   	  			         toolbar: {
@@ -2094,7 +2116,8 @@
 					  							        	  fontSize: fontsize,
 					  							        	 },
 					  					        	  },
-					     	  			           type: 'category',
+					     	  			           type: (itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)?'datetime':'category',
+	   	  			          					   tickAmount: 19,
 					     	  			      axisBorder: {
 					     	  		          show: true,
 					     	  		          color: '#ffffff',
@@ -2156,7 +2179,7 @@
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	        	
+		      	    	        	debugger;
 		      	    	        	startDateF1=response[0].config.startDate;
 		      	    	        	startDateF2=response[1].config.startDate;
 		      	    	        	 if (startDateF1!=null)
@@ -2197,17 +2220,16 @@
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-
-		      	    	  
-		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+	    	    	          	    
+									if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
+		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	          	else
+		      	    	            chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	       
-		      	    	        	
-		      	    	          
-		      	    	        	
-			      	    	          var dbchartType1=response[0].config.chartType;
+			      	    	        var dbchartType1=response[0].config.chartType;
 			      	    	            chartType1 =(getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
 			      	    	          
-			      	    	          var dbchartType2=response[1].config.chartType;
+			      	    	        var dbchartType2=response[1].config.chartType;
 			      	    	            chartType2 =getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
 			      	    	            min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
@@ -2254,8 +2276,11 @@
 											 chartColor:chartColor,
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
-											 	
-											 updateChartSelectedItem(chartConfigSettings);
+											 
+											 if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
+											 	updateChartSelectedItemMissingDates(chartConfigSettings);
+											 else
+												 updateChartSelectedItem(chartConfigSettings);
 									
 							        $('#overlayChart').hide();
 		      	   },
@@ -2301,10 +2326,10 @@
 		 		        	    "period":"d",
 		 		        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
-		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?itemValue[checkedItemValues[0]].subGroupId==2?"true":false:false,
+		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==10?"true":false,
 	   		        	    };
-					 
-					  var options = {
+					 hasMissingDates = itemValue[checkedItemValues[0]].GroupId==10?"true":false;
+					 var options = {
 	   	  			          series: [],
 	   	  			          chart: {
 			   	  			         toolbar: {
@@ -2383,7 +2408,8 @@
 								        	  fontSize: fontsize,
 								        	 },
 						        	  },
-	   	  			           type: 'category',
+	   	  			           type: itemValue[checkedItemValues[0]].GroupId==10?'datetime':'category',
+	   	  			           tickAmount: 19,
 	   	  			      axisBorder: {
 	   	  		          show: true,
 	   	  		          color: '#ffffff',
@@ -2437,6 +2463,7 @@
 				        	  }
 				        	}
 	   	  			        };
+	   	  			        debugger;
 			         chart = new ApexCharts(document.querySelector("#mainChart"), options);
 			         disableOptions(false);
 						       	  $.ajax({
@@ -2499,7 +2526,11 @@
 								showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
 							    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
-							    chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));  
+							   if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
+		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	          	else
+		      	    	            chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	       
 							    updateChartOption();
 			      	    	    	
 			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {

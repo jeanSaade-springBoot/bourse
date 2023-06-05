@@ -317,8 +317,6 @@ create table foodstuff_data_sequence (next_val bigint) ;
 insert into foodstuff_data_sequence values ( 1 );
 create table tmp_audit_foodstuff (id bigint not null, corn varchar(255), sugar varchar(255), wheat varchar(255), refer_date varchar(255), primary key (id));
 
-
-   
  INSERT INTO `bourse`.`robot_initializer`
 (`id`,
 `column_name`,

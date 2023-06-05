@@ -15,6 +15,7 @@ var isdecimal = false;
 var fromNavigation = false;
 var fontsize = '12px';
 var chart;
+var hasMissingDates=true;
 var startDateF1;
 var startDateF2;
 var startDateF3;
@@ -314,7 +315,7 @@ function drawGraph() {
 			}
 			
 
-	chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options : optionsWeekly);
+	chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options_missingDates : optionsWeekly);
 	chart.render();
 	//return 0;
 	
@@ -331,6 +332,7 @@ function drawGraph() {
 	        	    "isFunctionGraph":true,
 					"functionId":functionId+1,
 					//"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
+					"removeEmpty1":"true"
      			   };
 
 			if (checkedItemValues.length > 1)
@@ -449,7 +451,7 @@ function drawGraph() {
 											 chartColor:chartColor,
 											 chartTransparency:chartTransparency};
 											 	
-					updateChartByFunctionId(chartConfigSettings);	
+					updateChartByFunctionIdMissingDates(chartConfigSettings);	
 					$('#overlayChart').hide();
 				},
 				error: function(e) {
@@ -494,6 +496,8 @@ function drawGraph() {
 	        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
 	        	  //  "removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false,
 	        	   // "removeEmpty2":itemValue[checkedItemValues[1]].subGroupId==2?"true":false
+	        	  "removeEmpty1":"true",
+	        	  "removeEmpty2":"true"
      			   };
            enableDisableDropDowns(true);
 			if (checkedItemValues.length > 1)
@@ -582,6 +586,36 @@ function drawGraph() {
 			    	nbrOfDigits=getFormatResult0[0];
 					
 					chart.updateOptions({
+						xaxis: {
+					labels: {
+						rotate: -65,
+						rotateAlways: true,
+						minHeight: 0,
+						style: {
+							fontSize: '12px',
+						},
+						formatter: function(value, timestamp, opts) {
+							const options = { 
+									  day: 'numeric', 
+									  month: 'short', 
+									  year: 'numeric' 
+									};
+									const formattedDate = new Date(value).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');
+									
+				            return formattedDate;
+				          }
+					},
+					type: 'datetime',
+					tickAmount: 19,
+					axisBorder: {
+						show: true,
+						color: '#ffffff',
+						height: 3,
+						width: '100%',
+						offsetX: 0,
+						offsetY: 0
+					},
+				},
 						extra: {
 							isDecimal: isdecimal,
 							yAxisFormat: yaxisformat,
@@ -693,7 +727,8 @@ function drawGraph() {
 						"groupId1": itemValue[checkedItemValues[0]].GroupId,
 						"isFunctionGraph":functionId=='-1'?false:true,
 						"functionId":functionId,
-						"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
+						//"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
+						"removeEmpty1":"true"
 					};
 					
 					$.ajax({
@@ -781,8 +816,10 @@ function drawGraph() {
 											 chartColor:chartColor,
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
-							
-							updateChartSelectedItem(chartConfigSettings);
+							if(Period=='d')
+								updateChartSelectedItemMissingDates(chartConfigSettings);
+							else
+								updateChartSelectedItem(chartConfigSettings);
 						
 							$('#overlayChart').hide();
 
