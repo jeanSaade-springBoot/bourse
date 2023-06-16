@@ -26,6 +26,9 @@
     background: #ff4b5552 !important;
     border-color: #d9534f !important;
 }
+  .jqx-grid-column-header > div > div > span[style] { /*Cause header text to wrap to new line rather than be truncated*/
+     white-space: normal;
+  }
    div#overlay {
     margin: 15% 40%;
     position: absolute;
@@ -77,6 +80,9 @@ font-weight:bold;
 .fontTitle{
     font-size: .8rem;
 }
+.fs-7{
+font-size: .7rem;
+}
 .checkboxesTitle{
 font-size: 0.8rem;
 }
@@ -106,12 +112,34 @@ font-size: 0.8rem;
 .card-img-top {
     width: 112%;
     }
-button#deleteByDate {
-    position: absolute;
-    margin-top: -0.3rem;
-}
 .jqx-grid-cell-left-align {
     text-align: center;
+}
+.w-fc{
+    width: fit-content!important;
+    }
+ .nav-small{
+ 	height: 25px!important;
+    padding: 0.1rem 1rem!important;
+ }
+ .col-custom {
+    width: 20%;
+}
+#contentauditGrid > div.jqx-widget-header.jqx-widget-header-dark.jqx-grid-header.jqx-grid-header-dark{
+height:30px!important;
+}
+#contentcurvesGrid > div.jqx-widget-header.jqx-widget-header-dark.jqx-grid-header.jqx-grid-header-dark{
+height:30px!important;
+}
+#contentcrossesGrid > div.jqx-widget-header.jqx-widget-header-dark.jqx-grid-header.jqx-grid-header-dark{
+height:30px!important;
+}
+button#deleteByDate, button#deleteCorporateByDate {
+    position: absolute;
+    margin-top: -0.3rem;
+    right: 10px;
+    top: 25px;
+    z-index: 2;
 }
 </style>
 <body id="page-top">
@@ -177,84 +205,160 @@ button#deleteByDate {
 		   <div id="content">
      
         <div class="container-fluid" id="container-wrapper" style="display:none;">
-        <div class="col-lg-12">
+          <div class="col-lg-12">
               <!-- Form Basic -->
-            <div class="collapse show" id="collapseExample">
+             <div class="collapse show" id="collapseExample">
   			 <div class="card mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
-                 <div class="col-3" style="padding: 0;">
-                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input - Soverign Yields</h6>
-                  </div>
-                   <div class="col-3">
-                     <div id='dateInput'></div>
-                   </div>
-                   <div class="col-6">
-                   <div id='dateInputAudit'></div>
-                   </div>
+                <div class="card-header py-2 d-flex flex-row align-items-center justify-content-between padding-botton-0">
                 </div>
                 <div class="card-body" style="  padding-top: 0;
 											    padding-right: 1.25rem;
 											    padding-bottom: 0;
 											    padding-left: 1.25rem;">
-                 <div   class="row">
-                 <div class="col-5">
-                  <form  id="dataformInput">
-                  <div class="form-group" style=" margin-top: 0">
-                      <div  style=" display: flex;">
-                         <div class="col-1"></div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/united-states.png">
-						    </div>
-						   <div class="col-2"><img  height="48" width="48" src="/img/flag/germany.png">
-						    </div>
-						 <div class="col-2"><img height="48" width="48" src="/img/flag/france.png">
-						    </div>
-						   <div class="col-2"><img height="48" width="48" src="/img/flag/united-kingdom.png">
-						    </div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/italy.png">
-						    </div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/spain.png">
-						    </div>
-						</div>
-		                   <div style=" display: flex;">
-		                      <div class="col-2"  style=" max-width: 10% ;padding: 0 ;">
-								<div>30yr</div>
-								<div>10yr</div>
-								<div>5yr</div>
-								<div>2yr</div>
+				<div class="row">
+					   <div class="col-5">
+			                  <div class="col-12 d-flex justify-content-between">
+				                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input - Soverign Yields</h6>
+				                  <div id='dateInput'></div>
+				              </div>
+	                    </div>
+					<div class="col-1">
+					</div>
+					<div class="col-6">
+                     	 <div class="col-12 d-flex justify-content-between">
+                     		<div id='dateInputAudit'></div>
+                     		<button id="deleteByDate" style="font-size: .8rem;">Delete</button> 
+                     	 </div>
+	                </div>
+				</div>
+           		 <div class="row">
+					<div class="col-5">
+						<div class="col-12">
+							<form id="dataformInput">
+								<div class="form-group" style="margin-top: 0">
+									<div style="display: flex;">
+										<div class="col-1"></div>
+										<div class="col-2">
+											<img height="48" width="48"
+												src="/img/flag/united-states.png">
+										</div>
+										<div class="col-2">
+											<img height="48" width="48" src="/img/flag/germany.png">
+										</div>
+										<div class="col-2">
+											<img height="48" width="48" src="/img/flag/france.png">
+										</div>
+										<div class="col-2">
+											<img height="48" width="48"
+												src="/img/flag/united-kingdom.png">
+										</div>
+										<div class="col-2">
+											<img height="48" width="48" src="/img/flag/italy.png">
+										</div>
+										<div class="col-2">
+											<img height="48" width="48" src="/img/flag/spain.png">
+										</div>
+									</div>
+									<div style="display: flex;">
+										<div class="col-2" style="max-width: 10%; padding: 0;">
+											<div>30yr</div>
+											<div>10yr</div>
+											<div>5yr</div>
+											<div>2yr</div>
+										</div>
+										<textarea class="form-control" id="data" rows="3"></textarea>
+									</div>
 								</div>
-		                      <textarea class="form-control" id="data" rows="7"></textarea>
-		                    </div>
-                     </div>
-<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
-                    </form>
-                   <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
-			       <div class="row" id="dataInputButtons" style="display:none;">
-					<div class='col-12 d-flex justify-content-end mt-2'>
-					<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadData" value="Load " />
-					<input id="CancelData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-					</div>
-				  </div>
-                 </div>
-                 <div class="col-1"></div>
-                    <div class="col-6">
-                   <div class="d-flex">
-	                    <div class="col-10 p-0"> <nav style="padding-top: 0;">
-						  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-						    <a class="nav-item nav-link active" id="nav-yields-tab" data-toggle="tab" href="#nav-yields" role="tab" aria-controls="nav-yields" aria-selected="true">Yields</a>
-						    <a class="nav-item nav-link" id="nav-curves-tab" data-toggle="tab" href="#nav-curves" role="tab" aria-controls="nav-curves" aria-selected="false">Curves</a>
-						    <a class="nav-item nav-link" id="nav-crosses-tab" data-toggle="tab" href="#nav-crosses" role="tab" aria-controls="nav-crosses" aria-selected="false">Crosses</a>
-						  </div>
-						</nav>
+								<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
+							</form>
+							<div id="dataInputGrid" style="margin-top: 0rem;"></div>
+							<div class="row" id="dataInputButtons"
+								style="display: none;">
+								<div class='col-12 d-flex justify-content-end mt-2'>
+									<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem !important; color: white;" type="button" id="loadData" value="Load " /> 
+									<input id="CancelData" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+								</div>
+							</div>
 						</div>
-						<div class="col-1">
-						 <button id="deleteByDate" style="font-size: .8rem;">Delete</button> 
-	                   </div>
-                   </div>
-					<div class="tab-content" id="nav-tabContent">
-					  <div class="tab-pane fade show active" id="nav-yields" role="tabpanel" aria-labelledby="nav-yields-tab">  <div id="auditGrid"></div></div>
-					  <div class="tab-pane fade" id="nav-curves" role="tabpanel" aria-labelledby="nav-curves-tab"> <div id="curvesGrid"></div> </div>
-					  <div class="tab-pane fade" id="nav-crosses" role="tabpanel" aria-labelledby="nav-crosses-tab"> <div id="crossesGrid"></div> </div>
+						<div class="col-12 pt-5">
+							<div class="d-flex justify-content-between">
+								<h6 class="fw-bold">Data Input - Corporate Yields</h6>
+								<div id='dateInputCorporate'></div>
+							</div>
+							<form id="dataformInputCorporate">
+								<div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+											US AtoAAA "BLUECHIP"
+										</div>
+										<div class="fs-7">
+											US BtoBBB "HIGHYIELD"
+										</div>
+										<div class="fs-7">
+											US CtoCCC "JUNKBOND"
+										</div>
+										<div class="fs-7">
+											EUROZONE AtoAAA "BLUECHIP"
+										</div>
+										<div class="fs-7">
+											EUROZONE BtoBBB "HIGH YIELD"
+										</div>
+									</div>
+								<div class="d-flex">
+									<input class="form-control" id="data-input" autocomplete="off"/>
+								</div>
+							</form>
+							<div id="dataInputGridCorporate" style="margin-top: 0rem;"></div>
+							<div class="row" id="dataInputButtonsCorporate"
+								style="display: none;">
+								<div class='col-12 d-flex justify-content-end mt-2'>
+									<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem !important; color: white;" type="button" id="loadDataCorporate" value="Load" /> 
+									<input id="CancelDataCorporate" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+								</div>
+							</div>
+						</div>
 					</div>
+
+					<div class="col-1"></div>
+                    <div class="col-6">
+                   		<div class="col-12">
+		                   <div class="d-flex">
+			                    <div class="col-10 p-0"> <nav style="padding-top: 0;">
+								  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+								    <a class="nav-item nav-link active nav-small" id="nav-yields-tab" data-toggle="tab" href="#nav-yields" role="tab" aria-controls="nav-yields" aria-selected="true">Yields</a>
+								    <a class="nav-item nav-link nav-small" id="nav-curves-tab" data-toggle="tab" href="#nav-curves" role="tab" aria-controls="nav-curves" aria-selected="false">Curves</a>
+								    <a class="nav-item nav-link nav-small" id="nav-crosses-tab" data-toggle="tab" href="#nav-crosses" role="tab" aria-controls="nav-crosses" aria-selected="false">Crosses</a>
+								   </div>
+								</nav>
+								</div>
+								<div class="col-1">
+								 
+			                   </div>
+		                   </div>
+							<div class="tab-content" id="nav-tabContent">
+							  <div class="tab-pane fade show active" id="nav-yields" role="tabpanel" aria-labelledby="nav-yields-tab">  <div id="auditGrid"></div></div>
+							  <div class="tab-pane fade" id="nav-curves" role="tabpanel" aria-labelledby="nav-curves-tab"> <div id="curvesGrid"></div> </div>
+							  <div class="tab-pane fade" id="nav-crosses" role="tabpanel" aria-labelledby="nav-crosses-tab"> <div id="crossesGrid"></div> </div>
+							</div>
+						</div>
+						<div class="col-12">
+		                     	 <div class="d-flex pt-1 justify-content-between">
+		                     		<div id='dateInputCorporateAudit'></div>
+		                     		<button id="deleteCorporateByDate" style="font-size: .8rem;">Delete</button> 
+		                     	 </div>
+		                   <div class="d-flex">
+			                    <div class="col-10 p-0"> <nav style="padding-top: 0;">
+								  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+								    <a class="nav-item nav-link nav-small active w-fc" id="nav-corporates-tab" data-toggle="tab" href="#nav-corporates" role="tab" aria-controls="#nav-corporates" aria-selected="false">Corporate  Yield</a>
+								    <a class="nav-item nav-link nav-small w-fc" id="nav-credits-tab" data-toggle="tab" href="#nav-credits" role="tab" aria-controls="nav-credits" aria-selected="false">Credit Spreads</a>
+								  </div>
+								</nav>
+								</div>
+		                   </div>
+							<div class="tab-content" id="nav-tabContent">
+							 <div class="tab-pane fade show active" id="nav-corporates" role="tabpanel" aria-labelledby="nav-corporates-tab"> <div id="corporatesGrid"></div> </div>
+							 <div class="tab-pane fade" id="nav-credits" role="tabpanel" aria-labelledby="nav-credits-tab"> <div id="creditAuditGrid"></div> </div>
+							</div>
+						</div>
                  </div>
           </div>
      </div>
@@ -591,8 +695,69 @@ button#deleteByDate {
        <div class="col-3"></div>
     </div>
 	</div>
-	
-    <div class="row">
+	  <div class="row mt-2">
+	        <div class="card border ml-2 col-12">
+		        <div class="row no-gutters">
+		          <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		                	<div id='jqxCheckBoxusatoaaa' style='float: left;'><span class="checkboxesTitle">US AtoAAA "BLUECHIP"</span></div>
+		             </div>
+		             </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		               		<div id='jqxCheckBoxusbtobbb' style='float: left;'><span class="checkboxesTitle">US BtoBBB "HIGHYIELD"</span></div>
+		               </div>
+		            </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		              		<div id='jqxCheckBoxusctoccc' style='float: left;'><span class="checkboxesTitle">US CtoCCC "JUNKBOND"</span></div>
+		                </div>
+		            </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxeurozoneatoaaa' style='float: left;'><span class="checkboxesTitle">EUROZONE AtoAAA "BLUECHIP"</span></div>
+		             </div>
+		            </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxeurozonebtobbb' style='float: left;'><span class="checkboxesTitle">EUROZONE BtoBBB "HIGH YIELD"</span></div>
+		             </div>
+		            </div>
+		    </div>
+	    </div>
+	  </div>
+	  <div class="row mt-2">
+	        <div class="card border ml-2 col-12">
+		        <div class="row no-gutters">
+		          <div class=" col-custom">
+		                <div class="card-body pt-1 filter">
+		                	<div id='jqxCheckBoxusatoaaaUsa' style='float: left;'><span class="checkboxesTitle">US BLUECHIP AtoAAA vs 10yr TSYS</span></div>
+		             </div>
+		             </div>
+		             <div class=" col-custom">
+		                <div class="card-body pt-1 filter">
+		               		<div id='jqxCheckBoxusbtobbbUsatoaaa' style='float: left;'><span class="checkboxesTitle">US HIGHYIELD BtoBBB vs BLUECHIP</span></div>
+		               </div>
+		            </div>
+		             <div class=" col-custom">
+		                <div class="card-body pt-1 filter">
+		              		<div id='jqxCheckBoxusctocccUsbtobbb' style='float: left;'><span class="checkboxesTitle">US JUNKBOND CtoCCC vs HIGHYIELD</span></div>
+		                </div>
+		            </div>
+		             <div class=" col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxeurozoneatoaaaGermany' style='float: left;'><span class="checkboxesTitle">EZ BLUECHIP AtoAAA vs 10Y GERMANY</span></div>
+		             </div>
+		            </div>
+		             <div class=" col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxeurozonebtobbbEurozoneatoaaa' style='float: left;'><span class="checkboxesTitle">EZ HIGHYIELD BtoBBB vs BLUECHIP AtoAAA</span></div>
+		             </div>
+		            </div>
+		    </div>
+	    </div>
+	</div>
+    <div class="row  mt-2">
 			<div class='col-12 d-flex justify-content-end'>
 			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
 			<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
@@ -617,8 +782,7 @@ button#deleteByDate {
 		    </div>
 		  </div>
 	 </div>
-
-<div id="alertDeleteDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+     <div id="alertDeleteDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 		    <div class="modal-content">
 		
@@ -633,7 +797,27 @@ button#deleteByDate {
 		      </div>
 		       <div class="modal-footer justify-content-between">
 		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-		        <button type="button" class="btn btn-primary" onclick="deleteDataByDate()">Delete Record</button>
+		         <button type="button" class="btn btn-primary" onclick="deleteDataByDate('yields')">Delete Record</button>
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div id="alertDeleteCorporateDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-danger">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Are you sure?</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="alertTextDeleteCorporateDataByDate">
+
+		      </div>
+		       <div class="modal-footer justify-content-between">
+		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-primary" onclick="deleteDataByDate('corporate')">Delete Record</button>
 		      </div>
 		    </div>
 		  </div>

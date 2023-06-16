@@ -15,7 +15,8 @@ import com.bourse.domain.TableManagement;
 import com.bourse.dto.DataFunctionReqDTO;
 import com.bourse.dto.DataFunctionRespDTO;
 import com.bourse.dto.GraphResponseDTO;
-import com.bourse.dto.MetalsDataFunctionReqDTO;
+import com.bourse.dto.GridDataDTO;
+import com.bourse.dto.GenericDataFunctionReqDTO;
 import com.bourse.enums.FunctionEnum;
 import com.bourse.enums.GroupEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
@@ -43,32 +44,83 @@ public class DataFunctionService {
 	AdminService adminService;
 	
 	// List<DataFunctionRespDTO> 
+	public GridDataDTO getGridDataDTOFunction(DataFunctionReqDTO dataFunctionReqDTO) {
+		List<DataFunctionRespDTO> dataFunctionRespDTO = getGridDataFunction(dataFunctionReqDTO);
+		String title =null;	
+		
+		if(dataFunctionReqDTO.getYieldCurveCross().equalsIgnoreCase("11")||dataFunctionReqDTO.getYieldCurveCross().equalsIgnoreCase("12"))
+			title = columnConfigurationRepository.findByGroupIdAndSubgroupIdAndFactor(dataFunctionReqDTO.getYieldCurveCross(),dataFunctionReqDTO.getCountry(),"0").getDisplayDescription();		
+				
+		GridDataDTO gridDataDTO = GridDataDTO.builder().dataFunctionRespDTO(dataFunctionRespDTO).gridTitle(title).build();
+		return gridDataDTO;
+	}
+	
 	public List<DataFunctionRespDTO> getGridDataFunction(DataFunctionReqDTO dataFunctionReqDTO) {
 		boolean hasData= adminService.getData();
 	      if(!hasData)
 			return null;   
-		List<String> tableNames = new ArrayList<String>();
-		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
-			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("function_grid_main",GraphResponseDTO.class);
-			query.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
-			query.setParameter("YieldCurveCross",dataFunctionReqDTO.getYieldCurveCross() );
-	
-			query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
-			query.setParameter("factor",dataFunctionReqDTO.getFactor());
-			
-			query.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
-			query.setParameter("country",dataFunctionReqDTO.getCountry());
-			
-			query.registerStoredProcedureParameter("functionId", String.class, ParameterMode.IN);
-			query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByDesc(dataFunctionReqDTO.getFunctions()[i])));
-			query.execute();
-			tableNames.add(getTableName(dataFunctionReqDTO.getYieldCurveCross(),dataFunctionReqDTO.getFactor(),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFunctions()[i]));
+		  List<String> tableNames = new ArrayList<String>();
+		  List<DataFunctionRespDTO> data = null;
+		  for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
+			if (dataFunctionReqDTO.getFactor().isEmpty())
+			{
+				String generatedTableName="";
+				StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dyncamic_table_function_generator",GraphResponseDTO.class);
+				query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+				query.setParameter("groupId",dataFunctionReqDTO.getYieldCurveCross() );
+		
+				query.registerStoredProcedureParameter("subGroupId", String.class, ParameterMode.IN);
+				query.setParameter("subGroupId",dataFunctionReqDTO.getCountry());
+				
+				query.registerStoredProcedureParameter("factorInput", String.class, ParameterMode.IN);
+				query.setParameter("factorInput","");
+				
+				query.registerStoredProcedureParameter("functionId", String.class, ParameterMode.IN);
+				query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByDesc(dataFunctionReqDTO.getFunctions()[i])));
+				
+				query.registerStoredProcedureParameter("generatedTableName", String.class, ParameterMode.INOUT);
+				query.setParameter("generatedTableName",generatedTableName);
+				
+				generatedTableName = query.getOutputParameterValue("generatedTableName").toString();
+				System.out.println("generatedTableName = "+generatedTableName);
+				// tableNames.add(getMetalTableName(dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId(),dataFunctionReqDTO.getFunctions()[i]));
+				 tableNames.add(generatedTableName);
+			}else 
+			{
+				StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("function_grid_main",GraphResponseDTO.class);
+				query.registerStoredProcedureParameter("YieldCurveCross", String.class, ParameterMode.IN);
+				query.setParameter("YieldCurveCross",dataFunctionReqDTO.getYieldCurveCross() );
+		
+				query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+				query.setParameter("factor",dataFunctionReqDTO.getFactor());
+				
+				query.registerStoredProcedureParameter("country", String.class, ParameterMode.IN);
+				query.setParameter("country",dataFunctionReqDTO.getCountry());
+				
+				query.registerStoredProcedureParameter("functionId", String.class, ParameterMode.IN);
+				query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByDesc(dataFunctionReqDTO.getFunctions()[i])));
+				query.execute();
+				tableNames.add(getTableName(dataFunctionReqDTO.getYieldCurveCross(),dataFunctionReqDTO.getFactor(),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFunctions()[i]));
+			}
 		}
-		List<DataFunctionRespDTO> data = getListDataFunctionFromProcedure(buildDyamicQuery(tableNames,dataFunctionReqDTO),1,dataFunctionReqDTO,null);
+		  if (dataFunctionReqDTO.getFactor().isEmpty())
+			  {
+			  GenericDataFunctionReqDTO genericDataFunctionReqDTO =GenericDataFunctionReqDTO.builder()
+					  																		.subgroupId(dataFunctionReqDTO.getCountry())
+					  																		.groupId(dataFunctionReqDTO.getYieldCurveCross())
+					  																		.fromdate(dataFunctionReqDTO.getFromdate())
+					  																		.todate(dataFunctionReqDTO.getTodate())
+					  																		.functions(dataFunctionReqDTO.getFunctions())
+					  																		.build();
+			   String assetId = (dataFunctionReqDTO.getYieldCurveCross().equalsIgnoreCase("11")||dataFunctionReqDTO.getYieldCurveCross().equalsIgnoreCase("12"))?"1":"3";
+			   data = getListDataFunctionFromProcedure(buildDyamicQueryFromDB(tableNames,genericDataFunctionReqDTO,assetId),1,dataFunctionReqDTO,null);
+			  }
+           else
+			  data = getListDataFunctionFromProcedure(buildDyamicQuery(tableNames,dataFunctionReqDTO),1,dataFunctionReqDTO,null);
 		return data;
 	    
 	}
-	public List<DataFunctionRespDTO> getGridMetalsDataFunction(MetalsDataFunctionReqDTO dataFunctionReqDTO) {
+	public List<DataFunctionRespDTO> getGridMetalsDataFunction(GenericDataFunctionReqDTO dataFunctionReqDTO) {
 		boolean hasData= adminService.getData();
 	      if(!hasData)
 			return null;   
@@ -87,7 +139,7 @@ public class DataFunctionService {
 			String generatedTableName="";
 			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dyncamic_table_function_generator",GraphResponseDTO.class);
 			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
-			query.setParameter("groupId",dataFunctionReqDTO.getGroupId() );
+			query.setParameter("groupId",dataFunctionReqDTO.getGroupId());
 	
 			query.registerStoredProcedureParameter("subGroupId", String.class, ParameterMode.IN);
 			query.setParameter("subGroupId",dataFunctionReqDTO.getSubgroupId());
@@ -106,7 +158,7 @@ public class DataFunctionService {
 			// tableNames.add(getMetalTableName(dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId(),dataFunctionReqDTO.getFunctions()[i]));
 			 tableNames.add(generatedTableName);
 		}
-		List<DataFunctionRespDTO> data = getListDataFunctionFromProcedure(buildDyamicQueryForMetals(tableNames,dataFunctionReqDTO),2,null,dataFunctionReqDTO);
+		List<DataFunctionRespDTO> data = getListDataFunctionFromProcedure(buildDyamicQueryFromDB(tableNames,dataFunctionReqDTO,"2"),2,null,dataFunctionReqDTO);
 		return data;
 	}
 	
@@ -182,11 +234,11 @@ public class DataFunctionService {
 		return query;
 	}
 	
-	public String buildDyamicQueryForMetals(List<String> tableNames,MetalsDataFunctionReqDTO dataFunctionReqDTO)
+	public String buildDyamicQueryFromDB(List<String> tableNames,GenericDataFunctionReqDTO dataFunctionReqDTO, String assetId)
 	{
 		String query="select DATE_FORMAT(STR_TO_DATE(t.refer_date,'%d-%m-%Y'), '%d-%b-%Y') as refer_date,";
 		String queryValues="", queryTables="",  queryAnd="";
-		TableManagement tableManagement = tableManagementRepository.findByAssetIdAndGroupIdAndSubgroupId("2",dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId());
+		TableManagement tableManagement = tableManagementRepository.findByAssetIdAndGroupIdAndSubgroupId(assetId,dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId());
 		
 		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
 			queryValues=queryValues+",t"+i+".value as "+dataFunctionReqDTO.getFunctions()[i];
@@ -276,95 +328,112 @@ public class DataFunctionService {
 		return query;
 	}
 	
-	public List<DataFunctionRespDTO> getListDataFunctionFromProcedure(String queryStr,int assetId, DataFunctionReqDTO dataFunctionReqDTO, MetalsDataFunctionReqDTO metalsDataFunctionReqDTO)
+	public List<DataFunctionRespDTO> getListDataFunctionFromProcedure(String queryStr,int assetId, DataFunctionReqDTO dataFunctionReqDTO, GenericDataFunctionReqDTO GenericDataFunctionReqDTO)
 	{
 		javax.persistence.Query query = entityManager.createNativeQuery(queryStr);
 		List<Object> lstdata = query.getResultList();   
 		List<String> data1=null;
 		List<List<String>> functionData = new ArrayList<List<String>>();
+		  
 		if (assetId==1)
-		{
-			data1=getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"0");
-		
+		{   
+			assetId = (dataFunctionReqDTO.getYieldCurveCross().equalsIgnoreCase("11")||dataFunctionReqDTO.getYieldCurveCross().equalsIgnoreCase("12"))?1:3;
+			String groupId = null, subgroupId = null, factor = null; 
+			if (dataFunctionReqDTO.getFactor().isEmpty())
+				{
+				   groupId = dataFunctionReqDTO.getYieldCurveCross();
+				   subgroupId = dataFunctionReqDTO.getCountry();
+				   factor= "0";
+				 
+				}
+		    else
+			    {
+		    	   groupId = String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross()));
+				   subgroupId = dataFunctionReqDTO.getCountry();
+				   factor = dataFunctionReqDTO.getFactor().replace("yr", "");
+			    }
+		    	
+			     data1=getDataFormatValues(groupId,subgroupId,factor,"0");
+		    
 		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
 			if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("100D"))
 			{
-				functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"1"));
+				functionData.add(getDataFormatValues(groupId,subgroupId,factor,"1"));
 			}else 
 				if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("200D"))
 				{
-					functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"2"));
+					functionData.add(getDataFormatValues(groupId,subgroupId,factor,"2"));
 				}else 
 					if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCP"))
 					{
-						functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"3"));
+						functionData.add(getDataFormatValues(groupId,subgroupId,factor,"3"));
 					}else 
 						if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCI"))
 						{
-							functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"4"));
+							functionData.add(getDataFormatValues(groupId,subgroupId,factor,"4"));
 						}else 
 							if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCP"))
 							{
-								functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"5"));
+								functionData.add(getDataFormatValues(groupId,subgroupId,factor,"5"));
 							}else 
 								if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCI"))
 								{
-									functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"6"));
+									functionData.add(getDataFormatValues(groupId,subgroupId,factor,"6"));
 								}else 
 									if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("10YP"))
 									{
-										functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"7"));
+										functionData.add(getDataFormatValues(groupId,subgroupId,factor,"7"));
 									}else 
 										if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("20YP"))
 										{
-											functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"8"));
+											functionData.add(getDataFormatValues(groupId,subgroupId,factor,"8"));
 										}else 
 											if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("CP"))
 											{
-												functionData.add(getDataFormatValues(String.valueOf(GroupEnum.getGroupIdByName(dataFunctionReqDTO.getYieldCurveCross())),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFactor().replace("yr", ""),"9"));
+												functionData.add(getDataFormatValues(groupId,subgroupId,factor,"9"));
 											}
 			}
 		}
 		else if (assetId==2)
 		{
-			data1=getDataFormatValues(metalsDataFunctionReqDTO.getGroupId(),metalsDataFunctionReqDTO.getSubgroupId(),"0","0");
+			data1=getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","0");
 			
-				for (int i = 0; i < metalsDataFunctionReqDTO.getFunctions().length; i++) {
-					if(metalsDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("100D"))
+				for (int i = 0; i < GenericDataFunctionReqDTO.getFunctions().length; i++) {
+					if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("100D"))
 					{
-						functionData.add(getDataFormatValues(metalsDataFunctionReqDTO.getGroupId(),metalsDataFunctionReqDTO.getSubgroupId(),"0","1"));
+						functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","1"));
 					}else 
-						if(metalsDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("200D"))
+						if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("200D"))
 						{
-							functionData.add(getDataFormatValues(metalsDataFunctionReqDTO.getGroupId(),metalsDataFunctionReqDTO.getSubgroupId(),"0","2"));
+							functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","2"));
 						}else 
-							if(metalsDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCP"))
+							if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCP"))
 							{
-								functionData.add(getDataFormatValues(metalsDataFunctionReqDTO.getGroupId(),metalsDataFunctionReqDTO.getSubgroupId(),"0","3"));
+								functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","3"));
 							}else 
-								if(metalsDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCI"))
+								if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCI"))
 								{
-									functionData.add(getDataFormatValues(metalsDataFunctionReqDTO.getGroupId(),metalsDataFunctionReqDTO.getSubgroupId(),"0","4"));
+									functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","4"));
 								}else 
-									if(metalsDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCP"))
+									if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCP"))
 									{
-										functionData.add(getDataFormatValues(metalsDataFunctionReqDTO.getGroupId(),metalsDataFunctionReqDTO.getSubgroupId(),"0","5"));
+										functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","5"));
 									}else 
-										if(metalsDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCI"))
+										if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCI"))
 										{
-											functionData.add(getDataFormatValues(metalsDataFunctionReqDTO.getGroupId(),metalsDataFunctionReqDTO.getSubgroupId(),"0","6"));
+											functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","6"));
 										}else 
-											if(metalsDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("10YP"))
+											if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("10YP"))
 											{
-												functionData.add(getDataFormatValues(metalsDataFunctionReqDTO.getGroupId(),metalsDataFunctionReqDTO.getSubgroupId(),"0","7"));
+												functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","7"));
 											}else 
-												if(metalsDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("20YP"))
+												if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("20YP"))
 												{
-													functionData.add(getDataFormatValues(metalsDataFunctionReqDTO.getGroupId(),metalsDataFunctionReqDTO.getSubgroupId(),"0","8"));
+													functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","8"));
 												}else 
-													if(metalsDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("CP"))
+													if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("CP"))
 													{
-														functionData.add(getDataFormatValues(metalsDataFunctionReqDTO.getGroupId(),metalsDataFunctionReqDTO.getSubgroupId(),"0","9"));
+														functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","9"));
 													}
 				}
 		}

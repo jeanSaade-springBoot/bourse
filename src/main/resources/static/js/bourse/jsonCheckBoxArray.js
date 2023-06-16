@@ -601,5 +601,75 @@ var itemValue = {
 		"yieldCurveCross": "cross",
 		"description": "ITA-SPN-2",
 		"title": "ITA-SPN 2-yr yield CROSS"
+	},
+	"#jqxCheckBoxusatoaaa": {
+		"factor": "",
+		"country": "1",
+		"yieldCurveCross": "11",
+		"description": "usatoaaa",
+		"title": 'US AtoAAA "BLUECHIP"'
+	},
+	"#jqxCheckBoxusbtobbb": {
+		"factor": "",
+		"country": "2",
+		"yieldCurveCross": "11",
+		"description": "usbtobbb",
+		"title": 'US BtoBBB "HIGHYIELD"'
+	},
+	"#jqxCheckBoxusctoccc": {
+		"factor": "",
+		"country": "3",
+		"yieldCurveCross": "11",
+		"description": "usctoccc",
+		"title": 'US CtoCCC "JUNKBOND"'
+	},
+	"#jqxCheckBoxeurozoneatoaaa": {
+		"factor": "",
+		"country": "4",
+		"yieldCurveCross": "11",
+		"description": "eurozoneatoaaa",
+		"title": 'EUROZONE AtoAAA "BLUECHIP" '
+	},
+	"#jqxCheckBoxeurozonebtobbb": {
+		"factor": "",
+		"country": "5",
+		"yieldCurveCross": "11",
+		"description": "eurozonebtobbb",
+		"title": 'EUROZONE BtoBBB "HIGH YIELD"'
+	},
+	 "#jqxCheckBoxusatoaaaUsa": {
+		"factor": "",
+		"country": "1",
+		"yieldCurveCross": "12",
+		"description": "usatoaaa_usa",
+		"title": 'US BLUECHIP AtoAAA vs 10yr TSYS CREDIT'
+	},
+	"#jqxCheckBoxusbtobbbUsatoaaa": {
+		"factor": "",
+		"country": "2",
+		"yieldCurveCross": "12",
+		"description": "usbtobbb_usatoaaa",
+		"title": 'US HIGHYIELD BtoBBB vs BLUECHIP AtoAAA'
+	},
+	"#jqxCheckBoxusctocccUsbtobbb": {
+		"factor": "",
+		"country": "3",
+		"yieldCurveCross": "12",
+		"description": "usctoccc_usbtobbb",
+		"title": 'US JUNKBOND CtoCCC vs HIGHYIELD BtoBBB'
+	},
+	"#jqxCheckBoxeurozoneatoaaaGermany": {
+		"factor": "",
+		"country": "4",
+		"yieldCurveCross": "12",
+		"description": "eurozoneatoaaa_germany",
+		"title": 'EZ BLUECHIP AtoAAA vs 10Y GERMANY CREDIT '
+	},
+	"#jqxCheckBoxeurozonebtobbbEurozoneatoaaa": {
+		"factor": "",
+		"country": "5",
+		"yieldCurveCross": "12",
+		"description": "eurozonebtobbb_eurozoneatoaaa",
+		"title": 'EZ HIGHYIELD BtoBBB vs BLUECHIP AtoAAA'
 	}
 };

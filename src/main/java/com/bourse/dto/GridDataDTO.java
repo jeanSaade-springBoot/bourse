@@ -1,5 +1,8 @@
 package com.bourse.dto;
 
+import java.util.List;
+
+
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -9,15 +12,8 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor
-public class MetalsDataFunctionReqDTO {
-	
-	private String subgroupId;
-	private String groupId;
-	
-	private String[] functions;  
-	
-	private String fromdate;
-	private String todate;
-	
-
+public class GridDataDTO {
+	private List<DataFunctionRespDTO> dataFunctionRespDTO;
+	private String gridTitle;
 }
+

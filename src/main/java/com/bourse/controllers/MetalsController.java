@@ -30,7 +30,7 @@ import com.bourse.dto.DataFunctionRespDTO;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.MainSearchFilterDTO;
-import com.bourse.dto.MetalsDataFunctionReqDTO;
+import com.bourse.dto.GenericDataFunctionReqDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.service.BaseMetalsService;
 import com.bourse.service.DataFunctionService;
@@ -257,7 +257,7 @@ public class MetalsController {
 	return new ResponseEntity<>(metalsService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
 	} 
 	@PostMapping(value = "getgriddatafunction")
-	public ResponseEntity<List<DataFunctionRespDTO>> getGridDataFunction(@RequestBody MetalsDataFunctionReqDTO dataFunctionReqDTO) {
+	public ResponseEntity<List<DataFunctionRespDTO>> getGridDataFunction(@RequestBody GenericDataFunctionReqDTO dataFunctionReqDTO) {
 		return new ResponseEntity<>(dataFunctionService.getGridMetalsDataFunction(dataFunctionReqDTO),HttpStatus.OK);
 	}
    

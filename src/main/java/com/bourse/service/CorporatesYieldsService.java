@@ -1,0 +1,126 @@
+package com.bourse.service;
+
+import java.util.List;
+
+import javax.persistence.EntityManager;
+import javax.persistence.ParameterMode;
+import javax.persistence.PersistenceContext;
+import javax.persistence.StoredProcedureQuery;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import com.bourse.domain.CorporateYieldsData;
+import com.bourse.domain.SovereignData;
+import com.bourse.domain.TmpAuditCorporateLiquidityPremia;
+import com.bourse.domain.TmpAuditCorporateYields;
+import com.bourse.domain.TmpAuditCreditSpreads;
+import com.bourse.dto.UpdateDataDTO;
+import com.bourse.repositories.CorporatesYieldsRepository;
+import com.bourse.repositories.TmpAuditCorporateLiquidityPremiaRepository;
+import com.bourse.repositories.TmpAuditCorporateYieldsRepository;
+import com.bourse.repositories.TmpAuditCreditSpreadsRepository;
+
+@Service
+public class CorporatesYieldsService 
+{  
+
+	@PersistenceContext
+    private EntityManager entityManager;
+	@Autowired
+	AdminService adminService;
+	@Autowired
+	CorporatesYieldsRepository corporatesYieldsRepository;
+	@Autowired
+	TmpAuditCorporateYieldsRepository tmpAuditCorporateYieldsRepository;
+	@Autowired
+	TmpAuditCreditSpreadsRepository tmpAuditCreditSpreadsRepository;
+	@Autowired
+	TmpAuditCorporateLiquidityPremiaRepository tmpAuditCorporateLiquidityPremiaRepository;
+
+	public boolean CheckIfCanSave(String referDate)
+	{
+		long cnt = corporatesYieldsRepository.countByReferDate(referDate);
+		boolean returnvalue = (cnt == 0) ? true : false;
+		return returnvalue;
+	}
+	public List<CorporateYieldsData> SaveCorporateDatas(List<CorporateYieldsData> plst) 
+	{      
+        return corporatesYieldsRepository.saveAll(plst);
+	}
+
+	public List<TmpAuditCreditSpreads> findTmpAuditCreditSpreadsByReferDate(String referDate)
+	{
+		boolean hasData= adminService.getData();
+	    if(!hasData)
+			return null;
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_audit_credit_spreads",TmpAuditCreditSpreads.class);
+		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
+		query.setParameter("referDate",referDate );
+		query.execute();
+		List<TmpAuditCreditSpreads> corporateAuditProcedureDTO = (List<TmpAuditCreditSpreads>) query.getResultList();
+		return corporateAuditProcedureDTO; 
+	}
+	public TmpAuditCorporateLiquidityPremia findTmpCorporateLiquidityPremiaByReferDate(String referDate) 
+	{      
+        return tmpAuditCorporateLiquidityPremiaRepository.findByReferDate(referDate);
+	}
+	public void doCaclulation(String referDate)
+	{
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_corporate_yields");
+		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
+		query.setParameter("referDate",referDate );
+		query.execute();
+	}
+	public List<TmpAuditCorporateYields> getCorporateAuditData(String referDate)
+	{
+		boolean hasData= adminService.getData();
+	    if(!hasData)
+			return null;
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_audit_corporate",TmpAuditCorporateYields.class);
+		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
+		query.setParameter("referDate",referDate );
+		query.execute();
+		List<TmpAuditCorporateYields> corporateAuditProcedureDTO = (List<TmpAuditCorporateYields>) query.getResultList();
+		return corporateAuditProcedureDTO; 
+	}
+	public void deleteCorporateByReferDate(String referDate) {
+		
+		List<CorporateYieldsData> corporateYieldsList = corporatesYieldsRepository.findByReferDate(referDate);
+		corporateYieldsList.forEach(
+	            (corporateYieldsData) -> {
+	            	corporatesYieldsRepository.deleteById(corporateYieldsData.getId());
+	            });
+		TmpAuditCorporateYields tmpAuditCorporateYield = tmpAuditCorporateYieldsRepository.findByReferDate(referDate);
+		if(tmpAuditCorporateYield!=null)
+			tmpAuditCorporateYieldsRepository.deleteById(tmpAuditCorporateYield.getId());
+		
+		
+		TmpAuditCreditSpreads tmpAuditCreditSpreads = tmpAuditCreditSpreadsRepository.findByReferDate(referDate);
+		if(tmpAuditCreditSpreads!=null)
+			tmpAuditCreditSpreadsRepository.deleteById(tmpAuditCreditSpreads.getId());
+		
+		TmpAuditCorporateLiquidityPremia tmpAuditCorporateLiquidityPremia = tmpAuditCorporateLiquidityPremiaRepository.findByReferDate(referDate);
+		if(tmpAuditCorporateLiquidityPremia!=null)
+			tmpAuditCorporateLiquidityPremiaRepository.deleteById(tmpAuditCorporateLiquidityPremia.getId());
+	      
+	}
+	public String findLatestCorporateData()
+	{   boolean hasData= adminService.getData();
+    if(!hasData)
+		return null;
+        return corporatesYieldsRepository.findLatestCorporateYieldsData();
+	}
+	
+	public void updateAuditData(List<UpdateDataDTO> updateDataDTOlst) 
+	{
+		CorporateYieldsData corporateYieldsData;
+		for(UpdateDataDTO updateDataDTO:updateDataDTOlst)
+		{
+			corporateYieldsData = corporatesYieldsRepository.findByReferDateAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getSubgroupId()));
+			corporateYieldsData.setValue(updateDataDTO.getValue());
+			corporatesYieldsRepository.save(corporateYieldsData);
+		}
+	}
+	
+}

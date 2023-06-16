@@ -125,4 +125,74 @@ var itemValue = {
 			"description": "40ft Container",
 			"title": "40ft Container"
 		},
+			"#jqxCheckBoxusatoaaa": {
+		
+		"subGroupId": "1",
+		"GroupId": "11",
+		"description": "usatoaaa",
+		"title": 'US AtoAAA "BLUECHIP"'
+	},
+	"#jqxCheckBoxusbtobbb": {
+		
+		"subGroupId": "2",
+		"GroupId": "11",
+		"description": "usbtobbb",
+		"title": 'US BtoBBB "HIGHYIELD"'
+	},
+	"#jqxCheckBoxusctoccc": {
+		
+		"subGroupId": "3",
+		"GroupId": "11",
+		"description": "usctoccc",
+		"title": 'US CtoCCC "JUNKBOND"'
+	},
+	"#jqxCheckBoxeurozoneatoaaa": {
+		
+		"subGroupId": "4",
+		"GroupId": "11",
+		"description": "eurozoneatoaaa",
+		"title": 'EUROZONE AtoAAA "BLUECHIP" '
+	},
+	"#jqxCheckBoxeurozonebtobbb": {
+		
+		"subGroupId": "5",
+		"GroupId": "11",
+		"description": "eurozonebtobbb",
+		"title": 'EUROZONE BtoBBB "HIGH YIELD"'
+	},
+	 "#jqxCheckBoxusatoaaaUsa": {
+		
+		"subGroupId": "1",
+		"GroupId": "12",
+		"description": "usatoaaa_usa",
+		"title": 'US BLUECHIP AtoAAA vs 10yr TSYS CREDIT'
+	},
+	"#jqxCheckBoxusbtobbbUsatoaaa": {
+		
+		"subGroupId": "2",
+		"GroupId": "12",
+		"description": "usbtobbb_usatoaaa",
+		"title": 'US HIGHYIELD BtoBBB vs BLUECHIP AtoAAA'
+	},
+	"#jqxCheckBoxusctocccUsbtobbb": {
+		
+		"subGroupId": "3",
+		"GroupId": "12",
+		"description": "usctoccc_usbtobbb",
+		"title": 'US JUNKBOND CtoCCC vs HIGHYIELD BtoBBB'
+	},
+	"#jqxCheckBoxeurozoneatoaaaGermany": {
+		
+		"subGroupId": "4",
+		"GroupId": "12",
+		"description": "eurozoneatoaaa_germany",
+		"title": 'EZ BLUECHIP AtoAAA vs 10Y GERMANY CREDIT '
+	},
+	"#jqxCheckBoxeurozonebtobbbEurozoneatoaaa": {
+		
+		"subGroupId": "5",
+		"GroupId": "12",
+		"description": "eurozonebtobbb_eurozoneatoaaa",
+		"title": 'EZ HIGHYIELD BtoBBB vs BLUECHIP AtoAAA'
+	}
 	};

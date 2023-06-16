@@ -21,11 +21,13 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bourse.domain.AllNewsView;
+import com.bourse.domain.CorporateYieldsData;
 import com.bourse.domain.DataEntryFilterHistory;
 import com.bourse.domain.GraphHistory;
-import com.bourse.domain.News;
 import com.bourse.domain.SkewsData;
 import com.bourse.domain.SovereignData;
+import com.bourse.domain.TmpAuditCorporateYields;
+import com.bourse.domain.TmpAuditCreditSpreads;
 import com.bourse.dto.AuditProcedureDTO;
 import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
@@ -38,8 +40,10 @@ import com.bourse.dto.GraphNewsDTO;
 import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseColConfigListDTO;
+import com.bourse.dto.GridDataDTO;
 import com.bourse.dto.SearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
+import com.bourse.service.CorporatesYieldsService;
 import com.bourse.service.DataEntryFilterHistoryService;
 import com.bourse.service.DataFunctionService;
 import com.bourse.service.GraphHistoryService;
@@ -63,6 +67,8 @@ public class BourseController {
 	private final GraphNewsService graphNewsService;
 	@Autowired
 	private final DataFunctionService dataFunctionService;
+	@Autowired
+	private final CorporatesYieldsService corporatesYieldsService;
 	
 	public BourseController(
 			SovereignYieldsService sovereignYieldsService,
@@ -70,14 +76,16 @@ public class BourseController {
 			DataEntryFilterHistoryService dataEntryFilterHistoryService,
 			SkewsService skewsService,
 			GraphNewsService graphNewsService,
-			DataFunctionService dataFunctionService)
+			DataFunctionService dataFunctionService,
+			CorporatesYieldsService corporatesYieldsService)
 	{
 		this.sovereignYieldsService   = sovereignYieldsService;
 		this.graphHistoryService      = graphHistoryService;
 		this.dataEntryFilterHistoryService = dataEntryFilterHistoryService;
 		this.skewsService             = skewsService;
 		this.graphNewsService         = graphNewsService;
-		this.dataFunctionService         = dataFunctionService;
+		this.dataFunctionService      = dataFunctionService;
+		this.corporatesYieldsService  = corporatesYieldsService;
 	}
 	@RequestMapping( value =  "/pageunderconstruction")
     public ModelAndView underConstructionPage(ModelMap model)
@@ -171,6 +179,12 @@ public class BourseController {
     public ModelAndView sovereignCrossesGraphPage(ModelMap model)
     {
 		return new ModelAndView("html/sovereignCrossesGraph");
+    }
+	@PreAuthorize("hasAuthority('YIELD_CORPORATE_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "sovereigncorporategraph")
+    public ModelAndView sovereignCorporateGraphPage(ModelMap model)
+    {
+		return new ModelAndView("html/sovereignCorporate");
     }
 	@PreAuthorize("hasAuthority('SPREAD_MAKER_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "spreadmakergraph")
@@ -277,6 +291,12 @@ public class BourseController {
 	    sovereignYieldsService.doCaclulation(sovereignDataLst.get(0).getReferDate());
 	  return sovereignDataLst;
     }
+	@PostMapping(value = "savecorporatedata")
+    public List<CorporateYieldsData>  saveCorporateData(@RequestBody List<CorporateYieldsData> CorporateDataList){
+	    List<CorporateYieldsData> corporateDataLst= corporatesYieldsService.SaveCorporateDatas(CorporateDataList);
+	    corporatesYieldsService.doCaclulation(corporateDataLst.get(0).getReferDate());
+	  return corporateDataLst;
+    }
 	
 
 	@PostMapping(value = "saveskewsdata", produces = MediaType.APPLICATION_JSON_VALUE)
@@ -312,6 +332,10 @@ public class BourseController {
     public ResponseEntity <String> getLatestSovereignYields(){
 		return new ResponseEntity<>(sovereignYieldsService.findLatestSovereignData(), HttpStatus.OK);
     }
+	@GetMapping(value = "getlatestcorporatesyields", produces = "application/json;charset=UTF-8")
+    public ResponseEntity <String> getLatestCorporatesYields(){
+		return new ResponseEntity<>(corporatesYieldsService.findLatestCorporateData(), HttpStatus.OK);
+    }
 	@PostMapping(value = "savedataentryfilterhistory")
     public DataEntryFilterHistory saveDataEntryFilterHistory(@RequestBody DataEntryFilterHistory dataEntryFilterHistory){
 		DataEntryFilterHistory filterHistory = dataEntryFilterHistoryService.SaveDataEntryFilterHistory(dataEntryFilterHistory);
@@ -333,11 +357,16 @@ public class BourseController {
 	}
 	
 	@DeleteMapping(value = "deletesovereignbyreferdate/{referDate}")
-	public ResponseEntity<Object>  deleteSovereignByReferDate(@PathVariable("referDate") String referDate) {
+	public ResponseEntity<HttpStatus>  deleteSovereignByReferDate(@PathVariable("referDate") String referDate) {
 	 sovereignYieldsService.deleteSovereignByReferDate(referDate);
 	 return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
+	@DeleteMapping(value = "deletecorporatebyreferdate/{referDate}")
+	public ResponseEntity<HttpStatus> deleteCorporateByReferDate(@PathVariable("referDate") String referDate) {
+	 corporatesYieldsService.deleteCorporateByReferDate(referDate);
+	 return new ResponseEntity<>(HttpStatus.OK);
+	}
 	
 	@PostMapping(value = "updatesovereignbyid")
 	public SovereignData UpdateSovereignById(@RequestBody SovereignData sovereignData) {
@@ -364,7 +393,15 @@ public class BourseController {
 		sovereignYieldsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
+
+	@PostMapping(value = "updatecorporateauditdata")
+	public ResponseEntity<Boolean> updateCoprporateAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{
 	
+		corporatesYieldsService.updateAuditData(updateDataDTOlst);
+		corporatesYieldsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
 	@GetMapping(value = "checkifcansave/{referDate}")
 	public ResponseEntity<Boolean> CheckIfCanSave(@PathVariable String referDate) 
 	{
@@ -372,47 +409,52 @@ public class BourseController {
 		boolean checkifcanSave= sovereignYieldsService.CheckIfCanSave(referDate);
 		return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
-	
+	@GetMapping(value = "checkifcansavecorporate/{referDate}")
+	public ResponseEntity<Boolean> CheckIfCanSaveCorporate (@PathVariable String referDate) 
+	{
+		boolean checkifcanSave= corporatesYieldsService.CheckIfCanSave(referDate);
+		return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
+	}
 	@DeleteMapping(value = "deletesovereignbyid/{id}")
 	public  ResponseEntity deletesovereignbyid(@PathVariable("id") long id) {
 		sovereignYieldsService.deleteSovereignById(id);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-	
 	@GetMapping(value = "findsovereignbysubgroup/{subgroupId}")
 	public ResponseEntity<List<SovereignData>> findSovereignBySubGroup(@PathVariable("subgroupId") long subgroupId) {
 	return new ResponseEntity<>(sovereignYieldsService.findSovereignBySubGroup(subgroupId),HttpStatus.OK);
 	}
-	
-	
 	@GetMapping(value = "findgraphdatabysubroupidandfactor/{subgroupId}/{factor}")
 	public ResponseEntity<List<DataGraphDTO>> findGraphDataForFiveBySubroupId(@PathVariable("subgroupId") long subgroupId,@PathVariable("factor") String factor) {
 	return new ResponseEntity<>(sovereignYieldsService.findGraphDataBySubroupIdAndFactorCalculation(subgroupId,factor),HttpStatus.OK);
 	}
-	
 	@GetMapping(value = "findsovereignbyreferdate/{referDate}")
 	public ResponseEntity<List<SovereignData>> findSovereignByReferDate(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(sovereignYieldsService.findSovereignByReferDate(referDate),HttpStatus.OK);
 	} 
-	 
 	@GetMapping(value = "findsoveriegncurvesbyreferdate/{referDate}")
 	public ResponseEntity<List<CurveSoveriegnDTO>> findSoveriegnCurvesByReferDate(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(sovereignYieldsService.findSoveriegnCurvesByReferDate(referDate),HttpStatus.OK);
 	} 
-	
 	@GetMapping(value = "getauditdata/{referDate}")
 	public ResponseEntity<List<AuditProcedureDTO>> getAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(sovereignYieldsService.getAuditData(referDate),HttpStatus.OK);
 	} 
-	
 	@GetMapping(value = "getcurvedata/{referDate}")
 	public ResponseEntity<List<AuditProcedureDTO>> getCurveData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(sovereignYieldsService.getCurveData(referDate),HttpStatus.OK);
 	} 
-	
 	@GetMapping(value = "getcrossauditdata/{referDate}")
 	public ResponseEntity<List<CrossAuditProcedureDTO>> getCrossAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(sovereignYieldsService.getCrossAuditData(referDate),HttpStatus.OK);
+	} 
+	@GetMapping(value = "getcorporateauditdata/{referDate}")
+	public ResponseEntity<List<TmpAuditCorporateYields>> getCorporateAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(corporatesYieldsService.getCorporateAuditData(referDate),HttpStatus.OK);
+	} 
+	@GetMapping(value = "getcreaditspreadauditdata/{referDate}")
+	public ResponseEntity<List<TmpAuditCreditSpreads>> getCreditSpreadAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(corporatesYieldsService.findTmpAuditCreditSpreadsByReferDate(referDate),HttpStatus.OK);
 	} 
 	@GetMapping(value = "getlatestgraphdate/{country}/{factor}/{yieldCurveCross}")
 	public String getLatestGraphDate(@PathVariable("country") long country,@PathVariable("factor") String factor,@PathVariable("yieldCurveCross") String yieldCurveCross) {
@@ -420,7 +462,7 @@ public class BourseController {
 	} 
 	@PostMapping(value = "getgraphdata")
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphData(@RequestBody  GraphReqDTO graphReqDTO) {
-	return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
+		return new ResponseEntity<>(sovereignYieldsService.getGraphData(graphReqDTO),HttpStatus.OK);
 	} 
 	@PostMapping(value = "getgraphdatabytype")
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphReqDTO graphReqDTO) {
@@ -454,8 +496,9 @@ public class BourseController {
 		return new ResponseEntity<>(sovereignYieldsService.getGridData(searchFilterDTO),HttpStatus.OK);
 	}
 	@PostMapping(value = "getgriddatafunction")
-	public ResponseEntity<List<DataFunctionRespDTO>> getGridDataFunction(@RequestBody DataFunctionReqDTO dataFunctionReqDTO) {
-		return new ResponseEntity<>(dataFunctionService.getGridDataFunction(dataFunctionReqDTO),HttpStatus.OK);
+	public ResponseEntity<GridDataDTO> getGridDataFunction(@RequestBody DataFunctionReqDTO dataFunctionReqDTO) {
+		
+		return new ResponseEntity<>(dataFunctionService.getGridDataDTOFunction(dataFunctionReqDTO),HttpStatus.OK);
 	}
 	
 }

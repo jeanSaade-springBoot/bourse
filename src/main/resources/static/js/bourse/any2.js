@@ -114,6 +114,16 @@
 	  "#jqxCheckBoxita-spn-10",
 	  "#jqxCheckBoxita-spn-5",
 	  "#jqxCheckBoxita-spn-2",
+	  "#jqxCheckBoxusatoaaa",
+	  "#jqxCheckBoxusbtobbb",
+	  "#jqxCheckBoxusctoccc",
+	  "#jqxCheckBoxeurozoneatoaaa",
+	  "#jqxCheckBoxeurozonebtobbb",
+	  "#jqxCheckBoxusatoaaaUsa",
+	  "#jqxCheckBoxusbtobbbUsatoaaa",
+	  "#jqxCheckBoxusctocccUsbtobbb",
+	  "#jqxCheckBoxeurozoneatoaaaGermany",
+	  "#jqxCheckBoxeurozonebtobbbEurozoneatoaaa"
 ];
 
   var fromHistory=false;
@@ -288,6 +298,18 @@
     	  $("#jqxCheckBoxita-spn-10").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxita-spn-5").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxita-spn-2").jqxCheckBox({checked: false });
+    	  
+    	  $("#jqxCheckBoxusatoaaa").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxusbtobbb").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxusctoccc").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxeurozoneAtoaaa").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxeurozoneBtobbb").jqxCheckBox({checked: false });
+		  
+    	  $("#jqxCheckBoxusatoaaaUsa").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxusbtobbbUsatoaaa").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxusctocccUsbtobbb").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxeurozoneatoaaaGermany").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxeurozonebtobbbEurozoneatoaaa").jqxCheckBox({checked: false });
     	  
     	  for(i=0; i<allitems.length; i++)
 		   {
@@ -3524,7 +3546,370 @@
   	   }
   	 }); 
      
-	  
+	    
+       $('#jqxCheckBoxusatoaaa').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusatoaaa");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusatoaaa")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+        $('#jqxCheckBoxusbtobbb').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusbtobbb");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusbtobbb")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+        $('#jqxCheckBoxusctoccc').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusctoccc");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusctoccc")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+        $('#jqxCheckBoxeurozoneatoaaa').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxeurozoneatoaaa");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxeurozoneatoaaa")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+        $('#jqxCheckBoxeurozonebtobbb').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxeurozonebtobbb");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxeurozonebtobbb")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+	         $('#jqxCheckBoxusatoaaaUsa').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusatoaaaUsa");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusatoaaaUsa")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+        $('#jqxCheckBoxusbtobbbUsatoaaa').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusbtobbbUsatoaaa");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusbtobbbUsatoaaa")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+        $('#jqxCheckBoxusctocccUsbtobbb').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxusctocccUsbtobbb");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxusctocccUsbtobbb")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+        $('#jqxCheckBoxeurozoneatoaaaGermany').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxeurozoneatoaaaGermany");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxeurozoneatoaaaGermany")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+        $('#jqxCheckBoxeurozonebtobbbEurozoneatoaaa').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxeurozonebtobbbEurozoneatoaaa");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxeurozonebtobbbEurozoneatoaaa")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	   if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	  
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+  	   }
+  	 }); 
+     
+     
      
 	  
      

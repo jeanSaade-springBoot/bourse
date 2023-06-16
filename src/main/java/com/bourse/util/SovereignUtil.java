@@ -11,10 +11,13 @@ import com.bourse.domain.SovereignDataCorrected;
 import com.bourse.dto.DataFunctionReqDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.SearchFilterDTO;
+import com.bourse.dto.SelectedSearchDTO;
 import com.bourse.dto.SovereignYiledCurveSearchDTO;
 import com.bourse.dto.SoveriegnCrossSearchDTO;
+import com.bourse.enums.CorporateYieldsSubGroupEnum;
 import com.bourse.enums.CrossCountryEnum;
 import com.bourse.enums.CurvesEnum;
+import com.bourse.enums.PreciousSubGroupEnum;
 import com.bourse.enums.SubGroupEnum;
 
 public class SovereignUtil {
@@ -136,7 +139,8 @@ public class SovereignUtil {
 	{
 		 String tableSchema = onServer==true?"":"bourse.";
 		 List<SovereignYiledCurveSearchDTO> sovereignYiledCurveSearchDTOlst =searchFilterDTO.getSovereignYiledCurveSearchDTOlst();
-		 List<SoveriegnCrossSearchDTO> soveriegnCrossSearchDTOlst =searchFilterDTO.getSovereignCrossSearchDTOlst();
+	     List<SoveriegnCrossSearchDTO> soveriegnCrossSearchDTOlst =searchFilterDTO.getSovereignCrossSearchDTOlst();
+		 List<SelectedSearchDTO> selectedSearchDTOLst =searchFilterDTO.getSelectedSearchDTOlst();
 		 
 		 String fromDate = searchFilterDTO.getFromDate();
 		 String toDate = searchFilterDTO.getToDate();
@@ -178,7 +182,8 @@ public class SovereignUtil {
 				 	colHash.put(columnsId, SubGroupEnum.getCountryBySubGroupID(curveYieldInst.getGroupId())+"_"+yield);
 				 	 columnsId++;
 					 
-					 counter = counter+1;	 
+					 counter = counter+1;
+					 break;
 			 }
 			 
 			 if(curveYieldInst.getCurveLst()!=null)
@@ -238,7 +243,81 @@ public class SovereignUtil {
 					 counter = counter+1;	 
 				 }
 			 }
-			 
+		 if(selectedSearchDTOLst!=null)
+			 for( SelectedSearchDTO selectedSearchDTO :selectedSearchDTOLst)
+			 {
+				if(selectedSearchDTO.getGroupId() == 11) 
+				{if(counter == 1)
+				 {
+					 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+					 colHash.put(columnsId, "refer_date");
+					 columnsId++;
+					 
+					 forUsetables = " From ";
+				 }
+				 
+				 if(selectedSearchDTO.getSelectedValues()!=null)
+				 for(String value : selectedSearchDTO.getSelectedValues())
+				 {
+						 if(counter == 1)
+						 {
+							 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+							 		+ "\n            and '"+toDate+"')\n";
+						 }
+						 else
+							 forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+						 		    + "\n          and '"+toDate+"')\n";
+						 
+						 
+						 forUsetables = forUsetables + tableSchema+"tmp_audit_corporate_yields ";
+	    				 forUsetables = forUsetables + " s"+counter+" ,";
+					 	 forUseSelect = forUseSelect+", \n"+ 
+						                         " s"+counter+"."+CorporateYieldsSubGroupEnum.getCountryByCode(value) +
+								         " as '"+CorporateYieldsSubGroupEnum.getCountryByCode(value)+"'";
+					 	 colHash.put(columnsId, CorporateYieldsSubGroupEnum.getCountryByCode(value));
+					 	 columnsId++;
+						 
+						 counter = counter+1;	 
+				 }
+				 
+				}else
+					if(selectedSearchDTO.getGroupId() == 12) 
+					{
+					if(counter == 1)
+					 {
+						 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+						 colHash.put(columnsId, "refer_date");
+						 columnsId++;
+						 
+						 forUsetables = " From ";
+					 }
+					 
+					 if(selectedSearchDTO.getSelectedValues()!=null)
+					 for(String value : selectedSearchDTO.getSelectedValues())
+					 {
+							 if(counter == 1)
+							 {
+								 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+								 		+ "\n            and '"+toDate+"')\n";
+							 }
+							 else
+								 forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+							 		    + "\n          and '"+toDate+"')\n";
+							 
+							 
+							 forUsetables = forUsetables + tableSchema+"tmp_audit_credit_spreads";
+		    				 forUsetables = forUsetables + " s"+counter+" ,";
+						 	 forUseSelect = forUseSelect+", \n"+ 
+							                         " s"+counter+"."+value+
+									         " as '"+value+"'";
+						 	 colHash.put(columnsId, value);
+						 	 columnsId++;
+							 
+							 counter = counter+1;	 
+					 }
+					 
+					}
+			 }	 
 		 for(int i=1; i<counter;i++)
 		 {
 			 if(i<counter-1)

@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - Dashboard</title>
+  <title>Libvol - Precious</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -56,7 +56,6 @@
     margin: 15% 40%;
       position: absolute;
 }
-
   </style>
 </head>
 
@@ -103,22 +102,23 @@
 </nav>
         <!-- Topbar -->
   <div class="d-sm-flex align-items-center">
-            <h1 class="ml-6 text-darkorange">Monitoring</h1>
+            <h1 class="ml-6 text-darkorange">COMMODITIES</h1>
             	 <nav style="margin-left: 3rem;
     						 height: 35px;
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a sec:authorize="hasAuthority('ANY2_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-any2-tab"  href="/bourse/any2" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
+				    <a sec:authorize="hasAuthority('ANY2_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
 				    <a sec:authorize="hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-sovereign-yields-tab" href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-sovereign-yields" aria-selected="false">Sovereign Yields</a>
 				    <a sec:authorize="hasAuthority('YIELD_CURVES_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereigncurvesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
 				    <a sec:authorize="hasAuthority('YIELD_CROSSES_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereigncrossesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
+				    <a sec:authorize="hasAuthority('YIELD_CORPORATE_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-sovereign-yields-tab" href="/bourse/sovereigncorporategraph" role="tab" aria-controls="nav-sovereign-yields" aria-selected="false">Sovereign Corporates</a>
 				    <a sec:authorize="hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/spreadmakergraph" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
 				  </div>
 				</nav>
            
-          </div>
+          </div>                                                                                                                                                                                                                                                                                       
               </div>
-               <div id="content">
+        <div id="content">
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
 
@@ -137,221 +137,7 @@
 					  <div class="col">
 					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
 				<div class="row">
-				<div class="col-5">
-                  <form  id="dataformInput">
-                  <div class="form-group" style=" margin-top: 0">
-                      <div  style=" display: flex;">
-                         <div class="col-1"></div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/united-states.png">
-						    </div>
-						   <div class="col-2"><img  height="48" width="48" src="/img/flag/germany.png">
-						    </div>
-						 <div class="col-2"><img height="48" width="48" src="/img/flag/france.png">
-						    </div>
-						   <div class="col-2"><img height="48" width="48" src="/img/flag/united-kingdom.png">
-						    </div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/italy.png">
-						    </div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/spain.png">
-						    </div>
-						</div>
-		                   <div style=" display: flex;">
-		                      <div class="col-2"  style=" max-width: 10% ;padding: 0 ;">
-		                      	<div>30yr</div>
-								<div>10yr</div>
-								<div>5yr</div>
-								<div>2yr</div>
-								</div>
-		                    <div class="col-2">
-									<div id='jqxCheckBoxUSA-30' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-10' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-5' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-2' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-									<div id='jqxCheckBoxGermany-30' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-10' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-5' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-2' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxFrance-30' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-10' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-5' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-2' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxUk-30' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-10' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-5' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-2' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxItaly-30' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-10' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-5' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-2' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxSpain-30' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-10' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-5' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-2' style='float: left;'></div>
-								</div>
-		                    </div>
-		                      <div style=" display: flex;     margin-top: 1rem;">
-		                      <div class="col-2"  style=" max-width: 10% ;padding: 0 ;">
-		                      	<div>10's/30's</div>
-								<div>5's/30's</div>
-								<div>5's/10's</div>
-								<div>2's/10's</div>
-								<div>2's/5's</div>
-								</div>
-		                    <div class="col-2">
-									<div id='jqxCheckBoxUSA-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUSA-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-									<div id='jqxCheckBoxGermany-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxGermany-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxFrance-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxFrance-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxUk-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxUk-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxItaly-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxItaly-2over5' style='float: left;'></div>
-								</div>
-								 <div class="col-2">
-								    <div id='jqxCheckBoxSpain-10over30' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-5over30' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-5over10' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-2over10' style='float: left;'></div>
-									<div id='jqxCheckBoxSpain-2over5' style='float: left;'></div>
-								</div>
-		                    </div>
-                     </div>
-<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
-                    </form>
-                   <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
-			       <div class="row" id="dataInputButtons" style="display:none;">
-					<div class='col-12 d-flex justify-content-end mt-2'>
-					<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadData" value="Load " />
-					<input id="CancelData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-					</div>
-				  </div>
-                 </div>
-                 		<div class="col-6">
-		                  <form  id="dataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
-		                      <div  style=" display: flex;">
-		                         <div class="col-1"></div>
-								    <div class="col-2"><img height="48" width="48" src="/img/flag/fra-ger.png">
-								    </div>
-								   <div class="col-2"><img  height="48" width="48" src="/img/flag/ita-ger.png">
-								    </div>
-								 <div class="col-2"><img height="48" width="48" src="/img/flag/spn-ger.png">
-								    </div>
-								   <div class="col-2"><img height="48" width="48" src="/img/flag/uk-ger.png">
-								    </div>
-								    <div class="col-2"><img height="48" width="48" src="/img/flag/usa-ger.png">
-								    </div>
-								    <div class="col-2"><img height="48" width="48" src="/img/flag/usa-uk.png">
-								    </div>
-								     <div class="col-2"><img height="48" width="48" src="/img/flag/ita-fra.png">
-								    </div>
-								     <div class="col-2"><img height="48" width="48" src="/img/flag/ita-spn.png">
-								    </div>
-								</div>
-				                   <div style=" display: flex;">
-				                      <div class="col-2"  style=" max-width: 10% ;padding: 0 ;">
-				                      	<div>30yr</div>
-										<div>10yr</div>
-										<div>5yr</div>
-										<div>2yr</div>
-										</div>
-				                    <div class="col-2">
-											<div id='jqxCheckBoxfrc-ger-30' style='float: left;'></div>
-											<div id='jqxCheckBoxfrc-ger-10' style='float: left;'></div>
-											<div id='jqxCheckBoxfrc-ger-5' style='float: left;'></div>
-											<div id='jqxCheckBoxfrc-ger-2' style='float: left;'></div>
-										</div>
-										 <div class="col-2">
-											<div id='jqxCheckBoxita-ger-30' style='float: left;'></div>
-											<div id='jqxCheckBoxita-ger-10' style='float: left;'></div>
-											<div id='jqxCheckBoxita-ger-5' style='float: left;'></div>
-											<div id='jqxCheckBoxita-ger-2' style='float: left;'></div>
-										</div>
-										 <div class="col-2">
-										    <div id='jqxCheckBoxspn-ger-30' style='float: left;'></div>
-											<div id='jqxCheckBoxspn-ger-10' style='float: left;'></div>
-											<div id='jqxCheckBoxspn-ger-5' style='float: left;'></div>
-											<div id='jqxCheckBoxspn-ger-2' style='float: left;'></div>
-										</div>
-										 <div class="col-2">
-										    <div id='jqxCheckBoxuk-ger-30' style='float: left;'></div>
-											<div id='jqxCheckBoxuk-ger-10' style='float: left;'></div>
-											<div id='jqxCheckBoxuk-ger-5' style='float: left;'></div>
-											<div id='jqxCheckBoxuk-ger-2' style='float: left;'></div>
-										</div>
-										 <div class="col-2">
-										    <div id='jqxCheckBoxusa-ger-30' style='float: left;'></div>
-											<div id='jqxCheckBoxusa-ger-10' style='float: left;'></div>
-											<div id='jqxCheckBoxusa-ger-5' style='float: left;'></div>
-											<div id='jqxCheckBoxusa-ger-2' style='float: left;'></div>
-										</div>
-										 <div class="col-2">
-										    <div id='jqxCheckBoxusa-uk-30' style='float: left;'></div>
-											<div id='jqxCheckBoxusa-uk-10' style='float: left;'></div>
-											<div id='jqxCheckBoxusa-uk-5' style='float: left;'></div>
-											<div id='jqxCheckBoxusa-uk-2' style='float: left;'></div>
-										</div>
-										 <div class="col-2">
-										    <div id='jqxCheckBoxita-frc-30' style='float: left;'></div>
-											<div id='jqxCheckBoxita-frc-10' style='float: left;'></div>
-											<div id='jqxCheckBoxita-frc-5' style='float: left;'></div>
-											<div id='jqxCheckBoxita-frc-2' style='float: left;'></div>
-										</div>
-										 <div class="col-2">
-										    <div id='jqxCheckBoxita-spn-30' style='float: left;'></div>
-											<div id='jqxCheckBoxita-spn-10' style='float: left;'></div>
-											<div id='jqxCheckBoxita-spn-5' style='float: left;'></div>
-											<div id='jqxCheckBoxita-spn-2' style='float: left;'></div>
-										</div>
-				                    </div>
-		                     </div>
-		                     
-		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
-		                    </form>
-		                   <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="dataInputButtons" style="display:none;">
-							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadData" value="Load " />
-							<input id="CancelData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-							</div>
-						  </div>
-		                 </div>
-		                  <div class="card ml-2 col-12">
+				               <div class="card ml-2 col-12">
 		        <div class="row no-gutters">
 		          <div class="col-custom">
 		                <div class="card-body pt-1 filter">
@@ -412,20 +198,39 @@
 		    </div>
 	    </div>
 	</div>
-                     	
-                     	
-                     	<div class="row pt-4">
-							<div class='col-12 d-flex justify-content-end'>
-							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
-							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-							</div>
-						</div>
+		<div class="row pt-2">
+			<div class='col-12 d-flex justify-content-end'>
+			<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+			<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			</div>
+		</div>
                      </div>
                      
 					    </div>
 				    <div id="grid-content" style="display:none;">
 				 
 				    <div class="row">
+				       <div class="row col-12">
+				   	  	   
+				   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
+					            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
+					                Daily</button>
+					            <button style="padding:4px 16px;" id="w">
+					                Weekly</button>
+					            <button style="padding:4px 16px;" id="m">
+					                Monthly</button>
+								 <button style="padding:4px 16px;" id="q">
+									Quarterly</button>
+								 <button style="padding:4px 16px;" id="y">
+									Yearly</button>
+					        </div>
+								<div id='dropDownType' style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
+								<div class="d-flex" style=' margin-left: 2.4rem;'>
+									<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
+									<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
+								</div>
+							</div>
+							
 				     <div class="col-1" style="z-index: 1;">
 						<div class="chart-option">
 				   	        <div class="chart-option-title">Chart option</div>
@@ -524,10 +329,7 @@
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
-					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
-							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split">
-					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
-							  </div>
+					 	      
 					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
@@ -659,11 +461,12 @@
   
   <script src="/js/apexcharts.js"></script>
   <script src="/js/chartOptions.js"></script> 
-  <script src="/js/bourse/jsonCheckBoxArray.js"></script>  
-  <script src="/js/bourse/any2.js"></script> 
+  <script src="/js/bourse/jsonCheckBoxArrayMetals.js"></script>  
+  <script src="/js/bourse/sovereignCorporate.js"></script> 
   <script src="/js/chart.js"></script>
    <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 
+ <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
@@ -677,6 +480,7 @@
  <script src="/js/bourse/scrollBarNews.js"></script> 
  <script src="/js/bourse/inGraphNews.js"></script> 
  <script src="/js/common.js"></script>
+ <script src="/js/bourse/commonGraph.js"></script>
   <script src="/js/notification/sockjs.js"></script>
   <script src="/js/notification/stomp.js"></script>
   <script src="/js/notification/config.js"></script>

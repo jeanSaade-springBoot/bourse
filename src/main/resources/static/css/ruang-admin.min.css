@@ -3,6 +3,10 @@
 	src: url(../font/Nunito-Regular.ttf);
 	src: url(../font/Nunito-Regular.ttf) format('ttf'), url(../font/Nunito-Regular.ttf) format('truetype')
 }
+.col-custom {
+    width: 20%;
+    font-size: .70rem;
+}
 .mw-100{
 	min-width: 100px;
 }

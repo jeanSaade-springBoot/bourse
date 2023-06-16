@@ -26,7 +26,7 @@
      white-space: normal;
   }
   .jqx-grid-column-header > div > div  { 
-       font-size: .75rem;
+    font-size: .75rem;
     line-height: 15px!important;
   }
   .jqx-widget-content-dark {
@@ -94,6 +94,10 @@
 }
 .jqx-grid-cell-left-align {
     text-align: center;
+}
+.col-custom {
+    width: 20%;
+    font-size: .70rem;
 }
   </style>
 </head>
@@ -417,6 +421,68 @@
                            Century Percentile</div>
 		                 </div>
                      </div>
+                      <div class="row mt-2">
+	        <div class="card ml-2 col-12">
+		        <div class="row no-gutters">
+		          <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		                	<div id='jqxCheckBoxusatoaaa' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">US AtoAAA "BLUECHIP"</span></div>
+		             </div>
+		             </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		               		<div id='jqxCheckBoxusbtobbb' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US BtoBBB "HIGHYIELD"</span></div>
+		               </div>
+		            </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		              		<div id='jqxCheckBoxusctoccc' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US CtoCCC "JUNKBOND"</span></div>
+		                </div>
+		            </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxeurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EUROZONE AtoAAA "BLUECHIP"</span></div>
+		             </div>
+		            </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxeurozonebtobbb' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EUROZONE BtoBBB "HIGH YIELD"</span></div>
+		             </div>
+		            </div>
+		    </div>
+	    </div>
+	  </div>
+	  <div class="row mt-2">
+	        <div class="card ml-2 col-12">
+		        <div class="row no-gutters">
+		          <div class=" col-custom">
+		                <div class="card-body pt-1 filter">
+		                	<div id='jqxCheckBoxusatoaaaUsa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">US BLUECHIP AtoAAA vs 10yr TSYS</span></div>
+		             </div>
+		             </div>
+		             <div class=" col-custom">
+		                <div class="card-body pt-1 filter">
+		               		<div id='jqxCheckBoxusbtobbbUsatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">US HIGHYIELD BtoBBB vs BLUECHIP</span></div>
+		               </div>
+		            </div>
+		             <div class=" col-custom">
+		                <div class="card-body pt-1 filter">
+		              		<div id='jqxCheckBoxusctocccUsbtobbb' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">US JUNKBOND CtoCCC vs HIGHYIELD</span></div>
+		                </div>
+		            </div>
+		             <div class=" col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxeurozoneatoaaaGermany' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ BLUECHIP AtoAAA vs 10Y GERMANY</span></div>
+		             </div>
+		            </div>
+		             <div class=" col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxeurozonebtobbbEurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ HIGHYIELD BtoBBB vs BLUECHIP AtoAAA</span></div>
+		             </div>
+		            </div>
+		    </div>
+	    </div>
+	</div>
                      	<div class="row mt-4">
 							<div class='col-12 d-flex justify-content-end'>
 							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />

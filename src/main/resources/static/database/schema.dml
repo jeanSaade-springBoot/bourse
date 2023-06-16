@@ -2157,8 +2157,6 @@ INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_cod
 INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('40', 'BALTIC DRY INDEX', '10', '1', 'TRANSPORTATION', 'BAL');
 INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('41', '40ft Container', '10', '2', 'TRANSPORTATION', 'CON');
 
-
-
 INSERT INTO `bourse`.`column_configuration`
 		(`id`,
 		`calculation_type`,
@@ -2886,10 +2884,6 @@ CASE WHEN s.id_sub_group=1 THEN 'BALTIC' ELSE 'CONTAINER' END ,
 'tmp_audit_transportation' from subgroup s,
  (SELECT @rownum:=(select max(id) from table_management)) r where s.group_id=10;
  
-
- 
- 
- 
  INSERT INTO `bourse`.`function_configuration`
 (`id`,
 `calculation_type`,
@@ -2949,6 +2943,7 @@ select
 		 from  column_configuration s,
 				functions f,
 (SELECT @row_number:=(SELECT max(id) from function_configuration)) AS t where s.group_id=10 ;
+-- to be continue from here 
 
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('44', 'TRANSPORTATION_COMMODITY_GRAPH_SCREEN', true);
 
