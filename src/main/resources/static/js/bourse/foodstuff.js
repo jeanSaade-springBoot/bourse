@@ -460,17 +460,17 @@ function drawGraph() {
 					maxvalue = max;
 					var value1 = getMarginLenght(min1); 
 					var value2 = getMarginLenght(min2); 
-					
-					notDecimal=yaxisformat[1];
-					nbrOfDigits=yaxisformat[0];
+					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+                    var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
+				
+					notDecimal=yaxisformat0[1];
+					nbrOfDigits=yaxisformat0[0];
 					notDecimal1=yaxisformat1[1];
 					nbrOfDigits1=yaxisformat1[0];
 					
 					chartColor = response[0].config.chartColor;
 					chartTransparency=response[0].config.chartTransparency;
 					
-					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
-                    var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
 					var chartConfigSettings={functionId:functionId+1,
 											 isDecimal:isdecimal,
 											 yAxisFormat0:yaxisformat0,
@@ -625,10 +625,13 @@ function drawGraph() {
 					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 					minvalue = min;
 					maxvalue = max;
-					notDecimal=yaxisformat[1];
-			    	nbrOfDigits=yaxisformat[0];
+					var valueMin = getMarginLenght(min); 
+			 		var valueMax = getMarginLenght(max);  				 	
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
 
+					notDecimal=yaxisformat0[1];
+			    	nbrOfDigits=yaxisformat0[0];
+					
 					chart.updateOptions({
 						extra: {
 							isDecimal: isdecimal,
@@ -653,8 +656,8 @@ function drawGraph() {
 									      }
 							},
 							tickAmount: 6,
-							min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - 0.1 : Math.abs(minvalue) - 0.1,
-							max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + 0.1 : Math.abs(maxvalue) + 0.1,
+							min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
 							axisBorder: {
 								width: 3,
 								show: true,
@@ -809,11 +812,12 @@ function drawGraph() {
 							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 							minvalue = min;
 							maxvalue = max;
-							notDecimal=yaxisformat[1];
-					        nbrOfDigits=yaxisformat[0];
-							
 							var getFormatResult0 = getFormat(response[0].config.dataFormat);
-					       
+					        var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+							notDecimal=yaxisformat0[1];
+					        nbrOfDigits=yaxisformat0[0];
+							
+							 
 							var chartConfigSettings={functionId:functionId+1,
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,

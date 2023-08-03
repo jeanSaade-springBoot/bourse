@@ -1873,8 +1873,10 @@ function drawGraph() {
 				//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 				minvalue = min;
 				maxvalue = max;
+				var valueMin = getMarginLenght(min); 
+			 	var valueMax = getMarginLenght(max);  				 	
 				var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
-	
+					
 				notDecimal=yaxisformat0[1];
 				nbrOfDigits=yaxisformat[0];
 				
@@ -1901,8 +1903,8 @@ function drawGraph() {
 									      }
 						},
 						tickAmount: 6,
-						min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - 0.1 : Math.abs(minvalue) - 0.1,
-						max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + 0.1 : Math.abs(maxvalue) + 0.1,
+							min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
 						axisBorder: {
 							width: 3,
 							show: true,
@@ -2288,8 +2290,11 @@ function drawGraph() {
 					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 					minvalue = min;
 					maxvalue = max;
+					var valueMin = getMarginLenght(min); 
+			 		var valueMax = getMarginLenght(max);  				 	
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
-
+					
+					
 					notDecimal=yaxisformat0[1];
 					nbrOfDigits=yaxisformat0[0];
 					
@@ -2317,8 +2322,8 @@ function drawGraph() {
 									      }
 							},
 							tickAmount: 6,
-							min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - 0.1 : Math.abs(minvalue) - 0.1,
-							max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + 0.1 : Math.abs(maxvalue) + 0.1,
+							min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
 							axisBorder: {
 								width: 3,
 								show: true,
@@ -2509,8 +2514,10 @@ function drawGraph() {
 						//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 						minvalue = min;
 						maxvalue = max;
-						var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
-
+						 var valueMin = getMarginLenght(min); 
+			 		     var valueMax = getMarginLenght(max);  				 	
+					     var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+				
 						notDecimal=yaxisformat0[1];
 						nbrOfDigits=yaxisformat0[0];
 						
@@ -2537,8 +2544,8 @@ function drawGraph() {
 									      }
 								},
 								tickAmount: 6,
-								min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - 0.1 : Math.abs(minvalue) - 0.1,
-								max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + 0.1 : Math.abs(maxvalue) + 0.1,
+						    	min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+						    	max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
 								axisBorder: {
 									width: 3,
 									show: true,
@@ -2759,7 +2766,10 @@ function drawGraph() {
 							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 							minvalue = min;
 							maxvalue = max;
+							var valueMin = getMarginLenght(min); 
+			 				var valueMax = getMarginLenght(max);  				 	
 							var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+				
 
 							notDecimal=yaxisformat0[1];
 							nbrOfDigits=yaxisformat0[0];
@@ -2787,8 +2797,8 @@ function drawGraph() {
 									      }
 									},
 									tickAmount: 6,
-									min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - 0.1 : Math.abs(minvalue) - 0.1,
-									max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + 0.1 : Math.abs(maxvalue) + 0.1,
+										min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+										max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
 									axisBorder: {
 										width: 3,
 										show: true,
