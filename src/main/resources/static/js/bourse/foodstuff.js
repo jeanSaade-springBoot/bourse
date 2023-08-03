@@ -813,9 +813,9 @@ function drawGraph() {
 							minvalue = min;
 							maxvalue = max;
 							var getFormatResult0 = getFormat(response[0].config.dataFormat);
-					        var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
-							notDecimal=yaxisformat0[1];
-					        nbrOfDigits=yaxisformat0[0];
+					        var yaxisformat = getFormat(response[0].config.yAxisFormat);
+							notDecimal=yaxisformat[1];
+					        nbrOfDigits=yaxisformat[0];
 							
 							 
 							var chartConfigSettings={functionId:functionId+1,
