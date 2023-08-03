@@ -925,7 +925,7 @@ var chartOption = {
    	    	          };
    	    	             	    	          
 function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
-          console.log(notDecimal,nbrOfDigits)
+        
 				var Period = $("#DailyRadioButton").val();
 				var valueMin1 = getMarginLenght(min1);  
 				var valueMin2 = getMarginLenght(min2);  
@@ -1095,10 +1095,11 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 			};  
 			  	    	             	    	          
 function updateGraphFont(fontsize,minvalue,maxvalue){
-	console.log(notDecimal,nbrOfDigits)
+
 				var Period = $("#DailyRadioButton").val();
 				var valueMin = getMarginLenght(minvalue); 
 				var valueMax = getMarginLenght(maxvalue); 
+				
 				if(Period)
 					chart.updateOptions({
 						xaxis: {
