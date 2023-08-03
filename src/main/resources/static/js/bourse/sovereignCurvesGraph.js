@@ -3034,7 +3034,7 @@ function drawGraph() {
 	inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues)));
 }
 function graphfont(fontSize){
-		if (typeof min1 != 'undefined' && functionId>=3)
+		if (typeof min1 != 'undefined' && functionId>=2)
 				 updateGraphFont2YAxis(fontSize,min1,max1,min2,max2);
 				 else 
 				 updateGraphFont(fontSize,minvalue,maxvalue);
