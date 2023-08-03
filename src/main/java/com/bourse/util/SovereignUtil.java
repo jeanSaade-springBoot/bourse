@@ -183,7 +183,7 @@ public class SovereignUtil {
 				 	 columnsId++;
 					 
 					 counter = counter+1;
-					 break;
+					
 			 }
 			 
 			 if(curveYieldInst.getCurveLst()!=null)

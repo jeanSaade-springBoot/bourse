@@ -1873,9 +1873,10 @@ function drawGraph() {
 				//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 				minvalue = min;
 				maxvalue = max;
-					
-				notDecimal=getFormatResult0[1];
-				nbrOfDigits=getFormatResult0[0];
+				var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+	
+				notDecimal=yaxisformat0[1];
+				nbrOfDigits=yaxisformat[0];
 				
 				chart.updateOptions({
 					extra: {
@@ -1883,8 +1884,8 @@ function drawGraph() {
 						yAxisFormat: yaxisformat,
 					},
 					markers: {
-						colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
-						strokeColors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"]
+						colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
+						strokeColors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"]
 					},
 					yaxis: {
 						labels: {
@@ -1893,10 +1894,10 @@ function drawGraph() {
 								fontSize: fontsize,
 							},
 							 formatter: function(val, index) {
-										 if (getFormatResult0[1])
-						  				  return  val.toFixed(getFormatResult0[0]);
+										 if (yaxisformat0[1])
+						  				  return  val.toFixed(yaxisformat0[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(yaxisformat0[0]) + "%";
 									      }
 						},
 						tickAmount: 6,
@@ -2118,18 +2119,21 @@ function drawGraph() {
 					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 					minvalue = min;
 					maxvalue = max;
+					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+                    var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
 					
-					notDecimal=getFormatResult0[1];
-					nbrOfDigits=getFormatResult0[0];
-					notDecimal1=getFormatResult1[1];
-					nbrOfDigits1=getFormatResult1[0];
+					notDecimal=yaxisformat0[1];
+					nbrOfDigits=yaxisformat0[0];
+					notDecimal1=yaxisformat1[1];
+					nbrOfDigits1=yaxisformat1[0];
 		
 					chartColor = response[0].config.chartColor;
 					chartTransparency=response[0].config.chartTransparency;
 					
 					var chartConfigSettings={functionId:functionId+1,
 											 isDecimal:isdecimal,
-											 yAxisFormat:yaxisformat,
+											 yAxisFormat0:yaxisformat0,
+											 yAxisFormat1:yaxisformat1,
 											 fontSize:fontsize,
 											 min1:min1,
 											 max1:max1,
@@ -2284,16 +2288,19 @@ function drawGraph() {
 					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 					minvalue = min;
 					maxvalue = max;
-					notDecimal=getFormatResult0[1];
-					nbrOfDigits=getFormatResult0[0];
+					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+
+					notDecimal=yaxisformat0[1];
+					nbrOfDigits=yaxisformat0[0];
+					
 					chart.updateOptions({
 						extra: {
 							isDecimal: isdecimal,
 							yAxisFormat: yaxisformat,
 						},
 						markers: {
-							colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
-							strokeColors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"]
+							colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
+							strokeColors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"]
 						},
 						yaxis: {
 
@@ -2303,10 +2310,10 @@ function drawGraph() {
 									fontSize: fontsize,
 								},
 							 formatter: function(val, index) {
-										 if (getFormatResult0[1])
-						  				  return  val.toFixed(getFormatResult0[0]);
+										 if (yaxisformat0[1])
+						  				  return  val.toFixed(yaxisformat0[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(yaxisformat0[0]) + "%";
 									      }
 							},
 							tickAmount: 6,
@@ -2502,16 +2509,19 @@ function drawGraph() {
 						//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 						minvalue = min;
 						maxvalue = max;
-						notDecimal=getFormatResult0[1];
-						nbrOfDigits=getFormatResult0[0];
+						var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+
+						notDecimal=yaxisformat0[1];
+						nbrOfDigits=yaxisformat0[0];
+						
 						chart.updateOptions({
 							extra: {
 								isDecimal: isdecimal,
 								yAxisFormat: yaxisformat,
 							},
 							markers: {
-								colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
-								strokeColors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"]
+								colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
+								strokeColors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"]
 							},
 							yaxis: {
 								labels: {
@@ -2520,10 +2530,10 @@ function drawGraph() {
 										fontSize: fontsize,
 									},
 							 formatter: function(val, index) {
-										 if (getFormatResult0[1])
-						  				  return  val.toFixed(getFormatResult0[0]);
+										 if (yaxisformat0[1])
+						  				  return  val.toFixed(yaxisformat0[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(yaxisformat0[0]) + "%";
 									      }
 								},
 								tickAmount: 6,
@@ -2749,16 +2759,19 @@ function drawGraph() {
 							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 							minvalue = min;
 							maxvalue = max;
-							notDecimal=getFormatResult0[1];
-							nbrOfDigits=getFormatResult0[0];
+							var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+
+							notDecimal=yaxisformat0[1];
+							nbrOfDigits=yaxisformat0[0];
+							
 							chart.updateOptions({
 								extra: {
 									isDecimal: isdecimal,
 									yAxisFormat: yaxisformat,
 								},
 								markers: {
-									colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
-									strokeColors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"]
+									colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
+									strokeColors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"]
 								},
 								yaxis: {
 									labels: {
@@ -2767,10 +2780,10 @@ function drawGraph() {
 											fontSize: fontsize,
 										},
 							 formatter: function(val, index) {
-										 if (getFormatResult0[1])
-						  				  return  val.toFixed(getFormatResult0[0]);
+										 if (yaxisformat0[1])
+						  				  return  val.toFixed(yaxisformat0[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(yaxisformat0[0]) + "%";
 									      }
 									},
 									tickAmount: 6,
@@ -2954,12 +2967,13 @@ function drawGraph() {
 							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 							minvalue = min;
 							maxvalue = max;
-							notDecimal=getFormatResult[1];
-						    nbrOfDigits=getFormatResult[0];
+							var yaxisformat = getFormat(response[0].config.yAxisFormat);
+						
+							notDecimal=yaxisformat[1];
+						    nbrOfDigits=yaxisformat[0];
 						    
 							var getFormatResult0 = getFormat(response[0].config.dataFormat);
-					       
-							var chartConfigSettings={functionId:functionId+1,
+					     	var chartConfigSettings={functionId:functionId+1,
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
 											 fontSize:fontsize,

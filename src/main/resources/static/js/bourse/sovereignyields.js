@@ -2,11 +2,8 @@
          var auditGridSource;
          var isedit=false;
          var isupdate=false;
-         var iseditCorporate=false;
-         var isupdateCorporate=false;
          var curvesGridSource;
          var crossesGridSource;  
-         var corporatesGridSource;  
          var date;
          var filterDate;
          var monthDate=new Date(); 
@@ -14,7 +11,7 @@
          var source;
          var date=new Date();
          var oldDataJson;
-         var allitems=[
+         var soverignYieldsItem=[
           "#jqxCheckBoxUSA-30",
        	  "#jqxCheckBoxUSA-10",
        	  "#jqxCheckBoxUSA-5",
@@ -24,9 +21,6 @@
 	   	  "#jqxCheckBoxUSA-5over10",
 	   	  "#jqxCheckBoxUSA-2over10",
 	   	  "#jqxCheckBoxUSA-2over5",
-	   	  "#jqxCheckBoxUSA-weekavg",
-       	  "#jqxCheckBoxUSA-100dmavg",
-       	  "#jqxCheckBoxUSA-200dmavg",
        	  "#jqxCheckBoxGermany-30",
     	  "#jqxCheckBoxGermany-10",
     	  "#jqxCheckBoxGermany-5",
@@ -36,9 +30,6 @@
     	  "#jqxCheckBoxGermany-5over10",
     	  "#jqxCheckBoxGermany-2over10",
     	  "#jqxCheckBoxGermany-2over5",
-    	  "#jqxCheckBoxGermany-weekavg",
-       	  "#jqxCheckBoxGermany-100dmavg",
-       	  "#jqxCheckBoxGermany-200dmavg",
 	      "#jqxCheckBoxFrance-30",
 	  	  "#jqxCheckBoxFrance-10",
 	  	  "#jqxCheckBoxFrance-5",
@@ -48,9 +39,6 @@
 		  "#jqxCheckBoxFrance-5over10",
 		  "#jqxCheckBoxFrance-2over10",
 		  "#jqxCheckBoxFrance-2over5",
-		  "#jqxCheckBoxFrance-weekavg",
-       	  "#jqxCheckBoxFrance-100dmavg",
-       	  "#jqxCheckBoxFrance-200dmavg",
        	  "#jqxCheckBoxUk-30",
 	   	  "#jqxCheckBoxUk-10",
 	   	  "#jqxCheckBoxUk-5",
@@ -60,9 +48,6 @@
 		  "#jqxCheckBoxUk-5over10",
 		  "#jqxCheckBoxUk-2over10",
 		  "#jqxCheckBoxUk-2over5",
-		  "#jqxCheckBoxUk-weekavg",
-       	  "#jqxCheckBoxUk-100dmavg",
-       	  "#jqxCheckBoxUk-200dmavg",
        	  "#jqxCheckBoxItaly-30",
     	  "#jqxCheckBoxItaly-10",
     	  "#jqxCheckBoxItaly-5",
@@ -72,9 +57,6 @@
     	  "#jqxCheckBoxItaly-5over10",
     	  "#jqxCheckBoxItaly-2over10",
     	  "#jqxCheckBoxItaly-2over5",
-		  "#jqxCheckBoxItaly-weekavg",
-       	  "#jqxCheckBoxItaly-100dmavg",
-       	  "#jqxCheckBoxItaly-200dmavg",
     	  "#jqxCheckBoxSpain-30",
     	  "#jqxCheckBoxSpain-10",
     	  "#jqxCheckBoxSpain-5",
@@ -84,9 +66,6 @@
     	  "#jqxCheckBoxSpain-5over10",
     	  "#jqxCheckBoxSpain-2over10",
     	  "#jqxCheckBoxSpain-2over5",
-    	  "#jqxCheckBoxSpain-weekavg",
-       	  "#jqxCheckBoxSpain-100dmavg",
-       	  "#jqxCheckBoxSpain-200dmavg",
     	  "#jqxCheckBoxfrc-ger-30",
     	  "#jqxCheckBoxfrc-ger-10",
     	  "#jqxCheckBoxfrc-ger-5",
@@ -119,18 +98,21 @@
     	  "#jqxCheckBoxita-spn-10",
     	  "#jqxCheckBoxita-spn-5",
     	  "#jqxCheckBoxita-spn-2",
-    	  "#jqxCheckBoxusatoaaa",
-    	  "#jqxCheckBoxusbtobbb",
-    	  "#jqxCheckBoxusctoccc",
-    	  "#jqxCheckBoxeurozoneatoaaa",
-    	  "#jqxCheckBoxeurozonebtobbb",
-    	  "#jqxCheckBoxusatoaaaUsa",
-    	  "#jqxCheckBoxusbtobbbUsatoaaa",
-    	  "#jqxCheckBoxusctocccUsbtobbb",
-    	  "#jqxCheckBoxeurozoneatoaaaGermany",
-    	  "#jqxCheckBoxeurozonebtobbbEurozoneatoaaa"
        	  ];
-       	  var corporateYieldsItem=[
+       	  
+       	  var corporateitems=[
+				  "#jqxCheckBoxusatoaaa",
+		    	  "#jqxCheckBoxusbtobbb",
+		    	  "#jqxCheckBoxusctoccc",
+		    	  "#jqxCheckBoxeurozoneatoaaa",
+		    	  "#jqxCheckBoxeurozonebtobbb",
+		    	  "#jqxCheckBoxusatoaaa_usa",
+		    	  "#jqxCheckBoxusbtobbb_usatoaaa",
+		    	  "#jqxCheckBoxusctoccc_usbtobbb",
+		    	  "#jqxCheckBoxeurozoneatoaaa_germany",
+		    	  "#jqxCheckBoxeurozonebtobbb_eurozoneatoaaa"
+			 ];
+		  var corporateYieldsItem=[
 				 "#jqxCheckBoxusatoaaa",
 		    	  "#jqxCheckBoxusbtobbb",
 		    	  "#jqxCheckBoxusctoccc",
@@ -138,11 +120,11 @@
 		    	  "#jqxCheckBoxeurozonebtobbb",
 			 ];
 		   var creditSpreadItem=[
-			 "#jqxCheckBoxusatoaaaUsa",
-    	     "#jqxCheckBoxusbtobbbUsatoaaa",
-    	     "#jqxCheckBoxusctocccUsbtobbb",
-    	     "#jqxCheckBoxeurozoneatoaaaGermany",
-    	     "#jqxCheckBoxeurozonebtobbbEurozoneatoaaa"
+			 "#jqxCheckBoxusatoaaa_usa",
+    	     "#jqxCheckBoxusbtobbb_usatoaaa",
+    	     "#jqxCheckBoxusctoccc_usbtobbb",
+    	     "#jqxCheckBoxeurozoneatoaaa_germany",
+    	     "#jqxCheckBoxeurozonebtobbb_eurozoneatoaaa"
 		 ];
      	  var yieldsUSAItem=[
      		"#jqxCheckBoxUSA-30",
@@ -434,97 +416,52 @@
         		 "spn_GER": ""
         		 }
         		 ];
-      	  var corporatesAuditDefaultData=[{
-             "usatoaaa": "",
-             "usbtobbb": "",
-             "usctoccc": "",
-             "eurozoneatoaaa":"",
-             "eurozonebtobbb":""
-           }];
-           
-          var creditAuditDefaultData=[{
-             "usatoaaaUsa": "",
-             "usbtobbbUsatoaaa": "",
-             "usctocccUsbtobbb": "",
-             "eurozoneatoaaaGermany":"",
-             "eurozonebtobbbEurozoneatoaaa":""
-           }];
-			  
+      	 
  		 var datatextarea = document.getElementById("data");
-		 var dataTextInput = document.getElementById("data-input");
+ 		 var dataTextInput = document.getElementById("data-input");
+ 		 
+		 const yieldValue = $("#yieldValue")[0].innerText;
 		 
 		 $(document).ready(function () {
-			   $('#overlay').fadeOut();
-			   $('#container-wrapper').show();
+			  $('#overlay').fadeOut();
+			  $('#container-wrapper').show();
 		 	    
 			  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 			  $("#viewall").css("display","block");
 			  $("#viewall").click(function () {
 					popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 				  });
-			  
+				  
+			   $('[data-toggle="tooltip"]').tooltip(); 
+			   if(yieldValue==1){
+				 $("#sovereign-btn").addClass('active');
+			  }else 
+			   if(yieldValue==2){
+			   $("#corporate-btn").addClass('active');
+			   }
+			  renderyieldSubGroup(yieldValue);
+			   
 			 $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' });
-			 $("#dateInputCorporate").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' });
-			
 			 $("#dateInputAudit").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' }); 
-			 $("#dateInputCorporateAudit").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' });  
-			 
-			 $("#deleteByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
-		     $("#deleteByDate").click(function () {
+			 $("#deleteByDate").click(function () {
 				$('#alertDeleteDataByDate-modal').modal('show'); 
 		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				  $( "#alertTextDeleteDataByDate" ).empty();
 		 		  $( "#alertTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all record for the date '"+date+"'?</p>" );
-				 });	
-				  
-			 $("#deleteCorporateByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
-			 $("#deleteCorporateByDate").click(function () {
+				 });	 
+	 	    $("#deleteCorporateByDate").click(function () {
 				$('#alertDeleteCorporateDataByDate-modal').modal('show'); 
-		   		 date=$.jqx.dataFormat.formatdate($("#dateInputCorporateAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				  $( "#alertTextDeleteCorporateDataByDate" ).empty();
 		 		  $( "#alertTextDeleteCorporateDataByDate" ).append( "<p> Are you sure you want to Delete all record for the date '"+date+"'?</p>" );
 				 });	
 				 
-	 	    for(i=0; i<allitems.length; i++)
-			   {
-		    	$(allitems[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
-		       }
-
-			
-			   $.ajax({
-	       	        contentType:  "application/json; charset=utf-8",
-	    	        url: "/bourse/getdataentryfilterhistory/"+"DATABASE_INPUT_SCREEN_SOVEREIGN",
-	    	        dataType: 'json',
-	    	        timeout: 600000,
-	    	        async:false,
-	    	        success: function (response) {
-	    	        
-	    	       if (response.filterHistory.length>0)
-	    	    	   {
-	    	    	   var filterresponse = response.filterHistory;
-	    	    	   for(i=0; i<filterresponse.split(",").length; i++)
-	    			   {
-	    		    	$(filterresponse.split(",")[i]).jqxCheckBox({checked:true});
-	    		       } 
-	    	    	   }
-	    	       else{
-	    	    	   for(i=0; i<yieldsUSAItem.length; i++)
-	    			   {
-	    		    	$(yieldsUSAItem[i]).jqxCheckBox({checked:true});
-	    		       } 
-	    	       }
-	                  },
-	    	        error: function (e) {
-	    	        	
-						  console.log("ERROR : ", e);
-	
-	    	        }
-	    	    });	
-          
+			 getFilterHistory(yieldValue);
 			 $('#dateInputAudit').on('change', function (event) 
-				 {   date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy');
+				 {   date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				    filterDate=date;
-				    delete auditGridSource.localdata;
+				   if(yieldValue==1)
+				   { delete auditGridSource.localdata;
 				     auditGridSource.url='/bourse/getauditdata/'+date;
 					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 					 $('#auditGrid').jqxGrid({source:dataAdapter});
@@ -538,12 +475,9 @@
 					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
 					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
 					 $('#crossesGrid').jqxGrid({source:dataAdapter});
-					  
-				 }); 
-				 
-				  $('#dateInputCorporateAudit').on('change', function (event) {
-					     date=$.jqx.dataFormat.formatdate($("#dateInputCorporateAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy');
-					    
+					 }
+					 else {
+						 
 					     delete corporatesGridSource.localdata;
 						 corporatesGridSource.url='/bourse/getcorporateauditdata/'+date;
 						 dataAdapter = new $.jqx.dataAdapter(corporatesGridSource);
@@ -553,234 +487,15 @@
 						 creditGridSource.url='/bourse/getcreaditspreadauditdata/'+date;
 						 dataAdapter = new $.jqx.dataAdapter(creditGridSource);
 						 $('#creditAuditGrid').jqxGrid({source:dataAdapter});
-				   });
-					 
+					 }
+				 }); 
+
 			    $("#Cancel").jqxButton({ theme: 'dark',height:38,width:84  });
 	            $("#Save").jqxButton({ theme: 'dark',height:38,width:93 });
 	            $("#Clearfilter").jqxButton({ theme: 'dark',height:30,width:74  });
 	            $("#filter").jqxButton({ theme: 'dark',height:30,width:74 });
-	            $("#CancelData").jqxButton({ theme: 'dark',height:30,width:74  });
-	            $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
-	            $("#CancelDataCorporate").jqxButton({ theme: 'dark',height:30,width:74  });
-	            $("#loadDataCorporate").jqxButton({ theme: 'dark',height:30,width:74 });
 	         
-			  auditGridSource =
-	            {    
-	            localdata:auditDefaultData,
-	            datatype: "json",
-                datafields: [
-                	{name:'factor', type: 'string' },
-                    { name: 'usa', type: 'string' },
-                    { name: 'germany', type: 'string' },
-                    { name: 'france', type: 'string' },
-                    { name: 'uk', type: 'string' },
-                    { name: 'italy', type: 'string' },
-                    { name: 'spain', type: 'string' }
-                ],
-                url:''
-	            };
-	             var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-	            // initialize jqxGrid
-	           
-	            $("#auditGrid").jqxGrid(
-	            {
-	                width: '100%',
-	                source: dataAdapter,  
-	                theme:'dark',
-	                autoheight: true,
-	                rowsheight: 32,
-	                editable: true,
-	                selectionmode: 'none',
-	                editmode: 'selectedrow',
-	                columns: [ 
-	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
-		                	     // open the popup window when the user clicks a button.
-		                	     
-		   					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ", event)' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
-		                   }
-		                  },  
-	                	  { text: '',editable:false,  datafield: 'factor', width: '8%'},
-		                  { text: 'USA', datafield: 'usa', width: '11.6%' },
-		                  { text: 'Germany', datafield: 'germany', width: '11.6%' },
-		                  { text: 'France', datafield: 'france', width: '11.6%' },
-		                  { text: 'UK', datafield: 'uk', width: '11.6%' },
-		                  { text: 'Italy', datafield: 'italy', width: '11.6%' },
-		                  { text: 'Spain', datafield: 'spain', width: '11.6%' }
-	                ]
-	            });
-	            
-	            curvesGridSource =
-		            {    
-		            localdata:curvesDefaultData,
-		            datatype: "json",
-	                datafields: [
-	                	{name:'factor', type: 'string' },
-	                    { name: 'usa', type: 'string' },
-	                    { name: 'germany', type: 'string' },
-	                    { name: 'france', type: 'string' },
-	                    { name: 'uk', type: 'string' },
-	                    { name: 'italy', type: 'string' },
-	                    { name: 'spain', type: 'string' }
-	                ],
-	                url:''
-		            };
-		             var dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
-		            // initialize jqxGrid
-		            var eventName = "onclick";
-		            $("#curvesGrid").jqxGrid(
-		            {
-		                width: '100%',
-		                source: dataAdapter,  
-		                theme:'dark',
-		                autoheight: true,
-		                rowsheight: 32,
-		                editable: true,
-		                selectionmode: 'none',
-		                editmode: 'selectedrow',
-		                columns: [
-		                	  { text: '',editable:false,  datafield: 'factor', width: '14.28%'},
-			                  { text: 'USA', datafield: 'usa', width: '14.28%' },
-			                  { text: 'Germany', datafield: 'germany', width: '14.28%' },
-			                  { text: 'France', datafield: 'france', width: '14.28%' },
-			                  { text: 'UK', datafield: 'uk', width: '14.28%' },
-			                  { text: 'Italy', datafield: 'italy', width: '14.28%' },
-			                  { text: 'Spain', datafield: 'spain', width: '14.28%' }
-		                ]
-		            });
 		            
-		            crossesGridSource =
-		            {    
-		            localdata:crossesDefaultData,
-		            datatype: "json",
-	                datafields: [
-	                	{name:'factor', type: 'string' },
-	                    { name: 'fra_GER', type: 'string' },
-	                    { name: 'ita_GER', type: 'string' },
-	                    { name: 'ita_FRA', type: 'string' },
-	                    { name: 'uk_GER', type: 'string' },
-	                    { name: 'ita_SPN', type: 'string' },
-	                    { name: 'usa_GER', type: 'string' },
-	                    { name: 'usa_UK', type: 'string' },
-	                    { name: 'spn_GER', type: 'string' }
-	                ],
-	                url:''
-		            };
-		             var dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
-		            // initialize jqxGrid
-		            var eventName = "onclick";
-		            $("#crossesGrid").jqxGrid(
-		            {
-		                width: '100%',
-		                source: dataAdapter,  
-		                theme:'dark',
-		                autoheight: true,
-		                rowsheight: 32,
-		                editable: true,
-		                selectionmode: 'none',
-		                editmode: 'selectedrow',
-		                columns: [
-		                	  { text: '',editable:false,  datafield: 'factor', width: '11.11%'},
-			                  { text: '<img height="28" width="28" src="/img/flag/fra-ger.png">', datafield: 'fra_GER', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/ita-ger.png">', datafield: 'ita_GER', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/ita-fra.png">', datafield: 'ita_FRA', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/uk-ger.png">', datafield: 'uk_GER', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/ita-spn.png">', datafield: 'ita_SPN', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/usa-ger.png">', datafield: 'usa_GER', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/usa-uk.png">', datafield: 'usa_UK', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/spn-ger.png">', datafield: 'spn_GER', width: '11.11%' }
-		                ]
-		            });
-		        corporatesGridSource =
-	            {    
-	            localdata:corporatesAuditDefaultData,
-	            datatype: "json",
-                datafields: [
-                    { name: 'usatoaaa', type: 'string' },
-                    { name: 'usbtobbb', type: 'string' },
-                    { name: 'usctoccc', type: 'string' },
-                    { name: 'eurozoneatoaaa', type: 'string' },
-                    { name: 'eurozonebtobbb', type: 'string' }
-                ],
-                url:''
-	            };
-	            var dataAdapter = new $.jqx.dataAdapter(corporatesGridSource);
-	            
-	            $("#corporatesGrid").jqxGrid(
-	            {
-	                width: '100%',
-	                source: dataAdapter,  
-	                theme:'dark',
-	                autoheight: true,
-	                editable: true,
-	                selectionmode: 'none',
-	                editmode: 'selectedrow',
-	                columns: [ 
-	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
-		                	return "<input class=\"edit\" type=\"button\" onclick='EditCorporate(" + row + ", event)' id=\"edit_corporate"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons_corporate"+row+"\" style=\"display:none\"><input  onclick='UpdateCorporate(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='CancelCorporate(" + row + ", event)' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
-		                   }
-		                  },  
-		                  { text: 'US AtoAAA "BLUECHIP"', datafield: 'usatoaaa', width: '15.6%' ,  renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px;"><div>US AtoAAA</div><div>"BLUECHIP"</div></div>';
-						        }
-						        },
-		                  { text: 'US BtoBBB "HIGHYIELD"', datafield: 'usbtobbb', width: '15.6%' ,renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px;"><div>US BtoBBB</div><div>"HIGHYIELD"</div></div>';
-						        } },
-		                  { text: 'US CtoCCC "JUNKBOND"', datafield: 'usctoccc', width: '15.6%', renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px;"><div>US CtoCCC</div><div>"JUNKBOND"</div></div>';
-						        }},
-		                  { text: 'EUROZONE AtoAAA "BLUECHIP"', datafield: 'eurozoneatoaaa', width: '15.6%', renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px;"><div>EUROZONE</div><div>AtoAAA</div><div>"BLUECHIP"</div></div>';
-						        } },
-		                  { text: 'EUROZONE BtoBBB "HIGH YIELD"', datafield: 'eurozonebtobbb', width: '15.6%', renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px;"><div>EUROZONE</div><div>BtoBBB</div><div>"HIGH YIELD"</div></div>';
-						        } }
-	                ]
-	            });
-	            creditGridSource =
-	            {    
-	            localdata:creditAuditDefaultData,
-	            datatype: "json",
-                datafields: [
-                    { name: 'usatoaaaUsa', type: 'string' },
-                    { name: 'usbtobbbUsatoaaa', type: 'string' },
-                    { name: 'usctocccUsbtobbb', type: 'string' },
-                    { name: 'eurozoneatoaaaGermany', type: 'string' },
-                    { name: 'eurozonebtobbbEurozoneatoaaa', type: 'string' }
-                ],
-                url:''
-	            };
-	            var dataAdapter = new $.jqx.dataAdapter(creditGridSource);
-	            
-	            $("#creditAuditGrid").jqxGrid(
-	            {
-	                width: '100%',
-	                source: dataAdapter,  
-	                theme:'dark',
-	                autoheight: true,
-	                editable: true,
-	                selectionmode: 'none',
-	                editmode: 'selectedrow',
-	                columns: [ 
-		                  { text: 'US BLUECHIP AtoAAA vs 10yr TSYS', datafield: 'usatoaaaUsa', width: '20%' , renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>US BLUECHIP</div><div>AtoAAA vs</div><div>10yr TSYS</div></div>';
-						        } },
-		                  { text: 'US HIGHYIELD BtoBBB vs BLUECHIP', datafield: 'usbtobbbUsatoaaa', width: '20%' , renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>US HIGHYIELD</div><div>BtoBBB vs</div><div>BLUECHIP</div></div>';
-						        } },
-		                  { text: 'US JUNKBOND CtoCCC vs HIGHYIELD', datafield: 'usctocccUsbtobbb', width: '20%', renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>US JUNKBOND</div><div>CtoCCC vs</div><div>HIGHYIELD</div></div>';
-						        } },
-		                  { text: 'EZ BLUECHIP AtoAAA vs 10Y GERMANY', datafield: 'eurozoneatoaaaGermany', width: '20%' , renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>EZ BLUECHIP</div><div>AtoAAA vs</div><div>10Y GERMANY</div></div>';
-						        } },
-		                  { text: 'EZ HIGHYIELD BtoBBB vs BLUECHIP AtoAAA', datafield: 'eurozonebtobbbEurozoneatoaaa', width: '20%' , renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>EZ HIGHYIELD</div><div>BtoBBB vs</div><div>BLUECHIP AtoAAA</div></div>';
-						        } }
-	                ]
-	            }); 
-	           
-             getAuditGridSource();
 			 var dropDownSource = [
                  "now",
                  "after 3 hours",
@@ -788,7 +503,27 @@
 		        ];
  	                // Create a jqxDropDownList
 	                $("#recalculatedropDown").jqxDropDownList({ source: dropDownSource, theme:'dark',  width: '150', height: '40px',dropDownHeight:'100px'});
-	                 source =
+	                
+// 		            // prepare the data
+		          /*   var source =
+		            {
+		                datatype: "json",
+		                datafields: [
+		                    { name: 'referDate', type: 'string' },
+		                    { name: 'thirteeYrFactor', type: 'string' },
+		                    { name: 'tenYrFactor', type: 'string' },
+		                    { name: 'fiveYrFactor', type: 'string' },
+		                    { name: 'twoYrFactor', type: 'string' },
+		                    { name: 'subgroupId', type: 'string' }
+		                ],
+		                id: 'id',
+		                url: '/bourse/getsovereignyields'
+		            };
+		            var dataAdapter = new $.jqx.dataAdapter(source);
+		             */
+		             
+		             // prepare the data
+		           source =
 		             {
 		                 datatype: "json",
 		                 datafields: [
@@ -887,6 +622,11 @@
 		 		                { name: 'usctoccc', type: 'float' },
 		 		                { name: 'eurozoneatoaaa', type: 'float' },
 		 		                { name: 'eurozonebtobbb', type: 'float' },
+		 		                { name: 'usatoaaa_usa', type: 'float' },
+		 		                { name: 'usbtobbb_usatoaaa', type: 'float' },
+		 		                { name: 'usctoccc_usbtobbb', type: 'float' },
+		 		                { name: 'eurozoneatoaaa_germany', type: 'float' },
+		 		                { name: 'eurozonebtobbb_eurozoneatoaaa', type: 'float' },
 	 		                 ],
 	                         id: 'id',
 	                         localdata: ''
@@ -908,7 +648,7 @@
 		                        columnsresize: true,
 		                        pagesizeoptions: ['10', '20', '50']
 		                    });
-		             getFilterData();
+		             getFilterData(yieldValue);
 		             $("#grid").jqxGrid('showloadelement');
 		            
 		            var imagerenderer = function (row, datafield, value) {
@@ -934,7 +674,56 @@
 		             $("#twoYrFactor").width(150);
 		             $("#tenYrFactor").jqxInput({ theme: 'dark' }); 
 		             $("#tenYrFactor").width(150);
-		         
+		          /*    
+		            $("#grid").jqxGrid(
+		            {
+		                width: '100%',
+		                columnsresize: true,
+		                theme:'dark',
+		                pageable: true,
+		                pagesize: 10,
+		                showfilterrow: true,
+		                filterable: true,
+		                autoheight: true,
+		                source: dataAdapter,
+		                columns: [
+		                  { text: 'Sub-groups',filterable: false, datafield: 'subgroupId', width: '16.6%', cellsrenderer: imagerenderer },
+		                  { text: 'Date', datafield: 'referDate', width: '16.6%' },
+		                  { text: '30yr long', datafield: 'thirteeYrFactor', width: '16.6%' },
+		                  { text: '10yr bench', datafield: 'tenYrFactor', width: '16.6%' },
+		                  { text: '5yr', datafield: 'fiveYrFactor', width: '16.6%' },
+		                  { text: '2yr', datafield: 'twoYrFactor', width: '16.6%' }
+		                { text: '', datafield: 'Delete', width:'7%', columntype: 'button', cellsrenderer: function () {
+		                      return "Delete";
+		                   }, buttonclick: function (row) {
+		                     
+		                	   var selectedrowindex = $("#grid").jqxGrid('getselectedrowindex');
+		                        var rowscount = $("#grid").jqxGrid('getdatainformation').rowscount;
+		                        if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
+		                            var id = $("#grid").jqxGrid('getrowid', selectedrowindex);
+		                            $.ajax({
+		                                type : "DELETE",
+		                                url : "/bourse/deletesovereignbyid/" + id,
+		                                success: function (result) {       
+		                                       console.log(result);                
+		                                },
+		                                error: function (e) {
+		                                    console.log(e);
+		                                }
+		                            });
+		                            var commit = $("#grid").jqxGrid('deleterow', id);
+		                        }
+		                  }
+		                  }
+		              ]
+		            });
+		            // initialize the popup window and buttons.
+            $("#popupWindow").jqxWindow({
+                width:900, theme:'dark', resizable: false,  isModal: true, autoOpen: false, cancelButton: $("#Cancel"), modalOpacity: 0.01           
+            });
+         
+          */
+            // update the edited row when the user clicks the 'Save' button.
             $("#Save").click(function () {
                 if (editrow >= 0) {
                 	 var rowID = $('#grid').jqxGrid('getrowid', editrow);
@@ -976,26 +765,19 @@
 				  $("#dataInputButtons").css("display","none"); 
 				  $("#dataInputGrid").css("display","none"); 
                });
-               
-            $("#CancelDataCorporate").click(function () {
-            	  dataTextInput.value="";
-            	  $("#dataformInputCorporate").css("display","block");
-				  $("#dataInputButtonsCorporate").css("display","none"); 
-				  $("#dataInputGridCorporate").css("display","none"); 
-               });
-               
+            
             $("#filter").click(function () {
             	
-            	getFilterData();
+            	getFilterData(yieldValue);
                });
             
             $("#Clearfilter").click(function () {
-   		    
+   		      if (yieldValue==1){
       	 	  $("#jqxCheckBoxUSA-30").jqxCheckBox({checked: false });
         	  $("#jqxCheckBoxUSA-10").jqxCheckBox({checked: false });
         	  $("#jqxCheckBoxUSA-5").jqxCheckBox({checked: false });
         	  $("#jqxCheckBoxUSA-2").jqxCheckBox({checked: false });
-        	  
+        	   
         	  $("#jqxCheckBoxGermany-30").jqxCheckBox({checked: false });
         	  $("#jqxCheckBoxGermany-10").jqxCheckBox({checked: false });
         	  $("#jqxCheckBoxGermany-5").jqxCheckBox({checked: false });
@@ -1098,23 +880,22 @@
         	  $("#jqxCheckBoxita-spn-10").jqxCheckBox({checked: false });
         	  $("#jqxCheckBoxita-spn-5").jqxCheckBox({checked: false });
         	  $("#jqxCheckBoxita-spn-2").jqxCheckBox({checked: false });
-        	  
-	          $("#jqxCheckBoxusatoaaa").jqxCheckBox({checked: false });
-	    	  $("#jqxCheckBoxusbtobbb").jqxCheckBox({checked: false });
-	    	  $("#jqxCheckBoxusctoccc").jqxCheckBox({checked: false });
-	    	  $("#jqxCheckBoxeurozoneatoaaa").jqxCheckBox({checked: false });
-	    	  $("#jqxCheckBoxeurozonebtobbb").jqxCheckBox({checked: false });
-	    	  
-	    	  $("#jqxCheckBoxusatoaaaUsa").jqxCheckBox({checked: false });
-	    	  $("#jqxCheckBoxusbtobbbUsatoaaa").jqxCheckBox({checked: false });
-	    	  $("#jqxCheckBoxusctocccUsbtobbb").jqxCheckBox({checked: false });
-	    	  $("#jqxCheckBoxeurozoneatoaaaGermany").jqxCheckBox({checked: false });
-	    	  $("#jqxCheckBoxeurozonebtobbbEurozoneatoaaa").jqxCheckBox({checked: false });
-	    	  
-        	  for(i=0; i<allitems.length; i++)
+        	 }else{
+        	      $("#jqxCheckBoxusatoaaa").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxusbtobbb").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxusctoccc").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxeurozoneatoaaa").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxeurozonebtobbb").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxusatoaaa_usa").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxusbtobbb_usatoaaa").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxusctoccc_usbtobbb").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxeurozoneatoaaa_germany").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxeurozonebtobbb_eurozoneatoaaa").jqxCheckBox({checked: false });
+		    	  }
+        	 /* for(i=0; i<soverignYieldsItem.length; i++)
     		   {
-    	    	$(allitems[i]).jqxCheckBox({disabled: false});
-    	       }
+    	    	$(soverignYieldsItem[i]).jqxCheckBox({disabled: false});
+    	       }*/
         	  checkedItem=0;
          	 
 	   		  
@@ -1201,7 +982,7 @@
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {
 						    	    	        
-												 getFilterData();
+												 getFilterData(yieldValue);
 						    	    	        	  
 						  						 datatextarea.value="";
 						  		            	  $("#dataformInput").css("display","block");
@@ -1209,7 +990,7 @@
 						  						  $("#dataInputGrid").css("display","none");
 						  						
 						  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
-						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy');
+						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 						    	        	    
 						    				    filterDate=date;
 						    				    delete auditGridSource.localdata;   
@@ -1262,144 +1043,20 @@
             		 $('#alertDate-modal').modal('show'); 
             	 }
              });
-          $("#loadDataCorporate").on('click', function(e) {
-			 e.preventDefault();
-			$("#loadDataCorporate").prop('disabled',true);
-			document.querySelector('#loadDataCorporate').disabled = true;
-			
-            	var date = new Date();
-            	var dataToBeInserted = [];
-            	
-            	var us_atoaaaObject=["1"];
-            	var us_btobbbObject=["2"];
-            	var us_ctocccObject=["3"];
-            	var eurozone_atoaaaObject=["4"];
-            	var eurozone_btobbbObject=["5"];
-
-            	var rows = $('#dataInputGridCorporate').jqxGrid('getrows');
-            	for (i = 0; i < rows.length; i++) {
-            	   us_atoaaaObject.push(rows[i].us_atoaaa);
-            	   us_btobbbObject.push(rows[i].us_btobbb);
-            	   us_ctocccObject.push(rows[i].us_ctoccc);
-            	   eurozone_atoaaaObject.push(rows[i].eurozone_atoaaa);
-            	   eurozone_btobbbObject.push(rows[i].eurozone_btobbb);
-            	}
-
-            	var listObject=["us_atoaaaObject","us_btobbbObject","us_ctocccObject","eurozone_atoaaaObject","eurozone_btobbbObject"];
-            	 
-            	 for (i = 0; i < listObject.length; i++) {
-
-            	     var value = eval(listObject[i]);
-            		 	dataToBeInserted.push({
-            			   "subgroupId":value[0],
-            			   "value":value[1],
-            			   "referDate": $.jqx.dataFormat.formatdate($("#dateInputCorporate").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
-            			});
-            	 }
-            	 if($("#dateInputCorporate").jqxDateTimeInput('getDate')<date)
-           	     {
-            		 var today = $("#dateInputCorporate").jqxDateTimeInput('getDate');
-            		 if(today.getDay() == 6 || today.getDay() == 0)
-            		 { 
-            			 $('#alert-modal-weekend').modal('show'); 
-            			 return;
-            		 }
-            		 today=$.jqx.dataFormat.formatdate(today,  'dd-MM-yyyy')
-            		 $.ajax({
-	    	        contentType: "application/json",
-	    	        url: "/bourse/checkifcansavecorporate/"+today,
-	    	        dataType: 'json',
-	    	        async:true,
-	    	        cache: false,
-	    	        timeout: 600000,
-	    	        success: function (response) {
-	    	        	if(response)
-	    	        	{
-							 $.ajax({
-						        contentType: "application/json",
-						        url: "/process/isrobottriggered/111213",
-						        dataType: 'text',
-								async:true,
-						        cache: false,
-						        timeout: 600000,
-						        success: function (data) {
-				      
-								if(data=='true')
-								   $('#alert-modal-robot').modal('show'); 
-								else{
-									 	  $.ajax({
-						    	    	        type: "POST",
-						    	    	        contentType: "application/json",
-						    	    	        url: "/bourse/savecorporatedata",
-						    	    	        data: JSON.stringify(dataToBeInserted),
-						    	    	        dataType: 'json',
-						    	    	        async:true,
-						    	    	        cache: false,
-						    	    	        timeout: 600000,
-						    	    	        success: function (data) {
-						    	    	        
-												 getFilterData();
-						    	    	        	  
-						  						 dataTextInput.value="";
-						  		            	  $("#dataformInputCorporate").css("display","block");
-						  						  $("#dataInputButtonsCorporate").css("display","none"); 
-						  						  $("#dataInputGridCorporate").css("display","none");
-						  						
-						  						$('#dateInputCorporateAudit').jqxDateTimeInput('setDate', $("#dateInputCorporate").jqxDateTimeInput('getDate'));
-						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInputCorporateAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
-						    	        	    
-						    				     filterDate=date;
-						    				     delete corporatesGridSource.localdata;
-												 corporatesGridSource.url='/bourse/getcorporateauditdata/'+date;
-												 dataAdapter = new $.jqx.dataAdapter(corporatesGridSource);
-												 $('#corporatesGrid').jqxGrid({source:dataAdapter});
-						
-						    	    	        // triggerRobots();	
-						    	    	       
-						    	            },
-						    	    	        error: function (e) {
-						    	    	        	
-						    						  console.log("ERROR : ", e);
-						    	
-						    	    	        }
-						    	    	    });
-										}
-					
-								},
-						        error: function (e) {
-						        	
-										  console.log("ERROR : ", e);
-					
-						        }
-						    });
-
-	    	        	}
-	    	        	else{
-	    	        		$('#alert-modal').modal('show'); 
-	    	        	}
-	            },
-	    	        error: function (e) {
-	    	        	
-						  console.log("ERROR : ", e);
-	
-	    	        }
-	    	    });
-           	     }
-            	 else {
-            		 $('#alertDate-modal').modal('show'); 
-            	 }
-             });
+          
             
 		        });
 		 
-		  function getFilterData()
-		  { 
+		  function getFilterData(yieldValue)
+		  {
+			var jsonfilter=[];
           	var sovereignYiledCurveSearchDTOlst=[];
           	var sovereignCrossSearchDTOlst=[];
           	var selectedSearchDTOlst=[];
           	var allItems=0;
           	var checkedItem=[];
-          	var json; 
+          	var json;
+          	var gridColumns = [];
           	var yields=[];
           	var curves=[];
           	var corporate=[];
@@ -1420,319 +1077,320 @@
          	var itemsusauk = 0;
          	var itemsitafrc = 0;
          	var itemsitaspn = 0;
-            var itemcorporate = 0;
-            var itemcredits=0;
             
-         	for (i = 0; i < yieldsUSAItem.length; i++) {
-         		if($(yieldsUSAItem[i]).jqxCheckBox('checked'))
-         		{		
-         		   yields.push(yieldsUSAItem[i].split("-")[1]+"yr");	
-          			itemsUsa=1;
-          			allItems=allItems+1;
-          			checkedItem.push(yieldsUSAItem[i]);
-         		}
-          	}
-         	for (i = 0; i < curvesUSAItems.length; i++) {
-         		if($(curvesUSAItems[i]).jqxCheckBox('checked'))
-         		{	curves.push(curvesUSAItems[i].split("-")[1].replace("over", "/"));	
-	      			itemsUsa=1;
+            if (yieldValue==1)
+	         {  
+	         	for (i = 0; i < yieldsUSAItem.length; i++) {
+	         		if($(yieldsUSAItem[i]).jqxCheckBox('checked'))
+	         		{		
+	         		   yields.push(yieldsUSAItem[i].split("-")[1]+"yr");	
+	          			itemsUsa=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(yieldsUSAItem[i]);
+	         		}
+	          	}
+	         	for (i = 0; i < curvesUSAItems.length; i++) {
+	         		if($(curvesUSAItems[i]).jqxCheckBox('checked'))
+	         		{	curves.push(curvesUSAItems[i].split("-")[1].replace("over", "/"));	
+		      			itemsUsa=1;
+		      			allItems=allItems+1;
+		      			checkedItem.push(curvesUSAItems[i]);
+	         		}
+	         	}
+	          	if(itemsUsa!=0)
+	          	{
+	          		sovereignYiledCurveSearchDTOlst.push({
+	          		   "groupId":"1",
+	       			   "yieldLst":yields,
+	       			   "curveLst":curves
+	       			});
+	          		 yields=[];
+	              	 curves=[];
+	              	 
+	          	}
+	        	for (i = 0; i < yieldsGermanyItem.length; i++) {
+	        		if($(yieldsGermanyItem[i]).jqxCheckBox('checked'))
+	         		{	
+	        		yields.push(yieldsGermanyItem[i].split("-")[1]+"yr");	
+	      			itemsGermany=1;
 	      			allItems=allItems+1;
-	      			checkedItem.push(curvesUSAItems[i]);
-         		}
-         	}
-          	if(itemsUsa!=0)
-          	{
-          		sovereignYiledCurveSearchDTOlst.push({
-          		   "groupId":"1",
-       			   "yieldLst":yields,
-       			   "curveLst":curves
-       			});
-          		 yields=[];
-              	 curves=[];
-              	 
-          	}
-        	for (i = 0; i < yieldsGermanyItem.length; i++) {
-        		if($(yieldsGermanyItem[i]).jqxCheckBox('checked'))
-         		{	
-        		yields.push(yieldsGermanyItem[i].split("-")[1]+"yr");	
-      			itemsGermany=1;
-      			allItems=allItems+1;
-      			checkedItem.push(yieldsGermanyItem[i]);
-         		}
-	      	}
-	     	for (i = 0; i < curvesGermanyItems.length; i++) {
-	     		if($(curvesGermanyItems[i]).jqxCheckBox('checked'))
-         		{	
-	     		curves.push(curvesGermanyItems[i].split("-")[1].replace("over", "/"));	
-	         		itemsGermany=1;
-	         		allItems=allItems+1;
-	         		checkedItem.push(curvesGermanyItems[i]);
-         		}
-	     	}
-          	if(itemsGermany!=0)
-          	{
-          		sovereignYiledCurveSearchDTOlst.push({
-          		   "groupId":"3",
-       			   "yieldLst":yields,
-       			   "curveLst":curves
-       			});
-          		 yields=[];
-              	 curves=[];
-          	}
-          	for (i = 0; i < yieldsFranceItem.length; i++) {
-          		if($(yieldsFranceItem[i]).jqxCheckBox('checked'))
-         		{	
-          		yields.push(yieldsFranceItem[i].split("-")[1]+"yr");	
-      			itemsFrance=1;
-      			allItems=allItems+1;
-      			checkedItem.push(yieldsFranceItem[i]);
-         		}
-	      	}
-	     	for (i = 0; i < curvesFranceItems.length; i++) {
-	     		if($(curvesFranceItems[i]).jqxCheckBox('checked'))
-         		{		
-	     		curves.push(curvesFranceItems[i].split("-")[1].replace("over", "/"));	
-	         		itemsFrance=1;
-	         		allItems=allItems+1;
-	         		checkedItem.push(curvesFranceItems[i]);
-         		}
-	     	}
-          	if(itemsFrance!=0)
-          	{
-          		sovereignYiledCurveSearchDTOlst.push({
-          		   "groupId":"2",
-          		   "yieldLst":yields,
-       			   "curveLst":curves
-       			});
-          		 yields=[];
-              	 curves=[];
-          	}
-          	
-         	for (i = 0; i < yieldsUkItem.length; i++) {
-         		if($(yieldsUkItem[i]).jqxCheckBox('checked'))
-         		{		
-         		   yields.push(yieldsUkItem[i].split("-")[1]+"yr");	
-         		    itemsUk=1;
-          			allItems=allItems+1;
-          			checkedItem.push(yieldsUkItem[i]);
-         		}
-          	}
-         	for (i = 0; i < curvesUkItems.length; i++) {
-         		if($(curvesUkItems[i]).jqxCheckBox('checked'))
-         		{	curves.push(curvesUkItems[i].split("-")[1].replace("over", "/"));	
-         		    itemsUk=1;
+	      			checkedItem.push(yieldsGermanyItem[i]);
+	         		}
+		      	}
+		     	for (i = 0; i < curvesGermanyItems.length; i++) {
+		     		if($(curvesGermanyItems[i]).jqxCheckBox('checked'))
+	         		{	
+		     		curves.push(curvesGermanyItems[i].split("-")[1].replace("over", "/"));	
+		         		itemsGermany=1;
+		         		allItems=allItems+1;
+		         		checkedItem.push(curvesGermanyItems[i]);
+	         		}
+		     	}
+	          	if(itemsGermany!=0)
+	          	{
+	          		sovereignYiledCurveSearchDTOlst.push({
+	          		   "groupId":"3",
+	       			   "yieldLst":yields,
+	       			   "curveLst":curves
+	       			});
+	          		 yields=[];
+	              	 curves=[];
+	          	}
+	          	for (i = 0; i < yieldsFranceItem.length; i++) {
+	          		if($(yieldsFranceItem[i]).jqxCheckBox('checked'))
+	         		{	
+	          		yields.push(yieldsFranceItem[i].split("-")[1]+"yr");	
+	      			itemsFrance=1;
 	      			allItems=allItems+1;
-	      			checkedItem.push(curvesUkItems[i]);
-         		}
-         	}
-          	if(itemsUk!=0)
-          	{
-          		sovereignYiledCurveSearchDTOlst.push({
-          		   "groupId":"4",
-       			   "yieldLst":yields,
-       			   "curveLst":curves
-       			});
-          		 yields=[];
-              	 curves=[];
-              	 
-          	}
-         	for (i = 0; i < yieldsItalyItem.length; i++) {
-         		if($(yieldsItalyItem[i]).jqxCheckBox('checked'))
-         		{		
-         		   yields.push(yieldsItalyItem[i].split("-")[1]+"yr");	
-         		    itemsItaly=1;
-          			allItems=allItems+1;
-          			checkedItem.push(yieldsItalyItem[i]);
-         		}
-          	}
-         	for (i = 0; i < curvesItalyItems.length; i++) {
-         		if($(curvesItalyItems[i]).jqxCheckBox('checked'))
-         		{	curves.push(curvesItalyItems[i].split("-")[1].replace("over", "/"));	
-         	    	itemsItaly=1;
+	      			checkedItem.push(yieldsFranceItem[i]);
+	         		}
+		      	}
+		     	for (i = 0; i < curvesFranceItems.length; i++) {
+		     		if($(curvesFranceItems[i]).jqxCheckBox('checked'))
+	         		{		
+		     		curves.push(curvesFranceItems[i].split("-")[1].replace("over", "/"));	
+		         		itemsFrance=1;
+		         		allItems=allItems+1;
+		         		checkedItem.push(curvesFranceItems[i]);
+	         		}
+		     	}
+	          	if(itemsFrance!=0)
+	          	{
+	          		sovereignYiledCurveSearchDTOlst.push({
+	          		   "groupId":"2",
+	          		   "yieldLst":yields,
+	       			   "curveLst":curves
+	       			});
+	          		 yields=[];
+	              	 curves=[];
+	          	}
+	          	
+	         	for (i = 0; i < yieldsUkItem.length; i++) {
+	         		if($(yieldsUkItem[i]).jqxCheckBox('checked'))
+	         		{		
+	         		   yields.push(yieldsUkItem[i].split("-")[1]+"yr");	
+	         		    itemsUk=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(yieldsUkItem[i]);
+	         		}
+	          	}
+	         	for (i = 0; i < curvesUkItems.length; i++) {
+	         		if($(curvesUkItems[i]).jqxCheckBox('checked'))
+	         		{	curves.push(curvesUkItems[i].split("-")[1].replace("over", "/"));	
+	         		    itemsUk=1;
+		      			allItems=allItems+1;
+		      			checkedItem.push(curvesUkItems[i]);
+	         		}
+	         	}
+	          	if(itemsUk!=0)
+	          	{
+	          		sovereignYiledCurveSearchDTOlst.push({
+	          		   "groupId":"4",
+	       			   "yieldLst":yields,
+	       			   "curveLst":curves
+	       			});
+	          		 yields=[];
+	              	 curves=[];
+	              	 
+	          	}
+	         	for (i = 0; i < yieldsItalyItem.length; i++) {
+	         		if($(yieldsItalyItem[i]).jqxCheckBox('checked'))
+	         		{		
+	         		   yields.push(yieldsItalyItem[i].split("-")[1]+"yr");	
+	         		    itemsItaly=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(yieldsItalyItem[i]);
+	         		}
+	          	}
+	         	for (i = 0; i < curvesItalyItems.length; i++) {
+	         		if($(curvesItalyItems[i]).jqxCheckBox('checked'))
+	         		{	curves.push(curvesItalyItems[i].split("-")[1].replace("over", "/"));	
+	         	    	itemsItaly=1;
+		      			allItems=allItems+1;
+		      			checkedItem.push(curvesItalyItems[i]);
+	         		}
+	         	}
+	          	if(itemsItaly!=0)
+	          	{
+	          		sovereignYiledCurveSearchDTOlst.push({
+	          		   "groupId":"5",
+	       			   "yieldLst":yields,
+	       			   "curveLst":curves
+	       			});
+	          		 yields=[];
+	              	 curves=[];
+	              	 
+	          	}
+	         	for (i = 0; i < yieldsSpainItem.length; i++) {
+	         		if($(yieldsSpainItem[i]).jqxCheckBox('checked'))
+	         		{		
+	         		   yields.push(yieldsSpainItem[i].split("-")[1]+"yr");	
+	         		    itemsSpain=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(yieldsSpainItem[i]);
+	         		}
+	          	}
+	         	for (i = 0; i < curvesSpainItems.length; i++) {
+	         		if($(curvesSpainItems[i]).jqxCheckBox('checked'))
+	         		{	curves.push(curvesSpainItems[i].split("-")[1].replace("over", "/"));	
+	         		    itemsSpain=1;
+		      			allItems=allItems+1;
+		      			checkedItem.push(curvesSpainItems[i]);
+	         		}
+	         	}
+	          	if(itemsSpain!=0)
+	          	{
+	          		sovereignYiledCurveSearchDTOlst.push({
+	          		   "groupId":"6",
+	       			   "yieldLst":yields,
+	       			   "curveLst":curves
+	       			});
+	          		 yields=[];
+	              	 curves=[];
+	              	 
+	          	}
+				for (i = 0; i < crossesfrcgerItems.length; i++) {
+	         		if($(crossesfrcgerItems[i]).jqxCheckBox('checked'))
+	         		{		
+	         		   yields.push(crossesfrcgerItems[i].split("-")[2]);	
+	          			itemsfrcger=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(crossesfrcgerItems[i]);
+	         		}
+	          	}
+	         	
+	          	if(itemsfrcger!=0)
+	          	{
+	          		 sovereignCrossSearchDTOlst.push({
+		            			"crossGroupId":"1",
+		            			"crossGroupValue":yields
+		         			});
+	          		 yields=[];	
+	          	}
+	        	for (i = 0; i < crossesitagerItems.length; i++) {
+	        		if($(crossesitagerItems[i]).jqxCheckBox('checked'))
+	         		{	
+	        		yields.push(crossesitagerItems[i].split("-")[2]);	
+	      			itemsitager=1;
 	      			allItems=allItems+1;
-	      			checkedItem.push(curvesItalyItems[i]);
-         		}
-         	}
-          	if(itemsItaly!=0)
-          	{
-          		sovereignYiledCurveSearchDTOlst.push({
-          		   "groupId":"5",
-       			   "yieldLst":yields,
-       			   "curveLst":curves
-       			});
-          		 yields=[];
-              	 curves=[];
-              	 
-          	}
-         	for (i = 0; i < yieldsSpainItem.length; i++) {
-         		if($(yieldsSpainItem[i]).jqxCheckBox('checked'))
-         		{		
-         		   yields.push(yieldsSpainItem[i].split("-")[1]+"yr");	
-         		    itemsSpain=1;
-          			allItems=allItems+1;
-          			checkedItem.push(yieldsSpainItem[i]);
-         		}
-          	}
-         	for (i = 0; i < curvesSpainItems.length; i++) {
-         		if($(curvesSpainItems[i]).jqxCheckBox('checked'))
-         		{	curves.push(curvesSpainItems[i].split("-")[1].replace("over", "/"));	
-         		    itemsSpain=1;
+	      			checkedItem.push(crossesitagerItems[i]);
+	         		}
+		      	}
+	          	if(itemsitager!=0)
+	          	{
+	          		 sovereignCrossSearchDTOlst.push({
+		            			"crossGroupId":"2",
+		            			"crossGroupValue":yields
+		         			});
+	          		 yields=[];	
+	          	}
+	          	for (i = 0; i < crossesspngerItems.length; i++) {
+	          		if($(crossesspngerItems[i]).jqxCheckBox('checked'))
+	         		{	
+	          		yields.push(crossesspngerItems[i].split("-")[2]);	
+	      			itemsspnger=1;
 	      			allItems=allItems+1;
-	      			checkedItem.push(curvesSpainItems[i]);
-         		}
-         	}
-          	if(itemsSpain!=0)
-          	{
-          		sovereignYiledCurveSearchDTOlst.push({
-          		   "groupId":"6",
-       			   "yieldLst":yields,
-       			   "curveLst":curves
-       			});
-          		 yields=[];
-              	 curves=[];
-              	 
-          	}
-			for (i = 0; i < crossesfrcgerItems.length; i++) {
-         		if($(crossesfrcgerItems[i]).jqxCheckBox('checked'))
-         		{		
-         		   yields.push(crossesfrcgerItems[i].split("-")[2]);	
-          			itemsfrcger=1;
-          			allItems=allItems+1;
-          			checkedItem.push(crossesfrcgerItems[i]);
-         		}
-          	}
-         	
-          	if(itemsfrcger!=0)
-          	{
-          		 sovereignCrossSearchDTOlst.push({
-	            			"crossGroupId":"1",
-	            			"crossGroupValue":yields
-	         			});
-          		 yields=[];	
-          	}
-        	for (i = 0; i < crossesitagerItems.length; i++) {
-        		if($(crossesitagerItems[i]).jqxCheckBox('checked'))
-         		{	
-        		yields.push(crossesitagerItems[i].split("-")[2]);	
-      			itemsitager=1;
-      			allItems=allItems+1;
-      			checkedItem.push(crossesitagerItems[i]);
-         		}
-	      	}
-          	if(itemsitager!=0)
-          	{
-          		 sovereignCrossSearchDTOlst.push({
-	            			"crossGroupId":"2",
-	            			"crossGroupValue":yields
-	         			});
-          		 yields=[];	
-          	}
-          	for (i = 0; i < crossesspngerItems.length; i++) {
-          		if($(crossesspngerItems[i]).jqxCheckBox('checked'))
-         		{	
-          		yields.push(crossesspngerItems[i].split("-")[2]);	
-      			itemsspnger=1;
-      			allItems=allItems+1;
-      			checkedItem.push(crossesspngerItems[i]);
-         		}
-	      	}
-          	if(itemsspnger!=0)
-          	{
-          		 sovereignCrossSearchDTOlst.push({
-	            			"crossGroupId":"3",
-	            			"crossGroupValue":yields
-	         			});
-          		 yields=[];	
-          	}
-          	
-           	for (i = 0; i < crossesukgerItems.length; i++) {
-          		if($(crossesukgerItems[i]).jqxCheckBox('checked'))
-         			{
-          			yields.push(crossesukgerItems[i].split("-")[2]);
-          			itemsukger=1;
-      			    allItems=allItems+1;
-      				checkedItem.push(crossesukgerItems[i]);
-         	  		}
-          	}
-          	if(itemsukger!=0)
-          	{
-          	 sovereignCrossSearchDTOlst.push({
-	            			"crossGroupId":"4",
-	            			"crossGroupValue":yields
-	         			});
-          		 yields=[];	
-          	}
-         	for (i = 0; i < crossesusagerItems.length; i++) {
-         		if($(crossesusagerItems[i]).jqxCheckBox('checked'))
-         		{		
-         		   yields.push(crossesusagerItems[i].split("-")[2]);	
-         		    itemsusager=1;
-          			allItems=allItems+1;
-          			checkedItem.push(crossesusagerItems[i]);
-         		}
-          	}
-          	if(itemsusager!=0)
-          	{
-          		 sovereignCrossSearchDTOlst.push({
-	            			"crossGroupId":"5",
-	            			"crossGroupValue":yields
-	         			});
-          		 yields=[];	
-          	}
-          	
-         	for (i = 0; i < crossesusaukItems.length; i++) {
-         		if($(crossesusaukItems[i]).jqxCheckBox('checked'))
-         		{		
-         		   yields.push(crossesusaukItems[i].split("-")[2]);	
-         		    itemsusauk=1;
-          			allItems=allItems+1;
-          			checkedItem.push(crossesusaukItems[i]);
-         		}
-          	}
-         	
-          	if(itemsusauk!=0)
-          	{
-          		 sovereignCrossSearchDTOlst.push({
-	            			"crossGroupId":"6",
-	            			"crossGroupValue":yields
-	         			});
-          		 yields=[];	
-          	}
-         	for (i = 0; i < crossesitafrcItems.length; i++) {
-         		if($(crossesitafrcItems[i]).jqxCheckBox('checked'))
-         		{		
-         		   yields.push(crossesitafrcItems[i].split("-")[2]);	
-         		    itemsitafrc=1;
-          			allItems=allItems+1;
-          			checkedItem.push(crossesitafrcItems[i]);
-         		}
-          	}
-          	if(itemsitafrc!=0)
-          	{ sovereignCrossSearchDTOlst.push({
-	            			"crossGroupId":"7",
-	            			"crossGroupValue":yields
-	         			});
-          		 yields=[];	
-          	}
-          		for (i = 0; i < crossesitaspnItems.length; i++) {
-         		if($(crossesitaspnItems[i]).jqxCheckBox('checked'))
-         		{		
-         		   yields.push(crossesitaspnItems[i].split("-")[2]);	
-         		    itemsitaspn=1;
-          			allItems=allItems+1;
-          			checkedItem.push(crossesitaspnItems[i]);
-         		}
-          	}
-          	if(itemsitaspn!=0)
-          	{ sovereignCrossSearchDTOlst.push({
-	            			"crossGroupId":"8",
-	            			"crossGroupValue":yields
-	         			});
-          		 yields=[];	
-          	}
-          	for (i = 0; i < corporateYieldsItem.length; i++) {
+	      			checkedItem.push(crossesspngerItems[i]);
+	         		}
+		      	}
+	          	if(itemsspnger!=0)
+	          	{
+	          		 sovereignCrossSearchDTOlst.push({
+		            			"crossGroupId":"3",
+		            			"crossGroupValue":yields
+		         			});
+	          		 yields=[];	
+	          	}
+	          	
+	           	for (i = 0; i < crossesukgerItems.length; i++) {
+	          		if($(crossesukgerItems[i]).jqxCheckBox('checked'))
+	         			{
+	          			yields.push(crossesukgerItems[i].split("-")[2]);
+	          			itemsukger=1;
+	      			    allItems=allItems+1;
+	      				checkedItem.push(crossesukgerItems[i]);
+	         	  		}
+	          	}
+	          	if(itemsukger!=0)
+	          	{
+	          	 sovereignCrossSearchDTOlst.push({
+		            			"crossGroupId":"4",
+		            			"crossGroupValue":yields
+		         			});
+	          		 yields=[];	
+	          	}
+	         	for (i = 0; i < crossesusagerItems.length; i++) {
+	         		if($(crossesusagerItems[i]).jqxCheckBox('checked'))
+	         		{		
+	         		   yields.push(crossesusagerItems[i].split("-")[2]);	
+	         		    itemsusager=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(crossesusagerItems[i]);
+	         		}
+	          	}
+	          	if(itemsusager!=0)
+	          	{
+	          		 sovereignCrossSearchDTOlst.push({
+		            			"crossGroupId":"5",
+		            			"crossGroupValue":yields
+		         			});
+	          		 yields=[];	
+	          	}
+	          	
+	         	for (i = 0; i < crossesusaukItems.length; i++) {
+	         		if($(crossesusaukItems[i]).jqxCheckBox('checked'))
+	         		{		
+	         		   yields.push(crossesusaukItems[i].split("-")[2]);	
+	         		    itemsusauk=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(crossesusaukItems[i]);
+	         		}
+	          	}
+	         	
+	          	if(itemsusauk!=0)
+	          	{
+	          		 sovereignCrossSearchDTOlst.push({
+		            			"crossGroupId":"6",
+		            			"crossGroupValue":yields
+		         			});
+	          		 yields=[];	
+	          	}
+	         	for (i = 0; i < crossesitafrcItems.length; i++) {
+	         		if($(crossesitafrcItems[i]).jqxCheckBox('checked'))
+	         		{		
+	         		   yields.push(crossesitafrcItems[i].split("-")[2]);	
+	         		    itemsitafrc=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(crossesitafrcItems[i]);
+	         		}
+	          	}
+	          	if(itemsitafrc!=0)
+	          	{ sovereignCrossSearchDTOlst.push({
+		            			"crossGroupId":"7",
+		            			"crossGroupValue":yields
+		         			});
+	          		 yields=[];	
+	          	}
+	          		for (i = 0; i < crossesitaspnItems.length; i++) {
+	         		if($(crossesitaspnItems[i]).jqxCheckBox('checked'))
+	         		{		
+	         		   yields.push(crossesitaspnItems[i].split("-")[2]);	
+	         		    itemsitaspn=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(crossesitaspnItems[i]);
+	         		}
+	          	}
+	          	if(itemsitaspn!=0)
+	          	{ sovereignCrossSearchDTOlst.push({
+		            			"crossGroupId":"8",
+		            			"crossGroupValue":yields
+		         			});
+	          		 yields=[];	
+	          	}
+          	}else {
+				  for (i = 0; i < corporateYieldsItem.length; i++) {
          		if($(corporateYieldsItem[i]).jqxCheckBox('checked'))
-         		{		debugger
+         		{		
          		    corporate.push(corporateYieldsItem[i].split("#jqxCheckBox")[1]);	
          		    itemcorporate=1;
           			allItems=allItems+1;
@@ -1762,6 +1420,7 @@
 	         			});
           		 credits=[];	
           	}
+			  }
           	if(allItems!=0)
           	{
           	json={"sovereignYiledCurveSearchDTOlst":sovereignYiledCurveSearchDTOlst,
@@ -1798,26 +1457,9 @@
 	  						 $('#grid').jqxGrid({source:dataAdapter,
 	  							                 columns: data.columns});
 	  						 
-	  						var filterHistory = { 
-			   		        	  "filterHistory":checkedItem.toString(),
-			   		        	  "screenName":"DATABASE_INPUT_SCREEN_SOVEREIGN"
-			   	     			   };
-	  					   $.ajax({
-			  	       	        type: "POST",
-		     	    	        contentType:  "application/json; charset=utf-8",
-		     	    	        url: "/bourse/savedataentryfilterhistory",
-		     	    	        data: JSON.stringify(filterHistory),
-		     	    	        dataType: 'json',
-		     	    	        timeout: 600000,
-		     	    	        success: function (response) {
-		     	    	        	    
-		     	                  },
-		     	    	        error: function (e) {
-		     	    	        	
-		     						  console.log("ERROR : ", e);
-		     	
-		     	    	        }
-		     	    	    });	
+	  						
+			   	     	   saveFilterHistory(yieldValue,checkedItem);
+	  					
     	   },
     	    	        error: function (e) {
     	    	        	
@@ -1862,60 +1504,60 @@
 	    	    });
 			}
 			 function Edit(row, event) {
-				 isedit=true;
+				
+				     isedit=true;
 					 var data=$("#auditGrid").jqxGrid('getrowdata', row);	
-					     oldDataJson={
-						   "factor":data.factor,
-			               "france":data.france,
-						   "germany":data.germany,
-						   "italy":data.italy,
-						   "spain":data.spain,
-						   "uk":data.uk,
-						   "usa":data.usa,
-					     };
-					     selectedRow.editrow = row;
-					     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
-					     if(auditGridSource.url=='' || date!=filterDate)
-					     { 
-					    	filterDate=date;
-						    delete auditGridSource.localdata;
-						     auditGridSource.url='/bourse/getauditdata/'+date;
-							 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-							 $('#auditGrid').jqxGrid({source:dataAdapter});
-							 
-						    delete curvesGridSource.localdata;
-						    curvesGridSource.url='/bourse/getcurvedata/'+date;
-							 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
-							 $('#curvesGrid').jqxGrid({source:dataAdapter});
-							 
-							 delete crossesGridSource.localdata;
-							 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
-							 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
-							 $('#crossesGrid').jqxGrid({source:dataAdapter});
-					     } 
-					     setTimeout(function(){
-					    	  if(($('#auditGrid').jqxGrid('getrows')[0].usa!=null)&&
-					    		 ($('#auditGrid').jqxGrid('getrows')[0].germany!=null)&&
-					    		 ($('#auditGrid').jqxGrid('getrows')[0].france!=null)&&
-					    		 ($('#auditGrid').jqxGrid('getrows')[0].uk!=null)&&
-					    		 ($('#auditGrid').jqxGrid('getrows')[0].italy!=null)&&
-					    		 ($('#auditGrid').jqxGrid('getrows')[0].spain!=null))
-							{
-						    	$("#auditGrid").jqxGrid('beginrowedit', row);
-						    	$("#edit"+row).css("display","none");
-								$("#actionButtons"+row).css("display","contents"); 
-						    	if (event) {
-						    		if (event.preventDefault) {
-						    			event.preventDefault();
-						    		}
-						    	} 
-							}
-					    	
-					    	return false;
-					      }, 300);
-					    
+				     oldDataJson={
+					   "factor":data.factor,
+		               "france":data.france,
+					   "germany":data.germany,
+					   "italy":data.italy,
+					   "spain":data.spain,
+					   "uk":data.uk,
+					   "usa":data.usa,
+				     };
+				     selectedRow.editrow = row;
+				     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				     if(auditGridSource.url=='' || date!=filterDate)
+				     { 
+				    	filterDate=date;
+					    delete auditGridSource.localdata;
+					     auditGridSource.url='/bourse/getauditdata/'+date;
+						 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+						 $('#auditGrid').jqxGrid({source:dataAdapter});
+						 
+					    delete curvesGridSource.localdata;
+					    curvesGridSource.url='/bourse/getcurvedata/'+date;
+						 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+						 $('#curvesGrid').jqxGrid({source:dataAdapter});
+						 
+						 delete crossesGridSource.localdata;
+						 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
+						 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+						 $('#crossesGrid').jqxGrid({source:dataAdapter});
+				     } 
+				     setTimeout(function(){
+				    	  if(($('#auditGrid').jqxGrid('getrows')[0].usa!=null)&&
+				    		 ($('#auditGrid').jqxGrid('getrows')[0].germany!=null)&&
+				    		 ($('#auditGrid').jqxGrid('getrows')[0].france!=null)&&
+				    		 ($('#auditGrid').jqxGrid('getrows')[0].uk!=null)&&
+				    		 ($('#auditGrid').jqxGrid('getrows')[0].italy!=null)&&
+				    		 ($('#auditGrid').jqxGrid('getrows')[0].spain!=null))
+						{
+					    	$("#auditGrid").jqxGrid('beginrowedit', row);
+					    	$("#edit"+row).css("display","none");
+							$("#actionButtons"+row).css("display","contents"); 
+					    	if (event) {
+					    		if (event.preventDefault) {
+					    			event.preventDefault();
+					    		}
+					    	} 
+						}
+				    	
+				    	return false;
+				     }, 300);
 			    }
-			 function EditCorporate(row, event) { 
+			  	 function EditCorporate(row, event) { 
 				 iseditCorporate=true;
 				 var data=$("#corporatesGrid").jqxGrid('getrowdata', row);	
 					     oldDataJson={
@@ -1926,7 +1568,7 @@
 						   "eurozonebtobbb":data.eurozonebtobbb,
 					     };
 					     selectedRow.editrow = row;
-					     date=$.jqx.dataFormat.formatdate($("#dateInputCorporateAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+					     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 					     if(corporatesGridSource.url=='' || date!=filterDate)
 					     { 
 					    	filterDate=date;
@@ -1955,6 +1597,7 @@
 					    	return false;
 					      }, 300);
 			    }
+			    
 			  function Update(row, event) {
 				   
 				   isupdate=true;
@@ -2042,7 +1685,7 @@
 		      						 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
 		      						 $('#crossesGrid').jqxGrid({source:dataAdapter});
 		      						 
-		      						getFilterData();
+		      						getFilterData(yieldValue);
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -2050,23 +1693,6 @@
 		      	
 		      	    	        }
 		      	    	    });
-		      	       	/* $.ajax({
-		      	    	        type: "POST",
-		      	    	        contentType: "application/json",
-		      	    	        url: "/column/updatedcolumn",
-		      	    	        data: JSON.stringify(dataToBeUpdated),
-		      	    	        dataType: 'json',
-		      	    	        async:true,
-		      	    	        cache: false,
-		      	    	        timeout: 600000,
-		      	    	        success: function (data) {
-		      	        			},
-		      	    	        error: function (e) {
-		      	    	        	
-		      						  console.log("ERROR : ", e);
-		      	
-		      	    	        }
-		      	    	    }); */
 
 				    if (event) {
 				    	if (event.preventDefault) {
@@ -2075,12 +1701,11 @@
 				    }
 				    return false;
 			    }
-			   
-			    function UpdateCorporate(row, event) {
+			   		    function UpdateCorporate(row, event) {
 				   
 				   isupdateCorporate=true;
 				   var dataToBeUpdated = [];
-				   var updatedData = $("#auditGrid").jqxGrid('getrowdata', row);
+				   var updatedData = $("#corporatesGrid").jqxGrid('getrowdata', row);
 				   selectedRow.editrow = -1;
 				    $("#corporatesGrid").jqxGrid('endrowedit', row);
 				    var updatedData = $("#corporatesGrid").jqxGrid('getrowdata', row);
@@ -2149,7 +1774,7 @@
 									 dataAdapter = new $.jqx.dataAdapter(creditGridSource);
 									 $('#creditAuditGrid').jqxGrid({source:dataAdapter});
 		      						 
-		      						 getFilterData();
+		      						 getFilterData(yieldValue);
 		      	   },
 		      	    	        error: function (e) {
 		      	    	        	
@@ -2171,7 +1796,7 @@
 				   selectedRow.editrow = row;
 			    	$("#auditGrid").jqxGrid('endrowedit', row, true);
 			 }
-			  function CancelCorporate(row, event) {
+			 function CancelCorporate(row, event) {
 				  iseditCorporate=false;
 				  isupdateCorporate=false;
 				   selectedRow.editrow = row;
@@ -2202,8 +1827,176 @@
 					 $('#crossesGrid').jqxGrid({source:dataAdapter});
 				}
 				});
-			  
-			 datatextarea.addEventListener("blur", function() {
+
+			  function deleteDataByDate(type)
+				{
+					if (type=='yields')
+				    	{
+					$('#alertDeleteDataByDate-modal').modal('hide'); 
+					date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				          url="/bourse/deletesovereignbyreferdate/" + date
+				    	}
+				    else
+				     	{
+							 $('#alertDeleteCorporateDataByDate-modal').modal('hide'); 
+							 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				             url="/bourse/deletecorporatebyreferdate/" + date
+				     	}
+			     $.ajax({
+			             type : "DELETE",
+			             url : url,
+			             success: function (result) {   
+				   
+					getFilterData(yieldValue);  
+			        if (type=='yields')
+				    	{  getAuditGridSource(); 
+				        $('#alertDeleteDataByDate-modal').modal('hide');
+						}
+				    else
+				     	{getAuditCorporateGridSource();
+						  $('#alertDeleteCorporateDataByDate-modal').modal('hide');
+						 }
+				     	
+ 					$( "#successDelete" ).empty();
+		 		    $( "#successDelete" ).append( "<p> All record for the date '"+date+"' has been deleted</p>" );
+				    $('#alertInfoDeleteDataByDate-modal').modal('show');  
+			             },
+			             error: function (e) {
+			                 console.log(e);
+			             }
+			         });
+				
+				
+				}
+			function getAuditGridSource(){
+				
+					 $.ajax({
+			    	        contentType: "application/json",
+			    	        url: "/bourse/getlatestsovereignyields",
+			    	        dataType: 'text',
+			    	        async:true,
+			    	        cache: false,
+			    	        timeout: 600000,
+			    	        success: function (response) {
+			    	        	
+			    	        	$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
+			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
+			    	        	  var dbDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
+								  var systemDate=new Date();
+			    	        	  systemDate.setHours(0,0,0,0);
+			    				  
+								if( dbDate.toDateString() == systemDate.toDateString())
+								 {	     
+			    				    filterDate=date;
+			    				    delete auditGridSource.localdata;
+			    				     auditGridSource.url='/bourse/getauditdata/'+date;
+			    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+			    					 $('#auditGrid').jqxGrid({source:dataAdapter});
+			    					 
+			    				    delete curvesGridSource.localdata;
+			    				     curvesGridSource.url='/bourse/getcurvedata/'+date;
+			    					 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+			    					 $('#curvesGrid').jqxGrid({source:dataAdapter});
+			    					 
+			    					 delete crossesGridSource.localdata;
+			    					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
+			    					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+			    					 $('#crossesGrid').jqxGrid({source:dataAdapter});
+			    					}
+			    	        },
+			    	        error: function (e) {
+			    	        	
+								  console.log("ERROR : ", e);
+			
+			    	        }
+			    	    });
+			
+			}
+	function triggerRobots()
+	{
+		 $.ajax({
+	       	        contentType:  "application/json; charset=utf-8",
+	    	        url: "/robot/callrobotsasync/"+"1/0",
+	    	        dataType: 'json',
+	    	        timeout: 600000,
+	    	        async:true,
+	    	        success: function (response) {
+	    	        	
+	                  },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });	
+	}	
+	
+	function updateRobotNewsOnChangeColumns(ArrayOfColumns)
+	{	
+		 $.ajax({
+       	            type: "POST",
+  	    	        contentType: "application/json",
+  	    	        url: "/robot/updaterobotnewsonchangecolumns",
+  	    	        data: JSON.stringify(ArrayOfColumns),
+	    	        dataType: 'json',
+	    	        timeout: 600000,
+	    	        async:true,
+	    	        success: function (response) {
+	    	        	
+	                  },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });	
+	}
+		
+ 	function getCountryDbDescription(country)
+	{
+	  var fullName='';	
+		switch(country) {
+		  
+		 case 'france': 
+		   fullName='FRA'
+		        break;
+		 case 'germany': 
+		   fullName='GER'
+		        break;
+		 case 'italy': 
+		   fullName='ITA'
+			    break;
+		 case 'spain': 
+	       fullName='SP'
+			    break;
+		 case 'uk': 
+		   fullName='UK'
+			    break;
+		case 'usa': 
+		   fullName='USA'
+			    break;
+		}
+	return fullName;
+	}	
+	
+		function toggleDivVisibility(divNum) {
+		    
+			location.href = "/bourse/sovereignyields?yield=" + divNum;
+		}
+		
+		function  renderyieldSubGroup(yieldValue){	
+		
+		if(yieldValue==1)
+		{
+			$("#deleteByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
+		    $("#CancelData").jqxButton({ theme: 'dark',height:30,width:74  });
+	        $("#loadData").jqxButton({ theme: 'dark',height:30,width:74 });
+	          
+		     for(i=0; i<soverignYieldsItem.length; i++)
+			   {
+		    	$(soverignYieldsItem[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+		       }
+		         datatextarea.addEventListener("blur", function() {
 				  if($("#data").val()!="")
 					  {
 					  $("#dataformInput").css("display","none");
@@ -2299,7 +2092,163 @@
 					  }
 				});
 				
-				dataTextInput.addEventListener("blur", function() {
+		        auditGridSource =
+	            {    
+	            localdata:auditDefaultData,
+	            datatype: "json",
+                datafields: [
+                	{name:'factor', type: 'string' },
+                    { name: 'usa', type: 'string' },
+                    { name: 'germany', type: 'string' },
+                    { name: 'france', type: 'string' },
+                    { name: 'uk', type: 'string' },
+                    { name: 'italy', type: 'string' },
+                    { name: 'spain', type: 'string' }
+                ],
+                url:''
+	            };
+	             var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+	           
+	            $("#auditGrid").jqxGrid(
+	            {
+	                width: '100%',
+	                source: dataAdapter,  
+	                theme:'dark',
+	                autoheight: true,
+	                rowsheight: 32,
+	                editable: true,
+	                selectionmode: 'none',
+	                editmode: 'selectedrow',
+	                columns: [ 
+	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
+		                	     // open the popup window when the user clicks a button.
+		                	     
+		   					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ", event)' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                   }
+		                  },  
+	                	  { text: '',editable:false,  datafield: 'factor', width: '8%'},
+		                  { text: 'USA', datafield: 'usa', width: '11.6%' },
+		                  { text: 'Germany', datafield: 'germany', width: '11.6%' },
+		                  { text: 'France', datafield: 'france', width: '11.6%' },
+		                  { text: 'UK', datafield: 'uk', width: '11.6%' },
+		                  { text: 'Italy', datafield: 'italy', width: '11.6%' },
+		                  { text: 'Spain', datafield: 'spain', width: '11.6%' }
+	                ]
+	            });
+	            
+	            curvesGridSource =
+		            {    
+		            localdata:curvesDefaultData,
+		            datatype: "json",
+	                datafields: [
+	                	{name:'factor', type: 'string' },
+	                    { name: 'usa', type: 'string' },
+	                    { name: 'germany', type: 'string' },
+	                    { name: 'france', type: 'string' },
+	                    { name: 'uk', type: 'string' },
+	                    { name: 'italy', type: 'string' },
+	                    { name: 'spain', type: 'string' }
+	                ],
+	                url:''
+		            };
+		             var dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
+		            // initialize jqxGrid
+		            
+		            $("#curvesGrid").jqxGrid(
+		            {
+		                width: '100%',
+		                source: dataAdapter,  
+		                theme:'dark',
+		                autoheight: true,
+		                rowsheight: 32,
+		                editable: true,
+		                selectionmode: 'none',
+		                editmode: 'selectedrow',
+		                columns: [
+		                	  { text: '',editable:false,  datafield: 'factor', width: '14.28%'},
+			                  { text: 'USA', datafield: 'usa', width: '14.28%' },
+			                  { text: 'Germany', datafield: 'germany', width: '14.28%' },
+			                  { text: 'France', datafield: 'france', width: '14.28%' },
+			                  { text: 'UK', datafield: 'uk', width: '14.28%' },
+			                  { text: 'Italy', datafield: 'italy', width: '14.28%' },
+			                  { text: 'Spain', datafield: 'spain', width: '14.28%' }
+		                ]
+		            });
+		            
+		            crossesGridSource =
+		            {    
+		            localdata:crossesDefaultData,
+		            datatype: "json",
+	                datafields: [
+	                	{name:'factor', type: 'string' },
+	                    { name: 'fra_GER', type: 'string' },
+	                    { name: 'ita_GER', type: 'string' },
+	                    { name: 'ita_FRA', type: 'string' },
+	                    { name: 'uk_GER', type: 'string' },
+	                    { name: 'ita_SPN', type: 'string' },
+	                    { name: 'usa_GER', type: 'string' },
+	                    { name: 'usa_UK', type: 'string' },
+	                    { name: 'spn_GER', type: 'string' }
+	                ],
+	                url:''
+		            };
+		             var dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
+		            // initialize jqxGrid
+		           
+		            $("#crossesGrid").jqxGrid(
+		            {
+		                width: '100%',
+		                source: dataAdapter,  
+		                theme:'dark',
+		                autoheight: true,
+		                rowsheight: 32,
+		                editable: true,
+		                selectionmode: 'none',
+		                editmode: 'selectedrow',
+		                columns: [
+		                	  { text: '',editable:false,  datafield: 'factor', width: '11.11%'},
+			                  { text: '<img height="28" width="28" src="/img/flag/fra-ger.png">', datafield: 'fra_GER', width: '11.11%' },
+			                  { text: '<img height="28" width="28" src="/img/flag/ita-ger.png">', datafield: 'ita_GER', width: '11.11%' },
+			                  { text: '<img height="28" width="28" src="/img/flag/ita-fra.png">', datafield: 'ita_FRA', width: '11.11%' },
+			                  { text: '<img height="28" width="28" src="/img/flag/uk-ger.png">', datafield: 'uk_GER', width: '11.11%' },
+			                  { text: '<img height="28" width="28" src="/img/flag/ita-spn.png">', datafield: 'ita_SPN', width: '11.11%' },
+			                  { text: '<img height="28" width="28" src="/img/flag/usa-ger.png">', datafield: 'usa_GER', width: '11.11%' },
+			                  { text: '<img height="28" width="28" src="/img/flag/usa-uk.png">', datafield: 'usa_UK', width: '11.11%' },
+			                  { text: '<img height="28" width="28" src="/img/flag/spn-ger.png">', datafield: 'spn_GER', width: '11.11%' }
+		                ]
+		            });
+		            
+             getAuditGridSource();;
+		}
+		else
+			if (yieldValue==2)
+			{
+				
+		     $("#deleteCorporateByDate").jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
+			
+	 	    for(i=0; i<corporateitems.length; i++)
+			   {
+		    	$(corporateitems[i]).jqxCheckBox({ theme:'dark', width: 60, height: 25, boxSize:"0px" });
+		       }
+		       
+		     $("#CancelDataCorporate").jqxButton({ theme: 'dark',height:30,width:74  });
+	         $("#loadDataCorporate").jqxButton({ theme: 'dark',height:30,width:74 });
+	          var corporatesAuditDefaultData=[{
+	             "usatoaaa": "",
+	             "usbtobbb": "",
+	             "usctoccc": "",
+	             "eurozoneatoaaa":"",
+	             "eurozonebtobbb":""
+	           }];
+	           
+	          var creditAuditDefaultData=[{
+	             "usatoaaaUsa": "",
+	             "usbtobbbUsatoaaa": "",
+	             "usctocccUsbtobbb": "",
+	             "eurozoneatoaaaGermany":"",
+	             "eurozonebtobbbEurozoneatoaaa":""
+	           }];
+			  			dataTextInput.addEventListener("blur", function() {
 				  if($("#data-input").val()!="")
 					  {
 					  $("#dataformInputCorporate").css("display","none");
@@ -2353,99 +2302,246 @@
 				                  { text: 'US CtoCCC "JUNKBOND"', datafield: 'us_ctoccc', width: '20%', renderer: function(text, align, height) {
 						          return '<div style="margin-left: 5px;"><div>US CtoCCC</div><div>"JUNKBOND"</div></div>';
 						        } },
-				                  { text: 'EUROZONE AtoAAA "BLUECHIP"', datafield: 'eurozone_atoaaa', width: '20%', renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px;"><div>EUROZONE</div><div>AtoAAA</div><div>"BLUECHIP"</div></div>';
+				                  { text: 'EZ AtoAAA "BLUECHIP"', datafield: 'eurozone_atoaaa', width: '20%', renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px;"><div>EZ AtoAAA</div><div>"BLUECHIP"</div></div>';
 						        } },
-				                  { text: 'EUROZONE BtoBBB "HIGH YIELD"', datafield: 'eurozone_btobbb', width: '20%', renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px;"><div>EUROZONE</div><div>BtoBBB</div><div>"HIGH YIELD"</div></div>';
+				                  { text: 'EZ BtoBBB "HIGH YIELD"', datafield: 'eurozone_btobbb', width: '20%', renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px;"><div>EZ BtoBBB</div><div>"HIGH YIELD"</div></div>';
 						        } }
 			                ]
 			            });
 					  
 					  }
 				});
-			  function deleteDataByDate(type)
-				{
-					 if (type=='yields')
-				    	{
-							$('#alertDeleteDataByDate-modal').modal('hide'); 
-							date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
-				            url="/bourse/deletesovereignbyreferdate/" + date
-				    	}
-				    else
-				     	{
-							 $('#alertDeleteCorporateDataByDate-modal').modal('hide'); 
-							 date=$.jqx.dataFormat.formatdate($("#dateInputCorporateAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
-				             url="/bourse/deletecorporatebyreferdate/" + date
-				     	}
-			     $.ajax({
-			             type : "DELETE",
-			             url : url,
-			             success: function (result) {   
-				    getAuditGridSource();  
-					getFilterData();  
-			       if (type=='yields')
-				    	{
-				        $('#alertDeleteDataByDate-modal').modal('hide');
-						}
-				    else
-				     	{
-						  $('#alertDeleteCorporateDataByDate-modal').modal('hide');
-						 }
-				     	
- 					$( "#successDelete" ).empty();
-		 		    $( "#successDelete" ).append( "<p> All record for the date '"+date+"' has been deleted</p>" );
-				    $('#alertInfoDeleteDataByDate-modal').modal('show');  
-			             },
-			             error: function (e) {
-			                 console.log(e);
-			             }
-			         });
-				
-				
-				}
-			function getAuditGridSource(){
-					 $.ajax({
-			    	        contentType: "application/json",
-			    	        url: "/bourse/getlatestsovereignyields",
-			    	        dataType: 'text',
-			    	        async:true,
-			    	        cache: false,
-			    	        timeout: 600000,
-			    	        success: function (response) {
-			    	        	
-			    	        	$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
-			    	        	    date=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
-			    	        	  var dbDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
-								  var systemDate=new Date();
-			    	        	  systemDate.setHours(0,0,0,0);
-			    				  
-								if( dbDate.toDateString() == systemDate.toDateString())
-								 {	     
-			    				    filterDate=date;
-			    				    delete auditGridSource.localdata;
-			    				     auditGridSource.url='/bourse/getauditdata/'+date;
-			    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-			    					 $('#auditGrid').jqxGrid({source:dataAdapter});
-			    					 
-			    				    delete curvesGridSource.localdata;
-			    				     curvesGridSource.url='/bourse/getcurvedata/'+date;
-			    					 dataAdapter = new $.jqx.dataAdapter(curvesGridSource);
-			    					 $('#curvesGrid').jqxGrid({source:dataAdapter});
-			    					 
-			    					 delete crossesGridSource.localdata;
-			    					 crossesGridSource.url='/bourse/getcrossauditdata/'+date;
-			    					 dataAdapter = new $.jqx.dataAdapter(crossesGridSource);
-			    					 $('#crossesGrid').jqxGrid({source:dataAdapter});
-			    					}
-			    	        },
-			    	        error: function (e) {
-			    	        	
-								  console.log("ERROR : ", e);
+				 $("#loadDataCorporate").on('click', function(e) {
+			 e.preventDefault();
+			$("#loadDataCorporate").prop('disabled',true);
+			document.querySelector('#loadDataCorporate').disabled = true;
 			
-			    	        }
-			    	    });
-			    	     $.ajax({
+            	var date = new Date();
+            	var dataToBeInserted = [];
+            	
+            	var us_atoaaaObject=["1"];
+            	var us_btobbbObject=["2"];
+            	var us_ctocccObject=["3"];
+            	var eurozone_atoaaaObject=["4"];
+            	var eurozone_btobbbObject=["5"];
+
+            	var rows = $('#dataInputGridCorporate').jqxGrid('getrows');
+            	for (i = 0; i < rows.length; i++) {
+            	   us_atoaaaObject.push(rows[i].us_atoaaa);
+            	   us_btobbbObject.push(rows[i].us_btobbb);
+            	   us_ctocccObject.push(rows[i].us_ctoccc);
+            	   eurozone_atoaaaObject.push(rows[i].eurozone_atoaaa);
+            	   eurozone_btobbbObject.push(rows[i].eurozone_btobbb);
+            	}
+
+            	var listObject=["us_atoaaaObject","us_btobbbObject","us_ctocccObject","eurozone_atoaaaObject","eurozone_btobbbObject"];
+            	 
+            	 for (i = 0; i < listObject.length; i++) {
+
+            	     var value = eval(listObject[i]);
+            		 	dataToBeInserted.push({
+            			   "subgroupId":value[0],
+            			   "value":value[1],
+            			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+            			});
+            	 }
+            	 if($("#dateInput").jqxDateTimeInput('getDate')<date)
+           	     {
+            		 var today = $("#dateInput").jqxDateTimeInput('getDate');
+            		 if(today.getDay() == 6 || today.getDay() == 0)
+            		 { 
+            			 $('#alert-modal-weekend').modal('show'); 
+            			 return;
+            		 }
+            		 today=$.jqx.dataFormat.formatdate(today,  'dd-MM-yyyy')
+            		 $.ajax({
+	    	        contentType: "application/json",
+	    	        url: "/bourse/checkifcansavecorporate/"+today,
+	    	        dataType: 'json',
+	    	        async:true,
+	    	        cache: false,
+	    	        timeout: 600000,
+	    	        success: function (response) {
+	    	        	if(response)
+	    	        	{
+							 $.ajax({
+						        contentType: "application/json",
+						        url: "/process/isrobottriggered/111213",
+						        dataType: 'text',
+								async:true,
+						        cache: false,
+						        timeout: 600000,
+						        success: function (data) {
+				      
+								if(data=='true')
+								   $('#alert-modal-robot').modal('show'); 
+								else{
+									 	  $.ajax({
+						    	    	        type: "POST",
+						    	    	        contentType: "application/json",
+						    	    	        url: "/bourse/savecorporatedata",
+						    	    	        data: JSON.stringify(dataToBeInserted),
+						    	    	        dataType: 'json',
+						    	    	        async:true,
+						    	    	        cache: false,
+						    	    	        timeout: 600000,
+						    	    	        success: function (data) {
+						    	    	        
+												 getFilterData(yieldValue);
+						    	    	        	  
+						  						 dataTextInput.value="";
+						  		            	  $("#dataformInputCorporate").css("display","block");
+						  						  $("#dataInputButtonsCorporate").css("display","none"); 
+						  						  $("#dataInputGridCorporate").css("display","none");
+						  						
+						  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
+						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+						    	        	    
+						    				     filterDate=date;
+						    				     delete corporatesGridSource.localdata;
+												 corporatesGridSource.url='/bourse/getcorporateauditdata/'+date;
+												 dataAdapter = new $.jqx.dataAdapter(corporatesGridSource);
+												 $('#corporatesGrid').jqxGrid({source:dataAdapter});
+						
+												
+												 delete creditGridSource.localdata;
+												 creditGridSource.url='/bourse/getcreaditspreadauditdata/'+date;
+												 dataAdapter = new $.jqx.dataAdapter(creditGridSource);
+												 $('#creditAuditGrid').jqxGrid({source:dataAdapter});
+						    	    	         triggerRobotsCorporates();	
+						    	    	       
+						    	            },
+						    	    	        error: function (e) {
+						    	    	        	
+						    						  console.log("ERROR : ", e);
+						    	
+						    	    	        }
+						    	    	    });
+										}
+					
+								},
+						        error: function (e) {
+						        	
+										  console.log("ERROR : ", e);
+					
+						        }
+						    });
+
+	    	        	}
+	    	        	else{
+	    	        		$('#alert-modal').modal('show'); 
+	    	        	}
+	            },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });
+           	     }
+            	 else {
+            		 $('#alertDate-modal').modal('show'); 
+            	 }
+             });
+            
+	           corporatesGridSource =
+	            {    
+	            localdata:corporatesAuditDefaultData,
+	            datatype: "json",
+                datafields: [
+                    { name: 'usatoaaa', type: 'string' },
+                    { name: 'usbtobbb', type: 'string' },
+                    { name: 'usctoccc', type: 'string' },
+                    { name: 'eurozoneatoaaa', type: 'string' },
+                    { name: 'eurozonebtobbb', type: 'string' }
+                ],
+                url:''
+	            };
+	            var dataAdapter = new $.jqx.dataAdapter(corporatesGridSource);
+	            
+	            $("#corporatesGrid").jqxGrid(
+	            {
+	                width: '100%',
+	                source: dataAdapter,  
+	                theme:'dark',
+	                autoheight: true,
+	                editable: true,
+	                selectionmode: 'none',
+	                editmode: 'selectedrow',
+	                columns: [ 
+	                	   { text: '',editable:false, datafield: 'Edit',width:'22%',cellsrenderer: function (row) {
+		                	return "<input class=\"edit\" type=\"button\" onclick='EditCorporate(" + row + ", event)' id=\"edit_corporate"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons_corporate"+row+"\" style=\"display:none\"><input  onclick='UpdateCorporate(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='CancelCorporate(" + row + ", event)' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                   }
+		                  },  
+		                  { text: 'US AtoAAA "BLUECHIP"', datafield: 'usatoaaa', width: '15.6%' ,  renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px;"><div>US AtoAAA</div><div>"BLUECHIP"</div></div>';
+						        }
+						        },
+		                  { text: 'US BtoBBB "HIGHYIELD"', datafield: 'usbtobbb', width: '15.6%' ,renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px;"><div>US BtoBBB</div><div>"HIGHYIELD"</div></div>';
+						        } },
+		                  { text: 'US CtoCCC "JUNKBOND"', datafield: 'usctoccc', width: '15.6%', renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px;"><div>US CtoCCC</div><div>"JUNKBOND"</div></div>';
+						        }},
+		                  { text: 'EZ AtoAAA "BLUECHIP"', datafield: 'eurozoneatoaaa', width: '15.6%', renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px;"><div>EZ AtoAAA</div><div>"BLUECHIP"</div></div>';
+						        } },
+		                  { text: 'EZ BtoBBB "HIGH YIELD"', datafield: 'eurozonebtobbb', width: '15.6%', renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px;"><div>EZ BtoBBB</div><div>"HIGH YIELD"</div></div>';
+						        } }
+	                ]
+	            });
+	            creditGridSource =
+	            {    
+	            localdata:creditAuditDefaultData,
+	            datatype: "json",
+                datafields: [
+                    { name: 'usatoaaaUsa', type: 'string' },
+                    { name: 'usbtobbbUsatoaaa', type: 'string' },
+                    { name: 'usctocccUsbtobbb', type: 'string' },
+                    { name: 'eurozoneatoaaaGermany', type: 'string' },
+                    { name: 'eurozonebtobbbEurozoneatoaaa', type: 'string' }
+                ],
+                url:''
+	            };
+	            var dataAdapter = new $.jqx.dataAdapter(creditGridSource);
+	            
+	            $("#creditAuditGrid").jqxGrid(
+	            {
+	                width: '100%',
+	                source: dataAdapter,  
+	                theme:'dark',
+	                autoheight: true,
+	                editable: true,
+	                selectionmode: 'none',
+	                editmode: 'selectedrow',
+	                columns: [ 
+		                  { text: 'US BLUECHIP AtoAAA vs 10yr TSYS', datafield: 'usatoaaaUsa', width: '20%' , renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>US BLUECHIP</div><div>AtoAAA vs</div><div>10yr TSYS</div></div>';
+						        } },
+		                  { text: 'US HIGHYIELD BtoBBB vs BLUECHIP', datafield: 'usbtobbbUsatoaaa', width: '20%' , renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>US HIGHYIELD</div><div>BtoBBB vs</div><div>BLUECHIP</div></div>';
+						        } },
+		                  { text: 'US JUNKBOND CtoCCC vs HIGHYIELD', datafield: 'usctocccUsbtobbb', width: '20%', renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>US JUNKBOND</div><div>CtoCCC vs</div><div>HIGHYIELD</div></div>';
+						        } },
+		                  { text: 'EZ BLUECHIP AtoAAA vs 10Y GERMANY', datafield: 'eurozoneatoaaaGermany', width: '20%' , renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>EZ BLUECHIP</div><div>AtoAAA vs</div><div>10Y GERMANY</div></div>';
+						        } },
+		                  { text: 'EZ HIGHYIELD BtoBBB vs BLUECHIP AtoAAA', datafield: 'eurozonebtobbbEurozoneatoaaa', width: '20%' , renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>EZ HIGHYIELD</div><div>BtoBBB vs</div><div>BLUECHIP AtoAAA</div></div>';
+						        } }
+	                ]
+	            }); 
+	           
+				getAuditCorporateGridSource();
+			}
+	}
+			function getAuditCorporateGridSource()
+			{    
+				 $.ajax({
 			    	        contentType: "application/json",
 			    	        url: "/bourse/getlatestcorporatesyields",
 			    	        dataType: 'text',
@@ -2454,7 +2550,7 @@
 			    	        timeout: 600000,
 			    	        success: function (response) {
 								
-								$('#dateInputCorporateAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
+								$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]));
 			    	        	    corporatedate=$.jqx.dataFormat.formatdate(new Date(response),  'dd-MM-yyyy');
 			    	        	  var dbDate=  new Date(response.split("-")[1]+","+response.split("-")[2]+","+response.split("-")[0]);
 								  var systemDate=new Date();
@@ -2464,6 +2560,11 @@
 									 corporatesGridSource.url='/bourse/getcorporateauditdata/'+corporatedate;
 									 dataAdapter = new $.jqx.dataAdapter(corporatesGridSource);
 									 $('#corporatesGrid').jqxGrid({source:dataAdapter});
+									 
+									 delete creditGridSource.localdata;
+									 creditGridSource.url='/bourse/getcreaditspreadauditdata/'+date;
+									 dataAdapter = new $.jqx.dataAdapter(creditGridSource);
+									 $('#creditAuditGrid').jqxGrid({source:dataAdapter});
 			    	        	 },
 			    	        error: function (e) {
 			    	        	
@@ -2471,39 +2572,62 @@
 			
 			    	        }
 			    	    });
-			
-			}
-	function triggerRobots()
-	{
-		 $.ajax({
+			    	    }
+			    	    
+   function saveFilterHistory(yieldValue,checkedItem){
+		
+			 
+	  						var filterHistory = { 
+			   		        	  "filterHistory":checkedItem.toString(),
+			   		        	  "screenName":"DATABASE_INPUT_SCREEN_SOVEREIGN-"+yieldValue
+			   	     			   };
+	  					   $.ajax({
+			  	       	        type: "POST",
+		     	    	        contentType:  "application/json; charset=utf-8",
+		     	    	        url: "/bourse/savedataentryfilterhistory",
+		     	    	        data: JSON.stringify(filterHistory),
+		     	    	        dataType: 'json',
+		     	    	        timeout: 600000,
+		     	    	        success: function (response) {
+		     	    	        	    
+		     	                  },
+		     	    	        error: function (e) {
+		     	    	        	
+		     						  console.log("ERROR : ", e);
+		     	
+		     	    	        }
+		     	    	    });	
+	}
+	function getFilterHistory(yieldValue){
+		              
+		           $.ajax({
 	       	        contentType:  "application/json; charset=utf-8",
-	    	        url: "/robot/callrobotsasync/"+"1/0",
+	    	        url: "/bourse/getdataentryfilterhistory/"+"DATABASE_INPUT_SCREEN_SOVEREIGN-"+yieldValue,
 	    	        dataType: 'json',
 	    	        timeout: 600000,
-	    	        async:true,
+	    	        async:false,
 	    	        success: function (response) {
-	    	        	
-	                  },
-	    	        error: function (e) {
-	    	        	
-						  console.log("ERROR : ", e);
-	
-	    	        }
-	    	    });	
-	}	
-	
-	function updateRobotNewsOnChangeColumns(ArrayOfColumns)
-	{	
-		 $.ajax({
-       	            type: "POST",
-  	    	        contentType: "application/json",
-  	    	        url: "/robot/updaterobotnewsonchangecolumns",
-  	    	        data: JSON.stringify(ArrayOfColumns),
-	    	        dataType: 'json',
-	    	        timeout: 600000,
-	    	        async:true,
-	    	        success: function (response) {
-	    	        	
+	    	        
+	    	       if (response.filterHistory!=null)
+	    	    	   {
+	    	    	   var filterresponse = response.filterHistory;
+	    	    	   for(i=0; i<filterresponse.split(",").length; i++)
+		    			   {
+		    		    	$(filterresponse.split(",")[i]).jqxCheckBox({checked:true});
+		    		       } 
+	    	    	   }
+	    	       else{
+					   if(yieldValue ==1)
+		    	    	   for(i=0; i<soverignYieldsItem.length; i++)
+		    			   {
+		    		    	$(soverignYieldsItem[i]).jqxCheckBox({checked:true});
+		    		       }
+	    		       else if(yieldValue ==2)
+	    		       	for(i=0; i<corporateitems.length; i++)
+		    			   {
+		    		    	$(corporateitems[i]).jqxCheckBox({checked:true});
+		    		       }
+	    	       }
 	                  },
 	    	        error: function (e) {
 	    	        	
@@ -2512,31 +2636,23 @@
 	    	        }
 	    	    });	
 	}
-		
- 	function getCountryDbDescription(country)
+	
+		function triggerRobotsCorporates()
 	{
-	  var fullName='';	
-		switch(country) {
-		  
-		 case 'france': 
-		   fullName='FRA'
-		        break;
-		 case 'germany': 
-		   fullName='GER'
-		        break;
-		 case 'italy': 
-		   fullName='ITA'
-			    break;
-		 case 'spain': 
-	       fullName='SP'
-			    break;
-		 case 'uk': 
-		   fullName='UK'
-			    break;
-		case 'usa': 
-		   fullName='USA'
-			    break;
-		}
-	return fullName;
+		 $.ajax({
+	       	        contentType:  "application/json; charset=utf-8",
+	    	        url: "/robot/callrobotsasync/"+"1/111213",
+	    	        dataType: 'json',
+	    	        timeout: 600000,
+	    	        async:true,
+	    	        success: function (response) {
+	    	        	
+	                  },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });	
 	}	
-	 
+	

@@ -19,6 +19,21 @@ public enum SubGroupEnum {
 	NATGASEUR(9,5,"5"), 
 	BALTIC(10,1,"1"),
 	CONTAINER(10,2,"2"),
+	USATOAAA(11,1,"1"),
+	USBTOBBB(11,2,"2"),
+	USCTOCCC(11,3,"3"),
+	EUROZONEATOAAA(11,4,"4"),
+	EUROZONEBTOBBB(11,5,"5"),
+	EXCESS1 (14,1,"1"),
+	EXCESS2 (14,2,"2"),
+	EXCESS3 (14,3,"3"),
+	EXCESS4 (14,4,"4"),
+	QE1 (15,1,"1"),
+	QE2 (15,2,"2"),
+	M0 (16,1,"1"),
+	M1 (16,2,"2"),
+	M2 (16,3,"3"),
+	M3 (16,4,"4"),
 	OTHER(0,0,"OTHER");
 	
 	public int groupId;
@@ -80,6 +95,47 @@ public enum SubGroupEnum {
 		                return BALTIC.index;
 		            case 2:
 		                return CONTAINER.index;
+		        }
+	        else if(groupId==11)
+				switch (subGroupId) {
+		            case 1:
+		                return USATOAAA.index;
+		            case 2:
+		                return USBTOBBB.index;
+		            case 3:
+		                return USCTOCCC.index;
+		            case 4:
+		                return EUROZONEATOAAA.index;
+		            case 5:
+		                return EUROZONEBTOBBB.index;
+		        }
+	        else if(groupId==14)
+				switch (subGroupId) {
+		            case 1:
+		                return EXCESS1.index;
+		            case 2:
+		                return EXCESS2.index;
+		            case 3:
+		                return EXCESS3.index;
+		            case 4:
+		                return EXCESS4.index;
+		        }
+	        else if(groupId==15)
+				switch (subGroupId) {
+		            case 1:
+		                return QE1.index;
+		            case 2:
+		                return QE2.index;
+		        }else if(groupId==16)
+				switch (subGroupId) {
+				   case 1:
+		                return M0.index;
+		            case 2:
+		                return M1.index;
+		            case 3:
+		                return M2.index;
+		            case 4:
+		                return M3.index;
 		        }
         return OTHER.index;
     }

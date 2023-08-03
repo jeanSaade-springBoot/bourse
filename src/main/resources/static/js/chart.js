@@ -29,7 +29,7 @@ var options = {
 				right: 60,
 			},
 		},
-		colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
+		colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
 		fill: {
 			type: 'solid',
 			opacity: [1, 1],
@@ -183,7 +183,7 @@ var options_missingDates = {
 				right: 60,
 			},
 		},
-		colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
+		colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
 		fill: {
 			type: 'solid',
 			opacity: [1, 1],
@@ -367,7 +367,7 @@ var options_missingDates = {
 			},
 
 		}],
-		colors: ["#F0AB2E", "#0097FE", "#F9E79F", "#7e95d9", "#FAD7A0", "#a3a3a5"],
+		colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
 		fill: {
 			opacity: [1, 1],
 		},
@@ -410,7 +410,7 @@ function getChartDailyOption(title,showgrid,fontSize,markerSize)
 		   	  	        right: 60,
 		   	  	    },  
    	  			},
-   	  			        colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+   	  			        colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
    	  			        fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -537,7 +537,7 @@ function getChartDailyOptionMissingDates(title,showgrid,fontSize,markerSize)
 		   	  	        right: 60,
 		   	  	    },  
    	  			},
-   	  			        colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+   	  			        colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
    	  			        fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -704,7 +704,7 @@ function getChartDailyOptionMissingDates(title,showgrid,fontSize,markerSize)
 			        	  },
 			        
 			        }],
-   	  			      colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+   	  			      colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
    	  			      fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -748,7 +748,7 @@ var chartOption = {
 		   	  	        right: 60,
 		   	  	    },  
    	  			},
-   	  			        colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+   	  			        colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
    	  			        fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -913,7 +913,7 @@ var chartOption = {
 			        	  },
 			        
 			        }],
-   	  			      colors: ["#F0AB2E", "#0097FE","#F9E79F","#7e95d9","#FAD7A0","#a3a3a5"],
+   	  			      colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
    	  			      fill: {
    	  			            type:'solid',
    	  			            opacity: [1, 1],
@@ -925,7 +925,7 @@ var chartOption = {
    	    	          };
    	    	             	    	          
 function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
-          
+          console.log(notDecimal,nbrOfDigits)
 				var Period = $("#DailyRadioButton").val();
 				var valueMin1 = getMarginLenght(min1);  
 				var valueMin2 = getMarginLenght(min2);  
@@ -1095,7 +1095,7 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 			};  
 			  	    	             	    	          
 function updateGraphFont(fontsize,minvalue,maxvalue){
-	//console.log(minvalue,maxvalue)
+	console.log(notDecimal,nbrOfDigits)
 				var Period = $("#DailyRadioButton").val();
 				var valueMin = getMarginLenght(minvalue); 
 				var valueMax = getMarginLenght(maxvalue); 
@@ -1313,7 +1313,7 @@ function getChartType(dbChartType)
 function getFormat(Format)
 {
  var valueFormat=3;
-  var  FormatIsDecimal= false;
+ var  FormatIsDecimal= false;
   
   if (Format!=null && Format!="")
    { 
@@ -1422,7 +1422,7 @@ function getMarginLenght(value){
 					 chart.updateOptions({
   	    	    	  extra:{
 							isDecimal: chartConfigSettings.isDecimal,
-							yAxisFormat:chartConfigSettings.yAxisFormat,
+							yAxisFormat:chartConfigSettings.yAxisFormat0[1],
 						},
 						colors: chartConfigSettings.functionId==1?[chartColorOpacity(chartConfigSettings.chartColor), "#FF0000"]:[chartColorOpacity(chartConfigSettings.chartColor), "#ffa4c5"],
   	    	    	    markers: {
@@ -1441,10 +1441,10 @@ function getMarginLenght(value){
 									fontSize:chartConfigSettings.fontSize,
 								},
 								 formatter: function(val, index) {
-										 if (chartConfigSettings.getFormatResult0[1])
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+										 if (chartConfigSettings.yAxisFormat0[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]);
 						  				else 
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]) + "%";
 									      }
 							},
 							tickAmount: 6,
@@ -1515,10 +1515,10 @@ function getMarginLenght(value){
  						        	  fontSize: chartConfigSettings.fontSize,
  						        	 },
  						        	  formatter: function(val, index) {
-											if (chartConfigSettings.getFormatResult0[1])
-								  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+											if (chartConfigSettings.yAxisFormat0[1])
+								  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]);
 								  				else 
-								  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+								  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]) + "%";
 									      }
  				        	  },
  				          tickAmount: 6,
@@ -1541,10 +1541,10 @@ function getMarginLenght(value){
 	 						        	  fontSize: chartConfigSettings.fontSize,
 	 						        	 },
 	 						        	  formatter: function(val, index) {
-										  if (chartConfigSettings.getFormatResult1[1])
-								  						  return  val.toFixed(chartConfigSettings.getFormatResult1[0]);
+										  if (chartConfigSettings.yAxisFormat1[1])
+								  						  return  val.toFixed(chartConfigSettings.yAxisFormat1[0]);
 								  						else 
-								  							 return  val.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+								  							 return  val.toFixed(chartConfigSettings.yAxisFormat1[0]) + "%";
 								  							
 									      }
 		 				        	  },
@@ -1576,7 +1576,7 @@ function getMarginLenght(value){
 								  					  if (chartConfigSettings.getFormatResult1[1])
 								  						  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
 								  						else 
-								  							 return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+								  						  return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
 								  					 }
 										    },
 										    title: {
@@ -1614,10 +1614,10 @@ function getMarginLenght(value){
  						        	  fontSize: chartConfigSettings.fontSize,
  						        	 },
  						        	 formatter: function(val, index) {
-										 if (chartConfigSettings.getFormatResult0[1])
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+										 if (chartConfigSettings.yAxisFormat0[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]);
 						  				else 
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]) + "%";
 									      }
  				        	  },
  				          tickAmount: 6,
@@ -1773,10 +1773,10 @@ function getMarginLenght(value){
 									fontSize:chartConfigSettings.fontSize,
 								},
 								 formatter: function(val, index) {
-										 if (chartConfigSettings.getFormatResult0[1])
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+										 if (chartConfigSettings.yAxisFormat0[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]);
 						  				else 
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]) + "%";
 									      }
 							},
 							tickAmount: 6,
@@ -1874,10 +1874,10 @@ function getMarginLenght(value){
  						        	  fontSize: chartConfigSettings.fontSize,
  						        	 },
  						        	  formatter: function(val, index) {
-											if (chartConfigSettings.getFormatResult0[1])
-								  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+											if (chartConfigSettings.yAxisFormat0[1])
+								  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]);
 								  				else 
-								  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+								  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]) + "%";
 									      }
  				        	  },
  				          tickAmount: 6,
@@ -1900,10 +1900,10 @@ function getMarginLenght(value){
 	 						        	  fontSize: chartConfigSettings.fontSize,
 	 						        	 },
 	 						        	  formatter: function(val, index) {
-										  if (chartConfigSettings.getFormatResult1[1])
-								  						  return  val.toFixed(chartConfigSettings.getFormatResult1[0]);
+										  if (chartConfigSettings.yAxisFormat1[1])
+								  						  return  val.toFixed(chartConfigSettings.yAxisFormat1[0]);
 								  						else 
-								  							 return  val.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+								  							 return  val.toFixed(chartConfigSettings.yAxisFormat1[0]) + "%";
 								  							
 									      }
 		 				        	  },
@@ -2000,10 +2000,10 @@ function getMarginLenght(value){
  						        	  fontSize: chartConfigSettings.fontSize,
  						        	 },
  						        	 formatter: function(val, index) {
-										 if (chartConfigSettings.getFormatResult0[1])
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+										 if (chartConfigSettings.yAxisFormat0[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]);
 						  				else 
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]) + "%";
 									      }
  				        	  },
  				          tickAmount: 6,
@@ -2025,10 +2025,10 @@ function getMarginLenght(value){
  						        	  fontSize: chartConfigSettings.fontSize,
  						        	 },
  						        	 formatter: function(val, index) {
-										  if (chartConfigSettings.getFormatResult1[1])
-								  						  return  val.toFixed(chartConfigSettings.getFormatResult1[0]);
+										  if (chartConfigSettings.yAxisFormat1[1])
+								  						  return  val.toFixed(chartConfigSettings.yAxisFormat1[0]);
 								  						else 
-								  							 return  val.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+								  							 return  val.toFixed(chartConfigSettings.yAxisFormat1[0]) + "%";
 								  							
 									      }
  				        	  },
@@ -2130,10 +2130,10 @@ function updateChartSelectedItem(chartConfigSettings){
 											fontSize: fontsize,
 										},
 										 formatter: function(val, index) {
-										 if (chartConfigSettings.getFormatResult0[1])
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+										 if (chartConfigSettings.yAxisFormat[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]);
 						  					else 
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]) + "%";
 									      }
 									},
 									tickAmount: 6,
@@ -2195,10 +2195,10 @@ function updateChartSelectedItem(chartConfigSettings){
 	 						        	  fontSize: chartConfigSettings.fontSize,
 	 						        	 },
 										 formatter: function(val, index) {
-										 if (chartConfigSettings.getFormatResult0[1])
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+										 if (chartConfigSettings.yAxisFormat[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]);
 						  				else 
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]) + "%";
 									      }
 						 				        	  },
 					     				          tickAmount: 6,
@@ -2220,10 +2220,10 @@ function updateChartSelectedItem(chartConfigSettings){
 						 						        	  fontSize: chartConfigSettings.fontSize,
 						 						        	 },
 						 						        	 formatter: function(val, index) {
-															 if (chartConfigSettings.getFormatResult0[1])
-											  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+															 if (chartConfigSettings.yAxisFormat1[1])
+											  				  return  val.toFixed(chartConfigSettings.yAxisFormat1[0]);
 											  				else 
-											  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+											  				  return  val.toFixed(chartConfigSettings.yAxisFormat1[0]) + "%";
 														      }
 						 				        	  },
 					     				          tickAmount: 6,
@@ -2345,10 +2345,10 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 											fontSize: fontsize,
 										},
 										 formatter: function(val, index) {
-										 if (chartConfigSettings.getFormatResult0[1])
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+										 if (chartConfigSettings.yAxisFormat[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]);
 						  					else 
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]) + "%";
 									      }
 									},
 									tickAmount: 6,
@@ -2410,10 +2410,10 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 	 						        	  fontSize: chartConfigSettings.fontSize,
 	 						        	 },
 										 formatter: function(val, index) {
-										 if (chartConfigSettings.getFormatResult0[1])
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+										 if (chartConfigSettings.yAxisFormat[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]);
 						  				else 
-						  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]) + "%";
 									      }
 						 				        	  },
 					     				          tickAmount: 6,
@@ -2435,10 +2435,10 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 						 						        	  fontSize: chartConfigSettings.fontSize,
 						 						        	 },
 						 						        	 formatter: function(val, index) {
-															 if (chartConfigSettings.getFormatResult0[1])
-											  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]);
+															 if (chartConfigSettings.yAxisFormat1[1])
+											  				  return  val.toFixed(chartConfigSettings.yAxisFormat1[0]);
 											  				else 
-											  				  return  val.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+											  				  return  val.toFixed(chartConfigSettings.yAxisFormat1[0]) + "%";
 														      }
 						 				        	  },
 					     				          tickAmount: 6,

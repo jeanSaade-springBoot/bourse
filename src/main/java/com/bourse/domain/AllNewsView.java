@@ -30,4 +30,5 @@ public class AllNewsView {
     private String subgroupId;
     private String description;
     private String assetId;
+    private String order_id;
 }

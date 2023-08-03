@@ -167,10 +167,13 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 			  UpdatedColumnDTO UpdatedColumn = iterator.next();
 			
 			  if(UpdatedColumn.getAssetId()==1)
-			    query+="select description from column_configuration where description like'%"+UpdatedColumn.getValue()+"%"+UpdatedColumn.getFactor()+"%'";
-			  else if(UpdatedColumn.getAssetId()==2)
+			    if(UpdatedColumn.getFactor()!=null)
+				  query+="select description from column_configuration where description like'%"+UpdatedColumn.getValue()+"%"+UpdatedColumn.getFactor()+"%'";
+			    else 
+			    	query+="select description from column_configuration where description like'%"+UpdatedColumn.getValue()+"%'";
+			else 
 				query+="select description from column_configuration where description like'%"+UpdatedColumn.getValue()+"%'";
-		       
+			  
 			  if (iterator.hasNext()) {
 		        	query+=" union "; 
 		        }

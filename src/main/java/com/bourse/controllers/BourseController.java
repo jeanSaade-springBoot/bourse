@@ -3,12 +3,15 @@ package com.bourse.controllers;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,7 +36,6 @@ import com.bourse.dto.CrossAuditProcedureDTO;
 import com.bourse.dto.CurveSoveriegnDTO;
 import com.bourse.dto.DataDTO;
 import com.bourse.dto.DataFunctionReqDTO;
-import com.bourse.dto.DataFunctionRespDTO;
 import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.GraphHistoryDTO;
 import com.bourse.dto.GraphNewsDTO;
@@ -50,6 +52,7 @@ import com.bourse.service.GraphHistoryService;
 import com.bourse.service.GraphNewsService;
 import com.bourse.service.SkewsService;
 import com.bourse.service.SovereignYieldsService;
+import com.bourse.service.LiveFlowOptionService;
 import com.bourse.util.SovereignUtil;
 @RestController
 @RequestMapping(value = "bourse")
@@ -100,8 +103,8 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/sovereignyields")
-    public ModelAndView dataEntryPage(ModelMap model)
-    {
+    public ModelAndView dataEntryPage(@RequestParam("yield") String yield,ModelMap model)
+    {   model.addAttribute("yield", Integer.valueOf(yield));
 		return new ModelAndView("html/sovereignyields");
     }
 	@RequestMapping( value =  "/skews")
@@ -114,6 +117,12 @@ public class BourseController {
     public ModelAndView dataEntryPreciousMetalsPage(@RequestParam("commodity") String commodity,ModelMap model)
     {   model.addAttribute("commodity", Integer.valueOf(commodity));
 		return new ModelAndView("html/metals");
+    }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_LIQUIDITY') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/liquidity")
+    public ModelAndView dataEntryLiquidityPage(@RequestParam("liquidity") String liquidity,ModelMap model)
+    {   model.addAttribute("liquidity", Integer.valueOf(liquidity));
+		return new ModelAndView("html/liquidity");
     }
 	@RequestMapping( value =  "/returnfunction")
     public ModelAndView returnFunctionPage(ModelMap model)
@@ -131,6 +140,12 @@ public class BourseController {
     public ModelAndView anyTwoMetalsPage(ModelMap model)
     {
 		return new ModelAndView("html/any2metals");
+    }
+	@PreAuthorize("hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/any2liquidity")
+    public ModelAndView anyTwoLiquidityPage(ModelMap model)
+    {
+		return new ModelAndView("html/any2Liquidity");
     }
 	@PreAuthorize("hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/precious")
@@ -186,6 +201,13 @@ public class BourseController {
     {
 		return new ModelAndView("html/sovereignCorporate");
     }
+	@PreAuthorize("hasAuthority('CREDIT_SPREAD_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "creditsspreadgraph")
+    public ModelAndView sovereignCreditSpreadGraphPage(ModelMap model)
+    {
+		return new ModelAndView("html/sovereignCredits");
+    }
+	
 	@PreAuthorize("hasAuthority('SPREAD_MAKER_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "spreadmakergraph")
     public ModelAndView spreadMakerGraphPage(ModelMap model)
@@ -243,6 +265,36 @@ public class BourseController {
     {
 		return new ModelAndView("html/metaldataFunctionDisplay");
     }
+	@PreAuthorize("hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/liquiditydatafunctiondisplay")
+    public ModelAndView liquidityDataFunctionDisplay(ModelMap model)
+    {
+		return new ModelAndView("html/liquidityDataFunctionDisplay");
+    }
+	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/corporateliquidity")
+    public ModelAndView corporateLiquidityPage(ModelMap model)
+    {
+		return new ModelAndView("html/corporateLiquidity");
+    }
+	@PreAuthorize("hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/ecbexcessliquidity")
+    public ModelAndView ecbExcessLiquidityPage(ModelMap model)
+    {
+		return new ModelAndView("html/ecbExcessLiquidity");
+    }
+	@PreAuthorize("hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/ecbqeliquidity")
+    public ModelAndView ecbQeLiquidityPage(ModelMap model)
+    {
+		return new ModelAndView("html/ecbQeLiquidity");
+    }
+	@PreAuthorize("hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/ezmmliquidity")
+    public ModelAndView ezmmLiquidityPage(ModelMap model)
+    {
+		return new ModelAndView("html/ezmmLiquidity");
+    }
 	@PreAuthorize("hasAuthority('USERS_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/users")
     public ModelAndView userPage(ModelMap model)
@@ -260,6 +312,7 @@ public class BourseController {
     {
 		return new ModelAndView("html/readExcelWriteDB");
     }
+	
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
 		
@@ -388,9 +441,18 @@ public class BourseController {
 	@PostMapping(value = "updateauditdata")
 	public ResponseEntity<Boolean> updateAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
-	
+		AtomicBoolean isDependent = new AtomicBoolean(false);
 		sovereignYieldsService.updateAuditData(updateDataDTOlst);
 		sovereignYieldsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		updateDataDTOlst.forEach(
+		            (updateDataDTO) -> {
+		            	if((updateDataDTO.getFactor().equalsIgnoreCase("10yr")&&updateDataDTO.getSubgroupId().equalsIgnoreCase("1"))||
+		            			(updateDataDTO.getFactor().equalsIgnoreCase("10yr")&&updateDataDTO.getSubgroupId().equalsIgnoreCase("3")));
+		            	isDependent.set(true);
+		            });
+		if (isDependent.get())
+			corporatesYieldsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 
@@ -488,8 +550,8 @@ public class BourseController {
 //	} 
 //	
 	@PostMapping(value = "findselectedgraphnews")
-	public List<AllNewsView> findSelectedGraphNews(@RequestBody GraphNewsDTO graphNewsDTO) {
-		return graphNewsService.findSelectedGraphNews(graphNewsDTO.getSelectedGraphs());
+	public Page<AllNewsView> findSelectedGraphNews(@RequestBody GraphNewsDTO graphNewsDTO) {
+		return graphNewsService.findSelectedGraphNews(graphNewsDTO.getSelectedGraphs(),graphNewsDTO.getPageNo(),graphNewsDTO.getPageSize());
 	}
 	@PostMapping(value = "getgriddata")
 	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody SearchFilterDTO searchFilterDTO) {

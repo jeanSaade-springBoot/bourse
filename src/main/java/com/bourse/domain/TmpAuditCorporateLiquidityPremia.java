@@ -18,10 +18,10 @@ import lombok.NoArgsConstructor;
 public class TmpAuditCorporateLiquidityPremia {
 	@Id
 	private Long id;
-	private String usatoaaaUsa;
-	private String usbtobbbUsatoaaa;
-	private String usctocccUsbtobbb;
-	private String eurozoneatoaaaGermany;
-	private String eurozonebtobbbEurozoneatoaaa;
+	private String avgUsatoaaaUsa;
+	private String avgUsbtobbbUsatoaaa;
+	private String avgUsctocccUsbtobbb;
+	private String avgEurozoneatoaaaGermany;
+	private String avgEurozonebtobbbEurozoneatoaaa;
 	private String referDate;
 }

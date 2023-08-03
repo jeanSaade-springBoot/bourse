@@ -27,6 +27,8 @@
   var nbrOfDigits;
   var notDecimal1;
   var nbrOfDigits1;
+  var yaxisformat0;
+  var yaxisformat1;
   
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
@@ -302,8 +304,8 @@
     	  $("#jqxCheckBoxusatoaaa").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxusbtobbb").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxusctoccc").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxeurozoneAtoaaa").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxeurozoneBtobbb").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxeurozoneatoaaa").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBoxeurozonebtobbb").jqxCheckBox({checked: false });
 		  
     	  $("#jqxCheckBoxusatoaaaUsa").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxusbtobbbUsatoaaa").jqxCheckBox({checked: false });
@@ -4240,20 +4242,19 @@
    		        	    "country1":itemValue[checkedItemValues[0]].country,
    		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross
    	     			   };
-			  	       	  $.ajax({
-			  	       	        type: "POST",
-		      	    	        contentType:  "application/json; charset=utf-8",
-		      	    	        url: "/bourse/getgraphdata",
-		      	    	        data: JSON.stringify(dataParam),
-		      	    	        dataType: 'json',
-		      	    	        timeout: 600000,
-		      	    	        success: function (response) {
+		  	       	  $.ajax({
+		  	       	        type: "POST",
+	      	    	        contentType:  "application/json; charset=utf-8",
+	      	    	        url: "/bourse/getgraphdata",
+	      	    	        data: JSON.stringify(dataParam),
+	      	    	        dataType: 'json',
+	      	    	        timeout: 600000,
+	      	    	        success: function (response) {
 		      	    	        
 		      	    	    var dbchartType1=response[0].config.chartType;
 	      	    	           chartType1 = getChartType(dbchartType1)[0];
 	      	    	         var getFormatResult = getFormat(response[0].config.dataFormat); 
 	      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
-	      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
 	      	    		    chartDbFontSize = response[0].config.chartSize;
 	      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
   	    	          	  
@@ -4342,8 +4343,8 @@
 	      	    	   minvalue=min;
 	      	    	   maxvalue=max;
 	      	    	   
-	      	    	     notDecimal=getFormatResult[1];
-				         nbrOfDigits=getFormatResult[0];
+	      	    	     notDecimal=yaxisformat[1];
+				         nbrOfDigits=yaxisformat[0];
 	      	    	    	chart1.updateOptions({
 	      	    	    	  extra:{
 									isDecimal: isdecimal,
@@ -4356,10 +4357,10 @@
 			 						        	  fontSize: fontsize,
 			 						        	 },
 							 formatter: function(val, index) {
-										 if (getFormatResult[1])
-						  				  return  val.toFixed(getFormatResult[0]);
+										 if (getYAxisFormatResult[1])
+						  				  return  val.toFixed(getYAxisFormatResult[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult[0]) + "%";
+						  				  return  val.toFixed(getYAxisFormatResult[0]) + "%";
 									      }
 			 				        	  },
 	     				          tickAmount: 6,
@@ -4565,7 +4566,7 @@
 			      	    	        timeout: 600000,
 			      	    	        success: function (response) {
 			      	    	         var getFormatResult = getFormat(response[0].config.dataFormat);
-			      	    	          var dbchartType2=response[0].config.chartType;
+			      	    	         var dbchartType2=response[0].config.chartType;
 			      	    	           chartType2 = getChartType(dbchartType2)[0];
 			      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
 			      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
@@ -4658,8 +4659,8 @@
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
 	      	    	   
-				      	    	     notDecimal=getFormatResult[1];
-								     nbrOfDigits=getFormatResult[0];
+				      	    	     notDecimal=yaxisformat[1];
+								     nbrOfDigits=yaxisformat[0];
 				      	    	    	chart2.updateOptions({
 				      	    	    	  extra:{
 												isDecimal: isdecimal,
@@ -4672,10 +4673,10 @@
 						 						        	  fontSize: fontsize,
 						 						        	 },
 												 formatter: function(val, index) {
-															 if (getFormatResult[1])
-											  				  return  val.toFixed(getFormatResult[0]);
+															 if (getYAxisFormatResult[1])
+											  				  return  val.toFixed(getYAxisFormatResult[0]);
 											  				else 
-											  				  return  val.toFixed(getFormatResult[0]) + "%";
+											  				  return  val.toFixed(getYAxisFormatResult[0]) + "%";
 														      }
 						 				        	  },
 				     				          tickAmount: 6,
@@ -4769,10 +4770,10 @@
 									        	  fontSize: fontsize,
 									        	 },
 							 formatter: function(val, index) {
-										 if (getFormatResult0[1])
-						  				  return  val.toFixed(getFormatResult0[0]);
+										 if (yaxisformat0[1])
+						  				  return  val.toFixed(yaxisformat0[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(yaxisformat0[0]) + "%";
 									      }
 							        	  },
 							        	  axisBorder: {
@@ -4827,10 +4828,10 @@
 										        	  fontSize: fontsize,
 										        	 },
 							 formatter: function(val, index) {
-										 if (getFormatResult0[1])
-						  				  return  val.toFixed(getFormatResult0[0]);
+										 if (yaxisformat1[1])
+						  				  return  val.toFixed(yaxisformat1[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(yaxisformat1[0]) + "%";
 									      }
 								        	  },
 								        	  axisBorder: {
@@ -4885,10 +4886,10 @@
 								        	  fontSize: fontsize,
 								        	 },
 							 formatter: function(val, index) {
-										 if (getFormatResult0[1])
-						  				  return  val.toFixed(getFormatResult0[0]);
+										 if (yaxisformat0[1])
+						  				  return  val.toFixed(yaxisformat0[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(yaxisformat0[0]) + "%";
 									      }
 						        	  },
 						        	  axisBorder: {
@@ -5140,7 +5141,10 @@
 		      	    	        	
 		      	    	        	var getFormatResult0 = getFormat(response[0].config.dataFormat);
 		      	    	        	var getFormatResult1 = getFormat(response[1].config.dataFormat);
-		      	    	        	 
+		      	    	        	
+		      	    	        	yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+ 									yaxisformat1 = getFormat(response[1].config.yAxisFormat);
+
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
@@ -5176,14 +5180,15 @@
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
 	      	    	  				 
-				      	    	     notDecimal=getFormatResult0[1];
-									 nbrOfDigits=getFormatResult0[0];
-									 notDecimal1=getFormatResult1[1];
-									 nbrOfDigits1=getFormatResult1[0];
+				      	    	     notDecimal=yaxisformat[1];
+									 nbrOfDigits=yaxisformat[0];
+									 notDecimal1=yaxisformat1[1];
+									 nbrOfDigits1=yaxisformat1[0];
 										 
 									var chartConfigSettings={
 											 isDecimal:isdecimal,
-											 yAxisFormat:yaxisformat,
+											 yAxisFormat:yaxisformat0,
+											 yAxisFormat1:yaxisformat1,
 											 fontSize:fontsize,
 											 min1:min1,
 											 max1:max1,
@@ -5459,8 +5464,8 @@
 				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
-				      	    	     notDecimal=getFormatResult[1];
-				                     nbrOfDigits=getFormatResult[0];	
+				      	    	     notDecimal=yaxisformat[1];
+				                     nbrOfDigits=yaxisformat[0];	
 				      	    	   
 							var getFormatResult0 = getFormat(response[0].config.dataFormat);
 					       

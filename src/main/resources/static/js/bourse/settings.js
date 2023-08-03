@@ -235,7 +235,7 @@
 	          async: true
 	      };
 		   var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
-		$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: 190, height: 30});
+		$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: 260, height: 30});
 		$("#subGroupDropDown").on('select', function (event) {
 			
             if (event.args) {

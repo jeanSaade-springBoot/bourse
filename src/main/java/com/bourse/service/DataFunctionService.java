@@ -49,12 +49,18 @@ public class DataFunctionService {
 		String title =null;	
 		
 		if(dataFunctionReqDTO.getYieldCurveCross().equalsIgnoreCase("11")||dataFunctionReqDTO.getYieldCurveCross().equalsIgnoreCase("12"))
-			title = columnConfigurationRepository.findByGroupIdAndSubgroupIdAndFactor(dataFunctionReqDTO.getYieldCurveCross(),dataFunctionReqDTO.getCountry(),"0").getDisplayDescription();		
+			title = columnConfigurationRepository.findByGroupIdAndSubgroupIdAndFactor(dataFunctionReqDTO.getYieldCurveCross(),dataFunctionReqDTO.getCountry(),"0").getColumnName();		
 				
 		GridDataDTO gridDataDTO = GridDataDTO.builder().dataFunctionRespDTO(dataFunctionRespDTO).gridTitle(title).build();
 		return gridDataDTO;
 	}
-	
+	public GridDataDTO getDynamicGridDataDTOFunction(GenericDataFunctionReqDTO dataFunctionReqDTO) {
+		List<DataFunctionRespDTO> dataFunctionRespDTO = getDynamicGridDataFunction(dataFunctionReqDTO);
+		String title = columnConfigurationRepository.findByGroupIdAndSubgroupIdAndFactor(dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId(),"0").getColumnName();		
+				
+		GridDataDTO gridDataDTO = GridDataDTO.builder().dataFunctionRespDTO(dataFunctionRespDTO).gridTitle(title).build();
+		return gridDataDTO;
+	}
 	public List<DataFunctionRespDTO> getGridDataFunction(DataFunctionReqDTO dataFunctionReqDTO) {
 		boolean hasData= adminService.getData();
 	      if(!hasData)
@@ -120,22 +126,13 @@ public class DataFunctionService {
 		return data;
 	    
 	}
-	public List<DataFunctionRespDTO> getGridMetalsDataFunction(GenericDataFunctionReqDTO dataFunctionReqDTO) {
+	public List<DataFunctionRespDTO> getDynamicGridDataFunction(GenericDataFunctionReqDTO dataFunctionReqDTO) {
 		boolean hasData= adminService.getData();
 	      if(!hasData)
 			return null;   
 		List<String> tableNames = new ArrayList<String>();
 		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
-			/*StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("metals_function_grid_main",GraphResponseDTO.class);
-			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
-			query.setParameter("groupId",dataFunctionReqDTO.getGroupId() );
-	
-			query.registerStoredProcedureParameter("subGroupId", String.class, ParameterMode.IN);
-			query.setParameter("subGroupId",dataFunctionReqDTO.getSubgroupId());
-			
-			query.registerStoredProcedureParameter("functionId", String.class, ParameterMode.IN);
-			query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByDesc(dataFunctionReqDTO.getFunctions()[i])));
-			query.execute();*/
+		
 			String generatedTableName="";
 			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dyncamic_table_function_generator",GraphResponseDTO.class);
 			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
@@ -238,7 +235,7 @@ public class DataFunctionService {
 	{
 		String query="select DATE_FORMAT(STR_TO_DATE(t.refer_date,'%d-%m-%Y'), '%d-%b-%Y') as refer_date,";
 		String queryValues="", queryTables="",  queryAnd="";
-		TableManagement tableManagement = tableManagementRepository.findByAssetIdAndGroupIdAndSubgroupId(assetId,dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId());
+		TableManagement tableManagement = tableManagementRepository.findByGroupIdAndSubgroupId(dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId());
 		
 		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
 			queryValues=queryValues+",t"+i+".value as "+dataFunctionReqDTO.getFunctions()[i];
@@ -446,10 +443,10 @@ public class DataFunctionService {
 				List<String> participantJsonList = mapper.readValue(new Gson().toJson(inst), new TypeReference<List<String>>(){});
 				DataFunctionRespDTO data = DataFunctionRespDTO.builder()
 						                 .referDate(participantJsonList.get(0))
-						                 .dailyInput(!participantJsonList.get(1).equalsIgnoreCase("")?(data1.get(0).contains("%")?String.format("%."+data1.get(1)+"f",Double.valueOf(participantJsonList.get(1)))+"%":String.format("%."+data1.get(1)+"f",Double.valueOf(participantJsonList.get(1)))):"")
+						                 .dailyInput(participantJsonList.get(1)!=null?(!participantJsonList.get(1).equalsIgnoreCase("")?(data1.get(0).contains("%")?String.format("%."+data1.get(1)+"f",Double.valueOf(participantJsonList.get(1)))+"%":String.format("%."+data1.get(1)+"f",Double.valueOf(participantJsonList.get(1)))):""):"")
 						                 .value1(participantJsonList.size()>=3?(participantJsonList.get(2)!=null?(!participantJsonList.get(2).isEmpty()?(functionData.get(0).get(0).contains("%")?String.format("%."+functionData.get(0).get(1)+"f",Double.valueOf(participantJsonList.get(2)))+"%":String.format("%."+functionData.get(0).get(1)+"f",Double.valueOf(participantJsonList.get(2)))):null):""):"")
-						                 .value2(participantJsonList.size()>=4?(!participantJsonList.get(3).isEmpty()?(functionData.get(1).get(0).contains("%")?String.format("%."+functionData.get(1).get(1)+"f",Double.valueOf(participantJsonList.get(3)))+"%":String.format("%."+functionData.get(1).get(1)+"f",Double.valueOf(participantJsonList.get(3)))):null):"")
-						                 .value3(participantJsonList.size()>=5?(!participantJsonList.get(4).isEmpty()?(functionData.get(2).get(0).contains("%")?String.format("%."+functionData.get(2).get(1)+"f",Double.valueOf(participantJsonList.get(4)))+"%":String.format("%."+functionData.get(2).get(1)+"f",Double.valueOf(participantJsonList.get(4)))):null):"")
+						                 .value2(participantJsonList.size()>=4?(participantJsonList.get(3)!=null?(!participantJsonList.get(3).isEmpty()?(functionData.get(1).get(0).contains("%")?String.format("%."+functionData.get(1).get(1)+"f",Double.valueOf(participantJsonList.get(3)))+"%":String.format("%."+functionData.get(1).get(1)+"f",Double.valueOf(participantJsonList.get(3)))):null):""):"")
+						                 .value3(participantJsonList.size()>=5?(participantJsonList.get(4)!=null?(!participantJsonList.get(4).isEmpty()?(functionData.get(2).get(0).contains("%")?String.format("%."+functionData.get(2).get(1)+"f",Double.valueOf(participantJsonList.get(4)))+"%":String.format("%."+functionData.get(2).get(1)+"f",Double.valueOf(participantJsonList.get(4)))):null):""):"")
 							             .build();
 				lst.add(data);
 			}

@@ -879,7 +879,40 @@
             	getFilterData(commoditySubGroupValue);
                });    
 		   });// end document ready
-		   
+		  $("#Clearfilter").click(function () {
+				      if (commoditySubGroupValue==1)
+    				 {
+					  for(i=0; i<metalsPreciousItem.length; i++)
+		    			   {
+		    		    	$(metalsPreciousItem[i]).jqxCheckBox({checked:false});
+		    		       } 
+					  }
+					  else  if (commoditySubGroupValue==2)
+    				 {
+					  for(i=0; i<metalsBaseItem.length; i++)
+		    			   {
+		    		    	$(metalsBaseItem[i]).jqxCheckBox({checked:false});
+		    		       } 
+					  } else  if (commoditySubGroupValue==3)
+    				 {
+					  for(i=0; i<foodStuffItem.length; i++)
+		    			   {
+		    		    	$(foodStuffItem[i]).jqxCheckBox({checked:false});
+		    		       } 
+					  }else  if (commoditySubGroupValue==4)
+    				 {
+					  for(i=0; i<energyItem.length; i++)
+		    			   {
+		    		    	$(energyItem[i]).jqxCheckBox({checked:false});
+		    		       } 
+					  }else  if (commoditySubGroupValue==5)
+    				 {
+					  for(i=0; i<transportationItem.length; i++)
+		    			   {
+		    		    	$(transportationItem[i]).jqxCheckBox({checked:false});
+		    		       } 
+					  }
+				  });    
 	 function Edit(row, event) {
 				
 				     isedit=true;

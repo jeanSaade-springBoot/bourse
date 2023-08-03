@@ -30,7 +30,7 @@ var familysource =
 		 	$("#FamilyDropDown").jqxDropDownList({ source: dataAdapter , displayMember: "description", valueMember: "id", theme: 'dark' , width: '100%', height: 30});
 		 	$("#FamilyDropDown").on('bindingComplete', function (event) {
 				 
-				 $("#FamilyDropDown").jqxDropDownList('removeAt', 0 ); 
+				//  $("#FamilyDropDown").jqxDropDownList('removeAt', 2 ); 
 				 
 			  });
 		 	$("#FamilyDropDown").on('select', function (event) {
@@ -41,9 +41,6 @@ var familysource =
 	              $.get('/admin/getgroupsbyfamily/'+familyItem.value,  // url
 	            	      function (data, textStatus, jqXHR) {  // success callback
 	            	      
-	            	 if(familyItem.value==1)
-	            	  data.push({id: 0, description: 'ALL', assetId: '1', groupCode: ''});
-	            	  
 	            	  groupsource.localdata=data;
 		               var dataAdapter = new $.jqx.dataAdapter(groupsource);
 		               $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
@@ -79,13 +76,17 @@ var familysource =
 				  if (event.args) {
 	                  groupItem = event.args.item;
 				      if($("#FamilyDropDown").val()=='1')
-				      {
-						  $("#groupDropDown").jqxDropDownList('removeAt', 5 ); 
+				      { 
+						  $("#groupDropDown").jqxDropDownList('removeAt', 6 ); 
 						  $("#groupDropDown").jqxDropDownList('removeAt', 4 ); 
 						  $("#groupDropDown").jqxDropDownList('removeAt', 3 ); 
 						  $("#groupDropDown").jqxDropDownList('removeAt', 2 ); 
 						  $("#groupDropDown").jqxDropDownList('removeAt', 1 ); 
-					  } 
+						  $("#groupDropDown").jqxDropDownList('removeAt', 0 ); 
+					  } else if($("#FamilyDropDown").val()=='3')
+				      { 
+						  $("#groupDropDown").jqxDropDownList('removeAt', 0 ); 
+					  }
 				 }
 			  });
 			
@@ -102,6 +103,7 @@ var familysource =
   			  formData.append("subgroupId", subGroupId);
   			  const groupId = $("#groupDropDown").val();
   			  formData.append("groupId", groupId);
+  			  
   			  if (typeof file != 'undefined')
 					  $.ajax({
 					    url: "/db/read",
@@ -167,6 +169,18 @@ var familysource =
 		    break;
 	  case 10:
 		   imagePath='/css/images/format/transportation_format.png'
+		    break;
+	 case 11:
+		   imagePath='/css/images/format/corporates_format.png'
+		    break;
+	 case 14:
+		   imagePath='/css/images/format/ecb_excess_format.png'
+		    break;    
+     case 15:
+		   imagePath='/css/images/format/ecb_qe_format.png'
+		    break;
+    case 16:
+   		 imagePath='/css/images/format/ezmm_format.png'
 		    break;
 	}
 return imagePath;

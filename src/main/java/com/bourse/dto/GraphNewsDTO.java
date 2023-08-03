@@ -15,5 +15,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class GraphNewsDTO {
    private List<String> selectedGraphs;
- 
+   private String pageNo;
+   private String pageSize;
 }

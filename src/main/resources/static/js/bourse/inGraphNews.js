@@ -1,4 +1,8 @@
+  var totalPageFilter = 0;
+  var currentPageFilter = 0;
+  
 function inGraphNews(selectedGraphs){
+	
   var filteredgridsource =
       {
           datatype: "json",
@@ -17,6 +21,8 @@ function inGraphNews(selectedGraphs){
       }  
  
       json = {"selectedGraphs":selectedGraphs,
+      'pageNo':currentPageFilter,
+      'pageSize':'50'
       }
       $.ajax({
     	    	        type: "POST",
@@ -28,9 +34,13 @@ function inGraphNews(selectedGraphs){
     	    	        cache: false,
     	    	        timeout: 600000,
     	    	        success: function (data) {
+							
+							totalPageFilter =data.totalPages-1;
+
 	 						delete filteredgridsource.url;
-    	    	        	 filteredgridsource.localdata=data;
+    	    	        	 filteredgridsource.localdata=data.content;
 	    	    	         filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
+	    	    	         
 	    var pagerrender = function () {
 	 			var theme;
                 var element = $("<div style='margin-right: 10px; margin-top: 11px; width: 100%; height: 100%;'></div>");
@@ -71,11 +81,79 @@ function inGraphNews(selectedGraphs){
                     handleStates('mouseleave', leftButton, 'jqx-icon-arrow-left-hover-' + theme, false);
                 }
                 rightButton.click(function () {
+					
+					 currentPageFilter = rightClicked(currentPageFilter,totalPageFilter);				
+					 	 json = {"selectedGraphs":selectedGraphs,
+					      'pageNo':currentPageFilter,
+					      'pageSize':'50'
+					      }
+					      $.ajax({
+    	    	        type: "POST",
+    	    	        contentType: "application/json",
+    	    	        url: "/bourse/findselectedgraphnews",
+    	    	        data: JSON.stringify(json),
+    	    	        dataType: 'json',
+    	    	        async: true,
+    	    	        cache: false,
+    	    	        timeout: 600000,
+    	    	        success: function (data) {
+							
+							totalPageFilter =data.totalPages-1;
+
+	 						delete filteredgridsource.url;
+    	    	        	 filteredgridsource.localdata=data.content;
+	    	    	         filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
+				    	     filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
+				          $("#grid_filtered").jqxGrid({source:filteredDataAdapter,
+				        	  groups:['generationDateDate']
+				        	  });
+					},
+    	    	        error: function (e) {
+    	    	        	
+    						  console.log("ERROR : ", e);
+    	
+    	    	        }
+    	    	    });
                     $("#grid_filtered").jqxGrid('gotonextpage');
                      let div = document.getElementById("grid_filtered");
 					 div.scrollIntoView(true);
                 });
                 leftButton.click(function () {
+					
+					 currentPageFilter = leftClicked(currentPageFilter,totalPageFilter);				
+					
+					 json = {"selectedGraphs":selectedGraphs,
+					      'pageNo':currentPageFilter,
+					      'pageSize':'50'
+					      }
+					      $.ajax({
+    	    	        type: "POST",
+    	    	        contentType: "application/json",
+    	    	        url: "/bourse/findselectedgraphnews",
+    	    	        data: JSON.stringify(json),
+    	    	        dataType: 'json',
+    	    	        async: true,
+    	    	        cache: false,
+    	    	        timeout: 600000,
+    	    	        success: function (data) {
+							
+							totalPageFilter =data.totalPages-1;
+
+	 						delete filteredgridsource.url;
+    	    	        	 filteredgridsource.localdata=data.content;
+	    	    	         filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
+				    	     filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
+				          $("#grid_filtered").jqxGrid({source:filteredDataAdapter,
+				        	  groups:['generationDateDate']
+				        	  });
+					},
+    	    	        error: function (e) {
+    	    	        	
+    						  console.log("ERROR : ", e);
+    	
+    	    	        }
+    	    	    });
+					
                     $("#grid_filtered").jqxGrid('gotoprevpage');
                      let div = document.getElementById("grid_filtered");
 					 div.scrollIntoView(true);
@@ -91,7 +169,7 @@ function inGraphNews(selectedGraphs){
 						    	          pageable: true,
 						    	          selectionmode: 'none',
 						    	          columnsheight: 30,
-						    	      	  pagesize: 100,
+						    	      	  pagesize: 50,
 	     								 // pagesizeoptions: ['15', '50', '100'],
 						    	          autoheight: true,
 						    	          altrows: true,
@@ -206,4 +284,24 @@ function allItemsSelected(Items)
 	   break;
 	}
 return selectedItems;
-}      
+} 
+
+function rightClicked(currentPage, totalPage){
+	
+   if (currentPage < totalPage) 
+      currentPage++;
+      else if(currentPage == totalPage)
+	   currentPage = 0;
+						   
+	return currentPage; 
+}
+
+function leftClicked(currentPage, totalPage){
+	
+    if (currentPage == 0 ) 
+        currentPage = totalPage;
+      else if(currentPage > 0)
+	   currentPage--;
+						   
+	return currentPage; 
+}

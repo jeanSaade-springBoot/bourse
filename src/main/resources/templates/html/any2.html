@@ -56,7 +56,6 @@
     margin: 15% 40%;
       position: absolute;
 }
-
   </style>
 </head>
 
@@ -83,7 +82,7 @@
 			<li sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
 			<a sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
 			<li sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')"class="rtbSeparator"><span class="rtbText"></span></li>
-			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields?yield=1" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
 			<li sec:authorize="hasAuthority('SETTINGS_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
 			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
 		    </div>
@@ -112,6 +111,8 @@
 				    <a sec:authorize="hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-sovereign-yields-tab" href="/bourse/sovereignyieldsgraph" role="tab" aria-controls="nav-sovereign-yields" aria-selected="false">Sovereign Yields</a>
 				    <a sec:authorize="hasAuthority('YIELD_CURVES_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereigncurvesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Curves</a>
 				    <a sec:authorize="hasAuthority('YIELD_CROSSES_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/sovereigncrossesgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Yield Crosses</a>
+				    <a sec:authorize="hasAuthority('YIELD_CORPORATE_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-sovereign-yields-tab" href="/bourse/sovereigncorporategraph" role="tab" aria-controls="nav-sovereign-yields" aria-selected="false">Corporate Yields </a>
+				    <a sec:authorize="hasAuthority('CREDIT_SPREAD_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/creditsspreadgraph" role="tab" aria-controls="nav-any2" aria-selected="false">Credit Spreads</a>
 				    <a sec:authorize="hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/spreadmakergraph" role="tab" aria-controls="nav-any2" aria-selected="false">Spread Maker</a>
 				  </div>
 				</nav>
@@ -340,7 +341,6 @@
 										</div>
 				                    </div>
 		                     </div>
-		                     
 		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
 		                    </form>
 		                   <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
@@ -351,77 +351,101 @@
 							</div>
 						  </div>
 		                 </div>
-		                  <div class="card ml-2 col-12">
+                     </div>
+                 <div class="row">
+                  <div class="col-5">
 		        <div class="row no-gutters">
-		          <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                	<div id='jqxCheckBoxusatoaaa' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">US AtoAAA "BLUECHIP"</span></div>
-		             </div>
-		             </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		               		<div id='jqxCheckBoxusbtobbb' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US BtoBBB "HIGHYIELD"</span></div>
+		           <div class="col-6 d-flex">
+		               <div class="">
+		               	<img alt="usa-flag" src="/img/flag/us.png" height="100px">
 		               </div>
+			           <div class="col-6">
+			            <div class="pt-2">
+			               <div class="pt-1">
+			                	<div id='jqxCheckBoxusatoaaa' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">US AtoAAA</span></div>
+			             </div>
+			             </div>
+			             <div class="">
+			                <div class="pt-1">
+			               		<div id='jqxCheckBoxusbtobbb' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US BtoBBB</span></div>
+			               </div>
+			            </div>
+			             <div class="">
+			                <div class="pt-1">
+			              		<div id='jqxCheckBoxusctoccc' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US CtoCCC</span></div>
+			                </div>
+			            </div>
+			           </div>
 		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		              		<div id='jqxCheckBoxusctoccc' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US CtoCCC "JUNKBOND"</span></div>
-		                </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxeurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EUROZONE AtoAAA "BLUECHIP"</span></div>
-		             </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxeurozonebtobbb' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EUROZONE BtoBBB "HIGH YIELD"</span></div>
+		            <div class="col-6 d-flex">
+		            <div class="">
+		               	<img alt="usa-flag" src="/img/flag/eu.png" height="100px">
+		               </div>
+		               <div class="col-6">
+			             <div class="pt-2">
+			                <div class="pt-1">
+			                    <div id='jqxCheckBoxeurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ AtoAAA</span></div>
+			             </div>
+			            </div>
+			             <div class="">
+			                <div class="pt-1">
+			                    <div id='jqxCheckBoxeurozonebtobbb' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ BtoBBB</span></div>
+			             </div>
+		            	 </div>
 		             </div>
 		            </div>
 		    </div>
 	    </div>
-	  </div>
-	  <div class="row mt-2">
-	        <div class="card ml-2 col-12">
+				<div class="col-7">
 		        <div class="row no-gutters">
-		          <div class=" col-custom">
-		                <div class="card-body pt-1 filter">
-		                	<div id='jqxCheckBoxusatoaaaUsa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">US BLUECHIP AtoAAA vs</span><br><span class="checkboxesTitle ml-4">10yr TSYS</span></div>
-		             </div>
-		             </div>
-		             <div class=" col-custom">
-		                <div class="card-body pt-1 filter">
-		               		<div id='jqxCheckBoxusbtobbbUsatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">US HIGHYIELD BtoBBB vs</span><br><span class="checkboxesTitle ml-4"> BLUECHIP</span></div>
+		           <div class="col-6 d-flex">
+		               <div class="">
+		               	<img alt="usa-flag" src="/img/flag/us.png" height="100px">
 		               </div>
+			           <div class="col-6">
+			            <div class="pt-2">
+			               <div class="pt-1">
+			                	<div id='jqxCheckBoxusatoaaaUsa' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">US AtoAAA vs 10Y TSYS</span></div>
+			             </div>
+			             </div>
+			             <div class="">
+			                <div class="pt-1">
+			               		<div id='jqxCheckBoxusbtobbbUsatoaaa' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US BtoBBB vs US AtoAAA</span></div>
+			               </div>
+			            </div>
+			             <div class="">
+			                <div class="pt-1">
+			              		<div id='jqxCheckBoxusctocccUsbtobbb' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US CtoCCC vs US BtoBBB</span></div>
+			                </div>
+			            </div>
+			           </div>
 		            </div>
-		             <div class=" col-custom">
-		                <div class="card-body pt-1 filter">
-		              		<div id='jqxCheckBoxusctocccUsbtobbb' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">US JUNKBOND CtoCCC vs</span><br><span class="checkboxesTitle ml-4">HIGHYIELD</span></div>
-		                </div>
-		            </div>
-		             <div class=" col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxeurozoneatoaaaGermany' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ BLUECHIP AtoAAA vs</span><br><span class="checkboxesTitle ml-4">10Y GERMANY</span></div>
-		             </div>
-		            </div>
-		             <div class=" col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxeurozonebtobbbEurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ HIGHYIELD BtoBBB vs</span><br><span class="checkboxesTitle ml-4">BLUECHIP AtoAAA</span></div>
+		            <div class="col-6 d-flex">
+		            <div class="">
+		               	<img alt="usa-flag" src="/img/flag/eu.png" height="100px">
+		               </div>
+		               <div class="col-6">
+			             <div class="pt-2">
+			                <div class="pt-1">
+			                    <div id='jqxCheckBoxeurozoneatoaaaGermany' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ AtoAAA vs 10Y GERMANY</span></div>
+			             </div>
+			            </div>
+			             <div class="">
+			                <div class="pt-1">
+			                    <div id='jqxCheckBoxeurozonebtobbbEurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ BtoBBB vs US AtoAAA</span></div>
+			             </div>
+		            	 </div>
 		             </div>
 		            </div>
 		    </div>
 	    </div>
-	</div>
-                     	
-                     	
+	     </div>
                      	<div class="row pt-4">
 							<div class='col-12 d-flex justify-content-end'>
 							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
 							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 							</div>
 						</div>
-                     </div>
-                     
 					    </div>
 				    <div id="grid-content" style="display:none;">
 				 

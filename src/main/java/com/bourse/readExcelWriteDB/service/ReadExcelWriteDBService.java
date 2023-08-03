@@ -11,7 +11,11 @@ import com.bourse.authsecurity.enums.FailureEnum;
 import com.bourse.authsecurity.enums.MessageEnum;
 import com.bourse.authsecurity.exception.BadRequestException;
 import com.bourse.domain.BaseMetals;
+import com.bourse.domain.CorporateYieldsData;
+import com.bourse.domain.EcbExcessLiquidity;
+import com.bourse.domain.EcbQeLiquidity;
 import com.bourse.domain.EnergyData;
+import com.bourse.domain.EurozoneMonetaryMass;
 import com.bourse.domain.FoodStuffData;
 import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TransportationData;
@@ -20,7 +24,11 @@ import com.bourse.readExcelWriteDB.dto.ReadExcelWriteDBDTO;
 import com.bourse.readExcelWriteDB.enums.SubGroupEnum;
 import com.bourse.readExcelWriteDB.util.ReadExcelWriteDBUtil;
 import com.bourse.service.BaseMetalsService;
+import com.bourse.service.CorporatesYieldsService;
+import com.bourse.service.EcbExcessLiquidityService;
+import com.bourse.service.EcbQeLiquidityService;
 import com.bourse.service.EnergyService;
+import com.bourse.service.EzMonetaryMassLiquidityService;
 import com.bourse.service.FoodStuffService;
 import com.bourse.service.PerciousMetalsService;
 import com.bourse.service.TransportationService;
@@ -38,6 +46,15 @@ public class ReadExcelWriteDBService {
     EnergyService energyService;
     @Autowired
     TransportationService transportationService;
+    @Autowired
+    CorporatesYieldsService corporatesYieldsService;
+    @Autowired
+    EcbExcessLiquidityService ecbExcessLiquidityService;
+    @Autowired
+    EcbQeLiquidityService ecbQeLiquidityService;
+    @Autowired
+    EzMonetaryMassLiquidityService ezMonetaryMassLiquidityService;
+    
     
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
 		List<DataDTO> rowData = new ArrayList<>();
@@ -156,8 +173,96 @@ public class ReadExcelWriteDBService {
 							   transportationService.SaveTransportationData(transportation);
 					   }
 					   transportationService.doCaclulation();
+				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("11"))
+				{
+					   List<CorporateYieldsData> corporateYields = new ArrayList<>();
+					   List<String> subgroups = Arrays.asList("1", "2", "3","4","5");
+					   for (String subGroupId: subgroups) {
+							   rowData.clear();
+							   corporateYields.clear();
+							   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",SubGroupEnum.getIndexByGroupAndSubGroupgroupId(11, Integer.valueOf(subGroupId)));
+							   for (DataDTO data: rowData) {
+								 if(corporatesYieldsService.CheckIfCanSave(data.getDate(),Long.valueOf(subGroupId)))
+								 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+								    CorporateYieldsData corporateYieldsData = CorporateYieldsData.builder().referDate(data.getDate())
+								   												  .subgroupId(Long.valueOf(subGroupId))
+								   												  .value(data.getValue()==null?"":data.getValue())
+							   												  .build();
+								   
+								 corporateYields.add(corporateYieldsData);
+					      }
+							   corporatesYieldsService.SaveCorporateDatas(corporateYields);
+					
+					   }
+					   corporatesYieldsService.doCaclulation();
+				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("14"))
+				{
+					   List<EcbExcessLiquidity> ecbExcessLiquidityList = new ArrayList<>();
+					   List<String> subgroups = Arrays.asList("1", "2", "3","4");
+					   for (String subGroupId: subgroups) {
+							   rowData.clear();
+							   ecbExcessLiquidityList.clear();
+							   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",SubGroupEnum.getIndexByGroupAndSubGroupgroupId(14, Integer.valueOf(subGroupId)));
+							   for (DataDTO data: rowData) {
+								 if(ecbExcessLiquidityService.CheckIfCanSave(data.getDate(),Long.valueOf(subGroupId)))
+								 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+								    EcbExcessLiquidity ecbExcessLiquidity = EcbExcessLiquidity.builder().referDate(data.getDate())
+								   												  .subgroupId(Long.valueOf(subGroupId))
+								   												  .value(data.getValue()==null?"":data.getValue())
+							   												  .build();
+								   
+								    ecbExcessLiquidityList.add(ecbExcessLiquidity);
+					      }
+							   ecbExcessLiquidityService.SaveExcessLiquidityData(ecbExcessLiquidityList);
+					
+					   }
+					   ecbExcessLiquidityService.doCaclulation();
+				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("15"))
+				{
+					   List<EcbQeLiquidity> ecbQeLiquidityList = new ArrayList<>();
+					   List<String> subgroups = Arrays.asList("1", "2");
+					   for (String subGroupId: subgroups) {
+							   rowData.clear();
+							   ecbQeLiquidityList.clear();
+							   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",SubGroupEnum.getIndexByGroupAndSubGroupgroupId(15, Integer.valueOf(subGroupId)));
+							   for (DataDTO data: rowData) {
+								 if(ecbQeLiquidityService.CheckIfCanSave(data.getDate(),Long.valueOf(subGroupId)))
+								 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+								    EcbQeLiquidity ecbQeLiquidity = EcbQeLiquidity.builder().referDate(data.getDate())
+								   												  .subgroupId(Long.valueOf(subGroupId))
+								   												  .value(data.getValue()==null?"":data.getValue())
+							   												  .build();
+								   
+								    ecbQeLiquidityList.add(ecbQeLiquidity);
+					      }
+							   ecbQeLiquidityService.SaveQeLiquidityData(ecbQeLiquidityList);
+					
+					   }
+					   ecbQeLiquidityService.doCaclulation();
 				}
-
+				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("16"))
+				{
+					   List<EurozoneMonetaryMass> eurozoneMonetaryMassList = new ArrayList<>();
+					   List<String> subgroups = Arrays.asList("1", "2", "3","4");
+					   for (String subGroupId: subgroups) {
+							   rowData.clear();
+							   eurozoneMonetaryMassList.clear();
+							   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",SubGroupEnum.getIndexByGroupAndSubGroupgroupId(16, Integer.valueOf(subGroupId)));
+							   for (DataDTO data: rowData) {
+								 if(ezMonetaryMassLiquidityService.CheckIfCanSave(data.getDate(),Long.valueOf(subGroupId)))
+								 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+								 EurozoneMonetaryMass eurozoneMonetaryMass = EurozoneMonetaryMass.builder().referDate(data.getDate())
+								   												  .subgroupId(Long.valueOf(subGroupId))
+								   												  .value(data.getValue()==null?"":data.getValue())
+							   												  .build();
+								   
+								 eurozoneMonetaryMassList.add(eurozoneMonetaryMass);
+					      }
+							   ezMonetaryMassLiquidityService.SaveEurozoneMonetaryMassData(eurozoneMonetaryMassList);
+					
+					   }
+					   ezMonetaryMassLiquidityService.doCaclulation();
+				}
 	}
 
 }

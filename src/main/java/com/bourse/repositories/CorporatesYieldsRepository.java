@@ -15,4 +15,10 @@ public interface CorporatesYieldsRepository extends JpaRepository<CorporateYield
 	 List<CorporateYieldsData> findByReferDate(String referDate);
 	 public CorporateYieldsData findByReferDateAndSubgroupId(String referDate, long subGroupId);
 
+	public long countByReferDateAndValue(String referDate,String value);
+
+	public long countByReferDateAndValueNot(String referDate, String value);
+
+	public boolean existsByReferDateAndSubgroupId(String referDate, Long subgroupId);
+
 }

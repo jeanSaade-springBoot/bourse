@@ -12,6 +12,7 @@ import javax.persistence.PersistenceContext;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -233,24 +234,40 @@ public class AdminService
 		String isPublished = "1";
 		return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
 		}
-	public List<AllNewsView> getNewsByImportance(String isBold, String assetId){
-		return allNewsViewService.findByIsPublishedAndIsBold(isBold,assetId);
+	public List<AllNewsView> getNewsByImportance(String isBold, String assetId, String pageNo, String pageSize){
+		return allNewsViewService.findByIsPublishedAndIsBold(isBold,assetId,pageNo,pageSize);
 		
 	}
-	public List<AllNewsView> findNewsByGroupIdAndSubgroupId(String groupId, String subGroupId) {
-		return allNewsViewService.findNewsByIsPublishedAndGroupIdAndSubgroupId(groupId,subGroupId);
+	public Page<AllNewsView> findNewsByGroupIdAndSubgroupId(String groupId, String subGroupId,String pageNo, String pageSize) {
+		
+		return allNewsViewService.findNewsByIsPublishedAndGroupIdAndSubgroupId(groupId,subGroupId,pageNo,pageSize);
 	}
-	public List<AllNewsView>  findAllNewsByGroupIdAndSubgroupId(String subGroupIdDescription) {
-		return allNewsViewService.findAllNewsBySubGroupIdDescription(subGroupIdDescription.substring(0, 2));
+	public Page<AllNewsView> findAllNewsByGroupIdAndSubgroupId(String subGroupIdDescription,String pageNo, String pageSize) {
+		return allNewsViewService.findAllNewsBySubGroupIdDescription(subGroupIdDescription.substring(0, 2),pageNo,pageSize);
+	}
+	public List<AllNewsView> findByIsPublishedFormatedDate(String pageNo, String pageSize){
+		return allNewsViewService.findByIsPublishedFormatedDate(pageNo,pageSize);
 	}
 	public List<AllNewsView> findByIsPublishedFormatedDate(String assetId){
 		return allNewsViewService.findByIsPublishedFormatedDate(assetId);
 	}
-	public List<AllNewsView> getAllNews(String assetId){
+	public List<AllNewsView> findByIsPublishedFormatedDate(String assetId,String pageNo, String pageSize){
+		return allNewsViewService.findByIsPublishedFormatedDate(assetId,pageNo,pageSize);
+	}
+	public int getPages(String pageNo, String pageSize, String assetId, String isbold){
+		return allNewsViewService.getPages(pageNo,pageSize, assetId , isbold);
+	}
+	public Page<AllNewsView> getAllNews(String assetId,String pageNo, String pageSize){
 		boolean hasData= getData();
 		if(!hasData)
 			return null;
-		return allNewsViewService.getAllNews(assetId);
+		return allNewsViewService.getAllNews(assetId,pageNo,pageSize);
+	}
+	public Page<AllNewsView> getfilteredNews(String assetId,String robots,String generationDate,String template,String pageNo, String pageSize){
+		boolean hasData= getData();
+		if(!hasData)
+			return null;
+		return allNewsViewService.findAllNewsByFilters(assetId, robots, generationDate, template, pageNo, pageSize);
 	}
 	public void deleteNews(long id, String isFunctionNews)
 	{  if (isFunctionNews.equalsIgnoreCase("0"))

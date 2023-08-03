@@ -13,10 +13,12 @@ public class GraphReqDTO {
 	
 	private String country1;
 	private String factor1;
+	private String groupId1;
 	private String yieldCurveCross1;
 	
 	private String country2;
 	private String factor2;
+	private String groupId2;
 	private String yieldCurveCross2;
 	
 	private String country3;

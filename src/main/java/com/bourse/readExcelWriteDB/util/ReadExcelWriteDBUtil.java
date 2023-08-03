@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
@@ -31,27 +32,35 @@ public class ReadExcelWriteDBUtil {
 	       Workbook workbook = WorkbookFactory.create(fileStream);
 	
 	       Sheet sheet = workbook.getSheetAt(0);
+	       DataFormatter dataFormatter = new DataFormatter();
 	       int i = 1;
 	       for (Row row : sheet) {
 
 	    	   i++;
 	           // list to store data from each row
-	           String date = null,value = null;
+	           String date = null,value = null, columnType=null;
 	           // iterate over the columns
 	           for (Cell cell : row) {
 	        	   if(!cell.getCellType().name().equalsIgnoreCase("BLANK"))
 	        	   { 
-	        		   //System.out.println("cell Type: "+cell.getCellType().name()+" --- cell Index :"+cell.getColumnIndex()+" --- cell address : "+cell.getAddress()+" --- cell row index : "+cell.getRowIndex());
-		        	  
+	        		   System.out.println("cell Type: "+cell.getCellType().name()+" --- cell Index :"+cell.getColumnIndex()+" --- cell address : "+cell.getAddress()+" --- cell row index : "+cell.getRowIndex());
+	        		   
 	        		   if(cell.getCellType().name().equalsIgnoreCase("NUMERIC"))
-	        		   { 
-	        			 if(String.valueOf(cell.getColumnIndex()).equalsIgnoreCase(dateIndex))
+	        		   {   
+	        			   if(String.valueOf(cell.getColumnIndex()).equalsIgnoreCase(dateIndex))
 	        				{
 	        				 date=String.valueOf(transformNumericDate(cell.getNumericCellValue()));
-	        				// System.out.println("---Date:"+date);
+	        				 System.out.println("---Date:"+date);
 	        				}
 	        			 else if (String.valueOf(cell.getColumnIndex()).equalsIgnoreCase(valueIndex))
-	        				 value= String.valueOf(cell.getNumericCellValue());
+	        			   {   String cellValue = dataFormatter.formatCellValue(cell);
+		        		        if (cellValue.endsWith("%")) 
+		        		        	value= String.valueOf(cell.getNumericCellValue()*100);
+		        		        else
+		        		        	value= String.valueOf(cell.getNumericCellValue());
+		        		        System.out.println("---value:"+value);
+	        			   }
+	        			 
 	        		   }
 		        	  
 	    	    	   if(i>251) {

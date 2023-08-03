@@ -78,7 +78,16 @@
 	  "#jqxCheckBoxSpain-10_1",
 	  "#jqxCheckBoxSpain-5_1",
 	  "#jqxCheckBoxSpain-2_1",
-	   
+	  "#jqxCheckBoxusatoaaa",
+	  "#jqxCheckBoxusbtobbb",
+	  "#jqxCheckBoxusctoccc",
+	  "#jqxCheckBoxeurozoneatoaaa",
+	  "#jqxCheckBoxeurozonebtobbb",
+	  "#jqxCheckBoxusatoaaa_1",
+	  "#jqxCheckBoxusbtobbb_1",
+	  "#jqxCheckBoxusctoccc_1",
+	  "#jqxCheckBoxeurozoneatoaaa_1",
+	  "#jqxCheckBoxeurozonebtobbb_1"
 ];
   var allitemsleft=[
 	  "#jqxCheckBoxUSA-30",
@@ -104,7 +113,12 @@
 	  "#jqxCheckBoxSpain-30",
 	  "#jqxCheckBoxSpain-10",
 	  "#jqxCheckBoxSpain-5",
-	  "#jqxCheckBoxSpain-2"
+	  "#jqxCheckBoxSpain-2",
+	  "#jqxCheckBoxusatoaaa",
+	  "#jqxCheckBoxusbtobbb",
+	  "#jqxCheckBoxusctoccc",
+	  "#jqxCheckBoxeurozoneatoaaa",
+	  "#jqxCheckBoxeurozonebtobbb",
 ];
   var allitemsright= [
 	  "#jqxCheckBoxUSA-30_1",
@@ -131,6 +145,11 @@
 	  "#jqxCheckBoxSpain-10_1",
 	  "#jqxCheckBoxSpain-5_1",
 	  "#jqxCheckBoxSpain-2_1",
+	  "#jqxCheckBoxusatoaaa_1",
+	  "#jqxCheckBoxusbtobbb_1",
+	  "#jqxCheckBoxusctoccc_1",
+	  "#jqxCheckBoxeurozoneatoaaa_1",
+	  "#jqxCheckBoxeurozonebtobbb_1"
 	   ]
   var itemValue={
 		  "#jqxCheckBoxUSA-30":{
@@ -470,7 +489,86 @@
 				  "yieldCurveCross":"spreadmaker",
 		          "description": "SPAIN-2",
 				  "title":"Spain 2-yr Benchmark YIELD"
-				 }
+				 },
+	"#jqxCheckBoxusatoaaa": {
+		"factor": "",
+		"country": "1",
+		"groupId":"11",
+		"yieldCurveCross": "spreadmaker",
+		"description": "usatoaaa",
+		"title": 'US AtoAAA "BLUECHIP"'
+	},
+	"#jqxCheckBoxusbtobbb": {
+		"factor": "",
+		"country": "2",
+		"groupId":"11",
+		"yieldCurveCross": "spreadmaker",
+		"description": "usbtobbb",
+		"title": 'US BtoBBB "HIGHYIELD"'
+	},
+	"#jqxCheckBoxusctoccc": {
+		"factor": "",
+		"country": "3",
+		"groupId":"11",
+		"yieldCurveCross": "spreadmaker",
+		"description": "usctoccc",
+		"title": 'US CtoCCC "JUNKBOND"'
+	},
+	"#jqxCheckBoxeurozoneatoaaa": {
+		"factor": "",
+		"country": "4",
+		"yieldCurveCross": "spreadmaker",
+		"description": "eurozoneatoaaa",
+		"title": 'EUROZONE AtoAAA "BLUECHIP" '
+	},
+	"#jqxCheckBoxeurozonebtobbb": {
+		"factor": "",
+		"country": "5",
+		"groupId":"11",
+		"yieldCurveCross": "spreadmaker",
+		"description": "eurozonebtobbb",
+		"title": 'EUROZONE BtoBBB "HIGH YIELD"'
+	},
+		"#jqxCheckBoxusatoaaa_1": {
+		"factor": "",
+		"country": "1",
+		"groupId":"11",
+		"yieldCurveCross": "spreadmaker",
+		"description": "usatoaaa",
+		"title": 'US AtoAAA "BLUECHIP"'
+	},
+	"#jqxCheckBoxusbtobbb_1": {
+		"factor": "",
+		"country": "2",
+		"groupId":"11",
+		"yieldCurveCross": "spreadmaker",
+		"description": "usbtobbb",
+		"title": 'US BtoBBB "HIGHYIELD"'
+	},
+	"#jqxCheckBoxusctoccc_1": {
+		"factor": "",
+		"country": "3",
+		"groupId":"11",
+		"yieldCurveCross": "spreadmaker",
+		"description": "usctoccc",
+		"title": 'US CtoCCC "JUNKBOND"'
+	},
+	"#jqxCheckBoxeurozoneatoaaa_1": {
+		"factor": "",
+		"country": "4",
+		"groupId":"11",
+		"yieldCurveCross": "spreadmaker",
+		"description": "eurozoneatoaaa",
+		"title": 'EUROZONE AtoAAA "BLUECHIP" '
+	},
+	"#jqxCheckBoxeurozonebtobbb_1": {
+		"factor": "",
+		"country": "5",
+		"groupId":"11",
+		"yieldCurveCross": "spreadmaker",
+		"description": "eurozonebtobbb",
+		"title": 'EUROZONE BtoBBB "HIGH YIELD"'
+	},
 };
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
@@ -551,7 +649,8 @@
 	  resetActiveFontSize();
 	  resetActiveChartColor();
    	  $("#button-monthBackward").prop('disabled', false);
-		  $("#button-yearBackward").prop('disabled', false);
+	  $("#button-yearBackward").prop('disabled', false);
+	  
    	  fromNavigation =false;
     if(checkedItem>0 && checkedItemRight>0)
       {	
@@ -2353,6 +2452,379 @@
     	   }
     	 }); 
        
+     $('#jqxCheckBoxusatoaaa').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+    	    {
+    	    	checkedItem=checkedItem + 1;
+    	    	checkedItemid.push("#jqxCheckBoxusatoaaa");
+    	    }
+    	    else
+    	    {
+    	    	checkedItem=checkedItem - 1;
+    	   for(i=0; i<checkedItemid.length; i++)
+    		   {
+    		   if(checkedItemid[i]=="#jqxCheckBoxusatoaaa")
+    			 delete checkedItemid[i];
+    		   }
+    	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  				 $(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		  }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+
+     $('#jqxCheckBoxusbtobbb').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+    	    {
+    	    	checkedItem=checkedItem + 1;
+    	    	checkedItemid.push("#jqxCheckBoxusbtobbb");
+    	    }
+    	    else
+    	    {
+    	    	checkedItem=checkedItem - 1;
+    	   for(i=0; i<checkedItemid.length; i++)
+    		   {
+    		   if(checkedItemid[i]=="#jqxCheckBoxusbtobbb")
+    			 delete checkedItemid[i];
+    		   }
+    	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  				 $(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		  }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+
+     $('#jqxCheckBoxusctoccc').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+    	    {
+    	    	checkedItem=checkedItem + 1;
+    	    	checkedItemid.push("#jqxCheckBoxusctoccc");
+    	    }
+    	    else
+    	    {
+    	    	checkedItem=checkedItem - 1;
+    	   for(i=0; i<checkedItemid.length; i++)
+    		   {
+    		   if(checkedItemid[i]=="#jqxCheckBoxusctoccc")
+    			 delete checkedItemid[i];
+    		   }
+    	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  				 $(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		  }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+
+     $('#jqxCheckBoxeurozoneatoaaa').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+    	    {
+    	    	checkedItem=checkedItem + 1;
+    	    	checkedItemid.push("#jqxCheckBoxeurozoneatoaaa");
+    	    }
+    	    else
+    	    {
+    	    	checkedItem=checkedItem - 1;
+    	   for(i=0; i<checkedItemid.length; i++)
+    		   {
+    		   if(checkedItemid[i]=="#jqxCheckBoxeurozoneatoaaa")
+    			 delete checkedItemid[i];
+    		   }
+    	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  				 $(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		  }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+
+     $('#jqxCheckBoxeurozonebtobbb').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+    	    {
+    	    	checkedItem=checkedItem + 1;
+    	    	checkedItemid.push("#jqxCheckBoxeurozonebtobbb");
+    	    }
+    	    else
+    	    {
+    	    	checkedItem=checkedItem - 1;
+    	   for(i=0; i<checkedItemid.length; i++)
+    		   {
+    		   if(checkedItemid[i]=="#jqxCheckBoxeurozonebtobbb")
+    			 delete checkedItemid[i];
+    		   }
+    	    }
+    	   if(checkedItem>=1)
+    	   {
+  		    for(i=0; i<allitemsleft.length; i++)
+  			   {
+  				 $(allitemsleft[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  				    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		  }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsleft.length; i++)
+  		   {
+  			 $(allitemsleft[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+    
+       $('#jqxCheckBoxusatoaaa_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxusatoaaa_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxusatoaaa_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+    	     
+       $('#jqxCheckBoxusbtobbb_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxusbtobbb_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxusbtobbb_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 });     
+       $('#jqxCheckBoxusctoccc_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxusctoccc_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxusctoccc_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+    	     
+       $('#jqxCheckBoxeurozoneatoaaa_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxeurozoneatoaaa_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxeurozoneatoaaa_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
+    	     
+       $('#jqxCheckBoxeurozonebtobbb_1').on('change', function (event) {
+    	   var checked = event.args.checked;
+    	   if(checked)
+  	    {
+  	    	checkedItemRight=checkedItemRight + 1;
+  	    	checkedItemid.push("#jqxCheckBoxeurozonebtobbb_1");
+  	    }
+  	    else {
+  	    	checkedItemRight=checkedItemRight - 1;
+  			   for(i=0; i<checkedItemid.length; i++)
+  				   {
+  				   if(checkedItemid[i]=="#jqxCheckBoxeurozonebtobbb_1")
+  					 delete checkedItemid[i];
+  				   }
+  	    }
+    	   if(checkedItemRight>=1)
+    	   {
+  		    for(i=0; i<allitemsright.length; i++)
+  			   {
+  		    	$(allitemsright[i]).jqxCheckBox({disabled: true});
+  		     }
+  		   	 
+  		  	 for(i=0; i<checkedItemid.length; i++)
+  			   {
+  		  		 if(checkedItemid[i]!=null)
+  					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+  		       }
+    	  
+    	   }
+    	   else{
+    		 for(i=0; i<allitemsright.length; i++)
+  		   {
+  			 $(allitemsright[i]).jqxCheckBox({disabled: false});
+  	     }
+    	   }
+    	 }); 
   });
 		
 			function uncheckAll(){
@@ -2416,6 +2888,17 @@
 		    	  $("#jqxCheckBoxSpain-5_1").jqxCheckBox({checked: false });
 		    	  $("#jqxCheckBoxSpain-2_1").jqxCheckBox({checked: false });
 
+		    	  $("#jqxCheckBoxusatoaaa").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxusbtobbb").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxusctoccc").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxeurozoneatoaaa").jqxCheckBox({checked: false });
+				  $("#jqxCheckBoxeurozonebtobbb").jqxCheckBox({checked: false });
+				  
+		    	  $("#jqxCheckBoxusatoaaa_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxusbtobbb_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxusctoccc_1").jqxCheckBox({checked: false });
+		    	  $("#jqxCheckBoxeurozoneatoaaa_1").jqxCheckBox({checked: false });
+				  $("#jqxCheckBoxeurozonebtobbb_1").jqxCheckBox({checked: false });
 			}
 			function navigationGraph(condition){
 				fromNavigation=true;
@@ -2615,7 +3098,8 @@
 		    				  $('#alertCategory-modal').modal('show');
 		    				  $("#collapseFilter").addClass('show');
 		    				  return;
-		    				 }
+		    				 } 
+		    				 
 				        dataParam = { 
 		 		        		"fromdate":fromdate,
 		 		        	    "todate":todate,
@@ -2624,7 +3108,9 @@
 		 		        	    "country1":itemValue[checkedItemValues[0]].country,
 		 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
 		 		        	    "minusfactor":itemValue[checkedItemValues[1]].factor,
-		 		        	    "minuscountry":itemValue[checkedItemValues[1]].country
+		 		        	    "minuscountry":itemValue[checkedItemValues[1]].country,
+		 		        	    "groupId1":itemValue[checkedItemValues[0]].groupId,
+		 		        	    "groupId2":itemValue[checkedItemValues[1]].groupId,
 		 	     			   };
 				 
 						 if(checkedItemValues.length>1)
@@ -2654,6 +3140,7 @@
 		      	    	        	T2=response[0].config[1].displayDescription==null?itemValue[checkedItemValues[1]].title:response[0].config[1].displayDescription;
 		      	    	        	title= T1 +" vs "+ T2;
 		      	    	        	var getFormatResult = getFormat(response[0].config[0].dataFormat);
+		      	    	      	    
 		      	    	      	T1H=response[0].config[0].columnName==null?itemValue[checkedItemValues[0]].title:response[0].config[0].columnName;
 	      	    	        	T2H=response[0].config[1].columnName==null?itemValue[checkedItemValues[1]].title:response[0].config[1].columnName;
 	      	    	        
@@ -2691,7 +3178,9 @@
 	      	    	       	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config[0].chartshowMarkes);
 								showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config[0].chartShowgrid);
 						    	showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-
+						        
+						        var yaxisformat = getFormat(response[0].config.yAxisFormat);
+					
 								chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
 								updateChartOption();
 	    	   		 
@@ -2701,11 +3190,14 @@
 				      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        }));
-		      	    	          
-				      	    	     minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
-				      	    	     maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-				      	    	     notDecimal=getFormatResult[1];
-									 nbrOfDigits=getFormatResult[0];
+		      	    	            // const roundingFactor = min >= 0 ? 20 : -20;
+				      	    	   //  minvalue = parseFloat((Math.floor(min*roundingFactor)/roundingFactor).toFixed(2));
+				      	    	   //  maxvalue = parseFloat((Math.floor(max*roundingFactor)/roundingFactor).toFixed(2));
+				      	    	      minvalue = min;
+				      	    	      maxvalue = max;
+				      	    	     var value = getMarginLenght(minvalue);  
+				      	    	     notDecimal=yaxisformat[1];
+									 nbrOfDigits=yaxisformat[0];
 									 
 				      	    	     chart.updateOptions({
 				      	    	    		 stroke: {
@@ -2726,15 +3218,15 @@
 						 						        	  fontSize: fontsize,
 						 						        	 },
 												 formatter: function(val, index) {
-															 if (getFormatResult[1])
-											  				  return  val.toFixed(getFormatResult[0]);
+															 if (yaxisformat[1])
+											  				  return  val.toFixed(yaxisformat[0]);
 											  				else 
-											  				  return  val.toFixed(getFormatResult[0]) + "%";
+											  				  return  val.toFixed(yaxisformat[0]) + "%";
 														      }
 						 				        	  },
 				     				          tickAmount: 6,
-				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-				     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
+				     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
 				     				    			  axisBorder: {
 				     					                  width: 3,
 				     					                  show: true,

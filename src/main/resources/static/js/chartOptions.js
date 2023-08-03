@@ -1,3 +1,5 @@
+period='DAILY';
+
 $("#fontOptions button.btn").click(function(){
 			    $("#fontOptions").find(".active").removeClass("active");
 			    $(this).addClass("active");
@@ -112,6 +114,13 @@ function activateChartTrasnparency(chartType){
 	else
 		disableChartColorTransparency(false);
 }
+function activateChartColor(chartType){
+	
+	if(chartType=='line')
+		disableChartColor(true);
+	else
+		disableChartColor(false);
+}
 function activateChartMarker(chartType){
 	
 	if(chartType!='column')
@@ -131,7 +140,11 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 	activateChartTrasnparency(SelectedchartType);
 	activateChartMarker(SelectedchartType);
 	activateChartLegend(SelectedchartType);
-	var value = getMarginLenght(minvalue);  
+	activateChartColor(SelectedchartType);
+	
+	var valueMin = getMarginLenght(minvalue); 
+	var valueMax = getMarginLenght(maxvalue);  
+	
 	if (SelectedchartType=='area')
       chart.updateOptions({
 		     legend: {
@@ -188,9 +201,9 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 									      }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-    			  axisBorder: {
+    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+ 		    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
+				 axisBorder: {
 	                  width: 3,
 	                  show: true,
 	                  color: '#ffffff',
@@ -295,9 +308,9 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 									      }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-    			  axisBorder: {
+    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+ 		    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
+			 axisBorder: {
 	                  width: 3,
 	                  show: true,
 	                  color: '#ffffff',
@@ -325,7 +338,12 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 	activateChartTrasnparency(SelectedchartType);
 	activateChartMarker(SelectedchartType);
 	activateChartLegend(SelectedchartType);
-	var value = getMarginLenght(minvalue);  
+	activateChartColor(SelectedchartType);
+	console.log(notDecimal,nbrOfDigits);
+	
+	var valueMin = getMarginLenght(minvalue); 
+	var valueMax = getMarginLenght(maxvalue); 
+	
 	if (SelectedchartType=='area')
       chart.updateOptions({
 		     legend: {
@@ -383,9 +401,9 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 									      }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-    			  axisBorder: {
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+ 		  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
+				axisBorder: {
 	                  width: 3,
 	                  show: true,
 	                  color: '#ffffff',
@@ -491,9 +509,9 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 									      }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-value : Math.abs(minvalue)-value,
-    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+value : Math.abs(maxvalue)+value,
-    			  axisBorder: {
+            min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+ 		    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
+			 axisBorder: {
 	                  width: 3,
 	                  show: true,
 	                  color: '#ffffff',
@@ -520,8 +538,8 @@ function graphTypeOption(chartType)
 {
 	SelectedchartType=chartType;
 	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
-    selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
-    selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
+    selectedChartColor = chartType=='line'?"#ffffff":'#'+$("#chartColor").find(".active")[0].id;
+    selectedChartMarker= chartType=='line'?period!='DAILY'?3:$("#chartMarker").find(".active")[0].id.split("-")[1]:$("#chartMarker").find(".active")[0].id.split("-")[1];
     selectedChartGrid=$("#gridOptions").find(".active")[0].id;
     selectedChartLegend=$("#gridLegend").find(".active")[0].id;
     if(typeof hasMissingDates !='undefined') 
@@ -573,7 +591,7 @@ function chartMarkerOption(selectedChartMarker)
 {
 	SelectedchartType=$("#chartTypes").find(".active")[0].id;
 	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
-    selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
+    selectedChartColor = SelectedchartType=='line'?"#ffffff":'#'+$("#chartColor").find(".active")[0].id;
     selectedChartMarker=selectedChartMarker;
     selectedChartGrid=$("#gridOptions").find(".active")[0].id;
     selectedChartLegend=$("#gridLegend").find(".active")[0].id;
@@ -590,7 +608,7 @@ function chartGridOption(selectedChartGrid)
 {
 	SelectedchartType=$("#chartTypes").find(".active")[0].id;
 	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
-    selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
+    selectedChartColor=SelectedchartType=='line'?"#ffffff":'#'+$("#chartColor").find(".active")[0].id;
     selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
     selectedChartGrid=selectedChartGrid;
     selectedChartLegend=$("#gridLegend").find(".active")[0].id;
@@ -608,7 +626,7 @@ function chartLegendOption(selectedChartLegend)
 {
 	SelectedchartType=$("#chartTypes").find(".active")[0].id;
 	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
-    selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
+    selectedChartColor=SelectedchartType=='line'?"#ffffff":'#'+$("#chartColor").find(".active")[0].id;
     selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
     selectedChartGrid=$("#gridOptions").find(".active")[0].id;
     selectedChartLegend=selectedChartLegend;

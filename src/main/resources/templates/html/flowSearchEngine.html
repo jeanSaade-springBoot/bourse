@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="img/logo/logo.png" rel="icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <title>Libvol - Flow Search Engine</title>
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/ruang-admin.min.css" rel="stylesheet">
+  <link href="/css/marquee.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+  <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link href="/css/notification.css" rel="stylesheet">
+  <link id="dynamicStyle" rel="stylesheet">
+
+</head>
+<body id="page-top">
+  <div id="wrapper">
+  
+    <div id="content-wrapper" class="d-flex flex-column">
+    <div id="fixedMenu">
+        <!-- TopBar -->
+   <nav class="navbar navbar-expand navbar-light bg-navbar topbar static-top">
+	<img id="imglogo" src="../../img/logo.png" align="absmiddle" style="height:70px;margin-left: 3%;">
+	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<!-- Collection of nav links, forms, and other content for toggling -->
+	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">		
+		
+		<div class="navbar-nav mr-auto">
+		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
+			<a sec:authorize="hasAuthority('HOME_SCREEN')" href="/bourse/home" class="nav-item nav-link active"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+			<li sec:authorize="hasAuthority('ADMIN_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('ADMIN_SCREEN')" href="/bourse/users" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon"><span id="notification" class="notification"></span>Admin</a>
+			<li sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+			<li sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')"class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields?yield=1" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<li sec:authorize="hasAuthority('SETTINGS_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+		    </div>
+		</div>
+			<div class="nav-item dropdown" style="width: 15%">
+				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline " th:text="${#authentication.principal.firstName}"></span><span class="ml-1 d-none d-lg-inline " th:text="${#authentication.principal.lastName}"></span><b class="caret"></b></a>
+				<div class="dropdown-menu logout">
+				<!--    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
+						<div class="divider dropdown-divider"></div> -->
+					<a href="/logout" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+				</div>
+			</div>
+			<a href="#" id="termsConditions" class="">T &amp; C</a>
+	</div>
+ </nav>
+        <!-- Topbar -->
+ </div>
+ 	<div th:utext="${template}" id="content-data" style="display:none;"></div>
+    <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+      	<div class="simple-marquee-container">
+				<div class="marquee-sibling-date">
+					<p id="todayDate"></p>
+				</div>
+				<div class="marquee-sibling">
+					NEWS
+				</div>
+				<div class="marquee">
+					<ul id="Newslist" class="marquee-content-items">
+					</ul>
+				</div>
+				<div class="marquee-sibling-viewAll" sec:authorize="hasAuthority('VIEW_ALL_NEWS')" >
+					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
+				</div>
+			</div>
+		</div>
+      <!-- Footer -->
+      <footer class="sticky-footer bg-dark">
+        <div class=" my-auto">
+          <div class="copyright text-center my-auto">
+              <b><a href="" target="_blank"></a></b>
+            </span>
+          </div>
+        </div>
+      </footer>
+      <!-- Footer -->
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/js/marquee.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  
+  <script src="/js/jqwidgets/jqxcore.js"></script> 
+  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  <script src="/js/config/session_storage.js"></script>
+  <script src="/js/bourse/scrollBarNews.js"></script> 
+  <script src="/js/common.js"></script>
+  <script src="/js/notification/sockjs.js"></script>
+  <script src="/js/notification/stomp.js"></script>
+  <script src="/js/notification/config.js"></script>
+  
+   <script src="/js/jqwidgets/jqxdata.js"></script> 
+   <script src="/js/jqwidgets/jqxgrid.js"></script> 
+   <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
+   <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
+   <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
+   <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
+   <script src="/js/jqwidgets/jqxnotification.js"></script>
+   <script src="/js/jqwidgets/jqxlistbox.js"></script> 
+   <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
+   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
+   <script src="/js/jqwidgets/jqxcalendar.js"></script>
+        
+   <script id="dynamicScript"></script>
+   <script id="pageScript"></script>
+  <script th:inline="javascript">
+  const apiLiveFlowUrl = /*[[${liveFlow.apiLiveFlowUrl}]]*/ '';
+
+  var dynamicScript = document.createElement('script');
+  dynamicScript.src = apiLiveFlowUrl + '/js/flowSearchEngine.js';
+  dynamicScript.defer = true;
+
+  dynamicScript.onload = function() {
+    var pageScript = document.createElement('script');
+    pageScript.src = '/js/bourse/flowSearchEngine.js';
+    pageScript.defer = true;
+    document.body.appendChild(pageScript);
+  };
+
+  document.body.appendChild(dynamicScript);
+
+	  document.getElementById('dynamicStyle').setAttribute('href', apiLiveFlowUrl+ '/css/style.css');
+	   const authorities1 = /*[[${session.SPRING_SECURITY_CONTEXT.authentication}]]*/ "";
+     // console.log(authorities1)
+	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+	  const hasPendingApprovalGrid= authorities.filter(item => {
+	  	   return item.authority === "PENDING_APPROVAL_GRID"
+	  })[0]!== undefined;
+	 
+  </script>
+</body>
+</html>

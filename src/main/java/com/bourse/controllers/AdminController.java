@@ -3,6 +3,7 @@ package com.bourse.controllers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bourse.domain.AllNewsView;
@@ -197,26 +199,56 @@ public class AdminController {
 	public ResponseEntity<List<News>>  getNews() {
 		return new ResponseEntity<>( adminService.getNews(), HttpStatus.OK);
 	}
+	@GetMapping(value = "gettotalpages/{pageNo}/{pageSize}/{assetId}/{isbold}")
+	public ResponseEntity<Integer>  getTotalPages(@PathVariable("pageNo") String pageNo,@PathVariable("pageSize") String pageSize,@PathVariable("assetId") String assetId,@PathVariable String isbold ) {
+		return new ResponseEntity<>( adminService.getPages(pageNo,pageSize,assetId,isbold), HttpStatus.OK);
+	}
+	@GetMapping(value = "findnewsformateddate/{pageNo}/{pageSize}")
+	public ResponseEntity<List<AllNewsView>>  findByIsPublishedFormatedDate(@PathVariable("pageNo") String pageNo,@PathVariable("pageSize") String pageSize) {
+		return new ResponseEntity<>( adminService.findByIsPublishedFormatedDate(pageNo,pageSize), HttpStatus.OK);
+	}
 	@GetMapping(value = "findnewsformateddate/{assetId}")
 	public ResponseEntity<List<AllNewsView>>  findByIsPublishedFormatedDate(@PathVariable("assetId") String assetId) {
 		return new ResponseEntity<>( adminService.findByIsPublishedFormatedDate(assetId), HttpStatus.OK);
 	}
-	@GetMapping(value = "getnewsbyimportance/{isbold}/{assetId}", produces = "application/json;charset=UTF-8")
-	public ResponseEntity<List<AllNewsView>>  getNewsByImportance(@PathVariable String isbold,@PathVariable String assetId) {
-		return new ResponseEntity<>( adminService.getNewsByImportance(isbold,assetId), HttpStatus.OK);
+	@GetMapping(value = "findnewsformateddate/{assetId}/{pageNo}/{pageSize}")
+	public ResponseEntity<List<AllNewsView>>  findByIsPublishedFormatedDate(@PathVariable("assetId") String assetId,@PathVariable("pageNo") String pageNo,@PathVariable("pageSize") String pageSize) {
+		return new ResponseEntity<>( adminService.findByIsPublishedFormatedDate(assetId,pageNo,pageSize), HttpStatus.OK);
 	}
-	@GetMapping(value = "findnewsbygroupidandsubgroupid/{groupId}/{subGroupId}", produces = "application/json;charset=UTF-8")
-	public ResponseEntity<List<AllNewsView>>  findNewsByGroupIdAndSubgroupId(@PathVariable String groupId
-    		,@PathVariable String subGroupId) {
-		return new ResponseEntity<>( adminService.findNewsByGroupIdAndSubgroupId(groupId,subGroupId), HttpStatus.OK);
+	@GetMapping(value = "getnewsbyimportance/{isbold}/{assetId}/{pageNo}/{pageSize}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<List<AllNewsView>>  getNewsByImportance(@PathVariable String isbold,@PathVariable String assetId,@PathVariable("pageNo") String pageNo,@PathVariable("pageSize") String pageSize) {
+		return new ResponseEntity<>( adminService.getNewsByImportance(isbold,assetId, pageNo, pageSize), HttpStatus.OK);
 	}
-	@GetMapping(value = "findallnewsbygroupidandsubgroupid/{subGroupIdDescription}", produces = "application/json;charset=UTF-8")
-	public ResponseEntity<List<AllNewsView>>  findAllNewsByGroupIdAndSubgroupId(@PathVariable String subGroupIdDescription) {
-		return new ResponseEntity<>( adminService.findAllNewsByGroupIdAndSubgroupId(subGroupIdDescription), HttpStatus.OK);
+	@GetMapping(value = "findnewsbygroupidandsubgroupid/{groupId}/{subGroupId}/{pageNo}/{pageSize}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<Page<AllNewsView>>  findNewsByGroupIdAndSubgroupId(@PathVariable String groupId
+    		,@PathVariable String subGroupId,@PathVariable("pageNo") String pageNo, @PathVariable("pageSize") String pageSize) {
+		return new ResponseEntity<>( adminService.findNewsByGroupIdAndSubgroupId(groupId,subGroupId, pageNo, pageSize), HttpStatus.OK);
 	}
-	@GetMapping(value = "getunpublishednews/{assetId}")
-	public ResponseEntity<List<AllNewsView>>  getUnPublishedNews(@PathVariable("assetId") String assetId) {
-		return new ResponseEntity<>( adminService.getAllNews(assetId), HttpStatus.OK);
+	@GetMapping(value = "gettotalpagesbygroupidandsubgroupid/{groupId}/{subGroupId}/{pageNo}/{pageSize}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<Integer>  getTotalPagesForAllNewsByGroupIdAndSubgroupId(@PathVariable String groupId
+    		,@PathVariable String subGroupId,@PathVariable("pageNo") String pageNo, @PathVariable("pageSize") String pageSize) {
+		return new ResponseEntity<>( adminService.findNewsByGroupIdAndSubgroupId(groupId,subGroupId, pageNo, pageSize).getTotalPages(), HttpStatus.OK);
+	}
+	@GetMapping(value = "findallnewsbygroupidandsubgroupid/{subGroupIdDescription}/{pageNo}/{pageSize}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<Page<AllNewsView>>  findAllNewsByGroupIdAndSubgroupId(@PathVariable String subGroupIdDescription,@PathVariable("pageNo") String pageNo,@PathVariable("pageSize") String pageSize) {
+		return new ResponseEntity<>( adminService.findAllNewsByGroupIdAndSubgroupId(subGroupIdDescription, pageNo, pageSize), HttpStatus.OK);
+	}
+	@GetMapping(value = "gettotalpagesforallnewsbygroupidandsubgroupid/{subGroupIdDescription}/{pageNo}/{pageSize}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<Integer>  getTotalPagesForAllNewsByGroupTdAndSubGroupId(@PathVariable String subGroupIdDescription,@PathVariable("pageNo") String pageNo,@PathVariable("pageSize") String pageSize) {
+		return new ResponseEntity<>( adminService.findAllNewsByGroupIdAndSubgroupId(subGroupIdDescription, pageNo, pageSize).getTotalPages(), HttpStatus.OK);
+	}
+	@GetMapping(value = "getunpublishednews/{assetId}/{pageNo}/{pageSize}")
+	public ResponseEntity<Page<AllNewsView>>  getUnPublishedNews(@PathVariable("assetId") String assetId,@PathVariable("pageNo") String pageNo,@PathVariable("pageSize") String pageSize) {
+		return new ResponseEntity<>( adminService.getAllNews(assetId,pageNo,pageSize), HttpStatus.OK);
+	}
+	@GetMapping(value = "getfilterednews")
+	public ResponseEntity<Page<AllNewsView>>  getfilteredNews(  @RequestParam(name = "assetId", required = false) String assetId,
+	        												    @RequestParam(name = "robots", required = false) String robots,
+	        												    @RequestParam(name = "generationDate", required = false) String generationDate,
+	        												    @RequestParam(name = "template", required = false) String template,
+	        												    @RequestParam(name = "pageNo", required = false) String pageNo,
+	        												    @RequestParam(name = "pageSize", required = false) String pageSize) {
+		return new ResponseEntity<>( adminService.getfilteredNews(assetId, robots, generationDate, template, pageNo,  pageSize), HttpStatus.OK);
 	}
 	
 	@DeleteMapping(value = "deletenewsbyid/{id}/{isFunctionNews}")

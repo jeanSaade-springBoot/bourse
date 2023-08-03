@@ -258,7 +258,7 @@ public class MetalsController {
 	} 
 	@PostMapping(value = "getgriddatafunction")
 	public ResponseEntity<List<DataFunctionRespDTO>> getGridDataFunction(@RequestBody GenericDataFunctionReqDTO dataFunctionReqDTO) {
-		return new ResponseEntity<>(dataFunctionService.getGridMetalsDataFunction(dataFunctionReqDTO),HttpStatus.OK);
+		return new ResponseEntity<>(dataFunctionService.getDynamicGridDataFunction(dataFunctionReqDTO),HttpStatus.OK);
 	}
    
 }

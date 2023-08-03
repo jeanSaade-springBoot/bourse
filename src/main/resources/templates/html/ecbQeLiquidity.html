@@ -1,0 +1,469 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="img/logo/logo.png" rel="icon">
+  <title>Libvol - Liquidity</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/ruang-admin.min.css" rel="stylesheet">
+  <link href="/css/marquee.css" rel="stylesheet">
+  <link href="/css/apexchart.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+  <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link href="/css/custom.grid.css" rel="stylesheet">
+  <link href="/css/notification.css" rel="stylesheet">
+    
+  <style>
+  .mt-3.btn-toolbar.justify-content-between {
+    margin: 0 7rem;
+}
+   .inputdate{
+    width: 25%;
+    margin: 0 .5rem;
+    text-align: center;
+        border: 1px solid rgba(0, 0, 0, .125);
+    background-color: #272E48!important;
+    border-color: #464D5C;
+    color: #ffffff;
+    padding:0;
+  }
+  .edit{
+    text-transform: uppercase;
+    margin: 0.5rem;
+    color: white;
+    background-color: #5a8dee!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+    padding: 1px 42px;
+    font-weight: bold;
+ 
+}
+.col-2 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 13.66667%;
+    flex: 0 0 13.66667%;
+    max-width: 13.66667%;
+}
+ div#overlay {
+    margin: 15% 40%;
+      position: absolute;
+}
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <!-- Sidebar -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="fixedMenu">
+        <!-- TopBar -->
+                      <nav class="navbar navbar-expand navbar-light bg-navbar topbar static-top">
+	<img id="imglogo" src="../../img/logo.png" align="absmiddle" style="height:70px;margin-left: 3%;">
+	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<!-- Collection of nav links, forms, and other content for toggling -->
+		<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">		
+		
+		<div class="navbar-nav mr-auto">
+		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
+			<a sec:authorize="hasAuthority('HOME_SCREEN')" href="/bourse/home" class="nav-item nav-link active"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+			<li sec:authorize="hasAuthority('ADMIN_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('ADMIN_SCREEN')" href="/bourse/users" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon"><span id="notification" class="notification"></span>Admin</a>
+			<li sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" href="/bourse/newsmanagement" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+			<li sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')"class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields?yield=1" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<li sec:authorize="hasAuthority('SETTINGS_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+		    </div>
+		</div>
+			<div class="nav-item dropdown" style="width: 15%">
+				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline " th:text="${#authentication.principal.firstName}"></span><span class="ml-1 d-none d-lg-inline " th:text="${#authentication.principal.lastName}"></span><b class="caret"></b></a>
+				<div class="dropdown-menu logout">
+				<!--    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
+						<div class="divider dropdown-divider"></div> -->
+					<a href="/logout" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+				</div>
+		</div>
+			<a href="#" id="termsConditions" class="">T &amp; C</a>
+	</div>
+</nav>
+        <!-- Topbar -->
+  <div class="d-sm-flex align-items-center">
+            <h1 class="ml-6 text-darkorange">COMMODITIES</h1>
+            	 <nav style="margin-left: 3rem;
+    						 height: 35px;
+    						 margin-top: 0.5rem;">
+				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+				  	  <a sec:authorize="hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2liquidity" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
+				      <a sec:authorize="hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbexcessliquidity-tab"  href="/bourse/ecbexcessliquidity" role="tab" aria-controls="nav-ecbexcessliquidity" aria-selected="false">Ecb Excess Liquidity</a>
+					  <a sec:authorize="hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-ecbqeliquidity-tab"  href="/bourse/ecbqeliquidity" role="tab" aria-controls="nav-ecbqeliquidity" aria-selected="false">Ecb Qe Liquidity</a>
+					  <a sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ezmmliquidity-tab"  href="/bourse/ezmmliquidity" role="tab" aria-controls="nav-ezmmliquidity" aria-selected="false">Eurozone Monetary Mass</a>
+					  <a sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-corporateliquidity-tab"  href="/bourse/corporateliquidity" role="tab" aria-controls="nav-corporateliquidity" aria-selected="false">Corporate Liquidity</a>
+				  </div>
+				</nav>
+           
+          </div>
+              </div>
+        <div id="content">
+        <!-- Container Fluid-->
+        <div class="container-fluid" id="container-wrapper">
+
+          <div class="row mb-3">
+			 <div class="bd-example bd-example-tabs col-12">
+				<div class="tab-content" id="nav-tabContent" style="display:none">
+				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+				...
+					 </div>
+				  <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+				  	<p class="mt-2" style=" margin-bottom: .5rem;">
+					  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
+				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
+				  	  	</p>
+					<div class="row">
+					  <div class="col">
+					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
+				<div class="row">
+				      <div class="row mt-2">
+	  <div class="card ml-2 col-12">
+		        <div class="row no-gutters">
+		          <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		                	<div id='jqxCheckBoxQe1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY sovering bond QE </span></div>
+		             </div>
+		             </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		               		<div id='jqxCheckBoxQe2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY corporate bond QE</span></div>
+		               </div>
+		            </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		              		<div id='jqxCheckBoxQe1Qe2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY QE</span></div>
+		                </div>
+		            </div>
+		             <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxCumQe1' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE sovereign bond QE</span></div>
+		             </div>
+		            </div>
+		            <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxCumQe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE corporate bonds QE</span></div>
+		             </div>
+		            </div>
+		            <div class="col-custom">
+		                <div class="card-body pt-1 filter">
+		                    <div id='jqxCheckBoxCumQe1Qe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE QE</span></div>
+		             </div>
+		            </div>
+			    </div>
+		    </div>
+	  </div>
+                     </div>
+                     	<div class="row pt-2">
+							<div class='col-12 d-flex justify-content-end'>
+							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+							</div>
+						</div>
+					    </div>
+				    <div id="grid-content" style="display:none;">
+				 
+				    <div class="row">
+				       <div class="row col-12">
+				   	  	   
+				   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
+					            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
+					                Daily</button>
+					            <button style="padding:4px 16px;" id="w">
+					                Weekly</button>
+					            <button style="padding:4px 16px;" id="m">
+					                Monthly</button>
+								 <button style="padding:4px 16px;" id="q">
+									Quarterly</button>
+								 <button style="padding:4px 16px;" id="y">
+									Yearly</button>
+					        </div>
+								<div id='dropDownType' style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
+								<div class="d-flex" style=' margin-left: 2.4rem;'>
+									<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
+									<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
+								</div>
+							</div>
+							
+				     <div class="col-1" style="z-index: 1;">
+						<div class="chart-option">
+				   	        <div class="chart-option-title">Chart option</div>
+				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+						            <button class="btn btn-option"  id="area" onclick="graphTypeOption('area')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-areachart"></i></button>
+								     <button class="btn btn-option"  id="line" onclick="graphTypeOption('line')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
+									  <button class="btn btn-option" id="column" onclick="graphTypeOption('column')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-barchart"></i></button>
+								 </div>
+   						   </div>
+   						      <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColor">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" id="F0AB2E" onclick="chartColorOption('#F0AB2E')"  data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
+									  <button class="btn btn-option" id="0097FE" onclick="chartColorOption('#0097FE')"  data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-bluechart"></i></button>
+									   <button class="btn btn-option" id="44546a" onclick="chartColorOption('#44546a')"  data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-darkchart"></i></button>
+								 </div>
+   						   </div>
+   						     <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColorTransparency">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" id="1" onclick="chartTransparencyOption('1')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><label class="transparency-text"><span>&shy;</span>&nbsp;0%</label><i class="icon-chart-1"></i></button>
+									  <button class="btn btn-option" id="75" onclick="chartTransparencyOption('0.75')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><label class="transparency-text">25%</label><i class="icon-chart-25"></i></button>
+									   <button class="btn btn-option" id="5" onclick="chartTransparencyOption('0.50')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><label class="transparency-text">50%</label><i class="icon-chart-50"></i></button>
+								 </div>
+   						   </div>
+   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartMarker">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" id="1-0" onclick="chartMarkerOption('0')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
+									  <button class="btn btn-option" id="1-1" onclick="chartMarkerOption('1')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-smallmarkerchart"></i></button>
+									   <button class="btn btn-option" id="1-3" onclick="chartMarkerOption('3')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-bigmarkerchart"></i></button>
+								 </div>
+   						   </div>
+						    <div class="btn-group mt-2 ml-1"  role="group" aria-label="Vertical " id="fontOptions">
+						      <div class="" role="group" aria-label="Vertical example">
+						      <button type="button" class="btn btn-option" id="12px" onclick="graphfont('12px')"><i class="icon-small-a"></i></button>
+						      <button type="button" class="btn btn-option" id="14px" onclick="graphfont('14px')"><i class="icon-medium-a"></i></button>
+						      <button type="button" class="btn btn-option" id="16px" onclick="graphfont('16px')"><i class="icon-large-a"></i></button>
+						     </div>
+						   </div>
+						  <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical"  id="gridOptions">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option"  id="true"  onclick="chartGridOption('true')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-withLinechart"></i></button>
+									 <button class="btn btn-option"  id="false"  onclick="chartGridOption('false')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-withoutLinechart"></i></button>
+								 </div>
+   						   </div>
+						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="gridLegend" >
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" id="legendtrue"  onclick="chartLegendOption('legendtrue')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-legendchart"></i></button>
+									 <button class="btn btn-option"  id="legendfalse"   onclick="chartLegendOption('legendfalse')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-nolegendchart"></i></button>
+								 </div>
+   						   </div>
+   						   	<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="display:none;    margin: 1.1rem;
+														    color: white;
+														    font-size: 0.54rem;
+														    height: 30px;
+														    position: absolute;
+														    bottom: 4px;
+														    font-weight: bold;
+														    left: -1px;
+														    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
+						   </div>
+						</div>
+						 <div class="col-10">
+						 	 <div id="overlayChart" class="overlayChart" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   		</div>
+						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
+						
+						 </div>
+						 <div class="row" style="min-width: 1153px;  max-width:1153px">
+						 	<div class='col-6'>
+						 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
+						 		<div id="SubChart1" class="chart-box"></div>
+						 	</div>
+						 	<div class='col-6'>
+						 	<div id="overlayChart2" class="overlayChart-split" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
+						 		<div id="SubChart2" class="chart-box"></div>
+						 	</div>
+						 </div>
+					 	      
+					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							   <button type="button" id="button-monthForward" class="btn btn-secondary" onclick="navigationGraph('monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
+							   <button type="button" id="button-yearForward" class="btn btn-secondary" onclick="navigationGraph('yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+					  </div>
+					    </div>
+					</div>
+					
+					</div>
+				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+				</div>
+			</div>
+          </div>
+         	<div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
+
+          <!-- Modal Logout -->
+          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to logout?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                  <a href="login.html" class="btn btn-primary">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+	 	<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You must select at least one record.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 	<div id="alertStartDate-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="startdatetext">
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div class="row">
+    <div class="col-12">
+   	   
+   	   <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1078px; max-width: 1078px;">
+				<div id="grid_filtered" style="margin-top:.5rem"></div> 			 
+			</div>
+   	   
+    </div>
+  </div>
+        </div>
+        <!---Container Fluid-->
+      </div>
+        <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+      	<div class="simple-marquee-container">
+				<div class="marquee-sibling-date">
+					<p id="todayDate"></p>
+				</div>
+				<div class="marquee-sibling">
+					NEWS
+				</div>
+				<div class="marquee">
+					<ul id="Newslist" class="marquee-content-items">
+					</ul>
+				</div>
+				<div class="marquee-sibling-viewAll">
+					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
+				</div>
+			</div>
+		</div>
+      <!-- Footer -->
+      <!-- Footer -->
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+ <script src="/js/jqwidgets/jqxcore.js"></script> 
+ <script src="/js/jqwidgets/jqxcheckbox.js"></script>
+  <script src="/js/marquee.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  
+  <script src="/js/apexcharts.js"></script>
+  <script src="/js/chartOptions.js"></script> 
+  <script src="/js/bourse/jsonCheckBoxArrayMetals.js"></script>  
+  <script src="/js/bourse/ecbQeLiquidity.js"></script> 
+  <script src="/js/chart.js"></script>
+   <script src="/js/jqwidgets/jqxdata.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.js"></script> 
+ <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
+ <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
+ <script src="/js/jqwidgets/jqxmenu.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
+ <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
+ <script src="/js/jqwidgets/jqxlistbox.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
+ <script src="/js/jqwidgets/jqxcore.js"></script> 
+ <script src="/js/bourse/scrollBarNews.js"></script> 
+ <script src="/js/bourse/inGraphNews.js"></script> 
+ <script src="/js/common.js"></script>
+ <script src="/js/bourse/commonGraph.js"></script>
+  <script src="/js/notification/sockjs.js"></script>
+  <script src="/js/notification/stomp.js"></script>
+  <script src="/js/notification/config.js"></script>
+  <script th:inline="javascript">
+	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+	  const hasPendingApprovalGrid= authorities.filter(item => {
+	  	   return item.authority === "PENDING_APPROVAL_GRID"
+	  })[0]!== undefined;
+	 
+  </script>
+</body>
+
+</html>

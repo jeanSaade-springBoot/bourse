@@ -1235,7 +1235,7 @@
 								            return s;
 								          }	 
 					        	  },
-   	  			            type: (itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)?'datetime':'category',
+   	  			            type: (itemValue[checkedItemValues[0]].GroupId==10)?'datetime':'category',
 	   	  			        tickAmount: 19,
 						    axisBorder: {
 							  show: true,
@@ -1405,8 +1405,8 @@
 	      	    	   minvalue=min;
 	      	    	   maxvalue=max;
 	      	    	   
-	      	    	     notDecimal=getFormatResult[1];
-				         nbrOfDigits=getFormatResult[0];
+	      	    	     notDecimal=yaxisformat[1];
+				         nbrOfDigits=yaxisformat[0];
 	      	    	    	chart1.updateOptions({
 	      	    	    	  extra:{
 									isDecimal: isdecimal,
@@ -1730,8 +1730,8 @@
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
 	      	    	   
-				      	    	     notDecimal=getFormatResult[1];
-								     nbrOfDigits=getFormatResult[0];
+				      	    	     notDecimal=yaxisformat[1];
+								     nbrOfDigits=yaxisformat[0];
 				      	    	    	chart2.updateOptions({
 				      	    	    	  extra:{
 												isDecimal: isdecimal,
@@ -1841,10 +1841,10 @@
 									        	  fontSize: fontsize,
 									        	 },
 							 formatter: function(val, index) {
-										 if (getFormatResult0[1])
-						  				  return  val.toFixed(getFormatResult0[0]);
+										 if (yaxisformat[1])
+						  				  return  val.toFixed(yaxisformat[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(yaxisformat[0]) + "%";
 									      }
 							        	  },
 							        	  axisBorder: {
@@ -1899,10 +1899,10 @@
 										        	  fontSize: fontsize,
 										        	 },
 							 formatter: function(val, index) {
-										 if (getFormatResult0[1])
-						  				  return  val.toFixed(getFormatResult0[0]);
+										 if (yaxisformat[1])
+						  				  return  val.toFixed(yaxisformat[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(yaxisformat[0]) + "%";
 									      }
 								        	  },
 								        	  axisBorder: {
@@ -1958,10 +1958,10 @@
 								        	  fontSize: fontsize,
 								        	 },
 							 		 	 formatter: function(val, index) {
-										 if (getFormatResult0[1])
-						  				  return  val.toFixed(getFormatResult0[0]);
+										 if (yaxisformat[1])
+						  				  return  val.toFixed(yaxisformat[0]);
 						  				else 
-						  				  return  val.toFixed(getFormatResult0[0]) + "%";
+						  				  return  val.toFixed(yaxisformat[0]) + "%";
 									      }
 						        	  },
 						        	  axisBorder: {
@@ -2179,7 +2179,7 @@
 		      	    	        dataType: 'json',
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
-		      	    	        	debugger;
+		      	    	         
 		      	    	        	startDateF1=response[0].config.startDate;
 		      	    	        	startDateF2=response[1].config.startDate;
 		      	    	        	 if (startDateF1!=null)
@@ -2251,14 +2251,19 @@
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
 	      	    	  				 
-				      	    	     notDecimal=getFormatResult0[1];
-									 nbrOfDigits=getFormatResult0[0];
-									 notDecimal1=getFormatResult1[1];
-									 nbrOfDigits1=getFormatResult1[0];
-										 
+	      	    	  				 var yaxisformat = getFormat(response[0].config.yAxisFormat);
+									 var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
+							       
+				      	    	     notDecimal=yaxisformat[1];
+									 nbrOfDigits=yaxisformat[0];
+									 notDecimal1=yaxisformat1[1];
+									 nbrOfDigits1=yaxisformat1[0];
+									 
+									 
 									var chartConfigSettings={
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
+											 yAxisFormat1:yaxisformat1,
 											 fontSize:fontsize,
 											 min1:min1,
 											 max1:max1,
@@ -2463,7 +2468,7 @@
 				        	  }
 				        	}
 	   	  			        };
-	   	  			        debugger;
+	   	  			       
 			         chart = new ApexCharts(document.querySelector("#mainChart"), options);
 			         disableOptions(false);
 						       	  $.ajax({
@@ -2526,7 +2531,7 @@
 								showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
 							    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
-							   if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
+							   if(itemValue[checkedItemValues[0]].GroupId==10)
 		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	          	else
 		      	    	            chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
@@ -2543,8 +2548,8 @@
 				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
-				      	    	     notDecimal=getFormatResult[1];
-				                     nbrOfDigits=getFormatResult[0];	
+				      	    	     notDecimal=yaxisformat[1];
+				                     nbrOfDigits=yaxisformat[0];	
 				      	    	   
 							var getFormatResult0 = getFormat(response[0].config.dataFormat);
 					       

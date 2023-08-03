@@ -125,7 +125,7 @@ var itemValue = {
 			"description": "40ft Container",
 			"title": "40ft Container"
 		},
-			"#jqxCheckBoxusatoaaa": {
+	"#jqxCheckBoxusatoaaa": {
 		
 		"subGroupId": "1",
 		"GroupId": "11",
@@ -194,5 +194,145 @@ var itemValue = {
 		"GroupId": "12",
 		"description": "eurozonebtobbb_eurozoneatoaaa",
 		"title": 'EZ HIGHYIELD BtoBBB vs BLUECHIP AtoAAA'
-	}
+	},
+		 "#jqxCheckBoxavgUsatoaaaUsa": {
+		
+		"subGroupId": "1",
+		"GroupId": "13",
+		"description": "avg_usatoaaa_usa",
+		"title": 'US  BLUECHIP /TSYS'
+	},
+	"#jqxCheckBoxavgUsbtobbbUsatoaaa": {
+		
+		"subGroupId": "2",
+		"GroupId": "13",
+		"description": "avg_usbtobbb_usatoaaa",
+		"title": 'US  HIGHYIELD  / BLUECHIP'
+	},
+	"#jqxCheckBoxavgUsctocccUsbtobbb": {
+		
+		"subGroupId": "3",
+		"GroupId": "13",
+		"description": "avg_usctoccc_usbtobbb",
+		"title": 'US JUNKBONDS / HIGHYIELD '
+	},
+	"#jqxCheckBoxavgEurozoneatoaaaGermany": {
+		
+		"subGroupId": "4",
+		"GroupId": "13",
+		"description": "avg_eurozoneatoaaa_germany",
+		"title": 'EZ BLUECHIP / 10Y GERMANY'
+	},
+	"#jqxCheckBoxavgEurozonebtobbbEurozoneatoaaa": {
+		
+		"subGroupId": "5",
+		"GroupId": "13",
+		"description": "avg_eurozonebtobbb_eurozoneatoaaa",
+		"title": 'EZ HIGHYIELD / BLUECHIP'
+	},
+	"#jqxCheckBoxExcess1": {
+		
+		"subGroupId": "1",
+		"GroupId": "14",
+		"description": "excess1",
+		"title": 'Overnight Deposits at the ECB'
+	},
+	"#jqxCheckBoxExcess2": {
+		
+		"subGroupId": "2",
+		"GroupId": "14",
+		"description": "excess2",
+		"title": 'Current Account Holdings'
+	},
+	"#jqxCheckBoxExcess3": {
+		
+		"subGroupId": "3",
+		"GroupId": "14",
+		"description": "excess3",
+		"title": 'Reserve Requirements'
+	},
+		"#jqxCheckBoxExcess4": {
+		
+		"subGroupId": "4",
+		"GroupId": "14",
+		"description": "excess4",
+		"title": 'Emergency Lending'
+	},
+		"#jqxCheckBoxExcess1Excess2Excess3Excess4": {
+		
+		"subGroupId": "5",
+		"GroupId": "14",
+		"description": "excess1_excess2_excess3_excess4",
+		"title": 'Excess Liquidity'
+	},
+		"#jqxCheckBoxQe1": {
+		
+		"subGroupId": "1",
+		"GroupId": "15",
+		"description": "qe1",
+		"title": 'ECB MONTHLY sovering bond QE '
+	},
+		"#jqxCheckBoxQe2": {
+		
+		"subGroupId": "2",
+		"GroupId": "15",
+		"description": "qe2",
+		"title": 'ECB MONTHLY corporate bond QE '
+	},
+		"#jqxCheckBoxQe1Qe2": {
+		
+		"subGroupId": "3",
+		"GroupId": "15",
+		"description": "qe1_qe2",
+		"title": 'ECB MONTHLY QE'
+	},
+		"#jqxCheckBoxCumQe1": {
+		
+		"subGroupId": "4",
+		"GroupId": "15",
+		"description": "cum_qe1",
+		"title": 'ECB CUMULATIVE sovereign bond QE'
+	},
+		"#jqxCheckBoxCumQe2": {
+		
+		"subGroupId": "5",
+		"GroupId": "15",
+		"description": "cum_qe2",
+		"title": 'ECB CUMULATIVE corporate bonds QE'
+	},
+		"#jqxCheckBoxCumQe1Qe2": {
+		
+		"subGroupId": "6",
+		"GroupId": "15",
+		"description": "cum_qe1_qe2",
+		"title": 'ECB CUMULATIVE QE'
+	},
+		"#jqxCheckBoxM0": {
+		
+		"subGroupId": "1",
+		"GroupId": "16",
+		"description": "M0",
+		"title": 'M0'
+	},
+		"#jqxCheckBoxM1": {
+		
+		"subGroupId": "2",
+		"GroupId": "16",
+		"description": "M1",
+		"title": 'M1'
+	},
+		"#jqxCheckBoxM2": {
+		
+		"subGroupId": "3",
+		"GroupId": "16",
+		"description": "M2",
+		"title": 'M2'
+	},
+		"#jqxCheckBoxM3": {
+		
+		"subGroupId": "4",
+		"GroupId": "16",
+		"description": "M3",
+		"title": 'M3'
+	},
 	};

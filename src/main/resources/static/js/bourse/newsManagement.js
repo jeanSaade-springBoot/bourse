@@ -7,6 +7,7 @@
   var dbOrderJson;
   var activeAssetId;
   var source;
+  var pageSize=10;
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
   });
@@ -55,23 +56,22 @@
         	  { name: 'isPublished', type: 'string' },  
         	  { name: 'assetId', type: 'string' }, 
           ],
-          async: true,
-          url: '/admin/getunpublishednews/'+activeAssetId
+         // async: true,
+          url: '/admin/getunpublishednews/'+activeAssetId+'/0/'+pageSize,
+          beforeprocessing: function (data) {
+                    gridsource.totalrecords = data.totalElements;
+                }
       };
-     
-      var dataAdapter = new $.jqx.dataAdapter(gridsource, {
-          downloadComplete: function (data, status, xhr) { },
-          loadComplete: function (data) { },
-          loadError: function (xhr, status, error) { }
-      });
+   
+      var dataAdapter = new $.jqx.dataAdapter(gridsource);
       var cellclassname = function (row, column, value, data) {
           var isBold = $('#grid').jqxGrid('getcellvalue', row, "isBold");
           if (isBold=="true") {
               return "redColor";
           }
       }
-      // initialize jqxGrid
-      $("#grid").jqxGrid(
+    
+     $("#grid").jqxGrid(
       {
           width: '100%',
           source: dataAdapter,                
@@ -87,6 +87,10 @@
           editable: true,
           selectionmode: 'none',
           editmode: 'selectedrow',
+          virtualmode: true,
+          rendergridrows: function () {
+                    return dataAdapter.records;
+                },
           columns: [
         	 { text: 'Robot' ,editable:false, datafield: 'robots', width: '8%'},
         	 { text: 'Date', datafield: 'generationDateDate', width: '10%', editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
@@ -137,7 +141,7 @@
 		   { text: '', datafield: 'assetId', hidden: true  },
            ]
          
-      });
+      }); 
 			},
 	        error: function (e) {
 	        	
@@ -145,6 +149,75 @@
 
 	        }
 	    });
+	    
+	     $("#grid").on("pagechanged", function (event) {
+                $("#eventslog").css('display', 'block');
+                if ($("#events").find('.logged').length >= 5) {
+                    $("#events").jqxPanel('clearcontent');
+                }
+                var args = event.args;
+                var eventData = "pagechanged <div>Page:" + args.pagenum + ", Page Size: " + args.pagesize + "</div>";
+              
+                  pageSize= args.pagesize;
+              	  gridsource.url='/admin/getunpublishednews/'+activeAssetId+'/'+args.pagenum+'/'+args.pagesize;
+		          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+		          $("#grid").jqxGrid({source:dataAdapter, 
+		           rendergridrows: function () {
+                    return dataAdapter.records;
+                },});
+		          
+                // get page information.
+                var paginginformation = $("#grid").jqxGrid('getpaginginformation');
+                $('#paginginfo').html("<div style='margin-top: 5px;'>Page:" + paginginformation.pagenum + ", Page Size: " + paginginformation.pagesize + ", Pages Count: " + paginginformation.pagescount + "</div>");
+            });
+        $("#grid").on("pagesizechanged", function (event) {
+               
+                var args = event.args;
+                var eventData = "pagesizechanged <div>Page:" + args.pagenum + ", Page Size: " + args.pagesize + ", Old Page Size: " + args.oldpagesize + "</div>";
+                  pageSize= args.pagesize;
+              	  gridsource.url='/admin/getunpublishednews/'+activeAssetId+'/'+args.pagenum+'/'+args.pagesize;
+		          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+		          $("#grid").jqxGrid({source:dataAdapter,  rendergridrows: function () {
+                    return dataAdapter.records;
+                },});
+		          
+                // get page information.          
+                var paginginformation = $("#grid").jqxGrid('getpaginginformation');
+                $('#paginginfo').html("<div style='margin-top: 5px;'>Page:" + paginginformation.pagenum + ", Page Size: " + paginginformation.pagesize + ", Pages Count: " + paginginformation.pagescount + "</div>");
+            }); 
+        $('#grid').on('filter',  function (event) {
+			
+			 var filterGroups = $('#grid').jqxGrid('getfilterinformation');
+		     
+		     var templateValue="";
+		     var dateValue="";
+		     var robotsValue="";
+		     
+		     for (var i = 0; i < filterGroups.length; i++) {
+		         var filterGroup = filterGroups[i];
+		         var filters = filterGroup.filter.getfilters();
+		         for (var j = 0; j < filters.length; j++) {
+		          
+		             if(filterGroup.filtercolumn=="template")
+		               templateValue=filters[j].value;
+		               
+	                  if(filterGroup.filtercolumn=="generationDateDate")
+		                dateValue=filters[j].value;
+		               
+	                  if(filterGroup.filtercolumn=="robots")
+		                robotsValue=filters[j].value;
+		         }
+		     }
+		      gridsource.url='/admin/getfilterednews?assetId='+activeAssetId+'&robots='+robotsValue+'&generationDate='+dateValue+'&template='+templateValue+'&pageNo=0&pageSize='+pageSize;
+					          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+					          $("#grid").jqxGrid({source:dataAdapter, 
+					           rendergridrows: function () {
+				                return dataAdapter.records;
+				                },
+				             });
+		     
+		  
+ });
 	  $(".sortable").sortable({
         update: function(event, ui) {
             const tab = document.getElementById("nav-tab").children;
@@ -194,7 +267,6 @@
       $("#jqxNotificationRobots").jqxNotification({ width: "90%",appendContainer: "#notifcationContainerRobot",  opacity: 0.9,
            autoOpen: false, animationOpenDelay: 800, autoClose:true , autoCloseDelay: 3000,  template: "success"
        }); 
-	   
 	   
 	  $("#popupWindow").jqxWindow({
           width: '50%',    height: '38%',  resizable: false,  theme: 'dark' , isModal: true, autoOpen: false, cancelButton: $("#cancel"), modalOpacity: 0.01           
@@ -374,8 +446,14 @@
              url : "/admin/deletenewsbyid/" + newsId+"/"+isFunctionNews,
              success: function (result) {       
             	 if (selectedrowindex >= 0 && selectedrowindex < rowscount) {
- 	                var id = $("#grid").jqxGrid('getrowid', selectedrowindex);
- 	                var commit = $("#grid").jqxGrid('deleterow', id);
+					 
+ 	                	 gridsource.url='/admin/getunpublishednews/'+activeAssetId+'/0/'+pageSize;
+					          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+					          $("#grid").jqxGrid({source:dataAdapter, 
+					           rendergridrows: function () {
+				                return dataAdapter.records;
+				                },
+				             });
  	               $("#notificationContent").html('Data has been deleted');
 	                   $("#jqxNotification").jqxNotification("open");
  	            } 
@@ -417,7 +495,14 @@
  	    	           $("#notificationContent").html('Data has been recalled');
  	                   $("#jqxNotification").jqxNotification("open");
  	                  publishNews();
- 	                  $('#grid').jqxGrid('updaterow', updatedData.uid, updatedData);
+ 	                
+ 	                	 gridsource.url='/admin/getunpublishednews/'+activeAssetId+'/0/'+pageSize;
+					          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+					          $("#grid").jqxGrid({source:dataAdapter, 
+					           rendergridrows: function () {
+				                return dataAdapter.records;
+				                },
+				             });
 		 	           
  	   },
  	    	        error: function (e) {
@@ -459,7 +544,14 @@
  	    	           $("#notificationContent").html('Data has been published');
  	                   $("#jqxNotification").jqxNotification("open");
  	             	 publishNews();
- 	                  $('#grid').jqxGrid('updaterow', updatedData.uid, updatedData);
+ 	                  
+ 	                	 gridsource.url='/admin/getunpublishednews/'+activeAssetId+'/0/'+pageSize;
+					          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+					          $("#grid").jqxGrid({source:dataAdapter, 
+					           rendergridrows: function () {
+				                return dataAdapter.records;
+				                },
+				             });
 		 	           
  	   },
  	    	        error: function (e) {
@@ -592,10 +684,14 @@
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
-	        	
-	       	 gridsource.url='/admin/getunpublishednews/'+activeAssetId;
-			 dataAdapter = new $.jqx.dataAdapter(gridsource);
-			 $('#grid').jqxGrid({source:dataAdapter});
+	        
+          	  gridsource.url='/admin/getunpublishednews/'+activeAssetId+'/0/'+pageSize;
+	          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+	          $("#grid").jqxGrid({source:dataAdapter, 
+	           rendergridrows: function () {
+                return dataAdapter.records;
+                },
+                });
 		
 			   $("#notificationContent").html('News are pubished');
                $("#jqxNotification").jqxNotification("open");
@@ -679,9 +775,14 @@
 	        timeout: 600000,
 	        success: function (data) {
 	         $('#overlay').fadeOut();
-	       	 gridsource.url='/admin/getunpublishednews/'+activeAssetId;
-			 dataAdapter = new $.jqx.dataAdapter(gridsource);
-			 $('#grid').jqxGrid({source:dataAdapter});
+	         
+	       	 gridsource.url='/admin/getunpublishednews/'+activeAssetId+'/0/'+pageSize;
+	          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+	          $("#grid").jqxGrid({source:dataAdapter, 
+	           rendergridrows: function () {
+                return dataAdapter.records;
+                },
+             });
 			 
 			 $("#notificationContent").html('Done');
              $("#jqxNotification").jqxNotification("open");
@@ -705,9 +806,14 @@
 	        timeout: 600000,
 	        success: function (data) {
 	         $('#overlay').fadeOut();
-	       	 gridsource.url='/admin/getunpublishednews/'+activeAssetId;
-			 dataAdapter = new $.jqx.dataAdapter(gridsource);
-			 $('#grid').jqxGrid({source:dataAdapter});
+	         
+	       	  gridsource.url='/admin/getunpublishednews/'+activeAssetId+'/0/'+pageSize;
+		          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+		          $("#grid").jqxGrid({source:dataAdapter, 
+		           rendergridrows: function () {
+                    return dataAdapter.records;
+	                },
+	                });
 			 
 			 $("#notificationContent").html('Done');
              $("#jqxNotification").jqxNotification("open");
@@ -724,10 +830,14 @@
 		activeAssetId=assetId;
 		value= $('#newsTabs').jqxButtonGroup('getSelection');
 		 if (value==0)
-			{
-				 gridsource.url='/admin/getunpublishednews/'+activeAssetId;
-			     dataAdapter = new $.jqx.dataAdapter(gridsource);
-			     $('#grid').jqxGrid({source:dataAdapter});
+			{   
+				  gridsource.url='/admin/getunpublishednews/'+activeAssetId+'/0/'+pageSize;
+		          var dataAdapter = new $.jqx.dataAdapter(gridsource);
+		          $("#grid").jqxGrid({source:dataAdapter, 
+		           rendergridrows: function () {
+                    return dataAdapter.records;
+	                },
+	                });
 			}
 			else if (value==1)
 			{
