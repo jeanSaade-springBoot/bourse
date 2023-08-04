@@ -1326,7 +1326,10 @@
 	      	    	   //  maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 	      	    	   minvalue=min;
 	      	    	   maxvalue=max;
-	      	    	   
+	      	    	     var valueMin = getMarginLenght(min); 
+			 		     var valueMax = getMarginLenght(max);  	
+	      	    	    var yaxisformat = getFormat(response[0].config.yAxisFormat);
+									
 	      	    	     notDecimal=yaxisformat[1];
 				         nbrOfDigits=yaxisformat[0];
 	      	    	    	chart1.updateOptions({
@@ -1348,9 +1351,8 @@
 									      }
 			 				        	  },
 	     				          tickAmount: 6,
-	     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-	     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
-	     				    			  axisBorder: {
+	     				    	 min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							     max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,		  axisBorder: {
 	     					                  width: 3,
 	     					                  show: true,
 	     					                  color: '#ffffff',
@@ -1651,7 +1653,10 @@
 				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
-	      	    	   
+	      	    	  				 var valueMin = getMarginLenght(min); 
+			 		                 var valueMax = getMarginLenght(max);  	
+	      	    	                 var yaxisformat = getFormat(response[0].config.yAxisFormat);
+									
 				      	    	     notDecimal=yaxisformat[1];
 								     nbrOfDigits=yaxisformat[0];
 				      	    	    	chart2.updateOptions({
@@ -1673,8 +1678,8 @@
 														      }
 						 				        	  },
 				     				          tickAmount: 6,
-				     				    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-				     				    	  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
+				     				    	  min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							           	 	  max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
 				     				    			  axisBorder: {
 				     					                  width: 3,
 				     					                  show: true,
@@ -1720,6 +1725,8 @@
 	    	            $("#dateTo-mainChart").val(todate);
 			}
 			function updateGraphFont(fontsize,minvalue,maxvalue){
+				  var valueMin = getMarginLenght(minvalue); 
+			 	  var valueMax = getMarginLenght(maxvalue);  	
 				if(chart1!=null)
 					chart1.updateOptions({
 						xaxis: {
@@ -1755,9 +1762,9 @@
 					    	  },
 					          yaxis: [
 								     {  tickAmount: 6,
-			 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-			 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)-0.1 : Math.abs(maxvalue)+0.1,
-							     	    labels: {
+			 				    	          min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							           	 	  max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
+				     				    	labels: {
 							        		 minWidth: 75,maxWidth: 75,
 							        		 style: {
 									        	  fontSize: fontsize,
@@ -1813,9 +1820,9 @@
 						    	  },
 						          yaxis: [
 									     {  tickAmount: 6,
-				 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-				 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
-								     	    labels: {
+				 				    	      min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							           	 	  max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
+				     				    	labels: {
 								        		 minWidth: 75,maxWidth: 75,
 								        		 style: {
 										        	  fontSize: fontsize,
@@ -1872,9 +1879,9 @@
 				    	  },
 				          yaxis: [
 							     {  tickAmount: 6,
-		 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-0.1 : Math.abs(minvalue)-0.1,
-		 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+0.1 : Math.abs(maxvalue)+0.1,
-						     	    labels: {
+		 				    	              min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							           	 	  max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
+				     			 labels: {
 						        		 minWidth: 75,maxWidth: 75,
 						        		 style: {
 								        	  fontSize: fontsize,
@@ -2172,15 +2179,15 @@
 				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
-	      	    	  				 
+	      	    	  				 	 
+									 var yaxisformat = getFormat(response[0].config.yAxisFormat);
+									 var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
+									 
 				      	    	     notDecimal=yaxisformat[1];
 									 nbrOfDigits=yaxisformat[0];
 									 notDecimal1=yaxisformat1[1];
 									 nbrOfDigits1=yaxisformat1[0];
-										 
-									var yaxisformat = getFormat(response[0].config.yAxisFormat);
-									var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
-							        
+									
 							        var chartConfigSettings={
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
@@ -2469,6 +2476,8 @@
 				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
+	      	    	  				 	 
+									 var yaxisformat = getFormat(response[0].config.yAxisFormat);
 				      	    	     notDecimal=yaxisformat[1];
 				                     nbrOfDigits=yaxisformat[0];	
 				      	    	   
