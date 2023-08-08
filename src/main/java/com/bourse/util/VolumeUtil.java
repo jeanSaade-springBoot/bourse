@@ -166,7 +166,7 @@ public class VolumeUtil {
 								 		    + "\n          and '"+toDate+"')\n";
 								 
 								 
-								 forUsetables = forUsetables + tableSchema+"tmp_audit_corporate_liquidity_premia";
+								 forUsetables = forUsetables + tableSchema+"tmp_audit_shatz_options_volume";
 			    				 forUsetables = forUsetables + " s"+counter+" ,";
 							 	 forUseSelect = forUseSelect+", \n"+ 
 								                         " s"+counter+"."+value+
@@ -202,7 +202,7 @@ public class VolumeUtil {
 									 		    + "\n          and '"+toDate+"')\n";
 									 
 									 
-									 forUsetables = forUsetables + tableSchema+"tmp_audit_transportation";
+									 forUsetables = forUsetables + tableSchema+"tmp_audit_euribor_options_volume";
 				    				 forUsetables = forUsetables + " s"+counter+" ,";
 								 	 forUseSelect = forUseSelect+", \n"+ 
 									                         " s"+counter+"."+value+

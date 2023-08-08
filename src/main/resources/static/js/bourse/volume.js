@@ -18,7 +18,13 @@
          			    "#jqxCheckBoxBuxl1_Buxl2"];	 		
          var ShatzItem = [ "#jqxCheckBoxShatz1",
          			    "#jqxCheckBoxShatz2",
-         			    "#jqxCheckBoxShatz1_Shatz2"];		
+         			    "#jqxCheckBoxShatz1_Shatz2"];
+         var EuriborItem = [ "#jqxCheckBoxEuribor1",
+         			    "#jqxCheckBoxEuribor2",
+         			    "#jqxCheckBoxEuribor3",
+         			    "#jqxCheckBoxEuribor4",
+         			    "#jqxCheckBoxEuribor5",
+         			    "#jqxCheckBoxEuribor1_Euribor2_Euribor3_Euribor4_Euribor5"];		
 				  			       					      
 		 var BundAuditDefaultData=[{
              "bund1": "",
@@ -41,11 +47,20 @@
              "shatz2": "",
              "shatz1shatz1": ""
            }];
+            var EuriborAuditDefaultData=[{
+             "euribor1": "",
+             "euribor2": "",
+             "euribor3": "",
+             "euribor4": "",
+             "euribor5": "",
+             "euribor1euribor2euribor3euribor4euribor5": ""
+           }];
          var source;
          var inputDataBund = document.getElementById("data-input-Bund");
          var inputDataBobl = document.getElementById("data-input-Bobl");
          var inputDataBuxl = document.getElementById("data-input-Buxl");
          var inputDataShatz = document.getElementById("data-input-Shatz");
+         var inputDataEuribor = document.getElementById("data-input-Euribor");
           
          var volumeType;
          
@@ -78,6 +93,12 @@
                 auditUrl='/volume/getshatzdata/';
                 updateUrl="/volume/updateshatzdata";
 			    saveUrl="/volume/saveshatzdata";
+            }else if(volumeValue==5)
+            {
+				volumeType="Euribor";
+                auditUrl='/volume/geteuribordata/';
+                updateUrl="/volume/updateeuribordata";
+			    saveUrl="/volume/saveeuribordata";
             }
 		 $(document).ready(function () {
 			  $('#overlay').fadeOut();
@@ -101,9 +122,11 @@
 			   $("#Buxl-btn").addClass('active');
 			   }else 
 			   if(volumeValue==4){
-			   $("#Shatz_spreads-btn").addClass('active');
+			   $("#Shatz-btn").addClass('active');
+			   }else 
+			   if(volumeValue==5){
+			   $("#Euribor-btn").addClass('active');
 			   }
-			   
 			  renderSubGroup(volumeValue);
     
 			  $("#dateInput").jqxDateTimeInput({  theme:'dark', width: '195px', height: '25px' });
@@ -133,6 +156,12 @@
 	 		                    { name: 'SHATZ1',  type: 'float'},
 	 		                    { name: 'SHATZ2',  type: 'float'},
 	 		                    { name: 'SHATZ1_SHATZ2',  type: 'float'},
+	 		                    { name: 'EURIBOR1',  type: 'float'},
+	 		                    { name: 'EURIBOR2',  type: 'float'},
+	 		                    { name: 'EURIBOR3',  type: 'float'},
+	 		                    { name: 'EURIBOR4',  type: 'float'},
+	 		                    { name: 'EURIBOR5',  type: 'float'},
+	 		                    { name: 'EURIBOR1_EURIBOR2_EURIBOR3_EURIBOR4_EURIBOR5',  type: 'float'},
 	 		                 ],
 	                         id: 'id',
 	                         localdata: ''
@@ -198,6 +227,12 @@
 						    			   {
 						    		    	$(ShatzItem[i]).jqxCheckBox({checked:false});
 						    		       } 
+									  }else if (volumeValue==5)
+				    				 {
+									  for(i=0; i<ShatzItem.length; i++)
+						    			   {
+						    		    	$(EuriborItem[i]).jqxCheckBox({checked:false});
+						    		       } 
 									  }
 				  });  
 	       function Edit(row, event) {
@@ -226,12 +261,22 @@
 							   "buxl2":data.buxl2,
 							   "buxl1buxl2":data.buxl1buxl2
 						     };
-						 }else if(volumeValue==3)
+						 }else if(volumeValue==4)
 				     	{
 							  oldDataJson={
 				               "shatz1":data.shatz1,
 							   "shatz2":data.shatz2,
 							   "shatz1shatz2":data.shatz1shatz2
+						     };
+						 }else if(volumeValue==5)
+				     	{
+							  oldDataJson={
+				               "euribor1":data.euribor1,
+							   "euribor2":data.euribor2,
+							   "euribor3":data.euribor3,
+							   "euribor4":data.euribor4,
+							   "euribor5":data.euribor5,
+							   "euribor1euribor2euribor3euribor4euribor5":data.euribor1euribor2euribor3euribor4euribor5
 						     };
 						 }
 				     selectedRow.editrow = row;
@@ -292,6 +337,23 @@
 						{
 							if(($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].shatz1!=null)&&
 				    		 ($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].shatz2!=null))
+							{
+						    	$('#'+volumeType+'AuditGrid').jqxGrid('beginrowedit', row);
+						    	$("#edit"+row).css("display","none");
+								$("#actionButtons"+row).css("display","contents"); 
+						    	if (event) {
+						    		if (event.preventDefault) {
+						    			event.preventDefault();
+						    		}
+						    	} 
+							}
+						}else if(volumeValue==5)
+						{
+							if(($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].euribor1!=null)&&
+				    		 ($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].euribor2!=null)&&
+				    		 ($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].euribor3!=null)&&
+				    		 ($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].euribor4!=null)&&
+				    		 ($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].euribor5!=null))
 							{
 						    	$('#'+volumeType+'AuditGrid').jqxGrid('beginrowedit', row);
 						    	$("#edit"+row).css("display","none");
@@ -384,6 +446,41 @@
 						dataToBeUpdated.push({
 			         			   "subgroupId":"2",
 			         			   "value":updatedData.shatz2.replaceAll(',',''),
+			         			   "referdate": date
+			         			});
+					 }else if(volumeValue==5){
+					     updatedDataJson={
+				               "euribor1":updatedData.euribor1,
+							   "euribor2":updatedData.euribor2,
+							   "euribor3":updatedData.euribor3,
+							   "euribor4":updatedData.euribor4,
+							   "euribor5":updatedData.euribor5
+						     };
+				         keys=["euribor1","euribor2","euribor3","euribor4","euribor5"];
+                    
+                    	dataToBeUpdated.push({
+	         			   "subgroupId":"1",
+	         			   "value":updatedData.euribor1.replaceAll(',',''),
+	         			   "referdate": date
+	         			});
+						dataToBeUpdated.push({
+			         			   "subgroupId":"2",
+			         			   "value":updatedData.euribor2.replaceAll(',',''),
+			         			   "referdate": date
+			         			});
+			         	dataToBeUpdated.push({
+			         			   "subgroupId":"3",
+			         			   "value":updatedData.euribor3.replaceAll(',',''),
+			         			   "referdate": date
+			         			});
+			         	dataToBeUpdated.push({
+			         			   "subgroupId":"4",
+			         			   "value":updatedData.euribor4.replaceAll(',',''),
+			         			   "referdate": date
+			         			});
+			         	dataToBeUpdated.push({
+			         			   "subgroupId":"5",
+			         			   "value":updatedData.euribor5.replaceAll(',',''),
 			         			   "referdate": date
 			         			});
 					 }
@@ -544,6 +641,9 @@
 			 }else if (volumeValue==4)
 		     {
 			   items = ShatzItem;
+			 }else if (volumeValue==5)
+		     {
+			   items = EuriborItem;
 			 }
 				 	for (i = 0; i < items.length; i++) {
 		         		if($(items[i]).jqxCheckBox('checked'))
@@ -750,7 +850,7 @@
 		                  },  
 		                  { text: 'Calls', datafield: 'buxl1', width: '25.33%' },
 		                  { text: 'Puts', datafield: 'buxl2', width: '25.33%' },
-		                  { text: 'VOLUME', datafield: 'buxl1buxl2', width: '25.33%' }
+		                  { text: 'VOLUME', datafield: 'buxl1buxl2', width: '25.33%', editable: false, }
 	                ];
 			
 			}else
@@ -760,25 +860,69 @@
 		    items=ShatzItem;
 		    var dataInputGridFields=[
 			                    { name: 'shatz1', type: 'string' },
-			                    { name: 'shatz1', type: 'string' }
+			                    { name: 'shatz2', type: 'string' }
 			                ]; 			
 			 var dataInputGridColumns= [ 
 			                      { text: 'Call Volume', datafield: 'shatz1', width: '50%' },
-				                  { text: 'Put Volume', datafield: 'shatz1', width: '50%'}
+				                  { text: 'Put Volume', datafield: 'shatz2', width: '50%'}
 			                ];	 
 			
 			var defaultData=ShatzAuditDefaultData;
 			var fields=[
                     { name: 'shatz1', type: 'string' },
-                    { name: 'shatz2', type: 'string' }
+                    { name: 'shatz2', type: 'string' },
+                    { name: 'shatz1shatz2', type: 'string' }
                 ];
              var arrayOFcolumns= [ 
-	                	  
-		                  { text: 'US  BLUECHIP/TSYS', datafield: 'avgUsatoaaaUsa', width: '20%' },
-		                  { text: 'US  HIGHYIELD / BLUECHIP', datafield: 'avgUsbtobbbUsatoaaa', width: '20%' },
-		                  { text: 'US JUNKBONDS / HIGHYIELD', datafield: 'avgUsctocccUsbtobbb', width: '20%' },
-		                  { text: 'EZ BLUECHIP 10Y GERMANY', datafield: 'avgEurozoneatoaaaGermany', width: '20%' },
-		                  { text: 'EZ HIGHYIELD/ BLUECHIP', datafield: 'avgEurozonebtobbbEurozoneatoaaa', width: '20%' }
+	                	    { text: '',editable:false, datafield: 'Edit',width:'24%',cellsrenderer: function (row) {
+		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                   }
+		                  },  
+		                  { text: 'Calls', datafield: 'shatz1', width: '25.33%' },
+		                  { text: 'Puts', datafield: 'shatz2', width: '25.33%' },
+		                  { text: 'VOLUME', datafield: 'shatz1shatz2', width: '25.33%', editable: false, }
+	                ];
+			
+			}else
+			if (volumeValue==5)
+			{
+			inputDataType = inputDataEuribor;
+		    items=EuriborItem;
+		    var dataInputGridFields=[
+			                    { name: 'euribor1', type: 'string' },
+			                    { name: 'euribor2', type: 'string' },
+			                    { name: 'euribor3', type: 'string' },
+			                    { name: 'euribor4', type: 'string' },
+			                    { name: 'euribor5', type: 'string' }
+			                ]; 			
+			 var dataInputGridColumns= [ 
+			                      { text: 'Regular ER', datafield: 'euribor1', width: '20%' },
+				                  { text: '1yr MID', datafield: 'euribor2', width: '20%'},
+				                  { text: '2yr GREEN', datafield: 'euribor3', width: '20%' },
+				                  { text: '3yr BLUE', datafield: 'euribor4', width: '20%'},
+				                  { text: '4yr GOLD', datafield: 'euribor5', width: '20%' }
+			                ];	 
+			
+			var defaultData=EuriborAuditDefaultData;
+			var fields=[
+                    { name: 'euribor1', type: 'string' },
+                    { name: 'euribor2', type: 'string' },
+                    { name: 'euribor3', type: 'string' },
+                    { name: 'euribor4', type: 'string' },
+                    { name: 'euribor5', type: 'string' },
+                    { name: 'euribor1euribor2euribor3euribor4euribor5', type: 'string' }
+                ];
+             var arrayOFcolumns= [ 
+	                	    { text: '',editable:false, datafield: 'Edit',width:'24%',cellsrenderer: function (row) {
+		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                   }
+		                  },  
+		                  { text: 'Regular ER', datafield: 'euribor1', width: '12.66%' },
+		                  { text: '1yr MID', datafield: 'euribor2', width: '12.66%' },
+		                  { text: '2yr GREEN', datafield: 'euribor3', width: '12.66%' },
+		                  { text: '3yr BLUE', datafield: 'euribor4', width: '12.66%' },
+		                  { text: '4yr GOLD', datafield: 'euribor5', width: '12.66%' },
+		                  { text: 'All EURIBOR', datafield: 'euribor1euribor2euribor3euribor4euribor5', width: '12.66%', editable: false }
 	                ];
 			
 			}
@@ -841,6 +985,14 @@
 	    		       	for(i=0; i<BuxlItem.length; i++)
 		    			   {
 		    		    	$(BuxlItem[i]).jqxCheckBox({checked:true});
+		    		       }else if(volumeValue ==4)
+	    		       	for(i=0; i<ShatzItem.length; i++)
+		    			   {
+		    		    	$(ShatzItem[i]).jqxCheckBox({checked:true});
+		    		       }else if(volumeValue ==5)
+	    		       	for(i=0; i<EuriborItem.length; i++)
+		    			   {
+		    		    	$(EuriborItem[i]).jqxCheckBox({checked:true});
 		    		       }
 	    	       }
 	                  },
@@ -865,6 +1017,12 @@
 		        break;
 		 case '3': 
 		   groupId='19'
+		        break;
+		 case '4': 
+		   groupId='20'
+		        break;
+		 case '5': 
+		   groupId='21'
 		        break;
 		}
 	return groupId;
@@ -918,6 +1076,19 @@
 					  			"buxl1": rowData[0],
 					  			"buxl2":  rowData[1]
 					  		};
+			   else if(volumeValue ==4)
+			   jsonObject= {
+					  			"shatz1": rowData[0],
+					  			"shatz2":  rowData[1]
+					  		};
+			   else if(volumeValue ==5)
+			   jsonObject= {
+					  			"euribor1": rowData[0],
+					  			"euribor2":  rowData[1],
+					  			"euribor3": rowData[2],
+					  			"euribor4":  rowData[3],
+					  			"euribor5": rowData[4]
+					  		};
 			   localdata.push(jsonObject);
 			  
 			  var dataInputGridSource =
@@ -970,6 +1141,10 @@
 			   value="Bobl Options"; 
 			   else if(volumeValue==3)
 			   value="Buxl Options";    
+			     else if(volumeValue==4)
+			   value="Shatz Options";    
+			     else if(volumeValue==5)
+			   value="Euribor Options";    
 			   
 				$('#alertDeleteDataByDate-modal').modal('show'); 
 		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
@@ -983,6 +1158,7 @@
             	var secondObject=["2"];
             	var thirdObject=["3"];
 				var fourthObject=["4"];
+				var fifthObject=["5"];
             	var listObject=null;
 				var groupId=null;
 				
@@ -1000,6 +1176,17 @@
 				  if(volumeValue==3)
 				  {    firstObject.push(rows[i].buxl1);
 					  secondObject.push(rows[i].buxl2);
+				  }else
+				  if(volumeValue==4)
+				  {    firstObject.push(rows[i].shatz1);
+					  secondObject.push(rows[i].shatz2);
+				  }else
+				  if(volumeValue==5)
+				  {    firstObject.push(rows[i].euribor1);
+					   secondObject.push(rows[i].euribor2);
+					   thirdObject.push(rows[i].euribor3);
+					   fourthObject.push(rows[i].euribor4);
+					   fifthObject.push(rows[i].euribor5);
 				  }
             	}
             	 if(volumeValue==1)
@@ -1011,6 +1198,12 @@
 				   else if(volumeValue==3)
 				 	{ listObject=["firstObject","secondObject"];
 				 	 groupId=19;}
+				 	 else if(volumeValue==4)
+				 	{ listObject=["firstObject","secondObject"];
+				 	 groupId=20;}
+				 	  else if(volumeValue==5)
+				 	{ listObject=["firstObject","secondObject","thirdObject","fourthObject","fifthObject"];
+				 	 groupId=21;}
 				  
             	 for (i = 0; i < listObject.length; i++) {
 
@@ -1043,7 +1236,7 @@
 	    	        	{
 							 $.ajax({
 						        contentType: "application/json",
-						        url: "/process/isrobottriggered/3/"+groupId,
+						        url: "/process/isrobottriggered/4/"+groupId,
 						        dataType: 'text',
 								async:true,
 						        cache: false,
@@ -1074,7 +1267,11 @@
 				                              	inputDataBobl.value="";
 						  		                  else if(volumeValue==3)
 				                              	inputDataBuxl.value="";	
-						  		            	
+						  		            	 else if(volumeValue==4)
+				                              	inputDataShatz.value="";	 
+				                              	 else if(volumeValue==5)
+				                              	inputDataEuribor.value="";
+				                              	
 						  		            	  $("#dataformInput" + volumeType).css("display","block");
 						  						  $("#dataInputButtons" + volumeType).css("display","none"); 
 						  						  $("#dataInputGrid" + volumeType).css("display","none");

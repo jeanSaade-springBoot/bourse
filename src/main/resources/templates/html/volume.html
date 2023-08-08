@@ -187,8 +187,8 @@ padding-right:.2rem;
 			    <button type="button" class="btn btn-secondary mw-100" id="Bund-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">BUND OPTIONS</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="Bobl-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">BOBL OPTIONS</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="Buxl-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">BUXL OPTIONS</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="Shatz_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">SHATZ OPTIONS</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="Shatz_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">EURIBOR OPTIONS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="Shatz-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">SHATZ OPTIONS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="Euribor-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">EURIBOR OPTIONS</button>
 			  </div>
 			</div>
             <div class="collapse show" id="collapseExample">
@@ -288,7 +288,7 @@ padding-right:.2rem;
 	                 </div>
 	                  <div th:if="${volume == 4}" class="col-12 pr-0" id="Shatzinput">
 	                  <div class="col pl-0 ">&#x200b; </div>
-		                 <div class="col p-0 d-none">
+		                 <div class="col p-0">
 		                	<form id="dataformInputShatz">
 								<div class="pt-2" style="display: flex;">
 										<div class="fs-7">
@@ -307,6 +307,40 @@ padding-right:.2rem;
 							<div class='col-12 d-flex justify-content-end mt-2'>
 							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadShatz" value="Load " />
 							<input id="cancelShatz" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						</div>
+		                </div>
+	                 </div>
+	                  <div th:if="${volume == 5}" class="col-12 pr-0" id="Euriborinput">
+	                  <div class="col pl-0 ">&#x200b; </div>
+		                 <div class="col p-0">
+		                	<form id="dataformInputEuribor">
+								<div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+										 Regular ER
+										 </div>
+										<div class="fs-7">
+										 1yr MID
+										</div>
+										<div class="fs-7">
+										 2yr GREEN
+										</div>
+										<div class="fs-7">
+										 3yr BLUE
+										</div>
+										<div class="fs-7">
+										 4yr GOLD
+										</div>
+									</div>
+								<div class="d-flex">
+									<input class="form-control" id="data-input-Euribor" autocomplete="off"/>
+								</div>
+							</form>
+		               <div id="dataInputGridEuribor" style="margin-top: 0rem;"> </div>
+					   <div class="row" id="dataInputButtonsEuribor" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadEuribor" value="Load " />
+							<input id="cancelEuribor" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
 						</div>
 		                </div>
@@ -353,10 +387,21 @@ padding-right:.2rem;
 		                    	
 							</div>
 							<div class="col-3 p-0">
-							 <button id="deleteShatz" style="font-size: .8rem; float: right; display:none">Delete</button> 
+							 <button id="deleteShatz" style="font-size: .8rem; float: right;">Delete</button> 
 		                   </div>
                        </div>
 					  <div id="ShatzAuditGrid"></div>
+					</div>
+					<div th:if="${volume == 5}" class="col-12 p-0" id="Euribor-audit">
+                       <div class="d-flex justify-content-between pb-1">
+		                    <div class="col-9 p-0"> 
+		                    	
+							</div>
+							<div class="col-3 p-0">
+							 <button id="deleteEuribor" style="font-size: .8rem; float: right;">Delete</button> 
+		                   </div>
+                       </div>
+					  <div id="EuriborAuditGrid"></div>
 					</div>
                  </div>
               </div>
@@ -428,7 +473,17 @@ padding-right:.2rem;
              	<div id='jqxCheckBoxShatz1_Shatz2' style='float: left;'><span class="checkboxesTitle">Total Volume</span></div>
               </div>
            </div>
-         
+          <div th:if="${volume == 5}" class="col-sm-9" >
+             <h6 class="col font-weight-bold">EURIBOR OPTION VOLUMES</h6>
+             <div class="d-flex justify-content-between col">
+             	<div id='jqxCheckBoxEuribor1' style='float: left;'><span class="checkboxesTitle">Regular ER option volume</span></div> 
+             	<div id='jqxCheckBoxEuribor2' style='float: left;'><span class="checkboxesTitle">1yr MID option volume</span></div>
+             	<div id='jqxCheckBoxEuribor3' style='float: left;'><span class="checkboxesTitle">2yr GREEN option volume</span></div>
+             	<div id='jqxCheckBoxEuribor4' style='float: left;'><span class="checkboxesTitle">3yr BLUE option volume</span></div>
+             	<div id='jqxCheckBoxEuribor5' style='float: left;'><span class="checkboxesTitle">4yr GOLD option volume</span></div>
+             	<div id='jqxCheckBoxEuribor1_Euribor2_Euribor3_Euribor4_Euribor5' style='float: left;'><span class="checkboxesTitle">All EURIBOR options Volume</span></div>
+              </div>
+           </div>
     	</div>
     </div>
    </div>

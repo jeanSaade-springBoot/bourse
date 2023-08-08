@@ -17,10 +17,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bourse.domain.BoblOptionsVolume;
 import com.bourse.domain.BundOptionsVolume;
 import com.bourse.domain.BuxlOptionsVolume;
+import com.bourse.domain.EuriborOptionsVolume;
 import com.bourse.domain.ShatzOptionsVolume;
 import com.bourse.domain.TmpAuditBoblOptionsVolume;
 import com.bourse.domain.TmpAuditBundOptionsVolume;
 import com.bourse.domain.TmpAuditBuxlOptionsVolume;
+import com.bourse.domain.TmpAuditEuriborOptionsVolume;
 import com.bourse.domain.TmpAuditShatzOptionsVolume;
 import com.bourse.dto.GenericDataFunctionReqDTO;
 import com.bourse.dto.GraphRequestDTO;
@@ -32,6 +34,7 @@ import com.bourse.service.BoblOptionsVolumeService;
 import com.bourse.service.BundOptionsVolumeService;
 import com.bourse.service.BuxlOptionsVolumeService;
 import com.bourse.service.DataFunctionService;
+import com.bourse.service.EuriborOptionsVolumeService;
 import com.bourse.service.ShatzOptionsVolumeService;
 import com.bourse.service.VolumeService;
 
@@ -51,6 +54,8 @@ public class VolumeController {
 	private final BuxlOptionsVolumeService buxlOptionsVolumeService;
 	@Autowired
 	private final ShatzOptionsVolumeService shatzOptionsVolumeService;
+	@Autowired
+	private final EuriborOptionsVolumeService euriborOptionsVolumeService;
 	
 	public VolumeController(
 			DataFunctionService dataFunctionService,
@@ -58,7 +63,8 @@ public class VolumeController {
 			BundOptionsVolumeService bundOptionsVolumeService,
 			BoblOptionsVolumeService boblOptionsVolumeService,
 			BuxlOptionsVolumeService buxlOptionsVolumeService,
-			ShatzOptionsVolumeService shatzOptionsVolumeService)
+			ShatzOptionsVolumeService shatzOptionsVolumeService,
+			EuriborOptionsVolumeService euriborOptionsVolumeService)
 	{
 		this.dataFunctionService = dataFunctionService;
 		this.volumeService = volumeService;
@@ -66,6 +72,7 @@ public class VolumeController {
 		this.boblOptionsVolumeService = boblOptionsVolumeService;
 		this.buxlOptionsVolumeService = buxlOptionsVolumeService;
 		this.shatzOptionsVolumeService = shatzOptionsVolumeService;
+		this.euriborOptionsVolumeService = euriborOptionsVolumeService;
 	}
 	@PostMapping(value = "getgriddata")
 	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody MainSearchFilterDTO mainSearchFilterDTO) {
@@ -103,6 +110,12 @@ public class VolumeController {
 		shatzOptionsVolumeService.doCaclulation(shatzOptionsVolume.get(0).getReferDate());
 	  return shatzLiquidityDatalst;
     }
+	@PostMapping(value = "saveeuribordata")
+    public List<EuriborOptionsVolume> saveEuriborData(@RequestBody List<EuriborOptionsVolume> euriborOptionsVolume){
+		List<EuriborOptionsVolume> euriborLiquidityDatalst= euriborOptionsVolumeService.SaveData(euriborOptionsVolume);
+		euriborOptionsVolumeService.doCaclulation(euriborOptionsVolume.get(0).getReferDate());
+	  return euriborLiquidityDatalst;
+    }
 	@GetMapping(value = "getbunddata/{referDate}")
 	public ResponseEntity<List<TmpAuditBundOptionsVolume>> getAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(bundOptionsVolumeService.getAuditData(referDate),HttpStatus.OK);
@@ -119,6 +132,10 @@ public class VolumeController {
 	public ResponseEntity<List<TmpAuditShatzOptionsVolume>> getShatzAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(shatzOptionsVolumeService.getAuditData(referDate),HttpStatus.OK);
 	}
+	@GetMapping(value = "geteuribordata/{referDate}")
+	public ResponseEntity<List<TmpAuditEuriborOptionsVolume>> getEuriborAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(euriborOptionsVolumeService.getAuditData(referDate),HttpStatus.OK);
+	}
 	@GetMapping(value = "checkifcansave/{volume}/{referDate}")
 	public ResponseEntity<Boolean> CheckIfCanSavePrecious(@PathVariable("volume") String volume,@PathVariable String referDate) 
 	{  boolean checkifcanSave= false;
@@ -130,6 +147,8 @@ public class VolumeController {
 			checkifcanSave = buxlOptionsVolumeService.CheckIfCanSave(referDate); 
 		else if (volume.equalsIgnoreCase("4")) 
 			checkifcanSave = shatzOptionsVolumeService.CheckIfCanSave(referDate); 
+		else if (volume.equalsIgnoreCase("5")) 
+			checkifcanSave = euriborOptionsVolumeService.CheckIfCanSave(referDate); 
 		
 		return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
@@ -144,6 +163,8 @@ public class VolumeController {
 				value =  buxlOptionsVolumeService.findLatestData();
 			else if (volume.equalsIgnoreCase("4")) 
 				value =  shatzOptionsVolumeService.findLatestData();
+			else if (volume.equalsIgnoreCase("5")) 
+				value =  euriborOptionsVolumeService.findLatestData();
 		
 		return new ResponseEntity<>(value, HttpStatus.OK);
     }
@@ -157,6 +178,8 @@ public class VolumeController {
 			buxlOptionsVolumeService.deleteByReferDate(referDate);
 		else if (volume.equalsIgnoreCase("4"))
 			shatzOptionsVolumeService.deleteByReferDate(referDate);
+		else if (volume.equalsIgnoreCase("5"))
+			euriborOptionsVolumeService.deleteByReferDate(referDate);
 		
 	return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -186,6 +209,13 @@ public class VolumeController {
 	{
 		shatzOptionsVolumeService.updateData(updateDataDTOlst);
 		shatzOptionsVolumeService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "updateeuribordata")
+	public ResponseEntity<Boolean> updateEuriborAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{
+		euriborOptionsVolumeService.updateData(updateDataDTOlst);
+		euriborOptionsVolumeService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 }
