@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.bourse.domain.BoblOptionsVolume;
 import com.bourse.domain.BundOptionsVolume;
+import com.bourse.domain.BuxlOptionsVolume;
 import com.bourse.domain.TmpAuditBoblOptionsVolume;
 import com.bourse.domain.TmpAuditBundOptionsVolume;
+import com.bourse.domain.TmpAuditBuxlOptionsVolume;
 import com.bourse.dto.GenericDataFunctionReqDTO;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
@@ -77,10 +79,16 @@ public class VolumeController {
 	  return bundLiquidityDatalst;
     }
 	@PostMapping(value = "savebobldata")
-    public List<BoblOptionsVolume> saveBoblData(@RequestBody List<BoblOptionsVolume> BoblLiquidityList){
-		List<BoblOptionsVolume> BoblLiquidityDatalst= boblOptionsVolumeService.SaveData(BoblLiquidityList);
-		boblOptionsVolumeService.doCaclulation(BoblLiquidityList.get(0).getReferDate());
-	  return BoblLiquidityDatalst;
+    public List<BoblOptionsVolume> saveBoblData(@RequestBody List<BoblOptionsVolume> boblLiquidityList){
+		List<BoblOptionsVolume> boblLiquidityDatalst= boblOptionsVolumeService.SaveData(boblLiquidityList);
+		boblOptionsVolumeService.doCaclulation(boblLiquidityList.get(0).getReferDate());
+	  return boblLiquidityDatalst;
+    }
+	@PostMapping(value = "savebuxldata")
+    public List<BuxlOptionsVolume> saveBuxlData(@RequestBody List<BuxlOptionsVolume> buxlOptionsVolume){
+		List<BuxlOptionsVolume> buxlLiquidityDatalst= buxlOptionsVolumeService.SaveData(buxlOptionsVolume);
+		buxlOptionsVolumeService.doCaclulation(buxlOptionsVolume.get(0).getReferDate());
+	  return buxlLiquidityDatalst;
     }
 	@GetMapping(value = "getbunddata/{referDate}")
 	public ResponseEntity<List<TmpAuditBundOptionsVolume>> getAuditData(@PathVariable("referDate") String referDate) {
@@ -90,6 +98,10 @@ public class VolumeController {
 	public ResponseEntity<List<TmpAuditBoblOptionsVolume>> getBoblAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(boblOptionsVolumeService.getAuditData(referDate),HttpStatus.OK);
 	} 
+	@GetMapping(value = "getbuxldata/{referDate}")
+	public ResponseEntity<List<TmpAuditBuxlOptionsVolume>> getBuxlAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(buxlOptionsVolumeService.getAuditData(referDate),HttpStatus.OK);
+	}
 	@GetMapping(value = "checkifcansave/{volume}/{referDate}")
 	public ResponseEntity<Boolean> CheckIfCanSavePrecious(@PathVariable("volume") String volume,@PathVariable String referDate) 
 	{  boolean checkifcanSave= false;

@@ -6,17 +6,17 @@
          var saveUrl;
          var deleteUrl;
          var checkifcanUrl;
-         var BundItem	=  ["#jqxCheckBoxBund1",
+         var BundItem = ["#jqxCheckBoxBund1",
          			  	 	"#jqxCheckBoxBund2",
          			  	 	"#jqxCheckBoxBund1_Bund2",
          			  	 	"#jqxCheckBoxBund1_Bund2_cp"];	
-        var BoblItem =["#jqxCheckBoxBobl1",
+        var BoblItem = ["#jqxCheckBoxBobl1",
          			   "#jqxCheckBoxBobl2",
          			   "#jqxCheckBoxBobl1_Bobl2"];	 		
-         var BuxlItem =["#jqxCheckBoxBuxl1",
+         var BuxlItem = ["#jqxCheckBoxBuxl1",
          			    "#jqxCheckBoxBuxl2",
          			    "#jqxCheckBoxBuxl1_Buxl2"];	 		
-         var corporateItem=[ "#jqxCheckBoxavg_usatoaaa_usa",
+         var ShatzItem = [ "#jqxCheckBoxavg_usatoaaa_usa",
 				  "#jqxCheckBoxavg_usbtobbb_usatoaaa",
 				  "#jqxCheckBoxavg_usctoccc_usbtobbb",
 				  "#jqxCheckBoxavg_eurozoneatoaaa_germany",
@@ -36,7 +36,7 @@
          var BuxlAuditDefaultData=[{
              "buxl1": "",
              "buxl2": "",
-             "buxl1Buxl2": ""
+             "buxl1buxl2": ""
            }];
           var corporateAuditDefaultData=[{
              "avgUsatoaaaUsa": "",
@@ -193,9 +193,9 @@
 					    		       } 
 								  } else if (volumeValue==4)
 				    				 {
-									  for(i=0; i<corporateItem.length; i++)
+									  for(i=0; i<ShatzItem.length; i++)
 						    			   {
-						    		    	$(corporateItem[i]).jqxCheckBox({checked:false});
+						    		    	$(ShatzItem[i]).jqxCheckBox({checked:false});
 						    		       } 
 									  }
 				  });  
@@ -223,7 +223,7 @@
 							  oldDataJson={
 				               "buxl1":data.buxl1,
 							   "buxl2":data.buxl2,
-							   "buxl1Buxl2":data.buxl1Buxl2
+							   "buxl1buxl2":data.buxl1buxl2
 						     };
 						 }
 				     selectedRow.editrow = row;
@@ -504,7 +504,7 @@
 			   items = BuxlItem;
 			 }else if (volumeValue==4)
 		     {
-			   items = corporateItem;
+			   items = ShatzItem;
 			 }
 				 	for (i = 0; i < items.length; i++) {
 		         		if($(items[i]).jqxCheckBox('checked'))
@@ -702,7 +702,7 @@
 			 var fields=[
                     { name: 'buxl1', type: 'string' },
                     { name: 'buxl2', type: 'string' },
-                    { name: 'buxl1Buxl2', type: 'string' }
+                    { name: 'buxl1buxl2', type: 'string' }
                 ];
              var arrayOFcolumns= [ 
 	                	   { text: '',editable:false, datafield: 'Edit',width:'24%',cellsrenderer: function (row) {
@@ -711,14 +711,14 @@
 		                  },  
 		                  { text: 'Calls', datafield: 'buxl1', width: '25.33%' },
 		                  { text: 'Puts', datafield: 'buxl2', width: '25.33%' },
-		                  { text: 'VOLUME', datafield: 'buxl1Buxl2', width: '25.33%' }
+		                  { text: 'VOLUME', datafield: 'buxl1buxl2', width: '25.33%' }
 	                ];
 			
 			}else
 			if (volumeValue==4)
 			{
 			inputDataType = inputDataCorporate;
-		    items=corporateItem;
+		    items=ShatzItem;
 		    var dataInputGridFields=[]; 			
 			var dataInputGridColumns= [];	  
 			
@@ -873,8 +873,8 @@
 					  		};
 			   else if(volumeValue ==3)
 			   jsonObject= {
-					  			"Buxl1": rowData[0],
-					  			"Buxl2":  rowData[1]
+					  			"buxl1": rowData[0],
+					  			"buxl2":  rowData[1]
 					  		};
 			   localdata.push(jsonObject);
 			  
@@ -956,8 +956,8 @@
 					  secondObject.push(rows[i].bobl2);
 				  }else
 				  if(volumeValue==3)
-				  {    firstObject.push(rows[i].Buxl1);
-					  secondObject.push(rows[i].Buxl2);
+				  {    firstObject.push(rows[i].buxl1);
+					  secondObject.push(rows[i].buxl2);
 				  }
             	}
             	 if(volumeValue==1)
