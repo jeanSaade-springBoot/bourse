@@ -129,7 +129,7 @@ public class VolumeUtil {
 							 		    + "\n          and '"+toDate+"')\n";
 							 
 							 
-							 forUsetables = forUsetables + tableSchema+"tmp_audit_ez_monetary_mass_liquidity";
+							 forUsetables = forUsetables + tableSchema+"tmp_audit_buxl_options_volume";
 		    				 forUsetables = forUsetables + " s"+counter+" ,";
 						 	 forUseSelect = forUseSelect+", \n"+ 
 							                         " s"+counter+"."+value+

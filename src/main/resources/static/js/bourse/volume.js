@@ -13,10 +13,9 @@
         var BoblItem =["#jqxCheckBoxBobl1",
          			   "#jqxCheckBoxBobl2",
          			   "#jqxCheckBoxBobl1_Bobl2"];	 		
-         var ezmmItem =["#jqxCheckBoxM0",
-         			   "#jqxCheckBoxM1",
-         			   "#jqxCheckBoxM2",
-         			   "#jqxCheckBoxM3"];	 		
+         var BuxlItem =["#jqxCheckBoxBuxl1",
+         			    "#jqxCheckBoxBuxl2",
+         			    "#jqxCheckBoxBuxl1_Buxl2"];	 		
          var corporateItem=[ "#jqxCheckBoxavg_usatoaaa_usa",
 				  "#jqxCheckBoxavg_usbtobbb_usatoaaa",
 				  "#jqxCheckBoxavg_usctoccc_usbtobbb",
@@ -34,11 +33,10 @@
              "bobl2": "",
              "bobl1Bobl2": ""
            }];
-         var ezmmAuditDefaultData=[{
-             "m0": "",
-             "m1": "",
-             "m2": "",
-             "m3": ""
+         var BuxlAuditDefaultData=[{
+             "buxl1": "",
+             "buxl2": "",
+             "buxl1Buxl2": ""
            }];
           var corporateAuditDefaultData=[{
              "avgUsatoaaaUsa": "",
@@ -50,7 +48,7 @@
          var source;
          var inputDataBund = document.getElementById("data-input-Bund");
          var inputDataBobl = document.getElementById("data-input-Bobl");
-         var inputDataEZMM = document.getElementById("data-input-EZMM");
+         var inputDataBuxl = document.getElementById("data-input-Buxl");
          var inputDataCorporate = document.getElementById("data-input-Corporate");
           
          var volumeType;
@@ -74,10 +72,10 @@
 			}
            else if(volumeValue==3)
             {
-				volumeType="EZMM";
-                auditUrl='/volume/getezmmdata/';
-			    updateUrl="/volume/updateezmmdata";
-			    saveUrl="/volume/saveezmmdata";
+				volumeType="Buxl";
+                auditUrl='/volume/getbuxldata/';
+			    updateUrl="/volume/updatebuxldata";
+			    saveUrl="/volume/savebuxldata";
             }else if(volumeValue==4)
             {
 				volumeType="Corporate";
@@ -102,7 +100,7 @@
 			   $("#Bobl-btn").addClass('active');
 			   }else 
 			   if(volumeValue==3){
-			   $("#EzMonetary-btn").addClass('active');
+			   $("#Buxl-btn").addClass('active');
 			   }else 
 			   if(volumeValue==4){
 			   $("#Corporate_spreads-btn").addClass('active');
@@ -131,6 +129,9 @@
 	 		                    { name: 'BOBL1',  type: 'float'},
 	 		                    { name: 'BOBL2',  type: 'float'},
 	 		                    { name: 'BOBL1_BOBL2',  type: 'float'},
+	 		                    { name: 'BUXL1',  type: 'float'},
+	 		                    { name: 'BUXL2',  type: 'float'},
+	 		                    { name: 'BUXL1_BUXL2',  type: 'float'},
 	 		                 ],
 	                         id: 'id',
 	                         localdata: ''
@@ -186,9 +187,9 @@
 							  }
 							    else if (volumeValue==3)
 			    				 {
-								  for(i=0; i<ezmmItem.length; i++)
+								  for(i=0; i<BuxlItem.length; i++)
 					    			   {
-					    		    	$(ezmmItem[i]).jqxCheckBox({checked:false});
+					    		    	$(BuxlItem[i]).jqxCheckBox({checked:false});
 					    		       } 
 								  } else if (volumeValue==4)
 				    				 {
@@ -220,10 +221,9 @@
 						 }else if(volumeValue==3)
 				     	{
 							  oldDataJson={
-				               "m0":data.m0,
-							   "m1":data.m1,
-							   "m2":data.m2,
-							   "m3":data.m3
+				               "buxl1":data.buxl1,
+							   "buxl2":data.buxl2,
+							   "buxl1Buxl2":data.buxl1Buxl2
 						     };
 						 }
 				     selectedRow.editrow = row;
@@ -267,10 +267,8 @@
 							}
 						}else if(volumeValue==3)
 						{
-							if(($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].m0!=null)&&
-				    		 ($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].m1!=null)&&
-				    		 ($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].m2!=null)&&
-				    		 ($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].m3!=null))
+							if(($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].buxl1!=null)&&
+				    		 ($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].buxl2!=null))
 							{
 						    	$('#'+volumeType+'AuditGrid').jqxGrid('beginrowedit', row);
 						    	$("#edit"+row).css("display","none");
@@ -334,31 +332,19 @@
 			         			});
 					 }else if(volumeValue==3){
 					     updatedDataJson={
-				               "m0":updatedData.m0,
-							   "m1":updatedData.m1,
-							   "m2":updatedData.m2,
-							   "m3":updatedData.m3
+				               "buxl1":updatedData.buxl1,
+							   "buxl2":updatedData.buxl2
 						     };
-				         keys=["m0","m1","m2","m3"];
+				         keys=["buxl1","buxl2"];
                     
                     	dataToBeUpdated.push({
 	         			   "subgroupId":"1",
-	         			   "value":updatedData.m0.replaceAll(',',''),
+	         			   "value":updatedData.buxl1.replaceAll(',',''),
 	         			   "referdate": date
 	         			});
 						dataToBeUpdated.push({
 			         			   "subgroupId":"2",
-			         			   "value":updatedData.m1.replaceAll(',',''),
-			         			   "referdate": date
-			         			});
-			         	dataToBeUpdated.push({
-			         			   "subgroupId":"3",
-			         			   "value":updatedData.m2.replaceAll(',',''),
-			         			   "referdate": date
-			         			});
-			         	dataToBeUpdated.push({
-			         			   "subgroupId":"4",
-			         			   "value":updatedData.m3.replaceAll(',',''),
+			         			   "value":updatedData.buxl2.replaceAll(',',''),
 			         			   "referdate": date
 			         			});
 					 }
@@ -515,7 +501,7 @@
 			   items = BoblItem;
 			 }else if (volumeValue==3)
 		     {
-			   items = ezmmItem;
+			   items = BuxlItem;
 			 }else if (volumeValue==4)
 		     {
 			   items = corporateItem;
@@ -702,36 +688,30 @@
 			}else
 			if (volumeValue==3)
 			{
-			inputDataType = inputDataEZMM;
-		    items=ezmmItem;
+			inputDataType = inputDataBuxl;
+		    items=BuxlItem;
 		    var dataInputGridFields=[
-			                    { name: 'm0', type: 'string' },
-			                    { name: 'm1', type: 'string' },
-			                    { name: 'm2', type: 'string' },
-			                    { name: 'm3', type: 'string' }
+			                    { name: 'buxl1', type: 'string' },
+			                    { name: 'buxl2', type: 'string' }
 			                ]; 			
 			 var dataInputGridColumns= [ 
-			                      { text: 'M0', datafield: 'm0', width: '25%' },
-				                  { text: 'M1', datafield: 'm1', width: '25%'},
-				                  { text: 'M2', datafield: 'm2', width: '25%' },
-				                  { text: 'M3', datafield: 'm3', width: '25%'}
+			                      { text: 'Call Volume', datafield: 'buxl1', width: '50%' },
+				                  { text: 'Put Volume', datafield: 'buxl2', width: '50%'}
 			                ];	  
-			 var defaultData=ezmmAuditDefaultData;
+			 var defaultData=BuxlAuditDefaultData;
 			 var fields=[
-                    { name: 'm0', type: 'string' },
-                    { name: 'm1', type: 'string' },
-                    { name: 'm2', type: 'string' },
-                    { name: 'm3', type: 'string' },
+                    { name: 'buxl1', type: 'string' },
+                    { name: 'buxl2', type: 'string' },
+                    { name: 'buxl1Buxl2', type: 'string' }
                 ];
              var arrayOFcolumns= [ 
 	                	   { text: '',editable:false, datafield: 'Edit',width:'24%',cellsrenderer: function (row) {
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'M0', datafield: 'm0', width: '19%' },
-		                  { text: 'M1', datafield: 'm1', width: '19%' },
-		                  { text: 'M2', datafield: 'm2', width: '19%' },
-		                  { text: 'M3', datafield: 'm3', width: '19%' }
+		                  { text: 'Calls', datafield: 'buxl1', width: '25.33%' },
+		                  { text: 'Puts', datafield: 'buxl2', width: '25.33%' },
+		                  { text: 'VOLUME', datafield: 'buxl1Buxl2', width: '25.33%' }
 	                ];
 			
 			}else
@@ -816,9 +796,9 @@
 		    			   {
 		    		    	$(BoblItem[i]).jqxCheckBox({checked:true});
 		    		       }else if(volumeValue ==3)
-	    		       	for(i=0; i<ezmmItem.length; i++)
+	    		       	for(i=0; i<BuxlItem.length; i++)
 		    			   {
-		    		    	$(ezmmItem[i]).jqxCheckBox({checked:true});
+		    		    	$(BuxlItem[i]).jqxCheckBox({checked:true});
 		    		       }
 	    	       }
 	                  },
@@ -842,7 +822,7 @@
 		   groupId='18'
 		        break;
 		 case '3': 
-		   groupId='16'
+		   groupId='19'
 		        break;
 		}
 	return groupId;
@@ -893,10 +873,8 @@
 					  		};
 			   else if(volumeValue ==3)
 			   jsonObject= {
-					  			"m0": rowData[0],
-					  			"m1":  rowData[1],
-					  			"m2": rowData[2],
-					  			"m3":  rowData[3]
+					  			"Buxl1": rowData[0],
+					  			"Buxl2":  rowData[1]
 					  		};
 			   localdata.push(jsonObject);
 			  
@@ -947,7 +925,10 @@
 			if(volumeValue==1)
 			   value="Bund Options";
 			else if(volumeValue==2)
-			   value="Bobl Options";   
+			   value="Bobl Options"; 
+			   else if(volumeValue==3)
+			   value="Buxl Options";    
+			   
 				$('#alertDeleteDataByDate-modal').modal('show'); 
 		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				$( "#alertTextDeleteDataByDate" ).empty();
@@ -975,10 +956,8 @@
 					  secondObject.push(rows[i].bobl2);
 				  }else
 				  if(volumeValue==3)
-				  {   firstObject.push(rows[i].m0);
-					  secondObject.push(rows[i].m1);
-					  thirdObject.push(rows[i].m2);
-					  fourthObject.push(rows[i].m3);
+				  {    firstObject.push(rows[i].Buxl1);
+					  secondObject.push(rows[i].Buxl2);
 				  }
             	}
             	 if(volumeValue==1)
@@ -988,8 +967,8 @@
 				   { listObject=["firstObject","secondObject"];
 				    groupId=18;}
 				   else if(volumeValue==3)
-				 	{ listObject=["firstObject","secondObject","thirdObject","fourthObject"];
-				 	 groupId=16;}
+				 	{ listObject=["firstObject","secondObject"];
+				 	 groupId=19;}
 				  
             	 for (i = 0; i < listObject.length; i++) {
 
@@ -1052,7 +1031,7 @@
 				                             else if(volumeValue==2)
 				                              	inputDataBobl.value="";
 						  		                  else if(volumeValue==3)
-				                              	inputDataEZMM.value="";	
+				                              	inputDataBuxl.value="";	
 						  		            	
 						  		            	  $("#dataformInput" + volumeType).css("display","block");
 						  						  $("#dataInputButtons" + volumeType).css("display","none"); 
