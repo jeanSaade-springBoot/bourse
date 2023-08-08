@@ -394,8 +394,7 @@ function uncheckAll() {
     	  $("#jqxCheckBoxavgUsctocccUsbtobbb").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxavgEurozoneatoaaaGermany").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxavgEurozonebtobbbEurozoneatoaaa").jqxCheckBox({checked: false });
-    	  
-}
+    }
 
 function drawGraph() {
 	mode = "merge";

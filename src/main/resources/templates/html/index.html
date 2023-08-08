@@ -54,7 +54,7 @@ div#content {
 			<li sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')"class="rtbSeparator"><span class="rtbText"></span></li>
 			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields?yield=1" class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
 			<li sec:authorize="hasAuthority('SETTINGS_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
-			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" class="nav-item nav-link"><img  alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
 		    </div>
 		</div>
 			<div class="nav-item dropdown" style="width: 15%">
@@ -89,7 +89,7 @@ div#content {
 		           <div class="card-body">
 		      <h5 class="card-title card-title-color">News</h5>
 		      <ul class="fa-ul">
-		  <li><a href="/bourse/allnews"><img id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">All news</a></li>
+		  <li><a href="/bourse/allnews"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">All news</a></li>
 		  </ul>
 		    </div>
 		    </div> -->
@@ -97,14 +97,14 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Yields</h5>
       <ul class="fa-ul">
-		  <li sec:authorize="hasAuthority('ANY2_GRAPH_SCREEN')" ><a href="/bourse/any2"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-		  <li sec:authorize="hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN')"><a href="/bourse/sovereignyieldsgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Sovereign Yields</a></li>
-		  <li sec:authorize="hasAuthority('YIELD_CURVES_GRAPH_SCREEN')"><a href="/bourse/sovereigncurvesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Curves</a></li>
-		  <li sec:authorize="hasAuthority('YIELD_CROSSES_GRAPH_SCREEN')"><a href="/bourse/sovereigncrossesgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Crosses</a></li>
-		  <li sec:authorize="hasAuthority('YIELD_CORPORATE_GRAPH_SCREEN')"><a href="/bourse/sovereigncorporategraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Corporate Yields </a></li>
-		  <li sec:authorize="hasAuthority('CREDIT_SPREAD_GRAPH_SCREEN')"><a href="/bourse/creditsspreadgraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Credit Spreads</a></li>
-		  <li sec:authorize="hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')"><a href="/bourse/spreadmakergraph"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Spread Maker</a></li>
-		  <li sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/datafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		  <li sec:authorize="hasAuthority('ANY2_GRAPH_SCREEN')" ><a href="/bourse/any2"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+		  <li sec:authorize="hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN')"><a href="/bourse/sovereignyieldsgraph"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Sovereign Yields</a></li>
+		  <li sec:authorize="hasAuthority('YIELD_CURVES_GRAPH_SCREEN')"><a href="/bourse/sovereigncurvesgraph"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Curves</a></li>
+		  <li sec:authorize="hasAuthority('YIELD_CROSSES_GRAPH_SCREEN')"><a href="/bourse/sovereigncrossesgraph"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Crosses</a></li>
+		  <li sec:authorize="hasAuthority('YIELD_CORPORATE_GRAPH_SCREEN')"><a href="/bourse/sovereigncorporategraph"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Corporate Yields </a></li>
+		  <li sec:authorize="hasAuthority('CREDIT_SPREAD_GRAPH_SCREEN')"><a href="/bourse/creditsspreadgraph"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Credit Spreads</a></li>
+		  <li sec:authorize="hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')"><a href="/bourse/spreadmakergraph"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Spread Maker</a></li>
+		  <li sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/datafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 		</ul>
     </div>
   </div>
@@ -112,13 +112,13 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Commodities</h5>
       <ul class="fa-ul">
-		  <li sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN')" ><a href="/bourse/any2metals"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-		  <li sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')"><a href="/bourse/precious"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</a></li>
-		  <li sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')"><a href="/bourse/base"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Base Metals</a></li>
-		  <li sec:authorize="hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN')"><a href="/bourse/foodstuff"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Foodstuff</a></li>
-		  <li sec:authorize="hasAuthority('ENERGY_COMMODITY_GRAPH_SCREEN')"><a href="/bourse/energy"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Energy</a></li>
-		  <li sec:authorize="hasAuthority('TRANSPORTATION_COMMODITY_GRAPH_SCREEN')"><a href="/bourse/transportation"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Transportation</a></li>
-		  <li sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/metaldatafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		  <li sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN')" ><a href="/bourse/any2metals"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+		  <li sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')"><a href="/bourse/precious"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</a></li>
+		  <li sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')"><a href="/bourse/base"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Base Metals</a></li>
+		  <li sec:authorize="hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN')"><a href="/bourse/foodstuff"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Foodstuff</a></li>
+		  <li sec:authorize="hasAuthority('ENERGY_COMMODITY_GRAPH_SCREEN')"><a href="/bourse/energy"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Energy</a></li>
+		  <li sec:authorize="hasAuthority('TRANSPORTATION_COMMODITY_GRAPH_SCREEN')"><a href="/bourse/transportation"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Transportation</a></li>
+		  <li sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/metaldatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 		 </ul>
     </div>
   </div>
@@ -126,12 +126,12 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Liquidity</h5>
       <ul class="fa-ul">
-		  <li sec:authorize="hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN')" ><a href="/bourse/any2liquidity"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-		  <li sec:authorize="hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ecbexcessliquidity"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Ecb Excess Liquidity</a></li>
-		  <li sec:authorize="hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ecbqeliquidity"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ECB QE Liquidity</a></li>
-		  <li sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ezmmliquidity"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Eurozone Monetary Mass</a></li>
-		  <li sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/corporateliquidity"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Corpoprate Liquidity</a></li>
-		  <li sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/liquiditydatafunctiondisplay"><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		  <li sec:authorize="hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN')" ><a href="/bourse/any2liquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+		  <li sec:authorize="hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ecbexcessliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Ecb Excess Liquidity</a></li>
+		  <li sec:authorize="hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ecbqeliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ECB QE Liquidity</a></li>
+		  <li sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ezmmliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Eurozone Monetary Mass</a></li>
+		  <li sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/corporateliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Corpoprate Liquidity</a></li>
+		  <li sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/liquiditydatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 		 </ul>
     </div>
   </div>
@@ -139,8 +139,8 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Monitoring</h5>
       <ul class="fa-ul">
-  <li ><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Fast Chart</li>
-  <li><a href="#"><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+  <li ><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Fast Chart</li>
+  <li><a href="#"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
 </ul>
     </div>
   </div>
@@ -148,10 +148,10 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Analytics</h5>
       <ul class="fa-ul">
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Return Function</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Implied Vs Realized (Hi/lo)</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Implied Vs Realized (Close)</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Gamma Rents</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Return Function</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Implied Vs Realized (Hi/lo)</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Implied Vs Realized (Close)</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Gamma Rents</li>
 </ul>
     </div>
   </div>
@@ -159,9 +159,9 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Skews</h5>
       <ul class="fa-ul">
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Global Skew View</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Skew Vs Implied</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Skew Vs Futures</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Global Skew View</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Skew Vs Implied</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Skew Vs Futures</li>
 </ul>
     </div>
   </div>
@@ -169,9 +169,9 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Volumes</h5>
       <ul class="fa-ul">
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Race Chart</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Week After Week </li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Moving Average</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Race Chart</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Week After Week </li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Moving Average</li>
 </ul>
     </div>
   </div>
@@ -179,9 +179,9 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Normalized Space</h5>
       <ul class="fa-ul">
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Create Normalized Vols</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Durations And Dv01</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">List of CTDs </li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Create Normalized Vols</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Durations And Dv01</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">List of CTDs </li>
 </ul>
     </div>
   </div>
@@ -189,9 +189,9 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Inter-markets</h5>
       <ul class="fa-ul">
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">Weightings</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Straddle Ratios</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Implied Vol Ratios</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">Weightings</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Straddle Ratios</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Implied Vol Ratios</li>
  </ul>
     </div>
   </div>
@@ -199,7 +199,7 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Paper-watch</h5>
       <ul class="fa-ul">
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Call/put Warning Indicator</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Call/put Warning Indicator</li>
 </ul>
     </div>
   </div>
@@ -207,8 +207,8 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">The Math Box</h5>
       <ul class="fa-ul">
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">One Serie</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Two Series</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">One Serie</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Two Series</li>
 </ul>
     </div>
   </div>
@@ -216,12 +216,12 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">At A Glance</h5>
       <ul class="fa-ul">
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Futures</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Implied Vols</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Ranges And Realized</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yields And Curves</li>
-   <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</li>
-    <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Excess Liquidity</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Futures</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Implied Vols</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Ranges And Realized</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yields And Curves</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Excess Liquidity</li>
 </ul>
     </div>
   </div>
@@ -229,29 +229,29 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Check An Option Strategy</h5>
       <ul class="fa-ul">
-   <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Fly Your Futures</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Condors</li>
-  <li><img id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Vertical Spreads</li>
+   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Fly Your Futures</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Condors</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Vertical Spreads</li>
 </ul>
     </div>
   </div>
-    <div class="card">
+    <div  sec:authorize="hasAuthority('LIVE_FLOW_OPTION_SCREEN') OR hasAuthority('LIVE_FLOW_SEARCH_SCREEN') OR hasAuthority('HISTORICAL_FLOW_OPTION_SCREEN')" class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color" ><div class="blink">Live Option Flows</div></h5>
       <ul class="fa-ul">
-   <li><a href="/flow/liveoptionflow"><span class="fa-li"></span>Live Option Flows</a></li>   
-   <li><a href="/flow/flowsearchengine"><span class="fa-li"></span>Flow Search Engine</a></li>
-   <li><a href="/flow/historicalflow"><span class="fa-li"></span>Historical Flow</a></li>
-</ul>
+		   <li sec:authorize="hasAuthority('LIVE_FLOW_OPTION_SCREEN')" ><a href="/flow/liveoptionflow"><span class="fa-li"></span>Live Option Flows</a></li>   
+		   <li sec:authorize="hasAuthority('LIVE_FLOW_SEARCH_SCREEN')"><a href="/flow/flowsearchengine"><span class="fa-li"></span>Flow Search Engine</a></li>
+		   <li sec:authorize="hasAuthority('HISTORICAL_FLOW_OPTION_SCREEN')"><a href="/flow/historicalflow"><span class="fa-li"></span>Historical Flow</a></li>
+		</ul>
     </div>
   </div>
     <div class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color"><div class="blink">Schedule Meetings</div></h5>
       <ul class="fa-ul">
-  <li><span class="fa-li"></span>Host A Meeting</li>
-  <li><span class="fa-li"></span>Join A Meeting</li>
-</ul>
+		  <li><span class="fa-li"></span>Host A Meeting</li>
+		  <li><span class="fa-li"></span>Join A Meeting</li>
+		</ul>
     </div>
   </div>
 </div>

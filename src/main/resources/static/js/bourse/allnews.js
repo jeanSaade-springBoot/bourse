@@ -449,6 +449,11 @@
 					   return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>"+'YIELDS & RATES'+"</span></div></div>";
 					   else if(group.split("_")[1] == 2) 
 						    return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>"+'COMMODITIES'+"</span></div></div>";
+						  else if(group.split("_")[1] == 3) 
+							  return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>"+'LIQUIDITY'+"</span></div></div>";
+							 else if(group.split("_")[1] == 4) 
+										  return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>"+'VOLUME'+"</span></div></div>";
+						
 				  } 
 				  else if (text.includes("Date"))
 				    return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details'>"+$.datepicker.formatDate('dd-M-yy', group)+"</span></div></div>";

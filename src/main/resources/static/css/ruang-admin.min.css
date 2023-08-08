@@ -426,8 +426,8 @@ li a {
 .fa-ul {
     margin-left: 0rem;
 }
-img {
-    margin-right: 0.313rem;
+.img-m-right{
+  margin-right: 0.313rem;
 }
 a.nav-item.nav-link {
     display: grid;

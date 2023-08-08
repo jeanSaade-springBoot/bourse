@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - Dashboard</title>
+  <title>Libvol - Liquidity</title>
    <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -113,6 +113,11 @@ button#deleteByDate {
     padding-left: 1rem;
     padding-right: 1rem;
 }
+.fs-7{
+font-size: .7rem;
+width: 25%;
+padding-right:.2rem;
+}
 </style>
 <body id="page-top">
   <div id="wrapper">
@@ -145,10 +150,6 @@ button#deleteByDate {
 			<div class="nav-item dropdown" style="width: 15%">
 				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline " th:text="${#authentication.principal.firstName}"></span><span class="ml-1 d-none d-lg-inline " th:text="${#authentication.principal.lastName}"></span><b class="caret"></b></a>
 				<div class="dropdown-menu logout">
-				<!--    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
-						<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
-						<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
-						<div class="divider dropdown-divider"></div> -->
 					<a href="/logout" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
 				</div>
 		</div>
@@ -166,10 +167,10 @@ button#deleteByDate {
 				  
 				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
 				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SOVEREIGN')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/sovereignyields?yield=1" role="tab" aria-controls="nav-any2" aria-selected="false">SOVEREIGN YIELDS</a>
-				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_METALS')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/metals?commodity=1" role="tab" aria-controls="nav-any2" aria-selected="false">COMMODITIES</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_METALS')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/metals?commodity=1" role="tab" aria-controls="nav-any2" aria-selected="false">COMMODITIES</a>
 				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_LIQUIDITY')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/liquidity?liquidity=1" role="tab" aria-controls="nav-any2" aria-selected="false">LIQUIDITY</a>
-				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_VOLUME')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/volume?volume=1" role="tab" aria-controls="nav-any2" aria-selected="false">VOLUME</a>
-				   </div>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_VOLUME')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/volume?volume=1" role="tab" aria-controls="nav-any2" aria-selected="false">VOLUME</a>
+				  </div>
 				</nav>
             </div>
             <div id="overlay">
@@ -183,12 +184,12 @@ button#deleteByDate {
               <!-- Form Basic -->
              <div class="col mt-4 ml-4">
               <div class="btn-group" role="group" aria-label="First group">
-			    <button type="button" class="btn btn-secondary mw-100" id="precious-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">Precious</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="base-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">Base</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="energy-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">Energy</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="transportation-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">Transportation</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="foodStuff-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">FoodStuff</button>
-			    </div>
+			    <button type="button" class="btn btn-secondary mw-100" id="Bund-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">BUND OPTIONS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="Bobl-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">BOBL OPTIONS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="EzMonetary-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">BUXL OPTIONS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="Corporate_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">SHATZ OPTIONS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="Corporate_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">EURIBOR OPTIONS</button>
+			  </div>
 			</div>
             <div class="collapse show" id="collapseExample">
   			 <div class="card mb-4">
@@ -208,209 +209,166 @@ button#deleteByDate {
 											    padding-left: 1.25rem;">
                  <div class="row">
                  <div class="col-4 d-flex justify-content-between">
-                 	<div id="commoditySubGroup" th:text="${commodity}" style="display:none;"></div>
-                 	<input id="commoditySubGroup1" style="display:none;" value="th:text='${commodity}'"/>
-                    <div th:if="${commodity == 1}" class="col-12 pr-0" id="preciousMetals-input">
-	                	 <div class="col pl-0 ">&#x200b; </div>
+                 	<div id="volumeValue" th:text="${volume}" style="display:none;"></div>
+                 	<input id="volumeSubGroup1" style="display:none;" value="th:text='${volume}'"/>
+                    <div th:if="${volume == 1}" class="col-12 pr-0" id="Bund-input">
+	                  <div class="col pl-0 ">&#x200b; </div>
 		                 <div class="col p-0 ">
-		                  <form  id="dataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
-		                      <div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/gold.png" class="img-icon" data-toggle="tooltip" title="Gold" >
-								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/platinum.png" class="img-icon" data-toggle="tooltip" title="Platinum" >
-								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/silver.png" class="img-icon" data-toggle="tooltip" title="Silver" >
-								    </div>
-								 </div>
-			                   <div style=" display: flex;">
-			                      <input type="text" class="form-control" id="precious-input" autocomplete="off">
-			                    </div>
-		                     </div>
-		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
-		                    </form>
-		               <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="dataInputButtons" style="display:none;">
+		                	<form id="dataformInputBund">
+								<div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+											Call Volume
+										</div>
+										<div class="fs-7">
+											Put Volume
+										</div>
+									</div>
+								<div class="d-flex">
+									<input class="form-control" id="data-input-Bund" autocomplete="off"/>
+								</div>
+							</form>
+		               <div id="dataInputGridBund" style="margin-top: 0rem;"> </div>
+					   <div class="row" id="dataInputButtonsBund" style="display:none;">
 							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadPreciousData" value="Load " />
-							<input id="CancelPreciousData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadBund" value="Load " />
+							<input id="cancelBund" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
-						  </div>
-		                 </div>
+						</div>
+		                </div>
 	                 </div>
-	                 	 <div th:if="${commodity == 2}" class="col-12 p-0" id="baseMetals-input">
-	                	 <div class="col">&#x200b; </div>
-		                 <div class="col pr-0">
-		                  <form  id="baseDataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
-		                      <div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/copper.png" class="img-icon" data-toggle="tooltip" title="Copper">
-								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/aluminum.png" class="img-icon" data-toggle="tooltip" title="Aluminum">
-								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/steel.png" class="img-icon" data-toggle="tooltip" title="Steel">
-								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/lumber.png" class="img-icon" data-toggle="tooltip" title="Lumber">
-								    </div>
-								 </div>
-			                   <div style=" display: flex;">
-			                    <input type="text" class="form-control" id="base-input" autocomplete="off">
-			                    </div>
-		                     </div>
-		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
-		                    </form>
-		                   <div id="baseDataInputGrid" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="baseDataInputButtons" style="display:none;">
+	                 <div th:if="${volume == 2}" class="col-12 pr-0" id="Bobl-input">
+	                  <div class="col pl-0 ">&#x200b; </div>
+		                 <div class="col p-0 ">
+		                	<form id="dataformInputBobl">
+								<div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+											Call Volume
+										 </div>
+										<div class="fs-7">
+											Put Volume
+										</div>
+									</div>
+								<div class="d-flex">
+									<input class="form-control" id="data-input-Bobl" autocomplete="off"/>
+								</div>
+							</form>
+		               <div id="dataInputGridBobl" style="margin-top: 0rem;"> </div>
+					   <div class="row" id="dataInputButtonsBobl" style="display:none;">
 							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadBaseData" value="Load " />
-							<input id="CancelBaseData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadBobl" value="Load " />
+							<input id="cancelBobl" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
-						  </div>
-		                 </div>
+						</div>
+		                </div>
 	                 </div>
-	                   <div th:if="${commodity == 4}" class="col-12 p-0" id="energyCommodity-input">
-	                	 <div class="col">&#x200b; </div>
-		                 <div class="col pr-0">
-		                  <form  id="energyDataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
-		                      <div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/oil.png" class="img-icon" data-toggle="tooltip" title="SPOT CRUDE OIL ">
-								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/gazoline.png" class="img-icon" data-toggle="tooltip" title="US GASOLINE - US GALL">
-								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/diezel.png" class="img-icon" data-toggle="tooltip" title="US DIESEL - US GALL">
-								    </div>
-								     <div class="col pl-0"><img height="48" src="/img/natgasUs.png" class="img-icon" data-toggle="tooltip" title="US NatGas 1MwH in USD">
-								    </div>
-								     <div class="col pl-0"><img height="48" src="/img/natgasEur.png" class="img-icon" data-toggle="tooltip" title="EU NatGas 1MwH in EUR">
-								    </div>
-								 </div>
-			                   <div style=" display: flex;">
-			                    <input type="text" class="form-control" id="energy-input" autocomplete="off">
-			                    </div>
-		                     </div>
-		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
-		                    </form>
-		                   <div id="energyDataInputGrid" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="energyDataInputButtons" style="display:none;">
+	                 <div th:if="${volume == 3}" class="col-12 pr-0" id="EZMM-input">
+	                  <div class="col pl-0 ">&#x200b; </div>
+		                 <div class="col p-0 ">
+		                	<form id="dataformInputEZMM">
+								<div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+										 M0			
+										 </div>
+										<div class="fs-7">
+											M1
+										</div>
+										<div class="fs-7">
+											M2
+										</div>
+										<div class="fs-7">
+											M3
+										</div>
+									</div>
+								<div class="d-flex">
+									<input class="form-control" id="data-input-EZMM" autocomplete="off"/>
+								</div>
+							</form>
+		               <div id="dataInputGridEZMM" style="margin-top: 0rem;"> </div>
+					   <div class="row" id="dataInputButtonsEZMM" style="display:none;">
 							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadEnergyData" value="Load " />
-							<input id="CancelEnergyData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadEZMM" value="Load " />
+							<input id="cancelEZMM" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
-						  </div>
-		                 </div>
+						</div>
+		                </div>
 	                 </div>
-	                <div th:if="${commodity == 3}" class="col-12 p-0" id="foodStuffCommodity-input">
-	                	 <div class="col">&#x200b; </div>
-		                 <div class="col pr-0">
-		                  <form  id="foodStuffDataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
-		                      <div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/corn.png" class="img-icon" data-toggle="tooltip" title="Corn">
-								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/sugar.png" class="img-icon" data-toggle="tooltip" title="Sugar">
-								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/wheat.png" class="img-icon" data-toggle="tooltip" title="Wheat">
-								    </div>
-								 </div>
-			                   <div style=" display: flex;">
-			                    <input type="text" class="form-control" id="foodStuff-input" autocomplete="off">
-			                    </div>
-		                     </div>
-		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
-		                    </form>
-		                   <div id="foodStuffDataInputGrid" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="foodStuffDataInputButtons" style="display:none;">
+	                  <div th:if="${volume == 4}" class="col-12 pr-0" id="Corporateinput">
+	                  <div class="col pl-0 ">&#x200b; </div>
+		                 <div class="col p-0 d-none">
+		                	<form id="dataformInputCorporate">
+								<div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+										 M0			
+										 </div>
+										<div class="fs-7">
+											M1
+										</div>
+										<div class="fs-7">
+											M2
+										</div>
+										<div class="fs-7">
+											M3
+										</div>
+									</div>
+								<div class="d-flex">
+									<input class="form-control" id="data-input-Corporate" autocomplete="off"/>
+								</div>
+							</form>
+		               <div id="dataInputGridCorporate" style="margin-top: 0rem;"> </div>
+					   <div class="row" id="dataInputButtonsCorporate" style="display:none;">
 							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadFoodStuffData" value="Load " />
-							<input id="CancelFoodStuffData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadCorporate" value="Load " />
+							<input id="cancelCorporate" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
-						  </div>
-		                 </div>
-	                 </div>
-	                 <div th:if="${commodity == 5}" class="col-12 p-0" id="transportationCommodity-input">
-	                	 <div class="col">&#x200b;</div>
-		                 <div class="col pr-0">
-		                  <form  id="transportationDataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
-		                      <div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/baltic.png" class="img-icon" data-toggle="tooltip" title="BALTIC DRY INDEX">
-								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/container.png" class="img-icon" data-toggle="tooltip" title="40ft Container">
-								    </div>
-								 </div>
-			                   <div style=" display: flex;">
-			                    <input type="text" class="form-control" id="transportation-input" autocomplete="off">
-			                    </div>
-		                     </div>
-		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
-		                    </form>
-		                   <div id="transportationDataInputGrid" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="transportationDataInputButtons" style="display:none;">
-							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadtransportationData" value="Load " />
-							<input id="CanceltransportationData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-							</div>
-						  </div>
-		                 </div>
+						</div>
+		                </div>
 	                 </div>
                </div>
                <div class="col-1"></div>
                <div class="col-7 d-flex justify-content-between">
-                   <div th:if="${commodity == 1}" class="col-12 p-0" id="preciousMetals-audit">
+                  <div th:if="${volume == 1}" class="col-12 p-0" id="Bund-audit">
                        <div class="d-flex justify-content-between pb-1">
 		                    <div class="col-9 p-0"> 
 		                    	
 							</div>
 							<div class="col-3 p-0">
-							 <button id="deletePreciousByDate" style="font-size: .8rem; float: right;">Delete</button> 
+							 <button id="deleteBund" style="font-size: .8rem; float: right;">Delete</button> 
 		                   </div>
                        </div>
-					  <div id="preciousAuditGrid"></div>
+					  <div id="BundAuditGrid"></div>
 					</div>
-					<div th:if="${commodity == 2}" class="col-12 p-0"  id="baseMetals-audit">
+                   <div th:if="${volume == 2}" class="col-12 p-0" id="Bobl-audit">
                        <div class="d-flex justify-content-between pb-1">
-	                    <div class="col-9 p-0"> 
-	                    	
-						</div>
-						<div class="col-3 p-0">
-						 <button id="deleteBaseByDate" style="float: right; font-size: .8rem;">Delete</button> 
-	                   </div>
+		                    <div class="col-9 p-0"> 
+		                    	
+							</div>
+							<div class="col-3 p-0">
+							 <button id="deleteBobl" style="font-size: .8rem; float: right;">Delete</button> 
+		                   </div>
                        </div>
-					  <div id="baseAuditGrid"></div>
+					  <div id="BoblAuditGrid"></div>
 					</div>
-					<div th:if="${commodity == 4}" class="col-12 p-0"  id="energy-audit">
+					<div th:if="${volume == 3}" class="col-12 p-0" id="EZMM-audit">
                        <div class="d-flex justify-content-between pb-1">
-	                    <div class="col-9 p-0"> 
-	                    	
-						</div>
-						<div class="col-3 p-0">
-						 <button id="deleteEnergyByDate" style="float: right; font-size: .8rem;">Delete</button> 
-	                   </div>
+		                    <div class="col-9 p-0"> 
+		                    	
+							</div>
+							<div class="col-3 p-0">
+							 <button id="deleteEZMM" style="font-size: .8rem; float: right;">Delete</button> 
+		                   </div>
                        </div>
-					  <div id="energyAuditGrid"></div>
+					  <div id="EZMMAuditGrid"></div>
 					</div>
-					<div th:if="${commodity == 3}" class="col-12 p-0"  id="foodStuff-audit">
+						<div th:if="${volume == 4}" class="col-12 p-0" id="Corporate-audit">
                        <div class="d-flex justify-content-between pb-1">
-	                    <div class="col-9 p-0"> 
-	                    	
-						</div>
-						<div class="col-3 p-0">
-						 <button id="deleteFoodStuffByDate" style="float: right; font-size: .8rem;">Delete</button> 
-	                   </div>
+		                    <div class="col-9 p-0"> 
+		                    	
+							</div>
+							<div class="col-3 p-0">
+							 <button id="deleteCorporate" style="font-size: .8rem; float: right; display:none">Delete</button> 
+		                   </div>
                        </div>
-					  <div id="foodStuffAuditGrid"></div>
-					</div>
-					<div th:if="${commodity == 5}" class="col-12 p-0"  id="transportation-audit">
-                       <div class="d-flex justify-content-between pb-1">
-	                    <div class="col-9 p-0"> 
-	                    	
-						</div>
-						<div class="col-3 p-0">
-						 <button id="deletetransportationByDate" style="float: right; font-size: .8rem;">Delete</button> 
-	                   </div>
-                       </div>
-					  <div id="transportationAuditGrid"></div>
+					  <div id="CorporateAuditGrid"></div>
 					</div>
                  </div>
               </div>
@@ -449,52 +407,43 @@ button#deleteByDate {
     <div class="row mt-2">
      <div class="col border ml-2 p-1 rounded">
         <div class="row">
-          <div th:if="${commodity == 1}" class="col-sm-4" id="preciousMetals-filter">
-             <h6 class="col font-weight-bold">Precious Metals</h6>
+          <div th:if="${volume == 1}" class="col-sm-9" id="Bund-filter">
+             <h6 class="col font-weight-bold">BUND OPTION VOLUMES</h6>
              <div class="d-flex justify-content-between">
-             	<div id='jqxCheckBoxGold' style='float: left;'><span class="checkboxesTitle">Gold</span></div> 
-             	<div id='jqxCheckBoxPlatinum' style='float: left;'><span class="checkboxesTitle">Platinum</span></div>
-             	<div id='jqxCheckBoxSilver' style='float: left;'><span class="checkboxesTitle">Silver</span></div>
-             	<div id='jqxCheckBoxPlatGold' style='float: left;'><span class="checkboxesTitle">Plat-gold</span></div>
-             	<div id='jqxCheckBoxGoldSilv' style='float: left;'><span class="checkboxesTitle">Gold/Silv</span></div>
-         	 </div>
+             	<div id='jqxCheckBoxBund1' style='float: left;'><span class="checkboxesTitle">Call Volume</span></div> 
+             	<div id='jqxCheckBoxBund2' style='float: left;'><span class="checkboxesTitle">Put Volume</span></div>
+             	<div id='jqxCheckBoxBund1_Bund2' style='float: left;'><span class="checkboxesTitle">Total Volume</span></div>
+             	<div id='jqxCheckBoxBund1_Bund2_cp' style='float: left;'><span class="checkboxesTitle">5-day C/P ratio</span></div>
+              </div>
            </div>
-           <div th:if="${commodity == 2}" class="col-sm-4" id="baseMetals-filter">
-             <h6 class="col font-weight-bold">Base Metals</h6>
-                <div class="d-flex justify-content-between">
-             	<div id='jqxCheckBoxCopper' style='float: left;'><span class="checkboxesTitle">Copper</span></div> 
-             	<div id='jqxCheckBoxAluminum' style='float: left;'><span class="checkboxesTitle">Aluminum</span></div>
-             	<div id='jqxCheckBoxSteel' style='float: left;'><span class="checkboxesTitle">Steel</span></div>
-             	<div id='jqxCheckBoxLumber' style='float: left;'><span class="checkboxesTitle">Lumber</span></div>
-         	 </div>
-          </div>
-          <div th:if="${commodity == 4}" class="col-sm-11" id="energyMetals-filter">
-             <h6 class="col font-weight-bold">FoodStuff</h6>
-                <div class="d-flex justify-content-between">
-	             	<div id='jqxCheckBoxOil' style='float: left;'><span class="checkboxesTitle">SPOT CRUDE OIL </span></div> 
-	             	<div id='jqxCheckBoxGASOLINE_GALL' style='float: left;'><span class="checkboxesTitle">US GASOLINE-US GALL</span></div>
-	             	<div id='jqxCheckBoxGASOLINE_LITRE' style='float: left;'><span class="checkboxesTitle">US GASOLINE-20L/$</span></div>
-	             	<div id='jqxCheckBoxDIESEL_GALL' style='float: left;'><span class="checkboxesTitle">US DIESEL-US Gall</span></div>
-	             	<div id='jqxCheckBoxDIESEL_TON' style='float: left;'><span class="checkboxesTitle">US DIESEL-1 TON</span></div>
-	             	<div id='jqxCheckBoxNATGAS_USD' style='float: left;'><span class="checkboxesTitle">US NatGas 1MwH in USD</span></div>
-	             	<div id='jqxCheckBoxNATGAS_EUR' style='float: left;'><span class="checkboxesTitle">EU NatGas 1MwH in EUR</span></div>
-              </div>
-          </div>
-          <div th:if="${commodity == 3}" class="col-sm-4" id="foodStuffMetals-filter">
-             <h6 class="col font-weight-bold">FoodStuff</h6>
-                <div class="d-flex justify-content-between">
-             	<div id='jqxCheckBoxCorn' style='float: left;'><span class="checkboxesTitle">TON of CORN</span></div> 
-             	<div id='jqxCheckBoxSugar' style='float: left;'><span class="checkboxesTitle">TON of SUGAR</span></div>
-             	<div id='jqxCheckBoxWheat' style='float: left;'><span class="checkboxesTitle">TON of WHEAT</span></div>
-              </div>
-          </div>
-          <div th:if="${commodity == 5}" class="col-sm-4" id="transportationMetals-filter">
-             <h6 class="col font-weight-bold">transportation</h6>
-                <div class="d-flex justify-content-between">
-	             	<div id='jqxCheckBoxBaltic' style='float: left;'><span class="checkboxesTitle">BALTIC DRY INDEX</span></div> 
-	             	<div id='jqxCheckBoxContainer' style='float: left;'><span class="checkboxesTitle">40ft Container</span></div>
-              </div>
-          </div>
+            <div th:if="${volume == 2}" class="col-sm-9" >
+             <h6 class="col font-weight-bold">BOLB OPTION VOLUMES</h6>
+             <div class="d-flex justify-content-between">
+             	<div id='jqxCheckBoxBobl1' style='float: left;'><span class="checkboxesTitle">Call Volume</span></div> 
+             	<div id='jqxCheckBoxBobl2' style='float: left;'><span class="checkboxesTitle">Put Volume</span></div>
+             	<div id='jqxCheckBoxBobl1_Bobl2' style='float: left;'><span class="checkboxesTitle">Total Volume</span></div>
+             </div>
+           </div>
+             <div th:if="${volume == 3}" class="col-sm-9" >
+             <h6 class="col font-weight-bold">EUROZONE MONETARY MASS</h6>
+             <div class="d-flex justify-content-between">
+             	<div id='jqxCheckBoxM0' style='float: left;'><span class="checkboxesTitle">M0</span></div> 
+             	<div id='jqxCheckBoxM1' style='float: left;'><span class="checkboxesTitle">M1</span></div>
+             	<div id='jqxCheckBoxM2' style='float: left;'><span class="checkboxesTitle">M2</span></div>
+             	<div id='jqxCheckBoxM3' style='float: left;'><span class="checkboxesTitle">M3</span></div>
+             </div>
+           </div>
+           <div th:if="${volume == 4}" class="col-sm-9" >
+             <h6 class="col font-weight-bold">EUROZONE MONETARY MASS</h6>
+             <div class="d-flex justify-content-between">
+             	<div id='jqxCheckBoxavg_usatoaaa_usa' style='float: left;'><span class="checkboxesTitle">US  BLUECHIP /TSYS</span></div> 
+             	<div id='jqxCheckBoxavg_usbtobbb_usatoaaa' style='float: left;'><span class="checkboxesTitle">US  HIGHYIELD  / BLUECHIP</span></div>
+             	<div id='jqxCheckBoxavg_usctoccc_usbtobbb' style='float: left;'><span class="checkboxesTitle">US JUNKBONDS / HIGHYIELD</span></div>
+             	<div id='jqxCheckBoxavg_eurozoneatoaaa_germany' style='float: left;'><span class="checkboxesTitle">EZ BLUECHIP / 10Y GERMANY</span></div>
+             	<div id='jqxCheckBoxavg_eurozonebtobbb_eurozoneatoaaa' style='float: left;'><span class="checkboxesTitle">EZ HIGHYIELD / BLUECHIP</span></div>
+             </div>
+           </div>
+         
     	</div>
     </div>
    </div>
@@ -544,66 +493,7 @@ button#deleteByDate {
 		    </div>
 		  </div>
 	 </div>
-	 <div id="alertDeleteBaseDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-		    <div class="modal-content">
-		
-		      <div class="modal-header bg-danger">
-		        <h4 class="modal-title white" id="myLargeModalLabel">Are you sure?</h4>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">×</span>
-		        </button>
-		      </div>
-		      <div class="modal-body" id="alertBaseTextDeleteDataByDate">
 
-		      </div>
-		       <div class="modal-footer justify-content-between">
-		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-		        <button type="button" class="btn btn-primary" onclick="deleteBaseDataByDate()">Delete Record</button>
-		      </div>
-		    </div>
-		  </div>
-	 </div>
-	<div id="alertDeleteFoodStuffDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-		    <div class="modal-content">
-		
-		      <div class="modal-header bg-danger">
-		        <h4 class="modal-title white" id="myLargeModalLabel">Are you sure?</h4>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">×</span>
-		        </button>
-		      </div>
-		      <div class="modal-body" id="alertFoodStuffTextDeleteDataByDate">
-
-		      </div>
-		       <div class="modal-footer justify-content-between">
-		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-		        <button type="button" class="btn btn-primary" onclick="deleteFoodStuffDataByDate()">Delete Record</button>
-		      </div>
-		    </div>
-		  </div>
-	 </div>
-	 	<div id="alertDeleteTransportationDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
-		<div class="modal-dialog modal-sm">
-		    <div class="modal-content">
-		
-		      <div class="modal-header bg-danger">
-		        <h4 class="modal-title white" id="myLargeModalLabel">Are you sure?</h4>
-		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-		          <span aria-hidden="true">×</span>
-		        </button>
-		      </div>
-		      <div class="modal-body" id="alertTransportationTextDeleteDataByDate">
-
-		      </div>
-		       <div class="modal-footer justify-content-between">
-		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-		        <button type="button" class="btn btn-primary" onclick="deleteTransportationDataByDate()">Delete Record</button>
-		      </div>
-		    </div>
-		  </div>
-	 </div>
 	 <div id="alertDeleteEnergyDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 		    <div class="modal-content">
@@ -812,7 +702,7 @@ button#deleteByDate {
   <script src="/js/jqwidgets/jqxinput.js"></script>
   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
-  <script src="/js/bourse/metals.js"></script> 
+  <script src="/js/bourse/volume.js"></script> 
   <script src="/js/bourse/scrollBarNews.js"></script> 
   <script src="/js/common.js"></script>
   <script src="/js/notification/sockjs.js"></script>

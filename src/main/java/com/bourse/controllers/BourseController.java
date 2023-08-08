@@ -124,6 +124,12 @@ public class BourseController {
     {   model.addAttribute("liquidity", Integer.valueOf(liquidity));
 		return new ModelAndView("html/liquidity");
     }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_VOLUME') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/volume")
+    public ModelAndView dataEntryVolumePage(@RequestParam("volume") String volume,ModelMap model)
+    {   model.addAttribute("volume", Integer.valueOf(volume));
+		return new ModelAndView("html/volume");
+    }
 	@RequestMapping( value =  "/returnfunction")
     public ModelAndView returnFunctionPage(ModelMap model)
     {

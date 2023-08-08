@@ -3179,7 +3179,6 @@
 								showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config[0].chartShowgrid);
 						    	showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 						        
-						        var yaxisformat = getFormat(response[0].config.yAxisFormat);
 					
 								chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));
 								updateChartOption();
@@ -3196,6 +3195,9 @@
 				      	    	      minvalue = min;
 				      	    	      maxvalue = max;
 				      	    	     var value = getMarginLenght(minvalue);  
+				      	    	    	
+			      				     var yaxisformat = getFormat(response[0].config[0].yAxisFormat);
+
 				      	    	     notDecimal=yaxisformat[1];
 									 nbrOfDigits=yaxisformat[0];
 									 

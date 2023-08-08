@@ -205,7 +205,8 @@ button#deleteCorporateByDate {
 				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SOVEREIGN')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/sovereignyields?yield=1" role="tab" aria-controls="nav-any2" aria-selected="false">SOVEREIGN YIELDS</a>
 				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_METALS')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/metals?commodity=1" role="tab" aria-controls="nav-any2" aria-selected="false">COMMODITIES</a>
 				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_LIQUIDITY')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/liquidity?liquidity=1" role="tab" aria-controls="nav-any2" aria-selected="false">LIQUIDITY</a>
-				  </div>
+				 	<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_VOLUME')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/volume?volume=1" role="tab" aria-controls="nav-any2" aria-selected="false">VOLUME</a>
+				   </div>
 				</nav>
             </div>
             <div id="overlay">
@@ -234,7 +235,7 @@ button#deleteCorporateByDate {
 				<div class="row mt-2">
 				    <div class="col-5">
 			                  <div class="col-12 pr-0 d-flex justify-content-between">
-				                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input - Soverign Yields</h6>
+				                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input</h6>
 				                  <div id='dateInput'></div>
 				              </div>
 	                </div>

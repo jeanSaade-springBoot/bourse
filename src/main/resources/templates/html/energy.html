@@ -56,6 +56,10 @@
     margin: 15% 40%;
       position: absolute;
 }
+.align-middle{
+    margin: 0 auto;
+    width: fit-content!important;
+}
   </style>
 </head>
 
@@ -137,44 +141,65 @@
 					  <div class="col">
 					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
 				<div class="row">
-				<div class="col-5">
-							<div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/oil.png" class="img-icon" data-toggle="tooltip" title="SPOT CRUDE OIL ">
+				<div class="col-7">
+							<div class="row">
+								    <div class="col-2">
+								   		 <div class="align-middle">
+								   		 	<img height="48" src="/img/oil.png" class="img-icon" data-toggle="tooltip" title="SPOT CRUDE OIL ">
+								    	 </div>
 								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/gazoline.png" class="img-icon" data-toggle="tooltip" title="US GASOLINE - US GALL">
+								    <div class="col-2">
+								    	<div class="align-middle">
+								   	 		<img  height="48" src="/img/gazoline.png" class="img-icon" data-toggle="tooltip" title="US GASOLINE - US GALL">
+								   		</div>
 								    </div>
-								     <div class="col pl-0"><img  height="48" src="/img/gazoline_20.png" class="img-icon" data-toggle="tooltip" title="US GASOLINE - 20L/$">
+								     <div class="col-2">
+								      	<div class="align-middle">	
+								     		<img  height="48" src="/img/gazoline_20.png" class="img-icon" data-toggle="tooltip" title="US GASOLINE - 20L/$">
+								    	</div>
 								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/diezel.png" class="img-icon" data-toggle="tooltip" title="US DIESEL - US GALL">
+								    <div class="col-2">
+								    	<div class="align-middle">	
+								    		<img height="48" src="/img/diezel.png" class="img-icon" data-toggle="tooltip" title="US DIESEL - US GALL">
+								   		</div>
 								    </div>
-								     <div class="col pl-0"><img height="48" src="/img/diezel_ton.png" class="img-icon" data-toggle="tooltip" title="US DIESEL - 1 TON">
+								     <div class="col-2">
+								     	<div class="align-middle">
+								     		<img height="48" src="/img/diezel_ton.png" class="img-icon" data-toggle="tooltip" title="US DIESEL - 1 TON">
+								    	</div>
 								    </div>
-								     <div class="col pl-0"><img height="48" src="/img/natgasUs.png" class="img-icon" data-toggle="tooltip" title="US NatGas 1MwH in USD">
-								    </div>
-								     <div class="col pl-0"><img height="48" src="/img/natgasEur.png" class="img-icon" data-toggle="tooltip" title="EU NatGas 1MwH in EUR">
-								    </div>
-								 </div>
-				                <div style=" display: flex;">
-				                         <div class="col pl-0">
-											<div id='jqxCheckBoxOil' style='float: left;'></div>
+								     <div class="col-2">
+									     <div class="align-middle">
+									     	<img height="48" src="/img/natgasUs.png" class="img-icon" data-toggle="tooltip" title="US NatGas 1MwH in USD">
 										 </div>
-										 <div class="col pl-0">
-											<div id='jqxCheckBoxGASOLINE_GALL' style='float: left;'></div>
-										</div>
-										 <div class="col pl-0">
-										    <div id='jqxCheckBoxGASOLINE_LITRE' style='float: left;'></div>
-										</div>
-										<div class="col pl-0">
-											<div id='jqxCheckBoxDIESEL_GALL' style='float: left;'></div>
+									 </div>
+								     <div class="col-2">
+								     	<div class="align-middle">
+								     		<img height="48" src="/img/natgasEur.png" class="img-icon" data-toggle="tooltip" title="EU NatGas 1MwH in EUR">
+								    	 </div>
+								    </div>
+							 </div>
+				            <div class="row">
+				                         <div class="col-2">
+											<div id='jqxCheckBoxOil' class="align-middle"></div>
 										 </div>
-										 <div class="col pl-0">
-											<div id='jqxCheckBoxDIESEL_TON' style='float: left;'></div>
+										 <div class="col-2">
+											<div id='jqxCheckBoxGASOLINE_GALL' class="align-middle"></div>
 										</div>
-										 <div class="col pl-0">
-										    <div id='jqxCheckBoxNATGAS_USD' style='float: left;'></div>
+										 <div class="col-2">
+										    <div id='jqxCheckBoxGASOLINE_LITRE' class="align-middle"v></div>
 										</div>
-										<div class="col pl-0">
-										    <div id='jqxCheckBoxNATGAS_EUR' style='float: left;'></div>
+										<div class="col-2">
+											<div id='jqxCheckBoxDIESEL_GALL' class="align-middle"></div>
+										 </div>
+										 <div class="col-2">
+											<div id='jqxCheckBoxDIESEL_TON' class="align-middle"></div>
+										</div>
+										 <div class="col-2">
+										    <div id='jqxCheckBoxNATGAS_USD' class="align-middle"></div>
+										</div>
+										<div class="col-2">
+										    <div id='jqxCheckBoxNATGAS_EUR' class="align-middle"></div>
 										</div>
 		                    </div>
                  		</div>
