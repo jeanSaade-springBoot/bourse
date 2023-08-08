@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bourse.domain.BoblOptionsVolume;
 import com.bourse.domain.BundOptionsVolume;
 import com.bourse.domain.BuxlOptionsVolume;
+import com.bourse.domain.ShatzOptionsVolume;
 import com.bourse.domain.TmpAuditBoblOptionsVolume;
 import com.bourse.domain.TmpAuditBundOptionsVolume;
 import com.bourse.domain.TmpAuditBuxlOptionsVolume;
+import com.bourse.domain.TmpAuditShatzOptionsVolume;
 import com.bourse.dto.GenericDataFunctionReqDTO;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
@@ -30,6 +32,7 @@ import com.bourse.service.BoblOptionsVolumeService;
 import com.bourse.service.BundOptionsVolumeService;
 import com.bourse.service.BuxlOptionsVolumeService;
 import com.bourse.service.DataFunctionService;
+import com.bourse.service.ShatzOptionsVolumeService;
 import com.bourse.service.VolumeService;
 
 @RestController
@@ -46,19 +49,23 @@ public class VolumeController {
 	private final BoblOptionsVolumeService boblOptionsVolumeService;
 	@Autowired
 	private final BuxlOptionsVolumeService buxlOptionsVolumeService;
+	@Autowired
+	private final ShatzOptionsVolumeService shatzOptionsVolumeService;
 	
 	public VolumeController(
 			DataFunctionService dataFunctionService,
 			VolumeService volumeService,
 			BundOptionsVolumeService bundOptionsVolumeService,
 			BoblOptionsVolumeService boblOptionsVolumeService,
-			BuxlOptionsVolumeService buxlOptionsVolumeService)
+			BuxlOptionsVolumeService buxlOptionsVolumeService,
+			ShatzOptionsVolumeService shatzOptionsVolumeService)
 	{
 		this.dataFunctionService = dataFunctionService;
 		this.volumeService = volumeService;
 		this.bundOptionsVolumeService = bundOptionsVolumeService;	
 		this.boblOptionsVolumeService = boblOptionsVolumeService;
 		this.buxlOptionsVolumeService = buxlOptionsVolumeService;
+		this.shatzOptionsVolumeService = shatzOptionsVolumeService;
 	}
 	@PostMapping(value = "getgriddata")
 	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody MainSearchFilterDTO mainSearchFilterDTO) {
@@ -90,6 +97,12 @@ public class VolumeController {
 		buxlOptionsVolumeService.doCaclulation(buxlOptionsVolume.get(0).getReferDate());
 	  return buxlLiquidityDatalst;
     }
+	@PostMapping(value = "saveshatzdata")
+    public List<ShatzOptionsVolume> saveShatzData(@RequestBody List<ShatzOptionsVolume> shatzOptionsVolume){
+		List<ShatzOptionsVolume> shatzLiquidityDatalst= shatzOptionsVolumeService.SaveData(shatzOptionsVolume);
+		shatzOptionsVolumeService.doCaclulation(shatzOptionsVolume.get(0).getReferDate());
+	  return shatzLiquidityDatalst;
+    }
 	@GetMapping(value = "getbunddata/{referDate}")
 	public ResponseEntity<List<TmpAuditBundOptionsVolume>> getAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(bundOptionsVolumeService.getAuditData(referDate),HttpStatus.OK);
@@ -102,6 +115,10 @@ public class VolumeController {
 	public ResponseEntity<List<TmpAuditBuxlOptionsVolume>> getBuxlAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(buxlOptionsVolumeService.getAuditData(referDate),HttpStatus.OK);
 	}
+	@GetMapping(value = "getshatzdata/{referDate}")
+	public ResponseEntity<List<TmpAuditShatzOptionsVolume>> getShatzAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(shatzOptionsVolumeService.getAuditData(referDate),HttpStatus.OK);
+	}
 	@GetMapping(value = "checkifcansave/{volume}/{referDate}")
 	public ResponseEntity<Boolean> CheckIfCanSavePrecious(@PathVariable("volume") String volume,@PathVariable String referDate) 
 	{  boolean checkifcanSave= false;
@@ -111,6 +128,8 @@ public class VolumeController {
 			checkifcanSave = boblOptionsVolumeService.CheckIfCanSave(referDate); 
 		else if (volume.equalsIgnoreCase("3")) 
 			checkifcanSave = buxlOptionsVolumeService.CheckIfCanSave(referDate); 
+		else if (volume.equalsIgnoreCase("4")) 
+			checkifcanSave = shatzOptionsVolumeService.CheckIfCanSave(referDate); 
 		
 		return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
@@ -123,6 +142,8 @@ public class VolumeController {
 				value =  boblOptionsVolumeService.findLatestData();
 			else if (volume.equalsIgnoreCase("3")) 
 				value =  buxlOptionsVolumeService.findLatestData();
+			else if (volume.equalsIgnoreCase("4")) 
+				value =  shatzOptionsVolumeService.findLatestData();
 		
 		return new ResponseEntity<>(value, HttpStatus.OK);
     }
@@ -134,6 +155,8 @@ public class VolumeController {
 			boblOptionsVolumeService.deleteByReferDate(referDate);
 		else if (volume.equalsIgnoreCase("3"))
 			buxlOptionsVolumeService.deleteByReferDate(referDate);
+		else if (volume.equalsIgnoreCase("4"))
+			shatzOptionsVolumeService.deleteByReferDate(referDate);
 		
 	return new ResponseEntity<>(HttpStatus.OK);
 	}
@@ -156,6 +179,13 @@ public class VolumeController {
 	{
 		buxlOptionsVolumeService.updateData(updateDataDTOlst);
 		buxlOptionsVolumeService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "updateshatzdata")
+	public ResponseEntity<Boolean> updateShatzAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{
+		shatzOptionsVolumeService.updateData(updateDataDTOlst);
+		shatzOptionsVolumeService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 }

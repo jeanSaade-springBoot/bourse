@@ -16,11 +16,9 @@
          var BuxlItem = ["#jqxCheckBoxBuxl1",
          			    "#jqxCheckBoxBuxl2",
          			    "#jqxCheckBoxBuxl1_Buxl2"];	 		
-         var ShatzItem = [ "#jqxCheckBoxavg_usatoaaa_usa",
-				  "#jqxCheckBoxavg_usbtobbb_usatoaaa",
-				  "#jqxCheckBoxavg_usctoccc_usbtobbb",
-				  "#jqxCheckBoxavg_eurozoneatoaaa_germany",
-				  "#jqxCheckBoxavg_eurozonebtobbb_eurozoneatoaaa"];		
+         var ShatzItem = [ "#jqxCheckBoxShatz1",
+         			    "#jqxCheckBoxShatz2",
+         			    "#jqxCheckBoxShatz1_Shatz2"];		
 				  			       					      
 		 var BundAuditDefaultData=[{
              "bund1": "",
@@ -38,18 +36,16 @@
              "buxl2": "",
              "buxl1buxl2": ""
            }];
-          var corporateAuditDefaultData=[{
-             "avgUsatoaaaUsa": "",
-             "avgUsbtobbbUsatoaaa": "",
-             "avgUsctocccUsbtobbb": "",
-             "avgEurozoneatoaaaGermany": "",
-             "avgEurozonebtobbbEurozoneatoaaa": ""
+          var ShatzAuditDefaultData=[{
+             "shatz1": "",
+             "shatz2": "",
+             "shatz1shatz1": ""
            }];
          var source;
          var inputDataBund = document.getElementById("data-input-Bund");
          var inputDataBobl = document.getElementById("data-input-Bobl");
          var inputDataBuxl = document.getElementById("data-input-Buxl");
-         var inputDataCorporate = document.getElementById("data-input-Corporate");
+         var inputDataShatz = document.getElementById("data-input-Shatz");
           
          var volumeType;
          
@@ -78,8 +74,10 @@
 			    saveUrl="/volume/savebuxldata";
             }else if(volumeValue==4)
             {
-				volumeType="Corporate";
-                auditUrl='/volume/getcorporatedata/';
+				volumeType="Shatz";
+                auditUrl='/volume/getshatzdata/';
+                updateUrl="/volume/updateshatzdata";
+			    saveUrl="/volume/saveshatzdata";
             }
 		 $(document).ready(function () {
 			  $('#overlay').fadeOut();
@@ -103,7 +101,7 @@
 			   $("#Buxl-btn").addClass('active');
 			   }else 
 			   if(volumeValue==4){
-			   $("#Corporate_spreads-btn").addClass('active');
+			   $("#Shatz_spreads-btn").addClass('active');
 			   }
 			   
 			  renderSubGroup(volumeValue);
@@ -132,6 +130,9 @@
 	 		                    { name: 'BUXL1',  type: 'float'},
 	 		                    { name: 'BUXL2',  type: 'float'},
 	 		                    { name: 'BUXL1_BUXL2',  type: 'float'},
+	 		                    { name: 'SHATZ1',  type: 'float'},
+	 		                    { name: 'SHATZ2',  type: 'float'},
+	 		                    { name: 'SHATZ1_SHATZ2',  type: 'float'},
 	 		                 ],
 	                         id: 'id',
 	                         localdata: ''
@@ -225,6 +226,13 @@
 							   "buxl2":data.buxl2,
 							   "buxl1buxl2":data.buxl1buxl2
 						     };
+						 }else if(volumeValue==3)
+				     	{
+							  oldDataJson={
+				               "shatz1":data.shatz1,
+							   "shatz2":data.shatz2,
+							   "shatz1shatz2":data.shatz1shatz2
+						     };
 						 }
 				     selectedRow.editrow = row;
 				     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
@@ -280,7 +288,21 @@
 						    	} 
 							}
 						}
-				    	
+				    	else if(volumeValue==4)
+						{
+							if(($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].shatz1!=null)&&
+				    		 ($('#'+volumeType+'AuditGrid').jqxGrid('getrows')[0].shatz2!=null))
+							{
+						    	$('#'+volumeType+'AuditGrid').jqxGrid('beginrowedit', row);
+						    	$("#edit"+row).css("display","none");
+								$("#actionButtons"+row).css("display","contents"); 
+						    	if (event) {
+						    		if (event.preventDefault) {
+						    			event.preventDefault();
+						    		}
+						    	} 
+							}
+						}
 				    	return false;
 				     }, 300);
 			    }	 
@@ -345,6 +367,23 @@
 						dataToBeUpdated.push({
 			         			   "subgroupId":"2",
 			         			   "value":updatedData.buxl2.replaceAll(',',''),
+			         			   "referdate": date
+			         			});
+					 }else if(volumeValue==4){
+					     updatedDataJson={
+				               "shatz1":updatedData.shatz1,
+							   "shatz2":updatedData.shatz2
+						     };
+				         keys=["shatz1","shatz2"];
+                    
+                    	dataToBeUpdated.push({
+	         			   "subgroupId":"1",
+	         			   "value":updatedData.shatz1.replaceAll(',',''),
+	         			   "referdate": date
+	         			});
+						dataToBeUpdated.push({
+			         			   "subgroupId":"2",
+			         			   "value":updatedData.shatz2.replaceAll(',',''),
 			         			   "referdate": date
 			         			});
 					 }
@@ -717,18 +756,21 @@
 			}else
 			if (volumeValue==4)
 			{
-			inputDataType = inputDataCorporate;
+			inputDataType = inputDataShatz;
 		    items=ShatzItem;
-		    var dataInputGridFields=[]; 			
-			var dataInputGridColumns= [];	  
+		    var dataInputGridFields=[
+			                    { name: 'shatz1', type: 'string' },
+			                    { name: 'shatz1', type: 'string' }
+			                ]; 			
+			 var dataInputGridColumns= [ 
+			                      { text: 'Call Volume', datafield: 'shatz1', width: '50%' },
+				                  { text: 'Put Volume', datafield: 'shatz1', width: '50%'}
+			                ];	 
 			
-			var defaultData=corporateAuditDefaultData;
+			var defaultData=ShatzAuditDefaultData;
 			var fields=[
-                    { name: 'avgUsatoaaaUsa', type: 'string' },
-                    { name: 'avgUsbtobbbUsatoaaa', type: 'string' },
-                    { name: 'avgUsctocccUsbtobbb', type: 'string' },
-                    { name: 'avgEurozoneatoaaaGermany', type: 'string' },
-                    { name: 'avgEurozonebtobbbEurozoneatoaaa', type: 'string' },
+                    { name: 'shatz1', type: 'string' },
+                    { name: 'shatz2', type: 'string' }
                 ];
              var arrayOFcolumns= [ 
 	                	  

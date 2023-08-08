@@ -187,8 +187,8 @@ padding-right:.2rem;
 			    <button type="button" class="btn btn-secondary mw-100" id="Bund-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">BUND OPTIONS</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="Bobl-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">BOBL OPTIONS</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="Buxl-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">BUXL OPTIONS</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="Corporate_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">SHATZ OPTIONS</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="Corporate_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">EURIBOR OPTIONS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="Shatz_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">SHATZ OPTIONS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="Shatz_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">EURIBOR OPTIONS</button>
 			  </div>
 			</div>
             <div class="collapse show" id="collapseExample">
@@ -286,33 +286,27 @@ padding-right:.2rem;
 						</div>
 		                </div>
 	                 </div>
-	                  <div th:if="${volume == 4}" class="col-12 pr-0" id="Corporateinput">
+	                  <div th:if="${volume == 4}" class="col-12 pr-0" id="Shatzinput">
 	                  <div class="col pl-0 ">&#x200b; </div>
 		                 <div class="col p-0 d-none">
-		                	<form id="dataformInputCorporate">
+		                	<form id="dataformInputShatz">
 								<div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-										 M0			
+										 Call Volume		
 										 </div>
 										<div class="fs-7">
-											M1
-										</div>
-										<div class="fs-7">
-											M2
-										</div>
-										<div class="fs-7">
-											M3
+										 Put Volume
 										</div>
 									</div>
 								<div class="d-flex">
-									<input class="form-control" id="data-input-Corporate" autocomplete="off"/>
+									<input class="form-control" id="data-input-Shatz" autocomplete="off"/>
 								</div>
 							</form>
-		               <div id="dataInputGridCorporate" style="margin-top: 0rem;"> </div>
-					   <div class="row" id="dataInputButtonsCorporate" style="display:none;">
+		               <div id="dataInputGridShatz" style="margin-top: 0rem;"> </div>
+					   <div class="row" id="dataInputButtonsShatz" style="display:none;">
 							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadCorporate" value="Load " />
-							<input id="cancelCorporate" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadShatz" value="Load " />
+							<input id="cancelShatz" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
 						</div>
 		                </div>
@@ -353,16 +347,16 @@ padding-right:.2rem;
                        </div>
 					  <div id="BuxlAuditGrid"></div>
 					</div>
-						<div th:if="${volume == 4}" class="col-12 p-0" id="Corporate-audit">
+						<div th:if="${volume == 4}" class="col-12 p-0" id="Shatz-audit">
                        <div class="d-flex justify-content-between pb-1">
 		                    <div class="col-9 p-0"> 
 		                    	
 							</div>
 							<div class="col-3 p-0">
-							 <button id="deleteCorporate" style="font-size: .8rem; float: right; display:none">Delete</button> 
+							 <button id="deleteShatz" style="font-size: .8rem; float: right; display:none">Delete</button> 
 		                   </div>
                        </div>
-					  <div id="CorporateAuditGrid"></div>
+					  <div id="ShatzAuditGrid"></div>
 					</div>
                  </div>
               </div>
@@ -427,14 +421,12 @@ padding-right:.2rem;
              </div>
            </div>
            <div th:if="${volume == 4}" class="col-sm-9" >
-             <h6 class="col font-weight-bold">EUROZONE MONETARY MASS</h6>
+             <h6 class="col font-weight-bold">SHATZ OPTION VOLUMES</h6>
              <div class="d-flex justify-content-between col">
-             	<div id='jqxCheckBoxavg_usatoaaa_usa' style='float: left;'><span class="checkboxesTitle">US  BLUECHIP /TSYS</span></div> 
-             	<div id='jqxCheckBoxavg_usbtobbb_usatoaaa' style='float: left;'><span class="checkboxesTitle">US  HIGHYIELD  / BLUECHIP</span></div>
-             	<div id='jqxCheckBoxavg_usctoccc_usbtobbb' style='float: left;'><span class="checkboxesTitle">US JUNKBONDS / HIGHYIELD</span></div>
-             	<div id='jqxCheckBoxavg_eurozoneatoaaa_germany' style='float: left;'><span class="checkboxesTitle">EZ BLUECHIP / 10Y GERMANY</span></div>
-             	<div id='jqxCheckBoxavg_eurozonebtobbb_eurozoneatoaaa' style='float: left;'><span class="checkboxesTitle">EZ HIGHYIELD / BLUECHIP</span></div>
-             </div>
+             	<div id='jqxCheckBoxShatz1' style='float: left;'><span class="checkboxesTitle">Call Volume</span></div> 
+             	<div id='jqxCheckBoxShatz2' style='float: left;'><span class="checkboxesTitle">Put Volume</span></div>
+             	<div id='jqxCheckBoxShatz1_Shatz2' style='float: left;'><span class="checkboxesTitle">Total Volume</span></div>
+              </div>
            </div>
          
     	</div>
