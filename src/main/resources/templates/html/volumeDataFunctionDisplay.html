@@ -149,8 +149,8 @@
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				      <a sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/datafunctiondisplay" role="tab" aria-controls="nav-datafunctiondisplay" aria-selected="false">Sovereign yields</a>
 				      <a sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/metaldatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">Metals</a>
-				   	  <a sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link active" id="nav-datafunctiondisplay-tab"  href="/bourse/liquiditydatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">Liquidity</a>
-				   	  <a sec:authorize="hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/volumedatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">Volume</a>
+				   	  <a sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/liquiditydatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">Liquidity</a>
+				      <a sec:authorize="hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link active" id="nav-datafunctiondisplay-tab"  href="/bourse/volumedatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">Volume</a>
 				   </div>
 				</nav>
            
@@ -185,132 +185,90 @@
        </div> 
        </div>
 				<div class="row">
-				<div class="col-9" >
-				                <div class="row mt-2">
-	        <div class="card ml-2 col-12">
-		        <div class="row no-gutters">
-		          <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                	<div id='jqxCheckBoxavgUsatoaaaUsa' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">US  BLUECHIP /TSYS</span></div>
-		             </div>
-		             </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		               		<div id='jqxCheckBoxavgUsbtobbbUsatoaaa' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US  HIGHYIELD  / BLUECHIP</span></div>
-		               </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		              		<div id='jqxCheckBoxavgUsctocccUsbtobbb' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US JUNKBONDS / HIGHYIELD</span></div>
-		                </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxavgEurozoneatoaaaGermany' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ BLUECHIP / 10Y GERMANY</span></div>
-		             </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxavgEurozonebtobbbEurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ HIGHYIELD / BLUECHIP</span></div>
-		             </div>
-		            </div>
-		    </div>
-	    </div>
-	  </div>
-		 <div class="row mt-4">
-	        <div class="card ml-2 col-12">
-		        <div class="row no-gutters">
-		          <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                	<div id='jqxCheckBoxExcess1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Overnight Deposits at the ECB</span></div>
-		             </div>
-		             </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		               		<div id='jqxCheckBoxExcess2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Current Account Holdings</span></div>
-		               </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		              		<div id='jqxCheckBoxExcess3' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Reserve Requirements</span></div>
-		                </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxExcess4' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">Emergency Lending</span></div>
-		             </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxExcess1Excess2Excess3Excess4' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">Excess Liquidity</span></div>
-		             </div>
-		            </div>
-			    </div>
-		    </div>
-		  </div>
-		   <div class="row mt-4">
-	        <div class="card ml-2 col-12">
-		        <div class="row no-gutters">
-		          <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                	<div id='jqxCheckBoxQe1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY sovering bond QE </span></div>
-		             </div>
-		             </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		               		<div id='jqxCheckBoxQe2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY corporate bond QE</span></div>
-		               </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		              		<div id='jqxCheckBoxQe1Qe2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY QE</span></div>
-		                </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxCumQe1' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE sovereign bond QE</span></div>
-		             </div>
-		            </div>
-		            <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxCumQe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE corporate bonds QE</span></div>
-		             </div>
-		            </div>
-		            <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxCumQe1Qe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE QE</span></div>
-		             </div>
-		            </div>
-			    </div>
-		    </div>
-		  </div>
-		   <div class="row mt-4">
-	        <div class="card ml-2 col-12">
-		        <div class="row no-gutters">
-		          <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                	<div id='jqxCheckBoxM0' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">M0</span></div>
-		             </div>
-		             </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		               		<div id='jqxCheckBoxM1' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">M1</span></div>
-		               </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		              		<div id='jqxCheckBoxM2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">M2</span></div>
-		                </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxM3' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">M3</span></div>
-		             </div>
-		            </div>
-			    </div>
-		    </div>
-		  </div>
-              		    </div>
+				 <div class="col-9 d-flex">
+							<div class="col">
+								<h7 class="m-0 font-weight-bold">BUND OPTIONS</h7>
+									<div class=" no-gutters">
+									  <div class="col-custom">
+										 <div id='jqxCheckBoxBund1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
+									   </div>
+										 <div class="col-custom">
+												<div id='jqxCheckBoxBund2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
+										 </div>
+										 <div class="col-custom">
+												<div id='jqxCheckBoxBund1_Bund2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
+											</div>
+										 <div class="col-custom">
+												<div id='jqxCheckBoxBund1_Bund2_cp' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">5-day C/P ratio</span></div>
+										 </div>
+								</div>
+							</div>
+							 <div class="col">
+							  <h7 class="m-0 font-weight-bold">BOBL OPTIONS</h7>
+								<div class=" no-gutters">
+								  <div class="col-custom">
+											<div id='jqxCheckBoxBobl1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
+									  </div>
+									 <div class="col-custom">
+										<div id='jqxCheckBoxBobl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
+									  </div>
+									 <div class="col-custom">
+										<div id='jqxCheckBoxBobl1_Bobl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
+									 </div>
+								</div>
+							</div>
+							<div class="col">
+							  <h7 class="m-0 font-weight-bold">BUXL OPTIONS</h7>
+								<div class=" no-gutters">
+								  <div class="col-custom">
+											<div id='jqxCheckBoxBuxl1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
+									 </div>
+									 <div class="col-custom">
+											<div id='jqxCheckBoxBuxl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
+									   </div>
+									 <div class="col-custom">
+											<div id='jqxCheckBoxBuxl1_Buxl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
+									   </div>
+								</div>
+							</div>
+							<div class="col">
+							  <h7 class="m-0 font-weight-bold">SHATZ OPTIONS</h7>
+								<div class=" no-gutters">
+								  <div class="col-custom">
+											<div id='jqxCheckBoxShatz1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
+									  </div>
+									 <div class="col-custom">
+											<div id='jqxCheckBoxShatz2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
+									   </div>
+									 <div class="col-custom">
+											<div id='jqxCheckBoxShatz1_Shatz2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
+									   </div>
+								</div>
+							</div>
+						  <div class="col">
+							  <h7 class="m-0 font-weight-bold">EURIBOR OPTIONS</h7>
+								<div class=" no-gutters">
+								  <div class="col-custom">
+											<div id='jqxCheckBoxEuribor1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Regular ER</span></div>
+									  </div>
+									 <div class="col-custom">
+											<div id='jqxCheckBoxEuribor2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">1yr MID</span></div>
+									 </div>
+									 <div class="col-custom">
+											<div id='jqxCheckBoxEuribor3' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">2yr GREEN</span></div>
+									   </div>
+									<div class="col-custom">
+											<div id='jqxCheckBoxEuribor4' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">3yr BLUE</span></div>
+									   </div>
+									<div class="col-custom">
+											<div id='jqxCheckBoxEuribor5' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">4yr GOLD</span></div>
+									   </div>
+									<div class="col-custom">
+											<div id='jqxCheckBoxEuribor1_Euribor2_Euribor3_Euribor4_Euribor5' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">All EURIBOR</span></div>
+									</div>
+								</div>
+							</div>
+						</div>
                  	    <div class='col-1'></div>
 		                 <div class='col-2 pt-4 cb-1'>
 		                   <div id='jqxDailyChangeInPercentage'>
@@ -453,7 +411,7 @@
   <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
   <script src="/js/jqwidgets/jqxmenu.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArrayMetals.js"></script>  
-  <script src="/js/bourse/liquidityDataFunctionDisplay.js"></script>   
+  <script src="/js/bourse/volumeDataFunctionDisplay.js"></script>   
   <script src="/js/jqwidgets/jqxgrid.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 

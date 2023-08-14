@@ -43,14 +43,14 @@ public class ReadExcelWriteDBUtil {
 	           for (Cell cell : row) {
 	        	   if(!cell.getCellType().name().equalsIgnoreCase("BLANK"))
 	        	   { 
-	        		   System.out.println("cell Type: "+cell.getCellType().name()+" --- cell Index :"+cell.getColumnIndex()+" --- cell address : "+cell.getAddress()+" --- cell row index : "+cell.getRowIndex());
+	        		 //  System.out.println("cell Type: "+cell.getCellType().name()+" --- cell Index :"+cell.getColumnIndex()+" --- cell address : "+cell.getAddress()+" --- cell row index : "+cell.getRowIndex());
 	        		   
 	        		   if(cell.getCellType().name().equalsIgnoreCase("NUMERIC"))
 	        		   {   
 	        			   if(String.valueOf(cell.getColumnIndex()).equalsIgnoreCase(dateIndex))
 	        				{
 	        				 date=String.valueOf(transformNumericDate(cell.getNumericCellValue()));
-	        				 System.out.println("---Date:"+date);
+	        				// System.out.println("---Date:"+date);
 	        				}
 	        			 else if (String.valueOf(cell.getColumnIndex()).equalsIgnoreCase(valueIndex))
 	        			   {   String cellValue = dataFormatter.formatCellValue(cell);
@@ -58,7 +58,7 @@ public class ReadExcelWriteDBUtil {
 		        		        	value= String.valueOf(cell.getNumericCellValue()*100);
 		        		        else
 		        		        	value= String.valueOf(cell.getNumericCellValue());
-		        		        System.out.println("---value:"+value);
+		        		      //  System.out.println("---value:"+value);
 	        			   }
 	        			 
 	        		   }

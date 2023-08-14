@@ -147,6 +147,12 @@ public class BourseController {
     {
 		return new ModelAndView("html/any2metals");
     }
+	@PreAuthorize("hasAuthority('ANY2_VOLUME_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/any2volume")
+    public ModelAndView anyTwoVolumePage(ModelMap model)
+    {
+		return new ModelAndView("html/any2Volume");
+    }
 	@PreAuthorize("hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/any2liquidity")
     public ModelAndView anyTwoLiquidityPage(ModelMap model)
@@ -276,6 +282,12 @@ public class BourseController {
     public ModelAndView liquidityDataFunctionDisplay(ModelMap model)
     {
 		return new ModelAndView("html/liquidityDataFunctionDisplay");
+    }
+	@PreAuthorize("hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/volumedatafunctiondisplay")
+    public ModelAndView volumeDataFunctionDisplay(ModelMap model)
+    {
+		return new ModelAndView("html/volumeDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")

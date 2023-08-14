@@ -335,4 +335,137 @@ var itemValue = {
 		"description": "M3",
 		"title": 'M3'
 	},
+		"#jqxCheckBoxBund1": {
+		
+		"subGroupId": "1",
+		"GroupId": "17",
+		"description": "bund1",
+		"title": 'Call Volume'
+	},
+		"#jqxCheckBoxBund2": {
+		
+		"subGroupId": "2",
+		"GroupId": "17",
+		"description": "bund2",
+		"title": 'Put Volume'
+	},
+		"#jqxCheckBoxBund1_Bund2": {
+		
+		"subGroupId": "3",
+		"GroupId": "17",
+		"description": "bund1_bund2",
+		"title": 'Total Volume'
+	},
+		"#jqxCheckBoxBund1_Bund2_cp": {
+		
+		"subGroupId": "4",
+		"GroupId": "17",
+		"description": "bund1_bund2_cp",
+		"title": '5-day C/P ratio'
+	},
+		"#jqxCheckBoxBobl1": {
+		
+		"subGroupId": "1",
+		"GroupId": "18",
+		"description": "bobl1",
+		"title": 'Call Volume'
+	},
+		"#jqxCheckBoxBobl2": {
+		
+		"subGroupId": "2",
+		"GroupId": "18",
+		"description": "bobl2",
+		"title": 'Put Volume'
+	},
+		"#jqxCheckBoxBobl1_Bobl2": {
+		
+		"subGroupId": "3",
+		"GroupId": "18",
+		"description": "bobl1_bobl2",
+		"title": 'Total Volume'
+	},
+		"#jqxCheckBoxBuxl1": {
+		
+		"subGroupId": "1",
+		"GroupId": "19",
+		"description": "buxl1",
+		"title": 'Call Volume'
+	},
+		"#jqxCheckBoxBuxl2": {
+		
+		"subGroupId": "2",
+		"GroupId": "19",
+		"description": "buxl2",
+		"title": 'Put Volume'
+	},
+		"#jqxCheckBoxBuxl1_Buxl2": {
+		
+		"subGroupId": "3",
+		"GroupId": "19",
+		"description": "buxl1_buxl2",
+		"title": 'Total Volume'
+	},
+		"#jqxCheckBoxShatz1": {
+		
+		"subGroupId": "1",
+		"GroupId": "20",
+		"description": "shatz1",
+		"title": 'Call Volume'
+	},
+		"#jqxCheckBoxShatz2": {
+		
+		"subGroupId": "2",
+		"GroupId": "20",
+		"description": "shatz2",
+		"title": 'Put Volume'
+	},
+		"#jqxCheckBoxShatz1_Shatz2": {
+		
+		"subGroupId": "3",
+		"GroupId": "20",
+		"description": "shatz1_shatz2",
+		"title": 'Total Volume'
+	},
+		"#jqxCheckBoxEuribor1": {
+		
+		"subGroupId": "1",
+		"GroupId": "21",
+		"description": "euribor1",
+		"title": 'Regular ER option volume'
+	},
+		"#jqxCheckBoxEuribor2": {
+		
+		"subGroupId": "2",
+		"GroupId": "21",
+		"description": "euribor2",
+		"title": '1yr MID option volume'
+	},
+		"#jqxCheckBoxEuribor3": {
+		
+		"subGroupId": "3",
+		"GroupId": "21",
+		"description": "euribor3",
+		"title": '2yr GREEN option volume'
+	},
+		"#jqxCheckBoxEuribor4": {
+		
+		"subGroupId": "4",
+		"GroupId": "21",
+		"description": "euribor4",
+		"title": '3yr BLUE option volume'
+	},
+		"#jqxCheckBoxEuribor5": {
+		
+		"subGroupId": "5",
+		"GroupId": "21",
+		"description": "euribor5",
+		"title": '4yr GOLD option volume'
+	},
+		"#jqxCheckBoxEuribor1_Euribor2_Euribor3_Euribor4_Euribor5": {
+		
+		"subGroupId": "6",
+		"GroupId": "21",
+		"description": "euribor1_euribor2_euribor3_euribor4_euribor5",
+		"title": 'All EURIBOR options Volume'
+	},
 	};

@@ -54,6 +54,7 @@ public class DataFunctionService {
 		GridDataDTO gridDataDTO = GridDataDTO.builder().dataFunctionRespDTO(dataFunctionRespDTO).gridTitle(title).build();
 		return gridDataDTO;
 	}
+	
 	public GridDataDTO getDynamicGridDataDTOFunction(GenericDataFunctionReqDTO dataFunctionReqDTO) {
 		List<DataFunctionRespDTO> dataFunctionRespDTO = getDynamicGridDataFunction(dataFunctionReqDTO);
 		String title = columnConfigurationRepository.findByGroupIdAndSubgroupIdAndFactor(dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId(),"0").getColumnName();		

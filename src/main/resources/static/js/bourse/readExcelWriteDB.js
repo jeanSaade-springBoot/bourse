@@ -120,7 +120,9 @@ var familysource =
 							$("#result").css("background","#00e7b8");
 							$("#result").css("margin-top","1rem");
 							$("#result").append("File uploaded successfully!");
-							
+							setTimeout(function() {
+								    $("#result").empty();
+								}, 3000);
 					    },
 					    error: function(error) {
 						     $("input[type='file']").val('');
@@ -130,6 +132,9 @@ var familysource =
 							$("#result").css("background","red");
 							$("#result").css("margin-top","1rem");
 							$("#result").append(error.responseJSON.message);
+							setTimeout(function() {
+								    $("#result").empty();
+								}, 3000);
 					    }
 					  });
 					  else {
@@ -137,6 +142,7 @@ var familysource =
 							$("#result").css("background","red");
 							$("#result").css("margin-top","1rem");
 							$("#result").append("Please upload a file");
+							
 					  }
 			});
 	        
@@ -181,6 +187,15 @@ var familysource =
 		    break;
     case 16:
    		 imagePath='/css/images/format/ezmm_format.png'
+		    break;
+    case 17:
+	case 18:
+	case 19:
+	case 20:
+   		 imagePath='/css/images/format/options_volume_format.png'
+		    break;
+	case 21:
+   		 imagePath='/css/images/format/euribor_volume_format.png'
 		    break;
 	}
 return imagePath;

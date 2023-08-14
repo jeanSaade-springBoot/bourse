@@ -1265,9 +1265,41 @@ function getFormat(Format)
  function getlength(number) {
 				    return number.toString().split(".")[0].length;
 				} 
-function getMarginLenght(value){
+/*function getMarginLenght(value){
 	return getlength(value)>=3?10:(value<=0.1)?0.01:0.05; 
-}			
+}*/	
+function getMarginLenght(value) { 
+	 value = Math.abs(value);
+	if (value <= 0.001) {
+        return 0.0005;
+    } else if (value <= 0.01) {
+        return 0.0001;
+    } else if (value <= 0.1) {
+        return 0.005;
+    } else if (value <= 1) {
+        return 0.01;
+    }else if (value <= 5) {
+        return 0.05;
+    } else if (value <= 10) {
+        return 0.1;
+    } else if (value <= 100) {
+        return 10;
+    } else if (value <= 1000) {
+        return 250;
+    } else if (value <= 10000) {
+        return 500;
+    } else if (value <= 50000) {
+        return 1000;
+    } else if (value <= 100000) {
+        return 5000;
+    } else if (value <= 250000) {
+        return 10000;
+    } else if (value <= 500000) {
+        return 12500;
+    } else if (value <= 1000000) {
+        return 15000;
+    }
+}	
  function enableDisableDropDowns(value){
 	 
 	  $("#dropDownType").jqxDropDownList({ disabled: value }); 

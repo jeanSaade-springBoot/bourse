@@ -126,7 +126,32 @@
   <script id="pageScript"></script>
    <script th:inline="javascript">
 	   const apiLiveFlowUrl = /*[[${liveFlow.apiLiveFlowUrl}]]*/ '';
-	
+	   const authorities1 = /*[[${session.SPRING_SECURITY_CONTEXT.authentication}]]*/ "";
+       // console.log(authorities1)
+       const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+       
+       const hasLiveFlowOptionScreenPrivelege = authorities.filter(item => {
+           return item.authority === "LIVE_FLOW_OPTION_SCREEN"
+       })[0] !== undefined; 
+       const hasLiveFlowSearchScreenPrivelege = authorities.filter(item => {
+           return item.authority === "LIVE_FLOW_SEARCH_SCREEN"
+       })[0] !== undefined; 
+       const hashistoricalFlowOptionScreenPrivelege = authorities.filter(item => {
+           return item.authority === "HISTORICAL_FLOW_OPTION_SCREEN"
+       })[0] !== undefined; 
+       
+       const hasInsertPrivelege = authorities.filter(item => {
+           return item.authority === "LIVE_FLOW_OPTION_INSERT"
+       })[0] !== undefined;
+       
+       const hasEditPrivelege = authorities.filter(item => {
+           return item.authority === "LIVE_FLOW_OPTION_EDIT"
+       })[0] !== undefined;
+       
+       const hasDeletePrivelege = authorities.filter(item => {
+           return item.authority === "LIVE_FLOW_OPTION_DELETE"
+       })[0] !== undefined;
+       
 	   var dynamicScript = document.createElement('script');
 	   dynamicScript.src = apiLiveFlowUrl + '/js/liveOptionFlow.js';
 	   dynamicScript.defer = true;
@@ -138,16 +163,14 @@
 	     document.body.appendChild(pageScript);
 	   };
 	
-	   document.body.appendChild(dynamicScript);
+	    document.body.appendChild(dynamicScript);
 
         document.getElementById('dynamicStyle').setAttribute('href', apiLiveFlowUrl + '/css/style.css');
 
-        const authorities1 = /*[[${session.SPRING_SECURITY_CONTEXT.authentication}]]*/ "";
-        // console.log(authorities1)
-        const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
-        const hasPendingApprovalGrid = authorities.filter(item => {
+         const hasPendingApprovalGrid = authorities.filter(item => {
             return item.authority === "PENDING_APPROVAL_GRID"
         })[0] !== undefined;
+        
     </script>
 </body>
 </html>

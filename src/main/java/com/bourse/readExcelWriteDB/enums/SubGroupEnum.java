@@ -34,6 +34,19 @@ public enum SubGroupEnum {
 	M1 (16,2,"2"),
 	M2 (16,3,"3"),
 	M3 (16,4,"4"),
+	BUND1(17,1,"1"),
+	BUND2(17,2,"2"),
+	BOBL1(18,1,"1"),
+	BOBL2(18,2,"2"),
+	BUXL1(19,1,"1"),
+	BUXL2(19,2,"2"),
+	SHATZ1(20,1,"1"),
+	SHATZ2(20,2,"2"),
+	EURIBOR1 (21,1,"1"),
+	EURIBOR2 (21,2,"2"),
+	EURIBOR3 (21,3,"3"),
+	EURIBOR4 (21,4,"4"),
+	EURIBOR5 (21,5,"5"),
 	OTHER(0,0,"OTHER");
 	
 	public int groupId;
@@ -136,7 +149,43 @@ public enum SubGroupEnum {
 		                return M2.index;
 		            case 4:
 		                return M3.index;
-		        }
+		        }else if(groupId==17)
+					switch (subGroupId) {
+					   case 1:
+			                return BUND1.index;
+			            case 2:
+			                return BUND2.index;
+			        }else if(groupId==18)
+						switch (subGroupId) {
+						   case 1:
+				                return BOBL1.index;
+				            case 2:
+				                return BOBL2.index;
+				        }else if(groupId==19)
+							switch (subGroupId) {
+							   case 1:
+					                return BUXL1.index;
+					            case 2:
+					                return BUXL2.index;
+					        }else if(groupId==20)
+								switch (subGroupId) {
+								   case 1:
+						                return SHATZ1.index;
+						            case 2:
+						                return SHATZ2.index;
+						        }else if(groupId==21)
+									switch (subGroupId) {
+									   case 1:
+							                return EURIBOR1.index;
+							            case 2:
+							                return EURIBOR2.index;
+							            case 3:
+							                return EURIBOR3.index;
+							            case 4:
+							                return EURIBOR4.index;
+							            case 5:
+							                return EURIBOR5.index;
+							        }
         return OTHER.index;
     }
 }
