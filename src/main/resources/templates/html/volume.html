@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - Liquidity</title>
+  <title>Libvol-Liquidity</title>
    <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -26,10 +26,7 @@
     background: #ff4b5552 !important;
     border-color: #d9534f !important;
 }
-   div#overlay {
-    margin: 15% 40%;
-    position: absolute;
-}
+
 .factorBold{
     font-weight:bold;
     color: white!important;
@@ -75,6 +72,7 @@ font-size: 0.8rem;
 }
 .jqx-widget-dark .jqx-grid-column-header-dark {
     font-size: .67rem;
+    text-align: center;
 }
 .jqx-tree-dark .jqx-checkbox-dark .jqx-checkbox-default-dark, .jqx-checkbox-dark[checked] .jqx-checkbox-default-dark, .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-dark, .jqx-radiobutton-dark[checked] .jqx-radiobutton-default-dark {
     border: #b7b9cc solid 0px;
@@ -217,10 +215,10 @@ padding-right:.2rem;
 		                	<form id="dataformInputBund">
 								<div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-											Call Volume
+											Bund - Call Volume
 										</div>
 										<div class="fs-7">
-											Put Volume
+											Bund - Put Volume
 										</div>
 									</div>
 								<div class="d-flex">
@@ -242,10 +240,10 @@ padding-right:.2rem;
 		                	<form id="dataformInputBobl">
 								<div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-											Call Volume
+											Bobl - Call Volume
 										 </div>
 										<div class="fs-7">
-											Put Volume
+											Bobl - Volume
 										</div>
 									</div>
 								<div class="d-flex">
@@ -267,10 +265,10 @@ padding-right:.2rem;
 		                	<form id="dataformInputBuxl">
 								<div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-										 Call Volume		
+										 Buxl - Call Volume		
 										 </div>
 										<div class="fs-7">
-										 Put Volume
+										 Buxl - Put Volume
 										</div>
 									</div>
 								<div class="d-flex">
@@ -292,10 +290,10 @@ padding-right:.2rem;
 		                	<form id="dataformInputShatz">
 								<div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-										 Call Volume		
+										Shatz - Call Volume		
 										 </div>
 										<div class="fs-7">
-										 Put Volume
+										Shatz - Put Volume
 										</div>
 									</div>
 								<div class="d-flex">
@@ -317,19 +315,19 @@ padding-right:.2rem;
 		                	<form id="dataformInputEuribor">
 								<div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-										 Regular ER
+										Regular ER
 										 </div>
 										<div class="fs-7">
-										 1yr MID
+										1yr MID
 										</div>
 										<div class="fs-7">
-										 2yr GREEN
+										2yr GREEN
 										</div>
 										<div class="fs-7">
-										 3yr BLUE
+										3yr BLUE
 										</div>
 										<div class="fs-7">
-										 4yr GOLD
+										4yr GOLD
 										</div>
 									</div>
 								<div class="d-flex">
@@ -392,7 +390,7 @@ padding-right:.2rem;
                        </div>
 					  <div id="ShatzAuditGrid"></div>
 					</div>
-					<div th:if="${volume == 5}" class="col-12 p-0" id="Euribor-audit">
+					<div th:if="${volume == 5}" class="col-12 p-0" id="audit">
                        <div class="d-flex justify-content-between pb-1">
 		                    <div class="col-9 p-0"> 
 		                    	
@@ -443,34 +441,34 @@ padding-right:.2rem;
           <div th:if="${volume == 1}" class="col-sm-9" id="Bund-filter">
              <h6 class="col font-weight-bold">BUND OPTION VOLUMES</h6>
              <div class="d-flex justify-content-between col">
-             	<div id='jqxCheckBoxBund1' style='float: left;'><span class="checkboxesTitle">Call Volume</span></div> 
-             	<div id='jqxCheckBoxBund2' style='float: left;'><span class="checkboxesTitle">Put Volume</span></div>
-             	<div id='jqxCheckBoxBund1_Bund2' style='float: left;'><span class="checkboxesTitle">Total Volume</span></div>
-             	<div id='jqxCheckBoxBund1_Bund2_cp' style='float: left;'><span class="checkboxesTitle">5-day C/P ratio</span></div>
+             	<div id='jqxCheckBoxBund1' style='float: left;'><span class="checkboxesTitle">Bund - Call Volume</span></div> 
+             	<div id='jqxCheckBoxBund2' style='float: left;'><span class="checkboxesTitle">Bund - Put Volume</span></div>
+             	<div id='jqxCheckBoxBund1_Bund2' style='float: left;'><span class="checkboxesTitle">Bund - Total Volume</span></div>
+             	<div id='jqxCheckBoxBund1_Bund2_cp' style='float: left;'><span class="checkboxesTitle">Bund - 5-day C/P ratio</span></div>
               </div>
            </div>
             <div th:if="${volume == 2}" class="col-sm-9" >
              <h6 class="col font-weight-bold">BOLB OPTION VOLUMES</h6>
              <div class="d-flex justify-content-between col">
-             	<div id='jqxCheckBoxBobl1' style='float: left;'><span class="checkboxesTitle">Call Volume</span></div> 
-             	<div id='jqxCheckBoxBobl2' style='float: left;'><span class="checkboxesTitle">Put Volume</span></div>
-             	<div id='jqxCheckBoxBobl1_Bobl2' style='float: left;'><span class="checkboxesTitle">Total Volume</span></div>
+             	<div id='jqxCheckBoxBobl1' style='float: left;'><span class="checkboxesTitle">Bolb - Call Volume</span></div> 
+             	<div id='jqxCheckBoxBobl2' style='float: left;'><span class="checkboxesTitle">Bolb - Put Volume</span></div>
+             	<div id='jqxCheckBoxBobl1_Bobl2' style='float: left;'><span class="checkboxesTitle">Bolb - Total Volume</span></div>
              </div>
            </div>
              <div th:if="${volume == 3}" class="col-sm-9" >
              <h6 class="col font-weight-bold">BUXL OPTION VOLUMES</h6>
              <div class="d-flex justify-content-between col">
-             	<div id='jqxCheckBoxBuxl1' style='float: left;'><span class="checkboxesTitle">Call Volume</span></div> 
-             	<div id='jqxCheckBoxBuxl2' style='float: left;'><span class="checkboxesTitle">Put Volume</span></div>
-             	<div id='jqxCheckBoxBuxl1_Buxl2' style='float: left;'><span class="checkboxesTitle">Total Volume</span></div>
+             	<div id='jqxCheckBoxBuxl1' style='float: left;'><span class="checkboxesTitle">Buxl - Call Volume</span></div> 
+             	<div id='jqxCheckBoxBuxl2' style='float: left;'><span class="checkboxesTitle">Buxl - Put Volume</span></div>
+             	<div id='jqxCheckBoxBuxl1_Buxl2' style='float: left;'><span class="checkboxesTitle">Buxl - Total Volume</span></div>
              </div>
            </div>
            <div th:if="${volume == 4}" class="col-sm-9" >
              <h6 class="col font-weight-bold">SHATZ OPTION VOLUMES</h6>
              <div class="d-flex justify-content-between col">
-             	<div id='jqxCheckBoxShatz1' style='float: left;'><span class="checkboxesTitle">Call Volume</span></div> 
-             	<div id='jqxCheckBoxShatz2' style='float: left;'><span class="checkboxesTitle">Put Volume</span></div>
-             	<div id='jqxCheckBoxShatz1_Shatz2' style='float: left;'><span class="checkboxesTitle">Total Volume</span></div>
+             	<div id='jqxCheckBoxShatz1' style='float: left;'><span class="checkboxesTitle">Shatz - Call Volume</span></div> 
+             	<div id='jqxCheckBoxShatz2' style='float: left;'><span class="checkboxesTitle">Shatz - Put Volume</span></div>
+             	<div id='jqxCheckBoxShatz1_Shatz2' style='float: left;'><span class="checkboxesTitle">Shatz - Total Volume</span></div>
               </div>
            </div>
           <div th:if="${volume == 5}" class="col-sm-9" >

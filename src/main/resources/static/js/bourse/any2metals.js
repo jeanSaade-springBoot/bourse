@@ -1,7 +1,7 @@
   var checkedItem = 0;
   var checkedItemid = [];
   var monthDate=new Date(); 
-  monthDate.setMonth(monthDate.getMonth() - 3);
+  monthDate.setMonth(monthDate.getMonth() - 6);
   monthDate.setHours(0,0,0,0);
   var startdate=new Date();
   var date=new Date();
@@ -42,9 +42,9 @@
 			    "#jqxCheckBoxSugar",
 			    "#jqxCheckBoxWheat",
 			    "#jqxCheckBoxOil",
- 			    "#jqxCheckBoxGASOLINE_GALL",
+ 			    /*"#jqxCheckBoxGASOLINE_GALL",*/
  			    "#jqxCheckBoxGASOLINE_LITRE",
- 			    "#jqxCheckBoxDIESEL_GALL",
+ 			    /*"#jqxCheckBoxDIESEL_GALL",*/
  			    "#jqxCheckBoxDIESEL_TON",
  			    "#jqxCheckBoxNATGAS_USD",
  			    "#jqxCheckBoxNATGAS_EUR",
@@ -151,7 +151,7 @@
 	
      $("#show").click(function () {
     	  monthDate=new Date(); 
-    	  monthDate.setMonth(monthDate.getMonth() - 3);
+    	  monthDate.setMonth(monthDate.getMonth() - 6);
     	  monthDate.setHours(0,0,0,0);
     	  resetActiveChartType();
     	  resetActiveFontSize();
@@ -1323,30 +1323,11 @@
 	      	    	       chart1.updateOptions(getSubChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    
 	      	    	
+	      	    	    
 	      	    	     if (chartType1=='area')
    	    	        	{
-   	    	    		if (response[0].config.chartColor=='#44546a')
    	    	    			chart1.updateOptions({
-	      	    	    			colors: ['#222a35'],
-			      			        fill: {
-	      	    		                type: 'gradient',
-	      	    		                gradient: {
-	      	    					    gradientToColors: '#2e75b6',
-	      	    					      shadeIntensity: 0,
-	      	    					      type: "vertical",
-	      	    					     inverseColors: false,
-									      stops: [30, 90, 100],
-									      opacityFrom: 1,
-									      opacityTo: eval(response[0].config.chartTransparency),
-	      	    		                }
-	      	    		              },	
-	      	    		            stroke: {
-			     				      	 colors: ["#ffffff"],
-		     				        },
-	      	    	    		});
-   	    	    		else 
-   	    	    			chart1.updateOptions({
-   	    	        		colors: [response[0].config.chartColor],
+   	    	        		colors:  ['#F0AB2E'], //[response[0].config.chartColor],
    	    	        		fill: {
 	      	    	        		  type: 'gradient',
 	      	    	        		  gradient: {
@@ -1362,38 +1343,20 @@
 	     				        },
    							});
    	    	        	} else 	
-   	    	        		if (response[0].config.chartColor=='#44546a')
-   	    	        		{
    	    	        			chart1.updateOptions({
-      	    	    				colors: ['#2e75b6'],
+      	    	    				colors: ['#F0AB2E'],
 			      				       fill: {
 			      			            type:'solid',
 			      			            opacity: [1,1],
 			      			          }, 
 			      			        stroke: {
-		      	    			      	 colors: ['#2e75b6'],
+		      	    			      	 colors: ['#F0AB2E'],
 		      	    		        },
 		      	    	         markers: {
-		      	    				   colors: ['#2e75b6'],
-		      	    				   strokeColors:['#2e75b6']
+		      	    				   colors: ['#F0AB2E'],
+		      	    				   strokeColors:['#F0AB2E']
 		      	    			     }
 	      	    	    		});
-   	    	        		}
-   	    	        	else 
-   	    	        		chart1.updateOptions({
-  	    	    				colors: [response[0].config.chartColor],
-		      				       fill: {
-		      			            type:'solid',
-		      			            opacity: [1,1],
-		      			          }, 
-		      			        stroke: {
-	      	    			      	 colors: [response[0].config.chartColor],
-	      	    		        },
-	      	    	         markers: {
-	      	    				   colors: [response[0].config.chartColor],
-	      	    				   strokeColors:[response[0].config.chartColor]
-	      	    			     }
-      	    	    		});
 	      	    	    min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 	      	    	          return item.y;
 	      	    	        })),
@@ -1652,29 +1615,8 @@
 			   		      	    
 			   	      	    	
 				      	    	     if (chartType2=='area')
-			   	    	        	{
-			   	    	    		if (response[0].config.chartColor=='#44546a')
-			   	    	    			chart2.updateOptions({
-				      	    	    			colors: ['#222a35'],
-						      			        fill: {
-				      	    		                type: 'gradient',
-				      	    		                gradient: {
-				      	    					    gradientToColors: '#2e75b6',
-				      	    					      shadeIntensity: 0,
-				      	    					      type: "vertical",
-				      	    					     inverseColors: false,
-												      stops: [30, 90, 100],
-												      opacityFrom: 1,
-												      opacityTo: eval(response[0].config.chartTransparency),
-				      	    		                }
-				      	    		              },	
-				      	    		            stroke: {
-						     				      	 colors: ["#ffffff"],
-					     				        },
-				      	    	    		});
-			   	    	    		else 
-			   	    	    			chart2.updateOptions({
-			   	    	        		colors: [response[0].config.chartColor],
+			   	    	        	{	chart2.updateOptions({
+			   	    	        		colors: ['#0097fe'], // [response[0].config.chartColor],
 			   	    	        		fill: {
 				      	    	        		  type: 'gradient',
 				      	    	        		  gradient: {
@@ -1690,38 +1632,20 @@
 				     				        },
 			   							});
 			   	    	        	} else 	
-			   	    	        		if (response[0].config.chartColor=='#44546a')
-			   	    	        		{
 			   	    	        			chart2.updateOptions({
-			      	    	    				colors: ['#2e75b6'],
+			      	    	    				colors: ['#0097fe'],
 						      				       fill: {
 						      			            type:'solid',
 						      			            opacity: [1,1],
 						      			          }, 
 						      			        stroke: {
-					      	    			      	 colors: ['#2e75b6'],
+					      	    			      	 colors: ['#0097fe'],
 					      	    		        },
 					      	    	         markers: {
-					      	    				   colors: ['#2e75b6'],
-					      	    				   strokeColors:['#2e75b6']
+					      	    				   colors: ['#0097fe'],
+					      	    				   strokeColors:['#0097fe']
 					      	    			     }
 				      	    	    		});
-			   	    	        		}
-			   	    	        	else 
-			   	    	        		chart2.updateOptions({
-		      	    	    				colors: [response[0].config.chartColor],
-					      				       fill: {
-					      			            type:'solid',
-					      			            opacity: [1,1],
-					      			          }, 
-					      			        stroke: {
-				      	    			      	 colors: [response[0].config.chartColor],
-				      	    		        },
-				      	    	         markers: {
-				      	    				   colors: [response[0].config.chartColor],
-				      	    				   strokeColors:[response[0].config.chartColor]
-				      	    			     }
-			      	    	    		});
 				      	    	    min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        })),

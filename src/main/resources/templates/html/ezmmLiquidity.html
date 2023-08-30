@@ -52,10 +52,7 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
- div#overlay {
-    margin: 15% 40%;
-      position: absolute;
-}
+
   </style>
 </head>
 
@@ -109,7 +106,7 @@
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				  	  <a sec:authorize="hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2liquidity" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
 				      <a sec:authorize="hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbexcessliquidity-tab"  href="/bourse/ecbexcessliquidity" role="tab" aria-controls="nav-ecbexcessliquidity" aria-selected="false">Ecb Excess Liquidity</a>
-					  <a sec:authorize="hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbqeliquidity-tab"  href="/bourse/ecbqeliquidity" role="tab" aria-controls="nav-ecbqeliquidity" aria-selected="false">Ecb Qe Liquidity</a>
+					  <a sec:authorize="hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbqeliquidity-tab"  href="/bourse/ecbqeliquidity" role="tab" aria-controls="nav-ecbqeliquidity" aria-selected="false">ECB QE Operations</a>
 					  <a sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-ezmmliquidity-tab"  href="/bourse/ezmmliquidity" role="tab" aria-controls="nav-ezmmliquidity" aria-selected="false">Eurozone Monetary Mass</a>
 					  <a sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-corporateliquidity-tab"  href="/bourse/corporateliquidity" role="tab" aria-controls="nav-corporateliquidity" aria-selected="false">Corporate Liquidity</a>
 				  </div>
@@ -136,32 +133,33 @@
 					  <div class="col">
 					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
 				<div class="row">
-				      <div class="row mt-2">
-					     <div class="card ml-2 col-12">
-						        <div class="row no-gutters">
-						          <div class="col-custom">
-						                <div class="card-body pt-1 filter">
-						                	<div id='jqxCheckBoxM0' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">M0</span></div>
-						             </div>
-						             </div>
-						             <div class="col-custom">
-						                <div class="card-body pt-1 filter">
-						               		<div id='jqxCheckBoxM1' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">M1</span></div>
+				       <div class="col-6 d-flex">
+						               <div class="col-3">
+						               	<img alt="usa-flag" src="/img/flag/ezmm.png" height="100px">
 						               </div>
+							           <div class="col-6">
+							            <div class="pt-2">
+							               <div class="pt-1">
+							                  	<div id='jqxCheckBoxM0' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">M0</span></div>
+							            </div>
+							             </div>
+							             <div class="">
+							                <div class="pt-1">
+							               		<div id='jqxCheckBoxM1' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">M1</span></div>
+							                </div>
+							            </div>
+							             <div class="">
+							                <div class="pt-1">
+							              		<div id='jqxCheckBoxM2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">M2</span></div>
+							                </div>
+							            </div>
+							            <div class="">
+							                <div class="pt-1">
+							              	   <div id='jqxCheckBoxM3' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">M3</span></div>
+							              </div>
+							            </div>
+							           </div>
 						            </div>
-						             <div class="col-custom">
-						                <div class="card-body pt-1 filter">
-						              		<div id='jqxCheckBoxM2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">M2</span></div>
-						                </div>
-						            </div>
-						             <div class="col-custom">
-						                <div class="card-body pt-1 filter">
-						                    <div id='jqxCheckBoxM3' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">M3</span></div>
-						             </div>
-						            </div>
-							    </div>
-						    </div>
-					  </div>
                      </div>
                      	<div class="row pt-2">
 							<div class='col-12 d-flex justify-content-end'>

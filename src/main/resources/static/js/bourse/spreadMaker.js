@@ -2,7 +2,7 @@
   var checkedItemRight   = 0;
   var checkedItemid = [];
   var monthDate     = new Date(); 
-  monthDate.setMonth(monthDate.getMonth() - 3);
+  monthDate.setMonth(monthDate.getMonth() - 6);
   monthDate.setHours(0,0,0,0);
   var startdate     = new Date();
   var date          = new Date();
@@ -643,7 +643,7 @@
      $("#show").click(function () {
     	
       monthDate=new Date(); 
-   	  monthDate.setMonth(monthDate.getMonth() - 3);
+   	  monthDate.setMonth(monthDate.getMonth() - 6);
    	  monthDate.setHours(0,0,0,0);
    	  resetActiveChartType();
 	  resetActiveFontSize();

@@ -52,10 +52,7 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
- div#overlay {
-    margin: 15% 40%;
-      position: absolute;
-}
+
   </style>
 </head>
 
@@ -137,36 +134,46 @@
 					  <div class="col">
 					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
 				<div class="row">
-				<div class="col-5">
+				<div class="col-7">
                 		<div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" width="48" src="/img/gold.png" data-toggle="tooltip" title="Gold" >
+								   <div class="col pl-0 text-center">
+										<div class="align-middle">
+											<img height="48"  width="48" src="/img/gold.png" class="img-icon"
+												data-toggle="tooltip" title="Gold">
+										</div>
+										<h8 class="font-weight-bold">Gold</h8>
+										<div id='jqxCheckBoxGold'  class="align-middle"></div>
+									</div>
+								    <div class="col pl-0 text-center">
+										<div class="align-middle">
+											<img  height="48"  width="48" src="/img/platinum.png" class="img-icon" data-toggle="tooltip" title="Platinum" >
+										</div>
+										<h8 class="font-weight-bold">Platinum</h8>
+										<div id='jqxCheckBoxPlatinum' class="align-middle"></div>
+									</div>
+								     <div class="col pl-0 text-center">
+										<div class="align-middle">
+											<img height="48"  width="48" src="/img/silver.png" class="img-icon" data-toggle="tooltip" title="Silver" >
+										</div>
+										<h8 class="font-weight-bold">Silver</h8>
+									    <div id='jqxCheckBoxSilver' class="align-middle"></div>
+									</div>
+									 <div class="col pl-0 text-center">
+										<div class="align-middle">
+											<img class="br-3" height="48"  width="48" src="/img/plat-gold.png" data-toggle="tooltip" title="PLAT-GOLD sprd" >
+										</div>
+										<h8 class="font-weight-bold">PLAT-GOLD sprd</h8>
+								        <div id='jqxCheckBoxPlatGold' class="align-middle"></div>
 								    </div>
-								    <div class="col pl-0"><img  height="48" width="48" src="/img/platinum.png" data-toggle="tooltip" title="Platinum" >
-								    </div>
-								    <div class="col pl-0"><img height="48" width="48" src="/img/silver.png" data-toggle="tooltip" title="Silver" >
-								    </div>
-								    <div class="col pl-0"><img height="48" width="48" src="/img/plat-gold.png" data-toggle="tooltip" title="PLAT-GOLD sprd" >
-								    </div>
-								    <div class="col pl-0"><img height="48" width="48" src="/img/gold-silver.png" data-toggle="tooltip" title="GOLD/SILV ratio" >
+									 <div class="col pl-0 text-center">
+										<div class="align-middle">
+											<img class="br-3" height="48"  width="48"  src="/img/gold-silver.png" data-toggle="tooltip" title="GOLD/SILV ratio" >
+										</div>
+										<h8 class="font-weight-bold">GOLD/SILV ratio</h8>
+									    <div id='jqxCheckBoxGoldSilv'  class="align-middle"></div>
 								    </div>
 								 </div>
-		                   <div style=" display: flex;">
-		                    <div class="col pl-0">
-									<div id='jqxCheckBoxGold' style='float: left;'></div>
-								 </div>
-								 <div class="col pl-0">
-									<div id='jqxCheckBoxPlatinum' style='float: left;'></div>
-								</div>
-								 <div class="col pl-0">
-								    <div id='jqxCheckBoxSilver' style='float: left;'></div>
-								</div>
-								 <div class="col pl-0">
-								    <div id='jqxCheckBoxPlatGold' style='float: left;'></div>
-								</div>
-								 <div class="col pl-0">
-								    <div id='jqxCheckBoxGoldSilv' style='float: left;'></div>
-								</div>
-		                    </div>
+		                  
                  		</div>
                  		<div class="col-2"></div>
                  		<div class="col-5">

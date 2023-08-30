@@ -26,10 +26,7 @@
     background: #ff4b5552 !important;
     border-color: #d9534f !important;
 }
-   div#overlay {
-    margin: 15% 40%;
-    position: absolute;
-}
+ 
 .factorBold{
     font-weight:bold;
     color: white!important;
@@ -75,6 +72,7 @@ font-size: 0.8rem;
 }
 .jqx-widget-dark .jqx-grid-column-header-dark {
     font-size: .67rem;
+    text-align: center;
 }
 .jqx-tree-dark .jqx-checkbox-dark .jqx-checkbox-default-dark, .jqx-checkbox-dark[checked] .jqx-checkbox-default-dark, .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-dark, .jqx-radiobutton-dark[checked] .jqx-radiobutton-default-dark {
     border: #b7b9cc solid 0px;
@@ -106,9 +104,9 @@ button#deleteByDate {
     position: absolute;
     margin-top: -0.3rem;
 }
-.jqx-grid-cell-left-align {
+/* .jqx-grid-cell-left-align {
     text-align: center;
-}
+} */
 .container, .container-fluid, .container-login {
     padding-left: 1rem;
     padding-right: 1rem;
@@ -187,7 +185,7 @@ padding-right:.2rem;
 			    <button type="button" class="btn btn-secondary mw-100" id="Ecbexcess-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">ECB EXCESS</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="Ecbqe-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">ECB QE</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="EzMonetary-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">EZ MONETARY MASS</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="Corporate_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">CORPOPRATE_SPREADS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="Corporate_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">CORPOPRATE LIQUIDITY</button>
 			   </div>
 			</div>
             <div class="collapse show" id="collapseExample">
@@ -216,16 +214,15 @@ padding-right:.2rem;
 		                	<form id="dataformInputEcbexcess">
 								<div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-											OVERNIGHT DEPOSITS at the ECB
+											OVERNIGHT <BR> DEPOSITS
 										</div>
 										<div class="fs-7">
-											CURRENT ACCOUNT HOLDINGS
+											CURRENT <BR> ACCOUNT										</div>
+										<div class="fs-7">
+											RESERVE <BR> REQUIREMENTS
 										</div>
 										<div class="fs-7">
-											RESERVE REQUIREMENTS
-										</div>
-										<div class="fs-7">
-											EMERGENCY LENDING
+											EMERGENCY <BR> LENDING
 										</div>
 									</div>
 								<div class="d-flex">
@@ -413,18 +410,18 @@ padding-right:.2rem;
         <div class="row">
           <div th:if="${liquidity == 1}" class="col-sm-9" id="EcbexcessMetals-filter">
              <h6 class="col font-weight-bold">ECB EXCESS LIQUIDITY</h6>
-             <div class="d-flex justify-content-between">
-             	<div id='jqxCheckBoxExcess1' style='float: left;'><span class="checkboxesTitle">Overnight Deposits at the ECB</span></div> 
-             	<div id='jqxCheckBoxExcess2' style='float: left;'><span class="checkboxesTitle">Current Account Holdings</span></div>
+             <div class="d-flex justify-content-between col">
+             	<div id='jqxCheckBoxExcess1' style='float: left;'><span class="checkboxesTitle">Overnight Deposits</span></div> 
+             	<div id='jqxCheckBoxExcess2' style='float: left;'><span class="checkboxesTitle">Current Account</span></div>
              	<div id='jqxCheckBoxExcess3' style='float: left;'><span class="checkboxesTitle">Reserve Requirements</span></div>
              	<div id='jqxCheckBoxExcess4' style='float: left;'><span class="checkboxesTitle">Emergency Lending</span></div>
              	<div id='jqxCheckBoxExcess1_Excess2_Excess3_Excess4' style='float: left;'><span class="checkboxesTitle">Excess Liquidity</span></div>
          	 </div>
            </div>
-            <div th:if="${liquidity == 2}" class="col-sm-9" >
-             <h6 class="col font-weight-bold">ECB QE LIQUIDITY</h6>
-             <div class="d-flex justify-content-between">
-             	<div id='jqxCheckBoxQe1' style='float: left;'><span class="checkboxesTitle">ECB MONTHLY sovering bond QE </span></div> 
+            <div th:if="${liquidity == 2}" class="col-sm-11" >
+             <h6 class="col font-weight-bold">ECB QE Operations</h6>
+             <div class="d-flex justify-content-between col">
+             	<div id='jqxCheckBoxQe1' style='float: left;'><span class="checkboxesTitle">ECB MONTHLY sovereign bond QE </span></div> 
              	<div id='jqxCheckBoxQe2' style='float: left;'><span class="checkboxesTitle">ECB MONTHLY corporate bond QE </span></div>
              	<div id='jqxCheckBoxQe1_Qe2' style='float: left;'><span class="checkboxesTitle">ECB MONTHLY QE</span></div>
              	<div id='jqxCheckBoxCum_Qe1' style='float: left;'><span class="checkboxesTitle">ECB CUMULATIVE sovereign bond QE</span></div>
@@ -434,7 +431,7 @@ padding-right:.2rem;
            </div>
              <div th:if="${liquidity == 3}" class="col-sm-9" >
              <h6 class="col font-weight-bold">EUROZONE MONETARY MASS</h6>
-             <div class="d-flex justify-content-between">
+             <div class="d-flex justify-content-between col">
              	<div id='jqxCheckBoxM0' style='float: left;'><span class="checkboxesTitle">M0</span></div> 
              	<div id='jqxCheckBoxM1' style='float: left;'><span class="checkboxesTitle">M1</span></div>
              	<div id='jqxCheckBoxM2' style='float: left;'><span class="checkboxesTitle">M2</span></div>
@@ -443,7 +440,7 @@ padding-right:.2rem;
            </div>
             <div th:if="${liquidity == 4}" class="col-sm-9" >
              <h6 class="col font-weight-bold">EUROZONE MONETARY MASS</h6>
-             <div class="d-flex justify-content-between">
+             <div class="d-flex justify-content-between col">
              	<div id='jqxCheckBoxavg_usatoaaa_usa' style='float: left;'><span class="checkboxesTitle">US  BLUECHIP /TSYS</span></div> 
              	<div id='jqxCheckBoxavg_usbtobbb_usatoaaa' style='float: left;'><span class="checkboxesTitle">US  HIGHYIELD  / BLUECHIP</span></div>
              	<div id='jqxCheckBoxavg_usctoccc_usbtobbb' style='float: left;'><span class="checkboxesTitle">US JUNKBONDS / HIGHYIELD</span></div>

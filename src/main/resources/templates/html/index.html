@@ -28,6 +28,32 @@ div#content {
     overflow-x: hidden;
     min-height: 841px;
 }
+ .blinking-button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #3498db00;
+    color: #ef4452;
+    font-weight: bold;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    animation: blink 2s infinite ease-in-out;
+  }
+
+  .video-icon {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
 </style>
 </head>
 <body id="page-top">
@@ -57,7 +83,10 @@ div#content {
 			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" class="nav-item nav-link"><img  alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
 		    </div>
 		</div>
-			<div class="nav-item dropdown" style="width: 15%">
+		<button  sec:authorize="hasAuthority('nothing')"  class="blinking-button">
+		    <span class="video-icon">🎥</span> Demo Video
+		 </button>
+		<div class="nav-item dropdown" style="width: 15%">
 				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline " th:text="${#authentication.principal.firstName}"></span><span class="ml-1 d-none d-lg-inline " th:text="${#authentication.principal.lastName}"></span><b class="caret"></b></a>
 				<div class="dropdown-menu logout">
 				<!--    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
@@ -128,7 +157,7 @@ div#content {
       <ul class="fa-ul">
 		  <li sec:authorize="hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN')" ><a href="/bourse/any2liquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
 		  <li sec:authorize="hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ecbexcessliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Ecb Excess Liquidity</a></li>
-		  <li sec:authorize="hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ecbqeliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ECB QE Liquidity</a></li>
+		  <li sec:authorize="hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ecbqeliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ECB QE Operations</a></li>
 		  <li sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ezmmliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Eurozone Monetary Mass</a></li>
 		  <li sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/corporateliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Corpoprate Liquidity</a></li>
 		  <li sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/liquiditydatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>

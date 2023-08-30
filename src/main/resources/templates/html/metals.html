@@ -26,10 +26,7 @@
     background: #ff4b5552 !important;
     border-color: #d9534f !important;
 }
-   div#overlay {
-    margin: 15% 40%;
-    position: absolute;
-}
+ 
 .factorBold{
     font-weight:bold;
     color: white!important;
@@ -75,6 +72,7 @@ font-size: 0.8rem;
 }
 .jqx-widget-dark .jqx-grid-column-header-dark {
     font-size: .67rem;
+    text-align: center;
 }
 .jqx-tree-dark .jqx-checkbox-dark .jqx-checkbox-default-dark, .jqx-checkbox-dark[checked] .jqx-checkbox-default-dark, .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-dark, .jqx-radiobutton-dark[checked] .jqx-radiobutton-default-dark {
     border: #b7b9cc solid 0px;
@@ -216,12 +214,30 @@ button#deleteByDate {
 		                  <form  id="dataformInput">
 		                  <div class="form-group" style=" margin-top: 0">
 		                      <div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/gold.png" class="img-icon" data-toggle="tooltip" title="Gold" >
-								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/platinum.png" class="img-icon" data-toggle="tooltip" title="Platinum" >
-								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/silver.png" class="img-icon" data-toggle="tooltip" title="Silver" >
-								    </div>
+									<div class="col pl-0">
+										<div>
+											<img height="48" width="48" src="/img/gold.png" class="img-icon" data-toggle="tooltip" title="Gold" >
+										</div>
+										<div>
+											<h8 class="font-weight-bold">Gold</h8>
+										</div>
+									</div>
+									<div class="col pl-0">
+										<div>
+											<img  height="48" width="48" src="/img/platinum.png" class="img-icon" data-toggle="tooltip" title="Platinum" >
+										</div>
+										<div>
+											<h8 class="font-weight-bold">Platinum</h8>
+										</div>
+									</div>
+								    <div class="col pl-0">
+										<div>
+											<img height="48" width="48" src="/img/silver.png" class="img-icon" data-toggle="tooltip" title="Silver" >
+										</div>
+										<div>
+											<h8 class="font-weight-bold">Silver</h8>
+										</div>
+									</div>
 								 </div>
 			                   <div style=" display: flex;">
 			                      <input type="text" class="form-control" id="precious-input" autocomplete="off">
@@ -244,14 +260,38 @@ button#deleteByDate {
 		                  <form  id="baseDataformInput">
 		                  <div class="form-group" style=" margin-top: 0">
 		                      <div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/copper.png" class="img-icon" data-toggle="tooltip" title="Copper">
-								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/aluminum.png" class="img-icon" data-toggle="tooltip" title="Aluminum">
-								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/steel.png" class="img-icon" data-toggle="tooltip" title="Steel">
-								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/lumber.png" class="img-icon" data-toggle="tooltip" title="Lumber">
-								    </div>
+								     <div class="col pl-0">
+										<div>
+											<img height="48" width="48" src="/img/copper.png" class="img-icon" data-toggle="tooltip" title="Copper">
+										</div>
+										<div>
+											<h8 class="font-weight-bold">Copper</h8>
+										</div>
+									</div>
+								      <div class="col pl-0">
+										<div>
+											<img  height="48" width="48" src="/img/aluminum.png" class="img-icon" data-toggle="tooltip" title="Aluminum">
+											</div>
+										<div>
+											<h8 class="font-weight-bold">Aluminum</h8>
+										</div>
+									</div>
+								      <div class="col pl-0">
+										<div>
+											<img height="48" width="48" src="/img/steel.png" class="img-icon" data-toggle="tooltip" title="Steel">
+											</div>
+										<div>
+											<h8 class="font-weight-bold">Steel</h8>
+										</div>
+									</div>
+								     <div class="col pl-0">
+										<div>
+											<img height="48" width="48" src="/img/lumber.png" class="img-icon" data-toggle="tooltip" title="Lumber">
+											</div>
+										<div>
+											<h8 class="font-weight-bold">Lumber</h8>
+										</div>
+									</div>
 								 </div>
 			                   <div style=" display: flex;">
 			                    <input type="text" class="form-control" id="base-input" autocomplete="off">
@@ -274,16 +314,46 @@ button#deleteByDate {
 		                  <form  id="energyDataformInput">
 		                  <div class="form-group" style=" margin-top: 0">
 		                      <div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/oil.png" class="img-icon" data-toggle="tooltip" title="SPOT CRUDE OIL ">
-								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/gazoline.png" class="img-icon" data-toggle="tooltip" title="US GASOLINE - US GALL">
-								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/diezel.png" class="img-icon" data-toggle="tooltip" title="US DIESEL - US GALL">
-								    </div>
-								     <div class="col pl-0"><img height="48" src="/img/natgasUs.png" class="img-icon" data-toggle="tooltip" title="US NatGas 1MwH in USD">
-								    </div>
-								     <div class="col pl-0"><img height="48" src="/img/natgasEur.png" class="img-icon" data-toggle="tooltip" title="EU NatGas 1MwH in EUR">
-								    </div>
+		                           <div class="col pl-0">
+										<div>
+											 <img height="48" width="48" src="/img/oil.png" class="img-icon" data-toggle="tooltip" title="CRUDE OIL">
+								       </div>
+										<div>
+											<h8 class="font-weight-bold">CRUDE<br> OIL</h8>
+										</div>
+									</div>
+									<div class="col pl-0">
+										<div>
+											 <img height="48" width="48" src="/img/gazoline.png" class="img-icon" data-toggle="tooltip" title="US GAL/GASOLINE">
+								        </div>
+										<div>
+											<h8 class="font-weight-bold">US<br> GAL/GASOLINE</h8>
+										</div>
+									</div>
+									<div class="col pl-0">
+										<div>
+											 <img height="48" width="48" src="/img/diezel.png" class="img-icon" data-toggle="tooltip" title="US GAL/DIESEL">
+								        </div>
+										<div>
+											<h8 class="font-weight-bold">US<br> GAL/DIESEL</h8>
+										</div>
+									</div>
+									<div class="col pl-0">
+										<div>
+											 <img height="48" width="48" src="/img/natgasUs.png" class="img-icon" data-toggle="tooltip" title="US NATGAS">
+								        </div>
+										<div>
+											<h8 class="font-weight-bold">US<br> NATGAS</h8>
+										</div>
+									</div>
+									<div class="col pl-0">
+										<div>
+											  <img height="48" width="48" src="/img/natgasEur.png" class="img-icon" data-toggle="tooltip" title="EUROZONE NATGAS">
+								        </div>
+										<div>
+											<h8 class="font-weight-bold">EUROZONE<br> NATGAS</h8>
+										</div>
+									</div>
 								 </div>
 			                   <div style=" display: flex;">
 			                    <input type="text" class="form-control" id="energy-input" autocomplete="off">
@@ -306,12 +376,30 @@ button#deleteByDate {
 		                  <form  id="foodStuffDataformInput">
 		                  <div class="form-group" style=" margin-top: 0">
 		                      <div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/corn.png" class="img-icon" data-toggle="tooltip" title="Corn">
-								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/sugar.png" class="img-icon" data-toggle="tooltip" title="Sugar">
-								    </div>
-								    <div class="col pl-0"><img height="48" src="/img/wheat.png" class="img-icon" data-toggle="tooltip" title="Wheat">
-								    </div>
+								    <div class="col pl-0">
+										<div>
+											<img height="48" width="48" src="/img/corn.png" class="img-icon" data-toggle="tooltip" title="Corn">
+											</div>
+										<div>
+											<h8 class="font-weight-bold">Corn</h8>
+										</div>
+									</div>
+								   <div class="col pl-0">
+										<div>
+											 <img height="48" width="48" src="/img/sugar.png" class="img-icon" data-toggle="tooltip" title="Sugar">
+											</div>
+										<div>
+											<h8 class="font-weight-bold">Sugar</h8>
+										</div>
+									</div>
+								    <div class="col pl-0">
+										<div>
+											   <img height="48" width="48" src="/img/wheat.png" class="img-icon" data-toggle="tooltip" title="Wheat">
+											</div>
+										<div>
+											<h8 class="font-weight-bold">Wheat</h8>
+										</div>
+									</div>
 								 </div>
 			                   <div style=" display: flex;">
 			                    <input type="text" class="form-control" id="foodStuff-input" autocomplete="off">
@@ -334,10 +422,22 @@ button#deleteByDate {
 		                  <form  id="transportationDataformInput">
 		                  <div class="form-group" style=" margin-top: 0">
 		                      <div  style=" display: flex;">
-								    <div class="col pl-0"><img height="48" src="/img/baltic.png" class="img-icon" data-toggle="tooltip" title="BALTIC DRY INDEX">
-								    </div>
-								    <div class="col pl-0"><img  height="48" src="/img/container.png" class="img-icon" data-toggle="tooltip" title="40ft Container">
-								    </div>
+								    <div class="col pl-0">
+										<div>
+											   <img height="48" width="48" src="/img/baltic.png" class="img-icon" data-toggle="tooltip" title="BALTIC DRY INDEX">
+											</div>
+										<div>
+											<h8 class="font-weight-bold">BALTIC DRY INDEX</h8>
+										</div>
+									</div>
+									 <div class="col pl-0">
+										<div>
+											 <img  height="48" width="48" src="/img/container.png" class="img-icon" data-toggle="tooltip" title="40ft Container">
+											 	</div>
+										<div>
+											<h8 class="font-weight-bold">40ft Container</h8>
+										</div>
+									</div>
 								 </div>
 			                   <div style=" display: flex;">
 			                    <input type="text" class="form-control" id="transportation-input" autocomplete="off">
@@ -471,13 +571,13 @@ button#deleteByDate {
           <div th:if="${commodity == 4}" class="col-sm-11" id="energyMetals-filter">
              <h6 class="col font-weight-bold">FoodStuff</h6>
                 <div class="d-flex justify-content-between">
-	             	<div id='jqxCheckBoxOil' style='float: left;'><span class="checkboxesTitle">SPOT CRUDE OIL </span></div> 
-	             	<div id='jqxCheckBoxGASOLINE_GALL' style='float: left;'><span class="checkboxesTitle">US GASOLINE-US GALL</span></div>
-	             	<div id='jqxCheckBoxGASOLINE_LITRE' style='float: left;'><span class="checkboxesTitle">US GASOLINE-20L/$</span></div>
-	             	<div id='jqxCheckBoxDIESEL_GALL' style='float: left;'><span class="checkboxesTitle">US DIESEL-US Gall</span></div>
-	             	<div id='jqxCheckBoxDIESEL_TON' style='float: left;'><span class="checkboxesTitle">US DIESEL-1 TON</span></div>
-	             	<div id='jqxCheckBoxNATGAS_USD' style='float: left;'><span class="checkboxesTitle">US NatGas 1MwH in USD</span></div>
-	             	<div id='jqxCheckBoxNATGAS_EUR' style='float: left;'><span class="checkboxesTitle">EU NatGas 1MwH in EUR</span></div>
+	             	<div id='jqxCheckBoxOil' style='float: left;'><span class="checkboxesTitle">CRUDE OIL</span></div> 
+	             	<div id='jqxCheckBoxGASOLINE_GALL' style='float: left;'><span class="checkboxesTitle">US GAL/GASOLINE</span></div>
+	             	<div id='jqxCheckBoxGASOLINE_LITRE' style='float: left;'><span class="checkboxesTitle">US GAS-20L</span></div>
+	             	<div id='jqxCheckBoxDIESEL_GALL' style='float: left;'><span class="checkboxesTitle">US GAL/DIESEL</span></div>
+	             	<div id='jqxCheckBoxDIESEL_TON' style='float: left;'><span class="checkboxesTitle">DIESEL/Ton</span></div>
+	             	<div id='jqxCheckBoxNATGAS_USD' style='float: left;'><span class="checkboxesTitle">US NATGAS</span></div>
+	             	<div id='jqxCheckBoxNATGAS_EUR' style='float: left;'><span class="checkboxesTitle">EUROZONE NATGAS</span></div>
               </div>
           </div>
           <div th:if="${commodity == 3}" class="col-sm-4" id="foodStuffMetals-filter">

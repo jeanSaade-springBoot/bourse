@@ -1282,22 +1282,42 @@ function getMarginLenght(value) {
         return 0.05;
     } else if (value <= 10) {
         return 0.1;
+    }else if (value <= 25) {
+        return 1;
+    }else if (value <= 50) {
+        return 1.5;
+    }else if (value <= 75) {
+        return 3;
     } else if (value <= 100) {
+        return 5;
+    } else if (value <= 250) {
         return 10;
+    } else if (value <= 500) {
+        return 20;
+    } else if (value <= 750) {
+        return 30;
     } else if (value <= 1000) {
-        return 250;
+        return 40;
+    } else if (value <= 1250) {
+        return 50;
+    } else if (value <= 1500) {
+        return 60;
+    } else if (value <= 2000) {
+        return 70;
+    } else if (value <= 5000) {
+        return 80;
     } else if (value <= 10000) {
-        return 500;
+        return 90;
     } else if (value <= 50000) {
-        return 1000;
+        return 100;
     } else if (value <= 100000) {
-        return 5000;
+        return 200;
     } else if (value <= 250000) {
-        return 10000;
+        return 300;
     } else if (value <= 500000) {
-        return 12500;
+        return 400;
     } else if (value <= 1000000) {
-        return 15000;
+        return 500;
     }
 }	
  function enableDisableDropDowns(value){

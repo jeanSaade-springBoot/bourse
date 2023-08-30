@@ -87,7 +87,7 @@ public class VolumeService {
 		List lstRowsDt = new ArrayList<String>();
 		HashMap<String,List> hashData = new HashMap<String, List>();
 		 double count = colHash.size();
-		 String columnWidth="7%";
+		 String columnWidth="110";
 		 if(count <= 16)
 		 {
 			 columnWidth=String.valueOf(100/(count-1))+"%"; // 1 to remove the id column size it will not be presented i the grid
@@ -111,7 +111,9 @@ public class VolumeService {
 			        configColumns.put("text",columnDisplayDesc.equalsIgnoreCase("refer_date")?"Date":columnDisplayDesc);
 			        configColumns.put("datafield",colsName);
 			        configColumns.put("width",columnWidth);
-			       
+			        configColumns.put("cellsalign","center");
+			        configColumns.put("align","center");
+			        
 			        	String[] values = null; int val;
 			         	if (dataFormat!=null)
 			         	{

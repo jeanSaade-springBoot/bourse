@@ -29,10 +29,7 @@
   .jqx-grid-column-header > div > div > span[style] { /*Cause header text to wrap to new line rather than be truncated*/
      white-space: normal;
   }
-   div#overlay {
-    margin: 15% 40%;
-    position: absolute;
-}
+
 .col-sm-1.col-custom {
     max-width: 12.33333%;
 }
@@ -149,6 +146,10 @@ button#deleteCorporateByDate {
     margin-top: -0.5rem;
     z-index: 2;
     right: 10px;
+}
+.jqx-widget-dark .jqx-grid-column-header-dark {
+    font-size: .67rem;
+    text-align: center;
 }
 </style>
 <body id="page-top">
@@ -304,7 +305,7 @@ button#deleteCorporateByDate {
 											EZ AtoAAA "BLUECHIP"
 										</div>
 										<div class="fs-7">
-											EZ BtoBBB "HIGH YIELD"
+											EZ BtoBBB <br>"HIGH YIELD"
 										</div>
 									</div>
 								<div class="d-flex">

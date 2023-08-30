@@ -1,6 +1,6 @@
  		 var selectedRow=this;
  		 var monthDate=new Date(); 
-         monthDate.setMonth(monthDate.getMonth() - 1);
+         monthDate.setMonth(monthDate.getMonth() - 6);
          var allitems=["#jqxCheckBoxGold",
          			   "#jqxCheckBoxPlatinum",
          			   "#jqxCheckBoxSilver",
@@ -2176,7 +2176,8 @@
 	    	    	           break;
 	    	    	           }
 	    	    	         }
-	  						 $('#grid').jqxGrid({source:dataAdapter,
+	  						 $('#grid').jqxGrid({width:data.columns.length>12?'100%':data.columns.length*110,
+	  						 					 source:dataAdapter,
 	  							                 columns: data.columns});
 	  							                 
 	  					saveFilterHistory(commoditySubGroupValue,checkedItem);
@@ -2300,9 +2301,15 @@
 			                selectionmode: 'none',
 			                autoheight: true,
 			                columns: [ 
-			                      { text: '<img height="48" width="48" src="/img/gold.png">', datafield: 'gold', width: '33.3%' },
-				                  { text: '<img height="48" width="48" src="/img/platinum.png">', datafield: 'platinum', width: '33.3%'},
-				                  { text: '<img height="48" width="48" src="/img/silver.png">', datafield: 'silver', width: '33.3%' }
+			                      { text: '', datafield: 'gold', width: '33.3%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/gold.png"></div><h8 class="font-weight-bold">Gold</h8>';
+						        } },
+				                  { text: '', datafield: 'platinum', width: '33.3%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/platinum.png"></div><h8 class="font-weight-bold">Platinum</h8>';
+						        }},
+				                  { text: '', datafield: 'silver', width: '33.3%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/silver.png"></div><h8 class="font-weight-bold">Silver</h8>';
+						        } }
 			                ]
 			            });
 					  
@@ -2339,11 +2346,11 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'GOLD', datafield: 'gold', width: '15.2%' },
-		                  { text: 'PLATINUM', datafield: 'platinum', width: '15.2%' },
-		                  { text: 'SILVER', datafield: 'silver', width: '15.2%' },
-		                  { text: 'PLAT-GOLD', datafield: 'platinum_GOLD', width: '15.2%',editable: false, },
-		                  { text: 'GOLD/SILV', datafield: 'gold_SILVER', width: '15.2%', editable: false, },
+		                  { text: 'GOLD', datafield: 'gold', width: '15.2%',align: 'center'  },
+		                  { text: 'PLATINUM', datafield: 'platinum', width: '15.2%', align: 'center'   },
+		                  { text: 'SILVER', datafield: 'silver', width: '15.2%' , align: 'center'  },
+		                  { text: 'PLAT-GOLD', datafield: 'platinum_GOLD', width: '15.2%',editable: false, align: 'center'   },
+		                  { text: 'GOLD/SILV', datafield: 'gold_SILVER', width: '15.2%', editable: false, align: 'center'   },
 	                ]
 	            });
 	           getPreciousAuditGridSource();
@@ -2389,10 +2396,10 @@
 		                    
 		                  }
 		                  },  
-		                  { text: 'COPPER', datafield: 'copper', width: '19.5%' },
-		                  { text: 'ALUMINUM', datafield: 'aluminum', width: '19.5%' },
-		                  { text: 'STEEL', datafield: 'steel', width: '19.5%' },
-		                  { text: 'LUMBER', datafield: 'lumber', width: '19.5%'},
+		                  { text: 'COPPER', datafield: 'copper', width: '19.5%' , align: 'center'},
+		                  { text: 'ALUMINUM', datafield: 'aluminum', width: '19.5%' , align: 'center'},
+		                  { text: 'STEEL', datafield: 'steel', width: '19.5%' , align: 'center'},
+		                  { text: 'LUMBER', datafield: 'lumber', width: '19.5%', align: 'center'},
 	                ]
 	            });
 		       $('#base-input').on('keydown', function(event) {
@@ -2448,10 +2455,18 @@
 			                selectionmode: 'none',
 			                autoheight: true,
 			                columns: [ 
-			                      { text: '<img height="48" width="48" src="/img/copper.png">', datafield: 'copper', width: '25%' },
-				                  { text: '<img height="48" width="48" src="/img/aluminum.png">', datafield: 'aluminum', width: '25%'},
-				                  { text: '<img height="48" width="48" src="/img/steel.png">', datafield: 'steel', width: '25%' },
-				                  { text: '<img height="48" width="48" src="/img/lumber.png">', datafield: 'lumber', width: '25%' }
+			                      { text: '<img height="48" width="48" src="/img/copper.png">', datafield: 'copper', width: '25%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/copper.png"></div><h8 class="font-weight-bold">Copper</h8>';
+						        } },
+				                  { text: '<img height="48" width="48" src="/img/aluminum.png">', datafield: 'aluminum', width: '25%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/aluminum.png"></div><h8 class="font-weight-bold">Aluminum</h8>';
+						        }},
+				                  { text: '<img height="48" width="48" src="/img/steel.png">', datafield: 'steel', width: '25%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/steel.png"></div><h8 class="font-weight-bold">Steel</h8>';
+						        } },
+				                  { text: '<img height="48" width="48" src="/img/lumber.png">', datafield: 'lumber', width: '25%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/lumber.png"></div><h8 class="font-weight-bold">Lumber</h8>';
+						        } }
 			                ]
 			            });
 					  
@@ -2498,9 +2513,9 @@
 		                    
 		                  }
 		                  },  
-		                  { text: 'TON of CORN', datafield: 'corn', width: '26%' },
-		                  { text: 'TON of SUGAR', datafield: 'sugar', width: '26%' },
-		                  { text: 'TON of WHEAT', datafield: 'wheat', width: '26%' },
+		                  { text: 'TON of CORN', datafield: 'corn', width: '26%', align: 'center' },
+		                  { text: 'TON of SUGAR', datafield: 'sugar', width: '26%' , align: 'center'},
+		                  { text: 'TON of WHEAT', datafield: 'wheat', width: '26%', align: 'center' },
 	                ]
 	            });
 		       $('#foodStuff-input').on('keydown', function(event) {
@@ -2554,9 +2569,15 @@
 			                selectionmode: 'none',
 			                autoheight: true,
 			                columns: [ 
-			                      { text: '<img height="48" width="48" src="/img/corn.png">', datafield: 'corn', width: '33.3%' },
-				                  { text: '<img height="48" width="48" src="/img/sugar.png">', datafield: 'sugar', width: '33.3%'},
-				                  { text: '<img height="48" width="48" src="/img/wheat.png">', datafield: 'wheat', width: '33.3%' }
+			                      { text: '<img height="48" width="48" src="/img/corn.png">', datafield: 'corn', width: '33.3%' , renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/corn.png"></div><h8 class="font-weight-bold">Corn</h8>';
+						        } },
+				                  { text: '<img height="48" width="48" src="/img/sugar.png">', datafield: 'sugar', width: '33.3%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/sugar.png"></div><h8 class="font-weight-bold">Sugar</h8>';
+						        } },
+				                  { text: '<img height="48" width="48" src="/img/wheat.png">', datafield: 'wheat', width: '33.3%' , renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/wheat.png"></div><h8 class="font-weight-bold">Wheat</h8>';
+						        } }
 			                ]
 			            });
 					  
@@ -2607,13 +2628,13 @@
 		                    
 		                  }
 		                  },  
-		                  { text: 'SPOT CRUDE OIL', datafield: 'oil', width: '11.14%' },
-		                  { text: 'US GASOLINE-US GALL', datafield: 'gasolineGall', width: '11.14%' },
-		                  { text: 'US GASOLINE-20L/$', datafield: 'gasolineLitre', width: '11.14%',editable: false },
-		                  { text: 'US DIESEL-US GALL', datafield: 'dieselGall', width: '11.14%' },
-		                  { text: 'US DIESEL-1 TON', datafield: 'dieselTon', width: '11.14%',editable: false },
-		                  { text: 'US NatGas 1MwH in USD', datafield: 'natgasUsd', width: '11.14%' },
-		                  { text: 'EU NatGas 1MwH in EUR', datafield: 'natgasEur', width: '11.14%' },
+		                  { text: 'CRUDE OIL', datafield: 'oil', width: '11.14%', align: 'center' },
+		                  { text: 'US GAL/GASOLINE', datafield: 'gasolineGall', width: '11.14%' , align: 'center'},
+		                  { text: 'US GAS-20L', datafield: 'gasolineLitre', width: '11.14%',editable: false, align: 'center' },
+		                  { text: 'US GAL/DIESEL', datafield: 'dieselGall', width: '11.14%', align: 'center' },
+		                  { text: 'DIESEL/Ton', datafield: 'dieselTon', width: '11.14%',editable: false, align: 'center' },
+		                  { text: 'US NATGAS', datafield: 'natgasUsd', width: '11.14%', align: 'center' },
+		                  { text: 'EUROZONE NATGAS', datafield: 'natgasEur', width: '11.14%' , align: 'center'},
 	                ]
 	            });
 		       $('#energy-input').on('keydown', function(event) {
@@ -2671,11 +2692,21 @@
 			                selectionmode: 'none',
 			                autoheight: true,
 			                columns: [ 
-			                      { text: '<img height="48" width="48" src="/img/oil.png">', datafield: 'oil', width: '20%' },
-				                  { text: '<img height="48" width="48" src="/img/gazoline.png">', datafield: 'gasgall', width: '20%'},
-				                  { text: '<img height="48" width="48" src="/img/diezel.png">', datafield: 'dieselgall', width: '20%' },
-				                  { text: '<img height="48" width="48" src="/img/natgasUs.png">', datafield: 'natgasus', width: '20%' },
-				                  { text: '<img height="48" width="48" src="/img/natgasEur.png">', datafield: 'natgaseur', width: '20%' }
+			                      { text: '<img height="48" width="48" src="/img/oil.png">', datafield: 'oil', width: '20%' , renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/oil.png"></div><h8 class="font-weight-bold">CRUDE OIL</h8>';
+						        } },
+				                  { text: '<img height="48" width="48" src="/img/gazoline.png">', datafield: 'gasgall', width: '20%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/gazoline.png"></div><h8 class="font-weight-bold">US GAL/GASOLINE</h8>';
+						        } },
+				                  { text: '<img height="48" width="48" src="/img/diezel.png">', datafield: 'dieselgall', width: '20%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/diezel.png"></div><h8 class="font-weight-bold">US GAL/DIESEL</</h8>';
+						        }  },
+				                  { text: '<img height="48" width="48" src="/img/natgasUs.png">', datafield: 'natgasus', width: '20%', renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/natgasUs.png"></div><h8 class="font-weight-bold">US NATGAS</h8>';
+						        }  },
+				                  { text: '<img height="48" width="48" src="/img/natgasEur.png">', datafield: 'natgaseur', width: '20%' , renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/natgasEur.png"></div><h8 class="font-weight-bold">EUROZONE NATGAS</h8>';
+						        } }
 			                ]
 			            });
 					  
@@ -2720,8 +2751,8 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='EditTransportation(" + row + ", event)' id=\"editTransportation"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtonsTransportation"+row+"\" style=\"display:none\"><input  onclick='UpdateTransportation(" + row + ", event)' class=\"update\" type=\"button\" id=\"updateTransportation\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='CancelTransportation(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                    }
 		                  },  
-		                  { text: 'BALTIC DRY INDEX', datafield: 'baltic', width: '39%' },
-		                  { text: '40ft Container', datafield: 'container', width: '39%' }
+		                  { text: 'BALTIC DRY INDEX', datafield: 'baltic', width: '39%', align: 'center' },
+		                  { text: '40ft Container', datafield: 'container', width: '39%' , align: 'center'}
 	                ]
 	            });
 		       $('#transportation-input').on('keydown', function(event) {
@@ -2773,8 +2804,12 @@
 			                selectionmode: 'none',
 			                autoheight: true,
 			                columns: [ 
-			                      { text: '<img height="48" width="48" src="/img/baltic.png">', datafield: 'baltic', width: '50%' },
-				                  { text: '<img height="48" width="48" src="/img/container.png">', datafield: 'cantainer', width: '50%'}
+			                      { text: '<img height="48" width="48" src="/img/baltic.png">', datafield: 'baltic', width: '50%' , renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/baltic.png"></div><h8 class="font-weight-bold">BALTIC DRY INDEX</h8>';
+						        }  },
+				                  { text: '<img height="48" width="48" src="/img/container.png">', datafield: 'cantainer', width: '50%' , renderer: function(text, align, height) {
+						          return '<div><img height="30" width="30" class="img-icon"  src="/img/container.png"></div><h8 class="font-weight-bold">40ft Container</h8>';
+						        } }
 			                ]
 			            });
 					  

@@ -52,14 +52,7 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
- div#overlay {
-    margin: 15% 40%;
-      position: absolute;
-}
-.align-middle{
-    margin: 0 auto;
-    width: fit-content!important;
-}
+
   </style>
 </head>
 
@@ -141,67 +134,57 @@
 					  <div class="col">
 					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
 				<div class="row">
-				<div class="col-7">
+				<div class="col-8 pl-4">
 							<div class="row">
-								    <div class="col-2">
+								    <div class="col text-center">
 								   		 <div class="align-middle">
-								   		 	<img height="48" src="/img/oil.png" class="img-icon" data-toggle="tooltip" title="SPOT CRUDE OIL ">
+								   		 	<img height="48"  width="48" src="/img/oil.png" class="img-icon" data-toggle="tooltip" title="CRUDE OIL ">
 								    	 </div>
+								    	 <h8 class="font-weight-bold">CRUDE OIL</h8>
+								    	 <div id='jqxCheckBoxOil' class="align-middle"></div>
+										 
 								    </div>
-								    <div class="col-2">
+								    <div sec:authorize="hasAuthority('nothing')"  class="col-2 text-center">
 								    	<div class="align-middle">
-								   	 		<img  height="48" src="/img/gazoline.png" class="img-icon" data-toggle="tooltip" title="US GASOLINE - US GALL">
+								   	 		<img  height="48"  width="48" src="/img/gazoline.png" class="img-icon" data-toggle="tooltip" title="US GAL/GASOLINE">
 								   		</div>
+								   		<div id='jqxCheckBoxGASOLINE_GALL' class="align-middle"></div>
 								    </div>
-								     <div class="col-2">
+								     <div class="col text-center">
 								      	<div class="align-middle">	
-								     		<img  height="48" src="/img/gazoline_20.png" class="img-icon" data-toggle="tooltip" title="US GASOLINE - 20L/$">
+								     		<img  height="48"  width="48" src="/img/gazoline_20.png" class="img-icon" data-toggle="tooltip" title="US GAS-20L">
 								    	</div>
+								        <h8 class="font-weight-bold">US GAS-20L</h8>
+								        <div id='jqxCheckBoxGASOLINE_LITRE' class="align-middle"></div>
 								    </div>
-								    <div class="col-2">
+								    <div sec:authorize="hasAuthority('nothing')"  class="col-2">
 								    	<div class="align-middle">	
-								    		<img height="48" src="/img/diezel.png" class="img-icon" data-toggle="tooltip" title="US DIESEL - US GALL">
+								    		<img height="48"  width="48" src="/img/diezel.png" class="img-icon" data-toggle="tooltip" title="US GAL/DIESEL">
 								   		</div>
+								    	<div id='jqxCheckBoxDIESEL_GALL' class="align-middle"></div>
 								    </div>
-								     <div class="col-2">
+								     <div class="col text-center">
 								     	<div class="align-middle">
-								     		<img height="48" src="/img/diezel_ton.png" class="img-icon" data-toggle="tooltip" title="US DIESEL - 1 TON">
+								     		<img height="48"  width="48" src="/img/diezel_ton.png" class="img-icon" data-toggle="tooltip" title="DIESEL/Ton">
 								    	</div>
+								    	<h8 class="font-weight-bold">DIESEL/Ton</h8>
+								    	<div id='jqxCheckBoxDIESEL_TON' class="align-middle"></div>
 								    </div>
-								     <div class="col-2">
+								     <div class="col text-center">
 									     <div class="align-middle">
-									     	<img height="48" src="/img/natgasUs.png" class="img-icon" data-toggle="tooltip" title="US NatGas 1MwH in USD">
+									     	<img height="48"  width="48" src="/img/natgasUs.png" class="img-icon" data-toggle="tooltip" title="US NATGAS">
 										 </div>
+										 <h8 class="font-weight-bold">US NATGAS</h8>
+										  <div id='jqxCheckBoxNATGAS_USD' class="align-middle"></div>
 									 </div>
-								     <div class="col-2">
+								     <div class="col text-center">
 								     	<div class="align-middle">
-								     		<img height="48" src="/img/natgasEur.png" class="img-icon" data-toggle="tooltip" title="EU NatGas 1MwH in EUR">
+								     		<img height="48"  width="48" src="/img/natgasEur.png" class="img-icon" data-toggle="tooltip" title="EUROZONE NATGAS">
 								    	 </div>
+								    	 <h8 class="font-weight-bold">EUROZONE NATGAS</h8>
+								    	 <div id='jqxCheckBoxNATGAS_EUR' class="align-middle"></div>
 								    </div>
 							 </div>
-				            <div class="row">
-				                         <div class="col-2">
-											<div id='jqxCheckBoxOil' class="align-middle"></div>
-										 </div>
-										 <div class="col-2">
-											<div id='jqxCheckBoxGASOLINE_GALL' class="align-middle"></div>
-										</div>
-										 <div class="col-2">
-										    <div id='jqxCheckBoxGASOLINE_LITRE' class="align-middle"v></div>
-										</div>
-										<div class="col-2">
-											<div id='jqxCheckBoxDIESEL_GALL' class="align-middle"></div>
-										 </div>
-										 <div class="col-2">
-											<div id='jqxCheckBoxDIESEL_TON' class="align-middle"></div>
-										</div>
-										 <div class="col-2">
-										    <div id='jqxCheckBoxNATGAS_USD' class="align-middle"></div>
-										</div>
-										<div class="col-2">
-										    <div id='jqxCheckBoxNATGAS_EUR' class="align-middle"></div>
-										</div>
-		                    </div>
                  		</div>
                  		<div class="col-2"></div>
                  		<div class="col-5">

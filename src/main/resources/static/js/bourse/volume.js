@@ -1,6 +1,6 @@
  		 var selectedRow=this;
  		 var monthDate=new Date(); 
-         monthDate.setMonth(monthDate.getMonth() - 1);
+         monthDate.setMonth(monthDate.getMonth()-6);
          var auditUrl;
          var updateUrl;
          var saveUrl;
@@ -107,7 +107,7 @@
 			  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 			  $("#viewall").css("display","block");
 			  $("#viewall").click(function () {
-					popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
+					popupWindow('/bourse/allnews', 'Libvol-View All News', window, 1300, 600);
 				  });
 				  
 			  $('[data-toggle="tooltip"]').tooltip();   
@@ -695,7 +695,8 @@
 	    	    	           break;
 	    	    	           }
 	    	    	         }
-	  						 $('#grid').jqxGrid({source:dataAdapter,
+	  						 $('#grid').jqxGrid({width:data.columns.length>12?'100%':data.columns.length*110,
+								   				 source:dataAdapter,
 	  							                 columns: data.columns});
 	  							                 
 	  					saveFilterHistory(volumeValue,checkedItem);
@@ -773,8 +774,8 @@
 			                    { name: 'Bund2', type: 'string' },
 			                ]; 			
 			 var dataInputGridColumns= [ 
-			                      { text: 'Call Volume', datafield: 'Bund1', width: '50%' },
-				                  { text: 'Put Volume', datafield: 'Bund2', width: '50%'},
+			                      { text: 'Bund - Call Volume', datafield: 'Bund1', width: '50%',cellsalign: 'center', align: 'center' },
+				                  { text: 'Bund - Put Volume', datafield: 'Bund2', width: '50%',cellsalign: 'center', align: 'center'},
 			                ];	  
 			 var defaultData=BundAuditDefaultData;
 			 var fields=[
@@ -788,10 +789,10 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'Calls', datafield: 'bund1', width: '19%' },
-		                  { text: 'Puts', datafield: 'bund2', width: '19%' },
-		                  { text: 'VOLUME', datafield: 'bund1bund2', width: '19%', editable: false,},
-		                  { text: 'C/P RATIO', datafield: 'bund1bund2cp', width: '19%',editable: false, },
+		                  { text: 'Bund - Calls', datafield: 'bund1', width: '19%' ,cellsalign: 'center', align: 'center'},
+		                  { text: 'Bund - Puts', datafield: 'bund2', width: '19%',cellsalign: 'center', align: 'center' },
+		                  { text: 'Bund - VOLUME', datafield: 'bund1bund2', width: '19%', editable: false,cellsalign: 'center', align: 'center'},
+		                  { text: 'Bund - C/P RATIO', datafield: 'bund1bund2cp', width: '19%',editable: false,cellsalign: 'center', align: 'center' },
 	                ];
 			
 		}
@@ -805,8 +806,8 @@
 			                    { name: 'bobl2', type: 'string' }
 			                ]; 			
 			 var dataInputGridColumns= [ 
-			                      { text: 'Call Volume', datafield: 'bobl1', width: '50%' },
-				                  { text: 'Put Volume', datafield: 'bobl2', width: '50%'}
+			                      { text: 'Bobl - Call Volume', datafield: 'bobl1', width: '50%',cellsalign: 'center', align: 'center' },
+				                  { text: 'Bobl - Put Volume', datafield: 'bobl2', width: '50%',cellsalign: 'center', align: 'center'}
 			                ];	  
 			 var defaultData=BoblAuditDefaultData;
 			 var fields=[
@@ -819,9 +820,9 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'Calls', datafield: 'bobl1', width: '25.33%' },
-		                  { text: 'Puts', datafield: 'bobl2', width: '25.33%' },
-		                  { text: 'VOLUME', datafield: 'bobl1Bobl2', width: '25.33%', editable: false,  },
+		                  { text: 'Bobl - Calls', datafield: 'bobl1', width: '25.33%',cellsalign: 'center', align: 'center' },
+		                  { text: 'Bobl - Puts', datafield: 'bobl2', width: '25.33%',cellsalign: 'center', align: 'center' },
+		                  { text: 'Bobl - VOLUME', datafield: 'bobl1Bobl2', width: '25.33%', editable: false,cellsalign: 'center', align: 'center'  },
 		              ];
 			
 			}else
@@ -834,8 +835,8 @@
 			                    { name: 'buxl2', type: 'string' }
 			                ]; 			
 			 var dataInputGridColumns= [ 
-			                      { text: 'Call Volume', datafield: 'buxl1', width: '50%' },
-				                  { text: 'Put Volume', datafield: 'buxl2', width: '50%'}
+			                      { text: 'Buxl - Call Volume', datafield: 'buxl1', width: '50%',cellsalign: 'center', align: 'center' },
+				                  { text: 'Buxl - Put Volume', datafield: 'buxl2', width: '50%',cellsalign: 'center', align: 'center'}
 			                ];	  
 			 var defaultData=BuxlAuditDefaultData;
 			 var fields=[
@@ -848,9 +849,9 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'Calls', datafield: 'buxl1', width: '25.33%' },
-		                  { text: 'Puts', datafield: 'buxl2', width: '25.33%' },
-		                  { text: 'VOLUME', datafield: 'buxl1buxl2', width: '25.33%', editable: false, }
+		                  { text: 'Buxl - Calls', datafield: 'buxl1', width: '25.33%',cellsalign: 'center', align: 'center' },
+		                  { text: 'Buxl - Puts', datafield: 'buxl2', width: '25.33%',cellsalign: 'center', align: 'center' },
+		                  { text: 'Buxl - VOLUME', datafield: 'buxl1buxl2', width: '25.33%', editable: false,cellsalign: 'center', align: 'center' }
 	                ];
 			
 			}else
@@ -863,8 +864,8 @@
 			                    { name: 'shatz2', type: 'string' }
 			                ]; 			
 			 var dataInputGridColumns= [ 
-			                      { text: 'Call Volume', datafield: 'shatz1', width: '50%' },
-				                  { text: 'Put Volume', datafield: 'shatz2', width: '50%'}
+			                      { text: 'Shatz - Call Volume', datafield: 'shatz1', width: '50%',cellsalign: 'center', align: 'center' },
+				                  { text: 'Shatz - Put Volume', datafield: 'shatz2', width: '50%',cellsalign: 'center', align: 'center'}
 			                ];	 
 			
 			var defaultData=ShatzAuditDefaultData;
@@ -878,9 +879,9 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'Calls', datafield: 'shatz1', width: '25.33%' },
-		                  { text: 'Puts', datafield: 'shatz2', width: '25.33%' },
-		                  { text: 'VOLUME', datafield: 'shatz1shatz2', width: '25.33%', editable: false, }
+		                  { text: 'Shatz - Calls', datafield: 'shatz1', width: '25.33%',cellsalign: 'center', align: 'center' },
+		                  { text: 'Shatz - Puts', datafield: 'shatz2', width: '25.33%',cellsalign: 'center', align: 'center' },
+		                  { text: 'Shatz - VOLUME', datafield: 'shatz1shatz2', width: '25.33%', editable: false,cellsalign: 'center', align: 'center' }
 	                ];
 			
 			}else
@@ -896,11 +897,11 @@
 			                    { name: 'euribor5', type: 'string' }
 			                ]; 			
 			 var dataInputGridColumns= [ 
-			                      { text: 'Regular ER', datafield: 'euribor1', width: '20%' },
-				                  { text: '1yr MID', datafield: 'euribor2', width: '20%'},
-				                  { text: '2yr GREEN', datafield: 'euribor3', width: '20%' },
-				                  { text: '3yr BLUE', datafield: 'euribor4', width: '20%'},
-				                  { text: '4yr GOLD', datafield: 'euribor5', width: '20%' }
+			                      { text: 'Regular ER', datafield: 'euribor1', width: '20%',cellsalign: 'center', align: 'center' },
+				                  { text: '1yr MID', datafield: 'euribor2', width: '20%',cellsalign: 'center', align: 'center'},
+				                  { text: '2yr GREEN', datafield: 'euribor3', width: '20%',cellsalign: 'center', align: 'center' },
+				                  { text: '3yr BLUE', datafield: 'euribor4', width: '20%',cellsalign: 'center', align: 'center'},
+				                  { text: '4yr GOLD', datafield: 'euribor5', width: '20%' ,cellsalign: 'center', align: 'center'}
 			                ];	 
 			
 			var defaultData=EuriborAuditDefaultData;
@@ -917,12 +918,12 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'Regular ER', datafield: 'euribor1', width: '12.66%' },
-		                  { text: '1yr MID', datafield: 'euribor2', width: '12.66%' },
-		                  { text: '2yr GREEN', datafield: 'euribor3', width: '12.66%' },
-		                  { text: '3yr BLUE', datafield: 'euribor4', width: '12.66%' },
-		                  { text: '4yr GOLD', datafield: 'euribor5', width: '12.66%' },
-		                  { text: 'All EURIBOR', datafield: 'euribor1euribor2euribor3euribor4euribor5', width: '12.66%', editable: false }
+		                  { text: 'Regular ER', datafield: 'euribor1', width: '12.66%' ,cellsalign: 'center', align: 'center'},
+		                  { text: '1yr MID', datafield: 'euribor2', width: '12.66%',cellsalign: 'center', align: 'center' },
+		                  { text: '2yr GREEN', datafield: 'euribor3', width: '12.66%',cellsalign: 'center', align: 'center' },
+		                  { text: '3yr BLUE', datafield: 'euribor4', width: '12.66%',cellsalign: 'center', align: 'center' },
+		                  { text: '4yr GOLD', datafield: 'euribor5', width: '12.66%' ,cellsalign: 'center', align: 'center'},
+		                  { text: 'All EURIBOR', datafield: 'euribor1euribor2euribor3euribor4euribor5', width: '12.66%', editable: false,cellsalign: 'center', align: 'center' }
 	                ];
 			
 			}

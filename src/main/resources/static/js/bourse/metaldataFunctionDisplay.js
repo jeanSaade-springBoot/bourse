@@ -3,7 +3,7 @@
   var checkedItemid = [];
   var Items = [];
   var monthDate=new Date(); 
-      monthDate.setMonth(monthDate.getMonth() - 3);
+      monthDate.setMonth(monthDate.getMonth() - 6);
   var allitems=["#jqxCheckBoxGold",
 		   		"#jqxCheckBoxPlatinum",
 			    "#jqxCheckBoxSilver",
@@ -17,9 +17,9 @@
  			    "#jqxCheckBoxSugar",
  			    "#jqxCheckBoxWheat",
  			    "#jqxCheckBoxOil",
- 			    "#jqxCheckBoxGASOLINE_GALL",
+ 			   /* "#jqxCheckBoxGASOLINE_GALL",*/
  			    "#jqxCheckBoxGASOLINE_LITRE",
- 			    "#jqxCheckBoxDIESEL_GALL",
+ 			   /* "#jqxCheckBoxDIESEL_GALL",*/
  			    "#jqxCheckBoxDIESEL_TON",
  			    "#jqxCheckBoxNATGAS_USD",
  			    "#jqxCheckBoxNATGAS_EUR",

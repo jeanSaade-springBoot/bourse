@@ -3,7 +3,7 @@
   var checkedItemid = [];
   var Items = [];
   var monthDate=new Date(); 
-      monthDate.setMonth(monthDate.getMonth() - 3);
+      monthDate.setMonth(monthDate.getMonth() - 6);
  var allitems= [ "#jqxCheckBoxBund1",
 				 "#jqxCheckBoxBund2",
 			 	 "#jqxCheckBoxBund1_Bund2",

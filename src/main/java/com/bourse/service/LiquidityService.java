@@ -94,7 +94,7 @@ public class LiquidityService {
 		List lstRowsDt = new ArrayList<String>();
 		HashMap<String,List> hashData = new HashMap<String, List>();
 		 double count = colHash.size();
-		 String columnWidth="7%";
+		 String columnWidth="110";
 		 if(count <= 16)
 		 {
 			 columnWidth=String.valueOf(100/(count-1))+"%"; // 1 to remove the id column size it will not be presented i the grid
@@ -118,7 +118,9 @@ public class LiquidityService {
 			        configColumns.put("text",columnDisplayDesc.equalsIgnoreCase("refer_date")?"Date":columnDisplayDesc);
 			        configColumns.put("datafield",colsName);
 			        configColumns.put("width",columnWidth);
-			       
+			        configColumns.put("cellsalign","center");
+			        configColumns.put("align","center");
+			        
 			        	String[] values = null; int val;
 			         	if (dataFormat!=null)
 			         	{
@@ -168,6 +170,7 @@ public class LiquidityService {
 		    System.out.println("goupid: "+groupId);
 		    System.out.println("subGroupId: "+subGroupId);
 		    System.out.println("description: "+description);
+		    System.out.println("period: "+graphReqDTO.getPeriod());
 		    
 		    config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 		    if (isFunction)
@@ -200,10 +203,11 @@ public class LiquidityService {
 			query.setParameter("subgroupId",graphReqDTO.getSubGroupId1() );
 			
 			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			query.setParameter("dayOrweek",graphReqDTO.getPeriod() );
+			query.setParameter("dayOrweek",(isFunction)?"d":graphReqDTO.getPeriod() );
 			
 			if(isFunction)
-			{query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
+			{
+			 query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
 			 query.setParameter("isFunction",graphReqDTO.getIsFunctionGraph() );
 			
 			 query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);

@@ -7,7 +7,7 @@
          var date;
          var filterDate;
          var monthDate=new Date(); 
-         monthDate.setMonth(monthDate.getMonth() - 1);
+         monthDate.setMonth(monthDate.getMonth() - 6);
          var source;
          var date=new Date();
          var oldDataJson;
@@ -1454,7 +1454,8 @@
 	    	    	           break;
 	    	    	           }
 	    	    	         }
-	  						 $('#grid').jqxGrid({source:dataAdapter,
+	  						 $('#grid').jqxGrid({width:data.columns.length>12?'100%':data.columns.length*110,
+	  						 					 source:dataAdapter,
 	  							                 columns: data.columns});
 	  						 
 	  						
@@ -2127,12 +2128,12 @@
 		                   }
 		                  },  
 	                	  { text: '',editable:false,  datafield: 'factor', width: '8%'},
-		                  { text: 'USA', datafield: 'usa', width: '11.6%' },
-		                  { text: 'Germany', datafield: 'germany', width: '11.6%' },
-		                  { text: 'France', datafield: 'france', width: '11.6%' },
-		                  { text: 'UK', datafield: 'uk', width: '11.6%' },
-		                  { text: 'Italy', datafield: 'italy', width: '11.6%' },
-		                  { text: 'Spain', datafield: 'spain', width: '11.6%' }
+		                  { text: 'USA', datafield: 'usa', width: '11.6%', align: 'center' },
+		                  { text: 'Germany', datafield: 'germany', width: '11.6%', align: 'center' },
+		                  { text: 'France', datafield: 'france', width: '11.6%', align: 'center' },
+		                  { text: 'UK', datafield: 'uk', width: '11.6%', align: 'center' },
+		                  { text: 'Italy', datafield: 'italy', width: '11.6%' , align: 'center'},
+		                  { text: 'Spain', datafield: 'spain', width: '11.6%', align: 'center' }
 	                ]
 	            });
 	            
@@ -2166,12 +2167,12 @@
 		                editmode: 'selectedrow',
 		                columns: [
 		                	  { text: '',editable:false,  datafield: 'factor', width: '14.28%'},
-			                  { text: 'USA', datafield: 'usa', width: '14.28%' },
-			                  { text: 'Germany', datafield: 'germany', width: '14.28%' },
-			                  { text: 'France', datafield: 'france', width: '14.28%' },
-			                  { text: 'UK', datafield: 'uk', width: '14.28%' },
-			                  { text: 'Italy', datafield: 'italy', width: '14.28%' },
-			                  { text: 'Spain', datafield: 'spain', width: '14.28%' }
+			                  { text: 'USA', datafield: 'usa', width: '14.28%', align: 'center' },
+			                  { text: 'Germany', datafield: 'germany', width: '14.28%', align: 'center' },
+			                  { text: 'France', datafield: 'france', width: '14.28%', align: 'center' },
+			                  { text: 'UK', datafield: 'uk', width: '14.28%', align: 'center' },
+			                  { text: 'Italy', datafield: 'italy', width: '14.28%', align: 'center' },
+			                  { text: 'Spain', datafield: 'spain', width: '14.28%', align: 'center' }
 		                ]
 		            });
 		            
@@ -2207,14 +2208,14 @@
 		                editmode: 'selectedrow',
 		                columns: [
 		                	  { text: '',editable:false,  datafield: 'factor', width: '11.11%'},
-			                  { text: '<img height="28" width="28" src="/img/flag/fra-ger.png">', datafield: 'fra_GER', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/ita-ger.png">', datafield: 'ita_GER', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/ita-fra.png">', datafield: 'ita_FRA', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/uk-ger.png">', datafield: 'uk_GER', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/ita-spn.png">', datafield: 'ita_SPN', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/usa-ger.png">', datafield: 'usa_GER', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/usa-uk.png">', datafield: 'usa_UK', width: '11.11%' },
-			                  { text: '<img height="28" width="28" src="/img/flag/spn-ger.png">', datafield: 'spn_GER', width: '11.11%' }
+			                  { text: '<img height="28" width="28" src="/img/flag/fra-ger.png">', datafield: 'fra_GER', width: '11.11%' , align: 'center'},
+			                  { text: '<img height="28" width="28" src="/img/flag/ita-ger.png">', datafield: 'ita_GER', width: '11.11%' , align: 'center'},
+			                  { text: '<img height="28" width="28" src="/img/flag/ita-fra.png">', datafield: 'ita_FRA', width: '11.11%' , align: 'center'},
+			                  { text: '<img height="28" width="28" src="/img/flag/uk-ger.png">', datafield: 'uk_GER', width: '11.11%' , align: 'center'},
+			                  { text: '<img height="28" width="28" src="/img/flag/ita-spn.png">', datafield: 'ita_SPN', width: '11.11%' , align: 'center'},
+			                  { text: '<img height="28" width="28" src="/img/flag/usa-ger.png">', datafield: 'usa_GER', width: '11.11%', align: 'center' },
+			                  { text: '<img height="28" width="28" src="/img/flag/usa-uk.png">', datafield: 'usa_UK', width: '11.11%' , align: 'center'},
+			                  { text: '<img height="28" width="28" src="/img/flag/spn-ger.png">', datafield: 'spn_GER', width: '11.11%' , align: 'center'}
 		                ]
 		            });
 		            
@@ -2518,20 +2519,20 @@
 	                selectionmode: 'none',
 	                editmode: 'selectedrow',
 	                columns: [ 
-		                  { text: 'US BLUECHIP AtoAAA vs 10yr TSYS', datafield: 'usatoaaaUsa', width: '20%' , renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>US BLUECHIP</div><div>AtoAAA vs</div><div>10yr TSYS</div></div>';
+		                  { text: 'US AtoAAA vs 10yr TSYS', datafield: 'usatoaaaUsa', width: '20%' , renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px; "><div>US AtoAAA vs</div><div>10yr TSYS</div></div>';
 						        } },
-		                  { text: 'US HIGHYIELD BtoBBB vs BLUECHIP', datafield: 'usbtobbbUsatoaaa', width: '20%' , renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>US HIGHYIELD</div><div>BtoBBB vs</div><div>BLUECHIP</div></div>';
+		                  { text: 'US BtoBBB vs US AtoAAA', datafield: 'usbtobbbUsatoaaa', width: '20%' , renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px;"><div>US BtoBBB vs</div><div>US AtoAAA</div></div>';
 						        } },
-		                  { text: 'US JUNKBOND CtoCCC vs HIGHYIELD', datafield: 'usctocccUsbtobbb', width: '20%', renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>US JUNKBOND</div><div>CtoCCC vs</div><div>HIGHYIELD</div></div>';
+		                  { text: 'US CtoCCC vs US BtoBBB', datafield: 'usctocccUsbtobbb', width: '20%', renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px;"><div>US CtoCCC vs</div><div>US BtoBBB</div></div>';
 						        } },
-		                  { text: 'EZ BLUECHIP AtoAAA vs 10Y GERMANY', datafield: 'eurozoneatoaaaGermany', width: '20%' , renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>EZ BLUECHIP</div><div>AtoAAA vs</div><div>10Y GERMANY</div></div>';
+		                  { text: 'EZ AtoAAA vs 10Y GERMANY', datafield: 'eurozoneatoaaaGermany', width: '20%' , renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px; "><div>EZ AtoAAA vs</div><div>10Y GERMANY</div></div>';
 						        } },
-		                  { text: 'EZ HIGHYIELD BtoBBB vs BLUECHIP AtoAAA', datafield: 'eurozonebtobbbEurozoneatoaaa', width: '20%' , renderer: function(text, align, height) {
-						          return '<div style="margin-left: 5px; font-size: .75rem;"><div>EZ HIGHYIELD</div><div>BtoBBB vs</div><div>BLUECHIP AtoAAA</div></div>';
+		                  { text: 'EZ BtoBBB vs EZ AtoAAA', datafield: 'eurozonebtobbbEurozoneatoaaa', width: '20%' , renderer: function(text, align, height) {
+						          return '<div style="margin-left: 5px;"><div>EZ BtoBBB vs</div><div>EZ AtoAAA</div></div>';
 						        } }
 	                ]
 	            }); 

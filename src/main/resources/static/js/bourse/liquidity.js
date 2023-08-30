@@ -1,6 +1,6 @@
  		 var selectedRow=this;
  		 var monthDate=new Date(); 
-         monthDate.setMonth(monthDate.getMonth() - 1);
+         monthDate.setMonth(monthDate.getMonth() - 6);
          var auditUrl;
          var updateUrl;
          var saveUrl;
@@ -615,7 +615,8 @@
 	    	    	           break;
 	    	    	           }
 	    	    	         }
-	  						 $('#grid').jqxGrid({source:dataAdapter,
+	  						 $('#grid').jqxGrid({width:data.columns.length>12?'100%':data.columns.length*110,
+	  						 					 source:dataAdapter,
 	  							                 columns: data.columns});
 	  							                 
 	  					saveFilterHistory(liquidityValue,checkedItem);
@@ -695,8 +696,8 @@
 			                    { name: 'excess4', type: 'string' }
 			                ]; 			
 			 var dataInputGridColumns= [ 
-			                      { text: 'OVERNIGHT DEPOSITS at the ECB', datafield: 'excess1', width: '25%' },
-				                  { text: 'CURRENT ACCOUNT HOLDINGS', datafield: 'excess2', width: '25%'},
+			                      { text: 'OVERNIGHT DEPOSITS', datafield: 'excess1', width: '25%' },
+				                  { text: 'CURRENT ACCOUNT', datafield: 'excess2', width: '25%'},
 				                  { text: 'RESERVE REQUIREMENTS', datafield: 'excess3', width: '25%' },
 				                  { text: 'EMERGENCY LENDING', datafield: 'excess4', width: '25%' }
 			                ];	  
@@ -713,11 +714,11 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'OVERNIGHT DEPOSITS at the ECB', datafield: 'excess1', width: '15.2%' },
-		                  { text: 'CURRENT ACCOUNT HOLDINGS', datafield: 'excess2', width: '15.2%' },
-		                  { text: 'RESERVE REQUIREMENTS', datafield: 'excess3', width: '15.2%' },
-		                  { text: 'EMERGENCY LENDING', datafield: 'excess4', width: '15.2%', },
-		                  { text: 'EXCESS LIQUIDITY', datafield: 'excess1Excess2Excess3Excess4', width: '15.2%', editable: false, },
+		                  { text: 'OVERNIGHT DEPOSITS', datafield: 'excess1', width: '15.2%' ,cellsalign: 'center', align: 'center'},
+		                  { text: 'CURRENT ACCOUNT', datafield: 'excess2', width: '15.2%',cellsalign: 'center', align: 'center' },
+		                  { text: 'RESERVE REQUIREMENTS', datafield: 'excess3', width: '15.2%',cellsalign: 'center', align: 'center' },
+		                  { text: 'EMERGENCY LENDING', datafield: 'excess4', width: '15.2%',cellsalign: 'center', align: 'center' },
+		                  { text: 'EXCESS LIQUIDITY', datafield: 'excess1Excess2Excess3Excess4', width: '15.2%', editable: false,cellsalign: 'center', align: 'center' },
 	                ];
 			
 		}
@@ -748,12 +749,12 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'ECB MONTHLY sovering bond QE', datafield: 'qe1', width: '12.66%' },
-		                  { text: 'ECB MONTHLY corporate bond QE', datafield: 'qe2', width: '12.66%' },
-		                  { text: 'ECB MONTHLY QE', datafield: 'qe1Qe2', width: '12.66%', editable: false,  },
-		                  { text: 'ECB CUMULATIVE sovereign bond QE', datafield: 'cumQe1', width: '12.66%', editable: false,  },
-		                  { text: 'ECB CUMULATIVE corporate bonds QE', datafield: 'cumQe2', width: '12.66%', editable: false, },
-	               		  { text: 'ECB CUMULATIVE QE', datafield: 'cumQe1Qe2', width: '12.66%', editable: false, },
+		                  { text: 'ECB MONTHLY sovering bond QE', datafield: 'qe1', width: '12.66%',cellsalign: 'center', align: 'center' },
+		                  { text: 'ECB MONTHLY corporate bond QE', datafield: 'qe2', width: '12.66%' ,cellsalign: 'center', align: 'center'},
+		                  { text: 'ECB MONTHLY QE', datafield: 'qe1Qe2', width: '12.66%', editable: false,cellsalign: 'center', align: 'center'  },
+		                  { text: 'ECB CUMULATIVE sovereign bond QE', datafield: 'cumQe1', width: '12.66%', editable: false,cellsalign: 'center', align: 'center'  },
+		                  { text: 'ECB CUMULATIVE corporate bonds QE', datafield: 'cumQe2', width: '12.66%', editable: false,cellsalign: 'center', align: 'center' },
+	               		  { text: 'ECB CUMULATIVE QE', datafield: 'cumQe1Qe2', width: '12.66%', editable: false,cellsalign: 'center', align: 'center' },
 	                ];
 			
 			}else
@@ -785,10 +786,10 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'M0', datafield: 'm0', width: '19%' },
-		                  { text: 'M1', datafield: 'm1', width: '19%' },
-		                  { text: 'M2', datafield: 'm2', width: '19%' },
-		                  { text: 'M3', datafield: 'm3', width: '19%' }
+		                  { text: 'M0', datafield: 'm0', width: '19%',cellsalign: 'center', align: 'center' },
+		                  { text: 'M1', datafield: 'm1', width: '19%',cellsalign: 'center', align: 'center' },
+		                  { text: 'M2', datafield: 'm2', width: '19%',cellsalign: 'center', align: 'center' },
+		                  { text: 'M3', datafield: 'm3', width: '19%',cellsalign: 'center', align: 'center' }
 	                ];
 			
 			}else
@@ -809,11 +810,11 @@
                 ];
              var arrayOFcolumns= [ 
 	                	  
-		                  { text: 'US  BLUECHIP/TSYS', datafield: 'avgUsatoaaaUsa', width: '20%' },
-		                  { text: 'US  HIGHYIELD / BLUECHIP', datafield: 'avgUsbtobbbUsatoaaa', width: '20%' },
-		                  { text: 'US JUNKBONDS / HIGHYIELD', datafield: 'avgUsctocccUsbtobbb', width: '20%' },
-		                  { text: 'EZ BLUECHIP 10Y GERMANY', datafield: 'avgEurozoneatoaaaGermany', width: '20%' },
-		                  { text: 'EZ HIGHYIELD/ BLUECHIP', datafield: 'avgEurozonebtobbbEurozoneatoaaa', width: '20%' }
+		                  { text: 'US  BLUECHIP/TSYS', datafield: 'avgUsatoaaaUsa', width: '20%',cellsalign: 'center', align: 'center' },
+		                  { text: 'US  HIGHYIELD / BLUECHIP', datafield: 'avgUsbtobbbUsatoaaa', width: '20%',cellsalign: 'center', align: 'center' },
+		                  { text: 'US JUNKBONDS / HIGHYIELD', datafield: 'avgUsctocccUsbtobbb', width: '20%',cellsalign: 'center', align: 'center' },
+		                  { text: 'EZ BLUECHIP 10Y GERMANY', datafield: 'avgEurozoneatoaaaGermany', width: '20%',cellsalign: 'center', align: 'center' },
+		                  { text: 'EZ HIGHYIELD/ BLUECHIP', datafield: 'avgEurozonebtobbbEurozoneatoaaa', width: '20%',cellsalign: 'center', align: 'center' }
 	                ];
 			
 			}
