@@ -714,6 +714,15 @@ function drawGraph() {
 				    nbrOfDigits=yaxisformat0[0];
 					
 					chart.updateOptions({
+						series:[{
+						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
+						type:Period=='d' ? chartType1 : 'column',
+						data: response[0].graphResponseDTOLst
+					}, {
+						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
+						type:Period=='d' ? chartType2 : 'column',
+						data: response[1].graphResponseDTOLst
+					}],
 						extra: {
 							isDecimal: isdecimal,
 							yAxisFormat: yaxisformat,
@@ -772,15 +781,6 @@ function drawGraph() {
 							},
 						}
 					});
-					chart.updateSeries([{
-						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-						type:Period=='d' ? chartType1 : 'column',
-						data: response[0].graphResponseDTOLst
-					}, {
-						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-						type:Period=='d' ? chartType2 : 'column',
-						data: response[1].graphResponseDTOLst
-					}])
 					$('#overlayChart').hide();
 				},
 				error: function(e) {

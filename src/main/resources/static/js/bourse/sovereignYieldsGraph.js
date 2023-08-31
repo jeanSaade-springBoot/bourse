@@ -1627,6 +1627,33 @@ function drawGraph() {
 				notDecimal=yaxisformat0[1];
 				nbrOfDigits=yaxisformat0[0];
 				chart.updateOptions({
+					series:[{
+					name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
+					type:Period=='d' ? chartType1 : 'column',
+					data: response[0].graphResponseDTOLst
+				}, {
+					name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
+					type:Period=='d' ? chartType2 : 'column',
+					data: response[1].graphResponseDTOLst
+				},
+				{
+					name: response[2].config != null ? (response[2].config.displayDescription == null ? '' : response[2].config.displayDescription) : '',
+					type: Period=='d' ? chartType3 : 'column',
+					data: response[2].graphResponseDTOLst
+				}, {
+					name: response[3].config != null ? (response[3].config.displayDescription == null ? '' : response[3].config.displayDescription) : '',
+					type: Period=='d' ? chartType4 : 'column',
+					data: response[3].graphResponseDTOLst
+				},
+				{
+					name: response[4].config != null ? (response[4].config.displayDescription == null ? '' : response[4].config.displayDescription) : '',
+					type: Period=='d' ? chartType5 : 'column',
+					data: response[4].graphResponseDTOLst
+				}, {
+					name: response[5].config != null ? (response[5].config.displayDescription == null ? '' : response[5].config.displayDescription) : '',
+					type: Period=='d' ? chartType6 : 'column',
+					data: response[5].graphResponseDTOLst
+				}],
 					extra: {
 						isDecimal: isdecimal,
 						yAxisFormat: yaxisformat,
@@ -1709,33 +1736,6 @@ function drawGraph() {
 					}
 				});
 
-				chart.updateSeries([{
-					name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-					type:Period=='d' ? chartType1 : 'column',
-					data: response[0].graphResponseDTOLst
-				}, {
-					name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-					type:Period=='d' ? chartType2 : 'column',
-					data: response[1].graphResponseDTOLst
-				},
-				{
-					name: response[2].config != null ? (response[2].config.displayDescription == null ? '' : response[2].config.displayDescription) : '',
-					type: Period=='d' ? chartType3 : 'column',
-					data: response[2].graphResponseDTOLst
-				}, {
-					name: response[3].config != null ? (response[3].config.displayDescription == null ? '' : response[3].config.displayDescription) : '',
-					type: Period=='d' ? chartType4 : 'column',
-					data: response[3].graphResponseDTOLst
-				},
-				{
-					name: response[4].config != null ? (response[4].config.displayDescription == null ? '' : response[4].config.displayDescription) : '',
-					type: Period=='d' ? chartType5 : 'column',
-					data: response[4].graphResponseDTOLst
-				}, {
-					name: response[5].config != null ? (response[5].config.displayDescription == null ? '' : response[5].config.displayDescription) : '',
-					type: Period=='d' ? chartType6 : 'column',
-					data: response[5].graphResponseDTOLst
-				}]);
 
 				$('#overlayChart').hide();
 
@@ -2049,6 +2049,15 @@ function drawGraph() {
 					 var valueMax1 = getMarginLenght(max); 
 					
 					chart.updateOptions({
+						series:[{
+						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
+						type:Period=='d' ? chartType1 : 'column',
+						data: response[0].graphResponseDTOLst
+					}, {
+						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
+						type:Period=='d' ? chartType2 : 'column',
+						data: response[1].graphResponseDTOLst
+					}],
 						extra: {
 							isDecimal: isdecimal,
 							yAxisFormat: yaxisformat,
@@ -2107,15 +2116,6 @@ function drawGraph() {
 							},
 						}
 					});
-					chart.updateSeries([{
-						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-						type:Period=='d' ? chartType1 : 'column',
-						data: response[0].graphResponseDTOLst
-					}, {
-						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-						type:Period=='d' ? chartType2 : 'column',
-						data: response[1].graphResponseDTOLst
-					}])
 					$('#overlayChart').hide();
 				},
 				error: function(e) {
@@ -2270,6 +2270,20 @@ function drawGraph() {
 						nbrOfDigits=yaxisformat[0];
 						
 						chart.updateOptions({
+							series:[{
+							name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
+							type:Period=='d' ? chartType1 : 'column',
+							data: response[0].graphResponseDTOLst
+						}, {
+							name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
+							type:Period=='d' ? chartType2 : 'column',
+							data: response[1].graphResponseDTOLst
+						}
+							, {
+							name: response[2].config != null ? (response[2].config.displayDescription == null ? '' : response[2].config.displayDescription) : '',
+							type: Period=='d' ? chartType3 : 'column',
+							data: response[2].graphResponseDTOLst
+						}],
 							extra: {
 								isDecimal: isdecimal,
 								yAxisFormat: yaxisformat,
@@ -2334,20 +2348,6 @@ function drawGraph() {
 							}
 						});
 
-						chart.updateSeries([{
-							name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-							type:Period=='d' ? chartType1 : 'column',
-							data: response[0].graphResponseDTOLst
-						}, {
-							name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-							type:Period=='d' ? chartType2 : 'column',
-							data: response[1].graphResponseDTOLst
-						}
-							, {
-							name: response[2].config != null ? (response[2].config.displayDescription == null ? '' : response[2].config.displayDescription) : '',
-							type: Period=='d' ? chartType3 : 'column',
-							data: response[2].graphResponseDTOLst
-						}])
 						$('#overlayChart').hide();
 					},
 					error: function(e) {
@@ -2505,6 +2505,24 @@ function drawGraph() {
 					 		nbrOfDigits=yaxisformat0[0];
 					 		
 							chart.updateOptions({
+								series:[{
+								name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
+								type:Period=='d' ? chartType1 : 'column',
+								data: response[0].graphResponseDTOLst
+							}, {
+								name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
+								type:Period=='d' ? chartType2 : 'column',
+								data: response[1].graphResponseDTOLst
+							}, {
+								name: response[2].config != null ? (response[2].config.displayDescription == null ? '' : response[2].config.displayDescription) : '',
+								type: Period=='d' ? chartType3 : 'column',
+								data: response[2].graphResponseDTOLst
+							}
+								, {
+								name: response[3].config != null ? (response[3].config.displayDescription == null ? '' : response[3].config.displayDescription) : '',
+								type: Period=='d' ? chartType4 : 'column',
+								data: response[3].graphResponseDTOLst
+							}],
 								extra: {
 									isDecimal: isdecimal,
 									yAxisFormat: yaxisformat,
@@ -2575,25 +2593,6 @@ function drawGraph() {
 								}
 							});
 
-
-							chart.updateSeries([{
-								name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-								type:Period=='d' ? chartType1 : 'column',
-								data: response[0].graphResponseDTOLst
-							}, {
-								name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-								type:Period=='d' ? chartType2 : 'column',
-								data: response[1].graphResponseDTOLst
-							}, {
-								name: response[2].config != null ? (response[2].config.displayDescription == null ? '' : response[2].config.displayDescription) : '',
-								type: Period=='d' ? chartType3 : 'column',
-								data: response[2].graphResponseDTOLst
-							}
-								, {
-								name: response[3].config != null ? (response[3].config.displayDescription == null ? '' : response[3].config.displayDescription) : '',
-								type: Period=='d' ? chartType4 : 'column',
-								data: response[3].graphResponseDTOLst
-							}])
 							$('#overlayChart').hide();
 						},
 						error: function(e) {

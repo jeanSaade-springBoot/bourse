@@ -3202,6 +3202,11 @@
 									 nbrOfDigits=yaxisformat[0];
 									 
 				      	    	     chart.updateOptions({
+										   series:[{
+									          name: title,
+									          type: chartType1,
+									          data: response[0].graphResponseDTOLst
+									        }],
 				      	    	    		 stroke: {
 				      	    	 		      colors: chartType1=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],
 				      	    	 	        },
@@ -3254,11 +3259,6 @@
 			    					      },
 			    						}
 			      	    	    		});
-		      	    	          chart.updateSeries([{
-							          name: title,
-							          type: chartType1,
-							          data: response[0].graphResponseDTOLst
-							        }])
 							        $('#overlayChart').hide();
 		      	   },
 		      	    	        error: function (e) {
