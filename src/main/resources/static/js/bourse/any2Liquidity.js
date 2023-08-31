@@ -1296,6 +1296,11 @@
 	      	    	     notDecimal=yaxisformat[1];
 				         nbrOfDigits=yaxisformat[0];
 	      	    	    	chart1.updateOptions({
+								  series:[{
+							          name: itemValue[checkedItemValues[0]].title,
+							          type: chartType1,
+							          data: response[0].graphResponseDTOLst
+							        }],
 	      	    	    	  extra:{
 									isDecimal: isdecimal,
 									yAxisFormat:yaxisformat,
@@ -1340,11 +1345,6 @@
   					      },
   						}
     	    	    		});
-		      	    	   chart1.updateSeries([{
-							          name: itemValue[checkedItemValues[0]].title,
-							          type: chartType1,
-							          data: response[0].graphResponseDTOLst
-							        }]);
 							    
 		      	    	 $('#overlayChart1').hide();  
 		      					    
@@ -1584,6 +1584,11 @@
 				      	    	     notDecimal=yaxisformat[1];
 								     nbrOfDigits=yaxisformat[0];
 				      	    	    	chart2.updateOptions({
+										 series:[{
+								          name: itemValue[checkedItemValues[1]].title,
+								          type: chartType2,
+								          data: response[0].graphResponseDTOLst
+								        }],
 				      	    	    	  extra:{
 												isDecimal: isdecimal,
 												yAxisFormat:yaxisformat,
@@ -1629,11 +1634,6 @@
 			    					      },
 			    						}
 			      	    	    		});
-			      	    	   chart2.updateSeries([{
-								          name: itemValue[checkedItemValues[1]].title,
-								          type: chartType2,
-								          data: response[0].graphResponseDTOLst
-								        }])
 								        $('#overlayChart2').hide();
 			      	   },
 			      	    	        error: function (e) {
