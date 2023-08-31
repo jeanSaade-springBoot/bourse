@@ -804,7 +804,6 @@ var chartOption = {
 								          }	 
 					        	  },
    	  			           type: typeof hasMissingDates !='undefined'?hasMissingDates?'datetime':'category':'category',
-	   	  			        tickAmount: 19,
 						    axisBorder: {
 							  show: true,
 							  color: '#ffffff',
@@ -846,6 +845,7 @@ var chartOption = {
 			              },
 			        }],
    	  			        };
+   	  			       
    	  			        return chartOption;
    	  			        }
  var chartoptionsWeekly = {

@@ -6271,9 +6271,9 @@
 					} else t = i.globals.gridWidth / o.length, n = n + t + i.config.xaxis.labels.offsetX;
 					if (i.config.xaxis.labels.show)
 					{
-						
+						debugger;
 						var counter= 0;
-						var v2=1;
+						
 					  for (var d = function (s) {
 								var l = n - t / 2 + i.config.xaxis.labels.offsetX;
 								0 === s && 1 === h && t / 2 === n && 1 === i.globals.dataPoints && (l = i.globals.gridWidth / 2);
@@ -6282,17 +6282,14 @@
 								i.globals.rotateXLabels && (d = 22);
 								(c = void 0 !== i.config.xaxis.tickAmount && "dataPoints" !== i.config.xaxis.tickAmount && "datetime" !== i.config.xaxis.type ? e.axesUtils.checkLabelBasedOnTickamount(s, c, h) : e.axesUtils.checkForOverflowingLabels(s, c, h, e.drawnLabels, e.drawnLabelsRects)).text && i.globals.xaxisLabelsCount++;
 								
-							var v1 = o.length/25;
-						
+							
+						    var step = Math.ceil(o.length / ((i.config.chart.width===543)?10:25));
 							counter++;
-						if (counter>=v2)
-						{
-							v2=v2+v1;
-						}
-						else {
-							 c.text='';
-						}
-						
+								
+							if (counter % step !== 0) {
+						        c.text='';
+						    } 
+								
 							/*	if (o.length%20)
 								{
 								if (i.globals.xaxisLabelsCount%5!=0)
@@ -6815,6 +6812,7 @@
 			}, {
 				key: "linearScale",
 				value: function (t, e) {
+				
 					var p=20;
 					var i = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : 10,
 						a = Math.abs(e - t),

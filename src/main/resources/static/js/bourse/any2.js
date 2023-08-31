@@ -4257,8 +4257,8 @@
 	      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
 	      	    		    chartDbFontSize = response[0].config.chartSize;
 	      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
-  	    	          	  
-	      	    	       chart1.updateOptions(getSubChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+  	    	          	 
+	      	    	         chart1.updateOptions(getSubChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    
 	      	    	
 	      	    	     if (chartType1=='area')
