@@ -147,6 +147,7 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 	
 	if (SelectedchartType=='area')
       chart.updateOptions({
+		     series:[{ type:SelectedchartType}],
 		     legend: {
 						   show:eval(selectedChartLegend.split('legend')[1]),
 		   	  			   fontSize: fontsize,
@@ -244,7 +245,8 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
     		});
 		else 
    		chart.updateOptions({
-	      legend: {
+			    series:[{ type:SelectedchartType}],
+	            legend: {
 						   show:eval(selectedChartLegend.split('legend')[1]),
 		   	  			   fontSize: fontsize,
 			        	   showForSingleSeries: true,
@@ -331,7 +333,6 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 		       size: selectedChartMarker,
 		     }
 		 });
-	chart.updateSeries([{ type:SelectedchartType}]);
 }
 function updateGraphConfigurationMissingConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
 {  // console.log(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
@@ -346,6 +347,7 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 	
 	if (SelectedchartType=='area')
       chart.updateOptions({
+		     series:[{ type:SelectedchartType}],
 		     legend: {
 						   show:eval(selectedChartLegend.split('legend')[1]),
 		   	  			   fontSize: fontsize,
@@ -444,7 +446,8 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
     		});
 		else 
    		chart.updateOptions({
-	      legend: {
+			    series:[{ type:SelectedchartType}],
+	            legend: {
 						   show:eval(selectedChartLegend.split('legend')[1]),
 		   	  			   fontSize: fontsize,
 			        	   showForSingleSeries: true,
@@ -532,7 +535,6 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 		       size: selectedChartMarker,
 		     }
 		 });
-	chart.updateSeries([{ type:SelectedchartType}]);
 }
 function graphTypeOption(chartType)
 {
@@ -784,7 +786,7 @@ function getChartPeriodName(){
 $('#groupOfPeriod').on('selected', function () { 
 	
 	var selected = $('#groupOfPeriod').jqxButtonGroup('getSelection');
-	if (selected==0)
+	/*if (selected==0)
 	 {
 		 $("#dropDownType").jqxDropDownList({ disabled: true }); 
 		 $("#dropDownFunctions").jqxDropDownList({ disabled: false }); 
@@ -795,7 +797,7 @@ $('#groupOfPeriod').on('selected', function () {
 		$("#dropDownType").jqxDropDownList({ disabled: false });
 		$("#dropDownFunctions").jqxDropDownList({selectedIndex: -1}); 
 		$("#dropDownFunctions").jqxDropDownList({ disabled: true }); 
-     }
+     }*/
 }); 
 
 

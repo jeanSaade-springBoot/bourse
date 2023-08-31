@@ -1336,8 +1336,17 @@ function getMarginLenght(value) {
 			 var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
 				//		console.log(chartConfigSettings.fontSize,chartConfigSettings.min1,chartConfigSettings.max1,chartConfigSettings.min2,chartConfigSettings.max2,valueMin,valueMin1,valueMax,valueMax1)
 			     if(chartConfigSettings.functionId==1 || chartConfigSettings.functionId==2)
-			     {
-					 chart.updateOptions({
+			     { 
+					 chart.updateOptions({ 
+						series: [{
+							name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
+							type:'area',
+							data: chartConfigSettings.response[0].graphResponseDTOLst
+						}, {
+							name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
+							type:chartConfigSettings.Period=='d' ? chartConfigSettings.chartType2 : 'column',
+							data: chartConfigSettings.response[1].graphResponseDTOLst
+						}],
   	    	    	  extra:{
 							isDecimal: chartConfigSettings.isDecimal,
 							yAxisFormat:chartConfigSettings.yAxisFormat0[1],
@@ -1403,20 +1412,20 @@ function getMarginLenght(value) {
 						}
     	    		}); 
     	    		
-					chart.updateSeries([{
-						name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-						type:'area',
-						data: chartConfigSettings.response[0].graphResponseDTOLst
-					}, {
-						name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
-						type:chartConfigSettings.Period=='d' ? chartConfigSettings.chartType2 : 'column',
-						data: chartConfigSettings.response[1].graphResponseDTOLst
-					}]);
 					
 				 }
 			      else if(chartConfigSettings.functionId>=7)
   	    	    	{
 					 chart.updateOptions({
+						 series:[{
+							name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
+							type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
+							data: chartConfigSettings.response[0].graphResponseDTOLst
+						}, {
+							name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
+							type: 'column',
+							data: chartConfigSettings.response[1].graphResponseDTOLst
+						}],
   	    	    	  extra:{
 							isDecimal: chartConfigSettings.isDecimal,
 							yAxisFormat:chartConfigSettings.yAxisFormat,
@@ -1504,18 +1513,18 @@ function getMarginLenght(value) {
 								}
     	    		}); 
     	    		
-					chart.updateSeries([{
-						name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-						type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
-						data: chartConfigSettings.response[0].graphResponseDTOLst
-					}, {
-						name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
-						type: 'column',
-						data: chartConfigSettings.response[1].graphResponseDTOLst
-					}]);
 				}else  {
 				     var selectedValue = Math.abs(chartConfigSettings.min2)>=Math.abs(chartConfigSettings.max2)?Math.abs(min2):Math.abs(max2);
 					 chart.updateOptions({
+						series:[{
+								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
+								type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
+								data: chartConfigSettings.response[0].graphResponseDTOLst
+							}, {
+								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
+								type: 'column',
+								data: chartConfigSettings.response[1].graphResponseDTOLst
+							}],
   	    	    	  extra:{
 							isDecimal: chartConfigSettings.isDecimal,
 							yAxisFormat:chartConfigSettings.yAxisFormat,
@@ -1623,15 +1632,6 @@ function getMarginLenght(value) {
 							}
     	    		}); 
     	    		
-					chart.updateSeries([{
-						name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-						type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
-						data: chartConfigSettings.response[0].graphResponseDTOLst
-					}, {
-						name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
-						type: 'column',
-						data: chartConfigSettings.response[1].graphResponseDTOLst
-					}]);
 				}
 }
  function updateChartByFunctionIdMissingDates(chartConfigSettings){
@@ -1643,6 +1643,15 @@ function getMarginLenght(value) {
 			     if(chartConfigSettings.functionId==1 || chartConfigSettings.functionId==2)
 			     {
 					 chart.updateOptions({
+						 series:[{
+								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
+								type:'area',
+								data: chartConfigSettings.response[0].graphResponseDTOLst
+							}, {
+								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
+								type:chartConfigSettings.Period=='d' ? chartConfigSettings.chartType2 : 'column',
+								data: chartConfigSettings.response[1].graphResponseDTOLst
+							}],
 						 xaxis: {
 									labels: {
 										rotate: -70,
@@ -1735,20 +1744,20 @@ function getMarginLenght(value) {
 						}
     	    		}); 
     	    		
-					chart.updateSeries([{
-						name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-						type:'area',
-						data: chartConfigSettings.response[0].graphResponseDTOLst
-					}, {
-						name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
-						type:chartConfigSettings.Period=='d' ? chartConfigSettings.chartType2 : 'column',
-						data: chartConfigSettings.response[1].graphResponseDTOLst
-					}]);
 					
 				 }
 			      else if(chartConfigSettings.functionId>=7)
   	    	    	{
 					 chart.updateOptions({
+						 series:[{
+								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
+								type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
+								data: chartConfigSettings.response[0].graphResponseDTOLst
+							}, {
+								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
+								type: 'column',
+								data: chartConfigSettings.response[1].graphResponseDTOLst
+							}],
 						 xaxis: {
 									labels: {
 										rotate: -70,
@@ -1863,18 +1872,18 @@ function getMarginLenght(value) {
 								}
     	    		}); 
     	    		
-					chart.updateSeries([{
-						name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-						type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
-						data: chartConfigSettings.response[0].graphResponseDTOLst
-					}, {
-						name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
-						type: 'column',
-						data: chartConfigSettings.response[1].graphResponseDTOLst
-					}]);
 				}else  {
 				     var selectedValue = Math.abs(chartConfigSettings.min2)>=Math.abs(chartConfigSettings.max2)?Math.abs(min2):Math.abs(max2);
 					 chart.updateOptions({
+						 series:[{
+								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
+								type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
+								data: chartConfigSettings.response[0].graphResponseDTOLst
+							}, {
+								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
+								type: 'column',
+								data: chartConfigSettings.response[1].graphResponseDTOLst
+							}],
 						 xaxis: {
 									labels: {
 										rotate: -70,
@@ -2009,15 +2018,6 @@ function getMarginLenght(value) {
 							}
     	    		}); 
     	    		
-					chart.updateSeries([{
-						name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-						type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
-						data: chartConfigSettings.response[0].graphResponseDTOLst
-					}, {
-						name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
-						type: 'column',
-						data: chartConfigSettings.response[1].graphResponseDTOLst
-					}]);
 				}
 }
 
@@ -2030,6 +2030,11 @@ function updateChartSelectedItem(chartConfigSettings){
 			 		 var valueMax = getMarginLenght(chartConfigSettings.max);  				 	
 							
 							chart.updateOptions({
+								series:[{
+								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
+								type: chartConfigSettings.chartType1,
+								data: chartConfigSettings.response[0].graphResponseDTOLst
+							}],
 								stroke: {
 									colors: chartConfigSettings.chartType1 == "area" ? ["#ffffff"] : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
 								},
@@ -2082,11 +2087,7 @@ function updateChartSelectedItem(chartConfigSettings){
 									},
 								}
 							});
-							chart.updateSeries([{
-								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-								type: chartConfigSettings.chartType1,
-								data: chartConfigSettings.response[0].graphResponseDTOLst
-							}]);
+							
 
 				}
 				else if(chartConfigSettings.checkedItem ==2 )
@@ -2097,6 +2098,15 @@ function updateChartSelectedItem(chartConfigSettings){
 						 var valueMax2 = getMarginLenght(chartConfigSettings.max2); 
 						 
       	    	    	chart.updateOptions({
+							  series:[{
+							          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
+							          type: chartConfigSettings.chartType1,
+							          data: chartConfigSettings.response[0].graphResponseDTOLst
+							        },{
+							          name: chartConfigSettings.response[1].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[1]].title:chartConfigSettings.response[1].config.displayDescription,
+							          type: chartConfigSettings.chartType2,
+							          data: chartConfigSettings.response[1].graphResponseDTOLst
+							        }],
       	    	    	  extra:{
 								isDecimal: chartConfigSettings.isdecimal,
 								yAxisFormat:chartConfigSettings.yaxisformat,
@@ -2181,17 +2191,9 @@ function updateChartSelectedItem(chartConfigSettings){
 					    							          },
 					    					      },
 					    						}
-				      	    	    		});     
-			      	    	           
-		      	    	          chart.updateSeries([{
-							          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
-							          type: chartConfigSettings.chartType1,
-							          data: chartConfigSettings.response[0].graphResponseDTOLst
-							        },{
-							          name: chartConfigSettings.response[1].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[1]].title:chartConfigSettings.response[1].config.displayDescription,
-							          type: chartConfigSettings.chartType2,
-							          data: chartConfigSettings.response[1].graphResponseDTOLst
-							        }])
+				      	    	    		},
+				      	    	    		);     
+			      	    	        
 				}
 }
 
@@ -2218,6 +2220,11 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 			 		 var valueMax = getMarginLenght(chartConfigSettings.max);  				 	
 							
 							chart.updateOptions({
+								series:[{
+										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
+										type: chartConfigSettings.chartType1,
+										data: chartConfigSettings.response[0].graphResponseDTOLst
+									}],
 									xaxis: {
 									labels: {
 										rotate: -70,
@@ -2297,11 +2304,6 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 									},
 								}
 							});
-							chart.updateSeries([{
-								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-								type: chartConfigSettings.chartType1,
-								data: chartConfigSettings.response[0].graphResponseDTOLst
-							}]);
 
 				}
 				else if(chartConfigSettings.checkedItem ==2 )
@@ -2312,6 +2314,15 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 						 var valueMax2 = getMarginLenght(chartConfigSettings.max2); 
 						 
       	    	    	chart.updateOptions({
+						  series:[{
+						          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
+						          type: chartConfigSettings.chartType1,
+						          data: chartConfigSettings.response[0].graphResponseDTOLst
+						        },{
+						          name: chartConfigSettings.response[1].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[1]].title:chartConfigSettings.response[1].config.displayDescription,
+						          type: chartConfigSettings.chartType2,
+						          data: chartConfigSettings.response[1].graphResponseDTOLst
+						        }],
       	    	    	  extra:{
 								isDecimal: chartConfigSettings.isdecimal,
 								yAxisFormat:chartConfigSettings.yaxisformat,
@@ -2398,15 +2409,6 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 					    						}
 				      	    	    		});     
 			      	    	           
-		      	    	          chart.updateSeries([{
-							          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
-							          type: chartConfigSettings.chartType1,
-							          data: chartConfigSettings.response[0].graphResponseDTOLst
-							        },{
-							          name: chartConfigSettings.response[1].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[1]].title:chartConfigSettings.response[1].config.displayDescription,
-							          type: chartConfigSettings.chartType2,
-							          data: chartConfigSettings.response[1].graphResponseDTOLst
-							        }])
 				}
 }
 
