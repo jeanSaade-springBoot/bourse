@@ -6271,7 +6271,7 @@
 					} else t = i.globals.gridWidth / o.length, n = n + t + i.config.xaxis.labels.offsetX;
 					if (i.config.xaxis.labels.show)
 					{
-						debugger;
+						//mmn changes for specific ammount of xaxis
 						var counter= 0;
 						
 					  for (var d = function (s) {
