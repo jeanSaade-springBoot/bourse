@@ -6036,11 +6036,26 @@
 				}
 			}, {
 				key: "checkLabelBasedOnTickamount",
-				value: function (t, e, i) {
+				/*value: function (t, e, i) {
 					var a = this.w,
 						s = a.config.xaxis.tickAmount;
+						console.log(' -- type: '+ a.config.xaxis.tickAmount+' tickAmount: '+ a.config.xaxis.tickAmount)
 					return "dataPoints" === s && (s = Math.round(a.globals.gridWidth / 120)), s > i || t % Math.round(i / (s + 1)) == 0 || (e.text = ""), e
-				}
+				}*/
+				// mmn modifying the code to separate the xaxis label evenly
+				value: function (t, e, i, o) {
+			    var a = this.w,
+			        s = a.config.xaxis.tickAmount;
+			    
+			    var step = Math.ceil(i / ((a.config.chart.width === 543) ? 10 : 25));
+			    var counter = t + 1; // Increment counter to start from 1-based index
+			
+			    if (counter % step !== 0) {
+			        e.text = '';
+			    }
+			
+			    return e;
+			}
 			}, {
 				key: "checkForOverflowingLabels",
 				value: function (t, e, i, a, s) {
@@ -6251,7 +6266,8 @@
 			return a(t, [{
 				key: "drawXaxis",
 				value: function () {
-					var t, e = this,
+				
+				var t, e = this,
 						i = this.w,
 						a = new b(this.ctx),
 						s = a.group({
@@ -6262,6 +6278,7 @@
 							class: "apexcharts-xaxis-texts-g",
 							transform: "translate(".concat(i.globals.translateXAxisX, ", ").concat(i.globals.translateXAxisY, ")")
 						});
+						
 					s.add(r);
 					for (var n = i.globals.padHorizontal, o = [], l = 0; l < this.xaxisLabels.length; l++) o.push(this.xaxisLabels[l]);
 					var h = o.length;
@@ -6271,24 +6288,24 @@
 					} else t = i.globals.gridWidth / o.length, n = n + t + i.config.xaxis.labels.offsetX;
 					if (i.config.xaxis.labels.show)
 					{
-						//mmn changes for specific ammount of xaxis
-						var counter= 0;
-						
+					  var counter= 0;
+							
 					  for (var d = function (s) {
-								var l = n - t / 2 + i.config.xaxis.labels.offsetX;
+						  	var l = n - t / 2 + i.config.xaxis.labels.offsetX;
 								0 === s && 1 === h && t / 2 === n && 1 === i.globals.dataPoints && (l = i.globals.gridWidth / 2);
 								var c = e.axesUtils.getLabel(o, i.globals.timescaleLabels, l, s, e.drawnLabels, e.xaxisFontSize),
 									d = 28;
 								i.globals.rotateXLabels && (d = 22);
 								(c = void 0 !== i.config.xaxis.tickAmount && "dataPoints" !== i.config.xaxis.tickAmount && "datetime" !== i.config.xaxis.type ? e.axesUtils.checkLabelBasedOnTickamount(s, c, h) : e.axesUtils.checkForOverflowingLabels(s, c, h, e.drawnLabels, e.drawnLabelsRects)).text && i.globals.xaxisLabelsCount++;
 								
-							
-						    var step = Math.ceil(o.length / ((i.config.chart.width===543)?10:25));
+							 //mmn changes for specific ammount of xaxis
+							 var step = Math.ceil(o.length / ((i.config.chart.width===543)?10:25));
 							counter++;
 								
 							if (counter % step !== 0) {
 						        c.text='';
 						    } 
+								
 								
 							/*	if (o.length%20)
 								{
@@ -6714,11 +6731,13 @@
 						e = new b(this.ctx);
 					this.elg = e.group({
 						class: "apexcharts-grid"
-					}), this.elgridLinesH = e.group({
+					}),
+					 
+					 this.elgridLinesH = e.group({
 						class: "apexcharts-gridlines-horizontal"
 					}), this.elgridLinesV = e.group({
 						class: "apexcharts-gridlines-vertical"
-					}), 
+					}),
 					this.elg.add(this.elgridLinesH), this.elg.add(this.elgridLinesV), t.config.grid.show || (this.elgridLinesV.hide(), this.elgridLinesH.hide());
 					
 					for (var i, a = t.globals.yAxisScale.length ? t.globals.yAxisScale[0].result.length - 1 : 5, s = 0; s < t.globals.series.length && (void 0 !== t.globals.yAxisScale[s] && (a = t.globals.yAxisScale[s].result.length - 1), !(a > 2)); s++);
@@ -15994,12 +16013,14 @@
 			value: function () {
 				var t = this;
 				return new Promise((function (e, i) {
+					
 					if (null !== t.el) {
 						void 0 === Apex._chartInstances && (Apex._chartInstances = []), t.w.config.chart.id && Apex._chartInstances.push({
 							id: t.w.globals.chartID,
 							group: t.w.config.chart.group,
 							chart: t
 						}), t.setLocale(t.w.config.chart.defaultLocale);
+						
 						var a = t.w.config.chart.events.beforeMount;
 						"function" == typeof a && a(t, t.w), t.events.fireEvent("beforeMount", [t, t.w]), window.addEventListener("resize", t.windowResizeHandler), window.addResizeListener(t.el.parentNode, t._parentResizeCallback.bind(t));
 						var s = t.create(t.w.config.series, {});
@@ -16009,7 +16030,13 @@
 						})).catch((function (t) {
 							i(t)
 						}))
+						
+						
+
+ 						
 					} else i(new Error("Element not found"))
+					
+					
 				}))
 			}
 		}, {

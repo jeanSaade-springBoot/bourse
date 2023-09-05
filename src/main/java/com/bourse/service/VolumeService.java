@@ -195,7 +195,7 @@ public class VolumeService {
 			query.setParameter("subgroupId",graphReqDTO.getSubGroupId1() );
 			
 			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			query.setParameter("dayOrweek",graphReqDTO.getPeriod() );
+			query.setParameter("dayOrweek",(isFunction)?"d":graphReqDTO.getPeriod()  );
 			
 			if(isFunction)
 			{query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
@@ -203,6 +203,9 @@ public class VolumeService {
 			
 			 query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
 			 query.setParameter("functionCode",FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())));
+
+			 query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			 query.setParameter("type","0");
 			}
 			else {
 			query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
@@ -210,9 +213,10 @@ public class VolumeService {
 			
 			query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
 			query.setParameter("functionCode", "");
-			}
+			
 			query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
-			query.setParameter("type","0");
+			query.setParameter("type",(graphReqDTO.getType()==null)?"0":graphReqDTO.getType());
+			}
 			
 			query.execute();
 			

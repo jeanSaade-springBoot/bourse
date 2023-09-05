@@ -171,7 +171,8 @@ public class LiquidityService {
 		    System.out.println("subGroupId: "+subGroupId);
 		    System.out.println("description: "+description);
 		    System.out.println("period: "+graphReqDTO.getPeriod());
-		    
+		    System.out.println("type: "+graphReqDTO.getType());
+		    System.out.println("fromdate:"+graphReqDTO.getFromdate()+" to date:"+"graphReqDTO.getTodate()");
 		    config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 		    if (isFunction)
 		    {
@@ -212,6 +213,9 @@ public class LiquidityService {
 			
 			 query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
 			 query.setParameter("functionCode",FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())));
+			
+			 query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			 query.setParameter("type","0");
 			}
 			else {
 			query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
@@ -219,9 +223,10 @@ public class LiquidityService {
 			
 			query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
 			query.setParameter("functionCode", "");
-			}
+			
 			query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
-			query.setParameter("type","0");
+			query.setParameter("type",(graphReqDTO.getType()==null)?"0":graphReqDTO.getType());
+			}
 			
 			query.execute();
 			

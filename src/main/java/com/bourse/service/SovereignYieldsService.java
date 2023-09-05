@@ -914,7 +914,7 @@ public class SovereignYieldsService
 			functionQuery.setParameter("country",graphReqDTO.getCountry1() );
 			
 			functionQuery.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			functionQuery.setParameter("dayOrweek",graphReqDTO.getPeriod() );
+			functionQuery.setParameter("dayOrweek","d");
 			
 			functionQuery.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
 			functionQuery.setParameter("isFunction",graphReqDTO.getIsFunctionGraph() );
@@ -929,7 +929,7 @@ public class SovereignYieldsService
 			functionQuery.setParameter("minuscountry",graphReqDTO.getFactor1());
 			
 			functionQuery.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
-			functionQuery.setParameter("type",graphReqDTO.getType());
+			functionQuery.setParameter("type","0");
 			functionQuery.execute();
 			
 			

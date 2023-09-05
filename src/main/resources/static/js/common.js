@@ -9,3 +9,11 @@
 $("#termsConditions").click(function () {
 	  popupWindow('/bourse/termsandconditions', 'Libvol - Terms & Conditions', window, 1100, 550);
   });
+  
+  function initializeNewsBanner(){
+	$("#viewall").jqxButton({ theme: 'dark', width: 110, height: 35, template: "primary" });
+	$("#viewall").css("display", "block");
+	$("#viewall").click(function() {
+		popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
+	});
+  }

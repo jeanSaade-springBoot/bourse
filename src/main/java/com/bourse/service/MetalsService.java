@@ -736,7 +736,7 @@ public class MetalsService {
 			functionQuery.setParameter("subgroupId",subGroupId );
 			
 			functionQuery.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
-			functionQuery.setParameter("dayOrweek",graphReqDTO.getPeriod() );
+			functionQuery.setParameter("dayOrweek","d");
 			
 			functionQuery.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
 			functionQuery.setParameter("isFunction",graphReqDTO.getIsFunctionGraph() );
