@@ -215,5 +215,5 @@ function drawGraph() {
 			};
 
 			}
-			getGraphData(graphName,itemsDataParam);
+			getGraphDataSovereign(graphName,itemsDataParam);
 }

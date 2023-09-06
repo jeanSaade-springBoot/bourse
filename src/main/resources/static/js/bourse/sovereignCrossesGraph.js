@@ -55,5 +55,5 @@ $(document).ready(function() {
 function drawGraph() {
 	
 	var itemsDataParam;
-	getGraphData(graphName,itemsDataParam);
+	getGraphDataSovereign(graphName,itemsDataParam);
 }

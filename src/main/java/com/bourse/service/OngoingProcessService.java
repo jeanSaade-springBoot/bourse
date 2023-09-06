@@ -1,9 +1,12 @@
 package com.bourse.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.OngoingProcess;
+import com.bourse.dto.OngoingProcessDTO;
 import com.bourse.repositories.OngoingProcessRepository;
 
 @Service
@@ -29,6 +32,10 @@ public class OngoingProcessService {
 
 	public OngoingProcess checkIfMustBeTriggeredByAssetIdAndGroupId(boolean value, int assetId, int groupId) {
 		return ongoingProcessRepository.findTopByMustBeTriggerAndAssetIdAndGroupId(value,assetId,groupId);
+	}
+	
+	public List<OngoingProcessDTO> findByAssetIdAndGroupIdOrParentGroupId( int assetId, int groupId) {
+		return ongoingProcessRepository.findByAssetIdAndGroupIdOrParentGroupId(assetId,groupId);
 	}
 
 }

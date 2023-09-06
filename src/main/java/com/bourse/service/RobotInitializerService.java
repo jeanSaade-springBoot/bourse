@@ -22,7 +22,9 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import com.bourse.domain.OngoingProcess;
 import com.bourse.domain.RobotInitializer;
+import com.bourse.dto.OngoingProcessDTO;
 import com.bourse.dto.RobotInitializerDTO;
 import com.bourse.dto.UpdatedColumnDTO;
 import com.bourse.repositories.RobotInitializerRepository;
@@ -31,9 +33,20 @@ public class RobotInitializerService {
 
 	@Autowired
 	RobotInitializerRepository robotInitializerRepository;
+	@Autowired
+	OngoingProcessService ongoingProcessService;
+	
 	@PersistenceContext
 	private EntityManager entityManager;
-	 
+	
+	
+	private String withFunctionProcess = "PROCESS_WITH_FUNCTION";
+	private String withoutFunctionProcess = "PROCESS_WITHOUT_FUNCTION";
+	private String withFunctionInitiateProc = "INITIATE_ROBOT_WITH_FUNCTION";
+	private String withoutFunctionInitiateProc = "INITIATE_ROBOT_WITHOUT_FUNCTION";
+	private String withFunctionFinalizationProc = "INSERT_ROBOTS_WITH_FUNCTION_NEWS";
+	private String withoutFunctionFinalizationProc = "INSERT_ROBOTS_WITHOUT_FUNCTION_NEWS";
+	
 	private final RestTemplate restTemplate;
 	public RobotInitializerService(RestTemplate restTemplate)
 	{
@@ -141,25 +154,31 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 		 	}
 
 	public void UpdateColumnConfigurationById(List<UpdatedColumnDTO> updatedColumnDTOList) {
-		
-		String withFunctionProcess = "PROCESS_WITH_FUNCTION";
-		String withoutFunctionProcess = "PROCESS_WITHOUT_FUNCTION";
-		String withFunctionInitiateProc = "INITIATE_ROBOT_WITH_FUNCTION";
-		String withoutFunctionInitiateProc = "INITIATE_ROBOT_WITHOUT_FUNCTION";
-		String withFunctionFinalizationProc = "INSERT_ROBOTS_WITH_FUNCTION_NEWS";
-		String withoutFunctionFinalizationProc = "INSERT_ROBOTS_WITHOUT_FUNCTION_NEWS";
-		
-		List<String> lstRelatedColumn = getRelatedColumn(buildDyamicQuery(updatedColumnDTOList));
 		int assetId = updatedColumnDTOList.get(0).getAssetId();
 		int groupId = updatedColumnDTOList.get(0).getGroupId();
-		List<RobotInitializer> columnWithFunction = robotInitializerRepository.findRelatedColumn(lstRelatedColumn,withFunctionProcess);
-		List<RobotInitializer> columnWithoutFunction = robotInitializerRepository.findRelatedColumn(lstRelatedColumn,withoutFunctionProcess);
 		
-		callRobotsForUpdateColumnAsync(columnWithoutFunction,withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess,assetId,groupId);
-		callRobotsForUpdateColumnAsync(columnWithFunction,withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess,assetId,groupId);
+		List<OngoingProcessDTO> ongoingProcessList = ongoingProcessService.findByAssetIdAndGroupIdOrParentGroupId(assetId,groupId);
+		
+		for(OngoingProcessDTO ongoingProcess:ongoingProcessList) {
+			try {
+				
+				int ongoingProcessAssetId = ongoingProcess.getAssetId();
+				int ongoingProcessGroupId = ongoingProcess.getGroupId();
+				
+				List<String> lstRelatedColumn = getRelatedColumn(buildDyamicQuery(updatedColumnDTOList,String.valueOf(ongoingProcessGroupId)));
+				List<RobotInitializer> columnWithFunction = robotInitializerRepository.findRelatedColumn(lstRelatedColumn,withFunctionProcess);
+				List<RobotInitializer> columnWithoutFunction = robotInitializerRepository.findRelatedColumn(lstRelatedColumn,withoutFunctionProcess);
+				
+				callRobotsForUpdateColumnAsync(columnWithoutFunction,withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess,ongoingProcessAssetId,ongoingProcessGroupId);
+				callRobotsForUpdateColumnAsync(columnWithFunction,withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess,ongoingProcessAssetId,ongoingProcessGroupId);
+			
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
-	public String buildDyamicQuery(List<UpdatedColumnDTO> updatedColumnDTOList)
+	public String buildDyamicQuery(List<UpdatedColumnDTO> updatedColumnDTOList,String groupId)
 	{
 		String query="";
 		Iterator<UpdatedColumnDTO> iterator = updatedColumnDTOList.iterator();
@@ -171,9 +190,10 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 				  query+="select description from column_configuration where description like'%"+UpdatedColumn.getValue()+"%"+UpdatedColumn.getFactor()+"%'";
 			    else 
 			    	query+="select description from column_configuration where description like'%"+UpdatedColumn.getValue()+"%'";
-			else 
+			 else 
 				query+="select description from column_configuration where description like'%"+UpdatedColumn.getValue()+"%'";
 			  
+			  query+=" and group_id = "+groupId;
 			  if (iterator.hasNext()) {
 		        	query+=" union "; 
 		        }
@@ -186,6 +206,24 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 		javax.persistence.Query query = entityManager.createNativeQuery(queryStr);
 		List<String> lstRelatedColumn = query.getResultList();   
 		return lstRelatedColumn;
+		
+	}
+
+	public void initiateRobots(int assetId, int groupId) {
+		
+		List<OngoingProcessDTO> ongoingProcessList = ongoingProcessService.findByAssetIdAndGroupIdOrParentGroupId(assetId,groupId);
+	
+		for(OngoingProcessDTO ongoingProcess:ongoingProcessList) {
+			try {
+				int ongoingProcessAssetId = ongoingProcess.getAssetId();
+				int ongoingProcessGroupId = ongoingProcess.getGroupId();
+				
+				callRobotsAsync(withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess, ongoingProcessAssetId,ongoingProcessGroupId);
+				callRobotsAsync(withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess, ongoingProcessAssetId,ongoingProcessGroupId);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 		
 	}
 }

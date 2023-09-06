@@ -890,148 +890,7 @@
   	 }); 
      
   });
-			
-	function navigationGraph(condition){
-		fromNavigation=true;
-		const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-			  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-			];
-				if(condition=="yearBackward")
-				{ 
-					expectedmonthdate = new Date(monthDate.getMonth()+"-"+monthDate.getDay()+"-"+(monthDate.getFullYear()-1));
-					if (startDateF1!=null)
-					 {if (expectedmonthdate<=startDateF1)
-						{
-							$("#button-yearBackward").prop('disabled', true);
-							$('#startdatetext').empty();
-							$('#startdatetext').append("No data available before "+monthNames[startDateF1.getMonth()]+" "+startDateF1.getFullYear())
-							$('#alertStartDate-modal').modal('show');
-						return;
-						}
-					 }
-					else
-						if (startDateF2!=null)
-						{ 
-							if (expectedmonthdate<=startDateF2)
-						   {
-								$("#button-yearBackward").prop('disabled', true);
-								$('#startdatetext').empty();
-								$('#startdatetext').append("No data available before "+monthNames[startDateF2.getMonth()]+" "+startDateF2.getFullYear())
-								$('#alertStartDate-modal').modal('show');
-							return;
-							}
-						}
-				monthDate.setFullYear(monthDate.getFullYear() - 1);
-				if(mode=="merge") 
-				  drawGraph();
-					else
-						splitGraph();
-				}else
-					if(condition=="monthBackward")
-				  {   
-					
-					    expectedmonthdate = new Date(monthDate.getMonth()+"-"+monthDate.getDay()+"-"+monthDate.getFullYear());
-					    if (startDateF1!=null)
-					     {
-					    	if (expectedmonthdate<=startDateF1)
-					        {
-							$("#button-monthBackward").prop('disabled', true);
-							$("#button-yearBackward").prop('disabled', true);
-							$('#startdatetext').empty();
-							$('#startdatetext').append("No data available before "+monthNames[startDateF1.getMonth()]+" "+startDateF1.getFullYear())
-							$('#alertStartDate-modal').modal('show');
-							return;
-							}
-					     }
-					    else
-							if (startDateF2!=null)
-							{ 
-								if (expectedmonthdate<=startDateF2)
-							   {
-									$("#button-monthBackward").prop('disabled', true);
-									$("#button-yearBackward").prop('disabled', true);
-									$('#startdatetext').empty();
-									$('#startdatetext').append("No data available before "+monthNames[startDateF2.getMonth()]+" "+startDateF2.getFullYear())
-									$('#alertStartDate-modal').modal('show');
-								return;
-								}
-							}
-				    monthDate.setMonth(monthDate.getMonth() - 1);
-				    if(mode=="merge") 
-						  drawGraph();
-							else
-								splitGraph();
-					}
-					else
-						if(condition=="monthForward")
-					  {   
-						$("#button-monthBackward").prop('disabled', false);
-					    monthDate.setMonth(monthDate.getMonth() + 1);
-					    if(mode=="merge") 
-							  drawGraph();
-								else
-									splitGraph();
-						}
-						else
-							if(condition=="yearForward")
-						  {   
-							$("#button-yearBackward").prop('disabled', false);
-							monthDate.setFullYear(monthDate.getFullYear() + 1);
-							if(mode=="merge") 
-								  drawGraph();
-									else
-										splitGraph();
-							}
-
-					if   (checkDateMonth(monthDate,date))
-					   {
-						  $("#button-monthForward").prop('disabled', false);
-						}
-						else
-						{
-							$("#button-monthForward").prop('disabled', true);
-						}
-					
-					if   (checkDateYear(monthDate,date))
-					   {
-						  $("#button-yearForward").prop('disabled', false);
-						}
-						else
-						{
-							$("#button-yearForward").prop('disabled', true);
-						} 
-			}
-			  function formatDate(date) {
-				    var d = new Date(date),
-				        month = '' + (d.getMonth() + 1),
-				        day = '' + d.getDate(),
-				        year = d.getFullYear();
-			
-				    if (month.length < 2) 
-				        month = '0' + month;
-				    if (day.length < 2) 
-				        day = '0' + day;
-			
-				    return [year, month, day].join('-');
-				}
-			  function checkDateMonth(monthDate,date)
-			  {    var d = new Date(monthDate);
-				   d.setMonth(monthDate.getMonth() + 1);
-				   
-				   if(d<date)
-					   return true;
-				   else
-					   return false;
-			  }
-			function checkDateYear(monthDate,date)
-			  {    var d = new Date(monthDate);
-				   d.setFullYear(monthDate.getFullYear() + 1);
-				   
-				   if(d<date)
-					   return true;
-				   else
-					   return false;
-			  }
+	
 			function splitGraph()
 			{
 				
@@ -1872,6 +1731,11 @@
 				   	  		 if(checkedItemid[i]!=null)
 				   	  		  checkedItemValues.push(checkedItemid[i]);
 				   	       }
+				        hasMissingDates = (
+											(itemValue[checkedItemValues[0]].GroupId==15||itemValue[checkedItemValues[0]].GroupId==16)
+				        					|| (itemValue[checkedItemValues[1]].GroupId==15||itemValue[checkedItemValues[1]].GroupId==16)
+				        					)?"true":false;
+				        
 				        dataParam = { 
 		 		        		"fromdate":fromdate,
 		 		        	    "todate":todate,
@@ -1880,11 +1744,10 @@
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
 		 		        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
 		 		        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
-		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==15?"true":false,
-		 		        	    "removeEmpty2": itemValue[checkedItemValues[1]].GroupId==15?"true":false,
+		 		        	    "removeEmpty1": hasMissingDates,
+		 		        	    "removeEmpty2": hasMissingDates,
 		 	     			   };
-		 	     			   hasMissingDates = itemValue[checkedItemValues[0]].GroupId==15?"true":false;
-				        disableOptions(true);
+		 	     			 disableOptions(true);
 					    if(checkedItemValues.length>1)
 					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
 					        		else 
@@ -1969,7 +1832,7 @@
 					  							        	  fontSize: fontsize,
 					  							        	 },
 					  					        	  },
-					     	  			           type: (itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)?'datetime':'category',
+					     	  			           type: (hasMissingDates)?'datetime':'category',
 	   	  			          					   tickAmount: 19,
 					     	  			      axisBorder: {
 					     	  		          show: true,
@@ -2074,7 +1937,7 @@
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 	    	    	          	    
-									if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
+									if(hasMissingDates)
 		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	          	else
 		      	    	            chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
@@ -2134,7 +1997,7 @@
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
 											 
-											 if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
+											 if(hasMissingDates)
 											 	updateChartSelectedItemMissingDates(chartConfigSettings);
 											 else
 												 updateChartSelectedItem(chartConfigSettings);

@@ -3,7 +3,34 @@
 	src: url(../font/Nunito-Regular.ttf);
 	src: url(../font/Nunito-Regular.ttf) format('ttf'), url(../font/Nunito-Regular.ttf) format('truetype')
 }
+.blinking-button {
+   display: flex;
+    padding: 25px 15px;
+    background-color: #380b0bb0;
+    border: 0.5px solid #ef4452;
+    color: #ef4452;
+    border-bottom:none;
+    border-top:none;
+    font-weight: bold;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    align-items: center;
+    animation: blink 2s infinite ease-in-out;
+  }
 
+  .video-icon {
+    vertical-align: middle;
+    margin-right: 8px;
+  }
+
+  @keyframes blink {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.5;
+    }
+  }
 .col-custom {
     width: 20%;
     font-size: .70rem;

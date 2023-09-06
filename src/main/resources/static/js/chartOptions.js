@@ -771,13 +771,13 @@ function getChartLegend(chartLegend)
 }	
 function getChartPeriod(){
 	
-	 period=getChartPeriodCode($('#groupOfPeriod').jqxButtonGroup('getSelection'));
+	 period=($('#groupOfPeriod').length)?getChartPeriodCode($('#groupOfPeriod').jqxButtonGroup('getSelection')):'d';
 
  return period;
 }
 function getChartPeriodName(){
 	
-	 period=getChartPeriodFullName($('#groupOfPeriod').jqxButtonGroup('getSelection'));
+	 period=($('#groupOfPeriod').length)?getChartPeriodFullName($('#groupOfPeriod').jqxButtonGroup('getSelection')):'DAILY';
 
  return period;
 }
@@ -802,7 +802,7 @@ $('#groupOfPeriod').on('selected', function () {
 
 function getSelectedType()
 {
-	return $("#dropDownType").jqxDropDownList('getSelectedItem').value;
+	return ($('#dropDownType').length)?$("#dropDownType").jqxDropDownList('getSelectedItem').value:null;
 }
 function getSelectedTypeLabel()
 {

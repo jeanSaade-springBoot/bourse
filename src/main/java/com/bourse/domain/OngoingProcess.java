@@ -47,4 +47,5 @@ public class OngoingProcess {
     private boolean mustBeTrigger;
     private int assetId;
     private int groupId;
+    private int parentGroupId;
 }

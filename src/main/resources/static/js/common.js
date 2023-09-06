@@ -17,3 +17,6 @@ $("#termsConditions").click(function () {
 		popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 	});
   }
+    $("#video-button").click(function () {
+	  popupWindow('https://player.vimeo.com/video/176594196?autoplay=1', 'Libvol - Demo Video', window, 1300, 700);
+  });

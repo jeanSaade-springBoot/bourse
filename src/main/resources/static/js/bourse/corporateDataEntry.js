@@ -2499,7 +2499,7 @@
 	{
 		 $.ajax({
 	       	        contentType:  "application/json; charset=utf-8",
-	    	        url: "/robot/callrobotsasync/"+"1/0",
+	    	        url: "/robot/callrobotsasync/"+"1/1",
 	    	        dataType: 'json',
 	    	        timeout: 600000,
 	    	        async:true,
@@ -2517,7 +2517,7 @@
 	{
 		 $.ajax({
 	       	        contentType:  "application/json; charset=utf-8",
-	    	        url: "/robot/callrobotsasync/"+"1/111213",
+	    	        url: "/robot/callrobotsasync/"+"1/11",
 	    	        dataType: 'json',
 	    	        timeout: 600000,
 	    	        async:true,

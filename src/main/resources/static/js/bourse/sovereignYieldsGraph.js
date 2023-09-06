@@ -178,5 +178,5 @@ function drawGraph() {
 				"yieldCurveCross6": itemValue["#jqxCheckBoxSpain-2"].yieldCurveCross,
 			};
 			}
-			getGraphData(graphName,itemsDataParam);
+			getGraphDataSovereign(graphName,itemsDataParam);
 }

@@ -36,7 +36,14 @@ var nbrOfDigits;
 var notDecimal1;
 var nbrOfDigits1;
 
-
+var dataFormatIsDecimal=false;
+var chart1;
+var chart2;
+var T1;
+var T2; 
+var yaxisformat=3;
+var dataFormat=3;
+  
 var options = {
 		series: [],
 		chart: {
@@ -3424,7 +3431,7 @@ function getGraphData(graphService,graphName,removeEmpty){
 	inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues)));
 
 }
-function getGraphData(graphName,itemsDataParam) {
+function getGraphDataSovereign(graphName,itemsDataParam) {
 	mode = "merge";
 	var dataParam;
 	var checkedItemValues = [];
@@ -4800,7 +4807,10 @@ function navigationGraph(condition) {
 									}
 								}
 		monthDate.setFullYear(monthDate.getFullYear() - 1);
-		drawGraph();
+		if(mode=="merge") 
+				  drawGraph();
+					else
+						splitGraph();
 	} else
 		if (condition == "monthBackward") {
 			expectedmonthdate = new Date(monthDate.getMonth() + "-" + monthDate.getDay() + "-" + monthDate.getFullYear());
@@ -4869,19 +4879,28 @@ function navigationGraph(condition) {
 									}
 								}
 			monthDate.setMonth(monthDate.getMonth() - 1);
-			drawGraph();
+			if(mode=="merge") 
+				  drawGraph();
+					else
+						splitGraph();
 		}
 		else
 			if (condition == "monthForward") {
 				$("#button-monthBackward").prop('disabled', false);
 				monthDate.setMonth(monthDate.getMonth() + 1);
-				drawGraph();
+				if(mode=="merge") 
+				  drawGraph();
+					else
+						splitGraph();
 			}
 			else
 				if (condition == "yearForward") {
 					$("#button-yearBackward").prop('disabled', false);
 					monthDate.setFullYear(monthDate.getFullYear() + 1);
-					drawGraph();
+					if(mode=="merge") 
+				  drawGraph();
+					else
+						splitGraph();
 				}
 
 	if (checkDateMonth(monthDate, date)) {
