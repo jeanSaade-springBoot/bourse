@@ -1,6 +1,7 @@
 package com.bourse.controllers;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -8,6 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bourse.config.MyConfig;
+import com.bourse.service.DynamicTemplateService;
 import com.bourse.service.LiveFlowOptionService;
 
 @RestController
@@ -17,16 +19,23 @@ public class LiveFlowOptionController {
 
 		@Autowired
 		private final LiveFlowOptionService liveFlowOptionService;
+		@Autowired
+		private final DynamicTemplateService dynamicTemplateService;
 		
 	    @Autowired
 	    public LiveFlowOptionController(MyConfig myConfig,
-	    		LiveFlowOptionService liveFlowOptionService) {
+	    		LiveFlowOptionService liveFlowOptionService,
+	    		DynamicTemplateService dynamicTemplateService) {
 	        this.myConfig = myConfig;
-	        this.liveFlowOptionService =liveFlowOptionService;
+	        this.liveFlowOptionService  = liveFlowOptionService;
+	        this.dynamicTemplateService = dynamicTemplateService;
 	    }
 	   
 	    @GetMapping("/liveoptionflow")
-	    public ModelAndView liveOptionFlow(Model model) {
+	    public ModelAndView liveOptionFlow(Model model, Authentication authentication)
+	    {
+		    model.addAttribute("mainmenu", "html/templates/mainMenu");
+		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 	        String template = null;
 			try {
 				template = liveFlowOptionService.getTemplateFromMainService(myConfig.getApiLiveFlowUrl());
@@ -41,7 +50,11 @@ public class LiveFlowOptionController {
 	        return modelAndView;
 	    }
 	 @GetMapping("/historicalflow")
-	    public ModelAndView historicalFlow(Model model) {
+	    public ModelAndView historicalFlow(Model model, Authentication authentication)
+	    {
+		    model.addAttribute("mainmenu", "html/templates/mainMenu");
+		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+	        
 	        String template = null;
 			try {
 				template = liveFlowOptionService.getHistoricalTemplateFromMainService(myConfig.getApiLiveFlowUrl());
@@ -56,7 +69,11 @@ public class LiveFlowOptionController {
 	        return modelAndView;
 	    }
 	 @GetMapping("/flowsearchengine")
-	    public ModelAndView flowSearchEngine(Model model) {
+	    public ModelAndView flowSearchEngine(Model model, Authentication authentication)
+	    {
+		    model.addAttribute("mainmenu", "html/templates/mainMenu");
+		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+	        
 	        String template = null;
 			try {
 				template = liveFlowOptionService.getflowSearchTemplateFromMainService(myConfig.getApiLiveFlowUrl());

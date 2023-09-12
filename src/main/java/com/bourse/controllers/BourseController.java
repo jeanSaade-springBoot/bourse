@@ -101,8 +101,10 @@ public class BourseController {
 		this.graphService             = graphService;
 	}
 	@RequestMapping( value =  "/pageunderconstruction")
-    public ModelAndView underConstructionPage(ModelMap model)
+    public ModelAndView underConstructionPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/pageUnderConstruction");
     }
 	@PreAuthorize("hasAuthority('HOME_SCREEN') and principal.tacAccepted == true")
@@ -117,9 +119,14 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/sovereignyields")
-    public ModelAndView dataEntryPage(@RequestParam("yield") String yield,ModelMap model)
-    {   model.addAttribute("yield", Integer.valueOf(yield));
-		return new ModelAndView("html/sovereignyields");
+    public ModelAndView dataEntryPage(@RequestParam("yield") String yield,ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        model.addAttribute("yield", Integer.valueOf(yield));
+	    ModelAndView modelAndView = new ModelAndView("html/sovereignyields");
+	    
+	    return modelAndView;
     }
 	@RequestMapping( value =  "/skews")
     public ModelAndView skewsDataEntrePage(ModelMap model)
@@ -128,20 +135,29 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_METALS') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/metals")
-    public ModelAndView dataEntryPreciousMetalsPage(@RequestParam("commodity") String commodity,ModelMap model)
-    {   model.addAttribute("commodity", Integer.valueOf(commodity));
+    public ModelAndView dataEntryPreciousMetalsPage(@RequestParam("commodity") String commodity,ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        model.addAttribute("commodity", Integer.valueOf(commodity));
 		return new ModelAndView("html/metals");
     }
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_LIQUIDITY') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/liquidity")
-    public ModelAndView dataEntryLiquidityPage(@RequestParam("liquidity") String liquidity,ModelMap model)
-    {   model.addAttribute("liquidity", Integer.valueOf(liquidity));
+    public ModelAndView dataEntryLiquidityPage(@RequestParam("liquidity") String liquidity,ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        model.addAttribute("liquidity", Integer.valueOf(liquidity));
 		return new ModelAndView("html/liquidity");
     }
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_VOLUME') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/volume")
-    public ModelAndView dataEntryVolumePage(@RequestParam("volume") String volume,ModelMap model)
-    {   model.addAttribute("volume", Integer.valueOf(volume));
+    public ModelAndView dataEntryVolumePage(@RequestParam("volume") String volume,ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        model.addAttribute("volume", Integer.valueOf(volume));
 		return new ModelAndView("html/volume");
     }
 	@RequestMapping( value =  "/returnfunction")
@@ -151,93 +167,123 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('ANY2_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/any2")
-    public ModelAndView anyTwoPage(ModelMap model)
+    public ModelAndView anyTwoPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/any2");
     }
 	@PreAuthorize("hasAuthority('ANY2_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/any2metals")
-    public ModelAndView anyTwoMetalsPage(ModelMap model)
+    public ModelAndView anyTwoMetalsPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/any2metals");
     }
 	@PreAuthorize("hasAuthority('ANY2_VOLUME_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/any2volume")
-    public ModelAndView anyTwoVolumePage(ModelMap model)
+    public ModelAndView anyTwoVolumePage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/any2Volume");
     }
 	@PreAuthorize("hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/any2liquidity")
-    public ModelAndView anyTwoLiquidityPage(ModelMap model)
+    public ModelAndView anyTwoLiquidityPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/any2Liquidity");
     }
 	@PreAuthorize("hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/precious")
-    public ModelAndView preciousMetalsPage(ModelMap model)
+    public ModelAndView preciousMetalsPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/precious");
     }
 	@PreAuthorize("hasAuthority('BASE_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/base")
-    public ModelAndView baseMetalsPage(ModelMap model)
+    public ModelAndView baseMetalsPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/base");
     }
 	@PreAuthorize("hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/foodstuff")
-    public ModelAndView foodStuffCommodityPage(ModelMap model)
+    public ModelAndView foodStuffCommodityPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/foodstuff");
     }
 	@PreAuthorize("hasAuthority('ENERGY_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/energy")
-    public ModelAndView energyCommodityPage(ModelMap model)
+    public ModelAndView energyCommodityPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/energy");
     }
 	@PreAuthorize("hasAuthority('TRANSPORTATION_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/transportation")
-    public ModelAndView transportationCommodityPage(ModelMap model)
+    public ModelAndView transportationCommodityPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/transportation");
     }
 	@PreAuthorize("hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereignyieldsgraph")
-    public ModelAndView sovereignYieldsGraphPage(ModelMap model)
+    public ModelAndView sovereignYieldsGraphPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/sovereignYieldsGraph");
     }
 	@PreAuthorize("hasAuthority('YIELD_CURVES_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereigncurvesgraph")
-    public ModelAndView sovereignCurvesGraphPage(ModelMap model)
+    public ModelAndView sovereignCurvesGraphPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/sovereignCurvesGraph");
     }
 	@PreAuthorize("hasAuthority('YIELD_CROSSES_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereigncrossesgraph")
-    public ModelAndView sovereignCrossesGraphPage(ModelMap model)
+    public ModelAndView sovereignCrossesGraphPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/sovereignCrossesGraph");
     }
 	@PreAuthorize("hasAuthority('YIELD_CORPORATE_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereigncorporategraph")
-    public ModelAndView sovereignCorporateGraphPage(ModelMap model)
+    public ModelAndView sovereignCorporateGraphPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/sovereignCorporate");
     }
 	@PreAuthorize("hasAuthority('CREDIT_SPREAD_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "creditsspreadgraph")
-    public ModelAndView sovereignCreditSpreadGraphPage(ModelMap model)
+    public ModelAndView sovereignCreditSpreadGraphPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/sovereignCredits");
     }
 	
 	@PreAuthorize("hasAuthority('SPREAD_MAKER_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "spreadmakergraph")
-    public ModelAndView spreadMakerGraphPage(ModelMap model)
+    public ModelAndView spreadMakerGraphPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/spreadMaker");
     }
 	@PreAuthorize("hasAuthority('SETTINGS_SCREEN') and principal.tacAccepted == true")
@@ -252,9 +298,11 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('ROBOT_NEWS_REORDER_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "robotnewsreorder")
-    public ModelAndView robotNewsReorderPage(ModelMap model)
+    public ModelAndView robotNewsReorderPage(ModelMap model, Authentication authentication)
     {
-		return new ModelAndView("html/robotNewsReorder");
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "NEWS_MANAGEMENT_SCREEN"));
+	    return new ModelAndView("html/robotNewsReorder");
     }
 	@RequestMapping( value =  "holidaycalendar")
     public ModelAndView holidayCalendarPage(ModelMap model)
@@ -289,67 +337,89 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/datafunctiondisplay")
-    public ModelAndView dataFunctionDisplay(ModelMap model)
+    public ModelAndView dataFunctionDisplay(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/dataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/metaldatafunctiondisplay")
-    public ModelAndView metalDataFunctionDisplay(ModelMap model)
+    public ModelAndView metalDataFunctionDisplay(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/metaldataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/liquiditydatafunctiondisplay")
-    public ModelAndView liquidityDataFunctionDisplay(ModelMap model)
+    public ModelAndView liquidityDataFunctionDisplay(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/liquidityDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/volumedatafunctiondisplay")
-    public ModelAndView volumeDataFunctionDisplay(ModelMap model)
+    public ModelAndView volumeDataFunctionDisplay(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/volumeDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
-    public ModelAndView corporateLiquidityPage(ModelMap model)
+    public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/corporateLiquidity");
     }
 	@PreAuthorize("hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ecbexcessliquidity")
-    public ModelAndView ecbExcessLiquidityPage(ModelMap model)
+    public ModelAndView ecbExcessLiquidityPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/ecbExcessLiquidity");
     }
 	@PreAuthorize("hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ecbqeliquidity")
-    public ModelAndView ecbQeLiquidityPage(ModelMap model)
+    public ModelAndView ecbQeLiquidityPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/ecbQeLiquidity");
     }
 	@PreAuthorize("hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ezmmliquidity")
-    public ModelAndView ezmmLiquidityPage(ModelMap model)
+    public ModelAndView ezmmLiquidityPage(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/ezmmLiquidity");
     }
 	@PreAuthorize("hasAuthority('USERS_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/users")
-    public ModelAndView userPage(ModelMap model)
+    public ModelAndView userPage(ModelMap model, Authentication authentication)
     {
-		return new ModelAndView("html/userPage");
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "USERS_SCREEN"));
+    	return new ModelAndView("html/userPage");
     }
 	@PreAuthorize("hasAuthority('ROLE_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/roles")
-    public ModelAndView rolePage(ModelMap model)
+    public ModelAndView rolePage(ModelMap model, Authentication authentication)
     {
-		return new ModelAndView("html/rolePage");
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "USERS_SCREEN"));
+    	return new ModelAndView("html/rolePage");
     }
 	@RequestMapping(value =  "/readexcelwritedb")
-    public ModelAndView dataReadRxcelWritedb(ModelMap model)
+    public ModelAndView dataReadRxcelWritedb(ModelMap model, Authentication authentication)
     {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "SETTINGS_SCREEN"));
 		return new ModelAndView("html/readExcelWriteDB");
     }
 
@@ -361,21 +431,24 @@ public class BourseController {
 	 */
 	@PreAuthorize("hasAuthority('ONE_SERIE') and principal.tacAccepted == true")
 	@GetMapping("/oneserie")
-	public ModelAndView liveOptionFlow(@RequestParam("serie") String serie, Model model) {
-				    String fragmentName=dynamicTemplateService.getDynamicTemplateBySerie(serie);
-				
-			        model.addAttribute("fragment", fragmentName);
-			        model.addAttribute("serie", Integer.valueOf(serie));
-			        ModelAndView modelAndView = new ModelAndView("html/oneSerie");
-			        modelAndView.addObject("fragment", fragmentName);
+	public ModelAndView oneSeriesPage(@RequestParam("serie") String serie, Model model, Authentication authentication)
+    {
+	   		    String fragmentName=dynamicTemplateService.getDynamicTemplateBySerie(serie);
+	   		    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	 	        model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+ 		        model.addAttribute("fragment", fragmentName);
+		        model.addAttribute("serie", Integer.valueOf(serie));
+		        ModelAndView modelAndView = new ModelAndView("html/oneSerie");
+		        modelAndView.addObject("fragment", fragmentName);
 			        
 			        return modelAndView;
 	    }
 	@PreAuthorize("hasAuthority('TWO_SERIES') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/twoserie")
-    public ModelAndView twoSeriesPage(@RequestParam("serie") String serie, ModelMap model)
+    public ModelAndView twoSeriesPage(@RequestParam("serie") String serie, ModelMap model, Authentication authentication)
     {
-	
+		    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	        model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		    model.addAttribute("submenu", "html/templates/twoseries");
 		    model.addAttribute("yields", "html/templates/yields");
 		    model.addAttribute("commodities", "html/templates/commodities");
