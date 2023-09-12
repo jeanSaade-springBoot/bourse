@@ -1,0 +1,43 @@
+<nav class="navbar navbar-expand navbar-light bg-navbar topbar static-top">
+	<img id="imglogo" src="../../img/logo.png" align="absmiddle" style="height:70px;margin-left: 3%;">
+	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
+		<span class="navbar-toggler-icon"></span>
+	</button>
+	<!-- Collection of nav links, forms, and other content for toggling -->
+	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">	
+		<div class="navbar-nav mr-auto">
+		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
+			<a sec:authorize="hasAuthority('HOME_SCREEN')" href="/bourse/home" th:classappend="${menuId == 1} ? 'active' : ''"  class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+			<li sec:authorize="hasAuthority('ADMIN_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('ADMIN_SCREEN')" href="/bourse/users" th:classappend="${menuId == 3} ? 'active' : ''" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon"><span id="notification" class="notification"></span>Admin</a>
+			<li sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" href="/bourse/newsmanagement" th:classappend="${menuId == 16} ? 'active' : ''" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+			<li sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')"class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields?yield=1"  th:classappend="${menuId == 25} ? 'active' : ''"  class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<li sec:authorize="hasAuthority('SETTINGS_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
+			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" th:classappend="${menuId == 26} ? 'active' : ''"  class="nav-item nav-link"><img  alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+		    </div>
+		</div>
+		<button class="blinking-button mr-2" id="video-button">
+		    <svg xmlns="http://www.w3.org/2000/svg" data-name="Layer 1" viewBox="0 0 100 125" x="0px" y="0px" height="20px" class="pr-2">
+		        <defs>
+		            <style>.cls-1{fill-rule:evenodd;}</style>
+		        </defs>
+		        <title>a</title>
+		        <path class="cls-1" d="M66.687,36.789H5.134A5.155,5.155,0,0,0,0,41.923V85.13a5.155,5.155,0,0,0,5.134,5.134H66.687a5.155,5.155,0,0,0,5.135-5.134V41.923a5.155,5.155,0,0,0-5.135-5.134Zm9.2,14.922V75.342L96.909,85.853A2.124,2.124,0,0,0,100,83.938V43.116A2.124,2.124,0,0,0,96.909,41.2L75.887,51.711ZM52.055,68.35,29.411,79.672A5.4,5.4,0,0,1,21.6,74.848V52.205a5.4,5.4,0,0,1,7.813-4.824L52.055,58.7a5.388,5.388,0,0,1,0,9.647ZM27.6,76.052a1.332,1.332,0,0,1-1.938-1.2V52.205A1.331,1.331,0,0,1,27.6,51L50.244,62.323a1.345,1.345,0,0,1,0,2.407L27.6,76.052ZM56.609,21.37a7.915,7.915,0,1,0,0,11.193,7.914,7.914,0,0,0,0-11.193Zm-21.969-7.9a12.739,12.739,0,1,0,0,18.015A12.738,12.738,0,0,0,34.64,13.467Z" fill="#ef4452"/> <!-- Add fill attribute with desired color -->
+		    </svg> Demo Video
+		</button>
+
+		<div class="nav-item dropdown" style="width: 15%">
+				<a href="#" data-toggle="dropdown" class="nav-item nav-link dropdown-toggle user-action"><i class="fas fa-user"></i><span class="ml-2 d-none d-lg-inline " th:text="${#authentication.principal.firstName}"></span><span class="ml-1 d-none d-lg-inline " th:text="${#authentication.principal.lastName}"></span><b class="caret"></b></a>
+				<div class="dropdown-menu logout">
+				<!--    <a href="#" class="dropdown-item"><i class="fa fa-user-o"></i> Profile</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-calendar-o"></i> Calendar</a>
+						<a href="#" class="dropdown-item"><i class="fa fa-sliders"></i> Settings</a>
+						<div class="divider dropdown-divider"></div> -->
+					<a href="/logout" class="dropdown-item"><i class="fa-solid fa-right-from-bracket"></i> Logout</a>
+				</div>
+			</div>
+			<a href="#" id="termsConditions" class="">T &amp; C</a>
+	</div>
+ </nav>

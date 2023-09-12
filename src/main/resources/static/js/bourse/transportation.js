@@ -28,7 +28,7 @@ $(document).ready(function() {
 function drawGraph() {
 	const graphService = "metals";
 	const removeEmpty = true;
-	getGraphData(graphService,graphName,removeEmpty);
+	getGraphData(graphService,graphName,removeEmpty,true);
 }
 
 

@@ -35,6 +35,9 @@
     width: 20%;
     font-size: .70rem;
 }
+.d-grid {
+    display: grid;
+}
 .mw-100{
 	min-width: 100px;
 }

@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - Liquidity</title>
+  <title>Libvol - One Serie</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -52,7 +52,7 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
- 
+
   </style>
 </head>
 
@@ -108,22 +108,23 @@
 </nav>
         <!-- Topbar -->
   <div class="d-sm-flex align-items-center">
-            <h1 class="ml-6 text-darkorange">COMMODITIES</h1>
+            <h1 class="ml-6 text-darkorange">ONE SERIE</h1>
             	 <nav style="margin-left: 3rem;
     						 height: 35px;
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				  	  <a sec:authorize="hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2liquidity" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				      <a sec:authorize="hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbexcessliquidity-tab"  href="/bourse/ecbexcessliquidity" role="tab" aria-controls="nav-ecbexcessliquidity" aria-selected="false">Ecb Excess Liquidity</a>
-					  <a sec:authorize="hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-ecbqeliquidity-tab"  href="/bourse/ecbqeliquidity" role="tab" aria-controls="nav-ecbqeliquidity" aria-selected="false">ECB QE Operations</a>
-					  <a sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ezmmliquidity-tab"  href="/bourse/ezmmliquidity" role="tab" aria-controls="nav-ezmmliquidity" aria-selected="false">Eurozone Monetary Mass</a>
-					  <a sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-corporateliquidity-tab"  href="/bourse/corporateliquidity" role="tab" aria-controls="nav-corporateliquidity" aria-selected="false">Corporate Liquidity</a>
+				    <a  th:classappend="${serie == 1} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=1" role="tab" aria-controls="nav-datafunctiondisplay" aria-selected="false">YIELDS & RATES</a>
+				    <a  th:classappend="${serie == 2} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=2" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">COMMODITIES</a>
+				 	<a  th:classappend="${serie == 3} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=3" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">LIQUIDITY</a>
+				  	<a  th:classappend="${serie == 4} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=4" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">VOLUME</a>
 				  </div>
 				</nav>
            
           </div>
               </div>
         <div id="content">
+       <input type="hidden" id="serieValue" th:value="${serie}" />
+        
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
 
@@ -140,50 +141,12 @@
 				  	  	</p>
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
-				<div class="row">
-				       <div class="col-6 d-flex">
-						               <div class="col-3">
-						               	<img alt="usa-flag" src="/img/flag/ecbqe.png" height="100px">
-						               </div>
-							           <div class="col-6">
-							            <div class="pt-2">
-							               <div class="pt-1">
-							                 	<div id='jqxCheckBoxQe1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY sovering bond QE </span></div>
-							              </div>
-							             </div>
-							             <div class="">
-							                <div class="pt-1">
-							               		<div id='jqxCheckBoxQe2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY corporate bond QE</span></div>
-							               </div>
-							            </div>
-							             <div class="">
-							                <div class="pt-1">
-							              		<div id='jqxCheckBoxQe1Qe2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY QE</span></div>
-							                </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	    <div id='jqxCheckBoxCumQe1' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE sovereign bond QE</span></div>
-							              </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	       <div id='jqxCheckBoxCumQe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE corporate bonds QE</span></div>
-							            </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	     <div id='jqxCheckBoxCumQe1Qe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE QE</span></div>
-							            </div>
-							            </div>
-							           </div>
-						            </div>
-                     </div>
+					    <div class="collapse multi-collapse show" id="collapseFilter" style="margin: 0px 8rem;">
+					    <div th:include="${fragment}" id="template"></div>
                      	<div class="row pt-2">
-							<div class='col-12 d-flex justify-content-end'>
-							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
-							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+							<div class='col-12 d-flex justify-content-end mb-4'>
+								<input aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+								<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 							</div>
 						</div>
 					    </div>
@@ -192,22 +155,13 @@
 				    <div class="row">
 				       <div class="row col-12">
 				   	  	   
-				   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
-					            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
-					                Daily</button>
-					            <button style="padding:4px 16px;" id="w">
-					                Weekly</button>
-					            <button style="padding:4px 16px;" id="m">
-					                Monthly</button>
-								 <button style="padding:4px 16px;" id="q">
-									Quarterly</button>
-								 <button style="padding:4px 16px;" id="y">
-									Yearly</button>
-					        </div>
-								<div id='dropDownType' style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
-								<div class="d-flex" style=' margin-left: 2.4rem;'>
-									<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
-									<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
+								<div class="d-flex col-12">
+								    <div class="col-1">
+									</div>
+							 		<div class="col-10 d-flex justify-content-end">
+										<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
+										<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
+									</div>
 								</div>
 							</div>
 							
@@ -290,22 +244,22 @@
 						</div>
 						 <div class="col-10">
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   		</div>
-						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
-						
-						 </div>
-						 <div class="row" style="min-width: 1153px;  max-width:1153px">
-						 	<div class='col-6'>
-						 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   </div>
-						 		<div id="SubChart1" class="chart-box"></div>
-						 	</div>
-						 	<div class='col-6'>
-						 	<div id="overlayChart2" class="overlayChart-split" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   </div>
+								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+								   		</div>
+												 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
+												
+												 </div>
+												 <div class="row" style="min-width: 1153px;  max-width:1153px">
+												 	<div class='col-6'>
+												 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
+								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+								   </div>
+												 		<div id="SubChart1" class="chart-box"></div>
+												 	</div>
+												 	<div class='col-6'>
+												 	<div id="overlayChart2" class="overlayChart-split" style="display:none">
+								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+								   </div>
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
@@ -442,7 +396,8 @@
   <script src="/js/apexcharts.js"></script>
   <script src="/js/chartOptions.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
-  <script src="/js/bourse/ecbQeLiquidity.js"></script> 
+  <script src="/js/bourse/jsonCheckBoxArray.js"></script>  
+  <script src="/js/bourse/oneSerie.js"></script> 
   <script src="/js/chart.js"></script>
    <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 

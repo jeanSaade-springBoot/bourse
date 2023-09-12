@@ -13,9 +13,11 @@ public class GraphRequestDTO {
 
 	private String subGroupId1;
 	private String groupId1;
+	private String factor1;
 	
 	private String subGroupId2;
 	private String groupId2;
+	private String factor2;
 	
 	private String period;  //d or w or m or q or y
 	private String type;  //0 or 1 or 2 or 3 or 4

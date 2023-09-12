@@ -1,0 +1,14 @@
+  <div class="d-sm-flex align-items-center">
+            <h1 class="ml-6 text-darkorange">two SERIE</h1>
+            	 <nav style="margin-left: 3rem;
+    						 height: 35px;
+    						 margin-top: 0.5rem;">
+				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+				    <a th:classappend="${serie == 1} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-yields-tab" data-bs-target="#nav-yields" role="tab" aria-controls="nav-yields" aria-selected="false">YIELDS & RATES (0)</a>
+				    <a th:classappend="${serie == 2} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-commodities-tab" data-bs-target="#nav-commodities"   role="tab" aria-controls="nav-commodities" aria-selected="false">COMMODITIES (0)</a>
+				 	<a th:classappend="${serie == 3} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-liquidity-tab"  role="tab"  data-bs-target="#nav-liquidity" aria-controls="nav-liquidity" aria-selected="false">LIQUIDITY (0)</a>
+				  	<a  th:classappend="${serie == 4} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-volume-tab"  role="tab"  data-bs-target="#nav-volume"  aria-controls="nav-volume" aria-selected="false">VOLUME (0)</a>
+				  </div>
+				</nav> 
+				
+          </div>

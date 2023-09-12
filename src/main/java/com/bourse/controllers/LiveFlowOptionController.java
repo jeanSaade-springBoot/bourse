@@ -15,16 +15,21 @@ import com.bourse.service.LiveFlowOptionService;
 public class LiveFlowOptionController {
 	   private final MyConfig myConfig;
 
+		@Autowired
+		private final LiveFlowOptionService liveFlowOptionService;
+		
 	    @Autowired
-	    public LiveFlowOptionController(MyConfig myConfig) {
+	    public LiveFlowOptionController(MyConfig myConfig,
+	    		LiveFlowOptionService liveFlowOptionService) {
 	        this.myConfig = myConfig;
+	        this.liveFlowOptionService =liveFlowOptionService;
 	    }
 	   
 	    @GetMapping("/liveoptionflow")
 	    public ModelAndView liveOptionFlow(Model model) {
 	        String template = null;
 			try {
-				template = LiveFlowOptionService.getTemplateFromMainService(myConfig.getApiLiveFlowUrl());
+				template = liveFlowOptionService.getTemplateFromMainService(myConfig.getApiLiveFlowUrl());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -39,7 +44,7 @@ public class LiveFlowOptionController {
 	    public ModelAndView historicalFlow(Model model) {
 	        String template = null;
 			try {
-				template = LiveFlowOptionService.getHistoricalTemplateFromMainService(myConfig.getApiLiveFlowUrl());
+				template = liveFlowOptionService.getHistoricalTemplateFromMainService(myConfig.getApiLiveFlowUrl());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -54,7 +59,7 @@ public class LiveFlowOptionController {
 	    public ModelAndView flowSearchEngine(Model model) {
 	        String template = null;
 			try {
-				template = LiveFlowOptionService.getflowSearchTemplateFromMainService(myConfig.getApiLiveFlowUrl());
+				template = liveFlowOptionService.getflowSearchTemplateFromMainService(myConfig.getApiLiveFlowUrl());
 			} catch (Exception e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();

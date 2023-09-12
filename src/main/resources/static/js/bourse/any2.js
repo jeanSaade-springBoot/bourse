@@ -4238,9 +4238,9 @@
    		        		"fromdate":fromdate,
    		        	    "todate":todate,
    		        	    "period":"d",
-   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
-   		        	    "country1":itemValue[checkedItemValues[0]].country,
-   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross
+   		        	    "factor1":itemValueYields[checkedItemValues[0]].factor,
+   		        	    "country1":itemValueYields[checkedItemValues[0]].country,
+   		        	    "yieldCurveCross1": itemValueYields[checkedItemValues[0]].yieldCurveCross
    	     			   };
 		  	       	  $.ajax({
 		  	       	        type: "POST",
@@ -4314,7 +4314,7 @@
 				         nbrOfDigits=yaxisformat[0];
 	      	    	     chart1.updateOptions({
 							   series:[{
-							          name: itemValue[checkedItemValues[0]].title,
+							          name: itemValueYields[checkedItemValues[0]].title,
 							          type: chartType1,
 							          data: response[0].graphResponseDTOLst
 							        }],
@@ -4520,9 +4520,9 @@
 		   		        		"fromdate":fromdate,
 		   		        	    "todate":todate,
 		   		        	    "period":"d",
-		   		        	    "factor1":itemValue[checkedItemValues[1]].factor,
-		   		        	    "country1":itemValue[checkedItemValues[1]].country,
-		   		        	    "yieldCurveCross1": itemValue[checkedItemValues[1]].yieldCurveCross
+		   		        	    "factor1":itemValueYields[checkedItemValues[1]].factor,
+		   		        	    "country1":itemValueYields[checkedItemValues[1]].country,
+		   		        	    "yieldCurveCross1": itemValueYields[checkedItemValues[1]].yieldCurveCross
 		   	     			   };
 			    	          $.ajax({
 				  	       	        type: "POST",
@@ -4595,7 +4595,7 @@
 								     nbrOfDigits=yaxisformat[0];
 				      	    	    	chart2.updateOptions({
 											series:  [{
-								          name: itemValue[checkedItemValues[1]].title,
+								          name: itemValueYields[checkedItemValues[1]].title,
 								          type: chartType2,
 								          data: response[0].graphResponseDTOLst
 								         }],
@@ -4887,18 +4887,18 @@
 		 		        		"fromdate":fromdate,
 		 		        	    "todate":todate,
 		 		        	    "period":"d",
-		 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
-		 		        	    "country1":itemValue[checkedItemValues[0]].country,
-		 		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
-		 		        	    "factor2":itemValue[checkedItemValues[1]].factor,
-		 		        	    "country2":itemValue[checkedItemValues[1]].country,
-		 		        	    "yieldCurveCross2": itemValue[checkedItemValues[1]].yieldCurveCross
+		 		        	    "factor1":itemValueYields[checkedItemValues[0]].factor,
+		 		        	    "country1":itemValueYields[checkedItemValues[0]].country,
+		 		        	    "yieldCurveCross1": itemValueYields[checkedItemValues[0]].yieldCurveCross,
+		 		        	    "factor2":itemValueYields[checkedItemValues[1]].factor,
+		 		        	    "country2":itemValueYields[checkedItemValues[1]].country,
+		 		        	    "yieldCurveCross2": itemValueYields[checkedItemValues[1]].yieldCurveCross
 		 	     			   };
 				        disableOptions(true);
 					    if(checkedItemValues.length>1)
-					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
+					        	title=itemValueYields[checkedItemValues[0]].title +" vs "+ itemValueYields[checkedItemValues[1]].title 
 					        		else 
-					        			title=itemValue[checkedItemValues[0]].title
+					        			title=itemValueYields[checkedItemValues[0]].title
 					        			  var options = {
 					     	  			          series: [],
 					     	  			          chart: {
@@ -5049,8 +5049,8 @@
 		      	    	        	 startDateF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
 		      	    	            var dates=[];
 		      	    	
-		      	    	        	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
-		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+		      	    	        	T1=response[0].config.displayDescription==null?itemValueYields[checkedItemValues[0]].title:response[0].config.displayDescription;
+		      	    	        	T2=response[1].config.displayDescription==null?itemValueYields[checkedItemValues[1]].title:response[1].config.displayDescription;
 		      	    	        	title= T1 +" vs "+ T2;
 
 		      	    	        	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
@@ -5181,15 +5181,15 @@
 			   	  		 if(checkedItemid[i]!=null)
 			   	  		  checkedItemValues.push(checkedItemid[i]);
 			   	       }
-					   title=itemValue[checkedItemValues[0]].title;
+					   title=itemValueYields[checkedItemValues[0]].title;
 					   
 			        dataParam = { 
 	   		        		"fromdate":fromdate,
 	   		        	    "todate":todate,
 	   		        	    "period":"d",
-	   		        	    "factor1":itemValue[checkedItemValues[0]].factor,
-	   		        	    "country1":itemValue[checkedItemValues[0]].country,
-	   		        	    "yieldCurveCross1": itemValue[checkedItemValues[0]].yieldCurveCross,
+	   		        	    "factor1":itemValueYields[checkedItemValues[0]].factor,
+	   		        	    "country1":itemValueYields[checkedItemValues[0]].country,
+	   		        	    "yieldCurveCross1": itemValueYields[checkedItemValues[0]].yieldCurveCross,
 	   		        	   };
 					 
 					  var options = {
@@ -5336,7 +5336,7 @@
 				      	    	        timeout: 600000,
 				      	    	        success: function (response) {
 				      	    	       
-				      	    	        var T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+				      	    	        var T1=response[0].config.displayDescription==null?itemValueYields[checkedItemValues[0]].title:response[0].config.displayDescription;
 			      	    	        	title= T1;
 			      	    	        	 var dbchartType1=response[0].config.chartType;
 				      	    	           chartType1 = getChartType(dbchartType1)[0];
@@ -5456,7 +5456,7 @@
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
 
-				  inGraphNews(getSelectedFields(checkedItemValues));
+				  inGraphNews(getSelectedFields(checkedItemValues,itemValueYields));
 							}
 		  	
 			function graphfont(fontSize){

@@ -203,11 +203,11 @@ function inGraphNews(selectedGraphs){
     	    	    });
   
     	      }
-function getSelectedFields(checkedItemValues)	  
+function getSelectedFields(checkedItemValues,item)	  
 { var fields=[];
 
 	for (let i = 0; i < checkedItemValues.length; i++) {
-		var value = itemValue[checkedItemValues[i]].description;
+		var value = item[checkedItemValues[i]].description;
 		fields.push(value);	
 		if (value.includes('/'))
 		{   var country = value.split('-')[0];

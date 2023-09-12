@@ -1,4 +1,4 @@
-var itemValue = {
+var itemValueYields = {
 	"#jqxCheckBoxUSA-30": {
 		"factor": "30yr",
 		"country": "1",

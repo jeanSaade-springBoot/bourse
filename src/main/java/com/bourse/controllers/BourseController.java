@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -40,6 +41,7 @@ import com.bourse.dto.DataGraphDTO;
 import com.bourse.dto.GraphHistoryDTO;
 import com.bourse.dto.GraphNewsDTO;
 import com.bourse.dto.GraphReqDTO;
+import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseColConfigListDTO;
 import com.bourse.dto.GridDataDTO;
@@ -48,11 +50,12 @@ import com.bourse.dto.UpdateDataDTO;
 import com.bourse.service.CorporatesYieldsService;
 import com.bourse.service.DataEntryFilterHistoryService;
 import com.bourse.service.DataFunctionService;
+import com.bourse.service.DynamicTemplateService;
 import com.bourse.service.GraphHistoryService;
 import com.bourse.service.GraphNewsService;
+import com.bourse.service.GraphService;
 import com.bourse.service.SkewsService;
 import com.bourse.service.SovereignYieldsService;
-import com.bourse.service.LiveFlowOptionService;
 import com.bourse.util.SovereignUtil;
 @RestController
 @RequestMapping(value = "bourse")
@@ -72,7 +75,10 @@ public class BourseController {
 	private final DataFunctionService dataFunctionService;
 	@Autowired
 	private final CorporatesYieldsService corporatesYieldsService;
-	
+	@Autowired
+	private final DynamicTemplateService dynamicTemplateService;
+	@Autowired
+	private final GraphService graphService;
 	public BourseController(
 			SovereignYieldsService sovereignYieldsService,
 			GraphHistoryService graphHistoryService,
@@ -80,7 +86,9 @@ public class BourseController {
 			SkewsService skewsService,
 			GraphNewsService graphNewsService,
 			DataFunctionService dataFunctionService,
-			CorporatesYieldsService corporatesYieldsService)
+			CorporatesYieldsService corporatesYieldsService,
+			DynamicTemplateService dynamicTemplateService,
+			GraphService graphService)
 	{
 		this.sovereignYieldsService   = sovereignYieldsService;
 		this.graphHistoryService      = graphHistoryService;
@@ -89,6 +97,8 @@ public class BourseController {
 		this.graphNewsService         = graphNewsService;
 		this.dataFunctionService      = dataFunctionService;
 		this.corporatesYieldsService  = corporatesYieldsService;
+		this.dynamicTemplateService   = dynamicTemplateService;
+		this.graphService             = graphService;
 	}
 	@RequestMapping( value =  "/pageunderconstruction")
     public ModelAndView underConstructionPage(ModelMap model)
@@ -97,9 +107,13 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('HOME_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/home")
-	 public ModelAndView mainPage(ModelMap model)
+	public ModelAndView mainPage(ModelMap model, Authentication authentication)
     {
-		return new ModelAndView("html/index");
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+	    ModelAndView modelAndView = new ModelAndView("html/index");
+	    
+	    return modelAndView;
     }
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/sovereignyields")
@@ -228,9 +242,13 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('SETTINGS_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "settings")
-    public ModelAndView settingsPage(ModelMap model)
+    public ModelAndView settingsPage(ModelMap model, Authentication authentication)
     {
-		return new ModelAndView("html/settings");
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "SETTINGS_SCREEN"));
+	    ModelAndView modelAndView = new ModelAndView("html/settings");
+	    
+	    return modelAndView;
     }
 	@PreAuthorize("hasAuthority('ROBOT_NEWS_REORDER_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "robotnewsreorder")
@@ -261,9 +279,13 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('NEWS_MANAGEMENT_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/newsmanagement")
-    public ModelAndView newsManagement(ModelMap model)
+    public ModelAndView newsManagement(ModelMap model, Authentication authentication)
     {
-		return new ModelAndView("html/newsManagement");
+		    model.addAttribute("mainmenu", "html/templates/mainMenu");
+		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "NEWS_MANAGEMENT_SCREEN"));
+		    ModelAndView modelAndView = new ModelAndView("html/newsManagement");
+		    
+		return modelAndView;
     }
 	@PreAuthorize("hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/datafunctiondisplay")
@@ -330,7 +352,40 @@ public class BourseController {
     {
 		return new ModelAndView("html/readExcelWriteDB");
     }
+
+	/*
+	 @PreAuthorize("hasAuthority('ONE_SERIE') and principal.tacAccepted == true")
+	  
+	  @RequestMapping( value = "/oneserie") public ModelAndView
+	  oneSeriesPage(ModelMap model) { return new ModelAndView("html/oneSerie"); }
+	 */
+	@PreAuthorize("hasAuthority('ONE_SERIE') and principal.tacAccepted == true")
+	@GetMapping("/oneserie")
+	public ModelAndView liveOptionFlow(@RequestParam("serie") String serie, Model model) {
+				    String fragmentName=dynamicTemplateService.getDynamicTemplateBySerie(serie);
+				
+			        model.addAttribute("fragment", fragmentName);
+			        model.addAttribute("serie", Integer.valueOf(serie));
+			        ModelAndView modelAndView = new ModelAndView("html/oneSerie");
+			        modelAndView.addObject("fragment", fragmentName);
+			        
+			        return modelAndView;
+	    }
+	@PreAuthorize("hasAuthority('TWO_SERIES') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/twoserie")
+    public ModelAndView twoSeriesPage(@RequestParam("serie") String serie, ModelMap model)
+    {
 	
+		    model.addAttribute("submenu", "html/templates/twoseries");
+		    model.addAttribute("yields", "html/templates/yields");
+		    model.addAttribute("commodities", "html/templates/commodities");
+		    model.addAttribute("liquidity", "html/templates/liquidity");
+		    model.addAttribute("volume", "html/templates/volume");
+		    model.addAttribute("serie", Integer.valueOf(serie));
+		    ModelAndView modelAndView = new ModelAndView("html/twoSeries");
+		    
+		    return modelAndView;
+    }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
 		
@@ -551,6 +606,10 @@ public class BourseController {
 	@PostMapping(value = "getgraphdatalistconfig")
 	public ResponseEntity<List<GraphResponseColConfigListDTO>> getGraphDataListConfig(@RequestBody  GraphReqDTO graphReqDTO) {
 	return new ResponseEntity<>(sovereignYieldsService.getGraphDataListConfig(graphReqDTO),HttpStatus.OK);
+	}
+	@PostMapping(value = "getgraphseriesdata")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getSerieGraphData(@RequestBody  GraphRequestDTO graphReqDTO) {
+		return new ResponseEntity<>(graphService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
 	}
 	@PostMapping(value = "savegraphhistory")
     public GraphHistory saveGraphHistory(@RequestBody GraphHistoryDTO graphHistorydto){

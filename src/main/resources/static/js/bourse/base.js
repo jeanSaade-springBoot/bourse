@@ -31,7 +31,7 @@ function drawGraph() {
 	
 	const graphService = "metals";
 	const removeEmpty = false;
-	getGraphData(graphService,graphName,removeEmpty);
+	getGraphData(graphService,graphName,removeEmpty,true);
 }
 
 

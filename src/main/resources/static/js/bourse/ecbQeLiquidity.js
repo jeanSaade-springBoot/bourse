@@ -33,7 +33,7 @@ function drawGraph() {
 	
 	const graphService = "liquidity";
 	const removeEmpty = false;
-	getGraphData(graphService,graphName,removeEmpty);
+	getGraphData(graphService,graphName,removeEmpty,true);
 }
 
 

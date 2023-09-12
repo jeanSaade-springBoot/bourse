@@ -802,7 +802,7 @@ $('#groupOfPeriod').on('selected', function () {
 
 function getSelectedType()
 {
-	return ($('#dropDownType').length)?$("#dropDownType").jqxDropDownList('getSelectedItem').value:null;
+	return ($('#dropDownType').length)?$("#dropDownType").jqxDropDownList('getSelectedItem').value:'0';
 }
 function getSelectedTypeLabel()
 {

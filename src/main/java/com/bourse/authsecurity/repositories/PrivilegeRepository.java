@@ -24,4 +24,5 @@ public interface PrivilegeRepository extends JpaRepository<Privilege, Long> {
 	 		+ "from  privilege p;",
 			      nativeQuery = true)
 	 public List<PrivilegesRoleDTO> findPrivilegeByRoleId(@Param("roleId") long roleId);
+	 public Privilege findPrivilegeByName(String name);
 }

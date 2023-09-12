@@ -2319,7 +2319,7 @@
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
 
-				  inGraphNews(getSelectedFields(checkedItemValues));
+				  inGraphNews(getSelectedFields(checkedItemValues,itemValue));
 							}
 		  	
 			function graphfont(fontSize){
