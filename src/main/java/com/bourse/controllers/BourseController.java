@@ -391,6 +391,14 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/ecbQeLiquidity");
     }
+	@PreAuthorize("hasAuthority('ECB_IMPACT_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/ecbimpactliquidity")
+    public ModelAndView ecbImpactLiquidityPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/ecbImpactLiquidity");
+    }
 	@PreAuthorize("hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ezmmliquidity")
     public ModelAndView ezmmLiquidityPage(ModelMap model, Authentication authentication)

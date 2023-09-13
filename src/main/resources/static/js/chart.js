@@ -1,5 +1,7 @@
 var checkedItem = 0;
 var checkedItemid = [];
+var checkedItemidRight = [];
+var checkedItemidLeft = [];
 var monthDate = new Date();
 monthDate.setMonth(monthDate.getMonth() - 6);
 monthDate.setHours(0, 0, 0, 0);
@@ -35,7 +37,8 @@ var notDecimal;
 var nbrOfDigits;
 var notDecimal1;
 var nbrOfDigits1;
-
+var checkedItemRight   = 0;
+var checkedItemLeft = 0;
 var dataFormatIsDecimal=false;
 var chart1;
 var chart2;
@@ -1584,9 +1587,9 @@ function getMarginLenght(value) {
 						  				}else 
 						  					 if(seriesIndex == 1){
 						  					  if (chartConfigSettings.getFormatResult1[1])
-						  						  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
+						  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null;
 						  						else 
-						  							 return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+						  							 return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%";
 						  					 }
 								    },
 								    title: {
@@ -1685,9 +1688,9 @@ function getMarginLenght(value) {
 								  				}else 
 								  					 if(seriesIndex == 1){
 								  					  if (chartConfigSettings.getFormatResult1[1])
-								  						  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
+								  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null;
 								  						else 
-								  						  return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+								  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%";
 								  					 }
 										    },
 										    title: {
@@ -1783,9 +1786,9 @@ function getMarginLenght(value) {
 						  				}else 
 						  					 if(seriesIndex == 1){
 						  					  if (chartConfigSettings.getFormatResult1[1])
-						  						  return !isNaN(value)?value.toFixed(chartConfigSettings.getFormatResult1[0]):'';
+						  						  return !isNaN(value)?value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null:'';
 						  						else 
-						  						  return !isNaN(value)?value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%":'';
+						  						  return !isNaN(value)?value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%":'';
 						  					 }
 								    },
 								    title: {
@@ -1951,9 +1954,9 @@ function getMarginLenght(value) {
 								  				}else 
 								  					 if(seriesIndex == 1){
 								  					  if (chartConfigSettings.getFormatResult1[1])
-								  						  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
+								  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null;
 								  						else 
-								  							 return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+								  							 return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%";
 								  					 }
 										    },
 										    title: {
@@ -2078,9 +2081,9 @@ function getMarginLenght(value) {
 								  				}else 
 								  					 if(seriesIndex == 1){
 								  					  if (chartConfigSettings.getFormatResult1[1])
-								  						  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
+								  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null;
 								  						else 
-								  							 return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+								  							 return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%";
 								  					 }
 										    },
 										    title: {
@@ -2203,9 +2206,9 @@ function getMarginLenght(value) {
 						  				}else 
 						  					 if(seriesIndex == 1){
 						  					  if (chartConfigSettings.getFormatResult1[1])
-						  						  return !isNaN(value)?value.toFixed(chartConfigSettings.getFormatResult1[0]):'';
+						  						  return !isNaN(value)?value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null:'';
 						  						else 
-						  						  return !isNaN(value)?value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%":'';
+						  						  return !isNaN(value)?value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%":'';
 						  					 }
 								    },
 								    title: {
@@ -2392,16 +2395,16 @@ function updateChartSelectedItem(chartConfigSettings){
 					    									  if(seriesIndex == 0)
 												  				{
 												  				if (chartConfigSettings.getFormatResult1[1])
-												  				  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
+												  				  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null;
 												  				else 
 												  				  {  
-																		return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";}
+																		return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%";}
 												  				}else 
 												  					 if(seriesIndex == 1){
 												  					  if (chartConfigSettings.getFormatResult1[1])
-												  						  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
+												  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null;
 												  						else 
-												  							 return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+												  							 return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%";
 												  					 }
 					    								    },
 					    								    title: {
@@ -2608,16 +2611,16 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 					    									  if(seriesIndex == 0)
 												  				{
 												  				if (chartConfigSettings.getFormatResult1[1])
-												  				  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
+												  				  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null;
 												  				else 
 												  				  {  
-																		return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";}
+																		return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%";}
 												  				}else 
 												  					 if(seriesIndex == 1){
 												  					  if (chartConfigSettings.getFormatResult1[1])
-												  						  return  value.toFixed(chartConfigSettings.getFormatResult1[0]);
+												  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null;
 												  						else 
-												  							 return  value.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
+												  							 return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%";
 												  					 }
 					    								    },
 					    								    title: {
@@ -2733,6 +2736,86 @@ function initializeNavigationButtons()
 	$("#button-monthForward").prop('disabled', true);
 
 }
+function initialiazeItemsLeft(items, numberOfItems){
+	for (i = 0; i < items.length; i++) {
+		$(items[i]).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
+	}
+	 	 
+  $('.left>.jqx-checkbox').on('change', function (event) {
+    var $checkbox = $(this);
+    var checked = event.args.checked;
+    var checkboxId = $checkbox.attr('id');
+    Items = "";
+    if (checked) {
+        checkedItemLeft = checkedItemLeft + 1;
+        checkedItemidLeft.push("#" + checkboxId);
+    } else {
+        checkedItemLeft = checkedItemLeft - 1;
+        checkedItemidLeft = checkedItemidLeft.filter(function (id) {
+            return id !== "#" + checkboxId;
+        });
+    }
+
+    if (checkedItemLeft >= numberOfItems) {
+        for (i = 0; i < items.length; i++) {
+            $(items[i]).jqxCheckBox({ disabled: true });
+        }
+
+        for (i = 0; i < checkedItemidLeft.length; i++) {
+            if (checkedItemidLeft[i] != null) {
+                $(checkedItemidLeft[i]).jqxCheckBox({ disabled: false });
+            }
+        }
+        enableDisableDropDowns(true);
+    } else {
+        for (i = 0; i < items.length; i++) {
+            $(items[i]).jqxCheckBox({ disabled: false });
+        }
+        enableDisableDropDowns(false);
+    }
+});
+
+}
+function initialiazeItemsRight(items, numberOfItems){
+	for (i = 0; i < items.length; i++) {
+		$(items[i]).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
+	}
+	 	 
+  $('.right>.jqx-checkbox').on('change', function (event) {
+    var $checkbox = $(this);
+    var checked = event.args.checked;
+    var checkboxId = $checkbox.attr('id');
+    Items = "";
+    if (checked) {
+        checkedItemRight = checkedItemRight + 1;
+        checkedItemidRight.push("#" + checkboxId);
+    } else {
+        checkedItemRight = checkedItemRight - 1;
+        checkedItemidRight = checkedItemidRight.filter(function (id) {
+            return id !== "#" + checkboxId;
+        });
+    }
+
+    if (checkedItemRight >= numberOfItems) {
+        for (i = 0; i < items.length; i++) {
+            $(items[i]).jqxCheckBox({ disabled: true });
+        }
+
+        for (i = 0; i < checkedItemidRight.length; i++) {
+            if (checkedItemidRight[i] != null) {
+                $(checkedItemidRight[i]).jqxCheckBox({ disabled: false });
+            }
+        }
+        enableDisableDropDowns(true);
+    } else {
+        for (i = 0; i < items.length; i++) {
+            $(items[i]).jqxCheckBox({ disabled: false });
+        }
+        enableDisableDropDowns(false);
+    }
+});
+
+}
 function initialiazeItems(allitems, numberOfItems){
 	for (i = 0; i < allitems.length; i++) {
 		$(allitems[i]).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
@@ -2800,7 +2883,15 @@ function initializeShowFilterButton(){
 		$("#button-monthBackward").prop('disabled', false);
 		$("#button-yearBackward").prop('disabled', false);
 		fromNavigation = false;
-		if (checkedItem > 0) {
+		
+		if(checkedItemLeft>0 && checkedItemRight>0)
+      {	
+    	 $("#collapseFilter").removeClass('show');
+    	 $('#grid-content').css('display', 'block');
+    	drawGraph();
+    	
+      } else 
+ 		 if (checkedItem > 0) {
 			$("#collapseFilter").removeClass('show');
 			$('#grid-content').css('display', 'block');
 			drawGraph();
@@ -2843,13 +2934,13 @@ function getGraphHistoryByScreenName(screenName)
 			checkedItem = checkedItemId.length;
 			$("#collapseFilter").removeClass('show');
 			$('#grid-content').css('display', 'block');
-			$('#groupOfPeriod').jqxButtonGroup('setSelection', getChartPeriodIndex(JSON.parse(data.parameter)[1][0]));
+			($('#groupOfPeriod').length)?$('#groupOfPeriod').jqxButtonGroup('setSelection', getChartPeriodIndex(JSON.parse(data.parameter)[1][0])):null;
 		
 			if (JSON.parse(data.parameter)[2] != null)
 			Items = JSON.parse(data.parameter)[2][0];
 			
 			type=JSON.parse(data.parameter)[3][0];
-			$("#dropDownType").jqxDropDownList('selectIndex', type ); 	
+			($('#dropDownType').length)?$("#dropDownType").jqxDropDownList('selectIndex', type ):null; 	
            
 			drawGraph();
 
@@ -5241,7 +5332,8 @@ function navigationGraph(condition) {
 									 nbrOfDigits=yaxisformat[0];
 									 notDecimal1=yaxisformat1[1];
 									 nbrOfDigits1=yaxisformat1[0];
-									
+									 chartType2=='column'? response[1].graphResponseDTOLst = updateSeriesValue(response[0].graphResponseDTOLst,response[1].graphResponseDTOLst):null;
+							       
 							        var chartConfigSettings={
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
@@ -5888,3 +5980,974 @@ function navigationGraph(condition) {
 				        $("#dateFrom-mainChart").val(fromdate);
 	    	            $("#dateTo-mainChart").val(todate);
 			}
+			 function isecbImpactSeries(){
+				  $('#overlayChart').show(); 
+				   $(".chart-option").show(); 
+				mode="merge";
+				var dataParam;
+                var checkedItemValues = [];
+				
+				var title;
+				var fontsize='12px';
+				var fromdate = formatDate(monthDate);
+				var todate = formatDate(date);
+				$("#mainChart").html("");
+				$("#mainChart").css("display","block");
+				$("#SubChart1").css("display","none");
+				$("#SubChart2").css("display","none");
+				$("#split").css("display","inline-block");
+				$("#merge").css("display","none");
+				chartType1='line';
+				chartType2='line';
+				if   (checkDateMonth(monthDate,date))
+				   {
+					  $("#button-monthForward").prop('disabled', false);
+					}
+					else
+					{
+						$("#button-monthForward").prop('disabled', true);
+					}
+				
+				if   (checkDateYear(monthDate,date))
+				   {
+					  $("#button-yearForward").prop('disabled', false);
+					}
+					else
+					{
+						$("#button-yearForward").prop('disabled', true);
+					} 
+				 if(chart!=null)
+					   chart.destroy();
+			        			
+				 
+		    	  for(i=0; i<checkedItemidLeft.length; i++)
+				   		   {
+				   	  		 if(checkedItemidLeft[i]!=null)
+				   	  		  checkedItemValues.push(checkedItemidLeft[i]);
+				   	       }
+				   for(i=0; i<checkedItemidRight.length; i++)
+				   		   {
+				   	  		 if(checkedItemidRight[i]!=null)
+				   	  		  checkedItemValues.push(checkedItemidRight[i]);
+				   	       }
+				        hasMissingDates = (
+											(itemValue[checkedItemValues[0]].GroupId==15||itemValue[checkedItemValues[0]].GroupId==16)
+				        					|| (itemValue[checkedItemValues[1]].GroupId==15||itemValue[checkedItemValues[1]].GroupId==16)
+				        					)?"true":false;
+				        
+				       
+		 	     	      dataParam = { 
+		 		        		"fromdate":fromdate,
+		 		        	    "todate":todate,
+		 		        	    "period":"d",
+		 		        	    "factor1":itemValue[checkedItemValues[0]].factor,
+		 		        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
+		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
+		 		        	    "factor2":itemValue[checkedItemValues[1]].factor,
+		 		        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
+		 		        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
+		 		        	    "removeEmpty1": hasMissingDates,
+		 		        	    "removeEmpty2": hasMissingDates,
+		 	     			   };
+							   
+		 	     			 disableOptions(true);
+					    if(checkedItemValues.length>1)
+					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
+					        		else 
+					        			title=itemValue[checkedItemValues[0]].title
+					        	
+					        	 var options = {
+					     	  			          series: [],
+					     	  			          chart: {
+					  		   	  			         toolbar: {
+					  		   	  			        show: true,
+					  		   	  			        offsetX: 0,
+					  		   	  			        offsetY: 0,
+					  		   	  			        tools: {
+					  		   	  			          download: false,
+					  		   	  			          selection: true,
+					  		   	  			          zoom: true,
+					  		   	  			          zoomin: true,
+					  		   	  			          zoomout: true,
+					  		   	  			          pan: true,
+					  		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+					  		   	  			          customIcons: []
+					  		   	  			        }},
+					     	  			          height: 525,
+					     	  			          type: 'line',
+					     	  			     animations: { enabled: false }
+					     	  			        },
+					     	  			   grid: {
+					     	  				   
+					     	  			  show:false,
+					     	  			  borderColor: '#f0e68c',
+					     	  			  strokeDashArray:1,
+					     	  		      opacity: 0.5,
+					  		   	  		  padding: {
+					  		   	  	        right: 60,
+					  		   	  	    },  
+					     	  			},
+					     	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#FAD7A0","#a3a3a5"],
+					     	  			        fill: {
+					     	  			            type:'solid',
+					     	  			            opacity: [1, 1],
+					     	  			          },
+					     	  			        stroke: {
+					     	  			        	 curve: 'straight',
+					     	  			        	   width: 2.25
+					     	  			        },
+					     	  			        markers: {
+					     	  			       colors: '#ffffff',
+					                          size: 2,
+					                          shape:'square',
+					     	  			        },
+					     	  			        title: {
+					     	  			          text: '',
+					     	  			         align: 'center',
+					     	  			         margin: 10,
+					    	    				        style: {
+					    	    				          fontWeight:  'bold',
+					    	    				          color:  '#263238'
+					    	    				          },
+					    	    				        },
+					  						subtitle: {
+					  							text: 'copyright LibVol.com',
+					  							align: 'right',
+					  							margin: 10,
+					  							offsetX: -10,
+					  							offsetY: 30,
+					  							floating: false,
+					  							style: {
+					  							  fontSize:  '10px',
+					  							  fontWeight:  'normal',
+					  							  color:  '#9699a2'
+					  							},
+					  						},
+					     	  			        dataLabels: {
+					     	  			          enabled: false
+					     	  			        },
+					     	  			        xaxis: {
+					     	  			        	   labels:  {
+					  					        		//  rotate: -45,
+					  					                  rotateAlways: true,
+					  					                  minHeight:60,
+					  					        		  style: {
+					  							        	  fontSize: fontsize,
+					  							        	 },
+					  					        	  },
+					     	  			           type: (hasMissingDates)?'datetime':'category',
+	   	  			          					   tickAmount: 19,
+					     	  			      axisBorder: {
+					     	  		          show: true,
+					     	  		          color: '#ffffff',
+					     	  		          height: 3,
+					     	  		          width: '100%',
+					     	  		          offsetX: 0,
+					     	  		          offsetY: 0
+					     	  		      },
+					     	  			        },
+					     	  			   legend: {
+					  		   	  			   fontSize: fontsize,
+					  			        	   showForSingleSeries: true,
+					  				    	   labels: {
+					  				    	          colors: 'White',
+					  				    	          useSeriesColors: false
+					  				    	   },
+					  				    	      markers: {
+					  				    	          width: 12,
+					  				    	          height: 2
+					  				    	      },
+					  				    	    formatter: function(seriesName, opts) {
+					  				    	    	img= getCountryFlag(seriesName);
+					  				    	        return [img , seriesName]
+					  				    	    }
+					  				    	  },
+					  			         yaxis: [{
+					  			        	labels: {
+					  			        		 style: {
+					  					        	  fontSize: fontsize,
+					  					        	 }
+					  			        	  },
+					  			        	  axisBorder: {
+					  			        		  width: 3,
+					  			                  show: true,
+					  			                  color: '#ffffff',
+					  			                  offsetX: 0,
+					  			                  offsetY: 0
+					  			              },
+					  			        
+					  			        }],
+					  			        noData: {
+					  			        	  text: '',
+					  			        	  align: 'center',
+					  			        	  verticalAlign: 'middle',
+					  			        	  offsetX: 0,
+					  			        	  offsetY: 0,
+					  			        	  style: {
+					  			        	    color: undefined,
+					  			        	    fontSize: '14px',
+					  			        	    fontFamily: undefined
+					  			        	  }
+					  			        	}
+					     	  			        };	    	
+			  	       	  $.ajax({
+			  	       	        type: "POST",
+		      	    	        contentType:  "application/json; charset=utf-8",
+		      	    	        url: "/bourse/getgraphseriesdata",
+		      	    	        data: JSON.stringify(dataParam),
+		      	    	        dataType: 'json',
+		      	    	        timeout: 600000,
+		      	    	        success: function (response) {
+		      	    	         
+		      	    	        	startDateF1=response[0].config.startDate;
+		      	    	        	startDateF2=response[1].config.startDate;
+		      	    	        	 if (startDateF1!=null)
+		      	    	        	startDateF1 = new Date(startDateF1.split("-")[1]+"-"+startDateF1.split("-")[0]+"-"+startDateF1.split("-")[2]);
+		      	    	        	 if (startDateF2!=null)
+		      	    	        	 startDateF2 = new Date(startDateF2.split("-")[1]+"-"+startDateF2.split("-")[0]+"-"+startDateF2.split("-")[2]);
+		      	    	            var dates=[];
+		      	    	
+		      	    	        	T1=response[0].config.displayDescription==null?itemValue[checkedItemValues[0]].title:response[0].config.displayDescription;
+		      	    	        	T2=response[1].config.displayDescription==null?itemValue[checkedItemValues[1]].title:response[1].config.displayDescription;
+		      	    	        	title= T1 +" vs "+ T2;
+
+		      	    	        	 if (response[0].config.yAxisFormat!=null && response[0].config.yAxisFormat!="")
+			      	    	           { 
+			      	    	        	 if (response[0].config.yAxisFormat.includes("%"))
+				      	    	           { isdecimal= false;
+				      	    	        	   if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+				      	    	        		 yaxisformat=response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+					      	    	            	else
+					      	    	            		yaxisformat=0;
+				      	    	           }
+			      	    	           else 
+			      	    	            	{
+			      	    	        	    if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+			      	    	            	yaxisformat=response[0].config.yAxisFormat.split(".")[1].length
+			      	    	            	else 
+			      	    	            		yaxisformat=0
+			      	    	            		
+			      	    	            	 isdecimal= true;	
+			      	    	            	}
+			      	    	           }
+			      	    	           else
+			      	    	        	 yaxisformat=3;
+		      	    	        	
+		      	    	        	var getFormatResult0 = getFormat(response[0].config.dataFormat);
+		      	    	        	var getFormatResult1 = getFormat(response[1].config.dataFormat);
+		      	    	        	 
+		      	    	       	    chartDbFontSize = response[0].config.chartSize;
+		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+	    	    	          	    
+									if(hasMissingDates)
+		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	          	else
+		      	    	            chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	       
+			      	    	        var dbchartType1=response[0].config.chartType;
+			      	    	            chartType1 =(getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
+			      	    	          
+			      	    	        var dbchartType2=response[1].config.chartType;
+			      	    	            chartType2 =getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
+			      	    	            min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+										min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+		      	    	         
+			      	    	            min=Math.min(min1,min2);
+										max=Math.max(max1,max2);
+									 // minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+				      	    	     minvalue=min;
+	      	    	  				 maxvalue=max;
+	      	    	  				 	 
+									 var yaxisformat = getFormat(response[0].config.yAxisFormat);
+									 var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
+									 
+				      	    	     notDecimal=yaxisformat[1];
+									 nbrOfDigits=yaxisformat[0];
+									 notDecimal1=yaxisformat1[1];
+									 nbrOfDigits1=yaxisformat1[0];
+									
+									chartType2='column';
+							        chartType2=='column'? response[1].graphResponseDTOLst = updateSeriesValue(response[0].graphResponseDTOLst,response[1].graphResponseDTOLst):null;
+							        
+							        var chartConfigSettings={
+											 isDecimal:isdecimal,
+											 yAxisFormat:yaxisformat,
+											 yAxisFormat1:yaxisformat1,
+											 fontSize:fontsize,
+											 min1:min1,
+											 max1:max1,
+											 min2:min2,
+											 max2:max2,
+											 min:min,
+											 max:max,
+											 minvalue:minvalue,
+											 maxvalue:maxvalue,
+											 chartType1:chartType1,
+											 chartType2:chartType2,
+											 getFormatResult0:getFormatResult0,
+											 getFormatResult1:getFormatResult1,
+											 response:response,
+											 chartColor:chartColor,
+											 chartTransparency:chartTransparency,
+											 checkedItem:checkedItem};
+											 
+											 if(hasMissingDates)
+											 	updateChartSelectedItemMissingDates(chartConfigSettings);
+											 else
+												 updateChartSelectedItem(chartConfigSettings);
+									
+							        $('#overlayChart').hide();
+		      	   },
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    });	
+			  	       
+			        chart = new ApexCharts(document.querySelector("#mainChart"), options);
+			        chart.render();
+				
+			            $("#dateFrom-mainChart").val(fromdate);
+	    	            $("#dateTo-mainChart").val(todate);
+					inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValue));
+
+			  }
+		function splitGraphTwoSeries()
+			{
+				
+				$(".chart-option").hide();
+				mode="split";
+				var title1;
+				var title2;
+  				var checkedItemValues = [];
+				var fromdate = formatDate(monthDate);
+				var todate = formatDate(date);
+				var fontsize='12px'
+				$("#mainChart").css("display","none");
+				$("#split").css("display","none");
+				$("#merge").css("display","inline-block");
+				$("#SubChart1").html("");
+				$("#SubChart2").html("");
+				$("#SubChart1").css("display","block");
+				$("#SubChart2").css("display","block");
+			
+				  $('#overlayChart1').show(); 
+				
+				 if(chart1!=null)
+					   chart1.destroy();
+				 if(chart2!=null)
+					   chart2.destroy();
+				 
+				for(i=0; i<checkedItemid.length; i++)
+		   		   {
+		   	  		 if(checkedItemid[i]!=null)
+		   	  		  checkedItemValues.push(checkedItemid[i]);
+		   	       }
+				 if(checkedItemValues.length>1)
+				  { 
+					title1=T1;
+				    title2=T2;
+				  }
+				  else
+					 title1=T1;
+				  var options1 = {
+   	  			          series: [],
+   	  			          chart: {
+		   	  			         toolbar: {
+		   	  			        show: true,
+		   	  			        offsetX: 0,
+		   	  			        offsetY: 0,
+		   	  			        tools: {
+		   	  			          download: false,
+		   	  			          selection: true,
+		   	  			          zoom: true,
+		   	  			          zoomin: true,
+		   	  			          zoomout: true,
+		   	  			          pan: true,
+		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          customIcons: []
+		   	  			        }},
+   	  			          height: 525,
+ 						  width: 543,
+   	  			          type: 'line',
+   	  			     animations: { enabled: false }
+   	  			        },
+   	  			   grid: {
+   	  				   
+   	  			  show:false,
+   	  			  borderColor: '#f0e68c',
+   	  			  strokeDashArray:1,
+   	  		      opacity: 0.5,
+		   	  		  padding: {
+		   	  	        right: 60,
+		   	  	    },  
+   	  			},
+   	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#FAD7A0","#a3a3a5"],
+   	  			        fill: {
+   	  			            type:'solid',
+   	  			            opacity: [1, 1],
+   	  			          },
+   	  			        stroke: {
+   	  			        	 curve: 'straight',
+   	  			        	   width: 2.25
+   	  			        },
+   	  			        markers: {
+   	  			       colors: '#ffffff',
+                        size: 2,
+                        shape:'square',
+   	  			        },
+   	  			        title: {
+   	  			          text: '',
+   	  			         align: 'center',
+   	  			         margin: 10,
+  	    				        style: {
+  	    				          fontWeight:  'bold',
+  	    				          color:  '#263238'
+  	    				          },
+  	    				        },
+						subtitle: {
+							text: 'copyright LibVol.com',
+							align: 'right',
+							margin: 10,
+							offsetX: -10,
+							offsetY: 30,
+							floating: false,
+							style: {
+							  fontSize:  '10px',
+							  fontWeight:  'normal',
+							  color:  '#9699a2'
+							},
+						},
+   	  			        dataLabels: {
+   	  			          enabled: false
+   	  			        },
+   	  			        xaxis: {
+   	  			        	   labels:  {
+					        		  rotate: -45,
+					                  rotateAlways: true,
+					                  minHeight:60,
+					        		  style: {
+							        	  fontSize: fontsize,
+							        	 },
+					        	  },
+   	  			           type: 'category',
+   	  			      axisBorder: {
+   	  		          show: true,
+   	  		          color: '#ffffff',
+   	  		          height: 3,
+   	  		          width: '100%',
+   	  		          offsetX: 0,
+   	  		          offsetY: 0
+   	  		      },
+   	  			        },
+   	  			   legend: {
+		   	  			   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    }
+				    	  },
+			         yaxis: [{
+			        	labels: {
+			        		 style: {
+					        	  fontSize: fontsize,
+					        	 }
+			        	  },
+			        	  axisBorder: {
+			        		  width: 3,
+			                  show: true,
+			                  color: '#ffffff',
+			                  offsetX: 0,
+			                  offsetY: 0
+			              },
+			        
+			        }],
+			        noData: {
+			        	  text: '',
+			        	  align: 'center',
+			        	  verticalAlign: 'middle',
+			        	  offsetX: 0,
+			        	  offsetY: 0,
+			        	  style: {
+			        	    color: undefined,
+			        	    fontSize: '14px',
+			        	    fontFamily: undefined
+			        	  }
+			        	}
+   	  			        };
+
+ 			    	   
+ 			    	    chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
+ 				     
+		    	   dataParam = { 
+   		        		
+   	     			   "fromdate":fromdate,
+		 		       "todate":todate,
+		 		        "period":"d",
+		 		        "factor1":itemValue[checkedItemValues[0]].factor,
+		 		        "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
+		 		        "groupId1": itemValue[checkedItemValues[0]].GroupId,
+		 		        	 
+   	     			   };
+		  	       	  $.ajax({
+		  	       	        type: "POST",
+	      	    	        contentType:  "application/json; charset=utf-8",
+	      	    	        url: "/bourse/getgraphseriesdata",
+	      	    	        data: JSON.stringify(dataParam),
+	      	    	        dataType: 'json',
+	      	    	        timeout: 600000,
+	      	    	        success: function (response) {
+		      	    	        
+		      	    	    var dbchartType1=response[0].config.chartType;
+	      	    	           chartType1 = getChartType(dbchartType1)[0];
+	      	    	         var getFormatResult = getFormat(response[0].config.dataFormat); 
+	      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
+	      	    		    chartDbFontSize = response[0].config.chartSize;
+	      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+  	    	          	 
+	      	    	         chart1.updateOptions(getSubChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    
+	      	    	
+	      	    	     if (chartType1=='area')
+   	    	        	{
+   	    	    			chart1.updateOptions({
+   	    	        		colors:  ['#F0AB2E'], //[response[0].config.chartColor],
+   	    	        		fill: {
+	      	    	        		  type: 'gradient',
+	      	    	        		  gradient: {
+	      	    	        		    shade: 'dark',
+	      	    	        		    type: "vertical",
+	      	    	        		    shadeIntensity: 0.2,
+	      	    	        		    opacityFrom: 1,
+								        opacityTo: eval(response[0].config.chartTransparency),
+	      	    	        		    inverseColors: false,
+	      	    	        		  },}
+   	    	        		, stroke: {
+		     				      	 colors: ["#ffffff"],
+	     				        },
+   							});
+   	    	        	} else 	
+   	    	        			chart1.updateOptions({
+      	    	    				colors: ['#F0AB2E'],
+			      				       fill: {
+			      			            type:'solid',
+			      			            opacity: [1,1],
+			      			          }, 
+			      			        stroke: {
+		      	    			      	 colors: ['#F0AB2E'],
+		      	    		        },
+		      	    	         markers: {
+		      	    				   colors: ['#F0AB2E'],
+		      	    				   strokeColors:['#F0AB2E']
+		      	    			     }
+	      	    	    		});
+   	    	        	
+      	    	    		
+	      	    	    min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+	      	    	          return item.y;
+	      	    	        })),
+	      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+	      	    	          return item.y;
+	      	    	        }));
+	      	    	    // minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+	      	    	   //  maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+	      	    	   
+	      	    	    minvalue=min;
+	      	    	    maxvalue=max;
+	      	    	   	var valueMin = getMarginLenght(min); 
+			 	    	var valueMax = getMarginLenght(max);  				 	
+				
+	      	    	     notDecimal=yaxisformat[1];
+				         nbrOfDigits=yaxisformat[0];
+	      	    	     chart1.updateOptions({
+							   series:[{
+							          name: itemValue[checkedItemValues[0]].title,
+							          type: chartType1,
+							          data: response[0].graphResponseDTOLst
+							        }],
+	      	    	    	  extra:{
+									isDecimal: isdecimal,
+									yAxisFormat:yaxisformat,
+								},
+	     				       yaxis: {
+		     				    	  labels: {
+		     				    		     minWidth: 75,maxWidth: 75,
+			 				        		 style: {
+			 						        	  fontSize: fontsize,
+			 						        	 },
+							 formatter: function(val, index) {
+										 if (getYAxisFormatResult[1])
+						  				  return  val.toFixed(getYAxisFormatResult[0]);
+						  				else 
+						  				  return  val.toFixed(getYAxisFormatResult[0]) + "%";
+									      }
+			 				        	  },
+	     				          tickAmount: 6,
+							     min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							     max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
+	     				    			  axisBorder: {
+	     					                  width: 3,
+	     					                  show: true,
+	     					                  color: '#ffffff',
+	     					                  offsetX: 0,
+	     					                  offsetY: 0
+	     					              },
+	     				    	  },
+  						  tooltip: {
+  							  x: {
+  						          show: false,
+  						      },
+  							  y: {
+  								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+  									  if (getFormatResult[1])
+							  				  return  value.toFixed(getFormatResult[0]);
+							  				else 
+							  				  return  value.toFixed(getFormatResult[0]) + "%";
+  								    },
+  								    title: {
+  							              formatter: (seriesName) => '',
+  							          },
+  					      },
+  						}
+    	    	    		});
+							    
+		      	    	 $('#overlayChart1').hide();  
+		      					    
+		      	   },
+		      	    	        error: function (e) {
+		      	    	        	
+		      						  console.log("ERROR : ", e);
+		      	
+		      	    	        }
+		      	    	    });	
+			  	        chart1.render();
+			      
+			  	      var options2 = {
+	   	  			          series: [],
+	   	  			          chart: {
+			   	  			         toolbar: {
+			   	  			        show: true,
+			   	  			        offsetX: 0,
+			   	  			        offsetY: 0,
+			   	  			        tools: {
+			   	  			          download: false,
+			   	  			          selection: true,
+			   	  			          zoom: true,
+			   	  			          zoomin: true,
+			   	  			          zoomout: true,
+			   	  			          pan: true,
+			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+			   	  			          customIcons: []
+			   	  			        }},
+	   	  			          height: 525,
+							  width: 543,
+	   	  			          type: 'line',
+	   	  			     animations: { enabled: false }
+	   	  			        },
+	   	  			   grid: {
+	   	  				   
+	   	  			  show:false,
+	   	  			  borderColor: '#f0e68c',
+	   	  			  strokeDashArray:1,
+	   	  		      opacity: 0.5,
+			   	  		  padding: {
+			   	  	        right: 60,
+			   	  	    },  
+	   	  			},
+	   	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#FAD7A0","#a3a3a5"],
+	   	  			        fill: {
+	   	  			            type:'solid',
+	   	  			            opacity: [1, 1],
+	   	  			          },
+	   	  			        stroke: {
+	   	  			        	 curve: 'straight',
+	   	  			        	   width: 2.25
+	   	  			        },
+	   	  			        markers: {
+	   	  			       colors: '#ffffff',
+	                        size: 2,
+	                        shape:'square',
+	   	  			        },
+	   	  			        title: {
+	   	  			          text: '',
+	   	  			         align: 'center',
+	   	  			         margin: 10,
+	  	    				        style: {
+	  	    				          fontWeight:  'bold',
+	  	    				          color:  '#263238'
+	  	    				          },
+	  	    				        },
+							subtitle: {
+								text: 'copyright LibVol.com',
+								align: 'right',
+								margin: 10,
+								offsetX: -10,
+								offsetY: 30,
+								floating: false,
+								style: {
+								  fontSize:  '10px',
+								  fontWeight:  'normal',
+								  color:  '#9699a2'
+								},
+							},
+	   	  			        dataLabels: {
+	   	  			          enabled: false
+	   	  			        },
+	   	  			        xaxis: {
+	   	  			        	   labels:  {
+						        		 // rotate: -45,
+						                  rotateAlways: true,
+						                  minHeight:60,
+						        		  style: {
+								        	  fontSize: fontsize,
+								        	 },
+						        	  },
+	   	  			           type: 'category',
+	   	  			      axisBorder: {
+	   	  		          show: true,
+	   	  		          color: '#ffffff',
+	   	  		          height: 3,
+	   	  		          width: '100%',
+	   	  		          offsetX: 0,
+	   	  		          offsetY: 0
+	   	  		      },
+	   	  			        },
+	   	  			   legend: {
+			   	  			   fontSize: fontsize,
+				        	   showForSingleSeries: true,
+					    	   labels: {
+					    	          colors: 'White',
+					    	          useSeriesColors: false
+					    	   },
+					    	      markers: {
+					    	          width: 12,
+					    	          height: 2
+					    	      },
+					    	    formatter: function(seriesName, opts) {
+					    	    	img= getCountryFlag(seriesName);
+					    	        return [img , seriesName]
+					    	    }
+					    	  },
+				         yaxis: [{
+				        	labels: {
+				        		 style: {
+						        	  fontSize: fontsize,
+						        	 }
+				        	  },
+				        	  axisBorder: {
+				        		  width: 3,
+				                  show: true,
+				                  color: '#ffffff',
+				                  offsetX: 0,
+				                  offsetY: 0
+				              },
+				        
+				        }],
+				        noData: {
+				        	  text: '',
+				        	  align: 'center',
+				        	  verticalAlign: 'middle',
+				        	  offsetX: 0,
+				        	  offsetY: 0,
+				        	  style: {
+				        	    color: undefined,
+				        	    fontSize: '14px',
+				        	    fontFamily: undefined
+				        	  }
+				        	}
+	   	  			        };
+
+	 			    	   
+	      	    	   	if (checkedItem==2) {
+	      	    	   	  $('#overlayChart2').show(); 
+	     			    	    chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
+	     					      
+	     			    	 
+			    	    dataParam = { 
+								"fromdate":fromdate,
+				 		       "todate":todate,
+				 		        "period":"d",
+				 		        "factor1":itemValue[checkedItemValues[1]].factor,
+				 		        "subGroupId1":itemValue[checkedItemValues[1]].subGroupId,
+				 		        "groupId1": itemValue[checkedItemValues[1]].GroupId,
+				 		        	};
+			    	          $.ajax({
+				  	       	        type: "POST",
+			      	    	        contentType:  "application/json; charset=utf-8",
+			      	    	        url: "/bourse/getgraphseriesdata",
+			      	    	        data: JSON.stringify(dataParam),
+			      	    	        dataType: 'json',
+			      	    	        timeout: 600000,
+			      	    	        success: function (response) {
+			      	    	         var getFormatResult = getFormat(response[0].config.dataFormat);
+			      	    	         var dbchartType2=response[0].config.chartType;
+			      	    	           chartType2 = getChartType(dbchartType2)[0];
+			      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
+			      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
+			      	    	         
+			      	    		    chartDbFontSize = response[0].config.chartSize;
+			      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+		    	    	          	
+			      	    	       chart2.updateOptions(getSubChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+			   		      	    
+			   	      	    	
+				      	    	     if (chartType2=='area')
+			   	    	        	{	chart2.updateOptions({
+			   	    	        		colors: ['#0097fe'], // [response[0].config.chartColor],
+			   	    	        		fill: {
+				      	    	        		  type: 'gradient',
+				      	    	        		  gradient: {
+				      	    	        		    shade: 'dark',
+				      	    	        		    type: "vertical",
+				      	    	        		    shadeIntensity: 0.2,
+				      	    	        		    opacityFrom: 1,
+											        opacityTo: eval(response[0].config.chartTransparency),
+				      	    	        		    inverseColors: false,
+				      	    	        		  },}
+			   	    	        		, stroke: {
+					     				      	 colors: ["#ffffff"],
+				     				        },
+			   							});
+			   	    	        	} else 	
+			   	    	        			chart2.updateOptions({
+			      	    	    				colors: ['#0097fe'],
+						      				       fill: {
+						      			            type:'solid',
+						      			            opacity: [1,1],
+						      			          }, 
+						      			        stroke: {
+					      	    			      	 colors: ['#0097fe'],
+					      	    		        },
+					      	    	         markers: {
+					      	    				   colors: ['#0097fe'],
+					      	    				   strokeColors:['#0097fe']
+					      	    			     }
+				      	    	    		});
+			   	    	        	
+				      	    	    min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        })),
+				      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+				      	    	          return item.y;
+				      	    	        }));
+				      	    	    // minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
+				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+				      	    	     minvalue=min;
+	      	    	  				 maxvalue=max;
+	      	    	         	     var valueMin = getMarginLenght(min); 
+			 		                 var valueMax = getMarginLenght(max);  				 	
+				   					 var yaxisformat = getFormat(response[0].config.yAxisFormat);
+					
+				      	    	     notDecimal=yaxisformat[1];
+								     nbrOfDigits=yaxisformat[0];
+				      	    	    	chart2.updateOptions({
+											series:  [{
+								          name: itemValue[checkedItemValues[1]].title,
+								          type: chartType2,
+								          data: response[0].graphResponseDTOLst
+								         }],
+				      	    	    	  extra:{
+												isDecimal: isdecimal,
+												yAxisFormat:yaxisformat,
+											},
+				     				       yaxis: {
+					     				    	  labels: {
+					     				    		     minWidth: 75,maxWidth: 75,
+						 				        		 style: {
+						 						        	  fontSize: fontsize,
+						 						        	 },
+												 formatter: function(val, index) {
+															 if (getYAxisFormatResult[1])
+											  				  return  val.toFixed(getYAxisFormatResult[0]);
+											  				else 
+											  				  return  val.toFixed(getYAxisFormatResult[0]) + "%";
+														      }
+						 				        	  },
+				     				          tickAmount: 6,
+				     				    	  min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							           	 	  max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
+				     				    			  axisBorder: {
+				     					                  width: 3,
+				     					                  show: true,
+				     					                  color: '#ffffff',
+				     					                  offsetX: 0,
+				     					                  offsetY: 0
+				     					              },
+				     				    	  },
+			    						  tooltip: {
+			    							  x: {
+			    						          show: false,
+			    						      },
+			    							  y: {
+			    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+			    									  if (getFormatResult[1])
+										  				  return  value.toFixed(getFormatResult[0]);
+										  				else 
+										  				  return  value.toFixed(getFormatResult[0]) + "%";
+			    								    },
+			    								    title: {
+			    							              formatter: (seriesName) => '',
+			    							          },
+			    					      },
+			    						}
+			      	    	    		});
+								        $('#overlayChart2').hide();
+			      	   },
+			      	    	        error: function (e) {
+			      	    	        	
+			      						  console.log("ERROR : ", e);
+			      	
+			      	    	        }
+			      	    	    });	
+				  	 
+				  	        chart2.render();
+	      	    	   	}
+				        $("#dateFrom-mainChart").val(fromdate);
+	    	            $("#dateTo-mainChart").val(todate);
+			}
+			
+function customDateSort(a, b) {
+  const dateA = new Date(a.x.replace(/-/g, ' ')); // Convert '31-Mar-23' to '31 Mar 23' for parsing
+  const dateB = new Date(b.x.replace(/-/g, ' ')); // Convert '27-Apr-23' to '27 Apr 23' for parsing
+
+  return dateA - dateB;
+}
+function updateSeriesValue(serie1,serie2)
+{
+	const datesInSeries1 = new Set(serie1.map(item => item.x));
+									
+	for (const item of serie1) {
+		  if (datesInSeries1.has(item.x)) {
+		  if (! serie2.some(data => data.x === item.x)) {
+		        serie2.push({
+		      x: item.x,
+		      y: null // You can set an appropriate value for missing data
+		    });
+		    }
+		  }
+		}
+	 const data =  serie2;
+	 return data.sort(customDateSort);	
+}
