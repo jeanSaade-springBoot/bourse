@@ -13,6 +13,8 @@ import javax.persistence.PersistenceContext;
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
@@ -231,8 +233,11 @@ public class AdminService
 		boolean hasData= getData();
 		if(!hasData)
 			return null;
-		String isPublished = "1";
-		return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
+		
+	    String isPublished = "1";
+		//return newsRepository.findByIsPublished(isPublished,Sort.by("generationDateDate").descending());
+	    Pageable pageable = PageRequest.of(Integer.valueOf("0") , Integer.valueOf("100"));
+		return newsRepository.findByIsPublishedOrderByGenerationDateDateDesc(isPublished,pageable);
 		}
 	public List<AllNewsView> getNewsByImportance(String isBold, String assetId, String pageNo, String pageSize){
 		return allNewsViewService.findByIsPublishedAndIsBold(isBold,assetId,pageNo,pageSize);
