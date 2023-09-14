@@ -1,7 +1,7 @@
   var serieValue = $("#serieValue").val();
   serieValue = parseInt(serieValue);
 	if (serieValue === 1) {
-  var graphService ;	    
+  var graphService = "metals";	    
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
 	  "#jqxCheckBoxUSA-5",
@@ -198,15 +198,20 @@ $(document).ready(function() {
 
 function drawGraph() {
 	const removeEmpty = false;
-	if (serieValue === 1) {
-		var itemsDataParam;
-		getGraphDataSovereign(graphName,itemsDataParam);
-		}
-		else
-		{
-			getGraphData(graphService,graphName,removeEmpty,false);
-		}
-		
+	const key = ['yield', 'curve', 'cross'];
+	
+	 for(i=0; i<checkedItemid.length; i++)
+	   {
+  		 if(checkedItemid[i]!=null)
+  		  {const groupId = itemValue[checkedItemid[i]].GroupId;
+  		  if (key.includes(groupId)) {
+			   var itemsDataParam;
+			   getGraphDataSovereign(graphName,itemsDataParam);
+			} else {
+			    getGraphData(graphService,graphName,removeEmpty,false);
+			}
+			}
+       }
 }
 
 

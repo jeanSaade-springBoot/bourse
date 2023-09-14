@@ -37,5 +37,22 @@ public class OngoingProcessService {
 	public List<OngoingProcessDTO> findByAssetIdAndGroupIdOrParentGroupId( int assetId, int groupId) {
 		return ongoingProcessRepository.findByAssetIdAndGroupIdOrParentGroupId(assetId,groupId);
 	}
+	public Boolean checkIfRobotIsRunning(int assetId, int groupId)
+	{
+		 List<OngoingProcessDTO> ongoingProcessList = findByAssetIdAndGroupIdOrParentGroupId(assetId,groupId);
+		    Boolean isRunnig =false;
+			for(OngoingProcessDTO ongoingProcessData:ongoingProcessList) {
+				try {
+					 OngoingProcess ongoingProcess= checkIfExistByAssetIdAndGroupId(true,ongoingProcessData.getAssetId(),ongoingProcessData.getGroupId());
+					 isRunnig =false;
+					if(ongoingProcess!=null)
+						isRunnig = true;
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+			return isRunnig;
+	}
 
 }

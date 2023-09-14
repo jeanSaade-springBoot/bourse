@@ -19,4 +19,6 @@ public interface RobotInitializerRepository extends JpaRepository<RobotInitializ
 
 	List<RobotInitializer> findByProcessNameAndAssetIdAndGroupId(String processName, int assetId, int groupId);
 
+	List<RobotInitializer> findByProcessNameAndAssetIdAndGroupIdAndRobotName(String processName, int assetId, int groupId, String robotName);
+
 }

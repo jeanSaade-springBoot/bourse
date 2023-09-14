@@ -959,7 +959,7 @@
 	    	        	{
 							 $.ajax({
 						        contentType: "application/json",
-						        url: "/process/isrobottriggered/1",
+						        url: "/process/isrobottriggered/1/1",
 						        dataType: 'text',
 								async:true,
 						        cache: false,
@@ -2369,7 +2369,7 @@
 	    	        	{
 							 $.ajax({
 						        contentType: "application/json",
-						        url: "/process/isrobottriggered/111213",
+						        url: "/process/isrobottriggered/1/11",
 						        dataType: 'text',
 								async:true,
 						        cache: false,

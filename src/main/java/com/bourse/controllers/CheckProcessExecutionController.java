@@ -1,5 +1,7 @@
 package com.bourse.controllers;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bourse.domain.OngoingProcess;
+import com.bourse.dto.OngoingProcessDTO;
 import com.bourse.service.OngoingProcessService;
 
 @RestController
@@ -29,11 +32,7 @@ public class CheckProcessExecutionController {
     }
 	@GetMapping(value = "isrobottriggered/{assetId}/{groupId}", produces = "application/json;charset=UTF-8")
     public  ResponseEntity<Boolean> CheckProcessStatus(@PathVariable("assetId") int assetId , @PathVariable("groupId") int groupId){
-		OngoingProcess ongoingProcess= ongoingProcessService.checkIfExistByAssetIdAndGroupId(true,assetId,groupId);
-		Boolean isRunnig =false;
-		if(ongoingProcess!=null)
-			isRunnig = true;
-		return new ResponseEntity<>(isRunnig, HttpStatus.OK);
+	   return new ResponseEntity<>(ongoingProcessService.checkIfRobotIsRunning(assetId, groupId), HttpStatus.OK);
     }
 	@GetMapping(value = "mustbetriggered/{assetId}", produces = "application/json;charset=UTF-8")
     public  ResponseEntity<Boolean> MustBeTriggered(@PathVariable("assetId") int assetId){
