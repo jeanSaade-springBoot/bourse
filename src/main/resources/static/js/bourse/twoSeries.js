@@ -232,14 +232,16 @@ $(document).ready(function() {
 	});
 
 function drawGraph() {
-	const removeEmpty = false;
+	const removeEmpty = true;
+	const key = ['yield', 'curve', 'cross'];
+	
 	mode = "merge";
 	$("#SubChart1").css("display","none");
 	$("#SubChart2").css("display","none");
 	$("#split").css("display","inline-block");
 	$("#merge").css("display","none");
 	$(".chart-option").show();
-	graphService = "volume";
+	graphService = "metals";
 	if (checkedItem == 2) {
 		if (graphName === "") {
 			isAny2Series();
@@ -248,15 +250,15 @@ function drawGraph() {
 	}else {
 			for (i = 0; i < checkedItemid.length; i++) {
 				if (checkedItemid[i] != null)
-					if (itemValue[checkedItemid[i]].GroupId == "yield" ||
-						itemValue[checkedItemid[i]].GroupId == "curve" ||
-						itemValue[checkedItemid[i]].GroupId == "cross") {
+					{const groupId = itemValue[checkedItemid[i]].GroupId;
+  		              if (key.includes(groupId)) {
 						var itemsDataParam;
 						getGraphDataSovereign(graphName, itemsDataParam);
 					}
 					else {
 						getGraphData(graphService, graphName, removeEmpty, false);
 					}
+				}
 			}
 		}
 }

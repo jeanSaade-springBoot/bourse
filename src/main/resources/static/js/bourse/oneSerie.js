@@ -197,7 +197,7 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
-	const removeEmpty = false;
+	const removeEmpty = true;
 	const key = ['yield', 'curve', 'cross'];
 	
 	 for(i=0; i<checkedItemid.length; i++)

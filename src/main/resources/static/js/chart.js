@@ -1888,7 +1888,7 @@ function getMarginLenght(value) {
 					   	  	        right: 60,
 					   	  	    },  
 			   	  			},
- 				       	 yaxis: [{
+ 				       	 yaxis: {
 								 labels: {
      				    		 minWidth:75,maxWidth: 75,
  				        		 style: {
@@ -1912,33 +1912,7 @@ function getMarginLenght(value) {
  					                  offsetY: 0
  					              },
  				    			 },
-								{
-								 show: false,	
-							   opposite: true,
-     				    	  labels: {
-     				    		    // minWidth: -50,maxWidth: -50,
-	 				        		 style: {
-	 						        	  fontSize: chartConfigSettings.fontSize,
-	 						        	 },
-	 						        	  formatter: function(val, index) {
-										  if (chartConfigSettings.yAxisFormat1[1])
-								  						  return  val.toFixed(chartConfigSettings.yAxisFormat1[0]);
-								  						else 
-								  							 return  val.toFixed(chartConfigSettings.yAxisFormat1[0]) + "%";
-								  							
-									      }
-		 				        	  },
-		 				          tickAmount: 6,
-		 				    	  min:min2,
-		 				    	  max:max2,
- 				    			  axisBorder: {
- 					                  width: 3,
- 					                  show: true,
- 					                  color: "#00c9ff96",
- 					                  offsetX: 0,
- 					                  offsetY: 0
- 					              },
- 				    			 }],
+								
 								  tooltip: {
 									  x: {
 								          show: false,
@@ -2883,22 +2857,27 @@ function initializeShowFilterButton(){
 		$("#button-monthBackward").prop('disabled', false);
 		$("#button-yearBackward").prop('disabled', false);
 		fromNavigation = false;
-		
-		if(checkedItemLeft>0 && checkedItemRight>0)
-      {	
-    	 $("#collapseFilter").removeClass('show');
-    	 $('#grid-content').css('display', 'block');
-    	drawGraph();
-    	
-      } else 
- 		 if (checkedItem > 0) {
-			$("#collapseFilter").removeClass('show');
-			$('#grid-content').css('display', 'block');
-			drawGraph();
-		} else {
-			$('#alertFiltter-modal').modal('show');
-			$("#collapseFilter").addClass('show');
-		}
+		if(checkedItemLeft>0 || checkedItemRight>0)
+		{
+		  if(checkedItemLeft>0 && checkedItemRight>0)
+	      {	
+	    	 $("#collapseFilter").removeClass('show');
+	    	 $('#grid-content').css('display', 'block');
+	    	drawGraph();
+	      } 
+	       else {
+				$('#alertFiltter-modal').modal('show');
+				$("#collapseFilter").addClass('show');
+			}
+	    }else 
+	 		 if (checkedItem > 0) {
+				$("#collapseFilter").removeClass('show');
+				$('#grid-content').css('display', 'block');
+				drawGraph();
+			} else {
+				$('#alertFiltter-modal').modal('show');
+				$("#collapseFilter").addClass('show');
+			}
 	});
 }
 function initialiazeAllButtons(){
@@ -5085,9 +5064,8 @@ function navigationGraph(condition) {
 				   	  		 if(checkedItemid[i]!=null)
 				   	  		  checkedItemValues.push(checkedItemid[i]);
 				   	       }
-				        hasMissingDates = (
-											(itemValue[checkedItemValues[0]].GroupId==15||itemValue[checkedItemValues[0]].GroupId==16)
-				        					|| (itemValue[checkedItemValues[1]].GroupId==15||itemValue[checkedItemValues[1]].GroupId==16)
+				        hasMissingDates = (["10","15", "16"].includes(itemValue[checkedItemValues[0]].GroupId)
+				        					||["10","15", "16"].includes(itemValue[checkedItemValues[1]].GroupId)
 				        					)?"true":false;
 				        
 				       
@@ -5553,7 +5531,7 @@ function navigationGraph(condition) {
 
  			    	   
  			    	    chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
- 				     
+ 				       hasMissingDates = (["10","15", "16"].includes(itemValue[checkedItemValues[0]].GroupId))?"true":false;
 		    	   dataParam = { 
    		        		
    	     			   "fromdate":fromdate,
@@ -5562,7 +5540,7 @@ function navigationGraph(condition) {
 		 		        "factor1":itemValue[checkedItemValues[0]].factor,
 		 		        "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
 		 		        "groupId1": itemValue[checkedItemValues[0]].GroupId,
-		 		        	 
+		 		        "removeEmpty1": hasMissingDates,	 
    	     			   };
 		  	       	  $.ajax({
 		  	       	        type: "POST",
@@ -5837,7 +5815,8 @@ function navigationGraph(condition) {
 	      	    	   	  $('#overlayChart2').show(); 
 	     			    	    chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
 	     					      
-	     			    	 
+	     			    hasMissingDates1 = (["10","15", "16"].includes(itemValue[checkedItemValues[1]].GroupId))?"true":false;
+
 			    	    dataParam = { 
 								"fromdate":fromdate,
 				 		       "todate":todate,
@@ -5845,6 +5824,7 @@ function navigationGraph(condition) {
 				 		        "factor1":itemValue[checkedItemValues[1]].factor,
 				 		        "subGroupId1":itemValue[checkedItemValues[1]].subGroupId,
 				 		        "groupId1": itemValue[checkedItemValues[1]].GroupId,
+				 		        "removeEmpty1": hasMissingDates1,
 				 		        	};
 			    	          $.ajax({
 				  	       	        type: "POST",
@@ -6325,609 +6305,6 @@ function navigationGraph(condition) {
 					inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValue));
 
 			  }
-		function splitGraphTwoSeries()
-			{
-				
-				$(".chart-option").hide();
-				mode="split";
-				var title1;
-				var title2;
-  				var checkedItemValues = [];
-				var fromdate = formatDate(monthDate);
-				var todate = formatDate(date);
-				var fontsize='12px'
-				$("#mainChart").css("display","none");
-				$("#split").css("display","none");
-				$("#merge").css("display","inline-block");
-				$("#SubChart1").html("");
-				$("#SubChart2").html("");
-				$("#SubChart1").css("display","block");
-				$("#SubChart2").css("display","block");
-			
-				  $('#overlayChart1').show(); 
-				
-				 if(chart1!=null)
-					   chart1.destroy();
-				 if(chart2!=null)
-					   chart2.destroy();
-				 
-				for(i=0; i<checkedItemid.length; i++)
-		   		   {
-		   	  		 if(checkedItemid[i]!=null)
-		   	  		  checkedItemValues.push(checkedItemid[i]);
-		   	       }
-				 if(checkedItemValues.length>1)
-				  { 
-					title1=T1;
-				    title2=T2;
-				  }
-				  else
-					 title1=T1;
-				  var options1 = {
-   	  			          series: [],
-   	  			          chart: {
-		   	  			         toolbar: {
-		   	  			        show: true,
-		   	  			        offsetX: 0,
-		   	  			        offsetY: 0,
-		   	  			        tools: {
-		   	  			          download: false,
-		   	  			          selection: true,
-		   	  			          zoom: true,
-		   	  			          zoomin: true,
-		   	  			          zoomout: true,
-		   	  			          pan: true,
-		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
-		   	  			          customIcons: []
-		   	  			        }},
-   	  			          height: 525,
- 						  width: 543,
-   	  			          type: 'line',
-   	  			     animations: { enabled: false }
-   	  			        },
-   	  			   grid: {
-   	  				   
-   	  			  show:false,
-   	  			  borderColor: '#f0e68c',
-   	  			  strokeDashArray:1,
-   	  		      opacity: 0.5,
-		   	  		  padding: {
-		   	  	        right: 60,
-		   	  	    },  
-   	  			},
-   	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#FAD7A0","#a3a3a5"],
-   	  			        fill: {
-   	  			            type:'solid',
-   	  			            opacity: [1, 1],
-   	  			          },
-   	  			        stroke: {
-   	  			        	 curve: 'straight',
-   	  			        	   width: 2.25
-   	  			        },
-   	  			        markers: {
-   	  			       colors: '#ffffff',
-                        size: 2,
-                        shape:'square',
-   	  			        },
-   	  			        title: {
-   	  			          text: '',
-   	  			         align: 'center',
-   	  			         margin: 10,
-  	    				        style: {
-  	    				          fontWeight:  'bold',
-  	    				          color:  '#263238'
-  	    				          },
-  	    				        },
-						subtitle: {
-							text: 'copyright LibVol.com',
-							align: 'right',
-							margin: 10,
-							offsetX: -10,
-							offsetY: 30,
-							floating: false,
-							style: {
-							  fontSize:  '10px',
-							  fontWeight:  'normal',
-							  color:  '#9699a2'
-							},
-						},
-   	  			        dataLabels: {
-   	  			          enabled: false
-   	  			        },
-   	  			        xaxis: {
-   	  			        	   labels:  {
-					        		  rotate: -45,
-					                  rotateAlways: true,
-					                  minHeight:60,
-					        		  style: {
-							        	  fontSize: fontsize,
-							        	 },
-					        	  },
-   	  			           type: 'category',
-   	  			      axisBorder: {
-   	  		          show: true,
-   	  		          color: '#ffffff',
-   	  		          height: 3,
-   	  		          width: '100%',
-   	  		          offsetX: 0,
-   	  		          offsetY: 0
-   	  		      },
-   	  			        },
-   	  			   legend: {
-		   	  			   fontSize: fontsize,
-			        	   showForSingleSeries: true,
-				    	   labels: {
-				    	          colors: 'White',
-				    	          useSeriesColors: false
-				    	   },
-				    	      markers: {
-				    	          width: 12,
-				    	          height: 2
-				    	      },
-				    	    formatter: function(seriesName, opts) {
-				    	    	img= getCountryFlag(seriesName);
-				    	        return [img , seriesName]
-				    	    }
-				    	  },
-			         yaxis: [{
-			        	labels: {
-			        		 style: {
-					        	  fontSize: fontsize,
-					        	 }
-			        	  },
-			        	  axisBorder: {
-			        		  width: 3,
-			                  show: true,
-			                  color: '#ffffff',
-			                  offsetX: 0,
-			                  offsetY: 0
-			              },
-			        
-			        }],
-			        noData: {
-			        	  text: '',
-			        	  align: 'center',
-			        	  verticalAlign: 'middle',
-			        	  offsetX: 0,
-			        	  offsetY: 0,
-			        	  style: {
-			        	    color: undefined,
-			        	    fontSize: '14px',
-			        	    fontFamily: undefined
-			        	  }
-			        	}
-   	  			        };
-
- 			    	   
- 			    	    chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
- 				     
-		    	   dataParam = { 
-   		        		
-   	     			   "fromdate":fromdate,
-		 		       "todate":todate,
-		 		        "period":"d",
-		 		        "factor1":itemValue[checkedItemValues[0]].factor,
-		 		        "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
-		 		        "groupId1": itemValue[checkedItemValues[0]].GroupId,
-		 		        	 
-   	     			   };
-		  	       	  $.ajax({
-		  	       	        type: "POST",
-	      	    	        contentType:  "application/json; charset=utf-8",
-	      	    	        url: "/bourse/getgraphseriesdata",
-	      	    	        data: JSON.stringify(dataParam),
-	      	    	        dataType: 'json',
-	      	    	        timeout: 600000,
-	      	    	        success: function (response) {
-		      	    	        
-		      	    	    var dbchartType1=response[0].config.chartType;
-	      	    	           chartType1 = getChartType(dbchartType1)[0];
-	      	    	         var getFormatResult = getFormat(response[0].config.dataFormat); 
-	      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
-	      	    		    chartDbFontSize = response[0].config.chartSize;
-	      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
-  	    	          	 
-	      	    	         chart1.updateOptions(getSubChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
-		      	    
-	      	    	
-	      	    	     if (chartType1=='area')
-   	    	        	{
-   	    	    			chart1.updateOptions({
-   	    	        		colors:  ['#F0AB2E'], //[response[0].config.chartColor],
-   	    	        		fill: {
-	      	    	        		  type: 'gradient',
-	      	    	        		  gradient: {
-	      	    	        		    shade: 'dark',
-	      	    	        		    type: "vertical",
-	      	    	        		    shadeIntensity: 0.2,
-	      	    	        		    opacityFrom: 1,
-								        opacityTo: eval(response[0].config.chartTransparency),
-	      	    	        		    inverseColors: false,
-	      	    	        		  },}
-   	    	        		, stroke: {
-		     				      	 colors: ["#ffffff"],
-	     				        },
-   							});
-   	    	        	} else 	
-   	    	        			chart1.updateOptions({
-      	    	    				colors: ['#F0AB2E'],
-			      				       fill: {
-			      			            type:'solid',
-			      			            opacity: [1,1],
-			      			          }, 
-			      			        stroke: {
-		      	    			      	 colors: ['#F0AB2E'],
-		      	    		        },
-		      	    	         markers: {
-		      	    				   colors: ['#F0AB2E'],
-		      	    				   strokeColors:['#F0AB2E']
-		      	    			     }
-	      	    	    		});
-   	    	        	
-      	    	    		
-	      	    	    min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-	      	    	          return item.y;
-	      	    	        })),
-	      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-	      	    	          return item.y;
-	      	    	        }));
-	      	    	    // minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
-	      	    	   //  maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-	      	    	   
-	      	    	    minvalue=min;
-	      	    	    maxvalue=max;
-	      	    	   	var valueMin = getMarginLenght(min); 
-			 	    	var valueMax = getMarginLenght(max);  				 	
-				
-	      	    	     notDecimal=yaxisformat[1];
-				         nbrOfDigits=yaxisformat[0];
-	      	    	     chart1.updateOptions({
-							   series:[{
-							          name: itemValue[checkedItemValues[0]].title,
-							          type: chartType1,
-							          data: response[0].graphResponseDTOLst
-							        }],
-	      	    	    	  extra:{
-									isDecimal: isdecimal,
-									yAxisFormat:yaxisformat,
-								},
-	     				       yaxis: {
-		     				    	  labels: {
-		     				    		     minWidth: 75,maxWidth: 75,
-			 				        		 style: {
-			 						        	  fontSize: fontsize,
-			 						        	 },
-							 formatter: function(val, index) {
-										 if (getYAxisFormatResult[1])
-						  				  return  val.toFixed(getYAxisFormatResult[0]);
-						  				else 
-						  				  return  val.toFixed(getYAxisFormatResult[0]) + "%";
-									      }
-			 				        	  },
-	     				          tickAmount: 6,
-							     min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
-							     max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
-	     				    			  axisBorder: {
-	     					                  width: 3,
-	     					                  show: true,
-	     					                  color: '#ffffff',
-	     					                  offsetX: 0,
-	     					                  offsetY: 0
-	     					              },
-	     				    	  },
-  						  tooltip: {
-  							  x: {
-  						          show: false,
-  						      },
-  							  y: {
-  								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-  									  if (getFormatResult[1])
-							  				  return  value.toFixed(getFormatResult[0]);
-							  				else 
-							  				  return  value.toFixed(getFormatResult[0]) + "%";
-  								    },
-  								    title: {
-  							              formatter: (seriesName) => '',
-  							          },
-  					      },
-  						}
-    	    	    		});
-							    
-		      	    	 $('#overlayChart1').hide();  
-		      					    
-		      	   },
-		      	    	        error: function (e) {
-		      	    	        	
-		      						  console.log("ERROR : ", e);
-		      	
-		      	    	        }
-		      	    	    });	
-			  	        chart1.render();
-			      
-			  	      var options2 = {
-	   	  			          series: [],
-	   	  			          chart: {
-			   	  			         toolbar: {
-			   	  			        show: true,
-			   	  			        offsetX: 0,
-			   	  			        offsetY: 0,
-			   	  			        tools: {
-			   	  			          download: false,
-			   	  			          selection: true,
-			   	  			          zoom: true,
-			   	  			          zoomin: true,
-			   	  			          zoomout: true,
-			   	  			          pan: true,
-			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
-			   	  			          customIcons: []
-			   	  			        }},
-	   	  			          height: 525,
-							  width: 543,
-	   	  			          type: 'line',
-	   	  			     animations: { enabled: false }
-	   	  			        },
-	   	  			   grid: {
-	   	  				   
-	   	  			  show:false,
-	   	  			  borderColor: '#f0e68c',
-	   	  			  strokeDashArray:1,
-	   	  		      opacity: 0.5,
-			   	  		  padding: {
-			   	  	        right: 60,
-			   	  	    },  
-	   	  			},
-	   	         colors: ["#F0AB2E", "#0097FE","#44546a","#7e95d9","#FAD7A0","#a3a3a5"],
-	   	  			        fill: {
-	   	  			            type:'solid',
-	   	  			            opacity: [1, 1],
-	   	  			          },
-	   	  			        stroke: {
-	   	  			        	 curve: 'straight',
-	   	  			        	   width: 2.25
-	   	  			        },
-	   	  			        markers: {
-	   	  			       colors: '#ffffff',
-	                        size: 2,
-	                        shape:'square',
-	   	  			        },
-	   	  			        title: {
-	   	  			          text: '',
-	   	  			         align: 'center',
-	   	  			         margin: 10,
-	  	    				        style: {
-	  	    				          fontWeight:  'bold',
-	  	    				          color:  '#263238'
-	  	    				          },
-	  	    				        },
-							subtitle: {
-								text: 'copyright LibVol.com',
-								align: 'right',
-								margin: 10,
-								offsetX: -10,
-								offsetY: 30,
-								floating: false,
-								style: {
-								  fontSize:  '10px',
-								  fontWeight:  'normal',
-								  color:  '#9699a2'
-								},
-							},
-	   	  			        dataLabels: {
-	   	  			          enabled: false
-	   	  			        },
-	   	  			        xaxis: {
-	   	  			        	   labels:  {
-						        		 // rotate: -45,
-						                  rotateAlways: true,
-						                  minHeight:60,
-						        		  style: {
-								        	  fontSize: fontsize,
-								        	 },
-						        	  },
-	   	  			           type: 'category',
-	   	  			      axisBorder: {
-	   	  		          show: true,
-	   	  		          color: '#ffffff',
-	   	  		          height: 3,
-	   	  		          width: '100%',
-	   	  		          offsetX: 0,
-	   	  		          offsetY: 0
-	   	  		      },
-	   	  			        },
-	   	  			   legend: {
-			   	  			   fontSize: fontsize,
-				        	   showForSingleSeries: true,
-					    	   labels: {
-					    	          colors: 'White',
-					    	          useSeriesColors: false
-					    	   },
-					    	      markers: {
-					    	          width: 12,
-					    	          height: 2
-					    	      },
-					    	    formatter: function(seriesName, opts) {
-					    	    	img= getCountryFlag(seriesName);
-					    	        return [img , seriesName]
-					    	    }
-					    	  },
-				         yaxis: [{
-				        	labels: {
-				        		 style: {
-						        	  fontSize: fontsize,
-						        	 }
-				        	  },
-				        	  axisBorder: {
-				        		  width: 3,
-				                  show: true,
-				                  color: '#ffffff',
-				                  offsetX: 0,
-				                  offsetY: 0
-				              },
-				        
-				        }],
-				        noData: {
-				        	  text: '',
-				        	  align: 'center',
-				        	  verticalAlign: 'middle',
-				        	  offsetX: 0,
-				        	  offsetY: 0,
-				        	  style: {
-				        	    color: undefined,
-				        	    fontSize: '14px',
-				        	    fontFamily: undefined
-				        	  }
-				        	}
-	   	  			        };
-
-	 			    	   
-	      	    	   	if (checkedItem==2) {
-	      	    	   	  $('#overlayChart2').show(); 
-	     			    	    chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
-	     					      
-	     			    	 
-			    	    dataParam = { 
-								"fromdate":fromdate,
-				 		       "todate":todate,
-				 		        "period":"d",
-				 		        "factor1":itemValue[checkedItemValues[1]].factor,
-				 		        "subGroupId1":itemValue[checkedItemValues[1]].subGroupId,
-				 		        "groupId1": itemValue[checkedItemValues[1]].GroupId,
-				 		        	};
-			    	          $.ajax({
-				  	       	        type: "POST",
-			      	    	        contentType:  "application/json; charset=utf-8",
-			      	    	        url: "/bourse/getgraphseriesdata",
-			      	    	        data: JSON.stringify(dataParam),
-			      	    	        dataType: 'json',
-			      	    	        timeout: 600000,
-			      	    	        success: function (response) {
-			      	    	         var getFormatResult = getFormat(response[0].config.dataFormat);
-			      	    	         var dbchartType2=response[0].config.chartType;
-			      	    	           chartType2 = getChartType(dbchartType2)[0];
-			      	    	         var getYAxisFormatResult = getFormat(response[0].config.yAxisFormat);
-			      	    	         var getDataFormatResult = getFormat(response[0].config.dataFormat);
-			      	    	         
-			      	    		    chartDbFontSize = response[0].config.chartSize;
-			      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
-		    	    	          	
-			      	    	       chart2.updateOptions(getSubChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
-			   		      	    
-			   	      	    	
-				      	    	     if (chartType2=='area')
-			   	    	        	{	chart2.updateOptions({
-			   	    	        		colors: ['#0097fe'], // [response[0].config.chartColor],
-			   	    	        		fill: {
-				      	    	        		  type: 'gradient',
-				      	    	        		  gradient: {
-				      	    	        		    shade: 'dark',
-				      	    	        		    type: "vertical",
-				      	    	        		    shadeIntensity: 0.2,
-				      	    	        		    opacityFrom: 1,
-											        opacityTo: eval(response[0].config.chartTransparency),
-				      	    	        		    inverseColors: false,
-				      	    	        		  },}
-			   	    	        		, stroke: {
-					     				      	 colors: ["#ffffff"],
-				     				        },
-			   							});
-			   	    	        	} else 	
-			   	    	        			chart2.updateOptions({
-			      	    	    				colors: ['#0097fe'],
-						      				       fill: {
-						      			            type:'solid',
-						      			            opacity: [1,1],
-						      			          }, 
-						      			        stroke: {
-					      	    			      	 colors: ['#0097fe'],
-					      	    		        },
-					      	    	         markers: {
-					      	    				   colors: ['#0097fe'],
-					      	    				   strokeColors:['#0097fe']
-					      	    			     }
-				      	    	    		});
-			   	    	        	
-				      	    	    min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-				      	    	          return item.y;
-				      	    	        })),
-				      	    	        max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-				      	    	          return item.y;
-				      	    	        }));
-				      	    	    // minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
-				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
-				      	    	     minvalue=min;
-	      	    	  				 maxvalue=max;
-	      	    	         	     var valueMin = getMarginLenght(min); 
-			 		                 var valueMax = getMarginLenght(max);  				 	
-				   					 var yaxisformat = getFormat(response[0].config.yAxisFormat);
-					
-				      	    	     notDecimal=yaxisformat[1];
-								     nbrOfDigits=yaxisformat[0];
-				      	    	    	chart2.updateOptions({
-											series:  [{
-								          name: itemValue[checkedItemValues[1]].title,
-								          type: chartType2,
-								          data: response[0].graphResponseDTOLst
-								         }],
-				      	    	    	  extra:{
-												isDecimal: isdecimal,
-												yAxisFormat:yaxisformat,
-											},
-				     				       yaxis: {
-					     				    	  labels: {
-					     				    		     minWidth: 75,maxWidth: 75,
-						 				        		 style: {
-						 						        	  fontSize: fontsize,
-						 						        	 },
-												 formatter: function(val, index) {
-															 if (getYAxisFormatResult[1])
-											  				  return  val.toFixed(getYAxisFormatResult[0]);
-											  				else 
-											  				  return  val.toFixed(getYAxisFormatResult[0]) + "%";
-														      }
-						 				        	  },
-				     				          tickAmount: 6,
-				     				    	  min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
-							           	 	  max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
-				     				    			  axisBorder: {
-				     					                  width: 3,
-				     					                  show: true,
-				     					                  color: '#ffffff',
-				     					                  offsetX: 0,
-				     					                  offsetY: 0
-				     					              },
-				     				    	  },
-			    						  tooltip: {
-			    							  x: {
-			    						          show: false,
-			    						      },
-			    							  y: {
-			    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-			    									  if (getFormatResult[1])
-										  				  return  value.toFixed(getFormatResult[0]);
-										  				else 
-										  				  return  value.toFixed(getFormatResult[0]) + "%";
-			    								    },
-			    								    title: {
-			    							              formatter: (seriesName) => '',
-			    							          },
-			    					      },
-			    						}
-			      	    	    		});
-								        $('#overlayChart2').hide();
-			      	   },
-			      	    	        error: function (e) {
-			      	    	        	
-			      						  console.log("ERROR : ", e);
-			      	
-			      	    	        }
-			      	    	    });	
-				  	 
-				  	        chart2.render();
-	      	    	   	}
-				        $("#dateFrom-mainChart").val(fromdate);
-	    	            $("#dateTo-mainChart").val(todate);
-			}
-			
 function customDateSort(a, b) {
   const dateA = new Date(a.x.replace(/-/g, ' ')); // Convert '31-Mar-23' to '31 Mar 23' for parsing
   const dateB = new Date(b.x.replace(/-/g, ' ')); // Convert '27-Apr-23' to '27 Apr 23' for parsing
