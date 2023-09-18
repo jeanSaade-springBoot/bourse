@@ -186,7 +186,7 @@ $(document).ready(function() {
 	 initializeFunctions();
 	 
 	 initializeNavigationButtons();
-	 initialiazeItems(allitems,1);
+	 initialiazeItem(allitems,1);
 	 initialiazeClearFilterButton();
 	 initializeShowFilterButton();
 	 

@@ -60,7 +60,12 @@ function disableChartLegend(isdisabled)
     $("#legendtrue").prop('disabled', isdisabled);
     $("#legendfalse").prop('disabled', isdisabled);
 }
-
+function disableChartFont(isdisabled)
+{
+    $("#12px").prop('disabled', isdisabled);
+    $("#14px").prop('disabled', isdisabled);
+    $("#16px").prop('disabled', isdisabled);
+}
 function disableChartGrid(isdisabled)
 {
     $("#true").prop('disabled', isdisabled);
@@ -75,6 +80,7 @@ function disableOptions(isdisabled)
 	 disableChartMarker(true);
 	 disableChartGrid(true);
 	 disableChartLegend(true);
+	 disableChartFont(true);
 	 
 	}
 	else{
@@ -84,6 +90,7 @@ function disableOptions(isdisabled)
 		disableChartLegend(false);
 		activateChartTrasnparency(chartType1);
 		activateChartMarker(chartType1);
+		disableChartFont(false);
 		
 	}
 }

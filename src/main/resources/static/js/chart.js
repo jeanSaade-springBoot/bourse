@@ -2830,6 +2830,47 @@ function initialiazeItems(allitems, numberOfItems){
 });
 
 }
+function initialiazeItem(allitems, numberOfItems){
+	for (i = 0; i < allitems.length; i++) {
+		$(allitems[i]).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
+	}
+	 	 
+  $('.jqx-checkbox').on('change', function (event) {
+    var $checkbox = $(this);
+    var checked = event.args.checked;
+    var checkboxId = $checkbox.attr('id');
+    Items = "";
+    if (checked) {
+        checkedItem = checkedItem + 1;
+        checkedItemid.push("#" + checkboxId);
+    } else {
+        checkedItem = checkedItem - 1;
+        checkedItemid = checkedItemid.filter(function (id) {
+            return id !== "#" + checkboxId;
+        });
+    }
+
+    if (checkedItem >= numberOfItems) {
+        for (i = 0; i < allitems.length; i++) {
+            $(allitems[i]).jqxCheckBox({ disabled: true });
+        }
+
+        for (i = 0; i < checkedItemid.length; i++) {
+            if (checkedItemid[i] != null) {
+                $(checkedItemid[i]).jqxCheckBox({ disabled: false });
+            }
+        }
+       // enableDisableDropDowns(true);
+    } else {
+        for (i = 0; i < allitems.length; i++) {
+            $(allitems[i]).jqxCheckBox({ disabled: false });
+        }
+        enableDisableDropDowns(false);
+    }
+     enableDisableDropDowns(false);
+});
+
+}
 function initialiazeClearFilterButton(){
 	
 	$("#Clearfilter").jqxButton({ theme: 'dark', height: 30, width: 74 });
@@ -2966,6 +3007,7 @@ function graphfont(fontSize){
 			 else 
 			 updateGraphFont(fontSize,minvalue,maxvalue);
 	     }
+   
 function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 	
 	mode = "merge";
@@ -3373,7 +3415,7 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 
 		} else
 				 {
-					enableDisableDropDowns(false);
+					//enableDisableDropDowns(false);
 					title = itemValue[checkedItemValues[0]].title;
 
 					dataParam = {
@@ -4698,7 +4740,7 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 						"isFunctionGraph":functionId=='-1'?false:true,
 						"functionId":functionId
 					};
-					  enableDisableDropDowns(false);
+					 // enableDisableDropDowns(false);
 					$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
