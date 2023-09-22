@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - Dashboard</title>
+  <title>Libvol - One Serie</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -52,6 +52,45 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
+
+input[type="radio"] {
+  /* Add if not using autoprefixer */
+  -webkit-appearance: none;
+  /* Remove most all native input styles */
+  appearance: none;
+  /* For iOS < 15 */
+  background-color: var(--form-background);
+  /* Not removed via appearance */
+  margin: 0;
+
+  font: inherit;
+  color: currentColor;
+  width: 1.15em;
+  height: 1.15em;
+  border: 0.01em solid currentColor;
+  border-radius: 50%;
+  transform: translateY(-0.075em);
+
+  display: inline-grid;
+  place-content: center;
+}
+
+input[type="radio"]::before {
+  content: "";
+  width: 0.65em;
+  height: 0.65em;
+  border-radius: 50%;
+  transform: scale(0);
+  transition: 120ms transform ease-in-out;
+  box-shadow: inset 1em 1em var(--form-control-color);
+  /* Windows High Contrast Mode */
+  background-color: #719df0;
+}
+
+input[type="radio"]:checked::before {
+  transform: scale(1);
+}
+
   </style>
 </head>
 
@@ -60,26 +99,28 @@
     <!-- Sidebar -->
     <!-- Sidebar -->
     <div id="content-wrapper" class="d-flex flex-column">
+      <div id="fixedMenu">
        <!-- TopBar -->
      	<div th:include="${mainmenu}"></div>
         <!-- Topbar -->
-    	<div class="d-sm-flex align-items-center">
+		<div class="d-sm-flex align-items-center">
             <h1 class="ml-6 text-darkorange">Volumes</h1>
             	 <nav style="margin-left: 3rem;
     						 height: 35px;
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a sec:authorize="hasAuthority('ANY2_VOLUME_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-any2-tab"  href="/bourse/any2volume" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				 	<a sec:authorize="hasAuthority('DAILY_VOLUME_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-dailyvolume-tab"  href="/bourse/dailyvolume" role="tab" aria-controls="nav-dailyvolume" aria-selected="false">Daily Volume</a>
-				    <a sec:authorize="hasAuthority('WMQY_VOLUME_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-wmgyvolume-tab"  href="/bourse/wmqyvolume" role="tab" aria-controls="nav-wmgyvolume" aria-selected="false">Weekly/Monthly/Quarterly/Yearly</a>
+				    <a sec:authorize="hasAuthority('ANY2_VOLUME_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-any2-tab"  href="/bourse/any2volume" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
+				    <a sec:authorize="hasAuthority('DAILY_VOLUME_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-dailyvolume-tab"  href="/bourse/dailyvolume" role="tab" aria-controls="nav-dailyvolume" aria-selected="false">Daily Volume</a>
+				  <a sec:authorize="hasAuthority('WMQY_VOLUME_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-wmgyvolume-tab"  href="/bourse/wmqyvolume" role="tab" aria-controls="nav-wmgyvolume" aria-selected="false">Weekly/Monthly/Quarterly/Yearly</a>
 				    <a sec:authorize="hasAuthority('MARKET_SHARE_VOLUME_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-marketsharevolume-tab"  href="/bourse/marketshare" role="tab" aria-controls="nav-marketsharevolume" aria-selected="false">Market Share</a>
-					<a sec:authorize="hasAuthority('RACE_VOLUME_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-racevolume-tab"  href="/bourse/racechart" role="tab" aria-controls="nav-racevolume" aria-selected="false">Race Chart</a>
+					<a sec:authorize="hasAuthority('RACE_VOLUME_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-racevolume-tab"  href="/bourse/racechart" role="tab" aria-controls="nav-racevolume" aria-selected="false">Race Chart</a>
 				  </div>
 				</nav>
            
           </div>
               </div>
-               <div id="content">
+        <div id="content">
+        
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
 
@@ -96,101 +137,28 @@
 				  	  	</p>
 					<div class="row">
 					  <div class="col">
-				 <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
-				 <div class="col-12 d-flex">
-							<div class="col">
-								<h7 class="m-0 font-weight-bold">BUND OPTIONS</h7>
-									<div class=" no-gutters">
-									  <div class="col-custom">
-										 <div id='jqxCheckBoxBund1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
-									   </div>
-										 <div class="col-custom">
-												<div id='jqxCheckBoxBund2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
-										 </div>
-										 <div class="col-custom">
-												<div id='jqxCheckBoxBund1_Bund2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
-											</div>
-										 <div class="col-custom">
-												<div id='jqxCheckBoxBund1_Bund2_cp' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">5-day C/P ratio</span></div>
-										 </div>
-								</div>
-							</div>
-							 <div class="col">
-							  <h7 class="m-0 font-weight-bold">BOBL OPTIONS</h7>
-								<div class=" no-gutters">
-								  <div class="col-custom">
-											<div id='jqxCheckBoxBobl1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
-									  </div>
-									 <div class="col-custom">
-										<div id='jqxCheckBoxBobl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
-									  </div>
-									 <div class="col-custom">
-										<div id='jqxCheckBoxBobl1_Bobl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
-									 </div>
-								</div>
-							</div>
-							<div class="col">
-							  <h7 class="m-0 font-weight-bold">BUXL OPTIONS</h7>
-								<div class=" no-gutters">
-								  <div class="col-custom">
-											<div id='jqxCheckBoxBuxl1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
-									 </div>
-									 <div class="col-custom">
-											<div id='jqxCheckBoxBuxl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
-									   </div>
-									 <div class="col-custom">
-											<div id='jqxCheckBoxBuxl1_Buxl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
-									   </div>
-								</div>
-							</div>
-							<div class="col">
-							  <h7 class="m-0 font-weight-bold">SHATZ OPTIONS</h7>
-								<div class=" no-gutters">
-								  <div class="col-custom">
-											<div id='jqxCheckBoxShatz1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
-									  </div>
-									 <div class="col-custom">
-											<div id='jqxCheckBoxShatz2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
-									   </div>
-									 <div class="col-custom">
-											<div id='jqxCheckBoxShatz1_Shatz2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
-									   </div>
-								</div>
-							</div>
-						  <div class="col">
-							  <h7 class="m-0 font-weight-bold">EURIBOR OPTIONS</h7>
-								<div class=" no-gutters">
-								  <div class="col-custom">
-											<div id='jqxCheckBoxEuribor1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Regular ER</span></div>
-									  </div>
-									 <div class="col-custom">
-											<div id='jqxCheckBoxEuribor2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">1yr MID</span></div>
-									 </div>
-									 <div class="col-custom">
-											<div id='jqxCheckBoxEuribor3' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">2yr GREEN</span></div>
-									   </div>
-									<div class="col-custom">
-											<div id='jqxCheckBoxEuribor4' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">3yr BLUE</span></div>
-									   </div>
-									<div class="col-custom">
-											<div id='jqxCheckBoxEuribor5' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">4yr GOLD</span></div>
-									   </div>
-									<div class="col-custom">
-											<div id='jqxCheckBoxEuribor1_Euribor2_Euribor3_Euribor4_Euribor5' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">All EURIBOR</span></div>
-									</div>
-								</div>
-							</div>
-						</div>
+					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 5rem;">
+					    <div th:include="${fragment}" id="template"></div>
                      	<div class="row pt-2">
-							<div class='col-12 d-flex justify-content-end'>
-							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
-							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+							<div class='col-12 d-flex justify-content-end mb-4'>
+								<input aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+								<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 							</div>
 						</div>
 					    </div>
 				    <div id="grid-content" style="display:none;">
 				 
 				    <div class="row">
+				       <div class="row col-12">
+				   	  	   
+								<div class="d-flex col-12">
+								    <div class="col-1">
+									</div>
+							 		<div class="col-10  justify-content-end">
+							 		</div>
+								</div>
+							</div>
+							
 				     <div class="col-1" style="z-index: 1;">
 						<div class="chart-option">
 				   	        <div class="chart-option-title">Chart option</div>
@@ -270,29 +238,26 @@
 						</div>
 						 <div class="col-10">
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   		</div>
-						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
-						
-						 </div>
-						 <div class="row" style="min-width: 1153px;  max-width:1153px">
-						 	<div class='col-6'>
-						 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   </div>
-						 		<div id="SubChart1" class="chart-box"></div>
-						 	</div>
-						 	<div class='col-6'>
-						 	<div id="overlayChart2" class="overlayChart-split" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   </div>
+								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+								   		</div>
+												 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
+												
+												 </div>
+												 <div class="row" style="min-width: 1153px;  max-width:1153px">
+												 	<div class='col-6'>
+												 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
+								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+								   </div>
+												 		<div id="SubChart1" class="chart-box"></div>
+												 	</div>
+												 	<div class='col-6'>
+												 	<div id="overlayChart2" class="overlayChart-split" style="display:none">
+								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+								   </div>
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
-					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
-							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split">
-					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
-							  </div>
+					 	      
 					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
@@ -425,10 +390,11 @@
   <script src="/js/apexcharts.js"></script>
   <script src="/js/chartOptions.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
-  <script src="/js/bourse/any2Volume.js"></script> 
+  <script src="/js/bourse/raceChartVolume.js"></script> 
   <script src="/js/chart.js"></script>
    <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 
+ <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
@@ -442,6 +408,7 @@
  <script src="/js/bourse/scrollBarNews.js"></script> 
  <script src="/js/bourse/inGraphNews.js"></script> 
  <script src="/js/common.js"></script>
+ 
   <script src="/js/notification/sockjs.js"></script>
   <script src="/js/notification/stomp.js"></script>
   <script src="/js/notification/config.js"></script>

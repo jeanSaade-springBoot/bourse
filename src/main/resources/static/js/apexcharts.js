@@ -708,6 +708,7 @@
 						h = arguments.length > 9 && void 0 !== arguments[9] ? arguments[9] : 0,
 						c = this.w,
 						d = c.globals.dom.Paper.rect();
+					
 					return d.attr({
 						x: t,
 						y: e,
@@ -798,6 +799,7 @@
 						p = t.strokeDashArray,
 						x = void 0 === p ? 0 : p,
 						b = this.w;
+					
 					return null === f && (f = b.config.stroke.lineCap), (i.indexOf("undefined") > -1 || i.indexOf("NaN") > -1) && (i = "M 0 ".concat(b.globals.gridHeight)), b.globals.dom.Paper.path(i).attr({
 						fill: o,
 						"fill-opacity": h,
@@ -4093,7 +4095,7 @@
 									},
 									x: u,
 									y: p,
-									strokeWidth: P,
+									strokeWidth: P!=0?(typeof this.w.config.series[(this.w.config.series.length==1?0:1)].strokeWidth != 'undefined' ? this.w.config.series[1].strokeWidth: P):P, // mns added to control the width of the column 
 									elSeries: w
 								};
 							this.isHorizontal ? (T = this.drawBarPaths(n(n({}, z), {}, {
@@ -13249,7 +13251,8 @@
 						name: t.name ? t.name : a && a.name,
 						color: t.color ? t.color : a && a.color,
 						type: t.type ? t.type : a && a.type,
-						data: t.data ? t.data : a && a.data
+						data: t.data ? t.data : a && a.data,
+						strokeWidth: t.strokeWidth ? t.strokeWidth : a && a.strokeWidth, // mns added to control the width of the column 
 					})
 				}
 			}, {

@@ -3887,9 +3887,9 @@
 				 dataParam = { 
 		 		        		"fromdate":$.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'),  'yyyy-MM-dd'),
 		 		        	    "todate":$.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'),  'yyyy-MM-dd'),
-		 		        	    "factor":itemValue[item].factor,
-		 		        	    "country":itemValue[item].country,
-		 		        	    "yieldCurveCross": itemValue[item].yieldCurveCross,
+		 		        	    "factor":itemValueYields[item].factor,
+		 		        	    "country":itemValueYields[item].country,
+		 		        	    "yieldCurveCross": itemValueYields[item].yieldCurveCross,
 		 	     			    "functions":functions
 								};
 								 return new Promise((resolve, reject) => {
@@ -3953,7 +3953,7 @@
 				                        columns: dynamicColumns,
 										selectionmode:'none',
 				                        columngroups: [
-              { text: title==null?getCountryFlagById(itemValue[Items[gridIdIncrement]].country,itemValue[Items[gridIdIncrement]].yieldCurveCross)+'<span style="font-size: 1.5rem;     vertical-align: bottom;">'+getFactorDesc(itemValue[Items[gridIdIncrement]].factor,itemValue[Items[gridIdIncrement]].yieldCurveCross)+'</span>':title, align: 'center', name: 'country' },
+              { text: title==null?getCountryFlagById(itemValueYields[Items[gridIdIncrement]].country,itemValueYields[Items[gridIdIncrement]].yieldCurveCross)+'<span style="font-size: 1.5rem;     vertical-align: bottom;">'+getFactorDesc(itemValueYields[Items[gridIdIncrement]].factor,itemValueYields[Items[gridIdIncrement]].yieldCurveCross)+'</span>':title, align: 'center', name: 'country' },
              ]
 		});
 

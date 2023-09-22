@@ -346,7 +346,6 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 	activateChartMarker(SelectedchartType);
 	activateChartLegend(SelectedchartType);
 	activateChartColor(SelectedchartType);
-	console.log(notDecimal,nbrOfDigits);
 	
 	var valueMin = getMarginLenght(minvalue); 
 	var valueMax = getMarginLenght(maxvalue); 
@@ -782,6 +781,12 @@ function getChartPeriod(){
 
  return period;
 }
+function getChartPeriodVolume(){
+	
+	 period=($('#groupOfPeriodVolume').length)?getChartPeriodCodeVolume($('#groupOfPeriodVolume').jqxButtonGroup('getSelection')):'w';
+
+ return period;
+}
 function getChartPeriodName(){
 	
 	 period=($('#groupOfPeriod').length)?getChartPeriodFullName($('#groupOfPeriod').jqxButtonGroup('getSelection')):'DAILY';
@@ -845,6 +850,25 @@ function getChartPeriodCode(period)
 	}
 return code;
 }
+function getChartPeriodCodeVolume(period)
+{
+  var code='';	
+	switch(period) {
+	 case 0: 
+	   code='w'
+	        break;
+	 case 1: 
+		   code='m'
+		    break;
+	 case 2: 
+		   code='q'
+		    break;
+	 case 3: 
+		   code='y'
+		    break;
+	}
+return code;
+}
 function getChartPeriodIndex(period)
 {
   var index='';	
@@ -893,6 +917,16 @@ return fullName;
 }		
 		
  $("#groupOfPeriod").on('buttonclick', function (event) {
+                 
+	    resetActiveChartType();
+		resetActiveFontSize();
+		resetActiveChartColor();
+		resetActiveChartColorTransparency();
+		resetActiveChartGrid();
+		drawGraph();
+
+                });		
+ $("#groupOfPeriodVolume").on('buttonclick', function (event) {
                  
 	    resetActiveChartType();
 		resetActiveFontSize();

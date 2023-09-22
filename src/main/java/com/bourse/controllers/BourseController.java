@@ -430,13 +430,6 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "SETTINGS_SCREEN"));
 		return new ModelAndView("html/readExcelWriteDB");
     }
-
-	/*
-	 @PreAuthorize("hasAuthority('ONE_SERIE') and principal.tacAccepted == true")
-	  
-	  @RequestMapping( value = "/oneserie") public ModelAndView
-	  oneSeriesPage(ModelMap model) { return new ModelAndView("html/oneSerie"); }
-	 */
 	@PreAuthorize("hasAuthority('ONE_SERIE') and principal.tacAccepted == true")
 	@GetMapping("/oneserie")
 	public ModelAndView oneSeriesPage(@RequestParam("serie") String serie, Model model, Authentication authentication)
@@ -466,6 +459,42 @@ public class BourseController {
 		    ModelAndView modelAndView = new ModelAndView("html/twoSeries");
 		    
 		    return modelAndView;
+    }
+	@PreAuthorize("hasAuthority('DAILY_VOLUME_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/dailyvolume")
+    public ModelAndView dailyVolumeGraphScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/volume");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/dailyVolume");
+    }
+	@PreAuthorize("hasAuthority('WMQY_VOLUME_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/wmqyvolume")
+    public ModelAndView wmqyVolumeGraphScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/volume");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/wmqyVolume");
+    }
+	@PreAuthorize("hasAuthority('MARKET_SHARE_VOLUME_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/marketshare")
+    public ModelAndView marketShareVolumeGraphScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/volume");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/marketShareVolume");
+    }
+	@PreAuthorize("hasAuthority('RACE_VOLUME_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/racechart")
+    public ModelAndView raceVolumeGraphScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/volume");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/raceChartVolume");
     }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){

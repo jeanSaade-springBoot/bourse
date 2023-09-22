@@ -11,6 +11,9 @@ body {
 .buttons {
     margin: 100% 0;
 }
+.apexcharts-yaxis-label-2y {
+    fill: red;
+}
 #chart, .chart-box {
     padding-top: 20px;
     padding-left: 10px;

@@ -273,6 +273,20 @@ public class VolumeService {
 					   .build();
 			l1.add(getGraphDataResult(graphRequestDTO,false));
 		}
+		if(graphReqDTO.getGroupId3()!=null)
+		{
+			GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId3())
+					   .subGroupId1(graphReqDTO.getSubGroupId3())
+					   .period(graphReqDTO.getPeriod())
+					   .type(graphReqDTO.getType())
+					   .fromdate(graphReqDTO.getFromdate())
+					   .todate(graphReqDTO.getTodate())
+					   .functionId(graphReqDTO.getFunctionId())
+					   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+					   .removeEmpty1(graphReqDTO.getRemoveEmpty3())
+					   .build();
+			l1.add(getGraphDataResult(graphRequestDTO,false));
+		}
 			
 		return l1; 
 	

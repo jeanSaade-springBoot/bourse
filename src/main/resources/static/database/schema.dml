@@ -15055,3 +15055,12 @@ select @rownum:=@rownum + 1  as id ,
  where group_id =13;
  
  update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+ 
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('73', 'THE MATH BOX', true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`,`parent_id`) VALUES ('74', 'ONE_SERIE', true,'73');
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`,`parent_id`) VALUES ('75', 'TWO_SERIES', true ,'73');
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`,`parent_id`) VALUES ('76', 'ECB_IMPACT_LIQUIDITY_GRAPH_SCREEN', true ,null);
+ update column_configuration set chart_showgrid='true'  where group_id in (17,18,19,20,21);
+ 
+INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('ecbImpactLiquidity', '17');
