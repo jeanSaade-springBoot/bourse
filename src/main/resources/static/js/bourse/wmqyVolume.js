@@ -31,8 +31,8 @@ $(document).ready(function() {
      initializeNewsBanner();
 	
 	$("#groupOfPeriodVolume").jqxButtonGroup({theme: 'dark', mode: 'radio' });
-
-	 initializeNavigationButtons();
+    $('#groupOfPeriodVolume').jqxButtonGroup('setSelection', 0);
+   	 initializeNavigationButtons();
 	 initialiazeItems(allitems,3);
 	 initialiazeClearFilterButton();
 	 initializeShowFilterButton();
@@ -47,7 +47,7 @@ function drawGraph() {
   
 }
 function getGraphHistory(screenName)
-{
+{  
 	$.ajax({
 		contentType: "application/json",
 		url: "/bourse/findgraphhistorybyscreenname/"+screenName,
@@ -64,7 +64,7 @@ function getGraphHistory(screenName)
 			checkedItem = checkedItemId.length;
 			$("#collapseFilter").removeClass('show');
 			$('#grid-content').css('display', 'block');
-			($('#groupOfPeriodVolume').length)?$('#groupOfPeriodVolume').jqxButtonGroup('setSelection', getChartPeriodIndex(JSON.parse(data.parameter)[1][0])):null;
+			($('#groupOfPeriodVolume').length)?$('#groupOfPeriodVolume').jqxButtonGroup('setSelection', getChartPeriodCodeVolume(JSON.parse(data.parameter)[1][0])):'w';
 		
 			if (JSON.parse(data.parameter)[2] != null)
 			Items = JSON.parse(data.parameter)[2][0];

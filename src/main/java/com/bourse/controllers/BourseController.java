@@ -483,7 +483,6 @@ public class BourseController {
     public ModelAndView marketShareVolumeGraphScreen(ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
-	    model.addAttribute("fragment", "html/templates/volume");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/marketShareVolume");
     }

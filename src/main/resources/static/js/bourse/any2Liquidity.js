@@ -1686,6 +1686,7 @@
 						        }]
 					})
 			}
+		
 			function drawGraph(){
 				   $('#overlayChart').show(); 
 				   $(".chart-option").show(); 

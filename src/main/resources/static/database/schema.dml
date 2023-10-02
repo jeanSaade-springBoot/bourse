@@ -15064,3 +15064,10 @@ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`,`parent_id`) VALUES 
  update column_configuration set chart_showgrid='true'  where group_id in (17,18,19,20,21);
  
 INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('ecbImpactLiquidity', '17');
+
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`,`parent_id`) VALUES ('77', 'DAILY_VOLUME_GRAPH_SCREEN', true ,null);
+INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('DailyVolume', '18');
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`,`parent_id`) VALUES ('78', 'WMQY_VOLUME_GRAPH_SCREEN', true ,null);
+INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('wmqyVolume', '19');

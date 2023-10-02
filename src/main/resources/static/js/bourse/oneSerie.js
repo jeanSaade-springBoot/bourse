@@ -181,16 +181,12 @@ $(window).on('load', function() {
 $(document).ready(function() {
 	
      initializeNewsBanner();
-	//  initializePeriods();
-	// initializeTypes();
 	 initializeFunctions();
 	 
 	 initializeNavigationButtons();
 	 initialiazeItem(allitems,1);
 	 initialiazeClearFilterButton();
 	 initializeShowFilterButton();
-	 
-	// getGraphHistoryByScreenName(graphName);
 	 
      $("#SaveToFavorites").jqxButton({ theme: 'dark', height: 30, width: 100 });
 

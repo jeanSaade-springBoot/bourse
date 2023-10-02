@@ -137,10 +137,10 @@ function activateChartMarker(chartType){
 }
 function activateChartLegend(chartType){
 	
-	if(chartType!='column')
+	/*if(chartType!='column')
 		disableChartLegend(false);
 	else
-		disableChartLegend(true);
+		disableChartLegend(true);*/
 }
 function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
 {  // console.log(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
@@ -227,7 +227,7 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
                              right: 60,
                          },  
                      },
-    			colors: selectedChartColor=='#44546a'?['#222a35']:[selectedChartColor],
+    			colors: selectedChartColor=='#44546a'?['#2e75b6']:[selectedChartColor],
 		        fill: {
 	                type: 'gradient',
 	                gradient: {
@@ -340,6 +340,234 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 		 });
 	chart.updateSeries([{ type:SelectedchartType}]);
 }
+function updateGraphConfigurationVolumes(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
+{  // console.log(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
+	activateChartTrasnparency(SelectedchartType);
+	activateChartMarker(SelectedchartType);
+	activateChartLegend(SelectedchartType);
+	activateChartColor(SelectedchartType);
+	
+	var valueMin = getMarginLenghtVolume(minvalue); 
+	var valueMax = getMarginLenghtVolume(maxvalue); 
+	chart.updateSeries([{ type:SelectedchartType}]);
+	if (SelectedchartType=='area')
+      chart.updateOptions({
+		   stroke: {
+					width: 2.25,
+					 colors: ["#ffffff"],
+					},
+		     legend: {
+						   show:eval(selectedChartLegend.split('legend')[1]),
+		   	  			   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	         return [img , seriesName];
+				    	    }
+				    	  },
+	 		 xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: $("#fontOptions").find(".active")[0].id,
+							        	 },
+					        	  },
+   	  			            type: 'datetime',
+							tickAmount: 19,
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+    		 extra:{
+			isDecimal: isdecimal,
+			yAxisFormat:yaxisformat,
+		},
+       yaxis: {
+	    	  labels: {
+	    		     minWidth: 75,maxWidth: 75,
+	        		 style: {
+			        	  fontSize: $("#fontOptions").find(".active")[0].id,
+			        	 },
+			        	  formatter: function(val, index) {
+							   if (notDecimal) {
+									    if (val >= 1000) {
+									     return (val / 1000).toFixed(nbrOfDigits) + "K";
+									    } else {
+									      return val.toFixed(nbrOfDigits);
+									    }
+									  } else {
+										   if (val >= 1000) {
+									     return (val / 1000).toFixed(nbrOfDigits) + "K";
+									    } else {
+									      return val.toFixed(nbrOfDigits) + "%";
+									    }
+									  } 
+						} 
+	        	  },
+          tickAmount: 6,
+    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+ 		  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
+				axisBorder: {
+	                  width: 3,
+	                  show: true,
+	                  color: '#ffffff',
+	                  offsetX: 0,
+	                  offsetY: 0
+	              },
+    	  },
+    	    grid: {
+                  show:eval(selectedChartGrid),
+                       borderColor: '#f0e68c',
+                       strokeDashArray:1,
+                    opacity: 0.5,
+                               padding: {
+                             right: 60,
+                         },  
+                     },
+    			colors: selectedChartColor=='#44546a'?['#2e75b6']:[selectedChartColor],
+		        fill: {
+	                type: 'gradient',
+	                gradient: {
+				    gradientToColors: selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor,
+				      shadeIntensity: 0,
+				      type: "vertical",
+				     inverseColors: false,
+				      stops: [30, 90, 100],
+				     opacityFrom: eval(selectedChartTransparency)==1? 1:(eval(selectedChartTransparency)==0.75 ? 0.8 :(eval(selectedChartTransparency)==0.5?0.60:1)),
+				     opacityTo: eval(selectedChartTransparency),
+	                }
+	              },
+	               markers: {
+			  		 colors: "#ffffff",
+			  		 strokeColors:"#ffffff",
+			    	 size: selectedChartMarker,
+		     },	
+    		});
+		else 
+   		chart.updateOptions({
+		   stroke: {
+					width: SelectedchartType == "column" ? 0 : 2.25,
+					colors: SelectedchartType!="column"? ["#ffffff"]:[selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor],
+	        },
+	      legend: {
+						   show:eval(selectedChartLegend.split('legend')[1]),
+		   	  			   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	         return [img , seriesName];
+				    	    }
+				    	  },
+	       grid: {
+                  show:eval(selectedChartGrid),
+                       borderColor: '#f0e68c',
+                       strokeDashArray:1,
+                    opacity: 0.5,
+                               padding: {
+                             right: 60,
+                         },  
+                     },
+	  colors: [function({ value, dataPointIndex, seriesIndex, w }) {
+										
+									  if (w.config.series[seriesIndex].data[dataPointIndex].isComplete=='0') {
+									      return '#ff0000';
+									  }
+									  else 
+									  return  selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor;
+									}],
+  	  xaxis: {
+	   	  			       labels:  { hideOverlappingLabels: false,
+	   	  			         		  rotate: -70,
+					                  rotateAlways: true,
+					                  minHeight:30,
+					        		  style: {
+							        	  fontSize: $("#fontOptions").find(".active")[0].id,
+							        	 },
+					        	  },
+   	  			            type: 'datetime',
+							tickAmount: 19,
+						    axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+   	  			        },
+	  extra:{
+			isDecimal: isdecimal,
+			yAxisFormat:yaxisformat,
+		},
+       yaxis: {
+		      arrowHead:(graphName=="RaceChartVolume")?true:false,
+	    	  labels: {
+	    		     minWidth: 75,maxWidth: 75,
+	        		 style: {
+			        	  fontSize: $("#fontOptions").find(".active")[0].id,
+			        	 },
+			        	  formatter: function(val, index) {
+										  if (notDecimal) {
+									    if (val >= 1000) {
+									     return (val / 1000).toFixed(nbrOfDigits) + "K";
+									    } else {
+									      return val.toFixed(nbrOfDigits);
+									    }
+									  } else {
+										   if (val >= 1000) {
+									     return (val / 1000).toFixed(nbrOfDigits) + "K";
+									    } else {
+									      return val.toFixed(nbrOfDigits) + "%";
+									    }
+									  } 
+									  }
+	        	  },
+          tickAmount: 6,
+            min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+ 		    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
+			 axisBorder: {
+	                  width: 3,
+	                  show: true,
+	                  color: '#ffffff',
+	                  offsetX: 0,
+	                  offsetY: 0
+	              },
+    	  },
+  fill: {
+            type:'solid',
+            opacity: [1,1],
+          }, 
+    markers: {
+			   colors: SelectedchartType=="area"?"#ffffff":[selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor],
+			   strokeColors:SelectedchartType=="area"?"#ffffff":[selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor],
+		       size: selectedChartMarker,
+		     }
+		 });
+	
+}
 function updateGraphConfigurationMissingConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
 {  // console.log(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
 	activateChartTrasnparency(SelectedchartType);
@@ -426,7 +654,7 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
                              right: 60,
                          },  
                      },
-    			colors: selectedChartColor=='#44546a'?['#222a35']:[selectedChartColor],
+    			colors: selectedChartColor=='#44546a'?['#2e75b6']:[selectedChartColor],
 		        fill: {
 	                type: 'gradient',
 	                gradient: {
@@ -540,6 +768,27 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 		 });
 	chart.updateSeries([{ type:SelectedchartType}]);
 }
+function updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend){
+	if(typeof graphName !='undefined' && (graphName=="marketShareVolume"))
+		{
+			chartConfiguration={
+					 fontSize:$("#fontOptions").find(".active")[0].id,
+					 showLegend:selectedChartLegend,
+				}
+			updatePieChartOptions(chartConfiguration);
+			}
+	else
+	if(typeof graphName !='undefined' && (graphName=="wmqyVolume" || graphName=="RaceChartVolume"))
+		updateGraphConfigurationVolumes(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+	else if(typeof hasMissingDates !='undefined') 
+	    if(hasMissingDates)
+			updateGraphConfigurationMissingConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+	    else
+	    	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+	  else
+	    updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+	
+}
 function graphTypeOption(chartType)
 {
 	SelectedchartType=chartType;
@@ -548,13 +797,8 @@ function graphTypeOption(chartType)
     selectedChartMarker= chartType=='line'?period!='DAILY'?3:$("#chartMarker").find(".active")[0].id.split("-")[1]:$("#chartMarker").find(".active")[0].id.split("-")[1];
     selectedChartGrid=$("#gridOptions").find(".active")[0].id;
     selectedChartLegend=$("#gridLegend").find(".active")[0].id;
-    if(typeof hasMissingDates !='undefined') 
-	    if(hasMissingDates)
-			updateGraphConfigurationMissingConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	    else
-	    	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	  else
-	    updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+    
+    updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
 }
 
 function chartColorOption(selectedChartColor)
@@ -566,14 +810,7 @@ function chartColorOption(selectedChartColor)
     selectedChartGrid=$("#gridOptions").find(".active")[0].id;
     selectedChartLegend=$("#gridLegend").find(".active")[0].id;
       
-     if(typeof hasMissingDates !='undefined') 
-	    if(hasMissingDates)
-			updateGraphConfigurationMissingConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	    else
-	    	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	  else
-	    updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
- 
+    updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
 }
 
 function chartTransparencyOption(selectedChartTransparency)
@@ -585,13 +822,7 @@ function chartTransparencyOption(selectedChartTransparency)
     selectedChartGrid=$("#gridOptions").find(".active")[0].id;
     selectedChartLegend=$("#gridLegend").find(".active")[0].id;
       
-     if(typeof hasMissingDates !='undefined') 
-	    if(hasMissingDates)
-			updateGraphConfigurationMissingConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	    else
-	    	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	  else
-	    updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+   updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);    
 }
 function chartMarkerOption(selectedChartMarker)
 {
@@ -602,14 +833,8 @@ function chartMarkerOption(selectedChartMarker)
     selectedChartGrid=$("#gridOptions").find(".active")[0].id;
     selectedChartLegend=$("#gridLegend").find(".active")[0].id;
       
-     if(typeof hasMissingDates !='undefined') 
-	    if(hasMissingDates)
-			updateGraphConfigurationMissingConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	    else
-	    	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	  else
-	    updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-}
+    updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+      }
 function chartGridOption(selectedChartGrid)
 {
 	SelectedchartType=$("#chartTypes").find(".active")[0].id;
@@ -619,31 +844,30 @@ function chartGridOption(selectedChartGrid)
     selectedChartGrid=selectedChartGrid;
     selectedChartLegend=$("#gridLegend").find(".active")[0].id;
       
-      if(typeof hasMissingDates !='undefined') 
-	    if(hasMissingDates)
-			updateGraphConfigurationMissingConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	    else
-	    	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	  else
-	    updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-}
+    updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+       
+       }
 
 function chartLegendOption(selectedChartLegend)
 {
-	SelectedchartType=$("#chartTypes").find(".active")[0].id;
-	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
-    selectedChartColor=SelectedchartType=='line'?"#ffffff":'#'+$("#chartColor").find(".active")[0].id;
-    selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
-    selectedChartGrid=$("#gridOptions").find(".active")[0].id;
-    selectedChartLegend=selectedChartLegend;
-      
-      if(typeof hasMissingDates !='undefined') 
-	    if(hasMissingDates)
-			updateGraphConfigurationMissingConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	    else
-	    	updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
-	  else
-	    updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+	if(typeof graphName !='undefined' && (graphName=="marketShareVolume"))
+		{
+		SelectedchartType=null;
+		selectedChartTransparency=null;
+	    selectedChartColor=null;
+	    selectedChartMarker=null;
+	    selectedChartGrid=null;
+		}
+	else {
+		SelectedchartType=$("#chartTypes").find(".active")[0].id;
+		selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
+	    selectedChartColor=SelectedchartType=='line'?"#ffffff":'#'+$("#chartColor").find(".active")[0].id;
+	    selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
+	    selectedChartGrid=$("#gridOptions").find(".active")[0].id;
+      }
+      selectedChartLegend=selectedChartLegend;
+    
+    updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
 }
 function checkActiveFontSize(activeFontSize,dbFontSize)
 {
@@ -954,3 +1178,90 @@ $('#dropDownFunctionss').on('select', function (event)
 		resetActiveChartGrid();
 		drawGraph();                      
 });
+
+function getPieChartOption(chartConfiguration){
+	return  options_pie = {
+          chart: {
+			height: 520,
+			type: 'pie',
+			animations: { enabled: false }
+		},
+		title: {
+			text: 'TEST TITLE',
+			align: 'center',
+			margin: 10,
+			style: {
+				fontWeight: 'bold',
+				color: '#263238'
+			},
+		},
+		subtitle: {
+			text: 'copyright LibVol.com',
+			align: 'right',
+			margin: 10,
+			offsetX: -10,
+			offsetY: 30,
+			floating: false,
+			style: {
+				fontSize: '10px',
+				fontWeight: 'normal',
+				color: '#9699a2'
+			},
+		},
+		legend: {
+		   show:chartConfiguration.showLegend=='legendtrue'?true:false,
+		   fontSize: chartConfiguration.fontSize,
+    	   showForSingleSeries: true,
+    	   itemMargin: {
+           horizontal: 0,
+           vertical: 5
+         },
+    	   labels: {
+    	          colors: 'White',
+    	          useSeriesColors: false
+    	   },
+    	      markers: {
+    	          width: 12,
+    	          height:12
+    	      },
+    	    formatter: function(seriesName, opts) {
+    	    	 return [seriesName, " : ", (opts.w.globals.series[opts.seriesIndex]/1000)+"k"]
+    	    },
+    	   onItemClick: {
+          toggleDataSeries: false
+	      },
+	      onItemHover: {
+	          highlightDataSeries: false
+	      },
+    	  },
+        stroke:{width:0},
+        colors: ["#f0ab2e", "#0097fe", "#44546a", "#8A99B5", "#ffff00"],
+        tooltip: {
+				  x: {
+			          show: false,
+			      },
+				 y: {
+				 formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+							
+								if (value >= 1000) 
+									return  (value / 1000)+'K';
+									else 
+									return value;
+					},
+				    title: {
+			              formatter: (seriesName) => '',
+			          },
+			      },
+			   },
+		       dataLabels: {
+				  style: {
+				      fontSize: chartConfiguration.fontSize,
+				  },
+				},
+		series: [44000, 50005, 13000, 43000],
+        labels: ['Total - Bund', 'Total - Bobl', 'Total - Buxl', 'Total - Shatz'],
+        };
+}
+function updatePieChartOptions (chartConfiguration){
+	chart.updateOptions(getPieChartOption(chartConfiguration));
+}

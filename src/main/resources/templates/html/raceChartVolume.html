@@ -90,7 +90,9 @@ input[type="radio"]::before {
 input[type="radio"]:checked::before {
   transform: scale(1);
 }
-
+.week-style{
+    margin: 0.5rem;
+    text-transform: uppercase;}
   </style>
 </head>
 
@@ -152,9 +154,10 @@ input[type="radio"]:checked::before {
 				       <div class="row col-12">
 				   	  	   
 								<div class="d-flex col-12">
-								    <div class="col-1">
-									</div>
-							 		<div class="col-10  justify-content-end">
+							 		<div class="col-10 pl-0 d-flex justify-content-start">
+							 		    <button onclick="previousWeek()" class="btn btn-secondary" ><i class="fas fa-angle-double-left"></i></button>
+									    <div id="weekDisplay" class="week-style">Week 1</div>
+									    <button onclick="nextWeek()" class="btn btn-secondary" ><i class="fas fa-angle-double-right"></i></button>
 							 		</div>
 								</div>
 							</div>
@@ -261,7 +264,7 @@ input[type="radio"]:checked::before {
 					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							    <button type="button" id="button-monthBackward" class="btn btn-secondary  d-none" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
 							  </div>
 							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
 							       <label>From</label>
@@ -270,7 +273,7 @@ input[type="radio"]:checked::before {
 							       <input id="dateTo-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
 							  </div>
 							  <div class="btn-group" role="group" aria-label="Third group">
-							   <button type="button" id="button-monthForward" class="btn btn-secondary" onclick="navigationGraph('monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
+							   <button type="button" id="button-monthForward" class="btn btn-secondary d-none" onclick="navigationGraph('monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
 							   <button type="button" id="button-yearForward" class="btn btn-secondary" onclick="navigationGraph('yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
 							  </div>
 							</div>

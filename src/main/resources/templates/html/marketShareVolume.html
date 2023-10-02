@@ -90,7 +90,10 @@ input[type="radio"]::before {
 input[type="radio"]:checked::before {
   transform: scale(1);
 }
-
+.apexcharts-legend.apexcharts-align-center.position-right {
+    justify-content: center;
+    right: 20px !important;
+}
   </style>
 </head>
 
@@ -132,37 +135,56 @@ input[type="radio"]:checked::before {
 					 </div>
 				  <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 				  	<p class="mt-2" style=" margin-bottom: .5rem;">
-					  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
-				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
-				  	  	</p>
+					 	</p>
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 5rem;">
-					    <div th:include="${fragment}" id="template"></div>
-                     	<div class="row pt-2">
-							<div class='col-12 d-flex justify-content-end mb-4'>
-								<input aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
-								<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-							</div>
-						</div>
-					    </div>
-				    <div id="grid-content" style="display:none;">
+					  
+				    <div id="grid-content">
 				 
 				    <div class="row">
 				       <div class="row col-12">
 				   	  	   
 								<div class="d-flex col-12">
-								    <div class="col-1">
-									</div>
-							 		<div class="col-10  justify-content-end">
-							 		  </div>
+							 		<div class="col-10 d-flex pt-3 pl-0 ">
+							 		 <div id='groupOfPeriodVolume' class="col-4 pl-0">
+								            <button style="padding:4px 16px;" id="w">
+								                Weekly</button>
+								            <button style="padding:4px 16px;" id="m">
+								                Monthly</button>
+											 <button style="padding:4px 16px;" id="q">
+												Quarterly</button>
+											 <button style="padding:4px 16px;" id="y">
+												Yearly</button>
+								        </div>
+								       <div class="col-3">
+								         <form>
+								 		   <div class="col-12  pl-0 d-flex">
+								 		  		<div class="col pl-0">
+									 		  		 <label>
+											            <input type="radio" name="options" value="0"> All
+											        </label>
+								 		  		</div>
+								 		     	<div class="col">
+									 		     	 <label>
+											            <input type="radio" name="options" value="1"> Call
+											        </label>
+								 		     	</div>
+								 		       	<div class="col">
+									 		       	 <label>
+											            <input type="radio" name="options" value="5"> Put
+											        </label>
+								 		       	</div>
+								 		   </div>
+									    </form>
+									     </div> 
+							 		 </div>
 								</div>
 							</div>
 							
 				     <div class="col-1" style="z-index: 1;">
 						<div class="chart-option">
 				   	        <div class="chart-option-title">Chart option</div>
-				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
+				   	          <div class="btn-group d-none mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 						            <button class="btn btn-option"  id="area" onclick="graphTypeOption('area')" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-areachart"></i></button>
@@ -172,7 +194,7 @@ input[type="radio"]:checked::before {
 									 data-resumetext="Resume" ><i class="icon-barchart"></i></button>
 								 </div>
    						   </div>
-   						      <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColor">
+   						      <div class="btn-group  d-none  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColor">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 								     <button class="btn btn-option" id="F0AB2E" onclick="chartColorOption('#F0AB2E')"  data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
@@ -182,7 +204,7 @@ input[type="radio"]:checked::before {
 									 data-resumetext="Resume" ><i class="icon-darkchart"></i></button>
 								 </div>
    						   </div>
-   						     <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColorTransparency">
+   						     <div class="btn-group  d-none  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColorTransparency">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 								     <button class="btn btn-option" id="1" onclick="chartTransparencyOption('1')" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><label class="transparency-text"><span>&shy;</span>&nbsp;0%</label><i class="icon-chart-1"></i></button>
@@ -192,7 +214,7 @@ input[type="radio"]:checked::before {
 									 data-resumetext="Resume" ><label class="transparency-text">50%</label><i class="icon-chart-50"></i></button>
 								 </div>
    						   </div>
-   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartMarker">
+   						    <div class="btn-group  d-none  mt-2 ml-1" role="group" aria-label="Vertical" id="chartMarker">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 								     <button class="btn btn-option" id="1-0" onclick="chartMarkerOption('0')" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
@@ -209,7 +231,7 @@ input[type="radio"]:checked::before {
 						      <button type="button" class="btn btn-option" id="16px" onclick="graphfont('16px')"><i class="icon-large-a"></i></button>
 						     </div>
 						   </div>
-						  <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical"  id="gridOptions">
+						  <div class="btn-group  d-none  mt-2 ml-1" role="group" aria-label="Vertical"  id="gridOptions">
 						       <div class="" role="group" aria-label="Button group with nested dropdown">
 								     <button class="btn btn-option"  id="true"  onclick="chartGridOption('true')" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-withLinechart"></i></button>

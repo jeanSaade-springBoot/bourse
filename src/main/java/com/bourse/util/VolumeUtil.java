@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.bourse.dto.DataFunctionReqDTO;
 import com.bourse.dto.GraphResponseDTO;
+import com.bourse.dto.GraphResponseVolumeDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.SelectedSearchDTO;
@@ -249,6 +250,17 @@ public class VolumeUtil {
 		  }
 		  return updatedGraphResponseDTO;
 		}
+
+	public static List<GraphResponseVolumeDTO> removeEmptyVolumeY(List<GraphResponseVolumeDTO> graphResponseDTO) {
+		  List<GraphResponseVolumeDTO> updatedGraphResponseDTO = new ArrayList<>();
+		  for (GraphResponseVolumeDTO graphResponse : graphResponseDTO) {
+		    String y = graphResponse.getY();
+		    if (y != null && !y.isEmpty()) {
+		    	updatedGraphResponseDTO.add(graphResponse);
+		    }
+		  }
+		  return updatedGraphResponseDTO;
+		}
 	public static List<GraphResponseDTO> removeReplaceEmptyValueWithNull(List<GraphResponseDTO> graphResponseDTO) {
 		  List<GraphResponseDTO> updatedGraphResponseDTO = new ArrayList<>();
 		  for (GraphResponseDTO graphResponse : graphResponseDTO) {
@@ -263,7 +275,20 @@ public class VolumeUtil {
 		  }
 		  return updatedGraphResponseDTO;
 		}
-	
+	public static List<GraphResponseVolumeDTO> removeReplaceEmptyValueVolumeWithNull(List<GraphResponseVolumeDTO> graphResponseDTO) {
+		  List<GraphResponseVolumeDTO> updatedGraphResponseDTO = new ArrayList<>();
+		  for (GraphResponseVolumeDTO graphResponseVolumeDTO : graphResponseDTO) {
+		    String y = graphResponseVolumeDTO.getY();
+		    if ( y != null && y.isEmpty()) {
+		    	graphResponseVolumeDTO.setY(null);
+		    	updatedGraphResponseDTO.add(graphResponseVolumeDTO);
+		    }else
+		    {
+		    	updatedGraphResponseDTO.add(graphResponseVolumeDTO);
+		    }
+		  }
+		  return updatedGraphResponseDTO;
+		}
 }
 
 

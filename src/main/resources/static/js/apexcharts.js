@@ -799,7 +799,6 @@
 						p = t.strokeDashArray,
 						x = void 0 === p ? 0 : p,
 						b = this.w;
-					
 					return null === f && (f = b.config.stroke.lineCap), (i.indexOf("undefined") > -1 || i.indexOf("NaN") > -1) && (i = "M 0 ".concat(b.globals.gridHeight)), b.globals.dom.Paper.path(i).attr({
 						fill: o,
 						"fill-opacity": h,
@@ -3941,8 +3940,17 @@
 						x = i + e,
 						m = g.move(p, f.y1),
 						v = g.move(p, f.y1);
+						// adding this code to create the arrow shape in the column mns
+						if (typeof t.w.config.yaxis[0].arrowHead !='undefined' && t.w.config.yaxis[0].arrowHead)
+							{
+							 u.y2 = f.y2+(((x-p)/2)+((x-p)/4));
+							 f = this.getRoundedBars(d, u, o, h, c);
+							 m = m + g.line(p, f.y2) + f.endingPath + g.line(x - n, f.y2) + g.line(x - n, f.y1) + f.startingPath + "z" + g.move(p+((x-p)/2), f.y2-(((x-p)/2)+((x-p)/4))) + g.line(p-((x-p)/4), f.y2) + g.line(x+((x-p)/4), f.y2)  + "z";
+						}else
+							m = m + g.line(p, f.y2) + f.endingPath + g.line(x - n, f.y2) + g.line(x - n, f.y1) + f.startingPath + "z";
+						
 					return d.globals.previousPaths.length > 0 && (v = this.barCtx.getPreviousPath(l, c, !1)), {
-						pathTo: m = m + g.line(p, f.y2) + f.endingPath + g.line(x - n, f.y2) + g.line(x - n, f.y1) + f.startingPath + "z",
+						pathTo: m,
 						pathFrom: v = v + g.line(p, s) + g.line(x - n, s) + g.line(x - n, s) + g.line(x - n, s) + g.line(p, s)
 					}
 				}

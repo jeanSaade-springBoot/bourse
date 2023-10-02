@@ -13,11 +13,12 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor
-public class GraphResponseDTO {
+public class GraphResponseVolumeDTO {
 	
 	@Id
     private Long id;
 	private String x;
 	private String y;
+	private String isComplete;
 }
 

@@ -21,7 +21,8 @@
 
 
 const graphName="DailyVolume"; 
-			   
+const overide=true;		
+	   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -45,20 +46,14 @@ $(document).ready(function() {
      $("input[name='options']").change(function () {
 	    var selectedValue = $("input[name='options']:checked").val();
 	    $("#dropDownFunctions").jqxDropDownList({selectedIndex: selectedValue});
-	   
-	    if (selectedValue !== undefined) {
-	        console.log("Selected value: " + selectedValue);
-	    } else {
-	        console.log("No radio button selected");
-	    }
 	});
 	$("#Clearfilter").click(function() {
-	$("input[name='options'][value='-1']").prop('checked', true);
+		$("input[name='options'][value='-1']").prop('checked', true);
 	});
 });
 
 function drawGraph() {
-	 const removeEmpty = true;
+	 const removeEmpty = false;
   	 getGraphData(graphService,graphName,removeEmpty,true);	
 		
 }

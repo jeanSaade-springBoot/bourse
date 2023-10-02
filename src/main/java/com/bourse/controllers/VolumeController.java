@@ -27,6 +27,7 @@ import com.bourse.domain.TmpAuditShatzOptionsVolume;
 import com.bourse.dto.GenericDataFunctionReqDTO;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
+import com.bourse.dto.GraphResponseColConfigVolumeDTO;
 import com.bourse.dto.GridDataDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
@@ -85,6 +86,10 @@ public class VolumeController {
 	@PostMapping(value = "getgraphdatabytype")
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
 		return new ResponseEntity<>(volumeService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
+	} 
+	@PostMapping(value = "getgraphdatabytypesum")
+	public ResponseEntity<List<GraphResponseColConfigVolumeDTO>> getGraphDataByTypeSum(@RequestBody  GraphRequestDTO graphReqDTO) {
+		return new ResponseEntity<>(volumeService.getGraphDataByTypeSum(graphReqDTO),HttpStatus.OK);
 	} 
 	@PostMapping(value = "savebunddata")
     public List<BundOptionsVolume> savebundData(@RequestBody List<BundOptionsVolume> bundLiquidityList){

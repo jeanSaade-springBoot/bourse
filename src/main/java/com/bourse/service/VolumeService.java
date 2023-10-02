@@ -18,7 +18,9 @@ import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
+import com.bourse.dto.GraphResponseColConfigVolumeDTO;
 import com.bourse.dto.GraphResponseDTO;
+import com.bourse.dto.GraphResponseVolumeDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.enums.FunctionEnum;
@@ -243,6 +245,105 @@ public class VolumeService {
 		return graphResponseColConfigDTO; 
 	    
 	}
+	public GraphResponseColConfigVolumeDTO getGraphDataVolumeResult(GraphRequestDTO graphReqDTO, Boolean isFunction) {
+		boolean hasData= adminService.getData();
+	    if(!hasData)
+			return null;
+
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_graph_main",GraphResponseVolumeDTO.class);
+		
+		List<GraphResponseColConfigVolumeDTO> l1 = new ArrayList<>();
+		ColumnConfiguration config = null;
+		GraphResponseColConfigVolumeDTO graphResponseColConfigDTO = null;
+		
+		String groupId = graphReqDTO.getGroupId1();
+		String subGroupId = graphReqDTO.getSubGroupId1(); 
+		String description = null;
+		description = tableManagementRepository.findByGroupIdAndSubgroupId(groupId,subGroupId).getColumnName();
+			
+		    System.out.println("goupid: "+groupId);
+		    System.out.println("subGroupId: "+subGroupId);
+		    System.out.println("description: "+description);
+		    
+		    config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+		    if (isFunction)
+		    {
+		    	FunctionConfiguration fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getFunctionId());
+				config = ColumnConfiguration.builder()
+						.chartColor(fConfig.getChartColor()==null?"#F0AB2E":fConfig.getChartColor())
+						.chartShowgrid(fConfig.getChartShowgrid())
+						.chartSize(fConfig.getChartSize())
+						.chartTransparency(fConfig.getChartTransparency()==null?"0.50":fConfig.getChartTransparency())
+						.chartType(fConfig.getChartType())
+						.chartshowMarkes(fConfig.getChartshowMarkes())
+						.displayDescription(fConfig.getDisplayDescription())
+						.yAxisFormat(fConfig.getYAxisFormat())
+						.startDate(fConfig.getStartDate())
+						.dataFormat(fConfig.getDataFormat())
+						.build();
+				
+		    }
+			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+			query.setParameter("groupId",graphReqDTO.getGroupId1() );
+			
+			query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
+			query.setParameter("subgroupId",graphReqDTO.getSubGroupId1() );
+			
+			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query.setParameter("dayOrweek",(isFunction)?"d":graphReqDTO.getPeriod()  );
+			
+			if(isFunction)
+			{query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
+			 query.setParameter("isFunction",graphReqDTO.getIsFunctionGraph() );
+			
+			 query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
+			 query.setParameter("functionCode",FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())));
+
+			 query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			 query.setParameter("type","0");
+			}
+			else {
+			query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
+			query.setParameter("isFunction","false");
+			
+			query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
+			query.setParameter("functionCode", "");
+			
+			query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			query.setParameter("type",(graphReqDTO.getType()==null)?"0":graphReqDTO.getType());
+			}
+			
+			query.execute();
+			
+			List<GraphResponseVolumeDTO> graphResponseDTOlst1 = (List<GraphResponseVolumeDTO>) query.getResultList();
+			List<GraphResponseVolumeDTO> graphResponseDTOlstEmpty= VolumeUtil.removeReplaceEmptyValueVolumeWithNull(graphResponseDTOlst1);
+			graphResponseDTOlst1.clear();
+			graphResponseDTOlst1=graphResponseDTOlstEmpty;
+			
+			if (graphReqDTO.getRemoveEmpty1()!=null)
+				if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
+				{	
+					List<GraphResponseVolumeDTO> graphResponseDTOlst= VolumeUtil.removeEmptyVolumeY(graphResponseDTOlst1);
+					graphResponseDTOlst1.clear();
+					graphResponseDTOlst1=graphResponseDTOlst;
+				}
+				
+		   graphResponseColConfigDTO = GraphResponseColConfigVolumeDTO.builder()
+					                  .graphResponseDTOLst(graphResponseDTOlst1)
+					                  .config(config)
+					                  .build();
+			entityManager.clear();
+			entityManager.close();
+		
+		return graphResponseColConfigDTO; 
+	    
+	}
 	public List<GraphResponseColConfigDTO> getGraphDataByType(GraphRequestDTO graphReqDTO) {
 
 		boolean hasData= adminService.getData();
@@ -291,5 +392,53 @@ public class VolumeService {
 		return l1; 
 	
 	}
+   
+	public List<GraphResponseColConfigVolumeDTO> getGraphDataByTypeSum(GraphRequestDTO graphReqDTO) {
 
+		boolean hasData= adminService.getData();
+	    if(!hasData)
+			return null;
+	
+		List<GraphResponseColConfigVolumeDTO> l1 = new ArrayList<>();
+		
+		if(graphReqDTO.getGroupId1()!=null)
+		{
+			l1.add(getGraphDataVolumeResult(graphReqDTO,false));
+		}
+		if(graphReqDTO.getIsFunctionGraph()!=null?graphReqDTO.getIsFunctionGraph().equals("true"):false)
+		{   
+		   l1.add(getGraphDataVolumeResult(graphReqDTO,true));
+		}
+		if(graphReqDTO.getGroupId2()!=null)
+		{
+			GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId2())
+					   .subGroupId1(graphReqDTO.getSubGroupId2())
+					   .period(graphReqDTO.getPeriod())
+					   .type(graphReqDTO.getType())
+					   .fromdate(graphReqDTO.getFromdate())
+					   .todate(graphReqDTO.getTodate())
+					   .functionId(graphReqDTO.getFunctionId())
+					   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+					   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+					   .build();
+			l1.add(getGraphDataVolumeResult(graphRequestDTO,false));
+		}
+		if(graphReqDTO.getGroupId3()!=null)
+		{
+			GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId3())
+					   .subGroupId1(graphReqDTO.getSubGroupId3())
+					   .period(graphReqDTO.getPeriod())
+					   .type(graphReqDTO.getType())
+					   .fromdate(graphReqDTO.getFromdate())
+					   .todate(graphReqDTO.getTodate())
+					   .functionId(graphReqDTO.getFunctionId())
+					   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+					   .removeEmpty1(graphReqDTO.getRemoveEmpty3())
+					   .build();
+			l1.add(getGraphDataVolumeResult(graphRequestDTO,false));
+		}
+			
+		return l1; 
+	
+	}
 }
