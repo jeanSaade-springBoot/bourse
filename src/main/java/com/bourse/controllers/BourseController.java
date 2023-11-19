@@ -160,6 +160,17 @@ public class BourseController {
         model.addAttribute("volume", Integer.valueOf(volume));
 		return new ModelAndView("html/volume");
     }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_FXCDS') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/fxandcds")
+    public ModelAndView dataEntryPageFxCds(@RequestParam("fxcds") String fxcds,ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        model.addAttribute("fxcds", Integer.valueOf(fxcds));
+	    ModelAndView modelAndView = new ModelAndView("html/fxAndCds");
+	    
+	    return modelAndView;
+    }
 	@RequestMapping( value =  "/returnfunction")
     public ModelAndView returnFunctionPage(ModelMap model)
     {
@@ -196,6 +207,14 @@ public class BourseController {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/any2Liquidity");
+    }
+    @PreAuthorize("hasAuthority('ANY2_FXCDS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/any2fxcds")
+    public ModelAndView anyTwoFxCdsPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/any2FxCds");
     }
 	@PreAuthorize("hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/precious")
@@ -286,6 +305,23 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/spreadMaker");
     }
+	
+	@PreAuthorize("hasAuthority('FX_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "fx")
+    public ModelAndView fxGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/fxChart");
+    }
+	@PreAuthorize("hasAuthority('CDS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "cds")
+    public ModelAndView cdsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/cdsChart");
+    }
 	@PreAuthorize("hasAuthority('SETTINGS_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "settings")
     public ModelAndView settingsPage(ModelMap model, Authentication authentication)
@@ -366,6 +402,14 @@ public class BourseController {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/volumeDataFunctionDisplay");
+    }
+	@PreAuthorize("hasAuthority('FXCDS_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/fxcdsdatafunctiondisplay")
+    public ModelAndView fxCdsDataFunctionDisplay(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/fxCdsDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
@@ -455,6 +499,7 @@ public class BourseController {
 		    model.addAttribute("commodities", "html/templates/commodities");
 		    model.addAttribute("liquidity", "html/templates/liquidity");
 		    model.addAttribute("volume", "html/templates/volume");
+		    model.addAttribute("fxcds", "html/templates/fxcds");
 		    model.addAttribute("serie", Integer.valueOf(serie));
 		    ModelAndView modelAndView = new ModelAndView("html/twoSeries");
 		    

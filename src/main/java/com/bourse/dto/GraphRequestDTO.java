@@ -38,4 +38,8 @@ public class GraphRequestDTO {
 	private String removeEmpty1;
 	private String removeEmpty2;
 	private String removeEmpty3;
+	
+	private String year; 
+	private String value;
+	private String dataType;
 }

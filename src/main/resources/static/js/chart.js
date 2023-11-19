@@ -1596,7 +1596,7 @@ function getMarginLenghtVolume(value) {
   	    	    	    markers: {
   	    	    		   colors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
   	    	    		   strokeColors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
-  	    	    		   size: 0.01,
+  	    	    		   size: 0,
   	    	    		 },
   	    	    		  stroke: {
 						      	 colors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
@@ -1881,14 +1881,14 @@ function getMarginLenghtVolume(value) {
 			 var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
 			 var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
 	
-	 selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
+	 selectedChartColor= typeof $("#chartColor").find(".active")[0] != 'undefined'? '#'+ $("#chartColor").find(".active")[0].id : chartConfigSettings.chartColor;
 		
 	chartConfigSettings.chartType =
 	  chartConfigSettings.Period == 'd'
 	    ? chartConfigSettings.overideChartype != null
 	      ? 
-	        typeof SelectedchartType != 'undefined'
-	        ? SelectedchartType
+	        typeof $("#chartTypes").find(".active")[0] != 'undefined'
+	        ? $("#chartTypes").find(".active")[0].id
 	        : chartType
 	      : 'area' 
 	    : 'column'; 
@@ -1903,11 +1903,14 @@ function getMarginLenghtVolume(value) {
 
 				  if(chartConfigSettings.functionId==1 || chartConfigSettings.functionId==2)
 			     {
+					 var valueMin1 = getMarginLenght(chartConfigSettings.min); 
+			         var valueMax1 = getMarginLenght(chartConfigSettings.max); 
 					  chart.updateOptions({
 						 series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-								type: chartConfigSettings.Period=='d' ? chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column',
-								data: chartConfigSettings.response[0].graphResponseDTOLst
+								type: chartConfigSettings.chartType,
+								data: chartConfigSettings.response[0].graphResponseDTOLst,
+							    strokeWidth:chartConfigSettings.Period!='d' ?chartConfigSettings.chartType=='column'?getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length):undefined:undefined
 							}, {
 								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
 								type:  'line', 
@@ -1946,6 +1949,7 @@ function getMarginLenghtVolume(value) {
 						},
 						 colors:chartConfigSettings.functionId==1?[chartConfigSettings.Period=='d' ?(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:chartColorOpacity(chartConfigSettings.chartColor):(chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor), "#FF0000"]:[chartConfigSettings.Period=='d' ?(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:chartColorOpacity(chartConfigSettings.chartColor):(chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor), "#ffa4c5"],
   	    	    		 markers: {
+						   size: 0,
   	    	    		   colors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
   	    	    		   strokeColors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
   	    	    		 },
@@ -1975,8 +1979,8 @@ function getMarginLenghtVolume(value) {
 									      }
  				        	  },
  				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1,
- 				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
+ 				    	  min:Math.sign(chartConfigSettings.min)==-1 ? -Math.abs(chartConfigSettings.min)-valueMin1 : Math.abs(chartConfigSettings.min)-valueMin1,
+ 				    	  max:Math.sign(chartConfigSettings.max)==-1 ? -Math.abs(chartConfigSettings.max)+valueMax1 : Math.abs(chartConfigSettings.max)+valueMax1,
  				    			  axisBorder: {
  					                  width: 3,
  					                  show: true,
@@ -2020,7 +2024,9 @@ function getMarginLenghtVolume(value) {
 						 series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
 								type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
-								data: chartConfigSettings.response[0].graphResponseDTOLst
+								data: chartConfigSettings.response[0].graphResponseDTOLst,
+							   strokeWidth:chartConfigSettings.Period!='d' ?chartConfigSettings.chartType=='column'?getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length):undefined:undefined
+							
 							}, {
 								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
 								type: 'column',
@@ -2145,8 +2151,9 @@ function getMarginLenghtVolume(value) {
 					 chart.updateOptions({
 						 series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-								type: chartConfigSettings.Period=='d' ? chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column',
-								data: chartConfigSettings.response[0].graphResponseDTOLst
+								type: chartConfigSettings.chartType,
+								data: chartConfigSettings.response[0].graphResponseDTOLst,
+							    strokeWidth:chartConfigSettings.Period!='d' ?chartConfigSettings.chartType=='column'?getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length):undefined:undefined
 							}, {
 								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
 								type: 'column',
@@ -2695,7 +2702,7 @@ function updateBarChartSelectedItem(chartConfigSettings){
 			     if(chartConfigSettings.checkedItem ==1 )
 			     {
 					
-					 var valueMin = getMarginLenghtVolume(chartConfigSettings.min); 
+					 var valueMin = getMarginLenghtVolume(chartConfigSettings.min) == -1 ? getMarginLenghtVolume(chartConfigSettings.min) : 0; 
 			 		 var valueMax = getMarginLenghtVolume(chartConfigSettings.max);  				 	
 							
 							chart.updateOptions({
@@ -2704,14 +2711,15 @@ function updateBarChartSelectedItem(chartConfigSettings){
 										type: 'column',
 										data: chartConfigSettings.response[0].graphResponseDTOLst
 									}],
-									colors: [function({ value, dataPointIndex, seriesIndex, w }) {
+									/*colors: [function({ value, dataPointIndex, seriesIndex, w }) {
+										console.log(value, dataPointIndex, seriesIndex, w)
 										
 									  if (w.config.series[seriesIndex].data[dataPointIndex].isComplete=='0') {
 									      return '#ff0000';
 									  }
 									  else 
 									  return  chartConfigSettings.chartColor=='#44546a'?'#2e75b6':chartConfigSettings.chartColor;
-									}],
+									}],*/
 									 animations: { enabled: false },
 									xaxis: {
 									labels: {
@@ -3185,6 +3193,115 @@ function initializeFunctions(){
 	});
 	
 }
+function fetchDataForPeriod(Period) {
+    return new Promise((resolve, reject) => {
+       var weeklySource = [
+    {"name": "Week 1", "value": "1"},
+    {"name": "Week 2", "value": "2"},
+    {"name": "Week 3", "value": "3"},
+    {"name": "Week 4", "value": "4"},
+    {"name": "Week 5", "value": "5"},
+    {"name": "Week 6", "value": "6"},
+    {"name": "Week 7", "value": "7"},
+    {"name": "Week 8", "value": "8"},
+    {"name": "Week 9", "value": "9"},
+    {"name": "Week 10", "value": "10"},
+    {"name": "Week 11", "value": "11"},
+    {"name": "Week 12", "value": "12"},
+    {"name": "Week 13", "value": "13"},
+    {"name": "Week 14", "value": "14"},
+    {"name": "Week 15", "value": "15"},
+    {"name": "Week 16", "value": "16"},
+    {"name": "Week 17", "value": "17"},
+    {"name": "Week 18", "value": "18"},
+    {"name": "Week 19", "value": "19"},
+    {"name": "Week 20", "value": "20"},
+    {"name": "Week 21", "value": "21"},
+    {"name": "Week 22", "value": "22"},
+    {"name": "Week 23", "value": "23"},
+    {"name": "Week 24", "value": "24"},
+    {"name": "Week 25", "value": "25"},
+    {"name": "Week 26", "value": "26"},
+    {"name": "Week 27", "value": "27"},
+    {"name": "Week 28", "value": "28"},
+    {"name": "Week 29", "value": "29"},
+    {"name": "Week 30", "value": "30"},
+    {"name": "Week 31", "value": "31"},
+    {"name": "Week 32", "value": "32"},
+    {"name": "Week 33", "value": "33"},
+    {"name": "Week 34", "value": "34"},
+    {"name": "Week 35", "value": "35"},
+    {"name": "Week 36", "value": "36"},
+    {"name": "Week 37", "value": "37"},
+    {"name": "Week 38", "value": "38"},
+    {"name": "Week 39", "value": "39"},
+    {"name": "Week 40", "value": "40"},
+    {"name": "Week 41", "value": "41"},
+    {"name": "Week 42", "value": "42"},
+    {"name": "Week 43", "value": "43"},
+    {"name": "Week 44", "value": "44"},
+    {"name": "Week 45", "value": "45"},
+    {"name": "Week 46", "value": "46"},
+    {"name": "Week 47", "value": "47"},
+    {"name": "Week 48", "value": "48"},
+    {"name": "Week 49", "value": "49"},
+    {"name": "Week 50", "value": "50"},
+    {"name": "Week 51", "value": "51"},
+    {"name": "Week 52", "value": "52"}
+];
+var monthlySource = [
+    {"name": "JANUARY", "value": "1"},
+    {"name": "FEBRUARY", "value": "2"},
+    {"name": "MARCH", "value": "3"},
+    {"name": "APRIL", "value": "4"},
+    {"name": "MAY", "value": "5"},
+    {"name": "JUNE", "value": "6"},
+    {"name": "JULY", "value": "7"},
+    {"name": "AUGUST", "value": "8"},
+    {"name": "SEPTEMBER", "value": "9"},
+    {"name": "OCTOBER", "value": "10"},
+    {"name": "NOVEMBER", "value": "11"},
+    {"name": "DECEMBER", "value": "12"}
+];
+var QaurtlySource =[
+    {"name": "Q1", "value": "1"},
+    {"name": "Q2", "value": "2"},
+    {"name": "Q3", "value": "3"},
+    {"name": "Q4", "value": "4"}
+];
+ 
+        switch (Period) {
+            case "w":
+                resolve(weeklySource);
+                break;
+            case "m":
+                resolve(monthlySource);
+                break;
+            case "q":
+                resolve(QaurtlySource);
+                break;
+            default:
+                reject("Invalid option selected");
+        }
+    });
+}
+
+
+function generateYearlyJSON() {
+	
+    const currentYear = new Date().getFullYear();
+    const startYear = 2000;
+    const yearlySource = [];
+
+    for (let year = currentYear; year >= startYear; year--) {
+        yearlySource.push({
+            "name": `${year}`,
+            "value": year
+        });
+    }
+    return yearlySource;
+}
+
 function initializeNavigationButtons()
 {
 	$("#button-yearForward").prop('disabled', true);
@@ -3231,6 +3348,81 @@ function initialiazeItemsLeft(items, numberOfItems){
 });
 
 }
+function initializeYearlyDropDown(){
+	var YearlySource = generateYearlyJSON();	
+		 var Source = {
+		      datatype: "json",
+		      datafields: [
+		        { name: 'name' },
+		        { name: 'value' }
+		      ],
+		      localdata: YearlySource,
+		      async: true
+		    };
+
+		    var dataAdapter = new $.jqx.dataAdapter(Source);
+		
+		    $("#dropDownYears").jqxDropDownList({
+		      dropDownHeight: 280,
+		      source: dataAdapter,
+		      placeHolder: "Select a Value",
+		      displayMember: "name",
+		      valueMember: "value",
+		      theme: 'dark',
+		      width: 200,
+		      height: 25
+		    });
+		     $("#dropDownYears").jqxDropDownList('selectItem', getCurrentYear());
+}
+function initializeDropDown(Period){
+	
+	if(Period!='y')
+	{fetchDataForPeriod(Period)
+    .then((source) => {
+		
+			 var Source = {
+		      datatype: "json",
+		      datafields: [
+		        { name: 'name' },
+		        { name: 'value' }
+		      ],
+		      localdata: source,
+		      async: true
+		    };
+
+		    var dataAdapter = new $.jqx.dataAdapter(Source);
+		
+		    $("#dropDownPeriodSelection").jqxDropDownList({
+		      dropDownHeight: 280,
+		      source: dataAdapter,
+		      placeHolder: "Select a Value",
+		      displayMember: "name",
+		      valueMember: "value",
+		      theme: 'dark',
+		      width: 200,
+		      height: 25
+		    });
+		    
+		  $("#dropDownPeriodSelection").show();
+				 if (Period== "w")
+		             $("#dropDownPeriodSelection").jqxDropDownList('selectItem', getCurrentWeekNumber()); 
+		           else if(Period== "m")
+		              $("#dropDownPeriodSelection").jqxDropDownList('selectItem', getCurrentMonth());
+		           else if (Period== "q")
+		              $("#dropDownPeriodSelection").jqxDropDownList('selectItem', getCurrentQuarter());
+		   
+    })
+    .catch((error) => {
+        console.error("Error fetching data:", error);
+    });
+} else {
+				$("#dropDownPeriodSelection").hide();
+				$("#dropDownPeriodSelection").jqxDropDownList({selectedIndex: -1});
+			}
+	
+}
+
+
 function initialiazeItemsRight(items, numberOfItems){
 	for (i = 0; i < items.length; i++) {
 		$(items[i]).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
@@ -4016,7 +4208,7 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 								updateChartSelectedItemMissingDates(chartConfigSettings);
 							//else
 							//	updateChartSelectedItem(chartConfigSettings);
-						
+						    checkIfRenderFlag(graphName,itemValue[checkedItemValues[0]]);
 							$('#overlayChart').hide();
 
 						},
@@ -6498,7 +6690,7 @@ function navigationGraph(condition) {
 			}
 			 function isecbImpactSeries(){
 				  $('#overlayChart').show(); 
-				   $(".chart-option").show(); 
+				  $(".chart-option").show(); 
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
@@ -6897,6 +7089,71 @@ function getStrokeWidth()
   }
 	  return strokeWidth*1.5;
 }
+
+function getStrokeWidthPeriod(period, numColumns)
+{
+	  var from = formatDate(monthDate);
+	  var fromDate = new Date(from);
+	  var to = formatDate(date);
+	  var toDate = new Date(to);
+	  const dateDifference = toDate - fromDate;
+	
+	  const maxStrokeWidth = 50; // Maximum stroke width
+	  const minStrokeWidth = 2.25; // Minimum stroke width
+	  
+	  switch (true) {
+    case dateDifference <= 30 * 24 * 60 * 60 * 1000: // Less than or equal to 1 month
+      strokeWidth = maxStrokeWidth;
+      break;
+    case dateDifference <= 90 * 24 * 60 * 60 * 1000: // Between 1 and 3 months
+      strokeWidth = 40;
+      break;
+    case dateDifference <= 180 * 24 * 60 * 60 * 1000: // Between 3 and 6 months
+      strokeWidth = 30;
+      break;
+    case dateDifference <= 365 * 24 * 60 * 60 * 1000: // Between 6 months and 1 year
+      strokeWidth = 20;
+      break;
+      case dateDifference <= (365*2) * 24 * 60 * 60 * 1000: // Between 6 months and 1 year
+      strokeWidth = 10;
+      break;
+    default: // Anything bigger than 1 year
+      strokeWidth = minStrokeWidth;
+    }
+	 switch (period) {
+	    case 'd' :
+	      strokeWidth = strokeWidth;
+	      break;
+	    case 'm' : 
+	      strokeWidth = strokeWidth*3;
+	      break;
+	    case 'q' : 
+	      strokeWidth = strokeWidth*6;
+	      break;
+	    case 'y' : 
+	      strokeWidth = strokeWidth*9;
+	      break;
+	    default:
+	      strokeWidth = strokeWidth;
+	  }
+	/*  var outerWidth = 931; // $('.apexcharts-gridlines-horizontal').width();
+
+	  var totalAvailableWidth = outerWidth - (numColumns - 1) * calculateSpacing(outerWidth, numColumns);
+
+      var strokeWidth = calculateStrokeWidth(totalAvailableWidth, numColumns);
+      
+      var spacingWidth = totalAvailableWidth/numColumns;*/
+      
+	  return strokeWidth;
+	}
+	function calculateSpacing(outerWidth, numColumns) {
+	    return outerWidth / numColumns;
+	}
+	
+	function calculateStrokeWidth(totalAvailableWidth, numColumns) {
+	    var factor = 0.1; 
+	    return totalAvailableWidth / (numColumns - 1) * factor;
+	}
    function initiateBarGraph (graphService,graphName,removeEmpty,saveHistory)
    {
 	
@@ -7458,3 +7715,71 @@ function getStrokeWidth()
 						        }]
 					})
 			}
+			
+function getCurrentWeekNumber() {
+    // Create a new Date object
+    const today = new Date();
+
+    // Set the target date to the beginning of the year
+    const startOfYear = new Date(today.getFullYear(), 0, 1);
+
+    // Calculate the difference in milliseconds between today and the start of the year
+    const timeDifference = today - startOfYear;
+
+    // Calculate the number of weeks by dividing the time difference by the number of milliseconds in a week
+    const weekNumber = Math.ceil(timeDifference / (7 * 24 * 60 * 60 * 1000));
+
+    return weekNumber;
+}
+function getCurrentMonth() {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1; // Adding 1 to get the month starting from 1
+    return currentMonth;
+}
+function getCurrentQuarter() {
+    const today = new Date();
+    const currentMonth = today.getMonth() + 1; // Adding 1 to get the month starting from 1
+
+    if (currentMonth >= 1 && currentMonth <= 3) {
+        return 1; // Q1
+    } else if (currentMonth >= 4 && currentMonth <= 6) {
+        return 2; // Q2
+    } else if (currentMonth >= 7 && currentMonth <= 9) {
+        return 3; // Q3
+    } else {
+        return 4; // Q4
+    }
+}
+function getCurrentYear() {
+    const today = new Date();
+    const currentYear = today.getFullYear();
+    return currentYear;
+}
+function checkIfRenderFlag(graphName, checkdItem){
+	if (graphName=='fxChart' || graphName=='cdsChart')
+	 renderChartFlag(0,checkdItem.img)
+}
+
+function renderChartFlag(index,img) {
+  for (let i = 1; i <= chart.w.globals.series[index].length; i++) {
+	const isLastIteration = i === chart.w.globals.series[index].length;
+    const datapoint = chart.w.config.series[index].data[i - 1];
+    if (chart.w.config.series[index].type=='column')
+    return;
+    if (isLastIteration)
+	    chart.addPointAnnotation({
+	      x: datapoint.x,
+	      y: datapoint.y,
+	      marker: {
+	        size: 0
+	      },
+	      image: {
+	        path: img,
+	        offsetY: 10 ,
+	        offsetX: 25,
+	        width: 32,
+            height: 32,
+	      }
+	    });
+  }
+}

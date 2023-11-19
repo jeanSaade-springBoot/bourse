@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - One Serie</title>
+  <title>Libvol - Race Chart</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -92,7 +92,14 @@ input[type="radio"]:checked::before {
 }
 .week-style{
     margin: 0.5rem;
-    text-transform: uppercase;}
+    text-transform: uppercase;
+    }
+ .nav-buttons{
+    position: absolute;
+    z-index: 1;
+    top: 61px;
+    }   
+ 
   </style>
 </head>
 
@@ -154,10 +161,14 @@ input[type="radio"]:checked::before {
 				       <div class="row col-12">
 				   	  	   
 								<div class="d-flex col-12">
-							 		<div class="col-10 pl-0 d-flex justify-content-start">
+							 		<div class="col-12 pl-0 nav-buttons d-flex justify-content-center">
 							 		    <button onclick="previousWeek()" class="btn btn-secondary" ><i class="fas fa-angle-double-left"></i></button>
-									    <div id="weekDisplay" class="week-style">Week 1</div>
+									    <div id="weekDisplay" class="week-style">Week </div>
 									    <button onclick="nextWeek()" class="btn btn-secondary" ><i class="fas fa-angle-double-right"></i></button>
+							 			<div class="btn-group mr-2 ml-4" role="group" aria-label="First group">
+										    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+										    <button type="button" id="button-yearForward" class="btn btn-secondary" onclick="navigationGraph('yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
+								        </div>
 							 		</div>
 								</div>
 							</div>
@@ -243,7 +254,7 @@ input[type="radio"]:checked::before {
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
 								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
 								   		</div>
-												 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
+												 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;">
 												
 												 </div>
 												 <div class="row" style="min-width: 1153px;  max-width:1153px">
@@ -263,7 +274,6 @@ input[type="radio"]:checked::before {
 					 	      
 					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
 							    <button type="button" id="button-monthBackward" class="btn btn-secondary  d-none" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
 							  </div>
 							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
@@ -274,8 +284,7 @@ input[type="radio"]:checked::before {
 							  </div>
 							  <div class="btn-group" role="group" aria-label="Third group">
 							   <button type="button" id="button-monthForward" class="btn btn-secondary d-none" onclick="navigationGraph('monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
-							   <button type="button" id="button-yearForward" class="btn btn-secondary" onclick="navigationGraph('yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
-							  </div>
+							 </div>
 							</div>
 					  </div>
 					    </div>
@@ -393,8 +402,8 @@ input[type="radio"]:checked::before {
   <script src="/js/apexcharts.js"></script>
   <script src="/js/chartOptions.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
-  <script src="/js/bourse/raceChartVolume.js"></script> 
   <script src="/js/chart.js"></script>
+  <script src="/js/bourse/raceChartVolume.js"></script> 
    <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 
  <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 

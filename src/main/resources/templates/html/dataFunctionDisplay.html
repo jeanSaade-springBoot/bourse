@@ -113,10 +113,11 @@
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				    <a sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')" class="navigation nav-item nav-link active" id="nav-datafunctiondisplay-tab"  href="/bourse/datafunctiondisplay" role="tab" aria-controls="nav-datafunctiondisplay" aria-selected="false">YIELDS & RATES</a>
+				    <a sec:authorize="hasAuthority('FXCDS_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-fxcdsdatafunctiondisplay-tab"  href="/bourse/fxcdsdatafunctiondisplay" role="tab" aria-controls="nav-datafxcdsdisplay" aria-selected="false">FX & CDS</a>
 				    <a sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/metaldatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">COMMODITIES</a>
 				 	<a sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/liquiditydatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">LIQUIDITY</a>
 				  	<a sec:authorize="hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/volumedatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">VOLUME</a>
-				  </div>
+				   </div>
 				</nav>
            
           </div>

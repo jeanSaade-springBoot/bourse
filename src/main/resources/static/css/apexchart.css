@@ -17,6 +17,26 @@ body {
 .apexcharts-yaxis-label-2y-gold {
     fill: #F0AB2E;
 }
+
+.glowFilter {animation:tronFilter 4s infinite linear; 
+             stroke-width:2;
+             stroke-linecap:round;
+             stroke-linejoin:bevel;
+             }
+@keyframes tronFilter {
+0%, 100% {
+    -webkit-filter: drop-shadow(-.75px 0px 6px #ff0000);
+    filter: drop-shadow(-.75px 0px 6px #ff0000);
+    stroke: #ff0000;
+  }
+
+  50% {
+    -webkit-filter: drop-shadow(-.75px 0px 6px #0000ff);
+    filter: drop-shadow(-.75px 0px 6px #0000ff);
+    stroke: #0000ff;
+  }
+}
+
 #chart, .chart-box {
     padding-top: 20px;
     padding-left: 10px;

@@ -3943,9 +3943,9 @@
 						// adding this code to create the arrow shape in the column mns
 						if (typeof t.w.config.yaxis[0].arrowHead !='undefined' && t.w.config.yaxis[0].arrowHead)
 							{
-							 u.y2 = f.y2+(((x-p)/2)+((x-p)/4));
+							 u.y2 = f.y2+(((x-p)/2)+((x-p)/8));
 							 f = this.getRoundedBars(d, u, o, h, c);
-							 m = m + g.line(p, f.y2) + f.endingPath + g.line(x - n, f.y2) + g.line(x - n, f.y1) + f.startingPath + "z" + g.move(p+((x-p)/2), f.y2-(((x-p)/2)+((x-p)/4))) + g.line(p-((x-p)/4), f.y2) + g.line(x+((x-p)/4), f.y2)  + "z";
+							 m = m + g.line(p, f.y2) + f.endingPath + g.line(x - n, f.y2) + g.line(x - n, f.y1) + f.startingPath + "z" + g.move(p+((x-p)/2), f.y2-(((x-p)/2)+((x-p)/8))) + g.line(p-((x-p)/8), f.y2) + g.line(x+((x-p)/8), f.y2)  + "z";
 						}else
 							m = m + g.line(p, f.y2) + f.endingPath + g.line(x - n, f.y2) + g.line(x - n, f.y1) + f.startingPath + "z";
 						
@@ -4103,7 +4103,7 @@
 									},
 									x: u,
 									y: p,
-									strokeWidth: P!=0?(typeof this.w.config.series[(this.w.config.series.length==1?0:1)].strokeWidth != 'undefined' ? this.w.config.series[1].strokeWidth: P):P, // mns added to control the width of the column 
+									strokeWidth: P!=0?(typeof this.w.config.series[v].strokeWidth != 'undefined' ? this.w.config.series[v].strokeWidth: P):P, // mns added to control the width of the column 
 									elSeries: w
 								};
 							this.isHorizontal ? (T = this.drawBarPaths(n(n({}, z), {}, {
@@ -4163,6 +4163,7 @@
 						w = t.visibleSeries,
 						k = t.type,
 						A = this.w,
+						D = this.w?.config?.series?.[0]?.data?.[t.j]?.isComplete,
 						S = new b(this.ctx);
 					a || (a = this.barOptions.distributed ? A.globals.stroke.colors[s] : A.globals.stroke.colors[e]), A.config.series[r].data[s] && A.config.series[r].data[s].strokeColor && (a = A.config.series[r].data[s].strokeColor), this.isNullValue && (i = "none");
 					var C = s / A.config.chart.animations.animateGradually.delay * (A.config.chart.animations.speed / A.globals.dataPoints) / 2.4,
@@ -4179,7 +4180,7 @@
 							animationDelay: C,
 							initialSpeed: A.config.chart.animations.speed,
 							dataChangeSpeed: A.config.chart.animations.dynamicAnimation.speed,
-							className: "apexcharts-".concat(k, "-area")
+							className: typeof D !='undefined'?(D=='0'?"glowFilter apexcharts-".concat(k, "-area"): "apexcharts-".concat(k, "-area")):"apexcharts-".concat(k, "-area")
 						});
 					L.attr("clip-path", "url(#gridRectMask".concat(A.globals.cuid, ")")), void 0 !== g && void 0 !== u && (L.attr("data-range-y1", g), L.attr("data-range-y2", u)), new p(this.ctx).setSelectionFilter(L, e, s), h.add(L);
 					var P = new I(this).handleBarDataLabels({

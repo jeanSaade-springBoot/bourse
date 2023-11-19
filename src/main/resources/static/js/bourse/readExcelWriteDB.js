@@ -86,6 +86,9 @@ var familysource =
 					  } else if($("#FamilyDropDown").val()=='3')
 				      { 
 						  $("#groupDropDown").jqxDropDownList('removeAt', 0 ); 
+					  }else if($("#FamilyDropDown").val()=='5')
+				      { 
+						  $("#groupDropDown").jqxDropDownList('removeAt', 2 ); 
 					  }
 				 }
 			  });
@@ -196,6 +199,12 @@ var familysource =
 		    break;
 	case 21:
    		 imagePath='/css/images/format/euribor_volume_format.png'
+		    break;
+    case 22:
+   		 imagePath='/css/images/format/cds_format.png'
+		    break;
+	case 23:
+   		 imagePath='/css/images/format/fx_format.png'
 		    break;
 	}
 return imagePath;

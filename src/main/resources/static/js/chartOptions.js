@@ -490,14 +490,15 @@ function updateGraphConfigurationVolumes(SelectedchartType,selectedChartColor,se
                              right: 60,
                          },  
                      },
-	  colors: [function({ value, dataPointIndex, seriesIndex, w }) {
+	/*  colors: [function({ value, dataPointIndex, seriesIndex, w }) {
 										
 									  if (w.config.series[seriesIndex].data[dataPointIndex].isComplete=='0') {
 									      return '#ff0000';
 									  }
 									  else 
 									  return  selectedChartColor=='#44546a'?'#2e75b6':selectedChartColor;
-									}],
+									}],*/
+	  colors: selectedChartColor=='#44546a'?['#2e75b6']:[selectedChartColor],								
   	  xaxis: {
 	   	  			       labels:  { hideOverlappingLabels: false,
 	   	  			         		  rotate: -70,
@@ -1179,7 +1180,7 @@ $('#dropDownFunctionss').on('select', function (event)
 		drawGraph();                      
 });
 
-function getPieChartOption(chartConfiguration){
+function getPieChartOptionSeries(chartConfiguration){
 	return  options_pie = {
           chart: {
 			height: 520,
@@ -1187,7 +1188,7 @@ function getPieChartOption(chartConfiguration){
 			animations: { enabled: false }
 		},
 		title: {
-			text: 'TEST TITLE',
+			text: chartConfiguration.title,
 			align: 'center',
 			margin: 10,
 			style: {
@@ -1225,8 +1226,155 @@ function getPieChartOption(chartConfiguration){
     	          height:12
     	      },
     	    formatter: function(seriesName, opts) {
-    	    	 return [seriesName, " : ", (opts.w.globals.series[opts.seriesIndex]/1000)+"k"]
+    	    	 return [seriesName, " : ", (opts.w.globals.series[opts.seriesIndex]!=0)?(opts.w.globals.series[opts.seriesIndex]/1000)+"k" :''];
     	    },
+    	   onItemClick: {
+          toggleDataSeries: false
+	      },
+	      onItemHover: {
+	          highlightDataSeries: false
+	      },
+    	  },
+        stroke:{width:0},
+        colors: ["#f0ab2e", "#0097fe", "#44546a", "#8A99B5", "#ffff00"],
+        tooltip: {
+				  x: {
+			          show: false,
+			      },
+				 y: {
+				 formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+						
+								 if (value >= 1000) 
+									return  (value / 1000)+'K';
+									else 
+									return value;
+					},
+				    title: {
+			              formatter: (seriesName) => '',
+			          },
+			      },
+			   },
+		       dataLabels: {
+				  style: {
+				      fontSize: chartConfiguration.fontSize,
+				  },
+				},
+		series: chartConfiguration.chartSeries,
+        labels: chartConfiguration.chartLabels,
+       
+        };
+}
+
+function getPieChartOptionEmptySeries(chartConfiguration){
+	return  options_pie = {
+          chart: {
+			height: 520,
+			type: 'pie',
+			animations: { enabled: false }
+		},
+		title: {
+			text: chartConfiguration.title,
+			align: 'center',
+			margin: 10,
+			style: {
+				fontWeight: 'bold',
+				color: '#263238'
+			},
+		},
+		subtitle: {
+			text: 'copyright LibVol.com',
+			align: 'right',
+			margin: 10,
+			offsetX: -10,
+			offsetY: 30,
+			floating: false,
+			style: {
+				fontSize: '10px',
+				fontWeight: 'normal',
+				color: '#9699a2'
+			},
+		},
+		legend: {
+		   fontSize:'16px',
+    	   showForSingleSeries: true,
+    	   itemMargin: {
+           horizontal: 0,
+           vertical: 5
+         },
+    	   labels: {
+			     colors: 'White',
+    	         useSeriesColors: false
+    	   },
+    	    markers: {
+    	          width: 12,
+    	          height:12
+    	      },
+    	    formatter: function(seriesName, opts) {
+    	    	 return [seriesName];
+    	    },
+    	   onItemClick: {
+          toggleDataSeries: false
+	      },
+	      onItemHover: {
+	          highlightDataSeries: false
+	      },
+    	  },
+        stroke:{width:0},
+        colors: ["#8a99b5"],
+        tooltip: {
+			      enabled: false,
+			   },
+	       dataLabels: {
+			    enabled: false,
+			  style: {
+			      fontSize: chartConfiguration.fontSize,
+			  },
+			},
+		series: chartConfiguration.chartSeries,
+        labels: chartConfiguration.chartLabels,
+       
+        };
+}
+
+function getPieChartOption(chartConfiguration){
+	return  options_pie = {
+          chart: {
+			height: 520,
+			type: 'pie',
+			animations: { enabled: false }
+		},
+		subtitle: {
+			text: 'copyright LibVol.com',
+			align: 'right',
+			margin: 10,
+			offsetX: -10,
+			offsetY: 30,
+			floating: false,
+			style: {
+				fontSize: '10px',
+				fontWeight: 'normal',
+				color: '#9699a2'
+			},
+		},
+		legend: {
+		   show:chartConfiguration.showLegend=='legendtrue'?true:false,
+		   fontSize: chartConfiguration.fontSize,
+    	   showForSingleSeries: true,
+    	   itemMargin: {
+           horizontal: 0,
+           vertical: 5
+         },
+    	   labels: {
+    	          colors: 'White',
+    	          useSeriesColors: false
+    	   },
+    	      markers: {
+    	          width: 12,
+    	          height:12
+    	      },
+    	    formatter: function(seriesName, opts) {
+    	     return [seriesName, " : ", (opts.w.globals.series[opts.seriesIndex]!=0)?(opts.w.globals.series[opts.seriesIndex]/1000)+"k" :''];
+    	   },
     	   onItemClick: {
           toggleDataSeries: false
 	      },
@@ -1258,9 +1406,7 @@ function getPieChartOption(chartConfiguration){
 				      fontSize: chartConfiguration.fontSize,
 				  },
 				},
-		series: [44000, 50005, 13000, 43000],
-        labels: ['Total - Bund', 'Total - Bobl', 'Total - Buxl', 'Total - Shatz'],
-        };
+		 };
 }
 function updatePieChartOptions (chartConfiguration){
 	chart.updateOptions(getPieChartOption(chartConfiguration));

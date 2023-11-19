@@ -31,6 +31,8 @@ public class DynamicTemplateService {
 			            fragmentName = "html/templates/liquidity";
 			        } else if ("4".equals(serie)) {
 			            fragmentName = "html/templates/volume";
+			        } else if ("5".equals(serie)) {
+			            fragmentName = "html/templates/fxcds";
 			        } 
 			return fragmentName;
 	   	}

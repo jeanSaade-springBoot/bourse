@@ -110,6 +110,7 @@
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				      <a sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')" class="navigation nav-item nav-link " id="nav-datafunctiondisplay-tab"  href="/bourse/datafunctiondisplay" role="tab" aria-controls="nav-datafunctiondisplay" aria-selected="false">YIELDS & RATES</a>
+				    <a sec:authorize="hasAuthority('FXCDS_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-fxcdsdatafunctiondisplay-tab"  href="/bourse/fxcdsdatafunctiondisplay" role="tab" aria-controls="nav-datafxcdsdisplay" aria-selected="false">FX & CDS</a>
 				    <a sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link " id="nav-datafunctiondisplay-tab"  href="/bourse/metaldatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">COMMODITIES</a>
 				 	<a sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/liquiditydatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">LIQUIDITY</a>
 				  	<a sec:authorize="hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link active" id="nav-datafunctiondisplay-tab"  href="/bourse/volumedatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">VOLUME</a>
@@ -152,16 +153,16 @@
 								<h7 class="m-0 font-weight-bold">BUND OPTIONS</h7>
 									<div class=" no-gutters">
 									  <div class="col-custom">
-										 <div id='jqxCheckBoxBund1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
+										 <div id='jqxCheckBoxBund1' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
 									   </div>
 										 <div class="col-custom">
-												<div id='jqxCheckBoxBund2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
+												<div id='jqxCheckBoxBund2' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
 										 </div>
 										 <div class="col-custom">
-												<div id='jqxCheckBoxBund1_Bund2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
+												<div id='jqxCheckBoxBund1_Bund2' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
 											</div>
 										 <div class="col-custom">
-												<div id='jqxCheckBoxBund1_Bund2_cp' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">5-day C/P ratio</span></div>
+												<div id='jqxCheckBoxBund1_Bund2_cp' class="jqx-checkbox-items" style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">5-day C/P ratio</span></div>
 										 </div>
 								</div>
 							</div>
@@ -169,13 +170,13 @@
 							  <h7 class="m-0 font-weight-bold">BOBL OPTIONS</h7>
 								<div class=" no-gutters">
 								  <div class="col-custom">
-											<div id='jqxCheckBoxBobl1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
+											<div id='jqxCheckBoxBobl1' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
 									  </div>
 									 <div class="col-custom">
-										<div id='jqxCheckBoxBobl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
+										<div id='jqxCheckBoxBobl2' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
 									  </div>
 									 <div class="col-custom">
-										<div id='jqxCheckBoxBobl1_Bobl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
+										<div id='jqxCheckBoxBobl1_Bobl2' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
 									 </div>
 								</div>
 							</div>
@@ -183,13 +184,13 @@
 							  <h7 class="m-0 font-weight-bold">BUXL OPTIONS</h7>
 								<div class=" no-gutters">
 								  <div class="col-custom">
-											<div id='jqxCheckBoxBuxl1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
+											<div id='jqxCheckBoxBuxl1' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
 									 </div>
 									 <div class="col-custom">
-											<div id='jqxCheckBoxBuxl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
+											<div id='jqxCheckBoxBuxl2' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
 									   </div>
 									 <div class="col-custom">
-											<div id='jqxCheckBoxBuxl1_Buxl2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
+											<div id='jqxCheckBoxBuxl1_Buxl2' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
 									   </div>
 								</div>
 							</div>
@@ -197,13 +198,13 @@
 							  <h7 class="m-0 font-weight-bold">SHATZ OPTIONS</h7>
 								<div class=" no-gutters">
 								  <div class="col-custom">
-											<div id='jqxCheckBoxShatz1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
+											<div id='jqxCheckBoxShatz1' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Call Volume</span></div>
 									  </div>
 									 <div class="col-custom">
-											<div id='jqxCheckBoxShatz2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
+											<div id='jqxCheckBoxShatz2' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Put Volume</span></div>
 									   </div>
 									 <div class="col-custom">
-											<div id='jqxCheckBoxShatz1_Shatz2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
+											<div id='jqxCheckBoxShatz1_Shatz2' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Total Volume</span></div>
 									   </div>
 								</div>
 							</div>
@@ -211,22 +212,22 @@
 							  <h7 class="m-0 font-weight-bold">EURIBOR OPTIONS</h7>
 								<div class=" no-gutters">
 								  <div class="col-custom">
-											<div id='jqxCheckBoxEuribor1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Regular ER</span></div>
+											<div id='jqxCheckBoxEuribor1' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Regular ER</span></div>
 									  </div>
 									 <div class="col-custom">
-											<div id='jqxCheckBoxEuribor2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">1yr MID</span></div>
+											<div id='jqxCheckBoxEuribor2' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">1yr MID</span></div>
 									 </div>
 									 <div class="col-custom">
-											<div id='jqxCheckBoxEuribor3' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">2yr GREEN</span></div>
+											<div id='jqxCheckBoxEuribor3' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">2yr GREEN</span></div>
 									   </div>
 									<div class="col-custom">
-											<div id='jqxCheckBoxEuribor4' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">3yr BLUE</span></div>
+											<div id='jqxCheckBoxEuribor4' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">3yr BLUE</span></div>
 									   </div>
 									<div class="col-custom">
-											<div id='jqxCheckBoxEuribor5' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">4yr GOLD</span></div>
+											<div id='jqxCheckBoxEuribor5' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">4yr GOLD</span></div>
 									   </div>
 									<div class="col-custom">
-											<div id='jqxCheckBoxEuribor1_Euribor2_Euribor3_Euribor4_Euribor5' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">All EURIBOR</span></div>
+											<div id='jqxCheckBoxEuribor1_Euribor2_Euribor3_Euribor4_Euribor5' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;' ><span class="checkboxesTitle">All EURIBOR</span></div>
 									</div>
 								</div>
 							</div>

@@ -87,6 +87,10 @@ public class VolumeController {
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
 		return new ResponseEntity<>(volumeService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
 	} 
+	@PostMapping(value = "getgraphdatabyperiod")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByPeriod(@RequestBody  GraphRequestDTO graphReqDTO) {
+		return new ResponseEntity<>(volumeService.getGraphDataByPeriodValue(graphReqDTO),HttpStatus.OK);
+	}
 	@PostMapping(value = "getgraphdatabytypesum")
 	public ResponseEntity<List<GraphResponseColConfigVolumeDTO>> getGraphDataByTypeSum(@RequestBody  GraphRequestDTO graphReqDTO) {
 		return new ResponseEntity<>(volumeService.getGraphDataByTypeSum(graphReqDTO),HttpStatus.OK);

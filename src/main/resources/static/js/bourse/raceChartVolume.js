@@ -77,7 +77,6 @@ $(document).ready(function() {
 	
 	 getGraphHistoryByScreenName(graphName);
 	
-	 
 });
 
 function drawGraph() {
@@ -110,6 +109,7 @@ function getraceChartGraphData(graphService,graphName,removeEmpty,saveHistory){
 
 	var Period = getChartPeriodVolume();
 	var type = getSelectedType();
+	
 	if (chart != null)
 		chart.destroy();
 
@@ -117,8 +117,10 @@ function getraceChartGraphData(graphService,graphName,removeEmpty,saveHistory){
 				if (checkedItemid[i] != null)
 					checkedItemValues.push(checkedItemid[i]);
 			}
-		
-	chart = new ApexCharts(document.querySelector("#mainChart"), options);
+	let graph_options=	options
+	 graph_options.chart.width = '100%';
+	graph_options.chart.height= screen.height-screen.height/3.25; 
+	chart = new ApexCharts(document.querySelector("#mainChart"), graph_options);
 
 	chart.render();
 	
@@ -189,8 +191,12 @@ function getraceChartGraphData(graphService,graphName,removeEmpty,saveHistory){
 							markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
 							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
- 
-							 chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+ 							
+ 							var graph_options = getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize);
+						    graph_options.chart.width = '100%';
+						 	graph_options.chart.height= screen.height-screen.height/3.25; 
+						 	
+							 chart.updateOptions(graph_options);
 							updateChartOption();
 							
 							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
@@ -250,8 +256,8 @@ function getraceChartGraphData(graphService,graphName,removeEmpty,saveHistory){
 	 inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValue));
 
 }
- let currentWeek = 1; // Initial week
-
+ let currentWeek = getCurrentWeekNumber(); // Initial week
+ document.getElementById("weekDisplay").textContent = "Week " + currentWeek;
 function updateWeekDisplay() {
     document.getElementById("weekDisplay").textContent = "Week " + currentWeek;
 }

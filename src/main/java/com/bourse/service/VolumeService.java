@@ -344,6 +344,56 @@ public class VolumeService {
 		return graphResponseColConfigDTO; 
 	    
 	}
+	public List<GraphResponseColConfigDTO> getGraphDataByPeriodValue(GraphRequestDTO graphReqDTO) {
+	    boolean hasData= adminService.getData();
+	    if(!hasData)
+			return null;
+		
+		List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_graph_main",GraphResponseDTO.class);
+		
+		ColumnConfiguration config = null;
+		GraphResponseColConfigDTO graphResponseColConfigDTO = null;
+		
+			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+			query.setParameter("groupId",graphReqDTO.getYear() );
+			
+			query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query.setParameter("fromDate",graphReqDTO.getDataType() );
+			
+			query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query.setParameter("toDate",  "" );
+			
+			query.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
+			query.setParameter("subgroupId",graphReqDTO.getValue() );
+			
+			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query.setParameter("dayOrweek",graphReqDTO.getPeriod());
+			
+			query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
+			query.setParameter("isFunction","false");
+			
+			query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
+			query.setParameter("functionCode", "");
+			
+			query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			query.setParameter("type", graphReqDTO.getType());
+			
+			query.execute();
+			
+			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+			
+		    graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+					                  .graphResponseDTOLst(graphResponseDTOlst1)
+					                  .config(config)
+					                  .build();
+			entityManager.clear();
+			entityManager.close();
+		
+		l1.add(graphResponseColConfigDTO);
+	return l1;
+	}
 	public List<GraphResponseColConfigDTO> getGraphDataByType(GraphRequestDTO graphReqDTO) {
 
 		boolean hasData= adminService.getData();

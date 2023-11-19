@@ -476,7 +476,7 @@ public class DataFunctionService {
 		String dataFormat = columnConfigurationRepository.findByGroupIdAndSubgroupIdAndFactor(yieldCurveCross,country,factor.replace("yr", "")).getDataFormat();
 		
 		values.add(dataFormat);
-		values.add(String.valueOf(dataFormat.split("%")[0].split("\\.").length>1?dataFormat.split("%")[0].split("\\.")[1].length():dataFormat.split("%")[0].split("\\.")[0].length()));
+		values.add(String.valueOf(dataFormat.split("%")[0].split("\\.").length>1?dataFormat.split("%")[0].split("\\.")[1].length():(dataFormat.split("%")[0].split("\\.")[0].equalsIgnoreCase("0")?dataFormat.split("%")[0].split("\\.")[0]:dataFormat.split("%")[0].split("\\.")[0].length())));
 		}
 		else 
 			{

@@ -171,7 +171,67 @@
 				 "#jqxCheckBoxEuribor1_Euribor2_Euribor3_Euribor4_Euribor5"];	
 
 	}
+else if (serieValue === 5) {
+		 graphService = "fxcds";
+	   var allitems= [ "#jqxCheckBoxusdeur",
+			    "#jqxCheckBoxgbpusd",
+			    "#jqxCheckBoxusdchf",
+			    "#jqxCheckBoxusdjpy",
+			    "#jqxCheckBoxusdcad",
+			    "#jqxCheckBoxusdcny",
+			    "#jqxCheckBoxusdsek",
+			    "#jqxCheckBoxusdaud",
+			    "#jqxCheckBoxusdrub",
+			    "#jqxCheckBoxusdtry",
+			    "#jqxCheckBoxusdinr",
+			    "#jqxCheckBoxusdhkd",
+			    "#jqxCheckBoxusdkrw",
+			    "#jqxCheckBoxusdbrl",
+			    "#jqxCheckBoxusdmxn",
+			    "#jqxCheckBoxusdsar",
+			    "#jqxCheckBoxusdzar",
+			    "#jqxCheckBoxusdegp",
+			    "#jqxCheckBoxeurusd",
+			    "#jqxCheckBoxgbpeur",
+			    "#jqxCheckBoxeurchf",
+			    "#jqxCheckBoxeurjpy",
+			    "#jqxCheckBoxeurcad",
+			    "#jqxCheckBoxeurcny",
+			    "#jqxCheckBoxeursek",
+			    "#jqxCheckBoxeuraud",
+			    "#jqxCheckBoxeurrub",
+			    "#jqxCheckBoxeurtry",
+			    "#jqxCheckBoxeurinr",
+			    "#jqxCheckBoxeurhkd",
+			    "#jqxCheckBoxeurkrw",
+			    "#jqxCheckBoxeurbrl",
+			    "#jqxCheckBoxeurmxn",
+			    "#jqxCheckBoxeursar",
+			    "#jqxCheckBoxeurzar",
+			    "#jqxCheckBoxeuregp",
+			    "#jqxCheckBoxgermany",
+				"#jqxCheckBoxfrance",
+				"#jqxCheckBoxitaly",
+				"#jqxCheckBoxspain",
+				"#jqxCheckBoxuk",
+				"#jqxCheckBoxswiss",
+				"#jqxCheckBoxsweden",
+				"#jqxCheckBoxusa",
+				"#jqxCheckBoxcanada",
+				"#jqxCheckBoxaustralia",
+				"#jqxCheckBoxjapan",
+				"#jqxCheckBoxchina",
+				"#jqxCheckBoxhongkong",
+				"#jqxCheckBoxsouthkorea",
+				"#jqxCheckBoxindia",
+				"#jqxCheckBoxbrazil",
+			    "#jqxCheckBoxmexico",
+				"#jqxCheckBoxsaudi",
+				"#jqxCheckBoxturkey",
+				"#jqxCheckBoxsouthafrica"
+				    ];	
 
+	}
 const graphName=""; 
 			   
 $(window).on('load', function() {

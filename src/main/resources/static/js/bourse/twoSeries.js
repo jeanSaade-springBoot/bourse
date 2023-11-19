@@ -157,13 +157,70 @@ var allitems = ["#jqxCheckBoxUSA-30",
 				"#jqxCheckBoxEuribor3",
 				"#jqxCheckBoxEuribor4",
 				"#jqxCheckBoxEuribor5",
-				"#jqxCheckBoxEuribor1_Euribor2_Euribor3_Euribor4_Euribor5"];	
+				"#jqxCheckBoxEuribor1_Euribor2_Euribor3_Euribor4_Euribor5",
+				 "#jqxCheckBoxusdeur",
+			    "#jqxCheckBoxgbpusd",
+			    "#jqxCheckBoxusdchf",
+			    "#jqxCheckBoxusdjpy",
+			    "#jqxCheckBoxusdcad",
+			    "#jqxCheckBoxusdcny",
+			    "#jqxCheckBoxusdsek",
+			    "#jqxCheckBoxusdaud",
+			    "#jqxCheckBoxusdrub",
+			    "#jqxCheckBoxusdtry",
+			    "#jqxCheckBoxusdinr",
+			    "#jqxCheckBoxusdhkd",
+			    "#jqxCheckBoxusdkrw",
+			    "#jqxCheckBoxusdbrl",
+			    "#jqxCheckBoxusdmxn",
+			    "#jqxCheckBoxusdsar",
+			    "#jqxCheckBoxusdzar",
+			    "#jqxCheckBoxusdegp",
+			    "#jqxCheckBoxeurusd",
+			    "#jqxCheckBoxgbpeur",
+			    "#jqxCheckBoxeurchf",
+			    "#jqxCheckBoxeurjpy",
+			    "#jqxCheckBoxeurcad",
+			    "#jqxCheckBoxeurcny",
+			    "#jqxCheckBoxeursek",
+			    "#jqxCheckBoxeuraud",
+			    "#jqxCheckBoxeurrub",
+			    "#jqxCheckBoxeurtry",
+			    "#jqxCheckBoxeurinr",
+			    "#jqxCheckBoxeurhkd",
+			    "#jqxCheckBoxeurkrw",
+			    "#jqxCheckBoxeurbrl",
+			    "#jqxCheckBoxeurmxn",
+			    "#jqxCheckBoxeursar",
+			    "#jqxCheckBoxeurzar",
+			    "#jqxCheckBoxeuregp",
+			    "#jqxCheckBoxgermany",
+				"#jqxCheckBoxfrance",
+				"#jqxCheckBoxitaly",
+				"#jqxCheckBoxspain",
+				"#jqxCheckBoxuk",
+				"#jqxCheckBoxswiss",
+				"#jqxCheckBoxsweden",
+				"#jqxCheckBoxusa",
+				"#jqxCheckBoxcanada",
+				"#jqxCheckBoxaustralia",
+				"#jqxCheckBoxjapan",
+				"#jqxCheckBoxchina",
+				"#jqxCheckBoxhongkong",
+				"#jqxCheckBoxsouthkorea",
+				"#jqxCheckBoxindia",
+				"#jqxCheckBoxbrazil",
+			    "#jqxCheckBoxmexico",
+				"#jqxCheckBoxsaudi",
+				"#jqxCheckBoxturkey",
+				"#jqxCheckBoxsouthafrica"];	
 
 const graphName=""; 
 var selectedYieldsCount=0;
 var selectedCommoditiesCount=0;	
 var selectedLiquidityCount=0;		
-var selectedVolumeCount=0;				   
+var selectedVolumeCount=0;		
+var selectedFxCdsCount=0;				   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -216,6 +273,11 @@ $(document).ready(function() {
 				   selectedVolumeCount = updateCount(checked,selectedVolumeCount)
 				   updateTabTitles(selectedVolumeCount);
 			   }
+			   else if (["22", "23", "24"].includes(itemValue["#" + checkboxId].GroupId))
+			   {
+				   selectedFxCdsCount = updateCount(checked,selectedFxCdsCount)
+				   updateTabTitles(selectedFxCdsCount);
+			   }
 	   
 	    });
 	    $("#Clearfilter").click(function() {
@@ -223,6 +285,7 @@ $(document).ready(function() {
 			 selectedCommoditiesCount=0;	
 			 selectedLiquidityCount=0;		
 			 selectedVolumeCount=0;	
+			 selectedFxCdsCount=0;
 			  $(".tab-pane").each(function () {
                     var tabId = $(this).attr("id");
                     var tabTitle = $("#" + tabId + "-tab").text().split("(")[0]; // Extract tab title without count

@@ -1141,5 +1141,398 @@ var itemValue = {
 		"GroupId": "12",
 		"description": "eurozonebtobbb_eurozoneatoaaa",
 		"title": 'EZ HIGHYIELD BtoBBB vs BLUECHIP AtoAAA'
-	}
+	},
+  
+    "#jqxCheckBoxusdeur": {
+        "subGroupId": "1",
+        "GroupId": "23",
+        "description": "usdeur",
+        "title": "USDEUR",
+        "img": "/img/flag/united-states.png"
+    },
+  "#jqxCheckBoxgbpusd": {
+    "subGroupId": "2",
+    "GroupId": "23",
+    "description": "gbpusd",
+    "title": "GBPUSD",
+    "img": "/img/flag/united-kingdom.png"
+  },
+  "#jqxCheckBoxusdchf": {
+    "subGroupId": "3",
+    "GroupId": "23",
+    "description": "usdchf",
+    "title": "USDCHF",
+    "img": "/img/flag/switzerland.png"
+  },
+  "#jqxCheckBoxusdjpy": {
+    "subGroupId": "4",
+    "GroupId": "23",
+    "description": "usdjpy",
+    "title": "USDJPY",
+    "img": "/img/flag/japan.png"
+  },
+  "#jqxCheckBoxusdcad": {
+    "subGroupId": "5",
+    "GroupId": "23",
+    "description": "usdcad",
+    "title": "USDCAD",
+    "img": "/img/flag/canada.png"
+  },
+  "#jqxCheckBoxusdcny": {
+    "subGroupId": "6",
+    "GroupId": "23",
+    "description": "usdcny",
+    "title": "USDCNY",
+    "img": "/img/flag/china.png"
+  },
+  "#jqxCheckBoxusdsek": {
+    "subGroupId": "7",
+    "GroupId": "23",
+    "description": "usdsek",
+    "title": "USDSEK",
+    "img": "/img/flag/sweden.png"
+  },
+  "#jqxCheckBoxusdaud": {
+    "subGroupId": "8",
+    "GroupId": "23",
+    "description": "usdaud",
+    "title": "USDAUD",
+    "img": "/img/flag/australia.png"
+  },
+  "#jqxCheckBoxusdrub": {
+    "subGroupId": "9",
+    "GroupId": "23",
+    "description": "usdrub",
+    "title": "USDRUB",
+    "img": "/img/flag/russia.png"
+  },
+  "#jqxCheckBoxusdtry": {
+    "subGroupId": "10",
+    "GroupId": "23",
+    "description": "usdtry",
+    "title": "USDTRY",
+    "img": "/img/flag/turkey.png"
+  },
+  "#jqxCheckBoxusdinr": {
+    "subGroupId": "11",
+    "GroupId": "23",
+    "description": "usdinr",
+    "title": "USDINR",
+    "img": "/img/flag/india.png"
+  },
+  "#jqxCheckBoxusdhkd": {
+    "subGroupId": "12",
+    "GroupId": "23",
+    "description": "usdhkd",
+    "title": "USDHKD",
+    "img": "/img/flag/hong-kong.png"
+  },
+  "#jqxCheckBoxusdkrw": {
+    "subGroupId": "13",
+    "GroupId": "23",
+    "description": "usdkrw",
+    "title": "USDKRW",
+    "img": "/img/flag/south-korea.png"
+  },
+  "#jqxCheckBoxusdbrl": {
+    "subGroupId": "14",
+    "GroupId": "23",
+    "description": "usdbrl",
+    "title": "USDBRL",
+    "img": "/img/flag/brazil.png"
+  },
+  "#jqxCheckBoxusdmxn": {
+    "subGroupId": "15",
+    "GroupId": "23",
+    "description": "usdmxn",
+    "title": "USDMXN",
+    "img": "/img/flag/mexico.png"
+  },
+  "#jqxCheckBoxusdsar": {
+    "subGroupId": "16",
+    "GroupId": "23",
+    "description": "usdsar",
+    "title": "USDSAR",
+    "img": "/img/flag/saudi-arabia.png"
+  },
+  "#jqxCheckBoxusdzar": {
+    "subGroupId": "17",
+    "GroupId": "23",
+    "description": "usdzar",
+    "title": "USDZAR",
+    "img": "/img/flag/south-africa.png"
+  },
+  "#jqxCheckBoxusdegp": {
+    "subGroupId": "18",
+    "GroupId": "23",
+    "description": "usdegp",
+    "title": "USDEGP",
+    "img": "/img/flag/egypt.png"
+  }
+  ,  "#jqxCheckBoxeurusd": {
+        "subGroupId": "1",
+        "GroupId": "24",
+        "description": "eurusd",
+        "title": "EURUSD",
+		"img": "/img/flag/eu.png"
+    },
+     "#jqxCheckBoxgbpeur": {
+    "subGroupId": "2",
+    "GroupId": "24",
+    "description": "gbpeur",
+    "title": "GBPEUR",
+    "img": "/img/flag/united-kingdom.png"
+  },
+  "#jqxCheckBoxeurchf": {
+    "subGroupId": "3",
+    "GroupId": "24",
+    "description": "eurchf",
+    "title": "EURCHF",
+    "img": "/img/flag/switzerland.png"
+  },
+  "#jqxCheckBoxeurjpy": {
+    "subGroupId": "4",
+    "GroupId": "24",
+    "description": "eurjpy",
+    "title": "EURJPY",
+    "img": "/img/flag/japan.png"
+  },
+  "#jqxCheckBoxeurcad": {
+    "subGroupId": "5",
+    "GroupId": "24",
+    "description": "eurcad",
+    "title": "EURCAD",
+    "img": "/img/flag/canada.png"
+  },
+  "#jqxCheckBoxeurcny": {
+    "subGroupId": "6",
+    "GroupId": "24",
+    "description": "eurcny",
+    "title": "EURCNY",
+    "img": "/img/flag/china.png"
+  },
+  "#jqxCheckBoxeursek": {
+    "subGroupId": "7",
+    "GroupId": "24",
+    "description": "eursek",
+    "title": "EURSEK",
+    "img": "/img/flag/sweden.png"
+  },
+  "#jqxCheckBoxeuraud": {
+    "subGroupId": "8",
+    "GroupId": "24",
+    "description": "euraud",
+    "title": "EURAUD",
+     "img": "/img/flag/australia.png"
+  },
+  "#jqxCheckBoxeurrub": {
+    "subGroupId": "9",
+    "GroupId": "24",
+    "description": "eurrub",
+    "title": "EURRUB",
+    "img": "/img/flag/russia.png"
+  },
+  "#jqxCheckBoxeurtry": {
+    "subGroupId": "10",
+    "GroupId": "24",
+    "description": "eurtry",
+    "title": "EURTRY",
+    "img": "/img/flag/turkey.png"
+  },
+  "#jqxCheckBoxeurinr": {
+    "subGroupId": "11",
+    "GroupId": "24",
+    "description": "eurinr",
+    "title": "EURINR",
+     "img": "/img/flag/india.png"
+  },
+  "#jqxCheckBoxeurhkd": {
+    "subGroupId": "12",
+    "GroupId": "24",
+    "description": "eurhkd",
+    "title": "EURHKD",
+     "img": "/img/flag/hong-kong.png"
+  },
+  "#jqxCheckBoxeurkrw": {
+    "subGroupId": "13",
+    "GroupId": "24",
+    "description": "eurkrw",
+    "title": "EURKRW",
+    "img": "/img/flag/south-korea.png"
+  },
+  "#jqxCheckBoxeurbrl": {
+    "subGroupId": "14",
+    "GroupId": "24",
+    "description": "eurbrl",
+    "title": "EURBRL",
+    "img": "/img/flag/brazil.png"
+  },
+  "#jqxCheckBoxeurmxn": {
+    "subGroupId": "15",
+    "GroupId": "24",
+    "description": "eurmxn",
+    "title": "EURMXN",
+    "img": "/img/flag/mexico.png"
+  },
+  "#jqxCheckBoxeursar": {
+    "subGroupId": "16",
+    "GroupId": "24",
+    "description": "eursar",
+    "title": "EURSAR",
+     "img": "/img/flag/saudi-arabia.png"
+  },
+  "#jqxCheckBoxeurzar": {
+    "subGroupId": "17",
+    "GroupId": "24",
+    "description": "eurzar",
+    "title": "EURZAR",
+     "img": "/img/flag/south-africa.png"
+  },
+  "#jqxCheckBoxeuregp": {
+    "subGroupId": "18",
+    "GroupId": "24",
+    "description": "euregp",
+    "title": "EUREGP",
+     "img": "/img/flag/egypt.png"
+  },
+  "#jqxCheckBoxgermany": {
+    "subGroupId": "1",
+    "GroupId": "22",
+    "description": "germany",
+    "title": "Germany",
+	 "img": "/img/flag/germany.png"
+  },
+  "#jqxCheckBoxfrance": {
+    "subGroupId": "2",
+    "GroupId": "22",
+    "description": "france",
+    "title": "France",
+	"img": "/img/flag/france.png"
+  },
+  "#jqxCheckBoxitaly": {
+    "subGroupId": "3",
+    "GroupId": "22",
+    "description": "italy",
+    "title": "Italy",
+	"img": "/img/flag/italy.png"
+  },
+  "#jqxCheckBoxspain": {
+    "subGroupId": "4",
+    "GroupId": "22",
+    "description": "spain",
+    "title": "Spain",
+	"img": "/img/flag/spain.png"
+  },
+  "#jqxCheckBoxuk": {
+    "subGroupId": "5",
+    "GroupId": "22",
+    "description": "uk",
+    "title": "UK",
+	"img": "/img/flag/uk.png"
+  },
+  "#jqxCheckBoxswiss": {
+    "subGroupId": "6",
+    "GroupId": "22",
+    "description": "swiss",
+    "title": "Swiss",
+	"img": "/img/flag/switzerland.png"
+  },
+  "#jqxCheckBoxsweden": {
+    "subGroupId": "7",
+    "GroupId": "22",
+    "description": "sweden",
+    "title": "Sweden",
+	"img": "/img/flag/sweden.png"
+  },
+  "#jqxCheckBoxusa": {
+    "subGroupId": "8",
+    "GroupId": "22",
+    "description": "usa",
+    "title": "USA",
+	 "img": "/img/flag/united-states.png"
+  },
+  "#jqxCheckBoxcanada": {
+    "subGroupId": "9",
+    "GroupId": "22",
+    "description": "canada",
+    "title": "Canada",
+    "img": "/img/flag/canada.png"
+  },
+  "#jqxCheckBoxaustralia": {
+    "subGroupId": "10",
+    "GroupId": "22",
+    "description": "australia",
+    "title": "Australia",
+	 "img": "/img/flag/australia.png"
+  },
+  "#jqxCheckBoxjapan": {
+    "subGroupId": "11",
+    "GroupId": "22",
+    "description": "japan",
+    "title": "Japan",
+	"img": "/img/flag/japan.png"
+  },
+  "#jqxCheckBoxchina": {
+    "subGroupId": "12",
+    "GroupId": "22",
+    "description": "china",
+    "title": "China",
+	"img": "/img/flag/china.png"
+  },
+  "#jqxCheckBoxhongkong": {
+    "subGroupId": "13",
+    "GroupId": "22",
+    "description": "hongkong",
+    "title": "Hong Kong",
+	 "img": "/img/flag/hong-kong.png"
+  },
+  "#jqxCheckBoxsouthkorea": {
+    "subGroupId": "14",
+    "GroupId": "22",
+    "description": "southkorea",
+    "title": "Sth-Korea",
+	"img": "/img/flag/south-korea.png"
+  },
+  "#jqxCheckBoxindia": {
+    "subGroupId": "15",
+    "GroupId": "22",
+    "description": "india",
+    "title": "India",
+	 "img": "/img/flag/india.png"
+  },
+  "#jqxCheckBoxbrazil": {
+    "subGroupId": "16",
+    "GroupId": "22",
+    "description": "brazil",
+    "title": "Brazil",
+	 "img": "/img/flag/brazil.png"
+  },
+  "#jqxCheckBoxmexico": {
+    "subGroupId": "17",
+    "GroupId": "22",
+    "description": "mexico",
+    "title": "Mexico",
+	"img": "/img/flag/mexico.png"
+  },
+  "#jqxCheckBoxsaudi": {
+    "subGroupId": "18",
+    "GroupId": "22",
+    "description": "saudi",
+    "title": "S-Arabia",
+	 "img": "/img/flag/saudi-arabia.png"
+  },
+  "#jqxCheckBoxturkey": {
+    "subGroupId": "19",
+    "GroupId": "22",
+    "description": "turkey",
+    "title": "Turkey",
+	"img": "/img/flag/turkey.png"
+  },
+  "#jqxCheckBoxsouthafrica": {
+    "subGroupId": "20",
+    "GroupId": "22",
+    "description": "southafrica",
+    "title": "Sth-Africa",
+	 "img": "/img/flag/south-africa.png"
+  }
 	};

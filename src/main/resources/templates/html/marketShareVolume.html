@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - One Serie</title>
+  <title>Libvol - Market Share</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -145,8 +145,8 @@ input[type="radio"]:checked::before {
 				       <div class="row col-12">
 				   	  	   
 								<div class="d-flex col-12">
-							 		<div class="col-10 d-flex pt-3 pl-0 ">
-							 		 <div id='groupOfPeriodVolume' class="col-4 pl-0">
+							 		<div class="col-10 d-flex pt-3 pl-0 justify-content-between">
+							 		 <div id='groupOfPeriodVolumes' class="col-4 pl-0">
 								            <button style="padding:4px 16px;" id="w">
 								                Weekly</button>
 								            <button style="padding:4px 16px;" id="m">
@@ -156,27 +156,32 @@ input[type="radio"]:checked::before {
 											 <button style="padding:4px 16px;" id="y">
 												Yearly</button>
 								        </div>
+								        <div id="dropDownPeriodSelection" class="p-0  col-2"></div>
+								        <div id="dropDownYears" class="p-0 col-2"></div>
 								       <div class="col-3">
 								         <form>
 								 		   <div class="col-12  pl-0 d-flex">
 								 		  		<div class="col pl-0">
 									 		  		 <label>
-											            <input type="radio" name="options" value="0"> All
+											            <input type="radio" name="options" value="ALL"> All
 											        </label>
 								 		  		</div>
 								 		     	<div class="col">
 									 		     	 <label>
-											            <input type="radio" name="options" value="1"> Call
+											            <input type="radio" name="options" value="CALL"> Call
 											        </label>
 								 		     	</div>
 								 		       	<div class="col">
 									 		       	 <label>
-											            <input type="radio" name="options" value="5"> Put
+											            <input type="radio" name="options" value="PUT"> Put
 											        </label>
 								 		       	</div>
 								 		   </div>
 									    </form>
 									     </div> 
+									     <div class="col-1">								
+									     	<input  class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+									     </div>
 							 		 </div>
 								</div>
 							</div>
@@ -280,7 +285,7 @@ input[type="radio"]:checked::before {
 						 	</div>
 						 </div>
 					 	      
-					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
+					 	       <div class="mt-2 d-none btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
 							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>

@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="img/logo/logo.png" rel="icon">
+  <title>Libvol - FX & CDS</title>
+   <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/ruang-admin.min.css" rel="stylesheet">
+  <link href="/css/marquee.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+  <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link href="/css/notification.css" rel="stylesheet">
+</head>
+<style>
+.jqx-danger-dark {
+    text-shadow: none !important;
+    color: #fbd9d9 !important;
+    font-weight: bold;
+    background: #ff4b5552 !important;
+    border-color: #d9534f !important;
+}
+
+.factorBold{
+    font-weight:bold;
+    color: white!important;
+}
+.edit {
+    margin: 0.5rem;
+    color: white;
+    background-color: #719DF0!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+    padding: 0.1rem 20%;
+    width:85%;
+}
+.update{
+    margin: 0.5rem 0.2rem;
+    color: white;
+    background-color: #009a4e!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+    padding: 1px 3px;
+    width: 50%;
+}
+.cancel{
+    margin: 0 0.2rem;
+    margin-left: 0rem;
+    color: white;
+    background-color:#506B8B!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+        padding: 1px 3px;
+        width: 50%;
+}
+.col {
+    padding: 0;
+}
+:checked {
+font-weight:bold;
+}
+.fontTitle{
+    font-size: .8rem;
+}
+.checkboxesTitle{
+font-size: 0.8rem;
+}
+
+.align-text{
+    text-align: center;
+    display: inherit;
+    }
+.card-body .filter{
+ text-align: center;
+}
+.card-img-top {
+    width: 112%;
+    }
+button#deleteByDate {
+    position: absolute;
+    margin-top: -0.3rem;
+}
+.jqx-grid-cell-left-align {
+    text-align: center;
+}
+.container, .container-fluid, .container-login {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.fs-7{
+font-size: .7rem;
+width: 25%;
+padding-right:.2rem;
+}
+div#container-wrapper {
+    padding-bottom: 3.8rem;
+    max-width: 1910px;
+}
+</style>
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <!-- Sidebar -->
+    <div id="content-wrapper" class="d-flex flex-column">
+       
+         <div id="fixedMenu">
+        <!-- TopBar -->
+     	<div th:include="${mainmenu}"></div>
+        <!-- Topbar -->
+
+        <!-- Container Fluid-->
+            <div class="d-sm-flex align-items-center">
+            	<h1 class="ml-6 text-darkorange">Data Input</h1>
+            	 <nav style="margin-left: 3rem;
+    						 height: 35px;
+    						 margin-top: 0.5rem;">
+				  
+				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SOVEREIGN')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/sovereignyields?yield=1" role="tab" aria-controls="nav-any2" aria-selected="false">SOVEREIGN YIELDS</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_FXCDS')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/fxandcds?fxcds=1" role="tab" aria-controls="nav-any2" aria-selected="false">Fx & Cds</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_METALS')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/metals?commodity=1" role="tab" aria-controls="nav-any2" aria-selected="false">COMMODITIES</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_LIQUIDITY')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/liquidity?liquidity=1" role="tab" aria-controls="nav-any2" aria-selected="false">LIQUIDITY</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_VOLUME')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/volume?volume=1" role="tab" aria-controls="nav-any2" aria-selected="false">VOLUME</a>
+				  </div>
+				</nav>
+            </div>
+            <div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
+		   </div>
+		   <div id="content">
+     
+          <div class="container-fluid" id="container-wrapper" style="display:none;">
+           <div class="col-lg-12">
+              <!-- Form Basic -->
+             <div class="col mt-4 ml-4">
+              <div class="btn-group" role="group" aria-label="First group">
+			    <button type="button" class="btn btn-secondary mw-100" id="Fx-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">FX</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="Cds-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">CDS</button>
+			   </div>
+			</div>
+            <div class="collapse show" id="collapseExample">
+  			 <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
+                 <div class="col-4  justify-content-between">
+                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input</h6>
+                  <div id='dateInput'></div>
+                   </div>
+                   <div class="col-1"></div>
+                  
+                </div>
+                <div class="card-body" style="  padding-top: 0;
+											    padding-right: 1.25rem;
+											    padding-bottom: 0;
+											    padding-left: 1.25rem;">
+                 <div class="">
+                 <div class="col-12 d-flex justify-content-between">
+                 	<div id="fxCdsValue" th:text="${fxcds}" style="display:none;"></div>
+                 	<input id="volumeSubGroup1" style="display:none;" value="th:text='${fxcds}'"/>
+                    <div  th:if="${fxcds == 1}" class="d-flex flex-column pr-2">
+                   	 <img height="48" width="48" id="usd-flag" class="mt-auto" src="/img/flag/united-states.png">
+                    </div>
+                    <div th:if="${fxcds == 1}" class="col p-0" id="Fx-input">
+		                 <div class="col p-0 ">
+		                	<form id="dataformInputFx">
+		                	 <div class="pt-2" style=" display: flex;">
+								            <div class="col d-grid">
+								              <img  height="48" width="48" src="/img/flag/eu.png">
+										   	  <h8 class="font-weight-bold">USDEUR</h8>
+										    </div>
+										    <div class="col d-grid">
+										    <img  height="48" width="48" src="/img/flag/united-kingdom.png">
+										   	<h8 class="font-weight-bold">GBPUSD</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/switzerland.png">
+										    <h8 class="font-weight-bold">USDCHF</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/japan.png">
+										    <h8 class="font-weight-bold">USDJPY</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/canada.png">
+										    <h8 class="font-weight-bold">USDCAD</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/china.png">
+										    <h8 class="font-weight-bold">USDCNY</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/sweden.png">
+										     <h8 class="font-weight-bold">USDSEK</h8>
+										     </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/australia.png">
+										     <h8 class="font-weight-bold">USDAUD</h8>
+										     </div>
+										     <div class="col d-grid"><img height="48" width="48" src="/img/flag/russia.png">
+										     <h8 class="font-weight-bold">USDRUB</h8>
+										     </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/turkey.png">
+										    <h8 class="font-weight-bold">USDTRY</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/india.png">
+										    <h8 class="font-weight-bold">USDINR</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/hong-kong.png">
+										    <h8 class="font-weight-bold">USDHKD</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/south-korea.png">
+										    <h8 class="font-weight-bold">USDKRW</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/brazil.png">
+										    <h8 class="font-weight-bold">USDBRL</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/mexico.png">
+										    <h8 class="font-weight-bold">USDMXN</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/saudi-arabia.png">
+										    <h8 class="font-weight-bold">USDSAR</h8>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/south-africa.png">
+										     <h8 class="font-weight-bold">USDZAR</h8>
+										     </div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/egypt.png">
+										     <h8 class="font-weight-bold">USDEGP</h8></div>
+										</div>
+								<div class="d-flex">
+									<input class="form-control" id="data-input-Fx" autocomplete="off"/>
+								</div>
+							</form>
+		               <div id="dataInputGridFx" style="margin-top: 0rem;"> </div>
+					   <div class="row" id="dataInputButtonsFx" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadFx" value="Load " />
+							<input id="cancelFx" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						</div>
+		                </div>
+	                 </div>
+	                 <div th:if="${fxcds == 2}" class="col-12 p-0" id="Cds-input">
+	                  
+		                     <div class="col p-0 ">
+		                	<form id="dataformInputCds">
+									  <div class="pt-2"  style=" display: flex;">
+										  <div class="col d-grid"><img  height="48" width="48" src="/img/flag/germany.png">
+										    	<h8 class="font-weight-bold">GERMANY</h8></div>
+										  <div class="col d-grid"><img height="48" width="48" src="/img/flag/france.png">
+										    	<h8 class="font-weight-bold">FRANCE</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/italy.png">
+										    	<h8 class="font-weight-bold">ITALY</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/spain.png">
+										    	<h8 class="font-weight-bold">SPAIN</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/united-kingdom.png">
+										    	<h8 class="font-weight-bold">U. K.</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/switzerland.png">
+										    	<h8 class="font-weight-bold">SWISS</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/sweden.png">
+										    	<h8 class="font-weight-bold">SWEDEN</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/united-states.png">
+										    	<h8 class="font-weight-bold">U. S. A.</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/canada.png">
+										    	<h8 class="font-weight-bold">CANADA</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/australia.png">
+										    	<h8 class="font-weight-bold">AUSSIE</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/japan.png">
+										    	<h8 class="font-weight-bold">JAPAN</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/china.png">
+										    	<h8 class="font-weight-bold">CHINA</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/hong-kong.png">
+										    	<h8 class="font-weight-bold">HONG KONG</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/south-korea.png">
+										    	<h8 class="font-weight-bold">Sth-KOREA</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/india.png">
+										    	<h8 class="font-weight-bold">INDIA</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/brazil.png">
+										    	<h8 class="font-weight-bold">BRAZIL</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/mexico.png">
+										    	<h8 class="font-weight-bold">MEXICO</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/saudi-arabia.png">
+										    	<h8 class="font-weight-bold">S-ARABIA</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/turkey.png">
+										    	<h8 class="font-weight-bold">TURKEY</h8></div>
+										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/south-africa.png">
+										    	<h8 class="font-weight-bold">Sth-AFRICA</h8></div>
+										</div>
+								<div class="d-flex">
+									<input class="form-control" id="data-input-Cds" autocomplete="off"/>
+								</div>
+							</form>
+							
+		               <div id="dataInputGridCds" style="margin-top: 0rem;"> </div>
+					   <div class="row" id="dataInputButtonsCds" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadCds" value="Load " />
+							<input id="cancelCds" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						</div>
+		                </div>
+	                 </div>
+               </div>
+               <div class=""></div>
+               <div class="col-12 d-flex justify-content-between">
+                  <div th:if="${fxcds == 1}" class="col-12 p-0" id="Fx-audit">
+                       <div class="d-flex justify-content-between pb-1">
+		                    <div class="col-9 p-0 pt-2"> 
+		                  		<div id='dateInputAudit'></div>
+							</div>
+							<div class="col-3 p-0 pt-2">
+							 <button id="deleteFx" style="font-size: .8rem; float: right;">Delete</button> 
+		                   </div>
+                       </div> 
+					  <div id="FxAuditGrid"></div>
+					  <div id="FxEurAuditGrid"></div>
+					</div>
+                   <div th:if="${fxcds == 2}" class="col-12 p-0" id="Cds-audit">
+                       <div class="d-flex justify-content-between pb-1">
+		                    <div class="col-9 p-0 pt-2"> 
+		                  		<div id='dateInputAudit'></div>
+							</div>
+							<div class="col-3 p-0 pt-2">
+							 <button id="deleteCds" style="font-size: .8rem; float: right;">Delete</button> 
+		                   </div>
+                       </div>
+					  <div id="CdsAuditGrid"></div>
+					</div>
+                 </div>
+              </div>
+          </div>
+     </div>
+</div>
+</div>
+
+<div class="">
+
+<div class="card-header accordion md-accordion" id="accordionFilter" style="padding:.2rem 2.5rem .2rem 2.5rem;">
+<p>
+  <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+   Collapse Data Entry Section
+  </a>
+</p>
+  <div class="card">
+      <h6 class="mb-0">
+        <button class="collapsed m-0 font-weight-bold text-primary" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
+        Filters  <i class="fas fa-angle-down rotate-icon"></i>
+        </button>
+      </h6>
+     <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
+  	 <div class="card-body">
+		<div class="row">
+		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
+			<label style="margin-right: 1.5rem;">From</label>
+				<div id='dateInputFrom' style='border-radius: 0.2rem;'>
+				</div>
+			<label style="margin-right: 1.5rem;    margin-left: 1.5rem;">To</label>
+				<div id='dateInputTo'  style='border-radius: 0.2rem;'>
+				</div>
+       </div> 
+       </div>
+   
+    <div class="row mt-2">
+     <div class="col border ml-2 p-1 rounded">
+        <div class="row">
+          <div th:if="${fxcds == 1}" class="col-sm-12" id="Fx-filter">
+             <h6 class="col font-weight-bold">Fx</h6>
+             <div class="d-flex justify-content-between col">
+             								 <div class="d-grid ">
+                                           		<img height="48" width="48" id="usd-flag" class="mt-auto" src="/img/flag/united-states.png">
+                 						    </div>
+								            <div class="col d-grid ">
+								              <div style="height:48px" ></div>
+								              <h8 class="font-weight-bold align-middle">USDEUR</h8>
+										   	  <div id='jqxCheckBoxusdeur'class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										    <img  height="48" width="48" class="align-middle" src="/img/flag/united-kingdom.png">
+										       <h8 class="font-weight-bold align-middle">GBPUSD</h8>
+												<div id='jqxCheckBoxgbpusd' class="align-middle" style='float: left;'></div>
+										   	 </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/switzerland.png">
+										    	<h8 class="font-weight-bold align-middle">USDCHF</h8>
+										  	  <div id='jqxCheckBoxusdchf' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/japan.png">
+										    	<h8 class="font-weight-bold align-middle">USDJPY</h8>
+										    	<div id='jqxCheckBoxusdjpy' class="align-middle" style='float: left;'></div>
+										     </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/canada.png">
+										    	<h8 class="font-weight-bold align-middle">USDCAD</h8>
+										    	<div id='jqxCheckBoxusdcad' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" class="align-middle" src="/img/flag/china.png">
+										  	  <h8 class="font-weight-bold  align-middle">USDCNY</h8>
+										    	<div id='jqxCheckBoxusdcny' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/sweden.png">
+										    	 <h8 class="font-weight-bold align-middle">USDSEK</h8>
+										     	<div id='jqxCheckBoxusdsek' class="align-middle" style='float: left;'></div>
+										      </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/australia.png">
+										     	<h8 class="font-weight-bold align-middle">USDAUD</h8>
+										     	<div id='jqxCheckBoxusdaud' class="align-middle" style='float: left;'></div>
+										     </div>
+										     <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/russia.png">
+										    	 <h8 class="font-weight-bold align-middle">USDRUB</h8>
+										    	 <div id='jqxCheckBoxusdrub' class="align-middle" style='float: left;'></div>
+										     </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/turkey.png">
+										    	<h8 class="font-weight-bold align-middle">USDTRY</h8>
+										    	<div id='jqxCheckBoxusdtry' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/india.png">
+										    	<h8 class="font-weight-bold align-middle">USDINR</h8>
+										   	 	<div id='jqxCheckBoxusdinr' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/hong-kong.png">
+										    	<h8 class="font-weight-bold align-middle">USDHKD</h8>
+										    	<div id='jqxCheckBoxusdhkd' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/south-korea.png">
+										  	  	<h8 class="font-weight-bold align-middle">USDKRW</h8>
+										   		<div id='jqxCheckBoxusdkrw' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/brazil.png">
+										    	<h8 class="font-weight-bold align-middle">USDBRL</h8>
+										    	<div id='jqxCheckBoxusdbrl' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid"><img height="48" width="48" class="align-middle" src="/img/flag/mexico.png">
+										    	<h8 class="font-weight-bold  align-middle">USDMXN</h8>
+										    	<div id='jqxCheckBoxusdmxn' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/saudi-arabia.png">
+										   	 	<h8 class="font-weight-bold align-middle">USDSAR</h8>
+										    	<div id='jqxCheckBoxusdsar' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/south-africa.png">
+										    	 <h8 class="font-weight-bold align-middle">USDZAR</h8>
+										    	<div id='jqxCheckBoxusdzar' class="align-middle" style='float: left;'></div>
+										     </div>
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/egypt.png">
+										     <h8 class="font-weight-bold align-middle">USDEGP</h8>
+										     <div id='jqxCheckBoxusdegp' class="align-middle" style='float: left;'></div>
+										     </div>
+										</div>
+										<div class="d-flex justify-content-between col">
+										    <div class="d-grid ">
+                                           		<img height="48" width="48" id="usd-flag" class="mt-auto" src="/img/flag/eu.png">
+                 						    </div>
+                 						     <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURUSD</h8>
+										        <div id='jqxCheckBoxeurusd' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">GBPEUR</h8>
+										        <div id='jqxCheckBoxgbpeur' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class "font-weight-bold align-middle">EURCHF</h8>
+										        <div id='jqxCheckBoxeurchf' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURJPY</h8>
+										        <div id='jqxCheckBoxeurjpy' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURCAD</h8>
+										        <div id='jqxCheckBoxeurcad' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURCNY</h8>
+										        <div id='jqxCheckBoxeurcny' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURSEK</h8>
+										        <div id='jqxCheckBoxeursek' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURAUD</h8>
+										        <div id='jqxCheckBoxeuraud' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURRUB</h8>
+										        <div id='jqxCheckBoxeurrub' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURTRY</h8>
+										        <div id='jqxCheckBoxeurtry' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURINR</h8>
+										        <div id='jqxCheckBoxeurinr' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURHKD</h8>
+										        <div id='jqxCheckBoxeurhkd' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURKRW</h8>
+										        <div id='jqxCheckBoxeurkrw' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURBRL</h8>
+										        <div id='jqxCheckBoxeurbrl' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURMXN</h8>
+										        <div id='jqxCheckBoxeurmxn' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURSAR</h8>
+										        <div id='jqxCheckBoxeursar' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EURZAR</h8>
+										        <div id='jqxCheckBoxeurzar' class="align-middle" style='float: left;'></div>
+										    </div>
+										    <div class="col d-grid">
+										        <div style="height:25px"></div>
+										        <h8 class="font-weight-bold align-middle">EUREGP</h8>
+										        <div id='jqxCheckBoxeuregp' class="align-middle" style='float: left;'></div>
+										    </div>
+										</div>
+													
+           </div>
+													<div th:if="${fxcds == 2}" class="col-sm-12">
+														<h6 class="col font-weight-bold">CDS</h6>
+														<div class="d-flex justify-content-between col">
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/germany.png">
+																<h8 class="font-weight-bold align-middle">GERMANY</h8>
+																<div id="jqxCheckBoxgermany" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/france.png">
+																<h8 class="font-weight-bold align-middle">FRANCE</h8>
+																<div id="jqxCheckBoxfrance"
+																	class="align-middle" style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/italy.png">
+																<h8 class="font-weight-bold align-middle">ITALY</h8>
+																<div id="jqxCheckBoxitaly" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/spain.png">
+																<h8 class="font-weight-bold align-middle">SPAIN</h8>
+																<div id="jqxCheckBoxspain" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/united-kingdom.png">
+																<h8 class="font-weight-bold align-middle">U. K.</h8>
+																<div id="jqxCheckBoxuk" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/switzerland.png">
+																<h8 class="font-weight-bold align-middle">SWISS</h8>
+																<div id="jqxCheckBoxswiss" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/sweden.png">
+																<h8 class="font-weight-bold align-middle">SWEDEN</h8>
+																<div id="jqxCheckBoxsweden" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/united-states.png">
+																<h8 class="font-weight-bold align-middle">U. S. A.</h8>
+																<div id="jqxCheckBoxusa" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/canada.png">
+																<h8 class="font-weight-bold align-middle">CANADA</h8>
+																<div id="jqxCheckBoxcanada" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/australia.png">
+																<h8 class="font-weight-bold align-middle">AUSTRALIA</h8>
+																<div id="jqxCheckBoxaustralia" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/japan.png">
+																<h8 class="font-weight-bold align-middle">JAPAN</h8>
+																<div id="jqxCheckBoxjapan"
+																	class="align-middle" style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/china.png">
+																<h8 class="font-weight-bold align-middle">CHINA</h8>
+																<div id="jqxCheckBoxchina" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/hong-kong.png">
+																<h8 class="font-weight-bold align-middle">HONG KONG</h8>
+																<div id="jqxCheckBoxhongkong" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/south-korea.png">
+																<h8 class="font-weight-bold align-middle">Sth-KOREA</h8>
+																<div id="jqxCheckBoxsouthkorea" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/india.png">
+																<h8 class="font-weight-bold align-middle">INDIA</h8>
+																<div id="jqxCheckBoxindia" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/brazil.png">
+																<h8 class="font-weight-bold align-middle">BRAZIL</h8>
+																<div id="jqxCheckBoxbrazil" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/mexico.png">
+																<h8 class="font-weight-bold align-middle">MEXICO</h8>
+																<div id="jqxCheckBoxmexico" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/saudi-arabia.png">
+																<h8 class="font-weight-bold align-middle">
+																S-ARABIA</h8>
+																<div id="jqxCheckBoxsaudi" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/turkey.png">
+																<h8 class="font-weight-bold align-middle">TURKEY</h8>
+																<div id="jqxCheckBoxturkey" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+
+															<div class="col d-grid">
+																<img height="48" width="48" class="align-middle"
+																	src="/img/flag/south-africa.png">
+																<h8 class="font-weight-bold align-middle">Sth-AFRICA</h8>
+																<div id="jqxCheckBoxsouthafrica" class="align-middle"
+																	style="float: left;"></div>
+															</div>
+														</div>
+													</div>
+												</div>
+    </div>
+   </div>
+    <div class="row mt-2 mb-2">
+			<div class='col-12 d-flex justify-content-end'>
+			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
+			<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			</div>
+	</div>
+	</div> 
+	</div>
+	</div>
+		<div id="alertDate-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        Please Select a date smaller then Today's date.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+
+<div id="alertDeleteDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-danger">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Are you sure?</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="alertTextDeleteDataByDate">
+
+		      </div>
+		       <div class="modal-footer justify-content-between">
+		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-primary" onclick="deleteDataByDate()">Delete Record</button>
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+
+	 <div id="alertDeleteEnergyDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-danger">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Are you sure?</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="alertEnergyTextDeleteDataByDate">
+ 			  </div>
+		       <div class="modal-footer justify-content-between">
+		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-primary" onclick="deleteEnergyDataByDate()">Delete Record</button>
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div id="alertInfoDeleteDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-success">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Sucess</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="successDelete">
+             
+		      </div>
+		       
+		    </div>
+		  </div>
+	 </div>
+	<div id="alert-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      The date you are trying to insert has already data in the database please choose a valid date
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 	<div id="alert-modal-robot" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		         Please wait, robot are under execution.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div id="alert-modal-weekend" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      It is not allowed to enter data on weekend days
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 	<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You must select at least one record.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	  	<div id="alertFiltterMax-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You cannot select more than 15 criteria
+		      </div>
+		    </div>
+		  </div>
+	 	</div>
+           <div id="grid">
+           </div> 
+           <div id="popupWindow" style="display:none;">
+            <div>Edit</div>
+            <div style="overflow: hidden;">
+                <table>
+                    <tr>
+                  <td align="right">  <div id="subgroupdropDownSource" style="float: left; margin-left: .5rem;"> </div></td>
+                    </tr>
+                    <tr>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">30yr long :</td>
+                        <td align="left"><input id="thirteeYrFactor" /></td>
+                    </tr>
+                     <tr>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">10yr bench :</td>
+                        <td align="left"><input id=tenYrFactor /></td>
+                    </tr>
+                     <tr>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">5yr :</td>
+                        <td align="left"><input id="fiveYrFactor" /></td>
+                    </tr>
+                     <tr>
+                        <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">2yr :</td>
+                        <td align="left"><input id="twoYrFactor" /></td>
+                    </tr>
+                     <tr>
+                      <td align="right" style="position: relative;padding-right: 15px;color: #8A99B5;background-color: #272E48;border-color: #464D5C!important;padding-left: 15px;direction: ltr; font-size: 1rem;font-weight: 400;line-height: 1.4;text-align: left;">Recalculate :</td>
+                     <td align="left">  <div id="recalculatedropDown" style="float: left;"> </div></td>
+                    </tr>
+                    <tr>
+                        <td style="padding-top: 1.5rem;padding-bottom: 1.5rem;" align="left"></td>
+                        <td style="padding-top: 1.5rem;padding-bottom: 1.5rem;" align="left"><input class="btn btn-primary mr-1 mb-1" style="margin-right: 5px;color:white;" type="button" id="Save" value="Save" /><input id="Cancel" type="button" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" /></td>
+                    </tr>
+                </table>
+            </div>
+       </div>
+        </div>
+        <!---Container Fluid-->
+      </div>
+       <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+      	<div class="simple-marquee-container">
+				<div class="marquee-sibling-date">
+					<p id="todayDate"></p>
+				</div>
+				<div class="marquee-sibling">
+					NEWS
+				</div>
+				<div class="marquee">
+					<ul id="Newslist" class="marquee-content-items">
+					</ul>
+				</div>
+				<div class="marquee-sibling-viewAll">
+					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
+				</div>
+			</div>
+		</div>
+		
+      <!-- Footer -->
+     
+      <!-- Footer -->
+    </div>
+  </div>
+</div>
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/js/marquee.js"></script>
+  
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/jqwidgets/jqxcore.js"></script> 
+  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
+  <script src="/js/jqwidgets/jqxcheckbox.js"></script>
+  <script src="/js/jqwidgets/jqxmenu.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
+  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
+  <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
+  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
+  <script src="/js/jqwidgets/jqxdata.js"></script> 
+  <script src="/js/jqwidgets/jqxwindow.js"></script>
+  <script src="/js/jqwidgets/jqxinput.js"></script>
+  <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
+  <script src="/js/jqwidgets/jqxcalendar.js"></script>
+  <script src="/js/bourse/fxAndCds.js"></script> 
+  <script src="/js/bourse/scrollBarNews.js"></script> 
+  <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
+  <script src="/js/common.js"></script>
+  <script src="/js/notification/sockjs.js"></script>
+  <script src="/js/notification/stomp.js"></script>
+  <script src="/js/notification/config.js"></script>
+  <script th:inline="javascript">
+	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+	  const hasPendingApprovalGrid= authorities.filter(item => {
+	  	   return item.authority === "PENDING_APPROVAL_GRID"
+	  })[0]!== undefined;
+	 
+  </script>
+</body>
+
+</html>

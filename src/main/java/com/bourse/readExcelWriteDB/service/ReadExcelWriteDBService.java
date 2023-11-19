@@ -14,6 +14,7 @@ import com.bourse.domain.BaseMetals;
 import com.bourse.domain.BoblOptionsVolume;
 import com.bourse.domain.BundOptionsVolume;
 import com.bourse.domain.BuxlOptionsVolume;
+import com.bourse.domain.CdsData;
 import com.bourse.domain.CorporateYieldsData;
 import com.bourse.domain.EcbExcessLiquidity;
 import com.bourse.domain.EcbQeLiquidity;
@@ -21,17 +22,22 @@ import com.bourse.domain.EnergyData;
 import com.bourse.domain.EuriborOptionsVolume;
 import com.bourse.domain.EurozoneMonetaryMass;
 import com.bourse.domain.FoodStuffData;
+import com.bourse.domain.FxUsdData;
 import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.ShatzOptionsVolume;
+import com.bourse.domain.SubGroup;
 import com.bourse.domain.TransportationData;
 import com.bourse.readExcelWriteDB.dto.DataDTO;
 import com.bourse.readExcelWriteDB.dto.ReadExcelWriteDBDTO;
 import com.bourse.readExcelWriteDB.enums.SubGroupEnum;
 import com.bourse.readExcelWriteDB.util.ReadExcelWriteDBUtil;
+import com.bourse.repositories.CdsDataRepository;
+import com.bourse.repositories.SubGroupRepository;
 import com.bourse.service.BaseMetalsService;
 import com.bourse.service.BoblOptionsVolumeService;
 import com.bourse.service.BundOptionsVolumeService;
 import com.bourse.service.BuxlOptionsVolumeService;
+import com.bourse.service.CdsDataService;
 import com.bourse.service.CorporatesYieldsService;
 import com.bourse.service.EcbExcessLiquidityService;
 import com.bourse.service.EcbQeLiquidityService;
@@ -39,6 +45,7 @@ import com.bourse.service.EnergyService;
 import com.bourse.service.EuriborOptionsVolumeService;
 import com.bourse.service.EzMonetaryMassLiquidityService;
 import com.bourse.service.FoodStuffService;
+import com.bourse.service.FxDataService;
 import com.bourse.service.PerciousMetalsService;
 import com.bourse.service.ShatzOptionsVolumeService;
 import com.bourse.service.TransportationService;
@@ -74,6 +81,12 @@ public class ReadExcelWriteDBService {
     ShatzOptionsVolumeService shatzOptionsVolumeService;
     @Autowired
     EuriborOptionsVolumeService euriborOptionsVolumeService;
+    @Autowired
+    SubGroupRepository subGroupRepository;
+    @Autowired
+    CdsDataService cdsDataService;
+    @Autowired
+    FxDataService fxDataService;
     
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
 		List<DataDTO> rowData = new ArrayList<>();
@@ -391,6 +404,62 @@ public class ReadExcelWriteDBService {
 					
 					   }
 					   euriborOptionsVolumeService.doCaclulation();
+				}
+				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("22"))
+				{
+					   List<CdsData> cdsDataList = new ArrayList<>();
+					   List<SubGroup> subGroups = subGroupRepository.findByGroupId(readExcelWriteDBDTO.getGroupId());
+					   List<String> subGroupIds = new ArrayList<>();
+
+				        for (SubGroup subGroup : subGroups) {
+				            subGroupIds.add(subGroup.getIdSubGroup());
+				        }
+					   for (String subGroupId: subGroupIds) {
+								   rowData.clear();
+								   cdsDataList.clear();
+								   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+								   for (DataDTO data: rowData) {
+									 if(cdsDataService.CheckIfCanSave(data.getDate(),Long.valueOf(subGroupId)))
+									 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+									 CdsData cdsData = CdsData.builder().referDate(data.getDate())
+									   												  .subgroupId(Long.valueOf(subGroupId))
+									   												  .value(data.getValue()==null?"":data.getValue())
+								   												  .build();
+									   
+									 cdsDataList.add(cdsData);
+						      }
+								   cdsDataService.SaveData(cdsDataList);
+					
+					   }
+					   cdsDataService.doCaclulation();
+				}
+				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("23"))
+				{
+					   List<FxUsdData> fxUsdDataList = new ArrayList<>();
+					   List<SubGroup> subGroups = subGroupRepository.findByGroupId(readExcelWriteDBDTO.getGroupId());
+					   List<String> subGroupIds = new ArrayList<>();
+
+				        for (SubGroup subGroup : subGroups) {
+				            subGroupIds.add(subGroup.getIdSubGroup());
+				        }
+					   for (String subGroupId: subGroupIds) {
+								   rowData.clear();
+								   fxUsdDataList.clear();
+								   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+								   for (DataDTO data: rowData) {
+									 if(fxDataService.CheckIfCanSave(data.getDate(),Long.valueOf(subGroupId)))
+									 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+									 FxUsdData fxUsdData = FxUsdData.builder().referDate(data.getDate())
+									   												  .subgroupId(Long.valueOf(subGroupId))
+									   												  .value(data.getValue()==null?"":data.getValue())
+								   												  .build();
+									   
+									 fxUsdDataList.add(fxUsdData);
+						      }
+								   fxDataService.SaveData(fxUsdDataList);
+					
+					   }
+					   fxDataService.doCaclulation();
 				}
 	}
 

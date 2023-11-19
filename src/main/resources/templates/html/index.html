@@ -101,6 +101,12 @@ div#content {
 		  <li sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ezmmliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Eurozone Monetary Mass</a></li>
 		  <li sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/corporateliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Corpoprate Liquidity</a></li>
 		  <li sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/liquiditydatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		  <br>
+		  <br>
+		  <br>
+		  <br>
+		  <br>
+		  <br>
 		 </ul>
     </div>
   </div>
@@ -133,7 +139,7 @@ div#content {
 </ul>
     </div>
   </div>
-              <div class="card">
+ <div class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Skews</h5>
       <ul class="fa-ul">
@@ -143,7 +149,22 @@ div#content {
 </ul>
     </div>
   </div>
-  <div class="card">
+    <div sec:authorize="hasAuthority('ANY2_FXCDS_GRAPH_SCREEN')" class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">FX & CDS</h5>
+      <ul class="fa-ul">
+	   <li sec:authorize="hasAuthority('ANY2_FXCDS_GRAPH_SCREEN')" ><a href="/bourse/any2fxcds"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+	   <li sec:authorize="hasAuthority('FX_GRAPH_SCREEN')" ><a href="/bourse/fx"><img class="img-m-right" src="../../img/i1.png" align="absmiddle">FX</a></li>
+	   <li sec:authorize="hasAuthority('CDS_GRAPH_SCREEN')" ><a href="/bourse/cds"><img class="img-m-right" src="../../img/i1.png" align="absmiddle">CDS</a></li>
+	   <li sec:authorize="hasAuthority('FXCDS_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/fxcdsdatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+	  </ul>
+    </div>
+  </div>
+  <div  sec:authorize="hasAuthority('ANY2_VOLUME_GRAPH_SCREEN') 
+				  OR hasAuthority('DAILY_VOLUME_GRAPH_SCREEN') 
+				  OR  hasAuthority('WMQY_VOLUME_GRAPH_SCREEN') 
+				  OR hasAuthority('MARKET_SHARE_VOLUME_GRAPH_SCREEN')
+				  OR hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')" class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Volumes</h5>
       <ul class="fa-ul">

@@ -185,11 +185,11 @@ div#content {
     position: absolute;
     top: 103px;
     color: #8A99B5;
-    background-image: linear-gradient(#4c6aa6 -1%, #000306 21%);
+    background-image: linear-gradient(#4c6aa6 -1vh, #000306 21vh);
     border: #464D5C;
     width: 100%;
     overflow-x: hidden;
-    max-height: 650px;
+  /*  max-height: 650px; */
 }
 
 
@@ -452,7 +452,6 @@ h5.card-title.blink {
     background-image: linear-gradient(#4c6aa6 11%, #000306 30%);
     border: #464D5C;
 	width: 100%;
-	overflow-x: hidden
 }
 
 #wrapper #content-wrapper #content {
