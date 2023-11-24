@@ -22,5 +22,4 @@ public class Factor {
     @GeneratedValue
     private Long id;
     private String description;
-	private Long subgroupId;
 }

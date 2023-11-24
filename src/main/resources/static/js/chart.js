@@ -1510,6 +1510,17 @@ function getMarginLenght(value) {
 }	
 function getMarginLenghtVolume(value) { 
 	 value = Math.abs(value);
+	   // Adjust these factors based on your desired dynamic behavior
+    const baseMargin = 0.05;
+    const multiplier = 0.02;
+
+    // Calculate the dynamic margin based on the input value
+    const dynamicMargin = baseMargin + multiplier * value;
+
+    // Ensure the margin is within a reasonable range
+    return Math.min(dynamicMargin, 0.3);
+	/*
+	 value = Math.abs(value);
 	if (value <= 0.001) {
         return 0.0005;
     } else if (value <= 0.01) {
@@ -1560,6 +1571,8 @@ function getMarginLenghtVolume(value) {
         return 500000;
     } else 
     return 1000000;
+   */ 
+    
 }
  function enableDisableDropDowns(value){
 	 
