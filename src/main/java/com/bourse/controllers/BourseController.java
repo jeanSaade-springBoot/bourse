@@ -54,7 +54,7 @@ import com.bourse.service.DynamicTemplateService;
 import com.bourse.service.GraphHistoryService;
 import com.bourse.service.GraphNewsService;
 import com.bourse.service.GraphService;
-import com.bourse.service.SkewsService;
+import com.bourse.service.SkewsServiceBACK;
 import com.bourse.service.SovereignYieldsService;
 import com.bourse.util.SovereignUtil;
 @RestController
@@ -68,7 +68,7 @@ public class BourseController {
 	@Autowired
 	private final DataEntryFilterHistoryService dataEntryFilterHistoryService;
 	@Autowired
-	private final SkewsService skewsService;
+	private final SkewsServiceBACK skewsService;
 	@Autowired
 	private final GraphNewsService graphNewsService;
 	@Autowired
@@ -83,7 +83,7 @@ public class BourseController {
 			SovereignYieldsService sovereignYieldsService,
 			GraphHistoryService graphHistoryService,
 			DataEntryFilterHistoryService dataEntryFilterHistoryService,
-			SkewsService skewsService,
+			SkewsServiceBACK skewsService,
 			GraphNewsService graphNewsService,
 			DataFunctionService dataFunctionService,
 			CorporatesYieldsService corporatesYieldsService,

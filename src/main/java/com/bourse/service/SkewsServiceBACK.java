@@ -10,7 +10,7 @@ import com.bourse.domain.SkewsData;
 import com.bourse.repositories.SkewsRepository;
 
 @Service
-public class SkewsService 
+public class SkewsServiceBACK 
 {
 	@Autowired
 	SkewsRepository skewsRepository;
