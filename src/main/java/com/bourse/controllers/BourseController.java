@@ -128,11 +128,7 @@ public class BourseController {
 	    
 	    return modelAndView;
     }
-	@RequestMapping( value =  "/skews")
-    public ModelAndView skewsDataEntrePage(ModelMap model)
-    {
-		return new ModelAndView("html/skews");
-    }
+	
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_METALS') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/metals")
     public ModelAndView dataEntryPreciousMetalsPage(@RequestParam("commodity") String commodity,ModelMap model, Authentication authentication)
@@ -168,6 +164,17 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("fxcds", Integer.valueOf(fxcds));
 	    ModelAndView modelAndView = new ModelAndView("html/fxAndCds");
+	    
+	    return modelAndView;
+    }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_SKEWS') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/skews")
+    public ModelAndView dataEntryPageSkews(@RequestParam("skews") String skews,ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        model.addAttribute("skews", Integer.valueOf(skews));
+	    ModelAndView modelAndView = new ModelAndView("html/skewsDataInput");
 	    
 	    return modelAndView;
     }

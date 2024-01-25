@@ -1455,6 +1455,19 @@ function getFormat(Format)
 /*function getMarginLenght(value){
 	return getlength(value)>=3?10:(value<=0.1)?0.01:0.05; 
 }*/	
+function addMarginToMinMax(minValue, maxValue, marginPercentage) {
+    minValue = Math.abs(minValue);
+    maxValue = Math.abs(maxValue);
+
+    // Calculate the margin based on the specified percentage
+    const margin = (maxValue - minValue) * (marginPercentage / 100);
+
+    // Add the margin to both min and max values
+    const newMinValue = minValue - margin;
+    const newMaxValue = maxValue + margin;
+
+    return { newMinValue, newMaxValue };
+}
 function getMarginLenght(value) { 
 	 value = Math.abs(value);
 	if (value <= 0.001) {
@@ -1509,7 +1522,7 @@ function getMarginLenght(value) {
     return 1000;
 }	
 function getMarginLenghtVolume(value) { 
-	 value = Math.abs(value);
+	/* value = Math.abs(value);
 	   // Adjust these factors based on your desired dynamic behavior
     const baseMargin = 0.05;
     const multiplier = 0.02;
@@ -1519,7 +1532,8 @@ function getMarginLenghtVolume(value) {
 
     // Ensure the margin is within a reasonable range
     return Math.min(dynamicMargin, 0.3);
-	/*
+    */
+	
 	 value = Math.abs(value);
 	if (value <= 0.001) {
         return 0.0005;
@@ -1571,7 +1585,7 @@ function getMarginLenghtVolume(value) {
         return 500000;
     } else 
     return 1000000;
-   */ 
+  
     
 }
  function enableDisableDropDowns(value){

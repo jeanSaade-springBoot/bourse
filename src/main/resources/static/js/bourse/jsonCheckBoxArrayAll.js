@@ -1534,5 +1534,160 @@ var itemValue = {
     "description": "southafrica",
     "title": "Sth-Africa",
 	 "img": "/img/flag/south-africa.png"
+  },
+  "#jqxCheckBox-25-DP15-10": {
+    "subGroupId": "1",
+    "GroupId": "25",
+    "description": "DP15-10",
+    "title": "15%d P  (B&S 365 in %)",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP15-11": {
+    "subGroupId": "1",
+    "GroupId": "25",
+    "description": "DP15-11",
+    "title": "15%d P ( in TICKS)",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP25-10": {
+    "subGroupId": "2",
+    "GroupId": "25",
+    "description": "DP25-10",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP25-11": {
+    "subGroupId": "2",
+    "GroupId": "25",
+    "description": "DP25-11",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-ATM-10": {
+    "subGroupId": "3",
+    "GroupId": "25",
+    "description": "ATM-10",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-ATM-11": {
+    "subGroupId": "3",
+    "GroupId": "25",
+    "description": "ATM-11",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DC25-10": {
+    "subGroupId": "4",
+    "GroupId": "25",
+    "description": "DC25-10",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DC25-11": {
+    "subGroupId": "4",
+    "GroupId": "25",
+    "description": "DC25-11",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DC15-10": {
+    "subGroupId": "5",
+    "GroupId": "25",
+    "description": "DC15-10",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DC15-11": {
+    "subGroupId": "5",
+    "GroupId": "25",
+    "description": "DC15-11",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP15_ATM-10": {
+    "subGroupId": "6",
+    "GroupId": "25",
+    "description": "DP15_ATM-10",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP15_ATM-11": {
+    "subGroupId": "6",
+    "GroupId": "25",
+    "description": "DP15_ATM-11",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP25_ATM-10": {
+    "subGroupId": "7",
+    "GroupId": "25",
+    "description": "DP25_ATM-10",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP25_ATM-11": {
+    "subGroupId": "7",
+    "GroupId": "25",
+    "description": "DP25_ATM-11",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DC15_ATM-10": {
+    "subGroupId": "8",
+    "GroupId": "25",
+    "description": "DC15_ATM-10",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DC15_ATM-11": {
+    "subGroupId": "8",
+    "GroupId": "25",
+    "description": "DC15_ATM-11",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DC25_ATM-10": {
+    "subGroupId": "9",
+    "GroupId": "25",
+    "description": "DC25_ATM-10",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DC25_ATM-11": {
+    "subGroupId": "9",
+    "GroupId": "25",
+    "description": "DC25_ATM-11",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP25_DC25-10": {
+    "subGroupId": "10",
+    "GroupId": "25",
+    "description": "DP25_DC25-10",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP25_DC25-11": {
+    "subGroupId": "10",
+    "GroupId": "25",
+    "description": "DP25_DC25-11",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP15_DC15-10": {
+    "subGroupId": "11",
+    "GroupId": "25",
+    "description": "DP15_DC15-10",
+    "title": "",
+    "img": ""
+  },
+  "#jqxCheckBox-25-DP15_DC15-11": {
+    "subGroupId": "11",
+    "GroupId": "25",
+    "description": "DP15_DC15-11",
+    "title": "",
+    "img": ""
   }
+
 	};

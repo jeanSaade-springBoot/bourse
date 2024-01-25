@@ -72,7 +72,7 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
 			+ "				   and gc.id = cc.group_Id\r\n"
 			+ "				   and gc.asset_Id=ac.id"
 			+ "				   and cc.group_id = :groupId \r\n"
-			+ "				   and cc.subgroup_id = :subGroupId",
+			+ "				   and cc.subgroup_id = :subGroupId order by id asc",
        nativeQuery = true)
 	public List<ColumnConfigurationDTO> findNativeByGroupIdAndSubgroupId(@Param("groupId") String groupId,
 			                                                       @Param("subGroupId") String subGroupId);

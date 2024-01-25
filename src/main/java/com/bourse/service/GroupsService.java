@@ -30,7 +30,7 @@ public class GroupsService
 	
 	public List<Groups> getGroupsByAssetId(String familyId)
 	{      
-        return groupsRepository.findByAssetId(familyId);
+        return groupsRepository.findByAssetIdOrderByIdAsc(familyId);
 	}
 	
 	public List<Groups> getAllGroups()

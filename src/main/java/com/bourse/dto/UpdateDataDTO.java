@@ -12,6 +12,7 @@ import lombok.NoArgsConstructor;
 public class UpdateDataDTO {
     private String factor;
     private String referdate;
+    private String groupId;
     private String subgroupId;
     private String value;
 }

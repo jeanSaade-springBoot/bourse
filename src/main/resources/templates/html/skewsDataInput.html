@@ -48,7 +48,6 @@
     border-radius: 4px;
     border: 1px solid transparent;
     padding: .1rem 33%;
- 
 }
 .update{
     margin: .5rem;
@@ -57,7 +56,8 @@
     border-color: var(--jqx-border);
     border-radius: 4px;
     border: 1px solid transparent;
-        padding: 1px 3px;
+    padding: 1px 3px;
+    width: 38.5%;
 }
 .cancel{
     margin-top: 0.5rem;
@@ -69,7 +69,8 @@
     border-color: var(--jqx-border);
     border-radius: 4px;
     border: 1px solid transparent;
-        padding: 1px 3px;
+    padding: 1px 3px;
+    width: 38.5%;
 }
 :checked {
 font-weight:bold;
@@ -89,13 +90,7 @@ font-size: 0.8rem;
     background-color: #304256;
     border-color: #5A627D;
 }
-.jqx-checkbox-default.jqx-checkbox-default-dark.jqx-fill-state-normal.jqx-fill-state-normal-dark.jqx-rc-all.jqx-rc-all-dark.ripple {
-    display: none;
-}
-.jqx-checkbox-dark .ripple, .jqx-radiobutton-dark .ripple {
-    overflow: visible;
-    display: none;
-}
+
 [aria-checked="true"] {
     font-weight: bold;
     color: #e2e2e2!important;
@@ -151,14 +146,17 @@ button#deleteCorporateByDate {
     font-size: .67rem;
     text-align: center;
 }
+a.nav-item.nav-link.nav-small {
+    width: auto;
+}
 </style>
 <body id="page-top">
   <div id="wrapper">
     <!-- Sidebar -->
     <!-- Sidebar -->
     <div id="content-wrapper" class="d-flex flex-column">
-        <!-- TopBar -->
         <div id="fixedMenu">
+        <!-- TopBar -->
      	<div th:include="${mainmenu}"></div>
         <!-- Topbar -->
 
@@ -168,14 +166,13 @@ button#deleteCorporateByDate {
             	 <nav style="margin-left: 3rem;
     						 height: 35px;
     						 margin-top: 0.5rem;">
-				  
 				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
-				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SOVEREIGN')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/sovereignyields?yield=1" role="tab" aria-controls="nav-any2" aria-selected="false">SOVEREIGN YIELDS</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SOVEREIGN')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/sovereignyields?yield=1" role="tab" aria-controls="nav-any2" aria-selected="false">SOVEREIGN YIELDS</a>
 				   	<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_FXCDS')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/fxandcds?fxcds=1" role="tab" aria-controls="nav-any2" aria-selected="false">Fx & Cds</a>
 				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_METALS')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/metals?commodity=1" role="tab" aria-controls="nav-any2" aria-selected="false">COMMODITIES</a>
 				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_LIQUIDITY')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/liquidity?liquidity=1" role="tab" aria-controls="nav-any2" aria-selected="false">LIQUIDITY</a>
 				 	<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_VOLUME')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/volume?volume=1" role="tab" aria-controls="nav-any2" aria-selected="false">VOLUME</a>
-				 	<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SKEWS')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/skews?skews=1" role="tab" aria-controls="nav-any2" aria-selected="false">SKEWS</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SKEWS')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/skews?skews=1" role="tab" aria-controls="nav-any2" aria-selected="false">SKEWS</a>
 				   </div>
 				</nav>
             </div>
@@ -196,89 +193,91 @@ button#deleteCorporateByDate {
 											    padding-right: 1.25rem;
 											    padding-bottom: 0;
 											    padding-left: 1.25rem;">
-				  <div class="col mt-4">
+			<div class="col mt-4">
               <div class="btn-group" role="group" aria-label="First group">
-			    <button type="button" class="btn btn-secondary mw-100" id="sovereign-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">Sovereign Yields</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="corporate-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">Corporate Yields</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="longskews-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">Long Skews</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="shortskews-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">Short Skews</button>
 			   </div>
 			</div>
-				<div class="row mt-2">
-				    <div class="col-5">
-			                  <div class="col-12 pr-0 d-flex justify-content-between">
+				<div class="mt-2">
+				    <div class="">
+			                  <div class="col-12 pr-0">
 				                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input</h6>
 				                  <div id='dateInput'></div>
 				              </div>
 	                </div>
-					<div class="col-1">
-					</div>
-					<div class="col-6">
-                     	 <div class="col-12 pl-0  d-flex justify-content-between">
-                     		<div id='dateInputAudit'></div>
-                     	</div>
-	                </div>
 				</div>
-                 <div   class="row">
-                 <div id="yieldValue" th:text="${yield}" style="display:none;"></div>
-                 <div class="col-5" >
-                 <div th:if="${yield== 1}">
-                  <form  id="dataformInput" >
+                 <div   class="">
+                 <div id="skewsValue" th:text="${skews}" style="display:none;"></div>
+                 <div class="col-12" >
+                 <div th:if="${skews==1}">
+                  <form  id="dataformInputLongSkews" >
                   <div class="form-group" style=" margin-top: 0">
                       <div  style=" display: flex;">
-                         <div class="col-1"></div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/united-states.png">
+                         <div class="col-4"></div>
+                         <div class= "col row">
+                         <div class="col">15%d P
 						    </div>
-						   <div class="col-2"><img  height="48" width="48" src="/img/flag/germany.png">
+						   <div class="col">25%d P
 						    </div>
-						 <div class="col-2"><img height="48" width="48" src="/img/flag/france.png">
+						 <div class="col">ATM
 						    </div>
-						   <div class="col-2"><img height="48" width="48" src="/img/flag/united-kingdom.png">
+						   <div class="col">25%d C  
 						    </div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/italy.png">
-						    </div>
-						    <div class="col-2"><img height="48" width="48" src="/img/flag/spain.png">
-						    </div>
+						    <div class="col">15%d C
+						    </div></div>
+						    
 						</div>
 		                   <div style=" display: flex;">
-		                      <div class="col-2"  style=" max-width: 10% ;padding: 0 ;">
-								<div>30yr</div>
-								<div>10yr</div>
-								<div>5yr</div>
-								<div>2yr</div>
+		                      <div class="col-4"  style=" padding: 0 ;">
+								<div>BUND 2nd MATURITY (B&S 365 in %)</div>
+								<div>BUND 2nd MATURITY (in TICKS)</div>
+								<div>BUND 3rd MATURITY (B&S 365 in %)</div>
+								<div>BUND 3rd MATURITY (in TICKS)</div>
+								<div>BOBL 2nd MATURITY (B&S 365 in %)</div>
+								<div>BOBL 2nd MATURITY (in TICKS)</div>
+								<div>BOBL 3rd MATURITY (B&S 365 in %)</div>
+								<div>BOBL 3rd MATURITY (in TICKS)</div>
+								<div>BUXL 2nd MATURITY (B&S 365 in %)</div>
+								<div>BUXL 2nd MATURITY (in TICKS)</div>
 								</div>
-		                      <textarea class="form-control" id="data" rows="4"></textarea>
+		                      <textarea class="form-control"  id="data-input-LongSkews" rows="4"></textarea>
 		                    </div>
                      </div>
 <!--                     <button type="submit" class="btn btn-primary">Save</button> -->
                     </form>
-	                   <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
-				       <div class="row" id="dataInputButtons" style="display:none;">
+	                   <div id="dataInputGridLongSkews" style="margin-top: 0rem;"> </div>
+				       <div class="row" id="dataInputButtonsLongSkews" style="display:none;">
 						<div class='col-12 d-flex justify-content-end mt-2'>
-						<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadData" value="Load " />
-						<input id="CancelData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+						<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadLongSkews" value="Load " />
+						<input id="cancelLongSkews" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 						</div>
 					  </div>
 				  </div>
-				 <div  th:if="${yield== 2}">
+				 <div  th:if="${skews==2}">
 							<form id="dataformInputCorporate">
 								<div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-											US AtoAAA "BLUECHIP"
+											EURIBOR 4th Mtty YIELD VOL (B&S in %)
 										</div>
 										<div class="fs-7">
-											US BtoBBB "HIGHYIELD"
+											EURIBOR 4th Mtty PRICE VOL (B&S in %)
 										</div>
 										<div class="fs-7">
-											US CtoCCC "JUNKBOND"
+											EURIBOR 4th Mtty BPDV Vol
 										</div>
 										<div class="fs-7">
-											EZ AtoAAA "BLUECHIP"
+											EURIBOR 7th Mtty YIELD VOL (B&S in %)
 										</div>
 										<div class="fs-7">
-											EZ BtoBBB <br>"HIGH YIELD"
+											EURIBOR 7th Mtty PRICE VOL (B&S in %)
+										</div>
+											<div class="fs-7">
+											EURIBOR 7th Mtty BPDV Vol
 										</div>
 									</div>
 								<div class="d-flex">
-									<input class="form-control" id="data-input" autocomplete="off"/>
+									<input class="form-control" id="data-input-ShortSkews" autocomplete="off"/>
 								</div>
 							</form>
 							<div id="dataInputGridCorporate" style="margin-top: 0rem;"></div>
@@ -291,29 +290,48 @@ button#deleteCorporateByDate {
 							</div>
 						</div>
                  </div>
-                 <div class="col-1"></div>
-                 <div class="col-6">
-		          	<div class="" th:if="${yield== 1}">
-		                   <div class="d-flex">
+                 <div class="col-12">
+		          	<div class="" th:if="${skews==1}">
+		          	
+							<div class="">
+		                     	 <div class="col-12 pl-0  d-flex justify-content-between">
+		                     		<div id='dateInputAudit'></div>
+		                     	</div>
+			                </div>
+		                   <div class="d-flex  justify-content-between">
 			                    <div class="col-10 p-0"> <nav style="padding-top: 0;">
 								  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-								    <a class="nav-item nav-link active nav-small" id="nav-yields-tab" data-toggle="tab" href="#nav-yields" role="tab" aria-controls="nav-yields" aria-selected="true">Yields</a>
-								    <a class="nav-item nav-link nav-small" id="nav-curves-tab" data-toggle="tab" href="#nav-curves" role="tab" aria-controls="nav-curves" aria-selected="false">Curves</a>
-								    <a class="nav-item nav-link nav-small" id="nav-crosses-tab" data-toggle="tab" href="#nav-crosses" role="tab" aria-controls="nav-crosses" aria-selected="false">Crosses</a>
+								    <a class="nav-item nav-link active nav-small" id="nav-2nd-maturity-tab" data-toggle="tab" href="#nav-bund2" role="tab" aria-controls="nav-bund2" aria-selected="true">BUND 2nd M</a>
+								    <a class="nav-item nav-link nav-small" id="nav-curves-tab" data-toggle="tab" href="#nav-bund3" role="tab" aria-controls="nav-bund3" aria-selected="false">BUND 3rd M</a>
+								    <a class="nav-item nav-link nav-small" id="nav-crosses-tab" data-toggle="tab" href="#nav-bolb2" role="tab" aria-controls="nav-bolb2" aria-selected="false">BOBL 2nd M</a>
+								    <a class="nav-item nav-link nav-small" id="nav-curves-tab" data-toggle="tab" href="#nav-bolb3" role="tab" aria-controls="nav-bolb3" aria-selected="false">BOBL 3rd M</a>
+								    <a class="nav-item nav-link nav-small" id="nav-crosses-tab" data-toggle="tab" href="#nav-buxl2" role="tab" aria-controls="nav-buxl2" aria-selected="false">BUXL 2nd M</a>
 								   </div>
 								</nav>
 								</div>
-								<div class="col-1">
-								  <button id="deleteByDate" style="font-size: .8rem;">Delete</button> 
+								<div class="col-1 pr-0 pb-1">
+								  <button id="deleteLongSkews" style="font-size: .8rem;    float: right;">Delete</button> 
 	             				</div>
 		                   </div>
 							<div class="tab-content" id="nav-tabContent">
-							  <div class="tab-pane fade show active" id="nav-yields" role="tabpanel" aria-labelledby="nav-yields-tab">  <div id="auditGrid"></div></div>
-							  <div class="tab-pane fade" id="nav-curves" role="tabpanel" aria-labelledby="nav-curves-tab"> <div id="curvesGrid"></div> </div>
-							  <div class="tab-pane fade" id="nav-crosses" role="tabpanel" aria-labelledby="nav-crosses-tab"> <div id="crossesGrid"></div> </div>
+							  <div class="tab-pane fade show active" id="nav-bund2" role="tabpanel" aria-labelledby="nav-yields-tab"> 
+							  		<div id="bund2AuditGrid"></div>
+							   </div>
+							  <div class="tab-pane fade" id="nav-bund3" role="tabpanel" aria-labelledby="nav-curves-tab"> 
+									<div id="bund3AuditGrid"></div>
+							   </div>
+							  <div class="tab-pane fade" id="nav-bolb2" role="tabpanel" aria-labelledby="nav-crosses-tab"> 
+							  		<div id="bobl2AuditGrid"></div>
+							  </div>
+							  <div class="tab-pane fade" id="nav-bolb3" role="tabpanel" aria-labelledby="nav-crosses-tab"> 
+							  		<div id="bobl3AuditGrid"></div>
+							  </div>
+							  <div class="tab-pane fade" id="nav-buxl2" role="tabpanel" aria-labelledby="nav-crosses-tab"> 
+							  		<div id="buxl2AuditGrid"></div>
+							  </div>
 							</div>
 						</div>
-						<div class=""  th:if="${yield== 2}">
+						<div class=""  th:if="${skews==2}">
 		                     	 <div class="d-flex pt-1 justify-content-between">
 		                     		<button id="deleteCorporateByDate" style="font-size: .8rem;">Delete</button> 
 		                     	 </div>
@@ -361,315 +379,191 @@ button#deleteCorporateByDate {
 				</div>
        </div> 
        </div>
-       <div th:if="${yield == 1}">
+       <div th:if="${skews == 1}">
        <div class="row">
-           <div class="card border " style="max-width: 32%;">
-        <div class="row no-gutters">
-          <div class="col-sm-4">
-                <div class="card-body filter">
-                   <h5 class="fontTitle subtitles ">Yields</h5>
-                    <div id='jqxCheckBoxUSA-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxUSA-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxUSA-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxUSA-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-                </div>
-            </div>
-              <div class="col-sm-4">
-                <div class="card-body filter">
-              <h5 class="fontTitle">USA</h5>
-                <img src="/img/flag/united-states.png" class="card-img-top" alt="...">
-             </div>
-            </div>
-			       <div class="col-sm-4">
-                <div class="card-body filter">
-                    <h5 class="fontTitle subtitles ">Curves</h5>
-                     	<div id='jqxCheckBoxUSA-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
-						<div id='jqxCheckBoxUSA-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
-						<div id='jqxCheckBoxUSA-5over10' style='float: left;'><span class="checkboxesTitle">5's/10's</span></div>
-						<div id='jqxCheckBoxUSA-2over10' style='float: left;'><span class="checkboxesTitle">2's/10's</span></div>
-						<div id='jqxCheckBoxUSA-2over5' style='float: left;'><span class="checkboxesTitle">2's/5's</span></div>
-                </div>
-            </div>
-			       <div class="col-sm-3" th:if="${yield == -1}">
-                <div class="card-body filter">
-                    <h5 class="fontTitle">Average</h5>
-                        <div id='jqxCheckBoxUSA-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
-						<div id='jqxCheckBoxUSA-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
-						<div id='jqxCheckBoxUSA-200dmavg' style='float: left;'><span class="checkboxesTitle">200d MA</span></div>
-                </div>
-            </div>
+       <div class="card border col-12">
+        <div class="d-flex no-gutters">
+	        <div class="col-3"></div>
+	        <div class="col-9 d-flex">
+				<div class="col">15%d P</div>
+				<div class="col">25%d P</div>
+				<div class="col">ATM</div>
+				<div class="col">15%d C</div>
+				<div class="col">25%d C</div>
+				<div class="col">15%d P vs ATM</div>
+				<div class="col">25%d P vs ATM</div>
+				<div class="col">25%d CALL vs ATM</div>
+				<div class="col">15%d CALL vs ATM</div>
+				<div class="col">50% COMBO</div>
+				<div class="col">30% COMBO</div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters">
+            <div class="col-3">BUND 2nd MATURITY (B&S 365 in %)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-25-DP15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DP25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DC15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DP15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DP25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DC25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DC15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DP25_DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DP15_DC15-10' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters">
+            <div class="col-3">BUND 2nd MATURITY (in TICKS)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-25-DP15-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DP25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DC25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DC15-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DP15_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DP25_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DC25_ATM-11' style='float: left;'></div></div>
+				<div class="col"> <div id='jqxCheckBox-25-DC15_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-25-DP25_DC25-11' style='float: left;'></div></div>
+				<div class="col">  <div id='jqxCheckBox-25-DP15_DC15-11' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters">
+         	<div class="col-3">BUND 3nd MATURITY (B&S 365 in %)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-26-DP15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DP25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DC15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DP15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DP25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DC25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DC15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DP25_DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DP15_DC15-10' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters">
+         	<div class="col-3">BUND 3nd MATURITY (in TICKS)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-26-DP15-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DP25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DC25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DC15-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DP15_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DP25_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DC25_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DC15_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DP25_DC25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-26-DP15_DC15-11' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters">
+         	<div class="col-3">BOBL 2nd MATURITY (B&S 365 in %)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-27-DP15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DP25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DC15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DP15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DP25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DC25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DC15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DP25_DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DP15_DC15-10' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters">
+         	<div class="col-3">BOBL 2nd MATURITY (in TICKS)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-27-DP15-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DP25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DC25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DC15-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DP15_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DP25_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DC25_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DC15_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DP25_DC25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-27-DP15_DC15-11' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters">
+         	<div class="col-3">BOBL 3rd MATURITY (B&S 365 in %)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-28-DP15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DP25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DC15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DP15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DP25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DC25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DC15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DP25_DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DP15_DC15-10' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters">
+         	<div class="col-3">BOBL 3rd MATURITY (in TICKS)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-28-DP15-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DP25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DC25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DC15-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DP15_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DP25_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DC25_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DC15_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DP25_DC25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-28-DP15_DC15-11' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters">
+         	<div class="col-3">BUXL 2nd MATURITY (B&S 365 in %)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-29-DP15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DP25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DC15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DP15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DP25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DC25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DC15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DP25_DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DP15_DC15-10' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters">
+         	<div class="col-3">BUXL 2nd MATURITY (in TICKS)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-29-DP15-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DP25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DC25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DC15-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DP15_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DP25_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DC25_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DC15_ATM-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DP25_DC25-11' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-29-DP15_DC15-11' style='float: left;'></div></div>
+			</div>
         </div>
     </div>
-    <div class="card border ml-2" style="max-width: 32%;">
-        <div class="row no-gutters">
-          <div class="col-sm-4">
-                <div class="card-body filter">
-                   <h5 class="fontTitle subtitles ">Yields</h5>
-                    <div id='jqxCheckBoxGermany-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxGermany-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxGermany-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxGermany-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-                </div>
-            </div>
-              <div class="col-sm-4">
-                <div class="card-body">
-              <h5 class="fontTitle filter">Germany</h5>
-                <img src="/img/flag/germany.png" class="card-img-top" alt="...">
-             </div>
-            </div>
-			       <div class="col-sm-4">
-                <div class="card-body filter">
-                    <h5 class="fontTitle subtitles ">Curves</h5>
-                     	<div id='jqxCheckBoxGermany-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
-						<div id='jqxCheckBoxGermany-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
-						<div id='jqxCheckBoxGermany-5over10' style='float: left;'><span class="checkboxesTitle">5's/10's</span></div>
-						<div id='jqxCheckBoxGermany-2over10' style='float: left;'><span class="checkboxesTitle">2's/10's</span></div>
-						<div id='jqxCheckBoxGermany-2over5' style='float: left;'><span class="checkboxesTitle">2's/5's</span></div>
-                </div>
-            </div>
-			       <div class="col-sm-3">
-                <div class="card-body filter" th:if="${yield == -1}">
-                    <h5 class="fontTitle">Average</h5>
-                        <div id='jqxCheckBoxGermany-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
-						<div id='jqxCheckBoxGermany-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
-						<div id='jqxCheckBoxGermany-200dmavg' style='float: left;'><span class="checkboxesTitle">200d MA</span></div>
-                </div>
-            </div>
-        </div>
+  
     </div>
-    <div class="card border ml-2" style="max-width: 32%;">
-        <div class="row no-gutters">
-          <div class="col-sm-4">
-                <div class="card-body filter">
-                   <h5 class="fontTitle subtitles ">Yields</h5>
-                    <div id='jqxCheckBoxFrance-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxFrance-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxFrance-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxFrance-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-                </div>
-            </div>
-              <div class="col-sm-4">
-                <div class="card-body filter">
-              <h5 class="fontTitle">France</h5>
-                <img src="/img/flag/france.png" class="card-img-top" alt="...">
-             </div>
-            </div>
-			       <div class="col-sm-4">
-                <div class="card-body filter">
-                    <h5 class="fontTitle subtitles ">Curves</h5>
-                     	<div id='jqxCheckBoxFrance-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
-						<div id='jqxCheckBoxFrance-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
-						<div id='jqxCheckBoxFrance-5over10' style='float: left;'><span class="checkboxesTitle">5's/10's</span></div>
-						<div id='jqxCheckBoxFrance-2over10' style='float: left;'><span class="checkboxesTitle">2's/10's</span></div>
-						<div id='jqxCheckBoxFrance-2over5' style='float: left;'><span class="checkboxesTitle">2's/5's</span></div>
-                </div>
-            </div>
-			       <div class="col-sm-3">
-                <div class="card-body filter" th:if="${yield == -1}">
-                    <h5 class="fontTitle">Average</h5>
-                        <div id='jqxCheckBoxFrance-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
-						<div id='jqxCheckBoxFrance-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
-						<div id='jqxCheckBoxFrance-200dmavg' style='float: left;'><span class="checkboxesTitle">200d MA</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div class="row mt-2">
-           <div class="card border " style="max-width: 32%;">
-        <div class="row no-gutters">
-          <div class="col-sm-4">
-                <div class="card-body filter">
-                   <h5 class="fontTitle subtitles ">Yields</h5>
-                    <div id='jqxCheckBoxUk-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxUk-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxUk-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxUk-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-                </div>
-            </div>
-              <div class="col-sm-4">
-                <div class="card-body filter">
-              <h5 class="fontTitle">UK</h5>
-                <img src="/img/flag/united-kingdom.png" class="card-img-top" alt="...">
-             </div>
-            </div>
-			       <div class="col-sm-4">
-                <div class="card-body filter">
-                    <h5 class="fontTitle subtitles ">Curves</h5>
-                     	<div id='jqxCheckBoxUk-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
-						<div id='jqxCheckBoxUk-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
-						<div id='jqxCheckBoxUk-5over10' style='float: left;'><span class="checkboxesTitle">5's/10's</span></div>
-						<div id='jqxCheckBoxUk-2over10' style='float: left;'><span class="checkboxesTitle">2's/10's</span></div>
-						<div id='jqxCheckBoxUk-2over5' style='float: left;'><span class="checkboxesTitle">2's/5's</span></div>
-                </div>
-            </div>
-			       <div class="col-sm-3">
-                <div class="card-body filter" th:if="${yield == -1}">
-                    <h5 class="fontTitle">Average</h5>
-                        <div id='jqxCheckBoxUk-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
-						<div id='jqxCheckBoxUk-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
-						<div id='jqxCheckBoxUk-200dmavg' style='float: left;'><span class="checkboxesTitle">200d MA</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card border ml-2" style="max-width: 32%;">
-        <div class="row no-gutters">
-          <div class="col-sm-4">
-                <div class="card-body filter">
-                   <h5 class="fontTitle subtitles ">Yields</h5>
-                    <div id='jqxCheckBoxItaly-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxItaly-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxItaly-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxItaly-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-                </div>
-            </div>
-              <div class="col-sm-4">
-                <div class="card-body filter">
-              <h5 class="fontTitle">Italy</h5>
-                <img src="/img/flag/italy.png" class="card-img-top" alt="...">
-             </div>
-            </div>
-			       <div class="col-sm-4">
-                <div class="card-body filter">
-                    <h5 class="fontTitle subtitles ">Curves</h5>
-                     	<div id='jqxCheckBoxItaly-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
-						<div id='jqxCheckBoxItaly-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
-						<div id='jqxCheckBoxItaly-5over10' style='float: left;'><span class="checkboxesTitle">5's/10's</span></div>
-						<div id='jqxCheckBoxItaly-2over10' style='float: left;'><span class="checkboxesTitle">2's/10's</span></div>
-						<div id='jqxCheckBoxItaly-2over5' style='float: left;'><span class="checkboxesTitle">2's/5's</span></div>
-                </div>
-            </div>
-			       <div class="col-sm-3">
-                <div class="card-body filter" th:if="${yield == -1}">
-                    <h5 class="fontTitle">Average</h5>
-                        <div id='jqxCheckBoxItaly-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
-						<div id='jqxCheckBoxItaly-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
-						<div id='jqxCheckBoxItaly-200dmavg' style='float: left;'><span class="checkboxesTitle">200d MA</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <div class="card border ml-2" style="max-width: 32%;">
-        <div class="row no-gutters">
-          <div class="col-sm-4">
-                <div class="card-body filter">
-                   <h5 class="fontTitle subtitles ">Yields</h5>
-                    <div id='jqxCheckBoxSpain-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxSpain-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxSpain-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxSpain-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-                </div>
-            </div>
-              <div class="col-sm-4">
-                <div class="card-body filter">
-              <h5 class="fontTitle">Spain</h5>
-                <img src="/img/flag/spain.png" class="card-img-top" alt="...">
-             </div>
-            </div>
-			       <div class="col-sm-4">
-                <div class="card-body filter">
-                    <h5 class="fontTitle subtitles ">Curves</h5>
-                     	<div id='jqxCheckBoxSpain-10over30' style='float: left;'><span class="checkboxesTitle">10's/30's</span></div>
-						<div id='jqxCheckBoxSpain-5over30' style='float: left;'><span class="checkboxesTitle">5's/30's</span></div>
-						<div id='jqxCheckBoxSpain-5over10' style='float: left;'><span class="checkboxesTitle">5's/10's</span></div>
-						<div id='jqxCheckBoxSpain-2over10' style='float: left;'><span class="checkboxesTitle">2's/10's</span></div>
-						<div id='jqxCheckBoxSpain-2over5' style='float: left;'><span class="checkboxesTitle">2's/5's</span></div>
-                </div>
-            </div>
-			       <div class="col-sm-3">
-                <div class="card-body filter" th:if="${yield == -1}">
-                    <h5 class="fontTitle">Average</h5>
-                        <div id='jqxCheckBoxSpain-weekavg' style='float: left;'><span class="checkboxesTitle">Week Avg</span></div>
-						<div id='jqxCheckBoxSpain-100dmavg' style='float: left;'><span class="checkboxesTitle">100d MA</span></div>
-						<div id='jqxCheckBoxSpain-200dmavg' style='float: left;'><span class="checkboxesTitle">200d MA</span></div>
-                </div>
-            </div>
-        </div>
-    </div>
-    </div>
-    <div class="row mt-2">
-    <div class="col-2"></div>
-        <div class="card border ml-2 col-7">
-        <div class="row no-gutters">
-          <div class="col-sm-1 col-custom">
-                <div class="card-body filter">
-                <img src="/img/flag/fra-ger.png" height="48" width="48" class="card-img-top" alt="...">
-                    <div id='jqxCheckBoxfrc-ger-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxfrc-ger-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxfrc-ger-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxfrc-ger-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-             </div>
-            </div>
-             <div class="col-sm-1 col-custom">
-                <div class="card-body filter">
-                <img src="/img/flag/ita-ger.png" height="48" width="48" class="card-img-top" alt="...">
-                    <div id='jqxCheckBoxita-ger-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxita-ger-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxita-ger-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxita-ger-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-             </div>
-            </div>
-             <div class="col-sm-1 col-custom">
-                <div class="card-body filter">
-                <img src="/img/flag/spn-ger.png" height="48" width="48" class="card-img-top" alt="...">
-                    <div id='jqxCheckBoxspn-ger-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxspn-ger-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxspn-ger-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxspn-ger-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-             </div>
-            </div>
-             <div class="col-sm-1 col-custom">
-                <div class="card-body filter">
-                <img src="/img/flag/uk-ger.png" height="48" width="48" class="card-img-top" alt="...">
-                    <div id='jqxCheckBoxuk-ger-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxuk-ger-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxuk-ger-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxuk-ger-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-             </div>
-            </div>
-             <div class="col-sm-1 col-custom">
-                <div class="card-body filter">
-                <img src="/img/flag/usa-ger.png" height="48" width="48" class="card-img-top" alt="...">
-                    <div id='jqxCheckBoxusa-ger-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxusa-ger-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxusa-ger-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxusa-ger-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-             </div>
-            </div>
-             <div class="col-sm-1 col-custom">
-                <div class="card-body filter">
-                <img src="/img/flag/usa-uk.png" height="48" width="48" class="card-img-top" alt="...">
-                    <div id='jqxCheckBoxusa-uk-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxusa-uk-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxusa-uk-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxusa-uk-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-             </div>
-            </div>
-             <div class="col-sm-1 col-custom">
-                <div class="card-body filter">
-                <img src="/img/flag/ita-fra.png" height="48" width="48" class="card-img-top" alt="...">
-                    <div id='jqxCheckBoxita-frc-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxita-frc-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxita-frc-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxita-frc-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-             </div>
-            </div>
-             <div class="col-sm-1 col-custom">
-                <div class="card-body filter">
-                <img src="/img/flag/ita-spn.png" height="48" width="48" class="card-img-top" alt="...">
-                    <div id='jqxCheckBoxita-spn-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
-					<div id='jqxCheckBoxita-spn-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
-					<div id='jqxCheckBoxita-spn-5' style='float: left;'><span class="checkboxesTitle">5y</span></div>
-					<div id='jqxCheckBoxita-spn-2' style='float: left;'><span class="checkboxesTitle">2y</span></div>
-             </div>
-            </div>
-    </div>
-       <div class="col-3"></div>
-    </div>
+ 
 	</div>
-	</div>
-	  <div  th:if="${yield == 2}" class="row mt-2">
+	  <div  th:if="${skews == 2}" class="row mt-2">
 	           <div class="row col-12" >
                 <div class="col-5">
 		         <div class="row no-gutters">
@@ -789,7 +683,7 @@ button#deleteCorporateByDate {
 		    </div>
 	    </div>-->
 	  </div>
-	  <div th:if="${yield == -1}" class="row mt-2">
+	  <div th:if="${skews == -1}" class="row mt-2">
 	        <div class="card border ml-2 col-12">
 		        <div class="row no-gutters">
 		          <div class=" col-custom">
@@ -1074,8 +968,9 @@ button#deleteCorporateByDate {
   <script src="/js/jqwidgets/jqxinput.js"></script>
   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
-  <script src="/js/bourse/sovereignyields.js"></script> 
+  <script src="/js/bourse/skewsDataInput.js"></script> 
   <script src="/js/bourse/scrollBarNews.js"></script> 
+  <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
   <script src="/js/common.js"></script>
   <script src="/js/notification/sockjs.js"></script>
   <script src="/js/notification/stomp.js"></script>

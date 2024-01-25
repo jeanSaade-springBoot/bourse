@@ -37,6 +37,7 @@ public class OngoingProcessService {
 	public List<OngoingProcessDTO> findByAssetIdAndGroupIdOrParentGroupId( int assetId, int groupId) {
 		return ongoingProcessRepository.findByAssetIdAndGroupIdOrParentGroupId(assetId,groupId);
 	}
+	
 	public Boolean checkIfRobotIsRunning(int assetId, int groupId)
 	{
 		 List<OngoingProcessDTO> ongoingProcessList = findByAssetIdAndGroupIdOrParentGroupId(assetId,groupId);
