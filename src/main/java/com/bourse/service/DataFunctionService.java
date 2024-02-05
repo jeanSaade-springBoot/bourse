@@ -57,7 +57,8 @@ public class DataFunctionService {
 	
 	public GridDataDTO getDynamicGridDataDTOFunction(GenericDataFunctionReqDTO dataFunctionReqDTO) {
 		List<DataFunctionRespDTO> dataFunctionRespDTO = getDynamicGridDataFunction(dataFunctionReqDTO);
-		String title = columnConfigurationRepository.findByGroupIdAndSubgroupIdAndFactor(dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId(),"0").getColumnName();		
+		String factor = dataFunctionReqDTO.getFactor()!=null?dataFunctionReqDTO.getFactor():"0";
+		String title = columnConfigurationRepository.findByGroupIdAndSubgroupIdAndFactor(dataFunctionReqDTO.getGroupId(),dataFunctionReqDTO.getSubgroupId(),factor).getColumnName();		
 				
 		GridDataDTO gridDataDTO = GridDataDTO.builder().dataFunctionRespDTO(dataFunctionRespDTO).gridTitle(title).build();
 		return gridDataDTO;
@@ -135,6 +136,7 @@ public class DataFunctionService {
 		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
 		
 			String generatedTableName="";
+			String factorInput=dataFunctionReqDTO.getFactor()!=null?dataFunctionReqDTO.getFactor():"";
 			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dyncamic_table_function_generator",GraphResponseDTO.class);
 			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
 			query.setParameter("groupId",dataFunctionReqDTO.getGroupId());
@@ -143,7 +145,7 @@ public class DataFunctionService {
 			query.setParameter("subGroupId",dataFunctionReqDTO.getSubgroupId());
 			
 			query.registerStoredProcedureParameter("factorInput", String.class, ParameterMode.IN);
-			query.setParameter("factorInput","");
+			query.setParameter("factorInput",factorInput);
 			
 			query.registerStoredProcedureParameter("functionId", String.class, ParameterMode.IN);
 			query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByDesc(dataFunctionReqDTO.getFunctions()[i])));
@@ -159,7 +161,7 @@ public class DataFunctionService {
 		List<DataFunctionRespDTO> data = getListDataFunctionFromProcedure(buildDyamicQueryFromDB(tableNames,dataFunctionReqDTO,"2"),2,null,dataFunctionReqDTO);
 		return data;
 	}
-	
+
 	public String buildDyamicQuery(List<String> tableNames,DataFunctionReqDTO dataFunctionReqDTO)
 	{
 		String query="select DATE_FORMAT(STR_TO_DATE(t.refer_date,'%d-%m-%Y'), '%d-%b-%Y') as refer_date,";
@@ -248,81 +250,10 @@ public class DataFunctionService {
 		query=query + queryValues+" from "+tableManagement.getTableName()+" t ";
 		
 		query=query+ queryTables+ "  where (STR_TO_DATE( t.refer_date,'%d-%m-%Y') between '"+dataFunctionReqDTO.getFromdate()+"' and '"+dataFunctionReqDTO.getTodate()+"') " + queryAnd;
+	    if(dataFunctionReqDTO.getFactor()!=null)
+	    	query=query+" and factor = "+dataFunctionReqDTO.getFactor();
 		query=query+"  order by STR_TO_DATE(t.refer_date,'%d-%m-%Y') desc";
 		
-		
-		/*if (dataFunctionReqDTO.getGroupId().equalsIgnoreCase("6"))
-		{
-			for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
-				queryValues=queryValues+",t"+i+".value as "+dataFunctionReqDTO.getFunctions()[i];
-				queryTables=queryTables+" ,"+tableNames.get(i)+" t"+i;
-				queryAnd = queryAnd + " and t.refer_date =t"+i+".refer_date";
-			}
-			query=query+" REPLACE(CASE\r\n"
-					+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 1 THEN t.GOLD\r\n"
-					+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 2 THEN t.SILVER\r\n"
-					+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 3 THEN t.PLATINUM\r\n"
-					+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 4 THEN t.PLATINUM_GOLD\r\n"
-					+ "				ELSE t.GOLD_SILVER END ,'%','') as daily_input ";
-			
-			
-			query=query + queryValues+" from tmp_audit_precious t ";
-			
-			query=query+ queryTables+ "  where (STR_TO_DATE( t.refer_date,'%d-%m-%Y') between '"+dataFunctionReqDTO.getFromdate()+"' and '"+dataFunctionReqDTO.getTodate()+"') " + queryAnd;
-			query=query+"  order by STR_TO_DATE(t.refer_date,'%d-%m-%Y') desc";
-		}else
-			if (dataFunctionReqDTO.getGroupId().equalsIgnoreCase("7"))
-			{
-				for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
-					queryValues=queryValues+",t"+i+".value as "+dataFunctionReqDTO.getFunctions()[i];
-					queryTables=queryTables+" ,"+tableNames.get(i)+" t"+i;
-					queryAnd = queryAnd + " and t.refer_date =t"+i+".refer_date";
-				}
-				query=query+" REPLACE(CASE\r\n"
-						+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 1 THEN t.COPPER\r\n"
-						+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 2 THEN t.ALUMINUM\r\n"
-						+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 3 THEN t.STEEL\r\n"
-						+ "				ELSE t.LUMBER END ,'%','') as daily_input ";
-				
-				query=query + queryValues+" from tmp_audit_base t ";
-				
-				query=query+ queryTables+ "  where  (STR_TO_DATE( t.refer_date,'%d-%m-%Y') between '"+dataFunctionReqDTO.getFromdate()+"' and '"+dataFunctionReqDTO.getTodate()+"') "+ queryAnd;
-				query=query+"  order by STR_TO_DATE(t.refer_date,'%d-%m-%Y') desc";
-			}else
-				if (dataFunctionReqDTO.getGroupId().equalsIgnoreCase("8"))
-				{
-					for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
-						queryValues=queryValues+",t"+i+".value as "+dataFunctionReqDTO.getFunctions()[i];
-						queryTables=queryTables+" ,"+tableNames.get(i)+" t"+i;
-						queryAnd = queryAnd + " and t.refer_date =t"+i+".refer_date";
-					}
-					query=query+" REPLACE(CASE\r\n"
-							+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 1 THEN t.CORN\r\n"
-							+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 2 THEN t.SUGAR\r\n"
-							+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 3 THEN t.WHEAT END ,'%','')  as daily_input ";
-					
-					query=query + queryValues+" from tmp_audit_foodstuff t ";
-					
-					query=query+ queryTables+ "  where  (STR_TO_DATE( t.refer_date,'%d-%m-%Y') between '"+dataFunctionReqDTO.getFromdate()+"' and '"+dataFunctionReqDTO.getTodate()+"') "+ queryAnd;
-					query=query+"  order by STR_TO_DATE(t.refer_date,'%d-%m-%Y') desc";
-				}else
-					if (dataFunctionReqDTO.getGroupId().equalsIgnoreCase("8"))
-					{
-						for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
-							queryValues=queryValues+",t"+i+".value as "+dataFunctionReqDTO.getFunctions()[i];
-							queryTables=queryTables+" ,"+tableNames.get(i)+" t"+i;
-							queryAnd = queryAnd + " and t.refer_date =t"+i+".refer_date";
-						}
-						query=query+" REPLACE(CASE\r\n"
-								+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 1 THEN t.CORN\r\n"
-								+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 2 THEN t.SUGAR\r\n"
-								+ "							 WHEN "+dataFunctionReqDTO.getSubgroupId()+" = 3 THEN t.WHEAT END ,'%','')  as daily_input ";
-						
-						query=query + queryValues+" from tmp_audit_energy t ";
-						
-						query=query+ queryTables+ "  where  (STR_TO_DATE( t.refer_date,'%d-%m-%Y') between '"+dataFunctionReqDTO.getFromdate()+"' and '"+dataFunctionReqDTO.getTodate()+"') "+ queryAnd;
-						query=query+"  order by STR_TO_DATE(t.refer_date,'%d-%m-%Y') desc";
-					}*/
 		return query;
 	}
 	
@@ -393,45 +324,46 @@ public class DataFunctionService {
 			}
 		}
 		else if (assetId==2)
-		{
-			data1=getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","0");
+		{    
+			String factor=GenericDataFunctionReqDTO.getFactor()!=null?GenericDataFunctionReqDTO.getFactor():"0";
+			data1=getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"0");
 			
 				for (int i = 0; i < GenericDataFunctionReqDTO.getFunctions().length; i++) {
 					if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("100D"))
 					{
-						functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","1"));
+						functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"1"));
 					}else 
 						if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("200D"))
 						{
-							functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","2"));
+							functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"2"));
 						}else 
 							if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCP"))
 							{
-								functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","3"));
+								functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"3"));
 							}else 
 								if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("DCI"))
 								{
-									functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","4"));
+									functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"4"));
 								}else 
 									if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCP"))
 									{
-										functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","5"));
+										functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"5"));
 									}else 
 										if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("WCI"))
 										{
-											functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","6"));
+											functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"6"));
 										}else 
 											if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("10YP"))
 											{
-												functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","7"));
+												functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"7"));
 											}else 
 												if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("20YP"))
 												{
-													functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","8"));
+													functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"8"));
 												}else 
 													if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("CP"))
 													{
-														functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),"0","9"));
+														functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"9"));
 													}
 				}
 		}

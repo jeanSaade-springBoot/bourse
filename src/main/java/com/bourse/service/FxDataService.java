@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.domain.FxUsdData;
 import com.bourse.domain.TmpAuditFxEurData;
-import com.bourse.domain.FxUsdData;
 import com.bourse.domain.TmpAuditFxUsdData;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.FxUsdDataRepository;

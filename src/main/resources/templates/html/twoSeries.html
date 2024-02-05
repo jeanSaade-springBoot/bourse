@@ -52,7 +52,16 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
-
+.fs-7{
+font-size: .7rem;
+}  
+.row-style{
+    background-color: #272e48;
+    padding-top: 0.1rem;
+    }
+   .col{
+   padding: 0;
+   }
   </style>
 </head>
 
@@ -99,6 +108,9 @@
 							  </div>
 							  <div class="tab-pane fade" id="nav-fxcds" role="tabpanel" aria-labelledby="nav-fxcds-tab">
 							  	<div th:include="${fxcds}" ></div>
+							  </div>
+							    <div class="tab-pane fade" id="nav-skews" role="tabpanel" aria-labelledby="nav-skews-tab">
+							  	<div th:include="${skews}" ></div>
 							  </div>
 							</div>
                      	<div class="row pt-2">

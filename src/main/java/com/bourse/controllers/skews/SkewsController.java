@@ -23,8 +23,14 @@ import com.bourse.domain.skews.TmpAuditSkewsBund3Maturity;
 import com.bourse.domain.skews.TmpAuditSkewsBuxl2Maturity;
 import com.bourse.domain.skews.TmpAuditSkewsEuribor4Mtty;
 import com.bourse.domain.skews.TmpAuditSkewsEuribor7Mtty;
+import com.bourse.dto.GenericDataFunctionReqDTO;
+import com.bourse.dto.GraphRequestDTO;
+import com.bourse.dto.GraphResponseColConfigDTO;
+import com.bourse.dto.GridDataDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
+import com.bourse.repositories.TableManagementRepository;
+import com.bourse.service.DataFunctionService;
 import com.bourse.service.skews.SkewsService;
 
 @RestController
@@ -33,17 +39,26 @@ public class SkewsController {
 
 	@Autowired
 	private final SkewsService skewsService;
+	@Autowired
+	TableManagementRepository tableManagementRepository;
+	@Autowired
+	private final DataFunctionService dataFunctionService;
+	
 	private String className = "";
 	public SkewsController(
-			SkewsService skewsService)
+			SkewsService skewsService,
+			DataFunctionService dataFunctionService)
 	{
 		this.skewsService = skewsService;
+		this.dataFunctionService = dataFunctionService;
 	}
 	
 	@PostMapping(value = "save-short-skews")
 	public ResponseEntity<List<ShortSkewsData>> saveShortSkews(@RequestBody /*List<SkewsDTO>*/ List<ShortSkewsData> skewsDTOLst) {
 		System.out.println(className+": saveShortSkews");
-		return new ResponseEntity<>(skewsService.saveShortSkews(skewsDTOLst),HttpStatus.OK);
+		List<ShortSkewsData> datalst = skewsService.saveShortSkews(skewsDTOLst);
+		skewsService.doCaclulationForShortSkews(skewsDTOLst.get(0).getReferDate());
+		return new ResponseEntity<>(datalst,HttpStatus.OK);
 	}
 	
 	@PostMapping(value = "save-long-skews")
@@ -79,20 +94,15 @@ public class SkewsController {
 		System.out.println(className+": getLongSkewsDataByReferDate");
 		return new ResponseEntity<>(skewsService.getLongSkewsBuxl2DataByReferDate(referDate),HttpStatus.OK);
 	} 
-	@GetMapping(value = "long-skews-data-euribor4/{referDate}")
+	@GetMapping(value = "short-skews-data-euribor4/{referDate}")
 	public ResponseEntity<List<TmpAuditSkewsEuribor4Mtty>> getLongSkewsEuribor4DataByReferDate(@PathVariable("referDate") String referDate) {
 		System.out.println(className+": getLongSkewsDataByReferDate");
 		return new ResponseEntity<>(skewsService.getLongSkewsEuribor4MttyDataByReferDate(referDate),HttpStatus.OK);
 	} 
-	@GetMapping(value = "long-skews-data-euribor7/{referDate}")
+	@GetMapping(value = "short-skews-data-euribor7/{referDate}")
 	public ResponseEntity<List<TmpAuditSkewsEuribor7Mtty>> getLongSkewsEuribor7DataByReferDate(@PathVariable("referDate") String referDate) {
 		System.out.println(className+": getLongSkewsDataByReferDate");
 		return new ResponseEntity<>(skewsService.getLongSkewsEuribor7MttyDataByReferDate(referDate),HttpStatus.OK);
-	} 
-	@GetMapping(value = "short-skews-dataByreferDate/{referDate}")
-	public ResponseEntity<List<ShortSkewsData>> getShortSkewsDataByReferDate(@PathVariable("referDate") String referDate) {
-		System.out.println(className+": getShortSkewsDataByReferDate");
-		return new ResponseEntity<>(skewsService.getShortSkewsDataByReferDate(referDate),HttpStatus.OK);
 	} 
 	
 	@DeleteMapping(value = "delete-short-skews-byreferDate/{referDate}")
@@ -110,9 +120,16 @@ public class SkewsController {
 	}
 	@PostMapping(value = "update-long-skews-data")
 	public ResponseEntity<Boolean> updateLongSkewsData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
-	{
+	{  System.out.println(className+": updateLongSkewsData");
 		skewsService.updateData(updateDataDTOlst);
 		skewsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "update-short-skews-data")
+	public ResponseEntity<Boolean> updateShortSkewsData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{ System.out.println(className+": updateShortSkewsData");
+		skewsService.updateShortSkewsData(updateDataDTOlst);
+		skewsService.doCaclulationForShortSkews(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@GetMapping(value = "getlatest/{skews}", produces = "application/json;charset=UTF-8")
@@ -123,4 +140,17 @@ public class SkewsController {
 	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody MainSearchFilterDTO mainSearchFilterDTO) {
 		return new ResponseEntity<>(skewsService.getGridData(mainSearchFilterDTO),HttpStatus.OK);
 	}
+	@GetMapping(value = "checkifcansave/{skews}/{referDate}")
+	public ResponseEntity<Boolean> CheckIfCanSavePrecious(@PathVariable("skews") String skews,@PathVariable String referDate) 
+	{  
+		return new ResponseEntity<>(skewsService.CheckIfCanSave(referDate,skews),HttpStatus.OK);
+	}
+	@PostMapping(value = "getgriddatafunction")
+	public ResponseEntity<GridDataDTO> getGridDataFunction(@RequestBody GenericDataFunctionReqDTO dataFunctionReqDTO) {
+		return new ResponseEntity<>(dataFunctionService.getDynamicGridDataDTOFunction(dataFunctionReqDTO),HttpStatus.OK);
+	}
+	@PostMapping(value = "getgraphdatabytype")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
+		return new ResponseEntity<>(skewsService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
+	} 
 }

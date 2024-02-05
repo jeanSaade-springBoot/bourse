@@ -122,6 +122,10 @@ font-size: 0.8rem;
 text-align: initial;
 padding-left: 0.5rem;
     }
+    .row-style{
+    background-color: #272e48;
+    padding-top: 0.1rem;
+    }
 #contentauditGrid > div.jqx-widget-header.jqx-widget-header-dark.jqx-grid-header.jqx-grid-header-dark{
 height:30px!important;
 }
@@ -255,49 +259,54 @@ a.nav-item.nav-link.nav-small {
 					  </div>
 				  </div>
 				 <div  th:if="${skews==2}">
-							<form id="dataformInputCorporate">
-								<div class="pt-2" style="display: flex;">
-										<div class="fs-7">
-											EURIBOR 4th Mtty YIELD VOL (B&S in %)
-										</div>
-										<div class="fs-7">
-											EURIBOR 4th Mtty PRICE VOL (B&S in %)
-										</div>
-										<div class="fs-7">
-											EURIBOR 4th Mtty BPDV Vol
-										</div>
-										<div class="fs-7">
-											EURIBOR 7th Mtty YIELD VOL (B&S in %)
-										</div>
-										<div class="fs-7">
-											EURIBOR 7th Mtty PRICE VOL (B&S in %)
-										</div>
-											<div class="fs-7">
-											EURIBOR 7th Mtty BPDV Vol
-										</div>
-									</div>
-								<div class="d-flex">
-									<input class="form-control" id="data-input-ShortSkews" autocomplete="off"/>
+				 <form  id="dataformInputShortSkews" >
+                  <div class="form-group" style=" margin-top: 0">
+                      <div  style=" display: flex;">
+                         <div class="col-4"></div>
+                         <div class= "col row">
+                         <div class="col">15%d P
+						    </div>
+						   <div class="col">25%d P
+						    </div>
+						 <div class="col">ATM
+						    </div>
+						   <div class="col">25%d C  
+						    </div>
+						    <div class="col">15%d C
+						    </div></div>
+						    
+						</div>
+		                   <div style=" display: flex;">
+		                      <div class="col-4"  style=" padding: 0 ;">
+									<div>EURIBOR 4th Mtty YIELD VOL (B&S in %)</div>
+									<div>EURIBOR 4th Mtty PRICE VOL (B&S in %)</div>
+									<div>EURIBOR 4th Mtty BPDV Vol</div>
+									<div>EURIBOR 7th Mtty YIELD VOL (B&S in %)</div>
+									<div>EURIBOR 7th Mtty PRICE VOL (B&S in %)</div>
+									<div>EURIBOR 7th Mtty BPDV Vol</div>
 								</div>
-							</form>
-							<div id="dataInputGridCorporate" style="margin-top: 0rem;"></div>
-							<div class="row" id="dataInputButtonsCorporate"
-								style="display: none;">
-								<div class='col-12 d-flex justify-content-end mt-2'>
-									<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem !important; color: white;" type="button" id="loadDataCorporate" value="Load" /> 
-									<input id="CancelDataCorporate" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-								</div>
+		                      <textarea class="form-control"  id="data-input-ShortSkews" rows="3"></textarea>
+		                    </div>
+                     </div>
+<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
+                    </form>
+						 <div id="dataInputGridShortSkews" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsShortSkews" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadShortSkews" value="Load " />
+							<input id="cancelShortSkews" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
+						  </div>
 						</div>
                  </div>
                  <div class="col-12">
-		          	<div class="" th:if="${skews==1}">
-		          	
-							<div class="">
+                 <div class="">
 		                     	 <div class="col-12 pl-0  d-flex justify-content-between">
 		                     		<div id='dateInputAudit'></div>
 		                     	</div>
 			                </div>
+		          	<div class="" th:if="${skews==1}">
+		          	
 		                   <div class="d-flex  justify-content-between">
 			                    <div class="col-10 p-0"> <nav style="padding-top: 0;">
 								  <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -332,21 +341,25 @@ a.nav-item.nav-link.nav-small {
 							</div>
 						</div>
 						<div class=""  th:if="${skews==2}">
-		                     	 <div class="d-flex pt-1 justify-content-between">
-		                     		<button id="deleteCorporateByDate" style="font-size: .8rem;">Delete</button> 
-		                     	 </div>
 		                   <div class="d-flex">
 			                    <div class="col-10 p-0"> <nav style="padding-top: 0;">
 								  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-								    <a class="nav-item nav-link nav-small active w-fc" id="nav-corporates-tab" data-toggle="tab" href="#nav-corporates" role="tab" aria-controls="#nav-corporates" aria-selected="false">Corporate  Yield</a>
-								    <a class="nav-item nav-link nav-small w-fc" id="nav-credits-tab" data-toggle="tab" href="#nav-credits" role="tab" aria-controls="nav-credits" aria-selected="false">Credit Spreads</a>
+								    <a class="nav-item nav-link nav-small active w-fc" id="nav-euribor4-tab" data-toggle="tab" href="#nav-euribor4" role="tab" aria-controls="#nav-euribor4" aria-selected="false">EURIBOR 4th Mtty</a>
+								    <a class="nav-item nav-link nav-small w-fc" id="nav-euribor7-tab" data-toggle="tab" href="#nav-euribor7" role="tab" aria-controls="#nav-euribor7" aria-selected="false">EURIBOR 7th Mtty</a>
 								  </div>
 								</nav>
 								</div>
+								<div class="col pr-0 pb-1">
+								 <button id="deleteShortSkews" style="font-size: .8rem;   float: right;">Delete</button>
+								 </div>
 		                   </div>
 						   <div class="tab-content" id="nav-tabContent">
-							 <div class="tab-pane fade show active" id="nav-corporates" role="tabpanel" aria-labelledby="nav-corporates-tab"> <div id="corporatesGrid"></div> </div>
-							 <div class="tab-pane fade" id="nav-credits" role="tabpanel" aria-labelledby="nav-credits-tab"> <div id="creditAuditGrid"></div> </div>
+							  <div class="tab-pane fade show active" id="nav-euribor4" role="tabpanel" aria-labelledby="nav-yields-tab"> 
+							  		<div id="euribor4AuditGrid"></div>
+							   </div>
+							  <div class="tab-pane fade" id="nav-euribor7" role="tabpanel" aria-labelledby="nav-curves-tab"> 
+									<div id="euribor7AuditGrid"></div>
+							   </div>
 							</div>
 						</div>
                  </div>
@@ -382,23 +395,23 @@ a.nav-item.nav-link.nav-small {
        <div th:if="${skews == 1}">
        <div class="row">
        <div class="card border col-12">
-        <div class="d-flex no-gutters">
+        <div class="d-flex no-gutters pt-2">
 	        <div class="col-3"></div>
 	        <div class="col-9 d-flex">
-				<div class="col">15%d P</div>
-				<div class="col">25%d P</div>
-				<div class="col">ATM</div>
-				<div class="col">15%d C</div>
-				<div class="col">25%d C</div>
-				<div class="col">15%d P vs ATM</div>
-				<div class="col">25%d P vs ATM</div>
-				<div class="col">25%d CALL vs ATM</div>
-				<div class="col">15%d CALL vs ATM</div>
-				<div class="col">50% COMBO</div>
-				<div class="col">30% COMBO</div>
+				<div class="col fs-7">15%d P</div>
+				<div class="col fs-7">25%d P</div>
+				<div class="col fs-7">ATM</div>
+				<div class="col fs-7">15%d C</div>
+				<div class="col fs-7">25%d C</div>
+				<div class="col fs-7">15%d P vs ATM</div>
+				<div class="col fs-7">25%d P vs ATM</div>
+				<div class="col fs-7">25%d CALL vs ATM</div>
+				<div class="col fs-7">15%d CALL vs ATM</div>
+				<div class="col fs-7">50% COMBO</div>
+				<div class="col fs-7">30% COMBO</div>
 			</div>
         </div>
-         <div class="d-flex no-gutters">
+         <div class="d-flex no-gutters pt-1">
             <div class="col-3">BUND 2nd MATURITY (B&S 365 in %)</div>
 	        <div class="col-9 d-flex">
 				<div class="col"><div id='jqxCheckBox-25-DP15-10' style='float: left;'></div></div>
@@ -414,7 +427,7 @@ a.nav-item.nav-link.nav-small {
 				<div class="col"><div id='jqxCheckBox-25-DP15_DC15-10' style='float: left;'></div></div>
 			</div>
         </div>
-         <div class="d-flex no-gutters">
+         <div class="d-flex no-gutters row-style">
             <div class="col-3">BUND 2nd MATURITY (in TICKS)</div>
 	        <div class="col-9 d-flex">
 				<div class="col"><div id='jqxCheckBox-25-DP15-11' style='float: left;'></div></div>
@@ -430,7 +443,7 @@ a.nav-item.nav-link.nav-small {
 				<div class="col">  <div id='jqxCheckBox-25-DP15_DC15-11' style='float: left;'></div></div>
 			</div>
         </div>
-         <div class="d-flex no-gutters">
+         <div class="d-flex no-gutters pt-1">
          	<div class="col-3">BUND 3nd MATURITY (B&S 365 in %)</div>
 	        <div class="col-9 d-flex">
 				<div class="col"><div id='jqxCheckBox-26-DP15-10' style='float: left;'></div></div>
@@ -446,7 +459,7 @@ a.nav-item.nav-link.nav-small {
 				<div class="col"><div id='jqxCheckBox-26-DP15_DC15-10' style='float: left;'></div></div>
 			</div>
         </div>
-         <div class="d-flex no-gutters">
+         <div class="d-flex no-gutters row-style">
          	<div class="col-3">BUND 3nd MATURITY (in TICKS)</div>
 	        <div class="col-9 d-flex">
 				<div class="col"><div id='jqxCheckBox-26-DP15-11' style='float: left;'></div></div>
@@ -462,7 +475,7 @@ a.nav-item.nav-link.nav-small {
 				<div class="col"><div id='jqxCheckBox-26-DP15_DC15-11' style='float: left;'></div></div>
 			</div>
         </div>
-         <div class="d-flex no-gutters">
+         <div class="d-flex no-gutters pt-1">
          	<div class="col-3">BOBL 2nd MATURITY (B&S 365 in %)</div>
 	        <div class="col-9 d-flex">
 				<div class="col"><div id='jqxCheckBox-27-DP15-10' style='float: left;'></div></div>
@@ -478,7 +491,7 @@ a.nav-item.nav-link.nav-small {
 				<div class="col"><div id='jqxCheckBox-27-DP15_DC15-10' style='float: left;'></div></div>
 			</div>
         </div>
-         <div class="d-flex no-gutters">
+         <div class="d-flex no-gutters row-style">
          	<div class="col-3">BOBL 2nd MATURITY (in TICKS)</div>
 	        <div class="col-9 d-flex">
 				<div class="col"><div id='jqxCheckBox-27-DP15-11' style='float: left;'></div></div>
@@ -494,7 +507,7 @@ a.nav-item.nav-link.nav-small {
 				<div class="col"><div id='jqxCheckBox-27-DP15_DC15-11' style='float: left;'></div></div>
 			</div>
         </div>
-         <div class="d-flex no-gutters">
+         <div class="d-flex no-gutters pt-1">
          	<div class="col-3">BOBL 3rd MATURITY (B&S 365 in %)</div>
 	        <div class="col-9 d-flex">
 				<div class="col"><div id='jqxCheckBox-28-DP15-10' style='float: left;'></div></div>
@@ -510,7 +523,7 @@ a.nav-item.nav-link.nav-small {
 				<div class="col"><div id='jqxCheckBox-28-DP15_DC15-10' style='float: left;'></div></div>
 			</div>
         </div>
-         <div class="d-flex no-gutters">
+         <div class="d-flex no-gutters row-style">
          	<div class="col-3">BOBL 3rd MATURITY (in TICKS)</div>
 	        <div class="col-9 d-flex">
 				<div class="col"><div id='jqxCheckBox-28-DP15-11' style='float: left;'></div></div>
@@ -526,7 +539,7 @@ a.nav-item.nav-link.nav-small {
 				<div class="col"><div id='jqxCheckBox-28-DP15_DC15-11' style='float: left;'></div></div>
 			</div>
         </div>
-         <div class="d-flex no-gutters">
+         <div class="d-flex no-gutters pt-1">
          	<div class="col-3">BUXL 2nd MATURITY (B&S 365 in %)</div>
 	        <div class="col-9 d-flex">
 				<div class="col"><div id='jqxCheckBox-29-DP15-10' style='float: left;'></div></div>
@@ -542,7 +555,7 @@ a.nav-item.nav-link.nav-small {
 				<div class="col"><div id='jqxCheckBox-29-DP15_DC15-10' style='float: left;'></div></div>
 			</div>
         </div>
-         <div class="d-flex no-gutters">
+         <div class="d-flex no-gutters row-style">
          	<div class="col-3">BUXL 2nd MATURITY (in TICKS)</div>
 	        <div class="col-9 d-flex">
 				<div class="col"><div id='jqxCheckBox-29-DP15-11' style='float: left;'></div></div>
@@ -563,157 +576,127 @@ a.nav-item.nav-link.nav-small {
     </div>
  
 	</div>
-	  <div  th:if="${skews == 2}" class="row mt-2">
-	           <div class="row col-12" >
-                <div class="col-5">
-		         <div class="row no-gutters">
-		           <div class="col-6 d-flex">
-		               <div class="">
-		               	<img alt="usa-flag" src="/img/flag/us.png" height="100px">
-		               </div>
-			           <div class="col-6">
-			            <div class="pt-2">
-			               <div class="pt-1">
-			                	<div id='jqxCheckBoxusatoaaa' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">US AtoAAA</span></div>
-			             </div>
-			             </div>
-			             <div class="">
-			                <div class="pt-1">
-			               		<div id='jqxCheckBoxusbtobbb' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US BtoBBB</span></div>
-			               </div>
-			            </div>
-			             <div class="">
-			                <div class="pt-1">
-			              		<div id='jqxCheckBoxusctoccc' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US CtoCCC</span></div>
-			                </div>
-			            </div>
-			           </div>
-		            </div>
-		            <div class="col-6 d-flex">
-		            <div class="">
-		               	<img alt="usa-flag" src="/img/flag/eu.png" height="100px">
-		               </div>
-		               <div class="col-6">
-			             <div class="pt-2">
-			                <div class="pt-1">
-			                    <div id='jqxCheckBoxeurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ AtoAAA</span></div>
-			             </div>
-			            </div>
-			             <div class="">
-			                <div class="pt-1">
-			                    <div id='jqxCheckBoxeurozonebtobbb' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ BtoBBB</span></div>
-			             </div>
-		            	 </div>
-		             </div>
-		            </div>
-		    </div>
-	    </div>
-				<div class="col-7">
-		        <div class="row no-gutters">
-		           <div class="col-6 d-flex">
-		               <div class="">
-		               	<img alt="usa-flag" src="/img/flag/us.png" height="100px">
-		               </div>
-			           <div class="col-5">
-			            <div class="pt-2">
-			               <div class="pt-1">
-			                	<div id='jqxCheckBoxusatoaaa_usa' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">US AtoAAA vs 10Y TSYS</span></div>
-			             </div>
-			             </div>
-			             <div class="">
-			                <div class="pt-1">
-			               		<div id='jqxCheckBoxusbtobbb_usatoaaa' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US BtoBBB vs US AtoAAA</span></div>
-			               </div>
-			            </div>
-			             <div class="">
-			                <div class="pt-1">
-			              		<div id='jqxCheckBoxusctoccc_usbtobbb' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US CtoCCC vs US BtoBBB</span></div>
-			                </div>
-			            </div>
-			           </div>
-		            </div>
-		            <div class="col-6 d-flex">
-		            <div class="">
-		               	<img alt="usa-flag" src="/img/flag/eu.png" height="100px">
-		               </div>
-		               <div class="col-5">
-			             <div class="pt-2">
-			                <div class="pt-1">
-			                    <div id='jqxCheckBoxeurozoneatoaaa_germany' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ AtoAAA vs 10Y GERMANY</span></div>
-			             </div>
-			            </div>
-			             <div class="">
-			                <div class="pt-1">
-			                    <div id='jqxCheckBoxeurozonebtobbb_eurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ BtoBBB vs US AtoAAA</span></div>
-			             </div>
-		            	 </div>
-		             </div>
-		            </div>
-		    </div>
-	    </div>
-	     </div>
-	       
-	   <!--    <div class="card border ml-2 col-12">
-		        <div class="row no-gutters">
-		          <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                	<div id='jqxCheckBoxusatoaaa' style='float: left;'><span class="checkboxesTitle">US AtoAAA "BLUECHIP"</span></div>
-		             </div>
-		             </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		               		<div id='jqxCheckBoxusbtobbb' style='float: left;'><span class="checkboxesTitle">US BtoBBB "HIGHYIELD"</span></div>
-		               </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		              		<div id='jqxCheckBoxusctoccc' style='float: left;'><span class="checkboxesTitle">US CtoCCC "JUNKBOND"</span></div>
-		                </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxeurozoneatoaaa' style='float: left;'><span class="checkboxesTitle">EZ AtoAAA "BLUECHIP"</span></div>
-		             </div>
-		            </div>
-		             <div class="col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxeurozonebtobbb' style='float: left;'><span class="checkboxesTitle">EZ BtoBBB "HIGH YIELD"</span></div>
-		             </div>
-		            </div>
-		    </div>
-	    </div>-->
-	  </div>
-	  <div th:if="${skews == -1}" class="row mt-2">
-	        <div class="card border ml-2 col-12">
-		        <div class="row no-gutters">
-		          <div class=" col-custom">
-		                <div class="card-body pt-1 filter">
-		                	<div id='jqxCheckBoxusatoaaa_usa' style='float: left;'><span class="checkboxesTitle">US BLUECHIP AtoAAA vs 10yr TSYS</span></div>
-		             </div>
-		             </div>
-		             <div class=" col-custom">
-		                <div class="card-body pt-1 filter">
-		               		<div id='jqxCheckBoxusbtobbb_usatoaaa' style='float: left;'><span class="checkboxesTitle">US HIGHYIELD BtoBBB vs BLUECHIP</span></div>
-		               </div>
-		            </div>
-		             <div class=" col-custom">
-		                <div class="card-body pt-1 filter">
-		              		<div id='jqxCheckBoxusctoccc_usbtobbb' style='float: left;'><span class="checkboxesTitle">US JUNKBOND CtoCCC vs HIGHYIELD</span></div>
-		                </div>
-		            </div>
-		             <div class=" col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxeurozoneatoaaa_germany' style='float: left;'><span class="checkboxesTitle">EZ BLUECHIP AtoAAA vs 10Y GERMANY</span></div>
-		             </div>
-		            </div>
-		             <div class=" col-custom">
-		                <div class="card-body pt-1 filter">
-		                    <div id='jqxCheckBoxeurozonebtobbb_eurozoneatoaaa' style='float: left;'><span class="checkboxesTitle">EZ HIGHYIELD BtoBBB vs BLUECHIP AtoAAA</span></div>
-		             </div>
-		            </div>
-		    </div>
-	    </div>
+	<div th:if="${skews == 2}">
+       <div class="row">
+       <div class="card border col-12">
+        <div class="d-flex no-gutters pt-2">
+	        <div class="col-3"></div>
+	        <div class="col-9 d-flex">
+				<div class="col fs-7">15%d P</div>
+				<div class="col fs-7">25%d P</div>
+				<div class="col fs-7">ATM</div>
+				<div class="col fs-7">15%d C</div>
+				<div class="col fs-7">25%d C</div>
+				<div class="col fs-7">15%d P vs ATM</div>
+				<div class="col fs-7">25%d P vs ATM</div>
+				<div class="col fs-7">25%d CALL vs ATM</div>
+				<div class="col fs-7">15%d CALL vs ATM</div>
+				<div class="col fs-7">50% COMBO</div>
+				<div class="col fs-7">30% COMBO</div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters pt-1">
+            <div class="col-3">EURIBOR 4th Mtty YIELD VOL (B&S in %)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-30-DP15-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP25-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-ATM-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC25-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC15-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP15_ATM-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP25_ATM-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC25_ATM-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC15_ATM-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP25_DC25-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP15_DC15-12' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters row-style">
+            <div class="col-3">EURIBOR 4th Mtty PRICE VOL (B&S in %)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-30-DP15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP25_DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP15_DC15-10' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters pt-1">
+         	<div class="col-3">EURIBOR 4th Mtty BPDV Vol</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-30-DP15-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP25-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-ATM-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC25-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC15-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP15_ATM-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP25_ATM-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC25_ATM-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DC15_ATM-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP25_DC25-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-30-DP15_DC15-13' style='float: left;'></div></div>
+			</div>
+        </div>
+          <div class="d-flex no-gutters row-style">
+            <div class="col-3">EURIBOR 7th Mtty YIELD VOL (B&S in %)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-31-DP15-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP25-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-ATM-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC25-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC15-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP15_ATM-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP25_ATM-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC25_ATM-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC15_ATM-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP25_DC25-12' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP15_DC15-12' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters pt-1">
+            <div class="col-3">EURIBOR 7th Mtty PRICE VOL (B&S in %)</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-31-DP15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC15-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC25_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC15_ATM-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP25_DC25-10' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP15_DC15-10' style='float: left;'></div></div>
+			</div>
+        </div>
+         <div class="d-flex no-gutters row-style">
+         	<div class="col-3">EURIBOR 7th Mtty BPDV Vol</div>
+	        <div class="col-9 d-flex">
+				<div class="col"><div id='jqxCheckBox-31-DP15-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP25-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-ATM-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC25-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC15-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP15_ATM-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP25_ATM-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC25_ATM-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DC15_ATM-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP25_DC25-13' style='float: left;'></div></div>
+				<div class="col"><div id='jqxCheckBox-31-DP15_DC15-13' style='float: left;'></div></div>
+			</div>
+        </div>
+    </div>
+  
+    </div>
+ 
 	</div>
+	
     <div class="row">
 			<div class='col-12 d-flex justify-content-end'>
 			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />

@@ -203,6 +203,9 @@ public class LiquidityService {
 			query.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
 			query.setParameter("subgroupId",graphReqDTO.getSubGroupId1() );
 			
+			query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query.setParameter("factor",graphReqDTO.getFactor1());
+			
 			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query.setParameter("dayOrweek",(isFunction)?"d":graphReqDTO.getPeriod() );
 			

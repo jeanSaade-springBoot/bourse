@@ -8,51 +8,184 @@
          var saveUrl;
          var deleteUrl;
          var checkifcanUrl;
-         var longSkewsItems = ['#jqxCheckBox-25-DP15-10'
-					         , '#jqxCheckBox-25-DP15-11'
-					         , '#jqxCheckBox-25-DP25-10'
-					         , '#jqxCheckBox-25-DP25-11'
-					         , '#jqxCheckBox-25-ATM-10'
-					         , '#jqxCheckBox-25-ATM-11'
-					         , '#jqxCheckBox-25-DC25-10'
-					         , '#jqxCheckBox-25-DC25-11'
-					         , '#jqxCheckBox-25-DC15-10'
-					         , '#jqxCheckBox-25-DC15-11'
-					         , '#jqxCheckBox-25-DP15_ATM-10'
-					         , '#jqxCheckBox-25-DP15_ATM-11'
-					         , '#jqxCheckBox-25-DP25_ATM-10'
-					         , '#jqxCheckBox-25-DP25_ATM-11'
-					         , '#jqxCheckBox-25-DC15_ATM-10'
-					         , '#jqxCheckBox-25-DC15_ATM-11'
-					         , '#jqxCheckBox-25-DC25_ATM-10'
-					         , '#jqxCheckBox-25-DC25_ATM-11'
-					         , '#jqxCheckBox-25-DP25_DC25-10'
-					         , '#jqxCheckBox-25-DP25_DC25-11'
-					         , '#jqxCheckBox-25-DP15_DC15-10'
-					         , '#jqxCheckBox-25-DP15_DC15-11'];
+var longSkewsItems = ['#jqxCheckBox-25-DP15-10'
+					, '#jqxCheckBox-25-DP15-11'
+					, '#jqxCheckBox-25-DP25-10'
+					, '#jqxCheckBox-25-DP25-11'
+					, '#jqxCheckBox-25-ATM-10'
+					, '#jqxCheckBox-25-ATM-11'
+					, '#jqxCheckBox-25-DC25-10'
+					, '#jqxCheckBox-25-DC25-11'
+					, '#jqxCheckBox-25-DC15-10'
+					, '#jqxCheckBox-25-DC15-11'
+					, '#jqxCheckBox-25-DP15_ATM-10'
+					, '#jqxCheckBox-25-DP15_ATM-11'
+					, '#jqxCheckBox-25-DP25_ATM-10'
+					, '#jqxCheckBox-25-DP25_ATM-11'
+					, '#jqxCheckBox-25-DC15_ATM-10'
+					, '#jqxCheckBox-25-DC15_ATM-11'
+					, '#jqxCheckBox-25-DC25_ATM-10'
+					, '#jqxCheckBox-25-DC25_ATM-11'
+					, '#jqxCheckBox-25-DP25_DC25-10'
+					, '#jqxCheckBox-25-DP25_DC25-11'
+					, '#jqxCheckBox-25-DP15_DC15-10'
+					, '#jqxCheckBox-25-DP15_DC15-11'
+					, '#jqxCheckBox-26-DP15-10'
+					, '#jqxCheckBox-26-DP25-10'
+					, '#jqxCheckBox-26-ATM-10'
+					, '#jqxCheckBox-26-DC25-10'
+					, '#jqxCheckBox-26-DC15-10'
+					, '#jqxCheckBox-26-DP15_ATM-10'
+					, '#jqxCheckBox-26-DP25_ATM-10'
+					, '#jqxCheckBox-26-DC25_ATM-10'
+					, '#jqxCheckBox-26-DC15_ATM-10'
+					, '#jqxCheckBox-26-DP25_DC25-10'
+					, '#jqxCheckBox-26-DP15_DC15-10'
+					, '#jqxCheckBox-26-DP15-11'
+					, '#jqxCheckBox-26-DP25-11'
+					, '#jqxCheckBox-26-ATM-11'
+					, '#jqxCheckBox-26-DC25-11'
+					, '#jqxCheckBox-26-DC15-11'
+					, '#jqxCheckBox-26-DP15_ATM-11'
+					, '#jqxCheckBox-26-DP25_ATM-11'
+					, '#jqxCheckBox-26-DC25_ATM-11'
+					, '#jqxCheckBox-26-DC15_ATM-11'
+					, '#jqxCheckBox-26-DP25_DC25-11'
+					, '#jqxCheckBox-26-DP15_DC15-11'
+					, '#jqxCheckBox-27-DP15-10'
+					, '#jqxCheckBox-27-DP25-10'
+					, '#jqxCheckBox-27-ATM-10'
+					, '#jqxCheckBox-27-DC25-10'
+					, '#jqxCheckBox-27-DC15-10'
+					, '#jqxCheckBox-27-DP15_ATM-10'
+					, '#jqxCheckBox-27-DP25_ATM-10'
+					, '#jqxCheckBox-27-DC25_ATM-10'
+					, '#jqxCheckBox-27-DC15_ATM-10'
+					, '#jqxCheckBox-27-DP25_DC25-10'
+					, '#jqxCheckBox-27-DP15_DC15-10'
+					, '#jqxCheckBox-27-DP15-11'
+					, '#jqxCheckBox-27-DP25-11'
+					, '#jqxCheckBox-27-ATM-11'
+					, '#jqxCheckBox-27-DC25-11'
+					, '#jqxCheckBox-27-DC15-11'
+					, '#jqxCheckBox-27-DP15_ATM-11'
+					, '#jqxCheckBox-27-DP25_ATM-11'
+					, '#jqxCheckBox-27-DC25_ATM-11'
+					, '#jqxCheckBox-27-DC15_ATM-11'
+					, '#jqxCheckBox-27-DP25_DC25-11'
+					, '#jqxCheckBox-27-DP15_DC15-11'
+					, '#jqxCheckBox-28-DP15-10'
+					, '#jqxCheckBox-28-DP25-10'
+					, '#jqxCheckBox-28-ATM-10'
+					, '#jqxCheckBox-28-DC25-10'
+					, '#jqxCheckBox-28-DC15-10'
+					, '#jqxCheckBox-28-DP15_ATM-10'
+					, '#jqxCheckBox-28-DP25_ATM-10'
+					, '#jqxCheckBox-28-DC25_ATM-10'
+					, '#jqxCheckBox-28-DC15_ATM-10'
+					, '#jqxCheckBox-28-DP25_DC25-10'
+					, '#jqxCheckBox-28-DP15_DC15-10'
+					, '#jqxCheckBox-28-DP15-11'
+					, '#jqxCheckBox-28-DP25-11'
+					, '#jqxCheckBox-28-ATM-11'
+					, '#jqxCheckBox-28-DC25-11'
+					, '#jqxCheckBox-28-DC15-11'
+					, '#jqxCheckBox-28-DP15_ATM-11'
+					, '#jqxCheckBox-28-DP25_ATM-11'
+					, '#jqxCheckBox-28-DC25_ATM-11'
+					, '#jqxCheckBox-28-DC15_ATM-11'
+					, '#jqxCheckBox-28-DP25_DC25-11'
+					, '#jqxCheckBox-28-DP15_DC15-11'
+					, '#jqxCheckBox-29-DP15-10'
+					, '#jqxCheckBox-29-DP25-10'
+					, '#jqxCheckBox-29-ATM-10'
+					, '#jqxCheckBox-29-DC25-10'
+					, '#jqxCheckBox-29-DC15-10'
+					, '#jqxCheckBox-29-DP15_ATM-10'
+					, '#jqxCheckBox-29-DP25_ATM-10'
+					, '#jqxCheckBox-29-DC25_ATM-10'
+					, '#jqxCheckBox-29-DC15_ATM-10'
+					, '#jqxCheckBox-29-DP25_DC25-10'
+					, '#jqxCheckBox-29-DP15_DC15-10'
+					, '#jqxCheckBox-29-DP15-11'
+					, '#jqxCheckBox-29-DP25-11'
+					, '#jqxCheckBox-29-ATM-11'
+					, '#jqxCheckBox-29-DC25-11'
+					, '#jqxCheckBox-29-DC15-11'
+					, '#jqxCheckBox-29-DP15_ATM-11'
+					, '#jqxCheckBox-29-DP25_ATM-11'
+					, '#jqxCheckBox-29-DC25_ATM-11'
+					, '#jqxCheckBox-29-DC15_ATM-11'
+					, '#jqxCheckBox-29-DP25_DC25-11'
+					, '#jqxCheckBox-29-DP15_DC15-11'];
 
-        var CdsItem = [
-			  "#jqxCheckBoxgermany",
-			  "#jqxCheckBoxfrance",
-			  "#jqxCheckBoxitaly",
-			  "#jqxCheckBoxspain",
-			  "#jqxCheckBoxuk",
-			  "#jqxCheckBoxswiss",
-			  "#jqxCheckBoxsweden",
-			  "#jqxCheckBoxusa",
-			  "#jqxCheckBoxcanada",
-			  "#jqxCheckBoxaustralia",
-			  "#jqxCheckBoxjapan",
-			  "#jqxCheckBoxchina",
-			  "#jqxCheckBoxhongkong",
-			  "#jqxCheckBoxsouthkorea",
-			  "#jqxCheckBoxindia",
-			  "#jqxCheckBoxbrazil",
-			  "#jqxCheckBoxmexico",
-			  "#jqxCheckBoxsaudi",
-			  "#jqxCheckBoxturkey",
-			  "#jqxCheckBoxsouthafrica"
-			];	 		
+var ShortSkewsItem = ['#jqxCheckBox-30-DP15-12'
+					, '#jqxCheckBox-30-DP25-12'
+					, '#jqxCheckBox-30-ATM-12'
+					, '#jqxCheckBox-30-DC25-12'
+					, '#jqxCheckBox-30-DC15-12'
+					, '#jqxCheckBox-30-DP15_ATM-12'
+					, '#jqxCheckBox-30-DP25_ATM-12'
+					, '#jqxCheckBox-30-DC25_ATM-12'
+					, '#jqxCheckBox-30-DC15_ATM-12'
+					, '#jqxCheckBox-30-DP25_DC25-12'
+					, '#jqxCheckBox-30-DP15_DC15-12'
+					, '#jqxCheckBox-30-DP15-13'
+					, '#jqxCheckBox-30-DP25-13'
+					, '#jqxCheckBox-30-ATM-13'
+					, '#jqxCheckBox-30-DC25-13'
+					, '#jqxCheckBox-30-DC15-13'
+					, '#jqxCheckBox-30-DP15_ATM-13'
+					, '#jqxCheckBox-30-DP25_ATM-13'
+					, '#jqxCheckBox-30-DC25_ATM-13'
+					, '#jqxCheckBox-30-DC15_ATM-13'
+					, '#jqxCheckBox-30-DP25_DC25-13'
+					, '#jqxCheckBox-30-DP15_DC15-13'
+					, '#jqxCheckBox-31-DP15-12'
+					, '#jqxCheckBox-31-DP25-12'
+					, '#jqxCheckBox-31-ATM-12'
+					, '#jqxCheckBox-31-DC25-12'
+					, '#jqxCheckBox-31-DC15-12'
+					, '#jqxCheckBox-31-DP15_ATM-12'
+					, '#jqxCheckBox-31-DP25_ATM-12'
+					, '#jqxCheckBox-31-DC25_ATM-12'
+					, '#jqxCheckBox-31-DC15_ATM-12'
+					, '#jqxCheckBox-31-DP25_DC25-12'
+					, '#jqxCheckBox-31-DP15_DC15-12'
+					, '#jqxCheckBox-31-DP15-13'
+					, '#jqxCheckBox-31-DP25-13'
+					, '#jqxCheckBox-31-ATM-13'
+					, '#jqxCheckBox-31-DC25-13'
+					, '#jqxCheckBox-31-DC15-13'
+					, '#jqxCheckBox-31-DP15_ATM-13'
+					, '#jqxCheckBox-31-DP25_ATM-13'
+					, '#jqxCheckBox-31-DC25_ATM-13'
+					, '#jqxCheckBox-31-DC15_ATM-13'
+					, '#jqxCheckBox-31-DP25_DC25-13'
+					, '#jqxCheckBox-31-DP15_DC15-13',
+					'#jqxCheckBox-30-DP15-10'
+					, '#jqxCheckBox-30-DP25-10'
+					, '#jqxCheckBox-30-ATM-10'
+					, '#jqxCheckBox-30-DC25-10'
+					, '#jqxCheckBox-30-DC15-10'
+					, '#jqxCheckBox-30-DP15_ATM-10'
+					, '#jqxCheckBox-30-DP25_ATM-10'
+					, '#jqxCheckBox-30-DC25_ATM-10'
+					, '#jqxCheckBox-30-DC15_ATM-10'
+					, '#jqxCheckBox-30-DP25_DC25-10'
+					, '#jqxCheckBox-30-DP15_DC15-10'
+					, '#jqxCheckBox-31-DP15-10'
+					, '#jqxCheckBox-31-DP25-10'
+					, '#jqxCheckBox-31-ATM-10'
+					, '#jqxCheckBox-31-DC25-10'
+					, '#jqxCheckBox-31-DC15-10'
+					, '#jqxCheckBox-31-DP15_ATM-10'
+					, '#jqxCheckBox-31-DP25_ATM-10'
+					, '#jqxCheckBox-31-DC25_ATM-10'
+					, '#jqxCheckBox-31-DC15_ATM-10'
+					, '#jqxCheckBox-31-DP25_DC25-10'
+					, '#jqxCheckBox-31-DP15_DC15-10'
+				];	 		
        const nameSubgroupId =  [
                     { name: 'DP15', subgroupId: '1' },
                     { name: 'DP25', subgroupId: '2' },
@@ -60,6 +193,12 @@
                     { name: 'DC25', subgroupId: '4' },
                     { name: 'DC15', subgroupId: '5' }
                 ];
+      const factorId_description =  [
+                    { name: 'PRICE VOL (B&S 365)', factorId: '10' },
+                    { name: 'TICKS', factorId: '11' },
+                    { name: 'YIELD VOL (B&S in %)', factorId: '12' },
+                    { name: 'BPDV Vol', factorId: '13' }
+                ];         
 	   const nameFactorId =  [
 	                    { name: 'BUND 2nd M(B&S 365 in %)', factor: '10', groupId:'25' },
 	                    { name: 'BUND 2nd M(in TICKS)', factor: '11', groupId:'25'},
@@ -71,6 +210,12 @@
 	                    { name: 'BOBL 3rd M(in TICKS)', factor: '11', groupId:'28' },
 	                    { name: 'BUXL 2nd M(B&S 365 in %)', factor: '10', groupId:'29'  },
 	                    { name: 'BUXL 2nd M(in TICKS)', factor: '11', groupId:'29' },
+	                    { name: 'EURIBOR 4th Mtty PRICE VOL (B&S in %)', factor: '10', groupId:'30'  },
+	                    { name: 'EURIBOR 4th Mtty BPDV Vol', factor: '13', groupId:'30' },
+	                    { name: 'EURIBOR 4th Mtty YIELD VOL (B&S in %)', factor: '12', groupId:'30' },
+	                    { name: 'EURIBOR 7th Mtty PRICE VOL (B&S in %)', factor: '10', groupId:'31'  },
+	                    { name: 'EURIBOR 7th Mtty BPDV Vol', factor: '13', groupId:'31' },
+	                    { name: 'EURIBOR 7th Mtty YIELD VOL (B&S in %)', factor: '12', groupId:'31' },
 	                ];
 		const LongSkewsAuditTables = [
 		  { id:'1',
@@ -169,32 +314,72 @@
          	groupId:29
 		  },
 		  ];
+		  const ShortSkewsAuditTables = [
+		  { id:'1',
+		    fields: [
+						    { name: 'factor', type: 'string' },
+		                    { name: 'dp15', type: 'string' },
+		                    { name: 'dp25', type: 'string' },
+		                    { name: 'atm', type: 'string' },
+		                    { name: 'dc25', type: 'string' },
+		                    { name: 'dc15', type: 'string' },
+		                    { name: 'dp15_ATM', type: 'string' },
+		                    { name: 'dp25_ATM', type: 'string' },
+		                    { name: 'dc25_ATM', type: 'string' },
+		                    { name: 'dc15_ATM', type: 'string' },
+		                    { name: 'dp25_DC25', type: 'string' },
+		                    { name: 'dp15_DC15', type: 'string' }
+		                ],
+			auditTableName:'euribor4AuditGrid',
+         	auditUrl:'/skews/short-skews-data-euribor4/',
+         	groupId:30
+		  },
+		  { id:'2',
+		     fields: [
+						   { name:'factor', type: 'string' },
+		                    { name: 'dp15', type: 'string' },
+		                    { name: 'dp25', type: 'string' },
+		                    { name: 'atm', type: 'string' },
+		                    { name: 'dc25', type: 'string' },
+		                    { name: 'dc15', type: 'string' },
+		                    { name: 'dp15_ATM', type: 'string' },
+		                    { name: 'dp25_ATM', type: 'string' },
+		                    { name: 'dc25_ATM', type: 'string' },
+		                    { name: 'dc15_ATM', type: 'string' },
+		                    { name: 'dp25_DC25', type: 'string' },
+		                    { name: 'dp15_DC15', type: 'string' }
+		                ],
+			auditTableName:'euribor7AuditGrid',
+			auditUrl:'/skews/short-skews-data-euribor7/',
+         	groupId:31
+		  }
+		  ];
 		 var longSkewsAuditDefaultData=[];
-         var CdsAuditDefaultData=[];
+         var ShortSkewsAuditDefaultData=[];
         
          var source;
          var inputDataLongSkews = document.getElementById("data-input-LongSkews");
-         var inputDataCds = document.getElementById("data-input-Cds");
+         var inputDataShortSkews = document.getElementById("data-input-ShortSkews");
       
          var Type;
          
          const skewsValue = $("#skewsValue")[0].innerText;
-         deleteUrl="/skews/delete-long-skews-byreferDate/";
-		 checkifcanUrl="/fxcds/checkifcansave/"+skewsValue+"/";
+         checkifcanUrl="/skews/checkifcansave/"+skewsValue+"/";
 					
           if(skewsValue==1)
          	 {
 			  Type="LongSkews" ;
          	  updateUrl="/skews/update-long-skews-data";
 			  saveUrl="/skews/save-long-skews";	
-         	 } 
+         	  deleteUrl="/skews/delete-long-skews-byreferDate/";
+		     } 
           else if(skewsValue==2)
             {
-				Type="Cds" ;
-				auditUrl='/fxcds/getcdsdata/';
-				updateUrl="/fxcds/updatecdsdata";
-				saveUrl="/fxcds/savecdsdata";	   
-			}
+				Type="ShortSkews" ;
+				updateUrl="/skews/update-short-skews-data";
+				saveUrl="/skews/save-short-skews";	   
+			    deleteUrl="/skews/delete-short-skews-byreferDate/";
+		    }
           
 		 $(document).ready(function () {
 			  $('#overlay').fadeOut();
@@ -252,8 +437,161 @@
 								  { "name": "DP25_DC25-11.25", "type": "float" },
 								  { "name": "DP15_DC15-10.25", "type": "float" },
 								  { "name": "DP15_DC15-11.25", "type": "float" },
-			
-							  ],
+								  { "name": "DP15-10.26", "type": "float" },
+								  { "name": "DP15-11.26", "type": "float" },
+								  { "name": "DP25-10.26", "type": "float" },
+								  { "name": "DP25-11.26", "type": "float" },
+								  { "name": "ATM-10.26", "type": "float" },
+								  { "name": "ATM-11.26", "type": "float" },
+								  { "name": "DC15-10.26", "type": "float" },
+								  { "name": "DC15-11.26", "type": "float" },
+								  { "name": "DC25-10.26", "type": "float" },
+								  { "name": "DC25-11.26", "type": "float" },
+								  { "name": "DP15_ATM-10.26", "type": "float" },
+								  { "name": "DP15_ATM-11.26", "type": "float" },
+								  { "name": "DP25_ATM-10.26", "type": "float" },
+								  { "name": "DP25_ATM-11.26", "type": "float" },
+								  { "name": "DC25_ATM-10.26", "type": "float" },
+								  { "name": "DC25_ATM-11.26", "type": "float" },
+								  { "name": "DC15_ATM-10.26", "type": "float" },
+								  { "name": "DC15_ATM-11.26", "type": "float" },
+								  { "name": "DP25_DC25-10.26", "type": "float" },
+								  { "name": "DP25_DC25-11.26", "type": "float" },
+								  { "name": "DP15_DC15-10.26", "type": "float" },
+								  { "name": "DP15_DC15-11.26", "type": "float" },
+								  { "name": "DP15-10.27", "type": "float" },
+								  { "name": "DP15-11.27", "type": "float" },
+								  { "name": "DP25-10.27", "type": "float" },
+								  { "name": "DP25-11.27", "type": "float" },
+								  { "name": "ATM-10.27", "type": "float" },
+								  { "name": "ATM-11.27", "type": "float" },
+								  { "name": "DC15-10.27", "type": "float" },
+								  { "name": "DC15-11.27", "type": "float" },
+								  { "name": "DC25-10.27", "type": "float" },
+								  { "name": "DC25-11.27", "type": "float" },
+								  { "name": "DP15_ATM-10.27", "type": "float" },
+								  { "name": "DP15_ATM-11.27", "type": "float" },
+								  { "name": "DP25_ATM-10.27", "type": "float" },
+								  { "name": "DP25_ATM-11.27", "type": "float" },
+								  { "name": "DC25_ATM-10.27", "type": "float" },
+								  { "name": "DC25_ATM-11.27", "type": "float" },
+								  { "name": "DC15_ATM-10.27", "type": "float" },
+								  { "name": "DC15_ATM-11.27", "type": "float" },
+								  { "name": "DP25_DC25-10.27", "type": "float" },
+								  { "name": "DP25_DC25-11.27", "type": "float" },
+								  { "name": "DP15_DC15-10.27", "type": "float" },
+								  { "name": "DP15_DC15-11.27", "type": "float" },
+							   	  { "name": "DP15-10.28", "type": "float" },
+								  { "name": "DP15-11.28", "type": "float" },
+								  { "name": "DP25-10.28", "type": "float" },
+								  { "name": "DP25-11.28", "type": "float" },
+								  { "name": "ATM-10.28", "type": "float" },
+								  { "name": "ATM-11.28", "type": "float" },
+								  { "name": "DC15-10.28", "type": "float" },
+								  { "name": "DC15-11.28", "type": "float" },
+								  { "name": "DC25-10.28", "type": "float" },
+								  { "name": "DC25-11.28", "type": "float" },
+								  { "name": "DP15_ATM-10.28", "type": "float" },
+								  { "name": "DP15_ATM-11.28", "type": "float" },
+								  { "name": "DP25_ATM-10.28", "type": "float" },
+								  { "name": "DP25_ATM-11.28", "type": "float" },
+								  { "name": "DC25_ATM-10.28", "type": "float" },
+								  { "name": "DC25_ATM-11.28", "type": "float" },
+								  { "name": "DC15_ATM-10.28", "type": "float" },
+								  { "name": "DC15_ATM-11.28", "type": "float" },
+								  { "name": "DP25_DC25-10.28", "type": "float" },
+								  { "name": "DP25_DC25-11.28", "type": "float" },
+								  { "name": "DP15_DC15-10.28", "type": "float" },
+								  { "name": "DP15_DC15-11.28", "type": "float" },
+								  { "name": "DP15-10.29", "type": "float" },
+								  { "name": "DP15-11.29", "type": "float" },
+								  { "name": "DP25-10.29", "type": "float" },
+								  { "name": "DP25-11.29", "type": "float" },
+								  { "name": "ATM-10.29", "type": "float" },
+								  { "name": "ATM-11.29", "type": "float" },
+								  { "name": "DC15-10.29", "type": "float" },
+								  { "name": "DC15-11.29", "type": "float" },
+								  { "name": "DC25-10.29", "type": "float" },
+								  { "name": "DC25-11.29", "type": "float" },
+								  { "name": "DP15_ATM-10.29", "type": "float" },
+								  { "name": "DP15_ATM-11.29", "type": "float" },
+								  { "name": "DP25_ATM-10.29", "type": "float" },
+								  { "name": "DP25_ATM-11.29", "type": "float" },
+								  { "name": "DC25_ATM-10.29", "type": "float" },
+								  { "name": "DC25_ATM-11.29", "type": "float" },
+								  { "name": "DC15_ATM-10.29", "type": "float" },
+								  { "name": "DC15_ATM-11.29", "type": "float" },
+								  { "name": "DP25_DC25-10.29", "type": "float" },
+								  { "name": "DP25_DC25-11.29", "type": "float" },
+								  { "name": "DP15_DC15-10.29", "type": "float" },
+								  { "name": "DP15_DC15-11.29", "type": "float" },
+								  { "name": "DP15-10.30", "type": "float" },
+								  { "name": "DP25-10.30", "type": "float" },
+								  { "name": "ATM-10.30", "type": "float" },
+								  { "name": "DC15-10.30", "type": "float" },
+								  { "name": "DC25-10.30", "type": "float" },
+								  { "name": "DP15_ATM-10.30", "type": "float" },
+								  { "name": "DP25_ATM-10.30", "type": "float" },
+								  { "name": "DC25_ATM-10.30", "type": "float" },
+								  { "name": "DC15_ATM-10.30", "type": "float" },
+								  { "name": "DP25_DC25-10.30", "type": "float" },
+								  { "name": "DP15_DC15-10.30", "type": "float" },
+								  { "name": "DP15-12.30", "type": "float" },
+								  { "name": "DP25-12.30", "type": "float" },
+								  { "name": "ATM-12.30", "type": "float" },
+								  { "name": "DC15-12.30", "type": "float" },
+								  { "name": "DC25-12.30", "type": "float" },
+								  { "name": "DP15_ATM-12.30", "type": "float" },
+								  { "name": "DP25_ATM-12.30", "type": "float" },
+								  { "name": "DC25_ATM-12.30", "type": "float" },
+								  { "name": "DC15_ATM-12.30", "type": "float" },
+								  { "name": "DP25_DC25-12.30", "type": "float" },
+								  { "name": "DP15_DC15-12.30", "type": "float" },
+								  { "name": "DP15-13.30", "type": "float" },
+								  { "name": "DP25-13.30", "type": "float" },
+								  { "name": "ATM-13.30", "type": "float" },
+								  { "name": "DC15-13.30", "type": "float" },
+								  { "name": "DC25-13.30", "type": "float" },
+								  { "name": "DP15_ATM-13.30", "type": "float" },
+								  { "name": "DP25_ATM-13.30", "type": "float" },
+								  { "name": "DC25_ATM-13.30", "type": "float" },
+								  { "name": "DC15_ATM-13.30", "type": "float" },
+								  { "name": "DP25_DC25-13.30", "type": "float" },
+								  { "name": "DP15_DC15-13.30", "type": "float" },
+								  { "name": "DP15-10.31", "type": "float" },
+								  { "name": "DP25-10.31", "type": "float" },
+								  { "name": "ATM-10.31", "type": "float" },
+								  { "name": "DC15-10.31", "type": "float" },
+								  { "name": "DC25-10.31", "type": "float" },
+								  { "name": "DP15_ATM-10.31", "type": "float" },
+								  { "name": "DP25_ATM-10.31", "type": "float" },
+								  { "name": "DC25_ATM-10.31", "type": "float" },
+								  { "name": "DC15_ATM-10.31", "type": "float" },
+								  { "name": "DP25_DC25-10.31", "type": "float" },
+								  { "name": "DP15_DC15-10.31", "type": "float" },
+								  { "name": "DP15-12.31", "type": "float" },
+								  { "name": "DP25-12.31", "type": "float" },
+								  { "name": "ATM-12.31", "type": "float" },
+								  { "name": "DC15-12.31", "type": "float" },
+								  { "name": "DC25-12.31", "type": "float" },
+								  { "name": "DP15_ATM-12.31", "type": "float" },
+								  { "name": "DP25_ATM-12.31", "type": "float" },
+								  { "name": "DC25_ATM-12.31", "type": "float" },
+								  { "name": "DC15_ATM-12.31", "type": "float" },
+								  { "name": "DP25_DC25-12.31", "type": "float" },
+								  { "name": "DP15_DC15-12.31", "type": "float" },
+								  { "name": "DP15-13.31", "type": "float" },
+								  { "name": "DP25-13.31", "type": "float" },
+								  { "name": "ATM-13.31", "type": "float" },
+								  { "name": "DC15-13.31", "type": "float" },
+								  { "name": "DC25-13.31", "type": "float" },
+								  { "name": "DP15_ATM-13.31", "type": "float" },
+								  { "name": "DP25_ATM-13.31", "type": "float" },
+								  { "name": "DC25_ATM-13.31", "type": "float" },
+								  { "name": "DC15_ATM-13.31", "type": "float" },
+								  { "name": "DP25_DC25-13.31", "type": "float" },
+								  { "name": "DP15_DC15-13.31", "type": "float" },
+  ],
 	                         id: 'id',
 	                         localdata: ''
 		             };
@@ -278,15 +616,14 @@
              	 $('#dateInputAudit').on('change', function (event) 
 				 {  date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				    filterDate=date;
-				 if(skewsValue==1)
-					{
-				 		LongSkewsAuditTables.forEach((table, i) => {
-							 delete auditGridSource[i].localdata;   
-	    				     auditGridSource[i].url=table.auditUrl+date;
-	    					 auditDataAdapter[i] = new $.jqx.dataAdapter(auditGridSource[i]);
-	    					 $('#'+table.auditTableName).jqxGrid({source:auditDataAdapter[i]});
-						 });
-					}
+				   
+				    const SkewsAuditTables=(skewsValue==1)?LongSkewsAuditTables:ShortSkewsAuditTables;
+ 					SkewsAuditTables.forEach((table, i) => {
+											 delete auditGridSource[i].localdata;   
+					    				     auditGridSource[i].url=table.auditUrl+date;
+					    					 auditDataAdapter[i] = new $.jqx.dataAdapter(auditGridSource[i]);
+					    					 $('#'+table.auditTableName).jqxGrid({source:auditDataAdapter[i]});
+										 });
 				 }); 
 
 			$("#filter").click(function () {
@@ -304,14 +641,16 @@
 					  }
 					  else if (skewsValue==2)
 		    				 {
-							  for(i=0; i<CdsItem.length; i++)
+							  for(i=0; i<ShortSkewsItem.length; i++)
 				    			   {
-				    		    	$(CdsItem[i]).jqxCheckBox({checked:false});
+				    		    	$(ShortSkewsItem[i]).jqxCheckBox({checked:false});
 				    		       } 
 							  }
 				  });  
 	       function Edit(row, event, groupId) {
-			   const matchingObject = LongSkewsAuditTables.find(item => item.groupId === groupId);
+			   
+			  const SkewsAuditTables=(skewsValue==1)?LongSkewsAuditTables:ShortSkewsAuditTables;
+			  const matchingObject = SkewsAuditTables.find(item => item.groupId === groupId);
 				     isedit=true;
 					 var data=$('#'+matchingObject.auditTableName).jqxGrid('getrowdata', row);	
 				       oldDataJson={
@@ -366,7 +705,9 @@
 			    }	 
 			  
 			    function Update(row, event, groupId) {
-				    const matchingObject = LongSkewsAuditTables.find(item => item.groupId === groupId);
+				    const SkewsAuditTables=(skewsValue==1)?LongSkewsAuditTables:ShortSkewsAuditTables;
+			  
+				    const matchingObject = SkewsAuditTables.find(item => item.groupId === groupId);
 				   isupdate=true;
 				   var dataToBeUpdated = [];
 				   var updatedDataJson;
@@ -395,10 +736,10 @@
                     	for (var i = 0; i < keys.length; i++) {
 					        var field = keys[i];
 					        if (updatedDataJson[field] !== oldDataJson[field]) {
-								
+								debugger;
 					            dataToBeUpdated.push({
 								   "subgroupId":getSubgroupIdByName(field.toUpperCase()),
-		            			   "factor":updatedDataJson.factor==='PRICE VOL (B&S 365)'?10:11,
+		            			   "factor":getfactorIdByDescription(updatedDataJson.factor),
 		            			   "groupId":groupId,
 		            			   "value":updatedDataJson[field].replace(',', ''),
 		            			   "referdate":date
@@ -413,7 +754,7 @@
                           {
 							  updatedJson.push({"assetId": 6,
                   						    "groupId":groupId,
-										    "value": keys[i].toUpperCase()}); 
+										    "value": keys[i].toUpperCase()+"%"+getfactorIdByDescription(updatedDataJson.factor)}); 
 	                       }
 	                    }
                     
@@ -430,15 +771,13 @@
 			  
 		                             updateRobotNewsOnChangeColumns(updatedJson);
 		                          
-			    					 if(skewsValue==1)
-			    					 {
-									LongSkewsAuditTables.forEach((table, i) => {
+			    					const SkewsAuditTables=(skewsValue==1)?LongSkewsAuditTables:ShortSkewsAuditTables;
+			                        SkewsAuditTables.forEach((table, i) => {
 										 delete auditGridSource[i].localdata;   
 				    				     auditGridSource[i].url=table.auditUrl+date;
 				    					 auditDataAdapter[i] = new $.jqx.dataAdapter(auditGridSource[i]);
 				    					 $('#'+table.auditTableName).jqxGrid({source:auditDataAdapter[i]});
 									 });
-									 }
 		      						getFilterData(skewsValue);
 		      	   },
 		      	    	        error: function (e) {
@@ -462,7 +801,9 @@
 				  isedit=false;
 				  isupdate=false;
 				  selectedRow.editrow = row;
-				   const matchingObject = LongSkewsAuditTables.find(item => item.groupId === groupId);
+				  const SkewsAuditTables=(skewsValue==1)?LongSkewsAuditTables:ShortSkewsAuditTables;
+			  
+				   const matchingObject = SkewsAuditTables.find(item => item.groupId === groupId);
 			       $('#'+matchingObject.auditTableName).jqxGrid('endrowedit', row, true);
 			 }
 			
@@ -484,17 +825,14 @@
 		    	        timeout: 600000,
 		    	        success: function (response) {
 		    	        	if(!response)
-		    	        	{	 delete auditGridSource.localdata;   
-		    				     auditGridSource.url=auditUrl+date;
-		    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-		    					 $('#'+Type+'AuditGrid').jqxGrid({source:dataAdapter});
-		    					if(skewsValue==1)
-	    					 {
-							 delete auditEurGridSource.localdata;   
-	    				     auditEurGridSource.url='/fxcds/getfxeurdata/'+date;
-	    					 eurodataAdapter = new $.jqx.dataAdapter(auditEurGridSource);
-	    					 $('#FxEurAuditGrid').jqxGrid({source:eurodataAdapter});
-							 } 
+		    	        	{	
+		    					    const SkewsAuditTables=(skewsValue==1)?LongSkewsAuditTables:ShortSkewsAuditTables;
+ 								    SkewsAuditTables.forEach((table, i) => {
+											 delete auditGridSource[i].localdata;   
+					    				     auditGridSource[i].url=table.auditUrl+date;
+					    					 auditDataAdapter[i] = new $.jqx.dataAdapter(auditGridSource[i]);
+					    					 $('#'+table.auditTableName).jqxGrid({source:auditDataAdapter[i]});
+										 });
 		    					 }
 		    	        	else{
 							 getAuditGridSource(skewsValue);
@@ -542,28 +880,24 @@
 										if( dbDate.toDateString() == systemDate.toDateString())
 										 {		filterDate=date;
 						    				     
-						    					if(skewsValue==1)
-						    					 {
-													 LongSkewsAuditTables.forEach((table, i) => {
-													 delete auditGridSource[i].localdata;   
-							    				     auditGridSource[i].url=table.auditUrl+date;
-							    					 auditDataAdapter[i] = new $.jqx.dataAdapter(auditGridSource[i]);
-							    					 $('#'+table.auditTableName).jqxGrid({source:auditDataAdapter[i]});
-												 });
-												 }
+						    					const SkewsAuditTables=(skewsValue==1)?LongSkewsAuditTables:ShortSkewsAuditTables;
+			 								    SkewsAuditTables.forEach((table, i) => {
+														 delete auditGridSource[i].localdata;   
+								    				     auditGridSource[i].url=table.auditUrl+date;
+								    					 auditDataAdapter[i] = new $.jqx.dataAdapter(auditGridSource[i]);
+								    					 $('#'+table.auditTableName).jqxGrid({source:auditDataAdapter[i]});
+													 });
+												
 						    			 }
 			    	   			   }else {
-									         delete auditGridSource.localdata;   
-					    				     auditGridSource.localdata=[];
-					    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-					    					 $('#'+Type+'AuditGrid').jqxGrid({source:dataAdapter});
-					    					if(skewsValue==1)
-					    					 {
-											 delete auditEurGridSource.localdata;   
-					    				     auditEurGridSource.localdata=[];
-					    					 eurodataAdapter = new $.jqx.dataAdapter(auditEurGridSource);
-					    					 $('#FxEurAuditGrid').jqxGrid({source:eurodataAdapter});
-											 }
+									         const SkewsAuditTables=(skewsValue==1)?LongSkewsAuditTables:ShortSkewsAuditTables;
+			 								 SkewsAuditTables.forEach((table, i) => {
+															 delete auditGridSource[i].localdata;   
+									    				     auditGridSource[i].localdata=[];
+									    					 auditDataAdapter[i] = new $.jqx.dataAdapter(auditGridSource[i]);
+									    					 $('#'+table.auditTableName).jqxGrid({source:auditDataAdapter[i]});
+														 });
+													
 									  }
 			    	        },
 			    	        error: function (e) {
@@ -582,7 +916,10 @@
           	var checkedItem=[];
           	var json;
           	var values=[];
-          	var valuesEur=[];
+          	var values1=[];
+          	var values2=[];
+          	var values3=[];
+          	var values4=[];
             $('#grid').jqxGrid({ showdefaultloadelement: true}); 
           	var item = 0;
             if (skewsValue==1)
@@ -590,7 +927,7 @@
 			   items = longSkewsItems;
 			 }else if (skewsValue==2)
 		     {
-			   items = CdsItem;
+			   items = ShortSkewsItem;
 			 }
 				 	for (i = 0; i < items.length; i++) {
 		         		if($(items[i]).jqxCheckBox('checked'))
@@ -598,9 +935,19 @@
 						     {  if(itemValue[items[i]].GroupId==25) 
 								   values.push(itemValue[items[i]].description);
 								   else if(itemValue[items[i]].GroupId==26) 
-								   valuesEur.push(itemValue[items[i]].description);
+								   values1.push(itemValue[items[i]].description);
+								   else if(itemValue[items[i]].GroupId==27) 
+								   values2.push(itemValue[items[i]].description);
+								   else if(itemValue[items[i]].GroupId==28) 
+								   values3.push(itemValue[items[i]].description);
+								   else if(itemValue[items[i]].GroupId==29) 
+								   values4.push(itemValue[items[i]].description);
 							 }else 
-							 values.push(items[i].split("Box")[1].toUpperCase());
+							 {  if(itemValue[items[i]].GroupId==30) 
+								   values.push(itemValue[items[i]].description);
+								   else if(itemValue[items[i]].GroupId==31) 
+								   values1.push(itemValue[items[i]].description);
+							 }
 							
 		          			item=1;
 		          			allItems=allItems+1;
@@ -617,16 +964,40 @@
 			          		   "groupId": 25,
 			       			   "selectedValues":values,
 			       			  });
-			       			  if(valuesEur.length!=0)
+			       			  if(values1.length!=0)
 			       			  SelectedSearchDTO.push({
-			          		   "groupId": 24,
-			       			   "selectedValues":valuesEur,
+			          		   "groupId": 26,
+			       			   "selectedValues":values1,
+			       			  });
+			       			   if(values2.length!=0)
+			       			  SelectedSearchDTO.push({
+			          		   "groupId": 27,
+			       			   "selectedValues":values2,
+			       			  });
+			       			   if(values3.length!=0)
+			       			  SelectedSearchDTO.push({
+			          		   "groupId": 28,
+			       			   "selectedValues":values3,
+			       			  });
+			       			   if(values4.length!=0)
+			       			  SelectedSearchDTO.push({
+			          		   "groupId": 29,
+			       			   "selectedValues":values4,
 			       			  });
 							 }else
-		          		SelectedSearchDTO.push({
-		          		   "groupId":22,
-		       			   "selectedValues":values,
-		       			});
+							 {
+							 if(values.length!=0)
+							 SelectedSearchDTO.push({
+			          		   "groupId": 30,
+			       			   "selectedValues":values,
+			       			  });
+			       			  if(values1.length!=0)
+			       			  SelectedSearchDTO.push({
+			          		   "groupId": 31,
+			       			   "selectedValues":values1,
+			       			  });
+							 }
+		          		
 		          		 values=[];
 		          	}
           	
@@ -689,21 +1060,26 @@
 		  
 	  	function triggerRobots()
 		{
-			 $.ajax({
-		       	        contentType:  "application/json; charset=utf-8",
-		    	        url: "/robot/callrobotsasync/6/"+getGroupId(skewsValue),
-		    	        dataType: 'json',
-		    	        timeout: 600000,
-		    	        async:true,
-		    	        success: function (response) {
-		    	        	
-		                  },
-		    	        error: function (e) {
-		    	        	
-							  console.log("ERROR : ", e);
+			 const groupIds=getGroupId(skewsValue);
+			  for(i=0; i<groupIds.length; i++)
+			   {
+		    	$.ajax({
+				    contentType:  "application/json; charset=utf-8",
+				    url: "/robot/callrobotsasync/6/"+groupIds[i],
+				    dataType: 'json',
+				    timeout: 600000,
+				    async:true,
+				    success: function (response) {
+				    	
+				      },
+				    error: function (e) {
+				    	
+						  console.log("ERROR : ", e);
+				
+				    }
+				});	
+		       }
 		
-		    	        }
-		    	    });	
 		}	
 
 	function updateRobotNewsOnChangeColumns(ArrayOfColumns)
@@ -780,14 +1156,78 @@
 		                  { text: '15%d C', datafield: 'dc15', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 		                  
 						];
+						
+			  var factors = ["BUND 2nd M(B&S 365 in %)",
+							 "BUND 2nd M(in TICKS)",
+							 "BUND 3rd M(B&S 365 in %)",
+							 "BUND 3rd M(in TICKS)",
+							 "BOBL 2nd M(B&S 365 in %)",
+							 "BOBL 2nd M(in TICKS)",
+							 "BOBL 3rd M(B&S 365 in %)",
+							 "BOBL 3rd M(in TICKS)",
+							 "BUXL 2nd M(B&S 365 in %)",
+							 "BUXL 2nd M(in TICKS)"];
+
 			
 		}
 		else
 			if (skewsValue==2)
 			{
-				
+			inputDataType = inputDataShortSkews;
+		    items=ShortSkewsItem;
+		    var dataInputGridFields=[
+				    { name: 'factor', type: 'string' },
+				    { name: 'DP15', type: 'string' },
+                    { name: 'DP25', type: 'string' },
+                    { name: 'ATM', type: 'string' },
+                    { name: 'DC25', type: 'string' },
+                    { name: 'DC15', type: 'string' }
+                ];
+		 var totalFields = dataInputGridFields.length;
+		 var widthPercentage = (100-30) / (totalFields-1);
+	
+		 var dataInputGridColumns= [
+			   { text: '', datafield: 'factor',   width: '30%', cellsalign: 'center', align: 'center'},
+			   { text: '15%d P', datafield: 'DP15',   width: widthPercentage + '%', cellsalign: 'center', align: 'center'},
+			   { text: '25%d P', datafield: 'DP25',   width: widthPercentage + '%', cellsalign: 'center', align: 'center'},
+			   { text: 'ATM', datafield: 'ATM',   width: widthPercentage + '%', cellsalign: 'center', align: 'center'},
+			   { text: '25%d C', datafield: 'DC25',   width: widthPercentage + '%', cellsalign: 'center', align: 'center'},
+			   { text: '15%d C', datafield: 'DC15',   width: widthPercentage + '%', cellsalign: 'center', align: 'center'},
+			  
+			];	  
+			 var defaultData=ShortSkewsAuditDefaultData;
+			 var fields=[
+				    { name:'factor', type: 'string' },
+                    { name: 'DP15', type: 'string' },
+                    { name: 'DP25', type: 'string' },
+                    { name: 'ATM', type: 'string' },
+                    { name: 'DC25', type: 'string' },
+                    { name: 'DC15', type: 'string' }
+                ];
+               var totalFields = fields.length;
+               var widthPercentage = (100-5) / totalFields;
+               var arrayOFcolumns= [ 
+	                	   { text: '',editable:false, datafield: 'Edit',width:'5%',cellsrenderer: function (row) {
+		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                   }
+		                  },
+		                  { text: '',editable:false,  datafield: 'factor', width: widthPercentage + '%'},
+		                  { text: '15%d P', datafield: 'dp15', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+		                  { text: '25%d P', datafield: 'dp25', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+		                  { text: 'ATM', datafield: 'atm', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+						  { text: '25%d C', datafield: 'dc25', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+		                  { text: '15%d C', datafield: 'dc15', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+		                  
+						];
+			var factors = ["EURIBOR 4th Mtty YIELD VOL (B&S in %)",
+						   "EURIBOR 4th Mtty PRICE VOL (B&S in %)",
+						   "EURIBOR 4th Mtty BPDV Vol",
+						   "EURIBOR 7th Mtty YIELD VOL (B&S in %)",
+						   "EURIBOR 7th Mtty PRICE VOL (B&S in %)",
+						   "EURIBOR 7th Mtty BPDV Vol"
+						   ];
 			}
-			initiate(Type,inputDataType,items,dataInputGridFields,dataInputGridColumns,defaultData,fields,arrayOFcolumns);
+			initiate(Type,inputDataType,items,dataInputGridFields,dataInputGridColumns,defaultData,fields,arrayOFcolumns,factors);
 			
 	}
 	function saveFilterHistory(skewsValue,checkedItem){
@@ -839,9 +1279,9 @@
 		    		    	$(longSkewsItems[i]).jqxCheckBox({checked:true});
 		    		       }
 	    		       else if(skewsValue ==2)
-	    		       	for(i=0; i<CdsItem.length; i++)
+	    		       	for(i=0; i<ShortSkewsItem.length; i++)
 		    			   {
-		    		    	$(CdsItem[i]).jqxCheckBox({checked:true});
+		    		    	$(ShortSkewsItem[i]).jqxCheckBox({checked:true});
 		    		       }
 	    	       }
 	                  },
@@ -855,20 +1295,20 @@
 	
 	function getGroupId(skewsValue)
 	{
-	  var groupId='';	
+	  var groupId=[];	
 		switch(skewsValue) {
 		  
 		 case '1': 
-		   groupId='25'
+		   groupId=['25','26','27','28','29']
 		        break;
 		 case '2': 
-		   groupId='22'
+		   groupId=['30','31']
 		        break;
 		}
 	return groupId;
 	}		
 	
-	function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColumns,defaultData,fields,arrayOFcolumns){
+	function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColumns,defaultData,fields,arrayOFcolumns,factors){
 		 var jsonObject= null;
 		 $("#delete" + Type).jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
 		 $("#cancel" + Type).jqxButton({ theme: 'dark',height:30,width:74 });
@@ -903,17 +1343,6 @@
 			  var dataIput =$('#data-input-'+Type).val()
 			  var dataInputRows = dataIput.split(/\r?\n/);
 			  
-			  var factors = ["BUND 2nd M(B&S 365 in %)",
-							 "BUND 2nd M(in TICKS)",
-							 "BUND 3rd M(B&S 365 in %)",
-							 "BUND 3rd M(in TICKS)",
-							 "BOBL 2nd M(B&S 365 in %)",
-							 "BOBL 2nd M(in TICKS)",
-							 "BOBL 3rd M(B&S 365 in %)",
-							 "BOBL 3rd M(in TICKS)",
-							 "BUXL 2nd M(B&S 365 in %)",
-							 "BUXL 2nd M(in TICKS)"];
-
 				for (var i = 0; i < dataInputRows.length && i < factors.length; i++) {
 				    if (dataInputRows[i] !== "") {
 				        var rowData = dataInputRows[i].split(/\r?\t/);
@@ -950,7 +1379,8 @@
 			  
 			  }
 		});
-		LongSkewsAuditTables.forEach((table, i) => {
+		const SkewsAuditTables=(skewsValue==1)?LongSkewsAuditTables:ShortSkewsAuditTables;		
+		SkewsAuditTables.forEach((table, i) => {
 			 auditGridSource[i] =
 				{    
 				localdata: defaultData,
@@ -998,7 +1428,7 @@
 			if(skewsValue==1)
 			   value="Long Skews";
 			else if(skewsValue==2)
-			   value="Cds Options"; 
+			   value="Short Skews"; 
 			   
 				$('#alertDeleteDataByDate-modal').modal('show'); 
 		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
@@ -1008,11 +1438,9 @@
       $("#load" + Type).click(function () {
             	var date = new Date();
             	var dataToBeInserted = [];
-            	var listObject=null;
 				var groupId=null;
 				
             	var rows =  $("#dataInputGrid" + Type).jqxGrid('getrows');
-				var allObjects = [];
 				var rows = $("#dataInputGrid" + Type).jqxGrid('getrows');
 				
 				for (var i = 0; i < rows.length; i++) {
@@ -1085,26 +1513,23 @@
 						    	    		if(skewsValue==1)
 				                            	 inputDataLongSkews.value="";
 				                             else if(skewsValue==2)
-				                              	inputDataCds.value="";
+				                              	inputDataShortSkews.value="";
 				                              	
 						  		            	  $("#dataformInput" + Type).css("display","block");
 						  						  $("#dataInputButtons" + Type).css("display","none"); 
 						  						  $("#dataInputGrid" + Type).css("display","none");
-						  						  (skewsValue==1)?$("#usd-flag").removeClass("m-auto").addClass("mt-auto"):null;
             
 						  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
 						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 						    	        	    
 						    				    filterDate=date;
-						    				    if(skewsValue==1)
-						    					 {
-												 	LongSkewsAuditTables.forEach((table, i) => {
-														 delete auditGridSource[i].localdata;   
-								    				     auditGridSource[i].url=table.auditUrl+date;
-								    					 auditDataAdapter[i] = new $.jqx.dataAdapter(auditGridSource[i]);
-								    					 $('#'+table.auditTableName).jqxGrid({source:auditDataAdapter[i]});
-													 });
-												 }
+						    				     const SkewsAuditTables=(skewsValue==1)?LongSkewsAuditTables:ShortSkewsAuditTables;
+								 					SkewsAuditTables.forEach((table, i) => {
+																			 delete auditGridSource[i].localdata;   
+													    				     auditGridSource[i].url=table.auditUrl+date;
+													    					 auditDataAdapter[i] = new $.jqx.dataAdapter(auditGridSource[i]);
+													    					 $('#'+table.auditTableName).jqxGrid({source:auditDataAdapter[i]});
+																		 });
 						    	    	         triggerRobots();	
 						    	    	         
 						    	            },
@@ -1147,6 +1572,10 @@
 	function getSubgroupIdByName(name) {
     const matchingObject = nameSubgroupId.find(item => item.name === name);
     return matchingObject ? matchingObject.subgroupId : null;
+}
+function getfactorIdByDescription(name) {
+    const matchingObject = factorId_description.find(item => item.name === name);
+    return matchingObject ? matchingObject.factorId : null;
 }
 function getFactorIdByName(name) {
     const matchingObject = nameFactorId.find(item => item.name === name);

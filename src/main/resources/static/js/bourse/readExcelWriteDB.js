@@ -40,7 +40,10 @@ var familysource =
 	             
 	              $.get('/admin/getgroupsbyfamily/'+familyItem.value,  // url
 	            	      function (data, textStatus, jqXHR) {  // success callback
-	            	      
+	            	     
+	            	      (familyItem.value===6)?
+	            	      data=[{assetId: "6",description: "Long Skews",id: 25},
+	            	            {assetId: "6",description: "Short Skews",id: 30}]:data;
 	            	  groupsource.localdata=data;
 		               var dataAdapter = new $.jqx.dataAdapter(groupsource);
 		               $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
@@ -205,6 +208,12 @@ var familysource =
 		    break;
 	case 23:
    		 imagePath='/css/images/format/fx_format.png'
+		    break;
+    case 25:
+   		 imagePath='/css/images/format/longSkews_format.jpg'
+		    break;
+	case 30:
+   		 imagePath='/css/images/format/shortSkews_format.jpg'
 		    break;
 	}
 return imagePath;

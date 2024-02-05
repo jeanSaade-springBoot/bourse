@@ -52,7 +52,13 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
-
+.fs-7{
+font-size: .7rem;
+}  
+.row-style{
+    background-color: #272e48;
+    padding-top: 0.1rem;
+    }
   </style>
 </head>
 
@@ -72,10 +78,11 @@
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				    <a  th:classappend="${serie == 1} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=1" role="tab" aria-controls="nav-datafunctiondisplay" aria-selected="false">YIELDS & RATES</a>
+				  	<a  th:classappend="${serie == 5} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=5" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">FX & CDS</a>
 				    <a  th:classappend="${serie == 2} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=2" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">COMMODITIES</a>
 				 	<a  th:classappend="${serie == 3} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=3" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">LIQUIDITY</a>
 				  	<a  th:classappend="${serie == 4} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=4" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">VOLUME</a>
-				  	<a  th:classappend="${serie == 5} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=5" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">FX & CDS</a>
+				  	<a  th:classappend="${serie == 6} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=6" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">SKEWS</a>
 				  </div>
 				</nav>
            

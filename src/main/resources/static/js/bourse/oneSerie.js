@@ -232,6 +232,107 @@ else if (serieValue === 5) {
 				    ];	
 
 	}
+	else if (serieValue === 6) {
+		 graphService = "skews";
+		var allitems = ['#jqxCheckBox-25-DP15_ATM-10'
+			, '#jqxCheckBox-25-DP15_ATM-11'
+			, '#jqxCheckBox-25-DP25_ATM-10'
+			, '#jqxCheckBox-25-DP25_ATM-11'
+			, '#jqxCheckBox-25-DC15_ATM-10'
+			, '#jqxCheckBox-25-DC15_ATM-11'
+			, '#jqxCheckBox-25-DC25_ATM-10'
+			, '#jqxCheckBox-25-DC25_ATM-11'
+			, '#jqxCheckBox-25-DP25_DC25-10'
+			, '#jqxCheckBox-25-DP25_DC25-11'
+			, '#jqxCheckBox-25-DP15_DC15-10'
+			, '#jqxCheckBox-25-DP15_DC15-11'
+			, '#jqxCheckBox-26-DP15_ATM-10'
+			, '#jqxCheckBox-26-DP25_ATM-10'
+			, '#jqxCheckBox-26-DC25_ATM-10'
+			, '#jqxCheckBox-26-DC15_ATM-10'
+			, '#jqxCheckBox-26-DP25_DC25-10'
+			, '#jqxCheckBox-26-DP15_DC15-10'
+			, '#jqxCheckBox-26-DP15_ATM-11'
+			, '#jqxCheckBox-26-DP25_ATM-11'
+			, '#jqxCheckBox-26-DC25_ATM-11'
+			, '#jqxCheckBox-26-DC15_ATM-11'
+			, '#jqxCheckBox-26-DP25_DC25-11'
+			, '#jqxCheckBox-26-DP15_DC15-11'
+			, '#jqxCheckBox-27-DP15_ATM-10'
+			, '#jqxCheckBox-27-DP25_ATM-10'
+			, '#jqxCheckBox-27-DC25_ATM-10'
+			, '#jqxCheckBox-27-DC15_ATM-10'
+			, '#jqxCheckBox-27-DP25_DC25-10'
+			, '#jqxCheckBox-27-DP15_DC15-10'
+			, '#jqxCheckBox-27-DP15_ATM-11'
+			, '#jqxCheckBox-27-DP25_ATM-11'
+			, '#jqxCheckBox-27-DC25_ATM-11'
+			, '#jqxCheckBox-27-DC15_ATM-11'
+			, '#jqxCheckBox-27-DP25_DC25-11'
+			, '#jqxCheckBox-27-DP15_DC15-11'
+			, '#jqxCheckBox-28-DP15_ATM-10'
+			, '#jqxCheckBox-28-DP25_ATM-10'
+			, '#jqxCheckBox-28-DC25_ATM-10'
+			, '#jqxCheckBox-28-DC15_ATM-10'
+			, '#jqxCheckBox-28-DP25_DC25-10'
+			, '#jqxCheckBox-28-DP15_DC15-10'
+			, '#jqxCheckBox-28-DP15_ATM-11'
+			, '#jqxCheckBox-28-DP25_ATM-11'
+			, '#jqxCheckBox-28-DC25_ATM-11'
+			, '#jqxCheckBox-28-DC15_ATM-11'
+			, '#jqxCheckBox-28-DP25_DC25-11'
+			, '#jqxCheckBox-28-DP15_DC15-11'
+			, '#jqxCheckBox-29-DP15_ATM-10'
+			, '#jqxCheckBox-29-DP25_ATM-10'
+			, '#jqxCheckBox-29-DC25_ATM-10'
+			, '#jqxCheckBox-29-DC15_ATM-10'
+			, '#jqxCheckBox-29-DP25_DC25-10'
+			, '#jqxCheckBox-29-DP15_DC15-10'
+			, '#jqxCheckBox-29-DP15_ATM-11'
+			, '#jqxCheckBox-29-DP25_ATM-11'
+			, '#jqxCheckBox-29-DC25_ATM-11'
+			, '#jqxCheckBox-29-DC15_ATM-11'
+			, '#jqxCheckBox-29-DP25_DC25-11'
+			, '#jqxCheckBox-29-DP15_DC15-11',
+			'#jqxCheckBox-30-DP15_ATM-12'
+			, '#jqxCheckBox-30-DP25_ATM-12'
+			, '#jqxCheckBox-30-DC25_ATM-12'
+			, '#jqxCheckBox-30-DC15_ATM-12'
+			, '#jqxCheckBox-30-DP25_DC25-12'
+			, '#jqxCheckBox-30-DP15_DC15-12'
+			, '#jqxCheckBox-30-DP15_ATM-13'
+			, '#jqxCheckBox-30-DP25_ATM-13'
+			, '#jqxCheckBox-30-DC25_ATM-13'
+			, '#jqxCheckBox-30-DC15_ATM-13'
+			, '#jqxCheckBox-30-DP25_DC25-13'
+			, '#jqxCheckBox-30-DP15_DC15-13'
+			, '#jqxCheckBox-31-DP15_ATM-12'
+			, '#jqxCheckBox-31-DP25_ATM-12'
+			, '#jqxCheckBox-31-DC25_ATM-12'
+			, '#jqxCheckBox-31-DC15_ATM-12'
+			, '#jqxCheckBox-31-DP25_DC25-12'
+			, '#jqxCheckBox-31-DP15_DC15-12'
+			, '#jqxCheckBox-31-DP15_ATM-13'
+			, '#jqxCheckBox-31-DP25_ATM-13'
+			, '#jqxCheckBox-31-DC25_ATM-13'
+			, '#jqxCheckBox-31-DC15_ATM-13'
+			, '#jqxCheckBox-31-DP25_DC25-13'
+			, '#jqxCheckBox-31-DP15_DC15-13',
+			'#jqxCheckBox-30-DP15_ATM-10'
+			, '#jqxCheckBox-30-DP25_ATM-10'
+			, '#jqxCheckBox-30-DC25_ATM-10'
+			, '#jqxCheckBox-30-DC15_ATM-10'
+			, '#jqxCheckBox-30-DP25_DC25-10'
+			, '#jqxCheckBox-30-DP15_DC15-10'
+			, '#jqxCheckBox-31-DP15_ATM-10'
+			, '#jqxCheckBox-31-DP25_ATM-10'
+			, '#jqxCheckBox-31-DC25_ATM-10'
+			, '#jqxCheckBox-31-DC15_ATM-10'
+			, '#jqxCheckBox-31-DP25_DC25-10'
+			, '#jqxCheckBox-31-DP15_DC15-10'
+		];	
+
+	}
 const graphName=""; 
 			   
 $(window).on('load', function() {
@@ -263,9 +364,12 @@ function drawGraph() {
   		  if (key.includes(groupId)) {
 			   var itemsDataParam;
 			   getGraphDataSovereign(graphName,itemsDataParam);
-			} else {
-			    getGraphData(graphService,graphName,removeEmpty,false);
+			} else if(graphService==="skews") {
+				  getGraphDataWithFactor(graphService,graphName,removeEmpty,false);
 			}
+				else {
+				    getGraphData(graphService,graphName,removeEmpty,false);
+				}
 			}
        }
 }

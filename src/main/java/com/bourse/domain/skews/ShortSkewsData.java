@@ -36,5 +36,5 @@ public class ShortSkewsData {
     private String referDate ;
     private Long subgroupId;
     private Long groupId;
-    private String factorId;
+    private Long factorId;
 }

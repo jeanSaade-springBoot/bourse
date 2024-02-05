@@ -1,5 +1,6 @@
 package com.bourse.readExcelWriteDB.service;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -27,6 +28,8 @@ import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.ShatzOptionsVolume;
 import com.bourse.domain.SubGroup;
 import com.bourse.domain.TransportationData;
+import com.bourse.domain.skews.LongSkewsData;
+import com.bourse.domain.skews.ShortSkewsData;
 import com.bourse.readExcelWriteDB.dto.DataDTO;
 import com.bourse.readExcelWriteDB.dto.ReadExcelWriteDBDTO;
 import com.bourse.readExcelWriteDB.enums.SubGroupEnum;
@@ -49,6 +52,7 @@ import com.bourse.service.FxDataService;
 import com.bourse.service.PerciousMetalsService;
 import com.bourse.service.ShatzOptionsVolumeService;
 import com.bourse.service.TransportationService;
+import com.bourse.service.skews.SkewsService;
 
 @Service
 public class ReadExcelWriteDBService {
@@ -87,6 +91,8 @@ public class ReadExcelWriteDBService {
     CdsDataService cdsDataService;
     @Autowired
     FxDataService fxDataService;
+    @Autowired
+    SkewsService skewsService;
     
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
 		List<DataDTO> rowData = new ArrayList<>();
@@ -461,6 +467,88 @@ public class ReadExcelWriteDBService {
 					   }
 					   fxDataService.doCaclulation();
 				}
-	}
+				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("25"))
+				{
+					try {
+						Object[][] excelData = ReadExcelWriteDBUtil.readExcel(readExcelWriteDBDTO.getFile());
+						List<LongSkewsData> longSkewsDataList = new ArrayList<>();
+						
+						for (int rowIndex = 0; rowIndex < excelData.length; rowIndex++) {
+							if (rowIndex >= 2) {
+								Object[] row = excelData[rowIndex];
+								Object[][] result = ReadExcelWriteDBUtil.splitArray(row, 5);
+								for (int i = 0; i < result.length; i++) {
 
+									Object[] splitrow = result[i];
+
+									for (int j = 0; j < splitrow.length; j++) {
+										 if(j!=0)
+										 {
+											 if(!skewsService.CheckIfCanSave(splitrow[0].toString(),"1"))
+											 	throw new BadRequestException(splitrow[0].toString()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+										         LongSkewsData longSkewsData = LongSkewsData.builder().referDate(splitrow[0].toString())
+												 											  .groupId(Long.valueOf(ReadExcelWriteDBUtil.getLongSkewsGroupId(i)[0]))
+											   												  .subgroupId(Long.valueOf(j))
+											   												  .factorId(Long.valueOf(ReadExcelWriteDBUtil.getLongSkewsGroupId(i)[1]))
+											   												  .value(splitrow[j].toString()==null?"":splitrow[j].toString())
+										   												  .build();
+											   
+										         longSkewsDataList.add(longSkewsData);
+										 }
+									}
+									
+								}
+							}
+						}
+						skewsService.saveLongSkews(longSkewsDataList);
+						
+						
+					} catch (IOException e) {
+						e.printStackTrace();
+					}
+					skewsService.doCaclulationLongSkews();
+				}
+	else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("30"))
+	{
+		try {
+			Object[][] excelData = ReadExcelWriteDBUtil.readExcel(readExcelWriteDBDTO.getFile());
+			List<ShortSkewsData> shortSkewsDataList = new ArrayList<>();
+			
+			for (int rowIndex = 0; rowIndex < excelData.length; rowIndex++) {
+				if (rowIndex >= 2) {
+					Object[] row = excelData[rowIndex];
+					Object[][] result = ReadExcelWriteDBUtil.splitArray(row, 5);
+					for (int i = 0; i < result.length; i++) {
+
+						Object[] splitrow = result[i];
+
+						for (int j = 0; j < splitrow.length; j++) {
+							 if(j!=0)
+							 {
+								 if(!skewsService.CheckIfCanSave(splitrow[0].toString(),"2"))
+								 	throw new BadRequestException(splitrow[0].toString()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+								 	ShortSkewsData shortSkewsData = ShortSkewsData.builder().referDate(splitrow[0].toString())
+									 											  .groupId(Long.valueOf(ReadExcelWriteDBUtil.getShortSkewsGroupId(i)[0]))
+								   												  .subgroupId(Long.valueOf(j))
+								   												  .factorId(Long.valueOf(ReadExcelWriteDBUtil.getShortSkewsGroupId(i)[1]))
+								   												  .value(splitrow[j].toString()==null?"":splitrow[j].toString())
+							   												  .build();
+								   
+							         shortSkewsDataList.add(shortSkewsData);
+							 }
+						}
+						
+					}
+				}
+			}
+			skewsService.saveShortSkews(shortSkewsDataList);
+			
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		skewsService.doCaclulationShortSkews();
+
+	}
+}
+	
 }

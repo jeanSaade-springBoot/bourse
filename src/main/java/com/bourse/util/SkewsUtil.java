@@ -67,7 +67,7 @@ public class SkewsUtil {
 	    				 forUsetables = forUsetables + " s"+counter+" ,";
 					 	 forUseSelect = forUseSelect+", \n"+ 
 						                         " s"+counter+"."+value.split("-")[0]+
-								         " as '"+value+"'";
+						                         " as '"+value+"."+selectedSearchDTO.getGroupId()+"'";
 					 	 colHash.put(columnsId, value+"."+selectedSearchDTO.getGroupId());
 					 	 columnsId++;
 						 
@@ -77,40 +77,250 @@ public class SkewsUtil {
 				}else
 					if(selectedSearchDTO.getGroupId() == 26) 
 					{
-					if(counter == 1)
-					 {
-						 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
-						 colHash.put(columnsId, "refer_date");
-						 columnsId++;
+						if(counter == 1)
+						 {
+							 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+							 colHash.put(columnsId, "refer_date");
+							 columnsId++;
+							 
+							 forUsetables = " From ";
+						 }
 						 
-						 forUsetables = " From ";
-					 }
-					 
-					 if(selectedSearchDTO.getSelectedValues()!=null)
-					 for(String value : selectedSearchDTO.getSelectedValues())
-					 {
-							 if(counter == 1)
-							 {
-								 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
-								 		+ "\n            and '"+toDate+"')\n";
-							 }
-							 else
-								 forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
-							 		    + "\n          and '"+toDate+"')\n";
+						 if(selectedSearchDTO.getSelectedValues()!=null)
+						 for(String value : selectedSearchDTO.getSelectedValues())
+						 {       
+							     
 							 
-							 
-							 forUsetables = forUsetables + tableSchema+"tmp_audit_skews_bund_3_maturity";
-		    				 forUsetables = forUsetables + " s"+counter+" ,";
-						 	 forUseSelect = forUseSelect+", \n"+ 
-							                         " s"+counter+"."+value.split("-")[0]+
-									         " as '"+value+"'";
-						 	 colHash.put(columnsId, value);
-						 	 columnsId++;
-							 
-							 counter = counter+1;	 
-					 }
-					 
-					}
+								 if(counter == 1)
+								 {
+									 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+									 		+ "\n            and '"+toDate+"')\n ";
+									 
+									 forUseAnd = " and s"+counter+".factor = "+value.split("-")[1];
+								 }
+								 else
+								 { forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+								 		    + "\n          and '"+toDate+"')\n";
+								 
+								   forUseAnd =  forUseAnd +  " and s"+counter+".factor = "+value.split("-")[1];
+								 }
+								 forUsetables = forUsetables + tableSchema+"tmp_audit_skews_bund_3_maturity";
+			    				 forUsetables = forUsetables + " s"+counter+" ,";
+							 	 forUseSelect = forUseSelect+", \n"+ 
+								                         " s"+counter+"."+value.split("-")[0]+
+										         " as '"+value+"."+selectedSearchDTO.getGroupId()+"'";
+							 	 colHash.put(columnsId, value+"."+selectedSearchDTO.getGroupId());
+							 	 columnsId++;
+								 
+								 counter = counter+1;	 
+						 }
+						 
+						}else
+							if(selectedSearchDTO.getGroupId() == 27) 
+							{
+								if(counter == 1)
+								 {
+									 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+									 colHash.put(columnsId, "refer_date");
+									 columnsId++;
+									 
+									 forUsetables = " From ";
+								 }
+								 
+								 if(selectedSearchDTO.getSelectedValues()!=null)
+								 for(String value : selectedSearchDTO.getSelectedValues())
+								 {       
+									     
+									 
+										 if(counter == 1)
+										 {
+											 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+											 		+ "\n            and '"+toDate+"')\n ";
+											 
+											 forUseAnd = " and s"+counter+".factor = "+value.split("-")[1];
+										 }
+										 else
+										 { forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+										 		    + "\n          and '"+toDate+"')\n";
+										 
+										   forUseAnd =  forUseAnd +  " and s"+counter+".factor = "+value.split("-")[1];
+										 }
+										 forUsetables = forUsetables + tableSchema+"tmp_audit_skews_bobl_2_maturity";
+					    				 forUsetables = forUsetables + " s"+counter+" ,";
+									 	 forUseSelect = forUseSelect+", \n"+ 
+										                         " s"+counter+"."+value.split("-")[0]+
+												         " as '"+value+"."+selectedSearchDTO.getGroupId()+"'";
+									 	 colHash.put(columnsId, value+"."+selectedSearchDTO.getGroupId());
+									 	 columnsId++;
+										 
+										 counter = counter+1;	 
+								 }
+								 
+								}else
+									if(selectedSearchDTO.getGroupId() == 28) 
+									{
+										if(counter == 1)
+										 {
+											 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+											 colHash.put(columnsId, "refer_date");
+											 columnsId++;
+											 
+											 forUsetables = " From ";
+										 }
+										 
+										 if(selectedSearchDTO.getSelectedValues()!=null)
+										 for(String value : selectedSearchDTO.getSelectedValues())
+										 {       
+											     
+											 
+												 if(counter == 1)
+												 {
+													 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+													 		+ "\n            and '"+toDate+"')\n ";
+													 
+													 forUseAnd = " and s"+counter+".factor = "+value.split("-")[1];
+												 }
+												 else
+												 { forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+												 		    + "\n          and '"+toDate+"')\n";
+												 
+												   forUseAnd =  forUseAnd +  " and s"+counter+".factor = "+value.split("-")[1];
+												 }
+												 forUsetables = forUsetables + tableSchema+"tmp_audit_skews_bobl_3_maturity";
+							    				 forUsetables = forUsetables + " s"+counter+" ,";
+											 	 forUseSelect = forUseSelect+", \n"+ 
+												                         " s"+counter+"."+value.split("-")[0]+
+														         " as '"+value+"."+selectedSearchDTO.getGroupId()+"'";
+											 	 colHash.put(columnsId, value+"."+selectedSearchDTO.getGroupId());
+											 	 columnsId++;
+												 
+												 counter = counter+1;	 
+										 }
+										 
+										}else
+											if(selectedSearchDTO.getGroupId() == 29) 
+											{
+												if(counter == 1)
+												 {
+													 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+													 colHash.put(columnsId, "refer_date");
+													 columnsId++;
+													 
+													 forUsetables = " From ";
+												 }
+												 
+												 if(selectedSearchDTO.getSelectedValues()!=null)
+												 for(String value : selectedSearchDTO.getSelectedValues())
+												 {       
+													     
+													 
+														 if(counter == 1)
+														 {
+															 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+															 		+ "\n            and '"+toDate+"')\n ";
+															 
+															 forUseAnd = " and s"+counter+".factor = "+value.split("-")[1];
+														 }
+														 else
+														 { forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+														 		    + "\n          and '"+toDate+"')\n";
+														 
+														   forUseAnd =  forUseAnd +  " and s"+counter+".factor = "+value.split("-")[1];
+														 }
+														 forUsetables = forUsetables + tableSchema+"tmp_audit_skews_buxl_2_maturity";
+									    				 forUsetables = forUsetables + " s"+counter+" ,";
+													 	 forUseSelect = forUseSelect+", \n"+ 
+														                         " s"+counter+"."+value.split("-")[0]+
+																         " as '"+value+"."+selectedSearchDTO.getGroupId()+"'";
+													 	 colHash.put(columnsId, value+"."+selectedSearchDTO.getGroupId());
+													 	 columnsId++;
+														 
+														 counter = counter+1;	 
+												 }
+												 
+												}else
+													if(selectedSearchDTO.getGroupId() == 30) 
+													{
+														if(counter == 1)
+														 {
+															 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+															 colHash.put(columnsId, "refer_date");
+															 columnsId++;
+															 
+															 forUsetables = " From ";
+														 }
+														 
+														 if(selectedSearchDTO.getSelectedValues()!=null)
+														 for(String value : selectedSearchDTO.getSelectedValues())
+														 {       
+															     
+															 
+																 if(counter == 1)
+																 {
+																	 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+																	 		+ "\n            and '"+toDate+"')\n ";
+																	 
+																	 forUseAnd = " and s"+counter+".factor = "+value.split("-")[1];
+																 }
+																 else
+																 { forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+																 		    + "\n          and '"+toDate+"')\n";
+																 
+																   forUseAnd =  forUseAnd +  " and s"+counter+".factor = "+value.split("-")[1];
+																 }
+																 forUsetables = forUsetables + tableSchema+"tmp_audit_skews_euribor_4_mtty";
+											    				 forUsetables = forUsetables + " s"+counter+" ,";
+															 	 forUseSelect = forUseSelect+", \n"+ 
+																                         " s"+counter+"."+value.split("-")[0]+
+																		         " as '"+value+"."+selectedSearchDTO.getGroupId()+"'";
+															 	 colHash.put(columnsId, value+"."+selectedSearchDTO.getGroupId());
+															 	 columnsId++;
+																 
+																 counter = counter+1;	 
+														 }
+														 
+														}else
+															if(selectedSearchDTO.getGroupId() == 31) 
+															{
+																if(counter == 1)
+																 {
+																	 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+																	 colHash.put(columnsId, "refer_date");
+																	 columnsId++;
+																	 
+																	 forUsetables = " From ";
+																 }
+																 
+																 if(selectedSearchDTO.getSelectedValues()!=null)
+																 for(String value : selectedSearchDTO.getSelectedValues())
+																 {       
+																	     
+																	 
+																		 if(counter == 1)
+																		 {
+																			 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+																			 		+ "\n            and '"+toDate+"')\n ";
+																			 
+																			 forUseAnd = " and s"+counter+".factor = "+value.split("-")[1];
+																		 }
+																		 else
+																		 { forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+																		 		    + "\n          and '"+toDate+"')\n";
+																		 
+																		   forUseAnd =  forUseAnd +  " and s"+counter+".factor = "+value.split("-")[1];
+																		 }
+																		 forUsetables = forUsetables + tableSchema+"tmp_audit_skews_euribor_7_mtty";
+													    				 forUsetables = forUsetables + " s"+counter+" ,";
+																	 	 forUseSelect = forUseSelect+", \n"+ 
+																		                         " s"+counter+"."+value.split("-")[0]+
+																				         " as '"+value+"."+selectedSearchDTO.getGroupId()+"'";
+																	 	 colHash.put(columnsId, value+"."+selectedSearchDTO.getGroupId());
+																	 	 columnsId++;
+																		 
+																		 counter = counter+1;	 
+																 }
+																 
+																}
 					
 		 }
 		

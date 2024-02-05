@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
+import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.FxUsdData;
 import com.bourse.domain.skews.LongSkewsData;
 import com.bourse.domain.skews.ShortSkewsData;
@@ -25,9 +26,13 @@ import com.bourse.domain.skews.TmpAuditSkewsBund3Maturity;
 import com.bourse.domain.skews.TmpAuditSkewsBuxl2Maturity;
 import com.bourse.domain.skews.TmpAuditSkewsEuribor4Mtty;
 import com.bourse.domain.skews.TmpAuditSkewsEuribor7Mtty;
+import com.bourse.dto.GraphRequestDTO;
+import com.bourse.dto.GraphResponseColConfigDTO;
+import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.UpdateDataDTO;
+import com.bourse.enums.FunctionEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.TableManagementRepository;
 import com.bourse.repositories.skews.LongSkewsRepository;
@@ -40,7 +45,9 @@ import com.bourse.repositories.skews.TmpAuditSkewsBuxl2MaturityRepository;
 import com.bourse.repositories.skews.TmpAuditSkewsEuribor4MttyRepository;
 import com.bourse.repositories.skews.TmpAuditSkewsEuribor7MttyRepository;
 import com.bourse.service.AdminService;
+import com.bourse.service.FunctionConfigurationService;
 import com.bourse.util.SkewsUtil;
+import com.bourse.util.VolumeUtil;
 
 @Service
 public class SkewsService 
@@ -62,7 +69,11 @@ public class SkewsService
 	@Autowired
 	TmpAuditSkewsEuribor7MttyRepository tmpAuditSkewsEuribor7MttyRepository;
 	@Autowired
+	TableManagementRepository tableManagementRepository;
+	@Autowired
 	ShortSkewsRepository shortSkewsRepository;
+	@Autowired
+	FunctionConfigurationService functionConfigurationService;
 	@Autowired
 	AdminService adminService;
 	@Autowired
@@ -70,6 +81,18 @@ public class SkewsService
 	
 	@PersistenceContext
     private EntityManager entityManager;
+	
+	public boolean CheckIfCanSave(String referDate, String skews)
+		{ 
+		 long cnt = 0;
+		if (skews.equalsIgnoreCase("1"))
+			 cnt = longSkewsRepository.countByReferDate(referDate);
+		else if (skews.equalsIgnoreCase("2"))
+			 cnt = shortSkewsRepository.countByReferDate(referDate);
+		
+			boolean returnvalue = (cnt == 0) ? true : false;
+			return returnvalue;
+		}
 	
 	public List<ShortSkewsData> saveShortSkews(List<ShortSkewsData> skewsDTOLst ){
 		return shortSkewsRepository.saveAll(skewsDTOLst);
@@ -177,9 +200,6 @@ public class SkewsService
  		List<TmpAuditSkewsEuribor7Mtty> auditProcedureDTOLst = (List<TmpAuditSkewsEuribor7Mtty>) query.getResultList();
  		return auditProcedureDTOLst;
  	}
-	public List<ShortSkewsData> getShortSkewsDataByReferDate(String referDate ){
-		return shortSkewsRepository.findShortSkewsDataByReferDate(referDate);
-	}
 	
 	public void deleteLongSkewsDataByReferDate(String referDate ){
 		tmpAuditSkewsBund2MaturityRepository.deleteDataByReferDate(referDate);
@@ -191,11 +211,30 @@ public class SkewsService
 	}
 	
 	public void deleteShortSkewsDataByReferDate(String referDate ){
+		 tmpAuditSkewsEuribor4MttyRepository.deleteDataByReferDate(referDate);
+		 tmpAuditSkewsEuribor7MttyRepository.deleteDataByReferDate(referDate);
 		 shortSkewsRepository.deleteShortSkewsDataByReferDate(referDate);
 	}
     public void doCaclulation(String referDate)
    	{
    		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_long_skews");
+   		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
+   		query.setParameter("referDate",referDate );
+   		query.execute();
+   	}
+    public void doCaclulationLongSkews()
+   	{
+   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_long_skews_main");
+   		query.execute();
+   	}
+    public void doCaclulationShortSkews()
+   	{
+   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_short_skews_main");
+   		query.execute();
+   	}
+    public void doCaclulationForShortSkews(String referDate)
+   	{
+   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_short_skews");
    		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
    		query.setParameter("referDate",referDate );
    		query.execute();
@@ -208,6 +247,16 @@ public class SkewsService
 			longSkewsData = longSkewsRepository.findLongSkewsDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getGroupId()),Long.valueOf(updateDataDTO.getSubgroupId()),Long.valueOf(updateDataDTO.getFactor()));
 			longSkewsData.setValue(updateDataDTO.getValue());
 			longSkewsRepository.save(longSkewsData);
+		}
+	}
+  public void updateShortSkewsData(List<UpdateDataDTO> updateDataDTOlst) {
+		
+   		ShortSkewsData shortSkewsData;
+		for(UpdateDataDTO updateDataDTO:updateDataDTOlst)
+		{
+			shortSkewsData = shortSkewsRepository.findShortSkewsDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getGroupId()),Long.valueOf(updateDataDTO.getSubgroupId()),Long.valueOf(updateDataDTO.getFactor()));
+			shortSkewsData.setValue(updateDataDTO.getValue());
+			shortSkewsRepository.save(shortSkewsData);
 		}
 	}
     public String findLatestData(String skews)
@@ -281,17 +330,9 @@ public class SkewsService
 			    
 			    HashMap.Entry pair = (HashMap.Entry)it.next();
 			    String colsName = pair.getValue().toString();
-			    if (!colsName.equals("refer_date")&&!colsName.equals("id"))
-			    	{
-			    	ColumnConfiguration columnConfiguration = columnConfigurationRepository.findByDescriptionAndGroupId(colsName.split("\\.")[0],colsName.split("\\.")[1]);
-			    	columnDisplayDesc= columnConfiguration.getColumnName();
-			    	dataFormat= columnConfiguration.getDataFormat();
-			    	}
-			    	else
-			    	 {
-			    		columnDisplayDesc = columnConfigurationRepository.findColumnDispayDescription(colsName.replace("yr", ""));
-			    		dataFormat = columnConfigurationRepository.findColumnDataFormat(colsName.replace("yr", ""));
-					 }
+			    		columnDisplayDesc = columnConfigurationRepository.findColumnDispayDescription(colsName);
+			    		dataFormat = columnConfigurationRepository.findColumnDataFormat(colsName);
+					
 			    
 		        System.out.println(pair.getKey() + " = " + colsName);
 		        it.remove(); // avoids a ConcurrentModificationException
@@ -335,5 +376,157 @@ public class SkewsService
 		 hashData.put("columns", lstRowsDt);
 		return lstRowsDt;
 	}
-    
+	public List<GraphResponseColConfigDTO> getGraphDataByType(GraphRequestDTO graphReqDTO) {
+
+		boolean hasData= adminService.getData();
+	    if(!hasData)
+			return null;
+	
+		List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+		
+		if(graphReqDTO.getGroupId1()!=null)
+		{
+			l1.add(getGraphDataResult(graphReqDTO,false));
+		}
+		if(graphReqDTO.getIsFunctionGraph()!=null?graphReqDTO.getIsFunctionGraph().equals("true"):false)
+		{   
+		   l1.add(getGraphDataResult(graphReqDTO,true));
+		}
+		if(graphReqDTO.getGroupId2()!=null)
+		{
+			GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId2())
+					   .subGroupId1(graphReqDTO.getSubGroupId2())
+					   .period(graphReqDTO.getPeriod())
+					   .type(graphReqDTO.getType())
+					   .fromdate(graphReqDTO.getFromdate())
+					   .todate(graphReqDTO.getTodate())
+					   .functionId(graphReqDTO.getFunctionId())
+					   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+					   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+					   .factor1(graphReqDTO.getFactor2())
+					   .build();
+			l1.add(getGraphDataResult(graphRequestDTO,false));
+		}
+		if(graphReqDTO.getGroupId3()!=null)
+		{
+			GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId3())
+					   .subGroupId1(graphReqDTO.getSubGroupId3())
+					   .period(graphReqDTO.getPeriod())
+					   .type(graphReqDTO.getType())
+					   .fromdate(graphReqDTO.getFromdate())
+					   .todate(graphReqDTO.getTodate())
+					   .functionId(graphReqDTO.getFunctionId())
+					   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+					   .removeEmpty1(graphReqDTO.getRemoveEmpty3())
+					   .factor1(graphReqDTO.getFactor3())
+					   .build();
+			l1.add(getGraphDataResult(graphRequestDTO,false));
+		}
+			
+		return l1; 
+	
+	}
+	public GraphResponseColConfigDTO getGraphDataResult(GraphRequestDTO graphReqDTO, Boolean isFunction) {
+		boolean hasData= adminService.getData();
+	    if(!hasData)
+			return null;
+
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_graph_main",GraphResponseDTO.class);
+		
+		List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+		ColumnConfiguration config = null;
+		GraphResponseColConfigDTO graphResponseColConfigDTO = null;
+		
+		String groupId = graphReqDTO.getGroupId1();
+		String subGroupId = graphReqDTO.getSubGroupId1(); 
+		String factor = graphReqDTO.getFactor1(); 
+		String description = null;
+		description = tableManagementRepository.findByGroupIdAndSubgroupId(groupId,subGroupId).getColumnName();
+			
+		    System.out.println("goupid: "+groupId);
+		    System.out.println("subGroupId: "+subGroupId);
+		    System.out.println("description: "+description);
+		    
+		    config = adminService.getColumnsConfigurationByGroupAndFactor(groupId, subGroupId, factor);
+		    if (isFunction)
+		    {
+		    	FunctionConfiguration fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getFunctionId());
+				config = ColumnConfiguration.builder()
+						.chartColor(fConfig.getChartColor()==null?"#F0AB2E":fConfig.getChartColor())
+						.chartShowgrid(fConfig.getChartShowgrid())
+						.chartSize(fConfig.getChartSize())
+						.chartTransparency(fConfig.getChartTransparency()==null?"0.50":fConfig.getChartTransparency())
+						.chartType(fConfig.getChartType())
+						.chartshowMarkes(fConfig.getChartshowMarkes())
+						.displayDescription(fConfig.getDisplayDescription())
+						.yAxisFormat(fConfig.getYAxisFormat())
+						.startDate(fConfig.getStartDate())
+						.dataFormat(fConfig.getDataFormat())
+						.build();
+				
+		    }
+			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+			query.setParameter("groupId",graphReqDTO.getGroupId1() );
+			
+			query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
+			query.setParameter("subgroupId",graphReqDTO.getSubGroupId1() );
+			
+			query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query.setParameter("factor",graphReqDTO.getFactor1()  );
+			
+			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+			query.setParameter("dayOrweek",(isFunction)?"d":graphReqDTO.getPeriod()  );
+			
+			if(isFunction)
+			{query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
+			 query.setParameter("isFunction",graphReqDTO.getIsFunctionGraph() );
+			
+			 query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
+			 query.setParameter("functionCode",FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())));
+
+			 query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			 query.setParameter("type","0");
+			}
+			else {
+			query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
+			query.setParameter("isFunction","false");
+			
+			query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
+			query.setParameter("functionCode", "");
+			
+			query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+			query.setParameter("type",(graphReqDTO.getType()==null)?"0":graphReqDTO.getType());
+			}
+			
+			query.execute();
+			
+			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+			List<GraphResponseDTO> graphResponseDTOlstEmpty= VolumeUtil.removeReplaceEmptyValueWithNull(graphResponseDTOlst1);
+			graphResponseDTOlst1.clear();
+			graphResponseDTOlst1=graphResponseDTOlstEmpty;
+			
+			if (graphReqDTO.getRemoveEmpty1()!=null)
+				if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
+				{	
+					List<GraphResponseDTO> graphResponseDTOlst= VolumeUtil.removeEmptyY(graphResponseDTOlst1);
+					graphResponseDTOlst1.clear();
+					graphResponseDTOlst1=graphResponseDTOlst;
+				}
+				
+		  graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+					                  .graphResponseDTOLst(graphResponseDTOlst1)
+					                  .config(config)
+					                  .build();
+			entityManager.clear();
+			entityManager.close();
+		
+		return graphResponseColConfigDTO; 
+	    
+	}
 }

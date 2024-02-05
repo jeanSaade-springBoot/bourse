@@ -14,6 +14,8 @@ public class GenericDataFunctionReqDTO {
 	private String subgroupId;
 	private String groupId;
 	
+	private String factor;
+	
 	private String[] functions;  
 	
 	private String fromdate;

@@ -4256,6 +4256,547 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 	inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValue));
 
 }
+function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
+	
+	mode = "merge";
+	var dataParam;
+	var checkedItemValues = [];
+	$('#overlayChart').show();
+
+	var fromdate = formatDate(monthDate);
+	var todate = formatDate(date);
+	$("#mainChart").html("");
+	$("#mainChart").css("display", "block");
+	
+	if (checkDateMonth(monthDate, date)) {
+		$("#button-monthForward").prop('disabled', false);
+	}
+	else {
+		$("#button-monthForward").prop('disabled', true);
+	}
+
+	if (checkDateYear(monthDate, date)) {
+		$("#button-yearForward").prop('disabled', false);
+	}
+	else {
+		$("#button-yearForward").prop('disabled', true);
+	}
+
+	var Period = getChartPeriod();
+	var type = getSelectedType();
+	if (chart != null)
+		chart.destroy();
+
+	for (i = 0; i < checkedItemid.length; i++) {
+				if (checkedItemid[i] != null)
+					checkedItemValues.push(checkedItemid[i]);
+			}
+			
+
+	//chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options_missingDates : optionsWeekly);
+	chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options : ((functionId!=-1)?optionsWeekly:optionsWeeklyy));
+
+	chart.render();
+	
+	   if (functionId!=-1)
+		{	
+			
+		dataParam = { 
+	        		"fromdate":fromdate,
+	        	    "todate":todate,
+	        	    //"period": "d",
+	        	    "period":Period,
+	        	    "type": type,
+	        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
+	        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
+	        	    "isFunctionGraph":true,
+					"functionId":functionId+1,
+					"factor1":itemValue[checkedItemValues[0]].factor,
+					//"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
+					"removeEmpty1":removeEmpty
+     			   };
+
+			if (checkedItemValues.length > 1)
+				title = itemValue[checkedItemValues[0]].title + " vs " + itemValue[checkedItemValues[1]].title
+			else
+				title = itemValue[checkedItemValues[0]].title
+
+			disableOptions(true);
+			$.ajax({
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				url: "/"+graphService+"/getgraphdatabytype",
+				data: JSON.stringify(dataParam),
+				dataType: 'json',
+				timeout: 600000,
+				success: function(response) {
+					
+					startDateF1 = response[0].config.startDate;
+					startDateF2 = response[1].config.startDate;
+
+					if (startDateF1 != null)
+						startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
+					if (startDateF2 != null)
+						startDateF2 = new Date(startDateF2.split("-")[1] + "-" + startDateF2.split("-")[0] + "-" + startDateF2.split("-")[2]);
+					
+					T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
+					T2 = response[1].config.displayDescription == null ? itemValue[checkedItemValues[1]].title : response[1].config.displayDescription;
+					title = T1 + " vs " + T2;
+					if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
+						if (response[0].config.yAxisFormat.includes("%")) {
+							isdecimal = false;
+							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+								yaxisformat = response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+							else
+								yaxisformat = 0;
+						}
+						else {
+							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+								yaxisformat = response[0].config.yAxisFormat.split(".")[1].length
+							else
+								yaxisformat = 0
+
+							isdecimal = true;
+						}
+					}
+					else
+						yaxisformat = 3;
+
+					var getFormatResult0 = getFormat(response[0].config.dataFormat);
+					var getFormatResult1 = getFormat(response[1].config.dataFormat);
+
+					chartDbFontSize = response[0].config.chartSize;
+					fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
+					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
+					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+		
+				    chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+
+					var dbchartType1 = response[0].config.chartType;
+					chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
+
+					var dbchartType2 = response[1].config.chartType;
+					chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
+
+					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
+						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+							return item.y;
+						}));
+					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
+						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+							return item.y;
+						}));
+
+					min = Math.min(min1, min2);
+					max = Math.max(max1, max2);
+					
+					//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
+					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
+					minvalue = min;
+					maxvalue = max;
+					var value1 = getMarginLenght(min1); 
+					var value2 = getMarginLenght(min2); 
+					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+                    var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
+                    
+					notDecimal=yaxisformat0[1];
+					nbrOfDigits=yaxisformat0[0];
+					notDecimal1=yaxisformat1[1];
+					nbrOfDigits1=yaxisformat1[0];
+					
+					chartColor = response[0].config.chartColor;
+					chartTransparency=response[0].config.chartTransparency;
+					
+					 [5,6].includes(functionId+1) ? response[1].graphResponseDTOLst = updateSeriesValue(response[0].graphResponseDTOLst,response[1].graphResponseDTOLst):null;
+					
+					var chartConfigSettings={functionId:functionId+1,
+											 isDecimal:isdecimal,
+											 yAxisFormat0:yaxisformat0,
+											 yAxisFormat1:yaxisformat1,
+											 fontSize:fontsize,
+											 min1:min1,
+											 max1:max1,
+											 min2:min2,
+											 max2:max2,
+											 min:min,
+											 max:max,
+											 minvalue:minvalue,
+											 maxvalue:maxvalue,
+											 value1:value1,
+											 value2:value2,
+											 chartType1:chartType1,
+											 chartType2:chartType2,
+											 getFormatResult0:getFormatResult0,
+											 getFormatResult1:getFormatResult1,
+											 response:response,
+											 Period:Period,
+											 chartColor:chartColor,
+											 chartTransparency:chartTransparency,
+											 chartShowGrid:showGrid,
+											 overideChartype:typeof overide != 'undefined'? overide:null};
+											 	
+					updateChartByFunctionIdMissingDates(chartConfigSettings);	
+						
+					$('#overlayChart').hide();
+				},
+				error: function(e) {
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+		} 
+		else if (checkedItem == 2) {
+			
+		dataParam = { 
+	        		"fromdate":fromdate,
+	        	    "todate":todate,
+	        	    "period":"d",
+	        	    "type": type,
+	        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
+	        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
+	        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
+	        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
+		        	  //  "removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false,
+		        	   // "removeEmpty2":itemValue[checkedItemValues[1]].subGroupId==2?"true":false
+		        	 "removeEmpty1":removeEmpty,
+		        	 "removeEmpty2":removeEmpty,
+		        	 "factor1":itemValue[checkedItemValues[0]].factor,
+		        	 "factor2":itemValue[checkedItemValues[1]].factor,
+     			   };
+           enableDisableDropDowns(true);
+			if (checkedItemValues.length > 1)
+				title = itemValue[checkedItemValues[0]].title + " vs " + itemValue[checkedItemValues[1]].title
+			else
+				title = itemValue[checkedItemValues[0]].title
+
+			disableOptions(true);
+			$.ajax({
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				url: "/"+graphService+"/getgraphdatabytype",
+				data: JSON.stringify(dataParam),
+				dataType: 'json',
+				timeout: 600000,
+				success: function(response) {
+					startDateF1 = response[0].config.startDate;
+					startDateF2 = response[1].config.startDate;
+
+					if (startDateF1 != null)
+						startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
+					if (startDateF2 != null)
+						startDateF2 = new Date(startDateF2.split("-")[1] + "-" + startDateF2.split("-")[0] + "-" + startDateF2.split("-")[2]);
+					var dates = [];
+
+					T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
+					T2 = response[1].config.displayDescription == null ? itemValue[checkedItemValues[1]].title : response[1].config.displayDescription;
+					title = T1 + " vs " + T2;
+					if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
+						if (response[0].config.yAxisFormat.includes("%")) {
+							isdecimal = false;
+							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+								yaxisformat = response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+							else
+								yaxisformat = 0;
+						}
+						else {
+							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+								yaxisformat = response[0].config.yAxisFormat.split(".")[1].length
+							else
+								yaxisformat = 0
+
+							isdecimal = true;
+						}
+					}
+					else
+						yaxisformat = 3;
+
+					var getFormatResult0 = getFormat(response[0].config.dataFormat);
+					var getFormatResult1 = getFormat(response[1].config.dataFormat);
+
+					chartDbFontSize = response[0].config.chartSize;
+					fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
+					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
+					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+		
+					chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+
+					var dbchartType1 = response[0].config.chartType;
+					chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
+
+					var dbchartType2 = response[1].config.chartType;
+					chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
+
+					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
+						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+							return item.y;
+						}));
+					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
+						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+							return item.y;
+						}));
+
+					min = Math.min(min1, min2);
+					max = Math.max(max1, max2);
+					//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
+					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
+					minvalue = min;
+					maxvalue = max;
+					var valueMin = getMarginLenght(min); 
+			 		var valueMax = getMarginLenght(max);  				 	
+					
+					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+					
+					notDecimal=yaxisformat0[1];
+			    	nbrOfDigits=yaxisformat0[0];
+					chart.updateOptions({
+						series:[{
+						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
+						type:Period=='d' ? chartType1 : 'column',
+						data: response[0].graphResponseDTOLst
+					}, {
+						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
+						type:Period=='d' ? chartType2 : 'column',
+						data: response[1].graphResponseDTOLst
+					}],
+						xaxis: {
+					labels: {
+						rotate: -65,
+						rotateAlways: true,
+						minHeight: 0,
+						style: {
+							fontSize: '12px',
+						},
+						formatter: function(value, timestamp, opts) {
+							const options = { 
+									  day: 'numeric', 
+									  month: 'short', 
+									  year: 'numeric' 
+									};
+									const formattedDate = new Date(value).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');
+									
+				            return formattedDate;
+				          }
+					},
+					type: 'datetime',
+					tickAmount: 19,
+					axisBorder: {
+						show: true,
+						color: '#ffffff',
+						height: 3,
+						width: '100%',
+						offsetX: 0,
+						offsetY: 0
+					},
+				},
+						extra: {
+							isDecimal: isdecimal,
+							yAxisFormat: yaxisformat,
+						},
+						markers: {
+							colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
+							strokeColors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"]
+						},
+						yaxis: {
+							labels: {
+								minWidth: 75, maxWidth: 75,
+								style: {
+									fontSize: fontsize,
+								},
+								 formatter: function(val, index) {
+										 if (yaxisformat0[1])
+						  				  return  val.toFixed(yaxisformat0[0]);
+						  				else 
+						  				  return  val.toFixed(yaxisformat0[0]) + "%";
+									      }
+							},
+							tickAmount: 6,
+							min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
+							axisBorder: {
+								width: 3,
+								show: true,
+								color: '#ffffff',
+								offsetX: 0,
+								offsetY: 0
+							},
+						},
+						tooltip: {
+							x: {
+								show: false,
+							},
+							y: {
+								formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+									if (seriesIndex == 0) {
+										if (getFormatResult0[1])
+											return value.toFixed(getFormatResult0[0]);
+										else
+											return value.toFixed(getFormatResult0[0]) + "%";
+									} else
+										if (seriesIndex == 1) {
+											if (getFormatResult1[1])
+												return value.toFixed(getFormatResult1[0]);
+											else
+												return value.toFixed(getFormatResult1[0]) + "%";
+										}
+								},
+								title: {
+									formatter: (seriesName) => '',
+								},
+							},
+						},
+						
+					});
+					$('#overlayChart').hide();
+				},
+				error: function(e) {
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+
+		} else
+				 {
+					//enableDisableDropDowns(false);
+					title = itemValue[checkedItemValues[0]].title;
+
+					dataParam = {
+						"fromdate": fromdate,
+						"todate": todate,
+						"period":  Period,
+						"type": type,
+						"subGroupId1": itemValue[checkedItemValues[0]].subGroupId,
+						"groupId1": itemValue[checkedItemValues[0]].GroupId,
+						"isFunctionGraph":functionId=='-1'?false:true,
+						"functionId":functionId,
+						//"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
+						"removeEmpty1":removeEmpty,
+						"factor1":itemValue[checkedItemValues[0]].factor,
+					};
+					
+					$.ajax({
+						type: "POST",
+						contentType: "application/json; charset=utf-8",
+						url: "/"+graphService+"/getgraphdatabytype",
+						data: JSON.stringify(dataParam),
+						dataType: 'json',
+						timeout: 600000,
+						success: function(response) {
+						
+							newstartdate = new Date();
+							startDateF1 = response[0].config.startDate;
+							if (startDateF1 != null)
+								startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
+
+
+							T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
+							title = T1;
+							if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
+								if (response[0].config.yAxisFormat.includes("%")) {
+									isdecimal = false;
+									if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+										yaxisformat = response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+									else
+										yaxisformat = 0;
+								}
+								else {
+									if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+										yaxisformat = response[0].config.yAxisFormat.split(".")[1].length
+									else
+										yaxisformat = 0
+
+									isdecimal = true;
+								}
+							}
+							else
+								yaxisformat = 3;
+
+							var dbchartType1 = response[0].config.chartType;
+							chartType1 = getChartType(dbchartType1)[0];
+							curve1 = getChartType(dbchartType1)[1];
+							disableOptions(false);
+							var getFormatResult = getFormat(response[0].config.dataFormat);
+							chartDbFontSize = response[0].config.chartSize;
+							chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config.chartTransparency);
+							chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], chartType1, Period);
+							chartColor = chartType1=='line'?"#ffffff":checkActiveChartColor($("#chartColor").find(".active")[0], response[0].config.chartColor);
+							fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
+							markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+ 
+							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+							updateChartOption();
+							
+							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+								return item.y;
+							}));
+							max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+									return item.y;
+								}));
+							//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
+							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
+							minvalue = min;
+							maxvalue = max;
+							var yaxisformat = getFormat(response[0].config.yAxisFormat);
+							
+							notDecimal=yaxisformat[1];
+					        nbrOfDigits=yaxisformat[0];
+							
+							
+							var getFormatResult0 = getFormat(response[0].config.dataFormat);
+					       
+							var chartConfigSettings={functionId:functionId+1,
+											 isDecimal:isdecimal,
+											 yAxisFormat:yaxisformat,
+											 fontSize:fontsize,
+											 min:min,
+											 max:max,
+											 minvalue:minvalue,
+											 maxvalue:maxvalue,
+											 chartType1:chartType1,
+											 getFormatResult0:getFormatResult0,
+											 response:response,
+											 Period:Period,
+											 chartColor:chartColor,
+											 chartTransparency:chartTransparency,
+											 checkedItem:checkedItem};
+							//if(Period=='d')
+								updateChartSelectedItemMissingDates(chartConfigSettings);
+							//else
+							//	updateChartSelectedItem(chartConfigSettings);
+						    checkIfRenderFlag(graphName,itemValue[checkedItemValues[0]]);
+							$('#overlayChart').hide();
+
+						},
+						error: function(e) {
+
+							console.log("ERROR : ", e);
+
+						}
+					});
+					
+				}
+
+		    (saveHistory)?saveGraphHistory(graphName,checkedItemValues,Period,type):null;
+		    
+	$("#dateFrom-mainChart").val(fromdate);
+	$("#dateTo-mainChart").val(todate);
+	
+	inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValue));
+
+}
 function getGraphDataSovereign(graphName,itemsDataParam) {
 	mode = "merge";
 	var dataParam;
@@ -6367,9 +6908,10 @@ function navigationGraph(condition) {
 				
 	      	    	     notDecimal=yaxisformat[1];
 				         nbrOfDigits=yaxisformat[0];
+				       
 	      	    	     chart1.updateOptions({
 							   series:[{
-							          name: itemValue[checkedItemValues[0]].title,
+							          name: (itemValue[checkedItemValues[0]].title=="")?response[0].config.displayDescription:itemValue[checkedItemValues[0]].title,
 							          type: chartType1,
 							          data: response[0].graphResponseDTOLst
 							        }],
@@ -6652,7 +7194,7 @@ function navigationGraph(condition) {
 								     nbrOfDigits=yaxisformat[0];
 				      	    	    	chart2.updateOptions({
 											series:  [{
-								          name: itemValue[checkedItemValues[1]].title,
+								          name: (itemValue[checkedItemValues[1]].title=="")?response[0].config.displayDescription:itemValue[checkedItemValues[1]].title,
 								          type: chartType2,
 								          data: response[0].graphResponseDTOLst
 								         }],

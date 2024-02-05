@@ -223,6 +223,14 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/any2FxCds");
     }
+    @PreAuthorize("hasAuthority('ANY2_SKEWS_GRAPH_SCREEN') and principal.tacAccepted == true")
+   	@RequestMapping( value =  "/any2skews")
+       public ModelAndView anyTwoSkewsPage(ModelMap model, Authentication authentication)
+       {
+   	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+   	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+   		return new ModelAndView("html/skews/any2Skews");
+       }
 	@PreAuthorize("hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/precious")
     public ModelAndView preciousMetalsPage(ModelMap model, Authentication authentication)
@@ -418,6 +426,14 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/fxCdsDataFunctionDisplay");
     }
+	@PreAuthorize("hasAuthority('SKEWS_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/skewsdatafunctiondisplay")
+    public ModelAndView skewsDataFunctionDisplay(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/skews/skewsDataFunctionDisplay");
+    }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)
@@ -507,6 +523,7 @@ public class BourseController {
 		    model.addAttribute("liquidity", "html/templates/liquidity");
 		    model.addAttribute("volume", "html/templates/volume");
 		    model.addAttribute("fxcds", "html/templates/fxcds");
+		    model.addAttribute("skews", "html/templates/skews");
 		    model.addAttribute("serie", Integer.valueOf(serie));
 		    ModelAndView modelAndView = new ModelAndView("html/twoSeries");
 		    

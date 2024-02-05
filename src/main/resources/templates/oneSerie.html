@@ -78,19 +78,22 @@
 								class="navigation nav-item nav-link"
 								id="nav-datafunctiondisplay-tab" href="/bourse/oneserie?serie=1"
 								role="tab" aria-controls="nav-datafunctiondisplay"
-								aria-selected="false">YIELDS & RATES</a> <a
+								aria-selected="false">YIELDS & RATES</a> 
+								<a
 								sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"
 								th:classappend="${serie == 2} ? 'active' : ''"
 								class="navigation nav-item nav-link"
 								id="nav-datafunctiondisplay-tab" href="/bourse/oneserie?serie=2"
 								role="tab" aria-controls="nav-datametalfunctiondisplay"
-								aria-selected="false">COMMODITIES</a> <a
+								aria-selected="false">COMMODITIES</a>
+								 <a
 								sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"
 								th:classappend="${serie == 3} ? 'active' : ''"
 								class="navigation nav-item nav-link"
 								id="nav-datafunctiondisplay-tab" href="/bourse/oneserie?serie=3"
 								role="tab" aria-controls="nav-datametalfunctiondisplay"
-								aria-selected="false">LIQUIDITY</a> <a
+								aria-selected="false">LIQUIDITY</a> 
+								<a
 								sec:authorize="hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')"
 								th:classappend="${serie == 4} ? 'active' : ''"
 								class="navigation nav-item nav-link"

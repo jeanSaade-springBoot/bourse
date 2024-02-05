@@ -85,6 +85,7 @@ public class GraphService {
 					   .subGroupId1(graphReqDTO.getSubGroupId2())
 					   .period(graphReqDTO.getPeriod())
 					   .type(graphReqDTO.getType())
+					   .factor1(graphReqDTO.getFactor2())
 					   .fromdate(graphReqDTO.getFromdate())
 					   .todate(graphReqDTO.getTodate())
 					   .functionId(graphReqDTO.getFunctionId())
@@ -110,6 +111,7 @@ public class GraphService {
 		
 		String groupId = graphReqDTO.getGroupId1();
 		String subGroupId = graphReqDTO.getSubGroupId1(); 
+		String factor = graphReqDTO.getFactor1(); 
 		String description = null;
 		description = tableManagementRepository.findByGroupIdAndSubgroupId(groupId,subGroupId).getColumnName();
 			
@@ -117,10 +119,14 @@ public class GraphService {
 		    System.out.println("subGroupId: "+subGroupId);
 		    System.out.println("description: "+description);
 		    
-		    config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
-		    if (config==null)
-		    	config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, SubGroupEnum.getDescriptionByName(description));
-		    	
+		    if(factor!=null)
+		    config = adminService.getColumnsConfigurationByGroupAndFactor(groupId, subGroupId, factor);
+		    else 
+		    	{
+		    	config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+		    	if (config==null)
+		    		config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, SubGroupEnum.getDescriptionByName(description));
+		    	}
 		    if (isFunction)
 		    {
 		    	FunctionConfiguration fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getFunctionId());
@@ -149,6 +155,9 @@ public class GraphService {
 			
 			query.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
 			query.setParameter("subgroupId",graphReqDTO.getSubGroupId1() );
+			
+			query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query.setParameter("factor",graphReqDTO.getFactor1());
 			
 			query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query.setParameter("dayOrweek",(isFunction)?"d":graphReqDTO.getPeriod()  );

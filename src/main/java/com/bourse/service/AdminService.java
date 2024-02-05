@@ -87,7 +87,10 @@ public class AdminService
 	{      
         return columnConfigurationRepository.findByGroupIdAndSubgroupId(groupId, subgroupId);
 	}
-
+	public ColumnConfiguration getColumnsConfigurationByGroupAndFactor(String groupId,String subgroupId, String factor)
+	{      
+        return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndFactor(groupId, subgroupId,factor);
+	}
 	public ColumnConfiguration UpdateColumnConfigurationById(ColumnConfiguration columnConfiguration) {
 		// TODO Auto-generated method stub
 		Optional<ColumnConfiguration> col = columnConfigurationRepository.findById(columnConfiguration.getId());

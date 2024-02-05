@@ -213,14 +213,112 @@ var allitems = ["#jqxCheckBoxUSA-30",
 			    "#jqxCheckBoxmexico",
 				"#jqxCheckBoxsaudi",
 				"#jqxCheckBoxturkey",
-				"#jqxCheckBoxsouthafrica"];	
+				"#jqxCheckBoxsouthafrica",
+				"#jqxCheckBox-25-DP15_ATM-10"
+			, "#jqxCheckBox-25-DP15_ATM-11"
+			, "#jqxCheckBox-25-DP25_ATM-10"
+			, "#jqxCheckBox-25-DP25_ATM-11"
+			, "#jqxCheckBox-25-DC15_ATM-10"
+			, "#jqxCheckBox-25-DC15_ATM-11"
+			, "#jqxCheckBox-25-DC25_ATM-10"
+			, "#jqxCheckBox-25-DC25_ATM-11"
+			, "#jqxCheckBox-25-DP25_DC25-10"
+			, "#jqxCheckBox-25-DP25_DC25-11"
+			, "#jqxCheckBox-25-DP15_DC15-10"
+			, "#jqxCheckBox-25-DP15_DC15-11"
+			, "#jqxCheckBox-26-DP15_ATM-10"
+			, "#jqxCheckBox-26-DP25_ATM-10"
+			, "#jqxCheckBox-26-DC25_ATM-10"
+			, "#jqxCheckBox-26-DC15_ATM-10"
+			, "#jqxCheckBox-26-DP25_DC25-10"
+			, "#jqxCheckBox-26-DP15_DC15-10"
+			, "#jqxCheckBox-26-DP15_ATM-11"
+			, "#jqxCheckBox-26-DP25_ATM-11"
+			, "#jqxCheckBox-26-DC25_ATM-11"
+			, "#jqxCheckBox-26-DC15_ATM-11"
+			, "#jqxCheckBox-26-DP25_DC25-11"
+			, "#jqxCheckBox-26-DP15_DC15-11"
+			, "#jqxCheckBox-27-DP15_ATM-10"
+			, "#jqxCheckBox-27-DP25_ATM-10"
+			, "#jqxCheckBox-27-DC25_ATM-10"
+			, "#jqxCheckBox-27-DC15_ATM-10"
+			, "#jqxCheckBox-27-DP25_DC25-10"
+			, "#jqxCheckBox-27-DP15_DC15-10"
+			, "#jqxCheckBox-27-DP15_ATM-11"
+			, "#jqxCheckBox-27-DP25_ATM-11"
+			, "#jqxCheckBox-27-DC25_ATM-11"
+			, "#jqxCheckBox-27-DC15_ATM-11"
+			, "#jqxCheckBox-27-DP25_DC25-11"
+			, "#jqxCheckBox-27-DP15_DC15-11"
+			, "#jqxCheckBox-28-DP15_ATM-10"
+			, "#jqxCheckBox-28-DP25_ATM-10"
+			, "#jqxCheckBox-28-DC25_ATM-10"
+			, "#jqxCheckBox-28-DC15_ATM-10"
+			, "#jqxCheckBox-28-DP25_DC25-10"
+			, "#jqxCheckBox-28-DP15_DC15-10"
+			, "#jqxCheckBox-28-DP15_ATM-11"
+			, "#jqxCheckBox-28-DP25_ATM-11"
+			, "#jqxCheckBox-28-DC25_ATM-11"
+			, "#jqxCheckBox-28-DC15_ATM-11"
+			, "#jqxCheckBox-28-DP25_DC25-11"
+			, "#jqxCheckBox-28-DP15_DC15-11"
+			, "#jqxCheckBox-29-DP15_ATM-10"
+			, "#jqxCheckBox-29-DP25_ATM-10"
+			, "#jqxCheckBox-29-DC25_ATM-10"
+			, "#jqxCheckBox-29-DC15_ATM-10"
+			, "#jqxCheckBox-29-DP25_DC25-10"
+			, "#jqxCheckBox-29-DP15_DC15-10"
+			, "#jqxCheckBox-29-DP15_ATM-11"
+			, "#jqxCheckBox-29-DP25_ATM-11"
+			, "#jqxCheckBox-29-DC25_ATM-11"
+			, "#jqxCheckBox-29-DC15_ATM-11"
+			, "#jqxCheckBox-29-DP25_DC25-11"
+			, "#jqxCheckBox-29-DP15_DC15-11",
+			"#jqxCheckBox-30-DP15_ATM-12"
+			, "#jqxCheckBox-30-DP25_ATM-12"
+			, "#jqxCheckBox-30-DC25_ATM-12"
+			, "#jqxCheckBox-30-DC15_ATM-12"
+			, "#jqxCheckBox-30-DP25_DC25-12"
+			, "#jqxCheckBox-30-DP15_DC15-12"
+			, "#jqxCheckBox-30-DP15_ATM-13"
+			, "#jqxCheckBox-30-DP25_ATM-13"
+			, "#jqxCheckBox-30-DC25_ATM-13"
+			, "#jqxCheckBox-30-DC15_ATM-13"
+			, "#jqxCheckBox-30-DP25_DC25-13"
+			, "#jqxCheckBox-30-DP15_DC15-13"
+			, "#jqxCheckBox-31-DP15_ATM-12"
+			, "#jqxCheckBox-31-DP25_ATM-12"
+			, "#jqxCheckBox-31-DC25_ATM-12"
+			, "#jqxCheckBox-31-DC15_ATM-12"
+			, "#jqxCheckBox-31-DP25_DC25-12"
+			, "#jqxCheckBox-31-DP15_DC15-12"
+			, "#jqxCheckBox-31-DP15_ATM-13"
+			, "#jqxCheckBox-31-DP25_ATM-13"
+			, "#jqxCheckBox-31-DC25_ATM-13"
+			, "#jqxCheckBox-31-DC15_ATM-13"
+			, "#jqxCheckBox-31-DP25_DC25-13"
+			, "#jqxCheckBox-31-DP15_DC15-13",
+			"#jqxCheckBox-30-DP15_ATM-10"
+			, "#jqxCheckBox-30-DP25_ATM-10"
+			, "#jqxCheckBox-30-DC25_ATM-10"
+			, "#jqxCheckBox-30-DC15_ATM-10"
+			, "#jqxCheckBox-30-DP25_DC25-10"
+			, "#jqxCheckBox-30-DP15_DC15-10"
+			, "#jqxCheckBox-31-DP15_ATM-10"
+			, "#jqxCheckBox-31-DP25_ATM-10"
+			, "#jqxCheckBox-31-DC25_ATM-10"
+			, "#jqxCheckBox-31-DC15_ATM-10"
+			, "#jqxCheckBox-31-DP25_DC25-10"
+			, "#jqxCheckBox-31-DP15_DC15-10"];	
 
 const graphName=""; 
 var selectedYieldsCount=0;
 var selectedCommoditiesCount=0;	
 var selectedLiquidityCount=0;		
 var selectedVolumeCount=0;		
-var selectedFxCdsCount=0;				   
+var selectedFxCdsCount=0;		
+var selectedSkewsCount=0;		
+	   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -278,6 +376,11 @@ $(document).ready(function() {
 				   selectedFxCdsCount = updateCount(checked,selectedFxCdsCount)
 				   updateTabTitles(selectedFxCdsCount);
 			   }
+			   	   else if (["25", "26", "27","28", "29", "30", "31"].includes(itemValue["#" + checkboxId].GroupId))
+			   {
+				   selectedSkewsCount = updateCount(checked,selectedSkewsCount)
+				   updateTabTitles(selectedSkewsCount);
+			   }
 	   
 	    });
 	    $("#Clearfilter").click(function() {
@@ -286,6 +389,7 @@ $(document).ready(function() {
 			 selectedLiquidityCount=0;		
 			 selectedVolumeCount=0;	
 			 selectedFxCdsCount=0;
+			 selectedSkewsCount=0;
 			  $(".tab-pane").each(function () {
                     var tabId = $(this).attr("id");
                     var tabTitle = $("#" + tabId + "-tab").text().split("(")[0]; // Extract tab title without count
@@ -297,6 +401,7 @@ $(document).ready(function() {
 function drawGraph() {
 	const removeEmpty = true;
 	const key = ['yield', 'curve', 'cross'];
+	const groupWithFactor = ["25", "26", "27","28", "29", "30", "31"];
 	
 	mode = "merge";
 	$("#SubChart1").css("display","none");
@@ -317,6 +422,10 @@ function drawGraph() {
   		              if (key.includes(groupId)) {
 						var itemsDataParam;
 						getGraphDataSovereign(graphName, itemsDataParam);
+					}
+					else if(groupWithFactor.includes(groupId)){
+						 graphService = "skews";
+						 getGraphDataWithFactor(graphService,graphName,removeEmpty,false);
 					}
 					else {
 						getGraphData(graphService, graphName, removeEmpty, false);
