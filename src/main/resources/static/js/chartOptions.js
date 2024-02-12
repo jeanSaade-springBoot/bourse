@@ -149,9 +149,11 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 	activateChartLegend(SelectedchartType);
 	activateChartColor(SelectedchartType);
 	
-	var valueMin = getMarginLenght(minvalue); 
-	var valueMax = getMarginLenght(maxvalue);  
-	
+	//var valueMin = getMarginLenght(minvalue); 
+	//var valueMax = getMarginLenght(maxvalue);  
+	 const values = addMarginToMinMax(minvalue, maxvalue, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
 	if (SelectedchartType=='area')
       chart.updateOptions({
 		     legend: {
@@ -349,6 +351,7 @@ function updateGraphConfigurationVolumes(SelectedchartType,selectedChartColor,se
 	
 	var valueMin = getMarginLenghtVolume(minvalue); 
 	var valueMax = getMarginLenghtVolume(maxvalue); 
+	
 	chart.updateSeries([{ type:SelectedchartType}]);
 	if (SelectedchartType=='area')
       chart.updateOptions({
@@ -576,9 +579,11 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 	activateChartLegend(SelectedchartType);
 	activateChartColor(SelectedchartType);
 	
-	var valueMin = getMarginLenght(minvalue); 
-	var valueMax = getMarginLenght(maxvalue); 
-	
+	//var valueMin = getMarginLenght(minvalue); 
+	//var valueMax = getMarginLenght(maxvalue); 
+		 const values = addMarginToMinMax(minvalue, maxvalue, 5);
+				     var valueMin = values;
+				     var valueMax = values; 
 	if (SelectedchartType=='area')
       chart.updateOptions({
 		     legend: {

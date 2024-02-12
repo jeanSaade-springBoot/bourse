@@ -1649,7 +1649,7 @@ var itemValue = {
   },
   "#jqxCheckBox-25-DC15_ATM-10": { 
 "factor":"10",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "25",
     "description": "DC15_ATM-10",
     "title": "",
@@ -1657,7 +1657,7 @@ var itemValue = {
   },
   "#jqxCheckBox-25-DC15_ATM-11": { 
 "factor":"11",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "25",
     "description": "DC15_ATM-11",
     "title": "",
@@ -1665,7 +1665,7 @@ var itemValue = {
   },
   "#jqxCheckBox-25-DC25_ATM-10": { 
 "factor":"10",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "25",
     "description": "DC25_ATM-10",
     "title": "",
@@ -1673,7 +1673,7 @@ var itemValue = {
   },
   "#jqxCheckBox-25-DC25_ATM-11": { 
 "factor":"11",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "25",
     "description": "DC25_ATM-11",
     "title": "",
@@ -1825,7 +1825,7 @@ var itemValue = {
   },
   "#jqxCheckBox-26-DC15_ATM-10": { 
 "factor":"10",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "26",
     "description": "DC15_ATM-10",
     "title": "",
@@ -1833,7 +1833,7 @@ var itemValue = {
   },
   "#jqxCheckBox-26-DC15_ATM-11": { 
 "factor":"11",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "26",
     "description": "DC15_ATM-11",
     "title": "",
@@ -1841,7 +1841,7 @@ var itemValue = {
   },
   "#jqxCheckBox-26-DC25_ATM-10": { 
 "factor":"10",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "26",
     "description": "DC25_ATM-10",
     "title": "",
@@ -1849,7 +1849,7 @@ var itemValue = {
   },
   "#jqxCheckBox-26-DC25_ATM-11": { 
 "factor":"11",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "26",
     "description": "DC25_ATM-11",
     "title": "",
@@ -2001,7 +2001,7 @@ var itemValue = {
   },
   "#jqxCheckBox-27-DC15_ATM-10": { 
 "factor":"10",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "27",
     "description": "DC15_ATM-10",
     "title": "",
@@ -2009,7 +2009,7 @@ var itemValue = {
   },
   "#jqxCheckBox-27-DC15_ATM-11": { 
 "factor":"11",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "27",
     "description": "DC15_ATM-11",
     "title": "",
@@ -2017,7 +2017,7 @@ var itemValue = {
   },
   "#jqxCheckBox-27-DC25_ATM-10": { 
 "factor":"10",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "27",
     "description": "DC25_ATM-10",
     "title": "",
@@ -2025,7 +2025,7 @@ var itemValue = {
   },
   "#jqxCheckBox-27-DC25_ATM-11": { 
 "factor":"11",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "27",
     "description": "DC25_ATM-11",
     "title": "",
@@ -2177,7 +2177,7 @@ var itemValue = {
   },
   "#jqxCheckBox-28-DC15_ATM-10": { 
 "factor":"10",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "28",
     "description": "DC15_ATM-10",
     "title": "",
@@ -2185,7 +2185,7 @@ var itemValue = {
   },
   "#jqxCheckBox-28-DC15_ATM-11": { 
 "factor":"11",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "28",
     "description": "DC15_ATM-11",
     "title": "",
@@ -2193,7 +2193,7 @@ var itemValue = {
   },
   "#jqxCheckBox-28-DC25_ATM-10": { 
 "factor":"10",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "28",
     "description": "DC25_ATM-10",
     "title": "",
@@ -2201,7 +2201,7 @@ var itemValue = {
   },
   "#jqxCheckBox-28-DC25_ATM-11": { 
 "factor":"11",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "28",
     "description": "DC25_ATM-11",
     "title": "",
@@ -2353,7 +2353,7 @@ var itemValue = {
   },
   "#jqxCheckBox-29-DC15_ATM-10": { 
 "factor":"10",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "29",
     "description": "DC15_ATM-10",
     "title": "",
@@ -2361,7 +2361,7 @@ var itemValue = {
   },
   "#jqxCheckBox-29-DC15_ATM-11": { 
 "factor":"11",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "29",
     "description": "DC15_ATM-11",
     "title": "",
@@ -2369,7 +2369,7 @@ var itemValue = {
   },
   "#jqxCheckBox-29-DC25_ATM-10": { 
 "factor":"10",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "29",
     "description": "DC25_ATM-10",
     "title": "",
@@ -2377,7 +2377,7 @@ var itemValue = {
   },
   "#jqxCheckBox-29-DC25_ATM-11": { 
 "factor":"11",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "29",
     "description": "DC25_ATM-11",
     "title": "",
@@ -2530,7 +2530,7 @@ var itemValue = {
   },
   "#jqxCheckBox-30-DC15_ATM-10": {
 	"factor":"10",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "30",
     "description": "DC15_ATM-10",
     "title": "",
@@ -2538,7 +2538,7 @@ var itemValue = {
   },
   "#jqxCheckBox-30-DC15_ATM-13": {
 	"factor":"13",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "30",
     "description": "DC15_ATM-13",
     "title": "",
@@ -2546,7 +2546,7 @@ var itemValue = {
   },
   "#jqxCheckBox-30-DC25_ATM-10": {
 	"factor":"10",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "30",
     "description": "DC25_ATM-10",
     "title": "",
@@ -2554,7 +2554,7 @@ var itemValue = {
   },
   "#jqxCheckBox-30-DC25_ATM-13": {
 	"factor":"13",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "30",
     "description": "DC25_ATM-13",
     "title": "",
@@ -2706,7 +2706,7 @@ var itemValue = {
   },
   "#jqxCheckBox-31-DC15_ATM-10": {
 	"factor":"10",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "31",
     "description": "DC15_ATM-10",
     "title": "",
@@ -2714,7 +2714,7 @@ var itemValue = {
   },
   "#jqxCheckBox-31-DC15_ATM-13": {
 	"factor":"13",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "31",
     "description": "DC15_ATM-13",
     "title": "",
@@ -2722,7 +2722,7 @@ var itemValue = {
   },
   "#jqxCheckBox-31-DC25_ATM-10": {
 	"factor":"10",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "31",
     "description": "DC25_ATM-10",
     "title": "",
@@ -2730,7 +2730,7 @@ var itemValue = {
   },
   "#jqxCheckBox-31-DC25_ATM-13": {
 	"factor":"13",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "31",
     "description": "DC25_ATM-13",
     "title": "",
@@ -2827,7 +2827,7 @@ var itemValue = {
   },
   "#jqxCheckBox-30-DC15_ATM-12": {
 	"factor":"12",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "30",
     "description": "DC15_ATM-12",
     "title": "",
@@ -2835,7 +2835,7 @@ var itemValue = {
   },
   "#jqxCheckBox-30-DC25_ATM-12": {
 	"factor":"12",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "30",
     "description": "DC25_ATM-12",
     "title": "",
@@ -2917,7 +2917,7 @@ var itemValue = {
   },
   "#jqxCheckBox-31-DC15_ATM-12": {
 	"factor":"12",
-    "subGroupId": "8",
+    "subGroupId": "9",
     "GroupId": "31",
     "description": "DC15_ATM-12",
     "title": "",
@@ -2925,7 +2925,7 @@ var itemValue = {
   },
   "#jqxCheckBox-31-DC25_ATM-12": {
 	"factor":"12",
-    "subGroupId": "9",
+    "subGroupId": "8",
     "GroupId": "31",
     "description": "DC25_ATM-12",
     "title": "",

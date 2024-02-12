@@ -4307,9 +4307,13 @@
 	      	    	   
 	      	    	    minvalue=min;
 	      	    	    maxvalue=max;
-	      	    	   	var valueMin = getMarginLenght(min); 
-			 	    	var valueMax = getMarginLenght(max);  				 	
-				
+	      	    	   //	var valueMin = getMarginLenght(min); 
+			 	      // var valueMax = getMarginLenght(max);  	
+			 	    				 	
+				 const values = addMarginToMinMax(min, max, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
+				     
 	      	    	     notDecimal=yaxisformat[1];
 				         nbrOfDigits=yaxisformat[0];
 	      	    	     chart1.updateOptions({
@@ -4587,8 +4591,11 @@
 				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
-	      	    	         	     var valueMin = getMarginLenght(min); 
-			 		                 var valueMax = getMarginLenght(max);  				 	
+	      	    	 //	       var valueMin = getMarginLenght(min); 
+			 		//                 var valueMax = getMarginLenght(max);  	
+			 		                  const values = addMarginToMinMax(min, max, 5);
+				     var valueMin = values;
+				     var valueMax = values; 				 	
 				   					 var yaxisformat = getFormat(response[0].config.yAxisFormat);
 					
 				      	    	     notDecimal=yaxisformat[1];
@@ -4660,9 +4667,11 @@
 			}
 			function updateGraphFont(fontsize,minvalue,maxvalue){
 				
-					var valueMin = getMarginLenght(minvalue); 
-			 		var valueMax = getMarginLenght(maxvalue);  				 	
-				
+					//var valueMin = getMarginLenght(minvalue); 
+			 		//var valueMax = getMarginLenght(maxvalue);  				 	
+				 const values = addMarginToMinMax(minvalue, maxvalue, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
 				if(chart1!=null)
 					chart1.updateOptions({
 						xaxis: {

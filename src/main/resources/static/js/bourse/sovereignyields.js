@@ -977,7 +977,7 @@
 						    	    	        url: "/bourse/savesovereigndata",
 						    	    	        data: JSON.stringify(dataToBeInserted),
 						    	    	        dataType: 'json',
-						    	    	        async:true,
+						    	    	        async:false,
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {
@@ -1490,7 +1490,7 @@
 	    	        url: "/bourse/savesovereigndata",
 	    	        data: JSON.stringify(dataDTO),
 	    	        dataType: 'json',
-	    	        async:true,
+	    	        async:false,
 	    	        cache: false,
 	    	        timeout: 600000,
 	    	        success: function (data) {
@@ -2385,7 +2385,7 @@
 						    	    	        url: "/bourse/savecorporatedata",
 						    	    	        data: JSON.stringify(dataToBeInserted),
 						    	    	        dataType: 'json',
-						    	    	        async:true,
+						    	    	        async:false,
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {

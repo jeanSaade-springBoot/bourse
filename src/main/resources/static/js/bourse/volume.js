@@ -1255,7 +1255,7 @@
 						    	    	        url: saveUrl,
 						    	    	        data: JSON.stringify(dataToBeInserted),
 						    	    	        dataType: 'json',
-						    	    	        async:true,
+						    	    	        async:false,
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {

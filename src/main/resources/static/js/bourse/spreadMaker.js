@@ -3194,8 +3194,8 @@
 				      	    	   //  maxvalue = parseFloat((Math.floor(max*roundingFactor)/roundingFactor).toFixed(2));
 				      	    	      minvalue = min;
 				      	    	      maxvalue = max;
-				      	    	     var value = getMarginLenght(minvalue);  
-				      	    	    	
+				      	    	     var value = addMarginToMinMax(min, max, 5);
+				    	
 			      				     var yaxisformat = getFormat(response[0].config[0].yAxisFormat);
 
 				      	    	     notDecimal=yaxisformat[1];

@@ -736,7 +736,7 @@ var ShortSkewsItem = ['#jqxCheckBox-30-DP15-12'
                     	for (var i = 0; i < keys.length; i++) {
 					        var field = keys[i];
 					        if (updatedDataJson[field] !== oldDataJson[field]) {
-								debugger;
+								
 					            dataToBeUpdated.push({
 								   "subgroupId":getSubgroupIdByName(field.toUpperCase()),
 		            			   "factor":getfactorIdByDescription(updatedDataJson.factor),
@@ -1503,7 +1503,7 @@ var ShortSkewsItem = ['#jqxCheckBox-30-DP15-12'
 						    	    	        url: saveUrl,
 						    	    	        data: JSON.stringify(dataToBeInserted),
 						    	    	        dataType: 'json',
-						    	    	        async:true,
+						    	    	        async:false,
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {

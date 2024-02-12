@@ -502,8 +502,8 @@ public class MetalsService {
 			query1.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
 			query1.setParameter("subgroupId",graphReqDTO.getSubGroupId2() );
 			
-			query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
-			query.setParameter("factor",graphReqDTO.getFactor2());
+			query1.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query1.setParameter("factor",graphReqDTO.getFactor2());
 			
 			query1.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query1.setParameter("dayOrweek",graphReqDTO.getPeriod() );
@@ -876,8 +876,8 @@ public class MetalsService {
 			query1.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
 			query1.setParameter("subgroupId",graphReqDTO.getSubGroupId2() );
 			
-			query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
-			query.setParameter("factor",graphReqDTO.getFactor2());
+			query1.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+			query1.setParameter("factor",graphReqDTO.getFactor2());
 			
 			query1.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
 			query1.setParameter("dayOrweek",graphReqDTO.getPeriod() );

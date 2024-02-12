@@ -1113,13 +1113,22 @@ var chartOption = {
    	    	             	    	          
 function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
         		 
-				var valueMin1 = getMarginLenght(min1);  
-				var valueMin2 = getMarginLenght(min2);  
-				var valueMax1 = getMarginLenght(max1);  
-				var valueMax2 = getMarginLenght(max2);  
+				//var valueMin1 = getMarginLenght(min1);  
+				//var valueMin2 = getMarginLenght(min2);  
+				
+				//var valueMax1 = getMarginLenght(max1);  
+				//var valueMax2 = getMarginLenght(max2);  
 				//console.log(fontsize,min1,max1,min2,max2,valueMin1,valueMin2,valueMax1,valueMax2)
+				 const values1 = addMarginToMinMax(min1, max1, 5);
+				     var valueMin1 = values1;
+				     var valueMax1 = values1; 	
+				     
+				  const values2 = addMarginToMinMax(min2, max2, 5);
+				     var valueMin2 = values2;
+				     var valueMax2 = values2; 
+				     	    
 		   	    var selectedValue = Math.abs(min2)>=Math.abs(max2)?Math.abs(min2):Math.abs(max2);
-                 
+                 selectedValue = selectedValue+values2;
                  
 				chart.updateOptions({
 						   
@@ -1210,9 +1219,11 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 			  	    	             	    	          
 function updateGraphFont(fontsize,minvalue,maxvalue){
 
-				var valueMin = getMarginLenght(minvalue); 
-				var valueMax = getMarginLenght(maxvalue); 
-				
+				//var valueMin = getMarginLenght(minvalue); 
+				//var valueMax = getMarginLenght(maxvalue); 
+				 const values = addMarginToMinMax(minvalue, maxvalue, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
 					   chart.updateOptions({
 							xaxis: {
 					        	labels: {
@@ -1456,20 +1467,21 @@ function getFormat(Format)
 	return getlength(value)>=3?10:(value<=0.1)?0.01:0.05; 
 }*/	
 function addMarginToMinMax(minValue, maxValue, marginPercentage) {
-    minValue = Math.abs(minValue);
-    maxValue = Math.abs(maxValue);
 
-    // Calculate the margin based on the specified percentage
+   
     const margin = (maxValue - minValue) * (marginPercentage / 100);
 
-    // Add the margin to both min and max values
-    const newMinValue = minValue - margin;
-    const newMaxValue = maxValue + margin;
-
-    return { newMinValue, newMaxValue };
+    return margin;
 }
 function getMarginLenght(value) { 
-	 value = Math.abs(value);
+	value = Math.abs(value);
+	   
+    const baseMargin = 0.05;
+
+    const dynamicMargin = baseMargin * value;
+    
+    return dynamicMargin;
+	/* value = Math.abs(value);
 	if (value <= 0.001) {
         return 0.0005;
     } else if (value <= 0.01) {
@@ -1519,21 +1531,19 @@ function getMarginLenght(value) {
     } else if (value <= 1000000) {
         return 500;
     } else 
-    return 1000;
+    return 1000; */
 }	
 function getMarginLenghtVolume(value) { 
-	/* value = Math.abs(value);
-	   // Adjust these factors based on your desired dynamic behavior
+	 value = Math.abs(value);
+	   
     const baseMargin = 0.05;
     const multiplier = 0.02;
 
-    // Calculate the dynamic margin based on the input value
     const dynamicMargin = baseMargin + multiplier * value;
-
-    // Ensure the margin is within a reasonable range
-    return Math.min(dynamicMargin, 0.3);
-    */
-	
+	console.log(baseMargin , multiplier , value)
+    return dynamicMargin;
+  
+	/*
 	 value = Math.abs(value);
 	if (value <= 0.001) {
         return 0.0005;
@@ -1585,7 +1595,7 @@ function getMarginLenghtVolume(value) {
         return 500000;
     } else 
     return 1000000;
-  
+  */
     
 }
  function enableDisableDropDowns(value){
@@ -1598,10 +1608,16 @@ function getMarginLenghtVolume(value) {
 	  ($('#groupOfPeriod').length)?$('#groupOfPeriod').jqxButtonGroup('setSelection', 0):null;  
  }
  function updateChartByFunctionId(chartConfigSettings){
-			 var valueMin = getMarginLenght(chartConfigSettings.min); 
-			 var valueMax = getMarginLenght(chartConfigSettings.max); 
-			 var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
-			 var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
+			 //var valueMin = getMarginLenght(chartConfigSettings.min); 
+			// var valueMax = getMarginLenght(chartConfigSettings.max); 
+			 //var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
+			 //var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
+			  const values1 = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
+				     var valueMin = values1;
+				     var valueMax = values1; 
+			 const values2 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
+				     var valueMin = values2;
+				     var valueMax = values2; 		
 				//		console.log(chartConfigSettings.fontSize,chartConfigSettings.min1,chartConfigSettings.max1,chartConfigSettings.min2,chartConfigSettings.max2,valueMin,valueMin1,valueMax,valueMax1)
 			     if(chartConfigSettings.functionId==1 || chartConfigSettings.functionId==2)
 			     { 
@@ -1783,6 +1799,7 @@ function getMarginLenghtVolume(value) {
     	    		
 				}else  {
 				     var selectedValue = Math.abs(chartConfigSettings.min2)>=Math.abs(chartConfigSettings.max2)?Math.abs(min2):Math.abs(max2);
+					selectedValue=selectedValue+values2;
 					 chart.updateOptions({
 						series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -1903,11 +1920,13 @@ function getMarginLenghtVolume(value) {
 				}
 }
  function updateChartByFunctionIdMissingDates(chartConfigSettings){
-			 var valueMin = getMarginLenght(chartConfigSettings.min); 
-			 var valueMax = getMarginLenght(chartConfigSettings.max); 
-			 var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
-			 var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
-	
+			// var valueMin = getMarginLenght(chartConfigSettings.min); 
+			// var valueMax = getMarginLenght(chartConfigSettings.max); 
+			// var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
+			// var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
+		 const values = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
+				     var valueMin1 = values;
+				     var valueMax1 = values; 
 	 selectedChartColor= typeof $("#chartColor").find(".active")[0] != 'undefined'? '#'+ $("#chartColor").find(".active")[0].id : chartConfigSettings.chartColor;
 		
 	chartConfigSettings.chartType =
@@ -1930,8 +1949,11 @@ function getMarginLenghtVolume(value) {
 
 				  if(chartConfigSettings.functionId==1 || chartConfigSettings.functionId==2)
 			     {
-					 var valueMin1 = getMarginLenght(chartConfigSettings.min); 
-			         var valueMax1 = getMarginLenght(chartConfigSettings.max); 
+					// var valueMin1 = getMarginLenght(chartConfigSettings.min); 
+			        // var valueMax1 = getMarginLenght(chartConfigSettings.max); 
+			          const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
+				     var valueMin1 = values;
+				     var valueMax1 = values; 
 					  chart.updateOptions({
 						 series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -2174,6 +2196,11 @@ function getMarginLenghtVolume(value) {
     	    		}); 
     	    		
 				}else  {
+					   const values = addMarginToMinMax(chartConfigSettings.min2, chartConfigSettings.max2, 5);
+	
+				     var valueMin2 = values;
+				     var valueMax2 = values; 
+				     				 
 				     var selectedValue = Math.abs(chartConfigSettings.min2)>=Math.abs(chartConfigSettings.max2)?Math.abs(min2):Math.abs(max2);
 					 chart.updateOptions({
 						 series:[{
@@ -2266,8 +2293,8 @@ function getMarginLenghtVolume(value) {
 									      }
  				        	  },
  				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue) : Math.abs(selectedValue),
- 				    	  max:Math.sign(chartConfigSettings.max2)==-1 ? -Math.abs(selectedValue) : Math.abs(selectedValue),
+ 				    	  min:Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue + valueMin2) : Math.abs(selectedValue + valueMin2),
+ 				    	  max:Math.sign(chartConfigSettings.max2)==-1 ? -Math.abs(selectedValue + valueMax2) : Math.abs(selectedValue + valueMax2),
  				    			  axisBorder: {
  					                  width: 3,
  					                  show: true,
@@ -2333,9 +2360,11 @@ function updateChartSelectedItem(chartConfigSettings){
 			     if(chartConfigSettings.checkedItem ==1 )
 			     {
 					
-					 var valueMin = getMarginLenght(chartConfigSettings.min); 
-			 		 var valueMax = getMarginLenght(chartConfigSettings.max);  				 	
-							
+					// var valueMin = getMarginLenght(chartConfigSettings.min); 
+			 		// var valueMax = getMarginLenght(chartConfigSettings.max);  				 	
+						 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
+				     var valueMin = values;
+				     var valueMax = values; 		
 							chart.updateOptions({
 								series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -2399,11 +2428,17 @@ function updateChartSelectedItem(chartConfigSettings){
 				}
 				else if(chartConfigSettings.checkedItem ==2 )
 				{
-						 var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
-						 var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
-						 var valueMin2 = getMarginLenght(chartConfigSettings.min2);
-						 var valueMax2 = getMarginLenght(chartConfigSettings.max2); 
-						 
+						// var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
+						// var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
+						// var valueMin2 = getMarginLenght(chartConfigSettings.min2);
+						// var valueMax2 = getMarginLenght(chartConfigSettings.max2); 
+						  const values1 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
+				     var valueMin1 = values1;
+				     var valueMax1 = values1; 	
+				      const values2 = addMarginToMinMax(chartConfigSettings.min2, chartConfigSettings.max2, 5);
+				     var valueMin2 = values2;
+				     var valueMax2 = values2; 	
+				     
 						 chart.updateOptions({
 							  series:[{
 							          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
@@ -2524,10 +2559,14 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 			
 			     if(chartConfigSettings.checkedItem ==1 )
 			     {
-					
+					/*
 					 var valueMin = getMarginLenght(chartConfigSettings.min); 
 			 		 var valueMax = getMarginLenght(chartConfigSettings.max);  				 	
-							
+				    */
+				     const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
+				     
 							chart.updateOptions({
 								series:[{
 										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -2617,11 +2656,18 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 				}
 				else if(chartConfigSettings.checkedItem ==2 )
 				{
-						 var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
-						 var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
-						 var valueMin2 = getMarginLenght(chartConfigSettings.min2);
-						 var valueMax2 = getMarginLenght(chartConfigSettings.max2); 
-						 
+						 //var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
+						 //var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
+						// var valueMin2 = getMarginLenght(chartConfigSettings.min2);
+						// var valueMax2 = getMarginLenght(chartConfigSettings.max2); 
+					 const values1 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
+					 var valueMin1 = values1;
+					 var valueMax1 = values1;
+
+					 const values2 = addMarginToMinMax(chartConfigSettings.min2, chartConfigSettings.max2, 5);
+					 var valueMin2 = values2;
+					 var valueMax2 = values2;
+
       	    	    	chart.updateOptions({
 						  series:[{
 						          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
@@ -2729,9 +2775,12 @@ function updateBarChartSelectedItem(chartConfigSettings){
 			     if(chartConfigSettings.checkedItem ==1 )
 			     {
 					
-					 var valueMin = getMarginLenghtVolume(chartConfigSettings.min) == -1 ? getMarginLenghtVolume(chartConfigSettings.min) : 0; 
+					/* var valueMin = getMarginLenghtVolume(chartConfigSettings.min); 
 			 		 var valueMax = getMarginLenghtVolume(chartConfigSettings.max);  				 	
-							
+					*/		
+					 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
 							chart.updateOptions({
 								series:[{
 										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -3863,6 +3912,7 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 					maxvalue = max;
 					var value1 = getMarginLenght(min1); 
 					var value2 = getMarginLenght(min2); 
+				
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
                     var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
                     
@@ -4012,9 +4062,13 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 					minvalue = min;
 					maxvalue = max;
-					var valueMin = getMarginLenght(min); 
-			 		var valueMax = getMarginLenght(max);  				 	
-					
+					//var valueMin = getMarginLenght(min); 
+			 		//var valueMax = getMarginLenght(max);  		
+			 				 	
+					 const values = addMarginToMinMax(min, max, 5);
+				     var valueMin = values
+				     var valueMax = values; 	
+				     
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
 					
 					notDecimal=yaxisformat0[1];
@@ -4401,6 +4455,7 @@ function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
 					maxvalue = max;
 					var value1 = getMarginLenght(min1); 
 					var value2 = getMarginLenght(min2); 
+					
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
                     var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
                     
@@ -4552,9 +4607,11 @@ function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
 					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 					minvalue = min;
 					maxvalue = max;
-					var valueMin = getMarginLenght(min); 
-			 		var valueMax = getMarginLenght(max);  				 	
-					
+					//var valueMin = getMarginLenght(min); 
+			 		//var valueMax = getMarginLenght(max);  				 	
+					 const values = addMarginToMinMax(min, max, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
 					
 					notDecimal=yaxisformat0[1];
@@ -5002,8 +5059,11 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 				//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 				minvalue = min;
 				maxvalue = max;
-			    var valueMin = getMarginLenght(min); 
-			 	var valueMax = getMarginLenght(max);  				 	
+			  //  var valueMin = getMarginLenght(min); 
+			  //	var valueMax = getMarginLenght(max); 
+			 	 const values = addMarginToMinMax(min, max, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	 				 	
 				var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
 				
 				notDecimal=yaxisformat0[1];
@@ -5250,6 +5310,7 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 					maxvalue = max;
 					var value1 = getMarginLenght(min1); 
 					var value2 = getMarginLenght(min2); 
+					
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
                     var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
                     
@@ -5402,9 +5463,11 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 					maxvalue=max;
 					notDecimal=yaxisformat[1];
 					nbrOfDigits=yaxisformat[0];
-					 var valueMin1 = getMarginLenght(min); 
-					 var valueMax1 = getMarginLenght(max); 
-					
+					// var valueMin1 = getMarginLenght(min); 
+					// var valueMax1 = getMarginLenght(max); 
+					 const values = addMarginToMinMax(min, max, 5);
+				     var valueMin1 = values;
+				     var valueMax1 = values; 	
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
@@ -5619,8 +5682,11 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 						//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 						minvalue=min;
 						maxvalue=max;
-						var valueMin = getMarginLenght(min); 
-			 			var valueMax = getMarginLenght(max);  				 	
+						//var valueMin = getMarginLenght(min); 
+			 			//var valueMax = getMarginLenght(max);
+			 			 const values = addMarginToMinMax(min, max, 5);
+					     var valueMin = values;
+					     var valueMax = values; 	  				 	
 						var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
 				
 						notDecimal=yaxisformat[1];
@@ -5854,8 +5920,11 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 							minvalue=min;
 							maxvalue=max;
-							var valueMin = getMarginLenght(min); 
-			 			    var valueMax = getMarginLenght(max);  				 	
+							//var valueMin = getMarginLenght(min); 
+			 			   // var valueMax = getMarginLenght(max);  		
+			 			     const values = addMarginToMinMax(min, max, 5);
+				     var valueMin = values;
+				     var valueMax = values; 			 	
 						    var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
 				
 							notDecimal=yaxisformat0[1];
@@ -6903,9 +6972,11 @@ function navigationGraph(condition) {
 	      	    	   
 	      	    	    minvalue=min;
 	      	    	    maxvalue=max;
-	      	    	   	var valueMin = getMarginLenght(min); 
-			 	    	var valueMax = getMarginLenght(max);  				 	
-				
+	      	    	  // 	var valueMin = getMarginLenght(min); 
+			 	    //	var valueMax = getMarginLenght(max);  				 	
+				 	const values = addMarginToMinMax(min, max, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
 	      	    	     notDecimal=yaxisformat[1];
 				         nbrOfDigits=yaxisformat[0];
 				       
@@ -7186,8 +7257,11 @@ function navigationGraph(condition) {
 				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
-	      	    	         	     var valueMin = getMarginLenght(min); 
-			 		                 var valueMax = getMarginLenght(max);  				 	
+	      	    	         	    // var valueMin = getMarginLenght(min); 
+			 		                // var valueMax = getMarginLenght(max);  		
+			 		                  const values = addMarginToMinMax(min, max, 5);
+								     var valueMin = values;
+								     var valueMax = values; 			 	
 				   					 var yaxisformat = getFormat(response[0].config.yAxisFormat);
 					
 				      	    	     notDecimal=yaxisformat[1];
@@ -8209,9 +8283,11 @@ function getStrokeWidthPeriod(period, numColumns)
 }
 
 	function updateGraphFontVolume(fontsize,minvalue,maxvalue){
-				  var valueMin = getMarginLenghtVolume(minvalue); 
-			 	  var valueMax = getMarginLenghtVolume(maxvalue);  	
-				
+				 // var valueMin = getMarginLenghtVolume(minvalue); 
+			 	 // var valueMax = getMarginLenghtVolume(maxvalue);  	
+				 const values = addMarginToMinMax(minvalue, maxvalue, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
 				if(chart!=null)
 				chart.updateOptions({
 					

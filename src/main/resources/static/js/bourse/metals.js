@@ -258,7 +258,7 @@
 						    	    	        url: "/metals/savepreciousdata",
 						    	    	        data: JSON.stringify(dataToBeInserted),
 						    	    	        dataType: 'json',
-						    	    	        async:true,
+						    	    	        async:false,
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {
@@ -382,7 +382,7 @@
 						    	    	        url: "/metals/savebasedata",
 						    	    	        data: JSON.stringify(dataToBeInserted),
 						    	    	        dataType: 'json',
-						    	    	        async:true,
+						    	    	        async:false,
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {
@@ -505,7 +505,7 @@
 						    	    	        url: "/metals/savefoodstuffdata",
 						    	    	        data: JSON.stringify(dataToBeInserted),
 						    	    	        dataType: 'json',
-						    	    	        async:true,
+						    	    	        async:false,
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {
@@ -631,7 +631,7 @@
 						    	    	        url: "/metals/saveenergydata",
 						    	    	        data: JSON.stringify(dataToBeInserted),
 						    	    	        dataType: 'json',
-						    	    	        async:true,
+						    	    	        async:false,
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {
@@ -750,7 +750,7 @@
 						    	    	        url: "/metals/savetransportationdata",
 						    	    	        data: JSON.stringify(dataToBeInserted),
 						    	    	        dataType: 'json',
-						    	    	        async:true,
+						    	    	        async:false,
 						    	    	        cache: false,
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {
