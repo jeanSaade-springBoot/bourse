@@ -2930,7 +2930,7 @@ var itemValue = {
     "description": "DC25_ATM-12",
     "title": "",
     "img": ""
-  },
+  }, 
   "#jqxCheckBox-31-DP25_DC25-12": {
 	"factor":"12",
     "subGroupId": "10",
@@ -2946,5 +2946,330 @@ var itemValue = {
     "description": "DP15_DC15-12",
     "title": "",
     "img": ""
-  }
+  },
+  "#jqxCheckBoxNikkei": {
+    "subGroupId": "1",
+    "GroupId": "32",
+    "description": "NIKKEI",
+    "title": "NIKKEI"
+  },
+  "#jqxCheckBoxNikkei_usdjpy": {
+    "subGroupId": "2",
+    "GroupId": "32",
+    "description": "NIKKEI_USDJPY",
+    "title": "NIKKEI_USDJPY"
+  },
+  "#jqxCheckBoxCsi": {
+    "subGroupId": "3",
+    "GroupId": "32",
+    "description": "CSI",
+    "title": "CSI"
+  },
+  "#jqxCheckBoxCsi_usdcny": {
+    "subGroupId": "4",
+    "GroupId": "32",
+    "description": "CSI_USDCNY",
+    "title": "CSI_USDCNY"
+  },
+  "#jqxCheckBoxNifty": {
+    "subGroupId": "5",
+    "GroupId": "32",
+    "description": "NIFTY",
+    "title": "NIFTY"
+  },
+  "#jqxCheckBoxNifty_usdinr": {
+    "subGroupId": "6",
+    "GroupId": "32",
+    "description": "NIFTY_USDINR",
+    "title": "NIFTY_USDINR"
+  },
+  "#jqxCheckBoxKospi": {
+    "subGroupId": "7",
+    "GroupId": "32",
+    "description": "KOSPI",
+    "title": "KOSPI"
+  },
+  "#jqxCheckBoxKospi_usdkrw": {
+    "subGroupId": "8",
+    "GroupId": "32",
+    "description": "KOSPI_USDKRW",
+    "title": "KOSPI_USDKRW"
+  },
+  "#jqxCheckBoxHangseng": {
+    "subGroupId": "9",
+    "GroupId": "32",
+    "description": "HANGSENG",
+    "title": "HANGSENG"
+  },
+  "#jqxCheckBoxHangseng_usdhkd": {
+    "subGroupId": "10",
+    "GroupId": "32",
+    "description": "HANGSENG_USDHKD",
+    "title": "HANGSENG_USDHKD"
+  },
+  "#jqxCheckBoxHismbi": {
+    "subGroupId": "11",
+    "GroupId": "32",
+    "description": "HISMBI",
+    "title": "HISMBI"
+  },
+  "#jqxCheckBoxHismbi_usdhkd": {
+    "subGroupId": "12",
+    "GroupId": "32",
+    "description": "HISMBI_USDHKD",
+    "title": "HISMBI_USDHKD"
+  },
+  "#jqxCheckBoxHismpi": {
+    "subGroupId": "13",
+    "GroupId": "32",
+    "description": "HISMPI",
+    "title": "HISMPI"
+  },
+  "#jqxCheckBoxHismpi_usdhkd": {
+    "subGroupId": "14",
+    "GroupId": "32",
+    "description": "HISMPI_USDHKD",
+    "title": "HISMPI_USDHKD"
+  },
+"#jqxCheckBoxDowjones": {
+    "subGroupId": "1",
+    "GroupId": "33",
+    "description": "DOWJONES",
+    "title": "DOW JONES"
+  },
+  "#jqxCheckBoxSandp": {
+    "subGroupId": "2",
+    "GroupId": "33",
+    "description": "SANDP",
+    "title": "S&P"
+  },
+  "#jqxCheckBoxNasdaq": {
+    "subGroupId": "3",
+    "GroupId": "33",
+    "description": "NASDAQ",
+    "title": "NASDAQ"
+  },
+  "#jqxCheckBoxRussell": {
+    "subGroupId": "4",
+    "GroupId": "33",
+    "description": "RUSSELL",
+    "title": "RUSSELL"
+  },
+  "#jqxCheckBoxFang": {
+    "subGroupId": "5",
+    "GroupId": "33",
+    "description": "FANG",
+    "title": "FANG+"
+  },
+  "#jqxCheckBoxDjmajorbanks": {
+    "subGroupId": "6",
+    "GroupId": "33",
+    "description": "DJMAJORBANKS",
+    "title": "DJ MAJOR BANKS"
+  },
+  "#jqxCheckBoxDjregionalbanks": {
+    "subGroupId": "7",
+    "GroupId": "33",
+    "description": "DJREGIONALBANKS",
+    "title": "DJ REGIONAL BANKS"
+  },
+   "#jqxCheckBoxDax": {
+    "subGroupId": "1",
+    "GroupId": "34",
+    "description": "DAX",
+    "title": "DAX"
+  },
+   "#jqxCheckBoxDax_Eurusd": {
+    "subGroupId": "2",
+    "GroupId": "34",
+    "description": "DAX_EURUSD",
+    "title": "Dax * Eurusd"
+  },
+     "#jqxCheckBoxCac": {
+    "subGroupId": "3",
+    "GroupId": "34",
+    "description": "CAC",
+    "title": "CAC"
+  },
+    "#jqxCheckBoxCac_Eurusd": {
+    "subGroupId": "4",
+    "GroupId": "34",
+    "description": "CAC_EURUSD",
+    "title": "Cac * Eurusd"
+  },
+   "#jqxCheckBoxMib": {
+    "subGroupId": "5",
+    "GroupId": "34",
+    "description": "MIB",
+    "title": "MIB"
+  },
+   "#jqxCheckBoxMib_Eurusd": {
+    "subGroupId": "6",
+    "GroupId": "34",
+    "description": "MIB_EURUSD",
+    "title": "Mib * Eurusd"
+  },
+   "#jqxCheckBoxFtse": {
+    "subGroupId": "7",
+    "GroupId": "34",
+    "description": "FTSE",
+    "title": "FTSE"
+  },
+ "#jqxCheckBoxFtse_Gbpusd": {
+    "subGroupId": "8",
+    "GroupId": "34",
+    "description": "FTSE_GBPUSD",
+    "title": "Ftse * Gbpusd"
+  },
+   "#jqxCheckBoxStoxx50": {
+    "subGroupId": "9",
+    "GroupId": "34",
+    "description": "STOXX50",
+    "title": "STOXX50"
+  },
+     "#jqxCheckBoxStoxx50_Eurusd": {
+    "subGroupId": "10",
+    "GroupId": "34",
+    "description": "STOXX50_EURUSD",
+    "title": "Stoxx50 * Eurusd"
+  },
+   "#jqxCheckBoxStoxx600": {
+    "subGroupId": "11",
+    "GroupId": "34",
+    "description": "STOXX600",
+    "title": "STOXX600"
+  },
+   "#jqxCheckBoxStoxx600_Eurusd": {
+    "subGroupId": "12",
+    "GroupId": "34",
+    "description": "STOXX600_EURUSD",
+    "title": "Stoxx600 * Eurusd"
+  },
+   "#jqxCheckBoxEubanks": {
+    "subGroupId": "13",
+    "GroupId": "34",
+    "description": "EUBANKS",
+    "title": "EUBANKS"
+  },
+   "#jqxCheckBoxEubanks_eurusd": {
+    "subGroupId": "14",
+    "GroupId": "34",
+    "description": "EUBANKS_EURUSD",
+    "title": "Eu Banking Index * Eurusd"
+  },
+   "#jqxCheckBoxTadawul": {
+    "subGroupId": "1",
+    "GroupId": "35",
+    "description": "TADAWUL",
+    "title": "Tadawul"
+  },
+   "#jqxCheckBoxTadawul_usdsar": {
+    "subGroupId": "2",
+    "GroupId": "35",
+    "description": "TADAWUL_USDSAR",
+    "title": "Tadawul / Usdsar"
+  },
+     "#jqxCheckBoxEgx": {
+    "subGroupId": "3",
+    "GroupId": "35",
+    "description": "EGX",
+    "title": "Egx"
+  },
+    "#jqxCheckBoxEgx_usdegp": {
+    "subGroupId": "4",
+    "GroupId": "35",
+    "description": "EGX_USDEGP",
+    "title": "Egx / Usdegp"
+  },
+   "#jqxCheckBoxBist": {
+    "subGroupId": "5",
+    "GroupId": "35",
+    "description": "BIST",
+    "title": "Bist"
+  },
+   "#jqxCheckBoxBist_usdtry": {
+    "subGroupId": "6",
+    "GroupId": "35",
+    "description": "BIST_USDTRY",
+    "title": "Bist / Usdtry"
+  },
+   "#jqxCheckBoxMoex": {
+    "subGroupId": "7",
+    "GroupId": "35",
+    "description": "MOEX",
+    "title": "Moex"
+  },
+ "#jqxCheckBoxMoex_usdrub": {
+    "subGroupId": "8",
+    "GroupId": "35",
+    "description": "MOEX_USDRUB",
+    "title": "Moex / Usdrub"
+  },
+   "#jqxCheckBoxJsttop": {
+    "subGroupId": "9",
+    "GroupId": "35",
+    "description": "JSTTOP",
+    "title": "Jsttop"
+  },
+     "#jqxCheckBoxJsttop_usdzar": {
+    "subGroupId": "10",
+    "GroupId": "35",
+    "description": "JSTTOP_USDZAR",
+    "title": "Jsttop / Usdzar"
+  },
+   "#jqxCheckBoxBovespa": {
+    "subGroupId": "11",
+    "GroupId": "35",
+    "description": "BOVESPA",
+    "title": "Bovespa"
+  },
+   "#jqxCheckBoxBovespa_usdbrl": {
+    "subGroupId": "12",
+    "GroupId": "35",
+    "description": "BOVESPA_USDBRL",
+    "title": "Bovespa / Usdbrl"
+  },
+   "#jqxCheckBoxMexbol": {
+    "subGroupId": "13",
+    "GroupId": "35",
+    "description": "MEXBOL",
+    "title": "Mexbol"
+  },
+   "#jqxCheckBoxMexbol_usdmxn": {
+    "subGroupId": "14",
+    "GroupId": "35",
+    "description": "MEXBOL_USDMXN",
+    "title": "Mexbol / Usdmxn"
+  },
+   "#jqxCheckBoxBitcoin": {
+    "subGroupId": "1",
+    "GroupId": "36",
+    "description": "BITCOIN",
+    "title": "Bitcoin"
+  },
+   "#jqxCheckBoxEtherium": {
+    "subGroupId": "2",
+    "GroupId": "36",
+    "description": "ETHERIUM",
+    "title": "Etherium"
+  },
+     "#jqxCheckBoxSolana": {
+    "subGroupId": "3",
+    "GroupId": "36",
+    "description": "SOLANA",
+    "title": "Solana"
+  },
+    "#jqxCheckBoxCardano": {
+    "subGroupId": "4",
+    "GroupId": "36",
+    "description": "CARDANO",
+    "title": "Cardano"
+  },
+   "#jqxCheckBoxShiba": {
+    "subGroupId": "5",
+    "GroupId": "36",
+    "description": "SHIBA",
+    "title": "Shiba"
+  },
+  
   	};

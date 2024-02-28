@@ -30,6 +30,11 @@ import com.bourse.domain.SubGroup;
 import com.bourse.domain.TransportationData;
 import com.bourse.domain.skews.LongSkewsData;
 import com.bourse.domain.skews.ShortSkewsData;
+import com.bourse.domain.sti.StiAsiaData;
+import com.bourse.domain.sti.StiCryptosData;
+import com.bourse.domain.sti.StiEmergingData;
+import com.bourse.domain.sti.StiEuropeData;
+import com.bourse.domain.sti.StiWallStreetData;
 import com.bourse.readExcelWriteDB.dto.DataDTO;
 import com.bourse.readExcelWriteDB.dto.ReadExcelWriteDBDTO;
 import com.bourse.readExcelWriteDB.enums.SubGroupEnum;
@@ -53,6 +58,7 @@ import com.bourse.service.PerciousMetalsService;
 import com.bourse.service.ShatzOptionsVolumeService;
 import com.bourse.service.TransportationService;
 import com.bourse.service.skews.SkewsService;
+import com.bourse.service.sti.StiService;
 
 @Service
 public class ReadExcelWriteDBService {
@@ -93,6 +99,8 @@ public class ReadExcelWriteDBService {
     FxDataService fxDataService;
     @Autowired
     SkewsService skewsService;
+    @Autowired
+    StiService stiService;    
     
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
 		List<DataDTO> rowData = new ArrayList<>();
@@ -484,7 +492,7 @@ public class ReadExcelWriteDBService {
 									for (int j = 0; j < splitrow.length; j++) {
 										 if(j!=0)
 										 {
-											 if(!skewsService.CheckIfCanSave(splitrow[0].toString(),"1"))
+											 if(skewsService.CheckIfCanSaveLongSkews(splitrow[0].toString(),Long.valueOf("1")))
 											 	throw new BadRequestException(splitrow[0].toString()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
 										         LongSkewsData longSkewsData = LongSkewsData.builder().referDate(splitrow[0].toString())
 												 											  .groupId(Long.valueOf(ReadExcelWriteDBUtil.getLongSkewsGroupId(i)[0]))
@@ -502,11 +510,21 @@ public class ReadExcelWriteDBService {
 						}
 						skewsService.saveLongSkews(longSkewsDataList);
 						
+						if (!longSkewsDataList.isEmpty()) {
+					            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(longSkewsDataList, "referDate");
+
+					            System.out.println("Minimum Date: " + minMaxDates[0]);
+					            System.out.println("Maximum Date: " + minMaxDates[1]);
+					            
+					            skewsService.doCaclulationLongSkewsLoader(minMaxDates[0],minMaxDates[1]);
+					        } else {
+					            System.out.println("List is empty.");
+					        }
 						
 					} catch (IOException e) {
 						e.printStackTrace();
 					}
-					skewsService.doCaclulationLongSkews();
+					
 				}
 	else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("30"))
 	{
@@ -525,7 +543,7 @@ public class ReadExcelWriteDBService {
 						for (int j = 0; j < splitrow.length; j++) {
 							 if(j!=0)
 							 {
-								 if(!skewsService.CheckIfCanSave(splitrow[0].toString(),"2"))
+								 if(skewsService.CheckIfCanSaveShortSkews(splitrow[0].toString(),Long.valueOf("2")))
 								 	throw new BadRequestException(splitrow[0].toString()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
 								 	ShortSkewsData shortSkewsData = ShortSkewsData.builder().referDate(splitrow[0].toString())
 									 											  .groupId(Long.valueOf(ReadExcelWriteDBUtil.getShortSkewsGroupId(i)[0]))
@@ -542,13 +560,195 @@ public class ReadExcelWriteDBService {
 				}
 			}
 			skewsService.saveShortSkews(shortSkewsDataList);
-			
+
+			   if (!shortSkewsDataList.isEmpty()) {
+		            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(shortSkewsDataList, "referDate");
+
+		            System.out.println("Minimum Date: " + minMaxDates[0]);
+		            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+		            skewsService.doCaclulationShortSkewsLoader(minMaxDates[0],minMaxDates[1]);
+		        } else {
+		            System.out.println("List is empty.");
+		        }
+			   
 		} catch (IOException e) {
 			e.printStackTrace();
 		}
-		skewsService.doCaclulationShortSkews();
+
+	}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("32"))
+	{
+		   List<StiAsiaData> dataList = new ArrayList<>();
+		   List<String> subGroupIds = Arrays.asList("1", "2", "3" , "4" ,"5" ,"6" ,"7");
+
+		   for (String subGroupId: subGroupIds) {
+					   rowData.clear();
+					   dataList.clear();
+					   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+					   for (DataDTO data: rowData) {
+						 if(!stiService.CheckIfHasData(data.getDate()))
+							 throw new BadRequestException(data.getDate()+" "+MessageEnum.MISSING_FX_DATA.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.MISSING_FX_DATA.service);	   
+						 if(stiService.CheckIfCanSaveStiAsia(data.getDate(),Long.valueOf(subGroupId)))
+						 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+						 	StiAsiaData stiData = StiAsiaData.builder().referDate(data.getDate())
+						   												  .subgroupId(Long.valueOf(subGroupId))
+						   												  .value(data.getValue()==null?"":data.getValue())
+					   												  .build();
+						   
+						 	dataList.add(stiData);
+			      }
+					 stiService.saveStiAsia(dataList);
+		
+		   }
+		   if (!dataList.isEmpty()) {
+	            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(dataList, "referDate");
+
+	            System.out.println("Minimum Date: " + minMaxDates[0]);
+	            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+	   		 	stiService.doCaculationStiAsiaLoader(minMaxDates[0],minMaxDates[1]);
+	        } else {
+	            System.out.println("List is empty.");
+	        }
 
 	}
+	else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("33"))
+	{
+		   List<StiWallStreetData> dataList = new ArrayList<>();
+		   List<String> subGroupIds = Arrays.asList("1", "2", "3" , "4" ,"5" ,"6" ,"7");
+
+		   for (String subGroupId: subGroupIds) {
+					   rowData.clear();
+					   dataList.clear();
+					   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+					   for (DataDTO data: rowData) {
+						if(stiService.CheckIfCanSaveStiWallStreet(data.getDate(),Long.valueOf(subGroupId)))
+						 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+						StiWallStreetData stiData = StiWallStreetData.builder().referDate(data.getDate())
+						   												  .subgroupId(Long.valueOf(subGroupId))
+						   												  .value(data.getValue()==null?"":data.getValue())
+					   												  .build();
+						   
+						 	dataList.add(stiData);
+			      }
+					 stiService.saveStiWallStreet(dataList);
+		
+		   }
+		   if (!dataList.isEmpty()) {
+	            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(dataList, "referDate");
+
+	            System.out.println("Minimum Date: " + minMaxDates[0]);
+	            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+	   		 	stiService.doCaculationStiWallStreetLoader(minMaxDates[0],minMaxDates[1]);
+	        } else {
+	            System.out.println("List is empty.");
+	        }
+
+	}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("34"))
+	{
+		   List<StiEuropeData> dataList = new ArrayList<>();
+		   List<String> subGroupIds = Arrays.asList("1", "2", "3" , "4" ,"5" ,"6" ,"7");
+
+		   for (String subGroupId: subGroupIds) {
+					   rowData.clear();
+					   dataList.clear();
+					   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+					   for (DataDTO data: rowData) {
+						    if(!stiService.CheckIfHasData(data.getDate()))
+								 throw new BadRequestException(data.getDate()+" "+MessageEnum.MISSING_FX_DATA.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.MISSING_FX_DATA.service);	   
+							if(stiService.CheckIfCanSaveStiEurope(data.getDate(),Long.valueOf(subGroupId)))
+						 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+							StiEuropeData stiData = StiEuropeData.builder().referDate(data.getDate())
+						   												  .subgroupId(Long.valueOf(subGroupId))
+						   												  .value(data.getValue()==null?"":data.getValue())
+					   												  .build();
+						   
+						 	dataList.add(stiData);
+			      }
+					 stiService.saveStiEurope(dataList);
+		
+		   }
+		   if (!dataList.isEmpty()) {
+	            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(dataList, "referDate");
+
+	            System.out.println("Minimum Date: " + minMaxDates[0]);
+	            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+	   		 	stiService.doCaculationStiEuropeLoader(minMaxDates[0],minMaxDates[1]);
+	        } else {
+	            System.out.println("List is empty.");
+	        }
+
+	}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("35"))
+	{
+		   List<StiEmergingData> dataList = new ArrayList<>();
+		   List<String> subGroupIds = Arrays.asList("1", "2", "3" , "4" ,"5" ,"6" ,"7");
+
+		   for (String subGroupId: subGroupIds) {
+					   rowData.clear();
+					   dataList.clear();
+					   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+					   for (DataDTO data: rowData) {
+						    if(!stiService.CheckIfHasData(data.getDate()))
+								 throw new BadRequestException(data.getDate()+" "+MessageEnum.MISSING_FX_DATA.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.MISSING_FX_DATA.service);	   
+							if(stiService.CheckIfCanSaveStiEmerging(data.getDate(),Long.valueOf(subGroupId)))
+						 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+							StiEmergingData stiData = StiEmergingData.builder().referDate(data.getDate())
+						   												  .subgroupId(Long.valueOf(subGroupId))
+						   												  .value(data.getValue()==null?"":data.getValue())
+					   												  .build();
+						   
+						 	dataList.add(stiData);
+			      }
+					 stiService.saveStiEmerging(dataList);
+		   }
+		   if (!dataList.isEmpty()) {
+	            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(dataList, "referDate");
+
+	            System.out.println("Minimum Date: " + minMaxDates[0]);
+	            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+	   		 	stiService.doCaculationStiEmergingLoader(minMaxDates[0],minMaxDates[1]);
+	        } else {
+	            System.out.println("List is empty.");
+	        }
+		}
+	else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("36"))
+	{
+		   List<StiCryptosData> dataList = new ArrayList<>();
+		   List<String> subGroupIds = Arrays.asList("1", "2", "3" , "4" ,"5");
+
+		   for (String subGroupId: subGroupIds) {
+					   rowData.clear();
+					   dataList.clear();
+					   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+					   for (DataDTO data: rowData) {
+						    if(!stiService.CheckIfHasData(data.getDate()))
+								 throw new BadRequestException(data.getDate()+" "+MessageEnum.MISSING_FX_DATA.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.MISSING_FX_DATA.service);	   
+							if(stiService.CheckIfCanSaveStiCryptos(data.getDate(),Long.valueOf(subGroupId)))
+						 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+							StiCryptosData stiData = StiCryptosData.builder().referDate(data.getDate())
+						   												  .subgroupId(Long.valueOf(subGroupId))
+						   												  .value(data.getValue()==null?"":data.getValue())
+					   												  .build();
+						   
+						 	dataList.add(stiData);
+			      }
+					 stiService.saveStiCryptos(dataList);
+		   }
+		   if (!dataList.isEmpty()) {
+	            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(dataList, "referDate");
+
+	            System.out.println("Minimum Date: " + minMaxDates[0]);
+	            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+	   		 	stiService.doCaculationStiCryptosLoader(minMaxDates[0],minMaxDates[1]);
+	        } else {
+	            System.out.println("List is empty.");
+	        }
+		}
+		
 }
 	
 }

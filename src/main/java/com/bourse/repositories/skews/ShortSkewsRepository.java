@@ -10,6 +10,7 @@ import com.bourse.domain.skews.ShortSkewsData;
 public interface ShortSkewsRepository extends JpaRepository<ShortSkewsData, Long> {
 	
 	public long countByReferDate(String referDate);
+	public boolean existsByReferDateAndSubgroupId(String referDate, Long subgroupId);
 	public ShortSkewsData findShortSkewsDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(String referDate,Long groupId,Long subgroupId,Long factorId);
 	@Transactional
 	public void deleteShortSkewsDataByReferDate(String referDate);

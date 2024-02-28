@@ -1,0 +1,800 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="img/logo/logo.png" rel="icon">
+  <title>Libvol - Dashboard</title>
+   <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/ruang-admin.min.css" rel="stylesheet">
+  <link href="/css/marquee.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+  <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link href="/css/notification.css" rel="stylesheet">
+</head>
+<style>
+.jqx-danger-dark {
+    text-shadow: none !important;
+    color: #fbd9d9 !important;
+    font-weight: bold;
+    background: #ff4b5552 !important;
+    border-color: #d9534f !important;
+}
+ 
+.factorBold{
+    font-weight:bold;
+    color: white!important;
+}
+.edit {
+    margin: 0.5rem;
+    color: white;
+    background-color: #719DF0!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+    padding: 0.1rem 28%;
+}
+.update{
+    margin: .5rem;
+    color: white;
+    background-color: #009a4e!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+        padding: 1px 3px;
+}
+.cancel{
+    margin-top: 0.5rem;
+    margin-right: 0.5rem;
+    margin-bottom: 0.5rem;
+    margin-left: 0rem;
+    color: white;
+    background-color:#506B8B!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+        padding: 1px 3px;
+}
+:checked {
+font-weight:bold;
+}
+.fontTitle{
+    font-size: .8rem;
+}
+.checkboxesTitle{
+font-size: 0.8rem;
+}
+.jqx-widget-dark .jqx-grid-column-header-dark {
+    font-size: .67rem;
+    text-align: center;
+}
+.jqx-tree-dark .jqx-checkbox-dark .jqx-checkbox-default-dark, .jqx-checkbox-dark[checked] .jqx-checkbox-default-dark, .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-dark, .jqx-radiobutton-dark[checked] .jqx-radiobutton-default-dark {
+    border: #b7b9cc solid 0px;
+    background-color: #304256;
+    border-color: #5A627D;
+}
+.jqx-checkbox-default.jqx-checkbox-default-dark.jqx-fill-state-normal.jqx-fill-state-normal-dark.jqx-rc-all.jqx-rc-all-dark.ripple {
+    display: none;
+}
+.jqx-checkbox-dark .ripple, .jqx-radiobutton-dark .ripple {
+    overflow: visible;
+    display: none;
+}
+[aria-checked="true"] {
+    font-weight: bold;
+    color: #e2e2e2!important;
+   text-shadow: 1px 1px 0px #060605;
+}
+
+.card-body .filter{
+ text-align: center;
+}
+.card-img-top {
+    width: 112%;
+    }
+button#deleteByDate {
+    position: absolute;
+    margin-top: -0.3rem;
+}
+.jqx-grid-cell-left-align {
+    text-align: center;
+}
+.container, .container-fluid, .container-login {
+    padding-left: 1rem;
+    padding-right: 1rem;
+}
+.fs-7{
+font-size: .7rem;
+width: 25%;
+padding-right:.2rem;
+}
+div#container-wrapper {
+    padding-bottom:0;
+}
+</style>
+<body id="page-top">
+  <div id="wrapper">
+    <div id="content-wrapper" class="d-flex flex-column">
+       
+         <div id="fixedMenu">
+               <!-- TopBar -->
+		     	<div th:include="${mainmenu}"></div>
+		        <!-- Topbar -->
+
+        <!-- Container Fluid-->
+            <div class="d-sm-flex align-items-center">
+            	<h1 class="ml-6 text-darkorange">Data Input</h1>
+            	 <nav style="margin-left: 3rem;
+    						 height: 35px;
+    						 margin-top: 0.5rem;">
+				  
+				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SOVEREIGN')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/sovereignyields?yield=1" role="tab" aria-controls="nav-any2" aria-selected="false">SOVEREIGN YIELDS</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_FXCDS')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/fxandcds?fxcds=1" role="tab" aria-controls="nav-any2" aria-selected="false">Fx & Cds</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_METALS')" class="navigation nav-item nav-link " id="nav-column-master-tab" href="/bourse/?commodity=1" role="tab" aria-controls="nav-any2" aria-selected="false">COMMODITIES</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_LIQUIDITY')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/liquidity?liquidity=1" role="tab" aria-controls="nav-any2" aria-selected="false">LIQUIDITY</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_VOLUME')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/volume?volume=1" role="tab" aria-controls="nav-any2" aria-selected="false">VOLUME</a>
+				    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SKEWS')" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/skews?skews=1" role="tab" aria-controls="nav-any2" aria-selected="false">SKEWS</a>
+				  	<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_STI')" class="navigation nav-item nav-link active" id="nav-column-master-tab" href="/bourse/sti?sti=1" role="tab" aria-controls="nav-any2" aria-selected="false">STOCKS & INDICES</a>
+				    </div>
+				</nav>
+            </div>
+            <div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
+		   </div>
+		   <div id="content">
+     
+          <div class="container-fluid" id="container-wrapper" style="display:none;">
+           <div class="col-lg-12">
+              <!-- Form Basic -->
+             <div class="col mt-4 ml-4 p-0">
+              <div class="btn-group" role="group" aria-label="First group">
+			    <button type="button" class="btn btn-secondary mw-100" id="asia-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">Asia</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="wallStreet-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">Wall Street</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="europe-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">Europe</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="emerging-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">Emerging</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="cryptos-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">Cryptos</button>
+			    </div>
+			</div>
+            <div class="collapse show" id="collapseExample">
+  			 <div class="card mb-4">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
+								
+								</div>
+                <div class="card-body" style="  padding-top: 0;
+											    padding-right: 1.25rem;
+											    padding-bottom: 0;
+											    padding-left: 1.25rem;">
+                 <div class="row">
+                 <div th:classappend="${sti == 5} ? 'col-6' : 'col-12'"  class=" justify-content-between">
+                 	<div id="stiSubGroup" th:text="${sti}" style="display:none;"></div>
+                 	<input id="commoditySubGroup1" style="display:none;" value="th:text='${sti}'"/>
+                 	
+                 		<div class="col-4 p-0">
+										<h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data
+											Input</h6>
+										<div id='dateInput'></div>
+									</div>
+									
+                    <div th:if="${sti == 1}" class="col-12 p-0" id="Asia-input">
+		                 <div class="col p-0 ">
+		                  <form  id="dataformInputAsia">
+		                  <div class="form-group" style=" margin-top: 0">
+		                	<div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+											NIKKEI
+										</div>
+										<div class="fs-7">
+											CSI
+										</div>
+										<div class="fs-7">
+											NIFTY
+										</div>
+										<div class="fs-7">
+											KOSPI
+										</div>
+										<div class="fs-7">
+											HANG SENG
+										</div>
+										<div class="fs-7">
+											HIS MAINLAND BANK 
+										</div>
+										<div class="fs-7">
+											HIS MAINLAND PROPERTY 
+										</div>
+									</div>
+			                   <div style=" display: flex;">
+			                      <input type="text" class="form-control" id="data-input-Asia" autocomplete="off">
+			                    </div>
+		                     </div>
+							<!--   <button type="submit" class="btn btn-primary">Save</button> -->
+		                    </form>
+		               <div id="dataInputGridAsia" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsAsia" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadAsia" value="Load " />
+							<input id="cancelAsia" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+	                 </div>
+	                 	 <div th:if="${sti == 2}" class="col-12 p-0" id="WallStreet-input">
+	                	
+		                 <div class="col p-0">
+		                  <form  id="dataformInputWallStreet">
+		                  <div class="form-group" style=" margin-top: 0">
+		                     <div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+											DOW JONES
+										</div>
+										<div class="fs-7">
+											NASDAQ
+										</div>
+										<div class="fs-7">
+											RUSSELL
+										</div>
+										<div class="fs-7">
+											FANG+
+										</div>
+										<div class="fs-7">
+											DJ MAJOR BANKS
+										</div>
+										<div class="fs-7">
+											DJ REGIONAL BANKS
+										</div>
+									</div>
+			                   <div style=" display: flex;">
+			                    <input type="text" class="form-control" id="data-input-WallStreet" autocomplete="off">
+			                    </div>
+		                     </div>
+		                    </form>
+		                   <div id="dataInputGridWallStreet" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsWallStreet" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadWallStreet" value="Load " />
+							<input id="cancelWallStreet" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+	                 </div>
+	                   <div th:if="${sti == 3}" class="col-12 p-0" id="Europe-input">
+	                	
+		                 <div class="col p-0">
+		                  <form  id="dataformInputEurope">
+		                  <div class="form-group" style=" margin-top: 0">
+		                   <div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+											DAX
+										</div>
+										<div class="fs-7">
+											CAC
+										</div>
+										<div class="fs-7">
+											MIB
+										</div>
+										<div class="fs-7">
+											FTSE
+										</div>
+										<div class="fs-7">
+											STOXX-50
+										</div>
+										<div class="fs-7">
+											STOXX-600
+										</div>
+										<div class="fs-7">
+											EU BANKING INDEX
+										</div>
+									</div>
+			                   <div style=" display: flex;">
+			                    <input type="text" class="form-control" id="data-input-Europe" autocomplete="off">
+			                    </div>
+		                     </div>
+		                    </form>
+		                   <div id="dataInputGridEurope" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsEurope" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadEurope" value="Load " />
+							<input id="cancelEurope" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+	                 </div>
+	                <div th:if="${sti == 4}" class="col-12 p-0" id="Emerging-input">
+	                	
+		                 <div class="col p-0">
+		                  <form  id="dataformInputEmerging">
+		                  <div class="form-group" style=" margin-top: 0">
+		                       <div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+											TADAWUL
+										</div>
+										<div class="fs-7">
+											EGYPT-EGX30
+										</div>
+										<div class="fs-7">
+											TURKISH BIST-100
+										</div>
+										<div class="fs-7">
+											RUSSIAN MOEX-50
+										</div>
+										<div class="fs-7">
+											JST TOP-40
+										</div>
+										<div class="fs-7">
+											BOVESPA
+										</div>
+										<div class="fs-7">
+											MEXBOL
+										</div>
+									</div>
+			                   <div style=" display: flex;">
+			                    <input type="text" class="form-control" id="data-input-Emerging" autocomplete="off">
+			                    </div>
+		                     </div>
+		                    </form>
+		                   <div id="dataInputGridEmerging" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsEmerging" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadEmerging" value="Load " />
+							<input id="cancelEmerging" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+	                 </div>
+	                 <div th:if="${sti == 5}" class="col-12 p-0" id="Cryptos-input">
+		                 <div class="col p-0">
+		                  <form  id="dataformInputCryptos">
+		                  <div class="form-group" style=" margin-top: 0">
+		                           <div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+											BITCOIN
+										</div>
+										<div class="fs-7">
+											ETHERIUM
+										</div>
+										<div class="fs-7">
+											SOLANA
+										</div>
+										<div class="fs-7">
+											CARDANO
+										</div>
+										<div class="fs-7">
+											SHIBA
+										</div>
+									</div>
+			                   <div style=" display: flex;">
+			                    <input type="text" class="form-control" id="data-input-Cryptos" autocomplete="off">
+			                    </div>
+		                     </div>
+		                    </form>
+		                   <div id="dataInputGridCryptos" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsCryptos" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadCryptos" value="Load " />
+							<input id="cancelCryptos" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+	                 </div>
+               </div>
+               <!--<div class="col-1"></div>-->
+                <div th:classappend="${sti == 5} ? 'col-6' : 'col-12'"  class=" p-0">
+               	  	<div class="col-12 d-flex justify-content-between">
+             	  			<div id='dateInputAudit'></div>
+					 		<div th:if="${sti == 1}"><button id="deleteAsia" style="font-size: .8rem; float: right;">Delete</button> </div>
+                  			<div th:if="${sti == 2}"><button id="deleteWallStreet" style="font-size: .8rem; float: right;">Delete</button> </div>
+                   			<div th:if="${sti == 3}"><button id="deleteEurope" style="font-size: .8rem; float: right;">Delete</button> </div>
+                   			<div th:if="${sti == 4}"><button id="deleteEmerging" style="font-size: .8rem; float: right;">Delete</button> </div>
+                   			<div th:if="${sti == 5}"><button id="deleteCryptos" style="font-size: .8rem; float: right;">Delete</button> </div>
+                   </div>
+                   <div class="col-12 ">
+                   <div th:if="${sti == 1}" class="col-12 p-0" id="Asia-audit">
+					  <div id="AsiaAuditGrid"></div>
+					</div>
+					<div th:if="${sti == 2}" class="col-12 p-0"  id="WallStreet-audit">
+					  <div id="WallStreetAuditGrid"></div>
+					</div>
+					<div th:if="${sti == 3}" class="col-12 p-0"  id="Europe-audit">
+					  <div id="EuropeAuditGrid"></div>
+					</div>
+					<div th:if="${sti == 4}" class="col-12 p-0"  id="Emerging-audit">
+					  <div id="EmergingAuditGrid"></div>
+					</div>
+					<div th:if="${sti == 5}" class="col-12 p-0"  id="Cryptos-audit">
+					  <div id="CryptosAuditGrid"></div>
+					</div>
+				   </div>
+                 </div>
+                </div>
+              </div>
+          </div>
+     </div>
+</div>
+
+<div class="">
+
+<div class="card-header accordion md-accordion" id="accordionFilter" style="padding:.2rem 2.5rem 3.2rem 2.5rem;">
+<p>
+  <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+   Collapse Data Entry Section
+  </a>
+</p>
+  <div class="card">
+      <h6 class="mb-0">
+        <button class="collapsed m-0 font-weight-bold text-primary" style="padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
+        Filters  <i class="fas fa-angle-down rotate-icon"></i>
+        </button>
+      </h6>
+     <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
+  	 <div class="card-body">
+		<div class="row">
+		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
+			<label style="margin-right: 1.5rem;">From</label>
+				<div id='dateInputFrom' style='border-radius: 0.2rem;'>
+				</div>
+			<label style="margin-right: 1.5rem;    margin-left: 1.5rem;">To</label>
+				<div id='dateInputTo'  style='border-radius: 0.2rem;'>
+				</div>
+       </div> 
+       </div>
+   
+    <div class="row mt-2">
+     <div class="col border ml-2 p-1 rounded">
+        <div class="row">
+          <div th:if="${sti == 1}" class="col-sm-12" id="Asia-filter">
+             <h6 class="col font-weight-bold">ASIA</h6>
+             <div class="col d-flex justify-content-between">
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBoxNikkei' class="col  p-0" style='float: left;'><span class="checkboxesTitle">Nikkei</span></div> 
+             		<div id='jqxCheckBoxNikkei_usdjpy'  class="col  p-0 pt-2" style='float: left;'><span class="checkboxesTitle">Nikkei/Usdjpy</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBoxCsi'  class="col" style='float: left;'><span class="checkboxesTitle">Csi</span></div>
+             		<div id='jqxCheckBoxCsi_usdcny'  class="col" style='float: left;'><span class="checkboxesTitle">Csi/Usdcny</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBoxNifty'  class="col" style='float: left;'><span class="checkboxesTitle">Nifty</span></div>
+             		<div id='jqxCheckBoxNifty_usdinr' class="col" style='float: left;'><span class="checkboxesTitle">Nifty/Usdinr</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBoxKospi' class="col" style='float: left;'><span class="checkboxesTitle">Kospi</span></div>
+             		<div id='jqxCheckBoxKospi_usdkrw' class="col" style='float: left;'><span class="checkboxesTitle">Kospi/Usdkrw</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBoxHangseng' class="col" style='float: left;'><span class="checkboxesTitle">Hang Seng</span></div> 
+             		<div id='jqxCheckBoxHangseng_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">Hangseng/Usdhkd</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBoxHismbi' class="col" style='float: left;'><span class="checkboxesTitle">Hismbi</span></div>
+             		<div id='jqxCheckBoxHismbi_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">Hismbi/Usdhkd</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBoxHismpi' class="col" style='float: left;'><span class="checkboxesTitle">Hismpi</span></div>
+             		<div id='jqxCheckBoxHismpi_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">Hismpi/Usdhkd</span></div>
+            	 </div>
+              </div>
+           </div>
+           <div th:if="${sti == 2}" class="col-sm-8" id="WallStreet-filter">
+             <h6 class="col font-weight-bold">Wall Street</h6>
+                <div class="col d-flex justify-content-between">
+             	<div id='jqxCheckBoxDowjones' style='float: left;'><span class="checkboxesTitle">Dow Jones</span></div> 
+             	<div id='jqxCheckBoxSandp' style='float: left;'><span class="checkboxesTitle">S&p</span></div>
+             	<div id='jqxCheckBoxNasdaq' style='float: left;'><span class="checkboxesTitle">Nasdaq</span></div>
+             	<div id='jqxCheckBoxRussell' style='float: left;'><span class="checkboxesTitle">Russell </span></div>
+             	<div id='jqxCheckBoxFang' style='float: left;'><span class="checkboxesTitle">Fang+</span></div>
+             	<div id='jqxCheckBoxDjmajorbanks' style='float: left;'><span class="checkboxesTitle">Dj Major Banks</span></div>
+         		<div id='jqxCheckBoxDjregionalbanks' style='float: left;'><span class="checkboxesTitle">Dj Regional Banks</span></div>
+         	 </div>
+          </div>
+          <div th:if="${sti == 3}" class="col-sm-12" id="Europe-filter">
+             <h6 class="col font-weight-bold">Europe</h6>
+                <div class="col d-flex justify-content-between">
+                <div class="col d-grid p-0">
+	             	<div id='jqxCheckBoxDax' class="col p-0"  style='float: left;'><span class="checkboxesTitle">Dax</span></div> 
+	             	<div id='jqxCheckBoxDax_Eurusd'  class="col p-0 pt-2" style='float: left;'><span class="checkboxesTitle">Dax * Eurusd</span></div> 
+	            </div><div class="col d-grid p-0"> 	
+	             	<div id='jqxCheckBoxCac'  class="col" style='float: left;'><span class="checkboxesTitle">Cac</span></div>
+	             	<div id='jqxCheckBoxCac_Eurusd'  class="col" style='float: left;'><span class="checkboxesTitle">Cac * Eurusd</span></div>
+	             </div><div class="col d-grid p-0"> 
+	             	<div id='jqxCheckBoxMib'  class="col" style='float: left;'><span class="checkboxesTitle">Mib</span></div>
+	             	<div id='jqxCheckBoxMib_Eurusd'  class="col"  style='float: left;'><span class="checkboxesTitle">Mib * Eurusd</span></div>
+	             </div><div class="col d-grid p-0"> 
+	             	<div id='jqxCheckBoxFtse'  class="col" style='float: left;'><span class="checkboxesTitle">Ftse</span></div>
+	             	<div id='jqxCheckBoxFtse_Gbpusd' class="col" style='float: left;'><span class="checkboxesTitle">Ftse * Gbpusd</span></div>
+	             </div><div class="col d-grid p-0"> 	
+	             	<div id='jqxCheckBoxStoxx50'  class="col" style='float: left;'><span class="checkboxesTitle">Stoxx-50</span></div>
+	             	<div id='jqxCheckBoxStoxx50_Eurusd'  class="col" style='float: left;'><span class="checkboxesTitle">Stoxx50 * Eurusd</span></div>
+	             </div><div class="col d-grid p-0"> 
+	             	<div id='jqxCheckBoxStoxx600' style='float: left;'><span class="checkboxesTitle">Stoxx-600</span></div>
+	             	<div id='jqxCheckBoxStoxx600_Eurusd'  style='float: left;'><span class="checkboxesTitle">Stoxx600 * Eurusd</span></div>
+	             </div><div class="col d-grid p-0"> 	
+	             	<div id='jqxCheckBoxEubanks' style='float: left;'><span class="checkboxesTitle">Eu Banking Index</span></div>
+	             	<div id='jqxCheckBoxEubanks_eurusd'  style='float: left;'><span class="checkboxesTitle">Eu Banking Index * Eurusd</span></div>
+	            </div>
+	             </div>
+          </div>
+          <div th:if="${sti == 4}" class="col-sm-11" id="Emerging-filter">
+             <h6 class="col font-weight-bold">Emerging</h6>
+              <div class="col d-flex justify-content-between">
+             	<div class="col d-grid p-0">
+               		<div id='jqxCheckBoxTadawul' style='float: left;'><span class="checkboxesTitle">Tadawul</span></div> 
+	             	<div id='jqxCheckBoxTadawul_usdsar' class="col p-0 pt-2" style='float: left;'><span class="checkboxesTitle">Tadawul / Usdsar</span></div> 
+	             </div><div class="col d-grid p-0"> 	
+	             	<div id='jqxCheckBoxEgx' style='float: left;'><span class="checkboxesTitle">Egx</span></div>
+	             	<div id='jqxCheckBoxEgx_usdegp' style='float: left;'><span class="checkboxesTitle">Egx / Usdegp</span></div>
+	             </div><div class="col d-grid p-0"> 	
+	             	<div id='jqxCheckBoxBist' style='float: left;'><span class="checkboxesTitle">Bist</span></div>
+	             	<div id='jqxCheckBoxBist_usdtry' style='float: left;'><span class="checkboxesTitle">Bist / Usdtry</span></div>
+	             </div><div class="col d-grid p-0"> 	
+	             	<div id='jqxCheckBoxMoex' style='float: left;'><span class="checkboxesTitle">Moex</span></div>
+	             	<div id='jqxCheckBoxMoex_usdrub' style='float: left;'><span class="checkboxesTitle">Moex / Usdrub</span></div>
+	              </div><div class="col d-grid p-0"> 	
+	             	<div id='jqxCheckBoxJsttop' style='float: left;'><span class="checkboxesTitle">Jsttop</span></div>
+	             	<div id='jqxCheckBoxJsttop_usdzar' style='float: left;'><span class="checkboxesTitle">Jsttop / Usdzar</span></div>
+	              </div><div class="col d-grid p-0"> 	
+	             	<div id='jqxCheckBoxBovespa' style='float: left;'><span class="checkboxesTitle">Bovespa</span></div>
+	             	<div id='jqxCheckBoxBovespa_usdbrl' style='float: left;'><span class="checkboxesTitle">Bovespa / Usdbrl</span></div>
+	              </div><div class="col d-grid p-0"> 	
+	             	<div id='jqxCheckBoxMexbol' style='float: left;'><span class="checkboxesTitle">Mexbol</span></div>
+	             	<div id='jqxCheckBoxMexbol_usdmxn' style='float: left;'><span class="checkboxesTitle">Mexbol/ Usdmxn</span></div>
+            	 </div>
+              </div>
+          </div>
+          <div th:if="${sti == 5}" class="col-sm-4" id="Cryptos-filter">
+             <h6 class="col font-weight-bold">Cryptos</h6>
+                <div class="col d-flex justify-content-between">
+	             	<div id='jqxCheckBoxBitcoin' style='float: left;'><span class="checkboxesTitle">BITCOIN</span></div> 
+	             	<div id='jqxCheckBoxEtherium' style='float: left;'><span class="checkboxesTitle">ETHERIUM</span></div>
+	             	<div id='jqxCheckBoxSolana' style='float: left;'><span class="checkboxesTitle">SOLANA</span></div> 
+	             	<div id='jqxCheckBoxCardano' style='float: left;'><span class="checkboxesTitle">CARDANO</span></div>
+	             	<div id='jqxCheckBoxShiba' style='float: left;'><span class="checkboxesTitle">SHIBA</span></div> 
+              </div>
+          </div>
+    	</div>
+    </div>
+   </div>
+    <div class="row mt-2 mb-2">
+			<div class='col-12 d-flex justify-content-end'>
+			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
+			<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			</div>
+			
+	</div>
+	</div> 
+	
+         
+	</div>
+	  <div id="grid">
+           </div> 
+	</div>
+		<div id="alertDate-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        Please Select a date smaller then Today's date.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+
+<div id="alertDeleteDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-danger">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Are you sure?</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="alertTextDeleteDataByDate">
+
+		      </div>
+		       <div class="modal-footer justify-content-between">
+		         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+		        <button type="button" class="btn btn-primary" onclick="deleteDataByDate()">Delete Record</button>
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div id="alertInfoDeleteDataByDate-modal" class="modal fade" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-success">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Success</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="successDelete">
+             
+		      </div>
+		       
+		    </div>
+		  </div>
+	 </div>
+	<div id="alert-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      The date you are trying to insert has already data please choose a valid date
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 	<div id="alert-modal-fx" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      The date you are trying to insert has no data in the Fx and Cds Asset.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 	<div id="alert-modal-robot" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		         Please wait, robot are under execution.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div id="alert-modal-weekend" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		      It is not allowed to enter data on weekend days
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 	<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You must select at least one record.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	  	<div id="alertFiltterMax-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You cannot select more than 15 criteria
+		      </div>
+		    </div>
+		  </div>
+	 	</div>
+       
+        </div>
+        <!---Container Fluid-->
+      </div>
+       <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+      	<div class="simple-marquee-container">
+				<div class="marquee-sibling-date">
+					<p id="todayDate"></p>
+				</div>
+				<div class="marquee-sibling">
+					NEWS
+				</div>
+				<div class="marquee">
+					<ul id="Newslist" class="marquee-content-items">
+					</ul>
+				</div>
+				<div class="marquee-sibling-viewAll">
+					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
+				</div>
+			</div>
+		</div>
+		
+      <!-- Footer -->
+     
+      <!-- Footer -->
+    </div>
+  </div>
+</div>
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/js/marquee.js"></script>
+  
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/jqwidgets/jqxcore.js"></script> 
+  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
+  <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
+  <script src="/js/jqwidgets/jqxcheckbox.js"></script>
+  <script src="/js/jqwidgets/jqxmenu.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
+  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
+  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
+  <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
+  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
+  <script src="/js/jqwidgets/jqxdata.js"></script> 
+  <script src="/js/jqwidgets/jqxwindow.js"></script>
+  <script src="/js/jqwidgets/jqxinput.js"></script>
+  <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
+  <script src="/js/jqwidgets/jqxcalendar.js"></script>
+  <script src="/js/bourse/sti/stiDataInput.js"></script> 
+  <script src="/js/bourse/scrollBarNews.js"></script> 
+  <script src="/js/common.js"></script>
+  <script src="/js/notification/sockjs.js"></script>
+  <script src="/js/notification/stomp.js"></script>
+  <script src="/js/notification/config.js"></script>
+  <script th:inline="javascript">
+	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+	  const hasPendingApprovalGrid= authorities.filter(item => {
+	  	   return item.authority === "PENDING_APPROVAL_GRID"
+	  })[0]!== undefined;
+	 
+  </script>
+</body>
+
+</html>

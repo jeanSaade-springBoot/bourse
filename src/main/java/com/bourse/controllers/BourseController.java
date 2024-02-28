@@ -178,6 +178,17 @@ public class BourseController {
 	    
 	    return modelAndView;
     }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_STI') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/sti")
+    public ModelAndView dataEntryPageSti(@RequestParam("sti") String sti,ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        model.addAttribute("sti", Integer.valueOf(sti));
+	    ModelAndView modelAndView = new ModelAndView("html/sti/stiDataInput");
+	    
+	    return modelAndView;
+    }
 	@RequestMapping( value =  "/returnfunction")
     public ModelAndView returnFunctionPage(ModelMap model)
     {
@@ -230,6 +241,14 @@ public class BourseController {
    	    model.addAttribute("mainmenu", "html/templates/mainMenu");
    	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
    		return new ModelAndView("html/skews/any2Skews");
+       }
+    @PreAuthorize("hasAuthority('ANY2_STI_GRAPH_SCREEN') and principal.tacAccepted == true")
+   	@RequestMapping( value =  "/any2sti")
+       public ModelAndView anyTwoStiPage(ModelMap model, Authentication authentication)
+       {
+   	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+   	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+   		return new ModelAndView("html/sti/any2Sti");
        }
 	@PreAuthorize("hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/precious")
@@ -434,6 +453,14 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/skews/skewsDataFunctionDisplay");
     }
+	@PreAuthorize("hasAuthority('STI_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/stidatafunctiondisplay")
+    public ModelAndView stiDataFunctionDisplay(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/sti/stiDataFunctionDisplay");
+    }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)
@@ -524,6 +551,7 @@ public class BourseController {
 		    model.addAttribute("volume", "html/templates/volume");
 		    model.addAttribute("fxcds", "html/templates/fxcds");
 		    model.addAttribute("skews", "html/templates/skews");
+		    model.addAttribute("sti", "html/templates/sti");
 		    model.addAttribute("serie", Integer.valueOf(serie));
 		    ModelAndView modelAndView = new ModelAndView("html/twoSeries");
 		    

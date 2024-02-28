@@ -93,7 +93,14 @@ public class SkewsService
 			boolean returnvalue = (cnt == 0) ? true : false;
 			return returnvalue;
 		}
-	
+	public boolean CheckIfCanSaveLongSkews(String referDate,Long subgroupId)
+   	{
+   		return  longSkewsRepository.existsByReferDateAndSubgroupId(referDate,subgroupId);
+   	}
+	public boolean CheckIfCanSaveShortSkews(String referDate,Long subgroupId)
+   	{
+   		return  shortSkewsRepository.existsByReferDateAndSubgroupId(referDate,subgroupId);
+   	}
 	public List<ShortSkewsData> saveShortSkews(List<ShortSkewsData> skewsDTOLst ){
 		return shortSkewsRepository.saveAll(skewsDTOLst);
 	}
@@ -222,15 +229,23 @@ public class SkewsService
    		query.setParameter("referDate",referDate );
    		query.execute();
    	}
-    public void doCaclulationLongSkews()
+    public void doCaclulationLongSkewsLoader(String fromDate,String toDate)
    	{
-   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_long_skews_main");
+   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_long_skews_loader");
+		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+		query.setParameter("fromDate", fromDate);
+		query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+		query.setParameter("toDate", toDate);
    		query.execute();
    	}
-    public void doCaclulationShortSkews()
+    public void doCaclulationShortSkewsLoader(String fromDate,String toDate)
    	{
-   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_short_skews_main");
-   		query.execute();
+   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_short_skews_loader");
+		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+		query.setParameter("fromDate", fromDate);
+		query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+		query.setParameter("toDate", toDate);
+		query.execute();
    	}
     public void doCaclulationForShortSkews(String referDate)
    	{

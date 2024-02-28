@@ -2,6 +2,7 @@ package com.bourse.readExcelWriteDB.util;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -189,4 +190,44 @@ public static int[] getShortSkewsGroupId(int number) {
 	        else   
 	          return  new int[]{0, 0};  
 	}
+public static <T> String[] findMinMaxDatesAsString(List<T> dataList, String dateFieldName) {
+    DateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy"); 
+    DateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+
+    Date minDate = null;
+    Date maxDate = null;
+
+    try {
+        T firstObject = dataList.get(0);
+
+        java.lang.reflect.Field dateField = firstObject.getClass().getDeclaredField(dateFieldName);
+        dateField.setAccessible(true);
+        minDate = inputDateFormat.parse((String) dateField.get(firstObject));
+        maxDate = inputDateFormat.parse((String) dateField.get(firstObject));
+
+    } catch (ParseException | IllegalAccessException | NoSuchFieldException e) {
+        e.printStackTrace();
+    }
+
+    for (T data : dataList) {
+        try {
+            java.lang.reflect.Field dateField = data.getClass().getDeclaredField(dateFieldName);
+            dateField.setAccessible(true);
+            Date currentDate = inputDateFormat.parse((String) dateField.get(data));
+            if (currentDate.before(minDate)) {
+                minDate = currentDate;
+            }
+            if (currentDate.after(maxDate)) {
+                maxDate = currentDate;
+            }
+        } catch (ParseException | IllegalAccessException | NoSuchFieldException e) {
+            e.printStackTrace();
+        }
+    }
+
+    String minDateString = outputDateFormat.format(minDate);
+    String maxDateString = outputDateFormat.format(maxDate);
+
+    return new String[]{minDateString, maxDateString};
+}
 }

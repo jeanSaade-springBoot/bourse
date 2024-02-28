@@ -1194,7 +1194,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 				      	    	    });	
 					  	         chart.render();
 					  	       graphHistory = { 
-				   		        		"screenName":"any2Volume",
+				   		        		"screenName":"any2Skews",
 				   		        	    "parameter":JSON.stringify(checkedItemValues),
 				   	     			   };
 					    	   $.ajax({

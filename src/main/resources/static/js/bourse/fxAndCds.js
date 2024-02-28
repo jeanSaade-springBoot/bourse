@@ -6,7 +6,7 @@
          var saveUrl;
          var deleteUrl;
          var checkifcanUrl;
-        var FxItem = [
+         var FxItem = [
 			    "#jqxCheckBoxusdeur",
 			    "#jqxCheckBoxgbpusd",
 			    "#jqxCheckBoxusdchf",

@@ -215,6 +215,21 @@ var familysource =
 	case 30:
    		 imagePath='/css/images/format/shortSkews_format.jpg'
 		    break;
+	case 32:
+   		 imagePath='/css/images/format/asia_format.png'
+		    break;
+	case 33:
+   		 imagePath='/css/images/format/wallstreet_format.png'
+		    break;
+	case 34:
+   		 imagePath='/css/images/format/europe_format.png'
+   		  break;
+   	case 35:
+   		 imagePath='/css/images/format/emerging_format.png'
+		    break;
+	case 36:
+   		 imagePath='/css/images/format/cryptos_format.png'	 
+		    break;
 	}
 return imagePath;
   }
