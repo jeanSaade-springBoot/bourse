@@ -463,6 +463,10 @@ function drawGraph() {
 	const removeEmpty = true;
 	const key = ['yield', 'curve', 'cross'];
 	const groupWithFactor = ["25", "26", "27","28", "29", "30", "31"];
+	const stiGroups = ["32", "33", "34","35", "36"];
+	const fxCdsGroups = ["22", "23", "24"];
+	const liquidityGroups = ["13", "14", "15", "16"];
+	const volumeGroups = ["17", "18", "19", "20", "21"];
 	
 	mode = "merge";
 	$("#SubChart1").css("display","none");
@@ -471,6 +475,7 @@ function drawGraph() {
 	$("#merge").css("display","none");
 	$(".chart-option").show();
 	graphService = "metals";
+	
 	if (checkedItem == 2) {
 		if (graphName === "") {
 			isAny2Series();
@@ -487,6 +492,22 @@ function drawGraph() {
 					else if(groupWithFactor.includes(groupId)){
 						 graphService = "skews";
 						 getGraphDataWithFactor(graphService,graphName,removeEmpty,false);
+					}
+					else if(stiGroups.includes(groupId)){
+						graphService = "sti";
+						getGraphData(graphService, graphName, removeEmpty, false);
+					}
+					else if(fxCdsGroups.includes(groupId)){
+						graphService = "fxcds";
+						getGraphData(graphService, graphName, removeEmpty, false);
+					}
+					else if(liquidityGroups.includes(groupId)){
+						graphService = "liquidity";
+						getGraphData(graphService, graphName, removeEmpty, false);
+					}
+					else if(volumeGroups.includes(groupId)){
+						graphService = "volume";
+						getGraphData(graphService, graphName, removeEmpty, false);
 					}
 					else {
 						getGraphData(graphService, graphName, removeEmpty, false);

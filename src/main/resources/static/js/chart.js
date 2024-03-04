@@ -7,6 +7,8 @@ monthDate.setMonth(monthDate.getMonth() - 6);
 monthDate.setHours(0, 0, 0, 0);
 var startdate = new Date();
 var date = new Date();
+
+const missingDatesGroups=["10","15", "16","32","33","34","35","36"];
 var T1;
 var T2;
 var chartType1 = 'area';
@@ -1540,7 +1542,7 @@ function getMarginLenghtVolume(value) {
     const multiplier = 0.02;
 
     const dynamicMargin = baseMargin + multiplier * value;
-	console.log(baseMargin , multiplier , value)
+	
     return dynamicMargin;
   
 	/*
@@ -2559,11 +2561,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 			
 			     if(chartConfigSettings.checkedItem ==1 )
 			     {
-					/*
-					 var valueMin = getMarginLenght(chartConfigSettings.min); 
-			 		 var valueMax = getMarginLenght(chartConfigSettings.max);  				 	
-				    */
-				     const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
+					 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
 				     var valueMin = values;
 				     var valueMax = values; 	
 				     
@@ -2656,10 +2654,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 				}
 				else if(chartConfigSettings.checkedItem ==2 )
 				{
-						 //var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
-						 //var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
-						// var valueMin2 = getMarginLenght(chartConfigSettings.min2);
-						// var valueMax2 = getMarginLenght(chartConfigSettings.max2); 
+					
 					 const values1 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
 					 var valueMin1 = values1;
 					 var valueMax1 = values1;
@@ -6390,7 +6385,6 @@ function navigationGraph(condition) {
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
-				
 				var title;
 				var fontsize='12px';
 				var fromdate = formatDate(monthDate);
@@ -6429,8 +6423,8 @@ function navigationGraph(condition) {
 				   	  		 if(checkedItemid[i]!=null)
 				   	  		  checkedItemValues.push(checkedItemid[i]);
 				   	       }
-				        hasMissingDates = (["10","15", "16"].includes(itemValue[checkedItemValues[0]].GroupId)
-				        					||["10","15", "16"].includes(itemValue[checkedItemValues[1]].GroupId)
+				        hasMissingDates = (missingDatesGroups.includes(itemValue[checkedItemValues[0]].GroupId)
+				        					||missingDatesGroups.includes(itemValue[checkedItemValues[1]].GroupId)
 				        					)?"true":false;
 				        
 				       
@@ -6896,7 +6890,7 @@ function navigationGraph(condition) {
 
  			    	   
  			    	    chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
- 				       hasMissingDates = (["10","15", "16"].includes(itemValue[checkedItemValues[0]].GroupId))?"true":false;
+ 				       hasMissingDates = (missingDatesGroups.includes(itemValue[checkedItemValues[0]].GroupId))?"true":false;
 		    	   dataParam = { 
    		        		
    	     			   "fromdate":fromdate,
@@ -7183,7 +7177,7 @@ function navigationGraph(condition) {
 	      	    	   	  $('#overlayChart2').show(); 
 	     			    	    chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
 	     					      
-	     			    hasMissingDates1 = (["10","15", "16"].includes(itemValue[checkedItemValues[1]].GroupId))?"true":false;
+	     			    hasMissingDates1 = (missingDatesGroups.includes(itemValue[checkedItemValues[1]].GroupId))?"true":false;
 
 			    	    dataParam = { 
 								"fromdate":fromdate,

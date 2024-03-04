@@ -319,14 +319,14 @@ function Edit(row, event) {
 		}
 		else if (stiSubGroupValue == 3) {
 			oldDataJson = {
-				"dax": data.dax,
+				"DAX": data.DAX,
 				"cac": data.cac,
 				"mib": data.mib,
 				"ftse": data.ftse,
 				"stoxx50": data.stoxx50,
 				"stoxx600": data.stoxx600,
 				"eubanks": data.eubanks,
-				"dax_EURUSD": data.dax_EURUSD,
+				"DAX_EURUSD": data.DAX_EURUSD,
 				"cac_EURUSD": data.cac_EURUSD,
 				"mib_EURUSD": data.mib_EURUSD,
 				"ftse_GBPUSD": data.ftse_GBPUSD,
@@ -439,14 +439,14 @@ function Update(row, event) {
 
 	}	else if (stiSubGroupValue == 3) {
 			updatedupdatedDataJson = {
-				"dax": updatedData.dax,
+				"DAX": updatedData.DAX,
 				"cac": updatedData.cac,
 				"mib": updatedData.mib,
 				"ftse": updatedData.ftse,
 				"stoxx50": updatedData.stoxx50,
 				"stoxx600": updatedData.stoxx600,
 				"eubanks": updatedData.eubanks,
-				"dax_EURUSD": updatedData.dax_EURUSD,
+				"DAX_EURUSD": updatedData.DAX_EURUSD,
 				"cac_EURUSD": updatedData.cac_EURUSD,
 				"mib_EURUSD": updatedData.mib_EURUSD,
 				"ftse_GBPUSD": updatedData.ftse_GBPUSD,
@@ -806,13 +806,13 @@ function renderSubGroup(stiSubGroupValue) {
 				text: 'KOSPI', datafield: 'kospi', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
-				text: 'HANG SENG', datafield: 'hangseng', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'HANGSENG', datafield: 'hangseng', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
-				text: 'HIS^ MAINLAND BANK INDEX', datafield: 'hismbi', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'HSI^ BANKING', datafield: 'hismbi', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
-				text: 'HIS^ MAINLAND PROPERTY INDEX', datafield: 'hismpi', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'HSI^ PROPERTY', datafield: 'hismpi', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 		];
 		var defaultData = AuditDefaultData;
@@ -842,19 +842,19 @@ function renderSubGroup(stiSubGroupValue) {
 				}
 			},
 			{ text: 'NIKKEI', datafield: 'nikkei', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'NIKKEI/USDJPY', datafield: 'nikkei_USDJPY', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-NIKKEI', datafield: 'nikkei_USDJPY', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			{ text: 'CSI', datafield: 'csi', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'CSI/USDCNY', datafield: 'csi_USDCNY', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-CSI', datafield: 'csi_USDCNY', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			{ text: 'NIFTY', datafield: 'nifty', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'NIFTY/USDINR', datafield: 'nifty_USDINR', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-NIFTY', datafield: 'nifty_USDINR', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			{ text: 'KOSPI', datafield: 'kospi', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'KOSPI/USDKRW', datafield: 'kospi_USDKRW', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-KOSPI', datafield: 'kospi_USDKRW', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			{ text: 'HANGSENG', datafield: 'hangseng', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'HANGSENG/USDHKD', datafield: 'hangseng_USDHKD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'HISMBI', datafield: 'hismbi', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'HISMBI/USDHKD', datafield: 'hismbi_USDHKD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'HISMPI', datafield: 'hismpi', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'HISMPI/USDHKD', datafield: 'hismpi_USDHKD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-HANGSENG', datafield: 'hangseng_USDHKD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'HSI^ BANKING', datafield: 'hismbi', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-HSI BANKING', datafield: 'hismbi_USDHKD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'HSI^ PROPERTY', datafield: 'hismpi', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-HSI PROPERTY', datafield: 'hismpi_USDHKD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			];
 
 	}
@@ -994,20 +994,20 @@ function renderSubGroup(stiSubGroupValue) {
 					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 				}
 			},
-			{ text: 'Dax', datafield: 'dax', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Dax*Eurusd', datafield: 'dax_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Cac', datafield: 'cac', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Cac*Eurusd', datafield: 'cac_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Mib', datafield: 'mib', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Mib*Eurusd', datafield: 'mib_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Ftse', datafield: 'ftse', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Ftse*Gbpusd', datafield: 'ftse_GBPUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Stoxx-50', datafield: 'stoxx50', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Stoxx50*Eurusd', datafield: 'stoxx50_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Stoxx-600', datafield: 'stoxx600', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Stoxx600*Eurusd', datafield: 'stoxx600_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Eu Banking Index', datafield: 'eubanks', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Eu Banking Index*Eurusd', datafield: 'eubanks_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'DAX', datafield: 'dax', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-DAX', datafield: 'dax_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'CAC', datafield: 'cac', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-CAC', datafield: 'cac_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'MIB', datafield: 'mib', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-MIB', datafield: 'mib_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'FTSE', datafield: 'ftse', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-FTSE', datafield: 'ftse_GBPUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'STOXX-50', datafield: 'stoxx50', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-STOXX50', datafield: 'stoxx50_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'STOXX-600', datafield: 'stoxx600', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-STOXX600', datafield: 'stoxx600_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'EUBANKS', datafield: 'eubanks', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$- EUBANKS', datafield: 'eubanks_EURUSD', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			];
 
 	}else 
@@ -1075,20 +1075,20 @@ function renderSubGroup(stiSubGroupValue) {
 					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 				}
 			},
-			{ text: 'Tadawul', datafield: 'tadawul', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Tadawul/Usdsar', datafield: 'tadawul_USDSAR', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Egx', datafield: 'egx', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Egx/Usdegp', datafield: 'egx_USDEGP', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Bist', datafield: 'bist', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Bist/Usdtry', datafield: 'bist_USDTRY', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Moex', datafield: 'moex', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Moex/Usdrub', datafield: 'moex_USDRUB', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Jsttop', datafield: 'jsttop', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Jsttop/Usdzar', datafield: 'jsttop_USDZAR', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Bovespa', datafield: 'bovespa', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Bovespa/Usdbrl', datafield: 'bovespa_USDBRL', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Mexbol', datafield: 'mexbol', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Mexbol/ Usdmxn', datafield: 'mexbol_USDMXN', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'TADAWUL', datafield: 'tadawul', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-TADAWUL', datafield: 'tadawul_USDSAR', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'EGX', datafield: 'egx', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-EGX', datafield: 'egx_USDEGP', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'BIST', datafield: 'bist', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-BIST', datafield: 'bist_USDTRY', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'MOEX', datafield: 'moex', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-MOEX', datafield: 'moex_USDRUB', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'JSTTOP', datafield: 'jsttop', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-JSTTOP', datafield: 'jsttop_USDZAR', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'BOVESPA', datafield: 'bovespa', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-BOVESPA', datafield: 'bovespa_USDBRL', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'MEXBOL', datafield: 'mexbol', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: '$-MEXBOL', datafield: 'mexbol_USDMXN', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			];
 
 	}else 
@@ -1108,19 +1108,19 @@ function renderSubGroup(stiSubGroupValue) {
 
 		var dataInputGridColumns = [
 			{
-				text: 'bitcoin', datafield: 'bitcoin', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'BITCOIN', datafield: 'bitcoin', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
-				text: 'etherium', datafield: 'etherium', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'ETHERIUM', datafield: 'etherium', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
-				text: 'solana', datafield: 'solana', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'SOLANA', datafield: 'solana', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
-				text: 'cardano', datafield: 'cardano', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'CARDANO', datafield: 'cardano', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
-				text: 'shiba', datafield: 'shiba', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'SHIBA', datafield: 'shiba', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 		];
 		var defaultData = AuditDefaultData;
@@ -1140,11 +1140,11 @@ function renderSubGroup(stiSubGroupValue) {
 					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 				}
 			},
-			{ text: 'Bitcoin', datafield: 'bitcoin', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Etherium', datafield: 'etherium', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Solana', datafield: 'solana', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Cardano', datafield: 'cardano', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Shiba', datafield: 'shiba', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'BITCOIN', datafield: 'bitcoin', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'ETHERIUM', datafield: 'etherium', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'SOLANA', datafield: 'solana', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'CARDANO', datafield: 'cardano', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'SHIBA', datafield: 'shiba', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			];
 
 	}

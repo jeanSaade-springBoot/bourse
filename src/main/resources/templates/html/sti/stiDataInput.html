@@ -201,7 +201,7 @@ div#container-wrapper {
 											KOSPI
 										</div>
 										<div class="fs-7">
-											HANG SENG
+											HANGSENG
 										</div>
 										<div class="fs-7">
 											HIS MAINLAND BANK 
@@ -233,6 +233,9 @@ div#container-wrapper {
 		                     <div class="pt-2" style="display: flex;">
 										<div class="fs-7">
 											DOW JONES
+										</div>
+										<div class="fs-7">
+											S&P
 										</div>
 										<div class="fs-7">
 											NASDAQ
@@ -452,71 +455,71 @@ div#container-wrapper {
              <h6 class="col font-weight-bold">ASIA</h6>
              <div class="col d-flex justify-content-between">
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxNikkei' class="col  p-0" style='float: left;'><span class="checkboxesTitle">Nikkei</span></div> 
-             		<div id='jqxCheckBoxNikkei_usdjpy'  class="col  p-0 pt-2" style='float: left;'><span class="checkboxesTitle">Nikkei/Usdjpy</span></div> 
+             		<div id='jqxCheckBoxNikkei' class="col  p-0" style='float: left;'><span class="checkboxesTitle">NIKKEI</span></div> 
+             		<div id='jqxCheckBoxNikkei_usdjpy'  class="col  p-0 pt-2" style='float: left;'><span class="checkboxesTitle">$-NIKKEI</span></div> 
              	</div>
              	<div class="col d-grid p-0">
              		<div id='jqxCheckBoxCsi'  class="col" style='float: left;'><span class="checkboxesTitle">Csi</span></div>
-             		<div id='jqxCheckBoxCsi_usdcny'  class="col" style='float: left;'><span class="checkboxesTitle">Csi/Usdcny</span></div>
+             		<div id='jqxCheckBoxCsi_usdcny'  class="col" style='float: left;'><span class="checkboxesTitle">$-CSI</span></div>
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxNifty'  class="col" style='float: left;'><span class="checkboxesTitle">Nifty</span></div>
-             		<div id='jqxCheckBoxNifty_usdinr' class="col" style='float: left;'><span class="checkboxesTitle">Nifty/Usdinr</span></div>
+             		<div id='jqxCheckBoxNifty'  class="col" style='float: left;'><span class="checkboxesTitle">NIFTY</span></div>
+             		<div id='jqxCheckBoxNifty_usdinr' class="col" style='float: left;'><span class="checkboxesTitle">$-NIFTY</span></div>
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxKospi' class="col" style='float: left;'><span class="checkboxesTitle">Kospi</span></div>
-             		<div id='jqxCheckBoxKospi_usdkrw' class="col" style='float: left;'><span class="checkboxesTitle">Kospi/Usdkrw</span></div>
+             		<div id='jqxCheckBoxKospi' class="col" style='float: left;'><span class="checkboxesTitle">KOSPI</span></div>
+             		<div id='jqxCheckBoxKospi_usdkrw' class="col" style='float: left;'><span class="checkboxesTitle">$-KOSPI</span></div>
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxHangseng' class="col" style='float: left;'><span class="checkboxesTitle">Hang Seng</span></div> 
-             		<div id='jqxCheckBoxHangseng_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">Hangseng/Usdhkd</span></div> 
+             		<div id='jqxCheckBoxHangseng' class="col" style='float: left;'><span class="checkboxesTitle">HANGSENG</span></div> 
+             		<div id='jqxCheckBoxHangseng_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">$-HANGSENG</span></div> 
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxHismbi' class="col" style='float: left;'><span class="checkboxesTitle">Hismbi</span></div>
-             		<div id='jqxCheckBoxHismbi_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">Hismbi/Usdhkd</span></div>
+             		<div id='jqxCheckBoxHismbi' class="col" style='float: left;'><span class="checkboxesTitle">HSI^ BANKING</span></div>
+             		<div id='jqxCheckBoxHismbi_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">$-HSI BANKING</span></div>
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxHismpi' class="col" style='float: left;'><span class="checkboxesTitle">Hismpi</span></div>
-             		<div id='jqxCheckBoxHismpi_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">Hismpi/Usdhkd</span></div>
+             		<div id='jqxCheckBoxHismpi' class="col" style='float: left;'><span class="checkboxesTitle">HSI^ PROPERTY</span></div>
+             		<div id='jqxCheckBoxHismpi_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">$-HSI PROPERTY</span></div>
             	 </div>
               </div>
            </div>
            <div th:if="${sti == 2}" class="col-sm-8" id="WallStreet-filter">
              <h6 class="col font-weight-bold">Wall Street</h6>
                 <div class="col d-flex justify-content-between">
-             	<div id='jqxCheckBoxDowjones' style='float: left;'><span class="checkboxesTitle">Dow Jones</span></div> 
-             	<div id='jqxCheckBoxSandp' style='float: left;'><span class="checkboxesTitle">S&p</span></div>
-             	<div id='jqxCheckBoxNasdaq' style='float: left;'><span class="checkboxesTitle">Nasdaq</span></div>
-             	<div id='jqxCheckBoxRussell' style='float: left;'><span class="checkboxesTitle">Russell </span></div>
-             	<div id='jqxCheckBoxFang' style='float: left;'><span class="checkboxesTitle">Fang+</span></div>
-             	<div id='jqxCheckBoxDjmajorbanks' style='float: left;'><span class="checkboxesTitle">Dj Major Banks</span></div>
-         		<div id='jqxCheckBoxDjregionalbanks' style='float: left;'><span class="checkboxesTitle">Dj Regional Banks</span></div>
+             	<div id='jqxCheckBoxDowjones' style='float: left;'><span class="checkboxesTitle">DOW JONES</span></div> 
+             	<div id='jqxCheckBoxSandp' style='float: left;'><span class="checkboxesTitle">S&P</span></div>
+             	<div id='jqxCheckBoxNasdaq' style='float: left;'><span class="checkboxesTitle">NASDAQ</span></div>
+             	<div id='jqxCheckBoxRussell' style='float: left;'><span class="checkboxesTitle">RUSSELL </span></div>
+             	<div id='jqxCheckBoxFang' style='float: left;'><span class="checkboxesTitle">FANG+</span></div>
+             	<div id='jqxCheckBoxDjmajorbanks' style='float: left;'><span class="checkboxesTitle">DJ MAJOR BANKS</span></div>
+         		<div id='jqxCheckBoxDjregionalbanks' style='float: left;'><span class="checkboxesTitle">DJ REGIONAL BANKS</span></div>
          	 </div>
           </div>
           <div th:if="${sti == 3}" class="col-sm-12" id="Europe-filter">
              <h6 class="col font-weight-bold">Europe</h6>
                 <div class="col d-flex justify-content-between">
                 <div class="col d-grid p-0">
-	             	<div id='jqxCheckBoxDax' class="col p-0"  style='float: left;'><span class="checkboxesTitle">Dax</span></div> 
-	             	<div id='jqxCheckBoxDax_Eurusd'  class="col p-0 pt-2" style='float: left;'><span class="checkboxesTitle">Dax * Eurusd</span></div> 
+	             	<div id='jqxCheckBoxDax' class="col p-0"  style='float: left;'><span class="checkboxesTitle">DAX</span></div> 
+	             	<div id='jqxCheckBoxDax_Eurusd'  class="col p-0 pt-2" style='float: left;'><span class="checkboxesTitle">$-DAX</span></div> 
 	            </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxCac'  class="col" style='float: left;'><span class="checkboxesTitle">Cac</span></div>
-	             	<div id='jqxCheckBoxCac_Eurusd'  class="col" style='float: left;'><span class="checkboxesTitle">Cac * Eurusd</span></div>
+	             	<div id='jqxCheckBoxCac'  class="col" style='float: left;'><span class="checkboxesTitle">CAC</span></div>
+	             	<div id='jqxCheckBoxCac_Eurusd'  class="col" style='float: left;'><span class="checkboxesTitle">$-CAC</span></div>
 	             </div><div class="col d-grid p-0"> 
-	             	<div id='jqxCheckBoxMib'  class="col" style='float: left;'><span class="checkboxesTitle">Mib</span></div>
-	             	<div id='jqxCheckBoxMib_Eurusd'  class="col"  style='float: left;'><span class="checkboxesTitle">Mib * Eurusd</span></div>
+	             	<div id='jqxCheckBoxMib'  class="col" style='float: left;'><span class="checkboxesTitle">MIB</span></div>
+	             	<div id='jqxCheckBoxMib_Eurusd'  class="col"  style='float: left;'><span class="checkboxesTitle">$-MIB</span></div>
 	             </div><div class="col d-grid p-0"> 
-	             	<div id='jqxCheckBoxFtse'  class="col" style='float: left;'><span class="checkboxesTitle">Ftse</span></div>
-	             	<div id='jqxCheckBoxFtse_Gbpusd' class="col" style='float: left;'><span class="checkboxesTitle">Ftse * Gbpusd</span></div>
+	             	<div id='jqxCheckBoxFtse'  class="col" style='float: left;'><span class="checkboxesTitle">FTSE</span></div>
+	             	<div id='jqxCheckBoxFtse_Gbpusd' class="col" style='float: left;'><span class="checkboxesTitle">$-FTSE</span></div>
 	             </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxStoxx50'  class="col" style='float: left;'><span class="checkboxesTitle">Stoxx-50</span></div>
-	             	<div id='jqxCheckBoxStoxx50_Eurusd'  class="col" style='float: left;'><span class="checkboxesTitle">Stoxx50 * Eurusd</span></div>
+	             	<div id='jqxCheckBoxStoxx50'  class="col" style='float: left;'><span class="checkboxesTitle">STOXX-50</span></div>
+	             	<div id='jqxCheckBoxStoxx50_Eurusd'  class="col" style='float: left;'><span class="checkboxesTitle">$-STOXX50</span></div>
 	             </div><div class="col d-grid p-0"> 
-	             	<div id='jqxCheckBoxStoxx600' style='float: left;'><span class="checkboxesTitle">Stoxx-600</span></div>
-	             	<div id='jqxCheckBoxStoxx600_Eurusd'  style='float: left;'><span class="checkboxesTitle">Stoxx600 * Eurusd</span></div>
+	             	<div id='jqxCheckBoxStoxx600' style='float: left;'><span class="checkboxesTitle">STOXX-600</span></div>
+	             	<div id='jqxCheckBoxStoxx600_Eurusd'  style='float: left;'><span class="checkboxesTitle">$-STOXX600</span></div>
 	             </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxEubanks' style='float: left;'><span class="checkboxesTitle">Eu Banking Index</span></div>
-	             	<div id='jqxCheckBoxEubanks_eurusd'  style='float: left;'><span class="checkboxesTitle">Eu Banking Index * Eurusd</span></div>
+	             	<div id='jqxCheckBoxEubanks' style='float: left;'><span class="checkboxesTitle">EUBANKS</span></div>
+	             	<div id='jqxCheckBoxEubanks_eurusd'  style='float: left;'><span class="checkboxesTitle">$-EUBANKS</span></div>
 	            </div>
 	             </div>
           </div>
@@ -524,26 +527,26 @@ div#container-wrapper {
              <h6 class="col font-weight-bold">Emerging</h6>
               <div class="col d-flex justify-content-between">
              	<div class="col d-grid p-0">
-               		<div id='jqxCheckBoxTadawul' style='float: left;'><span class="checkboxesTitle">Tadawul</span></div> 
-	             	<div id='jqxCheckBoxTadawul_usdsar' class="col p-0 pt-2" style='float: left;'><span class="checkboxesTitle">Tadawul / Usdsar</span></div> 
+               		<div id='jqxCheckBoxTadawul' style='float: left;'><span class="checkboxesTitle">TADAWUL</span></div> 
+	             	<div id='jqxCheckBoxTadawul_usdsar' class="col p-0 pt-2" style='float: left;'><span class="checkboxesTitle">$-TADAWUL</span></div> 
 	             </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxEgx' style='float: left;'><span class="checkboxesTitle">Egx</span></div>
-	             	<div id='jqxCheckBoxEgx_usdegp' style='float: left;'><span class="checkboxesTitle">Egx / Usdegp</span></div>
+	             	<div id='jqxCheckBoxEgx' style='float: left;'><span class="checkboxesTitle">EGX</span></div>
+	             	<div id='jqxCheckBoxEgx_usdegp' style='float: left;'><span class="checkboxesTitle">$-EGX</span></div>
 	             </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxBist' style='float: left;'><span class="checkboxesTitle">Bist</span></div>
-	             	<div id='jqxCheckBoxBist_usdtry' style='float: left;'><span class="checkboxesTitle">Bist / Usdtry</span></div>
+	             	<div id='jqxCheckBoxBist' style='float: left;'><span class="checkboxesTitle">BIST</span></div>
+	             	<div id='jqxCheckBoxBist_usdtry' style='float: left;'><span class="checkboxesTitle">$-BIST</span></div>
 	             </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxMoex' style='float: left;'><span class="checkboxesTitle">Moex</span></div>
-	             	<div id='jqxCheckBoxMoex_usdrub' style='float: left;'><span class="checkboxesTitle">Moex / Usdrub</span></div>
+	             	<div id='jqxCheckBoxMoex' style='float: left;'><span class="checkboxesTitle">MOEX</span></div>
+	             	<div id='jqxCheckBoxMoex_usdrub' style='float: left;'><span class="checkboxesTitle">$-MOEX</span></div>
 	              </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxJsttop' style='float: left;'><span class="checkboxesTitle">Jsttop</span></div>
-	             	<div id='jqxCheckBoxJsttop_usdzar' style='float: left;'><span class="checkboxesTitle">Jsttop / Usdzar</span></div>
+	             	<div id='jqxCheckBoxJsttop' style='float: left;'><span class="checkboxesTitle">JSTTOP</span></div>
+	             	<div id='jqxCheckBoxJsttop_usdzar' style='float: left;'><span class="checkboxesTitle">$-JSTTOP</span></div>
 	              </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxBovespa' style='float: left;'><span class="checkboxesTitle">Bovespa</span></div>
-	             	<div id='jqxCheckBoxBovespa_usdbrl' style='float: left;'><span class="checkboxesTitle">Bovespa / Usdbrl</span></div>
+	             	<div id='jqxCheckBoxBovespa' style='float: left;'><span class="checkboxesTitle">BOVESPA</span></div>
+	             	<div id='jqxCheckBoxBovespa_usdbrl' style='float: left;'><span class="checkboxesTitle">$-BOVESPA</span></div>
 	              </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxMexbol' style='float: left;'><span class="checkboxesTitle">Mexbol</span></div>
-	             	<div id='jqxCheckBoxMexbol_usdmxn' style='float: left;'><span class="checkboxesTitle">Mexbol/ Usdmxn</span></div>
+	             	<div id='jqxCheckBoxMexbol' style='float: left;'><span class="checkboxesTitle">MEXBOL</span></div>
+	             	<div id='jqxCheckBoxMexbol_usdmxn' style='float: left;'><span class="checkboxesTitle">$-MEXBOL</span></div>
             	 </div>
               </div>
           </div>

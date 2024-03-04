@@ -1263,7 +1263,7 @@
 						r = this.invertAxis ? a.globals.maxY : a.globals.maxX,
 						n = this.invertAxis ? a.globals.yRange[0] : a.globals.xRange,
 						o = (t.x - s) / (n / a.globals.gridWidth);
-					this.annoCtx.inversedReversedAxis && (o = (r - t.x) / (n / a.globals.gridWidth));
+					this.annoCtx.inversedReverseDAXis && (o = (r - t.x) / (n / a.globals.gridWidth));
 					var l = t.label.text;
 					"category" !== a.config.xaxis.type && !a.config.xaxis.convertedCatToNumeric || this.invertAxis || a.globals.dataFormatXNumeric || (o = this.annoCtx.helpers.getStringX(t.x));
 					var h = t.strokeDashArray;
@@ -1273,7 +1273,7 @@
 							e.appendChild(c.node), t.id && c.node.classList.add(t.id)
 						} else {
 							var d = (t.x2 - s) / (n / a.globals.gridWidth);
-							if (this.annoCtx.inversedReversedAxis && (d = (r - t.x2) / (n / a.globals.gridWidth)), "category" !== a.config.xaxis.type && !a.config.xaxis.convertedCatToNumeric || this.invertAxis || a.globals.dataFormatXNumeric || (d = this.annoCtx.helpers.getStringX(t.x2)), d < o) {
+							if (this.annoCtx.inversedReverseDAXis && (d = (r - t.x2) / (n / a.globals.gridWidth)), "category" !== a.config.xaxis.type && !a.config.xaxis.convertedCatToNumeric || this.invertAxis || a.globals.dataFormatXNumeric || (d = this.annoCtx.helpers.getStringX(t.x2)), d < o) {
 								var g = o;
 								o = d, d = g
 							}
@@ -2681,7 +2681,7 @@
 		}(),
 		C = function () {
 			function t(i) {
-				e(this, t), this.ctx = i, this.w = i.w, this.graphics = new b(this.ctx), this.w.globals.isBarHorizontal && (this.invertAxis = !0), this.helpers = new m(this), this.xAxisAnnotations = new v(this), this.yAxisAnnotations = new w(this), this.pointsAnnotations = new k(this), this.w.globals.isBarHorizontal && this.w.config.yaxis[0].reversed && (this.inversedReversedAxis = !0), this.xDivision = this.w.globals.gridWidth / this.w.globals.dataPoints
+				e(this, t), this.ctx = i, this.w = i.w, this.graphics = new b(this.ctx), this.w.globals.isBarHorizontal && (this.invertAxis = !0), this.helpers = new m(this), this.xAxisAnnotations = new v(this), this.yAxisAnnotations = new w(this), this.pointsAnnotations = new k(this), this.w.globals.isBarHorizontal && this.w.config.yaxis[0].reversed && (this.inversedReverseDAXis = !0), this.xDivision = this.w.globals.gridWidth / this.w.globals.dataPoints
 			}
 			return a(t, [{
 				key: "drawAxesAnnotations",

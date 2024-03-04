@@ -3083,7 +3083,7 @@ var itemValue = {
     "subGroupId": "2",
     "GroupId": "34",
     "description": "DAX_EURUSD",
-    "title": "Dax * Eurusd"
+    "title": "$-DAX"
   },
      "#jqxCheckBoxCac": {
     "subGroupId": "3",
@@ -3095,7 +3095,7 @@ var itemValue = {
     "subGroupId": "4",
     "GroupId": "34",
     "description": "CAC_EURUSD",
-    "title": "Cac * Eurusd"
+    "title": "$-CAC"
   },
    "#jqxCheckBoxMib": {
     "subGroupId": "5",
@@ -3107,7 +3107,7 @@ var itemValue = {
     "subGroupId": "6",
     "GroupId": "34",
     "description": "MIB_EURUSD",
-    "title": "Mib * Eurusd"
+    "title": "$-MIB"
   },
    "#jqxCheckBoxFtse": {
     "subGroupId": "7",
@@ -3119,7 +3119,7 @@ var itemValue = {
     "subGroupId": "8",
     "GroupId": "34",
     "description": "FTSE_GBPUSD",
-    "title": "Ftse * Gbpusd"
+    "title": "$-FTSE"
   },
    "#jqxCheckBoxStoxx50": {
     "subGroupId": "9",
@@ -3131,7 +3131,7 @@ var itemValue = {
     "subGroupId": "10",
     "GroupId": "34",
     "description": "STOXX50_EURUSD",
-    "title": "Stoxx50 * Eurusd"
+    "title": "$-STOXX50"
   },
    "#jqxCheckBoxStoxx600": {
     "subGroupId": "11",
@@ -3143,7 +3143,7 @@ var itemValue = {
     "subGroupId": "12",
     "GroupId": "34",
     "description": "STOXX600_EURUSD",
-    "title": "Stoxx600 * Eurusd"
+    "title": "$-STOXX600"
   },
    "#jqxCheckBoxEubanks": {
     "subGroupId": "13",
@@ -3155,7 +3155,7 @@ var itemValue = {
     "subGroupId": "14",
     "GroupId": "34",
     "description": "EUBANKS_EURUSD",
-    "title": "Eu Banking Index * Eurusd"
+    "title": "$-EUBANKS"
   },
    "#jqxCheckBoxTadawul": {
     "subGroupId": "1",
@@ -3167,7 +3167,7 @@ var itemValue = {
     "subGroupId": "2",
     "GroupId": "35",
     "description": "TADAWUL_USDSAR",
-    "title": "Tadawul / Usdsar"
+    "title": "$-TADAWUL"
   },
      "#jqxCheckBoxEgx": {
     "subGroupId": "3",
@@ -3179,7 +3179,7 @@ var itemValue = {
     "subGroupId": "4",
     "GroupId": "35",
     "description": "EGX_USDEGP",
-    "title": "Egx / Usdegp"
+    "title": "$-EGX"
   },
    "#jqxCheckBoxBist": {
     "subGroupId": "5",
@@ -3191,7 +3191,7 @@ var itemValue = {
     "subGroupId": "6",
     "GroupId": "35",
     "description": "BIST_USDTRY",
-    "title": "Bist / Usdtry"
+    "title": "$-BIST"
   },
    "#jqxCheckBoxMoex": {
     "subGroupId": "7",
@@ -3203,7 +3203,7 @@ var itemValue = {
     "subGroupId": "8",
     "GroupId": "35",
     "description": "MOEX_USDRUB",
-    "title": "Moex / Usdrub"
+    "title": "$-MOEX"
   },
    "#jqxCheckBoxJsttop": {
     "subGroupId": "9",
@@ -3215,7 +3215,7 @@ var itemValue = {
     "subGroupId": "10",
     "GroupId": "35",
     "description": "JSTTOP_USDZAR",
-    "title": "Jsttop / Usdzar"
+    "title": "$-JSTTOP"
   },
    "#jqxCheckBoxBovespa": {
     "subGroupId": "11",
@@ -3227,7 +3227,7 @@ var itemValue = {
     "subGroupId": "12",
     "GroupId": "35",
     "description": "BOVESPA_USDBRL",
-    "title": "Bovespa / Usdbrl"
+    "title": "$-BOVESPA"
   },
    "#jqxCheckBoxMexbol": {
     "subGroupId": "13",

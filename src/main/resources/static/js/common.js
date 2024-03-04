@@ -20,3 +20,10 @@ $("#termsConditions").click(function () {
     $("#video-button").click(function () {
 	  popupWindow('https://player.vimeo.com/video/176594196?autoplay=1', 'Libvol - Demo Video', window, 1300, 700);
   });
+  function toggleFullscreen() {
+            if (document.fullscreenElement) {
+                document.exitFullscreen();
+            } else {
+                document.documentElement.requestFullscreen();
+            }
+        }

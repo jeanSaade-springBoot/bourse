@@ -207,7 +207,7 @@ function getraceChartGraphData(graphService,graphName,removeEmpty,saveHistory){
 								}));
 							//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
 							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
-							minvalue = min;
+							minvalue = 0; //min;
 							maxvalue = max;
 							var yaxisformat = getFormat(response[0].config.yAxisFormat);
 							

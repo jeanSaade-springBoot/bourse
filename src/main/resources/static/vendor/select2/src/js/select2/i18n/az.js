@@ -9,7 +9,7 @@ define(function () {
     inputTooShort: function (args) {
       var remainingChars = args.minimum - args.input.length;
 
-      return remainingChars + ' simvol daxil edin';
+      return remainingChars + ' simvol DAXil edin';
     },
     loadingMore: function () {
       return 'Daha çox nəticə yüklənir…';
