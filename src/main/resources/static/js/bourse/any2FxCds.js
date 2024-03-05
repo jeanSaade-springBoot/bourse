@@ -84,7 +84,8 @@
 			    "#jqxCheckBoxmexico",
 				"#jqxCheckBoxsaudi",
 				"#jqxCheckBoxturkey",
-				"#jqxCheckBoxsouthafrica"];	
+				"#jqxCheckBoxsouthafrica",
+				"#jqxCheckBoxegypt"];	
 
   var fromHistory=false;
   var historyDataParam;

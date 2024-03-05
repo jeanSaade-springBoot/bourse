@@ -228,7 +228,8 @@ else if (serieValue === 5) {
 			    "#jqxCheckBoxmexico",
 				"#jqxCheckBoxsaudi",
 				"#jqxCheckBoxturkey",
-				"#jqxCheckBoxsouthafrica"
+				"#jqxCheckBoxsouthafrica",
+				"#jqxCheckBoxegypt"
 				    ];	
 
 	}

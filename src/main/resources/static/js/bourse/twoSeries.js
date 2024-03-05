@@ -214,6 +214,7 @@ var allitems = ["#jqxCheckBoxUSA-30",
 	"#jqxCheckBoxsaudi",
 	"#jqxCheckBoxturkey",
 	"#jqxCheckBoxsouthafrica",
+	"#jqxCheckBoxegypt",
 	"#jqxCheckBox-25-DP15_ATM-10"
 	, "#jqxCheckBox-25-DP15_ATM-11"
 	, "#jqxCheckBox-25-DP25_ATM-10"

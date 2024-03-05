@@ -53,5 +53,6 @@ public class TmpAuditCdsData {
     private String saudi;
     private String turkey;
     private String southafrica;
+    private String egypt;
 	private String referDate;
 }

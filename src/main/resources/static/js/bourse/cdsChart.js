@@ -18,7 +18,8 @@
 			    "#jqxCheckBoxmexico",
 				"#jqxCheckBoxsaudi",
 				"#jqxCheckBoxturkey",
-				"#jqxCheckBoxsouthafrica"];	
+				"#jqxCheckBoxsouthafrica",
+				"#jqxCheckBoxegypt"];	
 
 
 const graphName="cdsChart"; 

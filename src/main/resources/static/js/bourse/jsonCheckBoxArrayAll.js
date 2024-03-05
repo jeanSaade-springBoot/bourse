@@ -1535,6 +1535,13 @@ var itemValue = {
     "title": "Sth-Africa",
 	 "img": "/img/flag/south-africa.png"
   },
+   "#jqxCheckBoxegypt": {
+    "subGroupId": "21",
+    "GroupId": "22",
+    "description": "egypt",
+    "title": "Egypt",
+	 "img": "/img/flag/egypt.png"
+  },
   "#jqxCheckBox-25-DP15-10": { 
 "factor":"10",
     "subGroupId": "1",

@@ -65,7 +65,8 @@
 			  "#jqxCheckBoxmexico",
 			  "#jqxCheckBoxsaudi",
 			  "#jqxCheckBoxturkey",
-			  "#jqxCheckBoxsouthafrica"
+			  "#jqxCheckBoxsouthafrica",
+			  "#jqxCheckBoxegypt"
 			];	 		
        
 		 var FxAuditDefaultData=[];
@@ -238,7 +239,8 @@
 								  { "name": "MEXICO", "type": "float" },
 								  { "name": "SAUDI", "type": "float" },
 								  { "name": "TURKEY", "type": "float" },
-								  { "name": "SOUTHAFRICA", "type": "float" }
+								  { "name": "SOUTHAFRICA", "type": "float" },
+								  { "name": "EGYPT", "type": "float" }
 			
 							  ],
 	                         id: 'id',
@@ -350,7 +352,8 @@
 								  "mexico": data.mexico,
 								  "saudi": data.saudi,
 								  "turkey": data.turkey,
-								  "southafrica": data.southafrica
+								  "southafrica": data.southafrica,
+								  "egypt": data.egypt
 								};
 						 }
 				     selectedRow.editrow = row;
@@ -451,7 +454,8 @@
 						  "mexico": updatedData.mexico,
 						  "saudi": updatedData.saudi,
 						  "turkey": updatedData.turkey,
-						  "southafrica": updatedData.southafrica
+						  "southafrica": updatedData.southafrica,
+						  "egypt": updatedData.egypt,
 						};
 
 					 }
@@ -968,69 +972,75 @@
                     { name: 'saudi', type: 'string' },
                     { name: 'turkey', type: 'string' },
                     { name: 'southafrica', type: 'string' },
+                    { name: 'egypt', type: 'string' },
                 ];
+             var totalField = dataInputGridFields.length;
+             var widthPercentages = (100) / totalField+"%";
 			 var dataInputGridColumns= [ 
-			                       { text: '', datafield: 'germany', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+			                       { text: '', datafield: 'germany', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/germany.png"></div><h8 class="font-weight-bold align-text">Germany</h8>';
     }},
-    { text: '', datafield: 'france', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'france', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/france.png"></div><h8 class="font-weight-bold align-text">France</h8>';
     }},
-    { text: '', datafield: 'italy', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'italy', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/italy.png"></div><h8 class="font-weight-bold align-text">Italy</h8>';
     }},
-    { text: '', datafield: 'spain', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'spain', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/spain.png"></div><h8 class="font-weight-bold align-text">Spain</h8>';
     }},
-    { text: '', datafield: 'uk', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'uk', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/united-kingdom.png"></div><h8 class="font-weight-bold align-text">UK</h8>';
     }},
-    { text: '', datafield: 'swiss', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'swiss', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/switzerland.png"></div><h8 class="font-weight-bold align-text">Swiss</h8>';
     }},
-    { text: '', datafield: 'sweden', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'sweden', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/sweden.png"></div><h8 class="font-weight-bold align-text">Sweden</h8>';
     }},
-    { text: '', datafield: 'usa', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'usa', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/united-states.png"></div><h8 class="font-weight-bold align-text">USA</h8>';
     }},
-    { text: '', datafield: 'canada', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'canada', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/canada.png"></div><h8 class="font-weight-bold align-text">Canada</h8>';
     }},
-    { text: '', datafield: 'australia', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'australia', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/australia.png"></div><h8 class="font-weight-bold align-text">Australia</h8>';
     }},
-    { text: '', datafield: 'japan', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'japan', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/japan.png"></div><h8 class="font-weight-bold align-text">Japan</h8>';
     }},
-    { text: '', datafield: 'china', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'china', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/china.png"></div><h8 class="font-weight-bold align-text">China</h8>';
     }},
-    { text: '', datafield: 'hongkong', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'hongkong', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/hong-kong.png"></div><h8 class="font-weight-bold align-text">Hong Kong</h8>';
     }},
-    { text: '', datafield: 'southkorea', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'southkorea', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/south-korea.png"></div><h8 class="font-weight-bold align-text">South Korea</h8>';
     }},
-    { text: '', datafield: 'india', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'india', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/india.png"></div><h8 class="font-weight-bold align-text">India</h8>';
     }},
-    { text: '', datafield: 'brazil', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'brazil', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/brazil.png"></div><h8 class="font-weight-bold align-text">Brazil</h8>';
     }},
-    { text: '', datafield: 'mexico', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'mexico', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/mexico.png"></div><h8 class="font-weight-bold align-text">Mexico</h8>';
     }},
-    { text: '', datafield: 'saudi', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'saudi', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/saudi-arabia.png"></div><h8 class="font-weight-bold align-text">Saudi</h8>';
     }},
-    { text: '', datafield: 'turkey', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'turkey', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/turkey.png"></div><h8 class="font-weight-bold align-text">Turkey</h8>';
     }},
-    { text: '', datafield: 'southafrica', width: '5%', cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+    { text: '', datafield: 'southafrica', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
         return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/south-africa.png"></div><h8 class="font-weight-bold align-text">South Africa</h8>';
     }},
-			                ];	  
+    { text: '', datafield: 'egypt', width: widthPercentages, cellsalign: 'center', align: 'center', renderer: function(text, align, height) {
+        return  '<div class="align-middle"><img height="28" width="28" src="/img/flag/egypt.png"></div><h8 class="font-weight-bold align-text">Egypt</h8>';
+    }},
+	 ];	  
 			 var defaultData=CdsAuditDefaultData;
 			 var fields=[
 				    { name: 'germany', type: 'string' },
@@ -1053,11 +1063,12 @@
                     { name: 'saudi', type: 'string' },
                     { name: 'turkey', type: 'string' },
                     { name: 'southafrica', type: 'string' },
+                    { name: 'egypt', type: 'string' },
                 ];
                  var totalFields = fields.length;
-                 var widthPercentage = (100-5) / totalFields+"%";
+                 var widthPercentage = (100-10) / totalFields+"%";
                  var arrayOFcolumns= [ 
-	                	   { text: '',editable:false, datafield: 'Edit',width:'5%',cellsrenderer: function (row) {
+	                	   { text: '',editable:false, datafield: 'Edit',width:'10%',cellsrenderer: function (row) {
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
@@ -1081,8 +1092,9 @@
 			    { text: 'MEXICO', datafield: 'mexico', width: widthPercentage, cellsalign: 'center', align: 'center' },
 			    { text: 'SAUDI', datafield: 'saudi', width: widthPercentage, cellsalign: 'center', align: 'center' },
 			    { text: 'TURKEY', datafield: 'turkey', width: widthPercentage, cellsalign: 'center', align: 'center' },
-			    { text: 'SOUTHAFRICA', datafield: 'southafrica', width: widthPercentage, cellsalign: 'center', align: 'center' }
-			    ];
+			    { text: 'SOUTHAFRICA', datafield: 'southafrica', width: widthPercentage, cellsalign: 'center', align: 'center' },
+			    { text: 'EGYPT', datafield: 'egypt', width: widthPercentage, cellsalign: 'center', align: 'center' }
+			   ];
 						
 			}
 			initiate(Type,inputDataType,items,dataInputGridFields,dataInputGridColumns,defaultData,fields,arrayOFcolumns);
@@ -1090,8 +1102,7 @@
 	}
 	function saveFilterHistory(fxCdsValue,checkedItem){
 		
-			 
-	  						var filterHistory = { 
+			 	var filterHistory = { 
 			   		        	  "filterHistory":checkedItem.toString(),
 			   		        	  "screenName":"DATABASE_INPUT_SCREEN_FXCDS-"+fxCdsValue
 			   	     			   };
