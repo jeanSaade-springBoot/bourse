@@ -27,3 +27,53 @@ $("#termsConditions").click(function () {
                 document.documentElement.requestFullscreen();
             }
         }
+  function copyToClipboard(text) {
+    var textarea = $("<textarea>");
+    textarea.val(text);
+    $("body").append(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+    //alert("Text copied to clipboard!");
+}
+function getCountryImagePath(groupId)
+  {
+	  var imagePath = [];
+	  switch (groupId) {
+
+		  case '37':
+			  imagePath = ["/img/flag/eu.png", 'EUROZONE'];
+			  break;
+		  case '38':
+			  imagePath = ["/img/flag/germany.png", 'GERMANY'];
+			  break;
+		  case '39':
+			  imagePath = ["/img/flag/france.png", 'FRANCE'];
+			  break;
+		  case '40':
+			  imagePath = ["/img/flag/italy.png", 'ITALY'];
+			  break;
+		  case '41':
+			  imagePath = ["/img/flag/spain.png", 'SPAIN'];
+			  break;
+		  case '42':
+			  imagePath = ["/img/flag/united-kingdom.png", 'UK'];
+			  break;
+		  case '43':
+			  imagePath = ["/img/flag/united-states.png", 'ISM'];
+			  break;
+		  case '44':
+			  imagePath = ["/img/flag/united-states.png", 'US'];
+			  break;
+		  case '45':
+			  imagePath = ["/img/flag/china.png", 'CHINA'];
+			  break;
+		  case '46':
+			  imagePath = ["/img/flag/japan.png", 'JAPAN'];
+			  break;
+		  case '47':
+			  imagePath = ["/img/flag/india.png", 'INDIA'];
+			  break;
+	  }
+	  return imagePath;
+  }

@@ -479,6 +479,7 @@ function drawGraph() {
 	
 	if (checkedItem == 2) {
 		if (graphName === "") {
+		
 			isAny2Series();
 			return;
 		}

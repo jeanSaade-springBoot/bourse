@@ -8,7 +8,8 @@ monthDate.setHours(0, 0, 0, 0);
 var startdate = new Date();
 var date = new Date();
 
-const missingDatesGroups=["10","15", "16","32","33","34","35","36"];
+const missingDatesGroups=["10","15", "16","32","33","34","35","36","22","23","24"];
+const PositiveGraphs=['sti','fxcds'];
 var T1;
 var T2;
 var chartType1 = 'area';
@@ -1124,7 +1125,10 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 				 const values1 = addMarginToMinMax(min1, max1, 5);
 				     var valueMin1 = values1;
 				     var valueMax1 = values1; 	
-				     
+				    var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
+				     graphService=typeof graphService!='undefined'?graphService:'';
+				     calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				      
 				  const values2 = addMarginToMinMax(min2, max2, 5);
 				     var valueMin2 = values2;
 				     var valueMax2 = values2; 
@@ -1225,7 +1229,11 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 				//var valueMax = getMarginLenght(maxvalue); 
 				 const values = addMarginToMinMax(minvalue, maxvalue, 5);
 				     var valueMin = values;
-				     var valueMax = values; 	
+				     var valueMax = values; 
+				     var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
+				      graphService=typeof graphService!='undefined'?graphService:'';
+				         calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				    
 					   chart.updateOptions({
 							xaxis: {
 					        	labels: {
@@ -1261,7 +1269,7 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 				    	  },
 					         yaxis: [{
 						    tickAmount: 6,
- 				    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+ 				    	    min:calculatedMinValue,
  				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
 				     	   	labels: {
 					 				 minWidth: 75,maxWidth: 75,
@@ -1620,7 +1628,7 @@ function getMarginLenghtVolume(value) {
 			 const values2 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
 				     var valueMin = values2;
 				     var valueMax = values2; 		
-				//		console.log(chartConfigSettings.fontSize,chartConfigSettings.min1,chartConfigSettings.max1,chartConfigSettings.min2,chartConfigSettings.max2,valueMin,valueMin1,valueMax,valueMax1)
+				 //	console.log(chartConfigSettings.fontSize,chartConfigSettings.min1,chartConfigSettings.max1,chartConfigSettings.min2,chartConfigSettings.max2,valueMin,valueMin1,valueMax,valueMax1)
 			     if(chartConfigSettings.functionId==1 || chartConfigSettings.functionId==2)
 			     { 
 					 chart.updateOptions({ 
@@ -1956,6 +1964,9 @@ function getMarginLenghtVolume(value) {
 			          const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
 				     var valueMin1 = values;
 				     var valueMax1 = values; 
+				      var calculatedMinValue = Math.sign(chartConfigSettings.min)==-1 ? -Math.abs(chartConfigSettings.min)-valueMin1 : Math.abs(chartConfigSettings.min)-valueMin1;
+				     	  calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
+				
 					  chart.updateOptions({
 						 series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -2030,7 +2041,7 @@ function getMarginLenghtVolume(value) {
 									      }
  				        	  },
  				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min)==-1 ? -Math.abs(chartConfigSettings.min)-valueMin1 : Math.abs(chartConfigSettings.min)-valueMin1,
+ 				    	  min:calculatedMinValue,
  				    	  max:Math.sign(chartConfigSettings.max)==-1 ? -Math.abs(chartConfigSettings.max)+valueMax1 : Math.abs(chartConfigSettings.max)+valueMax1,
  				    			  axisBorder: {
  					                  width: 3,
@@ -2202,8 +2213,14 @@ function getMarginLenghtVolume(value) {
 	
 				     var valueMin2 = values;
 				     var valueMax2 = values; 
-				     				 
+				     	  
 				     var selectedValue = Math.abs(chartConfigSettings.min2)>=Math.abs(chartConfigSettings.max2)?Math.abs(min2):Math.abs(max2);
+					 
+				     var calculatedMinValue = Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1;
+				     	 calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
+					 var calculatedMinValue2 = Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue + valueMin2) : Math.abs(selectedValue + valueMin2);
+						 calculatedMinValue2 = (Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2);	
+						 
 					 chart.updateOptions({
 						 series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -2269,7 +2286,7 @@ function getMarginLenghtVolume(value) {
 									      }
  				        	  },
  				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1,
+ 				    	  min:calculatedMinValue,
  				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
  				    			  axisBorder: {
  					                  width: 3,
@@ -2295,7 +2312,7 @@ function getMarginLenghtVolume(value) {
 									      }
  				        	  },
  				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue + valueMin2) : Math.abs(selectedValue + valueMin2),
+ 				    	  min: calculatedMinValue2,
  				    	  max:Math.sign(chartConfigSettings.max2)==-1 ? -Math.abs(selectedValue + valueMax2) : Math.abs(selectedValue + valueMax2),
  				    			  axisBorder: {
  					                  width: 3,
@@ -2361,11 +2378,15 @@ function updateChartSelectedItem(chartConfigSettings){
 			
 			     if(chartConfigSettings.checkedItem ==1 )
 			     {
-					
 					// var valueMin = getMarginLenght(chartConfigSettings.min); 
 			 		// var valueMax = getMarginLenght(chartConfigSettings.max);  				 	
-						 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
+					 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
 				     var valueMin = values;
+				    
+				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
+				      graphService=typeof graphService!='undefined'?graphService:'';
+				      calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				     
 				     var valueMax = values; 		
 							chart.updateOptions({
 								series:[{
@@ -2398,7 +2419,7 @@ function updateChartSelectedItem(chartConfigSettings){
 									      }
 									},
 									tickAmount: 6,
-									min: Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin,
+									min: calculatedMinValue,
 									max: Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax,
 									axisBorder: {
 										width: 3,
@@ -2564,7 +2585,10 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 					 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
 				     var valueMin = values;
 				     var valueMax = values; 	
-				     
+				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
+				          graphService=typeof graphService!='undefined'?graphService:'';
+				         calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				    
 							chart.updateOptions({
 								series:[{
 										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -2623,7 +2647,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 									      }
 									},
 									tickAmount: 6,
-									min: Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin,
+									min: calculatedMinValue,
 									max: Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax,
 									axisBorder: {
 										width: 3,
@@ -2658,11 +2682,16 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 					 const values1 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
 					 var valueMin1 = values1;
 					 var valueMax1 = values1;
-
+ 					  graphService=typeof graphService!='undefined'?graphService:'';
+ 					 var calculatedMinValue1 = Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1;
+				         calculatedMinValue1 = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue1) == -1 ?0:calculatedMinValue1): calculatedMinValue1;
+				    
 					 const values2 = addMarginToMinMax(chartConfigSettings.min2, chartConfigSettings.max2, 5);
 					 var valueMin2 = values2;
 					 var valueMax2 = values2;
-
+ 				  	 var calculatedMinValue2 = Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(chartConfigSettings.min2)-valueMin2 : Math.abs(chartConfigSettings.min2)-valueMin2;
+				         calculatedMinValue2 = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2): calculatedMinValue2;
+				    
       	    	    	chart.updateOptions({
 						  series:[{
 						          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
@@ -2697,7 +2726,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 									      }
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1,
+					     				    	  min:calculatedMinValue1,
 					     				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
 					     				    			  axisBorder: {
 					     					                  width: 3,
@@ -2725,7 +2754,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 														      
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(chartConfigSettings.min2)-valueMin2 : Math.abs(chartConfigSettings.min2)-valueMin2,
+					     				    	  min:calculatedMinValue2,
 					     				    	  max:Math.sign(chartConfigSettings.max2)==-1 ? -Math.abs(chartConfigSettings.max2)+valueMax2 : Math.abs(chartConfigSettings.max2)+valueMax2,
 					     				    			  axisBorder: {
 					     					                  width: 3,
@@ -4063,11 +4092,15 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 					 const values = addMarginToMinMax(min, max, 5);
 				     var valueMin = values
 				     var valueMax = values; 	
-				     
+				     var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
+				     graphService=typeof graphService!='undefined'?graphService:'';
+				     calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				   
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
 					
 					notDecimal=yaxisformat0[1];
 			    	nbrOfDigits=yaxisformat0[0];
+			    	
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
@@ -4130,7 +4163,7 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 									      }
 							},
 							tickAmount: 6,
-							min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+							min: calculatedMinValue,
 							max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
 							axisBorder: {
 								width: 3,
@@ -8422,3 +8455,39 @@ function renderChartFlag(index,img) {
 	    });
   }
 }
+function formatTrendDate(date) {
+    var months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    var day = date.getDate();
+    var monthIndex = date.getMonth();
+    var year = date.getFullYear().toString().slice(2); // Take the last two digits of the year
+    return day + "-" + months[monthIndex] + "-" + year;
+}
+
+function findThirdPoint(date1, y1, date2, y2, date3) {
+    // Convert dates to JavaScript Date objects
+    var d1 = new Date(date1);
+    var d2 = new Date(date2);
+    var d3 = new Date(date3);
+
+    // Convert dates to numerical values (days since a reference date)
+    var x1 = Math.floor((d1 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+    var x2 = Math.floor((d2 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+    var x3 = Math.floor((d3 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+
+    // Calculate slope (m) of the line
+    var m = (y2 - y1) / (x2 - x1);
+
+    // Calculate y-intercept (c) of the line
+    var c = y1 - m * x1;
+
+    // Calculate y-coordinate of the third point
+    var y3 = m * x3 + c;
+
+    // Return the result in the specified JSON format
+    return [
+        { "x": formatTrendDate(d1), "y": y1 },
+        { "x": formatTrendDate(d2), "y": y2 },
+        { "x": formatTrendDate(d3), "y": y3 }
+    ];
+}
+

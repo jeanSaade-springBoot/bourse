@@ -28,7 +28,8 @@
   var notDecimal1;
   var nbrOfDigits1;
   var hasMissingDates=false;
-
+  var graphService = "sti";
+  
   var allitems = ["#jqxCheckBoxNikkei",
 			"#jqxCheckBoxNikkei_usdjpy",
 			"#jqxCheckBoxCsi",
@@ -257,6 +258,9 @@
 				  }
 				  else
 					 title1=T1;
+					 
+				  hasMissingDates = (missingDatesGroups.includes(itemValue[checkedItemValues[0]].GroupId))?"true":false;
+			  	  	 
 				  var options1 = {
    	  			          series: [],
    	  			          chart: {
@@ -344,7 +348,7 @@
 								            return s;
 								          }	 
 					        	  },
-   	  			            type: (itemValue[checkedItemValues[0]].GroupId==32)?'datetime':'category',
+   	  			            type: hasMissingDates?'datetime':'category',
 	   	  			        tickAmount: 19,
 						    axisBorder: {
 							  show: true,
@@ -402,8 +406,7 @@
 
  			    	   
  			    	    chart1 = new ApexCharts(document.querySelector("#SubChart1"), options1);
-					 hasMissingDates = (missingDatesGroups.includes(itemValue[checkedItemValues[0]].GroupId))?"true":false;
-			  	      
+					    
 		    	   dataParam = { 
    		        				"fromdate":fromdate,
 		 		        	    "todate":todate,
@@ -479,8 +482,12 @@
 	      	    	    // var valueMin = getMarginLenght(min); 
 			 		   //  var valueMax = getMarginLenght(max);  	
 			 		      const values = addMarginToMinMax(min, max, 5);
-				     var valueMin = values;
-				     var valueMax = values; 	
+				          var valueMin = values;
+				    	  var valueMax = values;
+				    	  var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
+			  			 graphService=typeof graphService!='undefined'?graphService:'';
+			  			calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+		 	
 	      	    	    var yaxisformat = getFormat(response[0].config.yAxisFormat);
 									
 	      	    	     notDecimal=yaxisformat[1];
@@ -509,7 +516,7 @@
 									      }
 			 				        	  },
 	     				          tickAmount: 6,
-	     				    	 min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+	     				    	 min: calculatedMinValue,
 							     max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,		  axisBorder: {
 	     					                  width: 3,
 	     					                  show: true,
@@ -546,7 +553,8 @@
 		      	    	        }
 		      	    	    });	
 			  	        chart1.render();
-			      
+			          hasMissingDates = (missingDatesGroups.includes(itemValue[checkedItemValues[1]].GroupId))?"true":false;
+			    	       
 			  	      var options2 = {
 	   	  			          series: [],
 	   	  			          chart: {
@@ -634,7 +642,7 @@
 								            return s;
 								          }	 
 					        	  },
-   	  			            type: (itemValue[checkedItemValues[0]].GroupId==32||itemValue[checkedItemValues[1]].GroupId==10)?'datetime':'category',
+   	  			            type: hasMissingDates?'datetime':'category',
 	   	  			        tickAmount: 19,
 						    axisBorder: {
 							  show: true,
@@ -695,8 +703,7 @@
 	      	    	   	  $('#overlayChart2').show(); 
 	     			    	    chart2 = new ApexCharts(document.querySelector("#SubChart2"), options2);
 	     					      
-	     			    	 hasMissingDates = (missingDatesGroups.includes(itemValue[checkedItemValues[1]].GroupId))?"true":false;
-			    	           
+	     			    	    
 			    	    dataParam = { 
 		   		        		"fromdate":fromdate,
 		 		        	    "todate":todate,
@@ -771,6 +778,9 @@
 			 		                 var valueMax = getMarginLenght(max);  	
 	      	    	                 const values = addMarginToMinMax(min, max, 5);
 				     var valueMin = values;
+				     var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
+			  			calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
+				
 				     var valueMax = values; 	
 	      	    	                 var yaxisformat = getFormat(response[0].config.yAxisFormat);
 									
@@ -800,7 +810,7 @@
 														      }
 						 				        	  },
 				     				          tickAmount: 6,
-				     				    	  min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+				     				    	  min: calculatedMinValue,
 							           	 	  max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
 				     				    			  axisBorder: {
 				     					                  width: 3,
@@ -846,6 +856,9 @@
 			 	  //var valueMax = getMarginLenght(maxvalue);  
 			 	   const values = addMarginToMinMax(minvalue, maxvalue, 5);
 				     var valueMin = values;
+				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
+				         calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
+				
 				     var valueMax = values; 		
 				if(chart1!=null)
 					chart1.updateOptions({
@@ -882,7 +895,7 @@
 					    	  },
 					          yaxis: [
 								     {  tickAmount: 6,
-			 				    	          min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin,
+			 				    	          min: calculatedMinValue,
 							           	 	  max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
 				     				    	labels: {
 							        		 minWidth: 75,maxWidth: 75,

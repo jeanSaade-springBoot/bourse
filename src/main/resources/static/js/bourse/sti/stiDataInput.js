@@ -438,7 +438,7 @@ function Update(row, event) {
 		};
 
 	}	else if (stiSubGroupValue == 3) {
-			updatedupdatedDataJson = {
+			updatedDataJson = {
 				"DAX": updatedData.DAX,
 				"cac": updatedData.cac,
 				"mib": updatedData.mib,
@@ -456,7 +456,7 @@ function Update(row, event) {
 			};
 		}
 		else if (stiSubGroupValue == 4) {
-			updatedupdatedDataJson = {
+			updatedDataJson = {
 				"tadawul": updatedData.tadawul,
 				"egx": updatedData.egx,
 				"bist": updatedData.bist,
@@ -474,7 +474,7 @@ function Update(row, event) {
 			};
 		}
 		else if (stiSubGroupValue == 5) {
-			updatedupdatedDataJson = {
+			updatedDataJson = {
 				"bitcoin": updatedData.bitcoin,
 				"etherium": updatedData.etherium,
 				"solana": updatedData.solana,

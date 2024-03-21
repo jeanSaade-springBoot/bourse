@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="img/logo/logo.png" rel="icon">
+  <title>Libvol - STOCKS & INDICES</title>
+  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/ruang-admin.min.css" rel="stylesheet">
+  <link href="/css/marquee.css" rel="stylesheet">
+  <link href="/css/apexchart.css" rel="stylesheet">
+  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+  <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link href="/css/custom.grid.css" rel="stylesheet">
+  <link href="/css/notification.css" rel="stylesheet">
+    
+  <style>
+  .mt-3.btn-toolbar.justify-content-between {
+    margin: 0 7rem;
+}
+   .inputdate{
+    width: 25%;
+    margin: 0 .5rem;
+    text-align: center;
+        border: 1px solid rgba(0, 0, 0, .125);
+    background-color: #272E48!important;
+    border-color: #464D5C;
+    color: #ffffff;
+    padding:0;
+  }
+  .edit{
+    text-transform: uppercase;
+    margin: 0.5rem;
+    color: white;
+    background-color: #5a8dee!important;
+    border-color: var(--jqx-border);
+    border-radius: 4px;
+    border: 1px solid transparent;
+    padding: 1px 42px;
+    font-weight: bold;
+ 
+}
+.col-2 {
+    -webkit-box-flex: 0;
+    -ms-flex: 0 0 13.66667%;
+    flex: 0 0 13.66667%;
+    max-width: 13.66667%;
+}
+
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <!-- Sidebar -->
+    <div id="content-wrapper" class="d-flex flex-column">
+      <div id="fixedMenu">
+         <!-- TopBar -->
+     	<div th:include="${mainmenu}"></div>
+        <!-- Topbar -->
+			<div class="d-sm-flex align-items-center">
+            <h1 class="ml-6 text-darkorange">STOCKS & INDICES</h1>
+            	 <nav style="margin-left: 3rem;
+    						 height: 35px;
+    						 margin-top: 0.5rem;">
+				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
+				    <a sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-any2-tab"  href="/bourse/any2sti" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
+				    <a sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-any2-tab"  href="/bourse/stigraph" role="tab" aria-controls="nav-any2" aria-selected="false">STI</a>
+				 </div>
+				</nav>
+           
+          </div>
+              </div>
+        <div id="content">
+        <!-- Container Fluid-->
+        <div class="container-fluid" id="container-wrapper">
+
+          <div class="row mb-3">
+			 <div class="bd-example bd-example-tabs col-12">
+				<div class="tab-content" id="nav-tabContent" style="display:none">
+				  <div class="tab-pane fade" id="nav-home" role="tabpanel" aria-labelledby="nav-home-tab">
+				...
+					 </div>
+				  <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+				  	<p class="mt-2" style=" margin-bottom: .5rem;">
+					  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
+				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
+				  	  	</p>
+					<div class="row">
+					  <div class="col">
+					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
+				<div class="row">
+				<div class="col-12 d-flex">
+							<div class="col">
+								<h7 class="m-0 font-weight-bold">ASIA</h7>
+									<div class=" no-gutters">
+									  <div class="col-custom">
+									 	<div id='jqxCheckBoxNikkei' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NIKKEI</span></div> 
+             							<div id='jqxCheckBoxNikkei_usdjpy'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-NIKKEI</span></div> 
+									   	<div id='jqxCheckBoxCsi'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">Csi</span></div>
+             							<div id='jqxCheckBoxCsi_usdcny'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-CSI</span></div>
+             							<div id='jqxCheckBoxNifty'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NIFTY</span></div>
+             							<div id='jqxCheckBoxNifty_usdinr' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-NIFTY</span></div>
+             							<div id='jqxCheckBoxKospi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">KOSPI</span></div>
+             							<div id='jqxCheckBoxKospi_usdkrw' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-KOSPI</span></div>
+					         			<div id='jqxCheckBoxHangseng' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HANGSENG</span></div> 
+					             		<div id='jqxCheckBoxHangseng_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HANGSENG</span></div> 
+					             		<div id='jqxCheckBoxHismbi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HSI^ BANKING</span></div>
+					             		<div id='jqxCheckBoxHismbi_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HSI BANKING</span></div>
+					             		<div id='jqxCheckBoxHismpi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HSI^ PROPERTY</span></div>
+					             		<div id='jqxCheckBoxHismpi_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HSI PROPERTY</span></div>
+					            	 </div>
+								</div>
+							</div>
+							 <div class="col">
+							  <h7 class="m-0 font-weight-bold">WALL STREET</h7>
+								<div class=" no-gutters">
+								  <div class="col-custom">
+									<div id='jqxCheckBoxDowjones' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">DOW JONES</span></div> 
+					             	<div id='jqxCheckBoxSandp' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">S&P</span></div>
+					             	<div id='jqxCheckBoxNasdaq' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NASDAQ</span></div>
+					             	<div id='jqxCheckBoxRussell' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">RUSSELL </span></div>
+					             	<div id='jqxCheckBoxFang' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">FANG+</span></div>
+					             	<div id='jqxCheckBoxDjmajorbanks' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">DJ MAJOR BANKS</span></div>
+					         		<div id='jqxCheckBoxDjregionalbanks' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">DJ REGIONAL BANKS</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+							  <h7 class="m-0 font-weight-bold">EUROPE</h7>
+								<div class=" no-gutters">
+								  <div class="col-custom">
+								 
+						             	<div id='jqxCheckBoxDax' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">DAX</span></div> 
+						             	<div id='jqxCheckBoxDax_Eurusd'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-DAX</span></div> 
+						          
+						             	<div id='jqxCheckBoxCac'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">CAC</span></div>
+						             	<div id='jqxCheckBoxCac_Eurusd'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-CAC</span></div>
+						           
+						             	<div id='jqxCheckBoxMib'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">MIB</span></div>
+						             	<div id='jqxCheckBoxMib_Eurusd'  class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">$-MIB</span></div>
+						            
+						             	<div id='jqxCheckBoxFtse'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">FTSE</span></div>
+						             	<div id='jqxCheckBoxFtse_Gbpusd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-FTSE</span></div>
+						            	
+						             	<div id='jqxCheckBoxStoxx50'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">STOXX-50</span></div>
+						             	<div id='jqxCheckBoxStoxx50_Eurusd'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-STOXX50</span></div>
+						            
+						             	<div id='jqxCheckBoxStoxx600' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">STOXX-600</span></div>
+						             	<div id='jqxCheckBoxStoxx600_Eurusd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-STOXX600</span></div>
+						             
+						             	<div id='jqxCheckBoxEubanks' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">EUBANKS</span></div>
+						             	<div id='jqxCheckBoxEubanks_eurusd' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">$-EUBANKS</span></div>
+						         
+								  </div>
+								</div>
+							</div>
+							<div class="col">
+							  <h7 class="m-0 font-weight-bold">EMERGING</h7>
+								<div class=" no-gutters">
+								  <div class="col-custom">
+													  
+					               		<div id='jqxCheckBoxTadawul' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">TADAWUL</span></div> 
+						             	<div id='jqxCheckBoxTadawul_usdsar' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">$-TADAWUL</span></div> 
+						             
+						             	<div id='jqxCheckBoxEgx' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">EGX</span></div>
+						             	<div id='jqxCheckBoxEgx_usdegp' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">$-EGX</span></div>
+						             
+						             	<div id='jqxCheckBoxBist' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">BIST</span></div>
+						             	<div id='jqxCheckBoxBist_usdtry' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">$-BIST</span></div>
+						             
+						             	<div id='jqxCheckBoxMoex' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">MOEX</span></div>
+						             	<div id='jqxCheckBoxMoex_usdrub' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-MOEX</span></div>
+						            
+						             	<div id='jqxCheckBoxJsttop' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">JSTTOP</span></div>
+						             	<div id='jqxCheckBoxJsttop_usdzar' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-JSTTOP</span></div>
+						             
+						             	<div id='jqxCheckBoxBovespa' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">BOVESPA</span></div>
+						             	<div id='jqxCheckBoxBovespa_usdbrl' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-BOVESPA</span></div>
+						            
+						             	<div id='jqxCheckBoxMexbol' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">MEXBOL</span></div>
+						             	<div id='jqxCheckBoxMexbol_usdmxn' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-MEXBOL</span></div>
+					            	
+								 </div>
+								</div>
+							</div>
+						  <div class="col">
+							  <h7 class="m-0 font-weight-bold">CRYPTOS</h7>
+								<div class=" no-gutters">
+								  <div class="col-custom">
+									<div id='jqxCheckBoxBitcoin' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">BITCOIN</span></div> 
+					             	<div id='jqxCheckBoxEtherium' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">ETHERIUM</span></div>
+					             	<div id='jqxCheckBoxSolana' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">SOLANA</span></div> 
+					             	<div id='jqxCheckBoxCardano' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">CARDANO</span></div>
+					             	<div id='jqxCheckBoxShiba' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">SHIBA</span></div> 
+				             	 </div>
+								</div>
+							</div>
+						</div>
+		                 </div>
+                     </div>
+                     	<div class="row pt-2">
+							<div class='col-12 d-flex justify-content-end'>
+							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+							</div>
+						</div>
+					    </div>
+				    <div id="grid-content" style="display:none;">
+				 
+				    <div class="row">
+				           <div id='jqxWidget'></div>
+				           <div id='jqxWidget1'></div>
+				           <input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="draw" value="Draw" />
+				           
+				       <div class="row col-12">
+				   	  	   
+				   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
+					            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
+					                Daily</button>
+					            <button style="padding:4px 16px;" id="w">
+					                Weekly</button>
+					            <button style="padding:4px 16px;" id="m">
+					                Monthly</button>
+								 <button style="padding:4px 16px;" id="q">
+									Quarterly</button>
+								 <button style="padding:4px 16px;" id="y">
+									Yearly</button>
+					        </div>
+								<div id='dropDownType' style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
+								<div class="d-flex" style=' margin-left: 2.4rem;'>
+									<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
+									<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
+								</div>
+							</div>
+							
+				     <div class="col-1" style="z-index: 1;">
+						<div class="chart-option">
+				   	        <div class="chart-option-title">Chart option</div>
+				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+						            <button class="btn btn-option"  id="area" onclick="graphTypeOption('area')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-areachart"></i></button>
+								     <button class="btn btn-option"  id="line" onclick="graphTypeOption('line')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
+									  <button class="btn btn-option" id="column" onclick="graphTypeOption('column')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-barchart"></i></button>
+								 </div>
+   						   </div>
+   						      <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColor">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" id="F0AB2E" onclick="chartColorOption('#F0AB2E')"  data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
+									  <button class="btn btn-option" id="0097FE" onclick="chartColorOption('#0097FE')"  data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-bluechart"></i></button>
+									   <button class="btn btn-option" id="44546a" onclick="chartColorOption('#44546a')"  data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-darkchart"></i></button>
+								 </div>
+   						   </div>
+   						     <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColorTransparency">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" id="1" onclick="chartTransparencyOption('1')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><label class="transparency-text"><span>&shy;</span>&nbsp;0%</label><i class="icon-chart-1"></i></button>
+									  <button class="btn btn-option" id="75" onclick="chartTransparencyOption('0.75')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><label class="transparency-text">25%</label><i class="icon-chart-25"></i></button>
+									   <button class="btn btn-option" id="5" onclick="chartTransparencyOption('0.50')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><label class="transparency-text">50%</label><i class="icon-chart-50"></i></button>
+								 </div>
+   						   </div>
+   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartMarker">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" id="1-0" onclick="chartMarkerOption('0')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
+									  <button class="btn btn-option" id="1-1" onclick="chartMarkerOption('1')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-smallmarkerchart"></i></button>
+									   <button class="btn btn-option" id="1-3" onclick="chartMarkerOption('3')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-bigmarkerchart"></i></button>
+								 </div>
+   						   </div>
+						    <div class="btn-group mt-2 ml-1"  role="group" aria-label="Vertical " id="fontOptions">
+						      <div class="" role="group" aria-label="Vertical example">
+						      <button type="button" class="btn btn-option" id="12px" onclick="graphfont('12px')"><i class="icon-small-a"></i></button>
+						      <button type="button" class="btn btn-option" id="14px" onclick="graphfont('14px')"><i class="icon-medium-a"></i></button>
+						      <button type="button" class="btn btn-option" id="16px" onclick="graphfont('16px')"><i class="icon-large-a"></i></button>
+						     </div>
+						   </div>
+						  <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical"  id="gridOptions">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option"  id="true"  onclick="chartGridOption('true')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-withLinechart"></i></button>
+									 <button class="btn btn-option"  id="false"  onclick="chartGridOption('false')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-withoutLinechart"></i></button>
+								 </div>
+   						   </div>
+						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="gridLegend" >
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
+								     <button class="btn btn-option" id="legendtrue"  onclick="chartLegendOption('legendtrue')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-legendchart"></i></button>
+									 <button class="btn btn-option"  id="legendfalse"   onclick="chartLegendOption('legendfalse')" data-pausetext="Break In" 
+									 data-resumetext="Resume" ><i class="icon-nolegendchart"></i></button>
+								 </div>
+   						   </div>
+   						   	<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="display:none;    margin: 1.1rem;
+														    color: white;
+														    font-size: 0.54rem;
+														    height: 30px;
+														    position: absolute;
+														    bottom: 4px;
+														    font-weight: bold;
+														    left: -1px;
+														    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
+						   </div>
+						</div>
+						 <div class="col-10">
+						 	 <div id="overlayChart" class="overlayChart" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   		</div>
+						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
+						
+						 </div>
+						 <div class="row" style="min-width: 1153px;  max-width:1153px">
+						 	<div class='col-6'>
+						 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
+						 		<div id="SubChart1" class="chart-box"></div>
+						 	</div>
+						 	<div class='col-6'>
+						 	<div id="overlayChart2" class="overlayChart-split" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
+						 		<div id="SubChart2" class="chart-box"></div>
+						 	</div>
+						 </div>
+					 	      
+					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
+							  <div class="btn-group mr-2" role="group" aria-label="First group">
+							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
+							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
+							  </div>
+							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
+							       <label>From</label>
+							       <input id="dateFrom-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							       <label>To</label>
+							       <input id="dateTo-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
+							  </div>
+							  <div class="btn-group" role="group" aria-label="Third group">
+							   <button type="button" id="button-monthForward" class="btn btn-secondary" onclick="navigationGraph('monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
+							   <button type="button" id="button-yearForward" class="btn btn-secondary" onclick="navigationGraph('yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
+							  </div>
+							</div>
+					  </div>
+					    </div>
+					</div>
+					
+					</div>
+				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+				</div>
+			</div>
+          </div>
+         	<div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
+
+          <!-- Modal Logout -->
+          <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <h5 class="modal-title" id="exampleModalLabelLogout">Ohh No!</h5>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p>Are you sure you want to logout?</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-outline-primary" data-dismiss="modal">Cancel</button>
+                  <a href="login.html" class="btn btn-primary">Logout</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+	 	<div id="alertFiltter-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body">
+		        You must select at least one record.
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 	<div id="alertStartDate-modal" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+		<div class="modal-dialog modal-sm">
+		    <div class="modal-content">
+		
+		      <div class="modal-header bg-warning">
+		        <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+		        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+		          <span aria-hidden="true">×</span>
+		        </button>
+		      </div>
+		      <div class="modal-body" id="startdatetext">
+		      </div>
+		    </div>
+		  </div>
+	 </div>
+	 <div class="row">
+    <div class="col-12">
+   	   
+   	   <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1078px; max-width: 1078px;">
+				<div id="grid_filtered" style="margin-top:.5rem"></div> 			 
+			</div>
+   	   
+    </div>
+  </div>
+        </div>
+        <!---Container Fluid-->
+      </div>
+        <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+      	<div class="simple-marquee-container">
+				<div class="marquee-sibling-date">
+					<p id="todayDate"></p>
+				</div>
+				<div class="marquee-sibling">
+					NEWS
+				</div>
+				<div class="marquee">
+					<ul id="Newslist" class="marquee-content-items">
+					</ul>
+				</div>
+				<div class="marquee-sibling-viewAll">
+					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
+				</div>
+			</div>
+		</div>
+      <!-- Footer -->
+      <!-- Footer -->
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+ <script src="/js/jqwidgets/jqxcore.js"></script> 
+ <script src="/js/jqwidgets/jqxcheckbox.js"></script>
+  <script src="/js/marquee.js"></script>
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+    <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  
+  <script src="/js/apexcharts.js"></script>
+  <script src="/js/chartOptions.js"></script> 
+  <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
+  <script src="/js/chart.js"></script>
+  <script src="/js/bourse/sti/sti.js"></script> 
+   <script src="/js/jqwidgets/jqxdata.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.js"></script> 
+ <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
+ <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
+ <script src="/js/jqwidgets/jqxmenu.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
+ <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
+  <script src="/js/jqwidgets/jqxcombobox.js"></script> 
+ <script src="/js/jqwidgets/jqxlistbox.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
+ <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
+ <script src="/js/jqwidgets/jqxcore.js"></script> 
+ <script src="/js/bourse/scrollBarNews.js"></script> 
+ <script src="/js/bourse/inGraphNews.js"></script> 
+ <script src="/js/common.js"></script>
+ 
+  <script src="/js/notification/sockjs.js"></script>
+  <script src="/js/notification/stomp.js"></script>
+  <script src="/js/notification/config.js"></script>
+  <script th:inline="javascript">
+	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+	  const hasPendingApprovalGrid= authorities.filter(item => {
+	  	   return item.authority === "PENDING_APPROVAL_GRID"
+	  })[0]!== undefined;
+	 
+  </script>
+</body>
+
+</html>

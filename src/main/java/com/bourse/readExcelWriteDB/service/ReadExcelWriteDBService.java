@@ -128,7 +128,16 @@ public class ReadExcelWriteDBService {
 				perciousMetalsService.SavePreciousData(prcList);
 		   }
 
-			perciousMetalsService.doCaclulation();
+			 if (!prcList.isEmpty()) {
+		            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(prcList, "referDate");
+
+		            System.out.println("Minimum Date: " + minMaxDates[0]);
+		            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+		            perciousMetalsService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+		        } else {
+		            System.out.println("List is empty.");
+		        }
 		}else
 			if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("7"))
 			{
@@ -151,7 +160,16 @@ public class ReadExcelWriteDBService {
 				      }
 					  baseMetalsService.SaveBaseData(baseList);
 				   }
-				   baseMetalsService.doCaclulation();
+				   if (!baseList.isEmpty()) {
+			            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(baseList, "referDate");
+
+			            System.out.println("Minimum Date: " + minMaxDates[0]);
+			            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+			            baseMetalsService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+			        } else {
+			            System.out.println("List is empty.");
+			        } 
 			}else
 				if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("8"))
 				{
@@ -174,7 +192,16 @@ public class ReadExcelWriteDBService {
 					      }
 							   foodStuffService.SaveFoodStuffData(foodStuff);
 					   }
-					   foodStuffService.doCaclulation();
+					   if (!foodStuff.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(foodStuff, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            foodStuffService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        }
 				}
 				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("9"))
 					{
@@ -196,7 +223,16 @@ public class ReadExcelWriteDBService {
 						      }
 								   energyService.SaveEnergyData(energy);
 						   }
-						   energyService.doCaclulation();
+						   if (!energy.isEmpty()) {
+					            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(energy, "referDate");
+
+					            System.out.println("Minimum Date: " + minMaxDates[0]);
+					            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+					            energyService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+					        } else {
+					            System.out.println("List is empty.");
+					        }  
 					}
 				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("10"))
 				{
@@ -218,7 +254,16 @@ public class ReadExcelWriteDBService {
 					      }
 							   transportationService.SaveTransportationData(transportation);
 					   }
-					   transportationService.doCaclulation();
+					   if (!transportation.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(transportation, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            transportationService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        } 
 				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("11"))
 				{
 					   List<CorporateYieldsData> corporateYields = new ArrayList<>();
@@ -240,7 +285,16 @@ public class ReadExcelWriteDBService {
 							   corporatesYieldsService.SaveCorporateDatas(corporateYields);
 					
 					   }
-					   corporatesYieldsService.doCaclulation();
+					   if (!corporateYields.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(corporateYields, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            corporatesYieldsService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        } 
 				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("14"))
 				{
 					   List<EcbExcessLiquidity> ecbExcessLiquidityList = new ArrayList<>();
@@ -262,7 +316,16 @@ public class ReadExcelWriteDBService {
 							   ecbExcessLiquidityService.SaveExcessLiquidityData(ecbExcessLiquidityList);
 					
 					   }
-					   ecbExcessLiquidityService.doCaclulation();
+					   if (!ecbExcessLiquidityList.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(ecbExcessLiquidityList, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            ecbExcessLiquidityService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        }
 				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("15"))
 				{
 					   List<EcbQeLiquidity> ecbQeLiquidityList = new ArrayList<>();
@@ -284,7 +347,16 @@ public class ReadExcelWriteDBService {
 							   ecbQeLiquidityService.SaveQeLiquidityData(ecbQeLiquidityList);
 					
 					   }
-					   ecbQeLiquidityService.doCaclulation();
+					   if (!ecbQeLiquidityList.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(ecbQeLiquidityList, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            ecbQeLiquidityService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        }
 				}
 				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("16"))
 				{
@@ -307,7 +379,16 @@ public class ReadExcelWriteDBService {
 							   ezMonetaryMassLiquidityService.SaveEurozoneMonetaryMassData(eurozoneMonetaryMassList);
 					
 					   }
-					   ezMonetaryMassLiquidityService.doCaclulation();
+					   if (!eurozoneMonetaryMassList.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(eurozoneMonetaryMassList, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            ezMonetaryMassLiquidityService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        }
 				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("17"))
 				{
 					   List<BundOptionsVolume> bundOptionsVolumeList = new ArrayList<>();
@@ -329,7 +410,16 @@ public class ReadExcelWriteDBService {
 							   bundOptionsVolumeService.SaveData(bundOptionsVolumeList);
 					
 					   }
-					   bundOptionsVolumeService.doCaclulation();
+					   if (!bundOptionsVolumeList.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(bundOptionsVolumeList, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            bundOptionsVolumeService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        }
 				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("18"))
 				{
 					   List<BoblOptionsVolume> boblBOptionsVolumeList = new ArrayList<>();
@@ -351,7 +441,16 @@ public class ReadExcelWriteDBService {
 							   boblOptionsVolumeService.SaveData(boblBOptionsVolumeList);
 					
 					   }
-					   boblOptionsVolumeService.doCaclulation();
+					   if (!boblBOptionsVolumeList.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(boblBOptionsVolumeList, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            boblOptionsVolumeService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        }
 				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("19"))
 				{
 					   List<BuxlOptionsVolume> buxlOptionsVolumeList = new ArrayList<>();
@@ -373,7 +472,16 @@ public class ReadExcelWriteDBService {
 							   buxlOptionsVolumeService.SaveData(buxlOptionsVolumeList);
 					
 					   }
-					   buxlOptionsVolumeService.doCaclulation();
+					   if (!buxlOptionsVolumeList.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(buxlOptionsVolumeList, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            buxlOptionsVolumeService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        }
 				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("20"))
 				{
 					   List<ShatzOptionsVolume> shatzOptionsVolumeList = new ArrayList<>();
@@ -395,7 +503,15 @@ public class ReadExcelWriteDBService {
 							   shatzOptionsVolumeService.SaveData(shatzOptionsVolumeList);
 					
 					   }
-					   shatzOptionsVolumeService.doCaclulation();
+					   if (!shatzOptionsVolumeList.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(shatzOptionsVolumeList, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+				            shatzOptionsVolumeService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        }
 				}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("21"))
 				{
 					   List<EuriborOptionsVolume> euriborOptionsVolumeList = new ArrayList<>();
@@ -445,7 +561,16 @@ public class ReadExcelWriteDBService {
 								   cdsDataService.SaveData(cdsDataList);
 					
 					   }
-					   cdsDataService.doCaclulation();
+					   if (!cdsDataList.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(cdsDataList, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            cdsDataService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        }
 				}
 				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("23"))
 				{
@@ -473,7 +598,16 @@ public class ReadExcelWriteDBService {
 								   fxDataService.SaveData(fxUsdDataList);
 					
 					   }
-					   fxDataService.doCaclulation();
+					   if (!fxUsdDataList.isEmpty()) {
+				            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(fxUsdDataList, "referDate");
+
+				            System.out.println("Minimum Date: " + minMaxDates[0]);
+				            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+				            fxDataService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				        } else {
+				            System.out.println("List is empty.");
+				        } 
 				}
 				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("25"))
 				{

@@ -59,7 +59,8 @@
 			    "#jqxCheckBoxmexico",
 				"#jqxCheckBoxsaudi",
 				"#jqxCheckBoxturkey",
-				"#jqxCheckBoxsouthafrica"
+				"#jqxCheckBoxsouthafrica",
+				"#jqxCheckBoxegypt"
 				    ];	
 			    
  var funcionFilter=["#jqxDailyChangeInPercentage",

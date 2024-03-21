@@ -88,6 +88,15 @@ public class EnergyService
 		 	StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_energy_main");
 			query.execute();
 	   	}
+	 public void doCaclulationLoader(String fromDate,String toDate)
+	   	{
+		 	StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_energy_loader");
+		 	query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query.setParameter("fromDate", fromDate);
+			query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query.setParameter("toDate", toDate);
+			query.execute();
+	   	}
 	 public void updateEnergyData(List<UpdateDataDTO> updateDataDTOlst) {
 		
 		 EnergyData energyData;

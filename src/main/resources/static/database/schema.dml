@@ -19471,8 +19471,6 @@ insert into audit_skews_euribor_7_mtty_sequence values ( 1 );
 	'tmp_audit_skews_euribor_7_mtty' from subgroup s,
 	 (SELECT @rownum:=(select max(id) from table_management)) r where s.group_id=31;	 
 	 
-	 
-  
 INSERT INTO `bourse`.`column_configuration`
 		(`id`,
 		`calculation_type`,

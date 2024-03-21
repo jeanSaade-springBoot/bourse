@@ -96,7 +96,8 @@
   var yaxisformat=3;
   var dataFormat=3;
   var TestOptions;
-
+  var graphService = "fxcds";
+  
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
 	  $('#nav-tabContent').show();
@@ -220,117 +221,7 @@
     }
 }); 
   });
-			
-	function navigationGraph(condition){
-		fromNavigation=true;
-		const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-			  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-			];
-				if(condition=="yearBackward")
-				{ 
-					expectedmonthdate = new Date(monthDate.getMonth()+"-"+monthDate.getDay()+"-"+(monthDate.getFullYear()-1));
-					if (startDateF1!=null)
-					 {if (expectedmonthdate<=startDateF1)
-						{
-							$("#button-yearBackward").prop('disabled', true);
-							$('#startdatetext').empty();
-							$('#startdatetext').append("No data available before "+monthNames[startDateF1.getMonth()]+" "+startDateF1.getFullYear())
-							$('#alertStartDate-modal').modal('show');
-						return;
-						}
-					 }
-					else
-						if (startDateF2!=null)
-						{ 
-							if (expectedmonthdate<=startDateF2)
-						   {
-								$("#button-yearBackward").prop('disabled', true);
-								$('#startdatetext').empty();
-								$('#startdatetext').append("No data available before "+monthNames[startDateF2.getMonth()]+" "+startDateF2.getFullYear())
-								$('#alertStartDate-modal').modal('show');
-							return;
-							}
-						}
-				monthDate.setFullYear(monthDate.getFullYear() - 1);
-				if(mode=="merge") 
-				  drawGraph();
-					else
-						splitGraph();
-				}else
-					if(condition=="monthBackward")
-				  {   
-					
-					    expectedmonthdate = new Date(monthDate.getMonth()+"-"+monthDate.getDay()+"-"+monthDate.getFullYear());
-					    if (startDateF1!=null)
-					     {
-					    	if (expectedmonthdate<=startDateF1)
-					        {
-							$("#button-monthBackward").prop('disabled', true);
-							$("#button-yearBackward").prop('disabled', true);
-							$('#startdatetext').empty();
-							$('#startdatetext').append("No data available before "+monthNames[startDateF1.getMonth()]+" "+startDateF1.getFullYear())
-							$('#alertStartDate-modal').modal('show');
-							return;
-							}
-					     }
-					    else
-							if (startDateF2!=null)
-							{ 
-								if (expectedmonthdate<=startDateF2)
-							   {
-									$("#button-monthBackward").prop('disabled', true);
-									$("#button-yearBackward").prop('disabled', true);
-									$('#startdatetext').empty();
-									$('#startdatetext').append("No data available before "+monthNames[startDateF2.getMonth()]+" "+startDateF2.getFullYear())
-									$('#alertStartDate-modal').modal('show');
-								return;
-								}
-							}
-				    monthDate.setMonth(monthDate.getMonth() - 1);
-				    if(mode=="merge") 
-						  drawGraph();
-							else
-								splitGraph();
-					}
-					else
-						if(condition=="monthForward")
-					  {   
-						$("#button-monthBackward").prop('disabled', false);
-					    monthDate.setMonth(monthDate.getMonth() + 1);
-					    if(mode=="merge") 
-							  drawGraph();
-								else
-									splitGraph();
-						}
-						else
-							if(condition=="yearForward")
-						  {   
-							$("#button-yearBackward").prop('disabled', false);
-							monthDate.setFullYear(monthDate.getFullYear() + 1);
-							if(mode=="merge") 
-								  drawGraph();
-									else
-										splitGraph();
-							}
-
-					if   (checkDateMonth(monthDate,date))
-					   {
-						  $("#button-monthForward").prop('disabled', false);
-						}
-						else
-						{
-							$("#button-monthForward").prop('disabled', true);
-						}
-					
-					if   (checkDateYear(monthDate,date))
-					   {
-						  $("#button-yearForward").prop('disabled', false);
-						}
-						else
-						{
-							$("#button-yearForward").prop('disabled', true);
-						} 
-			}
+	
 			  function formatDate(date) {
 				    var d = new Date(date),
 				        month = '' + (d.getMonth() + 1),
@@ -1169,12 +1060,11 @@
 					})
 			}
 			function drawGraph(){
-				   $('#overlayChart').show(); 
+				  $('#overlayChart').show(); 
 				   $(".chart-option").show(); 
 				mode="merge";
 				var dataParam;
                 var checkedItemValues = [];
-				
 				var title;
 				var fontsize='12px';
 				var fromdate = formatDate(monthDate);
@@ -1206,18 +1096,19 @@
 					} 
 				 if(chart!=null)
 					   chart.destroy();
-			        			
-		    	  if (checkedItem==2) {
-					  const group22Items = [];
-					  const otherItems = [];
-					  var checkedItemValues=[];
+			      
+		    	  if (checkedItem==2) {  
+				  
+				   const group22Items = [];
+				   const otherItems = [];
+				   var checkedItemValues=[];
 					  
-		    	       for(i=0; i<checkedItemid.length; i++)
+		    	  for(i=0; i<checkedItemid.length; i++)
 				   		   {
 				   	  		 if(checkedItemid[i]!=null)
 				   	  		  checkedItemValues.push(checkedItemid[i]);
 				   	       }
-						for (let i = 0; i < checkedItemValues.length; i++) {
+				   for (let i = 0; i < checkedItemValues.length; i++) {
 						  const item = itemValue[checkedItemValues[i]];
 						
 						  if (item && item.GroupId === "22") {
@@ -1226,9 +1117,14 @@
 						    otherItems.push(checkedItemValues[i]);
 						  }
 						}
-						 checkedItemValues = otherItems.concat(group22Items);
-
-				        dataParam = { 
+						checkedItemValues = otherItems.concat(group22Items);
+		 	     		
+				        hasMissingDates = (missingDatesGroups.includes(itemValue[checkedItemValues[0]].GroupId)
+				        					||missingDatesGroups.includes(itemValue[checkedItemValues[1]].GroupId)
+				        					)?"true":false;
+				        
+				       
+		 	     	      dataParam = { 
 		 		        		"fromdate":fromdate,
 		 		        	    "todate":todate,
 		 		        	    "period":"d",
@@ -1236,11 +1132,11 @@
 		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
 		 		        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
 		 		        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
-		 		        	    "removeEmpty1": itemValue[checkedItemValues[0]].GroupId==15?"true":false,
-		 		        	    "removeEmpty2": itemValue[checkedItemValues[1]].GroupId==15?"true":false,
+		 		        	    "removeEmpty1": hasMissingDates,
+		 		        	    "removeEmpty2": hasMissingDates,
 		 	     			   };
-		 	     			   hasMissingDates = itemValue[checkedItemValues[0]].GroupId==15?"true":false;
-				        disableOptions(true);
+							   
+		 	     			 disableOptions(true);
 					    if(checkedItemValues.length>1)
 					        	title=itemValue[checkedItemValues[0]].title +" vs "+ itemValue[checkedItemValues[1]].title 
 					        		else 
@@ -1265,7 +1161,7 @@
 					  		   	  			        }},
 					     	  			          height: 525,
 					     	  			          type: 'line',
-					     	  			     animations: { enabled: false }
+					     	  			     animations: { enabled: false },
 					     	  			        },
 					     	  			   grid: {
 					     	  				   
@@ -1325,7 +1221,7 @@
 					  							        	  fontSize: fontsize,
 					  							        	 },
 					  					        	  },
-					     	  			           type: (itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)?'datetime':'category',
+					     	  			           type: (hasMissingDates)?'datetime':'category',
 	   	  			          					   tickAmount: 19,
 					     	  			      axisBorder: {
 					     	  		          show: true,
@@ -1430,20 +1326,20 @@
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 	    	    	          	    
-									if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
+									if(hasMissingDates)
 		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	          	else
 		      	    	            chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	       
 			      	    	        var dbchartType1=response[0].config.chartType;
 			      	    	            chartType1 =(getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
-			      	    	            chartType1 = (itemValue[checkedItemValues[0]].GroupId == 22)?'column':'line'
+			      	    	            //chartType1 = (itemValue[checkedItemValues[0]].GroupId == 22)?'column':'line';
 			      	    	            
 			      	    	        var dbchartType2=response[1].config.chartType;
 			      	    	            chartType2 =getChartType(dbchartType2)[0]!='area'?getChartType(dbchartType2)[0]:'line';
-			      	    	            chartType2 = (itemValue[checkedItemValues[1]].GroupId == 22)?'column':'line'
+			      	    	           // chartType2 = (itemValue[checkedItemValues[1]].GroupId == 22)?'column':'line';
 			      	    	            
-			      	    	            min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+			      	    	             min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
 				      	    	        })),
 				      	    	        max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
@@ -1459,7 +1355,7 @@
 			      	    	            min=Math.min(min1,min2);
 										max=Math.max(max1,max2);
 									 // minvalue = parseFloat((Math.floor(min*20)/20).toFixed(2));
-				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
+				      	    	     // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
 	      	    	  				 	 
@@ -1470,7 +1366,8 @@
 									 nbrOfDigits=yaxisformat[0];
 									 notDecimal1=yaxisformat1[1];
 									 nbrOfDigits1=yaxisformat1[0];
-									
+									 // chartType2=='column'? response[1].graphResponseDTOLst = updateSeriesValue(response[0].graphResponseDTOLst,response[1].graphResponseDTOLst):null;
+							       
 							        var chartConfigSettings={
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
@@ -1493,12 +1390,11 @@
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
 											 
-											 if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
+											 if(hasMissingDates)
 											 	updateChartSelectedItemMissingDates(chartConfigSettings);
 											 else
 												 updateChartSelectedItem(chartConfigSettings);
-									// renderChartFlagAny2(chart,0,itemValue[checkedItemValues[0]].img);
-									// renderChartFlagAny2(chart,1,itemValue[checkedItemValues[1]].img);
+									
 							        $('#overlayChart').hide();
 		      	   },
 		      	    	        error: function (e) {
@@ -1507,7 +1403,7 @@
 		      	
 		      	    	        }
 		      	    	    });	
-			  	        graphHistory = { 
+			  	          graphHistory = { 
 		   		        		"screenName":"any2FxCds",
 		   		        	    "parameter":JSON.stringify(checkedItemValues),
 		   	     			   };
@@ -1528,7 +1424,7 @@
 	     	    	    });		 
 			        chart = new ApexCharts(document.querySelector("#mainChart"), options);
 			        chart.render();
-				}
+					}
 				else{
 						for(i=0; i<checkedItemid.length; i++)
 			   		   {
@@ -1819,7 +1715,7 @@
 		    	               $("#dateFrom-mainChart").val(fromdate);
 		    	               $("#dateTo-mainChart").val(todate);
 
-				  inGraphNews(getSelectedFields(checkedItemValues,itemValue));
+			  inGraphNews(getSelectedFields(checkedItemValues,itemValue));
 							}
 		  	
 			function graphfont(fontSize){

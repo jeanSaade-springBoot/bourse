@@ -196,11 +196,34 @@
 	 	$("#FamilyDropDown").on('select', function (event) {
             if (event.args) {
                familyItem = event.args.item;
-               groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
-               var dataAdapter = new $.jqx.dataAdapter(groupsource);
-               $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
-       		
-            }
+              // groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
+              // var dataAdapter = new $.jqx.dataAdapter(groupsource);
+              // $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+       		 $.ajax({
+			    url: '/admin/getgroupsbyfamily/' + familyItem.value,
+			    method: 'GET',
+			    dataType: 'json',
+			    success: function(response) {
+			        // Handle successful response
+			        var dataAdapter = new $.jqx.dataAdapter(response);
+			        $("#groupDropDown").jqxDropDownList({ source: dataAdapter, disabled: false });
+			    },
+			    error: function(xhr, status, error) {
+			        if (xhr.status === 401) {
+			            // Redirect to the login page or display a message
+			            window.location.href = '/login'; // Redirect to the login page
+			        } else {
+				        // Check if the response is HTML content
+				        if (xhr.getResponseHeader('content-type').indexOf('text/html') !== -1) {
+				            if(xhr.responseText.includes("Your session has expired due to inactivity."))
+				              window.location.href = '/invalidSession';
+				        } else {
+				            // The response is not HTML, handle other errors or unexpected responses
+				        }
+				    }
+			    }
+			});
+       		 }
         });
 	   groupsource =
 	      {
@@ -216,14 +239,37 @@
 		 
 		$("#groupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true,  displayMember: "description", valueMember: "id",theme: 'dark' , width: 260, height: 30});
 		$("#groupDropDown").on('select', function (event) {
-              if (event.args) {
-                 groupItem = event.args.item;
-                 subgroupsource.url='/admin/getsubgroupsbygroup/'+groupItem.value;
-                 var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
-                 $("#subGroupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
-         		
-              }
-          });
+            if (event.args) {
+               groupItem = event.args.item;
+              // groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
+              // var dataAdapter = new $.jqx.dataAdapter(groupsource);
+              // $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+       		 $.ajax({
+			    url: '/admin/getsubgroupsbygroup/'+groupItem.value,
+			    method: 'GET',
+			    dataType: 'json',
+			    success: function(response) {
+			        // Handle successful response
+			        var dataAdapter = new $.jqx.dataAdapter(response);
+			        $("#subGroupDropDown").jqxDropDownList({ source: dataAdapter, disabled: false });
+			    },
+			    error: function(xhr, status, error) {
+			        if (xhr.status === 401) {
+			            // Redirect to the login page or display a message
+			            window.location.href = '/login'; // Redirect to the login page
+			        } else {
+				        // Check if the response is HTML content
+				        if (xhr.getResponseHeader('content-type').indexOf('text/html') !== -1) {
+				            if(xhr.responseText.includes("Your session has expired due to inactivity."))
+				              window.location.href = '/invalidSession';
+				        } else {
+				            // The response is not HTML, handle other errors or unexpected responses
+				        }
+				    }
+			    }
+			});
+       		 }
+        });
 		 subgroupsource =
 	      {
 	          datatype: "json",
@@ -237,15 +283,33 @@
 		   var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
 		$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: 260, height: 30});
 		$("#subGroupDropDown").on('select', function (event) {
-			
-            if (event.args) {
-               subGroupDropDown = event.args.item;
-               gridsource.url='/admin/findNativeByGroupIdAndSubgroupId/'+groupItem.value+'/'+subGroupDropDown.value;
-               var dataAdapter = new $.jqx.dataAdapter(gridsource);
-               $('#grid').jqxGrid({source:dataAdapter});
-       		
+    if (event.args) {
+        subGroupDropDown = event.args.item;
+        var url = '/admin/findNativeByGroupIdAndSubgroupId/' + groupItem.value + '/' + subGroupDropDown.value;
+        
+        // Perform the AJAX call with error handling
+        $.ajax({
+            url: url,
+            method: 'GET',
+            dataType: 'json',
+            success: function(response) {
+                // Handle successful response
+                gridsource.localdata= response;
+                var dataAdapter = new $.jqx.dataAdapter(gridsource);
+                $('#grid').jqxGrid({ source: dataAdapter });
+            },
+            error: function(xhr, status, error) {
+                // Check if the response is HTML content
+				        if (xhr.getResponseHeader('content-type').indexOf('text/html') !== -1) {
+				            if(xhr.responseText.includes("Your session has expired due to inactivity."))
+				              window.location.href = '/invalidSession';
+				        } else {
+				            // The response is not HTML, handle other errors or unexpected responses
+				        }
             }
         });
+    }
+});
 	   // $("#jqxCheckBoxNegative").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});
 	    $("#jqxCheckBoxShowIndb").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});  
 	    $("#jqxCheckBoxShowInNews").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 192, height: 25});  

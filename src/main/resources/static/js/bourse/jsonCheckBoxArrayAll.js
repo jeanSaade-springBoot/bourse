@@ -1428,7 +1428,7 @@ var itemValue = {
     "GroupId": "22",
     "description": "uk",
     "title": "UK",
-	"img": "/img/flag/uk.png"
+	"img": "/img/flag/united-kingdom.png"
   },
   "#jqxCheckBoxswiss": {
     "subGroupId": "6",
@@ -3278,5 +3278,532 @@ var itemValue = {
     "description": "SHIBA",
     "title": "Shiba"
   },
-  
+    "#jqxCheckBox-37-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "37",
+    "description": "MANUF-14.37",
+    "title": "",
+    "img": "/img/flag/eu.png"
+  },
+   "#jqxCheckBox-37-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "37",
+    "description": "MANUF-15.37",
+    "title": "",
+    "img": "/img/flag/eu.png"
+  },
+   "#jqxCheckBox-37-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "37",
+    "description": "MANUF-16.37",
+    "title": "",
+    "img": "/img/flag/eu.png"
+  },
+    "#jqxCheckBox-37-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "37",
+    "description": "MANUF-14.37",
+    "title": "",
+    "img": "/img/flag/eu.png"
+  },
+   "#jqxCheckBox-37-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "37",
+    "description": "MANUF-15.37",
+    "title": "",
+    "img": "/img/flag/eu.png"
+  },
+   "#jqxCheckBox-37-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "37",
+    "description": "MANUF-16.37",
+    "title": "",
+    "img": "/img/flag/eu.png"
+  },
+    "#jqxCheckBox-38-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "38",
+    "description": "MANUF-14.38",
+    "title": "",
+    "img": "/img/flag/germany.png"
+  },
+   "#jqxCheckBox-38-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "38",
+    "description": "MANUF-15.38",
+    "title": "",
+    "img": "/img/flag/germany.png"
+  },
+   "#jqxCheckBox-38-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "38",
+    "description": "MANUF-16.38",
+    "title": "",
+    "img": "/img/flag/germany.png"
+  },
+    "#jqxCheckBox-38-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "38",
+    "description": "MANUF-14.38",
+    "title": "",
+    "img": "/img/flag/germany.png"
+  },
+   "#jqxCheckBox-38-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "38",
+    "description": "MANUF-15.38",
+    "title": "",
+    "img": "/img/flag/germany.png"
+  },
+   "#jqxCheckBox-38-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "38",
+    "description": "MANUF-16.38",
+    "title": "",
+    "img": "/img/flag/germany.png"
+  },
+    "#jqxCheckBox-39-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "39",
+    "description": "MANUF-14.39",
+    "title": "",
+    "img": "/img/flag/france.png"
+  },
+   "#jqxCheckBox-39-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "39",
+    "description": "MANUF-15.39",
+    "title": "",
+    "img": "/img/flag/france.png"
+  },
+   "#jqxCheckBox-39-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "39",
+    "description": "MANUF-16.39",
+    "title": "",
+    "img": "/img/flag/france.png"
+  },
+    "#jqxCheckBox-39-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "39",
+    "description": "MANUF-14.39",
+    "title": "",
+    "img": "/img/flag/france.png"
+  },
+   "#jqxCheckBox-39-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "39",
+    "description": "MANUF-15.39",
+    "title": "",
+    "img": "/img/flag/france.png"
+  },
+   "#jqxCheckBox-39-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "39",
+    "description": "MANUF-16.39",
+    "title": "",
+    "img": "/img/flag/france.png"
+  },
+    "#jqxCheckBox-40-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "40",
+    "description": "MANUF-14.40",
+    "title": "",
+    "img": "/img/flag/italy.png"
+  },
+   "#jqxCheckBox-40-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "40",
+    "description": "MANUF-15.40",
+    "title": "",
+    "img": "/img/flag/italy.png"
+  },
+   "#jqxCheckBox-40-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "40",
+    "description": "MANUF-16.40",
+    "title": "",
+    "img": "/img/flag/italy.png"
+  },
+    "#jqxCheckBox-40-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "40",
+    "description": "MANUF-14.40",
+    "title": "",
+    "img": "/img/flag/italy.png"
+  },
+   "#jqxCheckBox-40-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "40",
+    "description": "MANUF-15.40",
+    "title": "",
+    "img": "/img/flag/italy.png"
+  },
+   "#jqxCheckBox-40-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "40",
+    "description": "MANUF-16.40",
+    "title": "",
+    "img": "/img/flag/italy.png"
+  },
+    "#jqxCheckBox-41-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "41",
+    "description": "MANUF-14.41",
+    "title": "",
+    "img": "/img/flag/spain.png"
+  },
+   "#jqxCheckBox-41-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "41",
+    "description": "MANUF-15.41",
+    "title": "",
+    "img": "/img/flag/spain.png"
+  },
+   "#jqxCheckBox-41-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "41",
+    "description": "MANUF-16.41",
+    "title": "",
+    "img": "/img/flag/spain.png"
+  },
+    "#jqxCheckBox-41-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "41",
+    "description": "MANUF-14.41",
+    "title": "",
+    "img": "/img/flag/spain.png"
+  },
+   "#jqxCheckBox-41-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "41",
+    "description": "MANUF-15.41",
+    "title": "",
+    "img": "/img/flag/spain.png"
+  },
+   "#jqxCheckBox-41-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "41",
+    "description": "MANUF-16.41",
+    "title": "",
+    "img": "/img/flag/spain.png"
+  },
+    "#jqxCheckBox-42-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "42",
+    "description": "MANUF-14.42",
+    "title": "",
+    "img": "/img/flag/united-kingdom.png"
+  },
+   "#jqxCheckBox-42-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "42",
+    "description": "MANUF-15.42",
+    "title": "",
+    "img": "/img/flag/united-kingdom.png"
+  },
+   "#jqxCheckBox-42-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "42",
+    "description": "MANUF-16.42",
+    "title": "",
+    "img": "/img/flag/united-kingdom.png"
+  },
+    "#jqxCheckBox-42-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "42",
+    "description": "MANUF-14.42",
+    "title": "",
+    "img": "/img/flag/united-kingdom.png"
+  },
+   "#jqxCheckBox-42-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "42",
+    "description": "MANUF-15.42",
+    "title": "",
+    "img": "/img/flag/united-kingdom.png"
+  },
+   "#jqxCheckBox-42-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "42",
+    "description": "MANUF-16.42",
+    "title": "",
+    "img": "/img/flag/united-kingdom.png"
+  },
+    "#jqxCheckBox-43-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "43",
+    "description": "MANUF-14.43",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+   "#jqxCheckBox-43-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "43",
+    "description": "MANUF-15.43",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+   "#jqxCheckBox-43-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "43",
+    "description": "MANUF-16.43",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+    "#jqxCheckBox-43-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "43",
+    "description": "MANUF-14.43",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+   "#jqxCheckBox-43-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "43",
+    "description": "MANUF-15.43",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+   "#jqxCheckBox-43-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "43",
+    "description": "MANUF-16.43",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+    "#jqxCheckBox-44-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "44",
+    "description": "MANUF-14.44",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+   "#jqxCheckBox-44-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "44",
+    "description": "MANUF-15.44",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+   "#jqxCheckBox-44-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "44",
+    "description": "MANUF-16.44",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+    "#jqxCheckBox-44-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "44",
+    "description": "MANUF-14.44",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+   "#jqxCheckBox-44-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "44",
+    "description": "MANUF-15.44",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+   "#jqxCheckBox-44-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "44",
+    "description": "MANUF-16.44",
+    "title": "",
+    "img": "/img/flag/united-states.png"
+  },
+    "#jqxCheckBox-45-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "45",
+    "description": "MANUF-14.45",
+    "title": "",
+    "img": "/img/flag/china.png"
+  },
+   "#jqxCheckBox-45-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "45",
+    "description": "MANUF-15.45",
+    "title": "",
+    "img": "/img/flag/china.png"
+  },
+   "#jqxCheckBox-45-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "45",
+    "description": "MANUF-16.45",
+    "title": "",
+    "img": "/img/flag/china.png"
+  },
+    "#jqxCheckBox-45-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "45",
+    "description": "MANUF-14.45",
+    "title": "",
+    "img": "/img/flag/china.png"
+  },
+   "#jqxCheckBox-45-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "45",
+    "description": "MANUF-15.45",
+    "title": "",
+    "img": "/img/flag/china.png"
+  },
+   "#jqxCheckBox-45-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "45",
+    "description": "MANUF-16.45",
+    "title": "",
+    "img": "/img/flag/china.png"
+  },
+    "#jqxCheckBox-46-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "46",
+    "description": "MANUF-14.46",
+    "title": "",
+    "img": "/img/flag/japan.png"
+  },
+   "#jqxCheckBox-46-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "46",
+    "description": "MANUF-15.46",
+    "title": "",
+    "img": "/img/flag/japan.png"
+  },
+   "#jqxCheckBox-46-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "46",
+    "description": "MANUF-16.46",
+    "title": "",
+    "img": "/img/flag/japan.png"
+  },
+    "#jqxCheckBox-46-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "46",
+    "description": "MANUF-14.46",
+    "title": "",
+    "img": "/img/flag/japan.png"
+  },
+   "#jqxCheckBox-46-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "46",
+    "description": "MANUF-15.46",
+    "title": "",
+    "img": "/img/flag/japan.png"
+  },
+   "#jqxCheckBox-46-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "46",
+    "description": "MANUF-16.46",
+    "title": "",
+    "img": "/img/flag/japan.png"
+  },
+    "#jqxCheckBox-47-1-14": { 
+	"factor":"14",
+    "subGroupId": "1",
+    "GroupId": "47",
+    "description": "MANUF-14.47",
+    "title": "",
+    "img":  "/img/flag/india.png"
+  },
+   "#jqxCheckBox-47-1-15": { 
+	"factor":"15",
+    "subGroupId": "1",
+    "GroupId": "47",
+    "description": "MANUF-15.47",
+    "title": "",
+    "img":  "/img/flag/india.png"
+  },
+   "#jqxCheckBox-47-1-16": { 
+	"factor":"16",
+    "subGroupId": "1",
+    "GroupId": "47",
+    "description": "MANUF-16.47",
+    "title": "",
+    "img":  "/img/flag/india.png"
+  },
+    "#jqxCheckBox-47-2-14": { 
+	"factor":"14",
+    "subGroupId": "2",
+    "GroupId": "47",
+    "description": "MANUF-14.47",
+    "title": "",
+    "img":  "/img/flag/india.png"
+  },
+   "#jqxCheckBox-47-2-15": { 
+	"factor":"15",
+    "subGroupId": "2",
+    "GroupId": "47",
+    "description": "MANUF-15.47",
+    "title": "",
+    "img":  "/img/flag/india.png"
+  },
+   "#jqxCheckBox-47-2-16": { 
+	"factor":"16",
+    "subGroupId": "2",
+    "GroupId": "47",
+    "description": "MANUF-16.47",
+    "title": "",
+    "img":  "/img/flag/india.png"
+  },
   	};

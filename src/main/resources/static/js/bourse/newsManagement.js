@@ -85,7 +85,8 @@
 		  pagesizeoptions: ['10', '50', '100'],
           autoheight: true,
           editable: true,
-          selectionmode: 'none',
+          //selectionmode: 'checkbox',
+           selectionmode: 'none',
           editmode: 'selectedrow',
           virtualmode: true,
           rendergridrows: function () {
@@ -94,7 +95,7 @@
           columns: [
         	 { text: 'Robot' ,editable:false, datafield: 'robots', width: '8%'},
         	 { text: 'Date', datafield: 'generationDateDate', width: '10%', editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
-        	 { text: 'News', datafield: 'template', width: '67%',   cellclassname: cellclassname,
+        	 { text: 'News', datafield: 'template', width: '64.5%',   cellclassname: cellclassname,
         	   createfilterwidget: function (column, columnElement, widget) {
         	        widget.jqxInput({ width: '99%', height: 27, placeHolder: "Search" });
         	      }
@@ -133,6 +134,11 @@
       	    }
             },  
       	   
+           { text: '',editable:false, datafield: 'copy',width:'2.5%', filterable: false ,cellsrenderer: function (row) {
+   	    	  return "<div class=\"copy-text\"><button onclick='Copy(" + row + ", event)'><i class=\"fa fa-clone\" aria-hidden=\"true\"></i></button></div>";
+				}
+				}
+		    ,
            { text: '', datafield: 'isBold', hidden: true  },
            { text: '', datafield: 'columnDescription', hidden: true  },
            { text: '', datafield: 'isPublished', hidden: true  }, 
@@ -871,3 +877,8 @@
 	       }
 	       return [listOfId,data];
 	  } 
+	   function Copy(row, event) {
+	     selectedRow.editrow = row;
+	     var copyData = $("#grid").jqxGrid('getrowdata', row).template;
+			 copyToClipboard(copyData);
+    }

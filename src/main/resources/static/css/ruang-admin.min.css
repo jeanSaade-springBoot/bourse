@@ -72,6 +72,55 @@ div#overlay {
     justify-content: center;
     width: 100px;
 }
+
+.copy-text button {
+    padding: 0.25rem;
+    margin: 0.2rem 0.4rem;
+    background: #48659e;
+    color: #fff;
+    font-size: 18px;
+    border: none;
+    outline: none;
+    border-radius: 0.2rem;
+    cursor: pointer;
+}
+
+.copy-text button:active {
+	background: #809ce2;
+}
+.copy-text button:before {
+	content: "Copied";
+	position: absolute;
+	top: -45px;
+	right: 0px;
+	background: #5c81dc;
+	padding: 8px 10px;
+	border-radius: 20px;
+	font-size: 15px;
+	display: none;
+}
+.copy-text button:after {
+	content: "";
+	position: absolute;
+	top: -20px;
+	right: 25px;
+	width: 10px;
+	height: 10px;
+	background: #5c81dc;
+	transform: rotate(45deg);
+	display: none;
+}
+.copy-text.active button:before,
+.copy-text.active button:after {
+	display: block;
+}
+i.fa.fa-clone {
+    font-weight: var(--fa-style, 100);
+}
+.row-style {
+    background-color: #272e48;
+    padding-top: 0.1rem;
+}
 .accept-style {
 	    background: #66bb6a;
 	    height: 32px;

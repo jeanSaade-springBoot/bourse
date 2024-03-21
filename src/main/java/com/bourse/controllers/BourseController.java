@@ -189,6 +189,16 @@ public class BourseController {
 	    
 	    return modelAndView;
     }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_MACRO') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/macro")
+    public ModelAndView dataEntryPageMacro(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        ModelAndView modelAndView = new ModelAndView("html/macro/macroDataInput");
+	    
+	    return modelAndView;
+    }
 	@RequestMapping( value =  "/returnfunction")
     public ModelAndView returnFunctionPage(ModelMap model)
     {
@@ -233,6 +243,7 @@ public class BourseController {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/any2FxCds");
+	   // return new ModelAndView("html/graphtest");
     }
     @PreAuthorize("hasAuthority('ANY2_SKEWS_GRAPH_SCREEN') and principal.tacAccepted == true")
    	@RequestMapping( value =  "/any2skews")
@@ -265,6 +276,13 @@ public class BourseController {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/base");
+    }
+	@RequestMapping( value =  "/stigraph")
+    public ModelAndView stiGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/sti/sti");
     }
 	@PreAuthorize("hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/foodstuff")
@@ -523,6 +541,13 @@ public class BourseController {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "SETTINGS_SCREEN"));
 		return new ModelAndView("html/readExcelWriteDB");
+    }
+	@RequestMapping(value =  "/macrodisplaysettings")
+    public ModelAndView macroDisplaySettings(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "MACRO_DISPLAY_SETTINGS"));
+		return new ModelAndView("html/macro/macroDisplaySettings");
     }
 	@PreAuthorize("hasAuthority('ONE_SERIE') and principal.tacAccepted == true")
 	@GetMapping("/oneserie")

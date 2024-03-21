@@ -29,7 +29,7 @@ $(document).ready(function() {
 
 function drawGraph() {
 	
-	const graphService = "metals";
+	var graphService = "metals";
 	const removeEmpty = false;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }

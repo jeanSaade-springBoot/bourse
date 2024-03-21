@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link href="img/logo/logo.png" rel="icon">
+  <link rel="icon" href="/favicon.ico" type="image/x-icon"><link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <title>Libvol - Settings</title>
+  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
+  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+  <link href="/css/ruang-admin.min.css" rel="stylesheet">
+  <link href="/css/marquee.css" rel="stylesheet">
+  <link href="/css/apexchart.css" rel="stylesheet">
+  <link href="/css/input-file.css" rel="stylcesheet">
+  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
+  <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link href="/css/notification.css" rel="stylesheet">
+  <style>
+  
+  </style>
+</head>
+
+<body id="page-top">
+  <div id="wrapper">
+    <!-- Sidebar -->
+    <!-- Sidebar -->
+    <div id="content-wrapper" class="d-flex flex-column">
+    <div id="fixedMenu">
+         <!-- TopBar -->
+     	<div th:include="${mainmenu}"></div>
+        <!-- Topbar -->
+
+        <!-- Container Fluid-->
+           <div class="d-sm-flex align-items-center">
+            <h1 class="ml-6 text-darkorange">Settings</h1>
+            	 <nav style="margin-left: 3rem;
+    						 height: 35px;
+    						 margin-top: 0.5rem;">
+				  
+				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
+				    <a class="navigation nav-item nav-link"  href="/bourse/settings" role="tab" aria-controls="nav-any2" aria-selected="false">Column Master</a>
+				    <a class="navigation nav-item nav-link"   href="/bourse/readexcelwritedb" role="tab" aria-controls="nav-any2" aria-selected="false">Batch Loader</a>
+				    <a class="navigation nav-item nav-link active"  href="/bourse/macrodisplaysettings" role="tab"  aria-selected="false">Macro Display Settings</a>
+				   </div>
+				</nav>
+           
+          </div>
+          
+		<div id="overlay">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 50%;"/>
+		   </div>
+		     </div>
+		    <div id="content" style="height: fit-content; display:none;">
+     
+       	   <div class="col-12 pt-2" id="container-wrapper" style="height: fit-content; margin-left:3rem;     margin-bottom: 4rem;">
+				<div class="col-12 pt-2">
+					<h2>Macro PMI</h2>
+				</div>
+				<div id="macroContainer">
+					
+				</div>
+				<div class="col-1 d-flex pt-3">
+				 	  <input type='button' id='editUpdate' onclick='editPrivilege()' value='EDIT' class="edit-btn">
+				 	  <input type='button' id='cancel' onclick='cancel()' value='CANCEL' class="cancel-btn d-none">
+				  </div>
+			</div>
+			<div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+      		<div class="simple-marquee-container">
+				<div class="marquee-sibling-date">
+					<p id="todayDate"></p>
+				</div>
+				<div class="marquee-sibling">
+					NEWS
+				</div>
+				<div class="marquee">
+					<ul id="Newslist" class="marquee-content-items">
+					</ul>
+				</div>
+				<div class="marquee-sibling-viewAll">
+					 <input type="button" value="VIEW ALL" id='viewall' style="display:none;"/>
+				</div>
+			</div>
+		</div>
+		
+      <!-- Footer -->
+     
+      <!-- Footer -->
+    </div>
+  </div>
+
+  <!-- Scroll to top -->
+  <a class="scroll-to-top rounded" href="#page-top">
+    <i class="fas fa-angle-up"></i>
+  </a>
+
+  <script src="/vendor/jquery/jquery.min.js"></script>
+  <script src="/js/marquee.js"></script>
+    <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
+  
+  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script src="/js/jqwidgets/jqxcore.js"></script> 
+  <script src="/js/jqwidgets/jqxcheckbox.js"></script>
+  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
+  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
+  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
+  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
+  <script src="/js/jqwidgets/jqxdata.js"></script> 
+		
+  <script src="/js/jqwidgets/jqxnotification.js"></script>
+  <script src="/js/bourse/macro/macroDisplaySettings.js"></script> 
+  <script src="/js/bourse/scrollBarNews.js"></script> 
+  <script src="/js/common.js"></script>
+  <script src="/js/input-file.min.js"></script>
+  <script src="/js/notification/sockjs.js"></script>
+  <script src="/js/notification/stomp.js"></script>
+  <script src="/js/notification/config.js"></script>
+  <script th:inline="javascript">
+	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+	  const hasPendingApprovalGrid= authorities.filter(item => {
+	  	   return item.authority === "PENDING_APPROVAL_GRID"
+	  })[0]!== undefined;
+	 
+  </script>
+</body>
+
+</html>

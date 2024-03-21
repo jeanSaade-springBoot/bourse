@@ -31,7 +31,7 @@ $(document).ready(function() {
 
 function drawGraph() {
 	
-	const graphService = "liquidity";
+	var graphService = "liquidity";
 	const removeEmpty = false;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }

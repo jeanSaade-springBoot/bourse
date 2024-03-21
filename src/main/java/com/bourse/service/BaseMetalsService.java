@@ -88,6 +88,16 @@ public class BaseMetalsService
 		 	StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_base_main");
 			query.execute();
 	   	}
+	 public void doCaclulationLoader(String fromDate,String toDate)
+	   	{
+		 	StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_base_loader");
+		 	query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query.setParameter("fromDate", fromDate);
+			query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query.setParameter("toDate", toDate);
+			query.execute();
+	   	}
+	 
 	 public void updateBaseData(List<UpdateDataDTO> updateDataDTOlst) {
 		
 		BaseMetals baseMetals;

@@ -154,6 +154,10 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 	 const values = addMarginToMinMax(minvalue, maxvalue, 5);
 				     var valueMin = values;
 				     var valueMax = values; 	
+	var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
+	 graphService=typeof graphService!='undefined'?graphService:'';
+	calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+			
 	if (SelectedchartType=='area')
       chart.updateOptions({
 		     legend: {
@@ -210,7 +214,7 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 									      }
 	        	  },
           tickAmount: 6,
-    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+    	    min:calculatedMinValue,
  		    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
 				 axisBorder: {
 	                  width: 3,
@@ -584,6 +588,12 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 		 const values = addMarginToMinMax(minvalue, maxvalue, 5);
 				     var valueMin = values;
 				     var valueMax = values; 
+				     
+		  var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
+		   graphService=typeof graphService!='undefined'?graphService:'';
+			  calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				     
+				   		     
 	if (SelectedchartType=='area')
       chart.updateOptions({
 		     legend: {
@@ -641,7 +651,7 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 									      }
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+    	  min:calculatedMinValue,
  		  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
 				axisBorder: {
 	                  width: 3,
@@ -749,7 +759,7 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 									      }
 	        	  },
           tickAmount: 6,
-            min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+            min:calculatedMinValue,
  		    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
 			 axisBorder: {
 	                  width: 3,
