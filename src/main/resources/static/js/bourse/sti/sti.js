@@ -55,6 +55,7 @@
 		];	
 var chart;
 var chartResponse;
+var chartConfigSettings;
 const graphName="stiGraph"; 
 			   
 $(window).on('load', function() {
@@ -77,20 +78,37 @@ $(document).ready(function() {
 	 
      $("#SaveToFavorites").jqxButton({ theme: 'dark', height: 30, width: 100 });
      
-    $("#draw").jqxButton({ theme: 'dark', height: 30, width: 74 });
+    $("#draw").jqxButton({ theme: 'dark', height: 30, width: 140 });
 	
 	$("#draw").click(function() { 
 		 var result = findThirdPoint(x1, y1, x2, y2, x3);
 		
-		  chart.updateSeries([{
-            name: "1",
-            data: chartResponse
-          },{
-		    name: '2',
-		    data: result
-		  }]);
+			chart.updateOptions({
+			 series:[ {
+		    name: 'Trendline',
+		    data: result,
+		    type:'line'
+		  },{
+            name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
+			 data: chartResponse,
+             type:'area'
+          }, ],
+           //colors: ['#2E93fA', '#66DA26', '#546E7A', '#E91E63', '#FF9800'],
+           fill: {
+			  type: ['solid']
+			},
+			markers: {
+			  size: [0, 1]
+			},
+			 stroke: {
+			 colors: [ "#FF0000","#FFFFFF",],
+				},
+      	  });
+          
+          disableOptions(true);
 		 
 	});
+	
 	$('#jqxWidget').on('select', function (event) 
 {
     var args = event.args;
@@ -124,7 +142,182 @@ function drawGraph() {
 	
 	var graphService = "sti";
 	const removeEmpty = true;
-	getGraphDataWithTrendLine(graphService,graphName,removeEmpty,true);
+	//getGraphDataWithTrendLine(graphService,graphName,removeEmpty,true);
+		drawTrendLine(graphService,graphName,removeEmpty,true);
+}
+function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
+{
+		
+	mode = "merge";
+	var dataParam;
+	var checkedItemValues = [];
+	$('#overlayChart').show();
+
+	var fromdate = formatDate(monthDate);
+	var todate = formatDate(date);
+	$("#mainChart").html("");
+	$("#mainChart").css("display", "block");
+	
+	if (checkDateMonth(monthDate, date)) {
+		$("#button-monthForward").prop('disabled', false);
+	}
+	else {
+		$("#button-monthForward").prop('disabled', true);
+	}
+
+	if (checkDateYear(monthDate, date)) {
+		$("#button-yearForward").prop('disabled', false);
+	}
+	else {
+		$("#button-yearForward").prop('disabled', true);
+	}
+
+	var Period = getChartPeriod();
+	var type = getSelectedType();
+	if (chart != null)
+		chart.destroy();
+
+	for (i = 0; i < checkedItemid.length; i++) {
+				if (checkedItemid[i] != null)
+					checkedItemValues.push(checkedItemid[i]);
+			}
+			
+	chart = new ApexCharts(document.querySelector("#mainChart"), options_missingDates);
+
+	chart.render();
+	
+					title = itemValue[checkedItemValues[0]].title;
+
+					dataParam = {
+						"fromdate": fromdate,
+						"todate": todate,
+						"period":  Period,
+						"type": type,
+						"subGroupId1": itemValue[checkedItemValues[0]].subGroupId,
+						"groupId1": itemValue[checkedItemValues[0]].GroupId,
+						"isFunctionGraph":functionId=='-1'?false:true,
+						"functionId":functionId,
+						//"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
+						"removeEmpty1":removeEmpty
+					};
+					
+					$.ajax({
+						type: "POST",
+						contentType: "application/json; charset=utf-8",
+						url: "/"+graphService+"/getgraphdatabytype",
+						data: JSON.stringify(dataParam),
+						dataType: 'json',
+						timeout: 600000,
+						success: function(response) {
+							
+						   var source = transformData(response[0].graphResponseDTOLst);
+				           chartResponse =  response[0].graphResponseDTOLst;
+    	 
+						    x3= getMaxDate(response[0].graphResponseDTOLst);
+						    
+							$("#jqxWidget").jqxComboBox({ theme: 'dark',  source: source, width: 200, height: 30,});
+							$("#jqxWidget1").jqxComboBox({ theme: 'dark', source: source, width: 200, height: 30,});
+							
+							newstartdate = new Date();
+							startDateF1 = response[0].config.startDate;
+							if (startDateF1 != null)
+								startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
+
+
+							T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
+							title = T1;
+							if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
+								if (response[0].config.yAxisFormat.includes("%")) {
+									isdecimal = false;
+									if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+										yaxisformat = response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+									else
+										yaxisformat = 0;
+								}
+								else {
+									if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+										yaxisformat = response[0].config.yAxisFormat.split(".")[1].length
+									else
+										yaxisformat = 0
+
+									isdecimal = true;
+								}
+							}
+							else
+								yaxisformat = 3;
+
+							var dbchartType1 = response[0].config.chartType;
+							chartType1 = getChartType(dbchartType1)[0];
+							curve1 = getChartType(dbchartType1)[1];
+							disableOptions(false);
+							var getFormatResult = getFormat(response[0].config.dataFormat);
+							chartDbFontSize = response[0].config.chartSize;
+							chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config.chartTransparency);
+							chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], chartType1, Period);
+							chartColor = chartType1=='line'?"#ffffff":checkActiveChartColor($("#chartColor").find(".active")[0], response[0].config.chartColor);
+							fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
+							markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+ 
+							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+							updateChartOption();
+							
+							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+								return item.y;
+							}));
+							max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+									return item.y;
+								}));
+							//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
+							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
+							minvalue = min;
+							maxvalue = max;
+							var yaxisformat = getFormat(response[0].config.yAxisFormat);
+							
+							notDecimal=yaxisformat[1];
+					        nbrOfDigits=yaxisformat[0];
+							
+							
+							var getFormatResult0 = getFormat(response[0].config.dataFormat);
+					       
+							 chartConfigSettings={functionId:functionId+1,
+											 isDecimal:isdecimal,
+											 yAxisFormat:yaxisformat,
+											 fontSize:fontsize,
+											 min:min,
+											 max:max,
+											 minvalue:minvalue,
+											 maxvalue:maxvalue,
+											 chartType1:chartType1,
+											 getFormatResult0:getFormatResult0,
+											 response:response,
+											 Period:Period,
+											 chartColor:chartColor,
+											 chartTransparency:chartTransparency,
+											 checkedItem:checkedItem};
+							//if(Period=='d')
+								updateChartSelectedItemMissingDates(chartConfigSettings);
+							//else
+							//	updateChartSelectedItem(chartConfigSettings);
+						    checkIfRenderFlag(graphName,itemValue[checkedItemValues[0]]);
+							$('#overlayChart').hide();
+
+						},
+						error: function(e) {
+
+							console.log("ERROR : ", e);
+
+						}
+					});
+					
+		    (saveHistory)?saveGraphHistory(graphName,checkedItemValues,Period,type):null;
+		    
+	$("#dateFrom-mainChart").val(fromdate);
+	$("#dateTo-mainChart").val(todate);
+	
+	inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValue));
+
 }
 function getGraphDataWithTrendLine(graphService,graphName,removeEmpty,saveHistory){
 	

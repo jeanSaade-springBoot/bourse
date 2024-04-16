@@ -199,6 +199,14 @@
               // groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
               // var dataAdapter = new $.jqx.dataAdapter(groupsource);
               // $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+       		 if(familyItem.value==8){
+					$("#nav-robots-tab").prop("disabled", true);
+					$("#nav-functions-tab").prop("disabled", true);
+				}
+				else{
+					$("#nav-robots-tab").prop("disabled", false);
+					$("#nav-functions-tab").prop("disabled", false);
+				}
        		 $.ajax({
 			    url: '/admin/getgroupsbyfamily/' + familyItem.value,
 			    method: 'GET',

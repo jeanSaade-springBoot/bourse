@@ -120,7 +120,7 @@ var familysource =
 					    async :false,
 					    success: function(response) {
 						    $("input[type='file']").val('');
-							$("span.inf__hint").html('or drag and drop files here');
+							$("span.inf__hint").html(' or drag and drop files here');
 							
 							$("#result").css("color","black");
 							$("#result").css("background","#00e7b8");
@@ -230,6 +230,19 @@ var familysource =
 	case 36:
    		 imagePath='/css/images/format/cryptos_format.png'	 
 		    break;
+	case 37:
+	case 38:
+	case 39:
+	case 40:
+	case 41:
+	case 42:
+	case 43:
+	case 44:
+    case 45:
+	case 46:
+	case 47:
+   		 imagePath='/css/images/format/macro_format.png'
+		    break;	   
 	}
 return imagePath;
   }

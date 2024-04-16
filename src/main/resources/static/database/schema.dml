@@ -42693,3 +42693,432 @@ INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('
 INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('25', 'DATABASE_INPUT_SCREEN_STI-4');
 INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('26', 'DATABASE_INPUT_SCREEN_STI-5');
 	   
+	   
+	   INSERT INTO `bourse`.`asset_class` (`id`, `description`, `asset_code`) VALUES ('8', 'MACRO PMI', 'MACPMI');
+
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('37', '8', 'EUROZONE', 'EUR');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('38', '8', 'GERMANY', 'GER');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('39', '8', 'FRANCE', 'FRA');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('40', '8', 'ITALY', 'ITA');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('41', '8', 'SPAIN', 'SPA');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('42', '8', 'UK', 'ENG');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('43', '8', 'ISM', 'ISM');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('44', '8', 'US', 'USA');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('45', '8', 'CHINA', 'CHI');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('46', '8', 'JAPAN', 'JAP');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('47', '8', 'INDIA', 'IND');
+
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('281', 'MANUF PMI', '37', '1', 'EUROZONE', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('282', 'SERVICES PMI', '37', '2', 'EUROZONE', 'SER1');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('283', 'MANUF PMI', '38', '1', 'GERMANY', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('284', 'SERVICES PMI', '38', '2', 'GERMANY', 'SER1');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('285', 'MANUF PMI', '39', '1', 'FRANCE', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('286', 'SERVICES PMI', '39', '2', 'FRANCE', 'SER1');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('287', 'MANUF PMI', '40', '1', 'ITALY', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('288', 'SERVICES PMI', '40', '2', 'ITALY', 'SER1');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('289', 'MANUF PMI', '41', '1', 'SPAIN', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('290', 'SERVICES PMI', '41', '2', 'SPAIN', 'SER1');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('291', 'MANUF PMI', '42', '1', 'UK', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('292', 'SERVICES PMI', '42', '2', 'UK', 'SER1');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('293', 'MANUF PMI', '43', '1', 'ISM', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('294', 'SERVICES PMI', '43', '2', 'ISM', 'SER1');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('295', 'MANUF PMI', '44', '1', 'US', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('296', 'SERVICES PMI', '44', '2', 'US', 'SER1');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('297', 'MANUF PMI', '45', '1', 'CHINA', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('298', 'SERVICES PMI', '45', '2', 'CHINA', 'SER1');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('299', 'MANUF PMI', '46', '1', 'JAPAN', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('300', 'SERVICES PMI', '46', '2', 'JAPAN', 'SER1');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('301', 'MANUF PMI', '47', '1', 'INDIA', 'MNF1');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('302', 'SERVICES PMI', '47', '2', 'INDIA', 'SER1');
+
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('303', 'MANUF Production', '37', '3', 'EUROZONE', 'MNF2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('304', 'MANUF Production', '38', '3', 'GERMANY', 'MNF2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('305', 'MANUF Production', '39', '3', 'FRANCE', 'MNF2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('306', 'MANUF Production', '40', '3', 'ITALY', 'MNF2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('307', 'MANUF Production', '41', '3', 'SPAIN', 'MNF2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('308', 'MANUF Production', '42', '3', 'UK', 'MNF2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('309', 'MANUF Production', '43', '3', 'ISM', 'MNF2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('310', 'MANUF Production', '44', '3', 'US', 'MNF2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('311', 'MANUF Production', '45', '3', 'CHINA', 'MNF2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('312', 'MANUF Production', '46', '3', 'JAPAN', 'MNF2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('313', 'MANUF Production', '47', '3', 'INDIA', 'MNF2');
+
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('314', 'MANUF Production', '37', '4', 'EUROZONE', 'SERVICES2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('315', 'MANUF Production', '38', '4', 'GERMANY', 'SERVICES2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('316', 'MANUF Production', '39', '4', 'FRANCE', 'SERVICES2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('317', 'MANUF Production', '40', '4', 'ITALY', 'SERVICES2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('318', 'MANUF Production', '41', '4', 'SPAIN', 'SERVICES2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('319', 'MANUF Production', '42', '4', 'UK', 'SERVICES2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('320', 'MANUF Production', '43', '4', 'ISM', 'SERVICES2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('321', 'MANUF Production', '44', '4', 'US', 'SERVICES2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('322', 'MANUF Production', '45', '4', 'CHINA', 'SERVICES2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('323', 'MANUF Production', '46', '4', 'JAPAN', 'SERVICES2');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('324', 'MANUF Production', '47', '4', 'INDIA', 'SERVICES2');
+
+
+create table macro_data (id bigint not null, refer_date varchar(255),group_id bigint, subgroup_id bigint,factor_id bigint, value varchar(255), primary key (id)) ;
+create table macro_data_sequence (next_val bigint) ;
+insert into macro_data_sequence values ( 1 );
+
+update news_order_sequence set next_val=(select max(id)+1 from news_order);
+
+ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('92', 'MACRO_DISPLAY_SETTINGS', TRUE, '26');
+ 
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('93', 'DATABASE_INPUT_SCREEN_MACRO', TRUE, '25');
+
+create table tmp_audit_mac_eurozone (id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255), 
+     MANUF2 varchar(255), 
+     SERVICES2 varchar(255), 
+     factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+create table audit_mac_eurozone_sequence (next_val bigint) ;
+insert into audit_mac_eurozone_sequence values ( 1 );
+
+create table tmp_audit_mac_germany (id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255), 
+     MANUF2 varchar(255), 
+     SERVICES2 varchar(255), 
+     factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+ 
+create table audit_mac_germany_sequence (next_val bigint) ;
+insert into audit_mac_germany_sequence values ( 1 );
+
+create table tmp_audit_mac_france (id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255), 
+	 MANUF2 varchar(255), 
+     SERVICES2 varchar(255), 
+     factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+create table audit_mac_france_sequence (next_val bigint) ;
+insert into audit_mac_france_sequence values ( 1 );
+
+create table tmp_audit_mac_italy (id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255),  
+     MANUF2 varchar(255), 
+     SERVICES2 varchar(255), 
+	 factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+create table audit_mac_italy_sequence (next_val bigint) ;
+insert into audit_mac_italy_sequence values ( 1 );
+
+ create table tmp_audit_mac_spain (id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255), 
+     MANUF2 varchar(255), 
+     SERVICES2 varchar(255), 
+	 factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+create table audit_mac_spain_sequence (next_val bigint) ;
+insert into audit_mac_spain_sequence values ( 1 );
+
+ create table tmp_audit_mac_uk (id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255), 
+	 MANUF2 varchar(255), 
+     SERVICES2 varchar(255),  
+     factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+create table audit_mac_uk_sequence (next_val bigint) ;
+insert into audit_mac_uk_sequence values ( 1 );
+
+ create table tmp_audit_mac_ism (id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255),  
+     MANUF2 varchar(255), 
+     SERVICES2 varchar(255), 
+	 factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+create table audit_mac_ism_sequence (next_val bigint) ;
+insert into audit_mac_ism_sequence values ( 1 );
+
+ create table tmp_audit_mac_us (id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255), 
+	 MANUF2 varchar(255), 
+     SERVICES2 varchar(255), 
+     factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+create table audit_mac_us_sequence (next_val bigint) ;
+insert into audit_mac_us_sequence values ( 1 );
+
+	 
+ create table tmp_audit_mac_china(id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255), 
+	 MANUF2 varchar(255), 
+     SERVICES2 varchar(255), 
+     factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+create table audit_mac_china_sequence (next_val bigint) ;
+insert into audit_mac_china_sequence values ( 1 );
+
+ create table tmp_audit_mac_japan(id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255), 
+	 MANUF2 varchar(255), 
+     SERVICES2 varchar(255), 
+     factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+create table audit_mac_japan_sequence (next_val bigint) ;
+insert into audit_mac_japan_sequence values ( 1 );
+
+ create table tmp_audit_mac_india(id bigint not null, 
+	 MANUF varchar(255), 
+	 SERVICES varchar(255), 
+	 MANUF2 varchar(255), 
+     SERVICES2 varchar(255), 
+     factor bigint not null, 
+ refer_date varchar(255), primary key (id));
+create table audit_mac_india_sequence (next_val bigint) ;
+insert into audit_mac_india_sequence values ( 1 );
+
+INSERT INTO `bourse`.`table_management`
+	(`id`,
+	`asset_id`,
+	`group_id`,
+	`subgroup_id`,
+	`column_name`,
+	`table_name`)
+	select
+	@rownum:=@rownum + 1  as id ,
+	8 as asset_id,
+	s.group_id,
+	s.id_sub_group,
+	 CASE s.id_sub_group
+        WHEN 1 THEN 'MANUF'
+        WHEN 2 THEN 'SERVICES'
+        WHEN 3 THEN 'MANUF2'
+		WHEN 4 THEN 'SERVICES2'
+    END AS column_name ,
+	  CASE s.group_id 
+          WHEN 37 THEN 'tmp_audit_mac_eurozone'
+          WHEN 38 THEN 'tmp_audit_mac_germany'
+          WHEN 39 THEN 'tmp_audit_mac_france' 
+		  WHEN 40 THEN 'tmp_audit_mac_italy'
+          WHEN 41 THEN 'tmp_audit_mac_spain'
+          WHEN 42 THEN 'tmp_audit_mac_uk' 
+          WHEN 43 THEN 'tmp_audit_mac_ism'
+          WHEN 44 THEN 'tmp_audit_mac_us'
+          WHEN 45 THEN 'tmp_audit_mac_china'
+          WHEN 46 THEN 'tmp_audit_mac_japan'
+          WHEN 47 THEN 'tmp_audit_mac_india'end as table_name 
+          from subgroup s,
+	 (SELECT @rownum:=(select max(id) from table_management)) r where s.group_id in(37,38,39,40,41,42,43,44,45,46,47) ;
+
+INSERT INTO `bourse`.`factor_table` (`id`, `description`) VALUES ('14', 'FCST');
+INSERT INTO `bourse`.`factor_table` (`id`, `description`) VALUES ('15', 'FLASH');
+INSERT INTO `bourse`.`factor_table` (`id`, `description`) VALUES ('16', 'FINAL');
+	 
+INSERT INTO `bourse`.`factor_group_subgroup` (`factor_id`, `group_id`, `subgroup_id`) VALUES ('14', '37','1'),('15', '37','1'),('16', '37','1'),('14', '37','2'),('15', '37','2'),('16', '37','2'),('14', '38','1'),('15', '38','1'),('16', '38','1'),('14', '38','2'),('15', '38','2'),('16', '38','2'),('14', '39','1'),('15', '39','1'),('16', '39','1'),('14', '39','2'),('15', '39','2'),('16', '39','2'),('14', '40','1'),('15', '40','1'),('16', '40','1'),('14', '40','2'),('15', '40','2'),('16', '40','2'),('14', '41','1'),('15', '41','1'),('16', '41','1'),('14', '41','2'),('15', '41','2'),('16', '41','2'),('14', '42','1'),('15', '42','1'),('16', '42','1'),('14', '42','2'),('15', '42','2'),('16', '42','2'),('14', '43','1'),('15', '43','1'),('16', '43','1'),('14', '43','2'),('15', '43','2'),('16', '43','2'),
+('14', '44','1'),('15', '44','1'),('16', '44','1'),('14', '44','2'),('15', '44','2'),('16', '44','2'),('14', '45','1'),('15', '45','1'),('16', '45','1'),('14', '45','2'),('15', '45','2'),('16', '45','2'),('14', '46','1'),('15', '46','1'),('16', '46','1'),('14', '46','2'),('15', '46','2'),('16', '46','2'),('14', '47','1'),('15', '47','1'),('16', '47','1'),('14', '47','2'),('15', '47','2'),('16', '47','2'),('14', '37','3'),('15', '37','3'),('16', '37','3'),('14', '38','3'),('15', '38','3'),('16', '38','3'),('14', '39','3'),('15', '39','3'),('16', '39','3'),('14', '40','3'),('15', '40','3'),('16', '40','3'),('14', '41','3'),('15', '41','3'),('16', '41','3'),('14', '42','3'),('15', '42','3'),('16', '42','3'),('14', '43','3'),('15', '43','3'),('16', '43','3'),
+('14', '44','3'),('15', '44','3'),('16', '44','3'),('14', '45','3'),('15', '45','3'),('16', '45','3'),('14', '46','3'),('15', '46','3'),('16', '46','3'),('14', '47','3'),('15', '47','3'),('16', '47','3'),('14', '37','4'),('15', '37','4'),('16', '37','4'),('14', '38','4'),('15', '38','4'),('16', '38','4'),('14', '39','4'),('15', '39','4'),('16', '39','4'),('14', '40','4'),('15', '40','4'),('16', '40','4'),('14', '41','4'),('15', '41','4'),('16', '41','4'),('14', '42','4'),('15', '42','4'),('16', '42','4'),('14', '43','4'),('15', '43','4'),('16', '43','4'),
+('14', '44','4'),('15', '44','4'),('16', '44','4'),('14', '45','4'),('15', '45','4'),('16', '45','4'),('14', '46','4'),('15', '46','4'),('16', '46','4'),('14', '47','4'),('15', '47','4'),('16', '47','4');
+
+ 
+INSERT INTO `bourse`.`column_configuration`
+		(`id`,
+		`calculation_type`,
+		`can_be_negative`,
+		`currency`,
+		`data_format`,
+		`description`,
+		`display_description`,
+		`graph_scale`,
+		`group_id`,
+		`start_date`,
+		`subgroup_id`,
+		`tick_value`,
+		`chart_type`,
+		`y_axis_format`,
+		`factor`,
+		`descwitoutfactor`,
+		`column_name`,
+		`data_min_increment`,
+		`chart_color`,
+		`chart_showgrid`,
+		`chart_size`,
+		`chart_transparency`,
+		`chartshow_markes`,
+		`exchange_link`,
+		`show_in_database`,
+		`show_in_news_graph`,
+		`column_code`,
+		`status`)
+select 
+		 @row_number:=@row_number + 1 as id ,
+		'INPUT' as `calculation_type`,
+		 false as `can_be_negative`,
+		 null as `currency`,
+		'0.000%' as `data_format`,
+		CONCAT(t.column_name, '-', f.id,'.',s.group_Id) as `description`,
+		 f.description as `display_description`,
+		null as `graph_scale`,
+		s.group_Id as `group_id`,
+		'03-01-2000' as `start_date`,
+		s.id_sub_group as`subgroup_id`,
+		null as `tick_value`,
+		'Area' as `chart_type`,
+		'0.00%' as `y_axis_format`,
+		f.id as `factor`,
+		f.description  as `descwitoutfactor`,
+		f.description as `column_name`,
+		null as `data_min_increment`,
+		'#44546a' as `chart_color`,
+		'true' as `chart_showgrid`,
+		'12px' as `chart_size`,
+		1 as `chart_transparency`,
+		1 as `chartshow_markes`,
+		null as `exchange_link`,
+		false as `show_in_database`,
+		false as `show_in_news_graph`,
+		f.id as `column_code`,
+		'Ti3lZXf6Pk2NuA3KpLTEUv4voVgsqAR2' as `status`
+		 from  subgroup s, table_management t, factor_table f, factor_group_subgroup fg,
+(SELECT @row_number:=(SELECT max(id) from column_configuration)) AS t 
+where 
+	 s.group_id in(37,38,39,40,41,42,43,44,45,46,47) 
+      and s.group_id = t.group_id 
+	   and s.id_sub_group = t.subgroup_id
+       and s.group_id=fg.group_id 	
+       and f.id = fg.factor_id
+       and  s.id_sub_group = fg.subgroup_id;
+	  
+	  
+ INSERT INTO `bourse`.`function_configuration`
+(`id`,
+`calculation_type`,
+`data_format`,
+`description`,
+`display_description`,
+`group_id`,
+`start_date`,
+`subgroup_id`,
+`config_id`,
+`function_id`,
+`tick_value`,
+`chart_type`,
+`y_axis_format`,
+`factor`,
+`descwitoutfactor`,
+`column_name`,
+`data_min_increment`,
+`chart_color`,
+`chart_showgrid`,
+`chart_size`,
+`chart_transparency`,
+`chartshow_markes`,
+`exchange_link`,
+`show_in_database`,
+`show_in_news_graph`,
+`currency`,
+`column_code`)
+select 
+		 @row_number:=@row_number + 1 as id ,
+		'CALCULATED' as `calculation_type`,
+		'0.000%' as `data_format`,
+		s.description as `description`,
+		s.display_description as `display_description`,
+		s.group_Id as `group_id`,
+		'03-01-2000' as `start_date`,
+		s.subgroup_id as`subgroup_id`,
+		s.id  as`config_id`,
+        f.id as `function_id`,
+		null as `tick_value`,
+		'Area' as `chart_type`,
+		'0.00%' as `y_axis_format`,
+		 s.factor as `factor`,
+		 s.description as `descwitoutfactor`,
+		 s.description as `column_name`,
+		null as `data_min_increment`,
+		'#44546a' as `chart_color`,
+		'true' as `chart_showgrid`,
+		'12px' as `chart_size`,
+		1 as `chart_transparency`,
+		1 as `chartshow_markes`,
+		null as `exchange_link`,
+		false as `show_in_database`,
+		false as `show_in_news_graph`,
+		null as `currency`,
+		s.column_code as `column_code`
+		 from  column_configuration s,
+				functions f,
+(SELECT @row_number:=(SELECT max(id) from function_configuration)) AS t where s.group_id in(37,38,39,40,41,42,43,44,45,46,47);
+
+
+create table macro_display_settings (
+	 id bigint not null, 
+	 group_id bigint not null, 
+	 subgroup_id bigint not null, 
+     factor bigint not null, 
+	 is_visible boolean, primary key (id));
+create table macro_display_settings_sequence (next_val bigint) ;
+insert into macro_display_settings_sequence values ( 1 );
+	 
+insert into macro_display_settings
+       select @rownum:=@rownum + 1  as id , group_id, subgroup_id,factor, true
+       from column_configuration, (SELECT @rownum:=0) r
+       where group_id in(37,38,39,40,41,42,43,44,45,46,47) order by group_id, subgroup_id, factor;
+       
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('27', 'DATABASE_INPUT_SCREEN_MACRO-37');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('28', 'DATABASE_INPUT_SCREEN_MACRO-38');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('29', 'DATABASE_INPUT_SCREEN_MACRO-39');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('30', 'DATABASE_INPUT_SCREEN_MACRO-40');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('31', 'DATABASE_INPUT_SCREEN_MACRO-41');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('32', 'DATABASE_INPUT_SCREEN_MACRO-42');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('33', 'DATABASE_INPUT_SCREEN_MACRO-43');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('34', 'DATABASE_INPUT_SCREEN_MACRO-44');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('35', 'DATABASE_INPUT_SCREEN_MACRO-45');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('36', 'DATABASE_INPUT_SCREEN_MACRO-46');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('37', 'DATABASE_INPUT_SCREEN_MACRO-47');
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('94', 'MACRO_DATA_FUNCTION_DISPLAY_SCREEN', true);
+
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('96', 'MACRO_GRAPH_SCREEN', true);
+
+
+INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('macroGraph', '28');
+
+create table macro_graph_responsedto (id bigint not null, factor varchar(255), ismax varchar(255), x varchar(255), y varchar(255), primary key (id));
+
+   delete from live_option_flow_data where flow_date ='3000-01-01 00:00:00';
+   

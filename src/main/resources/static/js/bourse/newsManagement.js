@@ -7,7 +7,7 @@
   var dbOrderJson;
   var activeAssetId;
   var source;
-  var pageSize=10;
+  var pageSize=50;
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
   });
@@ -81,7 +81,7 @@
           showfilterrow: true,
           filterable: true,
           columnsheight: 30,
-          pagesize: 10,
+          pagesize: 50,
 		  pagesizeoptions: ['10', '50', '100'],
           autoheight: true,
           editable: true,

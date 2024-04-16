@@ -479,6 +479,14 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/sti/stiDataFunctionDisplay");
     }
+	@PreAuthorize("hasAuthority('MACRO_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/macrodatafunctiondisplay")
+    public ModelAndView macroDataFunctionDisplay(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/macro/macroDataFunctionDisplay");
+    }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)
@@ -577,6 +585,7 @@ public class BourseController {
 		    model.addAttribute("fxcds", "html/templates/fxcds");
 		    model.addAttribute("skews", "html/templates/skews");
 		    model.addAttribute("sti", "html/templates/sti");
+		    model.addAttribute("macro", "html/templates/macro");
 		    model.addAttribute("serie", Integer.valueOf(serie));
 		    ModelAndView modelAndView = new ModelAndView("html/twoSeries");
 		    
@@ -616,6 +625,15 @@ public class BourseController {
 	    model.addAttribute("fragment", "html/templates/volume");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/raceChartVolume");
+    }
+	@PreAuthorize("hasAuthority('MACRO_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/macrograph")
+    public ModelAndView macroGraphScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/macro");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/macro/macroGraph");
     }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
@@ -850,13 +868,7 @@ public class BourseController {
 	public  GraphHistory findGraphHistoryByScreenName(@PathVariable("screenName") String screenName) {
 	return graphHistoryService.findGraphHistoryByScreenName(screenName);
 	} 
-	
-//	@PostMapping(value = "docalculation")
-//	public ResponseEntity<Boolean> doCalculation() {
-//		sovereignYieldsService.doCaclulation();
-//	return new ResponseEntity<>(true,HttpStatus.OK);
-//	} 
-//	
+
 	@PostMapping(value = "findselectedgraphnews")
 	public Page<AllNewsView> findSelectedGraphNews(@RequestBody GraphNewsDTO graphNewsDTO) {
 		return graphNewsService.findSelectedGraphNews(graphNewsDTO.getSelectedGraphs(),graphNewsDTO.getPageNo(),graphNewsDTO.getPageSize());

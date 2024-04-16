@@ -72,7 +72,7 @@
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				    <a sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-any2-tab"  href="/bourse/any2sti" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				    <a sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-any2-tab"  href="/bourse/stigraph" role="tab" aria-controls="nav-any2" aria-selected="false">STI</a>
+				    <a sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-any2-tab"  href="/bourse/stigraph" role="tab" aria-controls="nav-any2" aria-selected="false">STOCKS & INDICES</a>
 				 </div>
 				</nav>
            
@@ -204,25 +204,26 @@
 								</div>
 							</div>
 						</div>
-		                 </div>
-                     </div>
+		                </div>
                      	<div class="row pt-2">
 							<div class='col-12 d-flex justify-content-end'>
 							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
 							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 							</div>
 						</div>
+                     </div>
 					    </div>
 				    <div id="grid-content" style="display:none;">
 				 
 				    <div class="row">
-				           <div id='jqxWidget'></div>
-				           <div id='jqxWidget1'></div>
-				           <input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="draw" value="Draw" />
-				           
-				       <div class="row col-12">
-				   	  	   
-				   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
+					<div class="row col-12 ml-1">
+						<div id='jqxWidget' class="mr-2"></div>
+						<div id='jqxWidget1' class="mr-2"></div>
+						<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="draw" value="Draw Trendline" />
+        
+					</div>
+					<div class="row col-12 d-none">
+				   	  	   <div id='groupOfPeriod' style='margin-left:1rem'>
 					            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
 					                Daily</button>
 					            <button style="padding:4px 16px;" id="w">

@@ -3,7 +3,9 @@ package com.bourse.readExcelWriteDB.service;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,6 +30,7 @@ import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.ShatzOptionsVolume;
 import com.bourse.domain.SubGroup;
 import com.bourse.domain.TransportationData;
+import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.skews.LongSkewsData;
 import com.bourse.domain.skews.ShortSkewsData;
 import com.bourse.domain.sti.StiAsiaData;
@@ -57,6 +60,7 @@ import com.bourse.service.FxDataService;
 import com.bourse.service.PerciousMetalsService;
 import com.bourse.service.ShatzOptionsVolumeService;
 import com.bourse.service.TransportationService;
+import com.bourse.service.macro.MacroService;
 import com.bourse.service.skews.SkewsService;
 import com.bourse.service.sti.StiService;
 
@@ -101,10 +105,26 @@ public class ReadExcelWriteDBService {
     SkewsService skewsService;
     @Autowired
     StiService stiService;    
+    @Autowired
+    MacroService macroService;    
+    
     
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
 		List<DataDTO> rowData = new ArrayList<>();
-		
+
+	    Set<String> macroGroupIds = new HashSet<>();
+	    macroGroupIds.add("37");
+	    macroGroupIds.add("38");
+	    macroGroupIds.add("39");
+	    macroGroupIds.add("40");
+	    macroGroupIds.add("41");
+	    macroGroupIds.add("42");
+	    macroGroupIds.add("43");
+	    macroGroupIds.add("44");
+	    macroGroupIds.add("45");
+	    macroGroupIds.add("46");
+	    macroGroupIds.add("47");
+	    
 		System.out.println("------------------ batch load: "+readExcelWriteDBDTO.getGroupId());
 		if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("6"))
 		{ 
@@ -882,7 +902,68 @@ public class ReadExcelWriteDBService {
 	            System.out.println("List is empty.");
 	        }
 		}
-		
+	else if(macroGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim()))
+	{
+		try {
+			Object[][] excelData = ReadExcelWriteDBUtil.readExcel(readExcelWriteDBDTO.getFile());
+			List<MacroData> macroDataList = new ArrayList<>();
+			
+			for (int rowIndex = 0; rowIndex < excelData.length; rowIndex++) {
+				if (rowIndex >= 2) {
+					
+					Object[] row = excelData[rowIndex];
+					 if (row[0]=="") {
+					        // Skip the current iteration and continue with the next one
+					        continue;
+					    }
+					Object[][] result = ReadExcelWriteDBUtil.splitArrayMacro(row, 3);
+					
+					
+					for (int i = 0; i < result.length; i++) {
+
+						Object[] splitrow = result[i];
+										
+						for (int j = 0; j < splitrow.length; j++) {
+							 if(j!=0)
+							 {   String referDate = splitrow[0].toString();
+								 Long grouId = Long.valueOf(readExcelWriteDBDTO.getGroupId());
+								 Long subgrouId = Long.valueOf(i+1);
+								 Long factorId = Long.valueOf(ReadExcelWriteDBUtil.getMacroFactorId(j));
+								 String value = splitrow[j].toString()==null?"":splitrow[j].toString();
+								
+								 if(macroService.CheckIfCanSave(referDate,grouId,subgrouId,factorId))
+								 	throw new BadRequestException(splitrow[0].toString()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+								 	MacroData macroData = MacroData.builder().referDate(referDate)
+									 											  .groupId(grouId)
+								   												  .subgroupId(subgrouId)
+								   												  .factorId(factorId)
+								   												  .value(value)
+							   												  .build();
+								   
+								 	macroDataList.add(macroData);
+							 }
+						
+					}
+				}
+			}
+			}
+			macroService.saveMacro(macroDataList);
+			
+			   if (!macroDataList.isEmpty()) {
+		            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(macroDataList, "referDate");
+
+		            System.out.println("Minimum Date: " + minMaxDates[0]);
+		            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+		            macroService.doCaclulationMacroLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
+		        } else {
+		            System.out.println("List is empty.");
+		        }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+		}
 }
 	
 }

@@ -90,7 +90,13 @@
 .jqx-grid-cell-left-align {
     text-align: center;
 }
-
+.fs-7{
+font-size: .7rem;
+}  
+.row-style{
+    background-color: #272e48;
+    padding-top: 0.1rem;
+    }
   </style>
 </head>
 
@@ -100,7 +106,7 @@
     <!-- Sidebar -->
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="fixedMenu">
-         <!-- TopBar -->
+        <!-- TopBar -->
      	<div th:include="${mainmenu}"></div>
         <!-- Topbar -->
   <div class="d-sm-flex align-items-center">
@@ -109,15 +115,15 @@
     						 height: 35px;
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				      <a sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')" class="navigation nav-item nav-link " id="nav-datafunctiondisplay-tab"  href="/bourse/datafunctiondisplay" role="tab" aria-controls="nav-datafunctiondisplay" aria-selected="false">YIELDS & RATES</a>
-				     <a sec:authorize="hasAuthority('FXCDS_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-fxcdsdatafunctiondisplay-tab"  href="/bourse/fxcdsdatafunctiondisplay" role="tab" aria-controls="nav-datafxcdsdisplay" aria-selected="false">FX & CDS</a>
-				    <a sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/metaldatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">COMMODITIES</a>
-				 	<a sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link active" id="nav-datafunctiondisplay-tab"  href="/bourse/liquiditydatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">LIQUIDITY</a>
+				    <a sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')" class="navigation nav-item nav-link " id="nav-datafunctiondisplay-tab"  href="/bourse/datafunctiondisplay" role="tab" aria-controls="nav-datafunctiondisplay" aria-selected="false">YIELDS & RATES</a>
+				    <a sec:authorize="hasAuthority('FXCDS_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-fxcdsdatafunctiondisplay-tab"  href="/bourse/fxcdsdatafunctiondisplay" role="tab" aria-controls="nav-datafxcdsdisplay" aria-selected="false">FX & CDS</a>
+				    <a sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link " id="nav-datafunctiondisplay-tab"  href="/bourse/metaldatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">COMMODITIES</a>
+				 	<a sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/liquiditydatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">LIQUIDITY</a>
 				  	<a sec:authorize="hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/volumedatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">VOLUME</a>
-				    <a sec:authorize="hasAuthority('SKEWS_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab-skews"  href="/bourse/skewsdatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">SKEWS</a>
+				  	<a sec:authorize="hasAuthority('SKEWS_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab-skews"  href="/bourse/skewsdatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">SKEWS</a>
 					<a sec:authorize="hasAuthority('STI_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab-sti"  href="/bourse/stidatafunctiondisplay" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">STOCKS & INDICES</a>
-				 	<a sec:authorize="hasAuthority('MACRO_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab-macro"  href="/bourse/macrodatafunctiondisplay" role="tab" aria-controls="nav-datamacrofunctiondisplay" aria-selected="false">MACRO PMI</a>
-				</div>
+					<a sec:authorize="hasAuthority('MACRO_DATA_FUNCTION_DISPLAY_SCREEN')"  class="navigation nav-item nav-link active" id="nav-datafunctiondisplay-tab-macro"  href="/bourse/macrodatafunctiondisplay" role="tab" aria-controls="nav-datamacrofunctiondisplay" aria-selected="false">MACRO PMI</a>
+				 </div>
 				</nav>
            
           </div>
@@ -151,143 +157,10 @@
        </div> 
        </div>
 				<div class="row">
-				<div class="col-10 d-flex">
-						           <div class="col">
-						               <div class="col-3">
-						               	<img alt="usa-flag" src="/img/flag/us.png" height="100px">
-						               </div>
-							           <div class="col-6">
-							            <div class="pt-2">
-							               <div class="pt-1">
-							                	<div id='jqxCheckBoxavgUsatoaaaUsa' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">US  BLUECHIP /TSYS</span></div>
-							              </div>
-							             </div>
-							             <div class="">
-							                <div class="pt-1">
-							               		<div id='jqxCheckBoxavgUsbtobbbUsatoaaa' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US  HIGHYIELD  / BLUECHIP</span></div>
-							             </div>
-							            </div>
-							             <div class="">
-							                <div class="pt-1">
-							              	<div id='jqxCheckBoxavgUsctocccUsbtobbb' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">US JUNKBONDS / HIGHYIELD</span></div>
-							                 </div>
-							            </div>
-							           </div>
-						            </div>
-						             <div class="col">
-						               <div class="col-3">
-						               	<img alt="usa-flag" src="/img/flag/eu.png" height="100px">
-						               </div>
-							           <div class="col-6">
-							            <div class="pt-2">
-							               <div class="pt-1">
-							                  <div id='jqxCheckBoxavgEurozoneatoaaaGermany' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ BLUECHIP / 10Y GERMANY</span></div>
-							              </div>
-							             </div>
-							             <div class="">
-							                <div class="pt-1">
-							               	   <div id='jqxCheckBoxavgEurozonebtobbbEurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ HIGHYIELD / BLUECHIP</span></div>
-							            </div>
-							            </div>
-							           </div>
-						            </div>
-						          <div class="col">
-						               <div class="col-3">
-						               	<img alt="usa-flag" src="/img/flag/ecb.png" height="100px">
-						               </div>
-							           <div class="col-6">
-							            <div class="pt-2">
-							               <div class="pt-1">
-							                	<div id='jqxCheckBoxExcess1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Overnight Deposits at the ECB</span></div>
-							              </div>
-							             </div>
-							             <div class="">
-							                <div class="pt-1">
-							               		<div id='jqxCheckBoxExcess2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Current Account Holdings</span></div>
-							              </div>
-							            </div>
-							             <div class="">
-							                <div class="pt-1">
-							              		<div id='jqxCheckBoxExcess3' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Reserve Requirements</span></div>
-							                 </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	    <div id='jqxCheckBoxExcess4' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">Emergency Lending</span></div>
-							              </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	      <div id='jqxCheckBoxExcess1Excess2Excess3Excess4' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">Excess Liquidity</span></div>
-							            	</div>
-							            </div>
-							           </div>
-						            </div>
-						               <div class="col">
-						               <div class="col-3">
-						               	<img alt="usa-flag" src="/img/flag/ecbqe.png" height="100px">
-						               </div>
-							           <div class="col-6">
-							            <div class="pt-2">
-							               <div class="pt-1">
-							                 	<div id='jqxCheckBoxQe1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY sovering bond QE </span></div>
-							              </div>
-							             </div>
-							             <div class="">
-							                <div class="pt-1">
-							               		<div id='jqxCheckBoxQe2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY corporate bond QE</span></div>
-							               </div>
-							            </div>
-							             <div class="">
-							                <div class="pt-1">
-							              		<div id='jqxCheckBoxQe1Qe2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY QE</span></div>
-							                </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	    <div id='jqxCheckBoxCumQe1' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE sovereign bond QE</span></div>
-							              </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	       <div id='jqxCheckBoxCumQe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE corporate bonds QE</span></div>
-							            </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	     <div id='jqxCheckBoxCumQe1Qe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE QE</span></div>
-							            </div>
-							            </div>
-							           </div>
-						            </div>
-						            <div class="col-2">
-						               <div class="col-3">
-						               	<img alt="usa-flag" src="/img/flag/ezmm.png" height="100px">
-						               </div>
-							           <div class="col-6">
-							            <div class="pt-2">
-							               <div class="pt-1">
-							                  	<div id='jqxCheckBoxM0' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">M0</span></div>
-							            </div>
-							             </div>
-							             <div class="">
-							                <div class="pt-1">
-							               		<div id='jqxCheckBoxM1' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">M1</span></div>
-							                </div>
-							            </div>
-							             <div class="">
-							                <div class="pt-1">
-							              		<div id='jqxCheckBoxM2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">M2</span></div>
-							                </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	   <div id='jqxCheckBoxM3' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">M3</span></div>
-							              </div>
-							            </div>
-							           </div>
-						            </div>
-							    </div>
+						<div class='col-10'>
+							<div id="macroContainer"></div>
+						</div>
+						<!--<div class='col-1'></div>-->
 		                 <div class='col-2 pt-4 cb-1'>
 		                   <div id='jqxDailyChangeInPercentage'>
                            Daily change in %</div>
@@ -429,7 +302,7 @@
   <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
   <script src="/js/jqwidgets/jqxmenu.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
-  <script src="/js/bourse/liquidityDataFunctionDisplay.js"></script>   
+  <script src="/js/bourse/macro/macroDataFunctionDisplay.js"></script>   
   <script src="/js/jqwidgets/jqxgrid.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
   <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 

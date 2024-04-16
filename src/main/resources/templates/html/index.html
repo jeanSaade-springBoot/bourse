@@ -128,12 +128,22 @@ div#content {
 		</ul>
     </div>
   </div>
+    <div  sec:authorize="hasAuthority('MACRO_GRAPH_SCREEN') OR hasAuthority('MACRO_DATA_FUNCTION_DISPLAY_SCREEN')"  class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">MACRO PMI</h5>
+      <ul class="fa-ul">
+	  	<li sec:authorize="hasAuthority('MACRO_GRAPH_SCREEN')" ><a href=" /bourse/macrograph"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">COUNTRY PMI</a></li>
+	  	<li sec:authorize="hasAuthority('MACRO_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/macrodatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+	   </ul>
+    </div>
+  </div>
   <div  sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN') OR hasAuthority('STI_DATA_FUNCTION_DISPLAY_SCREEN')"  class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Stocks & Indices</h5>
       <ul class="fa-ul">
 		  <li sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" ><a href="/bourse/any2sti"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-	  	  <li sec:authorize="hasAuthority('STI_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/stidatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+	  	  <li sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" ><a href="/bourse/stigraph"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">STOCKS & INDICES</a></li>
+	  	 <li sec:authorize="hasAuthority('STI_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/stidatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	   </ul>
     </div>
   </div>
@@ -174,14 +184,14 @@ div#content {
   </ul>
     </div>
   </div>
-              <div class="card">
+<div class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Normalized Space</h5>
       <ul class="fa-ul">
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Create Normalized Vols</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Durations And Dv01</li>
+ <!--  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Durations And Dv01</li>
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">List of CTDs </li>
-</ul>
+ --></ul>
     </div>
   </div>
   <div class="card">

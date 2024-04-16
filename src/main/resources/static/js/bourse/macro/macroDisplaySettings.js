@@ -37,12 +37,6 @@ var groupItem;
 '#jqxCheckBox-42-2-14',
 '#jqxCheckBox-42-2-15',
 '#jqxCheckBox-42-2-16',
-'#jqxCheckBox-43-1-14',
-'#jqxCheckBox-43-1-15',
-'#jqxCheckBox-43-1-16',
-'#jqxCheckBox-43-2-14',
-'#jqxCheckBox-43-2-15',
-'#jqxCheckBox-43-2-16',
 '#jqxCheckBox-44-1-14',
 '#jqxCheckBox-44-1-15',
 '#jqxCheckBox-44-1-16',
@@ -67,6 +61,66 @@ var groupItem;
 '#jqxCheckBox-47-2-14',
 '#jqxCheckBox-47-2-15',
 '#jqxCheckBox-47-2-16',
+'#jqxCheckBox-37-3-14',
+'#jqxCheckBox-37-3-15',
+'#jqxCheckBox-37-3-16',
+'#jqxCheckBox-38-3-14',
+'#jqxCheckBox-38-3-15',
+'#jqxCheckBox-38-3-16',
+'#jqxCheckBox-39-3-14',
+'#jqxCheckBox-39-3-15',
+'#jqxCheckBox-39-3-16',
+'#jqxCheckBox-40-3-14',
+'#jqxCheckBox-40-3-15',
+'#jqxCheckBox-40-3-16',
+'#jqxCheckBox-41-3-14',
+'#jqxCheckBox-41-3-15',
+'#jqxCheckBox-41-3-16',
+'#jqxCheckBox-42-3-14',
+'#jqxCheckBox-42-3-15',
+'#jqxCheckBox-42-3-16',
+'#jqxCheckBox-44-3-14',
+'#jqxCheckBox-44-3-15',
+'#jqxCheckBox-44-3-16',
+'#jqxCheckBox-45-3-14',
+'#jqxCheckBox-45-3-15',
+'#jqxCheckBox-45-3-16',
+'#jqxCheckBox-46-3-14',
+'#jqxCheckBox-46-3-15',
+'#jqxCheckBox-46-3-16',
+'#jqxCheckBox-47-3-14',
+'#jqxCheckBox-47-3-15',
+'#jqxCheckBox-47-3-16',
+'#jqxCheckBox-37-4-14',
+'#jqxCheckBox-37-4-15',
+'#jqxCheckBox-37-4-16',
+'#jqxCheckBox-38-4-14',
+'#jqxCheckBox-38-4-15',
+'#jqxCheckBox-38-4-16',
+'#jqxCheckBox-39-4-14',
+'#jqxCheckBox-39-4-15',
+'#jqxCheckBox-39-4-16',
+'#jqxCheckBox-40-4-14',
+'#jqxCheckBox-40-4-15',
+'#jqxCheckBox-40-4-16',
+'#jqxCheckBox-41-4-14',
+'#jqxCheckBox-41-4-15',
+'#jqxCheckBox-41-4-16',
+'#jqxCheckBox-42-4-14',
+'#jqxCheckBox-42-4-15',
+'#jqxCheckBox-42-4-16',
+'#jqxCheckBox-44-4-14',
+'#jqxCheckBox-44-4-15',
+'#jqxCheckBox-44-4-16',
+'#jqxCheckBox-45-4-14',
+'#jqxCheckBox-45-4-15',
+'#jqxCheckBox-45-4-16',
+'#jqxCheckBox-46-4-14',
+'#jqxCheckBox-46-4-15',
+'#jqxCheckBox-46-4-16',
+'#jqxCheckBox-47-4-14',
+'#jqxCheckBox-47-4-15',
+'#jqxCheckBox-47-4-16',
 ];	
 var mainContainer='';
 var mainGroupContainer='';
@@ -85,7 +139,9 @@ $(document).ready(function () {
 	  $("#viewall").click(function () {
 			popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
 		  });
-	 
+	  $("#jqxNotification").jqxNotification({  height: 45, width: "65%",appendContainer: "#notifcationContainer",  opacity: 0.9,
+           animationOpenDelay: 800, autoClose:true , autoCloseDelay: 1000,  template: 'success'
+      });
 	//  $("#submit").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
 	    $.ajax({
 	        contentType: "application/json",
@@ -96,14 +152,16 @@ $(document).ready(function () {
 	        timeout: 600000,
 	        success: function (data) {
 	        	var groupedData = groupByGroupIdAndSubgroupId(data);
-                 mainContainer+='<div class="col-8">'
+                 mainContainer+='<div class="col-10">'
 			                 +'<div class="col-12 d-flex">'
 				                 +'<div class="col-2"></div>'
 				                 +'<div class="col-10">'
-										+'<div class="col-12 d-flex"><div class="align-middle fw-bold">MANUF PMI</div><div class="align-middle fw-bold">SERVICES PMI</div></div>'
+										+'<div class="col-12 d-flex"><div class="align-middle fw-bold">MANUF PMI I</div><div class="align-middle fw-bold">SERVICES PMI I</div><div class="align-middle fw-bold">MANUF PMI II</div><div class="align-middle fw-bold">SERVICES PMI II</div></div>'
 										+'<div class="col-12 d-flex">'
-											+'<div class="col-6 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
-											+'<div class="col-6 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
+											+'<div class="col-3 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
+											+'<div class="col-3 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
+											+'<div class="col-3 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
+											+'<div class="col-3 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
 										+'</div>'
 									+'</div>'
 							  +'</div>';
@@ -123,7 +181,7 @@ $(document).ready(function () {
 				     
 				        // Iterate over each item within the current subgroupId
 				       factorContainer='<div class="col-12  d-flex">'
-				       factorIner+='<div class="col-6 d-flex">'
+				       factorIner+='<div class="col-3 d-flex">'
 				        groupedData[groupId][subgroupId].forEach(function (item) {
 				            checkBox="jqxCheckBox-"+item.groupId+'-'+item.subgroupId+'-'+item.factor;
 		    	  	         factorName=((item.factor==14)?'FCST':(item.factor==15)?'FLASH':'FINAL')
@@ -237,7 +295,8 @@ function editPrivilege()
 		dataType: 'json',
 		timeout: 600000,
 		success: function(response) {
-			alert("sucess")
+			 $("#notificationContent").html('Data has been updated');
+  	                   $("#jqxNotification").jqxNotification("open");
 		},
 		error: function(e) {
 

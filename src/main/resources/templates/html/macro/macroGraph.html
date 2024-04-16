@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link href="img/logo/logo.png" rel="icon">
-<title>Libvol - Precious</title>
+<title>Libvol - Country PMI</title>
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">
@@ -57,6 +57,11 @@
 	flex: 0 0 13.66667%;
 	max-width: 13.66667%;
 }
+.apexcharts-point-annotation-label {
+    fill: magenta;
+    font-weight: bold;
+    font-size: .8rem;
+}
 </style>
 </head>
 
@@ -70,44 +75,19 @@
 				<div th:include="${mainmenu}"></div>
 				<!-- Topbar -->
 				<div class="d-sm-flex align-items-center">
-					<h1 class="ml-6 text-darkorange">ONE SERIE</h1>
+					<h1 class="ml-6 text-darkorange">MACRO PMI</h1>
 					<nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
 						<div class="nav nav-tabs" id="nav-tab" role="tablist">
-							<a sec:authorize="hasAuthority('DATA_FUNCTION_DISPLAY_SCREEN')"
-								th:classappend="${serie == 1} ? 'active' : ''"
-								class="navigation nav-item nav-link"
-								id="nav-datafunctiondisplay-tab" href="/bourse/oneserie?serie=1"
-								role="tab" aria-controls="nav-datafunctiondisplay"
-								aria-selected="false">YIELDS & RATES</a> 
-								<a
-								sec:authorize="hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN')"
-								th:classappend="${serie == 2} ? 'active' : ''"
-								class="navigation nav-item nav-link"
-								id="nav-datafunctiondisplay-tab" href="/bourse/oneserie?serie=2"
-								role="tab" aria-controls="nav-datametalfunctiondisplay"
-								aria-selected="false">COMMODITIES</a>
-								 <a
-								sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"
-								th:classappend="${serie == 3} ? 'active' : ''"
-								class="navigation nav-item nav-link"
-								id="nav-datafunctiondisplay-tab" href="/bourse/oneserie?serie=3"
-								role="tab" aria-controls="nav-datametalfunctiondisplay"
-								aria-selected="false">LIQUIDITY</a> 
-								<a
-								sec:authorize="hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')"
-								th:classappend="${serie == 4} ? 'active' : ''"
-								class="navigation nav-item nav-link"
-								id="nav-datafunctiondisplay-tab" href="/bourse/oneserie?serie=4"
-								role="tab" aria-controls="nav-datametalfunctiondisplay"
-								aria-selected="false">VOLUME</a>
+							<a sec:authorize="hasAuthority('MACRO_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link active" id="nav-macro-tab"
+								href="/bourse/macrograph" role="tab" aria-controls="nav-macro"
+								aria-selected="false">COUNTRY PMI</a>
 						</div>
 					</nav>
 
 				</div>
 			</div>
 			<div id="content">
-				<input type="hidden" id="serieValue" th:value="${serie}" />
-
 				<!-- Container Fluid-->
 				<div class="container-fluid" id="container-wrapper">
 
@@ -119,26 +99,41 @@
 									aria-labelledby="nav-home-tab">...</div>
 								<div class="tab-pane fade active show" id="nav-profile"
 									role="tabpanel" aria-labelledby="nav-profile-tab">
-									<p class="mt-2" style="margin-bottom: .5rem;">
+									<!--<p class="mt-2" style="margin-bottom: .5rem;">
 										<a class="btn select" data-toggle="collapse"
 											href="#collapseFilter" role="button" aria-expanded="false"
 											aria-controls="collapseFilter">Select Factors <img
 											style="width: 12px; margin-left: .6rem;"
 											id="ContentPlaceHolder1_Image13" src="../../img/down.png"
 											align="absmiddle"></a>
-									</p>
+									</p>-->
 									<div class="row">
 										<div class="col">
-											<div class="collapse multi-collapse show" id="collapseFilter"
-												style="margin: 0px 8rem;">
-												<div th:include="${fragment}" id="template"></div>
+											<div class=" multi-collapse" id="collapseFilter"
+												style="margin: 0px 5rem;">
+												<div class="row">
+												<div>
+													<div class="col-12 d-flex">
+														<div>
+														<div style="height:70px">&nbsp</div>
+														<div>&nbsp</div>
+														<div>MANUF & SERVICES I</div>
+														<div>MANUF & SERVICES II</div>
+														</div>
+														<div class="col-9">
+															<div id="countries" class="d-flex"></div>
+														</div>
+													</div>
+												</div>
+												</div>
+												</div>
 												<div class="row pt-2">
-													<div class='col-12 d-flex justify-content-end mb-4'>
+													<div class='col-12 d-flex justify-content-end'>
 														<input aria-expanded="true" aria-controls="collapseFilter"
 															class="btn btn-primary mr-1 mb-1"
 															style="margin-right: 1rem !important; color: white;"
 															type="button" id="show" value="Show" /> <input
-															id="Clearfilter" type="button"
+															id="clearfilter" type="button"
 															style="margin-right: 1rem !important;"
 															class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 													</div>
@@ -147,19 +142,7 @@
 											<div id="grid-content" style="display: none;">
 
 												<div class="row">
-													<div class="row col-12">
-
-														<div class="d-flex col-12">
-															<div class="col-1"></div>
-															<div class="col-10 d-flex justify-content-end">
-																<div id='dropDownFunctions'
-																	style='border-radius: 0.2rem; margin-left: .4rem;'></div>
-																<div style="margin-left: .4rem;">
-																	<i class="fa-solid fa-xmark" id="reset"></i>
-																</div>
-															</div>
-														</div>
-													</div>
+													<div class="row col-12"></div>
 
 													<div class="col-1" style="z-index: 1;">
 														<div class="chart-option">
@@ -318,6 +301,9 @@
 															style="min-height: 365px; min-width: 1100px; max-width: 1100px">
 
 														</div>
+														<div id="chart">
+															<div id="timeline-chart"></div>
+														</div>
 														<div class="row"
 															style="min-width: 1153px; max-width: 1153px">
 															<div class='col-6'>
@@ -437,7 +423,7 @@
 											</button>
 										</div>
 										<div class="modal-body">You must select at least one
-											record.</div>
+											record from each table.</div>
 									</div>
 								</div>
 							</div>
@@ -508,11 +494,11 @@
 			<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 			<script src="/js/jqwidgets/jqxbuttons.js"></script>
 
-			<script src="/js/apexcharts.js"></script>
+			<script src="/js/apexcharts_bck.js"></script>
+			
 			<script src="/js/chartOptions.js"></script>
 			<script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>
-			<script src="/js/bourse/jsonCheckBoxArray.js"></script>
-			<script src="/js/bourse/oneSerie.js"></script>
+			<script src="/js/bourse/macro/macroGraph.js"></script>
 			<script src="/js/chart.js"></script>
 			<script src="/js/jqwidgets/jqxdata.js"></script>
 			<script src="/js/jqwidgets/jqxgrid.js"></script>

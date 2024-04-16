@@ -75,10 +75,10 @@ div#overlay {
 
 .copy-text button {
     padding: 0.25rem;
-    margin: 0.2rem 0.4rem;
+    margin: 0.2rem 0rem;
     background: #48659e;
     color: #fff;
-    font-size: 18px;
+    font-size: 16px;
     border: none;
     outline: none;
     border-radius: 0.2rem;
@@ -238,10 +238,13 @@ div#content {
     border: #464D5C;
     width: 100%;
     overflow-x: hidden;
+   /*  height: 650px; */
   /*  max-height: 650px; */
 }
 
-
+.fs-7 {
+    font-size: .8rem;
+}
 .chart-option {
     margin-top: 1.2rem;
     background: #172568;

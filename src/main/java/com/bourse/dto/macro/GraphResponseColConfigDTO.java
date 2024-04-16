@@ -1,7 +1,8 @@
-package com.bourse.dto;
+package com.bourse.dto.macro;
 
 import java.util.List;
 
+import javax.persistence.Entity;
 import javax.persistence.Id;
 
 import com.bourse.domain.ColumnConfiguration;
@@ -18,7 +19,7 @@ import lombok.NoArgsConstructor;
 public class GraphResponseColConfigDTO {
 	
 	@Id
-    private List<GraphResponseDTO>  graphResponseDTOLst;
+    private List<MacroGraphResponseDTO>  graphResponseDTOLst;
 	private ColumnConfiguration config;
 
 }

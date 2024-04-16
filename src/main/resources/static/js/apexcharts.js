@@ -6053,7 +6053,7 @@
 						console.log(' -- type: '+ a.config.xaxis.tickAmount+' tickAmount: '+ a.config.xaxis.tickAmount)
 					return "dataPoints" === s && (s = Math.round(a.globals.gridWidth / 120)), s > i || t % Math.round(i / (s + 1)) == 0 || (e.text = ""), e
 				}*/
-				// mmn modifying the code to separate the xaxis label evenly
+				// mmns modifying the code to separate the xaxis label evenly
 				value: function (t, e, i, o) {
 			    var a = this.w,
 			        s = a.config.xaxis.tickAmount;
@@ -6309,7 +6309,7 @@
 								i.globals.rotateXLabels && (d = 22);
 								(c = void 0 !== i.config.xaxis.tickAmount && "dataPoints" !== i.config.xaxis.tickAmount && "datetime" !== i.config.xaxis.type ? e.axesUtils.checkLabelBasedOnTickamount(s, c, h) : e.axesUtils.checkForOverflowingLabels(s, c, h, e.drawnLabels, e.drawnLabelsRects)).text && i.globals.xaxisLabelsCount++;
 								
-							 //mmn changes for specific ammount of xaxis
+							 //mmns changes for specific ammount of xaxis
 							 var step = Math.ceil(o.length / ((i.config.chart.width===543)?10:25));
 							counter++;
 								
@@ -6317,33 +6317,7 @@
 						        c.text='';
 						    } 
 								
-								
-							/*	if (o.length%20)
-								{
-								if (i.globals.xaxisLabelsCount%5!=0)
-								 c.text='';
-								} 
-								else if (o.length>20  && o.length<40)
-								{if (i.globals.xaxisLabelsCount%6!=0)
-								 c.text='';
-								}
-								else if (o.length>=40  && o.length<60)
-								{if (i.globals.xaxisLabelsCount%10!=0)
-								 c.text='';
-								}
-								else if (o.length>=60 && o.length<150)
-								{if (i.globals.xaxisLabelsCount%25!=0)
-								 c.text='';
-								}
-								else if (o.length>=150 && o.length<300)
-								{if (i.globals.xaxisLabelsCount%50!=0)
-								 c.text='';
-								}
-								else if (o.length>300)
-								{if (i.globals.xaxisLabelsCount%75!=0)
-								 c.text='';
-								}
-						*/
+							
 							var g = a.drawText({
 									x: c.x,
 									y: e.offY + i.config.xaxis.labels.offsetY + d - ("top" === i.config.xaxis.position ? i.globals.xAxisHeight + i.config.xaxis.axisTicks.height - 2 : 0),
@@ -6755,11 +6729,11 @@
 					return !t.globals.isBarHorizontal || this.isTimelineBar ? (i = this.xaxisLabels.length, this.isTimelineBar && (a = t.globals.labels.length, t.config.xaxis.tickAmount && t.config.xaxis.labels.formatter && (i = t.config.xaxis.tickAmount)), this._drawXYLines({
 						xCount: i,
 						tickAmount: a 
-						// tickAmount:t.config.yaxis[0].tickAmount mn
+						// tickAmount:t.config.yaxis[0].tickAmount mns
 					})) : (i = a, a = t.globals.xTickAmount, this._drawInvertedXYLines({
 						xCount: i,
 						tickAmount: a 
-						// tickAmount:t.config.yaxis[0].tickAmount mn
+						// tickAmount:t.config.yaxis[0].tickAmount mns
 					})), this.drawGridBands(i, a), {
 						el: this.elg,
 						xAxisTickWidth: t.globals.gridWidth / i

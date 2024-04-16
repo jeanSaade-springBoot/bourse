@@ -5,9 +5,13 @@ import java.io.InputStream;
 import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeFormatterBuilder;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.DataFormatter;
@@ -150,6 +154,41 @@ public static Object[][] splitArray(Object[] dataArray, int elementsInSubarray) 
 	}
     return result;
 }
+public static Object[][] splitArrayMacro(Object[] dataArray, int elementsInSubarray) {
+	  Object[][] result = null;
+	try {
+	    int numberOfSubarrays = dataArray.length / elementsInSubarray;
+	
+		result = new Object[numberOfSubarrays][elementsInSubarray + 1];
+		for (int i = 0; i < numberOfSubarrays; i++) {
+
+			String referDate = "01-" + dataArray[0].toString();
+			
+			 DateTimeFormatter inputFormatter = new DateTimeFormatterBuilder()
+		                .parseCaseInsensitive()
+		                .appendPattern("dd-MMM-uu")
+		                .toFormatter(Locale.ENGLISH);
+		            
+		            // Parse the date using the custom formatter
+		            LocalDate parsedDate = LocalDate.parse(referDate, inputFormatter);
+		            
+			DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			String formattedDate = parsedDate.format(outputFormatter);
+
+			String outputDateStr = formattedDate;
+			for (int j = 0; j <= elementsInSubarray; j++) {
+				if (j == 0) {
+					result[i][j] = outputDateStr;
+				} else
+					result[i][j] = dataArray[i * elementsInSubarray + j];
+			}
+	    }
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+  return result;
+}
 public static int[] getLongSkewsGroupId(int number) {
     if (number == 0 ) 
         return new int[]{25, 10};
@@ -190,6 +229,16 @@ public static int[] getShortSkewsGroupId(int number) {
 	        else   
 	          return  new int[]{0, 0};  
 	}
+public static int getMacroFactorId(int number) {
+	if (number == 1)
+		return 14 ;
+	else if (number == 2)
+		return 15;
+	else if (number == 3)
+		return 16;
+	else
+          return 0;  
+}
 public static <T> String[] findMinMaxDatesAsString(List<T> dataList, String dateFieldName) {
     DateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy"); 
     DateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
