@@ -192,7 +192,7 @@
           async: true
       };
 	   var dataAdapter = new $.jqx.dataAdapter(familysource);
-	 	$("#FamilyDropDown").jqxDropDownList({ source: dataAdapter , displayMember: "description", valueMember: "id", theme: 'dark' , width: 210, height: 30});
+	 	$("#FamilyDropDown").jqxDropDownList({ source: dataAdapter ,dropDownHeight: 400, displayMember: "description", valueMember: "id", theme: 'dark' , width: 210, height: 30});
 	 	$("#FamilyDropDown").on('select', function (event) {
             if (event.args) {
                familyItem = event.args.item;
@@ -214,7 +214,7 @@
 			    success: function(response) {
 			        // Handle successful response
 			        var dataAdapter = new $.jqx.dataAdapter(response);
-			        $("#groupDropDown").jqxDropDownList({ source: dataAdapter, disabled: false });
+			        $("#groupDropDown").jqxDropDownList({ source: dataAdapter,dropDownHeight: 400, disabled: false });
 			    },
 			    error: function(xhr, status, error) {
 			        if (xhr.status === 401) {
@@ -259,7 +259,7 @@
 			    success: function(response) {
 			        // Handle successful response
 			        var dataAdapter = new $.jqx.dataAdapter(response);
-			        $("#subGroupDropDown").jqxDropDownList({ source: dataAdapter, disabled: false });
+			        $("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,dropDownHeight: 400, disabled: false });
 			    },
 			    error: function(xhr, status, error) {
 			        if (xhr.status === 401) {

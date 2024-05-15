@@ -3783,6 +3783,9 @@ function graphfont(fontSize){
 				}
 			updatePieChartOptions(chartConfiguration);
 			}
+	else 
+		if(typeof graphName !='undefined' && (graphName=="macroGraph"))
+		updateGraphFontCountryPMI(fontSize,minvalue,maxvalue);
 	else
 	if(typeof graphName !='undefined' && (graphName=="wmqyVolume" || graphName=="RaceChartVolume"))
 		updateGraphFontVolume(fontSize,minvalue,maxvalue);
@@ -4996,7 +4999,10 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 					title: {
 						text: title
 					},
-
+				 animations: {
+				        enabled: false,
+				      
+				    },
 					fill: {
 						type: 'solid',
 						opacity: [1, 1],
@@ -8387,7 +8393,74 @@ function getStrokeWidthPeriod(period, numColumns)
 						        }]
 					})
 			}
-			
+function updateGraphFontCountryPMI(fontsize,minvalue,maxvalue){
+				 // var valueMin = getMarginLenghtVolume(minvalue); 
+			 	 // var valueMax = getMarginLenghtVolume(maxvalue);  	
+				 const values = addMarginToMinMax(minvalue, maxvalue, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
+				if(chart!=null)
+				chart.updateOptions({
+					
+					xaxis: {
+			        	labels: {
+			        		 style: {
+					        	  fontSize: fontsize,
+					        	 }
+			        	  },
+			        	  axisBorder: {
+							  show: true,
+							  color: '#ffffff',
+							  height: 3,
+							  width: '100%',
+							  offsetX: 0,
+							  offsetY: 0
+						  },
+			        },
+			        legend: {
+			        	   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	        return [img , seriesName]
+				    	    }
+				    	  },
+				          yaxis: [
+							     {
+								   tickAmount: 6,
+ 				    	            min:roundedValues.min,
+									max:roundedValues.max,
+				     			 labels: {
+						        		 minWidth: 75,maxWidth: 75,
+						        		 style: {
+								        	  fontSize: fontsize,
+								        	 },
+							 		 		 formatter: function(val, index) {
+										 val = val  + 50;
+										 if (yaxisformat0[1])
+						  				  return  val.toFixed(yaxisformat0[0]);
+						  				else 
+						  				  return  val.toFixed(yaxisformat0[0]) + "%";
+									      }
+						        	  },
+						        	  axisBorder: {
+						                  width: 3,
+						                  show: true,
+						                  color: '#ffffff',
+						                  offsetX: 0,
+						                  offsetY: 0
+						              },
+						        }]
+					})
+			}			
 function getCurrentWeekNumber() {
     // Create a new Date object
     const today = new Date();
@@ -8490,4 +8563,31 @@ function findThirdPoint(date1, y1, date2, y2, date3) {
         { "x": formatTrendDate(d3), "y": y3 }
     ];
 }
+function findChannelPoint(date1, y1, date2, y2, date3, yc, datec) {
+    // Convert dates to JavaScript Date objects
+    var d1 = new Date(date1);
+    var d2 = new Date(date2);
+    var d3 = new Date(date3);
+	var dc = new Date(datec);
+	
+    // Convert dates to numerical values (days since a reference date)
+    var x1 = Math.floor((d1 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+    var x2 = Math.floor((d2 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+    var x3 = Math.floor((d3 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+    var xc = Math.floor((dc - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
 
+    // Calculate slope (m) of the line
+    var m = (y2 - y1) / (x2 - x1);
+
+    // Calculate y-intercept (c) of the line
+    var c = yc - m * xc;
+
+    // Calculate y-coordinate of the third point
+    var y3 = m * x3 + c;
+
+    // Return the result in the specified JSON format
+    return [
+        { "x": formatTrendDate(dc), "y": yc },
+        { "x": formatTrendDate(d3), "y": y3 }
+    ];
+}

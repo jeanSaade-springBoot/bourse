@@ -142,7 +142,6 @@ div#content {
       <h5 class="card-title card-title-color">Stocks & Indices</h5>
       <ul class="fa-ul">
 		  <li sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" ><a href="/bourse/any2sti"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-	  	  <li sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" ><a href="/bourse/stigraph"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">STOCKS & INDICES</a></li>
 	  	 <li sec:authorize="hasAuthority('STI_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/stidatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	   </ul>
     </div>
@@ -184,29 +183,36 @@ div#content {
   </ul>
     </div>
   </div>
-<div class="card">
+<!-- <div class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Normalized Space</h5>
       <ul class="fa-ul">
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Create Normalized Vols</li>
- <!--  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Durations And Dv01</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Durations And Dv01</li>
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">List of CTDs </li>
- --></ul>
+</ul>
     </div>
-  </div>
-  <div class="card">
-    <div class="card-body">
+  </div> -->
+   <div class="card">
+ <!--   <div class="card-body">
       <h5 class="card-title card-title-color">Inter-markets</h5>
       <ul class="fa-ul">
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">Weightings</li>
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Straddle Ratios</li>
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Implied Vol Ratios</li>
  </ul>
+    </div> -->
+  </div>
+    <div sec:authorize="hasAuthority('TRENDLINE_SCREEN')" class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Technical Analysis</h5>
+		 <ul class="fa-ul">
+	  	  <li sec:authorize="hasAuthority('TRENDLINE_SCREEN')" ><a href="/bourse/trendline"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Trendlines</a></li>
+		</ul>
     </div>
   </div>
-  
-  <div class="card">
-    <div class="card-body">
+   <div class="card">
+<!--    <div class="card-body">
       <h5 class="card-title card-title-color">Analytics</h5>
       <ul class="fa-ul">
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Return Function</li>
@@ -214,8 +220,8 @@ div#content {
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Implied Vs Realized (Close)</li>
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Gamma Rents</li>
 </ul>
-    </div>
-  </div>
+    </div>-->
+  </div> 
               <div class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Paper-watch</h5>
@@ -225,8 +231,8 @@ div#content {
     </div>
   </div>
  
-              <div class="card">
-    <div class="card-body">
+             <div class="card">
+   <!--  <div class="card-body">
       <h5 class="card-title card-title-color">At A Glance</h5>
       <ul class="fa-ul">
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Futures</li>
@@ -236,7 +242,7 @@ div#content {
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</li>
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Excess Liquidity</li>
 </ul>
-    </div>
+    </div>-->
   </div>
   <div class="card">
     <div class="card-body">
@@ -258,14 +264,14 @@ div#content {
 		</ul>
     </div>
   </div>
-    <div class="card">
-    <div class="card-body">
+   <div class="card">
+  <!--   <div class="card-body">
       <h5 class="card-title card-title-color"><div class="blink">Schedule Meetings</div></h5>
       <ul class="fa-ul">
 		  <li><span class="fa-li"></span>Host A Meeting</li>
 		  <li><span class="fa-li"></span>Join A Meeting</li>
 		</ul>
-    </div>
+    </div>-->
   </div>
 </div>
           </div>

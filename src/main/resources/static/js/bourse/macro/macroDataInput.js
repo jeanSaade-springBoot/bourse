@@ -1136,7 +1136,7 @@ data.forEach(function(obj) {
         }
     }
 });
-className=(containsSubgroupId1&&containsSubgroupId2&&containsSubgroupId3&&containsSubgroupId4)?'col-6':'col-6';
+className=(containsSubgroupId1&&containsSubgroupId2&&containsSubgroupId3&&containsSubgroupId4)?'col-3':'col-6';
 					 mainContainer='';
 				 selectedItems=[];
                  mainContainer+='<div class="col-12">'

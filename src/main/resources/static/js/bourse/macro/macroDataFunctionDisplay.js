@@ -155,11 +155,12 @@ var factorContainer='';
 			                 +'<div class="col-12 d-flex">'
 				                 +'<div class="col-2"></div>'
 				                 +'<div class="col-10">'
-										+'<div class="col-12 d-flex"><div class="align-middle fw-bold">MANUF PMI I</div><div class="align-middle fw-bold">SERVICES PMI</div><div class="align-middle fw-bold">MANUF PMI II</div></div>'
+										+'<div class="col-12 d-flex"><div class="align-middle fw-bold">MANUF PMI I</div><div class="align-middle fw-bold">SERVICES PMI I</div><div class="align-middle fw-bold">MANUF PMI II</div><div class="align-middle fw-bold">SERVICES PMI II</div></div>'
 										+'<div class="col-12 d-flex">'
-											+'<div class="col-4 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
-											+'<div class="col-4 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
-											+'<div class="col-4 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
+											+'<div class="col-3 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
+											+'<div class="col-3 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
+											+'<div class="col-3 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
+											+'<div class="col-3 d-flex"><div class="align-middle">FCST</div><div class="align-middle">FLASH</div><div class="align-middle">FINAL</div></div>'
 										+'</div>'
 									+'</div>'
 							  +'</div>';
@@ -179,7 +180,7 @@ var factorContainer='';
 				     
 				        // Iterate over each item within the current subgroupId
 				       factorContainer='<div class="col-12  d-flex">'
-				       factorIner+='<div class="col-4 d-flex">'
+				       factorIner+='<div class="col-3 d-flex">'
 				        groupedData[groupId][subgroupId].forEach(function (item) {
 				            checkBox="jqxCheckBox-"+item.groupId+'-'+item.subgroupId+'-'+item.factor;
 		    	  	        isVisible=item.isVisible?'d-block':'d-none';

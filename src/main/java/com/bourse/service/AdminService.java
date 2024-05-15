@@ -9,6 +9,7 @@ import java.util.Optional;
 import javax.persistence.EntityManager;
 
 import javax.persistence.PersistenceContext;
+import javax.persistence.TypedQuery;
 
 import org.jasypt.encryption.pbe.StandardPBEStringEncryptor;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -367,5 +368,14 @@ public class AdminService
 		return hasData;
 	}
 
-	
+	 public List<ColumnConfiguration> getColumnConfigurations(String condition) {
+		 	
+	        return columnConfigurationRepository.findByGroupIdsAndSubgroupIds(condition);
+	    }
+	 public List<ColumnConfiguration> getRelatedColumn(String condition)
+		{   
+		 String queryStr = "SELECT c FROM ColumnConfiguration c WHERE " + condition;
+		 TypedQuery<ColumnConfiguration> query = entityManager.createQuery(queryStr, ColumnConfiguration.class);
+		 return query.getResultList();
+		} 
 }

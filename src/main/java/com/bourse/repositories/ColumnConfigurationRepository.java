@@ -27,6 +27,9 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
        nativeQuery = true)
 	public String findColumnDataFormat(@Param("description") String description);
 	
+	@Query(value = "select * from column_configuration where  ( subgroup_id=9 and group_id=32 )  or  ( subgroup_id=7 and group_id=32 ) ", nativeQuery = true)
+	public List<ColumnConfiguration> findByGroupIdsAndSubgroupIds(String condition);
+	
 	@Query(value = "select  cc.id, \r\n"
 			+ "				cc.factor, \r\n"
 			+ "				cc.description, \r\n"

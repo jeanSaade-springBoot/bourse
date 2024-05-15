@@ -277,12 +277,13 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/base");
     }
-	@RequestMapping( value =  "/stigraph")
+	@PreAuthorize("hasAuthority('TRENDLINE_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/trendline")
     public ModelAndView stiGraphPage(ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sti/sti");
+		return new ModelAndView("html/graph/trendlines");
     }
 	@PreAuthorize("hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/foodstuff")

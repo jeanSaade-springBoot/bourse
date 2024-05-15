@@ -68,7 +68,10 @@ var groupContainer='';
 var subgroup1Container='';
 var subgroup2Container='';
 
-  const factorId_description =  [
+var roundedValues ='';
+var yaxisformat0 ='';
+
+const factorId_description =  [
                 { name: 'FCST', factorId: '14' },
                 { name: 'FLASH', factorId: '15' },
                 { name: 'FINAL', factorId: '16' }];
@@ -83,7 +86,7 @@ $(document).ready(function() {
 	
      initializeNewsBanner();
 	 initializeNavigationButtons();
-	 
+	 $("#show").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	  $.ajax({
 	        contentType: "application/json",
 	        url: "/macro/get-macro-display-final",
@@ -92,7 +95,10 @@ $(document).ready(function() {
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
-	        	
+				
+	        	monthDate.setFullYear((new Date).getFullYear() - 3);
+				monthDate.setHours(0, 0, 0, 0);
+				
                // Looping from 1 to 5
 		for (let i = 0; i < data.length; i++) {
 			if(data[i].groupId!=dataGroupId)
@@ -116,7 +122,7 @@ $(document).ready(function() {
 		    	  	$(items).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
 				}
 				 initialiazeItem(subgroupsitems,1);
-				 initializeShowFilterButton();
+				 //initializeShowFilterButton();
 				 initialiazeClearFilterButtons(subgroupsitems);
     
 	   getGraphHistoryByScreenName("macroGraph");
@@ -133,11 +139,43 @@ $(document).ready(function() {
 	
      
   
-     $("#show").click(function() { $("#collapseFilter").removeClass('show');
+     $("#show").click(function() { 
+		  	monthDate = new Date();
+			monthDate.setMonth(monthDate.getMonth() - 6);
+	    	monthDate.setFullYear((new Date).getFullYear() - 3);
+			monthDate.setHours(0, 0, 0, 0);
+			
+	    	resetActiveChartType();
+		resetActiveFontSize();
+		resetActiveChartColor();
+		resetActiveChartColorTransparency();
+		resetActiveChartGrid();
+		$("#button-monthBackward").prop('disabled', false);
+		$("#button-yearBackward").prop('disabled', false);
+		fromNavigation = false;
+		if(checkedItemLeft>0 || checkedItemRight>0)
+		{
+		  if(checkedItemLeft>0 && checkedItemRight>0)
+	      {	
+	    	 $("#collapseFilter").removeClass('show');
 	    	 $('#grid-content').css('display', 'block');
-	    	
 	    	drawGraph();
-	    	 })
+	      } 
+	       else {
+				$('#alertFiltter-modal').modal('show');
+				$("#collapseFilter").addClass('show');
+			}
+	    }else 
+	 		 if (checkedItem > 0) {
+				$("#collapseFilter").removeClass('show');
+				$('#grid-content').css('display', 'block');
+				drawGraph();
+			} else {
+				$('#alertFiltter-modal').modal('show');
+				$("#collapseFilter").addClass('show');
+			}
+	    	 });
+	    	 
 });
 
 function initialiazeClearFilterButtons(items){
@@ -165,7 +203,6 @@ function drawGraph() {
 }
 
  function macroGraph(graphService,graphName,removeEmpty,saveHistory){
-	 
 	mode = "merge";
 	var dataParam;
 	var checkedItemValues = [];
@@ -262,6 +299,7 @@ function drawGraph() {
 					flagImage="<img src='"+getCountryImagePath(itemValue[checkedItemValues[0]].GroupId)[0]+"' width='70px'>";
 					
 					title =  T1 + " vs " + T2;
+					title="";
 					if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
 						if (response[0].config.yAxisFormat.includes("%")) {
 							isdecimal = false;
@@ -290,7 +328,7 @@ function drawGraph() {
 					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-		
+
 					chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 					var dbchartType1 = response[0].config.chartType;
@@ -334,38 +372,34 @@ function drawGraph() {
 					maxvalue = max;
 				
 					 let selectedValue=(Math.abs(min)>=Math.abs(max)?Math.abs(min):Math.abs(max));
+					 const values = addMarginToMinMax(min, max, 15);
 					 
-					 values = addMarginToMinMax(-selectedValue, selectedValue, 5);
-					 selectedValue=(selectedValue+values)/5;	
-					
+					 calculatedMin = min > 0 ? min - values : -(values - min);
+					 calculatedMax= max > 0 ? max + values : -(values + max);
+					 
+					 roundedValues = adjustMinMax(calculatedMin,calculatedMax);
+					 
 				     graphService=typeof graphService!='undefined'?graphService:'';
 				   
-					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+					 yaxisformat0 = getFormat(response[0].config.yAxisFormat);
 					
 					notDecimal=yaxisformat0[1];
 			    	nbrOfDigits=yaxisformat0[0];
 			    	
 					for (let i = 0; i < response[0].graphResponseDTOLst.length; i++) {
 					    let data = response[0].graphResponseDTOLst[i];
-					    let y = parseFloat(data.y); // Convert y to a float for comparison
-					   // let x = parseFloat(data.x);
-					    // Update the value of y based on the condition
+					    let y = parseFloat(data.y);
 					    if (y !== null && !isNaN(y)) {
 					        data.y = y > 50 ? y - 50 : -(50 - y);
-					     //   data.x=  new Date(x).getTime();
 					    }
 					}
 					
 					for (let i = 0; i < response[1].graphResponseDTOLst.length; i++) {
 					    let data = response[1].graphResponseDTOLst[i];
-					    let y = parseFloat(data.y); // Convert y to a float for comparison
-					 //   let x = parseFloat(data.x);
-					    // Update the value of y based on the condition
+					    let y = parseFloat(data.y); 
 					    if (y !== null && !isNaN(y)) {
 					        data.y = y > 50 ? y - 50 : -(50 - y);
-					   //     data.x=  new Date(x).getTime();
 					    }
-					   
 					}
 					let isMaxItems1 =  response[0].graphResponseDTOLst.filter(function(item) {
 					    return item.ismax === "1";
@@ -386,6 +420,10 @@ function drawGraph() {
 												value2=	 value2.toFixed(getFormatResult1[0]) + "%";
 						
 						let maxcalculated=Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + selectedValue : Math.abs(maxvalue) + selectedValue;			
+					
+					$('#legendfalse').addClass("active");
+					$('#legendtrue').removeClass("active");
+					
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
@@ -396,24 +434,23 @@ function drawGraph() {
 						type: 'column',
 						data: response[1].graphResponseDTOLst
 					}],
+					chart: {
+				     /* toolbar: {
+				       // show: false,
+				      },
+				        zoom: {
+							    enabled: false
+							  }*/
+				      },
 						xaxis: {
 					labels: {
 						rotate: -65,
 						rotateAlways: true,
 						minHeight: 0,
 						style: {
-							fontSize: '12px',
+							fontSize: fontsize,
 						},
-					/*	formatter: function(value, timestamp, opts) {
-							const options = { 
-									  day: 'numeric', 
-									  month: 'short', 
-									  year: 'numeric' 
-									};
-									const formattedDate = new Date(value).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');
-									
-				            return formattedDate;
-				          }*/
+					
 					},
 				//	type: 'datetime',
 					tickAmount: 19,
@@ -444,7 +481,6 @@ function drawGraph() {
 							colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
 							strokeColors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
 							shape: 'square',
-							radius: 0,
 							// size: 2,
 						},
 						yaxis: {
@@ -462,11 +498,10 @@ function drawGraph() {
 									      }
 							},
 							tickAmount: 6,
-							min: Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - selectedValue : Math.abs(minvalue) - selectedValue,
-							max: maxcalculated<0?0:maxcalculated,
+						
+							min:roundedValues.min,
+							max:roundedValues.max,
 							
-							//min: -Math.abs(selectedValue) ,
- 				           // max: Math.abs(selectedValue),
 					axisBorder: {
 								width: 3,
 								show: true,
@@ -511,8 +546,8 @@ function drawGraph() {
 						        borderColor: "#FF0000",
 						        fillColor: "#ff758b",
 						        opacity: 0.3,	
-						        offsetX: -300,
-						        width: '1600px',
+						     //   offsetX: -300,
+						        width: '100%',
 						      },
 						      
 						    ],
@@ -529,13 +564,36 @@ function drawGraph() {
 					        label: {
 					         borderColor: "#ffffff00",
 					          offsetY: 30,
-					         offsetX: 70,
+					         // offsetY: 50,
+					          offsetX: 45,
 					          style: {
 					            color: "#FF00FF",
-					            background:  "#ffffff00",
+					            background:  "#00000000",
 					          },
 					
-					          text: toTitleCase(isMaxItems1[0].x.split('-')[0]+' '+getfactorDescriptionById(isMaxItems1[0].factor.toString())+' '+value1)
+					          text: toTitleCase(isMaxItems1[0].x.split('-')[0]+' Manuf  ')
+					        }
+					      },
+					          {
+					         x: isMaxItems1[0].x,
+					         y: isMaxItems1[0].y,
+					        marker: {
+					          size: 0,
+					          fillColor: "#ffffff00",
+					          strokeColor: "#FF00FF",
+					          radius: 6
+					        },
+					        label: {
+					         borderColor: "#ffffff00",
+					          offsetY: 40,
+					         // offsetY: 50,
+					          offsetX: 45,
+					          style: {
+					            color: "#FF00FF",
+					            background:  "#00000000",
+					          },
+					
+					          text: toTitleCase(getfactorDescriptionById(isMaxItems1[0].factor.toString())+' '+value1)
 					        }
 					      },
 					           {
@@ -549,27 +607,61 @@ function drawGraph() {
 					        },
 					        label: {
 					         borderColor: "#ffffff00",
-					         offsetY: 20,
-					         offsetX: 70,
+					           offsetY: 10,
+					   		 //  offsetY:0,
+					     	   offsetX: 50,
 					          style: {
 					            color: "#FF00FF",
-					            background:  "#ffffff00",
+					            background:  "#00000000",
 					          },
 					
-					          text: toTitleCase(isMaxItems2[0].x.split('-')[0]+' '+getfactorDescriptionById(isMaxItems2[0].factor.toString())+' '+value2)
+					          text: toTitleCase(isMaxItems2[0].x.split('-')[0]+' Services ')
+					        }
+					      },
+					      {
+					         x: isMaxItems2[0].x,
+					         y: isMaxItems2[0].y,
+					        marker: {
+					          size: 0,
+					          fillColor: "#ffffff00",
+					          strokeColor: "#FF00FF",
+					          radius: 6
+					        },
+					        label: {
+					         borderColor: "#ffffff00",
+					           offsetY: 20,
+					   		 //  offsetY:0,
+					     	   offsetX: 50,
+					          style: {
+					            color: "#FF00FF",
+					            background:  "#00000000",
+					          },
+					
+					          text: toTitleCase(getfactorDescriptionById(isMaxItems2[0].factor.toString())+' '+value2)
 					        }
 					      },
 					    ],
 					    
-					      },
+					      },legend: {
+						   show:false,
+				    	  },
 					});
+					
+					disableChartFont(false);
 					$('#overlayChart').hide();
+				    $("#mainChart-title").empty();
+				    
+				    graphTitle=T1+" and "+T2.split("FINAL")[1];
+				    graphTitle=graphTitle.toUpperCase().replace(/\bFINAL\b/g, '').replace(/SERVICES/g, '<span style="color:#ffc000">Services</span>').replace(/MANUFACTURING/g, 'Manuf').replace(/AND/g, 'and')
+
+					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 25px;left: 350px;height: 50px;" class="title-style"><img height="50" class="pr-2" src=\''+getCountryImagePath(itemValue[checkedItemValues[0]].GroupId)[0]+'\' >'+graphTitle+'</div>')
 				},
 				error: function(e) {
 
 					console.log("ERROR : ", e);
 
 				}
+				
 			});
 
 		} 
@@ -597,4 +689,48 @@ function toTitleCase(str) {
     return str.replace(/\w\S*/g, function(txt) {
         return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
     });
+}
+
+function adjustMinMax(min, max) {
+    period=(max-min)/6;
+    let values=[];
+    increment=min;
+    for (var i = 0; i < 7; i++) {
+		
+		values.push(increment)
+		increment=increment+period;
+		
+		}
+		
+    let result = normalizeAroundZero(values);
+    let updatedValues = result.values
+  //  min = min > 0 ? min - period: -(period - min);
+  //  max = max > 0 ? max + period: -(period + max);
+   min = Math.min(...updatedValues);
+   max = Math.max(...updatedValues);
+    return { min: min, max: max };
+}
+
+function normalizeAroundZero(numbers) {
+    let closest = numbers[0];
+    let minDiff = Math.abs(numbers[0]);
+    let normalized ='';
+    for (let i = 1; i < numbers.length; i++) {
+        const diff = Math.abs(numbers[i]);
+        if (diff < minDiff) {
+            closest = numbers[i];
+            minDiff = diff;
+        }
+    }
+   if(Math.min(...numbers)>0)
+   {
+	    normalized = numbers.map(num => (num==closest)?num - closest:num + closest/2);
+   }else if(Math.max(...numbers)<0)
+   {
+	    normalized = numbers.map(num => (num==closest)?num - closest:  -(closest/2 - num));
+   }
+   else
+        normalized = numbers.map(num => num - closest);
+
+    return { values: normalized };
 }

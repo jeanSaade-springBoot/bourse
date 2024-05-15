@@ -62,6 +62,13 @@
     font-weight: bold;
     font-size: .8rem;
 }
+.title-style {
+    font-weight: bold;
+    color: white;
+}
+.apexcharts-marker {
+    transition: 0.15s ease all;
+}
 </style>
 </head>
 
@@ -301,6 +308,7 @@
 															style="min-height: 365px; min-width: 1100px; max-width: 1100px">
 
 														</div>
+														<div id="mainChart-title"></div>
 														<div id="chart">
 															<div id="timeline-chart"></div>
 														</div>
@@ -494,7 +502,7 @@
 			<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
 			<script src="/js/jqwidgets/jqxbuttons.js"></script>
 
-			<script src="/js/apexcharts_bck.js"></script>
+			<script src="/js/apexcharts.js"></script>
 			
 			<script src="/js/chartOptions.js"></script>
 			<script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>

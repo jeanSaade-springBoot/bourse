@@ -43112,7 +43112,6 @@ INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('
 
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('94', 'MACRO_DATA_FUNCTION_DISPLAY_SCREEN', true);
 
-
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('96', 'MACRO_GRAPH_SCREEN', true);
 
 
@@ -43120,5 +43119,11 @@ INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('macroGraph',
 
 create table macro_graph_responsedto (id bigint not null, factor varchar(255), ismax varchar(255), x varchar(255), y varchar(255), primary key (id));
 
-   delete from live_option_flow_data where flow_date ='3000-01-01 00:00:00';
+delete from live_option_flow_data where flow_date ='3000-01-01 00:00:00';
+  
+ALTER TABLE technical_analysis_graph_history
+ADD COLUMN is_visible_trendline BOOLEAN DEFAULT TRUE;
+ALTER TABLE `bourse`.`technical_analysis_graph_history` 
+ADD COLUMN `channel` VARCHAR(255) NULL AFTER `is_visible_trendline`,
+ADD COLUMN `is_visible_channel` TINYINT NULL DEFAULT '1' AFTER `channel`;
    
