@@ -73,6 +73,7 @@
             color:white;
             background-color:#272e48;
             border-radius: .2rem;
+            font-size: .9rem;
         }
 
         th, td {
@@ -83,14 +84,17 @@
         .trendline-cell {
             background-color: #ff6600;
             border-top-right-radius: .2rem;
+            width:75px;
         }
 
         .slope-style {
             font-weight:normal;
             text-align:right;
+            width:100px;
         }
         .grey-cell{
              background-color: #4e5a85;
+             height: 25px;
         }
         .br-br{
          border-bottom-right-radius: .2rem;
@@ -145,7 +149,7 @@
 	.w-130{
 	 width:130px;
 	}
-	.edit-trendline {
+	.edit-table {
     padding: .2rem .375rem;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
@@ -155,6 +159,21 @@
 .hide{
  padding: .2rem .4rem;
  border: 0px;    
+ background: #f23a3a;
+}
+.apexcharts-yaxis-annotation-label {
+    fill:#FF00FF!important;
+}
+.retracement-table{
+ 			width: 100%;
+            table-layout: fixed; /* Forces equal column width */
+}
+.retracement-table th,
+.retracement-table td {
+    width: 50%; /* Ensures equal width for each column */
+}
+.h-34{
+height:34px;
 }
 </style>
 </head>
@@ -193,8 +212,8 @@
 									aria-labelledby="nav-home-tab">...</div>
 								<div class="tab-pane fade active show" id="nav-profile"
 									role="tabpanel" aria-labelledby="nav-profile-tab">
-									<p class="mt-2" style="margin-bottom: .5rem;">
-										<a class="btn select" data-toggle="collapse"
+									<p class="mt-2 row" style="margin-bottom: .5rem;">
+										<a class="btn select row" data-toggle="collapse"
 											href="#collapseFilter" role="button" aria-expanded="false"
 											aria-controls="collapseFilter">Select Factors <img
 											style="width: 12px; margin-left: .6rem;"
@@ -493,35 +512,16 @@
 
 											<div class="row">
 												<div class="row col-12 ">
-													<div>
-														<label>Start Date</label>
-														<div class="d-flex">
-															<div id='startDate' class="mr-2"></div>
-															<input type="text" id="startValue"
-																class="input-value mr-2" disabled>
-														</div>
-													</div>
-												
-													<div>
-														<label>Cross Date</label>
-														<div class="d-flex">
-															<div id='crossDate' class="mr-2"></div>
-															<input type="text" id="crossValue"
-																class="input-value mr-2" disabled>
-														</div>
-													</div>
-													<div>
-														<div>
-															<label>&nbsp</label>
-														</div>
-														<input aria-expanded="true" aria-controls="collapseFilter"
+													<input aria-expanded="true" aria-controls="collapseFilter"
 															class="btn btn-primary mr-1 mb-1"
 															style="margin-right: 1rem !important; color: white;"
-															type="button" id="draw" value="Draw Trendline" />
-													</div>
-
+															type="button" id="addTrendLine" value="Add Trendline" />
+													<input aria-expanded="true" aria-controls="collapseFilter"
+															class="btn btn-primary mr-1 mb-1"
+															style="margin-right: 1rem !important; color: white;"
+															type="button" id="addRetracement" value="Add Retracment" />		
 												</div>
-												
+										
 												<div class="row col-12 d-none">
 													<div id='groupOfPeriod' style='margin-left: 1rem'>
 														<button style="padding: 4px 16px;" id="d"
@@ -771,8 +771,11 @@
 															value="Save To Favorites" />
 													</div>
 												</div>
-												<div class="row col-12  pt-4" id="trendline-grid">
-													
+												<div  class="col-12 row" >
+													<div class="col-4  pt-4" id="trendline-grid">
+													</div>
+													<div class="col-3  pt-4" id="retracement-grid">
+													</div>
 												</div>
 											</div>
 										</div>

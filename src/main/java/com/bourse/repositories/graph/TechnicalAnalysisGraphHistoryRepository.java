@@ -1,11 +1,11 @@
-package com.bourse.repositories;
+package com.bourse.repositories.graph;
 
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-import com.bourse.domain.TechnicalAnalysisGraphHistory;
+import com.bourse.domain.graph.TechnicalAnalysisGraphHistory;
 public interface TechnicalAnalysisGraphHistoryRepository extends JpaRepository<TechnicalAnalysisGraphHistory, Long> {
 	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByGraphIdAndUserName(String graphId,String userName);
 

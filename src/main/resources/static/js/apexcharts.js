@@ -1519,10 +1519,23 @@
 						r = t.strokeDashArray,
 						n = this._getY1Y2("y1", t),
 						o = t.label.text;
+							   // New logic to calculate x position (mns)
+					   var calculatedX=0;
+					   if (typeof t.x === 'string') {
+					       var h = s.globals.labels.indexOf(t.x);
+					       if (s.config.xaxis.convertedCatToNumeric) {
+					           h = s.globals.categoryLabels.indexOf(t.x);
+					       }
+					       calculatedX = this.annoCtx.helpers.getStringX(t.x); // mns
+					   } else {
+					       calculatedX = (t.x - s.globals.minX) / (s.globals.xRange / s.globals.gridWidth); // mns
+					   	   t.borderWidth=2;
+					   }
 					if (null === t.y2 || void 0 === t.y2) {
 						if(n<s.globals.gridHeight && Math.sign(n) !== -1)
 						{
-							var l = this.annoCtx.graphics.drawLine(0 + t.offsetX, n + t.offsetY, s.globals.gridWidth + t.offsetX, n + t.offsetY, t.borderColor, r, t.borderWidth);
+							var l = this.annoCtx.graphics.drawLine(     calculatedX + t.offsetX, // mns // 0 + t.offsetX,
+							 n + t.offsetY, s.globals.gridWidth + t.offsetX, n + t.offsetY, t.borderColor, r, t.borderWidth);
 							e.appendChild(l.node), t.id && l.node.classList.add(t.id)
 						}
 					} else {
@@ -1535,7 +1548,29 @@
 						
 						c.node.classList.add("apexcharts-annotation-rect"), c.attr("clip-path", "url(#gridRectMask".concat(s.globals.cuid, ")")), e.appendChild(c.node), t.id && c.node.classList.add(t.id)
 					}
-					if(n<s.globals.gridHeight && Math.sign(n) !== -1)
+					 if (typeof t.x === 'number') {
+					       var h = s.globals.labels.indexOf(t.x);
+					       if (s.config.xaxis.convertedCatToNumeric) {
+					           h = s.globals.categoryLabels.indexOf(t.x);
+					       }
+					       var d = "right" === t.label.position ? s.globals.gridWidth  + t.label.offsetX : calculatedX ,
+							g = this.annoCtx.graphics.drawText({
+								x: d,
+								y: (a || n) + t.label.offsetY - 3,
+								text: o,
+								textAnchor: t.label.textAnchor,
+								fontSize: t.label.style.fontSize,
+								fontFamily: t.label.style.fontFamily,
+								fontWeight: t.label.style.fontWeight,
+								foreColor: t.label.style.color,
+								cssClass: "apexcharts-yaxis-annotation-label ".concat(t.label.style.cssClass, " ").concat(t.id ? t.id : "")
+							});
+							g.attr({
+								rel: i
+							}), e.appendChild(g.node)
+					   } 
+					 else
+					   if(n<s.globals.gridHeight && Math.sign(n) !== -1)
 						{
 						var d = "right" === t.label.position ? s.globals.gridWidth : 0,
 							g = this.annoCtx.graphics.drawText({
@@ -1553,6 +1588,85 @@
 							rel: i
 						}), e.appendChild(g.node)
 					}
+					
+					/*
+						   var a, s = this.w,
+	        r = t.strokeDashArray,
+	        n = this._getY1Y2("y1", t),
+	        o = t.label.text;
+	
+	    // New logic to calculate x position (mns)
+	    var calculatedX;
+	    if (typeof t.x === 'string') {
+	        var h = s.globals.labels.indexOf(t.x);
+	        if (s.config.xaxis.convertedCatToNumeric) {
+	            h = s.globals.categoryLabels.indexOf(t.x);
+	        }
+	        calculatedX = this.annoCtx.helpers.getStringX(t.x); // mns
+	    } else {
+	        calculatedX = (t.x - s.globals.minX) / (s.globals.xRange / s.globals.gridWidth); // mns
+	    }
+	
+	    if (null === t.y2 || void 0 === t.y2) {
+	        if (n < s.globals.gridHeight && Math.sign(n) !== -1) {
+	            var l = this.annoCtx.graphics.drawLine(
+	                calculatedX + t.offsetX, // mns
+	                n + t.offsetY, 
+	                s.globals.gridWidth + t.offsetX, 
+	                n + t.offsetY, 
+	                t.borderColor, 
+	                r, 
+	                t.borderWidth
+	            );
+	            e.appendChild(l.node);
+	            if (t.id) {
+	                l.node.classList.add(t.id);
+	            }
+	        }
+	    } else {
+	        if ((a = this._getY1Y2("y2", t)) > n) {
+	            var h = n;
+	            n = a;
+	            a = h;
+	        }
+	        var c = this.annoCtx.graphics.drawRect(
+	            calculatedX + t.offsetX - ((this.w.globals.dom.elGraphical.node.getBBox().width + (931 - this.w.globals.dom.elGraphical.node.getBBox().width)) - this.w.globals.gridWidth) / 2, // mns
+	            a + t.offsetY, 
+	            s.globals.dom.elGraphical.node.getBBox().width + t.offsetX, 
+	            n - a, 
+	            0, 
+	            t.fillColor, 
+	            t.opacity, 
+	            1, 
+	            t.borderColor, 
+	            r
+	        );
+	        c.node.classList.add("apexcharts-annotation-rect");
+	        c.attr("clip-path", "url(#gridRectMask".concat(s.globals.cuid, ")"));
+	        e.appendChild(c.node);
+	        if (t.id) {
+	            c.node.classList.add(t.id);
+	        }
+	    }
+	
+	    if (n < s.globals.gridHeight && Math.sign(n) !== -1) {
+	        var d = "right" === t.label.position ? s.globals.gridWidth : 0;
+	        var g = this.annoCtx.graphics.drawText({
+	            x: d + t.label.offsetX,
+	            y: (a || n) + t.label.offsetY - 3,
+	            text: o,
+	            textAnchor: t.label.textAnchor,
+	            fontSize: t.label.style.fontSize,
+	            fontFamily: t.label.style.fontFamily,
+	            fontWeight: t.label.style.fontWeight,
+	            foreColor: t.label.style.color,
+	            cssClass: "apexcharts-yaxis-annotation-label ".concat(t.label.style.cssClass, " ").concat(t.id ? t.id : "")
+	        });
+	        g.attr({ rel: i });
+	        e.appendChild(g.node);
+	    }
+    }
+					 */
 				}
 			}, {
 				key: "_getY1Y2",

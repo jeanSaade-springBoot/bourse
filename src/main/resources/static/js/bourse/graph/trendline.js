@@ -58,14 +58,17 @@ var chartResponse;
 var chartConfigSettings;
 var data;
 var trendLines=[];
+var retracement=[];
 var channelLines=[];
 var serieArray=[];
 var checkedItemid = [];
 var trendlineSeries=[];
 var trendLineId=0;
+var retracementId=0;
 var channelId=0;
 var getFormatResult0=2;
 var results;
+var retracementData;
 var selectedstartCellId;
 var source;
 
@@ -89,55 +92,37 @@ $(document).ready(function() {
 	 
 	$("#SaveToFavorites").jqxButton({ theme: 'dark', height: 30, width: 100 });
      
-    $("#draw").jqxButton({ theme: 'dark', height: 30, width: 140 });
-	
-	$("#draw").click(function() {
+	$("#addTrendLine").jqxButton({ theme: 'dark', height: 30, width: 140 });
+	$("#addRetracement").jqxButton({ theme: 'dark', height: 30, width: 140 });
+
+	$("#addTrendLine").click(function() {
 		  graph_trendlines = results.filter(obj => obj.graphId ===  checkedItemid[0]);
-			if(graph_trendlines.length==0){
-				 drawLine();
-			 }
-			else if(graph_trendlines[0].trendlines.length<3)
-			{ 
-				drawLine();
+			if(graph_trendlines.length==0 || graph_trendlines[0].trendlines.length<3)
+			{ initiateTrendLine();
+			  
 			 }else
 			{
 		$('#alertLimitation-modal').modal('show');
 		$("#alertTextLimitation").empty();
-							        
-		$("#alertTextLimitation").append("<p> You cannot draw more than 3 trendlines </p>");
-
-			}
+		$("#alertTextLimitation").append("<p> Maximum reached: You cannot draw more than 3 trendlines. </p>");
+		}
 	});
-	$('#startDate').on('change', function (event) 
-	{  
-	    var sDate =  new Date(event.args.date); 
-        
-	    let result = data[0].graphResponseDTOLst.find(obj => {
-    			let objDate = parseDate(obj.x);
-   				 return objDate.getTime() === sDate.getTime();
-		});
+	
+	$("#addRetracement").click(function() {
+	   
+			if (retracement.length<2)
+			initiateRetracement();
+			else
+			{
+		$('#alertLimitation-modal').modal('show');
+		$("#alertTextLimitation").empty();
+		$("#alertTextLimitation").append("<p> Maximum reached: You cannot draw more than 2 retracement. </p>");
+		}
 		
-		let yValue = result ? parseFloat(result.y).toFixed(getFormatResult0[0]) : null;
-		 y1=result ?result.y : null;
-         x1=result ?result.x : null;
-		$('#startValue').val(yValue);
-		
-	}); 
-    $('#crossDate').on('change', function (event) 
-	{  
-	    var cDate =  new Date(event.args.date); 
-        
-	    let result = data[0].graphResponseDTOLst.find(obj => {
-    			let objDate = parseDate(obj.x);
-   				 return objDate.getTime() === cDate.getTime();
-		});
-		 y2=result ?result.y : null;
-         x2=result ?result.x : null;
-		let yValue = result ? parseFloat(result.y).toFixed(getFormatResult0[0]) : null;
-		$('#crossValue').val(yValue);
-		
-	}); 
+	});
+getRetracementHistory();	
 getTrendLinesHistory();
+
     });
 
 function drawGraph() {
@@ -181,17 +166,16 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 	if (chart != null)
 		chart.destroy();
 
-	for (i = 0; i < checkedItemid.length; i++) {
-				if (checkedItemid[i] != null)
-					checkedItemValues.push(checkedItemid[i]);
-			}
+	checkedItemValues = checkedItemid.filter(item => item != null);
 			
 	chart = new ApexCharts(document.querySelector("#mainChart"), options_missingDates);
 
 	chart.render();
-	const matchingItem = results.find(item => item.graphId === checkedItemValues[0]);
-  
-  if(typeof(matchingItem)=='undefined')
+	
+    const matchingItem = results.find(item => item.graphId === checkedItemValues[0]);
+	const hasMatchingTrendline = typeof(matchingItem)!='undefined'?matchingItem.trendlines:undefined;
+
+  if(typeof(hasMatchingTrendline)=='undefined')
     {
 		 trendLines=[];
 		 channelLines=[];
@@ -245,8 +229,11 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 		 startDate = smallestDate;
 		 if (monthDate>startDate)
 		 	fromdate =  formatDate(startDate);  
+		 	monthDate = startDate;
 			resetParameters();
 	}
+
+	
 	title = itemValue[checkedItemValues[0]].title;
 
 					dataParam = {
@@ -269,7 +256,7 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 						data: JSON.stringify(dataParam),
 						dataType: 'json',
 						timeout: 600000,
-						success: function(response) {
+						success: async function(response) {
 							
 						    source = getMinMaxDateData(response[0].graphResponseDTOLst);
 				           //var data = transformData(response[0].graphResponseDTOLst);
@@ -280,10 +267,6 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
     	 
 						    x3= getMaxDate(response[0].graphResponseDTOLst);
 						    
-							$("#startDate").jqxDateTimeInput({ min: source[0].minDate, max: source[0].maxDate,theme:'dark', width: 200, height: 30, }); 
-				            $("#crossDate").jqxDateTimeInput({ min: source[0].minDate, max:source[0].maxDate,theme:'dark', width: 200, height: 30}); 
-							$("#startDate").val("");
-							$("#crossDate").val("");
 							newstartdate = new Date();
 							startDateF1 = response[0].config.startDate;
 							if (startDateF1 != null)
@@ -319,25 +302,25 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 							var getFormatResult = getFormat(response[0].config.dataFormat);
 							chartDbFontSize = response[0].config.chartSize;
 							
-							dbChartTransparency= typeof(matchingItem)!='undefined'?matchingItem.chartOptions.chartTransparency:response[0].config.chartTransparency;
+							dbChartTransparency= typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.chartTransparency:response[0].config.chartTransparency;
 							chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],dbChartTransparency);
 							
-							dbChartchartType1= typeof(matchingItem)!='undefined'?matchingItem.chartOptions.chartType1:chartType1;
+							dbChartchartType1= typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.chartType1:chartType1;
 							chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], dbChartchartType1, Period);
 							
-							dbChartColor = typeof(matchingItem)!='undefined'?'#'+matchingItem.chartOptions.chartColor:response[0].config.chartColor;
+							dbChartColor = typeof(hasMatchingTrendline)!='undefined'?'#'+matchingItem.chartOptions.chartColor:response[0].config.chartColor;
 							chartColor = chartType1=='line'?"#ffffff":checkActiveChartColor($("#chartColor").find(".active")[0],dbChartColor);
 							
-							dbFontsize = typeof(matchingItem)!='undefined'?matchingItem.chartOptions.fontsize:chartDbFontSize;
+							dbFontsize = typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.fontsize:chartDbFontSize;
 							fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], dbFontsize);
 							
-							dbMarkerSize = typeof(matchingItem)!='undefined'?matchingItem.chartOptions.markerSize.split("-")[1]: response[0].config.chartshowMarkes;
+							dbMarkerSize = typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.markerSize.split("-")[1]: response[0].config.chartshowMarkes;
 							markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0],dbMarkerSize);
 							
-							dbShowGrid = typeof(matchingItem)!='undefined'?matchingItem.chartOptions.showGrid:response[0].config.chartShowgrid;
+							dbShowGrid = typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.showGrid:response[0].config.chartShowgrid;
 							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], dbShowGrid);
 							
-							dbShowLegend = typeof(matchingItem)!='undefined'?matchingItem.chartOptions.showLegend:showLegend;
+							dbShowLegend = typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.showLegend:showLegend;
 							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], dbShowLegend);
  
 							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
@@ -376,17 +359,23 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 												 chartTransparency:chartTransparency,
 												 getFormatResult0:getFormatResult0,
 												 checkedItem:checkedItem,
-												 chartType1:chartType1};
-							//if(Period=='d')
-							    serieArray = getSerriesData();
-								updateSeriesChart(chartConfigSettings);
+												 chartType1:chartType1,
+												 yaxisAnnotation:[]};
+												 
+							  const latestX3Date = new Date(getMaxDate(chartResponse));
+							  const newDateX3 = latestX3Date.toISOString(); 
+							 var  allDataAreLatest=true;
+							  allDataAreLatest=updateLatestTrendLine(trendLines, newDateX3,checkedItemValues[0]);
 							
-							//else
-							//	updateChartSelectedItem(chartConfigSettings);
-						    checkIfRenderFlag(graphName,itemValue[checkedItemValues[0]]);
-						
+							  if(allDataAreLatest)
+							    {serieArray = getSerriesData();
+								 updateSeriesChart(chartConfigSettings);
+							    }
 							drawTrendLineTable(trendLines);
-	
+							
+						    processRetracementData(retracementData, checkedItemValues);
+    
+							
 							$('#overlayChart').hide();
 						},
 						error: function(e) {
@@ -402,7 +391,49 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 	$("#dateTo-mainChart").val(todate);
 	
 }
+function processRetracementData(retracementData, checkedItemValues) {
+     const hasRetracement = retracementData[checkedItemValues[0]];
+    if (typeof hasRetracement === 'undefined' || hasRetracement.length==0) {
+        $("#retracement-grid").empty();
+        retracement = [];
+        retracementId = 1;
+        chartConfigSettings.yaxisAnnotation = [];
+        updateSeriesChart(chartConfigSettings);
+    } else {
+        let yaxis = [];
+        retracement = [];
+        retracementId = 0;
 
+        hasRetracement.forEach(function(item) {
+            const json = convertRetracementData(
+                item.retracementData,
+                item.retracementParameter.startDate,
+                item.retracementParameter.endDate,
+                item.retracementParameter.startPrice,
+                item.retracementParameter.endPrice,
+                item.retracementDataHide
+            );
+
+            retracementId += 1;
+            retracement.push({
+                dbId: item.dbId,
+                retracementId: retracementId,
+                graphId: checkedItemValues[0],
+                retracementValues: json,
+                retracementParameter: item.retracementParameter
+            });
+            const relatedyaxis = convertData(json,retracementId);
+            for (const newItem of relatedyaxis) {
+                yaxis.push(newItem);
+            }
+
+        });
+
+        drawRetracementTable(retracement);
+        chartConfigSettings.yaxisAnnotation = yaxis;
+        updateSeriesChart(chartConfigSettings);
+    }
+}
 function getMinMaxDateData(data) {
     var minMaxDateData = [];
 	 let dates = data.map(obj => new Date(obj.x));
@@ -481,40 +512,50 @@ function parseDate(dateString) {
 function drawTrendLineTable(data){
 	$("#trendline-grid").empty();
 	var trendlineGrid ='';
-	let cid;
+	let cid,TrendLineId;
 		for (var i = 0; i < data.length; i++) {
-			 hasChannel = channelLines.filter(obj => obj.trendLineId === data[i].trendLineId);
+			
+			 TrendLineId=data[i].trendLineId;
+	         const slope=(data[i].slope!=null)?parseFloat(data[i].slope).toFixed(3):"";
+	         const trendlineValue=(data[i].y3!=null)?parseFloat(data[i].y3).toFixed(getFormatResult0[0]):"";
+	         const x1=(data[i].x1!=null)?data[i].x1:"";
+	         const y1=(data[i].y1!=null)?parseFloat(data[i].y1).toFixed(getFormatResult0[0]):"";
+	         const x2=(data[i].x2!=null)?data[i].x2:"";
+	         const y2=(data[i].y2!=null)?parseFloat(data[i].y2).toFixed(getFormatResult0[0]):"";
+	         
+			 hasChannel = channelLines.filter(obj => obj.trendLineId === TrendLineId);
 			 let xc=(hasChannel.length!=0)?hasChannel[0].xc:"";
 			 let yc=(hasChannel.length!=0)?parseFloat(hasChannel[0].yc).toFixed(getFormatResult0[0]):"";
 			 let y3c=(hasChannel.length!=0)?parseFloat(hasChannel[0].y3).toFixed(2):"";
 			 cid=(hasChannel.length!=0)?hasChannel[0].channelId:"";
-	
-			 trendlineGrid += "<div class='col-4 pl-0 d-flex' id='trendline"+data[i].trendLineId+"'>"
-								+"<div class='col-11 pl-0 pr-1'>"
-								+"		<table id='table_"+data[i].trendLineId+"'>"
+			 
+	         
+			 trendlineGrid += "<div class='col-12 pl-0 d-flex pt-1 pb-1' id='trendline"+TrendLineId+"'>"
+								+"<div class='col-12 pl-0 pr-1'>"
+								+"		<table id='table_"+TrendLineId+"'>"
 								+"			<thead>"
 								+"				<tr>"
-								+"					<th class='pl-0 d-flex'><div id='editDate_"+data[i].trendLineId+"'> </div> <button class='btn btn-light-secondary mr-1 mb-1 edit-trendline' type='button' onclick='editTrendLines("+data[i].dbid+","+data[i].trendLineId+")'><img src='/img/icon/calendar.svg' width='16' height='16' style=''></button>TRENDLINE</th>"
+								+"					<th class='pl-0 d-flex'><div id='editDate_"+TrendLineId+"'> </div> <button class='btn btn-light-secondary mr-1 mb-1 edit-table' type='button' onclick='editTrendLines("+data[i].dbid+","+TrendLineId+")'><img src='/img/icon/calendar.svg' width='16' height='16' style=''></button>TRENDLINE</th>"
 								+"					<th class='slope-style'>slope</th>"
-								+"					<th>"+parseFloat(data[i].slope).toFixed(3)+"</th>"
-								+"					<th class='trendline-cell'>"+parseFloat(data[i].y3).toFixed(getFormatResult0[0])+"</th>"
+								+"					<th>"+slope+"</th>"
+								+"					<th class='trendline-cell' >"+trendlineValue+"</th>"
 								+"				</tr>"
 								+"			</thead>"
 								+"			<tbody>"
 								+"				<tr>"
 								+"					<td>Start date</td>"
-								+"					<td class='grey-cell start-date' id='start_"+data[i].trendLineId+"'>"+data[i].x1+"</td>"
+								+"					<td class='grey-cell start-date' id='start_"+TrendLineId+"'>"+x1+"</td>"
 								+"					<td>& Price</td>"
-								+"					<td class='grey-cell' id='startPrice_"+data[i].trendLineId+"'>"+parseFloat(+data[i].y1).toFixed(getFormatResult0[0])+"</td>"
+								+"					<td class='grey-cell' id='startPrice_"+TrendLineId+"'>"+y1+"</td>"
 								+"				</tr>"
 								+"				<tr>"
 								+"					<td>Cross date</td>"
-								+"					<td class='grey-cell cross-date' id='cross_"+data[i].trendLineId+"'>"+data[i].x2+"</td>"
+								+"					<td class='grey-cell cross-date' id='cross_"+TrendLineId+"'>"+x2+"</td>"
 								+"					<td>& Price</td>"
-								+"					<td class='grey-cell br-br' id='crossPrice_"+data[i].trendLineId+"'>"+parseFloat(data[i].y2).toFixed(getFormatResult0[0])+"</td>"
+								+"					<td class='grey-cell br-br' id='crossPrice_"+TrendLineId+"'>"+y2+"</td>"
 								+"				</tr>"
 						        
-						       +"	<tr data-toggle='collapse' data-target='#demo"+data[i].trendLineId+"' class='accordion-toggle'>"
+						       +"	<tr data-toggle='collapse' data-target='#demo"+TrendLineId+"' class='accordion-toggle'>"
 							   +"     <th class='pl-0' colspan='2'><button class='btn btn-default btn-xs pl-0 pr-0 pt-0'><img src='/img/icon/arrow-down.svg' width='16' height='16' style=''></button> ADD CHANNEL</th>"
 							   +"     <th></th>";
 							   
@@ -527,11 +568,11 @@ function drawTrendLineTable(data){
 							  trendlineGrid +=" 	</tr>"
 							  +"<tr>"
 							  +"<td colspan='12' class='hiddenRow p-0'>"
-							  +"<div class='accordian-body collapse' id='demo"+data[i].trendLineId+"'> "
-							  + "<table  id='tableChannel_"+data[i].trendLineId+"' class=' table-striped'>"
+							  +"<div class='accordian-body collapse' id='demo"+TrendLineId+"'> "
+							  + "<table  id='tableChannel_"+TrendLineId+"' class=' table-striped'>"
 							                               +"			<thead style='visibility: collapse;'>"
 															+"				<tr>"
-															+"					<th class='pl-0 d-flex'><div> </div> <button class='btn btn-light-secondary mr-1 mb-1 edit-trendline' type='button' onclick='editTrendLines("+data[i].dbid+","+data[i].trendLineId+")'><img src='/img/icon/calendar.svg' width='16' height='16' style=''></button>TRENDLINE</th>"
+															+"					<th class='pl-0 d-flex'><div> </div> <button class='btn btn-light-secondary mr-1 mb-1 edit-table' type='button' onclick='editTrendLines("+data[i].dbid+","+TrendLineId+")'><img src='/img/icon/calendar.svg' width='16' height='16' style=''></button>TRENDLINE</th>"
 															+"					<th class='slope-style'>slope</th>"
 															+"					<th>"+parseFloat(data[i].slope).toFixed(3)+"</th>"
 															+"					<th class='trendline-cell'>"+parseFloat(data[i].y3).toFixed(getFormatResult0[0])+"</th>"
@@ -539,9 +580,9 @@ function drawTrendLineTable(data){
 															+"			</thead>"
 							                                +"<tr>"
 															+"					<td >Start date</td>"
-															+"					<td class='grey-cell start-date' id='ChannelStart_"+data[i].trendLineId+"'>"+xc+"</td>"
+															+"					<td class='grey-cell start-date' id='ChannelStart_"+TrendLineId+"'>"+xc+"</td>"
 															+"					<td >& Price</td>"
-															+"					<td class='grey-cell' id='channelStartPrice_"+data[i].trendLineId+"'>"+yc+"</td>"
+															+"					<td class='grey-cell' id='channelStartPrice_"+TrendLineId+"'>"+yc+"</td>"
 															+"				</tr>"
 							               	+"</table>"
 							             + "</div> "
@@ -552,7 +593,7 @@ function drawTrendLineTable(data){
 								+"		</table>"
 								+"		</div>";
 								
-								trendlineGrid +="<div class='d-flex align-items-start flex-column bd-highlight mb-3' style='height: 145px;'>";
+								trendlineGrid +="<div class='d-flex align-items-start flex-column bd-highlight' style='min-height: 115px;'>";
 									
 									trendlineGrid +="  <div class='mb-auto bd-highlight'>";
 								
@@ -560,16 +601,16 @@ function drawTrendLineTable(data){
 									{
 										trendlineGrid += "	"
 									if (data[i].hidden!=true)
-										trendlineGrid +="		    <button id='toggleTrendline_"+data[i].trendLineId+"' class='btn btn-light-secondary mr-1 mb-1 green'><i class='far fa-eye white'></i></button>";
+										trendlineGrid +="		    <button id='toggleTrendline_"+TrendLineId+"' class='btn btn-light-secondary mr-1 mb-1 green'><i class='far fa-eye white'></i></button>";
 										else 
-										trendlineGrid +="		    <button id='toggleTrendline_"+data[i].trendLineId+"' class='btn btn-light-secondary mr-1 mb-1 hide'><i class='far fa-eye-slash white'></i></button>";
+										trendlineGrid +="		    <button id='toggleTrendline_"+TrendLineId+"' class='btn btn-light-secondary mr-1 mb-1 hide'><i class='far fa-eye-slash white'></i></button>";
 
-										trendlineGrid +="		    <button class='btn btn-light-secondary mr-1 mb-1 red' type='button' onclick='deleteTrendLinesHistory("+data[i].dbid+","+data[i].trendLineId+")'><img src='/img/icon/delete.svg' width='16' height='16' style=''></button>"
+										trendlineGrid +="		    <button class='btn btn-light-secondary mr-1 mb-1 red' type='button' onclick='deleteTrendLinesHistory("+data[i].dbid+","+TrendLineId+")'><img src='/img/icon/delete.svg' width='16' height='16' style=''></button>"
 	
 									}else{
 										trendlineGrid += " "
-									+"		    <button class='btn btn-light-secondary mr-1 mb-1 green' type='button' onclick='saveTrendLinesHistory("+data[i].trendLineId+")'><img src='/img/icon/save.svg' width='16' height='16' style=''></button>"
-								    +"		    <button class='btn btn-light-secondary mr-1 mb-1 blue' type='button' onclick='cancelTrendline("+data[i].trendLineId+")'><img src='/img/icon/false.svg' width='16' height='16' style=''></button>"
+									+"		    <button class='btn btn-light-secondary mr-1 mb-1 green' type='button' onclick='saveTrendLinesHistory("+TrendLineId+")'><img src='/img/icon/save.svg' width='16' height='16' style=''></button>"
+								    +"		    <button class='btn btn-light-secondary mr-1 mb-1 blue' type='button' onclick='cancelTrendline("+TrendLineId+")'><img src='/img/icon/false.svg' width='16' height='16' style=''></button>"
 									
 									}
 									trendlineGrid +="</div>";
@@ -585,13 +626,13 @@ function drawTrendLineTable(data){
 									else 
 										trendlineGrid +="		    <button id='toggleChannel_"+cid+"' class='btn btn-light-secondary mr-1 mb-1 hide'><i class='far fa-eye-slash white'></i></button>"
 									
-									trendlineGrid +="		    <button class='btn btn-light-secondary mr-1 mb-1 red' type='button' onclick='deleteChannellineHistory("+data[i].dbid+","+data[i].trendLineId+")'><img src='/img/icon/delete.svg' width='16' height='16' style=''></button>"
+									trendlineGrid +="		    <button class='btn btn-light-secondary mr-1 mb-1 red' type='button' onclick='deleteChannellineHistory("+data[i].dbid+","+TrendLineId+")'><img src='/img/icon/delete.svg' width='16' height='16' style=''></button>"
 	
 									}
 									else{
 										trendlineGrid += " "
-									+"		    <button class='btn btn-light-secondary mr-1 mb-1 green' type='button' onclick='saveChannelHistory("+data[i].trendLineId+")'><img src='/img/icon/save.svg' width='16' height='16' style=''></button>"
-								    +"		    <button class='btn btn-light-secondary mr-1 mb-1 blue' type='button' onclick='cancelChannelline("+data[i].trendLineId+")'><img src='/img/icon/false.svg' width='16' height='16' style=''></button>"
+									+"		    <button class='btn btn-light-secondary mr-1 mb-1 green' type='button' onclick='saveChannelHistory("+TrendLineId+")'><img src='/img/icon/save.svg' width='16' height='16' style=''></button>"
+								    +"		    <button class='btn btn-light-secondary mr-1 mb-1 blue' type='button' onclick='cancelChannelline("+cid+")'><img src='/img/icon/false.svg' width='16' height='16' style=''></button>"
 									}
 									trendlineGrid +="</div>";
 								}
@@ -604,24 +645,26 @@ function drawTrendLineTable(data){
 				}				
 			 $("#trendline-grid").append(trendlineGrid); 
 			
+			
 			for (var i = 0; i < data.length; i++) {
 				
-				hasChannel = channelLines.filter(obj => obj.trendLineId === data[i].trendLineId);
+				TrendLineId=data[i].trendLineId;
+				hasChannel = channelLines.filter(obj => obj.trendLineId === TrendLineId);
  				cid=(hasChannel.length!=0)?hasChannel[0].channelId:"";
  				 						  
 				var shouldBeExpanded = (hasChannel.length!=0)?true:false; // Example condition, change this according to your logic
 		
-				    var target = $('#demo'+(i+1));
+				    var target = $('#demo'+TrendLineId);
 				    if (shouldBeExpanded) {
 	    		   		 target.collapse('show')   
 	    		  	} else {
 				         target.collapse('hide');   
 				    }
  				
-				$("#editDate_" + data[i].trendLineId).jqxDateTimeInput({ min: source[0].minDate, max: source[0].maxDate, width: '0px', height: '0px', theme: 'dark' });
-				$("#inputeditDate_" + data[i].trendLineId).css("padding", "0");
+				$("#editDate_" + TrendLineId).jqxDateTimeInput({ min: source[0].minDate, max: source[0].maxDate, width: '0px', height: '0px', theme: 'dark' });
+				$("#inputeditDate_" + TrendLineId).css("padding", "0");
 
-				$("#editDate_" + data[i].trendLineId).on('valueChanged', function(event) {
+				$("#editDate_" + TrendLineId).on('valueChanged', async function(event) {
 					var selectedId = selectedstartCellId.split("_")[1];
 					var selectedColumn = selectedstartCellId.split("_")[0];
 					var jsDate = event.args.date;
@@ -650,8 +693,10 @@ function drawTrendLineTable(data){
 
 						$('#' + selectedstartCellId).text(formatTrendlineDate(jsDate));
 						$('#startPrice_' + selectedId).text(parseFloat(json[0].y).toFixed(getFormatResult0[0]));
-
-						updateTrendLine(selectedId);  
+                        if(x1=="" || x2=="")
+                        	return;
+                        else
+						await updateTrendLine(selectedId);  
 
 					} else if (selectedColumn == "cross") {
 
@@ -680,7 +725,10 @@ function drawTrendLineTable(data){
 						$('#' + selectedstartCellId).text(formatTrendlineDate(jsDate));
 						$('#crossPrice_' + selectedId).text(parseFloat(json[0].y).toFixed(getFormatResult0[0]));
 
-						updateTrendLine(selectedId);  
+						if(x1=="" || x2=="")
+                        	return;
+                        else
+						await updateTrendLine(selectedId);  
 
 					} else if (selectedColumn == "ChannelStart") {
 
@@ -711,7 +759,7 @@ function drawTrendLineTable(data){
 			});
 			
 			
-				$("#toggleTrendline_"+data[i].trendLineId).click(function() {
+				$("#toggleTrendline_"+TrendLineId).click(function() {
 				 	var $button = $(this);
 				    var $icon = $button.find('i');
 				    var index= $button.attr('id').split("_")[1];
@@ -839,27 +887,242 @@ function drawTrendLineTable(data){
 		});
 		
 }
+function drawRetracementTable(data){
+	$("#retracement-grid").empty();
+	 var retracementGrid ='';
+	 var retracementId;
+     data.forEach(item => {
+		 retracementId =item.retracementId;
+		 const retracementValues = item.retracementValues;
+		 const retracementParameter = item.retracementParameter;
+		 const startDate = retracementParameter!= null ?retracementParameter.startDate:"";
+		 const startPrice = retracementParameter!= null ?retracementParameter.startPrice:"";
+		 const endDate = retracementParameter!= null ?retracementParameter.endDate:"";
+		 const endPrice = retracementParameter!= null ?retracementParameter.endPrice:"";
+		 const dbId = item.dbId;
+		//  const dbId = 1;
+		 retracementGrid += `
+		  <div class='col-12 pl-0 d-flex pt-1 pb-1' id='retracement${retracementId}'>
+		    <div class='col-11 pl-0 pr-1'>
+		      <table id='retracementTable_${retracementId}' class='retracement-table'>
+		        <thead>
+		          <tr>
+		            <th class='pl-0 d-flex'>
+		              <div id='retracementEditDate_${retracementId}'> </div>
+		              <button class='btn btn-light-secondary mr-1 mb-1 edit-table' type='button' onclick='editretracements("",${retracementId})'>
+		                <img src='/img/icon/calendar.svg' width='16' height='16' style=''>
+		              </button>
+		              <span class='pt-2'>RETRACEMENT</span>
+		            </th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		          <tr>
+		            <td>Start Price</td>
+		            <td>Start date</td>
+		          </tr>
+		          <tr>
+		            <td class='grey-cell' id='retracementStartPrice_${retracementId}'>${startPrice}</td>
+		            <td class='grey-cell retracement-start-date col-4' id='retracementStart_${retracementId}'>${startDate}</td>
+		          </tr>						
+		          <tr>
+		            <td>End Price</td>
+		            <td>End date</td>
+		          </tr>
+		          <tr>
+		            <td class='grey-cell ' id='retracementEndPrice_${retracementId}'>${endPrice}</td>
+		            <td class='grey-cell retracement-end-date' id='retracementEnd_${retracementId}'>${endDate}</td>
+		          </tr>						        
+		        </tbody>
+		      </table>
+		      ${retracementValues.length ? `<table>
+		       <thead>
+		          <tr>
+		            <th class='pl-0 d-flex'>
+		              <span class='pt-2 m-auto'>RETRACEMENT</span>
+		            </th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		            ${retracementValues
+				 .filter(value => value.gridLabel !== undefined)  // Filter out undefined gridLabels
+				 .map(value => `
+			          <tr>
+			            <td id='${retracementId}_${value.key}' class="d-flex h-34 ${value.key.includes('62') || value.key.includes('38') ? 'grey-cell' : ''}"><span class='m-auto'>${value.gridLabel}</span></td>
+			          </tr>
+			        `).join('')}
+		         </tbody>
+		       </table>` : ""}
+		    </div>
+		   ${retracementValues.length ? `
+		    <div class='d-flex align-items-start flex-column bd-highlight' style='min-height: 115px;'>
+		        <div class='mb-auto bd-highlight'>
+		          ${typeof dbId !== 'undefined' ? `
+		             <button class='btn btn-light-secondary mr-1 mb-1 red' type='button' onclick='deleteRetracementHistory(${dbId}, ${retracementId})'>
+		              <img src='/img/icon/delete.svg' width='16' height='16'>
+		            </button>` : `
+		            <button class='btn btn-light-secondary mr-1 mb-1 green' type='button' onclick='saveRetracementHistory(${retracementId})'>
+		              <img src='/img/icon/save.svg' width='16' height='16'>
+		            </button>
+		            <button class='btn btn-light-secondary mr-1 mb-1 blue' type='button' onclick='cancelRetracement(${retracementId})'>
+		              <img src='/img/icon/false.svg' width='16' height='16'>
+		            </button>`} 
+		        </div>
+		        <div class='bd-highlight'>
+		            ${typeof dbId !== 'undefined' ? `
+		              ${retracementValues
+				 .filter(value => value.gridLabel !== undefined)  // Filter out undefined gridLabels
+				 .map(value => `
+			          ${value.hide !== true ? `
+		                <button id='toggleRetracement_${retracementId}_${value.key}' class='toggleRetracement btn btn-light-secondary mr-1 mt-1 green'>
+		                  <i class='far fa-eye white'></i>
+		                </button>` : `
+		                <button id='toggleRetracement_${retracementId}_${value.key}' class='toggleRetracement btn btn-light-secondary mr-1 mt-1 hide'>
+		                  <i class='far fa-eye-slash white'></i>
+		                </button>`}
+			        `).join('')}
+		              ` : ""}
+		          </div>` : ""}
+		      </div>
+		  </div>`;
+		});
+		$("#retracement-grid").append(retracementGrid);
+		
+		$("#retracementEditDate_" + retracementId).jqxDateTimeInput({ min: source[0].minDate, max: source[0].maxDate, width: '0px', height: '0px', theme: 'dark' });
+		$("#inputretracementEditDate_" + retracementId).css("padding", "0");
 
-function cancelTrendline(trendlineId){
+		$("#retracementEditDate_" + retracementId).on('valueChanged', async function(event) {
+			 const selectedId = selectedstartCellId.split("_")[1];
+   			 const selectedColumn = selectedstartCellId.split("_")[0];
+   			 const jsDate = event.args.date;
+   			 
+   			 const json = chartResponse.filter(obj => obj.x === formatTrendlineDate(jsDate));
+			 if (selectedColumn == "retracementStart" || selectedColumn == "retracementEnd") {
+			        const startDate = parseDate($('#retracementStart_' + selectedId).text());
+			        const endDate = parseDate($('#retracementEnd_' + selectedId).text());
+			        const priceId = selectedColumn == "retracementStart" ? "retracementStartPrice_" : "retracementEndPrice_";
+			
+			        if ((selectedColumn == "retracementStart" && jsDate > endDate) ||
+			            (selectedColumn == "retracementEnd" && jsDate < startDate) ||
+			            typeof json[0] === 'undefined') {
+			            const message = selectedColumn == "retracementStart" ? "The start date must be earlier than the end date." :
+			                "The end date must be later than the start date.";
+			            $('#alertLimitation-modal').modal('show');
+			            $("#alertTextLimitation").empty().append("<p>" + message + "</p>");
+			            return;
+			        }
+			        	
+			  
+			        $('#' + selectedstartCellId).text(formatTrendlineDate(jsDate));
+			        $('#' + priceId + selectedId).text(parseFloat(json[0].y).toFixed(getFormatResult0[0]));
+			         
+			   const parameters={
+				   startPrice:$("#retracementStartPrice_"+ retracementId).text(),
+				   endPrice: $("#retracementEndPrice_"+ retracementId).text(),
+				   startDate:$("#retracementStart_"+ retracementId).text(),
+				   endDate: $("#retracementEnd_"+ retracementId).text()
+			   }
+			 for (var i = 0; i < retracement.length; i++) {
+				   if (retracement[i].retracementId === retracementId) {
+					        retracement[i].retracementParameter = parameters;
+					        calculateRetracement(retracementId);
+
+						    break;
+					  }
+				  }
+			
+			    }
+   			 
+		});
+		$(".toggleRetracement").click(function() {
+		    const $button = $(this);
+		    const $icon = $button.find('i');
+		    const index = parseFloat($button.attr('id').split("_")[1]);
+		    const key = $button.attr('id').split("_")[2];
+		    const isHidden = $icon.hasClass('fa-eye');
+		
+		    $icon.toggleClass('fa-eye fa-eye-slash');
+		    
+		    $button
+		        .attr('title', isHidden ? 'Show' : 'Hide')
+		        .attr('aria-label', isHidden ? 'Show' : 'Hide')
+		        .toggleClass('green', !isHidden)
+		        .toggleClass('hide', isHidden)
+		        .toggleClass('red', isHidden);
+		 
+		      retracement.forEach(retracement => {
+				    if (retracement.retracementId === index) {
+				      retracement.retracementValues.forEach(value => {
+				        if (value.key === key) {
+				          value.hide = !value.hide;
+				        }
+				      });
+				    }
+				  });
+				  
+			  const selectedRetracement = retracement.find(item => item.retracementId === index)  ;
+		      
+		      chartConfigSettings.yaxisAnnotation=removeById(chartConfigSettings.yaxisAnnotation,"retracementId", selectedRetracement.retracementId);
+
+		      const relatedyaxis = convertData(selectedRetracement.retracementValues,selectedRetracement.retracementId);
+       		  
+       		  const yaxis = chartConfigSettings.yaxisAnnotation;
+       		  	
+	            for (const newItem of relatedyaxis) {
+	                yaxis.push(newItem);
+	            }	
+	            		 
+	      	  chartConfigSettings.yaxisAnnotation = yaxis;
+		      updateSeriesChart(chartConfigSettings);
+			  saveRetracementHistory(index); 
 	
-	
-	trendLines=removeByTrendLineId(trendLines, trendlineId);
-	
-	trendlineSeries=removeByTrendLineId(trendlineSeries, trendlineId);
-	
-	serieArray=removeByTrendLineId(serieArray, trendlineId);
+		});
+		
+		document.addEventListener('click', function(event) {
+	    if (event.target.classList.contains('retracement-start-date') || event.target.classList.contains('retracement-end-date')) {
+			        const cell = event.target;
+			        const table = cell.closest('table');
+			        const tableId = table.getAttribute('id');
+			        selectedstartCellId = cell.getAttribute('id');
+			        const cellContent = cell.textContent;
+			        const dateValue = cellContent === "" ? new Date() : parseDate(cellContent);
+			        $('#retracementEditDate_' + tableId.split("_")[1]).jqxDateTimeInput({ value: dateValue });
+			        $('#retracementEditDate_' + tableId.split("_")[1]).jqxDateTimeInput('open');
+		    
+		    }
+		});
+		resultss=mergeData(results, retracementData);
+
+ 		processGraphHistory();
+}
+function cancelTrendline(trendlineId) {
+
+	trendLines = removeById(trendLines,"trendLineId", trendlineId);
+
+	trendlineSeries = removeById(trendlineSeries,"trendLineId", trendlineId);
+
+	serieArray = removeById(serieArray,"trendLineId", trendlineId);
 
 	drawTrendLineTable(trendLines);
-    updateSeriesChart(chartConfigSettings);
+	
+	updateSeriesChart(chartConfigSettings);
+	
 }
+function cancelRetracement(retracementId){
+	
+	retracement=removeById(retracement,"retracementId", retracementId);
+	chartConfigSettings.yaxisAnnotation=removeById(chartConfigSettings.yaxisAnnotation,"retracementId", retracementId);
+	updateSeriesChart(chartConfigSettings);
+	drawRetracementTable(retracement);
 
+}
 function cancelChannelline(channelLineId){
 	
 	
 	
-	trendlineSeries=removeByChannelId(trendlineSeries, channelLineId);
-	serieArray=removeByChannelId(serieArray, channelLineId);
-	channelLines=removeByChannelId(channelLines, channelLineId);
+	trendlineSeries=removeById(trendlineSeries, "channelId", channelLineId);
+	serieArray=removeById(serieArray, "channelId", channelLineId);
+	channelLines=removeById(channelLines, "channelId", channelLineId);
 	
 	drawTrendLineTable(trendLines);
     updateSeriesChart(chartConfigSettings);
@@ -900,7 +1163,7 @@ function updateSeriesChart(chartConfigSettings){
           $('#legendfalse').addClass("active");
 		  $('#legendtrue').removeClass("active");
 					
-				
+				chartOpacity = eval(checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],'1'));
 				chart.updateOptions({
 						series:serieArray,
 						xaxis: {
@@ -932,7 +1195,13 @@ function updateSeriesChart(chartConfigSettings){
 					},
 					 fill: {
 					   type:'solid',
-			      	   opacity: [1],
+			      	   opacity: (serieArray.length==2) ?[1,chartOpacity]  
+			      	     :(serieArray.length==3)? [1, 1,chartOpacity]
+			      	     :(serieArray.length==4)? [1, 1, 1,chartOpacity] 
+						 :(serieArray.length==5)? [1, 1, 1, 1,chartOpacity]
+						 :(serieArray.length==6)? [1, 1, 1, 1, 1,chartOpacity] 
+						 :(serieArray.length==7)? [1, 1, 1, 1, 1, 1,chartOpacity]
+						 :[chartOpacity],
 					},
 					stroke: {
 						//colors: chartConfigSettings.chartType1 == "area" ? ["#ffffff"] : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
@@ -994,17 +1263,77 @@ function updateSeriesChart(chartConfigSettings){
 					legend: {
 					   show:false,
 			    	  },
+			    	  annotations: {
+						  yaxis: chartConfigSettings.yaxisAnnotation/*[{x:dateToTimestamp('15-Aug-23'),
+						  		   y:'34946.39',
+						  		   position:'left',
+						  		   borderColor: "#FF00FF",
+						  		   strokeDashArray: 0,
+						  		   label: {
+										  text: "test",
+										     offsetY:20,
+										     borderColor: "#ffffff00",
+									          style: {
+									            color: "#FF00FF",
+									            background:  "#00000000",
+									          },
+					
+									 }
+						  		      },
+						  		      {x:dateToTimestamp('15-Aug-23'),
+							  		   y:'32946.39',
+							  		   position:'left',
+							  		   borderColor: "#FF00FF",
+							  		   strokeDashArray: 10,
+							  		   label: {
+											  text: "test",
+											     borderColor: "#ffffff00",
+										          style: {
+										            color: "#FF00FF",
+										            background:  "#00000000",
+										          },
+						
+										 }
+						  		      },{x:dateToTimestamp('15-Aug-23'),
+						  		   y:'32246.39',
+						  		   position:'left',
+						  		   borderColor: "#FF00FF",
+						  		   strokeDashArray: 10,
+						  		   label: {
+										  text: "test",
+										     borderColor: "#ffffff00",
+									          style: {
+									            color: "#FF00FF",
+									            background:  "#00000000",
+									          },
+					
+									 }
+						  		      },{x:dateToTimestamp('13-Mar-23'),
+						  		   y:'31819.14',
+						  		   position:'left',
+						  		   borderColor: "#FF00FF",
+						  		   strokeDashArray: 0,
+						  		   label: {
+										  text: "test",
+										     borderColor: "#ffffff00",
+									          style: {
+									            color: "#FF00FF",
+									            background:  "#00000000",
+									          },
+					
+									 }
+						  		      },]*/,
+						  }
+			    	  
 				});
 				
 
 }
 
-function removeByTrendLineId(dataArray, trendLineIdToRemove) {
-    return dataArray.filter(obj => obj.trendLineId !== trendLineIdToRemove);
+function removeById(dataArray, key, id) {
+    return dataArray.filter(obj => obj[key] !== id);
 }
-function removeByChannelId(dataArray, channelIdToRemove) {
-    return dataArray.filter(obj => obj.channelId !== channelIdToRemove);
-}
+
 function saveShowHideChannel(channelId,isVisible){
 	        var channelLine=channelLines.filter(obj => obj.channelId === channelId)[0];
 			
@@ -1081,7 +1410,7 @@ function saveTrendLinesHistory(trendLineId){
 			   $('#alertLimitation-modal').modal('show');
 			   $("#alertTextLimitation").empty();
 
-			   $("#alertTextLimitation").append("<p> You cannot save more than 5 graphs </p>");
+			   $("#alertTextLimitation").append("<p> Maximum reached: You cannot save more than 5 graphs. </p>");
 
 		   }
 }
@@ -1119,6 +1448,7 @@ function saveChannelHistory(trendLineId){
 		   }
 }
 function getTrendLinesHistory(){
+
 	$.ajax({
 		contentType: "application/json",
 		url: "/graph/find-graph-history-by-userid",
@@ -1127,7 +1457,7 @@ function getTrendLinesHistory(){
 		cache: false,
 		timeout: 600000,
 		success: function(data) {
-			
+			$('#clear').click();
 		const groupedData = data.reduce((acc, obj) => {
 		    if (!acc[obj.graphId]) {
 		        acc[obj.graphId] = {
@@ -1160,16 +1490,17 @@ function getTrendLinesHistory(){
 		    (channelline!=null)?acc[obj.graphId].channelLines.push(channelline):null;
 		    return acc;
 		}, {});
-		
-		results = Object.keys(groupedData).map(graphId => {
-		    return {
-		        graphId: graphId,
-		        trendlines: groupedData[graphId].trendlines,
-		        channelLines: groupedData[graphId].channelLines,
-		        chartOptions: groupedData[graphId].chartOptions // Assuming chartOptions are same for all trendlines in a graphId
-		    };
-		});
-			if(typeof(results[0])!='undefined')
+
+			results = Object.keys(groupedData).map(graphId => {
+			    return {
+			        graphId: graphId,
+			        trendlines: groupedData[graphId].trendlines,
+			        channelLines: groupedData[graphId].channelLines,
+			        chartOptions: groupedData[graphId].chartOptions // Assuming chartOptions are same for all trendlines in a graphId
+			    };
+			});
+					resultss=mergeData(results, retracementData);
+	       if(typeof(results[0])!='undefined')
 				checkedItemId = [results[0].graphId];
 				
 			for (j = 0; j < checkedItemId.length; j++) {
@@ -1178,6 +1509,22 @@ function getTrendLinesHistory(){
 			checkedItem = checkedItemId.length;
 			$("#collapseFilter").removeClass('show');
 			$('#grid-content').css('display', 'block');
+			
+		   processGraphHistory();
+			$('#show').click();
+			
+		},
+		error: function(e) {
+
+			console.log("ERROR : ", e);
+
+		}
+	});
+}
+function processGraphHistory(){
+
+				$("#graphs-history").empty(); 
+		
 			
 			var condition ="";
 		
@@ -1221,7 +1568,61 @@ function getTrendLinesHistory(){
 			        console.error("Error:", error);
 			    }
 			});
-			$('#show').click();
+}
+function getRetracementHistory(){
+
+	$.ajax({
+		contentType: "application/json",
+		url: "/graph/find-retracement-history-by-userid",
+		dataType: 'json',
+		async: true,
+		cache: false,
+		timeout: 600000,
+		success: function(result) {
+			
+			 retracementData = result.reduce((acc, data) => {
+
+			  if (!acc[data.graphId]) {
+			    acc[data.graphId] = [];
+			  }
+
+			    const dbId = data.id;
+				const startPrice = data.startPrice;
+				const endPrice = data.endPrice;
+				const startDate = data.startDate;
+				const endDate = data.endDate;
+				
+		       const retracementData = {'10%':parseFloat(data.percentage10),
+									    '25%':parseFloat(data.percentage25),
+									    '33%':parseFloat(data.percentage33),
+										'38%':parseFloat(data.percenetage38),
+										'50%':parseFloat(data.percentage50),
+		 								'62%':parseFloat(data.percentage62),
+										'66%':parseFloat(data.percentage66),
+										'75%':parseFloat(data.percentage75)
+										};
+				const retracementDataHide = {'10%':data.hidePercentage10,
+									    '25%':data.hidePercentage25,
+									    '33%':data.hidePercentage33,
+										'38%':data.hidePercenetage38,
+										'50%':data.hidePercentage50,
+		 								'62%':data.hidePercentage62,
+										'66%':data.hidePercentage66,
+										'75%':data.hidePercentage75
+										};						
+		       const parameters={
+				   startPrice:startPrice,
+				   endPrice:endPrice,
+				   startDate:startDate,
+				   endDate:endDate
+			   }
+						 
+			  acc[data.graphId].push({dbId:dbId,
+		       					 retracementData:retracementData,
+		       					 retracementDataHide:retracementDataHide,
+		       					 retracementParameter:parameters});
+			  return acc;
+			}, {});
 			
 		},
 		error: function(e) {
@@ -1231,7 +1632,6 @@ function getTrendLinesHistory(){
 		}
 	});
 }
-
 function transformTrendline(trendline) {
     const dataPoints = [];
 
@@ -1276,6 +1676,14 @@ function deleteChannellineHistory(trendlinedb,trendline){
 									        
 		$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete this Channel record ?</p>");
 }
+function deleteRetracementHistory(retracementdb,retracementId){
+		$('#alertDeleteDataByDate-modal').modal('show');
+		$("#alertTextDeleteDataByDate").empty();
+		$("#deleteRecord").empty();
+		$("#deleteRecord").append('<button type="button" class="btn btn-primary" onclick="deleteRetracement('+retracementdb+','+retracementId+')">Delete Record</button>');
+									        
+		$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete this retracement record ?</p>");
+}
 function deleteTrendLines(trendlineDbId,trendline){
 		
                     
@@ -1298,7 +1706,49 @@ function deleteTrendLines(trendlineDbId,trendline){
 			         });
 
 }
+function removeByDbId(data, dbIdToRemove) {
+    // Iterate over each key in the data object
+    for (const key in data) {
+        if (data.hasOwnProperty(key)) {
+            // Filter out the items with the matching dbId
+            data[key] = data[key].filter(item => item.dbId !== dbIdToRemove);
+        }
+    }
+    return data;
+}
+function deleteRetracement(retracementdbId,retracementid){
+		
+                    
+			     $.ajax({
+			             type : "DELETE",
+			             url : '/graph/delete-retracement-by-id/' + retracementdbId,
+			             success: function (result) {   
+							const checkedItemValues = checkedItemid.filter(item => item != null);
+							retracementData = removeByDbId(retracementData, retracementdbId);
+							
+							if(retracementData[checkedItemValues].length==0)
+								{results  = results.filter(item => item.graphId != checkedItemValues);
+								if (retracementData.hasOwnProperty(checkedItemValues)) {
+								    delete retracementData[checkedItemValues];
+								}
+								}
+							processRetracementData(retracementData, checkedItemValues);
+							resultss=mergeData(results, retracementData);
+							
+							 		processGraphHistory();
+					        $('#alertDeleteDataByDate-modal').modal('hide');
+		
+		 					$( "#successDelete" ).empty();
+				 		    $( "#successDelete" ).append( "<p> Retracement has been deleted</p>" );
+						
+							$('#alertInfoDeleteDataByDate-modal').modal('show');  
+			             },
+			             error: function (e) {
+			                 console.log(e);
+			             }
+			         });
 
+}
 function deleteChannelLine(trendlineDbId,trendLineId){
 		
                 channelLines=[];
@@ -1351,6 +1801,9 @@ function deleteChannelLine(trendlineDbId,trendLineId){
 
 }
 function getGraphTrendLine(graphId) {
+	$("#trendline-grid").empty();
+	$("#retracement-grid").empty();
+
     $("#Clearfilter").click();
     checkedItemid = [];
     checkedItemid = [graphId];
@@ -1377,10 +1830,21 @@ function confirmdeleteGraphHistory(graphId){
 							$("#graphs-history").empty(); 
 							$("#trendline-grid").empty(); 
 							getTrendLinesHistory();
+							
+							const checkedItemValues = checkedItemid.filter(item => item != null);
+
+							if (retracementData.hasOwnProperty(checkedItemValues)) {
+								    delete retracementData[checkedItemValues];
+								}
+							 retracement = [];
+					        retracementId = 1;
+					        chartConfigSettings.yaxisAnnotation = [];
+					        updateSeriesChart(chartConfigSettings);
+        					
 					        $('#alertDeleteDataByDate-modal').modal('hide');
 		
 		 					$( "#successDelete" ).empty();
-				 		    $( "#successDelete" ).append( "<p> Trendline has been deleted</p>" );
+				 		    $( "#successDelete" ).append( "<p> Graph History has been deleted</p>" );
 						
 							$('#alertInfoDeleteDataByDate-modal').modal('show');  
 			             },
@@ -1390,17 +1854,30 @@ function confirmdeleteGraphHistory(graphId){
 			         });
 
 }
-function updateTrendLine(trendlineIdToUpdate){
-	 	 var result = findThirdPoint(x1, y1, x2, y2, x3);
+async function updateTrendLine(trendlineIdToUpdate){
+	 	     let found=false,channelFound=false;
+	 	      
+	 	     var result = findThirdPoint(x1, y1, x2, y2, x3);
 			 count=countDataPointsBetweenDates(x1, x2);
 			 const slope=(y2-y1)/count;
 			
 			 for (var i = 0; i < trendlineSeries.length; i++) {
 				   if (trendlineSeries[i].trendLineId === parseFloat(trendlineIdToUpdate)) {
 					        trendlineSeries[i].data = result;
+					        found = true;
+						    break;
 					  }
 				  }
-				  
+			 if(!found){
+				 insertedTrendLineId = parseFloat(trendlineIdToUpdate);
+				 trendlineSeries.push({
+						trendLineId: insertedTrendLineId,
+					    name: 'Trendline '+convertToRoman(insertedTrendLineId+1),
+					    data: result,
+					    type:'line',
+					    hidden: false
+					  });
+			 }  
 		      serieArray = getSerriesData();
 	          disableOptions(true);
 	          
@@ -1427,10 +1904,24 @@ function updateTrendLine(trendlineIdToUpdate){
 					           if((typeof(trendLines[i].dbid)!='undefined'))
 								  saveTrendLinesHistory(trendLines[i].trendLineId);
 			 
-					        break; 
+					        channelFound = true;
+						    break;
 					  }
 				  }
-			
+			  if(!channelFound)
+			  {
+				  insertedTrendLineId = parseFloat(trendlineIdToUpdate);
+				  json={
+				  trendLineId:insertedTrendLineId,
+				  x1:x1, 
+				  y1:y1, 
+				  x2:x2, 
+				  y2:y2,
+				  x3:x3,
+				  y3:(result[2].y).toFixed(2),
+				  slope:slope.toFixed(3)
+			  } 
+			  }
 	          drawTrendLineTable(trendLines);
 			  resetParameters();
 			  updateSeriesChart(chartConfigSettings);
@@ -1515,6 +2006,52 @@ function addChannelTrendLine(channelTrendline){
 			  updateSeriesChart(chartConfigSettings);
 			
 }
+function initiateTrendLine(){
+			 var result = [];
+			 serieArray=[];
+	
+	         trendLineId=trendLineId+1;
+	       
+	         trendlineSeries.push({
+				channelId: trendLineId,
+			    name: 'Trendline',
+			    data: result,
+			    type:'line',
+			    hidden: false
+			  });
+			  
+			  serieArray = getSerriesData();
+		   
+	          json={
+				  trendLineId:trendLineId,
+				  x1:null, 
+				  y1:null, 
+				  x2:null, 
+				  y2:null,
+				  x3:null,
+				  y3:null,
+				  slope:null
+			  }
+			  trendLines.push(json);
+	          drawTrendLineTable(trendLines);
+			  resetParameters();
+			   $('html,body').animate({
+		        scrollTop: $("#trendline-grid").offset().top},
+		        'slow');
+}
+function initiateRetracement(){
+			 const result = [];
+			 
+	         retracementId=retracementId+1;
+	         retracement.push({retracementId:retracementId,
+       					 retracementValues:result,
+       					 retracementParameter: null});
+	          drawRetracementTable(retracement);
+			  
+			   $('html,body').animate({
+		        scrollTop: $("#retracement-grid").offset().top},
+		        'slow');
+} 
 function drawLine(){
 	 var result = findThirdPoint(x1, y1, x2, y2, x3);
 			 count=countDataPointsBetweenDates(x1, x2);
@@ -1617,4 +2154,441 @@ function getSerriesData(){
 	 }
 	 return serieArray;
    
+}
+
+function updateLatestTrendLine(trendLines, newDateX3, graphId) {
+  const updatedTrendLines = [];
+  let allDataAreLatest=true;
+  for (let item of trendLines) {
+	  channelLine=channelLines.filter(obj => obj.trendLineId === item.trendLineId)[0];
+    if (item.x3 !== newDateX3) {
+      	item.x3 = newDateX3;
+        allDataAreLatest=false; 
+	    item.y3  = (findThirdPoint(item.x1, item.y1, item.x2, item.y2, item.x3)[2].y).toFixed(2);
+    if(typeof channelLine !=='undefined')
+     if(channelLine.x3 !== newDateX3){
+		channelLine.x3 = newDateX3;
+		channelLine.y3  = (findChannelPoint(item.x1, item.y1, item.x2, item.y2, channelLine.x3 , channelLine.yc, channelLine.xc)[1].y).toFixed(2);
+		}
+      updatedTrendLines.push({
+				 "dbId":JSON.stringify(item.dbid),
+				 "graphId": graphId,
+				 "trendlines": JSON.stringify(item),
+				 "isVisibleTrendline":JSON.stringify(item.hidden),
+				 "channel": JSON.stringify(channelLine),
+				 "isVisibleChannel":JSON.stringify((typeof channelLine !=='undefined')?channelLine.hidden:false),
+				 "chartOptions":JSON.stringify({chartType1:$("#chartTypes").find(".active")[0].id,
+				 		         chartColor:chartType1=='line'?"#ffffff":$("#chartColor").find(".active")[0].id,
+				 		         chartTransparency:$("#chartColorTransparency").find(".active")[0].id,
+				 		         markerSize: $("#chartMarker").find(".active")[0].id,
+				 		         fontsize: $("#fontOptions").find(".active")[0].id,
+				 		         showGrid: $("#gridOptions").find(".active")[0].id,
+				 		         showLegend: $("#gridLegend").find(".active")[0].id
+				 				})
+			});
+    
+    }
+  } 
+  		if(!allDataAreLatest)
+          	$.ajax({
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				url: "/graph/update-trendline-history",
+				data: JSON.stringify(updatedTrendLines),
+				dataType: 'json',
+				timeout: 600000,
+				success: function(response) {
+				
+					getTrendLinesHistory();
+				
+				},
+				error: function(e) {
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+  return allDataAreLatest;
+}
+function dateToTimestamp(dateStr) {
+    // Define the months for conversion
+    const months = {
+        'Jan': 0,
+        'Feb': 1,
+        'Mar': 2,
+        'Apr': 3,
+        'May': 4,
+        'Jun': 5,
+        'Jul': 6,
+        'Aug': 7,
+        'Sep': 8,
+        'Oct': 9,
+        'Nov': 10,
+        'Dec': 11
+    };
+
+    const parts = dateStr.split('-');
+    const day = parseInt(parts[0], 10);
+    const month = months[parts[1]];
+    const year = parseInt(parts[2], 10) + 2000; // Assuming the date is in the 21st century (20xx)
+
+    // Create a Date object
+    const date = new Date(year, month, day);
+
+    // Get the timestamp
+    const timestamp = date.getTime();
+
+    return timestamp;
+}
+function calculateRetracements(startPrice, endPrice) {
+    const retracementPercentages = [0.10, 0.25, 0.33, 0.38, 0.50, 0.62, 0.66, 0.75];
+    
+    const retracements = {};
+    
+    retracementPercentages.forEach(percentage => {
+        const retracementPrice = endPrice + (startPrice - endPrice) * percentage;
+        retracements[`${percentage * 100}%`] = retracementPrice;
+    });
+    
+    return retracements;
+}
+function calculateRetracement(retracementId){
+	const startPrice = $("#retracementStartPrice_"+ retracementId).text(); 
+    const endPrice =  $("#retracementEndPrice_"+ retracementId).text();   
+    const startDate = $("#retracementStart_"+ retracementId).text();
+    const endDate = $("#retracementEnd_"+ retracementId).text();
+ 
+    if (startPrice != '' && endPrice != '') {
+	   const checkedItemValues = checkedItemid.filter(item => item != null);
+
+       let found = false;
+       const calculatedretracementData = calculateRetracements(parseFloat(startPrice), parseFloat(endPrice));
+       const parameters={
+		   startPrice:startPrice,
+		   endPrice:endPrice,
+		   startDate:startDate,
+		   endDate:endDate
+	   }
+	   const retracementDataHide = {'10%':false,
+							    '25%':false,
+							    '33%':false,
+								'38%':false,
+								'50%':false,
+ 								'62%':false,
+								'66%':false,
+								'75%':false
+								};	
+      
+			 for (var i = 0; i < retracement.length; i++) {
+				   if (retracement[i].retracementId === retracementId && typeof retracement[i].dbId !='undefined') {
+					        const checkedItemValues = checkedItemid.filter(item => item != null);
+                            const dbRetracementDataHide = retracementData[checkedItemValues].filter(item => item.dbId === retracement[i].dbId);
+					        
+					        const json = convertRetracementData(calculatedretracementData, startDate, endDate, startPrice, endPrice,dbRetracementDataHide[0].retracementDataHide);
+
+					        retracement[i].retracementParameter = parameters;
+					        retracement[i].retracementValues = json;
+
+					        saveRetracementHistory(retracementId);
+					        
+					        found = true;
+						    break;
+					  }
+				  }
+			 if(!found){
+			  const json = convertRetracementData(calculatedretracementData, startDate, endDate, startPrice, endPrice,retracementDataHide);
+			  
+			  retracement=removeById(retracement,"retracementId", retracementId);
+
+			  retracement.push({retracementId:retracementId,
+			  			 graphId:checkedItemValues[0],
+       					 retracementValues:json,
+       					 retracementParameter:parameters});
+       					 
+       					  drawRetracementTable(retracement);
+       					  
+       					   const relatedyaxis = convertData(json,retracementId);
+       		               chartConfigSettings.yaxisAnnotation=removeById(chartConfigSettings.yaxisAnnotation,"retracementId", retracementId);
+
+					       const yaxis = chartConfigSettings.yaxisAnnotation;	
+					            for (const newItem of relatedyaxis) {
+					                yaxis.push(newItem);
+					            }			 
+					            
+					       chartConfigSettings.yaxisAnnotation = yaxis;
+					       updateSeriesChart(chartConfigSettings);
+			 }  
+      
+       
+    }
+}
+function convertRetracementData(retracementData, startDate, endDate, startPrice, endPrice,retracementDataHide) {
+    const result = [];
+    const endDateTimestamp = dateToTimestamp(endDate);
+    const startDateTimestamp = dateToTimestamp(startDate);
+    const formattedStartPrice = parseFloat(startPrice).toFixed(getFormatResult0[0]);
+    const formattedEndPrice = parseFloat(endPrice).toFixed(getFormatResult0[0]);
+
+    for (const [label, values] of Object.entries(retracementData)) {
+        const isFibo = (label === '38%' || label === '62%') ? ' FIBO' : ' retracement';
+        const isFiboGrid = (label === '38%' || label === '62%') ? ' FIBO' : '';
+        const formattedValue = values.toFixed(getFormatResult0[0]);
+
+        result.push({
+            x: endDateTimestamp,
+            y: values,
+            label: `${formattedValue} ${label}${isFibo}`,
+            gridLabel: `${isFiboGrid} ${label} is ${formattedValue}`,
+            key: `percentage${label.replace('%', '')}`,
+            hide: retracementDataHide[label]
+        });
+    }
+
+    result.push({
+        x: startDateTimestamp, 
+        y: parseFloat(startPrice),
+        label: `${formattedStartPrice} STARTS`,
+        key: "start",
+        hide: false
+    });
+
+    result.push({
+        x: endDateTimestamp, 
+        y: parseFloat(endPrice),
+        label: `${formattedEndPrice} ENDS`,
+        key: "end",
+        hide: false
+    });
+
+    return result;
+}
+function convertData(data,retracementId) {
+    const result = [];
+  
+     for (var i = 0; i < data.length; i++) {
+       const IsContinues = data[i].label.includes("ENDS") || data[i].label.includes("STARTS")?true:false;
+       const IsEnd = data[i].label.includes("ENDS")?true:false;
+		 if (data[i].hide!=true)
+			 result.push({
+				 		retracementId:retracementId,
+			            x: data[i].x,
+			            y: data[i].y,
+			            borderColor: "#FF00FF",
+			            strokeDashArray: IsContinues?0:7.5,
+			            label: {
+							position: IsContinues?'right':'left',
+							textAnchor:  !IsContinues?'start':'end',
+			                text: data[i].label,
+			                offsetY: IsEnd?15:0,
+			                borderColor: "#ffffff00",
+			                style: {
+			                    color: "#FF00FF",
+			                    background: "#00000000"
+			                }
+			            }
+			        });
+    }
+
+    return result;
+}
+
+async function saveRetracementHistory(retracementId) {
+    	const url = '/graph/save-retracement-history'; 
+ 		const filteredData = retracement.filter(data => data.retracementId === retracementId);
+    	const payload = filteredData.map(data => {
+        const retracementParameter = data.retracementParameter;
+        const retracementValues = data.retracementValues;
+		const checkedItemValues = checkedItemid.filter(item => item != null);
+        let entity = {
+			dbId: data.dbId,
+            graphId: checkedItemValues[0],
+            startDate: retracementParameter.startDate,
+            startPrice: retracementParameter.startPrice,
+            endDate: retracementParameter.endDate,
+            endPrice: retracementParameter.endPrice,
+            percentage10: null,
+            percentage25: null,
+            percentage33: null,
+            percenetage38: null,
+            percentage50: null,
+            percentage62: null,
+            percentage66: null,
+            percentage75: null,
+            hidePercentage10: true,
+            hidePercentage25: true,
+            hidePercentage33: true,
+            hidePercenetage38: true,
+            hidePercentage50: true,
+            hidePercentage62: true,
+            hidePercentage66: true,
+            hidePercentage75: true
+        };
+
+        retracementValues.forEach(value => {
+            switch (value.key) {
+                case 'percentage10':
+                    entity.percentage10 = value.y.toString();
+                    entity.hidePercentage10 = value.hide;
+                    break;
+                case 'percentage25':
+                    entity.percentage25 = value.y.toString();
+                    entity.hidePercentage25 = value.hide;
+                    break;
+                case 'percentage33':
+                    entity.percentage33 = value.y.toString();
+                    entity.hidePercentage33 = value.hide;
+                    break;
+                case 'percentage38':
+                    entity.percenetage38 = value.y.toString();
+                    entity.hidePercenetage38 = value.hide;
+                    break;
+                case 'percentage50':
+                    entity.percentage50 = value.y.toString();
+                    entity.hidePercentage50 = value.hide;
+                    break;
+                case 'percentage62':
+                    entity.percentage62 = value.y.toString();
+                    entity.hidePercentage62 = value.hide;
+                    break;
+                case 'percentage66':
+                    entity.percentage66 = value.y.toString();
+                    entity.hidePercentage66 = value.hide;
+                    break;
+                case 'percentage75':
+                    entity.percentage75 = value.y.toString();
+                    entity.hidePercentage75 = value.hide;
+                    break;
+                default:
+                    break;
+            }
+        });
+
+        return entity;
+    });
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+             newRetracementData = result.reduce((acc, data) => {
+
+			  if (!acc[data.graphId]) {
+			    acc[data.graphId] = [];
+			  }
+
+			    const dbId = data.id;
+				const startPrice = data.startPrice;
+				const endPrice = data.endPrice;
+				const startDate = data.startDate;
+				const endDate = data.endDate;
+				
+		       const retracementData = {'10%':parseFloat(data.percentage10),
+									    '25%':parseFloat(data.percentage25),
+									    '33%':parseFloat(data.percentage33),
+										'38%':parseFloat(data.percenetage38),
+										'50%':parseFloat(data.percentage50),
+		 								'62%':parseFloat(data.percentage62),
+										'66%':parseFloat(data.percentage66),
+										'75%':parseFloat(data.percentage75)
+										};
+				const retracementDataHide = {'10%':data.hidePercentage10,
+									    '25%':data.hidePercentage25,
+									    '33%':data.hidePercentage33,
+										'38%':data.hidePercenetage38,
+										'50%':data.hidePercentage50,
+		 								'62%':data.hidePercentage62,
+										'66%':data.hidePercentage66,
+										'75%':data.hidePercentage75
+										};						
+		       const parameters={
+				   startPrice:startPrice,
+				   endPrice:endPrice,
+				   startDate:startDate,
+				   endDate:endDate
+			   }
+						 
+			  acc[data.graphId].push({dbId:dbId,
+		       					 retracementData:retracementData,
+		       					 retracementDataHide:retracementDataHide,
+		       					 retracementParameter:parameters});
+			  return acc;
+			}, {});
+
+			for (const [key, value] of Object.entries(newRetracementData)) {
+			    if (retracementData[key]) {
+			        value.forEach(newItem => {
+			            const index = retracementData[key].findIndex(item => item.dbId === newItem.dbId);
+			            if (index !== -1) {
+			                // Update existing item
+			                retracementData[key][index] = newItem;
+			            } else {
+			                // Add new item
+			                retracementData[key].push(newItem);
+			            }
+			        });
+			    } else {
+			        retracementData[key] = value;
+			    }
+			}
+			
+            const checkedItemValues = checkedItemid.filter(item => item != null);
+			processRetracementData(retracementData, checkedItemValues);
+
+            return result; // Handle the response as needed
+        } else {
+            throw new Error('Failed to save retracement history');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
+function mergeData(existingJson, newJson) {
+    for (const [key, newItems] of Object.entries(newJson)) {
+        // Check if the key exists in the existing JSON data
+        let existingEntry = existingJson.find(entry => entry.graphId === key);
+
+        if (existingEntry) {
+            // Key exists, merge the new items into the existing entry
+            if (!existingEntry.retracementData) {
+                existingEntry.retracementData = [];
+            }
+            if (!existingEntry.retracementDataHide) {
+                existingEntry.retracementDataHide = [];
+            }
+            if (!existingEntry.retracementParameter) {
+                existingEntry.retracementParameter = [];
+            }
+
+            newItems.forEach(newItem => {
+                let existingIndex = existingEntry.retracementData.findIndex(item => item.dbId === newItem.dbId);
+
+                if (existingIndex !== -1) {
+                    // Update the existing item
+                    existingEntry.retracementData[existingIndex] = newItem.retracementData;
+                    existingEntry.retracementDataHide[existingIndex] = newItem.retracementDataHide;
+                    existingEntry.retracementParameter[existingIndex] = newItem.retracementParameter;
+                } else {
+                    // Add the new item
+                    existingEntry.retracementData.push(newItem.retracementData);
+                    existingEntry.retracementDataHide.push(newItem.retracementDataHide);
+                    existingEntry.retracementParameter.push(newItem.retracementParameter);
+                }
+            });
+        } else {
+            // Key does not exist, add the new entry
+            existingJson.push({
+                graphId: key,
+                retracementData: newItems.map(item => item.retracementData),
+                retracementDataHide: newItems.map(item => item.retracementDataHide),
+                retracementParameter: newItems.map(item => item.retracementParameter)
+            });
+        }
+    }
 }

@@ -1,4 +1,4 @@
-package com.bourse.dto;
+package com.bourse.dto.graph;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;

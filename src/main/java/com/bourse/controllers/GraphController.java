@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.bourse.domain.ColumnConfiguration;
-import com.bourse.domain.TechnicalAnalysisGraphHistory;
-import com.bourse.dto.TechnicalAnalysisGraphHistoryDTO;
+import com.bourse.domain.graph.TechnicalAnalysisGraphHistory;
+import com.bourse.domain.graph.TechnicalAnalysisRetracementHistory;
+import com.bourse.dto.graph.TechnicalAnalysisGraphHistoryDTO;
+import com.bourse.dto.graph.TechnicalAnalysisRetracementHistoryDTO;
 import com.bourse.service.AdminService;
 import com.bourse.service.TechnicalAnalysisGraphHistoryService;
 
@@ -39,6 +41,14 @@ public class GraphController {
     public TechnicalAnalysisGraphHistory saveGraphHistory(@RequestBody TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication){
 	  return  technicalAnalysisGraphHistoryService.SaveGraphHistory(graphHistorydto,authentication);
     }
+	@PostMapping(value = "update-trendline-history")
+    public boolean updateGraphHistory(@RequestBody  List<TechnicalAnalysisGraphHistoryDTO> graphHistorydto, Authentication authentication){
+	  return  technicalAnalysisGraphHistoryService.SaveGraphListHistory(graphHistorydto,authentication);
+    }
+	@PostMapping(value = "save-retracement-history")
+    public ResponseEntity<List<TechnicalAnalysisRetracementHistory>> saveRetracementHistory(@RequestBody  List<TechnicalAnalysisRetracementHistoryDTO> graphRetracementdto, Authentication authentication){
+	  return  new ResponseEntity<>( technicalAnalysisGraphHistoryService.SaveRetracementListHistory(graphRetracementdto,authentication), HttpStatus.OK);
+    }
 	@PostMapping(value = "save-visible-channel")
     public TechnicalAnalysisGraphHistory saveVisibiltyOfChannel(@RequestBody TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication){
 	  return  technicalAnalysisGraphHistoryService.saveVisibiltyOfChannel(graphHistorydto,authentication);
@@ -51,9 +61,18 @@ public class GraphController {
 	public  List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserId( Authentication authentication) {
 	return technicalAnalysisGraphHistoryService.findGraphHistoryByUserId(authentication);
 	} 
+	@GetMapping(value = "find-retracement-history-by-userid")
+	public  List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserId( Authentication authentication) {
+	return technicalAnalysisGraphHistoryService.findRetracementHistoryByUserId(authentication);
+	} 
 	@DeleteMapping(value = "deletetrendline/{id}")
 	public ResponseEntity<Object>  deleteByReferDate(@PathVariable("id") String id) {
 		technicalAnalysisGraphHistoryService.deleteTrendlineById(id);
+	return new ResponseEntity<>(HttpStatus.OK);
+	}
+	@DeleteMapping(value = "delete-retracement-by-id/{id}")
+	public ResponseEntity<Object>  deleteRetracementById(@PathVariable("id") String id) {
+		technicalAnalysisGraphHistoryService.deleteRetracementById(id);
 	return new ResponseEntity<>(HttpStatus.OK);
 	}
 	 @GetMapping(value ="configurations")
@@ -62,7 +81,8 @@ public class GraphController {
     }
 	@DeleteMapping(value = "delete-graph-history/{graphid}")
 		public ResponseEntity<Object>  deleteGraphHistory(@PathVariable("graphid") String graphid ,  Authentication authentication) {
-			technicalAnalysisGraphHistoryService.deleteGraphHistoryByGraphId(graphid, authentication);
-		return new ResponseEntity<>(HttpStatus.OK);
+				technicalAnalysisGraphHistoryService.deleteGraphHistoryByGraphId(graphid, authentication);
+				technicalAnalysisGraphHistoryService.deleteRetracementHistoryByGraphId(graphid, authentication);
+			return new ResponseEntity<>(HttpStatus.OK);
 		}
 }

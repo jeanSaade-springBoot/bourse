@@ -1,4 +1,4 @@
-package com.bourse.domain;
+package com.bourse.domain.graph;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;

@@ -564,38 +564,17 @@ function drawGraph() {
 					        label: {
 					         borderColor: "#ffffff00",
 					          offsetY: 30,
-					         // offsetY: 50,
-					          offsetX: 45,
+					          //offsetY: 0,
+					          offsetX: 80,
 					          style: {
 					            color: "#FF00FF",
 					            background:  "#00000000",
 					          },
 					
-					          text: toTitleCase(isMaxItems1[0].x.split('-')[0]+' Manuf  ')
+					          text: toTitleCase(isMaxItems1[0].x.split('-')[0]+' Manuf  ' + toTitleCase(getfactorDescriptionById(isMaxItems1[0].factor.toString())+' '+value1))
 					        }
 					      },
-					          {
-					         x: isMaxItems1[0].x,
-					         y: isMaxItems1[0].y,
-					        marker: {
-					          size: 0,
-					          fillColor: "#ffffff00",
-					          strokeColor: "#FF00FF",
-					          radius: 6
-					        },
-					        label: {
-					         borderColor: "#ffffff00",
-					          offsetY: 40,
-					         // offsetY: 50,
-					          offsetX: 45,
-					          style: {
-					            color: "#FF00FF",
-					            background:  "#00000000",
-					          },
-					
-					          text: toTitleCase(getfactorDescriptionById(isMaxItems1[0].factor.toString())+' '+value1)
-					        }
-					      },
+					        
 					           {
 					         x: isMaxItems2[0].x,
 					         y: isMaxItems2[0].y,
@@ -607,39 +586,18 @@ function drawGraph() {
 					        },
 					        label: {
 					         borderColor: "#ffffff00",
-					           offsetY: 10,
-					   		 //  offsetY:0,
-					     	   offsetX: 50,
-					          style: {
-					            color: "#FF00FF",
-					            background:  "#00000000",
-					          },
-					
-					          text: toTitleCase(isMaxItems2[0].x.split('-')[0]+' Services ')
-					        }
-					      },
-					      {
-					         x: isMaxItems2[0].x,
-					         y: isMaxItems2[0].y,
-					        marker: {
-					          size: 0,
-					          fillColor: "#ffffff00",
-					          strokeColor: "#FF00FF",
-					          radius: 6
-					        },
-					        label: {
-					         borderColor: "#ffffff00",
 					           offsetY: 20,
-					   		 //  offsetY:0,
-					     	   offsetX: 50,
+					   		  // offsetY:0,
+					     	   offsetX: 85,
 					          style: {
 					            color: "#FF00FF",
 					            background:  "#00000000",
 					          },
 					
-					          text: toTitleCase(getfactorDescriptionById(isMaxItems2[0].factor.toString())+' '+value2)
+					          text: toTitleCase(isMaxItems2[0].x.split('-')[0]+' Services ' +toTitleCase(getfactorDescriptionById(isMaxItems2[0].factor.toString())+' '+value2))
 					        }
 					      },
+					      
 					    ],
 					    
 					      },legend: {

@@ -43119,6 +43119,35 @@ INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('macroGraph',
 
 create table macro_graph_responsedto (id bigint not null, factor varchar(255), ismax varchar(255), x varchar(255), y varchar(255), primary key (id));
 
+
+create table technical_analysis_retracement_history (
+	 id bigint not null, 
+	`user_name` varchar(255) NOT NULL,
+     `graph_id` varchar(255) NOT NULL,
+     start_date varchar(255) NOT NULL,
+     start_price varchar(255) NOT NULL,
+     end_date varchar(255) NOT NULL,
+     end_price varchar(255) NOT NULL,
+     percentage10 varchar(255) NOT NULL,
+     percentage25 varchar(255) NOT NULL,
+     percentage33 varchar(255) NOT NULL,
+     percenetage38 varchar(255) NOT NULL,
+     percentage50 varchar(255) NOT NULL,
+     percentage62 varchar(255) NOT NULL,
+     percentage66 varchar(255) NOT NULL,
+     percentage75 varchar(255) NOT NULL,
+     hide_percentage10  tinyint(1) DEFAULT '0',
+     hide_percentage25  tinyint(1) DEFAULT '0',
+     hide_percentage33  tinyint(1) DEFAULT '0',
+     hide_percenetage38 tinyint(1) DEFAULT '0',
+     hide_percentage50  tinyint(1) DEFAULT '0',
+     hide_percentage62  tinyint(1) DEFAULT '0',
+     hide_percentage66  tinyint(1) DEFAULT '0',
+     hide_percentage75  tinyint(1) DEFAULT '0'
+    );
+create table technical_analysis_retracement_history_sequence (next_val bigint) ;
+insert into technical_analysis_retracement_history_sequence values ( 1 );
+
 delete from live_option_flow_data where flow_date ='3000-01-01 00:00:00';
   
 ALTER TABLE technical_analysis_graph_history
