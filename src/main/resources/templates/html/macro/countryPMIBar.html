@@ -72,6 +72,21 @@
 svg.apexcharts-svg.apexcharts-zoomable {
     width: 2000px;
 }
+text.text-style {
+    font-size: .75rem;
+    font-weight: bold;
+}
+.apexcharts-text tspan {
+    text-transform: capitalize;
+}
+.apexcharts-canvas {
+    margin: 0;
+}
+
+   .text-style {
+    font-size: 12px;
+    font-family: Arial, sans-serif;
+  }
 </style>
 </head>
 
@@ -89,11 +104,11 @@ svg.apexcharts-svg.apexcharts-zoomable {
 					<nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
 						<div class="nav nav-tabs" id="nav-tab" role="tablist">
 							<a sec:authorize="hasAuthority('MACRO_GRAPH_SCREEN')"
-								class="navigation nav-item nav-link active" id="nav-macro-tab"
+								class="navigation nav-item nav-link " id="nav-macro-tab"
 								href="/bourse/macrograph" role="tab" aria-controls="nav-macro"
 								aria-selected="false">COUNTRY PMI</a>
-									<a sec:authorize="hasAuthority('MACRO_BAR_SCREEN')"
-								class="navigation nav-item nav-link" id="nav-macro-tab"
+							<a sec:authorize="hasAuthority('MACRO_BAR_SCREEN')"
+								class="navigation nav-item nav-link active" id="nav-macro-tab"
 								href="/bourse/countrypmibar" role="tab" aria-controls="nav-macro"
 								aria-selected="false">COUNTRY PMI BAR</a>
 						</div>
@@ -121,28 +136,32 @@ svg.apexcharts-svg.apexcharts-zoomable {
 											id="ContentPlaceHolder1_Image13" src="../../img/down.png"
 											align="absmiddle"></a>
 									</p>-->
-									<div class="row">
+									<div class="">
 										<div class="col">
 											<div class=" multi-collapse" id="collapseFilter"
 												style="margin: 0px 5rem;">
 												<div class="row">
 												<div>
 													<div class="col-12 d-flex">
-														<div>
-														<div style="height:70px">&nbsp</div>
-														<div>&nbsp</div>
-														<div>MANUF & SERVICES I</div>
-														<div>MANUF & SERVICES II</div>
-														</div>
-														<div class="col-9">
-															<div id="countries" class="d-flex"></div>
-														</div>
+														<div style="height:20px">&nbsp</div>
 													</div>
 												</div>
 												</div>
 												</div>
 												<div class="row pt-2">
-													<div class='col-12 d-flex justify-content-end'>
+													<div class='col-1'></div>
+													<div class='col-10 d-flex justify-content-between'>
+														<div  class="row">
+														    <div class="col pl-0 text-center">
+																<h8 class="font-weight-bold">MANUF</h8>
+															    <div id='jqxCheckBoxManuf'  class="align-middle"></div>
+														    </div>
+														      <div class="col pl-0 text-center">
+																<h8 class="font-weight-bold">SERVICES</h8>
+															    <div id='jqxCheckBoxService'  class="align-middle"></div>
+														    </div>
+														 </div>	
+														<div class="row pt-4">
 														<input aria-expanded="true" aria-controls="collapseFilter"
 															class="btn btn-primary mr-1 mb-1"
 															style="margin-right: 1rem !important; color: white;"
@@ -150,7 +169,9 @@ svg.apexcharts-svg.apexcharts-zoomable {
 															id="clearfilter" type="button"
 															style="margin-right: 1rem !important;"
 															class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+														</div>
 													</div>
+													<div class='col-1'></div>
 												</div>
 											</div>
 											<div id="grid-content" style="display: none;">
@@ -159,7 +180,7 @@ svg.apexcharts-svg.apexcharts-zoomable {
 													<div class="row col-12"></div>
 
 													<div class="col-1" style="z-index: 1;">
-														<div class="chart-option">
+														<div class="chart-option d-none" >
 															<div class="chart-option-title">Chart option</div>
 															<div class="btn-group  mt-2 ml-1" role="group"
 																aria-label="Vertical" id="chartTypes">
@@ -312,33 +333,34 @@ svg.apexcharts-svg.apexcharts-zoomable {
 																style="width: 100%;" />
 														</div>
 														<div id="mainChart" class="chart-box col-12"
-															style="min-height: 365px; min-width: 1100px; max-width: 1100px">
+															style="min-height: 365px; min-width: 1100px; max-width: 1100px; ">
 
 														</div>
 														<div id="mainChart-title"></div>
 														<div id="chart">
-															<div id="timeline-chart"></div>
+														
 														</div>
-														<div class="row"
-															style="min-width: 1153px; max-width: 1153px">
-															<div class='col-6'>
-																<div id="overlayChart1" class="overlayChart-split"
-																	style="display: none">
-																	<img src="/css/images/loader.gif" alt="Loading"
-																		style="width: 100%;" />
+														<div id="timeline-chart" class="col-12">
+															<div class="row"
+																style="min-width: 1153px; max-width: 1153px;">
+																<div class='col-6 p-0'>
+																	<div id="overlayChart1" class="overlayChart-split"
+																		style="display: none">
+																		<img src="/css/images/loader.gif" alt="Loading"
+																			style="width: 100%;" />
+																	</div>
+																	<div id="SubChart1" class="p-0"></div>
 																</div>
-																<div id="SubChart1" class="chart-box"></div>
-															</div>
-															<div class='col-6'>
-																<div id="overlayChart2" class="overlayChart-split"
-																	style="display: none">
-																	<img src="/css/images/loader.gif" alt="Loading"
-																		style="width: 100%;" />
+																<div class='col-6 p-0'>
+																	<div id="overlayChart2" class="overlayChart-split"
+																		style="display: none">
+																		<img src="/css/images/loader.gif" alt="Loading"
+																			style="width: 100%;" />
+																	</div>
+																	<div id="SubChart2" class="chart-box p-0"></div>
 																</div>
-																<div id="SubChart2" class="chart-box"></div>
 															</div>
 														</div>
-
 														<div class="mt-2 btn-toolbar justify-content-between"
 															role="toolbar" aria-label="Toolbar with button groups"
 															style="min-width: 1090px; max-width: 1090px;">
@@ -346,25 +368,21 @@ svg.apexcharts-svg.apexcharts-zoomable {
 																aria-label="First group">
 																<button type="button" id="button-yearBackward"
 																	class="btn btn-secondary"
-																	onclick="navigationGraph('yearBackward')">
+																	onclick="navigationBarGraph('yearBackward')">
 																	<i class="fas fa-angle-double-left"></i> 1 Year
 																</button>
 																<button type="button" id="button-monthBackward"
 																	class="btn btn-secondary"
-																	onclick="navigationGraph('monthBackward')">
+																	onclick="navigationBarGraph('monthBackward')">
 																	<i class="fas fa-angle-double-left"></i> 1 Month
 																</button>
 															</div>
 															<div class="btn-group mr-2"
 																style="justify-content: center;" role="group"
 																aria-label="Second group">
-																<label>From</label> <input id="dateFrom-mainChart"
+																<input id="dateFrom-mainChart"
 																	type="search"
-																	class="inputdate form-control form-control-sm"
-																	placeholder="" aria-controls="DataTables_Table_4"
-																	disabled> <label>To</label> <input
-																	id="dateTo-mainChart" type="search"
-																	class="inputdate form-control form-control-sm"
+																	class="form-control form-control-sm text-center"
 																	placeholder="" aria-controls="DataTables_Table_4"
 																	disabled>
 															</div>
@@ -372,12 +390,12 @@ svg.apexcharts-svg.apexcharts-zoomable {
 																aria-label="Third group">
 																<button type="button" id="button-monthForward"
 																	class="btn btn-secondary"
-																	onclick="navigationGraph('monthForward')">
+																	onclick="navigationBarGraph('monthForward')">
 																	1 Month <i class="fas fa-angle-double-right"></i>
 																</button>
 																<button type="button" id="button-yearForward"
 																	class="btn btn-secondary"
-																	onclick="navigationGraph('yearForward')">
+																	onclick="navigationBarGraph('yearForward')">
 																	1 Year <i class="fas fa-angle-double-right"></i>
 																</button>
 															</div>
@@ -392,9 +410,9 @@ svg.apexcharts-svg.apexcharts-zoomable {
 									</div>
 								</div>
 							</div>
-         <div id="overlay" class="col-12">
-			<img src="/css/images/loader.gif" alt="Loading" width="46px" />
-		</div>
+							<div id="overlay" class="col-12">
+								<img src="/css/images/loader.gif" alt="Loading" width="46px" />
+							</div>
 
 							<!-- Modal Logout -->
 							<div class="modal fade" id="logoutModal" tabindex="-1"
@@ -512,7 +530,7 @@ svg.apexcharts-svg.apexcharts-zoomable {
 			
 			<script src="/js/chartOptions.js"></script>
 			<script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>
-			<script src="/js/bourse/macro/macroGraph.js"></script>
+			<script src="/js/bourse/macro/countryPMIBar.js"></script>
 			<script src="/js/chart.js"></script>
 			<script src="/js/jqwidgets/jqxdata.js"></script>
 			<script src="/js/jqwidgets/jqxgrid.js"></script>

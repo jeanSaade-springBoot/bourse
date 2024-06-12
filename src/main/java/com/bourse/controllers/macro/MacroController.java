@@ -1,7 +1,9 @@
 package com.bourse.controllers.macro;
 
+import java.time.LocalDate;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,6 +24,7 @@ import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.macro.GraphResponseColConfigDTO;
 import com.bourse.dto.macro.MacroAuditCommonDTO;
+import com.bourse.dto.macro.MacroLatestDateResponseDTO;
 import com.bourse.service.DataFunctionService;
 import com.bourse.service.macro.MacroService;
 
@@ -107,6 +110,21 @@ public class MacroController {
 	}
 	@PostMapping(value = "getgraphdata")
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
+		System.out.println(className+": getgraphdata");
+
 		return new ResponseEntity<>(macroService.getMacroGraphData(graphReqDTO),HttpStatus.OK);
 	} 
+	@PostMapping(value = "getgraphbardata")
+	 public ResponseEntity<List<Map<String, List<?>>>> getGraphBarData(@RequestBody List<GraphRequestDTO> graphReqDTO) {
+		System.out.println(className+": getgraphbardata");
+
+		List<Map<String, List<?>>> graphData = macroService.getMacroGraphBarDataResults(graphReqDTO);
+        return new ResponseEntity<>(graphData, HttpStatus.OK);
+    }
+	@GetMapping(value = "get-macro-latest-date")
+	public ResponseEntity<List<MacroLatestDateResponseDTO>> getMacroLatestReferDateResult() {
+		System.out.println(className+": get-macro-latest-date");
+		return new ResponseEntity<>(macroService.getMacroLatestReferDateResult(),HttpStatus.OK);
+	}
 }
+

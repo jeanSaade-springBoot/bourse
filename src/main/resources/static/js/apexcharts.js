@@ -4186,6 +4186,10 @@
 						class: "apexcharts-bar-series apexcharts-plot-series"
 					});
 					i.config.dataLabels.enabled && this.totalItems > this.barOptions.dataLabels.maxItems && console.warn("WARNING: DataLabels are enabled but there are too many to display. This may cause performance issue when rendering.");
+					let found = false;
+					let lineY;
+					let addition;
+					
 					for (var o = 0, l = 0; o < t.length; o++, l++) {
 						var h, c, d, g, u = void 0,
 							p = void 0,
@@ -4250,8 +4254,89 @@
 								visibleSeries: this.visibleI,
 								type: "bar"
 							})
+							
+							if (typeof this.w.config.hasImages !== 'undefined') // mns add for bar chart
+					 {
+				
+						let	coords = T.pathTo.replaceAll('M ', ' ').replaceAll('L', ' ').replaceAll('C', ' ').split(' ');
+							const x_coords = coords[4];
+							const y_coords = coords[2];
+							if(L===0)
+							 addition = y_coords/2;
+						if (this.w.config.series[0].data[L] < 50 && found === false) {
+							lineY = y_coords;
+							found = true; // Exit the loop once the first value less than 50 is found
+						}	
+		
+						const chartId =	this.ctx.core.el.getAttribute('id');
+						const chartSvg = document.querySelector(`#${chartId} .apexcharts-svg`);
+						
+						
+					    const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+					    foreignObject.setAttribute('width', '40');
+					    foreignObject.setAttribute('height', '40');
+					
+					    foreignObject.setAttribute('x', parseFloat(x_coords)+ 20);
+					    foreignObject.setAttribute('y', parseFloat(y_coords)- 7);
+					
+					    const img = document.createElement('img');
+					    img.setAttribute('src', this.w.config.hasImages.Images[L]);
+					    img.setAttribute('style', 'height: inherit;');
+					
+					    // Append the <img> to the <foreignObject>
+					    foreignObject.appendChild(img);
+
+						// Get the value of the bar
+						const value = this.w.config.series[0].data[L]; // Assuming the bar has a 'value' attribute
+				
+						// Create a rectangle for the text background
+						const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
+						rect.setAttribute('x', parseFloat(x_coords) - 45); // Positioning inside the bar
+						rect.setAttribute('y', parseFloat(y_coords) + 5); // Adjust y position as needed
+						rect.setAttribute('width', 30); // Adjust width as needed
+						rect.setAttribute('height', 18); // Adjust height as needed
+						rect.setAttribute('fill', '#00000050'); // Set background color
+						rect.setAttribute('rx', 3); // Rounded corners
+						rect.setAttribute('ry', 3); // Rounded corners
+				
+						// Create a text element for the value
+						const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
+						text.setAttribute('x', parseFloat(x_coords) - 30); // Positioning inside the bar
+						text.setAttribute('y', parseFloat(y_coords)+ 18); // Adjust y position as needed
+						text.setAttribute('text-anchor', 'middle');
+						text.setAttribute('class', 'text-style');
+						text.setAttribute('fill', 'white'); // Set text color to white
+						text.textContent = value; // Set the text content to the bar's value
+				
+						 const svg = document.querySelector(`#${chartId} .apexcharts-series`);
+							 // Ensure that the new elements are added after the existing bars
+							svg.appendChild(foreignObject);
+							svg.appendChild(rect);
+							svg.appendChild(text);
+
+								if (!chartSvg) return; // Exit if the element is not found
+							
+								const chartHeight = 525;
+								const chartWidth = 1078;
+								// Initialize lineY to be at the bottom by default
+							
+								// Create the horizontal red line below the value of 50
+								if (found) {
+									const line1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
+									line1.setAttribute("x1", 0);
+									line1.setAttribute("y1", parseFloat(lineY) + 57); // Position the line below the value of 50
+									line1.setAttribute("x2", chartWidth);
+									line1.setAttribute("y2", parseFloat(lineY) + 57); // Position the line below the value of 50
+									line1.setAttribute("stroke", "red");
+									line1.setAttribute('stroke-width', 3);
+									chartSvg.appendChild(line1);
+								}			
+				}
 						}
+						
 						i.globals.seriesXvalues[v] = m, i.globals.seriesYvalues[v] = x, r.add(w)
+						
+				
 					}
 					return r
 				}

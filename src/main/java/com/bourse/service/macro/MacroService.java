@@ -1,9 +1,13 @@
 package com.bourse.service.macro;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -17,10 +21,8 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
-import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.macro.MacroDisplaySettings;
-import com.bourse.domain.skews.LongSkewsData;
 import com.bourse.dto.GraphRequestDTO;
 
 import com.bourse.dto.MainSearchFilterDTO;
@@ -28,8 +30,9 @@ import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.macro.GraphResponseColConfigDTO;
 import com.bourse.dto.macro.MacroAuditCommonDTO;
+import com.bourse.dto.macro.MacroBarGraphResponseDTO;
 import com.bourse.dto.macro.MacroGraphResponseDTO;
-import com.bourse.enums.FunctionEnum;
+import com.bourse.dto.macro.MacroLatestDateResponseDTO;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.TableManagementRepository;
 import com.bourse.repositories.macro.MacroDataRepository;
@@ -403,5 +406,61 @@ public class MacroService {
 				
 				return graphResponseColConfigDTO; 
 			    
+			}
+			public List<Map<String, List<?>>> getMacroGraphBarDataResults(List<GraphRequestDTO> graphReqDTOList) {
+			    boolean hasData = adminService.getData();
+			    if (!hasData)
+			        return Collections.emptyList();
+
+			    List<Map<String, List<?>>> resultList = new ArrayList<>();
+
+			    for (GraphRequestDTO graphReqDTO : graphReqDTOList) {
+			        StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("country_macro_calculation_graph", MacroBarGraphResponseDTO.class);
+
+			        String subGroupId = graphReqDTO.getSubGroupId1();
+			        String selectedDate = graphReqDTO.getFromdate();
+
+			        query.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
+			        query.setParameter("subgroupId", subGroupId);
+
+			        query.registerStoredProcedureParameter("selectedDate", String.class, ParameterMode.IN);
+			        query.setParameter("selectedDate", selectedDate);
+
+			        query.execute();
+
+			        List<MacroBarGraphResponseDTO> graphResponseDTOlst1 = (List<MacroBarGraphResponseDTO>) query.getResultList();
+
+			        List<String> labels = graphResponseDTOlst1.stream()
+			                .map(MacroBarGraphResponseDTO::getCountry)
+			                .collect(Collectors.toList());
+
+			        List<Double> values = graphResponseDTOlst1.stream()
+			                .map(MacroBarGraphResponseDTO::getValue)
+			                .map(Double::parseDouble)
+			                .collect(Collectors.toList());
+
+			        Map<String, List<?>> dataMap = Map.of("labels", labels, "values", values);
+			        resultList.add(dataMap);
+
+			        entityManager.clear();
+			        entityManager.close();
+			    }
+
+			    return resultList;
+			}
+			public List<MacroLatestDateResponseDTO> getMacroLatestReferDateResult() {
+			    boolean hasData = adminService.getData();
+			    if (!hasData)
+			    	return null;
+
+			       StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("country_macro_latest_date", MacroLatestDateResponseDTO.class);
+			       query.execute();
+
+			       List<MacroLatestDateResponseDTO> result = (List<MacroLatestDateResponseDTO>) query.getResultList();
+			       
+			       entityManager.clear();
+			       entityManager.close();
+			   
+			    return result;
 			}
 }

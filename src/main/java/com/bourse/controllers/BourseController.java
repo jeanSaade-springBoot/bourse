@@ -636,6 +636,15 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/macro/macroGraph");
     }
+	@PreAuthorize("hasAuthority('MACRO_BAR_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/countrypmibar")
+    public ModelAndView countryPMIBarScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/macro");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/macro/countryPMIBar");
+    }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
 		

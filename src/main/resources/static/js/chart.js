@@ -591,14 +591,14 @@ function getChartDailyOption(title,showgrid,fontSize,markerSize)
    	  			          animations: { enabled: false }
    	  			        },
    	  			   grid: {
-				  show:eval(showgrid),
-   	  			  borderColor: '#f0e68c',
-   	  			  strokeDashArray:1,
-   	  		       opacity: 0.5,
-		   	  		  padding: {
-		   	  	        right: 60,
-		   	  	    },  
-   	  			},
+						  show:eval(showgrid),
+		   	  			  borderColor: '#f0e68c',
+		   	  			  strokeDashArray:1,
+		   	  		       opacity: 0.5,
+				   	  		  padding: {
+				   	  	        right: 60,
+				   	  	    },  
+		   	  			},
    	  			        colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
    	  			        fill: {
    	  			            type:'solid',
