@@ -89,7 +89,7 @@ svg.apexcharts-svg.apexcharts-zoomable {
 					<nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
 						<div class="nav nav-tabs" id="nav-tab" role="tablist">
 							<a sec:authorize="hasAuthority('MACRO_GRAPH_SCREEN')"
-								class="navigation nav-item nav-link active" id="nav-macro-tab"
+								class="navigation nav-item nav-link" id="nav-macro-tab"
 								href="/bourse/macrograph" role="tab" aria-controls="nav-macro"
 								aria-selected="false">COUNTRY PMI</a>
 									<a sec:authorize="hasAuthority('MACRO_BAR_SCREEN')"
@@ -97,7 +97,7 @@ svg.apexcharts-svg.apexcharts-zoomable {
 								href="/bourse/countrypmibar" role="tab" aria-controls="nav-macro"
 								aria-selected="false">MONTHLY RANKING</a>
 									<a sec:authorize="hasAuthority('MACRO_PMI_VS_SURVEY')"
-								class="navigation nav-item nav-link" id="nav-macro-tab"
+								class="navigation nav-item nav-link active" id="nav-macro-tab"
 								href="/bourse/pmivssurvey" role="tab" aria-controls="nav-macro"
 								aria-selected="false">PMI vs SURVEY</a>
 						</div>
@@ -135,8 +135,8 @@ svg.apexcharts-svg.apexcharts-zoomable {
 														<div>
 														<div style="height:70px">&nbsp</div>
 														<div>&nbsp</div>
-														<div>MANUF & SERVICES I</div>
-														<div>MANUF & SERVICES II</div>
+														<div>MANUF </div>
+														<div>SERVICES </div>
 														</div>
 														<div class="col-9">
 															<div id="countries" class="d-flex"></div>
@@ -516,7 +516,7 @@ svg.apexcharts-svg.apexcharts-zoomable {
 			
 			<script src="/js/chartOptions.js"></script>
 			<script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>
-			<script src="/js/bourse/macro/macroGraph.js"></script>
+			<script src="/js/bourse/macro/macroPmiVsSurvey.js"></script>
 			<script src="/js/chart.js"></script>
 			<script src="/js/jqwidgets/jqxdata.js"></script>
 			<script src="/js/jqwidgets/jqxgrid.js"></script>

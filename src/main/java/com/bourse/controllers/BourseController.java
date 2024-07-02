@@ -199,6 +199,15 @@ public class BourseController {
 	    
 	    return modelAndView;
     }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_RATES') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/rates")
+    public ModelAndView dataEntryRatesPage(@RequestParam("rates") String rates,ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        model.addAttribute("rates", Integer.valueOf(rates));
+		return new ModelAndView("html/rates/ratesDataInput");
+    }
 	@RequestMapping( value =  "/returnfunction")
     public ModelAndView returnFunctionPage(ModelMap model)
     {
@@ -635,6 +644,15 @@ public class BourseController {
 	    model.addAttribute("fragment", "html/templates/macro");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/macro/macroGraph");
+    }
+	@PreAuthorize("hasAuthority('MACRO_PMI_VS_SURVEY') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/pmivssurvey")
+    public ModelAndView macroGraphPmivsSurveyScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/macro");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/macro/macroPmiVsSurvey");
     }
 	@PreAuthorize("hasAuthority('MACRO_BAR_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/countrypmibar")

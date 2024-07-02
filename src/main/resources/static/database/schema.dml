@@ -1281,7 +1281,6 @@ select @rownum:=@rownum + 1  as id ,
  
 update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
 
-
 INSERT INTO `bourse`.`robot_initializer`
 (`id`,
 `column_name`,
@@ -42693,8 +42692,7 @@ INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('
 INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('25', 'DATABASE_INPUT_SCREEN_STI-4');
 INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('26', 'DATABASE_INPUT_SCREEN_STI-5');
 	   
-	   
-	   INSERT INTO `bourse`.`asset_class` (`id`, `description`, `asset_code`) VALUES ('8', 'MACRO PMI', 'MACPMI');
+INSERT INTO `bourse`.`asset_class` (`id`, `description`, `asset_code`) VALUES ('8', 'MACRO PMI', 'MACPMI');
 
 INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('37', '8', 'EUROZONE', 'EUR');
 INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('38', '8', 'GERMANY', 'GER');
@@ -43112,13 +43110,9 @@ INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('
 
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('94', 'MACRO_DATA_FUNCTION_DISPLAY_SCREEN', true);
 
-INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('96', 'MACRO_GRAPH_SCREEN', true);
-
-
 INSERT INTO `bourse`.`graph_history` (`screen_name`, `id`) VALUES ('macroGraph', '28');
 
 create table macro_graph_responsedto (id bigint not null, factor varchar(255), ismax varchar(255), x varchar(255), y varchar(255), primary key (id));
-
 
 create table technical_analysis_retracement_history (
 	 id bigint not null, 
@@ -43156,3 +43150,27 @@ ALTER TABLE `bourse`.`technical_analysis_graph_history`
 ADD COLUMN `channel` VARCHAR(255) NULL AFTER `is_visible_trendline`,
 ADD COLUMN `is_visible_channel` TINYINT NULL DEFAULT '1' AFTER `channel`;
    
+ create table macro_bar_graph_responsedto (id bigint not null, country varchar(255), value varchar(255), primary key (id));
+ 
+ create table macro_latest_date_responsedto (id bigint not null, refer_date varchar(255), primary key (id)) ;
+ 
+ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('98', 'MACRO_BAR_SCREEN', true);
+ 
+ 
+
+create table technical_analysis_relevant_history (
+	 id bigint not null, 
+	`user_name` varchar(255) NOT NULL,
+     `graph_id` varchar(255) NOT NULL,
+     start_date varchar(255) NOT NULL,
+     start_price varchar(255) NOT NULL,
+     end_date varchar(255) NOT NULL,
+     end_price varchar(255) NOT NULL
+    );
+create table technical_analysis_relevant_history_sequence (next_val bigint) ;
+insert into technical_analysis_relevant_history_sequence values ( 1 );
+ alter table technical_analysis_relevant_history add column is_hidden bit
+ 
+ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('99', 'MACRO_PMI_VS_SURVEY', true);
+
+ 

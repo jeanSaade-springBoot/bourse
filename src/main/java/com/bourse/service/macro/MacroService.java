@@ -21,24 +21,29 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
+import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.macro.MacroDisplaySettings;
 import com.bourse.dto.GraphRequestDTO;
-
+import com.bourse.dto.GraphResponseColConfigDTO;
+import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.UpdateDataDTO;
-import com.bourse.dto.macro.GraphResponseColConfigDTO;
+import com.bourse.dto.macro.MacroGraphResponseColConfigDTO;
 import com.bourse.dto.macro.MacroAuditCommonDTO;
 import com.bourse.dto.macro.MacroBarGraphResponseDTO;
 import com.bourse.dto.macro.MacroGraphResponseDTO;
 import com.bourse.dto.macro.MacroLatestDateResponseDTO;
+import com.bourse.enums.FunctionEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.TableManagementRepository;
 import com.bourse.repositories.macro.MacroDataRepository;
 import com.bourse.repositories.macro.MacroDisplaySettingsRepository;
 import com.bourse.service.AdminService;
 import com.bourse.util.MacroUtil;
+import com.bourse.util.VolumeUtil;
+
 import org.springframework.data.domain.Sort;
 
 @Service
@@ -84,6 +89,11 @@ public class MacroService {
 	public List<MacroDisplaySettings> getMacroDisplaySettingsFinalList() {
 		
 		return macroDisplaySettingsRepository.findAllFinal();
+		
+	}
+	public List<MacroDisplaySettings> getMacroDisplaySettingsFinalWithFcstList() {
+		
+		return macroDisplaySettingsRepository.findAllFinalWithFcst();
 		
 	}
 	public List<MacroDisplaySettings> saveMacroDisplaySettingsList(List<MacroDisplaySettings> dTOLst) {
@@ -304,13 +314,13 @@ public class MacroService {
 				 hashData.put("columns", lstRowsDt);
 				return lstRowsDt;
 			}
-			public List<GraphResponseColConfigDTO> getMacroGraphData(GraphRequestDTO graphReqDTO) {
+			public List<MacroGraphResponseColConfigDTO> getMacroGraphData(GraphRequestDTO graphReqDTO) {
 
 				boolean hasData= adminService.getData();
 			    if(!hasData)
 					return null;
 			
-				List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+				List<MacroGraphResponseColConfigDTO> l1 = new ArrayList<>();
 				
 				if(graphReqDTO.getGroupId1()!=null)
 				{
@@ -350,16 +360,46 @@ public class MacroService {
 				return l1; 
 			
 			}
-			public GraphResponseColConfigDTO getMacroGraphDataResult(GraphRequestDTO graphReqDTO, Boolean isFunction) {
+			public List<GraphResponseColConfigDTO> getGraphData(GraphRequestDTO graphReqDTO) {
+
+				boolean hasData= adminService.getData();
+			    if(!hasData)
+					return null;
+			
+				List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+				
+				if(graphReqDTO.getGroupId1()!=null)
+				{
+					l1.add(getGraphDataResult(graphReqDTO,false));
+				}
+				if(graphReqDTO.getGroupId2()!=null)
+				{
+					GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId2())
+							   .subGroupId1(graphReqDTO.getSubGroupId2())
+							   .period(graphReqDTO.getPeriod())
+							   .type(graphReqDTO.getType())
+							   .fromdate(graphReqDTO.getFromdate())
+							   .todate(graphReqDTO.getTodate())
+							   .functionId(graphReqDTO.getFunctionId())
+							   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+							   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+							   .factor1(graphReqDTO.getFactor2())
+							   .build();
+					l1.add(getGraphDataResult(graphRequestDTO,false));
+				}
+				return l1; 
+			
+			}
+			public MacroGraphResponseColConfigDTO getMacroGraphDataResult(GraphRequestDTO graphReqDTO, Boolean isFunction) {
 				boolean hasData= adminService.getData();
 			    if(!hasData)
 					return null;
 
 				StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("macro_calculation_graph",MacroGraphResponseDTO.class);
 				
-				List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+				List<MacroGraphResponseColConfigDTO> l1 = new ArrayList<>();
 				ColumnConfiguration config = null;
-				GraphResponseColConfigDTO graphResponseColConfigDTO = null;
+				MacroGraphResponseColConfigDTO graphResponseColConfigDTO = null;
 				
 				String groupId = graphReqDTO.getGroupId1();
 				String subGroupId = graphReqDTO.getSubGroupId1(); 
@@ -397,7 +437,7 @@ public class MacroService {
 					
 					
 						
-				  graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+				  graphResponseColConfigDTO = MacroGraphResponseColConfigDTO.builder()
 							                  .graphResponseDTOLst(graphResponseDTOlst1)
 							                  .config(config)
 							                  .build();
@@ -405,6 +445,70 @@ public class MacroService {
 					entityManager.close();
 				
 				return graphResponseColConfigDTO; 
+			    
+			}
+			public GraphResponseColConfigDTO getGraphDataResult(GraphRequestDTO graphReqDTO, Boolean isFunction) {
+				boolean hasData= adminService.getData();
+			    if(!hasData)
+					return null;
+
+				StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_graph_main",GraphResponseDTO.class);
+				
+				List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+				ColumnConfiguration config = null;
+				GraphResponseColConfigDTO responseColConfigDTO = null;
+				
+				String groupId = graphReqDTO.getGroupId1();
+				String subGroupId = graphReqDTO.getSubGroupId1(); 
+				String factor = graphReqDTO.getFactor1(); 
+				String description = null;
+				description = tableManagementRepository.findByGroupIdAndSubgroupId(groupId,subGroupId).getColumnName();
+					
+				    System.out.println("goupid: "+groupId);
+				    System.out.println("subGroupId: "+subGroupId);
+				    System.out.println("description: "+description);
+				    
+				    config = adminService.getColumnsConfigurationByGroupAndFactor(groupId, subGroupId, factor);
+				  
+				    query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+					query.setParameter("groupId",graphReqDTO.getGroupId1() );
+					
+					query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+					query.setParameter("fromDate",graphReqDTO.getFromdate() );
+					
+					query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+					query.setParameter("toDate",graphReqDTO.getTodate() );
+					
+					query.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
+					query.setParameter("subgroupId",graphReqDTO.getSubGroupId1() );
+					
+					query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+					query.setParameter("factor",graphReqDTO.getFactor1());
+					
+					query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+					query.setParameter("dayOrweek",(isFunction)?"d":graphReqDTO.getPeriod()  );
+					
+					query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
+					query.setParameter("isFunction","false");
+					
+					query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
+					query.setParameter("functionCode", "");
+					
+					query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+					query.setParameter("type",(graphReqDTO.getType()==null)?"0":graphReqDTO.getType());
+					
+					query.execute();
+					
+					List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+					
+					responseColConfigDTO = GraphResponseColConfigDTO.builder()
+							                  .graphResponseDTOLst(graphResponseDTOlst1)
+							                  .config(config)
+							                  .build();
+					entityManager.clear();
+					entityManager.close();
+				
+				return responseColConfigDTO; 
 			    
 			}
 			public List<Map<String, List<?>>> getMacroGraphBarDataResults(List<GraphRequestDTO> graphReqDTOList) {
@@ -439,7 +543,7 @@ public class MacroService {
 			                .map(Double::parseDouble)
 			                .collect(Collectors.toList());
 
-			        Map<String, List<?>> dataMap = Map.of("labels", labels, "values", values);
+			        Map<String, List<?>> dataMap = getDataMap(labels, values);
 			        resultList.add(dataMap);
 
 			        entityManager.clear();
@@ -448,6 +552,12 @@ public class MacroService {
 
 			    return resultList;
 			}
+			   public Map<String, List<?>> getDataMap(List<?> labels, List<?> values) {
+			        Map<String, List<?>> dataMap = new HashMap<>();
+			        dataMap.put("labels", labels);
+			        dataMap.put("values", values);
+			        return Collections.unmodifiableMap(dataMap);
+			    }
 			public List<MacroLatestDateResponseDTO> getMacroLatestReferDateResult() {
 			    boolean hasData = adminService.getData();
 			    if (!hasData)
@@ -463,4 +573,5 @@ public class MacroService {
 			   
 			    return result;
 			}
+		
 }

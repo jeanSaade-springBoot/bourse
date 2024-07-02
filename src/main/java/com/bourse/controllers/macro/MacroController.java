@@ -20,9 +20,10 @@ import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.macro.MacroDisplaySettings;
 import com.bourse.domain.skews.TmpAuditSkewsBund3Maturity;
 import com.bourse.dto.GraphRequestDTO;
+import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
-import com.bourse.dto.macro.GraphResponseColConfigDTO;
+import com.bourse.dto.macro.MacroGraphResponseColConfigDTO;
 import com.bourse.dto.macro.MacroAuditCommonDTO;
 import com.bourse.dto.macro.MacroLatestDateResponseDTO;
 import com.bourse.service.DataFunctionService;
@@ -54,8 +55,13 @@ public class MacroController {
 	}
 	@GetMapping(value = "get-macro-display-final")
 	public ResponseEntity<List<MacroDisplaySettings>> getMacroDisplaySettingsFinalList() {
-		System.out.println(className+": get-macro-display-settings");
+		System.out.println(className+": get-macro-display-final");
 		return new ResponseEntity<>(macroService.getMacroDisplaySettingsFinalList(),HttpStatus.OK);
+	}
+	@GetMapping(value = "get-macro-display-final-with-fcst")
+	public ResponseEntity<List<MacroDisplaySettings>> getMacroDisplaySettingsFinalWithFcstList() {
+		System.out.println(className+": get-macro-display-final-with-fcst");
+		return new ResponseEntity<>(macroService.getMacroDisplaySettingsFinalWithFcstList(),HttpStatus.OK);
 	}
 	@GetMapping(value = "get-macro-display-settings/{groupId}")
 	public ResponseEntity<List<MacroDisplaySettings>> getMacroDisplaySettingsList(@PathVariable("groupId") String groupId) {
@@ -109,10 +115,16 @@ public class MacroController {
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
 	@PostMapping(value = "getgraphdata")
-	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
+	public ResponseEntity<List<MacroGraphResponseColConfigDTO>> getMacroGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
 		System.out.println(className+": getgraphdata");
 
 		return new ResponseEntity<>(macroService.getMacroGraphData(graphReqDTO),HttpStatus.OK);
+	} 
+	@PostMapping(value = "get-graph-data")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
+		System.out.println(className+": get-graph-data");
+
+		return new ResponseEntity<>(macroService.getGraphData(graphReqDTO),HttpStatus.OK);
 	} 
 	@PostMapping(value = "getgraphbardata")
 	 public ResponseEntity<List<Map<String, List<?>>>> getGraphBarData(@RequestBody List<GraphRequestDTO> graphReqDTO) {

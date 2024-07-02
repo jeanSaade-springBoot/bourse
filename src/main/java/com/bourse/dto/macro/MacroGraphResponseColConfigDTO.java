@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @Builder
 @NoArgsConstructor 
 @AllArgsConstructor
-public class GraphResponseColConfigDTO {
+public class MacroGraphResponseColConfigDTO {
 	
 	@Id
     private List<MacroGraphResponseDTO>  graphResponseDTOLst;

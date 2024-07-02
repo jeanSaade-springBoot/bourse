@@ -77,6 +77,7 @@ text.text-style {
     font-weight: bold;
 }
 .apexcharts-text tspan {
+    font-size: .75rem;
     text-transform: capitalize;
 }
 .apexcharts-canvas {
@@ -87,6 +88,8 @@ text.text-style {
     font-size: 12px;
     font-family: Arial, sans-serif;
   }
+  
+  
 </style>
 </head>
 
@@ -110,7 +113,11 @@ text.text-style {
 							<a sec:authorize="hasAuthority('MACRO_BAR_SCREEN')"
 								class="navigation nav-item nav-link active" id="nav-macro-tab"
 								href="/bourse/countrypmibar" role="tab" aria-controls="nav-macro"
-								aria-selected="false">COUNTRY PMI BAR</a>
+								aria-selected="false">MONTHLY RANKING</a>
+							<a sec:authorize="hasAuthority('MACRO_PMI_VS_SURVEY')"
+								class="navigation nav-item nav-link" id="nav-macro-tab"
+								href="/bourse/pmivssurvey" role="tab" aria-controls="nav-macro"
+								aria-selected="false">PMI vs SURVEY</a>
 						</div>
 					</nav>
 

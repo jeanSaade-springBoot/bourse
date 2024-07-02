@@ -53,18 +53,176 @@
 			"#jqxCheckBoxCardano",
 			"#jqxCheckBoxShiba",
 		];	
+var options_graph = {
+		series: [],
+		chart: {
+			width: '100%',
+			toolbar: {
+				show: true,
+				offsetX: 0,
+				offsetY: 0,
+				tools: {
+					download: false,
+					selection: true,
+					zoom: true,
+					zoomin: true,
+					zoomout: true,
+					pan: true,
+					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					customIcons: []
+				}
+			},
+			height: 625,
+			type: 'line',
+			animations: { enabled: false }
+		},
+		grid: {
+			show: false,
+			borderColor: '#f0e68c',
+			strokeDashArray: 1,
+			opacity: 0.5,
+			padding: {
+				right: 60,
+			},
+		},
+		colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
+		fill: {
+			type: 'solid',
+			opacity: [1, 1],
+		},
+		stroke: {
+			curve: 'straight',
+			width: 2.25
+		},
+		markers: {
+			colors: '#ffffff',
+			size: 2,
+			shape: 'square',
+		},
+		title: {
+			text: '',
+			align: 'center',
+			margin: 10,
+			style: {
+				fontWeight: 'bold',
+				color: '#263238'
+			},
+		},
+		subtitle: {
+			text: 'copyright LibVol.com',
+			align: 'right',
+			margin: 10,
+			offsetX: -10,
+			offsetY: 30,
+			floating: false,
+			style: {
+				fontSize: '10px',
+				fontWeight: 'normal',
+				color: '#9699a2'
+			},
+		},
+		dataLabels: {
+			enabled: false
+		},
+		xaxis: {
+			labels: {
+				rotate: 0,
+				rotateAlways: true,
+				minHeight: 0,
+				style: {
+					fontSize: fontsize,
+				},
+			},
+			type: 'datetime',
+			tickAmount: 19,
+			axisBorder: {
+				show: true,
+				color: '#ffffff',
+				height: 3,
+				width: '100%',
+				offsetX: 0,
+				offsetY: 0
+			},
+		},
+		legend: {
+		   show:eval(showLegend.split('legend')[1]),
+		   fontSize: fontsize,
+    	   showForSingleSeries: true,
+    	   labels: {
+    	          colors: 'White',
+    	          useSeriesColors: false
+    	   },
+    	      markers: {
+    	          width: 12,
+    	          height: 2
+    	      },
+    	    formatter: function(seriesName, opts) {
+    	    	img= getCountryFlag(seriesName);
+    	         return [img , seriesName];
+    	    }
+    	  },
+		yaxis: [{
+			labels: {
+				style: {
+					fontSize: fontsize,
+				}
+			},
+			axisBorder: {
+				width: 3,
+				show: true,
+				color: '#ffffff',
+				offsetX: 0,
+				offsetY: 0
+			},
+
+		}],
+		noData: {
+			text: '',
+			align: 'center',
+			verticalAlign: 'middle',
+			offsetX: 0,
+			offsetY: 0,
+			style: {
+				color: undefined,
+				fontSize: '14px',
+				fontFamily: undefined
+			}
+		},
+	/*	annotations: {
+		  yaxis: [{
+		    y: 0,
+			strokeDashArray: 0,
+			offsetX: 0,
+			 width: '100%',
+			 borderColor: '#00E396',
+		      label: {
+			    position: 'left',
+			    offsetX: -10,
+                offsetY: 0,
+		        borderColor: '#172568',
+		        style: {
+		          color: '#fff',
+		          background: '#172568'
+		        },
+		        text: ''
+		      }
+		  }]
+		}*/
+	};	
 var chart;
 var chartResponse;
 var chartConfigSettings;
 var data;
 var trendLines=[];
 var retracement=[];
+var relevant=[];
 var channelLines=[];
 var serieArray=[];
 var checkedItemid = [];
 var trendlineSeries=[];
 var trendLineId=0;
 var retracementId=0;
+var relevantId=0;
 var channelId=0;
 var getFormatResult0=2;
 var results;
@@ -94,6 +252,7 @@ $(document).ready(function() {
      
 	$("#addTrendLine").jqxButton({ theme: 'dark', height: 30, width: 140 });
 	$("#addRetracement").jqxButton({ theme: 'dark', height: 30, width: 140 });
+	$("#addRelevant").jqxButton({ theme: 'dark', height: 30, width: 140 });
 
 	$("#addTrendLine").click(function() {
 		  graph_trendlines = results.filter(obj => obj.graphId ===  checkedItemid[0]);
@@ -120,7 +279,20 @@ $(document).ready(function() {
 		}
 		
 	});
-getRetracementHistory();	
+	
+	$("#addRelevant").click(function() {
+	   
+			if (relevant.length<1)
+			initiateRelevant();
+			else
+			{
+			$('#alertLimitation-modal').modal('show');
+			$("#alertTextLimitation").empty();
+			$("#alertTextLimitation").append("<p> Maximum reached: You cannot draw more than 1 relevant. </p>");
+		    }
+		
+	});
+//getRetracementHistory();	
 getTrendLinesHistory();
 
     });
@@ -130,20 +302,20 @@ function drawGraph() {
 	var graphService = "sti";
 	const removeEmpty = true;
 
-	drawTrendLine(graphService,graphName,removeEmpty,true);
+	drawTechnicalGraph(graphService,graphName,removeEmpty,true);
 	
 }
-function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
+function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 {	
 	mode = "merge";
 	var dataParam;
 	var checkedItemValues = [];
 	serieArray = [];
-	
+		
 	$('#overlayChart').show();
-    
 	var fromdate = formatDate(monthDate);
 	var todate = formatDate(date);
+
 	$("#mainChart").html("");
 	$("#mainChart").css("display", "block");
 	
@@ -168,28 +340,23 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 
 	checkedItemValues = checkedItemid.filter(item => item != null);
 			
-	chart = new ApexCharts(document.querySelector("#mainChart"), options_missingDates);
+	chart = new ApexCharts(document.querySelector("#mainChart"), options_graph);
 
 	chart.render();
 	
     const matchingItem = results.find(item => item.graphId === checkedItemValues[0]);
 	const hasMatchingTrendline = typeof(matchingItem)!='undefined'?matchingItem.trendlines:undefined;
 
-  if(typeof(hasMatchingTrendline)=='undefined')
-    {
-		 trendLines=[];
+ 		 trendLines=[];
 		 channelLines=[];
 		 serieArray=[];
 		 trendlineSeries=[];
+		 relevant=[];
 		 trendLineId=0;
-
-	}
-	else { 
-		 trendLines=[];
-		 channelLines=[];
-		 serieArray=[];
-		 trendlineSeries=[];
-		 trendLineId=0;
+		 relevantId=0;
+	
+	if(typeof(hasMatchingTrendline)!='undefined' || hasMatchingTrendline.length!=0)
+ 		{
 		 let smallestDate = null;
 		 
 			for (var i = 0; i < matchingItem.trendlines.length; i++) {
@@ -226,14 +393,24 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 				        smallestDate = currentDate;
 				    }
 				}
+				for (var i = 0; i < matchingItem.relevant.length; i++) {
+					relevantId=relevantId+1;
+					relevant.push({
+						dbId:matchingItem.relevant[i].dbId,
+						relevantId: relevantId,
+					    relevantParameter: matchingItem.relevant[i].relevantParameter,
+					    isHidden: matchingItem.relevant[i].isHidden
+					  });
+				 } 
+			
 		 startDate = smallestDate;
-		 if (monthDate>startDate)
-		 	fromdate =  formatDate(startDate);  
+		 if (monthDate>startDate && startDate!=null)
+		 	{fromdate =  formatDate(startDate);  
 		 	monthDate = startDate;
 			resetParameters();
+			}
 	}
 
-	
 	title = itemValue[checkedItemValues[0]].title;
 
 					dataParam = {
@@ -260,7 +437,7 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 							
 						    source = getMinMaxDateData(response[0].graphResponseDTOLst);
 				           //var data = transformData(response[0].graphResponseDTOLst);
- 							
+ 						
  						   data=response;
  						    
 				           chartResponse =  response[0].graphResponseDTOLst;
@@ -301,26 +478,26 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 							disableOptions(false);
 							var getFormatResult = getFormat(response[0].config.dataFormat);
 							chartDbFontSize = response[0].config.chartSize;
-							
-							dbChartTransparency= typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.chartTransparency:response[0].config.chartTransparency;
+							const hasMatchingTrendlines = !(typeof(hasMatchingTrendline)!='undefined')?false : hasMatchingTrendline.length!=0
+							dbChartTransparency= hasMatchingTrendlines?matchingItem.chartOptions.chartTransparency:response[0].config.chartTransparency;
 							chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],dbChartTransparency);
 							
-							dbChartchartType1= typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.chartType1:chartType1;
+							dbChartchartType1= hasMatchingTrendlines?matchingItem.chartOptions.chartType1:chartType1;
 							chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], dbChartchartType1, Period);
 							
-							dbChartColor = typeof(hasMatchingTrendline)!='undefined'?'#'+matchingItem.chartOptions.chartColor:response[0].config.chartColor;
+							dbChartColor = hasMatchingTrendlines?'#'+matchingItem.chartOptions.chartColor:response[0].config.chartColor;
 							chartColor = chartType1=='line'?"#ffffff":checkActiveChartColor($("#chartColor").find(".active")[0],dbChartColor);
 							
-							dbFontsize = typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.fontsize:chartDbFontSize;
+							dbFontsize = hasMatchingTrendlines?matchingItem.chartOptions.fontsize:chartDbFontSize;
 							fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], dbFontsize);
 							
-							dbMarkerSize = typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.markerSize.split("-")[1]: response[0].config.chartshowMarkes;
+							dbMarkerSize = hasMatchingTrendlines?matchingItem.chartOptions.markerSize.split("-")[1]: response[0].config.chartshowMarkes;
 							markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0],dbMarkerSize);
 							
-							dbShowGrid = typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.showGrid:response[0].config.chartShowgrid;
+							dbShowGrid = hasMatchingTrendlines?matchingItem.chartOptions.showGrid:response[0].config.chartShowgrid;
 							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], dbShowGrid);
 							
-							dbShowLegend = typeof(hasMatchingTrendline)!='undefined'?matchingItem.chartOptions.showLegend:showLegend;
+							dbShowLegend = hasMatchingTrendlines?matchingItem.chartOptions.showLegend:showLegend;
 							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], dbShowLegend);
  
 							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
@@ -341,10 +518,8 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 							notDecimal=yaxisformat[1];
 					        nbrOfDigits=yaxisformat[0];
 					        
-						 getFormatResult0 = getFormat(response[0].config.dataFormat);
-					       
-						
-							
+						   getFormatResult0 = getFormat(response[0].config.dataFormat);
+					   
 							chartConfigSettings={functionId:functionId+1,
 												 isDecimal:isdecimal,
 												 yAxisFormat:yaxisformat,
@@ -362,21 +537,58 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 												 chartType1:chartType1,
 												 yaxisAnnotation:[]};
 												 
-							  const latestX3Date = new Date(getMaxDate(chartResponse));
-							  const newDateX3 = latestX3Date.toISOString(); 
-							 var  allDataAreLatest=true;
-							  allDataAreLatest=updateLatestTrendLine(trendLines, newDateX3,checkedItemValues[0]);
+								
+								processDataAndAddNewEndDate(response,0.1)
+							    .then(newEndDate => {
+							          var latestX3Date = new Date(parseDate(newEndDate));
+									  
+									  // Get the timezone offset in minutes and convert it to milliseconds
+										let timezoneOffset = latestX3Date.getTimezoneOffset() * 60000;
+										
+										// Create a new Date object in UTC by subtracting the timezone offset
+										let utcDate = new Date(latestX3Date.getTime() - timezoneOffset);
+										
+										// Convert to ISO string
+										let newDateX3 = utcDate.toISOString();
+									  
+									  
+									  var allDataAreLatest=true;
+									
+									updateLatestTrendLine(trendLines, newDateX3,checkedItemValues[0]).then(results => {
+									   	allDataAreLatest=results;
+										 if(allDataAreLatest)
+									    {
+											serieArray = getSerriesData();
+										    updateSeriesChart(chartConfigSettings);
+										    
+										/*   const dataStartDate=response[0].graphResponseDTOLst[0].x;
+				 						   const dataEndDate=response[0].graphResponseDTOLst[response[0].graphResponseDTOLst.length-1].x;
+				
+				 						   const newEndDate = calculateNewEndDate(dataStartDate, dataEndDate);
+				 						   response[0].graphResponseDTOLst.push({x:newEndDate,y:null})  
+										*/
+									    }
+									drawTrendLineTable(trendLines);
+									
+								    processRetracementData(retracementData, checkedItemValues);
+		   							if( relevant.length!=0)
+		   							{drawRelevantTable(relevant);
+									 drawRelevant(relevant[0].relevantParameter,relevant[0].relevantId);
+									}else{
+										$("#relevant-grid").empty();
+
+									}
+									$('#overlayChart').hide(); 		    
+									}).catch(error => {
+							        console.error('Error updateLatestTrendLine data:', error);
+							    });			 
 							
-							  if(allDataAreLatest)
-							    {serieArray = getSerriesData();
-								 updateSeriesChart(chartConfigSettings);
-							    }
-							drawTrendLineTable(trendLines);
+									 
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });			 
 							
-						    processRetracementData(retracementData, checkedItemValues);
-    
-							
-							$('#overlayChart').hide();
 						},
 						error: function(e) {
 
@@ -391,6 +603,8 @@ function drawTrendLine(graphService,graphName,removeEmpty,saveHistory)
 	$("#dateTo-mainChart").val(todate);
 	
 }
+
+
 function processRetracementData(retracementData, checkedItemValues) {
      const hasRetracement = retracementData[checkedItemValues[0]];
     if (typeof hasRetracement === 'undefined' || hasRetracement.length==0) {
@@ -511,6 +725,7 @@ function parseDate(dateString) {
 }
 function drawTrendLineTable(data){
 	$("#trendline-grid").empty();
+	
 	var trendlineGrid ='';
 	let cid,TrendLineId;
 		for (var i = 0; i < data.length; i++) {
@@ -1091,9 +1306,187 @@ function drawRetracementTable(data){
 		    
 		    }
 		});
-		resultss=mergeData(results, retracementData);
+		//resultss=mergeData(results, retracementData);
 
  		processGraphHistory();
+}
+function drawRelevantTable(data){
+		$("#relevant-grid").empty();
+		 var relevantGrid = '';
+		 var relevantId;
+     data.forEach(item => {
+		 relevantId =item.relevantId;
+		 const relevantParameter = item.relevantParameter;
+		 const relevantValues = (relevantParameter==null)?false:relevantParameter.startDate!='' && relevantParameter.endDate!='';
+		 const startDate = relevantParameter!= null ?relevantParameter.startDate:"";
+		 const startPrice = relevantParameter!= null ?relevantParameter.startPrice:"";
+		 const endDate = relevantParameter!= null ?relevantParameter.endDate:"";
+		 const endPrice = relevantParameter!= null ?relevantParameter.endPrice:"";
+		 const Hide = item.isHidden;
+
+		 const dbId = item.dbId; 
+		//  const dbId = 1;
+		 relevantGrid += `
+		  <div class='col-12 pl-0 d-flex pt-1 pb-1' id='relevant${relevantId}'>
+			 <div class='col-11 pl-0 pr-1'>
+		      <table id='relevantTable_${relevantId}' class='relevant-table'>
+		        <thead>
+		          <tr>
+		            <th class='pl-0 d-flex' style='width: 139% !important;'>
+		              <div id='relevantEditDate_${relevantId}'> </div>
+		              <button class='btn btn-light-secondary mr-1 mb-1 edit-table' type='button' onclick='editrelevants("",${relevantId})'>
+		                <img src='/img/icon/calendar.svg' width='16' height='16' style=''>
+		              </button>
+		              <span class='pt-2'>RELEVANT POINTS</span>
+		            </th>
+		          </tr>
+		        </thead>
+		        <tbody>
+		          <tr>
+		            <td>Start Price</td>
+		            <td>Start date</td>
+		          </tr>
+		          <tr>
+		            <td class='grey-cell' id='relevantStartPrice_${relevantId}'>${startPrice}</td>
+		            <td class='grey-cell relevant-start-date col-4' id='relevantStart_${relevantId}'>${startDate}</td>
+		          </tr>						
+		          <tr>
+		            <td>End Price</td>
+		            <td>End date</td>
+		          </tr>
+		          <tr>
+		            <td class='grey-cell ' id='relevantEndPrice_${relevantId}'>${endPrice}</td>
+		            <td class='grey-cell relevant-end-date' id='relevantEnd_${relevantId}'>${endDate}</td>
+		          </tr>						        
+		        </tbody>
+		        </table>
+		      </div>
+		       ${relevantValues ? `
+		    	<div class='d-flex align-items-start flex-column bd-highlight' style='height: fit-content;'>
+		         <div class='bd-highlight'>
+		            ${typeof dbId !== 'undefined' ? `
+		             ${Hide !== true ? `
+		                <button id='togglerelevant_${relevantId}' class='toggleRelevant btn btn-light-secondary mr-1  green'>
+		                  <i class='far fa-eye white'></i>
+		                </button>` : `
+		                <button id='togglerelevant_${relevantId}' class='toggleRelevant btn btn-light-secondary mr-1  hide'>
+		                  <i class='far fa-eye-slash white'></i>
+		                </button>`}
+		              ` : ""}
+		          </div>
+		          <div class='mb-auto bd-highlight'>
+		          ${typeof dbId !== 'undefined' ? `
+		             <button class='btn btn-light-secondary mr-1 mt-1 red' type='button' onclick='deleteRelevantHistory(${dbId}, ${relevantId})'>
+		              <img src='/img/icon/delete.svg' width='16' height='16'>
+		            </button>` : `
+		            <button class='btn btn-light-secondary mr-1 mb-1 green' type='button' onclick='saveRelevantHistory(${relevantId})'>
+		              <img src='/img/icon/save.svg' width='16' height='16'>
+		            </button>
+		            <button class='btn btn-light-secondary mr-1 mb-1 blue' type='button' onclick='cancelRelevant(${relevantId})'>
+		              <img src='/img/icon/false.svg' width='16' height='16'>
+		            </button>`} 
+		        </div>
+		          ` : ""}
+		     </div>
+		  </div>`;
+		});
+
+		$("#relevant-grid").append(relevantGrid);
+		
+		if(data.length!==0)
+		{
+		$("#relevantEditDate_" + relevantId).jqxDateTimeInput({ min: source[0].minDate, max: source[0].maxDate, width: '0px', height: '0px', theme: 'dark' });
+		$("#inputrelevantEditDate_" + relevantId).css("padding", "0");
+
+		$("#relevantEditDate_" + relevantId).on('valueChanged', async function(event) {
+			 const selectedId = selectedstartCellId.split("_")[1];
+   			 const selectedColumn = selectedstartCellId.split("_")[0];
+   			 const jsDate = event.args.date;
+   			 
+   			 const json = chartResponse.filter(obj => obj.x === formatTrendlineDate(jsDate));
+			 if (selectedColumn == "relevantStart" || selectedColumn == "relevantEnd") {
+			        const startDate = parseDate($('#relevantStart_' + selectedId).text());
+			        const endDate = parseDate($('#relevantEnd_' + selectedId).text());
+			        const priceId = selectedColumn == "relevantStart" ? "relevantStartPrice_" : "relevantEndPrice_";
+			
+			        if ((selectedColumn == "relevantStart" && jsDate > endDate) ||
+			            (selectedColumn == "relevantEnd" && jsDate < startDate) ||
+			            typeof json[0] === 'undefined') {
+			            const message = selectedColumn == "relevantStart" ? "The start date must be earlier than the end date." :
+			                "The end date must be later than the start date.";
+			            $('#alertLimitation-modal').modal('show');
+			            $("#alertTextLimitation").empty().append("<p>" + message + "</p>");
+			            return;
+			        }
+			        	
+			  
+			        $('#' + selectedstartCellId).text(formatTrendlineDate(jsDate));
+			        $('#' + priceId + selectedId).text(parseFloat(json[0].y).toFixed(getFormatResult0[0]));
+			         
+				   const parameters={
+					   startPrice:$("#relevantStartPrice_"+ relevantId).text(),
+					   endPrice: $("#relevantEndPrice_"+ relevantId).text(),
+					   startDate:$("#relevantStart_"+ relevantId).text(),
+					   endDate: $("#relevantEnd_"+ relevantId).text()
+				   }
+				 for (var i = 0; i < relevant.length; i++) {
+					   if (relevant[i].relevantId === relevantId) {
+						        relevant[i].relevantParameter = parameters;
+						        if(parameters.startPrice !='' && parameters.endPrice!='' )
+						      		 drawRelevant(parameters,relevantId);
+						      	if(typeof relevant[i].dbId!='undefined')
+						      		saveRelevantHistory(relevantId);
+								break;
+						  }
+					  }
+				
+				    }
+	   			 
+		});
+		$(".toggleRelevant").click(function() {
+		    const $button = $(this);
+		    const $icon = $button.find('i');
+		    const index = parseFloat($button.attr('id').split("_")[1]);
+		    const key = $button.attr('id').split("_")[2];
+		    const isHidden = $icon.hasClass('fa-eye');
+		
+		    $icon.toggleClass('fa-eye fa-eye-slash');
+		    
+		    $button
+		        .attr('title', isHidden ? 'Show' : 'Hide')
+		        .attr('aria-label', isHidden ? 'Show' : 'Hide')
+		        .toggleClass('green', !isHidden)
+		        .toggleClass('hide', isHidden)
+		        .toggleClass('red', isHidden);
+		 
+		      relevant.forEach(Relevant => {
+				    if (Relevant.relevantId === index) {
+						Relevant.isHidden=!Relevant.isHidden;
+				    }
+				  });
+				  
+			  const selectedRelevant = relevant.find(item => item.relevantId === index)  ;
+		      saveRelevantHistory(index); 
+		      drawRelevant(selectedRelevant.relevantParameter,selectedRelevant.relevantId);
+			  
+	
+		});
+		}
+		document.addEventListener('click', function(event) {
+	    if (event.target.classList.contains('relevant-start-date') || event.target.classList.contains('relevant-end-date')) {
+			        const cell = event.target;
+			        const table = cell.closest('table');
+			        const tableId = table.getAttribute('id');
+			        selectedstartCellId = cell.getAttribute('id');
+			        const cellContent = cell.textContent;
+			        const dateValue = cellContent === "" ? new Date() : parseDate(cellContent);
+			        $('#relevantEditDate_' + tableId.split("_")[1]).jqxDateTimeInput({ value: dateValue });
+			        $('#relevantEditDate_' + tableId.split("_")[1]).jqxDateTimeInput('open');
+		    
+		    }
+		});
+		//resultss=mergeData(results, retracementData);
+
 }
 function cancelTrendline(trendlineId) {
 
@@ -1114,6 +1507,14 @@ function cancelRetracement(retracementId){
 	chartConfigSettings.yaxisAnnotation=removeById(chartConfigSettings.yaxisAnnotation,"retracementId", retracementId);
 	updateSeriesChart(chartConfigSettings);
 	drawRetracementTable(retracement);
+
+}
+function cancelRelevant(relevantId){
+	
+	relevant=removeById(relevant,"relevantId", relevantId);
+	chartConfigSettings.yaxisAnnotation=removeById(chartConfigSettings.yaxisAnnotation,"relevantId", relevantId);
+	updateSeriesChart(chartConfigSettings);
+	drawRelevantTable(relevant);
 
 }
 function cancelChannelline(channelLineId){
@@ -1162,9 +1563,30 @@ function updateSeriesChart(chartConfigSettings){
           
           $('#legendfalse').addClass("active");
 		  $('#legendtrue').removeClass("active");
-					
+		
 				chartOpacity = eval(checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],'1'));
 				chart.updateOptions({
+					chart: {
+			width: '100%',
+			toolbar: {
+				show: true,
+				offsetX: 0,
+				offsetY: 0,
+				tools: {
+					download: false,
+					selection: true,
+					zoom: true,
+					zoomin: true,
+					zoomout: true,
+					pan: true,
+					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					customIcons: []
+				}
+			},
+			height: 625,
+			type: 'line',
+			animations: { enabled: false }
+		},
 						series:serieArray,
 						xaxis: {
 						labels: {
@@ -1264,65 +1686,7 @@ function updateSeriesChart(chartConfigSettings){
 					   show:false,
 			    	  },
 			    	  annotations: {
-						  yaxis: chartConfigSettings.yaxisAnnotation/*[{x:dateToTimestamp('15-Aug-23'),
-						  		   y:'34946.39',
-						  		   position:'left',
-						  		   borderColor: "#FF00FF",
-						  		   strokeDashArray: 0,
-						  		   label: {
-										  text: "test",
-										     offsetY:20,
-										     borderColor: "#ffffff00",
-									          style: {
-									            color: "#FF00FF",
-									            background:  "#00000000",
-									          },
-					
-									 }
-						  		      },
-						  		      {x:dateToTimestamp('15-Aug-23'),
-							  		   y:'32946.39',
-							  		   position:'left',
-							  		   borderColor: "#FF00FF",
-							  		   strokeDashArray: 10,
-							  		   label: {
-											  text: "test",
-											     borderColor: "#ffffff00",
-										          style: {
-										            color: "#FF00FF",
-										            background:  "#00000000",
-										          },
-						
-										 }
-						  		      },{x:dateToTimestamp('15-Aug-23'),
-						  		   y:'32246.39',
-						  		   position:'left',
-						  		   borderColor: "#FF00FF",
-						  		   strokeDashArray: 10,
-						  		   label: {
-										  text: "test",
-										     borderColor: "#ffffff00",
-									          style: {
-									            color: "#FF00FF",
-									            background:  "#00000000",
-									          },
-					
-									 }
-						  		      },{x:dateToTimestamp('13-Mar-23'),
-						  		   y:'31819.14',
-						  		   position:'left',
-						  		   borderColor: "#FF00FF",
-						  		   strokeDashArray: 0,
-						  		   label: {
-										  text: "test",
-										     borderColor: "#ffffff00",
-									          style: {
-									            color: "#FF00FF",
-									            background:  "#00000000",
-									          },
-					
-									 }
-						  		      },]*/,
+						  yaxis: chartConfigSettings.yaxisAnnotation,
 						  }
 			    	  
 				});
@@ -1491,15 +1855,185 @@ function getTrendLinesHistory(){
 		    return acc;
 		}, {});
 
-			results = Object.keys(groupedData).map(graphId => {
+	$.ajax({
+		contentType: "application/json",
+		url: "/graph/find-retracement-history-by-userid",
+		dataType: 'json',
+		async: true,
+		cache: false,
+		timeout: 600000,
+		success: function(result) {
+			
+			 retracementData = result.reduce((acc, data) => {
+
+			  if (!acc[data.graphId]) {
+			    acc[data.graphId] = [];
+			  }
+
+			    const dbId = data.id;
+				const startPrice = data.startPrice;
+				const endPrice = data.endPrice;
+				const startDate = data.startDate;
+				const endDate = data.endDate;
+				
+		       const retracementData = {'10%':parseFloat(data.percentage10),
+									    '25%':parseFloat(data.percentage25),
+									    '33%':parseFloat(data.percentage33),
+										'38%':parseFloat(data.percenetage38),
+										'50%':parseFloat(data.percentage50),
+		 								'62%':parseFloat(data.percentage62),
+										'66%':parseFloat(data.percentage66),
+										'75%':parseFloat(data.percentage75)
+										};
+				const retracementDataHide = {'10%':data.hidePercentage10,
+									    '25%':data.hidePercentage25,
+									    '33%':data.hidePercentage33,
+										'38%':data.hidePercenetage38,
+										'50%':data.hidePercentage50,
+		 								'62%':data.hidePercentage62,
+										'66%':data.hidePercentage66,
+										'75%':data.hidePercentage75
+										};						
+		       const parameters={
+				   startPrice:startPrice,
+				   endPrice:endPrice,
+				   startDate:startDate,
+				   endDate:endDate
+			   }
+						 
+			  acc[data.graphId].push({dbId:dbId,
+		       					 retracementData:retracementData,
+		       					 retracementDataHide:retracementDataHide,
+		       					 retracementParameter:parameters});
+			  return acc;
+			}, {});
+			
+			$.ajax({
+				contentType: "application/json",
+				url: "/graph/find-relevant-history-by-userid",
+				dataType: 'json',
+				async: true,
+				cache: false,
+				timeout: 600000,
+				success: function(result) {
+					
+					 relevantData = result.reduce((acc, data) => {
+		
+					  if (!acc[data.graphId]) {
+					    acc[data.graphId] = {
+				            relevant: [],
+				          
+				        };
+			  }
+			    const dbId = data.id;
+				const startPrice = data.startPrice;
+				const endPrice = data.endPrice;
+				const startDate = data.startDate;
+				const endDate = data.endDate;
+				
+			    const parameters={
+					   startPrice:startPrice,
+					   endPrice:endPrice,
+					   startDate:startDate,
+					   endDate:endDate
+				   }
+						 
+			  acc[data.graphId].relevant.push({dbId:dbId,
+		       					 relevantParameter:parameters,
+		       					 isHidden: data.isHidden});
+			  return acc;
+			}, {});
+			
+	results = Object.keys(groupedData).map(graphId => {
 			    return {
 			        graphId: graphId,
 			        trendlines: groupedData[graphId].trendlines,
 			        channelLines: groupedData[graphId].channelLines,
-			        chartOptions: groupedData[graphId].chartOptions // Assuming chartOptions are same for all trendlines in a graphId
+			        chartOptions: groupedData[graphId].chartOptions,
+			        relevant:[], 
 			    };
 			});
-					resultss=mergeData(results, retracementData);
+ for (const [key, newItems] of Object.entries(retracementData)) {
+        // Check if the key exists in the existing JSON data
+        let existingEntry = results.find(entry => entry.graphId === key);
+
+        if (existingEntry) {
+            // Key exists, merge the new items into the existing entry
+            if (!existingEntry.retracementData) {
+                existingEntry.retracementData = [];
+            }
+            if (!existingEntry.retracementDataHide) {
+                existingEntry.retracementDataHide = [];
+            }
+            if (!existingEntry.retracementParameter) {
+                existingEntry.retracementParameter = [];
+            }
+
+            newItems.forEach(newItem => {
+                let existingIndex = existingEntry.retracementData.findIndex(item => item.dbId === newItem.dbId);
+
+                if (existingIndex !== -1) {
+                    // Update the existing item
+                    existingEntry.retracementData[existingIndex] = newItem.retracementData;
+                    existingEntry.retracementDataHide[existingIndex] = newItem.retracementDataHide;
+                    existingEntry.retracementParameter[existingIndex] = newItem.retracementParameter;
+                } else {
+                    // Add the new item
+                    existingEntry.retracementData.push(newItem.retracementData);
+                    existingEntry.retracementDataHide.push(newItem.retracementDataHide);
+                    existingEntry.retracementParameter.push(newItem.retracementParameter);
+                }
+            });
+	        } else {
+	            // Key does not exist, add the new entry
+	            results.push({
+	                graphId: key,
+	                retracementData: newItems.map(item => item.retracementData),
+	                retracementDataHide: newItems.map(item => item.retracementDataHide),
+	                retracementParameter: newItems.map(item => item.retracementParameter),
+	            	trendlines: [],
+				    channelLines: [],
+				    relevant:[],
+	            });
+	        }
+	    }
+		
+		 for (const [key, newItems] of Object.entries(relevantData)) {
+        // Check if the key exists in the existing JSON data
+        let existingEntry = results.find(entry => entry.graphId === key);
+
+        if (existingEntry) {
+            // Key exists, merge the new items into the existing entry
+            if (!existingEntry.relevant) {
+                existingEntry.relevant = [];
+            }
+
+            newItems.relevant.forEach(newItem => {
+                let existingIndex = existingEntry.relevant.findIndex(item => item.dbId === newItem.dbId);
+
+                if (existingIndex !== -1) {
+                    // Update the existing item
+                    existingEntry.relevant[existingIndex] = newItem.relevantData;
+                } else {
+                    // Add the new item
+                    existingEntry.relevant.push(newItem);
+                }
+            });
+	        } else {
+	            // Key does not exist, add the new entry
+	            results.push({
+	                graphId: key,
+	                retracementData: newItems.map(item => item.retracementData),
+	                retracementDataHide: newItems.map(item => item.retracementDataHide),
+	                retracementParameter: newItems.map(item => item.retracementParameter),
+	            	trendlines: [],
+				    channelLines: [],
+				    relevant:[],
+	            });
+	        }
+	    }
+		
+			
 	       if(typeof(results[0])!='undefined')
 				checkedItemId = [results[0].graphId];
 				
@@ -1520,12 +2054,29 @@ function getTrendLinesHistory(){
 
 		}
 	});
+	     
+			
+	},
+		error: function(e) {
+
+			console.log("ERROR : ", e);
+
+		}
+	});
+
+		},
+		error: function(e) {
+
+			console.log("ERROR : ", e);
+
+		}
+	});
 }
+
 function processGraphHistory(){
 
-				$("#graphs-history").empty(); 
+			$("#graphs-history").empty(); 
 		
-			
 			var condition ="";
 		
 			results.forEach((result, index) => {
@@ -1684,6 +2235,14 @@ function deleteRetracementHistory(retracementdb,retracementId){
 									        
 		$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete this retracement record ?</p>");
 }
+function deleteRelevantHistory(relevantdb,relevantId){
+		$('#alertDeleteDataByDate-modal').modal('show');
+		$("#alertTextDeleteDataByDate").empty();
+		$("#deleteRecord").empty();
+		$("#deleteRecord").append('<button type="button" class="btn btn-primary" onclick="deleteRelevant('+relevantdb+','+relevantId+')">Delete Record</button>');
+									        
+		$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete this relevant points record ?</p>");
+}
 function deleteTrendLines(trendlineDbId,trendline){
 		
                     
@@ -1733,13 +2292,41 @@ function deleteRetracement(retracementdbId,retracementid){
 								}
 								}
 							processRetracementData(retracementData, checkedItemValues);
-							resultss=mergeData(results, retracementData);
+						//	resultss=mergeData(results, retracementData);
 							
 							 		processGraphHistory();
 					        $('#alertDeleteDataByDate-modal').modal('hide');
 		
 		 					$( "#successDelete" ).empty();
 				 		    $( "#successDelete" ).append( "<p> Retracement has been deleted</p>" );
+						
+							$('#alertInfoDeleteDataByDate-modal').modal('show');  
+			             },
+			             error: function (e) {
+			                 console.log(e);
+			             }
+			         });
+
+}
+function deleteRelevant(relevantdbId,relevantid){
+		
+                    
+			     $.ajax({
+			             type : "DELETE",
+			             url : '/graph/delete-relevant-by-id/' + relevantdbId,
+			             success: function (result) {   
+							const checkedItemValues = checkedItemid.filter(item => item != null);
+							relevant = removeById(relevant,"relevantId", relevantid);
+							chartConfigSettings.yaxisAnnotation=removeById(chartConfigSettings.yaxisAnnotation,"relevantId", relevantId);
+							updateSeriesChart(chartConfigSettings);	
+							
+							drawRelevantTable(relevant);
+							
+							processGraphHistory();
+					        $('#alertDeleteDataByDate-modal').modal('hide');
+		
+		 					$( "#successDelete" ).empty();
+				 		    $( "#successDelete" ).append( "<p> Relevant points has been deleted</p>" );
 						
 							$('#alertInfoDeleteDataByDate-modal').modal('show');  
 			             },
@@ -2052,6 +2639,20 @@ function initiateRetracement(){
 		        scrollTop: $("#retracement-grid").offset().top},
 		        'slow');
 } 
+function initiateRelevant(){
+			 const result = [];
+			 
+	         relevantId=relevantId+1;
+	         relevant.push({relevantId:relevantId,
+	       					 relevantValues:result,
+	       					 relevantParameter: null,
+	       					 isHidden:false});
+	         drawRelevantTable(relevant);
+			  
+			   $('html,body').animate({
+		        scrollTop: $("#retracement-grid").offset().top},
+		        'slow');
+} 
 function drawLine(){
 	 var result = findThirdPoint(x1, y1, x2, y2, x3);
 			 count=countDataPointsBetweenDates(x1, x2);
@@ -2153,10 +2754,9 @@ function getSerriesData(){
 			 	serieArray.unshift(trendlineSeries[i]);	  
 	 }
 	 return serieArray;
-   
 }
 
-function updateLatestTrendLine(trendLines, newDateX3, graphId) {
+async function updateLatestTrendLine(trendLines, newDateX3, graphId) {
   const updatedTrendLines = [];
   let allDataAreLatest=true;
   for (let item of trendLines) {
@@ -2189,7 +2789,13 @@ function updateLatestTrendLine(trendLines, newDateX3, graphId) {
     
     }
   } 
-  		if(!allDataAreLatest)
+  updateJsonData(results, updatedTrendLines).then(results => {
+					   	serieArray = getSerriesData();
+						updateSeriesChart(chartConfigSettings);
+								    
+					});
+  		//if(!allDataAreLatest)
+  			if(1==2)
           	$.ajax({
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
@@ -2198,8 +2804,14 @@ function updateLatestTrendLine(trendLines, newDateX3, graphId) {
 				dataType: 'json',
 				timeout: 600000,
 				success: function(response) {
+					
 				
-					getTrendLinesHistory();
+				updateJsonData(results, updatedTrendLines).then(results => {
+					   	serieArray = getSerriesData();
+						updateSeriesChart(chartConfigSettings);
+								    
+					});
+				//getTrendLinesHistory();
 				
 				},
 				error: function(e) {
@@ -2208,7 +2820,70 @@ function updateLatestTrendLine(trendLines, newDateX3, graphId) {
 
 				}
 			});
-  return allDataAreLatest;
+ 	return Promise.resolve(allDataAreLatest);
+}
+async function updateJsonData(results, updatedTrendLines) {
+    updatedTrendLines.forEach(newItem => {
+        const { dbId, graphId, trendlines, isVisibleTrendline, channel, isVisibleChannel, chartOptions } = newItem;
+
+        const originalItem = results.find(item => item.graphId === graphId);
+        if (originalItem) {
+            // Update trendline
+            const newTrendline = typeof(trendlines)!='undefined'?JSON.parse(trendlines):null;
+            const trendlineIndex = originalItem.trendlines.findIndex(t => t.dbid === dbId);
+            if (trendlineIndex !== -1) {
+                originalItem.trendlines[trendlineIndex] = newTrendline;
+                originalItem.trendlines[trendlineIndex].hidden = isVisibleTrendline === "false";
+            }
+
+            // Update channel
+            const newChannel = typeof(channel)!='undefined'?JSON.parse(channel):null;
+            const channelIndex = originalItem.channelLines.findIndex(c => c.dbid === dbId);
+            if (channelIndex !== -1) {
+                originalItem.channelLines[channelIndex] = newChannel;
+                originalItem.channelLines[channelIndex].hidden = isVisibleChannel === "false";
+            }
+
+            // Update chart options if provided
+            if (chartOptions) {
+                originalItem.chartOptions = JSON.parse(chartOptions);
+            }
+            trendLines=[];
+			 channelLines=[];
+			 serieArray=[];
+			 trendlineSeries=[];
+			 trendLineId=0;
+			for (var i = 0; i < originalItem.trendlines.length; i++) {
+					trendLineId=trendLineId+1;
+					trendlineSeries.push({
+						trendLineId: originalItem.trendlines[i].trendLineId,
+					    name: 'Trendline '+convertToRoman(i+1),
+					    data: transformTrendline(originalItem.trendlines[i]),
+					    type:'line',
+					    hidden: originalItem.trendlines[i].hidden
+					  });
+					  
+					trendLines.push(originalItem.trendlines[i]);
+				  }
+				 
+			for (var i = 0; i < originalItem.channelLines.length; i++) {
+					channelId=originalItem.channelLines[i].channelId;
+					trendlineSeries.push({
+						channelId: originalItem.channelLines[i].channelId,
+					    name: 'Channel',
+					    data: transformChannelLine(originalItem.channelLines[i]),
+					    type:'line',
+					    hidden: originalItem.channelLines[i].hidden
+					  });
+			          
+					  channelLines.push(originalItem.channelLines[i]);
+
+				  } 
+         
+        }
+    });
+
+    return Promise.resolve(results);
 }
 function dateToTimestamp(dateStr) {
     // Define the months for conversion
@@ -2251,6 +2926,53 @@ function calculateRetracements(startPrice, endPrice) {
     });
     
     return retracements;
+}
+function drawRelevant(data,relevantId) {
+			const selectedRelevant = relevant.find(item => item.relevantId === relevantId)  ;
+            const startDate = new Date(data.startDate);
+            const endDate = new Date(data.endDate);
+			var x;
+            if (startDate < endDate) {
+                 x=data.startDate;
+            } else {
+                 x=data.endDate;
+            }
+            const newEntry={
+				   relevantId:relevantId,
+				   x:dateToTimestamp(x),
+                   isRectangle:true,
+		  		   y:data.startPrice,
+		  		   y2:data.endPrice,
+		  		   position:'left',
+		  		   borderColor: "#FF0000",
+		  		   fillColor: "#FF000030",
+		  		   strokeDashArray: 0,
+		  		   opacity: 1,
+		  		   label: {
+						  text: "",
+						     offsetY:20,
+						     borderColor: "#ffffff00",
+					          style: {
+					            color: "#FF00FF",
+					            background:  "#00000000",
+					          },
+	
+					 }
+		  		};
+           const existingEntryIndex = chartConfigSettings.yaxisAnnotation.findIndex(data => data.relevantId === newEntry.relevantId);
+           if(!selectedRelevant.isHidden)
+			  { if (existingEntryIndex !== -1) {
+			        chartConfigSettings.yaxisAnnotation[existingEntryIndex] = newEntry;
+			    } else {
+			        chartConfigSettings.yaxisAnnotation.push(newEntry);
+			    }
+			    }else{
+					 chartConfigSettings.yaxisAnnotation=removeById(chartConfigSettings.yaxisAnnotation,"relevantId", relevantId);
+				}
+			    
+			drawRelevantTable(relevant);	  		
+            updateSeriesChart(chartConfigSettings);
+        
 }
 function calculateRetracement(retracementId){
 	const startPrice = $("#retracementStartPrice_"+ retracementId).text(); 
@@ -2335,7 +3057,7 @@ function convertRetracementData(retracementData, startDate, endDate, startPrice,
         const formattedValue = values.toFixed(getFormatResult0[0]);
 
         result.push({
-            x: endDateTimestamp,
+            x: startDateTimestamp,
             y: values,
             label: `${formattedValue} ${label}${isFibo}`,
             gridLabel: `${isFiboGrid} ${label} is ${formattedValue}`,
@@ -2549,6 +3271,81 @@ async function saveRetracementHistory(retracementId) {
         console.error('Error:', error);
     }
 }
+async function saveRelevantHistory(relevantId) {
+    	const url = '/graph/save-relevant-history'; 
+ 		const filteredData = relevant.filter(data => data.relevantId === relevantId);
+    	const payload = filteredData.map(data => {
+        const relevantParameter = data.relevantParameter;
+		const checkedItemValues = checkedItemid.filter(item => item != null);
+        let entity = {
+			dbId: data.dbId,
+            graphId: checkedItemValues[0],
+            startDate: relevantParameter.startDate,
+            startPrice: relevantParameter.startPrice,
+            endDate: relevantParameter.endDate,
+            endPrice: relevantParameter.endPrice,
+            isHidden:data.isHidden
+        };
+
+        return entity;
+    });
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(payload)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+             newRelevantData = result.reduce((acc, data) => {
+
+			  if (!acc[data.graphId]) {
+			    acc[data.graphId] = [];
+			  }
+
+			    const dbId = data.id;
+				const startPrice = data.startPrice;
+				const endPrice = data.endPrice;
+				const startDate = data.startDate;
+				const endDate = data.endDate;
+				
+		       const parameters={
+				   startPrice:startPrice,
+				   endPrice:endPrice,
+				   startDate:startDate,
+				   endDate:endDate
+			   }
+						 
+			  acc[data.graphId].push({dbId:dbId,
+		       					 retracementParameter:parameters});
+			 	relevant.forEach(obj => {
+				    if (obj.relevantId === relevantId) {
+				        obj.dbId = dbId; // Add the dbid field with the desired value
+				    }
+				});
+				results.forEach((item1) => {
+				    if (item1.graphId===checkedItemid.filter(item => item != null)[0]) {
+				        item1.relevant.push(relevant.find(item => item.relevantId === relevantId));
+				    }
+				});
+				
+			  drawRelevantTable(relevant);
+			  return acc;
+			}, {});
+		
+            return result;
+
+        } else {
+            throw new Error('Failed to save retracement history');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}
 function mergeData(existingJson, newJson) {
     for (const [key, newItems] of Object.entries(newJson)) {
         // Check if the key exists in the existing JSON data
@@ -2592,3 +3389,4 @@ function mergeData(existingJson, newJson) {
         }
     }
 }
+

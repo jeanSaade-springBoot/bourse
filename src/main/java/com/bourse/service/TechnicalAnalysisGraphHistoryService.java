@@ -12,12 +12,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Service;
 
-import com.bourse.domain.SovereignData;
 import com.bourse.domain.graph.TechnicalAnalysisGraphHistory;
+import com.bourse.domain.graph.TechnicalAnalysisRelevantHistory;
 import com.bourse.domain.graph.TechnicalAnalysisRetracementHistory;
 import com.bourse.dto.graph.TechnicalAnalysisGraphHistoryDTO;
+import com.bourse.dto.graph.TechnicalAnalysisRelevantHistoryDTO;
 import com.bourse.dto.graph.TechnicalAnalysisRetracementHistoryDTO;
 import com.bourse.repositories.graph.TechnicalAnalysisGraphHistoryRepository;
+import com.bourse.repositories.graph.TechnicalAnalysisRelevantHistoryRepository;
 import com.bourse.repositories.graph.TechnicalAnalysisRetracementHistoryRepository;
 
 @Service
@@ -30,6 +32,8 @@ public class TechnicalAnalysisGraphHistoryService
 	TechnicalAnalysisGraphHistoryRepository technicalAnalysisGraphHistoryRepository;
 	@Autowired
 	TechnicalAnalysisRetracementHistoryRepository technicalAnalysisRetracementHistoryRepository;
+	@Autowired
+	TechnicalAnalysisRelevantHistoryRepository technicalAnalysisRelevantHistoryRepository;
 	
 	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserId( Authentication authentication) 
 	{      
@@ -38,6 +42,10 @@ public class TechnicalAnalysisGraphHistoryService
 	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserId( Authentication authentication) 
 	{      
         return technicalAnalysisRetracementHistoryRepository.findRetracementHistoryByUserName(authentication.getName());
+	}
+	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserId( Authentication authentication) 
+	{      
+        return technicalAnalysisRelevantHistoryRepository.findRelevantHistoryByUserName(authentication.getName());
 	}
 	public TechnicalAnalysisGraphHistory SaveGraphHistory(TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication) 
 	{  
@@ -167,6 +175,46 @@ public class TechnicalAnalysisGraphHistoryService
 	        }
 	      return dataList;
 		}
+	public List<TechnicalAnalysisRelevantHistory> SaveRelevantListHistory(List<TechnicalAnalysisRelevantHistoryDTO> graphRelevantdto, Authentication authentication) 
+	{  
+	     List<TechnicalAnalysisRelevantHistory> dataList = new ArrayList();
+
+		 for (TechnicalAnalysisRelevantHistoryDTO relevant : graphRelevantdto) {
+				long id;
+				Long dbId=(relevant.getDbId()!=null)?Long.valueOf(relevant.getDbId()):null;
+				Optional<TechnicalAnalysisRelevantHistory> RelevantHistory = technicalAnalysisRelevantHistoryRepository.findRelevantHistoryById(dbId);
+			    if (RelevantHistory.isPresent())
+			    {
+			    	TechnicalAnalysisRelevantHistory entity = RelevantHistory.get();
+			    	id = entity.getId();
+			    	  entity = TechnicalAnalysisRelevantHistory.builder()
+			                  .id(entity.getId())
+			                  .userName(authentication.getName())
+			                  .graphId(relevant.getGraphId())
+			                  .startDate(relevant.getStartDate())
+			                  .startPrice(relevant.getStartPrice())
+			                  .endDate(relevant.getEndDate())
+			                  .endPrice(relevant.getEndPrice())
+			                  .isHidden(relevant.getIsHidden())
+			                  .build();
+			    	  dataList.add(entity);
+			    	  technicalAnalysisRelevantHistoryRepository.save(entity);
+			    }else {
+			    	TechnicalAnalysisRelevantHistory entity = TechnicalAnalysisRelevantHistory.builder()
+			    			  .userName(authentication.getName())
+			                  .graphId(relevant.getGraphId())
+			                  .startDate(relevant.getStartDate())
+			                  .startPrice(relevant.getStartPrice())
+			                  .endDate(relevant.getEndDate())
+			                  .endPrice(relevant.getEndPrice())
+			                  .isHidden(relevant.getIsHidden())
+			   			.build();
+			    	     dataList.add(entity);
+			   			 technicalAnalysisRelevantHistoryRepository.save(entity);
+			   		}
+	        }
+	      return dataList;
+		}
 	public TechnicalAnalysisGraphHistory saveVisibiltyOfChannel(TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication) 
 	{  
 		Long dbId=(graphHistorydto.getDbId()!=null)?Long.valueOf(graphHistorydto.getDbId()):null;
@@ -191,9 +239,15 @@ public class TechnicalAnalysisGraphHistoryService
 	{
 		technicalAnalysisGraphHistoryRepository.deleteById(Long.valueOf(id));
 	}
+	
 	public void deleteRetracementById(String id)
 	{
 		technicalAnalysisRetracementHistoryRepository.deleteById(Long.valueOf(id));
+	}
+	
+	public void deleteRelevantById(String id)
+	{
+		technicalAnalysisRelevantHistoryRepository.deleteById(Long.valueOf(id));
 	}
 	public void deleteGraphHistoryByGraphId(String graphid, Authentication authentication) {
 		List<TechnicalAnalysisGraphHistory> list = technicalAnalysisGraphHistoryRepository.findGraphHistoryByGraphIdAndUserName(graphid,authentication.getName());		

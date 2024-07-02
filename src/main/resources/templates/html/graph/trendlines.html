@@ -163,6 +163,10 @@
 }
 .apexcharts-yaxis-annotation-label {
     fill:#FF00FF!important;
+    font-size: .75rem;
+    font-weight: bold;
+    text-shadow: 0 0 2px #c224c2, 0 0 2px #220126;
+    letter-spacing: 0.05em;
 }
 .retracement-table{
  			width: 100%;
@@ -172,8 +176,16 @@
 .retracement-table td {
     width: 50%; /* Ensures equal width for each column */
 }
+.relevant-table th,
+.relevant-table td {
+    width: 50%; /* Ensures equal width for each column */
+}
 .h-34{
 height:34px;
+}
+.chart-option {
+    margin-top: 0;
+    height: 625px;
 }
 </style>
 </head>
@@ -520,6 +532,10 @@ height:34px;
 															class="btn btn-primary mr-1 mb-1"
 															style="margin-right: 1rem !important; color: white;"
 															type="button" id="addRetracement" value="Add Retracment" />		
+													<input aria-expanded="true" aria-controls="collapseFilter"
+															class="btn btn-primary mr-1 mb-1"
+															style="margin-right: 1rem !important; color: white;"
+															type="button" id="addRelevant" value="Add Relevant Points" />	
 												</div>
 										
 												<div class="row col-12 d-none">
@@ -775,6 +791,8 @@ height:34px;
 													<div class="col-4  pt-4" id="trendline-grid">
 													</div>
 													<div class="col-3  pt-4" id="retracement-grid">
+													</div>
+													<div class="col-3  pt-4" id="relevant-grid">
 													</div>
 												</div>
 											</div>

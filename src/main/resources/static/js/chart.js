@@ -8591,3 +8591,108 @@ function findChannelPoint(date1, y1, date2, y2, date3, yc, datec) {
         { "x": formatTrendDate(d3), "y": y3 }
     ];
 }
+function calculateNewEndDate(startDate, endDate, percentage) {
+    // Parse the dates
+    const start = new Date(startDate);
+    const end = new Date(endDate);
+    
+    // Calculate the difference in milliseconds
+    const diffTime = end - start;
+    
+    // Convert the difference from milliseconds to days
+    const totalDays = diffTime / (1000 * 60 * 60 * 24);
+    
+    // Calculate 10% of the total days
+    const tenPercentDays = Math.ceil(totalDays * percentage);
+    
+    // Calculate the new end date by adding the 10% days to the end date
+    end.setDate(end.getDate() + tenPercentDays);
+    
+    // Format the new end date
+    const day = ('0' + end.getDate()).slice(-2);
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+    const month = monthNames[end.getMonth()];
+    const year = end.getFullYear().toString().slice(-2);
+    
+    // Construct the formatted date string
+    const newEndDateStr = `${day}-${month}-${year}`;
+    
+    return newEndDateStr;
+}
+function calculateNewEndDates(startDate, endDate) {
+    // Parse the dates
+    const start = new Date(startDate);
+    let end = new Date(endDate);
+    
+    // Calculate the difference in milliseconds
+    const diffTime = end - start;
+    
+    // Convert the difference from milliseconds to days
+    const totalDays = diffTime / (1000 * 60 * 60 * 24);
+    
+    // Calculate 10% of the total days
+    const tenPercentDays = Math.ceil(totalDays * 0.1);
+    
+    // Initialize an array to hold the new end dates
+    const newEndDates = [];
+    
+    // Calculate the new end dates by adding the 10% days to the end date three times
+    for (let i = 0; i < 3; i++) {
+        // Add tenPercentDays to the end date
+        end.setDate(end.getDate() + tenPercentDays);
+        
+        // Move the date to the 1st of the next month
+        end.setMonth(end.getMonth() + 1, 1);
+        
+        // Format the new end date
+        const day = '01';
+        const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+        const month = monthNames[end.getMonth()];
+        const year = end.getFullYear().toString().slice(-2);
+        
+        // Construct the formatted date string
+        const newEndDateStr = `${day}-${month}-${year}`;
+        
+        // Add the formatted date string to the array
+        newEndDates.push(newEndDateStr);
+    }
+    
+    return newEndDates;
+}
+async function processDataAndAddNewEndDates(response) {
+    // Extract start and end dates
+    const dataStartDate = response[0].graphResponseDTOLst[0].x;
+    const dataEndDate = response[0].graphResponseDTOLst[response[0].graphResponseDTOLst.length - 1].x;
+
+    // Calculate new end dates
+    const newEndDates = calculateNewEndDates(dataStartDate, dataEndDate);
+
+    // Add new data points
+    newEndDates.forEach(newEndDate => {
+        response[0].graphResponseDTOLst.push({ x: newEndDate, y: null });
+    });
+
+    // Return the modified response as a promise
+    return Promise.resolve(response);
+}
+async function processDataAndAddNewEndDate(response, percentage) {
+    // Extract start and end dates
+    const dataStartDate = response[0].graphResponseDTOLst[0].x;
+    const dataEndDate = response[0].graphResponseDTOLst[response[0].graphResponseDTOLst.length - 1].x;
+
+    // Calculate new end date
+    const newEndDate = calculateNewEndDate(dataStartDate, dataEndDate, percentage);
+
+    // Add new data point
+    response[0].graphResponseDTOLst.push({ x: newEndDate, y: null });
+
+    // Return the modified response as a promise
+    return Promise.resolve(newEndDate);
+}
+async function areValuesClose(value1, value2, threshold = 3) {
+    // Calculate the absolute difference between the two values
+    const difference = Math.abs(value1 - value2);
+    
+    // Check if the difference is less than the threshold
+    return difference < threshold;
+}

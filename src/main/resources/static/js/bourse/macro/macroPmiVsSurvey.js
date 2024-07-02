@@ -40,28 +40,7 @@
 '#jqxCheckBox-46-4-16',
 '#jqxCheckBox-47-4-16',
 ];
-var subgroupsitems= [ 
-'#jqxCheckBox-37-1',
-'#jqxCheckBox-38-1',
-'#jqxCheckBox-39-1',
-'#jqxCheckBox-40-1',
-'#jqxCheckBox-41-1',
-'#jqxCheckBox-42-1',
-'#jqxCheckBox-44-1',
-'#jqxCheckBox-45-1',
-'#jqxCheckBox-46-1',
-'#jqxCheckBox-47-1',
-'#jqxCheckBox-37-3',
-'#jqxCheckBox-38-3',
-'#jqxCheckBox-39-3',
-'#jqxCheckBox-40-3',
-'#jqxCheckBox-41-3',
-'#jqxCheckBox-42-3',
-'#jqxCheckBox-44-3',
-'#jqxCheckBox-45-3',
-'#jqxCheckBox-46-3',
-'#jqxCheckBox-47-3',
-];	
+var subgroupsitems= [];	
 	
 var dataGroupId='';
 var groupContainer='';
@@ -76,7 +55,7 @@ const factorId_description =  [
                 { name: 'FLASH', factorId: '15' },
                 { name: 'FINAL', factorId: '16' }];
                 
-const graphName="macroGraph";
+const graphName="macroPMIvsSurvey";
 
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -89,7 +68,7 @@ $(document).ready(function() {
 	 $("#show").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	  $.ajax({
 	        contentType: "application/json",
-	        url: "/macro/get-macro-display-final",
+	        url: "/macro/get-macro-display-final-with-fcst",
 	        dataType: 'json',
 	        async:true,
 	        cache: false,
@@ -98,34 +77,41 @@ $(document).ready(function() {
 				
 	        	monthDate.setFullYear((new Date).getFullYear() - 3);
 				monthDate.setHours(0, 0, 0, 0);
-				
+			const groupId1 = data.filter(obj => obj.subgroupId === 1);
+			const groupId3 = data.filter(obj => obj.subgroupId === 3);
                // Looping from 1 to 5
-		for (let i = 0; i < data.length; i++) {
-			if(data[i].groupId!=dataGroupId)
-				{	dataGroupId = data[i].groupId;
-					country= getCountryImagePath(data[i].groupId.toString());
+		for (let i = 0; i < groupId1.length; i++) {
+			
+					country= getCountryImagePath(groupId1[i].groupId.toString());
 				 	groupContainer+="<div class='align-middle pr-2'>"+
 				 		"<img src='"+country[0]+"' width='70px'>"+"<div class='align-middle font-weight-bold fs-7'>"+country[1]+"</div>";
-				}
+				
 				isVisibleClass=(data[i].isVisible)?"d-block":"d-none";
 				
-				checkBox="jqxCheckBox-"+data[i].groupId+'-'+data[i].subgroupId;
+				checkBox="jqxCheckBox-"+groupId1[i].groupId+'-'+groupId1[i].subgroupId;
 				groupContainer+='<div id="'+checkBox+'" class="'+isVisibleClass+' jqx-checkbox-items align-middle"></div>';
+				
+				checkBox1="jqxCheckBox-"+groupId1[i].groupId+'-'+'2';
+				groupContainer+='<div id="'+checkBox1+'" class="'+isVisibleClass+' jqx-checkbox-items align-middle"></div>';
 			
-			if(data[i].subgroupId!=1)	
 			groupContainer+="</div>";	
-		}
+		} 
    			  $('#countries').append(groupContainer);
 			
-	        	for (j = 0; j < data.length; j++) {
-					items="#jqxCheckBox-"+data[j].groupId+'-'+data[j].subgroupId;
+	        	for (j = 0; j < groupId1.length; j++) {
+					items="#jqxCheckBox-"+groupId1[j].groupId+'-'+groupId1[j].subgroupId;
+		    	  	subgroupsitems.push(items);
 		    	  	$(items).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
+		    	  	
+		    	  	items1="#jqxCheckBox-"+groupId1[j].groupId+'-'+'2';
+		    	  	subgroupsitems.push(items1);
+		    	  	$(items1).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
 				}
 				 initialiazeItem(subgroupsitems,1);
 				 //initializeShowFilterButton();
 				 initialiazeClearFilterButtons(subgroupsitems);
     
-	   getGraphHistoryByScreenName("macroGraph");
+	   getGraphHistoryByScreenName("macroPMIvsSurvey");
 			},
 			
 	        error: function (e) {
@@ -199,7 +185,7 @@ function drawGraph() {
  	
  	      var graphService = "macro";	
  	      const removeEmpty = false;
-  	      macroGraph(graphService,"macroGraph",removeEmpty,true);	
+  	      macroGraph(graphService,"macroPMIvsSurvey",removeEmpty,true);	
 }
 
  function macroGraph(graphService,graphName,removeEmpty,saveHistory){
@@ -254,21 +240,18 @@ function drawGraph() {
 	
 	 if (checkedItem == 1) {
 			
-		dataParam = { 
-	        		"fromdate":fromdate,
-	        	    "todate":todate,
-	        	    "period":"d",
-	        	    "type": type,
-	        	    "factor1":itemValue[checkedItemValues[0]].factor,
-		 		    "factor2":itemValue[checkedItemValues[1]].factor,
-	        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
-	        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
-	        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
-	        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
-		            "removeEmpty1":removeEmpty,
-		        	"removeEmpty2":removeEmpty
-     			   };
-     			   
+	   dataParam = { 
+		 		        		"fromdate":fromdate,
+		 		        	    "todate":todate,
+		 		        	    "period":"d",
+		 		        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
+		 		        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
+		 		        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
+		 		        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
+		 		        	    "factor1": itemValue[checkedItemValues[0]].factor,
+		 		        	    "factor2": 14,
+		 		        	    
+		 	     			   };	   
            enableDisableDropDowns(true);
 			if (checkedItemValues.length > 1)
 				title = itemValue[checkedItemValues[0]].title + " vs " + itemValue[checkedItemValues[1]].title
@@ -279,7 +262,7 @@ function drawGraph() {
 			$.ajax({
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
-				url: "/"+graphService+"/getgraphdata",
+				url: "/"+graphService+"/get-graph-data",
 				data: JSON.stringify(dataParam),
 				dataType: 'json',
 				timeout: 600000,
@@ -338,26 +321,15 @@ function drawGraph() {
 					var dbchartType2 = response[1].config.chartType;
 					chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
 
-					let yValues1 = response[0].graphResponseDTOLst.map(function(item) {
-					    return item.y;
-					}).filter(function(y) {
-					    return y !== null; // Filter out null values
-					});
-					
-					let min1 = Math.min.apply(null, yValues1);
-					
+					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
 						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 							return item.y;
 						}));
-					// Assuming response[1].graphResponseDTOLst is your array
-					let yValues2 = response[1].graphResponseDTOLst.map(function(item) {
-					    return item.y;
-					}).filter(function(y) {
-					    return y !== null; // Filter out null values
-					});
-					
-					let min2 = Math.min.apply(null, yValues2);
-
+					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
 						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
 							return item.y;
 						}));
@@ -365,77 +337,47 @@ function drawGraph() {
 					min = Math.min(min1, min2);
 					max = Math.max(max1, max2);
 					
-					min= min > 50 ? min - 50 : -(50 - min);
-					max= max > 50 ? max - 50 : -(50 - max);
-					
-					 
+					//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
+					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 					minvalue = min;
 					maxvalue = max;
+			
+					var value1 = getMarginLenght(min1); 
+					var value2 = getMarginLenght(min2); 
 				
-					 let selectedValue=(Math.abs(min)>=Math.abs(max)?Math.abs(min):Math.abs(max));
-					 const values = addMarginToMinMax(min, max, 15);
-					 
-					 calculatedMin = min > 0 ? min - values : -(values - min);
-					 calculatedMax= max > 0 ? max + values : -(values + max);
-					 
-					 roundedValues = adjustMinMax(calculatedMin,calculatedMax);
-					 
-				     graphService=typeof graphService!='undefined'?graphService:'';
-				   
-					 yaxisformat0 = getFormat(response[0].config.yAxisFormat);
-					
+					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+                    var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
+                    
 					notDecimal=yaxisformat0[1];
-			    	nbrOfDigits=yaxisformat0[0];
-			    	
-					for (let i = 0; i < response[0].graphResponseDTOLst.length; i++) {
-					    let data = response[0].graphResponseDTOLst[i];
-					    let y = parseFloat(data.y);
-					    if (y !== null && !isNaN(y)) {
-					        data.y = y > 50 ? y - 50 : -(50 - y);
-					    }
-					}
+					nbrOfDigits=yaxisformat0[0];
+					notDecimal1=yaxisformat1[1];
+					nbrOfDigits1=yaxisformat1[0];
 					
-					for (let i = 0; i < response[1].graphResponseDTOLst.length; i++) {
-					    let data = response[1].graphResponseDTOLst[i];
-					    let y = parseFloat(data.y); 
-					    if (y !== null && !isNaN(y)) {
-					        data.y = y > 50 ? y - 50 : -(50 - y);
-					    }
-					}
 					let isMaxItems1 =  response[0].graphResponseDTOLst.filter(function(item) {
 					    return item.ismax === "1";
 					});
 					let isMaxItems2 =  response[1].graphResponseDTOLst.filter(function(item) {
 					    return item.ismax === "1";
 					});
-					value1=isMaxItems1[0].y + 50;
 					if (getFormatResult0[1])
 										value1=	 value1.toFixed(getFormatResult0[0]);
 										else
 										value1=	 value1.toFixed(getFormatResult0[0]) + "%";
 										
-					value2=isMaxItems2[0].y + 50;
 						if (getFormatResult1[1])
 												value2=	 value2.toFixed(getFormatResult1[0]);
 											else
 												value2=	 value2.toFixed(getFormatResult1[0]) + "%";
 						
-						let maxcalculated=Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + selectedValue : Math.abs(maxvalue) + selectedValue;			
 					
 					$('#legendfalse').addClass("active");
 					$('#legendtrue').removeClass("active");
-					areValuesClose(isMaxItems1[0].y,isMaxItems2[0].y)
-							    .then(areClose => {
-									var offsetYValue1=30;
-									var offsetYValue2=20;
-									if(areClose){
-										offsetYValue1=35;
-										offsetYValue2=15;
-									}
+					processDataAndAddNewEndDates(response)
+							    .then(newEndDate => {
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-						type:'line',
+						type:'column',
 						data: response[0].graphResponseDTOLst
 					}, {
 						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
@@ -483,7 +425,7 @@ function drawGraph() {
 							isDecimal: isdecimal,
 							yAxisFormat: yaxisformat,
 						},
-						colors: ["#FFFFFF", "#ffc000"],
+						colors: ["#ffc000", "#ff99ff"],
 
 						markers: {
 							colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
@@ -498,7 +440,6 @@ function drawGraph() {
 									fontSize: fontsize,
 								},
 								 formatter: function(val, index) {
-										 val = val  + 50;
 										 if (yaxisformat0[1])
 						  				  return  val.toFixed(yaxisformat0[0]);
 						  				else 
@@ -524,7 +465,6 @@ function drawGraph() {
 							},
 							y: {
 								formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-									 value = value  + 50;
 									if (seriesIndex == 0) {
 										if (getFormatResult0[1])
 											return value.toFixed(getFormatResult0[0]);
@@ -543,72 +483,7 @@ function drawGraph() {
 								},
 							},
 						},
-						annotations: {
-					         yaxis: [
-						      {
-						        label: {
-						          text: " "
-						        },
-						        y: -50,
-						        y2: 0,
-						        borderColor: "#FF0000",
-						        fillColor: "#ff758b",
-						        opacity: 0.3,	
-						     //   offsetX: -300,
-						        width: '100%',
-						      },
-						      
-						    ],
-					         points: [
-					      {
-					         x: isMaxItems1[0].x,
-					         y: isMaxItems1[0].y,
-					        marker: {
-					          size: 8,
-					          fillColor: "#ffffff00",
-					          strokeColor: "#FF00FF",
-					          radius: 6
-					        },
-					        label: {
-					         borderColor: "#ffffff00",
-					          offsetY: offsetYValue1,
-					          //offsetY: 0,
-					          offsetX: 80,
-					          style: {
-					            color: "#FF00FF",
-					            background:  "#00000000",
-					          },
-					
-					          text: toTitleCase(isMaxItems1[0].x.split('-')[0]+' Manuf  ' + toTitleCase(getfactorDescriptionById(isMaxItems1[0].factor.toString())+' '+value1))
-					        }
-					      },
-					        
-					           {
-					         x: isMaxItems2[0].x,
-					         y: isMaxItems2[0].y,
-					        marker: {
-					          size: 8,
-					          fillColor: "#ffffff00",
-					          strokeColor: "#FF00FF",
-					          radius: 6
-					        },
-					        label: {
-					         borderColor: "#ffffff00",
-					           offsetY: offsetYValue2,
-					   		  // offsetY:0,
-					     	   offsetX: 85,
-					          style: {
-					            color: "#FF00FF",
-					            background:  "#00000000",
-					          },
-					
-					          text: toTitleCase(isMaxItems2[0].x.split('-')[0]+' Services ' +toTitleCase(getfactorDescriptionById(isMaxItems2[0].factor.toString())+' '+value2))
-					        }
-					      },
-					      
-					    ],
-					    
-					      },legend: {
+						legend: {
 						   show:false,
 				    	  },
 					});
@@ -617,14 +492,14 @@ function drawGraph() {
 					$('#overlayChart').hide();
 				    $("#mainChart-title").empty();
 				    
-				    graphTitle=T1+" and "+T2.split("FINAL")[1];
-				    graphTitle=graphTitle.toUpperCase().replace(/\bFINAL\b/g, '').replace(/SERVICES/g, '<span style="color:#ffc000">Services</span>').replace(/MANUFACTURING/g, 'Manuf').replace(/AND/g, 'and')
+				    graphTitle=T1+" vs Survey";
+				    graphTitle=graphTitle.toUpperCase().replace(/\bFINAL\b/g, '').replace(/SURVEY/g, '<span style="color:#ff99ff">Survey</span>').replace(/MANUFACTURING/g, 'Manuf').replace(/VS/g, 'vs')
 
 					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 25px;left: 350px;height: 50px;" class="title-style"><img height="50" class="pr-2" src=\''+getCountryImagePath(itemValue[checkedItemValues[0]].GroupId)[0]+'\' >'+graphTitle+'</div>')
-				 })
+				})
 							    .catch(error => {
 							        console.error('Error processing data:', error);
-							    });
+							    });		
 				},
 				error: function(e) {
 
