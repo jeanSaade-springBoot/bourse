@@ -1261,8 +1261,8 @@
 						    	    	        success: function (data) {
 													
 						    	    	        
-												 getFilterData(volumeValue);
-						    	    		if(volumeValue==1)
+												getFilterData(volumeValue);
+						    	    		    if(volumeValue==1)
 				                            	 inputDataBund.value="";
 				                             else if(volumeValue==2)
 				                              	inputDataBobl.value="";

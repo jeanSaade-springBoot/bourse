@@ -497,6 +497,22 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/macro/macroDataFunctionDisplay");
     }
+	@PreAuthorize("hasAuthority('RATES_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/ratesdatafunctiondisplay")
+    public ModelAndView ratesDataFunctionDisplay(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/rates/ratesDataFunctionDisplay");
+    }
+	@PreAuthorize("hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/centralbanks")
+    public ModelAndView centralBanksGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/rates/centralBanks");
+    }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)
@@ -596,6 +612,7 @@ public class BourseController {
 		    model.addAttribute("skews", "html/templates/skews");
 		    model.addAttribute("sti", "html/templates/sti");
 		    model.addAttribute("macro", "html/templates/macro");
+		    model.addAttribute("rates", "html/templates/rates");
 		    model.addAttribute("serie", Integer.valueOf(serie));
 		    ModelAndView modelAndView = new ModelAndView("html/twoSeries");
 		    

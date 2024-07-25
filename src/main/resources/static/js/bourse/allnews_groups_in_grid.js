@@ -209,7 +209,7 @@
     var cellsrender = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
 		console.log(value)
                 if (value ==1) {
-                    return '<span style="margin: 4px; margin-top:8px; color: #ff0000;">' + 'YIELDS & RATES' + '</span>';
+                    return '<span style="margin: 4px; margin-top:8px; color: #ff0000;">' + 'SOVEREIGN YIELDS' + '</span>';
                 }
                 else if(value == 2) {
                     return '<span style="margin: 4px; margin-top:8px; color: #008000;">' + 'METALS' + '</span>';
@@ -221,7 +221,7 @@
 		 if (text.includes("AssetId"))
 		  {
 			  if(group ==1)
-			   return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details'>"+'YIELDS & RATES'+"</span></div></div>";
+			   return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details'>"+'SOVEREIGN YIELDS'+"</span></div></div>";
 			   else if(group == 2) 
 				    return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details'>"+'METALS'+"</span></div></div>";
 		  } 

@@ -346,6 +346,7 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 	
     const matchingItem = results.find(item => item.graphId === checkedItemValues[0]);
 	const hasMatchingTrendline = typeof(matchingItem)!='undefined'?matchingItem.trendlines:undefined;
+	const hasMatchingRelevant = typeof(matchingItem)!='undefined'?matchingItem.relevant:undefined;
 
  		 trendLines=[];
 		 channelLines=[];
@@ -355,7 +356,7 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 		 trendLineId=0;
 		 relevantId=0;
 	
-	if(typeof(hasMatchingTrendline)!='undefined' || hasMatchingTrendline.length!=0)
+	if(typeof hasMatchingTrendline !== 'undefined' && hasMatchingTrendline !== null && hasMatchingTrendline.length > 0)
  		{
 		 let smallestDate = null;
 		 
@@ -393,15 +394,6 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 				        smallestDate = currentDate;
 				    }
 				}
-				for (var i = 0; i < matchingItem.relevant.length; i++) {
-					relevantId=relevantId+1;
-					relevant.push({
-						dbId:matchingItem.relevant[i].dbId,
-						relevantId: relevantId,
-					    relevantParameter: matchingItem.relevant[i].relevantParameter,
-					    isHidden: matchingItem.relevant[i].isHidden
-					  });
-				 } 
 			
 		 startDate = smallestDate;
 		 if (monthDate>startDate && startDate!=null)
@@ -410,7 +402,19 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 			resetParameters();
 			}
 	}
-
+	if(typeof hasMatchingRelevant !== 'undefined' && hasMatchingRelevant !== null && hasMatchingRelevant.length > 0)
+ 		{
+			 if(hasMatchingRelevant[0]!=undefined)
+				for (var i = 0; i < matchingItem.relevant.length; i++) {
+						relevantId=relevantId+1;
+						relevant.push({
+							dbId:matchingItem.relevant[i].dbId,
+							relevantId: relevantId,
+						    relevantParameter: matchingItem.relevant[i].relevantParameter,
+						    isHidden: matchingItem.relevant[i].isHidden
+						  });
+					 } 
+		}
 	title = itemValue[checkedItemValues[0]].title;
 
 					dataParam = {
@@ -1944,108 +1948,34 @@ function getTrendLinesHistory(){
 			  return acc;
 			}, {});
 			
-	results = Object.keys(groupedData).map(graphId => {
-			    return {
-			        graphId: graphId,
-			        trendlines: groupedData[graphId].trendlines,
-			        channelLines: groupedData[graphId].channelLines,
-			        chartOptions: groupedData[graphId].chartOptions,
-			        relevant:[], 
-			    };
-			});
- for (const [key, newItems] of Object.entries(retracementData)) {
-        // Check if the key exists in the existing JSON data
-        let existingEntry = results.find(entry => entry.graphId === key);
-
-        if (existingEntry) {
-            // Key exists, merge the new items into the existing entry
-            if (!existingEntry.retracementData) {
-                existingEntry.retracementData = [];
-            }
-            if (!existingEntry.retracementDataHide) {
-                existingEntry.retracementDataHide = [];
-            }
-            if (!existingEntry.retracementParameter) {
-                existingEntry.retracementParameter = [];
-            }
-
-            newItems.forEach(newItem => {
-                let existingIndex = existingEntry.retracementData.findIndex(item => item.dbId === newItem.dbId);
-
-                if (existingIndex !== -1) {
-                    // Update the existing item
-                    existingEntry.retracementData[existingIndex] = newItem.retracementData;
-                    existingEntry.retracementDataHide[existingIndex] = newItem.retracementDataHide;
-                    existingEntry.retracementParameter[existingIndex] = newItem.retracementParameter;
-                } else {
-                    // Add the new item
-                    existingEntry.retracementData.push(newItem.retracementData);
-                    existingEntry.retracementDataHide.push(newItem.retracementDataHide);
-                    existingEntry.retracementParameter.push(newItem.retracementParameter);
-                }
-            });
-	        } else {
-	            // Key does not exist, add the new entry
-	            results.push({
-	                graphId: key,
-	                retracementData: newItems.map(item => item.retracementData),
-	                retracementDataHide: newItems.map(item => item.retracementDataHide),
-	                retracementParameter: newItems.map(item => item.retracementParameter),
-	            	trendlines: [],
-				    channelLines: [],
-				    relevant:[],
-	            });
-	        }
-	    }
-		
-		 for (const [key, newItems] of Object.entries(relevantData)) {
-        // Check if the key exists in the existing JSON data
-        let existingEntry = results.find(entry => entry.graphId === key);
-
-        if (existingEntry) {
-            // Key exists, merge the new items into the existing entry
-            if (!existingEntry.relevant) {
-                existingEntry.relevant = [];
-            }
-
-            newItems.relevant.forEach(newItem => {
-                let existingIndex = existingEntry.relevant.findIndex(item => item.dbId === newItem.dbId);
-
-                if (existingIndex !== -1) {
-                    // Update the existing item
-                    existingEntry.relevant[existingIndex] = newItem.relevantData;
-                } else {
-                    // Add the new item
-                    existingEntry.relevant.push(newItem);
-                }
-            });
-	        } else {
-	            // Key does not exist, add the new entry
-	            results.push({
-	                graphId: key,
-	                retracementData: newItems.map(item => item.retracementData),
-	                retracementDataHide: newItems.map(item => item.retracementDataHide),
-	                retracementParameter: newItems.map(item => item.retracementParameter),
-	            	trendlines: [],
-				    channelLines: [],
-				    relevant:[],
-	            });
-	        }
-	    }
+		results = Object.keys(groupedData).map(graphId => {
+				    return {
+				        graphId: graphId,
+				        trendlines: groupedData[graphId].trendlines,
+				        channelLines: groupedData[graphId].channelLines,
+				        chartOptions: groupedData[graphId].chartOptions,
+				        relevant:[], 
+				    };
+				});
+		mergeRetracementData(results, retracementData);
+		mergeRelevantData(results, relevantData);
 		
 			
 	       if(typeof(results[0])!='undefined')
-				checkedItemId = [results[0].graphId];
+			{	checkedItemId = [results[0].graphId];
 				
-			for (j = 0; j < checkedItemId.length; j++) {
-				$(checkedItemId[j]).jqxCheckBox({ checked: true });
-			}
-			checkedItem = checkedItemId.length;
-			$("#collapseFilter").removeClass('show');
-			$('#grid-content').css('display', 'block');
+				for (j = 0; j < checkedItemId.length; j++) {
+					$(checkedItemId[j]).jqxCheckBox({ checked: true });
+				}
+				checkedItem = checkedItemId.length;
+				$("#collapseFilter").removeClass('show');
+				$('#grid-content').css('display', 'block');
+				processGraphHistory();
+		   
+				$('#show').click();
 			
-		   processGraphHistory();
-			$('#show').click();
+			}
+			
 			
 		},
 		error: function(e) {
@@ -2078,8 +2008,8 @@ function processGraphHistory(){
 			$("#graphs-history").empty(); 
 		
 			var condition ="";
-		
-			results.forEach((result, index) => {
+		if(results.length!=0)
+			{results.forEach((result, index) => {
 			    // Get the graphId, subGroupId, and GroupId
 			    const graphId = result.graphId;
 			    const subGroupId = itemValue[graphId].subGroupId;
@@ -2119,6 +2049,7 @@ function processGraphHistory(){
 			        console.error("Error:", error);
 			    }
 			});
+			}
 }
 function getRetracementHistory(){
 
@@ -2294,7 +2225,7 @@ function deleteRetracement(retracementdbId,retracementid){
 							processRetracementData(retracementData, checkedItemValues);
 						//	resultss=mergeData(results, retracementData);
 							
-							 		processGraphHistory();
+							processGraphHistory();
 					        $('#alertDeleteDataByDate-modal').modal('hide');
 		
 		 					$( "#successDelete" ).empty();
@@ -2319,10 +2250,10 @@ function deleteRelevant(relevantdbId,relevantid){
 							relevant = removeById(relevant,"relevantId", relevantid);
 							chartConfigSettings.yaxisAnnotation=removeById(chartConfigSettings.yaxisAnnotation,"relevantId", relevantId);
 							updateSeriesChart(chartConfigSettings);	
-							
+							processGraphHistory();
 							drawRelevantTable(relevant);
 							
-							processGraphHistory();
+							
 					        $('#alertDeleteDataByDate-modal').modal('hide');
 		
 		 					$( "#successDelete" ).empty();
@@ -2416,6 +2347,8 @@ function confirmdeleteGraphHistory(graphId){
 			             success: function (result) {  
 							$("#graphs-history").empty(); 
 							$("#trendline-grid").empty(); 
+							$("#relevant-grid").empty(); 
+							$("#retracement-grid").empty(); 
 							getTrendLinesHistory();
 							
 							const checkedItemValues = checkedItemid.filter(item => item != null);
@@ -3259,6 +3192,7 @@ async function saveRetracementHistory(retracementId) {
 			        retracementData[key] = value;
 			    }
 			}
+	        mergeRetracementData(results, retracementData);
 			
             const checkedItemValues = checkedItemid.filter(item => item != null);
 			processRetracementData(retracementData, checkedItemValues);
@@ -3271,6 +3205,87 @@ async function saveRetracementHistory(retracementId) {
         console.error('Error:', error);
     }
 }
+function mergeRetracementData(results, retracementData) {
+    for (const [key, newItems] of Object.entries(retracementData)) {
+        // Check if the key exists in the existing JSON data
+        let existingEntry = results.find(entry => entry.graphId === key);
+
+        if (existingEntry) {
+            // Key exists, merge the new items into the existing entry
+            if (!existingEntry.retracementData) {
+                existingEntry.retracementData = [];
+            }
+            if (!existingEntry.retracementDataHide) {
+                existingEntry.retracementDataHide = [];
+            }
+            if (!existingEntry.retracementParameter) {
+                existingEntry.retracementParameter = [];
+            }
+
+            newItems.forEach(newItem => {
+                let existingIndex = existingEntry.retracementData.findIndex(item => item.dbId === newItem.dbId);
+
+                if (existingIndex !== -1) {
+                    // Update the existing item
+                    existingEntry.retracementData[existingIndex] = newItem.retracementData;
+                    existingEntry.retracementDataHide[existingIndex] = newItem.retracementDataHide;
+                    existingEntry.retracementParameter[existingIndex] = newItem.retracementParameter;
+                } else {
+                    // Add the new item
+                    existingEntry.retracementData.push(newItem.retracementData);
+                    existingEntry.retracementDataHide.push(newItem.retracementDataHide);
+                    existingEntry.retracementParameter.push(newItem.retracementParameter);
+                }
+            });
+        } else {
+            results.push({
+                graphId: key,
+                retracementData: newItems.map(item => item.retracementData),
+                retracementDataHide: newItems.map(item => item.retracementDataHide),
+                retracementParameter: newItems.map(item => item.retracementParameter),
+                trendlines: [],
+                channelLines: [],
+                relevant: [],
+            });
+        }
+    }
+}
+function mergeRelevantData(results, relevantData) {
+    for (const [key, newItems] of Object.entries(relevantData)) {
+        // Check if the key exists in the existing JSON data
+        let existingEntry = results.find(entry => entry.graphId === key);
+
+        if (existingEntry) {
+            // Key exists, merge the new items into the existing entry
+            if (!existingEntry.relevant) {
+                existingEntry.relevant = [];
+            }
+
+            newItems.relevant.forEach(newItem => {
+                let existingIndex = existingEntry.relevant.findIndex(item => item.dbId === newItem.dbId);
+
+                if (existingIndex !== -1) {
+                    // Update the existing item
+                    existingEntry.relevant[existingIndex] = newItem.relevantData;
+                } else {
+                    // Add the new item
+                    existingEntry.relevant.push(newItem);
+                }
+            });
+        } else {
+            results.push({
+                graphId: key,
+                retracementData: [],
+                retracementDataHide: [],
+                retracementParameter: [],
+                trendlines: [],
+                channelLines: [],
+                relevant: relevantData[key].relevant,
+            });
+        }
+    }
+}
+
 async function saveRelevantHistory(relevantId) {
     	const url = '/graph/save-relevant-history'; 
  		const filteredData = relevant.filter(data => data.relevantId === relevantId);
@@ -3301,44 +3316,45 @@ async function saveRelevantHistory(relevantId) {
 
         if (response.ok) {
             const result = await response.json();
-             newRelevantData = result.reduce((acc, data) => {
-
-			  if (!acc[data.graphId]) {
-			    acc[data.graphId] = [];
+        
+			relevantData = result.reduce((acc, data) => {
+		
+					  if (!acc[data.graphId]) {
+					    acc[data.graphId] = {
+				            relevant: [],
+				          
+				        };
 			  }
-
 			    const dbId = data.id;
 				const startPrice = data.startPrice;
 				const endPrice = data.endPrice;
 				const startDate = data.startDate;
 				const endDate = data.endDate;
 				
-		       const parameters={
-				   startPrice:startPrice,
-				   endPrice:endPrice,
-				   startDate:startDate,
-				   endDate:endDate
-			   }
-						 
-			  acc[data.graphId].push({dbId:dbId,
-		       					 retracementParameter:parameters});
-			 	relevant.forEach(obj => {
+			    const parameters={
+					   startPrice:startPrice,
+					   endPrice:endPrice,
+					   startDate:startDate,
+					   endDate:endDate
+				   }
+				relevant.forEach(obj => {
 				    if (obj.relevantId === relevantId) {
 				        obj.dbId = dbId; // Add the dbid field with the desired value
 				    }
-				});
-				results.forEach((item1) => {
-				    if (item1.graphId===checkedItemid.filter(item => item != null)[0]) {
-				        item1.relevant.push(relevant.find(item => item.relevantId === relevantId));
-				    }
-				});
-				
-			  drawRelevantTable(relevant);
+				});		
+				 
+			  acc[data.graphId].relevant.push({dbId:dbId,
+		       					 relevantParameter:parameters,
+		       					 isHidden: data.isHidden});
+		       					 
+		  			 
 			  return acc;
-			}, {});
-		
-            return result;
-
+           
+           }, {});
+           
+           mergeRelevantData(results, relevantData);
+           drawRelevantTable(relevant);  		
+			processGraphHistory();
         } else {
             throw new Error('Failed to save retracement history');
         }

@@ -249,6 +249,14 @@
 		$("#groupDropDown").on('select', function (event) {
             if (event.args) {
                groupItem = event.args.item;
+               if(groupItem.value==48 || groupItem.value==50 || groupItem.value==51){
+					$("#nav-robots-tab").prop("disabled", true);
+					$("#nav-functions-tab").prop("disabled", true);
+				}
+				else{
+					$("#nav-robots-tab").prop("disabled", false);
+					$("#nav-functions-tab").prop("disabled", false);
+				}
               // groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
               // var dataAdapter = new $.jqx.dataAdapter(groupsource);
               // $("#groupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
@@ -697,9 +705,27 @@
 	    	        timeout: 600000,
 	    	        success: function (data) {
 	    	        
-	    	       gridsource.url='/admin/findNativeByGroupIdAndSubgroupId/'+groupItem.value+'/'+subGroupDropDown.value;
-	    	       var dataAdapter = new $.jqx.dataAdapter(gridsource);
-	    	       $('#grid').jqxGrid({source:dataAdapter});
+			 		 var url = '/admin/findNativeByGroupIdAndSubgroupId/' + groupItem.value + '/' + subGroupDropDown.value;
+			        $.ajax({
+			            url: url,
+			            method: 'GET',
+			            dataType: 'json',
+			            success: function(response) {
+			                // Handle successful response
+			                gridsource.localdata= response;
+			                var dataAdapter = new $.jqx.dataAdapter(gridsource);
+			                $('#grid').jqxGrid({ source: dataAdapter });
+			            },
+			            error: function(xhr, status, error) {
+			                // Check if the response is HTML content
+							        if (xhr.getResponseHeader('content-type').indexOf('text/html') !== -1) {
+							            if(xhr.responseText.includes("Your session has expired due to inactivity."))
+							              window.location.href = '/invalidSession';
+							        } else {
+							            // The response is not HTML, handle other errors or unexpected responses
+							        }
+			            }
+			        });
 	    	       
                 $("#jqxNotificationRobots").jqxNotification("open");
              // $("#popupWindow").jqxWindow('hide');

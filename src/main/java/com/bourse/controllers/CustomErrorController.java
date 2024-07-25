@@ -32,12 +32,8 @@ public class CustomErrorController implements ErrorController {
 
 		modelAndView.addObject("mainmenu", "html/templates/mainMenu");
 		modelAndView.addObject("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		modelAndView.setViewName("html/errorpage"); // Set the view name for the custom 404 error page
+		modelAndView.setViewName("html/errorpage"); // Set the view name for the custom error page
 
 		return modelAndView;
-	}
-
-	public String getErrorPath() {
-		return PATH;
 	}
 }

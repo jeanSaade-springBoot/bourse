@@ -98,6 +98,7 @@ public class GraphController {
 		public ResponseEntity<Object>  deleteGraphHistory(@PathVariable("graphid") String graphid ,  Authentication authentication) {
 				technicalAnalysisGraphHistoryService.deleteGraphHistoryByGraphId(graphid, authentication);
 				technicalAnalysisGraphHistoryService.deleteRetracementHistoryByGraphId(graphid, authentication);
+				technicalAnalysisGraphHistoryService.deleteRelevantHistoryByGraphId(graphid, authentication);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
 }

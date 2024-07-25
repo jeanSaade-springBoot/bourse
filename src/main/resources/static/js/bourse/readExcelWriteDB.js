@@ -242,7 +242,19 @@ var familysource =
 	case 46:
 	case 47:
    		 imagePath='/css/images/format/macro_format.png'
-		    break;	   
+		    break;	 
+   case 48:
+	   imagePath='/css/images/format/rts_centralBanks_format.png' 
+	     break;	  
+	case 49:
+	   imagePath='/css/images/format/rts_inflationSwapRates_format.png' 
+	     break;  
+	case 50:
+	   imagePath='/css/images/format/rts_mortgageRates_format.png' 
+	     break;   
+	case 51:
+	   imagePath='/css/images/format/rts_fixings_format.png' 
+	     break; 
 	}
 return imagePath;
   }

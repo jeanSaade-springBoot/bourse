@@ -328,7 +328,7 @@
 				    if (liquidityValue==1)
     				 {
 						  updatedDataJson={
-				               "excess1":updatedData.gold,
+				               "excess1":updatedData.excess1,
 							   "excess2":updatedData.excess2,
 							   "excess3":updatedData.excess3,
 							   "excess4":updatedData.excess4,

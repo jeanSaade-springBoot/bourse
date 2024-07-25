@@ -4354,4 +4354,106 @@ var itemValue = {
     "title": "",
     "img":  "/img/flag/india.png"
   },
+    "#jqxCheckBoxFed-17": { 
+	"factor":"17",
+    "subGroupId": "1",
+    "GroupId": "48",
+    "description": "FED-17.48",
+    "title": "",
+    "img":  "/img/fed.png"
+  },
+    "#jqxCheckBoxFed-18": { 
+	"factor":"18",
+    "subGroupId": "1",
+    "GroupId": "48",
+    "description": "FED-18.48",
+    "title": "",
+    "img":  "/img/fed.png"
+  },
+     "#jqxCheckBoxEcb-17": { 
+	"factor":"17",
+    "subGroupId": "2",
+    "GroupId": "48",
+    "description": "ECB-17.48",
+    "title": "",
+    "img":  "/img/flag/ecb.png"
+  },
+    "#jqxCheckBoxEcb-18": { 
+	"factor":"18",
+    "subGroupId": "2",
+    "GroupId": "48",
+    "description": "ECB-18.48",
+    "title": "",
+    "img":  "/img/flag/ecb.png"
+  },
+     "#jqxCheckBoxBoe-17": { 
+	"factor":"17",
+    "subGroupId": "3",
+    "GroupId": "48",
+    "description": "BOE-17.48",
+    "title": "",
+    "img":  "/img/boe.png"
+  },
+    "#jqxCheckBoxBoe-18": { 
+	"factor":"18",
+    "subGroupId": "3",
+    "GroupId": "48",
+    "description": "BOE-18.48",
+    "title": "",
+    "img":  "/img/boe.png"
+  },
+  "#jqxCheckBoxEU5": { 
+			"subGroupId": "1",
+			"GroupId": "49",
+			"description": "EU5",
+			"title": "",
+		  },
+		 "#jqxCheckBoxUS5": { 
+			"subGroupId": "2",
+			"GroupId": "49",
+			"description": "US5",
+			"title": "",
+		  },
+		  	 "#jqxCheckBoxUsa30": { 
+			"subGroupId": "1",
+			"GroupId": "50",
+			"description": "USA30",
+			"title": "",
+		  },
+		  	 "#jqxCheckBoxEuribor_1": { 
+			"subGroupId": "1",
+			"GroupId": "51",
+			"description": "euribor_1",
+			"title": "",
+		  },
+		  	 "#jqxCheckBoxSonia_1": { 
+			"subGroupId": "2",
+			"GroupId": "51",
+			"description": "sonia_1",
+			"title": "",
+		  },
+		  	 "#jqxCheckBoxLibor_1": { 
+			"subGroupId": "3",
+			"GroupId": "51",
+			"description": "libor_1",
+			"title": "",
+		  },
+		  	 "#jqxCheckBoxEuribor_3": { 
+			"subGroupId": "4",
+			"GroupId": "51",
+			"description": "euribor_3",
+			"title": "",
+		  },
+		  	 "#jqxCheckBoxSonia_3": { 
+			"subGroupId": "5",
+			"GroupId": "51",
+			"description": "sonia_3",
+			"title": "",
+		  },
+		  	 "#jqxCheckBoxLibor_3": { 
+			"subGroupId": "6",
+			"GroupId": "51",
+			"description": "libor_3",
+			"title": "",
+		  },
   	};

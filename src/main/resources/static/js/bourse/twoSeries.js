@@ -484,7 +484,22 @@ var allitems = ["#jqxCheckBoxUSA-30",
 		'#jqxCheckBox-46-4-16',
 		'#jqxCheckBox-47-4-14',
 		'#jqxCheckBox-47-4-15',
-		'#jqxCheckBox-47-4-16',];	
+		'#jqxCheckBox-47-4-16',
+		 "#jqxCheckBoxFed-17",
+		 "#jqxCheckBoxFed-18",
+		 "#jqxCheckBoxEcb-17",
+		 "#jqxCheckBoxEcb-18",
+		 "#jqxCheckBoxBoe-17",
+		 "#jqxCheckBoxBoe-18",
+		 "#jqxCheckBoxEU5",
+		 "#jqxCheckBoxUS5",
+		 "#jqxCheckBoxUsa30",
+		 "#jqxCheckBoxEuribor_1",
+		 "#jqxCheckBoxSonia_1",
+		 "#jqxCheckBoxLibor_1",
+		 "#jqxCheckBoxEuribor_3",
+		 "#jqxCheckBoxSonia_3",
+		 "#jqxCheckBoxLibor_3",];	
 
 const graphName=""; 
 var selectedYieldsCount=0;
@@ -495,6 +510,8 @@ var selectedFxCdsCount=0;
 var selectedSkewsCount=0;		
 var	selectedStiCount=0;
 var	selectedMacroCount=0;	
+var	selectedRatesCount=0;	
+
 var mainContainer='';
 var mainGroupContainer='';
 var groupContainer='';
@@ -645,6 +662,10 @@ $(document).ready(function() {
 			   {
 				   selectedMacroCount = updateCount(checked,selectedMacroCount)
 				   updateTabTitles(selectedMacroCount);
+			   } else if (["49", "48", "50","51"].includes(itemValue["#" + checkboxId].GroupId))
+			   {
+				   selectedRatesCount = updateCount(checked,selectedRatesCount)
+				   updateTabTitles(selectedRatesCount);
 			   }
 	   
 	    });
@@ -658,6 +679,7 @@ $(document).ready(function() {
 			 selectedSkewsCount=0;
 			 selectedStiCount=0;	
 			 selectedMacroCount=0;	
+			 selectedRatesCount=0;
 			  $(".tab-pane").each(function () {
                     var tabId = $(this).attr("id");
                     var tabTitle = $("#" + tabId + "-tab").text().split("(")[0]; // Extract tab title without count

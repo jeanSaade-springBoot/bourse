@@ -528,7 +528,27 @@ var factorInerItem='';
 var factorContainer='';
 
 		 }
-		 
+		 else if (serieValue === 9) {
+		 graphService = "rates";
+
+		var allitems = ["#jqxCheckBoxFed-17",
+						 "#jqxCheckBoxFed-18",
+						 "#jqxCheckBoxEcb-17",
+						 "#jqxCheckBoxEcb-18",
+						 "#jqxCheckBoxBoe-17",
+						 "#jqxCheckBoxBoe-18",
+						 "#jqxCheckBoxEU5",
+						 "#jqxCheckBoxUS5",
+						 "#jqxCheckBoxUsa30",
+						 "#jqxCheckBoxEuribor_1",
+						 "#jqxCheckBoxSonia_1",
+						 "#jqxCheckBoxLibor_1",
+						 "#jqxCheckBoxEuribor_3",
+						 "#jqxCheckBoxSonia_3",
+						 "#jqxCheckBoxLibor_3",
+		];	
+			    
+		 }	
 const graphName=""; 
 			   
 $(window).on('load', function() {
@@ -657,7 +677,14 @@ function drawGraph() {
   		  if (key.includes(groupId)) {
 			   var itemsDataParam;
 			   getGraphDataSovereign(graphName,itemsDataParam);
-			} else if(graphService==="skews") {
+			} else if(graphService==="rates") {
+				if(groupId==48||groupId==49)
+				  getGraphDataWithFactor(graphService,graphName,removeEmpty,false);
+				else 
+				getGraphData(graphService,graphName,removeEmpty,false);
+				
+			}
+			else if(graphService==="skews") {
 				  getGraphDataWithFactor(graphService,graphName,removeEmpty,false);
 			}
 				else {

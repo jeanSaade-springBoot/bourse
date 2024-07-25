@@ -39,6 +39,8 @@ public class DynamicTemplateService {
 			            fragmentName = "html/templates/sti";
 			        } else if ("8".equals(serie)) {
 			            fragmentName = "html/templates/macro";
+			        } else if ("9".equals(serie)) {
+			            fragmentName = "html/templates/rates";
 			        } 
 			return fragmentName;
 	   	}

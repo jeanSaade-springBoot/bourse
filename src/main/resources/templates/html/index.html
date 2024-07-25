@@ -133,7 +133,6 @@ div#content {
       <h5 class="card-title card-title-color">MACRO PMI</h5>
       <ul class="fa-ul">
 	  	<li sec:authorize="hasAuthority('MACRO_GRAPH_SCREEN')" ><a href=" /bourse/macrograph"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">COUNTRY PMI</a></li>
-	  	<li sec:authorize="hasAuthority('MACRO_BAR_SCREEN')" ><a href=" /bourse/countrypmibar"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">COUNTRY PMI BAR</a></li> 
 	  	<li sec:authorize="hasAuthority('MACRO_BAR_SCREEN')" ><a href=" /bourse/countrypmibar"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">MONTHLY RANKING</a></li> 
 	  	<li sec:authorize="hasAuthority('MACRO_PMI_VS_SURVEY')" ><a href=" /bourse/pmivssurvey"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">PMI vs SURVEY</a></li> 
 	  	<li sec:authorize="hasAuthority('MACRO_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/macrodatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
@@ -224,17 +223,39 @@ div#content {
   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Gamma Rents</li>
 </ul>
     </div>-->
-  </div> 
-              <div class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Paper-watch</h5>
-      <ul class="fa-ul">
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Call/put Warning Indicator</li>
-</ul>
-    </div>
-  </div>
- 
-             <div class="card">
+</div>
+
+	<div class="card">
+		<div class="card-body">
+			<h5 class="card-title card-title-color">Paper-watch</h5>
+			<ul class="fa-ul">
+				<li><img class="img-m-right"
+					id="ContentPlaceHolder1_Image13" src="../../img/i3.png"
+					align="absmiddle">Call/put Warning Indicator</li>
+			</ul>
+		</div>
+	</div>
+	<div sec:authorize="hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN') 
+				  OR hasAuthority('RATES_DATA_FUNCTION_DISPLAY_SCREEN')"
+								class="card">
+								<div class="card-body">
+									<h5 class="card-title card-title-color">Rates</h5>
+									<ul class="fa-ul">
+										<li sec:authorize="hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN')"><a
+											href="/bourse/centralbanks"><img class="img-m-right"
+												id="ContentPlaceHolder1_Image13" src="../../img/i2.png"
+												align="absmiddle">Centrak Banks</a></li>
+									
+										<li
+											sec:authorize="hasAuthority('RATES_DATA_FUNCTION_DISPLAY_SCREEN')"><a
+											href="/bourse/ratesdatafunctiondisplay"><img
+												class="img-m-right" id="ContentPlaceHolder1_Image13"
+												src="../../img/i5.png" align="absmiddle">DATA &
+												FUNCTION DISPLAY</a></li>
+									</ul>
+								</div>
+							</div>
+							<div class="card">
    <!--  <div class="card-body">
       <h5 class="card-title card-title-color">At A Glance</h5>
       <ul class="fa-ul">

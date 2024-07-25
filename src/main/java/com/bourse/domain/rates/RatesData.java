@@ -35,5 +35,6 @@ public class RatesData {
     private String referDate;
     private Long groupId;
     private Long subgroupId;
+    private Long factorId;
     private String value;
 }

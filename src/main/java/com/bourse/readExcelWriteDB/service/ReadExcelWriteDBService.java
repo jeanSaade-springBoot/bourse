@@ -31,6 +31,7 @@ import com.bourse.domain.ShatzOptionsVolume;
 import com.bourse.domain.SubGroup;
 import com.bourse.domain.TransportationData;
 import com.bourse.domain.macro.MacroData;
+import com.bourse.domain.rates.RatesData;
 import com.bourse.domain.skews.LongSkewsData;
 import com.bourse.domain.skews.ShortSkewsData;
 import com.bourse.domain.sti.StiAsiaData;
@@ -61,6 +62,7 @@ import com.bourse.service.PerciousMetalsService;
 import com.bourse.service.ShatzOptionsVolumeService;
 import com.bourse.service.TransportationService;
 import com.bourse.service.macro.MacroService;
+import com.bourse.service.rates.RatesService;
 import com.bourse.service.skews.SkewsService;
 import com.bourse.service.sti.StiService;
 
@@ -106,7 +108,9 @@ public class ReadExcelWriteDBService {
     @Autowired
     StiService stiService;    
     @Autowired
-    MacroService macroService;    
+    MacroService macroService;  
+    @Autowired
+    RatesService ratesService;
     
     
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
@@ -902,6 +906,172 @@ public class ReadExcelWriteDBService {
 	            System.out.println("List is empty.");
 	        }
 		}
+	else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("51"))
+	{
+		   List<RatesData> ratesDatas = new ArrayList<>();
+		   List<String> subgroups = Arrays.asList("1","2","3","4","5","6");
+		   for (String subGroupId: subgroups) {
+				   rowData.clear();
+				   ratesDatas.clear();
+				   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+				   for (DataDTO data: rowData) {
+					 if(ratesService.CheckIfCanSaveRts(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subGroupId)))
+					 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+					 	RatesData ratesData = RatesData.builder().referDate(data.getDate())
+					   												  .subgroupId(Long.valueOf(subGroupId))
+					   												  .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+					   												  .value(data.getValue()==null?"":data.getValue())
+				   												  .build();
+					   
+					 	ratesDatas.add(ratesData);
+		      }
+				   ratesService.SaveRatesData(ratesDatas);
+		
+		   }
+		   if (!ratesDatas.isEmpty()) {
+	            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(ratesDatas, "referDate");
+
+	            System.out.println("Minimum Date: " + minMaxDates[0]);
+	            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+	            ratesService.doCaculationLoader(minMaxDates[0],minMaxDates[1],Long.valueOf(readExcelWriteDBDTO.getGroupId()));
+	        } else {
+	            System.out.println("List is empty.");
+	        } 
+	}
+	else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("50"))
+	{
+		   List<RatesData> ratesDatas = new ArrayList<>();
+		   List<String> subgroups = Arrays.asList("1");
+		   for (String subGroupId: subgroups) {
+				   rowData.clear();
+				   ratesDatas.clear();
+				   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+				   for (DataDTO data: rowData) {
+					 if(ratesService.CheckIfCanSaveRts(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subGroupId)))
+					 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+					 	RatesData ratesData = RatesData.builder().referDate(data.getDate())
+					   												  .subgroupId(Long.valueOf(subGroupId))
+					   												  .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+					   												  .value(data.getValue()==null?"":data.getValue())
+				   												  .build();
+					   
+					 	ratesDatas.add(ratesData);
+		      }
+				   ratesService.SaveRatesData(ratesDatas);
+		
+		   }
+		   if (!ratesDatas.isEmpty()) {
+	            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(ratesDatas, "referDate");
+
+	            System.out.println("Minimum Date: " + minMaxDates[0]);
+	            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+	            ratesService.doCaculationLoader(minMaxDates[0],minMaxDates[1],Long.valueOf(readExcelWriteDBDTO.getGroupId()));
+	        } else {
+	            System.out.println("List is empty.");
+	        } 
+	}
+	else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("49"))
+	{
+
+		   List<RatesData> ratesDatas = new ArrayList<>();
+		   List<String> subgroups = Arrays.asList("1","2");
+		   for (String subGroupId: subgroups) {
+				   rowData.clear();
+				   ratesDatas.clear();
+				   rowData = ReadExcelWriteDBUtil.readExcelFile(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+				   for (DataDTO data: rowData) {
+					 if(ratesService.CheckIfCanSaveRts(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subGroupId)))
+					 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+					 	RatesData ratesData = RatesData.builder().referDate(data.getDate())
+					   												  .subgroupId(Long.valueOf(subGroupId))
+					   												  .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+					   												  .value(data.getValue()==null?"":data.getValue())
+				   												  .build();
+					   
+					 	ratesDatas.add(ratesData);
+		      }
+				   ratesService.SaveRatesData(ratesDatas);
+		
+		   }
+		   if (!ratesDatas.isEmpty()) {
+	            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(ratesDatas, "referDate");
+
+	            System.out.println("Minimum Date: " + minMaxDates[0]);
+	            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+	            ratesService.doCaculationLoader(minMaxDates[0],minMaxDates[1],Long.valueOf(readExcelWriteDBDTO.getGroupId()));
+	        } else {
+	            System.out.println("List is empty.");
+	        } 
+
+	
+	}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("48"))
+	{
+		
+
+		try {
+			Object[][] excelData = ReadExcelWriteDBUtil.readExcel(readExcelWriteDBDTO.getFile());
+			List<RatesData> ratesDataList = new ArrayList<>();
+			
+			for (int rowIndex = 0; rowIndex < excelData.length; rowIndex++) {
+				if (rowIndex >= 2) {
+					
+					Object[] row = excelData[rowIndex];
+					 if (row[0]=="") {
+					        // Skip the current iteration and continue with the next one
+					        continue;
+					    }
+					Object[][] result = ReadExcelWriteDBUtil.splitArrayRates(readExcelWriteDBDTO.getGroupId(),row, 2);
+					
+					
+					for (int i = 0; i < result.length; i++) {
+
+						Object[] splitrow = result[i];
+										
+						for (int j = 0; j < splitrow.length; j++) {
+							 if(j!=0)
+							 {   String referDate = splitrow[0].toString();
+								 Long grouId = Long.valueOf(readExcelWriteDBDTO.getGroupId());
+								 Long subgrouId = Long.valueOf(i+1);
+								 Long factorId = Long.valueOf(ReadExcelWriteDBUtil.getRateFactorId(j));
+								 String value = splitrow[j].toString()==null?"":splitrow[j].toString();
+								
+								 if(ratesService.CheckIfCanSave(referDate,grouId,subgrouId,factorId))
+								 	throw new BadRequestException(splitrow[0].toString()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+								 RatesData ratesData = RatesData.builder().referDate(referDate)
+									 											  .groupId(grouId)
+								   												  .subgroupId(subgrouId)
+								   												  .factorId(factorId)
+								   												  .value(value)
+							   												  .build();
+								   
+								 	ratesDataList.add(ratesData);
+							 }
+						
+					}
+				}
+			}
+			}
+			ratesService.SaveRatesData(ratesDataList);
+			
+			   if (!ratesDataList.isEmpty()) {
+		            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(ratesDataList, "referDate");
+
+		            System.out.println("Minimum Date: " + minMaxDates[0]);
+		            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+		            ratesService.doCaculationLoader(minMaxDates[0],minMaxDates[1],Long.valueOf(readExcelWriteDBDTO.getGroupId()));
+		        } else {
+		            System.out.println("List is empty.");
+		        }
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+
+	
+	}
 	else if(macroGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim()))
 	{
 		try {

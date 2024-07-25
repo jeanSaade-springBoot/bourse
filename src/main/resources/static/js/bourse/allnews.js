@@ -333,7 +333,7 @@
 				 if (text.includes("AssetId"))
 				  {
 					 if (group.split("_")[1] == 1)
-						 return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>" + 'YIELDS & RATES' + "</span></div></div>";
+						 return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>" + 'SOVEREIGN YIELDS' + "</span></div></div>";
 					 else if (group.split("_")[1] == 2)
 						 return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>" + 'COMMODITIES' + "</span></div></div>";
 					 else if (group.split("_")[1] == 3)
@@ -346,6 +346,8 @@
 						 return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>" + 'SKEWS' + "</span></div></div>";
 					 else if (group.split("_")[1] == 7)
 						 return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>" + 'STOCKS & INDICES' + "</span></div></div>";
+ 					else if (group.split("_")[1] == 9)
+						 return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>" + 'RATES' + "</span></div></div>";
 
 				  } 
 				  else if (text.includes("Date"))

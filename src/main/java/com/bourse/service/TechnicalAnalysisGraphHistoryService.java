@@ -263,4 +263,11 @@ public class TechnicalAnalysisGraphHistoryService
 	            	technicalAnalysisRetracementHistoryRepository.deleteById(data.getId());
 	            });
 	}
+	public void deleteRelevantHistoryByGraphId(String graphid, Authentication authentication) {
+		List<TechnicalAnalysisRelevantHistory> list = technicalAnalysisRelevantHistoryRepository.findRelevantHistoryByGraphIdAndUserName(graphid,authentication.getName());		
+		list.forEach(
+	            (data) -> {
+	            	technicalAnalysisRelevantHistoryRepository.deleteById(data.getId());
+	            });
+	}
 }

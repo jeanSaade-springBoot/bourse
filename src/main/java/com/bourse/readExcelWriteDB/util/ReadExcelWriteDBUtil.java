@@ -189,6 +189,49 @@ public static Object[][] splitArrayMacro(Object[] dataArray, int elementsInSubar
 	}
   return result;
 }
+public static Object[][] splitArrayRates(String groupId, Object[] dataArray, int elementsInSubarray) {
+	  Object[][] result = null;
+	try {
+	    int numberOfSubarrays = dataArray.length / elementsInSubarray;
+	
+		result = new Object[numberOfSubarrays][elementsInSubarray + 1];
+		for (int i = 0; i < numberOfSubarrays; i++) {
+			String referDate = "";
+			String formattedDate = "";
+			
+			if(groupId.equalsIgnoreCase("48"))
+			 {   referDate = "01-" + dataArray[0].toString();
+				DateTimeFormatter inputFormatter = new DateTimeFormatterBuilder()
+		                .parseCaseInsensitive()
+		                .appendPattern("dd-MMM-uu")
+		                .toFormatter(Locale.ENGLISH);
+		            
+		            // Parse the date using the custom formatter
+		            LocalDate parsedDate = LocalDate.parse(referDate, inputFormatter);
+		            
+			DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+			 formattedDate = parsedDate.format(outputFormatter);
+			}
+			else
+			{ referDate = dataArray[0].toString();
+			   Date inputDate = inputDateFormat.parse(referDate);
+			   formattedDate = dateFormat.format(inputDate);
+			}
+		
+			String outputDateStr = formattedDate;
+			for (int j = 0; j <= elementsInSubarray; j++) {
+				if (j == 0) {
+					result[i][j] = outputDateStr;
+				} else
+					result[i][j] = dataArray[i * elementsInSubarray + j];
+			}
+	    }
+	} catch (Exception e) {
+		// TODO Auto-generated catch block
+		e.printStackTrace();
+	}
+return result;
+}
 public static int[] getLongSkewsGroupId(int number) {
     if (number == 0 ) 
         return new int[]{25, 10};
@@ -236,6 +279,16 @@ public static int getMacroFactorId(int number) {
 		return 15;
 	else if (number == 3)
 		return 16;
+	else
+          return 0;  
+}
+public static int getRateFactorId(int number) {
+	if (number == 1)
+		return 18 ;
+	else if (number == 2)
+		return 17;
+	else if (number == 3)
+		return 17;
 	else
           return 0;  
 }
