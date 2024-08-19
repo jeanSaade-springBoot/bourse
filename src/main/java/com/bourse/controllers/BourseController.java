@@ -117,11 +117,13 @@ public class BourseController {
 	    
 	    return modelAndView;
     }
-	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN') and principal.tacAccepted == true")
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_SOVEREIGN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/sovereignyields")
     public ModelAndView dataEntryPage(@RequestParam("yield") String yield,ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_SOVEREIGN");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("yield", Integer.valueOf(yield));
 	    ModelAndView modelAndView = new ModelAndView("html/sovereignyields");
@@ -134,6 +136,8 @@ public class BourseController {
     public ModelAndView dataEntryPreciousMetalsPage(@RequestParam("commodity") String commodity,ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_METALS");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("commodity", Integer.valueOf(commodity));
 		return new ModelAndView("html/metals");
@@ -143,6 +147,8 @@ public class BourseController {
     public ModelAndView dataEntryLiquidityPage(@RequestParam("liquidity") String liquidity,ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_LIQUIDITY");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("liquidity", Integer.valueOf(liquidity));
 		return new ModelAndView("html/liquidity");
@@ -152,6 +158,8 @@ public class BourseController {
     public ModelAndView dataEntryVolumePage(@RequestParam("volume") String volume,ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_VOLUME");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("volume", Integer.valueOf(volume));
 		return new ModelAndView("html/volume");
@@ -161,6 +169,8 @@ public class BourseController {
     public ModelAndView dataEntryPageFxCds(@RequestParam("fxcds") String fxcds,ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_FXCDS");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("fxcds", Integer.valueOf(fxcds));
 	    ModelAndView modelAndView = new ModelAndView("html/fxAndCds");
@@ -172,6 +182,8 @@ public class BourseController {
     public ModelAndView dataEntryPageSkews(@RequestParam("skews") String skews,ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_SKEWS");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("skews", Integer.valueOf(skews));
 	    ModelAndView modelAndView = new ModelAndView("html/skewsDataInput");
@@ -183,6 +195,8 @@ public class BourseController {
     public ModelAndView dataEntryPageSti(@RequestParam("sti") String sti,ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_STI");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("sti", Integer.valueOf(sti));
 	    ModelAndView modelAndView = new ModelAndView("html/sti/stiDataInput");
@@ -194,6 +208,8 @@ public class BourseController {
     public ModelAndView dataEntryPageMacro(ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_MACRO");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         ModelAndView modelAndView = new ModelAndView("html/macro/macroDataInput");
 	    
@@ -204,9 +220,24 @@ public class BourseController {
     public ModelAndView dataEntryRatesPage(@RequestParam("rates") String rates,ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_RATES");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("rates", Integer.valueOf(rates));
 		return new ModelAndView("html/rates/ratesDataInput");
+    }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_LONGENDS') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/longends")
+    public ModelAndView dataEntryPageLongEnds(@RequestParam("longend") String longend, ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_LONGENDS");
+        model.addAttribute("longend", Integer.valueOf(longend));
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        ModelAndView modelAndView = new ModelAndView("html/longEnds/longEndsDataInput");
+	    
+	    return modelAndView;
     }
 	@RequestMapping( value =  "/returnfunction")
     public ModelAndView returnFunctionPage(ModelMap model)
@@ -513,6 +544,30 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/rates/centralBanks");
     }
+	@PreAuthorize("hasAuthority('RATES_FIXINGS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/fixings")
+    public ModelAndView fixingsRatesGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/rates/fixings");
+    }
+	@PreAuthorize("hasAuthority('RATES_MORTGAGE_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/mortgage")
+    public ModelAndView mortgageRatesGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/rates/mortgage");
+    }
+	@PreAuthorize("hasAuthority('RATES_INFLATION_SWAP_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/inflation-swap")
+    public ModelAndView inflationSwapRatesGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/rates/inflation");
+    }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)
@@ -576,10 +631,13 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "SETTINGS_SCREEN"));
 		return new ModelAndView("html/readExcelWriteDB");
     }
-	@RequestMapping(value =  "/macrodisplaysettings")
-    public ModelAndView macroDisplaySettings(ModelMap model, Authentication authentication)
+	
+	@PreAuthorize("hasAnyAuthority('MACRO_DISPLAY_SETTINGS', 'LONGENDS_DISPLAY_SETTINGS') and principal.tacAccepted == true")
+	@RequestMapping(value =  "/displaysettings")
+    public ModelAndView displaySettings(@RequestParam("assetId") String assetId , ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("assetId", Integer.valueOf(assetId));
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "MACRO_DISPLAY_SETTINGS"));
 		return new ModelAndView("html/macro/macroDisplaySettings");
     }

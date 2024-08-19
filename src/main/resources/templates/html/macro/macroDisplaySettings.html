@@ -44,7 +44,7 @@
 				  <div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
 				    <a class="navigation nav-item nav-link"  href="/bourse/settings" role="tab" aria-controls="nav-any2" aria-selected="false">Column Master</a>
 				    <a class="navigation nav-item nav-link"   href="/bourse/readexcelwritedb" role="tab" aria-controls="nav-any2" aria-selected="false">Batch Loader</a>
-				    <a class="navigation nav-item nav-link active"  href="/bourse/macrodisplaysettings" role="tab"  aria-selected="false">Macro Display Settings</a>
+				    <a class="navigation nav-item nav-link active"  href="/bourse/displaysettings?assetId=8" role="tab"  aria-selected="false">Display Settings</a>
 				   </div>
 				</nav>
            
@@ -58,8 +58,13 @@
      
        	   <div class="col-12 pt-2" id="container-wrapper" style="height: fit-content; margin-left:3rem;     margin-bottom: 4rem;">
 				<div class="col-12 pt-2">
-					<h2>Macro PMI</h2>
+				 <div class="btn-group" role="group" aria-label="First group">
+				    <button sec:authorize="hasAuthority('MACRO_DISPLAY_SETTINGS')"  type="button" th:classappend="${assetId == 8} ? 'active' : ''" class="btn btn-secondary mw-100 " id="sovereign-btn"  th:onclick="'javascript:toggleDivVisibility(8)'">MACRO PMI</button>
+				    <button sec:authorize="hasAuthority('LONGENDS_DISPLAY_SETTINGS')" type="button" th:classappend="${assetId == 10} ? 'active' : ''"  class="btn btn-secondary mw-100" id="corporate-btn"  th:onclick="'javascript:toggleDivVisibility(10)'">LONGEND FUTURES</button>
+				   </div>
 				</div>
+				 <div id="assetId" th:text="${assetId}" style="display:none;"></div>
+				
 				<div id="macroContainer">
 					
 				</div>

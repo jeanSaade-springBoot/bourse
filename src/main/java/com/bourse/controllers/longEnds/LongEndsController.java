@@ -1,0 +1,92 @@
+package com.bourse.controllers.longEnds;
+
+import java.util.HashMap;
+import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+
+import com.bourse.domain.longEnds.LongEndData;
+import com.bourse.domain.longEnds.LongEndsDisplaySettings;
+import com.bourse.domain.longEnds.TmpAuditLefBunds;
+import com.bourse.dto.MainSearchFilterDTO;
+import com.bourse.dto.longends.LongEndsAuditCommonDTO;
+import com.bourse.service.DataFunctionService;
+import com.bourse.service.longEnds.LongEndsService;
+
+@RestController
+@RequestMapping(value = "longEnds")
+public class LongEndsController {
+
+	@Autowired
+	private final LongEndsService longEndsService;
+	
+	@Autowired
+	private final DataFunctionService dataFunctionService;
+	
+	private String className = "LongEndsController";
+	
+	public LongEndsController(
+			LongEndsService longEndsService,
+			DataFunctionService dataFunctionService)
+	{
+		this.longEndsService = longEndsService;
+		this.dataFunctionService = dataFunctionService;
+	}
+	@GetMapping(value = "get-longends-display-settings")
+	public ResponseEntity<List<LongEndsDisplaySettings>> getLongEndsDisplaySettingsList() {
+		System.out.println(className+": get-longends-display-settings");
+		return new ResponseEntity<>(longEndsService.getLongEndsDisplaySettingsList(),HttpStatus.OK);
+	}
+	@GetMapping(value = "get-longends-display-settings/{groupId}")
+	public ResponseEntity<List<LongEndsDisplaySettings>> getLongEndsDisplaySettingsList(@PathVariable("groupId") String groupId) {
+		System.out.println(className+": get-longends-display-settings");
+		return new ResponseEntity<>(longEndsService.getLongEndsDisplaySettingsList(groupId),HttpStatus.OK);
+	}
+	@GetMapping(value = "longEnds-data/{groupId}/{referDate}")
+	public ResponseEntity<List<LongEndsAuditCommonDTO>> getLongEndsByGroupIdAndDataByReferDate(@PathVariable("groupId") String groupId, @PathVariable("referDate") String referDate) {
+	    System.out.println(className + ": getLongEndsByGroupIdAndDataByReferDate");
+	    List<LongEndsAuditCommonDTO> data = longEndsService.getLongEndsByGroupIdAndDataByReferDate(groupId, referDate);
+	   
+	    return new ResponseEntity<>(data, HttpStatus.OK);
+	}
+	@PostMapping(value = "save-longends-display-settings")
+	public ResponseEntity<List<LongEndsDisplaySettings>> saveLongEndsDisplaySettingsList(@RequestBody List<LongEndsDisplaySettings> dTOlst) {
+		System.out.println(className+": save-longends-display-settings");
+		return new ResponseEntity<>(longEndsService.saveLongEndsDisplaySettingsList(dTOlst),HttpStatus.OK);
+	}
+	@GetMapping(value = "checkifcansave/{group}/{referDate}")
+	public ResponseEntity<Boolean> CheckIfCanSave(@PathVariable("group") String group,@PathVariable String referDate) 
+	{  
+		return new ResponseEntity<>(!longEndsService.CheckIfCanSave(referDate,Long.valueOf(group)),HttpStatus.OK);
+	}
+	@PostMapping(value = "save-longEnds-data")
+	public ResponseEntity<Boolean> saveLongEndsData(@RequestBody List<LongEndData> longEndDataDTOlst) {
+		System.out.println(className+": save-longEnds-data");
+		longEndsService.saveLongEndsData(longEndDataDTOlst);
+		longEndsService.doCaclulation(longEndDataDTOlst.get(0).getReferDate(),String.valueOf(longEndDataDTOlst.get(0).getGroupId()));
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@GetMapping(value = "findlatestdata")
+	public ResponseEntity<TmpAuditLefBunds> findFirstByOrderDesc() {
+		System.out.println(className+": findlatestdata");
+		return new ResponseEntity<>(longEndsService.findFirstByOrderDesc(),HttpStatus.OK);
+	}
+	@GetMapping(value = "getlatest/{groupId}", produces = "application/json;charset=UTF-8")
+    public ResponseEntity <String> getLatest(@PathVariable("groupId") String groupId){
+		return new ResponseEntity<>(longEndsService.findLatestData(groupId), HttpStatus.OK);
+    }
+	@PostMapping(value = "getgriddata")
+	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody MainSearchFilterDTO mainSearchFilterDTO) {
+		 System.out.println(className+": getgriddata");
+		return new ResponseEntity<>(longEndsService.getGridData(mainSearchFilterDTO),HttpStatus.OK);
+	}
+}
+

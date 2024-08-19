@@ -1111,31 +1111,31 @@ function initiate(Type, inputDataType, item, dataInputGridFields, dataInputGridC
 }
 function renderFilterGrid(data){
 	var groupedData = groupByGroupIdAndSubgroupId(data);
-var containsSubgroupId1 = false;
-var containsSubgroupId2 = false;
-var containsSubgroupId3 = false;
-var containsSubgroupId4 = false;
-// Iterate over each object in the data array
-data.forEach(function(obj) {
-    // Update variables for each subgroup based on the isVisible value
-    if (obj.subgroupId === 1) {
-        if (obj.isVisible) {
-            containsSubgroupId1 = true;
-        }
-    } else if (obj.subgroupId === 2) {
-        if (obj.isVisible) {
-            containsSubgroupId2 = true;
-        }
-    } else if (obj.subgroupId === 3) {
-        if (obj.isVisible) {
-            containsSubgroupId3 = true;
-        }
-    } else if (obj.subgroupId === 4) {
-        if (obj.isVisible) {
-            containsSubgroupId4 = true;
-        }
-    }
-});
+	var containsSubgroupId1 = false;
+	var containsSubgroupId2 = false;
+	var containsSubgroupId3 = false;
+	var containsSubgroupId4 = false;
+	// Iterate over each object in the data array
+	data.forEach(function(obj) {
+	    // Update variables for each subgroup based on the isVisible value
+	    if (obj.subgroupId === 1) {
+	        if (obj.isVisible) {
+	            containsSubgroupId1 = true;
+	        }
+	    } else if (obj.subgroupId === 2) {
+	        if (obj.isVisible) {
+	            containsSubgroupId2 = true;
+	        }
+	    } else if (obj.subgroupId === 3) {
+	        if (obj.isVisible) {
+	            containsSubgroupId3 = true;
+	        }
+	    } else if (obj.subgroupId === 4) {
+	        if (obj.isVisible) {
+	            containsSubgroupId4 = true;
+	        }
+	    }
+	});
 className=(containsSubgroupId1&&containsSubgroupId2&&containsSubgroupId3&&containsSubgroupId4)?'col-3':'col-6';
 					 mainContainer='';
 				 selectedItems=[];

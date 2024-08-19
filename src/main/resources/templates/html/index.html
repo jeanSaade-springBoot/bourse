@@ -76,6 +76,38 @@ div#content {
 		</ul>
     </div>
   </div>
+  
+	<div sec:authorize="hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN') 
+				  OR hasAuthority('RATES_DATA_FUNCTION_DISPLAY_SCREEN')"
+		class="card">
+		<div class="card-body">
+			<h5 class="card-title card-title-color">Rates</h5>
+			<ul class="fa-ul">
+				<li sec:authorize="hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN')"><a
+					href="/bourse/centralbanks"><img class="img-m-right"
+						id="ContentPlaceHolder1_Image13" src="../../img/i2.png"
+						align="absmiddle">Central Banks</a></li>
+				<li sec:authorize="hasAuthority('RATES_FIXINGS_GRAPH_SCREEN')"><a
+					href="/bourse/fixings"><img class="img-m-right"
+						id="ContentPlaceHolder1_Image13" src="../../img/i2.png"
+						align="absmiddle">Fixings</a></li>
+				<li sec:authorize="hasAuthority('RATES_INFLATION_SWAP_GRAPH_SCREEN')"><a
+					href="/bourse/inflation-swap"><img class="img-m-right"
+						id="ContentPlaceHolder1_Image13" src="../../img/i2.png"
+						align="absmiddle">INFLATION SWAP RATES</a></li>
+				<li sec:authorize="hasAuthority('RATES_MORTGAGE_GRAPH_SCREEN')"><a
+					href="/bourse/mortgage"><img class="img-m-right"
+						id="ContentPlaceHolder1_Image13" src="../../img/i2.png"
+						align="absmiddle">MORTGAGE RATES</a></li>
+				<li
+					sec:authorize="hasAuthority('RATES_DATA_FUNCTION_DISPLAY_SCREEN')"><a
+					href="/bourse/ratesdatafunctiondisplay"><img
+						class="img-m-right" id="ContentPlaceHolder1_Image13"
+						src="../../img/i5.png" align="absmiddle">DATA &
+						FUNCTION DISPLAY</a></li>
+			</ul>
+		</div>
+	</div>
   <div sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN') OR hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') OR hasAuthority('YIELD_CURVES_GRAPH_SCREEN') OR hasAuthority('YIELD_CROSSES_GRAPH_SCREEN') OR hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')" class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Commodities</h5>
@@ -101,12 +133,7 @@ div#content {
 		  <li sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/ezmmliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Eurozone Monetary Mass</a></li>
 		  <li sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')"><a href="/bourse/corporateliquidity"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Corpoprate Liquidity</a></li>
 		  <li sec:authorize="hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/liquiditydatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
-		  <br>
-		  <br>
-		  <br>
-		  <br>
-		  <br>
-		  <br>
+		 
 		 </ul>
     </div>
   </div>
@@ -235,26 +262,6 @@ div#content {
 			</ul>
 		</div>
 	</div>
-	<div sec:authorize="hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN') 
-				  OR hasAuthority('RATES_DATA_FUNCTION_DISPLAY_SCREEN')"
-								class="card">
-								<div class="card-body">
-									<h5 class="card-title card-title-color">Rates</h5>
-									<ul class="fa-ul">
-										<li sec:authorize="hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN')"><a
-											href="/bourse/centralbanks"><img class="img-m-right"
-												id="ContentPlaceHolder1_Image13" src="../../img/i2.png"
-												align="absmiddle">Centrak Banks</a></li>
-									
-										<li
-											sec:authorize="hasAuthority('RATES_DATA_FUNCTION_DISPLAY_SCREEN')"><a
-											href="/bourse/ratesdatafunctiondisplay"><img
-												class="img-m-right" id="ContentPlaceHolder1_Image13"
-												src="../../img/i5.png" align="absmiddle">DATA &
-												FUNCTION DISPLAY</a></li>
-									</ul>
-								</div>
-							</div>
 							<div class="card">
    <!--  <div class="card-body">
       <h5 class="card-title card-title-color">At A Glance</h5>

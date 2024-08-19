@@ -319,14 +319,14 @@ function Edit(row, event) {
 		}
 		else if (stiSubGroupValue == 3) {
 			oldDataJson = {
-				"DAX": data.DAX,
+				"dax": data.dax,
 				"cac": data.cac,
 				"mib": data.mib,
 				"ftse": data.ftse,
 				"stoxx50": data.stoxx50,
 				"stoxx600": data.stoxx600,
 				"eubanks": data.eubanks,
-				"DAX_EURUSD": data.DAX_EURUSD,
+				"dax_EURUSD": data.dax_EURUSD,
 				"cac_EURUSD": data.cac_EURUSD,
 				"mib_EURUSD": data.mib_EURUSD,
 				"ftse_GBPUSD": data.ftse_GBPUSD,
@@ -439,14 +439,14 @@ function Update(row, event) {
 
 	}	else if (stiSubGroupValue == 3) {
 			updatedDataJson = {
-				"DAX": updatedData.DAX,
+				"dax": updatedData.dax,
 				"cac": updatedData.cac,
 				"mib": updatedData.mib,
 				"ftse": updatedData.ftse,
 				"stoxx50": updatedData.stoxx50,
 				"stoxx600": updatedData.stoxx600,
 				"eubanks": updatedData.eubanks,
-				"DAX_EURUSD": updatedData.DAX_EURUSD,
+				"dax_EURUSD": updatedData.dax_EURUSD,
 				"cac_EURUSD": updatedData.cac_EURUSD,
 				"mib_EURUSD": updatedData.mib_EURUSD,
 				"ftse_GBPUSD": updatedData.ftse_GBPUSD,

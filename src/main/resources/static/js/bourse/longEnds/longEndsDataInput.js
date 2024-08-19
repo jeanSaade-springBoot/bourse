@@ -1,0 +1,940 @@
+var selectedRow = this;
+var monthDate = new Date();
+monthDate.setMonth(monthDate.getMonth() - 6);
+var auditUrl;
+var updateUrl;
+var saveUrl;
+var deleteUrl;
+var checkifcanUrl;
+var allitems = ['#jqxCheckBoxSpreadName',
+				'#jqxCheckBoxSpreadValue'];
+var contains = {
+	    2: [false, 2], // containsOpen
+	    3: [false, 3], // containsSettle
+	    4: [false, 4], // containsClose
+	    5: [false, 5], // containsHigh
+	    6: [false, 6]  // containsLow
+	};
+	
+ const subgrouId_description =  [
+	 		    { name: 'Mtty', subgroupId: 1 },
+                { name: 'Open', subgroupId: 2 },
+                { name: 'Settle', subgroupId: 3 },
+                { name: 'Close', subgroupId: 4 },
+                { name: 'High', subgroupId: 5 },
+                { name: 'Low', subgroupId: 6 },
+                { name: 'futureExpiryDate', subgroupId: 7 },
+                { name: 'issuer', subgroupId: 8 },
+                { name: 'coupon', subgroupId: 9 },
+                { name: 'ctdMaturity', subgroupId: 10 },
+                { name: 'priceAtIssue', subgroupId: 11 },
+                { name: 'frequency', subgroupId: 12 },
+                { name: 'convergenceFactor', subgroupId: 13 },
+                ];
+ const groupId_Id =  [
+                { Id: '1', groupId: 52 },
+				{ Id: '2', groupId: 53 },
+				{ Id: '3', groupId: 54 },
+				{ Id: '4', groupId: 55 },
+				{ Id: '5', groupId: 56 },
+				{ Id: '6', groupId: 57 },
+				{ Id: '7', groupId: 58 },
+				{ Id: '8', groupId: 59 },
+				{ Id: '9', groupId: 60 },
+                ];
+var selectedItems = [];
+var AuditDefaultData = [];
+
+const longEndsValue = $("#longEndsValue")[0].innerText;
+const selectedItem = longEndsValue;
+const groupId=getgroupId(longEndsValue);
+checkifcanUrl = "/longEnds/checkifcansave/";
+
+auditUrl = '/longEnds/longEnds-data/';
+updateUrl = "/longEnds/update-longEnds-data";
+saveUrl = "/longEnds/save-longEnds-data";
+deleteUrl = "/longEnds/delete-longEnds/";
+
+var mainGroupContainer='';
+var groupContainer='';
+var subgroupContainer='';
+var factorIner='';
+var factorInerItem='';
+var factorContainer='';
+
+
+var inputDataLongEnds = document.getElementById("data-input-data");
+
+  if(longEndsValue==1)
+         	 {
+			  Type="data" ;
+         	  updateUrl="/longEnds/update-long-longEnds-data";
+         	  deleteUrl="/longEnds/delete-long-longEnds-byreferDate/";
+		     } 
+          
+
+
+$(document).ready(function() {
+	$('#overlay').fadeOut();
+	$('#container-wrapper').show();
+
+	$("#viewall").jqxButton({ theme: 'dark', width: 110, height: 35, template: "primary" });
+	$("#viewall").css("display", "block");
+	$("#viewall").click(function() {
+		popupWindow('/bourse/allnews', 'Libvol-View All News', window, 1300, 600);
+	});
+
+	$('[data-toggle="tooltip"]').tooltip();
+
+
+	$("#dateInput").jqxDateTimeInput({ theme: 'dark', width: '195px', height: '25px' });
+
+	$("#dateInputAudit").jqxDateTimeInput({ theme: 'dark', width: '195px', height: '25px' });
+
+	$("#dateInputFrom").jqxDateTimeInput({ theme: 'dark', width: '200px', height: '25px' });
+	$("#dateInputFrom").jqxDateTimeInput('setDate', monthDate);
+
+	$("#dateInputTo").jqxDateTimeInput({ theme: 'dark', width: '200px', height: '25px' });
+
+	$("#filter").jqxButton({ theme: 'dark', height: 30, width: 74 });
+	$("#Clearfilter").jqxButton({ theme: 'dark', height: 30, width: 74 });
+	renderlookUpGridsData();
+
+	dynamicDisplayInput(groupId);
+	renderSubGroup();
+	source =
+	{
+		datatype: "json",
+		datafields: [
+			{ name: 'refer_date', type: 'date' },
+			{"name":"Open-52","type":"float"},
+			{"name":"Settle-52","type":"float"},
+			{"name":"Close-52","type":"float"},
+			{"name":"CONVERGENCE_FACTOR-52","type":"float"},
+			{"name":"FREQUENCY-52","type":"float"},
+			{"name":"PRICE_AT_ISSUE-52","type":"float"},
+			{"name":"CTD_MATURITY-52","type":"float"},
+			{"name":"COUPON-52","type":"float"},
+			{"name":"ISSUER-52","type":"float"},
+			{"name":"FUTURE_EXPIRY_DATE-52","type":"float"},
+			{"name":"Low-52","type":"float"},
+			{"name":"High-52","type":"float"},
+			{"name":"maturity_name-52","type":"float"},
+		],
+		id: 'id',
+		localdata: ''
+	};
+	$("#grid").jqxGrid({
+		width: '100%',
+		columnsresize: true,
+		theme: 'dark',
+		pageable: true,
+		pagesize: 10,
+		showfilterrow: true,
+		filterable: true,
+		autoheight: true,
+		columnsresize: true,
+		pagesizeoptions: ['10', '20', '50']
+	});
+
+	$("#grid").jqxGrid('showloadelement');
+
+	$('#dateInputAudit').on('change', function(event) {
+		date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+		filterDate = date;
+
+		delete auditGridSource.localdata;
+		auditGridSource.url = auditUrl+  getgroupId(selectedItem) + '/' + date;
+		dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+		$('#AuditGrid').jqxGrid({ source: dataAdapter });
+
+	});
+
+	$("#filter").click(function() {
+
+		getFilterData(selectedItem);
+	});
+	
+});
+$("#Clearfilter").click(function() {
+	
+		for (i = 0; i < selectedItems.length; i++) {
+			$(selectedItems[i]).jqxCheckBox({ checked: false });
+		}
+});
+function dynamicDisplayInput(selectedItem){
+	
+	let dynamicInputData = '';
+	$.ajax({
+	    url: '/longEnds/get-longends-display-settings/' + selectedItem,
+	    method: 'GET',
+	    dataType: 'json',
+	    async:false,
+	    success: function(response) {
+	        for (let i = 0; i < response.length; i++) {
+	            let subgroupId = response[i].subgroupId;
+	            if (response[i].isVisible) {
+	                if (contains[subgroupId]) {
+	                    contains[subgroupId][0] = true;
+	                    contains[subgroupId][1] = subgroupId; // Update the second value to 1 if visible
+	                }
+	                dynamicInputData += '<div class="fw-bold">' + getSubgroupName(subgroupId) + '</div>';
+	            }
+	        }
+	        $('#input-titles').append(dynamicInputData);
+	        
+			renderFilterGrid(response);
+	    },
+	    error: function(xhr, status, error) {
+	        console.log(error);
+	    }
+	});
+			
+}
+ function groupByGroupIdAndSubgroupId(data) {
+    var groupedData = {};
+
+    Object.keys(data).forEach(function (key) {
+        var item = data[key];
+        var groupId = item.groupId;
+        var subgroupId = item.subgroupId;
+
+        if (!groupedData[groupId]) {
+            groupedData[groupId] = {};
+        }
+
+        if (!groupedData[groupId][subgroupId]) {
+            groupedData[groupId][subgroupId] = [];
+        }
+
+        groupedData[groupId][subgroupId].push(item);
+    });
+
+    return groupedData;
+}
+function renderlookUpGridsData(){
+		$.ajax({
+	    url: '/longEnds/findlatestdata' ,
+	    method: 'GET',
+	    dataType: 'json',
+	    async:false,
+	    success: function(response) {
+				renderLookBackGrid(response);
+				renderLookBackMttyGrid(response);
+	    },
+	    error: function(xhr, status, error) {
+	        console.log(error);
+	    }
+	});
+}
+function renderLookBackMttyGrid(data){
+	 var source =
+            {
+                localdata: [{
+					mtty:data.maturity_name,
+				}],
+                datatype: "array",
+                updaterow: function (rowid, rowdata, commit) {
+                    commit(true);
+                },
+                datafields:
+                [
+                    { name: 'mtty', type: 'string' },
+                ]
+            };
+             var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("#lookBackMttyDataInputGriddata").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                editable: true,
+                selectionmode: 'singlecell',
+                editmode: 'click',
+                autoheight: true,
+                theme:'dark',
+                columns: [
+                  { text: 'MTTY', datafield: 'mtty', width: '100%',align:'center' },
+               ]
+            });
+}
+function renderLookBackGrid(data){
+	 var source =
+            {
+                localdata: [{
+					futureExpiryDate:data.futureExpiryDate,
+					issuer:data.issuer,
+					coupon:data.coupon,
+					ctdMaturity:data.ctdMaturity,
+					priceAtIssue:data.priceAtIssue,
+					frequency:data.frequency,
+					convergenceFactor:data.convergenceFactor,
+				}],
+                datatype: "array",
+                updaterow: function (rowid, rowdata, commit) {
+                    commit(true);
+                },
+                datafields:
+                [
+                    { name: 'futureExpiryDate', type: 'string' },
+                    { name: 'issuer', type: 'string' },
+                    { name: 'coupon', type: 'string' },
+                    { name: 'ctdMaturity', type: 'string' },
+                    { name: 'priceAtIssue', type: 'string' },
+                    { name: 'frequency', type: 'string' },
+					{ name: 'convergenceFactor', type: 'string' }
+                ]
+            };
+             var dataAdapter = new $.jqx.dataAdapter(source);
+            // initialize jqxGrid
+            $("#lookBackDataInputGriddata").jqxGrid(
+            {
+                width: '100%',
+                source: dataAdapter,
+                editable: true,
+                selectionmode: 'singlecell',
+                editmode: 'click',
+                autoheight: true,
+                theme:'dark',
+                columns: [
+                  { text: 'Future Expiry Date', columntype: 'textbox', datafield: 'futureExpiryDate', width: '14.28%' },
+                  { text: 'Issuer', datafield: 'issuer', width: '14.28%'  },
+                  { text: 'Coupon', datafield: 'coupon', width: '14.28%' },
+                  { text: 'Ctd Maturity', datafield: 'ctdMaturity', width: '14.28%' },
+                  { text: 'Price At Issue', datafield: 'priceAtIssue', width: '14.28%' },
+				  { text: 'Frequency', datafield: 'frequency', width: '14.28%' },
+				  { text: 'Convergence Factor', datafield: 'convergenceFactor', width: '14.28%' },
+               ]
+            });
+}
+function renderFilterGrid(data){
+ 
+	let filterDiv='';
+	var filterInitialsDiv='';
+		data.forEach(item => {
+		
+		  const subGroupId= item.subgroupId;
+		  const name=getSubgroupName(subGroupId);
+		  if(item.isVisible)
+		  {
+			 filterInitialsDiv +=`<div id='jqxCheckBox-${groupId}-${subGroupId}' style='float: left;'><span class="checkboxesTitle">${name}</span></div>`;
+	  	  }
+	  });
+	  filterDiv += `<div class="col-3">${filterInitialsDiv}</div>`;
+   	    
+   	    
+	filterDiv +=  `<div class="col-3">
+					             	<div id='jqxCheckBox-${groupId}-1' style='float: left;'><span class="checkboxesTitle">MTTY</span></div> 
+					             	<div id='jqxCheckBox-${groupId}-7' style='float: left;'><span class="checkboxesTitle">Future Expiry Date</span></div> 
+					             	<div id='jqxCheckBox-${groupId}-8' style='float: left;'><span class="checkboxesTitle">Issuer</span></div>
+					         		<div id='jqxCheckBox-${groupId}-9' style='float: left;'><span class="checkboxesTitle">Coupon</span></div> 
+					             	<div id='jqxCheckBox-${groupId}-10' style='float: left;'><span class="checkboxesTitle">Ctd Maturity</span></div>
+					             	<div id='jqxCheckBox-${groupId}-11' style='float: left;'><span class="checkboxesTitle">Price At Issue</span></div>
+					         		<div id='jqxCheckBox-${groupId}-12' style='float: left;'><span class="checkboxesTitle">Frequency</span></div>
+					         	 	<div id='jqxCheckBox-${groupId}-13' style='float: left;'><span class="checkboxesTitle">Convergence Factor</span></div>
+					  </div>`;
+
+                  
+
+        $("#filter-container").append(filterDiv);
+        let $filterdiv = $(filterDiv);
+
+		let idsArray = $filterdiv.find('div[id]').map(function() {
+		    return this.id;
+		}).get(); 
+		for (let j = 0; j < idsArray.length; j++) {
+			allitems.push('#'+idsArray[j]);
+		}	
+		for (let j = 0; j < allitems.length; j++) {
+	    	  	$(allitems[j]).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
+			}	
+		getFilterHistory(groupId);
+		getFilterData(selectedItem);
+}
+function FieldsIsVisible(id) {
+    return contains[id] ? contains[id][0] : null;
+}
+function renderSubGroup() {
+	
+	var defaultData = AuditDefaultData;
+	var fields = [
+			{ name: 'id', type: 'string' },
+			{ name: 'futureExpiryDate', type: 'string' },
+			{ name: 'issuer', type: 'string' },
+			{ name: 'coupon', type: 'string' },
+			{ name: 'ctdMaturity', type: 'string' },
+			{ name: 'priceAtIssue', type: 'string' },
+			{ name: 'frequency', type: 'string' },
+			{ name: 'convergenceFactor', type: 'string' },
+			{ name: 'mtty', type: 'string' },
+			{ name: 'open', type: 'string' },
+			{ name: 'settle', type: 'string' },
+			{ name: 'close', type: 'string' },
+			{ name: 'high', type: 'string' },
+			{ name: 'low', type: 'string' },
+		];
+		var totalFields = fields.length-1;
+		let falseCount = countFalseValues(contains);
+		totalFields=totalFields-falseCount;
+		var widthPercentage = (100 - 7)/totalFields;
+		const subgroup2=!FieldsIsVisible(2);
+		const subgroup3=!FieldsIsVisible(3);
+		const subgroup4=!FieldsIsVisible(4);
+		const subgroup5=!FieldsIsVisible(5);
+		const subgroup6=!FieldsIsVisible(6);
+		
+		var arrayOFcolumns = [
+			{
+				text: '', editable: false, datafield: 'Edit', width: '7%', cellsrenderer: function(row) {
+					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+				}
+			},
+			 	{ text: '',editable:false,hidden:true,  datafield: 'id', width: widthPercentage + '%'},
+	          { text: 'MTTY', datafield: 'maturityName', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Open', hidden:subgroup2, datafield: 'open', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Settle',hidden:subgroup3, datafield: 'settle', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Close',hidden:subgroup4,  datafield: 'close', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'High',hidden:subgroup5,  datafield: 'high', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Low',hidden:subgroup6, datafield: 'low', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Future Expiry Date', datafield: 'futureExpiryDate', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+	          { text: 'Issuer', datafield: 'issuer', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+	       	  { text: 'Coupon', datafield: 'coupon', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+	       	  { text: 'Ctd Maturity', datafield: 'ctdMaturity', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Price At Issue', datafield: 'priceAtIssue', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Frequency', datafield: 'frequency', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Convergence Factor', datafield: 'convergenceFactor', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	 
+
+ ];
+
+	auditGridSource =
+	{
+		localdata: defaultData,
+		datatype: "json",
+		datafields: fields,
+		url: ''
+	};
+	var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+ 
+	getAuditGridSource(selectedItem);
+	$('#AuditGrid').jqxGrid(
+		{
+			width: '100%',
+			source: dataAdapter,
+			theme: 'dark',
+			autoheight: true,
+			editable: true,
+			selectionmode: 'none',
+			editmode: 'selectedrow',
+			columns: arrayOFcolumns
+		});
+
+	$("#delete").click(function() {
+		
+		
+		$('#alertDeleteDataByDate-modal').modal('show');
+		date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'MMM-yyyy')
+		$("#alertTextDeleteDataByDate").empty();
+		$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete all longEnds record for the date '" + date + "'?</p>");
+	});	
+	items= [
+	'#jqxCheckBox-52-1',
+	'#jqxCheckBox-52-2',
+	'#jqxCheckBox-52-3',
+	'#jqxCheckBox-52-4',
+	'#jqxCheckBox-52-5',
+	'#jqxCheckBox-52-6',
+	'#jqxCheckBox-52-7',
+	'#jqxCheckBox-52-8',
+	'#jqxCheckBox-52-9',
+	'#jqxCheckBox-52-10',
+	'#jqxCheckBox-52-11',
+	'#jqxCheckBox-52-12',
+	'#jqxCheckBox-52-13'
+];
+var dataInputGridFields = [
+			{ name: 'open', type: 'string',hidden:subgroup2 },
+			{ name: 'settle', type: 'string',hidden:subgroup3 },
+			{ name: 'close', type: 'string',hidden:subgroup4 },
+			{ name: 'high', type: 'string',hidden:subgroup5 },
+			{ name: 'low', type: 'string',hidden:subgroup6 },
+		];
+   var totalFields=dataInputGridFields.length;
+   totalFields = totalFields-falseCount;
+	var widthPercentage = (100)/totalFields;
+
+   var dataInputGridColumns= [
+   { text: 'Open',hidden:subgroup2, datafield: 'open',    width: widthPercentage + '%',cellsalign: 'center', align: 'center'},
+   { text: 'Settle',hidden:subgroup3, datafield: 'settle',   width: widthPercentage + '%', cellsalign: 'center', align: 'center'},
+   { text: 'Close',hidden:subgroup4, datafield: 'close',   width: widthPercentage + '%', cellsalign: 'center', align: 'center'},
+   { text: 'High',hidden:subgroup5, datafield: 'high',   width: widthPercentage + '%', cellsalign: 'center', align: 'center'},
+   { text: 'Low',hidden:subgroup6, datafield: 'low',   width: widthPercentage + '%', cellsalign: 'center', align: 'center'},
+  
+];	  
+	initiate(Type,inputDataLongEnds,items,dataInputGridFields,dataInputGridColumns,defaultData,fields,arrayOFcolumns);
+
+}
+function getSubgroupName(subgroupId) {
+    const matchingObject = subgrouId_description.find(item => item.subgroupId === subgroupId);
+    return matchingObject ? matchingObject.name : null;
+}
+function getIdfromSubgroupName(name) {
+    const matchingObject = subgrouId_description.find(item => item.name.toLowerCase() === name.toLowerCase());
+    return matchingObject ? matchingObject.subgroupId : null;
+}
+function toggleDivVisibility(groupId) {
+	location.href = "/bourse/longends?longend=" + groupId;
+}
+function getgroupId(Id) {
+    const matchingObject = groupId_Id.find(item => item.Id === Id);
+    return matchingObject ? matchingObject.groupId : null;
+}
+function countFalseValues(obj) {
+    let falseCount = 0;
+    Object.values(obj).forEach(arr => {
+        if (arr[0] === false) {
+            falseCount++;
+        }
+    });
+    return falseCount;
+}
+function getAuditGridSource(selectedItem) {
+
+	latestUrl = '/longEnds/getlatest/' + selectedItem;
+	$.ajax({
+		contentType: "application/json",
+		url: latestUrl,
+		dataType: 'text',
+		async: true,
+		cache: false,
+		timeout: 600000,
+		success: function(response) {
+			if (response != '') {
+				$('#dateInputAudit').jqxDateTimeInput('setDate', new Date(response.split("-")[1] + "," + response.split("-")[2] + "," + response.split("-")[0]));
+				date = $.jqx.dataFormat.formatdate(new Date(response), 'dd-MM-yyyy');
+
+				var dbDate = new Date(response.split("-")[1] + "," + response.split("-")[2] + "," + response.split("-")[0]);
+				var systemDate = new Date();
+				systemDate.setHours(0, 0, 0, 0);
+
+				if (dbDate.toDateString() != systemDate.toDateString()) {
+					filterDate = date;
+					delete auditGridSource.localdata;
+					auditGridSource.url = auditUrl+  getgroupId(selectedItem) + '/' + date;
+					dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+					$('#AuditGrid').jqxGrid({ source: dataAdapter });
+					
+				}
+			} else {
+				delete auditGridSource.localdata;
+				auditGridSource.localdata = [];
+				dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+				$('#AuditGrid').jqxGrid({ source: dataAdapter });
+			
+			}
+		},
+		error: function(e) {
+
+			console.log("ERROR : ", e);
+
+		}
+	});
+
+}
+function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColumns,defaultData,fields,arrayOFcolumns){
+		 var jsonObject= null;
+		 $("#delete" + Type).jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
+		 $("#cancel" + Type).jqxButton({ theme: 'dark',height:30,width:74 });
+		 $("#load" + Type).jqxButton({ theme: 'dark',height:30,width:74 }); 
+		 $("#cancel" + Type).click(function () {
+            	  inputDataType.value="";
+            	  $("#dataformInput" + Type).css("display","block");
+				  $("#dataInputButtons" + Type).css("display","none"); 
+				  $("#dataInputGrid" + Type).css("display","none"); 
+               });
+                  
+		  $('#data-input-'+Type).on('keydown', function(event) {
+			  if (event.keyCode === 13) {
+				event.preventDefault(); // prevent form submission
+				$('#data-input-'+Type).blur();
+			  }
+			});
+		  inputDataType.addEventListener("blur", function() {
+		  if($('#data-input-'+Type).val()!="")
+			  {
+			  $("#dataformInput" + Type).css("display","none");
+			  $("#dataInputGrid" + Type).css("display","block"); 
+			  $("#dataInputButtons" + Type).css("display","block"); 
+	
+			  var localdata = [];
+			  var dataIput =$('#data-input-'+Type).val()
+			  var dataInputRows = dataIput.split(/\r?\n/);
+			  var rowData = dataInputRows[0].split(/\r?\t/);
+			
+				var jsonObject = {};
+				const filteredData = dataInputGridFields.filter(item => !item.hidden);
+
+				filteredData.forEach(function(field, index) {
+					jsonObject[field.name] = rowData[index];
+				});
+
+			localdata.push(jsonObject);
+			  
+			  var dataInputGridSource =
+				{
+					datatype: "json",
+					datafields: dataInputGridFields,
+				};
+				dataInputGridSource.localData=localdata;
+				 var dataAdapter = new $.jqx.dataAdapter(dataInputGridSource);
+				// initialize jqxGrid
+				$("#dataInputGrid" + Type).jqxGrid(
+				{
+					width: '100%',
+					source: dataAdapter,  
+					theme:'dark',
+					enabletooltips: true,
+					selectionmode: 'none',
+					autoheight: true,
+					columns: dataInputGridColumns
+				});
+			  
+			  }
+		});
+		
+        $("#delete" + Type).click(function () {
+			if(longEndsValue==1)
+			   value="Bund Options";
+			else if(longEndsValue==2)
+			   value="Bobl Options"; 
+			   else if(longEndsValue==3)
+			   value="Buxl Options";    
+			     else if(longEndsValue==4)
+			   value="Shatz Options";    
+			     else if(longEndsValue==5)
+			   value="Euribor Options";    
+			   
+				$('#alertDeleteDataByDate-modal').modal('show'); 
+		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+				$( "#alertTextDeleteDataByDate" ).empty();
+		 		$( "#alertTextDeleteDataByDate" ).append( "<p> Are you sure you want to Delete all "+value+" record for the date '"+date+"'?</p>" );
+			});
+      $("#load" + Type).click(function () {
+            	    var date = new Date();
+				    var dataToBeInserted = [];
+				    var listObjects = {};
+				    const groupId = getgroupId(longEndsValue);
+				
+				    var rows = $("#dataInputGrid" + Type).jqxGrid('getrows');
+				    var rowsMtty = $("#lookBackMttyDataInputGriddata").jqxGrid('getrows');
+				    var rowsLookBack = $("#lookBackDataInputGriddata").jqxGrid('getrows');
+
+				    rows.forEach(row => {
+				        for (var key in row) {
+				            if (row.hasOwnProperty(key) && key !== "uid" && key !== "boundindex" && key !== "uniqueid" && key !== "visibleindex" ) {
+				                if (!listObjects[key]) {
+				                    listObjects[key] = [];
+				                }
+				                listObjects[key].push(row[key]);
+				            }
+				        }
+				    });
+				    rowsMtty.forEach(row => {
+				        for (var key in row) {
+				            if (row.hasOwnProperty(key) && key !== "uid" && key !== "boundindex" && key !== "uniqueid" && key !== "visibleindex" ) {
+				                if (!listObjects[key]) {
+				                    listObjects[key] = [];
+				                }
+				                listObjects[key].push(row[key]);
+				            }
+				        }
+				    });
+				  rowsLookBack.forEach(row => {
+				        for (var key in row) {
+				            if (row.hasOwnProperty(key) && key !== "uid" && key !== "boundindex" && key !== "uniqueid" && key !== "visibleindex" ) {
+				                if (!listObjects[key]) {
+				                    listObjects[key] = [];
+				                }
+				                listObjects[key].push(row[key]);
+				            }
+				        }
+				    });
+				    for (var key in listObjects) {
+				        if (listObjects.hasOwnProperty(key)) {
+				            listObjects[key].forEach((value, index) => {
+								if(typeof value =='undefined')
+									value='';
+				                dataToBeInserted.push({
+									"groupId":  groupId,
+				                    "subgroupId":   getIdfromSubgroupName(key) ,
+				                    "value": value.replace(',', ''),
+				                    "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+				                });
+				            });
+				        }
+				    }
+				    
+            	 if($("#dateInput").jqxDateTimeInput('getDate')<date)
+           	     {
+            		 var today = $("#dateInput").jqxDateTimeInput('getDate');
+            		 if(today.getDay() == 6 || today.getDay() == 0)
+            		 { 
+            			 $('#alert-modal-weekend').modal('show'); 
+            			 return;
+            		 }
+            		 today=$.jqx.dataFormat.formatdate(today,  'dd-MM-yyyy')
+            		 $.ajax({
+	    	        contentType: "application/json",
+	    	        url: checkifcanUrl+ groupId + "/"+today,
+	    	        dataType: 'json',
+	    	        async:true,
+	    	        cache: false,
+	    	        timeout: 600000,
+	    	        success: function (response) {
+	    	        	if(response)
+	    	        	{
+							 $.ajax({
+						        contentType: "application/json",
+						        url: "/process/isrobottriggered/10/"+groupId,
+						        dataType: 'text',
+								async:true,
+						        cache: false,
+						        timeout: 600000,
+						        success: function (data) {
+				      
+								if(data=='true')
+								   $('#alert-modal-robot').modal('show'); 
+								else{
+								
+		
+						    	       	  $.ajax({
+						    	    	        type: "POST",
+						    	    	        contentType: "application/json",
+						    	    	        url: saveUrl,
+						    	    	        data: JSON.stringify(dataToBeInserted),
+						    	    	        dataType: 'json',
+						    	    	        async:false,
+						    	    	        cache: false,
+						    	    	        timeout: 600000,
+						    	    	        success: function (data) {
+													
+						    	    	        
+												getFilterData(longEndsValue);
+						    	    		    if(longEndsValue==1)
+				                            	 inputDataType.value="";
+				                             else if(longEndsValue==2)
+				                              	inputDataBobl.value="";
+						  		                  else if(longEndsValue==3)
+				                              	inputDataBuxl.value="";	
+						  		            	 else if(longEndsValue==4)
+				                              	inputDataShatz.value="";	 
+				                              	 else if(longEndsValue==5)
+				                              	inputDataEuribor.value="";
+				                              	
+						  		            	  $("#dataformInput" + Type).css("display","block");
+						  						  $("#dataInputButtons" + Type).css("display","none"); 
+						  						  $("#dataInputGrid" + Type).css("display","none");
+						  						
+						  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
+						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+						    	        	    
+						    				    filterDate=date;
+						    				    delete auditGridSource.localdata;   
+						    				     auditGridSource.url= auditUrl+  getgroupId(selectedItem) + '/' + date;
+						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+						    					 $('#'+Type+'AuditGrid').jqxGrid({source:dataAdapter});
+						    					
+						    	    	         triggerRobots();	
+						    	    	         
+						    	            },
+						    	    	        error: function (e) {
+						    	    	        	
+						    						  console.log("ERROR : ", e);
+						    	
+						    	    	        }
+						    	    	    });
+											}
+					
+								},
+						        error: function (e) {
+						        	
+										  console.log("ERROR : ", e);
+					
+						        }
+						    });
+
+	    	        	}
+	    	        	else{
+	    	        		$('#alert-modal').modal('show'); 
+	    	        	}
+	            },
+	    	        error: function (e) {
+	    	        	
+						  console.log("ERROR : ", e);
+	
+	    	        }
+	    	    });
+           	     }
+            	 else {
+            		 $('#alertDate-modal').modal('show'); 
+            	 }
+             });
+	}
+
+ function toggleCollapse() {
+            let element = document.getElementById('horizontalExample');
+            if (element.classList.contains('show')) {
+                element.classList.remove('show');
+            } else {
+                element.classList.add('show');
+            }
+        }
+    function getFilterData(selectedItem) {
+	var SelectedSearchDTO = [];
+	var allItems = 0;
+	var checkedItem = [];
+	var json;
+	var values = [];
+	$('#grid').jqxGrid({ showdefaultloadelement: true });
+	var item = 0;
+	
+	items = allitems;
+	
+		for (i = 0; i < items.length; i++) {
+	         		if($(items[i]).jqxCheckBox('checked'))
+	         		{		
+						 if(+items[i].split("Box")[1].toUpperCase().split('-')[2]!=1)
+	         		     values.push(getSubgroupName(+items[i].split("Box")[1].toUpperCase().split('-')[2])+"-"+items[i].split("Box")[1].toUpperCase().split('-')[1]);	
+	          			else
+	          			 values.push("maturity_name-"+items[i].split("Box")[1].toUpperCase().split('-')[1]);	
+	          			
+	          			item=1;
+	          			allItems=allItems+1;
+	          			checkedItem.push(items[i]);
+	         		}
+	          	}
+	  	if(item!=0)
+	  	{
+	  		SelectedSearchDTO.push({
+	  		   "groupId":groupId,
+			   "selectedValues":values,
+			});
+	  		 values=[];
+	  	}
+	if (allItems != 0) {
+		
+		var parsedformattedDate = new Date($("#dateInputFrom").jqxDateTimeInput('getDate'));
+		parsedformattedDate.setDate(1);
+		var fromDate =  parsedformattedDate.getFullYear()+ '-' +  ("0" + (parsedformattedDate.getMonth() + 1)).slice(-2) + '-' + ("0" + parsedformattedDate.getDate()).slice(-2)  ;
+        
+        var parsedDateInputTo = new Date($("#dateInputTo").jqxDateTimeInput('getDate'));
+		parsedDateInputTo.setDate(1);
+		var toDate =  parsedDateInputTo.getFullYear()+ '-' +  ("0" + (parsedDateInputTo.getMonth() + 1)).slice(-2) + '-' + ("0" + parsedDateInputTo.getDate()).slice(-2)  ;
+         
+		json = {
+			"selectedSearchDTOlst": SelectedSearchDTO,
+			"fromDate": fromDate,
+			"toDate": toDate
+		};
+
+		if (allItems <= 15) {
+			$.ajax({
+				type: "POST",
+				contentType: "application/json",
+				url: "/longEnds/getgriddata",
+				data: JSON.stringify(json),
+				dataType: 'json',
+				async: true,
+				cache: false,
+				timeout: 600000,
+				success: function(data) {delete source.url;
+					source.localdata = data.rows;
+					dataAdapter = new $.jqx.dataAdapter(source);
+					$('#grid').jqxGrid('hideloadelement');
+
+					for (i = 0; i < data.columns.length; i++) {
+						if (data.columns[i].datafield == "refer_date") {
+							data.columns[i].cellsformat = 'dd-MMM-yyyy';
+							break;
+						}
+					}
+					$('#grid').jqxGrid({
+						width: data.columns.length > 12 ? '100%' : data.columns.length*110,
+						source: dataAdapter,
+						columns: data.columns
+					});
+
+					saveFilterHistory(groupId, checkedItem);
+				},
+				error: function(e) {
+
+					console.log("ERROR : ", e);
+
+				}
+			});
+		}
+		else {
+			$('#alertFiltterMax-modal').modal('show');
+			$('#grid').jqxGrid('hideloadelement');
+		}
+	}
+	else {
+		$('#alertFiltter-modal').modal('show');
+		$('#grid').jqxGrid('hideloadelement');
+	}
+}
+   
+function saveFilterHistory(selectedItem, checkedItem) {
+
+
+	var filterHistory = {
+		"filterHistory": checkedItem.toString(),
+		"screenName": "DATABASE_INPUT_SCREEN_LONGENDS-" + selectedItem
+	};
+	$.ajax({
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		url: "/bourse/savedataentryfilterhistory",
+		data: JSON.stringify(filterHistory),
+		dataType: 'json',
+		timeout: 600000,
+		success: function(response) {
+
+		},
+		error: function(e) {
+
+			console.log("ERROR : ", e);
+
+		}
+	});
+} 
+ function getFilterHistory(selectedItem) {
+
+	$.ajax({
+		contentType: "application/json; charset=utf-8",
+		url: "/bourse/getdataentryfilterhistory/" + "DATABASE_INPUT_SCREEN_LONGENDS-" + selectedItem,
+		dataType: 'json',
+		timeout: 600000,
+		async: false,
+		success: function(response) {
+
+			if (response.filterHistory != null) {
+				var filterresponse = response.filterHistory;
+				for (i = 0; i < filterresponse.split(",").length; i++) {
+					$(filterresponse.split(",")[i]).jqxCheckBox({ checked: true });
+				}
+			}
+			else {
+				for (i = 0; i < selectedItems.length; i++) {
+						$(selectedItems[i]).jqxCheckBox({ checked: true });
+					}
+			}
+		},
+		error: function(e) {
+
+			console.log("ERROR : ", e);
+
+		}
+	});
+}
+   
