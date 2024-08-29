@@ -15,4 +15,10 @@ public interface LongEndsDataRepository extends JpaRepository<LongEndData, Long>
 	@Query(value = "select max(STR_TO_DATE(refer_date,'%d-%m-%Y')) from long_end_data where group_id=:groupId",
 	         nativeQuery = true)
 	public String findLatest(@Param("groupId") String groupId);
+
+	LongEndData findLongEndsDataByReferDateAndGroupIdAndSubgroupId(String referdate, Long valueOf, Long valueOf2);
+
+	void deleteLongEndsByGroupIdAndReferDate(Long valueOf, String referDate);
+
+	boolean existsByReferDateAndGroupIdAndSubgroupId(String referDate, Long groupId, Long subgroupId);
 }

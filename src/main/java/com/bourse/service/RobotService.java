@@ -35,6 +35,17 @@ public class RobotService
 	}
 	
 	public void publishNews(int assetId) {
+		
+		if(assetId==1)
+		{
+			List<News> newsList = newsRepository.findAllByAssetIdAndIsPublished(String.valueOf(9),"0");
+			newsList.forEach(news -> news.setIsPublished("1"));
+			newsRepository.saveAll(newsList);
+			
+			List<NewsFunction> newsFunctionList = newsFunctionRepository.findAllByAssetIdAndIsPublished(String.valueOf(9),"0");
+			newsList.forEach(news -> news.setIsPublished("1"));
+			newsFunctionRepository.saveAll(newsFunctionList);
+		}
 		List<News> newsList = newsRepository.findAllByAssetIdAndIsPublished(String.valueOf(assetId),"0");
 		newsList.forEach(news -> news.setIsPublished("1"));
 		newsRepository.saveAll(newsList);

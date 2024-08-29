@@ -34,11 +34,13 @@
 	        success: function (data) {
 				dbOrderJson=data;
 	        	for (let i = 0; i < data.length; i++) {
-					if(i==0)
-	        	  	  $("#nav-tab").append("<a class='navigation nav-item nav-link active' id='"+data[i].assetCode+"' data-assetid='"+data[i].assetId+"' data-toggle='tab'  href='#' role='tab' aria-controls='nav-any2' aria-selected='false'  onClick='showSelectedAsset("+data[i].assetId+");'>"+data[i].assetName+"</a>");
-			    	else 
-			    	  $("#nav-tab").append("<a class='navigation nav-item nav-link' id='"+data[i].assetCode+"' data-assetid='"+data[i].assetId+"' data-toggle='tab'  href='#' role='tab' aria-controls='nav-any2' aria-selected='false' onClick='showSelectedAsset("+data[i].assetId+");'>"+data[i].assetName+"</a>");
-			    	
+					if(data[i].assetId!=9)
+					{
+						if(i==0)
+		        	  	  $("#nav-tab").append("<a class='navigation nav-item nav-link active' id='"+data[i].assetCode+"' data-assetid='"+data[i].assetId+"' data-toggle='tab'  href='#' role='tab' aria-controls='nav-any2' aria-selected='false'  onClick='showSelectedAsset("+data[i].assetId+");'>"+data[i].assetName+"</a>");
+				    	else 
+				    	  $("#nav-tab").append("<a class='navigation nav-item nav-link' id='"+data[i].assetCode+"' data-assetid='"+data[i].assetId+"' data-toggle='tab'  href='#' role='tab' aria-controls='nav-any2' aria-selected='false' onClick='showSelectedAsset("+data[i].assetId+");'>"+data[i].assetName+"</a>");
+				    }	
 			    }
 			    activeAssetId=$('div#nav-tab a.active')[0].dataset.assetid;
 			  

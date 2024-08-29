@@ -11,4 +11,7 @@ public interface TableManagementRepository extends JpaRepository<TableManagement
 
 	  @Query("SELECT tm FROM TableManagement tm WHERE tm.groupId = :groupId GROUP BY tm.groupId")
 	  TableManagement findDistinctByGroupId(@Param("groupId") String groupId);
+	  
+	  @Query("SELECT DISTINCT tm.tableName FROM TableManagement tm WHERE tm.groupId = :groupId")
+	  String findDistinctTableNameByGroupId(@Param("groupId") String groupId);
 }

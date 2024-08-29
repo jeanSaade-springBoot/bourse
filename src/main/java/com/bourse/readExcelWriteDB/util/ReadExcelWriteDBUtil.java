@@ -14,6 +14,7 @@ import java.util.List;
 import java.util.Locale;
 
 import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
 import org.apache.poi.ss.usermodel.DataFormatter;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
@@ -63,7 +64,8 @@ public class ReadExcelWriteDBUtil {
 	        			   }
 	        			 
 	        		   }
-		        	  
+						
+						 
 	    	    	   if(i>251) {
 	    	    		   throw new BadRequestException("EXCEL DATA ROW OVER 250", FailureEnum.EXCEL_DATA_ROW_OVER_250, "ReadExcelWriteDBUtil");
 	    	    	   }
@@ -87,6 +89,68 @@ public class ReadExcelWriteDBUtil {
 
        return rowData;
    }
+   public static List<DataDTO> readExcelFileWithString(MultipartFile file, String dateIndex, String valueIndex) {
+
+	    List<DataDTO> rowData = new ArrayList<>();
+
+	    try {
+	        InputStream fileStream = file.getInputStream();
+	        Workbook workbook = WorkbookFactory.create(fileStream);
+
+	        Sheet sheet = workbook.getSheetAt(0);
+	        DataFormatter dataFormatter = new DataFormatter();
+	        int i = 1;
+	        for (Row row : sheet) {
+
+	            i++;
+	            String date = null, value = null;
+	            for (Cell cell : row) {
+	            	if(i!=2)
+		                if (!cell.getCellType().name().equalsIgnoreCase("BLANK")) {
+	
+		                    // Handling date column: Check for both NUMERIC and STRING cell types
+		                    if (String.valueOf(cell.getColumnIndex()).equalsIgnoreCase(dateIndex)) {
+		                        if (cell.getCellType() == CellType.NUMERIC) {
+		                            // Handling NUMERIC date values
+		                            date = String.valueOf(transformNumericDate(cell.getNumericCellValue()));
+		                        } else if (cell.getCellType() == CellType.STRING) {
+		                            // NEW: Handling STRING date values
+		                            date = cell.getStringCellValue();
+		                        }
+		                    } 
+		                    // Handling value column: Check for both NUMERIC and STRING cell types
+		                    else if (String.valueOf(cell.getColumnIndex()).equalsIgnoreCase(valueIndex)) {
+		                        if (cell.getCellType() == CellType.NUMERIC) {
+		                            String cellValue = dataFormatter.formatCellValue(cell);
+		                            if (cellValue.endsWith("%")) {
+		                                value = String.valueOf(cell.getNumericCellValue() * 100);
+		                            } else {
+		                                value = String.valueOf(cell.getNumericCellValue());
+		                            }
+		                        } else if (cell.getCellType() == CellType.STRING) {
+		                            // NEW: Handling STRING value values
+		                            value = cell.getStringCellValue();
+		                        }
+		                    }
+	
+		                    if (i > 251) {
+		                        throw new BadRequestException("EXCEL DATA ROW OVER 250", FailureEnum.EXCEL_DATA_ROW_OVER_250, "ReadExcelWriteDBUtil");
+		                    }
+		                }
+	            }
+
+	            if (date != null) {
+	                DataDTO dataDto = DataDTO.builder().date(date).value(value).build();
+	                rowData.add(dataDto);
+	            }
+	        }
+	        fileStream.close();
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	    }
+
+	    return rowData;
+	}
 
    public static Object[][] readExcel(MultipartFile file) throws IOException {
        try (InputStream fileStream = file.getInputStream();

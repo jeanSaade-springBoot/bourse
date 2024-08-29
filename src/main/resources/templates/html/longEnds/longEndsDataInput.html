@@ -182,7 +182,10 @@
     border-radius: .2rem;
     background: #272e48;
 }
-
+a.nav-item.nav-link {
+   
+    width: 130px;
+}
   </style>
   <body id="page-top">
     <div id="wrapper">
@@ -241,27 +244,26 @@
 						</div>
 						<div class="collapse collapse-horizontal float-end custom-bg-dark mb-1" id="horizontalExample">
 						  <div style="width: 380px;">
-						  <form>
-							  <div class="row g-3 align-items-center">
-								    <div class="col-4">
-									    <label for="spreadValueInput" class="form-label">Value</label>
-									</div>
-									<div class="col-4">
-									    <label for="spreadValueInputRange" class="form-label">Name</label>
-									</div>
-							 </div>
-							  <div class="row g-3 align-items-center">
-								
-								  <div class="col-4">
-									<input type="text" class="form-control" id="spreadValueInput" placeholder="">							 
-								  </div>
-								  <div class="col-5">
-									<input type="text" class="form-control" id="spreadValueInputRange" placeholder="">							 
-								  </div>
-								  <div class="col-auto">
-								    <button type="button" class="btn btn-primary">Submit</button>
-								  </div>
-								</div>
+								<form>
+								    <div class="row g-3 align-items-center">
+								        <div class="col-4">
+								            <label for="spreadValueInput" class="form-label">Value</label>
+								        </div>
+								        <div class="col-4">
+								            <label for="spreadNamedropdown" class="form-label">Name</label>
+								        </div>
+								    </div>
+								    <div class="row g-3 align-items-center">
+								        <div class="col-4">
+								            <input type="text" class="form-control" id="spreadValueInput" placeholder="" autocomplete="off">
+								        </div>
+								        <div class="col-5">
+								            <div id='spreadNamedropdown'></div>
+								        </div>
+								         <div class="col-auto">
+								            <button type="button" class="btn btn-primary" onclick="ClearSpreadData(event)">Clear</button>
+								        </div>
+								    </div>
 								</form>
 							</div>
 						</div>
@@ -297,15 +299,22 @@
                       <div class="col-12 p-0">
                         <div class="col-12 d-flex justify-content-between">
                           <div id='dateInputAudit'></div>
-                          <button id="deletedata" class="mb-1" style="font-size: .8rem; float: right;">Delete</button>
                         </div>
                         <div class="col-12 ">
                           <div class="col-12 p-0" id="data-audit">
                            <div class="nav nav-tabs" id="nav-tab" role="tablist">
-								    <a class="nav-item nav-link active nav-small" id="nav-yields-tab" data-toggle="tab" href="#nav-initials" role="tab" aria-controls="nav-yields" aria-selected="true">INITIAL</a>
-								    <a class="nav-item nav-link nav-small" id="nav-curves-tab" data-toggle="tab" href="#nav-rollings" role="tab" aria-controls="nav-curves" aria-selected="false">ROLLING</a>
+								    <a class="nav-item nav-link active nav-small" id="nav-initials-tab" data-toggle="tab" href="#nav-initials" role="tab" aria-controls="nav-initials" aria-selected="true">INITIAL</a>
+								    <a class="nav-item nav-link nav-small" id="nav-rollings-tab" data-toggle="tab" href="#nav-rollings" role="tab" aria-controls="nav-rollings" aria-selected="false">ROLLING</a>
+								    <a class="nav-item nav-link nav-small" id="nav-spread-tab" data-toggle="tab" href="#nav-spread" role="tab" aria-controls="nav-spread" aria-selected="false">Spread</a>
 							</div>
-                            <div id="AuditGrid"></div>
+							<button id="deletedata" class="mb-1" style="font-size: .8rem; float: right; position: absolute; top: -5px; right: 0;">Delete</button>
+							
+                            <div class="tab-content" id="nav-tabContent">
+							  <div class="tab-pane fade show active" id="nav-initials" role="tabpanel" aria-labelledby="nav-initials-tab"><div id="AuditGrid"></div></div>
+							  <div class="tab-pane fade" id="nav-rollings" role="tabpanel" aria-labelledby="nav-rollings-tab"> <div id="RollingGrid"></div> </div>
+							  <div class="tab-pane fade" id="nav-spread" role="tabpanel" aria-labelledby="nav-spread-tab"> <div id="SpreadGrid"></div> </div>
+							</div>
+							
                           </div>
                         </div>
                       </div>
@@ -356,7 +365,7 @@
                         <div class="row mt-2 mb-2">
                           <div class='col-12 d-flex justify-content-end'>
                             <input data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem !important; color: white;" type="button" id="filter" value="Search" />
-                            <input id="Clearfilter" type="button" style="margin-right: 1rem !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="Clear" />
+                            <input id="Clearfilter" type="button" style="margin-right: 1rem !important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
                           </div>
                         </div>
                       </div>

@@ -2,6 +2,7 @@ package com.bourse.service;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -29,8 +30,15 @@ public class AllNewsViewService {
 		if(assetId.equalsIgnoreCase("0"))
 			page =  isbold.equalsIgnoreCase("true")?allNewsViewRepository.findAllByIsPublishedAndIsBold("1",pageable,isbold):allNewsViewRepository.findAllByIsPublished("1",pageable);
 		else
+			{
+			if(assetId.equalsIgnoreCase("1"))
+			{List<String> assetIds = Arrays.asList("1", "9");
+				
+				page =isbold.equalsIgnoreCase("true")?allNewsViewRepository.findAllByIsPublishedAndAssetIdIn("1",assetIds,pageable):allNewsViewRepository.findAllByIsPublishedAndAssetIdInAndIsBold("1",assetIds,pageable,isbold);
+			}
+		else
 			page =  isbold.equalsIgnoreCase("true")?allNewsViewRepository.findAllByIsPublishedAndAssetId("1",assetId,pageable):allNewsViewRepository.findAllByIsPublishedAndAssetIdAndIsBold("1",assetId,pageable,isbold);
-		
+			}
 		int totalPages = page.getTotalPages();
 		
 		System.out.println("Total Pages: " + totalPages);
@@ -39,7 +47,14 @@ public class AllNewsViewService {
 	
 	public Page<AllNewsView> getAllNews(String assetId,String pageNo, String pageSize){
 		Pageable pageable = PageRequest.of(Integer.valueOf(pageNo) , Integer.valueOf(pageSize));
-		return allNewsViewRepository.findByAssetId(assetId, pageable);
+		Page<AllNewsView> results = null;
+		if(assetId.equalsIgnoreCase("1"))
+			{List<String> assetIds = Arrays.asList("1", "9");
+			 results = allNewsViewRepository.findByAssetIdIn(assetIds, pageable);
+			}
+		else
+			 results = allNewsViewRepository.findByAssetId(assetId, pageable);
+		return results;
 	}
 	public List<AllNewsView> findByIsPublishedFormatedDate(String pageNo, String pageSize){
 		Pageable pageable = PageRequest.of(Integer.valueOf(pageNo) , Integer.valueOf(pageSize));
@@ -50,7 +65,15 @@ public class AllNewsViewService {
 	}
 	public List<AllNewsView> findByIsPublishedFormatedDate(String assetId,String pageNo, String pageSize){
 		Pageable pageable = PageRequest.of(Integer.valueOf(pageNo) , Integer.valueOf(pageSize));
-		return allNewsViewRepository.findByIsPublishedAndAssetId("1",assetId,pageable);
+		List<AllNewsView>  results = null;
+		if(assetId.equalsIgnoreCase("1"))
+			{List<String> assetIds = Arrays.asList("1", "9");
+			 results = allNewsViewRepository.findByIsPublishedAndAssetIdIn("1",assetIds,pageable);
+			}
+		else
+			results = allNewsViewRepository.findByIsPublishedAndAssetId("1",assetId,pageable);
+		
+			return results;
 	}
 	
 	public List<AllNewsView> findByIsPublishedAndIsBold(String isBold, String assetId,String pageNo, String pageSize) {
@@ -60,7 +83,13 @@ public class AllNewsViewService {
 		if(assetId.equalsIgnoreCase("0"))
 			allNewsView =  allNewsViewRepository.findByIsPublishedAndIsBold("1",isBold,pageable);
 		else
-			allNewsView = allNewsViewRepository.findByIsPublishedAndIsBoldAndAssetId("1",isBold,assetId,pageable);
+			{if(assetId.equalsIgnoreCase("1"))
+			{List<String> assetIds = Arrays.asList("1", "9");
+				allNewsView = allNewsViewRepository.findByIsPublishedAndIsBoldAndAssetIdIn("1",isBold,assetIds,pageable);
+			}
+			else
+			  allNewsView = allNewsViewRepository.findByIsPublishedAndIsBoldAndAssetId("1",isBold,assetId,pageable);
+			}
 		
 		return allNewsView;
 	}
@@ -99,7 +128,13 @@ public class AllNewsViewService {
 	    SimpleDateFormat outputFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 	  
 	   Pageable pageable = PageRequest.of(Integer.valueOf(pageNo) , Integer.valueOf(pageSize));
-	   allNewsView = allNewsViewRepository.findAllNewsByFilters(assetId,robots,generationDate,template,pageable);
+	   Page<AllNewsView> result = null;
+		if(assetId.equalsIgnoreCase("1"))
+		{	List<String> assetIds = Arrays.asList("1", "9");
+			allNewsView = allNewsViewRepository.findAllNewsByFiltersAssetIdIn(assetIds,robots,generationDate,template,pageable);
+		}
+		else
+			allNewsView = allNewsViewRepository.findAllNewsByFilters(assetId,robots,generationDate,template,pageable);
 	   
 		} catch (ParseException e) {
 			e.printStackTrace();

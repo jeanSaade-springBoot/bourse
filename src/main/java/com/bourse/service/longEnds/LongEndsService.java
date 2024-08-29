@@ -1,9 +1,11 @@
 package com.bourse.service.longEnds;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -22,18 +24,15 @@ import com.bourse.domain.longEnds.TmpAuditLefBunds;
 import com.bourse.domain.macro.MacroData;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
+import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.longends.LongEndsAuditCommonDTO;
-import com.bourse.dto.macro.MacroAuditCommonDTO;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.TableManagementRepository;
 import com.bourse.repositories.longEnds.LongEndsDataRepository;
 import com.bourse.repositories.longEnds.LongEndsDisplaySettingsRepository;
 import com.bourse.repositories.longEnds.TmpAuditLefBundsRepository;
-import com.bourse.repositories.macro.MacroDataRepository;
 import com.bourse.service.AdminService;
 import com.bourse.util.LongEndsUtil;
-import com.bourse.util.StiUtil;
-
 import org.springframework.data.domain.Sort;
 
 @Service
@@ -50,10 +49,37 @@ public class LongEndsService {
 	ColumnConfigurationRepository columnConfigurationRepository;
 	@Autowired
 	TableManagementRepository tableManagementRepository;
+
 	
 	@PersistenceContext
 	private EntityManager entityManager;
 	
+	public void updateData(List<UpdateDataDTO> updateDataDTOlst) {
+		
+		LongEndData longEndsData=null;
+		for(UpdateDataDTO updateDataDTO:updateDataDTOlst)
+		{
+			longEndsData = longEndsDataRepository.findLongEndsDataByReferDateAndGroupIdAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getGroupId()),Long.valueOf(updateDataDTO.getSubgroupId()));
+			if(longEndsData!=null)
+			{longEndsData.setValue(updateDataDTO.getValue());
+			longEndsDataRepository.save(longEndsData);
+			}
+			else {
+				longEndsData = LongEndData.builder()
+											   .groupId(Long.valueOf(updateDataDTO.getGroupId()))
+											   .subgroupId(Long.valueOf(updateDataDTO.getSubgroupId()))
+											   .value(updateDataDTO.getValue())
+											   .referDate(updateDataDTO.getReferdate())
+											   .build();
+				longEndsDataRepository.save(longEndsData);
+				
+			}
+		}
+		List<LongEndData> longEndsDataLst = new ArrayList<LongEndData>();
+		longEndsDataLst.add(longEndsData);
+		doCalculationSpreadData(longEndsDataLst);
+	}
+	  
 	public List<LongEndsDisplaySettings> getLongEndsDisplaySettingsList() {
 		List<Order> orders = new ArrayList<Order>();
 
@@ -98,6 +124,10 @@ public class LongEndsService {
    	{
 		return longEndsDataRepository.existsByReferDateAndGroupId(referDate,groupId);
    	}
+	public boolean CheckIfCanSaveLongEnds(String referDate,Long groupId,Long subgroupId)
+   	{
+		return longEndsDataRepository.existsByReferDateAndGroupIdAndSubgroupId(referDate,groupId,subgroupId);
+   	}
 	public List<LongEndsAuditCommonDTO> getLongEndsByGroupIdAndDataByReferDate(String groupId, String referDate) {
 		
 		boolean hasData = adminService.getData();
@@ -112,15 +142,34 @@ public class LongEndsService {
 	        query.execute();
 
 	        List<Object[]> resultList = query.getResultList();
-	        List<LongEndsAuditCommonDTO> auditProcedureDTOLst = mapResultListToDTO(resultList);
+	        List<LongEndsAuditCommonDTO> auditProcedureDTOLst = mapResultListToDTO(resultList, groupId);
 	        return auditProcedureDTOLst;
 	}
-	  private List<LongEndsAuditCommonDTO> mapResultListToDTO(List<Object[]> resultList) {
+	public List<LongEndsAuditCommonDTO> getLongEndsRollingByGroupIdAndByReferDate(String groupId, String referDate) {
+		
+		boolean hasData = adminService.getData();
+		if (!hasData)
+			return null;
+			
+		 StoredProcedureQuery query = entityManager.createStoredProcedureQuery("calculation_audit_longends_rolling");
+	        query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
+	        query.setParameter("referDate", referDate);
+	        query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+	        query.setParameter("groupId", groupId);
+	        query.execute();
+
+	        List<Object[]> resultList = query.getResultList();
+	        List<LongEndsAuditCommonDTO> auditProcedureDTOLst = mapResultListToDTO(resultList, groupId);
+	        return auditProcedureDTOLst;
+	}
+	  private List<LongEndsAuditCommonDTO> mapResultListToDTO(List<Object[]> resultList, String groupId) {
 
 		  List<LongEndsAuditCommonDTO> dtos = new ArrayList<>();
 	        for (Object[] result : resultList) {
 	        	LongEndsAuditCommonDTO dto = new LongEndsAuditCommonDTO();
-	            dto.setId(String.valueOf(result[0]));
+	         if(Arrays.asList("52", "53", "54", "55", "56","57","58","59", "60").contains(groupId))
+	        	{
+	        	dto.setId(String.valueOf(result[0]));
 	            dto.setMaturityName(String.valueOf(result[1]));
 	            dto.setOpen(String.valueOf(result[2]));
 	            dto.setSettle(String.valueOf(result[3]));
@@ -135,12 +184,35 @@ public class LongEndsService {
 	            dto.setFrequency(String.valueOf(result[12]));
 	            dto.setConvergenceFactor(String.valueOf(result[13])); 
 	            dto.setReferDate(String.valueOf(result[14])); 
+	            dto.setSpreadName(String.valueOf(result[15]));
+	            dto.setSpreadValue(String.valueOf(result[16]));
 	            dtos.add(dto);
+	            }
+	         else {
+	        	    dto.setId(String.valueOf(result[0]));
+		            dto.setMaturityName(String.valueOf(result[1]));
+		            dto.setOpen(String.valueOf(result[2]));
+		            dto.setSettle(String.valueOf(result[3]));
+		            dto.setClose(String.valueOf(result[4]));
+		            dto.setHigh(String.valueOf(result[5])); 
+		            dto.setLow(String.valueOf(result[6]));
+		            dto.setReferDate(String.valueOf(result[7])); 
+		            dtos.add(dto);
+	         }
 	        }
 	        return dtos;
 	    }
 	public void saveLongEndsData(List<LongEndData> longEndDataDTOlst) {
 		longEndsDataRepository.saveAll(longEndDataDTOlst);
+	}
+	@Transactional
+	public void deleteLongEndData(String groupId, String referDate) {
+		String TableName = tableManagementRepository.findDistinctTableNameByGroupId(groupId);
+	    String queryStr = "Delete from "+TableName+ " where refer_date='"+referDate+"'";
+	    javax.persistence.Query query = entityManager.createNativeQuery(queryStr);
+	    query.executeUpdate();
+	    
+	    longEndsDataRepository.deleteLongEndsByGroupIdAndReferDate(Long.valueOf(groupId),referDate);
 	}
 	public void doCaclulation(String referDate,String groupId) {
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_longends");
@@ -150,6 +222,44 @@ public class LongEndsService {
 		query.setParameter("groupId", groupId);
 		query.execute();
 	}
+	public void doCaclulationLoader(String fromDate,String toDate,String groupId)
+   	{
+   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_longends_loader");
+   		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+		query.setParameter("fromDate", fromDate);
+		query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+		query.setParameter("toDate", toDate);
+		query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+		query.setParameter("groupId", groupId);
+		query.execute();
+		
+		StoredProcedureQuery spreadQuery = this.entityManager.createStoredProcedureQuery("calculation_longends_spread_data");
+		spreadQuery.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+		spreadQuery.setParameter("groupId", groupId);
+		spreadQuery.execute();
+   	}
+	public void doCalculationSpreadData(List<LongEndData> longEndDataDTOlst) {
+
+		Optional<LongEndData> result = longEndDataDTOlst.stream()
+                .filter(data -> data.getSubgroupId() == 15)
+                .findFirst();
+
+        // Check if the result is present
+        if (result.isPresent()) {
+            LongEndData longEndData = result.get();
+            String spreadValue = longEndData.getValue();
+            if(spreadValue!=null)
+            {
+
+        		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_longends_spread_data");
+        		query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+        		query.setParameter("groupId", String.valueOf(longEndData.getGroupId()));
+        		query.execute();
+            }
+        } 
+		
+	}
+	
 	public TmpAuditLefBunds findFirstByOrderDesc() {
 		return tmpAuditLefBundsRepository.findFirstOrderByReferDateDesc();
 	}
@@ -159,7 +269,8 @@ public class LongEndsService {
 		return null;
        return longEndsDataRepository.findLatest(groupId);
 	}
-	  public HashMap<String,List> getGridData( MainSearchFilterDTO mainSearchFilterDTO)
+	
+	public HashMap<String,List> getGridData( MainSearchFilterDTO mainSearchFilterDTO)
 			{
 				QueryColumnsDTO queryColumnsDTO = LongEndsUtil.buildDynamicGridQuery(mainSearchFilterDTO);
 				String queryStr = queryColumnsDTO.getQuery();

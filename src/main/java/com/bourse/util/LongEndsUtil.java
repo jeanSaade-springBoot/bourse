@@ -47,8 +47,7 @@ public class LongEndsUtil {
 				 
 				 if(selectedSearchDTO.getSelectedValues()!=null)
 				 for(String value : selectedSearchDTO.getSelectedValues())
-				 {       
-					     
+				 {     
 					 
 						 if(counter == 1)
 						 {
@@ -64,7 +63,7 @@ public class LongEndsUtil {
 						 forUsetables = forUsetables + tableSchema+"tmp_audit_lef_bunds";
 	    				 forUsetables = forUsetables + " s"+counter+" ,";
 					 	 forUseSelect = forUseSelect+", \n"+ 
-						                         " s"+counter+"."+value.split("-")[0]+
+						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
 						                         " as '"+value+"'";
 					 	 colHash.put(columnsId, value);
 					 	 columnsId++;
@@ -73,6 +72,44 @@ public class LongEndsUtil {
 				 }
 				 
 				}else
+					if(selectedSearchDTO.getGroupId() == 61) 
+					{
+					if(counter == 1)
+					 {
+						 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+						 colHash.put(columnsId, "refer_date");
+						 columnsId++;
+						 
+						 forUsetables = " From ";
+					 }
+					 
+					 if(selectedSearchDTO.getSelectedValues()!=null)
+					 for(String value : selectedSearchDTO.getSelectedValues())
+					 {     
+						 
+							 if(counter == 1)
+							 {
+								 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+								 		+ "\n            and '"+toDate+"')\n ";
+								 
+							 }
+							 else
+							 { forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+							 		    + "\n          and '"+toDate+"')\n";
+							 
+							 }
+							 forUsetables = forUsetables + tableSchema+"tmp_audit_lef_bunds_rolling";
+		    				 forUsetables = forUsetables + " s"+counter+" ,";
+						 	 forUseSelect = forUseSelect+", \n"+ 
+							                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
+							                         " as '"+value+"'";
+						 	 colHash.put(columnsId, value);
+						 	 columnsId++;
+							 
+							 counter = counter+1;	 
+					 }
+					 
+					}
 					if(selectedSearchDTO.getGroupId() == 38) 
 					{
 						if(counter == 1)

@@ -36,19 +36,35 @@ public interface AllNewsViewRepository extends JpaRepository<AllNewsView, Long> 
 	        "AND (:template IS NULL OR a.template LIKE %:template%)")
 	Page<AllNewsView> findAllNewsByFilters(@Param("assetId") String assetId, @Param("robots") String robots, @Param("generationDate") String generationDate, @Param("template") String template,Pageable pageable);
 	
-	Page<AllNewsView> findByAssetId(String assetId, Pageable pageable);
+	@Query("SELECT a FROM AllNewsView a WHERE a.assetId IN :assetIds " +
+		       "AND (:robots IS NULL OR a.robots LIKE %:robots%) " +
+		       "AND (:generationDate IS NULL OR a.generationDateDate = :generationDate) " +
+		       "AND (:template IS NULL OR a.template LIKE %:template%)")
+	Page<AllNewsView> findAllNewsByFiltersAssetIdIn(@Param("assetIds") List<String> assetIds, 
+		                                        @Param("robots") String robots, 
+		                                        @Param("generationDate") String generationDate, 
+		                                        @Param("template") String template, 
+		                                        Pageable pageable);
 	
+	Page<AllNewsView> findByAssetId(String assetId, Pageable pageable);
+	Page<AllNewsView> findByAssetIdIn(List<String> assetIds, Pageable pageable);
+	  
 	List<AllNewsView> findByIsPublishedAndAssetId(String isPublished, String assetId);
 
 	List<AllNewsView> findByIsPublishedAndAssetId(String isPublished, String assetId, Pageable pageable);
-	
+	List<AllNewsView> findByIsPublishedAndAssetIdIn(String isPublished, List<String> assetIds, Pageable pageable);
+
 	List<AllNewsView> findByIsPublishedAndIsBoldAndAssetId(String isPublished, String isBold, String assetId, Pageable pageable);
-	
+	List<AllNewsView> findByIsPublishedAndIsBoldAndAssetIdIn(String isPublished, String isBold, List<String> assetIds, Pageable pageable);
+
 	Page<AllNewsView> findAllByIsPublished(String isPublished, Pageable pageable);
 
 	Page<AllNewsView> findAllByIsPublishedAndIsBold(String isPublished, Pageable pageable, String isBold);
 	
 	Page<AllNewsView> findAllByIsPublishedAndAssetId(String isPublished, String assetId, Pageable pageable);
-	
+	Page<AllNewsView> findAllByIsPublishedAndAssetIdIn(String isPublished, List<String> assetIds, Pageable pageable);
+
 	Page<AllNewsView> findAllByIsPublishedAndAssetIdAndIsBold(String isPublished, String assetId, Pageable pageable, String isBold);
+	Page<AllNewsView> findAllByIsPublishedAndAssetIdInAndIsBold(String isPublished, List<String> assetIds, Pageable pageable, String isBold);
+
 }

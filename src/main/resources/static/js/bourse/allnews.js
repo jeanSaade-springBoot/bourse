@@ -42,7 +42,8 @@
 	        success: function (data) {
 				
 					for (let i = 0; i < data.length; i++) {
-						
+					if(data[i].assetId!=9)
+					{
 						fetchNumberOfTotalPages('/admin/gettotalpages/0/50/' + data[i].assetId + '/false').then(function(totalPages) {
 							totalPage[i] =totalPages;
 						  })
@@ -217,6 +218,7 @@
 							      });  
 							      
 							       $("#IsImportant"+i).jqxCheckBox({ width: 200, height: 25});  
+							       }
 					}
 				  gridsourceall =
 			      {

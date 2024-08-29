@@ -92,6 +92,26 @@ var familysource =
 					  }else if($("#FamilyDropDown").val()=='5')
 				      { 
 						  $("#groupDropDown").jqxDropDownList('removeAt', 2 ); 
+					  }else if($("#FamilyDropDown").val()=='10')
+				      { 
+						    $("#groupDropDown").jqxDropDownList('removeAt', 17 );
+						    $("#groupDropDown").jqxDropDownList('removeAt', 16 );
+						    $("#groupDropDown").jqxDropDownList('removeAt', 15 );
+						    $("#groupDropDown").jqxDropDownList('removeAt', 14 ); 
+						    $("#groupDropDown").jqxDropDownList('removeAt', 13 ); 
+						    $("#groupDropDown").jqxDropDownList('removeAt', 12 ); 
+						    $("#groupDropDown").jqxDropDownList('removeAt', 11 ); 
+						    $("#groupDropDown").jqxDropDownList('removeAt', 10 ); 
+						    $("#groupDropDown").jqxDropDownList('removeAt', 9); 
+				            $("#groupDropDown").jqxDropDownList('removeAt', 8); 
+				            $("#groupDropDown").jqxDropDownList('removeAt', 7); 
+				            $("#groupDropDown").jqxDropDownList('removeAt', 6); 
+				            $("#groupDropDown").jqxDropDownList('removeAt', 5); 
+				            $("#groupDropDown").jqxDropDownList('removeAt', 4); 
+				            $("#groupDropDown").jqxDropDownList('removeAt', 3); 
+				            $("#groupDropDown").jqxDropDownList('removeAt', 2); 
+				            $("#groupDropDown").jqxDropDownList('removeAt', 1);
+				
 					  }
 				 }
 			  });
@@ -255,6 +275,9 @@ var familysource =
 	case 51:
 	   imagePath='/css/images/format/rts_fixings_format.png' 
 	     break; 
+	case 52:
+	   imagePath='/css/images/format/longEnds_format.jpg' 
+	     break;     
 	}
 return imagePath;
   }

@@ -8,6 +8,7 @@ var deleteUrl;
 var checkifcanUrl;
 var allitems = ['#jqxCheckBoxSpreadName',
 				'#jqxCheckBoxSpreadValue'];
+var datePairs = [];
 var contains = {
 	    2: [false, 2], // containsOpen
 	    3: [false, 3], // containsSettle
@@ -17,30 +18,32 @@ var contains = {
 	};
 	
  const subgrouId_description =  [
-	 		    { name: 'Mtty', subgroupId: 1 },
-                { name: 'Open', subgroupId: 2 },
-                { name: 'Settle', subgroupId: 3 },
-                { name: 'Close', subgroupId: 4 },
-                { name: 'High', subgroupId: 5 },
-                { name: 'Low', subgroupId: 6 },
-                { name: 'futureExpiryDate', subgroupId: 7 },
-                { name: 'issuer', subgroupId: 8 },
-                { name: 'coupon', subgroupId: 9 },
-                { name: 'ctdMaturity', subgroupId: 10 },
-                { name: 'priceAtIssue', subgroupId: 11 },
-                { name: 'frequency', subgroupId: 12 },
-                { name: 'convergenceFactor', subgroupId: 13 },
+	 		    { name: 'Mtty', subgroupId: 1 ,dbName: 'mtty' },
+                { name: 'Open', subgroupId: 2 ,dbName: 'open'},
+                { name: 'Settle', subgroupId: 3 ,dbName: 'settle'},
+                { name: 'Close', subgroupId: 4 ,dbName: 'close'},
+                { name: 'High', subgroupId: 5 ,dbName: 'high'},
+                { name: 'Low', subgroupId: 6 ,dbName: 'low'},
+                { name: 'futureExpiryDate', subgroupId: 7 ,dbName: 'future_expiry_date'},
+                { name: 'issuer', subgroupId: 8 ,dbName: 'issuer' },
+                { name: 'coupon', subgroupId: 9 ,dbName: 'coupon' },
+                { name: 'ctdMaturity', subgroupId: 10 ,dbName: 'ctd_maturity' },
+                { name: 'priceAtIssue', subgroupId: 11 ,dbName: 'price_at_issue'},
+                { name: 'frequency', subgroupId: 12 ,dbName: 'frequency' },
+                { name: 'convergenceFactor', subgroupId: 13 ,dbName: 'convergence_factor' },
+                { name: 'spreadName', subgroupId: 14 ,dbName: 'spread_name'},
+                { name: 'spreadValue', subgroupId: 15 ,dbName: 'spread_value'},
                 ];
  const groupId_Id =  [
-                { Id: '1', groupId: 52 },
-				{ Id: '2', groupId: 53 },
-				{ Id: '3', groupId: 54 },
-				{ Id: '4', groupId: 55 },
-				{ Id: '5', groupId: 56 },
-				{ Id: '6', groupId: 57 },
-				{ Id: '7', groupId: 58 },
-				{ Id: '8', groupId: 59 },
-				{ Id: '9', groupId: 60 },
+                { Id: '1', groupId: 52, rollingGroupId: 61 },
+				{ Id: '2', groupId: 53, rollingGroupId: 62  },
+				{ Id: '3', groupId: 54, rollingGroupId: 63  },
+				{ Id: '4', groupId: 55, rollingGroupId: 64  },
+				{ Id: '5', groupId: 56, rollingGroupId: 65  },
+				{ Id: '6', groupId: 57, rollingGroupId: 66  },
+				{ Id: '7', groupId: 58, rollingGroupId: 67  },
+				{ Id: '8', groupId: 59, rollingGroupId: 68  },
+				{ Id: '9', groupId: 60, rollingGroupId: 69  },
                 ];
 var selectedItems = [];
 var AuditDefaultData = [];
@@ -48,9 +51,11 @@ var AuditDefaultData = [];
 const longEndsValue = $("#longEndsValue")[0].innerText;
 const selectedItem = longEndsValue;
 const groupId=getgroupId(longEndsValue);
+const rollingGroupId=groupId_Id.filter(value => value.groupId == groupId)[0].rollingGroupId;
 checkifcanUrl = "/longEnds/checkifcansave/";
 
 auditUrl = '/longEnds/longEnds-data/';
+rollingAuditUrl = '/longEnds/longEnds-data-rolling/'+rollingGroupId;
 updateUrl = "/longEnds/update-longEnds-data";
 saveUrl = "/longEnds/save-longEnds-data";
 deleteUrl = "/longEnds/delete-longEnds/";
@@ -69,15 +74,17 @@ var inputDataLongEnds = document.getElementById("data-input-data");
          	 {
 			  Type="data" ;
          	  updateUrl="/longEnds/update-long-longEnds-data";
-         	  deleteUrl="/longEnds/delete-long-longEnds-byreferDate/";
 		     } 
           
 
 
 $(document).ready(function() {
+	
 	$('#overlay').fadeOut();
 	$('#container-wrapper').show();
-
+	
+     generateOptions(2000);
+     
 	$("#viewall").jqxButton({ theme: 'dark', width: 110, height: 35, template: "primary" });
 	$("#viewall").css("display", "block");
 	$("#viewall").click(function() {
@@ -107,19 +114,26 @@ $(document).ready(function() {
 		datatype: "json",
 		datafields: [
 			{ name: 'refer_date', type: 'date' },
-			{"name":"Open-52","type":"float"},
-			{"name":"Settle-52","type":"float"},
-			{"name":"Close-52","type":"float"},
-			{"name":"CONVERGENCE_FACTOR-52","type":"float"},
-			{"name":"FREQUENCY-52","type":"float"},
-			{"name":"PRICE_AT_ISSUE-52","type":"float"},
-			{"name":"CTD_MATURITY-52","type":"float"},
-			{"name":"COUPON-52","type":"float"},
-			{"name":"ISSUER-52","type":"float"},
-			{"name":"FUTURE_EXPIRY_DATE-52","type":"float"},
-			{"name":"Low-52","type":"float"},
-			{"name":"High-52","type":"float"},
+			{"name":"open-52","type":"float"},
+			{"name":"settle-52","type":"float"},
+			{"name":"close-52","type":"float"},
+			{"name":"convergence_factor-52","type":"float"},
+			{"name":"frequency-52","type":"float"},
+			{"name":"price_at_issue-52","type":"float"},
+			{"name":"ctd_maturity-52","type":"float"},
+			{"name":"coupon-52","type":"float"},
+			{"name":"issuer-52","type":"float"},
+			{"name":"future_expiry_date-52","type":"float"},
+			{"name":"low-52","type":"float"},
+			{"name":"high-52","type":"float"},
 			{"name":"maturity_name-52","type":"float"},
+			{"name":"spread_name","type":"float"},
+			{"name":"spread_value","type":"float"},
+			{"name":"open-61","type":"float"},
+			{"name":"settle-61","type":"float"},
+			{"name":"close-61","type":"float"},
+			{"name":"low-61","type":"float"},
+			{"name":"high-61","type":"float"},
 		],
 		id: 'id',
 		localdata: ''
@@ -143,10 +157,7 @@ $(document).ready(function() {
 		date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 		filterDate = date;
 
-		delete auditGridSource.localdata;
-		auditGridSource.url = auditUrl+  getgroupId(selectedItem) + '/' + date;
-		dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-		$('#AuditGrid').jqxGrid({ source: dataAdapter });
+		renderAuditGrids(date);
 
 	});
 
@@ -222,9 +233,29 @@ function renderlookUpGridsData(){
 				renderLookBackGrid(response);
 				renderLookBackMttyGrid(response);
 	    },
-	    error: function(xhr, status, error) {
-	        console.log(error);
-	    }
+	     error: function(xhr, status, error) {
+        if (xhr.status === 204) {  // No Content status
+            console.log('No data found (204 No Content).');
+            // Handle no data case here as well
+        } else if (!xhr.responseText) {
+			
+			const response={
+				    mtty:'',
+				    futureExpiryDate:'',
+					issuer:'',
+					coupon:'',
+					ctdMaturity:'',
+					priceAtIssue:'',
+					frequency:'',
+					convergenceFactor:''};
+					
+            	renderLookBackGrid(response);
+				renderLookBackMttyGrid(response);
+        } else {
+            console.log('Error:', error);
+            // Handle other errors
+        }
+    }
 	});
 }
 function renderLookBackMttyGrid(data){
@@ -311,6 +342,7 @@ function renderFilterGrid(data){
  
 	let filterDiv='';
 	var filterInitialsDiv='';
+    var filterRollingDiv='';
 		data.forEach(item => {
 		
 		  const subGroupId= item.subgroupId;
@@ -318,10 +350,11 @@ function renderFilterGrid(data){
 		  if(item.isVisible)
 		  {
 			 filterInitialsDiv +=`<div id='jqxCheckBox-${groupId}-${subGroupId}' style='float: left;'><span class="checkboxesTitle">${name}</span></div>`;
-	  	  }
+	  	  	 filterRollingDiv +=`<div id='jqxCheckBox-${rollingGroupId}-${subGroupId}' style='float: left;'><span class="checkboxesTitle">${name}</span></div>`;
+		 }
 	  });
-	  filterDiv += `<div class="col-3">${filterInitialsDiv}</div>`;
-   	    
+	  filterDiv += `<div class="col-3"> <div class="fw-bold">INITIAL</div> ${filterInitialsDiv}</div>`;
+   	  filterDiv += `<div class="col-3"> <div class="fw-bold">ROLLING</div> ${filterRollingDiv}</div>`;
    	    
 	filterDiv +=  `<div class="col-3">
 					             	<div id='jqxCheckBox-${groupId}-1' style='float: left;'><span class="checkboxesTitle">MTTY</span></div> 
@@ -366,17 +399,25 @@ function renderSubGroup() {
 			{ name: 'priceAtIssue', type: 'string' },
 			{ name: 'frequency', type: 'string' },
 			{ name: 'convergenceFactor', type: 'string' },
-			{ name: 'mtty', type: 'string' },
+			{ name: 'maturityName', type: 'string' },
 			{ name: 'open', type: 'string' },
 			{ name: 'settle', type: 'string' },
 			{ name: 'close', type: 'string' },
 			{ name: 'high', type: 'string' },
 			{ name: 'low', type: 'string' },
+			{ name: 'spreadName', type: 'string' },
+			{ name: 'spreadValue', type: 'string' },
 		];
 		var totalFields = fields.length-1;
+		var rollingTotalFields = fields.length-10;
 		let falseCount = countFalseValues(contains);
-		totalFields=totalFields-falseCount;
-		var widthPercentage = (100 - 7)/totalFields;
+		totalFields=totalFields-falseCount-2;
+		rollingTotalFields = rollingTotalFields-falseCount;
+
+		var widthPercentage = (100 - 10)/totalFields;
+		var rollingWidthPercentage = (100)/rollingTotalFields;
+		var spreadWidthPercentage = (100 - 30)/2;
+		
 		const subgroup2=!FieldsIsVisible(2);
 		const subgroup3=!FieldsIsVisible(3);
 		const subgroup4=!FieldsIsVisible(4);
@@ -385,11 +426,11 @@ function renderSubGroup() {
 		
 		var arrayOFcolumns = [
 			{
-				text: '', editable: false, datafield: 'Edit', width: '7%', cellsrenderer: function(row) {
+				text: '', editable: false, datafield: 'Edit', width: '10%', cellsrenderer: function(row) {
 					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 				}
 			},
-			 	{ text: '',editable:false,hidden:true,  datafield: 'id', width: widthPercentage + '%'},
+			  { text: '',editable:false,hidden:true,  datafield: 'id', width: widthPercentage + '%'},
 	          { text: 'MTTY', datafield: 'maturityName', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
  	       	  { text: 'Open', hidden:subgroup2, datafield: 'open', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
  	       	  { text: 'Settle',hidden:subgroup3, datafield: 'settle', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
@@ -406,7 +447,29 @@ function renderSubGroup() {
  	       	 
 
  ];
+	var rollingArrayOFcolumns = [
+			
+			  { text: '',editable:false,hidden:true,  datafield: 'id'},
+	          { text: 'MTTY', datafield: 'maturityName', width: rollingWidthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Open', hidden:subgroup2, datafield: 'open', width: rollingWidthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Settle',hidden:subgroup3, datafield: 'settle', width: rollingWidthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Close',hidden:subgroup4,  datafield: 'close', width: rollingWidthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'High',hidden:subgroup5,  datafield: 'high', width: rollingWidthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Low',hidden:subgroup6, datafield: 'low', width: rollingWidthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	
+ ];
+ spreadArrayOFcolumns=[
+			{
+				text: '', editable: false, datafield: 'Edit', width: '30%', cellsrenderer: function(row) {
+					return "<input class=\"edit\" type=\"button\" onclick='EditSpread(" + row + ", event)' id=\"editSpread" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtonsSpread" + row + "\" style=\"display:none\"><input  onclick='UpdateSpread(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdateSpread\"  onclick='CancelSpread(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+				}
+			},
+			  { text: '',editable:false,hidden:true,  datafield: 'id'},
+	          { text: 'Spread Name',editable:false, datafield: 'spreadName', width: spreadWidthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Spread Value', datafield: 'spreadValue', width: spreadWidthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	   
 
+ ];
 	auditGridSource =
 	{
 		localdata: defaultData,
@@ -415,8 +478,16 @@ function renderSubGroup() {
 		url: ''
 	};
 	var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
- 
-	getAuditGridSource(selectedItem);
+	
+    rollingAuditGridSource =
+	{
+		localdata: defaultData,
+		datatype: "json",
+		datafields: fields,
+		url: ''
+	};
+	var rollingDataAdapter = new $.jqx.dataAdapter(rollingAuditGridSource);
+	
 	$('#AuditGrid').jqxGrid(
 		{
 			width: '100%',
@@ -428,7 +499,31 @@ function renderSubGroup() {
 			editmode: 'selectedrow',
 			columns: arrayOFcolumns
 		});
-
+   
+	$('#RollingGrid').jqxGrid(
+		{
+			width: '60%',
+			source: rollingDataAdapter,
+			theme: 'dark',
+			autoheight: true,
+			editable: true,
+			selectionmode: 'none',
+			editmode: 'selectedrow',
+			columns: rollingArrayOFcolumns
+		});
+	$('#SpreadGrid').jqxGrid(
+		{
+			width: '30%',
+			source: dataAdapter,
+			theme: 'dark',
+			autoheight: true,
+			editable: true,
+			selectionmode: 'none',
+			editmode: 'selectedrow',
+			columns: spreadArrayOFcolumns
+		});
+    getAuditGridSource(groupId);
+	
 	$("#delete").click(function() {
 		
 		
@@ -478,12 +573,16 @@ function getSubgroupName(subgroupId) {
     const matchingObject = subgrouId_description.find(item => item.subgroupId === subgroupId);
     return matchingObject ? matchingObject.name : null;
 }
+function getSubgroupDbName(subgroupId) {
+    const matchingObject = subgrouId_description.find(item => item.subgroupId === subgroupId);
+    return matchingObject ? matchingObject.dbName : null;
+}
 function getIdfromSubgroupName(name) {
     const matchingObject = subgrouId_description.find(item => item.name.toLowerCase() === name.toLowerCase());
     return matchingObject ? matchingObject.subgroupId : null;
 }
 function toggleDivVisibility(groupId) {
-	location.href = "/bourse/longends?longend=" + groupId;
+		location.href = "/bourse/longends?longend=" + groupId;
 }
 function getgroupId(Id) {
     const matchingObject = groupId_Id.find(item => item.Id === Id);
@@ -517,12 +616,9 @@ function getAuditGridSource(selectedItem) {
 				var systemDate = new Date();
 				systemDate.setHours(0, 0, 0, 0);
 
-				if (dbDate.toDateString() != systemDate.toDateString()) {
+				if (dbDate.toDateString() == systemDate.toDateString()) {
 					filterDate = date;
-					delete auditGridSource.localdata;
-					auditGridSource.url = auditUrl+  getgroupId(selectedItem) + '/' + date;
-					dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-					$('#AuditGrid').jqxGrid({ source: dataAdapter });
+					renderAuditGrids(date);
 					
 				}
 			} else {
@@ -530,6 +626,11 @@ function getAuditGridSource(selectedItem) {
 				auditGridSource.localdata = [];
 				dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 				$('#AuditGrid').jqxGrid({ source: dataAdapter });
+				
+				delete rollingAuditGridSource.localdata;
+				rollingAuditGridSource.localdata = [];
+				rollingDataAdapter = new $.jqx.dataAdapter(rollingAuditGridSource);
+				$('#RollingGrid').jqxGrid({ source: rollingDataAdapter });
 			
 			}
 		},
@@ -541,6 +642,22 @@ function getAuditGridSource(selectedItem) {
 	});
 
 }
+function renderAuditGrids(date){
+	delete auditGridSource.localdata;
+	auditGridSource.url = auditUrl+  groupId + '/' + date;
+	dataAdapter = new $.jqx.dataAdapter(auditGridSource);
+	$('#AuditGrid').jqxGrid({ source: dataAdapter });
+	
+	delete rollingAuditGridSource.localdata;
+	rollingAuditGridSource.url = rollingAuditUrl+  '/' + date;
+	rollingDataAdapter = new $.jqx.dataAdapter(rollingAuditGridSource);
+	$('#RollingGrid').jqxGrid({ source: rollingDataAdapter });
+	
+	spreadDataAdapter = new $.jqx.dataAdapter(auditGridSource);
+	$('#SpreadGrid').jqxGrid({ source: spreadDataAdapter });
+	
+}
+
 function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColumns,defaultData,fields,arrayOFcolumns){
 		 var jsonObject= null;
 		 $("#delete" + Type).jqxButton({  theme:'dark', width: 90, height: 30,template: "danger" });
@@ -673,7 +790,18 @@ function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColum
 				            });
 				        }
 				    }
-				    
+				    dataToBeInserted.push({
+									"groupId":  groupId,
+				                    "subgroupId":   getIdfromSubgroupName('spreadName') ,
+				                    "value": $("#spreadNamedropdown").val(),
+				                    "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+				                });
+				       dataToBeInserted.push({
+									"groupId":  groupId,
+				                    "subgroupId":   getIdfromSubgroupName('spreadValue') ,
+				                    "value": Number($("#spreadValueInput").val())!=0?Number($("#spreadValueInput").val()):null,
+				                    "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+				                });
             	 if($("#dateInput").jqxDateTimeInput('getDate')<date)
            	     {
             		 var today = $("#dateInput").jqxDateTimeInput('getDate');
@@ -718,7 +846,9 @@ function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColum
 						    	    	        timeout: 600000,
 						    	    	        success: function (data) {
 													
-						    	    	        
+						    	    	        $("#spreadValueInput").val('');
+						    	    	        $("#spreadNamedropdown").jqxDropDownList('clearSelection');
+												
 												getFilterData(longEndsValue);
 						    	    		    if(longEndsValue==1)
 				                            	 inputDataType.value="";
@@ -739,10 +869,7 @@ function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColum
 						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 						    	        	    
 						    				    filterDate=date;
-						    				    delete auditGridSource.localdata;   
-						    				     auditGridSource.url= auditUrl+  getgroupId(selectedItem) + '/' + date;
-						    					 dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-						    					 $('#'+Type+'AuditGrid').jqxGrid({source:dataAdapter});
+						    				    renderAuditGrids(date);
 						    					
 						    	    	         triggerRobots();	
 						    	    	         
@@ -789,7 +916,7 @@ function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColum
                 element.classList.add('show');
             }
         }
-    function getFilterData(selectedItem) {
+function getFilterData(selectedItem) {
 	var SelectedSearchDTO = [];
 	var allItems = 0;
 	var checkedItem = [];
@@ -799,12 +926,16 @@ function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColum
 	var item = 0;
 	
 	items = allitems;
-	
-		for (i = 0; i < items.length; i++) {
+	for (i = 0; i < items.length; i++) {
 	         		if($(items[i]).jqxCheckBox('checked'))
-	         		{		
+	         		{	if(items[i].split("Box")[1]=='SpreadName')	
+	         			  values.push('spread_name');	
+ 						 else 
+ 						 if(items[i].split("Box")[1]=='SpreadValue')	
+	         			  values.push('spread_value');	
+ 						 else 
 						 if(+items[i].split("Box")[1].toUpperCase().split('-')[2]!=1)
-	         		     values.push(getSubgroupName(+items[i].split("Box")[1].toUpperCase().split('-')[2])+"-"+items[i].split("Box")[1].toUpperCase().split('-')[1]);	
+	         		     values.push(getSubgroupDbName(+items[i].split("Box")[1].toUpperCase().split('-')[2])+"-"+items[i].split("Box")[1].toUpperCase().split('-')[1]);	
 	          			else
 	          			 values.push("maturity_name-"+items[i].split("Box")[1].toUpperCase().split('-')[1]);	
 	          			
@@ -813,28 +944,56 @@ function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColum
 	          			checkedItem.push(items[i]);
 	         		}
 	          	}
+	          	
 	  	if(item!=0)
 	  	{
-	  		SelectedSearchDTO.push({
+			
+			// Create a map to store suffixes and their corresponding values
+			const groups = {};
+			
+			// Iterate over the columns and dynamically group by suffix
+			values.forEach(column => {
+			  const suffixMatch = column.match(/-(\d+)$/); // Extract suffix (e.g., '52', '61')
+			
+			  if (suffixMatch) {
+			    const suffix = suffixMatch[1];
+			
+			    // If the group for this suffix doesn't exist, create it
+			    if (!groups[suffix]) {
+			      groups[suffix] = [];
+			    }
+			
+			    // Add the column to the corresponding group
+			    groups[suffix].push(column);
+			  } else if (column === 'spread_name' || column === 'spread_value') {
+			    // Ensure spread_name and spread_value go into the 52 group
+			    if (!groups['52']) {
+			      groups['52'] = [];
+			    }
+			    groups['52'].push(column);
+			  }
+			});
+						
+			// Push the groups into SelectedSearchDTO
+			Object.keys(groups).forEach(suffix => {
+			  SelectedSearchDTO.push({
+			    "groupId": `${suffix}`,
+			    "selectedValues": groups[suffix]
+			  });
+			});
+
+	  	/*	SelectedSearchDTO.push({
 	  		   "groupId":groupId,
 			   "selectedValues":values,
-			});
+			});*/
 	  		 values=[];
 	  	}
 	if (allItems != 0) {
 		
-		var parsedformattedDate = new Date($("#dateInputFrom").jqxDateTimeInput('getDate'));
-		parsedformattedDate.setDate(1);
-		var fromDate =  parsedformattedDate.getFullYear()+ '-' +  ("0" + (parsedformattedDate.getMonth() + 1)).slice(-2) + '-' + ("0" + parsedformattedDate.getDate()).slice(-2)  ;
-        
-        var parsedDateInputTo = new Date($("#dateInputTo").jqxDateTimeInput('getDate'));
-		parsedDateInputTo.setDate(1);
-		var toDate =  parsedDateInputTo.getFullYear()+ '-' +  ("0" + (parsedDateInputTo.getMonth() + 1)).slice(-2) + '-' + ("0" + parsedDateInputTo.getDate()).slice(-2)  ;
-         
 		json = {
 			"selectedSearchDTOlst": SelectedSearchDTO,
-			"fromDate": fromDate,
-			"toDate": toDate
+			"fromDate": $.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'), 'yyyy-MM-dd'),
+			"toDate": $.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'), 'yyyy-MM-dd')
 		};
 
 		if (allItems <= 15) {
@@ -937,4 +1096,335 @@ function saveFilterHistory(selectedItem, checkedItem) {
 		}
 	});
 }
-   
+
+     function formatYear(year) {
+        return year < 10 ? `0${year}` : year.toString().slice(-2);
+    }
+    function generateOptions(startYear) {
+            const dropdown = document.getElementById('date-dropdown');
+            const months = ['DEC', 'SEP', 'JUN', 'MAR']; // Sorted from latest to earliest
+            const currentDate =  new Date();
+            const currentYear = currentDate.getFullYear();
+            const startYearSuffix = startYear.toString().slice(-2);
+            const endYearSuffix = currentYear.toString().slice(-2);
+
+            let dateValues = [];
+    
+            for (let year = parseInt(endYearSuffix); year >= parseInt(startYearSuffix); year--) {
+                months.forEach(month => {
+                    dateValues.push(`${month}-${formatYear(year)}`);
+                });
+            }
+
+      
+
+            for (let i = 1; i < dateValues.length; i++) {
+                const current = dateValues[i];
+                const previous = dateValues[i - 1];
+                const [monthStart, yearStart] = current.split('-');
+                const [monthEnd, yearEnd] = previous.split('-');
+
+                const optionValue = `${monthStart}-${yearStart} / ${monthEnd}-${yearEnd}`;
+                datePairs.push(optionValue);
+            }
+
+            $("#spreadNamedropdown").jqxDropDownList({theme:'dark', source: datePairs, width: '100%', height: 30});
+
+        }
+        
+function Edit(row, event) {
+
+	isedit = true;
+	var data = $('#AuditGrid').jqxGrid('getrowdata', row);
+	
+    oldDataJson={
+			"futureExpiryDate": data.futureExpiryDate,
+		    "issuer": data.issuer,
+		    "coupon": data.coupon,
+		    "ctdMaturity": data.ctdMaturity,
+		    "priceAtIssue": data.priceAtIssue,
+		    "frequency": data.frequency,
+		    "convergenceFactor": data.convergenceFactor,
+		    "maturityName": data.maturityName,
+		    "open": data.open,
+		    "settle": data.settle,
+		    "close": data.close,
+		    "high": data.high,
+		    "low": data.low,
+		    };
+	 
+	selectedRow.editrow = row;
+	date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+	if (auditGridSource.url == '' || date != filterDate) {
+		renderAuditGrids(date);
+	}
+	setTimeout(function() {
+
+		var isDataValid = true;
+
+		for (var key in oldDataJson) {
+			if (oldDataJson.hasOwnProperty(key)) {
+				if (oldDataJson[key] === null || oldDataJson[key] === undefined) {
+					isDataValid = false;
+					break; // Exit the loop early when an invalid value is found
+				}
+			}
+		}
+
+		if (isDataValid) {
+			$('#AuditGrid').jqxGrid('beginrowedit', row);
+			$("#edit" + row).css("display", "none");
+			$("#actionButtons" + row).css("display", "contents");
+			if (event) {
+				if (event.preventDefault) {
+					event.preventDefault();
+				}
+			}
+		}
+		return false;
+	}, 300);
+}
+function EditSpread(row, event) {
+
+	isedit = true;
+	var data = $('#SpreadGrid').jqxGrid('getrowdata', row);
+	
+    oldDataJson={
+			"spreadName": data.spreadName,
+		    "spreadValue": data.spreadValue,
+		    };
+	 
+	selectedRow.editrow = row;
+	date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+	if (auditGridSource.url == '' || date != filterDate) {
+		renderAuditGrids(date);
+	}
+	setTimeout(function() {
+
+		var isDataValid = true;
+
+		for (var key in oldDataJson) {
+			if (oldDataJson.hasOwnProperty(key)) {
+				if (oldDataJson[key] === null || oldDataJson[key] === undefined) {
+					isDataValid = false;
+					break; // Exit the loop early when an invalid value is found
+				}
+			}
+		}
+
+		if (isDataValid) {
+			$('#SpreadGrid').jqxGrid('beginrowedit', row);
+			$("#editSpread" + row).css("display", "none");
+			$("#actionButtonsSpread" + row).css("display", "contents");
+			if (event) {
+				if (event.preventDefault) {
+					event.preventDefault();
+				}
+			}
+		}
+		return false;
+	}, 300);
+}
+function Update(row, event) {
+
+	isupdate = true;
+	var dataToBeUpdated = [];
+	var updatedDataJson;
+	var keys;
+	var updatedData = $('#AuditGrid').jqxGrid('getrowdata', row);
+	selectedRow.editrow = -1;
+	$('#AuditGrid').jqxGrid('endrowedit', row);
+	var updatedData = $('#AuditGrid').jqxGrid('getrowdata', row);
+	
+	 updatedDataJson = {
+			"futureExpiryDate": updatedData.futureExpiryDate,
+		    "issuer": updatedData.issuer,
+		    "coupon": updatedData.coupon,
+		    "ctdMaturity": updatedData.ctdMaturity,
+		    "priceAtIssue": updatedData.priceAtIssue,
+		    "frequency": updatedData.frequency,
+		    "convergenceFactor": updatedData.convergenceFactor,
+		    "maturityName": updatedData.maturityName,
+		    "open": updatedData.open,
+		    "settle": updatedData.settle,
+		    "close": updatedData.close,
+		    "high": updatedData.high,
+		    "low": updatedData.low,
+				    };
+
+	 
+	keys = Object.keys(updatedDataJson);
+
+	for (var i = 0; i < keys.length; i++) {
+	        var field = keys[i];
+	        if (updatedDataJson[field] !== oldDataJson[field]) {
+				
+	            dataToBeUpdated.push({
+				   "subgroupId":getIdfromSubgroupName(field),
+    			   "groupId":groupId,
+    			   "value":updatedDataJson[field].replace(',', ''),
+    			   "referdate":date
+	            });
+	            
+	            
+	        }
+	    }
+
+	$.ajax({
+		type: "POST",
+		contentType: "application/json",
+		url: updateUrl,
+		data: JSON.stringify(dataToBeUpdated),
+		dataType: 'json',
+		async: true,
+		cache: false,
+		timeout: 600000,
+		success: function(data) {
+
+		
+
+			renderAuditGrids(date);
+			getFilterData(selectedItem);
+		},
+		error: function(e) {
+
+			console.log("ERROR : ", e);
+
+		}
+	});
+
+
+	if (event) {
+		if (event.preventDefault) {
+			event.preventDefault();
+		}
+	}
+	return false;
+}
+function UpdateSpread(row, event) {
+
+	isupdate = true;
+	var dataToBeUpdated = [];
+	var updatedDataJson;
+	var keys;
+	var updatedData = $('#SpreadGrid').jqxGrid('getrowdata', row);
+	selectedRow.editrow = -1;
+	$('#SpreadGrid').jqxGrid('endrowedit', row);
+	var updatedData = $('#SpreadGrid').jqxGrid('getrowdata', row);
+	
+	 updatedDataJson = {
+			"spreadName": updatedData.spreadName,
+		    "spreadValue": updatedData.spreadValue,
+				    };
+
+	 
+	keys = Object.keys(updatedDataJson);
+
+	for (var i = 0; i < keys.length; i++) {
+	        var field = keys[i];
+	        if (updatedDataJson[field] !== oldDataJson[field]) {
+				
+	            dataToBeUpdated.push({
+				   "subgroupId":getIdfromSubgroupName(field),
+    			   "groupId":groupId,
+    			   "value":updatedDataJson[field].replace(',', ''),
+    			   "referdate":date
+	            });
+	            
+	            
+	        }
+	    }
+
+	$.ajax({
+		type: "POST",
+		contentType: "application/json",
+		url: updateUrl,
+		data: JSON.stringify(dataToBeUpdated),
+		dataType: 'json',
+		async: true,
+		cache: false,
+		timeout: 600000,
+		success: function(data) {
+
+		
+
+			renderAuditGrids(date);
+			getFilterData(selectedItem);
+		},
+		error: function(e) {
+
+			console.log("ERROR : ", e);
+
+		}
+	});
+
+
+	if (event) {
+		if (event.preventDefault) {
+			event.preventDefault();
+		}
+	}
+	return false;
+}
+
+
+function Cancel(row) {
+	isedit = false;
+	isupdate = false;
+	selectedRow.editrow = row;
+	$('#AuditGrid').jqxGrid('endrowedit', row, true);
+}
+function CancelSpread(row) {
+	isedit = false;
+	isupdate = false;
+	selectedRow.editrow = row;
+	$('#SpreadGrid').jqxGrid('endrowedit', row, true);
+}
+
+function deleteDataByDate() {
+	$('#alertDeleteDataByDate-modal').modal('hide');
+	date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+
+	$.ajax({
+		type: "DELETE",
+		url: deleteUrl + groupId + '/' +  date,
+		success: function(result) {
+		
+			getAuditGridSource(groupId);
+				
+			getFilterData(groupId);
+			$('#alertDeleteDataByDate-modal').modal('hide');
+
+			$("#successDelete").empty();
+			$("#successDelete").append("<p> All record for the date '" + date + "' has been deleted</p>");
+
+			$('#alertInfoDeleteDataByDate-modal').modal('show');
+		},
+		error: function(e) {
+			console.log(e);
+		}
+	});
+
+}
+
+function triggerRobots() {
+	$.ajax({
+		contentType: "application/json; charset=utf-8",
+		url: "/robot/callrobotsasync/10/" + groupId,
+		dataType: 'json',
+		timeout: 600000,
+		async: true,
+		success: function(response) {
+
+		},
+		error: function(e) {
+
+			console.log("ERROR : ", e);
+
+		}
+	});
+}
+function ClearSpreadData(){
+	 $("#spreadValueInput").val('');
+	 $("#spreadNamedropdown").jqxDropDownList('clearSelection');
+}

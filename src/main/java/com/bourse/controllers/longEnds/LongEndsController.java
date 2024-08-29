@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.longEnds.LongEndsDisplaySettings;
 import com.bourse.domain.longEnds.TmpAuditLefBunds;
 import com.bourse.dto.MainSearchFilterDTO;
+import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.longends.LongEndsAuditCommonDTO;
 import com.bourse.service.DataFunctionService;
 import com.bourse.service.longEnds.LongEndsService;
@@ -57,6 +59,13 @@ public class LongEndsController {
 	   
 	    return new ResponseEntity<>(data, HttpStatus.OK);
 	}
+	@GetMapping(value = "longEnds-data-rolling/{groupId}/{referDate}")
+	public ResponseEntity<List<LongEndsAuditCommonDTO>> getLongEndsRollingByGroupIdAndDataByReferDate(@PathVariable("groupId") String groupId, @PathVariable("referDate") String referDate) {
+	    System.out.println(className + ": longEnds-data-rolling");
+	    List<LongEndsAuditCommonDTO> data = longEndsService.getLongEndsRollingByGroupIdAndByReferDate(groupId, referDate);
+	   
+	    return new ResponseEntity<>(data, HttpStatus.OK);
+	}
 	@PostMapping(value = "save-longends-display-settings")
 	public ResponseEntity<List<LongEndsDisplaySettings>> saveLongEndsDisplaySettingsList(@RequestBody List<LongEndsDisplaySettings> dTOlst) {
 		System.out.println(className+": save-longends-display-settings");
@@ -72,6 +81,8 @@ public class LongEndsController {
 		System.out.println(className+": save-longEnds-data");
 		longEndsService.saveLongEndsData(longEndDataDTOlst);
 		longEndsService.doCaclulation(longEndDataDTOlst.get(0).getReferDate(),String.valueOf(longEndDataDTOlst.get(0).getGroupId()));
+		longEndsService.doCalculationSpreadData(longEndDataDTOlst);
+
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@GetMapping(value = "findlatestdata")
@@ -88,5 +99,20 @@ public class LongEndsController {
 		 System.out.println(className+": getgriddata");
 		return new ResponseEntity<>(longEndsService.getGridData(mainSearchFilterDTO),HttpStatus.OK);
 	}
+
+    @PostMapping(value = "/update-long-longEnds-data")
+	public ResponseEntity<Boolean> updateLongEndsData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{  System.out.println(className+":  update-long-longEnds-data ");
+		longEndsService.updateData(updateDataDTOlst);
+		longEndsService.doCaclulation(updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getGroupId());
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+    @DeleteMapping(value = "delete-longEnds/{groupId}/{referDate}")
+	public ResponseEntity<HttpStatus> deleteLongEndData(@PathVariable("groupId") String groupId ,@PathVariable("referDate") String referDate) {
+		System.out.println(className+": deleteLongEndsDataByReferDate");
+		longEndsService.deleteLongEndData(groupId,referDate);
+		return new ResponseEntity<>(HttpStatus.OK);
+	}
+   
 }
 

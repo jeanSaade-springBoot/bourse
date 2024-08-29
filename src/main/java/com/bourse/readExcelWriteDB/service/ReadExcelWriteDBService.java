@@ -30,6 +30,7 @@ import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.ShatzOptionsVolume;
 import com.bourse.domain.SubGroup;
 import com.bourse.domain.TransportationData;
+import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.rates.RatesData;
 import com.bourse.domain.skews.LongSkewsData;
@@ -61,6 +62,7 @@ import com.bourse.service.FxDataService;
 import com.bourse.service.PerciousMetalsService;
 import com.bourse.service.ShatzOptionsVolumeService;
 import com.bourse.service.TransportationService;
+import com.bourse.service.longEnds.LongEndsService;
 import com.bourse.service.macro.MacroService;
 import com.bourse.service.rates.RatesService;
 import com.bourse.service.skews.SkewsService;
@@ -111,7 +113,8 @@ public class ReadExcelWriteDBService {
     MacroService macroService;  
     @Autowired
     RatesService ratesService;
-    
+    @Autowired
+    LongEndsService longEndsService;
     
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
 		List<DataDTO> rowData = new ArrayList<>();
@@ -128,6 +131,9 @@ public class ReadExcelWriteDBService {
 	    macroGroupIds.add("45");
 	    macroGroupIds.add("46");
 	    macroGroupIds.add("47");
+	    
+	    Set<String> LongEndsGroupIds = new HashSet<>(); 
+	    LongEndsGroupIds.add("52");
 	    
 		System.out.println("------------------ batch load: "+readExcelWriteDBDTO.getGroupId());
 		if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("6"))
@@ -1133,7 +1139,41 @@ public class ReadExcelWriteDBService {
 			e.printStackTrace();
 		}
 
+		}else if(LongEndsGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim()))
+		{
+			   List<LongEndData> longEndDataLst = new ArrayList<>();
+			   List<String> subgroups = Arrays.asList("1", "2", "3" , "4" ,"5","6", "7", "8" , "9" ,"10","11", "12", "13" , "14" ,"15");
+
+			   for (String subGroupId: subgroups) {
+						   rowData.clear();
+						   longEndDataLst.clear();
+						   rowData = ReadExcelWriteDBUtil.readExcelFileWithString(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+						   for (DataDTO data: rowData) {
+							 if(longEndsService.CheckIfCanSaveLongEnds(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subGroupId)))
+							 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+							 LongEndData longEndData = LongEndData.builder().referDate(data.getDate())
+							   												  .subgroupId(Long.valueOf(subGroupId))
+							   												  .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+							   												  .value(data.getValue()==null?"":data.getValue())
+						   												  .build();
+							   
+							 longEndDataLst.add(longEndData);
+				      }
+						  longEndsService.saveLongEndsData(longEndDataLst);
+			
+			   }
+			   if (!longEndDataLst.isEmpty()) {
+		            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(longEndDataLst, "referDate");
+
+		            System.out.println("Minimum Date: " + minMaxDates[0]);
+		            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+		             longEndsService.doCaclulationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
+		        } else {
+		            System.out.println("List is empty.");
+		        } 
 		}
+		
 }
 	
 }

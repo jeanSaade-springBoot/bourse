@@ -32,7 +32,7 @@ $(document).ready(function() {
 function drawGraph() {
 	
 	var graphService = "liquidity";
-	const removeEmpty = false;
+	const removeEmpty = true;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
 

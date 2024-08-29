@@ -638,7 +638,7 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("assetId", Integer.valueOf(assetId));
-	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "MACRO_DISPLAY_SETTINGS"));
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "SETTINGS_SCREEN"));
 		return new ModelAndView("html/macro/macroDisplaySettings");
     }
 	@PreAuthorize("hasAuthority('ONE_SERIE') and principal.tacAccepted == true")

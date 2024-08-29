@@ -25,4 +25,6 @@ public class LongEndsAuditCommonDTO {
 	   private String frequency;
 	   private String convergenceFactor;
 	   private String referDate;
+	   private String spreadName;
+	   private String spreadValue;
 }

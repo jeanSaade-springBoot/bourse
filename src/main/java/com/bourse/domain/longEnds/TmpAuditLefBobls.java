@@ -18,15 +18,15 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor 
 @AllArgsConstructor
 @Entity
-@Table(name = "tmp_audit_lef_bunds")
-public class TmpAuditLefBunds {
+@Table(name = "tmp_audit_lef_bobls")
+public class TmpAuditLefBobls {
 	@Id
-	@GeneratedValue(generator = "audit_lef_bunds_sequence")
+	@GeneratedValue(generator = "audit_lef_bobls_sequence")
 	   @GenericGenerator(
-	      name = "audit_lef_bunds_sequence",
+	      name = "audit_lef_bobls_sequence",
 	      strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
 	      parameters = {
-	        @Parameter(name = "sequence_name", value = "audit_lef_bunds_sequence"),
+	        @Parameter(name = "sequence_name", value = "audit_lef_bobls_sequence"),
 	        @Parameter(name = "initial_value", value = "1"),
 	        @Parameter(name = "increment_size", value = "1")
 	        }
