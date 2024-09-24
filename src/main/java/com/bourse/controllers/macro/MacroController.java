@@ -80,7 +80,7 @@ public class MacroController {
 	public ResponseEntity<Boolean> saveMacroData(@RequestBody List<MacroData> macroDTOlst) {
 		System.out.println(className+": save-macro-data");
 		macroService.saveMacro(macroDTOlst);
-		macroService.doCaclulation(macroDTOlst.get(0).getReferDate(),String.valueOf(macroDTOlst.get(0).getGroupId()));
+		macroService.doCalculation(macroDTOlst.get(0).getReferDate(),String.valueOf(macroDTOlst.get(0).getGroupId()));
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "getgriddata")
@@ -103,7 +103,7 @@ public class MacroController {
 	public ResponseEntity<Boolean> updateMacroData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{  System.out.println(className+": updateMacroData");
 		macroService.updateData(updateDataDTOlst);
-		macroService.doCaclulation(updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getGroupId());
+		macroService.doCalculation(updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getGroupId());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@DeleteMapping(value = "delete-macro/{groupId}/{referDate}")

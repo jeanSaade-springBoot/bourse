@@ -31,11 +31,14 @@ public class RatesUtil {
 		 int counter=1;
 		 int columnsId=1;
 		 HashMap<Integer,String>  colHash= new HashMap<Integer, String>();
+		
+		 
 		 if(selectedSearchDTOLst!=null)
 		 for( SelectedSearchDTO selectedSearchDTO :selectedSearchDTOLst)
 		 {
 			if(selectedSearchDTO.getGroupId() == 48) 
 				{
+				
 				if(counter == 1)
 				 {
 					 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
@@ -48,8 +51,7 @@ public class RatesUtil {
 				 if(selectedSearchDTO.getSelectedValues()!=null)
 				 for(String value : selectedSearchDTO.getSelectedValues())
 				 {       
-					     
-					 
+					
 						 if(counter == 1)
 						 {
 							 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
@@ -70,10 +72,10 @@ public class RatesUtil {
 						                         " as '"+value+"."+selectedSearchDTO.getGroupId()+"'";
 					 	 colHash.put(columnsId, value+"."+selectedSearchDTO.getGroupId());
 					 	 columnsId++;
-						 
+					 	 
 						 counter = counter+1;	 
 				 }
-				 
+				
 				}else
 					if(selectedSearchDTO.getGroupId() == 49) 
 					{
@@ -206,11 +208,13 @@ public class RatesUtil {
 			 forUsetables = forUsetables.substring(0, forUsetables.length() - 1);
 		 
 		 colHash.put(columnsId,"id");
+		 
+		
 		 query = forUseSelect+",(@row_number:=@row_number + 1) AS id \n"
 				 +forUsetables+", (SELECT @row_number:=0) AS t  \n"
 				 +forUseWhere
 				 + forUseAnd
-				 +" order by STR_TO_DATE(s1.refer_date,'%d-%m-%Y') desc";
+				 + " ORDER BY STR_TO_DATE(s1.refer_date, '%d-%m-%Y') DESC";
 		 
 		 QueryColumnsDTO queryColumnsDTO = QueryColumnsDTO.builder()
 				 .colHash(colHash)

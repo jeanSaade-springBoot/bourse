@@ -222,14 +222,14 @@ public class SkewsService
 		 tmpAuditSkewsEuribor7MttyRepository.deleteDataByReferDate(referDate);
 		 shortSkewsRepository.deleteShortSkewsDataByReferDate(referDate);
 	}
-    public void doCaclulation(String referDate)
+    public void doCalculation(String referDate)
    	{
    		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_long_skews");
    		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
    		query.setParameter("referDate",referDate );
    		query.execute();
    	}
-    public void doCaclulationLongSkewsLoader(String fromDate,String toDate)
+    public void doCalculationLongSkewsLoader(String fromDate,String toDate)
    	{
    		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_long_skews_loader");
 		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
@@ -238,7 +238,7 @@ public class SkewsService
 		query.setParameter("toDate", toDate);
    		query.execute();
    	}
-    public void doCaclulationShortSkewsLoader(String fromDate,String toDate)
+    public void doCalculationShortSkewsLoader(String fromDate,String toDate)
    	{
    		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_short_skews_loader");
 		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
@@ -247,7 +247,7 @@ public class SkewsService
 		query.setParameter("toDate", toDate);
 		query.execute();
    	}
-    public void doCaclulationForShortSkews(String referDate)
+    public void doCalculationForShortSkews(String referDate)
    	{
    		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_short_skews");
    		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);

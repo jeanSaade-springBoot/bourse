@@ -69,12 +69,9 @@ var factorContainer='';
 
 
 var inputDataLongEnds = document.getElementById("data-input-data");
+Type="data" ;
+updateUrl="/longEnds/update-long-longEnds-data";
 
-  if(longEndsValue==1)
-         	 {
-			  Type="data" ;
-         	  updateUrl="/longEnds/update-long-longEnds-data";
-		     } 
           
 
 
@@ -465,7 +462,7 @@ function renderSubGroup() {
 				}
 			},
 			  { text: '',editable:false,hidden:true,  datafield: 'id'},
-	          { text: 'Spread Name',editable:false, datafield: 'spreadName', width: spreadWidthPercentage + '%', cellsalign: 'center', align: 'center' },
+	          { text: 'Spread Name', datafield: 'spreadName', width: spreadWidthPercentage + '%', cellsalign: 'center', align: 'center' },
  	       	  { text: 'Spread Value', datafield: 'spreadValue', width: spreadWidthPercentage + '%', cellsalign: 'center', align: 'center' },
  	       	   
 
@@ -582,7 +579,10 @@ function getIdfromSubgroupName(name) {
     return matchingObject ? matchingObject.subgroupId : null;
 }
 function toggleDivVisibility(groupId) {
-		location.href = "/bourse/longends?longend=" + groupId;
+		 if(groupId==1)
+         	 location.href = "/bourse/longends?longend=" + groupId;
+          else
+         	 location.href = "/bourse/pageunderconstruction" ;
 }
 function getgroupId(Id) {
     const matchingObject = groupId_Id.find(item => item.Id === Id);
@@ -721,7 +721,7 @@ function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColum
 		
         $("#delete" + Type).click(function () {
 			if(longEndsValue==1)
-			   value="Bund Options";
+			   value="Bund";
 			else if(longEndsValue==2)
 			   value="Bobl Options"; 
 			   else if(longEndsValue==3)
@@ -793,13 +793,13 @@ function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColum
 				    dataToBeInserted.push({
 									"groupId":  groupId,
 				                    "subgroupId":   getIdfromSubgroupName('spreadName') ,
-				                    "value": $("#spreadNamedropdown").val(),
+				                    "value": '',
 				                    "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 				                });
-				       dataToBeInserted.push({
+				     dataToBeInserted.push({
 									"groupId":  groupId,
 				                    "subgroupId":   getIdfromSubgroupName('spreadValue') ,
-				                    "value": Number($("#spreadValueInput").val())!=0?Number($("#spreadValueInput").val()):null,
+				                    "value": null,
 				                    "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 				                });
             	 if($("#dateInput").jqxDateTimeInput('getDate')<date)
@@ -1314,7 +1314,7 @@ function UpdateSpread(row, event) {
 	
 	 updatedDataJson = {
 			"spreadName": updatedData.spreadName,
-		    "spreadValue": updatedData.spreadValue,
+		    "spreadValue": updatedData.spreadValue==''?null:updatedData.spreadValue,
 				    };
 
 	 
@@ -1327,7 +1327,7 @@ function UpdateSpread(row, event) {
 	            dataToBeUpdated.push({
 				   "subgroupId":getIdfromSubgroupName(field),
     			   "groupId":groupId,
-    			   "value":updatedDataJson[field].replace(',', ''),
+    			   "value":(updatedDataJson[field]!=null)?updatedDataJson[field].replace(',', ''):null,
     			   "referdate":date
 	            });
 	            
@@ -1427,4 +1427,107 @@ function triggerRobots() {
 function ClearSpreadData(){
 	 $("#spreadValueInput").val('');
 	 $("#spreadNamedropdown").jqxDropDownList('clearSelection');
+}
+function SubmitSpreadData(){
+	    var dataToBeInserted = [];
+	    var date = new Date();
+		if ($("#dateInput").jqxDateTimeInput('getDate') < date) {
+			var today = $("#dateInput").jqxDateTimeInput('getDate');
+			if (today.getDay() == 6 || today.getDay() == 0) {
+				$('#alert-modal-weekend').modal('show');
+				return;
+			}
+			today = $.jqx.dataFormat.formatdate(today, 'dd-MM-yyyy');
+			   dataToBeInserted.push({
+									"groupId":  groupId,
+				                    "subgroupId":   getIdfromSubgroupName('spreadName') ,
+				                    "value": $("#spreadNamedropdown").val(),
+				                    "referdate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+				                });
+				       dataToBeInserted.push({
+									"groupId":  groupId,
+				                    "subgroupId":   getIdfromSubgroupName('spreadValue') ,
+				                    "value": Number($("#spreadValueInput").val())!=0?Number($("#spreadValueInput").val()):null,
+				                    "referdate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+				                });
+			$.ajax({
+				contentType: "application/json",
+				url: checkifcanUrl + groupId + "/" + today,
+				dataType: 'json',
+				async: true,
+				cache: false,
+				timeout: 600000,
+				success: function(response) {
+				if(!response)
+	    	        	{
+							 $.ajax({
+						        contentType: "application/json",
+						        url: "/process/isrobottriggered/10/"+groupId,
+						        dataType: 'text',
+								async:true,
+						        cache: false,
+						        timeout: 600000,
+						        success: function (data) {
+				      
+								if(data=='true')
+								   $('#alert-modal-robot').modal('show'); 
+								else{
+								
+		
+						    	       	  $.ajax({
+						    	    	        type: "POST",
+						    	    	        contentType: "application/json",
+						    	    	        url: updateUrl,
+						    	    	        data: JSON.stringify(dataToBeInserted),
+						    	    	        dataType: 'json',
+						    	    	        async:false,
+						    	    	        cache: false,
+						    	    	        timeout: 600000,
+						    	    	        success: function (data) {
+													
+						    	    	        $("#spreadValueInput").val('');
+						    	    	        $("#spreadNamedropdown").jqxDropDownList('clearSelection');
+												
+												getFilterData(longEndsValue);
+						    	    		   
+						  						$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
+						    	        	    date=$.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
+						    	        	    
+						    				    filterDate=date;
+						    				    renderAuditGrids(date);
+						    				
+						    	    	         
+						    	            },
+						    	    	        error: function (e) {
+						    	    	        	
+						    						  console.log("ERROR : ", e);
+						    	
+						    	    	        }
+						    	    	    });
+											}
+					
+								},
+						        error: function (e) {
+						        	
+										  console.log("ERROR : ", e);
+					
+						        }
+						    });
+
+	    	        	}
+	    	        	else{
+	    	        		$('#alert-modal-not-exist').modal('show'); 
+	    	        	}
+				},
+				error: function(e) {
+	
+					console.log("ERROR : ", e);
+	
+				}
+			});
+		}
+		else {
+			$('#alertDate-modal').modal('show');
+		}
+
 }

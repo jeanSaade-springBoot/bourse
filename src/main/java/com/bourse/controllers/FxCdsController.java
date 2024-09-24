@@ -78,13 +78,13 @@ public class FxCdsController {
 	@PostMapping(value = "savefxdata")
     public List<FxUsdData> saveFxData(@RequestBody List<FxUsdData> list){
 		List<FxUsdData> datalst= fxDataService.SaveData(list);
-		fxDataService.doCaclulation(list.get(0).getReferDate());
+		fxDataService.doCalculation(list.get(0).getReferDate());
 	  return datalst;
     }
 	@PostMapping(value = "savecdsdata")
     public List<CdsData> saveCdsData(@RequestBody List<CdsData> list){
 		List<CdsData> datalst= cdsDataService.SaveData(list);
-		cdsDataService.doCaclulation(list.get(0).getReferDate());
+		cdsDataService.doCalculation(list.get(0).getReferDate());
 	  return datalst;
     }
 	@GetMapping(value = "getfxusddata/{referDate}")
@@ -132,14 +132,14 @@ public class FxCdsController {
 	public ResponseEntity<Boolean> updatefxAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
 		fxDataService.updateData(updateDataDTOlst);
-		fxDataService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		fxDataService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "updatecdsdata")
 	public ResponseEntity<Boolean> updateBoblAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
 		cdsDataService.updateData(updateDataDTOlst);
-		cdsDataService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		cdsDataService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 }

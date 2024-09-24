@@ -243,7 +243,7 @@ a.nav-item.nav-link {
 							</div>
 						</div>
 						<div class="collapse collapse-horizontal float-end custom-bg-dark mb-1" id="horizontalExample">
-						  <div style="width: 380px;">
+						  <div style="width: 480px;">
 								<form>
 								    <div class="row g-3 align-items-center">
 								        <div class="col-4">
@@ -257,11 +257,12 @@ a.nav-item.nav-link {
 								        <div class="col-4">
 								            <input type="text" class="form-control" id="spreadValueInput" placeholder="" autocomplete="off">
 								        </div>
-								        <div class="col-5">
+								        <div class="col-4">
 								            <div id='spreadNamedropdown'></div>
 								        </div>
 								         <div class="col-auto">
-								            <button type="button" class="btn btn-primary" onclick="ClearSpreadData(event)">Clear</button>
+								            <button type="button" class="btn btn-primary" onclick="SubmitSpreadData(event)">Submit</button>
+								            <button type="button" class="btn btn-outline-primary" onclick="ClearSpreadData(event)">Clear</button>
 								        </div>
 								    </div>
 								</form>
@@ -425,6 +426,19 @@ a.nav-item.nav-link {
                           </button>
                         </div>
                         <div class="modal-body">The date you are trying to insert has already data please choose a valid date</div>
+                      </div>
+                    </div>
+                  </div>
+                   <div id="alert-modal-not-exist" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                          <h4 class="modal-title white" id="myLargeModalLabel">Warning</h4>
+                          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">×</span>
+                          </button>
+                        </div>
+                        <div class="modal-body">The date you are trying to insert has no data please choose a valid date</div>
                       </div>
                     </div>
                   </div>

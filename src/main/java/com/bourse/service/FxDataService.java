@@ -43,19 +43,19 @@ public class FxDataService {
    	{
    		return  fxUsdDataRepository.existsByReferDateAndSubgroupId(referDate,subgroupId);
    	}
-    public void doCaclulation(String referDate)
+    public void doCalculation(String referDate)
    	{
    		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_fx");
    		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
    		query.setParameter("referDate",referDate );
    		query.execute();
    	}
-    public void doCaclulation()
+    public void doCalculation()
    	{
    		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_fx_main");
    		query.execute();
    	}
-    public void doCaclulationLoader(String fromDate,String toDate)
+    public void doCalculationLoader(String fromDate,String toDate)
    	{
    		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_fx_loader");
    		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);

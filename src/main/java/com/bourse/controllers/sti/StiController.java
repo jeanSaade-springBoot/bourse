@@ -73,35 +73,35 @@ public class StiController {
 	public ResponseEntity<List<StiAsiaData>> saveStiAsia(@RequestBody List<StiAsiaData> stiDTOlst) {
 		System.out.println(className+": save-sti-asia");
 		List<StiAsiaData> datalst = stiService.saveStiAsia(stiDTOlst);
-		stiService.doCaclulationAsia(stiDTOlst.get(0).getReferDate());
+		stiService.doCalculationAsia(stiDTOlst.get(0).getReferDate());
 		return new ResponseEntity<>(datalst,HttpStatus.OK);
 	}
 	@PostMapping(value = "save-sti-wall-street")
 	public ResponseEntity<List<StiWallStreetData>> saveWallStreet(@RequestBody List<StiWallStreetData> stiDTOlst) {
 		System.out.println(className+": saveWallStreet");
 		List<StiWallStreetData> datalst = stiService.saveStiWallStreet(stiDTOlst);
-		stiService.doCaclulationWallStreet(stiDTOlst.get(0).getReferDate());
+		stiService.doCalculationWallStreet(stiDTOlst.get(0).getReferDate());
 		return new ResponseEntity<>(datalst,HttpStatus.OK);
 	}
 	@PostMapping(value = "save-sti-europe")
 	public ResponseEntity<List<StiEuropeData>> saveEurope(@RequestBody List<StiEuropeData> stiDTOlst) {
 		System.out.println(className+": saveEurope");
 		List<StiEuropeData> datalst = stiService.saveStiEurope(stiDTOlst);
-		stiService.doCaclulationEurope(stiDTOlst.get(0).getReferDate());
+		stiService.doCalculationEurope(stiDTOlst.get(0).getReferDate());
 		return new ResponseEntity<>(datalst,HttpStatus.OK);
 	}
 	@PostMapping(value = "save-sti-emerging")
 	public ResponseEntity<List<StiEmergingData>> saveEmerging(@RequestBody List<StiEmergingData> stiDTOlst) {
 		System.out.println(className+": saveEmerging");
 		List<StiEmergingData> datalst = stiService.saveStiEmerging(stiDTOlst);
-		stiService.doCaclulationEmerging(stiDTOlst.get(0).getReferDate());
+		stiService.doCalculationEmerging(stiDTOlst.get(0).getReferDate());
 		return new ResponseEntity<>(datalst,HttpStatus.OK);
 	}
 	@PostMapping(value = "save-sti-cryptos")
 	public ResponseEntity<List<StiCryptosData>> saveCryptos(@RequestBody List<StiCryptosData> stiDTOlst) {
 		System.out.println(className+": saveCryptos");
 		List<StiCryptosData> datalst = stiService.saveStiCryptos(stiDTOlst);
-		stiService.doCaclulationCryptos(stiDTOlst.get(0).getReferDate());
+		stiService.doCalculationCryptos(stiDTOlst.get(0).getReferDate());
 		return new ResponseEntity<>(datalst,HttpStatus.OK);
 	}
 	@GetMapping(value = "sti-asia-data/{referDate}")
@@ -133,35 +133,35 @@ public class StiController {
 	public ResponseEntity<Boolean> updateAsiaData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{  System.out.println(className+": update-sti-asia-data");
 		stiService.updateAsiaData(updateDataDTOlst);
-		stiService.doCaclulationAsia(updateDataDTOlst.get(0).getReferdate());
+		stiService.doCalculationAsia(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "update-sti-wall-street-data")
 	public ResponseEntity<Boolean> updateWallStreetData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{  System.out.println(className+": updateWallStreetData");
 		stiService.updateWallStreetData(updateDataDTOlst);
-		stiService.doCaclulationWallStreet(updateDataDTOlst.get(0).getReferdate());
+		stiService.doCalculationWallStreet(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "update-sti-europe-data")
 	public ResponseEntity<Boolean> updateEuropeData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{  System.out.println(className+": updateEuropeData");
 		stiService.updateEuropeData(updateDataDTOlst);
-		stiService.doCaclulationEurope(updateDataDTOlst.get(0).getReferdate());
+		stiService.doCalculationEurope(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "update-sti-emerging-data")
 	public ResponseEntity<Boolean> updateEmergingData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{  System.out.println(className+": updateEmergingData");
 		stiService.updateEmergingData(updateDataDTOlst);
-		stiService.doCaclulationEmerging(updateDataDTOlst.get(0).getReferdate());
+		stiService.doCalculationEmerging(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "update-sti-cryptos-data")
 	public ResponseEntity<Boolean> updateCryptosData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{  System.out.println(className+": updateCryptosData");
 		stiService.updateCryptosData(updateDataDTOlst);
-		stiService.doCaclulationCryptos(updateDataDTOlst.get(0).getReferdate());
+		stiService.doCalculationCryptos(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@DeleteMapping(value = "delete-sti-asia-byreferDate/{referDate}")

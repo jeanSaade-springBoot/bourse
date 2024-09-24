@@ -76,19 +76,19 @@ public class FoodStuffService
 			return null;
 	        return foodStuffRepository.findLatestFoodStuffData();
 	}
-	 public void doCaclulation(String referDate)
+	 public void doCalculation(String referDate)
 	{
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_foodstuff");
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate",referDate );
 		query.execute();
 	}
-	 public void doCaclulation()
+	 public void doCalculation()
 	   	{
 		 	StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_foodstuff_main");
 			query.execute();
 	   	}
-	 public void doCaclulationLoader(String fromDate,String toDate)
+	 public void doCalculationLoader(String fromDate,String toDate)
 	   	{
 		 	StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_foodstuff_loader");
 		 	query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);

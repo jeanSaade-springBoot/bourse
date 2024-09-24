@@ -80,7 +80,7 @@ public class LiquidityController {
 	@PostMapping(value = "saveecbexcessdata")
     public List<EcbExcessLiquidity> saveEcbExcessData(@RequestBody List<EcbExcessLiquidity> ecbExcessLiquidityList){
 		List<EcbExcessLiquidity> ecbExcessLiquidityDatalst= ecbExcessLiquidityService.SaveExcessLiquidityData(ecbExcessLiquidityList);
-		ecbExcessLiquidityService.doCaclulation(ecbExcessLiquidityList.get(0).getReferDate());
+		ecbExcessLiquidityService.doCalculation(ecbExcessLiquidityList.get(0).getReferDate());
 	  return ecbExcessLiquidityDatalst;
     }
 	@PostMapping(value = "saveecbqedata")
@@ -91,7 +91,7 @@ public class LiquidityController {
 	@PostMapping(value = "saveezmmdata")
     public List<EurozoneMonetaryMass> saveEzmmData(@RequestBody List<EurozoneMonetaryMass> eurozoneMonetaryMassList){
 		List<EurozoneMonetaryMass> ecbQeLiquidityDatalst= ezMonetaryMassLiquidityService.SaveEurozoneMonetaryMassData(eurozoneMonetaryMassList);
-		ezMonetaryMassLiquidityService.doCaclulation(ecbQeLiquidityDatalst.get(0).getReferDate());
+		ezMonetaryMassLiquidityService.doCalculation(ecbQeLiquidityDatalst.get(0).getReferDate());
 	   return ecbQeLiquidityDatalst;
     }
 	@GetMapping(value = "getecbexcessdata/{referDate}")
@@ -149,7 +149,7 @@ public class LiquidityController {
 	{
 	
 		ecbExcessLiquidityService.updateEcbExcessLiquidityData(updateDataDTOlst);
-		ecbExcessLiquidityService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		ecbExcessLiquidityService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "updateecbqedata")
@@ -157,14 +157,14 @@ public class LiquidityController {
 	{
 	
 		ecbQeLiquidityService.updateEcbQeLiquidityData(updateDataDTOlst);
-		ecbQeLiquidityService.doCaclulation();
+		ecbQeLiquidityService.doCalculation();
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "updateezmmdata")
 	public ResponseEntity<Boolean> updateEzmmAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
 		ezMonetaryMassLiquidityService.updateEzmmLiquidityData(updateDataDTOlst);
-		ezMonetaryMassLiquidityService.doCaclulation();
+		ezMonetaryMassLiquidityService.doCalculation();
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 }

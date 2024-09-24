@@ -148,7 +148,7 @@ public class StiService {
 		boolean returnvalue = (cnt != 0) ? true : false;
 		return returnvalue;
 	}
-	public void doCaclulationAsia(String referDate) {
+	public void doCalculationAsia(String referDate) {
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_sti_asia");
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate", referDate);
@@ -194,25 +194,25 @@ public class StiService {
 		query.setParameter("toDate", toDate);
 		query.execute();
 	}
-	public void doCaclulationWallStreet(String referDate) {
+	public void doCalculationWallStreet(String referDate) {
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_sti_wall_street");
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate", referDate);
 		query.execute();
 	}
-	public void doCaclulationEurope(String referDate) {
+	public void doCalculationEurope(String referDate) {
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_sti_europe");
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate", referDate);
 		query.execute();
 	}
-	public void doCaclulationEmerging(String referDate) {
+	public void doCalculationEmerging(String referDate) {
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_sti_emerging");
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate", referDate);
 		query.execute();
 	}
-	public void doCaclulationCryptos(String referDate) {
+	public void doCalculationCryptos(String referDate) {
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_sti_cryptos");
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate", referDate);

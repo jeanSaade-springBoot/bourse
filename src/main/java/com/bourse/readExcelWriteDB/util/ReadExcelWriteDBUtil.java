@@ -8,6 +8,7 @@ import java.text.SimpleDateFormat;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeFormatterBuilder;
+import java.time.temporal.ChronoField;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
@@ -228,13 +229,24 @@ public static Object[][] splitArrayMacro(Object[] dataArray, int elementsInSubar
 
 			String referDate = "01-" + dataArray[0].toString();
 			
-			 DateTimeFormatter inputFormatter = new DateTimeFormatterBuilder()
-		                .parseCaseInsensitive()
-		                .appendPattern("dd-MMM-uu")
-		                .toFormatter(Locale.ENGLISH);
-		            
-		            // Parse the date using the custom formatter
-		            LocalDate parsedDate = LocalDate.parse(referDate, inputFormatter);
+			int currentYear = LocalDate.now().getYear();
+			int currentTwoDigitYear = currentYear % 100; // Get the last two digits of the current year
+			
+			DateTimeFormatter inputFormatter = new DateTimeFormatterBuilder()
+			        .parseCaseInsensitive()
+			        .appendPattern("dd-MMM-")
+			        .appendValueReduced(ChronoField.YEAR, 2, 2, 2000) // Base year is 2000
+			        .toFormatter(Locale.ENGLISH);
+			
+			// Parse the date using the custom formatter
+			LocalDate parsedDate = LocalDate.parse(referDate, inputFormatter);
+			
+			// Adjust for two-digit year logic to handle 1900s and 2000s properly
+			if (parsedDate.getYear() % 100 > currentTwoDigitYear) {
+			    // If the parsed year is in the future (e.g., 2099), adjust it to the 1900s
+			    parsedDate = parsedDate.withYear(parsedDate.getYear() - 100);
+			}
+
 		            
 			DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 			String formattedDate = parsedDate.format(outputFormatter);
@@ -265,14 +277,25 @@ public static Object[][] splitArrayRates(String groupId, Object[] dataArray, int
 			
 			if(groupId.equalsIgnoreCase("48"))
 			 {   referDate = "01-" + dataArray[0].toString();
+			 
+				int currentYear = LocalDate.now().getYear();
+				int currentTwoDigitYear = currentYear % 100; // Get the last two digits of the current year
+				
 				DateTimeFormatter inputFormatter = new DateTimeFormatterBuilder()
-		                .parseCaseInsensitive()
-		                .appendPattern("dd-MMM-uu")
-		                .toFormatter(Locale.ENGLISH);
-		            
-		            // Parse the date using the custom formatter
-		            LocalDate parsedDate = LocalDate.parse(referDate, inputFormatter);
-		            
+				        .parseCaseInsensitive()
+				        .appendPattern("dd-MMM-")
+				        .appendValueReduced(ChronoField.YEAR, 2, 2, 2000) // Base year is 2000
+				        .toFormatter(Locale.ENGLISH);
+				
+				// Parse the date using the custom formatter
+				LocalDate parsedDate = LocalDate.parse(referDate, inputFormatter);
+				
+				// Adjust for two-digit year logic to handle 1900s and 2000s properly
+				if (parsedDate.getYear() % 100 > currentTwoDigitYear) {
+				    // If the parsed year is in the future (e.g., 2099), adjust it to the 1900s
+				    parsedDate = parsedDate.withYear(parsedDate.getYear() - 100);
+				}
+ 
 			DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
 			 formattedDate = parsedDate.format(outputFormatter);
 			}

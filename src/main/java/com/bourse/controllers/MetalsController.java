@@ -110,31 +110,31 @@ public class MetalsController {
 	@PostMapping(value = "savepreciousdata")
     public List<PreciousMetals> savePreciousData(@RequestBody List<PreciousMetals> preciousInputDataList){
 		List<PreciousMetals> preciousDatalst= perciousMetalsService.SavePreciousData(preciousInputDataList);
-		perciousMetalsService.doCaclulation(preciousInputDataList.get(0).getReferDate());
+		perciousMetalsService.doCalculation(preciousInputDataList.get(0).getReferDate());
 	  return preciousDatalst;
     }
 	@PostMapping(value = "savebasedata")
     public List<BaseMetals> saveBaseData(@RequestBody List<BaseMetals> baseInputDataList){
 		List<BaseMetals> baseDatalst= baseMetalsService.SaveBaseData(baseInputDataList);
-	    baseMetalsService.doCaclulation(baseInputDataList.get(0).getReferDate());
+	    baseMetalsService.doCalculation(baseInputDataList.get(0).getReferDate());
 	  return baseDatalst;
     }
 	@PostMapping(value = "savefoodstuffdata")
     public List<FoodStuffData> saveFoodStuffData(@RequestBody List<FoodStuffData> foodStuffInputDataList){
 		List<FoodStuffData> foodStuffDatalst= foodStuffService.SaveFoodStuffData(foodStuffInputDataList);
-	    foodStuffService.doCaclulation(foodStuffInputDataList.get(0).getReferDate());
+	    foodStuffService.doCalculation(foodStuffInputDataList.get(0).getReferDate());
 	  return foodStuffDatalst;
     }
 	@PostMapping(value = "saveenergydata")
     public List<EnergyData> saveEnergyData(@RequestBody List<EnergyData> energyInputDataList){
 		List<EnergyData> energyDatalst= energyService.SaveEnergyData(energyInputDataList);
-		energyService.doCaclulation(energyInputDataList.get(0).getReferDate());
+		energyService.doCalculation(energyInputDataList.get(0).getReferDate());
 	  return energyDatalst;
     }
 	@PostMapping(value = "savetransportationdata")
     public List<TransportationData> saveTransportationData(@RequestBody List<TransportationData> transportationInputDataList){
 		List<TransportationData> transportationDatalst= transportationService.SaveTransportationData(transportationInputDataList);
-		transportationService.doCaclulation(transportationDatalst.get(0).getReferDate());
+		transportationService.doCalculation(transportationDatalst.get(0).getReferDate());
 	  return transportationDatalst;
     }
 	@GetMapping(value = "getpreciousauditdata/{referDate}")
@@ -158,7 +158,7 @@ public class MetalsController {
 	{
 	
 		perciousMetalsService.updatePreciousData(updateDataDTOlst);
-		perciousMetalsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		perciousMetalsService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@GetMapping(value = "getbaseauditdata/{referDate}")
@@ -219,7 +219,7 @@ public class MetalsController {
 	{
 	
 		baseMetalsService.updateBaseData(updateDataDTOlst);
-		baseMetalsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		baseMetalsService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "updatefoodstuffauditdata")
@@ -227,21 +227,21 @@ public class MetalsController {
 	{
 	
 		foodStuffService.updateFoodStuffData(updateDataDTOlst);
-		foodStuffService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		foodStuffService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "updateenergyauditdata")
 	public ResponseEntity<Boolean> updateEnergyAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
 		energyService.updateEnergyData(updateDataDTOlst);
-		energyService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		energyService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "updatetransportationauditdata")
 	public ResponseEntity<Boolean> updateTransportationAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
 		transportationService.updateTransportationData(updateDataDTOlst);
-		transportationService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		transportationService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "getgriddata")

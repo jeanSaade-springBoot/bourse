@@ -137,7 +137,7 @@ public class RatesService {
 		}
 	}
 	
-	public void doCaclulationData(String referDate, Long groupId) {
+	public void doCalculationData(String referDate, Long groupId) {
 	    String procedureName;
 
 	    switch (groupId.intValue()) {

@@ -75,19 +75,19 @@ public class TransportationService
 			return null;
 	        return transportationRepository.findLatestTransportationData();
 	}
-	 public void doCaclulation(String referDate)
+	 public void doCalculation(String referDate)
 	{
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_transportation");
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate",referDate );
 		query.execute();
 	}
-	 public void doCaclulation()
+	 public void doCalculation()
 	   	{
 		 	StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_transportation_main");
 			query.execute();
 	   	}
-	 public void doCaclulationLoader(String fromDate,String toDate)
+	 public void doCalculationLoader(String fromDate,String toDate)
 	   	{
 		 	StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_transportation_loader");
 		 	query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);

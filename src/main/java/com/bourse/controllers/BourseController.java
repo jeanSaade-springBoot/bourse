@@ -470,7 +470,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/dataFunctionDisplay");
+	    model.addAttribute("datainputmenu", "DATA_FUNCTION_DISPLAY_SCREEN");
+	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
+	    return new ModelAndView("html/dataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('METAL_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/metaldatafunctiondisplay")
@@ -478,7 +480,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/metaldataFunctionDisplay");
+	    model.addAttribute("datainputmenu", "METAL_DATA_FUNCTION_DISPLAY_SCREEN");
+	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
+	    return new ModelAndView("html/metaldataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/liquiditydatafunctiondisplay")
@@ -486,7 +490,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/liquidityDataFunctionDisplay");
+	    model.addAttribute("datainputmenu", "LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN");
+	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
+	    return new ModelAndView("html/liquidityDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/volumedatafunctiondisplay")
@@ -494,6 +500,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+	    model.addAttribute("datainputmenu", "VOLUME_DATA_FUNCTION_DISPLAY_SCREEN");
+	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
 		return new ModelAndView("html/volumeDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('FXCDS_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
@@ -502,6 +510,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+	    model.addAttribute("datainputmenu", "FXCDS_DATA_FUNCTION_DISPLAY_SCREEN");
+	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
 		return new ModelAndView("html/fxCdsDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('SKEWS_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
@@ -510,6 +520,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+	    model.addAttribute("datainputmenu", "SKEWS_DATA_FUNCTION_DISPLAY_SCREEN");
+	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
 		return new ModelAndView("html/skews/skewsDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('STI_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
@@ -518,7 +530,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sti/stiDataFunctionDisplay");
+	    model.addAttribute("datainputmenu", "STI_DATA_FUNCTION_DISPLAY_SCREEN");
+	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
+	    return new ModelAndView("html/sti/stiDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('MACRO_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/macrodatafunctiondisplay")
@@ -526,7 +540,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/macro/macroDataFunctionDisplay");
+		model.addAttribute("datainputmenu", "MACRO_DATA_FUNCTION_DISPLAY_SCREEN");
+	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
+	    return new ModelAndView("html/macro/macroDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('RATES_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ratesdatafunctiondisplay")
@@ -534,7 +550,20 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/rates/ratesDataFunctionDisplay");
+	    model.addAttribute("datainputmenu", "RATES_DATA_FUNCTION_DISPLAY_SCREEN");
+	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
+	    return new ModelAndView("html/rates/ratesDataFunctionDisplay");
+    }
+    @PreAuthorize("hasAuthority('LONGENDS_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/longendsdatafunctiondisplay")
+    public ModelAndView longEndsDataFunctionDisplay(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+	    model.addAttribute("datainputmenu", "LONGENDS_DATA_FUNCTION_DISPLAY_SCREEN");
+	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
+
+		return new ModelAndView("html/longEnds/longEndsDataFunctionDisplay");
     }
 	@PreAuthorize("hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/centralbanks")
@@ -760,19 +789,19 @@ public class BourseController {
 	    	 sovereignDataList.add(sovereignData);
 	     }
 	     sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
-	     sovereignYieldsService.doCaclulation(sovereignDataList.get(0).getReferDate());
+	     sovereignYieldsService.doCalculation(sovereignDataList.get(0).getReferDate());
 		return new ResponseEntity<>(HttpStatus.OK);
     }
 	@PostMapping(value = "savesovereigndata")
     public List<SovereignData>  saveSovereignData(@RequestBody List<SovereignData> sovereignDataList){
 	    List<SovereignData> sovereignDataLst= sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
-	    sovereignYieldsService.doCaclulation(sovereignDataLst.get(0).getReferDate());
+	    sovereignYieldsService.doCalculation(sovereignDataLst.get(0).getReferDate());
 	  return sovereignDataLst;
     }
 	@PostMapping(value = "savecorporatedata")
     public List<CorporateYieldsData>  saveCorporateData(@RequestBody List<CorporateYieldsData> CorporateDataList){
 	    List<CorporateYieldsData> corporateDataLst= corporatesYieldsService.SaveCorporateDatas(CorporateDataList);
-	    corporatesYieldsService.doCaclulation(corporateDataLst.get(0).getReferDate());
+	    corporatesYieldsService.doCalculation(corporateDataLst.get(0).getReferDate());
 	  return corporateDataLst;
     }
 	
@@ -868,7 +897,7 @@ public class BourseController {
 	{
 		AtomicBoolean isDependent = new AtomicBoolean(false);
 		sovereignYieldsService.updateAuditData(updateDataDTOlst);
-		sovereignYieldsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		sovereignYieldsService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		updateDataDTOlst.forEach(
 		            (updateDataDTO) -> {
 		            	if((updateDataDTO.getFactor().equalsIgnoreCase("10yr")&&updateDataDTO.getSubgroupId().equalsIgnoreCase("1"))||
@@ -876,7 +905,7 @@ public class BourseController {
 		            	isDependent.set(true);
 		            });
 		if (isDependent.get())
-			corporatesYieldsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+			corporatesYieldsService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
@@ -886,7 +915,7 @@ public class BourseController {
 	{
 	
 		corporatesYieldsService.updateAuditData(updateDataDTOlst);
-		corporatesYieldsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		corporatesYieldsService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@GetMapping(value = "checkifcansave/{referDate}")

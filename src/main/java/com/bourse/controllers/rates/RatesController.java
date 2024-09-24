@@ -73,14 +73,14 @@ public class RatesController {
 	{
 		System.out.println(className+": update-rates-data");
 		ratesService.updateRtsData(updateDataDTOlst);
-		ratesService.doCaclulationData(updateDataDTOlst.get(0).getReferdate(),Long.valueOf(updateDataDTOlst.get(0).getGroupId()));
+		ratesService.doCalculationData(updateDataDTOlst.get(0).getReferdate(),Long.valueOf(updateDataDTOlst.get(0).getGroupId()));
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "save-rates-data")
     public List<RatesData> saveRatesData(@RequestBody List<RatesData> ratesDataList){
 		System.out.println(className+": save-rates-data");
 		List<RatesData> ratesDatalst= ratesService.SaveRatesData(ratesDataList);
-		ratesService.doCaclulationData(ratesDataList.get(0).getReferDate(),ratesDataList.get(0).getGroupId());
+		ratesService.doCalculationData(ratesDataList.get(0).getReferDate(),ratesDataList.get(0).getGroupId());
 	  return ratesDatalst;
     }
 	@DeleteMapping(value = "deletebyreferdate/{rates}/{referDate}")

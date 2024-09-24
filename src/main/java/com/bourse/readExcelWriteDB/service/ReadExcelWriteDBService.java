@@ -164,7 +164,7 @@ public class ReadExcelWriteDBService {
 		            System.out.println("Minimum Date: " + minMaxDates[0]);
 		            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-		            perciousMetalsService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+		            perciousMetalsService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 		        } else {
 		            System.out.println("List is empty.");
 		        }
@@ -196,7 +196,7 @@ public class ReadExcelWriteDBService {
 			            System.out.println("Minimum Date: " + minMaxDates[0]);
 			            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-			            baseMetalsService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+			            baseMetalsService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 			        } else {
 			            System.out.println("List is empty.");
 			        } 
@@ -228,7 +228,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            foodStuffService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            foodStuffService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        }
@@ -259,7 +259,7 @@ public class ReadExcelWriteDBService {
 					            System.out.println("Minimum Date: " + minMaxDates[0]);
 					            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-					            energyService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+					            energyService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 					        } else {
 					            System.out.println("List is empty.");
 					        }  
@@ -290,7 +290,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            transportationService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            transportationService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        } 
@@ -321,7 +321,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            corporatesYieldsService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            corporatesYieldsService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        } 
@@ -352,7 +352,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            ecbExcessLiquidityService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            ecbExcessLiquidityService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        }
@@ -383,7 +383,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            ecbQeLiquidityService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            ecbQeLiquidityService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        }
@@ -415,7 +415,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            ezMonetaryMassLiquidityService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            ezMonetaryMassLiquidityService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        }
@@ -446,7 +446,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            bundOptionsVolumeService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            bundOptionsVolumeService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        }
@@ -477,7 +477,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            boblOptionsVolumeService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            boblOptionsVolumeService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        }
@@ -508,7 +508,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            buxlOptionsVolumeService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            buxlOptionsVolumeService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        }
@@ -538,7 +538,7 @@ public class ReadExcelWriteDBService {
 
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
-				            shatzOptionsVolumeService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            shatzOptionsVolumeService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        }
@@ -563,7 +563,7 @@ public class ReadExcelWriteDBService {
 							   euriborOptionsVolumeService.SaveData(euriborOptionsVolumeList);
 					
 					   }
-					   euriborOptionsVolumeService.doCaclulation();
+					   euriborOptionsVolumeService.doCalculation();
 				}
 				else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("22"))
 				{
@@ -597,7 +597,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            cdsDataService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            cdsDataService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        }
@@ -634,7 +634,7 @@ public class ReadExcelWriteDBService {
 				            System.out.println("Minimum Date: " + minMaxDates[0]);
 				            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-				            fxDataService.doCaclulationLoader(minMaxDates[0],minMaxDates[1]);
+				            fxDataService.doCalculationLoader(minMaxDates[0],minMaxDates[1]);
 				        } else {
 				            System.out.println("List is empty.");
 				        } 
@@ -680,7 +680,7 @@ public class ReadExcelWriteDBService {
 					            System.out.println("Minimum Date: " + minMaxDates[0]);
 					            System.out.println("Maximum Date: " + minMaxDates[1]);
 					            
-					            skewsService.doCaclulationLongSkewsLoader(minMaxDates[0],minMaxDates[1]);
+					            skewsService.doCalculationLongSkewsLoader(minMaxDates[0],minMaxDates[1]);
 					        } else {
 					            System.out.println("List is empty.");
 					        }
@@ -731,7 +731,7 @@ public class ReadExcelWriteDBService {
 		            System.out.println("Minimum Date: " + minMaxDates[0]);
 		            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-		            skewsService.doCaclulationShortSkewsLoader(minMaxDates[0],minMaxDates[1]);
+		            skewsService.doCalculationShortSkewsLoader(minMaxDates[0],minMaxDates[1]);
 		        } else {
 		            System.out.println("List is empty.");
 		        }
@@ -1031,7 +1031,7 @@ public class ReadExcelWriteDBService {
 					    }
 					Object[][] result = ReadExcelWriteDBUtil.splitArrayRates(readExcelWriteDBDTO.getGroupId(),row, 2);
 					
-					
+					int[] subgroupOrder = {2, 1, 3};
 					for (int i = 0; i < result.length; i++) {
 
 						Object[] splitrow = result[i];
@@ -1040,7 +1040,7 @@ public class ReadExcelWriteDBService {
 							 if(j!=0)
 							 {   String referDate = splitrow[0].toString();
 								 Long grouId = Long.valueOf(readExcelWriteDBDTO.getGroupId());
-								 Long subgrouId = Long.valueOf(i+1);
+					             Long subgrouId = Long.valueOf(subgroupOrder[i]);
 								 Long factorId = Long.valueOf(ReadExcelWriteDBUtil.getRateFactorId(j));
 								 String value = splitrow[j].toString()==null?"":splitrow[j].toString();
 								
@@ -1131,7 +1131,7 @@ public class ReadExcelWriteDBService {
 		            System.out.println("Minimum Date: " + minMaxDates[0]);
 		            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-		            macroService.doCaclulationMacroLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
+		            macroService.doCalculationMacroLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
 		        } else {
 		            System.out.println("List is empty.");
 		        }
@@ -1142,17 +1142,18 @@ public class ReadExcelWriteDBService {
 		}else if(LongEndsGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim()))
 		{
 			   List<LongEndData> longEndDataLst = new ArrayList<>();
-			   List<String> subgroups = Arrays.asList("1", "2", "3" , "4" ,"5","6", "7", "8" , "9" ,"10","11", "12", "13" , "14" ,"15");
-
+			   List<String> subgroups = Arrays.asList("1", "2", "3" , "4" ,"5","6", "7", "8" , "9" ,"10","11", "12", "13","14" ,"15" );
+			   int[] subgroupOrder = {1,2,3,4,5,6,14,15,7,8,9,10,11,12,13};
+			   int i = 0; 
 			   for (String subGroupId: subgroups) {
 						   rowData.clear();
 						   longEndDataLst.clear();
 						   rowData = ReadExcelWriteDBUtil.readExcelFileWithString(readExcelWriteDBDTO.getFile(),"0",subGroupId);
 						   for (DataDTO data: rowData) {
-							 if(longEndsService.CheckIfCanSaveLongEnds(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subGroupId)))
+							 if(longEndsService.CheckIfCanSaveLongEnds(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subgroupOrder[i])))
 							 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
 							 LongEndData longEndData = LongEndData.builder().referDate(data.getDate())
-							   												  .subgroupId(Long.valueOf(subGroupId))
+							   												  .subgroupId(Long.valueOf(subgroupOrder[i]))
 							   												  .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
 							   												  .value(data.getValue()==null?"":data.getValue())
 						   												  .build();
@@ -1160,6 +1161,7 @@ public class ReadExcelWriteDBService {
 							 longEndDataLst.add(longEndData);
 				      }
 						  longEndsService.saveLongEndsData(longEndDataLst);
+					 i++;  
 			
 			   }
 			   if (!longEndDataLst.isEmpty()) {
@@ -1168,7 +1170,7 @@ public class ReadExcelWriteDBService {
 		            System.out.println("Minimum Date: " + minMaxDates[0]);
 		            System.out.println("Maximum Date: " + minMaxDates[1]);
 
-		             longEndsService.doCaclulationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
+		             longEndsService.doCalculationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
 		        } else {
 		            System.out.println("List is empty.");
 		        } 

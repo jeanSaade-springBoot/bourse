@@ -1473,7 +1473,7 @@ public class SovereignYieldsService
 		return l2;
 	}
 	
-	public void doCaclulation(String referDate)
+	public void doCalculation(String referDate)
 	{
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation");
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);

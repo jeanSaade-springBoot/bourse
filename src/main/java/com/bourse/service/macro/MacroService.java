@@ -123,7 +123,7 @@ public class MacroService {
 		return null;
        return macroDataRepository.findLatest(groupId);
 	}
-	public void doCaclulation(String referDate,String groupId) {
+	public void doCalculation(String referDate,String groupId) {
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_macro");
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate", referDate);
@@ -131,7 +131,7 @@ public class MacroService {
 		query.setParameter("groupId", groupId);
 		query.execute();
 	}
-	public void doCaclulationMacroLoader(String fromDate,String toDate, String groupId)
+	public void doCalculationMacroLoader(String fromDate,String toDate, String groupId)
    	{
    		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_macro_loader");
 		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);

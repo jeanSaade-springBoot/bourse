@@ -98,31 +98,31 @@ public class VolumeController {
 	@PostMapping(value = "savebunddata")
     public List<BundOptionsVolume> savebundData(@RequestBody List<BundOptionsVolume> bundLiquidityList){
 		List<BundOptionsVolume> bundLiquidityDatalst= bundOptionsVolumeService.SaveData(bundLiquidityList);
-		bundOptionsVolumeService.doCaclulation(bundLiquidityList.get(0).getReferDate());
+		bundOptionsVolumeService.doCalculation(bundLiquidityList.get(0).getReferDate());
 	  return bundLiquidityDatalst;
     }
 	@PostMapping(value = "savebobldata")
     public List<BoblOptionsVolume> saveBoblData(@RequestBody List<BoblOptionsVolume> boblLiquidityList){
 		List<BoblOptionsVolume> boblLiquidityDatalst= boblOptionsVolumeService.SaveData(boblLiquidityList);
-		boblOptionsVolumeService.doCaclulation(boblLiquidityList.get(0).getReferDate());
+		boblOptionsVolumeService.doCalculation(boblLiquidityList.get(0).getReferDate());
 	  return boblLiquidityDatalst;
     }
 	@PostMapping(value = "savebuxldata")
     public List<BuxlOptionsVolume> saveBuxlData(@RequestBody List<BuxlOptionsVolume> buxlOptionsVolume){
 		List<BuxlOptionsVolume> buxlLiquidityDatalst= buxlOptionsVolumeService.SaveData(buxlOptionsVolume);
-		buxlOptionsVolumeService.doCaclulation(buxlOptionsVolume.get(0).getReferDate());
+		buxlOptionsVolumeService.doCalculation(buxlOptionsVolume.get(0).getReferDate());
 	  return buxlLiquidityDatalst;
     }
 	@PostMapping(value = "saveshatzdata")
     public List<ShatzOptionsVolume> saveShatzData(@RequestBody List<ShatzOptionsVolume> shatzOptionsVolume){
 		List<ShatzOptionsVolume> shatzLiquidityDatalst= shatzOptionsVolumeService.SaveData(shatzOptionsVolume);
-		shatzOptionsVolumeService.doCaclulation(shatzOptionsVolume.get(0).getReferDate());
+		shatzOptionsVolumeService.doCalculation(shatzOptionsVolume.get(0).getReferDate());
 	  return shatzLiquidityDatalst;
     }
 	@PostMapping(value = "saveeuribordata")
     public List<EuriborOptionsVolume> saveEuriborData(@RequestBody List<EuriborOptionsVolume> euriborOptionsVolume){
 		List<EuriborOptionsVolume> euriborLiquidityDatalst= euriborOptionsVolumeService.SaveData(euriborOptionsVolume);
-		euriborOptionsVolumeService.doCaclulation(euriborOptionsVolume.get(0).getReferDate());
+		euriborOptionsVolumeService.doCalculation(euriborOptionsVolume.get(0).getReferDate());
 	  return euriborLiquidityDatalst;
     }
 	@GetMapping(value = "getbunddata/{referDate}")
@@ -196,35 +196,35 @@ public class VolumeController {
 	public ResponseEntity<Boolean> updatebundAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
 		bundOptionsVolumeService.updateData(updateDataDTOlst);
-		bundOptionsVolumeService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		bundOptionsVolumeService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "updatebobldata")
 	public ResponseEntity<Boolean> updateBoblAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
 		boblOptionsVolumeService.updateData(updateDataDTOlst);
-		boblOptionsVolumeService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		boblOptionsVolumeService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "updatebuxldata")
 	public ResponseEntity<Boolean> updateBuxlAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
 		buxlOptionsVolumeService.updateData(updateDataDTOlst);
-		buxlOptionsVolumeService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		buxlOptionsVolumeService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "updateshatzdata")
 	public ResponseEntity<Boolean> updateShatzAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
 		shatzOptionsVolumeService.updateData(updateDataDTOlst);
-		shatzOptionsVolumeService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		shatzOptionsVolumeService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "updateeuribordata")
 	public ResponseEntity<Boolean> updateEuriborAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
 		euriborOptionsVolumeService.updateData(updateDataDTOlst);
-		euriborOptionsVolumeService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		euriborOptionsVolumeService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 }

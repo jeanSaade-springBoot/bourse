@@ -57,7 +57,7 @@ public class SkewsController {
 	public ResponseEntity<List<ShortSkewsData>> saveShortSkews(@RequestBody /*List<SkewsDTO>*/ List<ShortSkewsData> skewsDTOLst) {
 		System.out.println(className+": saveShortSkews");
 		List<ShortSkewsData> datalst = skewsService.saveShortSkews(skewsDTOLst);
-		skewsService.doCaclulationForShortSkews(skewsDTOLst.get(0).getReferDate());
+		skewsService.doCalculationForShortSkews(skewsDTOLst.get(0).getReferDate());
 		return new ResponseEntity<>(datalst,HttpStatus.OK);
 	}
 	
@@ -65,7 +65,7 @@ public class SkewsController {
 	public ResponseEntity<List<LongSkewsData>> saveLongSkews(@RequestBody List<LongSkewsData> skewsDTOlst) {
 		System.out.println(className+": saveLongSkews");
 		List<LongSkewsData> datalst = skewsService.saveLongSkews(skewsDTOlst);
-		skewsService.doCaclulation(skewsDTOlst.get(0).getReferDate());
+		skewsService.doCalculation(skewsDTOlst.get(0).getReferDate());
 		return new ResponseEntity<>(datalst,HttpStatus.OK);
 	}
 	
@@ -122,14 +122,14 @@ public class SkewsController {
 	public ResponseEntity<Boolean> updateLongSkewsData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{  System.out.println(className+": updateLongSkewsData");
 		skewsService.updateData(updateDataDTOlst);
-		skewsService.doCaclulation(updateDataDTOlst.get(0).getReferdate());
+		skewsService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@PostMapping(value = "update-short-skews-data")
 	public ResponseEntity<Boolean> updateShortSkewsData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{ System.out.println(className+": updateShortSkewsData");
 		skewsService.updateShortSkewsData(updateDataDTOlst);
-		skewsService.doCaclulationForShortSkews(updateDataDTOlst.get(0).getReferdate());
+		skewsService.doCalculationForShortSkews(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@GetMapping(value = "getlatest/{skews}", produces = "application/json;charset=UTF-8")

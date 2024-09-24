@@ -20,10 +20,10 @@ const nameSubgroupId =  [
                     { name: 'US5', subgroupId: '2' },
                     ];   
                                   
-var CentralBanksItem = ["#jqxCheckBoxFed-17",
-						"#jqxCheckBoxFed-18",
-						"#jqxCheckBoxEcb-17",
+var CentralBanksItem = ["#jqxCheckBoxEcb-17",
 						"#jqxCheckBoxEcb-18",
+						"#jqxCheckBoxFed-17",
+						"#jqxCheckBoxFed-18",
 						"#jqxCheckBoxBoe-17",
 						"#jqxCheckBoxBoe-18"];
 

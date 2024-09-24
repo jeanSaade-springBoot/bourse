@@ -21,7 +21,7 @@ import org.springframework.stereotype.Service;
 import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.longEnds.LongEndsDisplaySettings;
 import com.bourse.domain.longEnds.TmpAuditLefBunds;
-import com.bourse.domain.macro.MacroData;
+import com.bourse.domain.macro.MacroDisplaySettings;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.UpdateDataDTO;
@@ -30,7 +30,16 @@ import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.TableManagementRepository;
 import com.bourse.repositories.longEnds.LongEndsDataRepository;
 import com.bourse.repositories.longEnds.LongEndsDisplaySettingsRepository;
+import com.bourse.repositories.longEnds.TmpAuditLefBoblsRepository;
+import com.bourse.repositories.longEnds.TmpAuditLefBtpRepository;
 import com.bourse.repositories.longEnds.TmpAuditLefBundsRepository;
+import com.bourse.repositories.longEnds.TmpAuditLefBundsRollingRepository;
+import com.bourse.repositories.longEnds.TmpAuditLefBuxlRepository;
+import com.bourse.repositories.longEnds.TmpAuditLefGiltsRepository;
+import com.bourse.repositories.longEnds.TmpAuditLefOatRepository;
+import com.bourse.repositories.longEnds.TmpAuditLefShatzRepository;
+import com.bourse.repositories.longEnds.TmpAuditLefTbondsRepository;
+import com.bourse.repositories.longEnds.TmpAuditLefTnotesRepository;
 import com.bourse.service.AdminService;
 import com.bourse.util.LongEndsUtil;
 import org.springframework.data.domain.Sort;
@@ -49,6 +58,25 @@ public class LongEndsService {
 	ColumnConfigurationRepository columnConfigurationRepository;
 	@Autowired
 	TableManagementRepository tableManagementRepository;
+	@Autowired
+	TmpAuditLefBoblsRepository tmpAuditLefboblsRepository;
+	@Autowired
+	TmpAuditLefShatzRepository tmpAuditLefshatzRepository;
+	@Autowired
+	TmpAuditLefBuxlRepository tmpAuditLefbuxlRepository;
+	@Autowired
+	TmpAuditLefOatRepository tmpAuditLefoatRepository;
+	@Autowired
+	TmpAuditLefBtpRepository tmpAuditLefbtpRepository;
+	@Autowired
+	TmpAuditLefGiltsRepository tmpAuditLefgiltsRepository;
+	@Autowired
+	TmpAuditLefTnotesRepository tmpAuditLeftnotesRepository;
+	@Autowired
+	TmpAuditLefTbondsRepository tmpAuditLeftbondsRepository;
+	@Autowired
+	TmpAuditLefBundsRollingRepository tmpAuditLefBundsRollingRepository;
+	
 
 	
 	@PersistenceContext
@@ -57,12 +85,17 @@ public class LongEndsService {
 	public void updateData(List<UpdateDataDTO> updateDataDTOlst) {
 		
 		LongEndData longEndsData=null;
+		String OldValue=null;
 		for(UpdateDataDTO updateDataDTO:updateDataDTOlst)
 		{
 			longEndsData = longEndsDataRepository.findLongEndsDataByReferDateAndGroupIdAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getGroupId()),Long.valueOf(updateDataDTO.getSubgroupId()));
 			if(longEndsData!=null)
-			{longEndsData.setValue(updateDataDTO.getValue());
-			longEndsDataRepository.save(longEndsData);
+			{   if(longEndsData.getSubgroupId()==15 && longEndsData.getValue()!=null)
+					{
+						OldValue = longEndsData.getValue();
+					}
+					longEndsData.setValue(updateDataDTO.getValue());
+				    longEndsDataRepository.save(longEndsData);
 			}
 			else {
 				longEndsData = LongEndData.builder()
@@ -77,7 +110,8 @@ public class LongEndsService {
 		}
 		List<LongEndData> longEndsDataLst = new ArrayList<LongEndData>();
 		longEndsDataLst.add(longEndsData);
-		doCalculationSpreadData(longEndsDataLst);
+		doCalculation(updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getGroupId());
+		doCalculationSpreadData(longEndsDataLst, OldValue);
 	}
 	  
 	public List<LongEndsDisplaySettings> getLongEndsDisplaySettingsList() {
@@ -89,7 +123,15 @@ public class LongEndsService {
         orders.add(subgroupIdOrder);
 		return longEndsDisplaySettingsRepository.findAllByParentgroupId(Long.valueOf(0),Sort.by(orders));
 	}
-	
+	public List<LongEndsDisplaySettings> getAllLongEndsDisplaySettingsList() {
+		List<Order> orders = new ArrayList<Order>();
+
+        Order groupIdOrder = new Order(Sort.Direction.ASC, "groupId");
+        orders.add(groupIdOrder);
+        Order subgroupIdOrder = new Order(Sort.Direction.ASC, "subgroupId");
+        orders.add(subgroupIdOrder);
+		return longEndsDisplaySettingsRepository.findAll(Sort.by(orders));
+	}
 	 @Transactional
 	 public List<LongEndsDisplaySettings> saveLongEndsDisplaySettingsList(List<LongEndsDisplaySettings> dTOLst) {
 		 // Save all the provided entities
@@ -206,15 +248,46 @@ public class LongEndsService {
 		longEndsDataRepository.saveAll(longEndDataDTOlst);
 	}
 	@Transactional
-	public void deleteLongEndData(String groupId, String referDate) {
-		String TableName = tableManagementRepository.findDistinctTableNameByGroupId(groupId);
-	    String queryStr = "Delete from "+TableName+ " where refer_date='"+referDate+"'";
-	    javax.persistence.Query query = entityManager.createNativeQuery(queryStr);
-	    query.executeUpdate();
-	    
-	    longEndsDataRepository.deleteLongEndsByGroupIdAndReferDate(Long.valueOf(groupId),referDate);
+	public void deleteLongEndsData(String groupId, String referDate) {
+	  List<LongEndData> longEndsData = longEndsDataRepository.findLongEndsDataByReferDateAndGroupId(referDate,Long.valueOf(groupId));
+			
+	  tmpAuditLefBundsRepository.deleteDataByReferDate(referDate);
+	  tmpAuditLefBundsRollingRepository.deleteDataByReferDate(referDate);
+	  longEndsDataRepository.deleteLongEndsByGroupIdAndReferDate(Long.valueOf(groupId),referDate);
+	  
+      onSuccessfulDelete(longEndsData);
 	}
-	public void doCaclulation(String referDate,String groupId) {
+	// Function to be executed after successful delete
+    private void onSuccessfulDelete(List<LongEndData> longEndsData) {
+        // Your logic here
+        System.out.println("Deletion successful. Executing additional logic...");
+        // For example, recalculating data or any other post-deletion logic
+        reCalculateData(longEndsData);
+    }
+	public void deleteLongEndData(String groupId, String referDate) {
+		 List<LongEndData> longEndsData = longEndsDataRepository.findLongEndsDataByReferDateAndGroupId(referDate,Long.valueOf(groupId));
+		 deleteLongEndsData(groupId,referDate);
+		 reCalculateData(longEndsData);
+	 
+	}
+	public void  reCalculateData(List<LongEndData> longEndsData) {
+		 
+		  Optional<LongEndData> result = longEndsData.stream()
+	              .filter(data -> data.getSubgroupId() == 15)
+	              .findFirst();
+
+	      // Check if the result is present
+	      if (result.isPresent()) {
+	    	  LongEndData longEndData = result.get();
+	          String spreadValue = longEndData.getValue();
+	          if(spreadValue!=null)
+	          {  boolean executed = calculateRollingSpreadData(longEndData);
+	          	System.out.println("deleted - Procedure calculation_longends_spread_data executed: " + executed);
+	          }
+	      }
+	}
+	
+	public void doCalculation(String referDate,String groupId) {
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_longends");
 		query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 		query.setParameter("referDate", referDate);
@@ -222,7 +295,7 @@ public class LongEndsService {
 		query.setParameter("groupId", groupId);
 		query.execute();
 	}
-	public void doCaclulationLoader(String fromDate,String toDate,String groupId)
+	public void doCalculationLoader(String fromDate,String toDate,String groupId)
    	{
    		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_longends_loader");
    		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
@@ -238,7 +311,7 @@ public class LongEndsService {
 		spreadQuery.setParameter("groupId", groupId);
 		spreadQuery.execute();
    	}
-	public void doCalculationSpreadData(List<LongEndData> longEndDataDTOlst) {
+	public void doCalculationSpreadData(List<LongEndData> longEndDataDTOlst, String oldValue) {
 
 		Optional<LongEndData> result = longEndDataDTOlst.stream()
                 .filter(data -> data.getSubgroupId() == 15)
@@ -249,17 +322,31 @@ public class LongEndsService {
             LongEndData longEndData = result.get();
             String spreadValue = longEndData.getValue();
             if(spreadValue!=null)
+            {  boolean executed = calculateRollingSpreadData(longEndData);
+            	System.out.println("Procedure calculation_longends_spread_data executed: " + executed);
+            } else if(oldValue!=null)
             {
-
-        		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_longends_spread_data");
-        		query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
-        		query.setParameter("groupId", String.valueOf(longEndData.getGroupId()));
-        		query.execute();
+            	boolean executed = calculateRollingSpreadData(longEndData);
+            	System.out.println("Procedure calculation_longends_spread_data executed: " + executed);
             }
+            
         } 
 		
 	}
-	
+	public boolean calculateRollingSpreadData(LongEndData longEndData){
+		   String groupIdString = String.valueOf(longEndData.getGroupId());
+		   boolean executed = false;
+          StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_longends_spread_data");
+          query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+          query.setParameter("groupId", groupIdString);
+		try {
+			executed = query.execute();
+				
+			} catch (Exception e) {
+			    e.printStackTrace();
+			}
+		return executed;
+	}
 	public TmpAuditLefBunds findFirstByOrderDesc() {
 		return tmpAuditLefBundsRepository.findFirstOrderByReferDateDesc();
 	}

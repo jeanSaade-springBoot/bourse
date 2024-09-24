@@ -47,6 +47,11 @@ public class LongEndsController {
 		System.out.println(className+": get-longends-display-settings");
 		return new ResponseEntity<>(longEndsService.getLongEndsDisplaySettingsList(),HttpStatus.OK);
 	}
+	@GetMapping(value = "get-all-longends-display-settings")
+	public ResponseEntity<List<LongEndsDisplaySettings>> getAllLongEndsDisplaySettingsList() {
+		System.out.println(className+": get-all-longends-display-settings");
+		return new ResponseEntity<>(longEndsService.getAllLongEndsDisplaySettingsList(),HttpStatus.OK);
+	}
 	@GetMapping(value = "get-longends-display-settings/{groupId}")
 	public ResponseEntity<List<LongEndsDisplaySettings>> getLongEndsDisplaySettingsList(@PathVariable("groupId") String groupId) {
 		System.out.println(className+": get-longends-display-settings");
@@ -80,8 +85,8 @@ public class LongEndsController {
 	public ResponseEntity<Boolean> saveLongEndsData(@RequestBody List<LongEndData> longEndDataDTOlst) {
 		System.out.println(className+": save-longEnds-data");
 		longEndsService.saveLongEndsData(longEndDataDTOlst);
-		longEndsService.doCaclulation(longEndDataDTOlst.get(0).getReferDate(),String.valueOf(longEndDataDTOlst.get(0).getGroupId()));
-		longEndsService.doCalculationSpreadData(longEndDataDTOlst);
+		longEndsService.doCalculation(longEndDataDTOlst.get(0).getReferDate(),String.valueOf(longEndDataDTOlst.get(0).getGroupId()));
+		longEndsService.doCalculationSpreadData(longEndDataDTOlst,null);
 
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
@@ -103,14 +108,14 @@ public class LongEndsController {
     @PostMapping(value = "/update-long-longEnds-data")
 	public ResponseEntity<Boolean> updateLongEndsData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{  System.out.println(className+":  update-long-longEnds-data ");
-		longEndsService.updateData(updateDataDTOlst);
-		longEndsService.doCaclulation(updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getGroupId());
+	    longEndsService.updateData(updateDataDTOlst);
+	
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
     @DeleteMapping(value = "delete-longEnds/{groupId}/{referDate}")
 	public ResponseEntity<HttpStatus> deleteLongEndData(@PathVariable("groupId") String groupId ,@PathVariable("referDate") String referDate) {
 		System.out.println(className+": deleteLongEndsDataByReferDate");
-		longEndsService.deleteLongEndData(groupId,referDate);
+		longEndsService.deleteLongEndsData(groupId,referDate);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
    
