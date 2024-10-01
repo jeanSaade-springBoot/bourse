@@ -47784,6 +47784,7 @@ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('108', 'RAT
 
 
 
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('109', 'LONGENDS_BUNDS_GRAPH_SCREEN', true);
 
 
 

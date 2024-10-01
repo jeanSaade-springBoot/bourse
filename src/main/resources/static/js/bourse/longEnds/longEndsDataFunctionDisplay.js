@@ -5,105 +5,96 @@
   var monthDate=new Date(); 
       monthDate.setMonth(monthDate.getMonth() - 6);
  var allitems= [ 
-		'#jqxCheckBox-37-1-14',
-		'#jqxCheckBox-37-1-15',
-		'#jqxCheckBox-37-1-16',
-		'#jqxCheckBox-37-2-14',
-		'#jqxCheckBox-37-2-15',
-		'#jqxCheckBox-37-2-16',
-		'#jqxCheckBox-38-1-14',
-		'#jqxCheckBox-38-1-15',
-		'#jqxCheckBox-38-1-16',
-		'#jqxCheckBox-38-2-14',
-		'#jqxCheckBox-38-2-15',
-		'#jqxCheckBox-38-2-16',
-		'#jqxCheckBox-39-1-14',
-		'#jqxCheckBox-39-1-15',
-		'#jqxCheckBox-39-1-16',
-		'#jqxCheckBox-39-2-14',
-		'#jqxCheckBox-39-2-15',
-		'#jqxCheckBox-39-2-16',
-		'#jqxCheckBox-40-1-14',
-		'#jqxCheckBox-40-1-15',
-		'#jqxCheckBox-40-1-16',
-		'#jqxCheckBox-40-2-14',
-		'#jqxCheckBox-40-2-15',
-		'#jqxCheckBox-40-2-16',
-		'#jqxCheckBox-41-1-14',
-		'#jqxCheckBox-41-1-15',
-		'#jqxCheckBox-41-1-16',
-		'#jqxCheckBox-41-2-14',
-		'#jqxCheckBox-41-2-15',
-		'#jqxCheckBox-41-2-16',
-		'#jqxCheckBox-42-1-14',
-		'#jqxCheckBox-42-1-15',
-		'#jqxCheckBox-42-1-16',
-		'#jqxCheckBox-42-2-14',
-		'#jqxCheckBox-42-2-15',
-		'#jqxCheckBox-42-2-16',
-		'#jqxCheckBox-43-1-14',
-		'#jqxCheckBox-43-1-15',
-		'#jqxCheckBox-43-1-16',
-		'#jqxCheckBox-43-2-14',
-		'#jqxCheckBox-43-2-15',
-		'#jqxCheckBox-43-2-16',
-		'#jqxCheckBox-44-1-14',
-		'#jqxCheckBox-44-1-15',
-		'#jqxCheckBox-44-1-16',
-		'#jqxCheckBox-44-2-14',
-		'#jqxCheckBox-44-2-15',
-		'#jqxCheckBox-44-2-16',
-		'#jqxCheckBox-45-1-14',
-		'#jqxCheckBox-45-1-15',
-		'#jqxCheckBox-45-1-16',
-		'#jqxCheckBox-45-2-14',
-		'#jqxCheckBox-45-2-15',
-		'#jqxCheckBox-45-2-16',
-		'#jqxCheckBox-46-1-14',
-		'#jqxCheckBox-46-1-15',
-		'#jqxCheckBox-46-1-16',
-		'#jqxCheckBox-46-2-14',
-		'#jqxCheckBox-46-2-15',
-		'#jqxCheckBox-46-2-16',
-		'#jqxCheckBox-47-1-14',
-		'#jqxCheckBox-47-1-15',
-		'#jqxCheckBox-47-1-16',
-		'#jqxCheckBox-47-2-14',
-		'#jqxCheckBox-47-2-15',
-		'#jqxCheckBox-47-2-16',
-		'#jqxCheckBox-37-3-14',
-		'#jqxCheckBox-37-3-15',
-		'#jqxCheckBox-37-3-16',
-		'#jqxCheckBox-38-3-14',
-		'#jqxCheckBox-38-3-15',
-		'#jqxCheckBox-38-3-16',
-		'#jqxCheckBox-39-3-14',
-		'#jqxCheckBox-39-3-15',
-		'#jqxCheckBox-39-3-16',
-		'#jqxCheckBox-40-3-14',
-		'#jqxCheckBox-40-3-15',
-		'#jqxCheckBox-40-3-16',
-		'#jqxCheckBox-41-3-14',
-		'#jqxCheckBox-41-3-15',
-		'#jqxCheckBox-41-3-16',
-		'#jqxCheckBox-42-3-14',
-		'#jqxCheckBox-42-3-15',
-		'#jqxCheckBox-42-3-16',
-		'#jqxCheckBox-43-3-14',
-		'#jqxCheckBox-43-3-15',
-		'#jqxCheckBox-43-3-16',
-		'#jqxCheckBox-44-3-14',
-		'#jqxCheckBox-44-3-15',
-		'#jqxCheckBox-44-3-16',
-		'#jqxCheckBox-45-3-14',
-		'#jqxCheckBox-45-3-15',
-		'#jqxCheckBox-45-3-16',
-		'#jqxCheckBox-46-3-14',
-		'#jqxCheckBox-46-3-15',
-		'#jqxCheckBox-46-3-16',
-		'#jqxCheckBox-47-3-14',
-		'#jqxCheckBox-47-3-15',
-		'#jqxCheckBox-47-3-16',
+			'#jqxCheckBox-52-2',
+			'#jqxCheckBox-52-3',
+			'#jqxCheckBox-52-4',
+			'#jqxCheckBox-52-5',
+			'#jqxCheckBox-52-6',
+			'#jqxCheckBox-53-2',
+			'#jqxCheckBox-53-3',
+			'#jqxCheckBox-53-4',
+			'#jqxCheckBox-53-5',
+			'#jqxCheckBox-53-6',
+			'#jqxCheckBox-54-2',
+			'#jqxCheckBox-54-3',
+			'#jqxCheckBox-54-4',
+			'#jqxCheckBox-54-5',
+			'#jqxCheckBox-54-6',
+			'#jqxCheckBox-55-2',
+			'#jqxCheckBox-55-3',
+			'#jqxCheckBox-55-4',
+			'#jqxCheckBox-55-5',
+			'#jqxCheckBox-55-6',
+			'#jqxCheckBox-56-2',
+			'#jqxCheckBox-56-3',
+			'#jqxCheckBox-56-4',
+			'#jqxCheckBox-56-5',
+			'#jqxCheckBox-56-6',
+			'#jqxCheckBox-57-2',
+			'#jqxCheckBox-57-3',
+			'#jqxCheckBox-57-4',
+			'#jqxCheckBox-57-5',
+			'#jqxCheckBox-57-6',
+			'#jqxCheckBox-58-2',
+			'#jqxCheckBox-58-3',
+			'#jqxCheckBox-58-4',
+			'#jqxCheckBox-58-5',
+			'#jqxCheckBox-58-6',
+			'#jqxCheckBox-59-2',
+			'#jqxCheckBox-59-3',
+			'#jqxCheckBox-59-4',
+			'#jqxCheckBox-59-5',
+			'#jqxCheckBox-59-6',
+			'#jqxCheckBox-60-2',
+			'#jqxCheckBox-60-3',
+			'#jqxCheckBox-60-4',
+			'#jqxCheckBox-60-5',
+			'#jqxCheckBox-60-6',
+			'#jqxCheckBox-61-2',
+			'#jqxCheckBox-61-3',
+			'#jqxCheckBox-61-4',
+			'#jqxCheckBox-61-5',
+			'#jqxCheckBox-61-6',
+			'#jqxCheckBox-62-2',
+			'#jqxCheckBox-62-3',
+			'#jqxCheckBox-62-4',
+			'#jqxCheckBox-62-5',
+			'#jqxCheckBox-62-6',
+			'#jqxCheckBox-63-2',
+			'#jqxCheckBox-63-3',
+			'#jqxCheckBox-63-4',
+			'#jqxCheckBox-63-5',
+			'#jqxCheckBox-63-6',
+			'#jqxCheckBox-64-2',
+			'#jqxCheckBox-64-3',
+			'#jqxCheckBox-64-4',
+			'#jqxCheckBox-64-5',
+			'#jqxCheckBox-64-6',
+			'#jqxCheckBox-65-2',
+			'#jqxCheckBox-65-3',
+			'#jqxCheckBox-65-4',
+			'#jqxCheckBox-65-5',
+			'#jqxCheckBox-65-6',
+			'#jqxCheckBox-67-2',
+			'#jqxCheckBox-67-3',
+			'#jqxCheckBox-67-4',
+			'#jqxCheckBox-67-5',
+			'#jqxCheckBox-67-6',
+			'#jqxCheckBox-68-2',
+			'#jqxCheckBox-68-3',
+			'#jqxCheckBox-68-4',
+			'#jqxCheckBox-68-5',
+			'#jqxCheckBox-68-6',
+			'#jqxCheckBox-69-2',
+			'#jqxCheckBox-69-3',
+			'#jqxCheckBox-69-4',
+			'#jqxCheckBox-69-5',
+			'#jqxCheckBox-69-6',
+			'#jqxCheckBox-70-2',
+			'#jqxCheckBox-70-3',
+			'#jqxCheckBox-70-4',
+			'#jqxCheckBox-70-5',
+			'#jqxCheckBox-70-6',
 		];	
  var funcionFilter=["#jqxDailyChangeInPercentage",
 					"#jqxDailyChangeIncrement",
@@ -116,11 +107,23 @@
 					"#jqx200dMovAvg"
 					];
 const nameSubgroupId =  [
-                    { name: 'MANUF', subgroupId: '1' },
-                    { name: 'SERVICES', subgroupId: '2' },
-                    { name: 'MANUF2', subgroupId: '3' },
-                    { name: 'SERVICES2', subgroupId: '4' }
-                    ];                
+                    { name: 'OPEN', subgroupId: '2' },
+                    { name: 'SETTLE', subgroupId: '3' },
+                    { name: 'CLOSE', subgroupId: '4' },
+                    { name: 'HIGH', subgroupId: '5' },
+                    { name: 'LOW', subgroupId: '6' }
+                    ];    
+ const groupId_Id =  [
+                { Id: '1', groupId: 52, rollingGroupId: 61  ,name:'BUNDS'},
+				{ Id: '2', groupId: 53, rollingGroupId: 62  ,name:'BOBLS'},
+				{ Id: '3', groupId: 54, rollingGroupId: 63  ,name:'SHATZ'},
+				{ Id: '4', groupId: 55, rollingGroupId: 64  ,name:'BUXL'},
+				{ Id: '5', groupId: 56, rollingGroupId: 65  ,name:'OAT'},
+				{ Id: '6', groupId: 57, rollingGroupId: 67  ,name:'BTP'},
+				{ Id: '7', groupId: 58, rollingGroupId: 68  ,name:'GILTS'},
+				{ Id: '8', groupId: 59, rollingGroupId: 69  ,name:'T-NOTES'},
+				{ Id: '9', groupId: 60, rollingGroupId: 70  ,name:'T-BONDS'},
+                ];            
 var mainContainer='';
 var mainGroupContainer='';
 var groupContainer='';
@@ -177,11 +180,12 @@ var factorContainer='';
 						
 				// Iterate over each groupId
 				Object.keys(groupedData).forEach(function (groupId, i) {
-				   country=getCountryImagePath(groupId);
+				    const groupName=groupId_Id.filter(value => value.groupId == groupId)[0].name;
 				    classStyle=(i%2!=0)?'row-style':'';
 				     mainGroupContainer+='<div class="col-12 d-flex">';
 				     groupContainer+='<div class="col-2 '+classStyle+'">'
-						+'</div>';
+				     		+'<div class="">'+groupName+'</div>'
++'</div>';
 					 subgroupContainer+='<div class="col-10 '+classStyle+' align-items-center d-flex">';
 					 	
 				    // Iterate over each subgroupId within the current groupId
@@ -193,7 +197,6 @@ var factorContainer='';
 				        groupedData[groupId][subgroupId].forEach(function (item) {
 				            checkBox="jqxCheckBox-"+item.groupId+'-'+item.subgroupId;
 		    	  	        isVisible=item.isVisible?'d-block':'d-none';
-		    	  	         factorName=((item.factor==14)?'FCST':(item.factor==15)?'FLASH':'FINAL')
 				             factorInerItem+='<div class="align-middle" style="    min-width: 24px;">'
 									+'<div id="'+checkBox+'" class="jqx-checkbox-items  align-middle '+isVisible+'"></div>'
 								+'</div>';
@@ -205,7 +208,30 @@ var factorContainer='';
 				     		     +'</div>';  
 				     		   
 				    });
+				      factorIner='';
+				      Object.keys(groupedData[groupId]).forEach(function (subgroupId) {
+				   
+				        // Iterate over each item within the current subgroupId
+				       rollingContainer='<div class="col-6  d-flex">'
+				       factorIner+='<div class="col d-flex">'
+				        groupedData[groupId][subgroupId].forEach(function (item) {
+							const rollingGroupId=groupId_Id.filter(value => value.groupId == groupId)[0].rollingGroupId;
+
+				            checkBox="jqxCheckBox-"+rollingGroupId+'-'+item.subgroupId;
+		    	  	        isVisible=item.isVisible?'d-block':'d-none';
+				             factorInerItem+='<div class="align-middle" style="    min-width: 24px;">'
+									+'<div id="'+checkBox+'" class="jqx-checkbox-items  align-middle '+isVisible+'"></div>'
+								+'</div>';
+				        });
+				       factorIner+=factorInerItem
+				     		     +'</div>';
+				     		     factorInerItem='';
+				       rollingContainer+=factorIner
+				     		     +'</div>';  
+				     		   
+				    });
 				    subgroupContainer+= factorContainer ;
+				    subgroupContainer+=rollingContainer;
 				    subgroupContainer+= '</div>';    
 				    
 				    mainGroupContainer+=groupContainer+subgroupContainer;
@@ -219,10 +245,14 @@ var factorContainer='';
 				     mainGroupContainer='';
 				});
 				 mainContainer+='</div>';
-				  $('#macroContainer').append(mainContainer); 
+				  $('#longEndsContainer').append(mainContainer); 
 	        	for (j = 0; j < data.length; j++) {
-					items="#jqxCheckBox-"+data[j].groupId+'-'+data[j].subgroupId+'-'+data[j].factor;
-		    	  	$(items).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
+					items="#jqxCheckBox-"+data[j].groupId+'-'+data[j].subgroupId;
+					$(items).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
+		    	  	
+		    	  	const rollingGroupId=groupId_Id.filter(value => value.groupId == data[j].groupId)[0].rollingGroupId;
+                    items="#jqxCheckBox-"+rollingGroupId+'-'+data[j].subgroupId;
+					$(items).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
 				}
 				
 					  
@@ -244,14 +274,10 @@ var factorContainer='';
 
     if (checkedItem >= 4) {
         for (i = 0; i < allitems.length; i++) {
-            $(allitems[i]).jqxCheckBox({ disabled: true });
-        }
-
-        for (i = 0; i < checkedItemid.length; i++) {
-            if (checkedItemid[i] != null) {
-                $(checkedItemid[i]).jqxCheckBox({ disabled: false });
-            }
-        }
+			    if (!$(allitems[i]).jqxCheckBox('checked')) {
+			        $(allitems[i]).jqxCheckBox({ disabled: true });
+			    }
+			}
         enableDisableDropDowns(true);
     } else {
         for (i = 0; i < allitems.length; i++) {
@@ -413,7 +439,7 @@ var factorContainer='';
 				                        columns: dynamicColumns,
 										selectionmode:'none',
 				                        columngroups: [
-              { text: '<img height="28" width="28" src="'+itemValue[Items[gridIdIncrement]].img+'" class="mr-2"><span style="font-size: 0.8rem;  vertical-align: bottom;">'+getSubgroupNameById(itemValue[Items[gridIdIncrement]].subGroupId)+'</span> - '+ title+''
+              { text: getSubgroupNameById(itemValue[Items[gridIdIncrement]].subGroupId)+'</span> - '+ title+''
 			, align: 'center', name: 'country' },
              ]
 		});

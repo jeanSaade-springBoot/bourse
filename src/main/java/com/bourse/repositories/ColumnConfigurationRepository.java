@@ -14,7 +14,7 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
 	List<ColumnConfiguration> findByGroupIdAndSubgroupId(String groupId,String subgroupId);
 	
 	ColumnConfiguration findByGroupIdAndSubgroupIdAndDescription(String groupId,String subgroupId,String description) ;
-	
+
 	@Query(value = " select \r\n" + 
 			"coalesce((select  coalesce(column_name,:description)\r\n" + 
 			"  from bourse.column_configuration where lower(description) like :description),:description)\r\n" + 

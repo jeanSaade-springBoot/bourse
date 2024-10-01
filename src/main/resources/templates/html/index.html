@@ -52,7 +52,7 @@ div#content {
           </div>
 
           <div class="row mb-3">
-          <div class="card-columns col-12">
+          <div class=" col-12 row">
             <!--   <div class="card">
 		           <div class="card-body">
 		      <h5 class="card-title card-title-color">News</h5>
@@ -61,6 +61,7 @@ div#content {
 		  </ul>
 		    </div>
 		    </div> -->
+		    <div class="col-4">
    <div  sec:authorize="hasAuthority('ANY2_GRAPH_SCREEN') OR hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') OR hasAuthority('YIELD_CURVES_GRAPH_SCREEN') OR hasAuthority('YIELD_CROSSES_GRAPH_SCREEN') OR hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')" class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Yields</h5>
@@ -122,6 +123,8 @@ div#content {
 		 </ul>
     </div>
   </div>
+  </div>
+  <div class="col-4">
     <div sec:authorize="hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')" class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Liquidity</h5>
@@ -184,6 +187,9 @@ div#content {
 	   </ul>
     </div>
   </div>
+  
+  </div>
+  <div class="col-4">
     <div sec:authorize="hasAuthority('ANY2_FXCDS_GRAPH_SCREEN')  OR hasAuthority('FX_GRAPH_SCREEN') OR hasAuthority('CDS_GRAPH_SCREEN') OR hasAuthority('FXCDS_DATA_FUNCTION_DISPLAY_SCREEN')" class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">FX & CDS</h5>
@@ -200,17 +206,26 @@ div#content {
 				  OR  hasAuthority('WMQY_VOLUME_GRAPH_SCREEN') 
 				  OR hasAuthority('MARKET_SHARE_VOLUME_GRAPH_SCREEN')
 				  OR hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')" class="card">
-    <div class="card-body">
-      <h5 class="card-title card-title-color">Volumes</h5>
-      <ul class="fa-ul">
-   <li sec:authorize="hasAuthority('ANY2_VOLUME_GRAPH_SCREEN')" ><a href="/bourse/any2volume"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-   <li sec:authorize="hasAuthority('DAILY_VOLUME_GRAPH_SCREEN')" ><a href="/bourse/dailyvolume"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Daily Volume</a></li>
-   <li sec:authorize="hasAuthority('WMQY_VOLUME_GRAPH_SCREEN')" ><a href="/bourse/wmqyvolume"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Weekly/Monthly/Quarterly/Yearly</a></li>
-   <li sec:authorize="hasAuthority('MARKET_SHARE_VOLUME_GRAPH_SCREEN')" ><a href="/bourse/marketshare"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Market Share</a></li>
-   <li sec:authorize="hasAuthority('RACE_VOLUME_GRAPH_SCREEN')" ><a href="/bourse/racechart"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Race Chart</a></li>
-   <li sec:authorize="hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/volumedatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
-  </ul>
-    </div>
+	    <div class="card-body">
+	      <h5 class="card-title card-title-color">Volumes</h5>
+	      <ul class="fa-ul">
+		   <li sec:authorize="hasAuthority('ANY2_VOLUME_GRAPH_SCREEN')" ><a href="/bourse/any2volume"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+		   <li sec:authorize="hasAuthority('DAILY_VOLUME_GRAPH_SCREEN')" ><a href="/bourse/dailyvolume"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Daily Volume</a></li>
+		   <li sec:authorize="hasAuthority('WMQY_VOLUME_GRAPH_SCREEN')" ><a href="/bourse/wmqyvolume"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Weekly/Monthly/Quarterly/Yearly</a></li>
+		   <li sec:authorize="hasAuthority('MARKET_SHARE_VOLUME_GRAPH_SCREEN')" ><a href="/bourse/marketshare"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Market Share</a></li>
+		   <li sec:authorize="hasAuthority('RACE_VOLUME_GRAPH_SCREEN')" ><a href="/bourse/racechart"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Race Chart</a></li>
+		   <li sec:authorize="hasAuthority('VOLUME_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/volumedatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		  </ul>
+	    </div>
+  </div>
+    <div  sec:authorize=" hasAuthority('LONGENDS_DATA_FUNCTION_DISPLAY_SCREEN')" class="card">
+	    <div class="card-body">
+	      <h5 class="card-title card-title-color">LONGEND FUTURES</h5>
+	      <ul class="fa-ul">
+	      	<li sec:authorize="hasAuthority('LONGENDS_BUNDS_GRAPH_SCREEN')" ><a href="/bourse/bunds"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Bunds</a></li>
+	        <li sec:authorize="hasAuthority('LONGENDS_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/longendsdatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		  </ul>
+	    </div>
   </div>
 <!-- <div class="card">
     <div class="card-body">
@@ -303,6 +318,7 @@ div#content {
 		  <li><span class="fa-li"></span>Join A Meeting</li>
 		</ul>
     </div>-->
+  </div>
   </div>
 </div>
           </div>

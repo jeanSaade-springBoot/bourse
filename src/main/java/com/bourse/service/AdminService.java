@@ -130,6 +130,9 @@ public class AdminService
 	public ColumnConfiguration getColumnsconfigurationByGroupAndSubgroupDescription(String groupId,String subgroupId,String description) {
 		 return columnConfigurationRepository.findByGroupIdAndSubgroupIdAndDescription(groupId, subgroupId,description);
 	}
+	public ColumnConfiguration getColumnsconfigurationByGroupAndSubgroup(String groupId,String subgroupId) {
+		 return columnConfigurationRepository.findByGroupIdAndSubgroupId(groupId, subgroupId).get(0);
+	}
 	
 	public List<ColumnConfigurationDTO> findNativeByGroupIdAndSubgroupId(String groupId,String subgroupId) {
 		boolean hasData= getData();

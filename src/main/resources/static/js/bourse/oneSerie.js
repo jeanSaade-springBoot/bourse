@@ -548,7 +548,111 @@ var factorContainer='';
 						 "#jqxCheckBoxLibor_3",
 		];	
 			    
-		 }	
+		 }	else if (serieValue === 10) {
+		 graphService = "longEnds";
+
+	 var allitems =[ 
+			'#jqxCheckBox-52-2',
+			'#jqxCheckBox-52-3',
+			'#jqxCheckBox-52-4',
+			'#jqxCheckBox-52-5',
+			'#jqxCheckBox-52-6',
+			'#jqxCheckBox-53-2',
+			'#jqxCheckBox-53-3',
+			'#jqxCheckBox-53-4',
+			'#jqxCheckBox-53-5',
+			'#jqxCheckBox-53-6',
+			'#jqxCheckBox-54-2',
+			'#jqxCheckBox-54-3',
+			'#jqxCheckBox-54-4',
+			'#jqxCheckBox-54-5',
+			'#jqxCheckBox-54-6',
+			'#jqxCheckBox-55-2',
+			'#jqxCheckBox-55-3',
+			'#jqxCheckBox-55-4',
+			'#jqxCheckBox-55-5',
+			'#jqxCheckBox-55-6',
+			'#jqxCheckBox-56-2',
+			'#jqxCheckBox-56-3',
+			'#jqxCheckBox-56-4',
+			'#jqxCheckBox-56-5',
+			'#jqxCheckBox-56-6',
+			'#jqxCheckBox-57-2',
+			'#jqxCheckBox-57-3',
+			'#jqxCheckBox-57-4',
+			'#jqxCheckBox-57-5',
+			'#jqxCheckBox-57-6',
+			'#jqxCheckBox-58-2',
+			'#jqxCheckBox-58-3',
+			'#jqxCheckBox-58-4',
+			'#jqxCheckBox-58-5',
+			'#jqxCheckBox-58-6',
+			'#jqxCheckBox-59-2',
+			'#jqxCheckBox-59-3',
+			'#jqxCheckBox-59-4',
+			'#jqxCheckBox-59-5',
+			'#jqxCheckBox-59-6',
+			'#jqxCheckBox-60-2',
+			'#jqxCheckBox-60-3',
+			'#jqxCheckBox-60-4',
+			'#jqxCheckBox-60-5',
+			'#jqxCheckBox-60-6',
+			'#jqxCheckBox-61-2',
+			'#jqxCheckBox-61-3',
+			'#jqxCheckBox-61-4',
+			'#jqxCheckBox-61-5',
+			'#jqxCheckBox-61-6',
+			'#jqxCheckBox-62-2',
+			'#jqxCheckBox-62-3',
+			'#jqxCheckBox-62-4',
+			'#jqxCheckBox-62-5',
+			'#jqxCheckBox-62-6',
+			'#jqxCheckBox-63-2',
+			'#jqxCheckBox-63-3',
+			'#jqxCheckBox-63-4',
+			'#jqxCheckBox-63-5',
+			'#jqxCheckBox-63-6',
+			'#jqxCheckBox-64-2',
+			'#jqxCheckBox-64-3',
+			'#jqxCheckBox-64-4',
+			'#jqxCheckBox-64-5',
+			'#jqxCheckBox-64-6',
+			'#jqxCheckBox-65-2',
+			'#jqxCheckBox-65-3',
+			'#jqxCheckBox-65-4',
+			'#jqxCheckBox-65-5',
+			'#jqxCheckBox-65-6',
+			'#jqxCheckBox-67-2',
+			'#jqxCheckBox-67-3',
+			'#jqxCheckBox-67-4',
+			'#jqxCheckBox-67-5',
+			'#jqxCheckBox-67-6',
+			'#jqxCheckBox-68-2',
+			'#jqxCheckBox-68-3',
+			'#jqxCheckBox-68-4',
+			'#jqxCheckBox-68-5',
+			'#jqxCheckBox-68-6',
+			'#jqxCheckBox-69-2',
+			'#jqxCheckBox-69-3',
+			'#jqxCheckBox-69-4',
+			'#jqxCheckBox-69-5',
+			'#jqxCheckBox-69-6',
+			'#jqxCheckBox-70-2',
+			'#jqxCheckBox-70-3',
+			'#jqxCheckBox-70-4',
+			'#jqxCheckBox-70-5',
+			'#jqxCheckBox-70-6',
+		];
+
+var mainContainer='';
+var mainGroupContainer='';
+var groupContainer='';
+var subgroupContainer='';
+var factorIner='';
+var factorInerItem='';
+var factorContainer='';
+
+		 }
 const graphName=""; 
 			   
 $(window).on('load', function() {
@@ -651,7 +755,142 @@ $(document).ready(function() {
 	        }
 	    }); 
 	 }
-     
+     else 	 
+	  if (serieValue === 10) {
+		   const groupId_Id =  [
+                { Id: '1', groupId: 52, rollingGroupId: 61  ,name:'BUNDS'},
+				{ Id: '2', groupId: 53, rollingGroupId: 62  ,name:'BOBLS'},
+				{ Id: '3', groupId: 54, rollingGroupId: 63  ,name:'SHATZ'},
+				{ Id: '4', groupId: 55, rollingGroupId: 64  ,name:'BUXL'},
+				{ Id: '5', groupId: 56, rollingGroupId: 65  ,name:'OAT'},
+				{ Id: '6', groupId: 57, rollingGroupId: 67  ,name:'BTP'},
+				{ Id: '7', groupId: 58, rollingGroupId: 68  ,name:'GILTS'},
+				{ Id: '8', groupId: 59, rollingGroupId: 69  ,name:'T-NOTES'},
+				{ Id: '9', groupId: 60, rollingGroupId: 70  ,name:'T-BONDS'},
+                ];
+	    $.ajax({
+	        contentType: "application/json",
+	        url: "/longEnds/get-all-longends-display-settings",
+	        dataType: 'json',
+	        async:true,
+	        cache: false,
+	        timeout: 600000,
+	        success: function (data) {
+	        	var groupedData = groupByGroupIdAndSubgroupId(data);
+                 mainContainer+='<div class="col-12">'
+			                 +'<div class="col-12 d-flex">'
+				                 +'<div class="col-2"></div>'
+				                 +'<div class="col-10">'
+				                 		+'<div class="col-12 d-flex"><div class="align-middle fw-bold">INITIALS</div><div class="align-middle fw-bold">ROLLING</div></div>'
+										+'<div class="col-12 d-flex">'
+											+'<div class="col-6 d-flex">'
+												+'<div class="col d-flex"><div class="align-middle">OPEN</div></div>'
+												+'<div class="col d-flex"><div class="align-middle">SETTLE</div></div>'
+												+'<div class="col d-flex"><div class="align-middle">CLOSE</div></div>'
+												+'<div class="col d-flex"><div class="align-middle">HIGH</div></div>'
+												+'<div class="col d-flex"><div class="align-middle">LOW</div></div>'
+											+'</div>'
+											+'<div class="col-6 d-flex">'
+												+'<div class="col d-flex"><div class="align-middle">OPEN</div></div>'
+												+'<div class="col d-flex"><div class="align-middle">SETTLE</div></div>'
+												+'<div class="col d-flex"><div class="align-middle">CLOSE</div></div>'
+												+'<div class="col d-flex"><div class="align-middle">HIGH</div></div>'
+												+'<div class="col d-flex"><div class="align-middle">LOW</div></div>'
+											+'</div>'
+										+'</div>'
+									+'</div>'
+							  +'</div>';
+						
+				// Iterate over each groupId
+				Object.keys(groupedData).forEach(function (groupId, i) {
+				    const groupName=groupId_Id.filter(value => value.groupId == groupId)[0].name;
+				    classStyle=(i%2!=0)?'row-style':'';
+				     mainGroupContainer+='<div class="col-12 d-flex">';
+				     groupContainer+='<div class="col-2 '+classStyle+'">'
+				     		+'<div class="">'+groupName+'</div>'
++'</div>';
+					 subgroupContainer+='<div class="col-10 '+classStyle+' align-items-center d-flex">';
+					 	
+				    // Iterate over each subgroupId within the current groupId
+				    Object.keys(groupedData[groupId]).forEach(function (subgroupId) {
+				     
+				        // Iterate over each item within the current subgroupId
+				       factorContainer='<div class="col-6  d-flex">'
+				       factorIner+='<div class="col d-flex">'
+				        groupedData[groupId][subgroupId].forEach(function (item) {
+				            checkBox="jqxCheckBox-"+item.groupId+'-'+item.subgroupId;
+		    	  	        isVisible=item.isVisible?'d-block':'d-none';
+				             factorInerItem+='<div class="align-middle" style="    min-width: 24px;">'
+									+'<div id="'+checkBox+'" class="jqx-checkbox-items  align-middle '+isVisible+'"></div>'
+								+'</div>';
+				        });
+				       factorIner+=factorInerItem
+				     		     +'</div>';
+				     		     factorInerItem='';
+				       factorContainer+=factorIner
+				     		     +'</div>';  
+				     		   
+				    });
+				      factorIner='';
+				      Object.keys(groupedData[groupId]).forEach(function (subgroupId) {
+				   
+				        // Iterate over each item within the current subgroupId
+				       rollingContainer='<div class="col-6  d-flex">'
+				       factorIner+='<div class="col d-flex">'
+				        groupedData[groupId][subgroupId].forEach(function (item) {
+							const rollingGroupId=groupId_Id.filter(value => value.groupId == groupId)[0].rollingGroupId;
+
+				            checkBox="jqxCheckBox-"+rollingGroupId+'-'+item.subgroupId;
+		    	  	        isVisible=item.isVisible?'d-block':'d-none';
+				             factorInerItem+='<div class="align-middle" style="    min-width: 24px;">'
+									+'<div id="'+checkBox+'" class="jqx-checkbox-items  align-middle '+isVisible+'"></div>'
+								+'</div>';
+				        });
+				       factorIner+=factorInerItem
+				     		     +'</div>';
+				     		     factorInerItem='';
+				       rollingContainer+=factorIner
+				     		     +'</div>';  
+				     		   
+				    });
+				    subgroupContainer+= factorContainer ;
+				    subgroupContainer+=rollingContainer;
+				    subgroupContainer+= '</div>';    
+				    
+				    mainGroupContainer+=groupContainer+subgroupContainer;
+				    mainGroupContainer+='</div>';
+				    
+				    groupContainer='';
+				    subgroupContainer='';
+				    factorContainer='';
+				    factorIner='';
+				     mainContainer+=mainGroupContainer;
+				     mainGroupContainer='';
+				});
+				 mainContainer+='</div>';
+				  $('#longEndsContainer').append(mainContainer); 
+			
+							 
+			 initializeNewsBanner();
+			 initializeFunctions();
+			 
+			 initializeNavigationButtons();
+			 initialiazeItem(allitems,1);
+			 initialiazeClearFilterButton();
+			 initializeShowFilterButton();
+			 
+		     $("#SaveToFavorites").jqxButton({ theme: 'dark', height: 30, width: 100 });  
+		
+		    	
+			},
+	        error: function (e) {
+	        	
+					  console.log("ERROR : ", e);
+
+	        }
+	    }); 
+	  
+	 }
      else{
 		 
 	 initializeNewsBanner();

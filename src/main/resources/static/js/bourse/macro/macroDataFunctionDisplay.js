@@ -233,16 +233,12 @@ var factorContainer='';
         });
     }
 
-    if (checkedItem >= 4) {
+     if (checkedItem >= 4) {
         for (i = 0; i < allitems.length; i++) {
-            $(allitems[i]).jqxCheckBox({ disabled: true });
-        }
-
-        for (i = 0; i < checkedItemid.length; i++) {
-            if (checkedItemid[i] != null) {
-                $(checkedItemid[i]).jqxCheckBox({ disabled: false });
-            }
-        }
+			    if (!$(allitems[i]).jqxCheckBox('checked')) {
+			        $(allitems[i]).jqxCheckBox({ disabled: true });
+			    }
+			}
         enableDisableDropDowns(true);
     } else {
         for (i = 0; i < allitems.length; i++) {

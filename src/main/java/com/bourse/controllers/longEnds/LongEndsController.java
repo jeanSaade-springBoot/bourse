@@ -17,6 +17,8 @@ import org.springframework.web.bind.annotation.RestController;
 import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.longEnds.LongEndsDisplaySettings;
 import com.bourse.domain.longEnds.TmpAuditLefBunds;
+import com.bourse.dto.GraphRequestDTO;
+import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.longends.LongEndsAuditCommonDTO;
@@ -112,6 +114,10 @@ public class LongEndsController {
 	
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
+	@PostMapping(value = "getgraphdatabytype")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
+		return new ResponseEntity<>(longEndsService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
+	} 
     @DeleteMapping(value = "delete-longEnds/{groupId}/{referDate}")
 	public ResponseEntity<HttpStatus> deleteLongEndData(@PathVariable("groupId") String groupId ,@PathVariable("referDate") String referDate) {
 		System.out.println(className+": deleteLongEndsDataByReferDate");

@@ -799,7 +799,7 @@ function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColum
 				     dataToBeInserted.push({
 									"groupId":  groupId,
 				                    "subgroupId":   getIdfromSubgroupName('spreadValue') ,
-				                    "value": null,
+				                    "value": '',
 				                    "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 				                });
             	 if($("#dateInput").jqxDateTimeInput('getDate')<date)

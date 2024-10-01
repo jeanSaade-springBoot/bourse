@@ -126,6 +126,9 @@ public class GraphService {
 		    	config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 		    	if (config==null)
 		    		config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, SubGroupEnum.getDescriptionByName(description));
+			    	if (config==null)
+			    		config = adminService.getColumnsconfigurationByGroupAndSubgroup(groupId, subGroupId);
+			    	
 		    	}
 		    if (isFunction)
 		    {

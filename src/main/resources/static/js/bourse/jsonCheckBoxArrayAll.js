@@ -4456,4 +4456,88 @@ var itemValue = {
 			"description": "libor_3",
 			"title": "",
 		  },
+		      "#jqxCheckBox-52-2": { 
+	
+    "subGroupId": "2",
+    "GroupId": "52",
+    "description": "open-52",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-52-3": { 
+	
+    "subGroupId": "3",
+    "GroupId": "52",
+    "description": "settle-52",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-52-4": { 
+	
+    "subGroupId": "4",
+    "GroupId": "52",
+    "description": "close-52",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-52-5": { 
+	
+    "subGroupId": "5",
+    "GroupId": "52",
+    "description": "high-52",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-52-6": { 
+	
+    "subGroupId": "6",
+    "GroupId": "52",
+    "description": "low-52",
+    "title": "",
+   
+  },
+  
+  
+  
+  
+   "#jqxCheckBox-61-2": { 
+	
+    "subGroupId": "2",
+    "GroupId": "61",
+    "description": "open-61",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-61-3": { 
+	
+    "subGroupId": "3",
+    "GroupId": "61",
+    "description": "settle-61",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-61-4": { 
+	
+    "subGroupId": "4",
+    "GroupId": "61",
+    "description": "close-61",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-61-5": { 
+	
+    "subGroupId": "5",
+    "GroupId": "61",
+    "description": "high-61",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-61-6": { 
+	
+    "subGroupId": "6",
+    "GroupId": "61",
+    "description": "low-61",
+    "title": "",
+   
+  },
   	};

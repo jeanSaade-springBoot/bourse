@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - One Serie</title>
+  <title>Libvol - Bunds</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -52,13 +52,7 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
-.fs-7{
-font-size: .7rem;
-}  
-.row-style{
-    background-color: #272e48;
-    padding-top: 0.1rem;
-    }
+
   </style>
 </head>
 
@@ -68,32 +62,23 @@ font-size: .7rem;
     <!-- Sidebar -->
     <div id="content-wrapper" class="d-flex flex-column">
       <div id="fixedMenu">
-       <!-- TopBar -->
+         <!-- TopBar -->
      	<div th:include="${mainmenu}"></div>
         <!-- Topbar -->
-  <div class="d-sm-flex align-items-center">
-            <h1 class="ml-6 text-darkorange">ONE SERIE</h1>
-            	 <nav style="margin-left: 3rem;
-    						 height: 35px;
-    						 margin-top: 0.5rem;">
-				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a  th:classappend="${serie == 1} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=1" role="tab" aria-controls="nav-datafunctiondisplay" aria-selected="false">SOVEREIGN YIELDS</a>
-				  	<a  th:classappend="${serie == 9} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=9" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">RATES</a>
-				  	<a  th:classappend="${serie == 5} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=5" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">FX & CDS</a>
-				    <a  th:classappend="${serie == 2} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=2" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">COMMODITIES</a>
-				 	<a  th:classappend="${serie == 3} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=3" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">LIQUIDITY</a>
-				  	<a  th:classappend="${serie == 4} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=4" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">VOLUME</a>
-				  	<a  th:classappend="${serie == 6} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=6" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">SKEWS</a>
-				  	<a  th:classappend="${serie == 7} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=7" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">STOCKS & INDICES</a>
-				  	<a  th:classappend="${serie == 8} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=8" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">MACRO</a>
-					<a  th:classappend="${serie == 10} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-datafunctiondisplay-tab"  href="/bourse/oneserie?serie=10" role="tab" aria-controls="nav-datametalfunctiondisplay" aria-selected="false">LONGEND FUTURES</a>
-				 </div>
-				</nav>
-          </div>
-              </div>
+		  <div class="d-sm-flex align-items-center">
+		     <h1 class="ml-6 text-darkorange">LONGEND FUTURES</h1>
+		     	   <nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
+		           <div class="nav nav-tabs" id="nav-tab" role="tablist">
+		             <a sec:authorize="hasAuthority('LONGENDS_BUNDS_GRAPH_SCREEN')"
+		                 class="navigation nav-item nav-link active" id="nav-bunds-tab"
+		                 href="/bourse/bunds" role="tab" aria-controls="nav-bunds"
+		                 aria-selected="false">BUNDS</a>
+		           </div>
+		        </nav>
+		    
+		   </div>
+      </div>
         <div id="content">
-       <input type="hidden" id="serieValue" th:value="${serie}" />
-        
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
 
@@ -110,12 +95,20 @@ font-size: .7rem;
 				  	  	</p>
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse show" id="collapseFilter" style="margin: 0px 2rem;">
-					    <div th:include="${fragment}" id="template"></div>
+					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
+				<div class="row">
+				<div class="col-10 d-flex">
+                	<div id="longEndsContainer" class="col-12"></div>
+                 		</div>
+                 		<div class="col-2"></div>
+                 		<div class="col-5">
+		                     
+		                 </div>
+                     </div>
                      	<div class="row pt-2">
-							<div class='col-12 d-flex justify-content-end mb-4'>
-								<input aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
-								<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+							<div class='col-12 d-flex justify-content-end'>
+							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 							</div>
 						</div>
 					    </div>
@@ -124,13 +117,22 @@ font-size: .7rem;
 				    <div class="row">
 				       <div class="row col-12">
 				   	  	   
-								<div class="d-flex col-12">
-								    <div class="col-1">
-									</div>
-							 		<div class="col-10 d-flex justify-content-end">
-										<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
-										<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
-									</div>
+				   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
+					            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
+					                Daily</button>
+					            <button style="padding:4px 16px;" id="w">
+					                Weekly</button>
+					            <button style="padding:4px 16px;" id="m">
+					                Monthly</button>
+								 <button style="padding:4px 16px;" id="q">
+									Quarterly</button>
+								 <button style="padding:4px 16px;" id="y">
+									Yearly</button>
+					        </div>
+								<div id='dropDownType' style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
+								<div class="d-flex" style=' margin-left: 2.4rem;'>
+									<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
+									<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
 								</div>
 							</div>
 							
@@ -213,22 +215,22 @@ font-size: .7rem;
 						</div>
 						 <div class="col-10">
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
-								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-								   		</div>
-												 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
-												
-												 </div>
-												 <div class="row" style="min-width: 1153px;  max-width:1153px">
-												 	<div class='col-6'>
-												 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
-								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-								   </div>
-												 		<div id="SubChart1" class="chart-box"></div>
-												 	</div>
-												 	<div class='col-6'>
-												 	<div id="overlayChart2" class="overlayChart-split" style="display:none">
-								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-								   </div>
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   		</div>
+						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
+						
+						 </div>
+						 <div class="row" style="min-width: 1153px;  max-width:1153px">
+						 	<div class='col-6'>
+						 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
+						 		<div id="SubChart1" class="chart-box"></div>
+						 	</div>
+						 	<div class='col-6'>
+						 	<div id="overlayChart2" class="overlayChart-split" style="display:none">
+		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+		   </div>
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
@@ -363,11 +365,9 @@ font-size: .7rem;
     <script src="/js/jqwidgets/jqxbuttons.js"></script> 
   
   <script src="/js/apexcharts.js"></script>
-  
   <script src="/js/chartOptions.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
-  <script src="/js/bourse/jsonCheckBoxArray.js"></script>  
-  <script src="/js/bourse/oneSerie.js"></script> 
+  <script src="/js/bourse/longEnds/bunds.js"></script> 
   <script src="/js/chart.js"></script>
    <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 

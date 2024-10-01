@@ -18,14 +18,20 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
+import com.bourse.domain.ColumnConfiguration;
+import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.longEnds.LongEndsDisplaySettings;
 import com.bourse.domain.longEnds.TmpAuditLefBunds;
 import com.bourse.domain.macro.MacroDisplaySettings;
+import com.bourse.dto.GraphRequestDTO;
+import com.bourse.dto.GraphResponseColConfigDTO;
+import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.longends.LongEndsAuditCommonDTO;
+import com.bourse.enums.FunctionEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.TableManagementRepository;
 import com.bourse.repositories.longEnds.LongEndsDataRepository;
@@ -41,6 +47,8 @@ import com.bourse.repositories.longEnds.TmpAuditLefShatzRepository;
 import com.bourse.repositories.longEnds.TmpAuditLefTbondsRepository;
 import com.bourse.repositories.longEnds.TmpAuditLefTnotesRepository;
 import com.bourse.service.AdminService;
+import com.bourse.service.FunctionConfigurationService;
+import com.bourse.util.LiquidityUtil;
 import com.bourse.util.LongEndsUtil;
 import org.springframework.data.domain.Sort;
 
@@ -54,6 +62,8 @@ public class LongEndsService {
 	TmpAuditLefBundsRepository tmpAuditLefBundsRepository;
 	@Autowired
 	AdminService adminService;
+	@Autowired
+	FunctionConfigurationService functionConfigurationService;
 	@Autowired
 	ColumnConfigurationRepository columnConfigurationRepository;
 	@Autowired
@@ -461,4 +471,146 @@ public class LongEndsService {
 				 hashData.put("columns", lstRowsDt);
 				return lstRowsDt;
 			}
+		  
+			public List<GraphResponseColConfigDTO> getGraphDataByType(GraphRequestDTO graphReqDTO) {
+
+				boolean hasData= adminService.getData();
+			    if(!hasData)
+					return null;
+			
+				List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+				
+				if(graphReqDTO.getGroupId1()!=null)
+				{
+					l1.add(getGraphDataResult(graphReqDTO,false));
+				}
+				if(graphReqDTO.getIsFunctionGraph()!=null?graphReqDTO.getIsFunctionGraph().equals("true"):false)
+				{   
+				   l1.add(getGraphDataResult(graphReqDTO,true));
+				}
+				if(graphReqDTO.getGroupId2()!=null)
+				{
+					GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId2())
+							   .subGroupId1(graphReqDTO.getSubGroupId2())
+							   .period(graphReqDTO.getPeriod())
+							   .type(graphReqDTO.getType())
+							   .fromdate(graphReqDTO.getFromdate())
+							   .todate(graphReqDTO.getTodate())
+							   .functionId(graphReqDTO.getFunctionId())
+							   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+							   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+							   .build();
+					l1.add(getGraphDataResult(graphRequestDTO,false));
+				}
+					
+				return l1; 
+			
+			}
+			
+		  public GraphResponseColConfigDTO getGraphDataResult(GraphRequestDTO graphReqDTO, Boolean isFunction) {
+				boolean hasData= adminService.getData();
+			    if(!hasData)
+					return null;
+
+				StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_graph_main",GraphResponseDTO.class);
+				
+				List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+				ColumnConfiguration config = null;
+				GraphResponseColConfigDTO graphResponseColConfigDTO = null;
+				
+				String groupId = graphReqDTO.getGroupId1();
+				String subGroupId = graphReqDTO.getSubGroupId1(); 
+				String description = null;
+				description = tableManagementRepository.findByGroupIdAndSubgroupId(groupId,subGroupId).getColumnName()+"-"+groupId;
+					
+				    System.out.println("goupid: "+groupId);
+				    System.out.println("subGroupId: "+subGroupId);
+				    System.out.println("description: "+description);
+				    System.out.println("period: "+graphReqDTO.getPeriod());
+				    System.out.println("type: "+graphReqDTO.getType());
+				    System.out.println("fromdate:"+graphReqDTO.getFromdate()+" to date:"+"graphReqDTO.getTodate()");
+				    config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+				    if (isFunction)
+				    {
+				    	FunctionConfiguration fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), graphReqDTO.getFunctionId());
+						config = ColumnConfiguration.builder()
+								.chartColor(fConfig.getChartColor()==null?"#F0AB2E":fConfig.getChartColor())
+								.chartShowgrid(fConfig.getChartShowgrid())
+								.chartSize(fConfig.getChartSize())
+								.chartTransparency(fConfig.getChartTransparency()==null?"0.50":fConfig.getChartTransparency())
+								.chartType(fConfig.getChartType())
+								.chartshowMarkes(fConfig.getChartshowMarkes())
+								.displayDescription(fConfig.getDisplayDescription())
+								.yAxisFormat(fConfig.getYAxisFormat())
+								.startDate(fConfig.getStartDate())
+								.dataFormat(fConfig.getDataFormat())
+								.build();
+						
+				    }
+					query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+					query.setParameter("groupId",graphReqDTO.getGroupId1() );
+					
+					query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+					query.setParameter("fromDate",graphReqDTO.getFromdate() );
+					
+					query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+					query.setParameter("toDate",graphReqDTO.getTodate() );
+					
+					query.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
+					query.setParameter("subgroupId",graphReqDTO.getSubGroupId1() );
+					
+					query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+					query.setParameter("factor",graphReqDTO.getFactor1());
+					
+					query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+					query.setParameter("dayOrweek",(isFunction)?"d":graphReqDTO.getPeriod() );
+					
+					if(isFunction)
+					{
+					 query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
+					 query.setParameter("isFunction",graphReqDTO.getIsFunctionGraph() );
+					
+					 query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
+					 query.setParameter("functionCode",FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())));
+					
+					 query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+					 query.setParameter("type","0");
+					}
+					else {
+					query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
+					query.setParameter("isFunction","false");
+					
+					query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
+					query.setParameter("functionCode", "");
+					
+					query.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
+					query.setParameter("type",(graphReqDTO.getType()==null)?"0":graphReqDTO.getType());
+					}
+					
+					query.execute();
+					
+					List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+					List<GraphResponseDTO> graphResponseDTOlstEmpty= LiquidityUtil.removeReplaceEmptyValueWithNull(graphResponseDTOlst1);
+					graphResponseDTOlst1.clear();
+					graphResponseDTOlst1=graphResponseDTOlstEmpty;
+					
+					if (graphReqDTO.getRemoveEmpty1()!=null)
+						if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
+						{	
+							List<GraphResponseDTO> graphResponseDTOlst= LiquidityUtil.removeEmptyY(graphResponseDTOlst1);
+							graphResponseDTOlst1.clear();
+							graphResponseDTOlst1=graphResponseDTOlst;
+						}
+						
+				  graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+							                  .graphResponseDTOLst(graphResponseDTOlst1)
+							                  .config(config)
+							                  .build();
+					entityManager.clear();
+					entityManager.close();
+				
+				return graphResponseColConfigDTO; 
+			    
+			}
+		  
 }

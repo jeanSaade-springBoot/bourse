@@ -122,11 +122,17 @@ public class ReadExcelWriteDBUtil {
 		                    // Handling value column: Check for both NUMERIC and STRING cell types
 		                    else if (String.valueOf(cell.getColumnIndex()).equalsIgnoreCase(valueIndex)) {
 		                        if (cell.getCellType() == CellType.NUMERIC) {
-		                            String cellValue = dataFormatter.formatCellValue(cell);
-		                            if (cellValue.endsWith("%")) {
+		                        	String cellValue ="";
+		                        	if (String.valueOf(cell.getColumnIndex()).equalsIgnoreCase("9")||String.valueOf(cell.getColumnIndex()).equalsIgnoreCase("12")) {
+		                        		value = String.valueOf(transformNumericDate(cell.getNumericCellValue()));
+		                        	}
+		                        	else
+		                        	{	cellValue = dataFormatter.formatCellValue(cell);
+		                        	if (cellValue.endsWith("%")) {
 		                                value = String.valueOf(cell.getNumericCellValue() * 100);
-		                            } else {
-		                                value = String.valueOf(cell.getNumericCellValue());
+			                            } else {
+			                                value = String.valueOf(cell.getNumericCellValue());
+			                            }
 		                            }
 		                        } else if (cell.getCellType() == CellType.STRING) {
 		                            // NEW: Handling STRING value values

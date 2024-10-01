@@ -597,6 +597,14 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/rates/inflation");
     }
+	@PreAuthorize("hasAuthority('LONGENDS_BUNDS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/bunds")
+    public ModelAndView bundLongEndsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/longEnds/bunds");
+    }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)
@@ -700,6 +708,7 @@ public class BourseController {
 		    model.addAttribute("sti", "html/templates/sti");
 		    model.addAttribute("macro", "html/templates/macro");
 		    model.addAttribute("rates", "html/templates/rates");
+		    model.addAttribute("longends", "html/templates/longends");
 		    model.addAttribute("serie", Integer.valueOf(serie));
 		    ModelAndView modelAndView = new ModelAndView("html/twoSeries");
 		    
