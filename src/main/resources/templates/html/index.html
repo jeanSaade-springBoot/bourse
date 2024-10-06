@@ -220,7 +220,7 @@ div#content {
   </div>
     <div  sec:authorize=" hasAuthority('LONGENDS_DATA_FUNCTION_DISPLAY_SCREEN')" class="card">
 	    <div class="card-body">
-	      <h5 class="card-title card-title-color">LONGEND FUTURES</h5>
+	      <h5 class="card-title card-title-color">LONG-END FUTURES</h5>
 	      <ul class="fa-ul">
 	      	<li sec:authorize="hasAuthority('LONGENDS_BUNDS_GRAPH_SCREEN')" ><a href="/bourse/bunds"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Bunds</a></li>
 	        <li sec:authorize="hasAuthority('LONGENDS_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/longendsdatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
@@ -252,6 +252,7 @@ div#content {
       <h5 class="card-title card-title-color">Technical Analysis</h5>
 		 <ul class="fa-ul">
 	  	  <li sec:authorize="hasAuthority('TRENDLINE_SCREEN')" ><a href="/bourse/trendline"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Trendlines</a></li>
+		  <li sec:authorize="hasAuthority('TRENDLINE_BUNDS_SCREEN')" ><a href="/bourse/bundsTech"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Bunds Techs</a></li>
 		</ul>
     </div>
   </div>

@@ -156,6 +156,9 @@
 	// no data source
 	$("#graphscale").jqxDropDownList({dropDownHeight: 100,  source: chartTypeSource, theme: 'dark' , width: '100%', height: 30});
 	
+	 fieldTypeSource =["DATE","NUMBER","TEXT"];
+	 $("#fieldType").jqxDropDownList({dropDownHeight: 120,  source: fieldTypeSource, theme: 'dark' , width: '100%', height: 30});
+	
 	var functionSource =
       {
           datatype: "json",
@@ -418,7 +421,8 @@
               { name: 'tickValue', type: 'string' },
               { name: 'currency', type: 'string' },
               { name: 'robotCode', type: 'string' },
-              { name: 'columnCode', type: 'string' }
+              { name: 'columnCode', type: 'string' },
+              { name: 'fieldType', type: 'string' }
           ],
           async: true,
           url: ''
@@ -444,6 +448,7 @@
       	   $("#showMarkes").jqxDropDownList('clearSelection'); 
       	   $("#transparency").jqxDropDownList('clearSelection'); 
       	   $("#showgrid").jqxDropDownList('clearSelection'); 
+      	   $("#fieldType").jqxDropDownList('clearSelection'); 
        	   $("#dataFormat").jqxDropDownList('clearSelection'); 
       	   $("#yAxisFormats").jqxDropDownList('clearSelection'); 
      	   $("#graphscale").jqxDropDownList('clearSelection'); 
@@ -544,6 +549,7 @@
                 		    columnName: $("#columnName").val()!=''?$("#columnName").val():null,
                 		    groupId:groupItem.value,
                 		    subgroupId:subGroupDropDown.value,
+                		    fieldType:$("#fieldType").val()!=''?$("#fieldType").val():null,
                 		    dataFormat:$("#dataFormat").val()!=''?$("#dataFormat").val():null,
                 		  //  canBeNegative:$('#jqxCheckBoxNegative').jqxCheckBox('checked')?true:false,
                 		    canBeNegative:false,
@@ -585,6 +591,7 @@
                 		    columnName: $("#columnName").val()!=''?$("#columnName").val():null,
                 		    groupId:groupItem.value,
                 		    subgroupId:subGroupDropDown.value,
+                		    fieldType:$("#fieldType").val()!=''?$("#fieldType").val():null,
                 		    dataFormat:$("#dataFormat").val()!=''?$("#dataFormat").val():null,
                 		    canBeNegative:false,
                 		    showInDatabase:$('#jqxCheckBoxShowIndb').jqxCheckBox('checked')?true:false,
@@ -903,7 +910,8 @@
    				  $("#columnCode").val(dataRecord.columnCode);
                   $("#graphTitle").val(dataRecord.displayDescription);
                   $("#columnName").val(dataRecord.columnName);
-                  $("#dataFormat").jqxDropDownList('val', dataRecord.dataFormat);              
+                  $("#fieldType").jqxDropDownList('val', dataRecord.fieldType);              
+				  $("#dataFormat").jqxDropDownList('val', dataRecord.dataFormat);              
                   $("#yAxisFormats").jqxDropDownList('val', dataRecord.yaxisFormat);   
 //                   $("#dataFormat").val(dataRecord.dataFormat);
 //                   $("#yAxisFormats").val(dataRecord.yAxisFormat);
@@ -950,6 +958,7 @@
             { text: '', columngroup: 'TimeAndFormat', datafield: 'robotCode', hidden: true  }, 
             { text: '', columngroup: 'TimeAndFormat', datafield: 'columnCode', hidden: true  }, 
             { text: 'Display Name', columngroup: 'TimeAndFormat', datafield: 'columnName', width: '12.84%',color:'#3F0' },
+            { text: '', columngroup: 'TimeAndFormat', datafield: 'fieldType', hidden: true},
             { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', width: '12.84%' },
             { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yaxisFormat', width: '12.84%'},
             { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'calculationType', width: '12.84%' },

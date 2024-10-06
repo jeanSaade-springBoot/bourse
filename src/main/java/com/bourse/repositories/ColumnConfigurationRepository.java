@@ -27,6 +27,11 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
        nativeQuery = true)
 	public String findColumnDataFormat(@Param("description") String description);
 	
+	@Query(value = " select field_type\r\n" + 
+			"  from bourse.column_configuration where upper(description) like :description",
+       nativeQuery = true)
+	public String findColumnFieldType(@Param("description") String description);
+	
 	@Query(value = "select * from column_configuration where  ( subgroup_id=9 and group_id=32 )  or  ( subgroup_id=7 and group_id=32 ) ", nativeQuery = true)
 	public List<ColumnConfiguration> findByGroupIdsAndSubgroupIds(String condition);
 	
@@ -57,6 +62,7 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
 			+ "			    cc.y_axis_format as yAxisFormat, \r\n"
 			+ "			    cc.column_Code as columnCode, \r\n"
 			+ "			    cc.status as status, \r\n"
+			+ "			    cc.field_type as fieldType, \r\n"
 			+ "			 ( select  n.isactive\r\n"
 			+ "			           from bourse.robots_configuration n \r\n"
 			+ "			       where n.config_id = cc.id\r\n"

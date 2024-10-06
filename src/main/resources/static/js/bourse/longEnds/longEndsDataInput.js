@@ -117,10 +117,10 @@ $(document).ready(function() {
 			{"name":"convergence_factor-52","type":"float"},
 			{"name":"frequency-52","type":"float"},
 			{"name":"price_at_issue-52","type":"float"},
-			{"name":"ctd_maturity-52","type":"float"},
+			{"name":"ctd_maturity-52","type":'date'},
 			{"name":"coupon-52","type":"float"},
 			{"name":"issuer-52","type":"float"},
-			{"name":"future_expiry_date-52","type":"float"},
+			{"name":"future_expiry_date-52","type":'date', format: 'dd-MM-yyyy'},
 			{"name":"low-52","type":"float"},
 			{"name":"high-52","type":"float"},
 			{"name":"maturity_name-52","type":"float"},
@@ -304,10 +304,10 @@ function renderLookBackGrid(data){
                 },
                 datafields:
                 [
-                    { name: 'futureExpiryDate', type: 'string' },
+                    { name: 'futureExpiryDate', type: 'date', format: 'dd-MM-yyyy' },
                     { name: 'issuer', type: 'string' },
                     { name: 'coupon', type: 'string' },
-                    { name: 'ctdMaturity', type: 'string' },
+                    { name: 'ctdMaturity', type: 'date' },
                     { name: 'priceAtIssue', type: 'string' },
                     { name: 'frequency', type: 'string' },
 					{ name: 'convergenceFactor', type: 'string' }
@@ -325,10 +325,10 @@ function renderLookBackGrid(data){
                 autoheight: true,
                 theme:'dark',
                 columns: [
-                  { text: 'Future Expiry Date', columntype: 'textbox', datafield: 'futureExpiryDate', width: '14.28%' },
+                  { text: 'Future Expiry Date', columntype: 'datetimeinput', datafield: 'futureExpiryDate', width: '14.28%',  cellsformat:'dd-MMM-yyyy' },
                   { text: 'Issuer', datafield: 'issuer', width: '14.28%'  },
                   { text: 'Coupon', datafield: 'coupon', width: '14.28%' },
-                  { text: 'Ctd Maturity', datafield: 'ctdMaturity', width: '14.28%' },
+                  { text: 'Ctd Maturity',  columntype: 'datetimeinput', datafield: 'ctdMaturity', width: '14.28%',  cellsformat:'dd-MMM-yyyy'  },
                   { text: 'Price At Issue', datafield: 'priceAtIssue', width: '14.28%' },
 				  { text: 'Frequency', datafield: 'frequency', width: '14.28%' },
 				  { text: 'Convergence Factor', datafield: 'convergenceFactor', width: '14.28%' },
@@ -389,10 +389,10 @@ function renderSubGroup() {
 	var defaultData = AuditDefaultData;
 	var fields = [
 			{ name: 'id', type: 'string' },
-			{ name: 'futureExpiryDate', type: 'string' },
+			{ name: 'futureExpiryDate', type: 'date', format: 'dd-MM-yyyy' },
 			{ name: 'issuer', type: 'string' },
 			{ name: 'coupon', type: 'string' },
-			{ name: 'ctdMaturity', type: 'string' },
+			{ name: 'ctdMaturity', type: 'date' },
 			{ name: 'priceAtIssue', type: 'string' },
 			{ name: 'frequency', type: 'string' },
 			{ name: 'convergenceFactor', type: 'string' },
@@ -434,10 +434,10 @@ function renderSubGroup() {
  	       	  { text: 'Close',hidden:subgroup4,  datafield: 'close', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
  	       	  { text: 'High',hidden:subgroup5,  datafield: 'high', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
  	       	  { text: 'Low',hidden:subgroup6, datafield: 'low', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
- 	       	  { text: 'Future Expiry Date', datafield: 'futureExpiryDate', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+ 	       	  { text: 'Future Expiry Date', datafield: 'futureExpiryDate', columntype: 'datetimeinput', width: widthPercentage + '%', cellsalign: 'center', align: 'center' ,  cellsformat:'dd-MMM-yyyy' },
 	          { text: 'Issuer', datafield: 'issuer', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 	       	  { text: 'Coupon', datafield: 'coupon', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-	       	  { text: 'Ctd Maturity', datafield: 'ctdMaturity', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+	       	  { text: 'Ctd Maturity', datafield: 'ctdMaturity', columntype: 'datetimeinput', width: widthPercentage + '%', cellsalign: 'center', align: 'center',  cellsformat:'dd-MMM-yyyy'  },
  	       	  { text: 'Price At Issue', datafield: 'priceAtIssue', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
  	       	  { text: 'Frequency', datafield: 'frequency', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
  	       	  { text: 'Convergence Factor', datafield: 'convergenceFactor', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
@@ -781,10 +781,15 @@ function initiate(Type,inputDataType,item,dataInputGridFields,dataInputGridColum
 				            listObjects[key].forEach((value, index) => {
 								if(typeof value =='undefined')
 									value='';
+								if (value instanceof Date) {
+								    $.jqx.dataFormat.formatdate(value, 'dd-MM-yyyy');
+								} else {
+								    value.replace(',', '');
+								}
 				                dataToBeInserted.push({
 									"groupId":  groupId,
 				                    "subgroupId":   getIdfromSubgroupName(key) ,
-				                    "value": value.replace(',', ''),
+				                    "value": value,
 				                    "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 				                });
 				            });
@@ -1258,14 +1263,18 @@ function Update(row, event) {
 	for (var i = 0; i < keys.length; i++) {
 	        var field = keys[i];
 	        if (updatedDataJson[field] !== oldDataJson[field]) {
-				
+				var value = updatedDataJson[field];
+				if (value instanceof Date) {
+				    $.jqx.dataFormat.formatdate(value, 'dd-MM-yyyy');
+				} else {
+				    value.replace(',', '');
+				}
 	            dataToBeUpdated.push({
 				   "subgroupId":getIdfromSubgroupName(field),
     			   "groupId":groupId,
-    			   "value":updatedDataJson[field].replace(',', ''),
+    			   "value":value,
     			   "referdate":date
 	            });
-	            
 	            
 	        }
 	    }

@@ -123,6 +123,7 @@ public class AdminService
 				                         .showInNewsGraph(columnConfiguration.isShowInNewsGraph())
 				                         .columnCode(columnConfiguration.getColumnCode())
 				                         .status(columnConfiguration.getStatus())
+				                         .fieldType(columnConfiguration.getFieldType())
 				                         .build();
         return columnConfigurationRepository.save(colInstance);
 	}

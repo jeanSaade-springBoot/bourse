@@ -31,4 +31,5 @@ public interface ColumnConfigurationDTO {
 	public String getTrendActive();
 	public String getColumnCode();
 	public String getStatus();
+	public String getFieldType();
 }

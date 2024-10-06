@@ -421,13 +421,14 @@ public class LongEndsService {
 				 
 				 String columnDisplayDesc = "";
 				 String dataFormat = "";
+				 String fieldType = "";
 				 while (it.hasNext()) {
 					    
 					    HashMap.Entry pair = (HashMap.Entry)it.next();
 					    String colsName = pair.getValue().toString();
 					    		columnDisplayDesc = columnConfigurationRepository.findColumnDispayDescription(colsName);
 					    		dataFormat = columnConfigurationRepository.findColumnDataFormat(colsName);
-							
+					    		fieldType = columnConfigurationRepository.findColumnFieldType(colsName);
 					    
 				        System.out.println(pair.getKey() + " = " + colsName);
 				        it.remove(); // avoids a ConcurrentModificationException
@@ -444,7 +445,11 @@ public class LongEndsService {
 					        	String[] values = null; int val;
 					         	if (dataFormat!=null)
 					         	{
-									if (dataFormat.contains("%"))
+					         		if(fieldType.equalsIgnoreCase("DATE")){
+										configColumns.put("cellsformat","dd-MMM-yyyy");
+									}
+					         		else 
+					         	    if (dataFormat.contains("%"))
 									{
 									 values = dataFormat.split("%")[0].split("\\.");
 										if (values.length>1)

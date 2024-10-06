@@ -60,7 +60,7 @@
 				<div class="col-12 pt-2">
 				 <div class="btn-group" role="group" aria-label="First group">
 				    <button sec:authorize="hasAuthority('MACRO_DISPLAY_SETTINGS')"  type="button" th:classappend="${assetId == 8} ? 'active' : ''" class="btn btn-secondary mw-100 " id="sovereign-btn"  th:onclick="'javascript:toggleDivVisibility(8)'">MACRO PMI</button>
-				    <button sec:authorize="hasAuthority('LONGENDS_DISPLAY_SETTINGS')" type="button" th:classappend="${assetId == 10} ? 'active' : ''"  class="btn btn-secondary mw-100" id="corporate-btn"  th:onclick="'javascript:toggleDivVisibility(10)'">LONGEND FUTURES</button>
+				    <button sec:authorize="hasAuthority('LONGENDS_DISPLAY_SETTINGS')" type="button" th:classappend="${assetId == 10} ? 'active' : ''"  class="btn btn-secondary mw-100" id="corporate-btn"  th:onclick="'javascript:toggleDivVisibility(10)'">LONG-END FUTURES</button>
 				   </div>
 				</div>
 				 <div id="assetId" th:text="${assetId}" style="display:none;"></div>

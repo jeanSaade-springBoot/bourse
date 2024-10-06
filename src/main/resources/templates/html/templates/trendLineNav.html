@@ -1,0 +1,15 @@
+<div class="d-sm-flex align-items-center">
+	<h1 class="ml-6 text-darkorange">Technical Analysis</h1>
+	<nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
+		<div class="nav nav-tabs" id="nav-tab" role="tablist">
+			<a sec:authorize="hasAuthority('TRENDLINE_SCREEN')"
+				th:classappend="${privilege == 'TRENDLINE_SCREEN'} ? 'active' : ''"  class="navigation nav-item nav-link" id="nav-trendlines-tab"
+				href="/bourse/trendline" role="tab" aria-controls="nav-trendlines"
+				aria-selected="false">Trendlines</a>
+			<a sec:authorize="hasAuthority('TRENDLINE_BUNDS_SCREEN')" th:classappend="${privilege == 'TRENDLINE_BUNDS_SCREEN'} ? 'active' : ''" 
+				class="navigation nav-item nav-link " id="nav-trendlines-bunds-tab"
+				href="/bourse/bundsTech" role="tab" aria-controls="nav-trendlines-bunds"
+				aria-selected="false">Bunds Techs</a>
+		</div>
+	</nav>
+</div>
