@@ -319,11 +319,23 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('TRENDLINE_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/trendline")
-    public ModelAndView stiGraphPage(ModelMap model, Authentication authentication)
+    public ModelAndView trendlineGraphPage(ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/graph/trendlines");
+	    model.addAttribute("privilege", "TRENDLINE_SCREEN");
+	    model.addAttribute("trendlinenav", "html/templates/trendLineNav");
+	    return new ModelAndView("html/graph/trendlines");
+    }
+	@PreAuthorize("hasAuthority('TRENDLINE_BUNDS_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/bundsTech")
+    public ModelAndView bundTechGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+	    model.addAttribute("privilege", "TRENDLINE_BUNDS_SCREEN");
+	    model.addAttribute("trendlinenav", "html/templates/trendLineNav");
+	    return new ModelAndView("html/graph/trendlinesBunds");
     }
 	@PreAuthorize("hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/foodstuff")
