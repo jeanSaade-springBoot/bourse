@@ -17,4 +17,5 @@ public class TechnicalAnalysisGraphHistoryDTO {
     private Boolean isVisibleTrendline;
     private String channel;
     private Boolean isVisibleChannel;
+    private String screenName;
 }

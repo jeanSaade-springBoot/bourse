@@ -14,4 +14,7 @@ public interface TechnicalAnalysisRetracementHistoryRepository extends JpaReposi
 	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByGraphId(String graphid);
 
 	public Optional<TechnicalAnalysisRetracementHistory> findRetracementHistoryById(Long dbId);
+
+	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserNameAndScreenName(String userName,
+			String screenName);
 }

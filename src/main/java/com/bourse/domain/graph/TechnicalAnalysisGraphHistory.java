@@ -44,5 +44,6 @@ public class TechnicalAnalysisGraphHistory {
     @Builder.Default
     @Column(name = "is_visible_channel", columnDefinition = "BOOLEAN DEFAULT TRUE")
     private Boolean isVisibleChannel = true; 
+    private String screenName;
 
 }

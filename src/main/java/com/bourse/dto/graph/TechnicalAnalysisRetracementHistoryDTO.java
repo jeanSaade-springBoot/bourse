@@ -32,5 +32,5 @@ public class TechnicalAnalysisRetracementHistoryDTO {
     private Boolean hidePercentage62;
     private Boolean hidePercentage66;
     private Boolean hidePercentage75;
-    
+    private String screenName;
 }

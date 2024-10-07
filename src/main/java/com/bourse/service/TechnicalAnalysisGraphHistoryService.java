@@ -35,17 +35,17 @@ public class TechnicalAnalysisGraphHistoryService
 	@Autowired
 	TechnicalAnalysisRelevantHistoryRepository technicalAnalysisRelevantHistoryRepository;
 	
-	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserId( Authentication authentication) 
+	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserIdAndScreenName(String screenName, Authentication authentication) 
 	{      
-        return technicalAnalysisGraphHistoryRepository.findGraphHistoryByUserName(authentication.getName());
+        return technicalAnalysisGraphHistoryRepository.findGraphHistoryByUserNameAndScreenName(authentication.getName(),screenName);
 	}	
-	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserId( Authentication authentication) 
+	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserIdAndScreenName(String screenName, Authentication authentication) 
 	{      
-        return technicalAnalysisRetracementHistoryRepository.findRetracementHistoryByUserName(authentication.getName());
+        return technicalAnalysisRetracementHistoryRepository.findRetracementHistoryByUserNameAndScreenName(authentication.getName(),screenName);
 	}
-	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserId( Authentication authentication) 
+	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserIdAndScreenName( String screenName, Authentication authentication) 
 	{      
-        return technicalAnalysisRelevantHistoryRepository.findRelevantHistoryByUserName(authentication.getName());
+        return technicalAnalysisRelevantHistoryRepository.findRelevantHistoryByUserNameAndScreenName(authentication.getName(), screenName);
 	}
 	public TechnicalAnalysisGraphHistory SaveGraphHistory(TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication) 
 	{  
@@ -65,6 +65,7 @@ public class TechnicalAnalysisGraphHistoryService
 				 .isVisibleTrendline(graphHistorydto.getIsVisibleTrendline())
 				 .channel(graphHistorydto.getChannel())
 				 .isVisibleChannel(graphHistorydto.getIsVisibleChannel())
+				 .screenName(graphHistorydto.getScreenName())
 				.build();
 	    	return technicalAnalysisGraphHistoryRepository.save(entity);
 	    }else {
@@ -76,6 +77,7 @@ public class TechnicalAnalysisGraphHistoryService
 			 .isVisibleTrendline(graphHistorydto.getIsVisibleTrendline())
 			 .channel(graphHistorydto.getChannel())
 			 .isVisibleChannel(graphHistorydto.getIsVisibleChannel())
+			 .screenName(graphHistorydto.getScreenName())
 			.build();
 			return technicalAnalysisGraphHistoryRepository.save(entity);
 		}
@@ -99,6 +101,7 @@ public class TechnicalAnalysisGraphHistoryService
 						 .isVisibleTrendline(history.getIsVisibleTrendline())
 						 .channel(history.getChannel())
 						 .isVisibleChannel(history.getIsVisibleChannel())
+						 .screenName(history.getScreenName())
 						.build();
 			    	 technicalAnalysisGraphHistoryRepository.save(entity);
 			    }
@@ -141,6 +144,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .hidePercentage62(retacement.getHidePercentage62())
 			                  .hidePercentage66(retacement.getHidePercentage66())
 			                  .hidePercentage75(retacement.getHidePercentage75())
+							  .screenName(retacement.getScreenName())
 			                  .build();
 			    	  dataList.add(entity);
 			    	  technicalAnalysisRetracementHistoryRepository.save(entity);
@@ -168,6 +172,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .hidePercentage62(retacement.getHidePercentage62())
 			                  .hidePercentage66(retacement.getHidePercentage66())
 			                  .hidePercentage75(retacement.getHidePercentage75())
+			                  .screenName(retacement.getScreenName())
 			   			.build();
 			    	     dataList.add(entity);
 			   			 technicalAnalysisRetracementHistoryRepository.save(entity);
@@ -196,6 +201,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .endDate(relevant.getEndDate())
 			                  .endPrice(relevant.getEndPrice())
 			                  .isHidden(relevant.getIsHidden())
+			                  .screenName(relevant.getScreenName())
 			                  .build();
 			    	  dataList.add(entity);
 			    	  technicalAnalysisRelevantHistoryRepository.save(entity);
@@ -208,6 +214,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .endDate(relevant.getEndDate())
 			                  .endPrice(relevant.getEndPrice())
 			                  .isHidden(relevant.getIsHidden())
+			                  .screenName(relevant.getScreenName())
 			   			.build();
 			    	     dataList.add(entity);
 			   			 technicalAnalysisRelevantHistoryRepository.save(entity);

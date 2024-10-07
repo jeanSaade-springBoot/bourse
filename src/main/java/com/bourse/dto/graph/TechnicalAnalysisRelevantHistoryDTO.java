@@ -17,5 +17,6 @@ public class TechnicalAnalysisRelevantHistoryDTO {
     private String endDate;
     private String endPrice;
     private Boolean isHidden;
+    private String screenName;
 
 }

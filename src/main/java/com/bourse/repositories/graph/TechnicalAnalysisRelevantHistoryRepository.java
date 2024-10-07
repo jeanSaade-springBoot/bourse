@@ -14,4 +14,7 @@ public interface TechnicalAnalysisRelevantHistoryRepository extends JpaRepositor
 	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByGraphId(String graphid);
 
 	public Optional<TechnicalAnalysisRelevantHistory> findRelevantHistoryById(Long dbId);
+
+	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserNameAndScreenName(String userName,
+			String screenName);
 }

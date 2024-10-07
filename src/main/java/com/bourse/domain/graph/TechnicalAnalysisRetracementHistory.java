@@ -71,5 +71,7 @@ public class TechnicalAnalysisRetracementHistory {
     @Builder.Default
     @Column(name = "hide_percentage75", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean hidePercentage75 = true; 
+    private String screenName;
+
     
 }

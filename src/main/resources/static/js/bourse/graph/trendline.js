@@ -1,58 +1,4 @@
- var allitems = ["#jqxCheckBoxNikkei",
-			"#jqxCheckBoxNikkei_usdjpy",
-			"#jqxCheckBoxCsi",
-			"#jqxCheckBoxCsi_usdcny",
-			"#jqxCheckBoxNifty",
-			"#jqxCheckBoxNifty_usdinr",
-			"#jqxCheckBoxKospi",
-			"#jqxCheckBoxKospi_usdkrw",
-			"#jqxCheckBoxHangseng",
-			"#jqxCheckBoxHangseng_usdhkd",
-			"#jqxCheckBoxHismbi",
-			"#jqxCheckBoxHismbi_usdhkd",
-			"#jqxCheckBoxHismpi",
-			"#jqxCheckBoxHismpi_usdhkd",
-			"#jqxCheckBoxDowjones",
-			"#jqxCheckBoxSandp",
-			"#jqxCheckBoxNasdaq",
-			"#jqxCheckBoxRussell",
-			"#jqxCheckBoxFang",
-			"#jqxCheckBoxDjmajorbanks",
-			"#jqxCheckBoxDjregionalbanks",
-			"#jqxCheckBoxDax",
-			"#jqxCheckBoxDax_Eurusd",
-			"#jqxCheckBoxCac",
-			"#jqxCheckBoxCac_Eurusd",
-			"#jqxCheckBoxMib",
-			"#jqxCheckBoxMib_Eurusd",
-			"#jqxCheckBoxFtse",
-			"#jqxCheckBoxFtse_Gbpusd",
-			"#jqxCheckBoxStoxx50",
-			"#jqxCheckBoxStoxx50_Eurusd",
-			"#jqxCheckBoxStoxx600",
-			"#jqxCheckBoxStoxx600_Eurusd",
-			"#jqxCheckBoxEubanks",
-			"#jqxCheckBoxEubanks_eurusd",
-			"#jqxCheckBoxTadawul",
-			"#jqxCheckBoxTadawul_usdsar",
-			"#jqxCheckBoxEgx",
-			"#jqxCheckBoxEgx_usdegp",
-			"#jqxCheckBoxBist",
-			"#jqxCheckBoxBist_usdtry",
-			"#jqxCheckBoxMoex",
-			"#jqxCheckBoxMoex_usdrub",
-			"#jqxCheckBoxJsttop",
-			"#jqxCheckBoxJsttop_usdzar",
-			"#jqxCheckBoxBovespa",
-			"#jqxCheckBoxBovespa_usdbrl",
-			"#jqxCheckBoxMexbol",
-			"#jqxCheckBoxMexbol_usdmxn",
-			"#jqxCheckBoxBitcoin",
-			"#jqxCheckBoxEtherium",
-			"#jqxCheckBoxSolana",
-			"#jqxCheckBoxCardano",
-			"#jqxCheckBoxShiba",
-		];	
+ 
 var options_graph = {
 		series: [],
 		chart: {
@@ -188,26 +134,7 @@ var options_graph = {
 				fontFamily: undefined
 			}
 		},
-	/*	annotations: {
-		  yaxis: [{
-		    y: 0,
-			strokeDashArray: 0,
-			offsetX: 0,
-			 width: '100%',
-			 borderColor: '#00E396',
-		      label: {
-			    position: 'left',
-			    offsetX: -10,
-                offsetY: 0,
-		        borderColor: '#172568',
-		        style: {
-		          color: '#fff',
-		          background: '#172568'
-		        },
-		        text: ''
-		      }
-		  }]
-		}*/
+	
 	};	
 var chart;
 var chartResponse;
@@ -229,8 +156,6 @@ var results;
 var retracementData;
 var selectedstartCellId;
 var source;
-
-const graphName="stiGraph"; 
 			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -299,7 +224,6 @@ getTrendLinesHistory();
 
 function drawGraph() {
 	
-	var graphService = "sti";
 	const removeEmpty = true;
 
 	drawTechnicalGraph(graphService,graphName,removeEmpty,true);
@@ -1767,7 +1691,8 @@ function saveTrendLinesHistory(trendLineId){
 				 		         fontsize: $("#fontOptions").find(".active")[0].id,
 				 		         showGrid: $("#gridOptions").find(".active")[0].id,
 				 		         showLegend: $("#gridLegend").find(".active")[0].id
-				 				})
+				 				}),
+				 "screenName":screenName				
 			};
             const graphExist = results.some(item => item.graphId === checkedItemValues[0]);
            if(graphExist==true)
@@ -1800,7 +1725,8 @@ function saveChannelHistory(trendLineId){
 				 		         fontsize: $("#fontOptions").find(".active")[0].id,
 				 		         showGrid: $("#gridOptions").find(".active")[0].id,
 				 		         showLegend: $("#gridLegend").find(".active")[0].id
-				 				})
+				 				}),
+				"screenName":screenName
 			};
             const graphExist = results.some(item => item.graphId === checkedItemValues[0]);
            if(graphExist==true)
@@ -1819,7 +1745,7 @@ function getTrendLinesHistory(){
 
 	$.ajax({
 		contentType: "application/json",
-		url: "/graph/find-graph-history-by-userid",
+		url: "/graph/find-graph-history-by-userid-screen-name/"+screenName,
 		dataType: 'json',
 		async: true,
 		cache: false,
@@ -1861,7 +1787,7 @@ function getTrendLinesHistory(){
 
 	$.ajax({
 		contentType: "application/json",
-		url: "/graph/find-retracement-history-by-userid",
+		url: "/graph/find-retracement-history-by-userid-screen-name/"+screenName,
 		dataType: 'json',
 		async: true,
 		cache: false,
@@ -1914,7 +1840,7 @@ function getTrendLinesHistory(){
 			
 			$.ajax({
 				contentType: "application/json",
-				url: "/graph/find-relevant-history-by-userid",
+				url: "/graph/find-relevant-history-by-userid-screen-name/"+screenName,
 				dataType: 'json',
 				async: true,
 				cache: false,
@@ -2055,7 +1981,7 @@ function getRetracementHistory(){
 
 	$.ajax({
 		contentType: "application/json",
-		url: "/graph/find-retracement-history-by-userid",
+		url: "/graph/find-retracement-history-by-userid-screen-name/"+screenName,
 		dataType: 'json',
 		async: true,
 		cache: false,
@@ -3061,6 +2987,7 @@ async function saveRetracementHistory(retracementId) {
             startPrice: retracementParameter.startPrice,
             endDate: retracementParameter.endDate,
             endPrice: retracementParameter.endPrice,
+            screenName:screenName,
             percentage10: null,
             percentage25: null,
             percentage33: null,
@@ -3299,7 +3226,8 @@ async function saveRelevantHistory(relevantId) {
             startPrice: relevantParameter.startPrice,
             endDate: relevantParameter.endDate,
             endPrice: relevantParameter.endPrice,
-            isHidden:data.isHidden
+            isHidden:data.isHidden,
+            screenName:screenName,
         };
 
         return entity;

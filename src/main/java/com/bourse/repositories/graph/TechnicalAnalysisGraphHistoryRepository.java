@@ -14,4 +14,6 @@ public interface TechnicalAnalysisGraphHistoryRepository extends JpaRepository<T
 	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByGraphId(String graphid);
 
 	public Optional<TechnicalAnalysisGraphHistory> findGraphHistoryById(Long dbId);
+
+	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserNameAndScreenName(String userName, String screenName);
 }

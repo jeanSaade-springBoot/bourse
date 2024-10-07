@@ -63,17 +63,17 @@ public class GraphController {
     public TechnicalAnalysisGraphHistory saveVisibiltyOfTrendline(@RequestBody TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication){
 	  return  technicalAnalysisGraphHistoryService.saveVisibiltyOfTrendline(graphHistorydto,authentication);
     }
-	@GetMapping(value = "find-graph-history-by-userid")
-	public  List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserId( Authentication authentication) {
-	return technicalAnalysisGraphHistoryService.findGraphHistoryByUserId(authentication);
+	@GetMapping(value = "find-graph-history-by-userid-screen-name/{screenName}")
+	public  List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserIdAndScreenName(@PathVariable("screenName") String screenName, Authentication authentication) {
+	return technicalAnalysisGraphHistoryService.findGraphHistoryByUserIdAndScreenName(screenName,authentication);
 	} 
-	@GetMapping(value = "find-retracement-history-by-userid")
-	public  List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserId( Authentication authentication) {
-	return technicalAnalysisGraphHistoryService.findRetracementHistoryByUserId(authentication);
+	@GetMapping(value = "find-retracement-history-by-userid-screen-name/{screenName}")
+	public  List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserId( @PathVariable("screenName") String screenName,  Authentication authentication) {
+	return technicalAnalysisGraphHistoryService.findRetracementHistoryByUserIdAndScreenName(screenName,authentication);
 	} 
-	@GetMapping(value = "find-relevant-history-by-userid")
-	public  List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserId( Authentication authentication) {
-	return technicalAnalysisGraphHistoryService.findRelevantHistoryByUserId(authentication);
+	@GetMapping(value = "find-relevant-history-by-userid-screen-name/{screenName}")
+	public  List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserId(@PathVariable("screenName") String screenName,  Authentication authentication) {
+	return technicalAnalysisGraphHistoryService.findRelevantHistoryByUserIdAndScreenName(screenName,authentication);
 	} 
 	@DeleteMapping(value = "deletetrendline/{id}")
 	public ResponseEntity<Object>  deleteByReferDate(@PathVariable("id") String id) {
