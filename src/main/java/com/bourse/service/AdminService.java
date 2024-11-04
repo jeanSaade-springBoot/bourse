@@ -255,6 +255,10 @@ public class AdminService
 		
 		return allNewsViewService.findNewsByIsPublishedAndGroupIdAndSubgroupId(groupId,subGroupId,pageNo,pageSize);
 	}
+	public Page<AllNewsView> findNewsByGroupId(String groupId, String pageNo, String pageSize) {
+		
+		return allNewsViewService.findNewsByIsPublishedAndGroupId(groupId,pageNo,pageSize);
+	}
 	public Page<AllNewsView> findAllNewsByGroupIdAndSubgroupId(String subGroupIdDescription,String pageNo, String pageSize) {
 		return allNewsViewService.findAllNewsBySubGroupIdDescription(subGroupIdDescription.substring(0, 2),pageNo,pageSize);
 	}

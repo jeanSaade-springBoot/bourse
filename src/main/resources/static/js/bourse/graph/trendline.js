@@ -79,8 +79,9 @@ var options_graph = {
 					fontSize: fontsize,
 				},
 			},
-			type: 'datetime',
-			tickAmount: 19,
+				//type: 'category',
+				 type: 'datetime',
+			// tickAmount: 19,
 			axisBorder: {
 				show: true,
 				color: '#ffffff',
@@ -156,7 +157,8 @@ var results;
 var retracementData;
 var selectedstartCellId;
 var source;
-			   
+var latestEndDate;
+		   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -467,7 +469,9 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 												 
 								
 								processDataAndAddNewEndDate(response,0.1)
-							    .then(newEndDate => {
+							    .then(({ originalEndDate, newEndDate }) => {
+									latestEndDate=originalEndDate;
+
 							          var latestX3Date = new Date(parseDate(newEndDate));
 									  
 									  // Get the timezone offset in minutes and convert it to milliseconds
@@ -482,7 +486,7 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 									  
 									  var allDataAreLatest=true;
 									
-									updateLatestTrendLine(trendLines, newDateX3,checkedItemValues[0]).then(results => {
+									updateLatestTrendLine(trendLines, newDateX3,originalEndDate,checkedItemValues[0]).then(results => {
 									   	allDataAreLatest=results;
 										 if(allDataAreLatest)
 									    {
@@ -660,7 +664,7 @@ function drawTrendLineTable(data){
 			
 			 TrendLineId=data[i].trendLineId;
 	         const slope=(data[i].slope!=null)?parseFloat(data[i].slope).toFixed(3):"";
-	         const trendlineValue=(data[i].y3!=null)?parseFloat(data[i].y3).toFixed(getFormatResult0[0]):"";
+	         const trendlineValue=(data[i].endValue!=null)?parseFloat(data[i].endValue).toFixed(getFormatResult0[0]):"";
 	         const x1=(data[i].x1!=null)?data[i].x1:"";
 	         const y1=(data[i].y1!=null)?parseFloat(data[i].y1).toFixed(getFormatResult0[0]):"";
 	         const x2=(data[i].x2!=null)?data[i].x2:"";
@@ -669,7 +673,7 @@ function drawTrendLineTable(data){
 			 hasChannel = channelLines.filter(obj => obj.trendLineId === TrendLineId);
 			 let xc=(hasChannel.length!=0)?hasChannel[0].xc:"";
 			 let yc=(hasChannel.length!=0)?parseFloat(hasChannel[0].yc).toFixed(getFormatResult0[0]):"";
-			 let y3c=(hasChannel.length!=0)?parseFloat(hasChannel[0].y3).toFixed(2):"";
+			 let y3c=(hasChannel.length!=0)?parseFloat(hasChannel[0].endValue).toFixed(2):"";
 			 cid=(hasChannel.length!=0)?hasChannel[0].channelId:"";
 			 
 	         
@@ -1751,7 +1755,7 @@ function getTrendLinesHistory(){
 		cache: false,
 		timeout: 600000,
 		success: function(data) {
-			$('#clear').click();
+		
 		const groupedData = data.reduce((acc, obj) => {
 		    if (!acc[obj.graphId]) {
 		        acc[obj.graphId] = {
@@ -1901,7 +1905,9 @@ function getTrendLinesHistory(){
 				$('#show').click();
 			
 			}
-			
+			else{
+				$('#show').click();
+			}
 			
 		},
 		error: function(e) {
@@ -2107,6 +2113,8 @@ function deleteTrendLines(trendlineDbId,trendline){
 			             type : "DELETE",
 			             url : '/graph/deletetrendline/' + trendlineDbId,
 			             success: function (result) {   
+							
+							
 							$("#graphs-history").empty(); 
 							getTrendLinesHistory();
 					        $('#alertDeleteDataByDate-modal').modal('hide');
@@ -2206,6 +2214,7 @@ function deleteChannelLine(trendlineDbId,trendLineId){
 				 "graphId": checkedItemValues[0],
 				 "trendlines": JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0]),
 				 "channel": JSON.stringify(channelLines.filter(obj => obj.trendLineId === trendLineId)[0]),
+				 "screenName":screenName,
 				 "chartOptions":JSON.stringify({chartType1:$("#chartTypes").find(".active")[0].id,
 				 		         chartColor:chartType1=='line'?"#ffffff":$("#chartColor").find(".active")[0].id,
 				 		         chartTransparency:$("#chartColorTransparency").find(".active")[0].id,
@@ -2302,14 +2311,14 @@ function confirmdeleteGraphHistory(graphId){
 }
 async function updateTrendLine(trendlineIdToUpdate){
 	 	     let found=false,channelFound=false;
-	 	      
-	 	     var result = findThirdPoint(x1, y1, x2, y2, x3);
-			 count=countDataPointsBetweenDates(x1, x2);
+	 	     count=countDataPointsBetweenDates(x1, x2);
 			 const slope=(y2-y1)/count;
+	 	     var result = findThirdPoint(x1, y1, x2, y2, x3, slope.toFixed(3),latestEndDate);
+			 
 			
 			 for (var i = 0; i < trendlineSeries.length; i++) {
 				   if (trendlineSeries[i].trendLineId === parseFloat(trendlineIdToUpdate)) {
-					        trendlineSeries[i].data = result;
+					        trendlineSeries[i].data = result.xyValues;
 					        found = true;
 						    break;
 					  }
@@ -2319,7 +2328,7 @@ async function updateTrendLine(trendlineIdToUpdate){
 				 trendlineSeries.push({
 						trendLineId: insertedTrendLineId,
 					    name: 'Trendline '+convertToRoman(insertedTrendLineId+1),
-					    data: result,
+					    data: result.xyValues,
 					    type:'line',
 					    hidden: false
 					  });
@@ -2334,7 +2343,8 @@ async function updateTrendLine(trendlineIdToUpdate){
 				  x2:x2, 
 				  y2:y2,
 				  x3:x3,
-				  y3:(result[2].y).toFixed(2),
+				  y3:(result.xyValues[2].y).toFixed(3),
+				  endValue:(result.endValue).toFixed(3),
 				  slope:slope.toFixed(3)
 			  }
 			  	 for (var i = 0; i < trendLines.length; i++) {
@@ -2346,7 +2356,7 @@ async function updateTrendLine(trendlineIdToUpdate){
 					        trendLines[i].x3 = json.x3;
 					        trendLines[i].y3 = json.y3;
 					        trendLines[i].slope = json.slope;
-					        
+					        trendLines[i].endValue = json.endValue;
 					           if((typeof(trendLines[i].dbid)!='undefined'))
 								  saveTrendLinesHistory(trendLines[i].trendLineId);
 			 
@@ -2364,7 +2374,8 @@ async function updateTrendLine(trendlineIdToUpdate){
 				  x2:x2, 
 				  y2:y2,
 				  x3:x3,
-				  y3:(result[2].y).toFixed(2),
+				  y3:(result.xyValues[2].y).toFixed(3),
+				  endValue:(result.endValue).toFixed(3),
 				  slope:slope.toFixed(3)
 			  } 
 			  }
@@ -2374,7 +2385,9 @@ async function updateTrendLine(trendlineIdToUpdate){
 			
 }
 function updateChannelLine(channelidToUpdate){
-	    var result = findChannelPoint(channelidToUpdate.x1, channelidToUpdate.y1, channelidToUpdate.x2, channelidToUpdate.y2, channelidToUpdate.x3 , channelidToUpdate.yc, channelidToUpdate.xc);
+	      const trendLine = trendLines.filter(obj => obj.trendLineId === parseFloat(channelidToUpdate.trendLineId))[0];
+	 	  const result = findChannelPoint(channelidToUpdate.x3 , channelidToUpdate.yc, channelidToUpdate.xc, trendLine.slope, latestEndDate);
+		
 		
 			 serieArray=[];
 	         let channelId;
@@ -2385,7 +2398,8 @@ function updateChannelLine(channelidToUpdate){
 				  xc:channelidToUpdate.xc, 
 				  yc:channelidToUpdate.yc, 
 				  x3:channelidToUpdate.x3,
-				  y3:(result[1].y).toFixed(2)
+				  y3:(result.xyValues[1].y).toFixed(3),
+				  endValue:(result.endValue).toFixed(3),
 			  }
 			  	 for (var i = 0; i < channelLines.length; i++) {
 				   if (channelLines[i].trendLineId === parseFloat(channelidToUpdate.trendLineId)) {
@@ -2393,10 +2407,11 @@ function updateChannelLine(channelidToUpdate){
 					        channelLines[i].yc = json.yc;
 					        channelLines[i].x3 = json.x3;
 					        channelLines[i].y3 = json.y3;
+					        channelLines[i].endValue = json.endValue;
 					        channelId=channelLines[i].channelId;
 					        channelIdDb=channelLines[i].dbid;
 					        
-					           if((typeof(channelLines[i].dbid)!='undefined'))
+					        if((typeof(channelLines[i].dbid)!='undefined'))
 								  saveChannelHistory(channelLines[i].trendLineId);
 			 
 					        break; 
@@ -2404,7 +2419,7 @@ function updateChannelLine(channelidToUpdate){
 				  }
 			 for (var i = 0; i < trendlineSeries.length; i++) {
 				   if (trendlineSeries[i].channelId === parseFloat(channelId)) {
-					        trendlineSeries[i].data = result;
+					        trendlineSeries[i].data = result.xyValues;
 					  }
 				  }
 				  
@@ -2420,15 +2435,15 @@ function updateChannelLine(channelidToUpdate){
 			
 }
 function addChannelTrendLine(channelTrendline){
-	     
-	 	 var result = findChannelPoint(channelTrendline.x1, channelTrendline.y1, channelTrendline.x2, channelTrendline.y2, channelTrendline.x3 , channelTrendline.yc, channelTrendline.xc);
+	     const trendLine = trendLines.filter(obj => obj.trendLineId === parseFloat(channelTrendline.trendLineId))[0];
+	 	 const result = findChannelPoint(channelTrendline.x3 , channelTrendline.yc, channelTrendline.xc, trendLine.slope, latestEndDate);
 			
-			 channelId=channelId+1;
+		 channelId=channelId+1;
 	        
 	         trendlineSeries.push({
 				channelId: channelId,
 			    name: 'Channel',
-			    data: result,
+			    data: result.xyValues,
 			    type:'line',
 			    hidden: false
 			  });
@@ -2443,7 +2458,8 @@ function addChannelTrendLine(channelTrendline){
 				  xc:channelTrendline.xc, 
 				  yc:channelTrendline.yc, 
 				  x3:channelTrendline.x3,
-				  y3:(result[1].y).toFixed(2)
+				  y3:(result.xyValues[1].y).toFixed(3),
+				  endValue:(result.endValue).toFixed(3),
 			  }
 			  channelLines.push(json);
 			
@@ -2476,8 +2492,9 @@ function initiateTrendLine(){
 				  y2:null,
 				  x3:null,
 				  y3:null,
-				  slope:null
-			  }
+				  slope:null,
+				  endValue:null
+				  	}
 			  trendLines.push(json);
 	          drawTrendLineTable(trendLines);
 			  resetParameters();
@@ -2513,9 +2530,10 @@ function initiateRelevant(){
 		        'slow');
 } 
 function drawLine(){
-	 var result = findThirdPoint(x1, y1, x2, y2, x3);
-			 count=countDataPointsBetweenDates(x1, x2);
-			 const slope=(y2-y1)/count;
+		 count=countDataPointsBetweenDates(x1, x2);
+		 const slope=(y2-y1)/count;
+		 var result = findThirdPoint(x1, y1, x2, y2, x3, slope);
+		
 			 serieArray=[];
 	
 	          trendLineId=trendLineId+1;
@@ -2615,7 +2633,7 @@ function getSerriesData(){
 	 return serieArray;
 }
 
-async function updateLatestTrendLine(trendLines, newDateX3, graphId) {
+async function updateLatestTrendLine(trendLines, newDateX3,originalEndDate, graphId) {
   const updatedTrendLines = [];
   let allDataAreLatest=true;
   for (let item of trendLines) {
@@ -2623,11 +2641,11 @@ async function updateLatestTrendLine(trendLines, newDateX3, graphId) {
     if (item.x3 !== newDateX3) {
       	item.x3 = newDateX3;
         allDataAreLatest=false; 
-	    item.y3  = (findThirdPoint(item.x1, item.y1, item.x2, item.y2, item.x3)[2].y).toFixed(2);
+	    item.y3  = findThirdPoint(item.x1, item.y1, item.x2, item.y2, item.x3, item.slope, originalEndDate).xyValues[2].y.toFixed(3);
     if(typeof channelLine !=='undefined')
      if(channelLine.x3 !== newDateX3){
 		channelLine.x3 = newDateX3;
-		channelLine.y3  = (findChannelPoint(item.x1, item.y1, item.x2, item.y2, channelLine.x3 , channelLine.yc, channelLine.xc)[1].y).toFixed(2);
+		channelLine.y3  = findChannelPoint(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate).xyValues[1].y.toFixed(3);
 		}
       updatedTrendLines.push({
 				 "dbId":JSON.stringify(item.dbid),

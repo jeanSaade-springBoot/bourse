@@ -224,10 +224,20 @@ public class AdminController {
     		,@PathVariable String subGroupId,@PathVariable("pageNo") String pageNo, @PathVariable("pageSize") String pageSize) {
 		return new ResponseEntity<>( adminService.findNewsByGroupIdAndSubgroupId(groupId,subGroupId, pageNo, pageSize), HttpStatus.OK);
 	}
+	@GetMapping(value = "findnewsbygroupidandsubgroupid/{groupId}/{pageNo}/{pageSize}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<Page<AllNewsView>>  findNewsByGroupIdAndSubgroupId(@PathVariable String groupId
+    		,@PathVariable("pageNo") String pageNo, @PathVariable("pageSize") String pageSize) {
+		return new ResponseEntity<>( adminService.findNewsByGroupId(groupId, pageNo, pageSize), HttpStatus.OK);
+	}
 	@GetMapping(value = "gettotalpagesbygroupidandsubgroupid/{groupId}/{subGroupId}/{pageNo}/{pageSize}", produces = "application/json;charset=UTF-8")
 	public ResponseEntity<Integer>  getTotalPagesForAllNewsByGroupIdAndSubgroupId(@PathVariable String groupId
     		,@PathVariable String subGroupId,@PathVariable("pageNo") String pageNo, @PathVariable("pageSize") String pageSize) {
 		return new ResponseEntity<>( adminService.findNewsByGroupIdAndSubgroupId(groupId,subGroupId, pageNo, pageSize).getTotalPages(), HttpStatus.OK);
+	}
+	@GetMapping(value = "gettotalpagesbygroupidandsubgroupid/{groupId}/{pageNo}/{pageSize}", produces = "application/json;charset=UTF-8")
+	public ResponseEntity<Integer>  getTotalPagesForAllNewsByGroupIdAndSubgroupId(@PathVariable String groupId
+    		,@PathVariable("pageNo") String pageNo, @PathVariable("pageSize") String pageSize) {
+		return new ResponseEntity<>( adminService.findNewsByGroupId(groupId, pageNo, pageSize).getTotalPages(), HttpStatus.OK);
 	}
 	@GetMapping(value = "findallnewsbygroupidandsubgroupid/{subGroupIdDescription}/{pageNo}/{pageSize}", produces = "application/json;charset=UTF-8")
 	public ResponseEntity<Page<AllNewsView>>  findAllNewsByGroupIdAndSubgroupId(@PathVariable String subGroupIdDescription,@PathVariable("pageNo") String pageNo,@PathVariable("pageSize") String pageSize) {

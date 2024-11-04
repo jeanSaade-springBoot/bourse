@@ -443,7 +443,7 @@
 	          async: true
 	      };
 		  var dataAdapter = new $.jqx.dataAdapter(familysource);
-		 	$("#FamilyDropDown").jqxDropDownList({ source: dataAdapter , displayMember: "description", valueMember: "id", theme: 'dark' , width: '100%', height: 30});
+		 	$("#FamilyDropDown").jqxDropDownList({ source: dataAdapter , displayMember: "description", valueMember: "id", theme: 'dark' , width: '100%', height: 30, dropDownHeight: 400});
 		 	$("#FamilyDropDown").on('select', function (event) {
 	            if (event.args) {
 	               familyItem = event.args.item;
@@ -474,25 +474,53 @@
 		      };
 			   var dataAdapter = new $.jqx.dataAdapter(groupsource);
 			 
-			$("#groupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true,  displayMember: "description", valueMember: "id",theme: 'dark' , width: '100%', height: 30, dropDownHeight: 250});
+			$("#groupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true,  displayMember: "description", valueMember: "id",theme: 'dark' , width: '100%', height: 30, dropDownHeight: 400});
 			$("#groupDropDown").on('select', function (event) {
 	              if (event.args) {
+					  
+					    var sovValues = [0];
+				
+				        // Remove 'ALL' item if it exists before re-binding the dropdown
+				        var items = $("#subGroupDropDown").jqxDropDownList('getItems');
+				        $.each(items, function (index, item) {
+				            if (item.label === 'ALL') {
+				                $("#subGroupDropDown").jqxDropDownList('removeItem', item);
+				                return false;  // Stop loop after removing 'ALL'
+				            }
+				        });
+
 	                 groupItem = event.args.item;
-	                 if (groupItem.value==0)
-	                	{
-	                	 subgroupsource.url='/admin/getsubgroupsbygroup/1';
-	                     var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
-	                     $("#subGroupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
-	                	}
-	                 else
-	                 {
-	                	 subgroupsource.url='/admin/getsubgroupsbygroup/'+groupItem.value;
-	                     var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
-	                     $("#subGroupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
-	                 
-	                 }
-	              
-	         		
+		                 if (groupItem.value==0)
+		                	{
+		                	 subgroupsource.url='/admin/getsubgroupsbygroup/1';
+		                     var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
+		                     $("#subGroupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+		                      
+		                	}
+		                 else
+		                 {
+		                	 subgroupsource.url='/admin/getsubgroupsbygroup/'+groupItem.value;
+		                     var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
+		                     $("#subGroupDropDown").jqxDropDownList({source:dataAdapter, disabled: false }); 
+							 $("#subGroupDropDown").on('bindingComplete', function (event) {
+								 					
+							    var items = $("#subGroupDropDown").jqxDropDownList('getItems');
+							    
+							    var allExists = false;
+							
+							    $.each(items, function(index, item) {
+							        if (item.label === 'ALL') {
+							            allExists = true;
+							            return false;
+							        }
+							    });
+							
+							    if (!allExists) {
+							          if (sovValues.indexOf(groupItem.value) === -1) 
+							          	$("#subGroupDropDown").jqxDropDownList('addItem', { label: 'ALL', value: 0 });
+							    }
+							  });
+		                 }
 	              }
 	          });
 	            $("#subGroupDropDown").on('bindingComplete', function (event) {
@@ -520,7 +548,7 @@
 		          async: true
 		      };
 			   var dataAdapter = new $.jqx.dataAdapter(subgroupsource);
-			$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: '100%', height: 30});
+			$("#subGroupDropDown").jqxDropDownList({ source: dataAdapter,disabled: true, displayMember: "description", valueMember: "idSubGroup", theme: 'dark' , width: '100%', height: 30,dropDownHeight: 450});
 			$("#subGroupDropDown").on('select', function (event) {
 				currentPageFilter=0;
 	            if (event.args) {
@@ -541,9 +569,19 @@
 	            	} 
 	            	
 	               else
-	               { 
-					   
-					   fetchNumberOfTotalPages('/admin/gettotalpagesbygroupidandsubgroupid/'+groupItem.value+'/'+subGroupDropDown.value+'/0/50').then(function(totalPages) {
+	               {   var totalUrl='';
+	                   var gridUrl='';
+					   if(subGroupDropDown.value!=0)
+					   {
+						   totalUrl='/admin/gettotalpagesbygroupidandsubgroupid/'+groupItem.value+'/'+subGroupDropDown.value+'/0/50';
+						   gridUrl='/admin/findnewsbygroupidandsubgroupid/'+groupItem.value+'/'+subGroupDropDown.value+'/0/50';
+						}
+						else
+						{
+						 totalUrl='/admin/gettotalpagesbygroupidandsubgroupid/'+groupItem.value+'/'+subGroupDropDown.value+'/0/50';
+						 gridUrl='/admin/findnewsbygroupidandsubgroupid/'+groupItem.value+'/0/50';
+						}   
+					fetchNumberOfTotalPages(totalUrl).then(function(totalPages) {
 							totalPageFilter =totalPages;
 						
 						  })
@@ -552,9 +590,27 @@
 						    console.error('Error:', error);
 						  });
 					   
-		           filteredgridsource.url='/admin/findnewsbygroupidandsubgroupid/'+groupItem.value+'/'+subGroupDropDown.value+'/0/50';
+		           filteredgridsource.url=gridUrl;
 	               var filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
 	               $('#grid_filtered').jqxGrid({source:filteredDataAdapter,  groups: ['generationDateDate']});
+	   
+	          /*    fetchDataAndTotalPages(gridUrl).then(function(result) {
+						    if (result) {
+						        // Get the total pages and set the totalPageFilter
+						        totalPageFilter = result.totalPages;
+						
+						        // Create the data adapter for the grid using the fetched data
+						        var filteredgridsource = {
+						            localdata: result.data,
+						        };
+						
+						        var filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
+						        $('#grid_filtered').jqxGrid({
+						            source: filteredDataAdapter,
+						            groups: ['generationDateDate']
+						        });
+						    }
+						});*/
 	               }
 	            }
 	        });
@@ -628,7 +684,9 @@
 					  currentPageFilter = rightClicked(currentPageFilter,totalPageFilter);				
 					  if (groupItem.value==0)
 	            	 	 filteredgridsource.url='/admin/findallnewsbygroupidandsubgroupid/'+subGroupDropDown.label+'/'+currentPageFilter+'/50';
-				    	else 
+				    	else if(subGroupDropDown.value==0)
+				    	 filteredgridsource.url='/admin/findnewsbygroupidandsubgroupid/'+groupItem.value+'/'+currentPageFilter+'/50';
+				    	   else 
 				    	 filteredgridsource.url='/admin/findnewsbygroupidandsubgroupid/'+groupItem.value+'/'+subGroupDropDown.value+'/'+currentPageFilter+'/50';
 				    	    
 				     var filteredDataAdapter = new $.jqx.dataAdapter(filteredgridsource);
@@ -645,6 +703,8 @@
 					  currentPageFilter = leftClicked(currentPageFilter,totalPageFilter);				
 					  if (groupItem.value==0)
 	            	 	 filteredgridsource.url='/admin/findallnewsbygroupidandsubgroupid/'+subGroupDropDown.label+'/'+currentPageFilter+'/50';
+				    	else if(subGroupDropDown.value==0)
+				    	 filteredgridsource.url='/admin/findnewsbygroupidandsubgroupid/'+groupItem.value+'/'+currentPageFilter+'/50';
 				    	else 
 				    	 filteredgridsource.url='/admin/findnewsbygroupidandsubgroupid/'+groupItem.value+'/'+subGroupDropDown.value+'/'+currentPageFilter+'/50';
 				    	    
@@ -706,5 +766,25 @@
 						  });
 	}
 	
-	
+	async function fetchDataAndTotalPages(url) {
+    return fetch(url)
+        .then(function(response) {
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+            return response.json();
+        })
+        .then(function(responseData) {
+         
+            return {
+                totalPages: responseData.totalPages,
+                data: responseData.content
+            };
+        })
+        .catch(function(error) {
+            console.error('Error:', error);
+            return null;
+        });
+}
+
 	

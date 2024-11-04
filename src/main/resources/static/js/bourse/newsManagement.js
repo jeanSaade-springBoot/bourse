@@ -401,7 +401,7 @@
 				   "columnDescription":updatedData.columnDescription,
 				   "robots":updatedData.robots,
 				   "isBold":updatedData.isBold,
-				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
+				   "generationDateDate":formatDateToYMDHMS(updatedData.generationDateDate),
 				   "isPublished":updatedData.isPublished,
 				   "isFunctionNews":updatedData.isFunctionNews,
 				   "isVisible":"1",
@@ -475,13 +475,14 @@
   function Recall(row, event) { 
 	    var updatedData = $("#grid").jqxGrid('getrowdata', row);
 	    updatedData.isPublished='0'
+	    
 	    var row = {
 	    		 "id":updatedData.id,
 				   "template":updatedData.template,
 				   "columnDescription":updatedData.columnDescription,
 				   "robots":updatedData.robots,
 				   "isBold":updatedData.isBold,
-				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
+				   "generationDateDate":formatDateToYMDHMS(updatedData.generationDateDate),
 				   "isPublished":'0',
 	 			   "isFunctionNews":updatedData.isFunctionNews,
  				   "isVisible":"1",
@@ -531,7 +532,7 @@
 				   "columnDescription":updatedData.columnDescription,
 				   "robots":updatedData.robots,
 				   "isBold":updatedData.isBold,
-				   "generationDateDate":$.jqx.dataFormat.formatdate(updatedData.generationDateDate,  'yyyy-MM-dd hh:mm:ss'),
+				   "generationDateDate":formatDateToYMDHMS(updatedData.generationDateDate),
 				   "isPublished":'1',
 		           "isFunctionNews":updatedData.isFunctionNews,
  				   "isVisible":"1",
@@ -622,7 +623,10 @@
 		 "columnDescription":null,
 	     "robots":'Admin',
 		 "isBold":$('#IsBold').jqxCheckBox('checked'),
-		 "generationDateDate":a.getFullYear()+"-"+("0" + (a.getMonth() + 1)).slice(-2)+"-"+("0" + a.getDate()).slice(-2)+" "+("0" + a.getHours()).slice(-2)+":"+("0" + a.getMinutes()).slice(-2)+":"+("0" + a.getSeconds()).slice(-2),
+		 //"generationDateDate":a.getFullYear()+"-"+("0" + (a.getMonth() + 1)).slice(-2)+"-"+("0" + a.getDate()).slice(-2)+" "+("0" + a.getHours()).slice(-2)+":"+("0" + a.getMinutes()).slice(-2)+":"+("0" + a.getSeconds()).slice(-2),
+		 "generationDateDate":a.getFullYear()+"-"+("0" + (a.getMonth() + 1)).slice(-2)+"-"+("0" + a.getDate()).slice(-2)+" 00:00:00",
+		 "isVisible":'1',
+		 "isFunctionNews":'0',
 		 "isPublished":'0',
 		 "assetId":activeAssetId
 	  };
@@ -884,3 +888,16 @@
 	     var copyData = $("#grid").jqxGrid('getrowdata', row).template;
 			 copyToClipboard(copyData);
     }
+    function formatDateToYMDHMS(dateString) {
+    // Create a new Date object from the input date string
+    const date = new Date(dateString);
+
+    // Function to add leading zeros for single-digit numbers
+    const padZero = (num) => num.toString().padStart(2, '0');
+
+    // Extract the components and format the date as yyyy-MM-dd hh:mm:ss
+    const formattedDate = `${date.getFullYear()}-${padZero(date.getMonth() + 1)}-${padZero(date.getDate())} ` +
+                          `${padZero(date.getHours())}:${padZero(date.getMinutes())}:${padZero(date.getSeconds())}`;
+
+    return formattedDate;
+}

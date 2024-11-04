@@ -2219,7 +2219,7 @@ function getMarginLenghtVolume(value) {
 				     var calculatedMinValue = Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1;
 				     	 calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
 					 var calculatedMinValue2 = Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue + valueMin2) : Math.abs(selectedValue + valueMin2);
-						 calculatedMinValue2 = (Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2);	
+						// calculatedMinValue2 = (Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2);	
 						 
 					 chart.updateOptions({
 						 series:[{
@@ -8536,61 +8536,100 @@ function formatTrendDate(date) {
     return day + "-" + months[monthIndex] + "-" + year;
 }
 
-function findThirdPoint(date1, y1, date2, y2, date3) {
-    // Convert dates to JavaScript Date objects
-    var d1 = new Date(date1);
-    var d2 = new Date(date2);
-    var d3 = new Date(date3);
+function countWeekdays(dateStr1, dateStr2) {
+    // Define months in short form
+    const months = {
+        "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5, 
+        "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11
+    };
+    
+    // Helper function to parse the date string "dd-mmm-yy"
+    function parseDate(dateStr) {
+        const parts = dateStr.split("-");
+        const day = parseInt(parts[0], 10);
+        const month = months[parts[1]];
+        let year = parseInt(parts[2], 10);
 
-    // Convert dates to numerical values (days since a reference date)
-    var x1 = Math.floor((d1 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
-    var x2 = Math.floor((d2 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
-    var x3 = Math.floor((d3 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+        // Adjust two-digit year to four digits
+        if (year < 100) {
+            year += (year < 50) ? 2000 : 1900;
+        }
 
-    // Calculate slope (m) of the line
-    var m = (y2 - y1) / (x2 - x1);
+        return new Date(year, month, day);
+    }
+    
+    // Parse both date strings
+    const startDate = parseDate(dateStr1);
+    const endDate = parseDate(dateStr2);
 
-    // Calculate y-intercept (c) of the line
-    var c = y1 - m * x1;
+    // Initialize day counter
+    let dayCount = 0;
 
-    // Calculate y-coordinate of the third point
-    var y3 = m * x3 + c;
+    // Loop through each day in the range
+    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+        const dayOfWeek = date.getDay();
+        
+        // If the day is not Saturday (6) or Sunday (0), count it
+        if (dayOfWeek !== 0 && dayOfWeek !== 6) {
+            dayCount++;
+        }
+    }
 
-    // Return the result in the specified JSON format
-    return [
-        { "x": formatTrendDate(d1), "y": y1 },
-        { "x": formatTrendDate(d2), "y": y2 },
-        { "x": formatTrendDate(d3), "y": y3 }
-    ];
+    return dayCount;
 }
-function findChannelPoint(date1, y1, date2, y2, date3, yc, datec) {
+function findThirdPoint(date1, y1, date2, y2, date3, m, endDate) {
     // Convert dates to JavaScript Date objects
-    var d1 = new Date(date1);
-    var d2 = new Date(date2);
-    var d3 = new Date(date3);
-	var dc = new Date(datec);
-	
-    // Convert dates to numerical values (days since a reference date)
-    var x1 = Math.floor((d1 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
-    var x2 = Math.floor((d2 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
-    var x3 = Math.floor((d3 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
-    var xc = Math.floor((dc - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    const d3 = new Date(date3);
+    
+    y2 = parseFloat(y2);
+	const y3 =y2+m*(countWeekdays(date2,formatDates(date3)));
 
-    // Calculate slope (m) of the line
-    var m = (y2 - y1) / (x2 - x1);
+    const endValue = y2+m*(countWeekdays(date2,endDate));
 
-    // Calculate y-intercept (c) of the line
-    var c = yc - m * xc;
+    return {
+        xyValues: [
+            { "x": formatTrendDate(d1), "y": y1 },
+            { "x": formatTrendDate(d2), "y": y2 },
+            { "x": formatTrendDate(d3), "y": y3 }
+        ],
+        endValue
+    };
+}
+function formatDates(dateString) {
+    // Convert the input date string to a Date object
+    let date = new Date(dateString);
+    
+    // Define the options for formatting the date
+    let day = String(date.getDate()).padStart(2, '0'); // Add leading zero if needed
+    let monthShort = date.toLocaleString('default', { month: 'short' }); // Get short month name (e.g., Oct)
+    let year = String(date.getFullYear()).slice(-2); // Get last two digits of the year
 
-    // Calculate y-coordinate of the third point
-    var y3 = m * x3 + c;
+    // Return the formatted date in the desired format
+    return `${day}-${monthShort}-${year}`;
+}
 
+function findChannelPoint(date3, yc, datec, m, endDate) {
+    
+	const d3 = new Date(date3);
+	const dc = new Date(datec);
+    yc = parseFloat(yc);
+    const y3 = yc+m*(countWeekdays(datec,formatDates(date3)));
+    
+    // Calculate y-coordinate of the end point
+    const endValue = yc+m*(countWeekdays(datec,endDate));
+  
     // Return the result in the specified JSON format
-    return [
+    return {
+        xyValues:[
         { "x": formatTrendDate(dc), "y": yc },
         { "x": formatTrendDate(d3), "y": y3 }
-    ];
+	    ] ,
+	        endValue
+	    };
 }
+
 function calculateNewEndDate(startDate, endDate, percentage) {
     // Parse the dates
     const start = new Date(startDate);
@@ -8687,7 +8726,8 @@ async function processDataAndAddNewEndDate(response, percentage) {
     response[0].graphResponseDTOLst.push({ x: newEndDate, y: null });
 
     // Return the modified response as a promise
-    return Promise.resolve(newEndDate);
+     return Promise.resolve({ originalEndDate: dataEndDate, newEndDate });
+
 }
 async function areValuesClose(value1, value2, threshold = 3) {
     // Calculate the absolute difference between the two values

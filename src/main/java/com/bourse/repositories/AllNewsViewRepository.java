@@ -19,6 +19,8 @@ public interface AllNewsViewRepository extends JpaRepository<AllNewsView, Long> 
 
 	Page<AllNewsView> findByIsPublishedAndGroupIdAndSubgroupId(String isPublished, String groupId, String subGroupId, Pageable pageable);
 	
+	Page<AllNewsView> findByIsPublishedAndGroupId(String isPublished, String groupId, Pageable pageable);
+
 	@Query("select a from AllNewsView a where a.isPublished='1' and a.description in (:selectedGraphNews)")
 	Page<AllNewsView> findByIsPublishedAndDescription(@Param("selectedGraphNews") List<String> selectedGraphNews, Pageable pageable);
 	

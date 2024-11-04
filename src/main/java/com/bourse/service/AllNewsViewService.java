@@ -99,6 +99,11 @@ public class AllNewsViewService {
 		Page<AllNewsView> newsPage = allNewsViewRepository.findByIsPublishedAndGroupIdAndSubgroupId("1",groupId,subGroupId,pageable);
 		return newsPage;
 	}
+	public Page<AllNewsView> findNewsByIsPublishedAndGroupId(String groupId, String pageNo, String pageSize) {
+		Pageable pageable = PageRequest.of(Integer.valueOf(pageNo) , Integer.valueOf(pageSize));
+		Page<AllNewsView> newsPage = allNewsViewRepository.findByIsPublishedAndGroupId("1",groupId,pageable);
+		return newsPage;
+	}
 	public Page<AllNewsView> findAllNewsBySubGroupIdDescription(String subGroupIdDescription,String pageNo, String pageSize)  {
 		Pageable pageable = PageRequest.of(Integer.valueOf(pageNo) , Integer.valueOf(pageSize));
 		Page<AllNewsView> newsPage = allNewsViewRepository.findAllNewsByDescription(subGroupIdDescription,pageable);
