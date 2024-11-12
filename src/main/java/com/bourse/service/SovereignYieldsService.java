@@ -717,10 +717,7 @@ public class SovereignYieldsService
 		boolean hasData= adminService.getData();
 	    if(!hasData)
 			return null;
-		//yield:1
-		//curve:2
-		//cross:3
-
+		
 		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
 		StoredProcedureQuery query1 = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
 		StoredProcedureQuery query2 = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
@@ -729,7 +726,6 @@ public class SovereignYieldsService
 		StoredProcedureQuery query5 = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
 		StoredProcedureQuery functionQuery = this.entityManager.createStoredProcedureQuery("calculation_graph_main",GraphResponseDTO.class);
 
-		// List<List<GraphResponseDTO>> l1 = new ArrayList<>();
 		List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
 		ColumnConfiguration config = null;
 		FunctionConfiguration fConfig=null;

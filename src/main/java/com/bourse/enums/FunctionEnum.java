@@ -8,6 +8,12 @@ public enum FunctionEnum {
 	DAILY_CHANGE_INCREMENT(4,"DCI","Daily Change Increment"), 
 	WEEKLY_CHANGE_IN_PERCENTAGE(5,"WCP","Weekly Change In %"), 
 	WEEKLY_CHANGE_INCREMENT(6,"WCI","Weekly Change Increment"), 
+	MONTHLY_CHANGE_IN_PERCENTAGE(10,"MCP","Monthly Change In %"), 
+	MONTHLY_CHANGE_INCREMENT(11,"MCI","Monthly Change Increment"), 
+	QUARTERLY_CHANGE_IN_PERCENTAGE(12,"QCP","Quarterly Change In %"), 
+	QUARTERLY_CHANGE_INCREMENT(13,"QCI","Quarterly Change Increment"), 
+	YEARLY_CHANGE_IN_PERCENTAGE(14,"YCP","Yearly Change In %"), 
+	YEARLY_CHANGE_INCREMENT(15,"YCI","Yearly Change Increment"), 
 	TEN_YR_PERCENTILE(7,"10YP","10 Yr Percentile"),
 	TWENTY_YR_PERCENTILE(8,"20YP","20 Yr Percentile"),
 	CENTURY_PERCENTILE(9,"CP","Century Percentile"),
@@ -43,6 +49,18 @@ public enum FunctionEnum {
                 return TWENTY_YR_PERCENTILE.function;
             case 9:
                 return CENTURY_PERCENTILE.function;
+            case 10:
+                return MONTHLY_CHANGE_IN_PERCENTAGE.function;
+            case 11:
+                return MONTHLY_CHANGE_INCREMENT.function;
+            case 12:
+                return QUARTERLY_CHANGE_IN_PERCENTAGE.function;
+            case 13:
+                return QUARTERLY_CHANGE_INCREMENT.function;
+            case 14:
+                return YEARLY_CHANGE_IN_PERCENTAGE.function;
+            case 15:
+                return YEARLY_CHANGE_INCREMENT.function;
         }
         return OTHER.function;
     }
@@ -66,6 +84,18 @@ public enum FunctionEnum {
                 return TWENTY_YR_PERCENTILE.id;
             case "CP":
                 return CENTURY_PERCENTILE.id;
+            case "MCP":
+                return MONTHLY_CHANGE_IN_PERCENTAGE.id;
+            case "MCI":
+                return MONTHLY_CHANGE_INCREMENT.id;
+            case "QCP":
+                return QUARTERLY_CHANGE_IN_PERCENTAGE.id;
+            case "QCI":
+                return QUARTERLY_CHANGE_INCREMENT.id;
+            case "YCP":
+                return YEARLY_CHANGE_IN_PERCENTAGE.id;
+            case "YCI":
+                return YEARLY_CHANGE_INCREMENT.id;
         }
         return OTHER.id;
     }
@@ -89,6 +119,18 @@ public enum FunctionEnum {
                 return TWENTY_YR_PERCENTILE.description;
             case 9:
                 return CENTURY_PERCENTILE.description;
+            case 10:
+                return MONTHLY_CHANGE_IN_PERCENTAGE.description;
+            case 11:
+                return MONTHLY_CHANGE_INCREMENT.description;
+            case 12:
+                return QUARTERLY_CHANGE_IN_PERCENTAGE.description;
+            case 13:
+                return QUARTERLY_CHANGE_INCREMENT.description;
+            case 14:
+                return YEARLY_CHANGE_IN_PERCENTAGE.description;
+            case 15:
+                return YEARLY_CHANGE_INCREMENT.description;
         }
         return OTHER.description;
     }

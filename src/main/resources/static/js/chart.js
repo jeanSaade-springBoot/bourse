@@ -2080,7 +2080,7 @@ function getMarginLenghtVolume(value) {
     	    		}); 
     	    		
 				 }
-			      else if(chartConfigSettings.functionId>=7)
+			      else if(chartConfigSettings.functionId>=7 && chartConfigSettings.functionId<10)
   	    	    	{
 					 chart.updateOptions({
 						 series:[{
@@ -2218,7 +2218,7 @@ function getMarginLenghtVolume(value) {
 					 
 				     var calculatedMinValue = Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1;
 				     	 calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
-					 var calculatedMinValue2 = Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue + valueMin2) : Math.abs(selectedValue + valueMin2);
+					 var calculatedMinValue2 = -Math.abs(selectedValue + valueMin2) ;// Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue + valueMin2) : Math.abs(selectedValue + valueMin2);
 						// calculatedMinValue2 = (Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2);	
 						 
 					 chart.updateOptions({
@@ -2230,9 +2230,12 @@ function getMarginLenghtVolume(value) {
 							}, {
 								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
 								type: 'column',
-								data: chartConfigSettings.response[1].graphResponseDTOLst
+								data: chartConfigSettings.response[1].graphResponseDTOLst,
+								strokeWidth:chartConfigSettings.Period!='d' ?chartConfigSettings.chartType=='column'?getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length):undefined:undefined
+
 							}],
-						 xaxis: {
+							
+								xaxis: {
 									labels: {
 										rotate: -70,
 										rotateAlways: true,
@@ -2249,7 +2252,7 @@ function getMarginLenghtVolume(value) {
 								          }
 									},
 									type: 'datetime',
-									tickAmount: 19,
+									//tickAmount: 19,
 									axisBorder: {
 										show: true,
 										color: '#ffffff',
@@ -2264,13 +2267,43 @@ function getMarginLenghtVolume(value) {
 							yAxisFormat:chartConfigSettings.yAxisFormat,
 						},
 						 
-  	    	    		  colors:[chartConfigSettings.Period=='d' ?(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:chartColorOpacity(chartConfigSettings.chartColor):(chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor), "#ff000059"],
-  	    	    		 markers: {
-						   colors: ["#FFFFFF", "#ff000059"],
+  	    	    		 // colors:[chartConfigSettings.Period=='d' ?(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:chartColorOpacity(chartConfigSettings.chartColor):(chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor), "#ff000059"],
+  	    	    		colors: [function({ value, seriesIndex, w }) {
+							 return   chartConfigSettings.Period == 'd' 
+									    ? (
+									        chartConfigSettings.Period == 'd' 
+									          ? (chartConfigSettings.overideChartype != null 
+									              ? (typeof SelectedchartType != 'undefined' 
+									                  ? SelectedchartType 
+									                  : chartType
+									                ) 
+									              : 'area'
+									            ) 
+									          : 'column'
+									      ) == 'column' 
+									        ? chartConfigSettings.chartColor 
+									        : chartColorOpacity(chartConfigSettings.chartColor)
+									    : (
+									        chartConfigSettings.chartColor == '#44546a' 
+									          ? '#2e75b6' 
+									          : chartConfigSettings.chartColor
+									      );
+							  
+							}, function({ value, seriesIndex, w }) {
+								  if(seriesIndex!=0)
+									if (value <= 0) {
+										 return '#f23a3aa3'; // Color for values less than or equal to zero
+										} else {
+										   return '#30d7818c'; // Color for values greater than zero
+										}
+							}]
+							, markers: {
+						 colors: ["#FFFFFF", "#ff000059"],
   	    	    		   strokeColors:["#FFFFFF", "#ff000059"],
   	    	    		 },
   	    	    		 stroke: chartConfigSettings.Period=='d' ?{
 						      	 colors: [(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:"#FFFFFF", "#ff000059"],
+					        	 width: [2.25,0]
 					        }: {},
  				       yaxis: [{
 								 labels: {
@@ -2313,7 +2346,7 @@ function getMarginLenghtVolume(value) {
  				        	  },
  				          tickAmount: 6,
  				    	  min: calculatedMinValue2,
- 				    	  max:Math.sign(chartConfigSettings.max2)==-1 ? -Math.abs(selectedValue + valueMax2) : Math.abs(selectedValue + valueMax2),
+ 				    	  max: Math.abs(selectedValue + valueMax2),
  				    			  axisBorder: {
  					                  width: 3,
  					                  show: true,
@@ -2368,7 +2401,8 @@ function getMarginLenghtVolume(value) {
 							        text: ''
 							      }
 							  }]
-							}
+							},
+							   
     	    		}); 
     	    		
 				}
@@ -3257,6 +3291,18 @@ function initializeFunctions(){
                              "value":"5"},
 							{"name":"Weekly Change Increment",
 							  "value":"6"},
+							{"name":"Monthly Change In %",
+                             "value":"10"},
+							{"name":"Monthly Change Increment",
+							  "value":"11"},
+							{"name":"Quarterly Change In %",
+                             "value":"12"},
+							{"name":"Quarterly Change Increment",
+							  "value":"13"},
+							{"name":"Yearly Change In %",
+                             "value":"14"},
+							{"name":"Yearly Change Increment",
+							  "value":"15"},
 							{"name":"10 Yr Percentile",
 							  "value":"7"},
 							{"name":"20 Yr Percentile",
@@ -3274,7 +3320,7 @@ function initializeFunctions(){
          async: true
      };
 	  var functionDataAdapter = new $.jqx.dataAdapter(functionSource);
-	 $("#dropDownFunctions").jqxDropDownList({dropDownHeight: 280,  source: functionDataAdapter, placeHolder: "Select a Function",  displayMember: "name",valueMember: "value", theme: 'dark' , width: 200, height: 25});
+	 $("#dropDownFunctions").jqxDropDownList({dropDownHeight: 480,  source: functionDataAdapter, placeHolder: "Select a Function",  displayMember: "name",valueMember: "value", theme: 'dark' , width: 220, height: 25});
 	 $("#reset").click(function() {
 		 $("#dropDownFunctions").jqxDropDownList({selectedIndex: -1});
 	});
@@ -3287,7 +3333,8 @@ function initializeFunctions(){
 	    // index represents the item's index.                      
 	    var index = args.index;
 	    
-		   functionId=index;
+		  // functionId=index;
+		   functionId=parseInt($('#dropDownFunctions').val())-1;
 		   drawGraph();
 	 } 
 	});
@@ -7799,6 +7846,9 @@ function getStrokeWidthPeriod(period, numColumns)
 	 switch (period) {
 	    case 'd' :
 	      strokeWidth = strokeWidth;
+	      break;
+	     case 'w' :
+	      strokeWidth = strokeWidth*1.5;
 	      break;
 	    case 'm' : 
 	      strokeWidth = strokeWidth*3;

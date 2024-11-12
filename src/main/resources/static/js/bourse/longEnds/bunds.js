@@ -161,7 +161,7 @@ $(document).ready(function() {
 function drawGraph() {
 	
 	var graphService = "longEnds";
-	const removeEmpty = true;
+	const removeEmpty = false;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
  function groupByGroupIdAndSubgroupId(data) {

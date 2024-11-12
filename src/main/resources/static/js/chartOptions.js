@@ -1036,18 +1036,15 @@ function getChartPeriodName(){
 $('#groupOfPeriod').on('selected', function () { 
 	
 	var selected = $('#groupOfPeriod').jqxButtonGroup('getSelection');
-	/* if (selected==0)
+	 if (selected==0)
 	 {
 		 $("#dropDownType").jqxDropDownList({ disabled: true }); 
-		 $("#dropDownFunctions").jqxDropDownList({ disabled: false }); 
-		 $("#dropDownType").jqxDropDownList({selectedIndex: 0});  
+		 $("#dropDownType").jqxDropDownList({selectedIndex: 3});  
 	  }
-    else 
+     else 
 	{ 
 		$("#dropDownType").jqxDropDownList({ disabled: false });
-		$("#dropDownFunctions").jqxDropDownList({selectedIndex: -1}); 
-		$("#dropDownFunctions").jqxDropDownList({ disabled: true }); 
-     }*/
+     }
 }); 
 
 
@@ -1157,7 +1154,7 @@ return fullName;
 }		
 		
  $("#groupOfPeriod").on('buttonclick', function (event) {
-                 
+        updateFunctionBasedOnSelectedPeriod($('#groupOfPeriod').jqxButtonGroup('getSelection'));         
 	    resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
@@ -1194,7 +1191,54 @@ $('#dropDownFunctionss').on('select', function (event)
 		resetActiveChartGrid();
 		drawGraph();                      
 });
-
+function updateFunctionBasedOnSelectedPeriod(period){
+	
+  var updateFunctionId=-1;	
+	switch(period) {
+	  
+	 case 0: 
+	     if (functionId === 4 || functionId === 9 || functionId === 11 || functionId === 13) {
+                updateFunctionId = $("#dropDownFunctions").jqxDropDownList({selectedIndex: 2});
+            }
+            else if (functionId === 5 || functionId === 10 || functionId === 12  || functionId === 14) {
+                updateFunctionId = $("#dropDownFunctions").jqxDropDownList({selectedIndex: 3});
+            }
+	        break;
+	 case 1: 
+	   if (functionId === 2 || functionId === 9 || functionId === 11 || functionId === 13) {
+                updateFunctionId = $("#dropDownFunctions").jqxDropDownList({selectedIndex: 4});
+            }
+            else if (functionId === 3 || functionId === 10 || functionId === 12  || functionId === 14) {
+                updateFunctionId = $("#dropDownFunctions").jqxDropDownList({selectedIndex: 5});
+            }
+	        break;
+	 case 2: 
+		 if (functionId === 2 || functionId === 4 || functionId === 11 || functionId === 13) {
+                updateFunctionId = $("#dropDownFunctions").jqxDropDownList('val','10');
+            }
+            else if (functionId === 3 || functionId === 5 || functionId === 12  || functionId === 14) {
+                updateFunctionId = $("#dropDownFunctions").jqxDropDownList('val','11');
+            }
+	        break;
+	 case 3: 
+		 	 if (functionId === 2 || functionId === 4 || functionId === 9 || functionId === 13) {
+                updateFunctionId = $("#dropDownFunctions").jqxDropDownList('val','12');
+            }
+            else if (functionId === 3 || functionId === 5 || functionId === 10  || functionId === 14) {
+                updateFunctionId = $("#dropDownFunctions").jqxDropDownList('val','13');
+            }
+	        break;
+	 case 4: 
+		   if (functionId === 2 || functionId === 4 || functionId === 9 || functionId === 11) {
+                updateFunctionId = $("#dropDownFunctions").jqxDropDownList('val','14'); 
+            }
+            else if (functionId === 3 || functionId === 5 || functionId === 10  || functionId === 12) {
+                updateFunctionId = $("#dropDownFunctions").jqxDropDownList('val','15');
+            }
+	        break;
+	}
+return updateFunctionId;
+}
 function getPieChartOptionSeries(chartConfiguration){
 	return  options_pie = {
           chart: {

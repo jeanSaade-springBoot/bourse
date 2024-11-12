@@ -755,7 +755,7 @@ public class MetalsService {
 			
 			functionQuery.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
 			functionQuery.setParameter("isFunction",graphReqDTO.getIsFunctionGraph() );
-			
+			System.out.println(FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())));
 			functionQuery.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
 			functionQuery.setParameter("functionCode",FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())));
 			
