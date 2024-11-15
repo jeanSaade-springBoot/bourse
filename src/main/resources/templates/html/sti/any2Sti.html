@@ -71,6 +71,26 @@
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				    <a sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-any2-tab"  href="/bourse/any2sti" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
+				    <a sec:authorize="hasAuthority('STI_EUROPE_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/europe" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">Europe</a>
+		             <a sec:authorize="hasAuthority('STI_WALLSTREET_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/wallstreet" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">Wall Street</a>
+	                 <a sec:authorize="hasAuthority('STI_ASIA_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/asia" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">Asia</a>
+	                 <a sec:authorize="hasAuthority('STI_EMERGING_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/emerging" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">Emerging</a>
+	                 <a sec:authorize="hasAuthority('STI_CRYPTOS_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/cryptos" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">Cryptos</a>
 				 </div>
 				</nav>
            
@@ -96,41 +116,6 @@
 					  <div class="col">
 				 <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
 				  <div class="col-12 d-flex">
-							<div class="col">
-								<h7 class="m-0 font-weight-bold">ASIA</h7>
-									<div class=" no-gutters">
-									  <div class="col-custom">
-									 	<div id='jqxCheckBoxNikkei' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NIKKEI</span></div> 
-             							<div id='jqxCheckBoxNikkei_usdjpy'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-NIKKEI</span></div> 
-									   	<div id='jqxCheckBoxCsi'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">Csi</span></div>
-             							<div id='jqxCheckBoxCsi_usdcny'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-CSI</span></div>
-             							<div id='jqxCheckBoxNifty'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NIFTY</span></div>
-             							<div id='jqxCheckBoxNifty_usdinr' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-NIFTY</span></div>
-             							<div id='jqxCheckBoxKospi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">KOSPI</span></div>
-             							<div id='jqxCheckBoxKospi_usdkrw' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-KOSPI</span></div>
-					         			<div id='jqxCheckBoxHangseng' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HANGSENG</span></div> 
-					             		<div id='jqxCheckBoxHangseng_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HANGSENG</span></div> 
-					             		<div id='jqxCheckBoxHismbi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HSI^ BANKING</span></div>
-					             		<div id='jqxCheckBoxHismbi_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HSI BANKING</span></div>
-					             		<div id='jqxCheckBoxHismpi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HSI^ PROPERTY</span></div>
-					             		<div id='jqxCheckBoxHismpi_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HSI PROPERTY</span></div>
-					            	 </div>
-								</div>
-							</div>
-							 <div class="col">
-							  <h7 class="m-0 font-weight-bold">WALL STREET</h7>
-								<div class=" no-gutters">
-								  <div class="col-custom">
-									<div id='jqxCheckBoxDowjones' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">DOW JONES</span></div> 
-					             	<div id='jqxCheckBoxSandp' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">S&P</span></div>
-					             	<div id='jqxCheckBoxNasdaq' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NASDAQ</span></div>
-					             	<div id='jqxCheckBoxRussell' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">RUSSELL </span></div>
-					             	<div id='jqxCheckBoxFang' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">FANG+</span></div>
-					             	<div id='jqxCheckBoxDjmajorbanks' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">DJ MAJOR BANKS</span></div>
-					         		<div id='jqxCheckBoxDjregionalbanks' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">DJ REGIONAL BANKS</span></div>
-									</div>
-								</div>
-							</div>
 							<div class="col">
 							  <h7 class="m-0 font-weight-bold">EUROPE</h7>
 								<div class=" no-gutters">
@@ -158,6 +143,41 @@
 						             	<div id='jqxCheckBoxEubanks_eurusd' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">$-EUBANKS</span></div>
 						         
 								  </div>
+								</div>
+							</div>
+							 <div class="col">
+							  <h7 class="m-0 font-weight-bold">WALL STREET</h7>
+								<div class=" no-gutters">
+								  <div class="col-custom">
+									<div id='jqxCheckBoxDowjones' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">DOW JONES</span></div> 
+					             	<div id='jqxCheckBoxSandp' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">S&P</span></div>
+					             	<div id='jqxCheckBoxNasdaq' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NASDAQ</span></div>
+					             	<div id='jqxCheckBoxRussell' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">RUSSELL </span></div>
+					             	<div id='jqxCheckBoxFang' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">FANG+</span></div>
+					             	<div id='jqxCheckBoxDjmajorbanks' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">DJ MAJOR BANKS</span></div>
+					         		<div id='jqxCheckBoxDjregionalbanks' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">DJ REGIONAL BANKS</span></div>
+									</div>
+								</div>
+							</div>
+							<div class="col">
+								<h7 class="m-0 font-weight-bold">ASIA</h7>
+									<div class=" no-gutters">
+									  <div class="col-custom">
+									 	<div id='jqxCheckBoxNikkei' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NIKKEI</span></div> 
+             							<div id='jqxCheckBoxNikkei_usdjpy'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-NIKKEI</span></div> 
+									   	<div id='jqxCheckBoxCsi'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">Csi</span></div>
+             							<div id='jqxCheckBoxCsi_usdcny'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-CSI</span></div>
+             							<div id='jqxCheckBoxNifty'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NIFTY</span></div>
+             							<div id='jqxCheckBoxNifty_usdinr' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-NIFTY</span></div>
+             							<div id='jqxCheckBoxKospi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">KOSPI</span></div>
+             							<div id='jqxCheckBoxKospi_usdkrw' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-KOSPI</span></div>
+					         			<div id='jqxCheckBoxHangseng' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HANGSENG</span></div> 
+					             		<div id='jqxCheckBoxHangseng_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HANGSENG</span></div> 
+					             		<div id='jqxCheckBoxHismbi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HSI^ BANKING</span></div>
+					             		<div id='jqxCheckBoxHismbi_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HSI BANKING</span></div>
+					             		<div id='jqxCheckBoxHismpi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HSI^ PROPERTY</span></div>
+					             		<div id='jqxCheckBoxHismpi_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HSI PROPERTY</span></div>
+					            	 </div>
 								</div>
 							</div>
 							<div class="col">

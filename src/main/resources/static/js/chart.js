@@ -55,7 +55,7 @@ var options = {
 		chart: {
 			toolbar: {
 				show: true,
-				offsetX: 0,
+				offsetX: -50,
 				offsetY: 0,
 				tools: {
 					download: false,
@@ -98,17 +98,17 @@ var options = {
 		title: {
 			text: '',
 			align: 'center',
-			margin: 10,
-			style: {
-				fontWeight: 'bold',
-				color: '#263238'
-			},
+					margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
 		},
 		subtitle: {
 			text: 'copyright LibVol.com',
 			align: 'right',
 			margin: 10,
-			offsetX: -10,
+			offsetX: -50,
 			offsetY: 30,
 			floating: false,
 			style: {
@@ -209,7 +209,7 @@ var options_missingDates = {
 		chart: {
 			toolbar: {
 				show: true,
-				offsetX: 0,
+				offsetX: -50,
 				offsetY: 0,
 				tools: {
 					download: false,
@@ -252,17 +252,17 @@ var options_missingDates = {
 		title: {
 			text: '',
 			align: 'center',
-			margin: 10,
-			style: {
-				fontWeight: 'bold',
-				color: '#263238'
-			},
+					margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
 		},
 		subtitle: {
 			text: 'copyright LibVol.com',
 			align: 'right',
 			margin: 10,
-			offsetX: -10,
+			offsetX: -50,
 			offsetY: 30,
 			floating: false,
 			style: {
@@ -364,7 +364,7 @@ var options_missingDates = {
 		chart: {
 			toolbar: {
 				show: true,
-				offsetX: 0,
+				offsetX: -50,
 				offsetY: 0,
 				tools: {
 					download: false,
@@ -407,17 +407,17 @@ var options_missingDates = {
 		title: {
 			text: '',
 			align: 'center',
-			margin: 10,
-			style: {
-				fontWeight: 'bold',
-				color: '#263238'
-			},
+				margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
 		},
 		subtitle: {
 			text: 'copyright LibVol.com',
 			align: 'right',
 			margin: 10,
-			offsetX: -10,
+			offsetX: -50,
 			offsetY: 30,
 			floating: false,
 			style: {
@@ -500,7 +500,7 @@ var options_missingDates = {
 		chart: {
 			toolbar: {
 				show: true,
-				offsetX: 0,
+				offsetX: -50,
 				offsetY: 0,
 				tools: {
 					download: false,
@@ -572,7 +572,7 @@ function getChartDailyOption(title,showgrid,fontSize,markerSize)
    	  			          chart: {
 		   	  			         toolbar: {
 									show: true,
-									offsetX: 0,
+									offsetX: -50,
 									offsetY: 0,
 									tools: {
 									  download: false,
@@ -615,18 +615,18 @@ function getChartDailyOption(title,showgrid,fontSize,markerSize)
    	  			        },
    	  			        title: {
   	    				          text: title,
-  	    				            margin: 35,
   	    				          align: 'center',
-  	    				        style: {
-  	    				          fontWeight:  'bold',
-  	    				          color:  '#263238'
-  	    				          },
+									margin: 0,
+									offsetY: 20,
+									style: {
+										fontWeight: 'bold',
+									},
   	    				        },
   	    				           subtitle: {
 			      	    				        text: 'copyright LibVol.com',
 			      	    				        align: 'right',
 			      	    				        margin: 0,
-			      	    				        offsetX: -10,
+			      	    				        offsetX: -50,
 			      	    				        offsetY: 30,
 			      	    				        floating: false,
 			      	    				        style: {
@@ -699,7 +699,7 @@ function getChartDailyOptionMissingDates(title,showgrid,fontSize,markerSize)
    	  			          chart: {
 		   	  			         toolbar: {
 									show: true,
-									offsetX: 0,
+									offsetX: -50,
 									offsetY: 0,
 									tools: {
 									  download: false,
@@ -742,18 +742,18 @@ function getChartDailyOptionMissingDates(title,showgrid,fontSize,markerSize)
    	  			        },
    	  			        title: {
   	    				          text: title,
-  	    				            margin: 35,
   	    				          align: 'center',
-  	    				        style: {
-  	    				          fontWeight:  'bold',
-  	    				          color:  '#263238'
-  	    				          },
+												margin: 0,
+												offsetY: 20,
+												style: {
+													fontWeight: 'bold',
+												},
   	    				        },
   	    				           subtitle: {
 			      	    				        text: 'copyright LibVol.com',
 			      	    				        align: 'right',
 			      	    				        margin: 0,
-			      	    				        offsetX: -10,
+			      	    				        offsetX: -50,
 			      	    				        offsetY: 30,
 			      	    				        floating: false,
 			      	    				        style: {
@@ -832,7 +832,7 @@ function getChartDailyOptionMissingDates(title,showgrid,fontSize,markerSize)
    	    	            chart: {
    	    	             toolbar: {
 		   	  			        show: true,
-		   	  			        offsetX: 0,
+		   	  			        offsetX: -50,
 		   	  			        offsetY: 0,
 		   	  			        tools: {
 		   	  			          download: false,
@@ -911,7 +911,7 @@ var chartOption = {
    	  			          chart: {
 		   	  			         toolbar: {
 									show: true,
-									offsetX: 0,
+									offsetX: -50,
 									offsetY: 0,
 									tools: {
 									  download: false,
@@ -954,18 +954,18 @@ var chartOption = {
    	  			        },
    	  			        title: {
   	    				          text: title,
-  	    				            margin: 35,
-  	    				          align: 'center',
-  	    				        style: {
-  	    				          fontWeight:  'bold',
-  	    				          color:  '#263238'
-  	    				          },
+  	    				         align: 'center',
+					margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
   	    				        },
   	    				           subtitle: {
 			      	    				        text: 'copyright LibVol.com',
 			      	    				        align: 'right',
 			      	    				        margin: 0,
-			      	    				        offsetX: -10,
+			      	    				        offsetX: -50,
 			      	    				        offsetY: 30,
 			      	    				        floating: false,
 			      	    				        style: {
@@ -1043,7 +1043,7 @@ var chartOption = {
    	    	            chart: {
    	    	             toolbar: {
 		   	  			        show: true,
-		   	  			        offsetX: 0,
+		   	  			        offsetX: -50,
 		   	  			        offsetY: 0,
 		   	  			        tools: {
 		   	  			          download: false,
@@ -2220,18 +2220,21 @@ function getMarginLenghtVolume(value) {
 				     	 calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
 					 var calculatedMinValue2 = -Math.abs(selectedValue + valueMin2) ;// Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue + valueMin2) : Math.abs(selectedValue + valueMin2);
 						// calculatedMinValue2 = (Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2);	
-						 
+						//var strokeWidth=chartConfigSettings.Period!='d' ?chartConfigSettings.chartType=='column'?getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length):undefined:undefined; 
+					var strokeWidth=getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length); 
+
 					 chart.updateOptions({
 						 series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
 								type: chartConfigSettings.chartType,
 								data: chartConfigSettings.response[0].graphResponseDTOLst,
-							    strokeWidth:chartConfigSettings.Period!='d' ?chartConfigSettings.chartType=='column'?getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length):undefined:undefined
+							  //  strokeWidth:chartConfigSettings.Period!='d' ?chartConfigSettings.chartType=='column'?getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length):undefined:undefined
+							strokeWidth:strokeWidth
 							}, {
 								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
 								type: 'column',
 								data: chartConfigSettings.response[1].graphResponseDTOLst,
-								strokeWidth:chartConfigSettings.Period!='d' ?chartConfigSettings.chartType=='column'?getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length):undefined:undefined
+								strokeWidth:strokeWidth
 
 							}],
 							
@@ -2624,6 +2627,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 				         calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
 				    
 							chart.updateOptions({
+								
 								series:[{
 										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
 										type: chartConfigSettings.chartType1,
@@ -3132,7 +3136,15 @@ function updateArrowBarChart(chartConfigSettings) {
 										type: 'column',
 										data: chartConfigSettings.response[0].graphResponseDTOLst
 									}],
-									
+									title: {
+												text: title,
+												align: 'center',
+												margin: 30,
+												offsetY: 0,
+												style: {
+													fontWeight: 'bold',
+												},
+											},
 									 animations: { enabled: false },
 									xaxis: {
 									labels: {
@@ -3322,6 +3334,7 @@ function initializeFunctions(){
 	  var functionDataAdapter = new $.jqx.dataAdapter(functionSource);
 	 $("#dropDownFunctions").jqxDropDownList({dropDownHeight: 480,  source: functionDataAdapter, placeHolder: "Select a Function",  displayMember: "name",valueMember: "value", theme: 'dark' , width: 220, height: 25});
 	 $("#reset").click(function() {
+		 functionId=-1;
 		 $("#dropDownFunctions").jqxDropDownList({selectedIndex: -1});
 	});
 	
@@ -3883,7 +3896,9 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 	chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options : ((functionId!=-1)?optionsWeekly:optionsWeeklyy));
 
 	chart.render();
-	
+	   if(isNaN(functionId))
+	  	 functionId=-1 ;
+	   
 	   if (functionId!=-1)
 		{	
 			
@@ -3898,7 +3913,7 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 	        	    "isFunctionGraph":true,
 					"functionId":functionId+1,
 					//"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
-					"removeEmpty1":removeEmpty
+					 "removeEmpty1":removeEmpty
      			   };
 
 			if (checkedItemValues.length > 1)
@@ -3998,8 +4013,8 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 					chartColor = response[0].config.chartColor;
 					chartTransparency=response[0].config.chartTransparency;
 					
-					 [5,6].includes(functionId+1) ? response[1].graphResponseDTOLst = updateSeriesValue(response[0].graphResponseDTOLst,response[1].graphResponseDTOLst):null;
-					
+					[5,6,10,11,12,13,14,15].includes(functionId+1) ? response[1].graphResponseDTOLst = updateSeriesValue(response[0].graphResponseDTOLst,response[1].graphResponseDTOLst):null;
+				
 					var chartConfigSettings={functionId:functionId+1,
 											 isDecimal:isdecimal,
 											 yAxisFormat0:yaxisformat0,
@@ -6539,7 +6554,7 @@ function navigationGraph(condition) {
 					     	  			          chart: {
 					  		   	  			         toolbar: {
 					  		   	  			        show: true,
-					  		   	  			        offsetX: 0,
+					  		   	  			        offsetX: -50,
 					  		   	  			        offsetY: 0,
 					  		   	  			        tools: {
 					  		   	  			          download: false,
@@ -6581,18 +6596,18 @@ function navigationGraph(condition) {
 					     	  			        },
 					     	  			        title: {
 					     	  			          text: '',
-					     	  			         align: 'center',
-					     	  			         margin: 10,
-					    	    				        style: {
-					    	    				          fontWeight:  'bold',
-					    	    				          color:  '#263238'
-					    	    				          },
+					     	  			        align: 'center',
+													margin: 0,
+													offsetY: 20,
+													style: {
+														fontWeight: 'bold',
+													},
 					    	    				        },
 					  						subtitle: {
 					  							text: 'copyright LibVol.com',
 					  							align: 'right',
 					  							margin: 10,
-					  							offsetX: -10,
+					  							offsetX: -50,
 					  							offsetY: 30,
 					  							floating: false,
 					  							style: {
@@ -6844,7 +6859,7 @@ function navigationGraph(condition) {
    	  			          chart: {
 		   	  			         toolbar: {
 		   	  			        show: true,
-		   	  			        offsetX: 0,
+		   	  			       offsetX: -50,
 		   	  			        offsetY: 0,
 		   	  			        tools: {
 		   	  			          download: false,
@@ -6887,18 +6902,18 @@ function navigationGraph(condition) {
    	  			        },
    	  			        title: {
    	  			          text: '',
-   	  			         align: 'center',
-   	  			         margin: 10,
-  	    				        style: {
-  	    				          fontWeight:  'bold',
-  	    				          color:  '#263238'
-  	    				          },
+   	  			       align: 'center',
+					margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
   	    				        },
 						subtitle: {
 							text: 'copyright LibVol.com',
 							align: 'right',
 							margin: 10,
-							offsetX: -10,
+							offsetX: -50,
 							offsetY: 30,
 							floating: false,
 							style: {
@@ -7128,7 +7143,7 @@ function navigationGraph(condition) {
 	   	  			          chart: {
 			   	  			         toolbar: {
 			   	  			        show: true,
-			   	  			        offsetX: 0,
+			   	  			        offsetX: -50,
 			   	  			        offsetY: 0,
 			   	  			        tools: {
 			   	  			          download: false,
@@ -7172,17 +7187,18 @@ function navigationGraph(condition) {
 	   	  			        title: {
 	   	  			          text: '',
 	   	  			         align: 'center',
-	   	  			         margin: 10,
-	  	    				        style: {
-	  	    				          fontWeight:  'bold',
-	  	    				          color:  '#263238'
-	  	    				          },
+	   	  			         align: 'center',
+					margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
 	  	    				        },
 							subtitle: {
 								text: 'copyright LibVol.com',
 								align: 'right',
 								margin: 10,
-								offsetX: -10,
+								offsetX: -50,
 								offsetY: 30,
 								floating: false,
 								style: {
@@ -7492,7 +7508,7 @@ function navigationGraph(condition) {
 					     	  			          chart: {
 					  		   	  			         toolbar: {
 					  		   	  			        show: true,
-					  		   	  			        offsetX: 0,
+					  		   	  			        offsetX: -50,
 					  		   	  			        offsetY: 0,
 					  		   	  			        tools: {
 					  		   	  			          download: false,
@@ -7535,17 +7551,17 @@ function navigationGraph(condition) {
 					     	  			        title: {
 					     	  			          text: '',
 					     	  			         align: 'center',
-					     	  			         margin: 10,
-					    	    				        style: {
-					    	    				          fontWeight:  'bold',
-					    	    				          color:  '#263238'
-					    	    				          },
+					margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
 					    	    				        },
 					  						subtitle: {
 					  							text: 'copyright LibVol.com',
 					  							align: 'right',
 					  							margin: 10,
-					  							offsetX: -10,
+					  							offsetX: -50,
 					  							offsetY: 30,
 					  							floating: false,
 					  							style: {

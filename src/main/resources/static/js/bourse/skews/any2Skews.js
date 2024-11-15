@@ -655,7 +655,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 					     	  			          chart: {
 					  		   	  			         toolbar: {
 					  		   	  			        show: true,
-					  		   	  			        offsetX: 0,
+					  		   	  			        offsetX: -50,
 					  		   	  			        offsetY: 0,
 					  		   	  			        tools: {
 					  		   	  			          download: false,
@@ -698,17 +698,17 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 					     	  			        title: {
 					     	  			          text: '',
 					     	  			         align: 'center',
-					     	  			         margin: 10,
-					    	    				        style: {
-					    	    				          fontWeight:  'bold',
-					    	    				          color:  '#263238'
-					    	    				          },
+														margin: 0,
+														offsetY: 20,
+														style: {
+															fontWeight: 'bold',
+														},
 					    	    				        },
 					  						subtitle: {
 					  							text: 'copyright LibVol.com',
 					  							align: 'right',
 					  							margin: 10,
-					  							offsetX: -10,
+					  							offsetX: -50,
 					  							offsetY: 30,
 					  							floating: false,
 					  							style: {
@@ -952,7 +952,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 	   	  			          chart: {
 			   	  			         toolbar: {
 			   	  			        show: true,
-			   	  			        offsetX: 0,
+			   	  			        offsetX: -50,
 			   	  			        offsetY: 0,
 			   	  			        tools: {
 			   	  			          download: false,

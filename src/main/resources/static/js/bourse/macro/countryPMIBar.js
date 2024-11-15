@@ -255,7 +255,7 @@ function getGraphOptions(json) {
 			type: 'bar',
 			toolbar: {
 				show: true,
-				offsetX: 0,
+				offsetX: -50,
 				offsetY: 0,
 				tools: {
 					download: false,
@@ -335,7 +335,7 @@ function getGraphOptions(json) {
 			text: 'copyright LibVol.com',
 			align: 'right',
 			margin: 0,
-			offsetX: -10,
+			offsetX: -50,
 			offsetY: 30,
 			floating: false,
 			style: {

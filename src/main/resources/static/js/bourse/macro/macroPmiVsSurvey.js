@@ -384,6 +384,15 @@ function drawGraph() {
 						type: 'column',
 						data: response[1].graphResponseDTOLst
 					}],
+					title: {
+					text: '',
+					align: 'center',
+					margin: 10,
+					offsetY: 0,
+					style: {
+						fontWeight: 'bold',
+					},
+				},
 					chart: {
 				     /* toolbar: {
 				       // show: false,
@@ -495,7 +504,7 @@ function drawGraph() {
 				    graphTitle=T1+" vs Survey";
 				    graphTitle=graphTitle.toUpperCase().replace(/\bFINAL\b/g, '').replace(/SURVEY/g, '<span style="color:#ff99ff">Survey</span>').replace(/MANUFACTURING/g, 'Manuf').replace(/VS/g, 'vs')
 
-					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 25px;left: 350px;height: 50px;" class="title-style"><img height="50" class="pr-2" src=\''+getCountryImagePath(itemValue[checkedItemValues[0]].GroupId)[0]+'\' >'+graphTitle+'</div>')
+					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 20px;left: 350px;height: 50px;" class="title-style"><img height="50" class="pr-2" src=\''+getCountryImagePath(itemValue[checkedItemValues[0]].GroupId)[0]+'\' >'+graphTitle+'</div>')
 				})
 							    .catch(error => {
 							        console.error('Error processing data:', error);

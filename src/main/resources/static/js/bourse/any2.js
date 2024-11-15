@@ -4101,7 +4101,7 @@
    	  			          chart: {
 		   	  			         toolbar: {
 		   	  			        show: true,
-		   	  			        offsetX: 0,
+		   	  			        offsetX: -50,
 		   	  			        offsetY: 0,
 		   	  			        tools: {
 		   	  			          download: false,
@@ -4384,7 +4384,7 @@
 	   	  			          chart: {
 			   	  			         toolbar: {
 			   	  			        show: true,
-			   	  			        offsetX: 0,
+			   	  			        offsetX: -50,
 			   	  			        offsetY: 0,
 			   	  			        tools: {
 			   	  			          download: false,
@@ -4913,7 +4913,7 @@
 					     	  			          chart: {
 					  		   	  			         toolbar: {
 					  		   	  			        show: true,
-					  		   	  			        offsetX: 0,
+					  		   	  			       offsetX: -50,
 					  		   	  			        offsetY: 0,
 					  		   	  			        tools: {
 					  		   	  			          download: false,
@@ -5206,7 +5206,7 @@
 	   	  			          chart: {
 			   	  			         toolbar: {
 			   	  			        show: true,
-			   	  			        offsetX: 0,
+			   	  			        offsetX: -50,
 			   	  			        offsetY: 0,
 			   	  			        tools: {
 			   	  			          download: false,

@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - Liquidity</title>
+  <title>Libvol - Europe</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -52,7 +52,7 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
- 
+
   </style>
 </head>
 
@@ -66,19 +66,32 @@
      	<div th:include="${mainmenu}"></div>
         <!-- Topbar -->
   <div class="d-sm-flex align-items-center">
-            <h1 class="ml-6 text-darkorange">Liquidity</h1>
-            	 <nav style="margin-left: 3rem;
-    						 height: 35px;
-    						 margin-top: 0.5rem;">
-				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				  	  <a sec:authorize="hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2liquidity" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				      <a sec:authorize="hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbexcessliquidity-tab"  href="/bourse/ecbexcessliquidity" role="tab" aria-controls="nav-ecbexcessliquidity" aria-selected="false">Ecb Excess Liquidity</a>
-					  <a sec:authorize="hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbqeliquidity-tab"  href="/bourse/ecbqeliquidity" role="tab" aria-controls="nav-ecbqeliquidity" aria-selected="false">ECB QE Operations</a>
-					 <a sec:authorize="hasAuthority('ECB_IMPACT_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-ecbimpactliquidity-tab"  href="/bourse/ecbimpactliquidity" role="tab" aria-controls="nav-ecbImpactliquidity" aria-selected="false">ECB Impact</a>
-					 <a sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ezmmliquidity-tab"  href="/bourse/ezmmliquidity" role="tab" aria-controls="nav-ezmmliquidity" aria-selected="false">Eurozone Monetary Mass</a>
-					  <a sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-corporateliquidity-tab"  href="/bourse/corporateliquidity" role="tab" aria-controls="nav-corporateliquidity" aria-selected="false">Corporate Liquidity</a>
-				  </div>
-				</nav>
+            <h1 class="ml-6 text-darkorange">Stocks & Indices</h1>
+		     	   <nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
+		           <div class="nav nav-tabs" id="nav-tab" role="tablist">
+		             <a sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2sti" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
+		             <a sec:authorize="hasAuthority('STI_EUROPE_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link " id="nav-bunds-tab"
+	                 href="/bourse/europe" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">Europe</a>
+		             <a sec:authorize="hasAuthority('STI_WALLSTREET_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/wallstreet" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">Wall Street</a>
+	                 <a sec:authorize="hasAuthority('STI_ASIA_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link active" id="nav-bunds-tab"
+	                 href="/bourse/asia" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">Asia</a>
+	                 <a sec:authorize="hasAuthority('STI_EMERGING_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/emerging" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">Emerging</a>
+	                 <a sec:authorize="hasAuthority('STI_CRYPTOS_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/cryptos" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">Cryptos</a>
+		           </div>
+		        </nav>
            
           </div>
               </div>
@@ -101,60 +114,40 @@
 					  <div class="col">
 					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
 				<div class="row">
-				      <div class="col-6 d-flex">
-				          <div class="col-3">
-						               	<img alt="usa-flag" src="/img/flag/ecb.png" height="100px">
-						               </div>
-							           <div class="col-6">
-							            <div class="pt-2">
-							               <div class="pt-1 left">
-							                	<div id='jqxCheckBoxExcess1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Overnight Deposits at the ECB</span></div>
-							              </div>
-							             </div>
-							             <div class="">
-							                <div class="pt-1 left">
-							               		<div id='jqxCheckBoxExcess2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Current Account Holdings</span></div>
-							              </div>
-							            </div>
-							             <div class="">
-							                <div class="pt-1 left">
-							              		<div id='jqxCheckBoxExcess3' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Reserve Requirements</span></div>
-							                 </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1 left">
-							              	    <div id='jqxCheckBoxExcess4' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">Emergency Lending</span></div>
-							              </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1 left">
-							              	      <div id='jqxCheckBoxExcess1Excess2Excess3Excess4' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">Excess Liquidity</span></div>
-							            	</div>
-							            </div>
-							           </div>
-					  </div>
-				       <div class="col-6 d-flex">
-						               <div class="col-3">
-						               	<img alt="usa-flag" src="/img/flag/ecbqe.png" height="100px">
-						               </div>
-							           <div class="col-6">
-							            <div class="pt-2">
-							               <div class="pt-1 right">
-							              	    <div id='jqxCheckBoxCumQe1' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE sovereign bond QE</span></div>
-							              </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1 right">
-							              	       <div id='jqxCheckBoxCumQe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE corporate bonds QE</span></div>
-							            </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1 right">
-							              	     <div id='jqxCheckBoxCumQe1Qe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE QE</span></div>
-							            </div>
-							            </div>
-							           </div>
-						            </div>
+				<div class="col-12 row">    <div class="row">
+										<div id='jqxCheckBoxNikkei' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NIKKEI</span></div> 
+             							<div id='jqxCheckBoxNikkei_usdjpy'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-NIKKEI</span></div> 
+									   	</div>
+									   	<div class="row">
+									   	<div id='jqxCheckBoxCsi'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">CSI</span></div>
+             							<div id='jqxCheckBoxCsi_usdcny'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-CSI</span></div>
+             						    </div>
+             						    <div class="row">	
+             							<div id='jqxCheckBoxNifty'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">NIFTY</span></div>
+             							<div id='jqxCheckBoxNifty_usdinr' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-NIFTY</span></div>
+             							</div>
+             							<div class="row">
+             							<div id='jqxCheckBoxKospi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">KOSPI</span></div>
+             							<div id='jqxCheckBoxKospi_usdkrw' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-KOSPI</span></div>
+					         			</div>
+					         			<div class="row">
+					         			<div id='jqxCheckBoxHangseng' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HANGSENG</span></div> 
+					             		<div id='jqxCheckBoxHangseng_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HANGSENG</span></div> 
+					             		</div>
+					             		<div class="row">
+					             		<div id='jqxCheckBoxHismbi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HSI^ BANKING</span></div>
+					             		<div id='jqxCheckBoxHismbi_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HSI BANKING</span></div>
+					             		</div>
+					             		<div class="row">
+					             		<div id='jqxCheckBoxHismpi' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">HSI^ PROPERTY</span></div>
+					             		<div id='jqxCheckBoxHismpi_usdhkd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-HSI PROPERTY</span></div>
+					            	 	</div>
+		                  
+                 		</div>
+                 		<div class="col-2"></div>
+                 		<div class="col-5">
+		                     
+		                 </div>
                      </div>
                      	<div class="row pt-2">
 							<div class='col-12 d-flex justify-content-end'>
@@ -168,6 +161,23 @@
 				    <div class="row">
 				       <div class="row col-12">
 				   	  	   
+				   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
+					            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
+					                Daily</button>
+					            <button style="padding:4px 16px;" id="w">
+					                Weekly</button>
+					            <button style="padding:4px 16px;" id="m">
+					                Monthly</button>
+								 <button style="padding:4px 16px;" id="q">
+									Quarterly</button>
+								 <button style="padding:4px 16px;" id="y">
+									Yearly</button>
+					        </div>
+								<div id='dropDownType' style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
+								<div class="d-flex" style=' margin-left: 2.4rem;'>
+									<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
+									<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
+								</div>
 							</div>
 							
 				     <div class="col-1" style="z-index: 1;">
@@ -331,7 +341,7 @@
 		        </button>
 		      </div>
 		      <div class="modal-body">
-		        You must select at least one record from each table.
+		        You must select at least one record.
 		      </div>
 		    </div>
 		  </div>
@@ -401,7 +411,7 @@
   <script src="/js/apexcharts.js"></script>
   <script src="/js/chartOptions.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
-  <script src="/js/bourse/ecbImpactLiquidity.js"></script> 
+  <script src="/js/bourse/sti/asia.js"></script> 
   <script src="/js/chart.js"></script>
    <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 

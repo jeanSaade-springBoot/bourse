@@ -1249,17 +1249,17 @@ function getPieChartOptionSeries(chartConfiguration){
 		title: {
 			text: chartConfiguration.title,
 			align: 'center',
-			margin: 10,
-			style: {
-				fontWeight: 'bold',
-				color: '#263238'
-			},
+					margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
 		},
 		subtitle: {
 			text: 'copyright LibVol.com',
 			align: 'right',
 			margin: 10,
-			offsetX: -10,
+			offsetX: -50,
 			offsetY: 30,
 			floating: false,
 			style: {
@@ -1334,17 +1334,17 @@ function getPieChartOptionEmptySeries(chartConfiguration){
 		title: {
 			text: chartConfiguration.title,
 			align: 'center',
-			margin: 10,
-			style: {
-				fontWeight: 'bold',
-				color: '#263238'
-			},
+					margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
 		},
 		subtitle: {
 			text: 'copyright LibVol.com',
 			align: 'right',
 			margin: 10,
-			offsetX: -10,
+			offsetX: -50,
 			offsetY: 30,
 			floating: false,
 			style: {

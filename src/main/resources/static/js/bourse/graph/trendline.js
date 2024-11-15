@@ -5,7 +5,7 @@ var options_graph = {
 			width: '100%',
 			toolbar: {
 				show: true,
-				offsetX: 0,
+				offsetX: -50,
 				offsetY: 0,
 				tools: {
 					download: false,
@@ -48,17 +48,17 @@ var options_graph = {
 		title: {
 			text: '',
 			align: 'center',
-			margin: 10,
-			style: {
-				fontWeight: 'bold',
-				color: '#263238'
-			},
+					margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
 		},
 		subtitle: {
 			text: 'copyright LibVol.com',
 			align: 'right',
 			margin: 10,
-			offsetX: -10,
+			offsetX: -50,
 			offsetY: 30,
 			floating: false,
 			style: {
@@ -209,13 +209,13 @@ $(document).ready(function() {
 	
 	$("#addRelevant").click(function() {
 	   
-			if (relevant.length<1)
+			if (relevant.length<5)
 			initiateRelevant();
 			else
 			{
 			$('#alertLimitation-modal').modal('show');
 			$("#alertTextLimitation").empty();
-			$("#alertTextLimitation").append("<p> Maximum reached: You cannot draw more than 1 relevant. </p>");
+			$("#alertTextLimitation").append("<p> Maximum reached: You cannot draw more than 5 relevant. </p>");
 		    }
 		
 	});
@@ -505,7 +505,10 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 								    processRetracementData(retracementData, checkedItemValues);
 		   							if( relevant.length!=0)
 		   							{drawRelevantTable(relevant);
-									 drawRelevant(relevant[0].relevantParameter,relevant[0].relevantId);
+									 for (let i = 0; i < relevant.length; i++) {
+									 drawRelevant(relevant[i].relevantParameter,relevant[i].relevantId);
+									}
+									 updateSeriesChart(chartConfigSettings);
 									}else{
 										$("#relevant-grid").empty();
 
@@ -1371,7 +1374,8 @@ function drawRelevantTable(data){
 								break;
 						  }
 					  }
-				
+				      updateSeriesChart(chartConfigSettings);
+
 				    }
 	   			 
 		});
@@ -1400,7 +1404,7 @@ function drawRelevantTable(data){
 			  const selectedRelevant = relevant.find(item => item.relevantId === index)  ;
 		      saveRelevantHistory(index); 
 		      drawRelevant(selectedRelevant.relevantParameter,selectedRelevant.relevantId);
-			  
+			  updateSeriesChart(chartConfigSettings);
 	
 		});
 		}
@@ -1502,7 +1506,7 @@ function updateSeriesChart(chartConfigSettings){
 			width: '100%',
 			toolbar: {
 				show: true,
-				offsetX: 0,
+				offsetX: -50,
 				offsetY: 0,
 				tools: {
 					download: false,
@@ -1519,7 +1523,29 @@ function updateSeriesChart(chartConfigSettings){
 			type: 'line',
 			animations: { enabled: false }
 		},
-						series:serieArray,
+				series:serieArray,
+				title: {
+					text: title,
+					align: 'center',
+					margin: 0,
+					offsetY: 20,
+					style: {
+						fontWeight: 'bold',
+					},
+				},
+				subtitle: {
+							text: 'copyright LibVol.com',
+							align: 'right',
+							margin: 0,
+							offsetX: -50,
+							offsetY: 30,
+							floating: false,
+							style: {
+								fontSize: '10px',
+								fontWeight: 'normal',
+								color: '#9699a2'
+							},
+						},
 						xaxis: {
 						labels: {
 							rotate: -70,
@@ -2821,8 +2847,8 @@ function drawRelevant(data,relevantId) {
 		  		   y:data.startPrice,
 		  		   y2:data.endPrice,
 		  		   position:'left',
-		  		   borderColor: "#FF0000",
-		  		   fillColor: "#FF000030",
+		  		   borderColor: "#ffffff00",
+		  		   fillColor: "#FF000050",
 		  		   strokeDashArray: 0,
 		  		   opacity: 1,
 		  		   label: {
@@ -2848,7 +2874,7 @@ function drawRelevant(data,relevantId) {
 				}
 			    
 			drawRelevantTable(relevant);	  		
-            updateSeriesChart(chartConfigSettings);
+          //  updateSeriesChart(chartConfigSettings);
         
 }
 function calculateRetracement(retracementId){
@@ -2981,7 +3007,8 @@ function convertData(data,retracementId) {
 			                offsetY: IsEnd?15:0,
 			                borderColor: "#ffffff00",
 			                style: {
-			                    color: "#FF00FF",
+								fontSize: '0.813rem',
+			                    color: "#FFFFFF",
 			                    background: "#00000000"
 			                }
 			            }
@@ -3195,6 +3222,9 @@ function mergeRetracementData(results, retracementData) {
         }
     }
 }
+
+
+
 function mergeRelevantData(results, relevantData) {
     for (const [key, newItems] of Object.entries(relevantData)) {
         // Check if the key exists in the existing JSON data
@@ -3211,7 +3241,7 @@ function mergeRelevantData(results, relevantData) {
 
                 if (existingIndex !== -1) {
                     // Update the existing item
-                    existingEntry.relevant[existingIndex] = newItem.relevantData;
+                    existingEntry.relevant[existingIndex] = newItem;
                 } else {
                     // Add the new item
                     existingEntry.relevant.push(newItem);
@@ -3288,10 +3318,14 @@ async function saveRelevantHistory(relevantId) {
 				        obj.dbId = dbId; // Add the dbid field with the desired value
 				    }
 				});		
-				 
-			  acc[data.graphId].relevant.push({dbId:dbId,
+				 relevant.forEach(obj => {
+				    acc[data.graphId].relevant.push({dbId:obj.dbId,
+		       					 relevantParameter:obj.relevantParameter,
+		       					 isHidden: obj.isHidden});
+				});	
+			  /*acc[data.graphId].relevant.push({dbId:dbId,
 		       					 relevantParameter:parameters,
-		       					 isHidden: data.isHidden});
+		       					 isHidden: data.isHidden});*/
 		       					 
 		  			 
 			  return acc;

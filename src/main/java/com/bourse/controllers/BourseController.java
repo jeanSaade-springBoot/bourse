@@ -617,6 +617,46 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/longEnds/bunds");
     }
+	@PreAuthorize("hasAuthority('STI_EUROPE_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/europe")
+    public ModelAndView stiEuropeGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/sti/europe");
+    }
+	@PreAuthorize("hasAuthority('STI_WALLSTREET_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/wallstreet")
+    public ModelAndView stiWallStreetGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/sti/wallstreet");
+    }
+	@PreAuthorize("hasAuthority('STI_ASIA_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/asia")
+    public ModelAndView stiAsiaGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/sti/asia");
+    }
+	@PreAuthorize("hasAuthority('STI_EMERGING_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/emerging")
+    public ModelAndView stiEmergingGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/sti/emerging");
+    }
+	@PreAuthorize("hasAuthority('STI_CRYPTOS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/cryptos")
+    public ModelAndView stiCryptosGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/sti/cryptos");
+    }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)
