@@ -47786,6 +47786,12 @@ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('108', 'RAT
 
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('109', 'LONGENDS_BUNDS_GRAPH_SCREEN', true);
 
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('111', 'STI_EUROPE_GRAPH_SCREEN', true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('112', 'STI_WALLSTREET_GRAPH_SCREEN', true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('113', 'STI_ASIA_GRAPH_SCREEN', true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('114', 'STI_EMERGING_GRAPH_SCREEN', true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('115', 'STI_CRYPTOS_GRAPH_SCREEN', true);
+
 
 
 

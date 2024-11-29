@@ -96,6 +96,11 @@ public class MacroService {
 		return macroDisplaySettingsRepository.findAllFinalWithFcst();
 		
 	}
+public List<MacroDisplaySettings> getMacroDisplaySettingsFinalWithFlashList() {
+		
+		return macroDisplaySettingsRepository.findAllFinalWithFlash();
+		
+	}
 	public List<MacroDisplaySettings> saveMacroDisplaySettingsList(List<MacroDisplaySettings> dTOLst) {
 		return macroDisplaySettingsRepository.saveAll(dTOLst);
 	}
@@ -384,6 +389,21 @@ public class MacroService {
 							   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
 							   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
 							   .factor1(graphReqDTO.getFactor2())
+							   .build();
+					l1.add(getGraphDataResult(graphRequestDTO,false));
+				}
+				if(graphReqDTO.getGroupId3()!=null)
+				{
+					GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId3())
+							   .subGroupId1(graphReqDTO.getSubGroupId3())
+							   .period(graphReqDTO.getPeriod())
+							   .type(graphReqDTO.getType())
+							   .fromdate(graphReqDTO.getFromdate())
+							   .todate(graphReqDTO.getTodate())
+							   .functionId(graphReqDTO.getFunctionId())
+							   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+							   .removeEmpty1(graphReqDTO.getRemoveEmpty3())
+							   .factor1(graphReqDTO.getFactor3())
 							   .build();
 					l1.add(getGraphDataResult(graphRequestDTO,false));
 				}

@@ -163,6 +163,11 @@ $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
 });
+document.addEventListener('updateGraphConfiguration', () => {
+  updateSeriesChart(chartConfigSettings);
+      
+});
+
 $(document).ready(function() {
 	
      initializeNewsBanner();
@@ -405,7 +410,7 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 							var dbchartType1 = response[0].config.chartType;
 							chartType1 = getChartType(dbchartType1)[0];
 							curve1 = getChartType(dbchartType1)[1];
-							disableOptions(false);
+							disableChartType(false);
 							var getFormatResult = getFormat(response[0].config.dataFormat);
 							chartDbFontSize = response[0].config.chartSize;
 							const hasMatchingTrendlines = !(typeof(hasMatchingTrendline)!='undefined')?false : hasMatchingTrendline.length!=0
@@ -1493,14 +1498,14 @@ function updateSeriesChart(chartConfigSettings){
 	         calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
 	     
 	      if (serieArray.length==1) 
-          disableOptions(false);
+          disableChartType(false);
           else
-          disableOptions(true);
+          disableChartType(true);
           
           $('#legendfalse').addClass("active");
 		  $('#legendtrue').removeClass("active");
 		
-				chartOpacity = eval(checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],'1'));
+				chartOpacity = typeof chartOpacity=='undefined'?eval(checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],'1')):SelectedChartTransparency;
 				chart.updateOptions({
 					chart: {
 			width: '100%',
@@ -2360,7 +2365,7 @@ async function updateTrendLine(trendlineIdToUpdate){
 					  });
 			 }  
 		      serieArray = getSerriesData();
-	          disableOptions(true);
+	          disableChartType(true);
 	          
 	          var json={
 				  trendLineId:trendlineIdToUpdate,
@@ -2451,7 +2456,7 @@ function updateChannelLine(channelidToUpdate){
 				  
 		      serieArray = getSerriesData();
 		       
-	          disableOptions(true);
+	          disableChartType(true);
 	     
 			
 	          drawTrendLineTable(trendLines);
@@ -2476,7 +2481,7 @@ function addChannelTrendLine(channelTrendline){
 			  
 			  serieArray = getSerriesData();
 			  
-	          disableOptions(true);
+	          disableChartType(true);
 	         
 	          var json={
 				  channelId:channelId,
@@ -2574,7 +2579,7 @@ function drawLine(){
 			  
 			  serieArray = getSerriesData();
 		   
-	          disableOptions(true);
+	          disableChartType(true);
 	          
 	          json={
 				  trendLineId:trendLineId,

@@ -1,3 +1,5 @@
+const updateEvent = new Event('updateGraphConfiguration');
+var SelectedChartTransparency;
 period='DAILY';
 
 $("#fontOptions button.btn").click(function(){
@@ -782,7 +784,8 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 		       size: selectedChartMarker,
 		     }
 		 });
-	chart.updateSeries([{ type:SelectedchartType}]);
+	// chart.updateSeries([{ type:SelectedchartType}]);
+	document.dispatchEvent(updateEvent);
 }
 function updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend){
 	if(typeof graphName !='undefined' && (graphName=="marketShareVolume"))
@@ -832,13 +835,13 @@ function chartColorOption(selectedChartColor)
 function chartTransparencyOption(selectedChartTransparency)
 {
 	SelectedchartType=$("#chartTypes").find(".active")[0].id;
-	selectedChartTransparency=selectedChartTransparency;
+	SelectedChartTransparency=selectedChartTransparency;
     selectedChartColor='#'+$("#chartColor").find(".active")[0].id;
     selectedChartMarker=$("#chartMarker").find(".active")[0].id.split("-")[1];
     selectedChartGrid=$("#gridOptions").find(".active")[0].id;
     selectedChartLegend=$("#gridLegend").find(".active")[0].id;
       
-   updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);    
+   updateGraphOption(SelectedchartType,selectedChartColor,SelectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);    
 }
 function chartMarkerOption(selectedChartMarker)
 {

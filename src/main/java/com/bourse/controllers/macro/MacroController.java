@@ -61,6 +61,11 @@ public class MacroController {
 		System.out.println(className+": get-macro-display-final-with-fcst");
 		return new ResponseEntity<>(macroService.getMacroDisplaySettingsFinalWithFcstList(),HttpStatus.OK);
 	}
+	@GetMapping(value = "get-macro-display-final-with-flash")
+	public ResponseEntity<List<MacroDisplaySettings>> getMacroDisplaySettingsFinalWithFlashList() {
+		System.out.println(className+": get-macro-display-final-with-flash");
+		return new ResponseEntity<>(macroService.getMacroDisplaySettingsFinalWithFlashList(),HttpStatus.OK);
+	}
 	@GetMapping(value = "get-macro-display-settings/{groupId}")
 	public ResponseEntity<List<MacroDisplaySettings>> getMacroDisplaySettingsList(@PathVariable("groupId") String groupId) {
 		System.out.println(className+": get-macro-display-settings-1");

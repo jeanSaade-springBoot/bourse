@@ -1965,7 +1965,7 @@ function getMarginLenghtVolume(value) {
 				     var valueMin1 = values;
 				     var valueMax1 = values; 
 				      var calculatedMinValue = Math.sign(chartConfigSettings.min)==-1 ? -Math.abs(chartConfigSettings.min)-valueMin1 : Math.abs(chartConfigSettings.min)-valueMin1;
-				     	  calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
+				     	//  calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
 				
 					  chart.updateOptions({
 						 series:[{
@@ -2092,7 +2092,7 @@ function getMarginLenghtVolume(value) {
 							}, {
 								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
 								type: 'column',
-								data: chartConfigSettings.response[1].graphResponseDTOLst
+								data: chartConfigSettings.response[1].graphResponseDTOLst,
 							}],
 						 xaxis: {
 									labels: {
@@ -2217,11 +2217,13 @@ function getMarginLenghtVolume(value) {
 				     var selectedValue = Math.abs(chartConfigSettings.min2)>=Math.abs(chartConfigSettings.max2)?Math.abs(min2):Math.abs(max2);
 					 
 				     var calculatedMinValue = Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1;
-				     	 calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
+				   //  	 calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
 					 var calculatedMinValue2 = -Math.abs(selectedValue + valueMin2) ;// Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue + valueMin2) : Math.abs(selectedValue + valueMin2);
 						// calculatedMinValue2 = (Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2);	
 						//var strokeWidth=chartConfigSettings.Period!='d' ?chartConfigSettings.chartType=='column'?getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length):undefined:undefined; 
-					var strokeWidth=getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length); 
+				//	var strokeWidth=getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length); 
+					var strokeWidth=getDynamicWidth(chartConfigSettings.response[0].graphResponseDTOLst.filter(item => item.y !== null).length); 
+					var strokeWidth1=getDynamicWidth(chartConfigSettings.response[1].graphResponseDTOLst.filter(item => item.y !== null).length); 
 
 					 chart.updateOptions({
 						 series:[{
@@ -2234,7 +2236,9 @@ function getMarginLenghtVolume(value) {
 								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
 								type: 'column',
 								data: chartConfigSettings.response[1].graphResponseDTOLst,
-								strokeWidth:strokeWidth
+								    ...([5,6, 10, 11, 12, 13, 14, 15].includes(chartConfigSettings.functionId) 
+			            ? { strokeWidth: strokeWidth1 } 
+			            : {}) // Conditionally include strokeWidth
 
 							}],
 							
@@ -2305,8 +2309,10 @@ function getMarginLenghtVolume(value) {
   	    	    		   strokeColors:["#FFFFFF", "#ff000059"],
   	    	    		 },
   	    	    		 stroke: chartConfigSettings.Period=='d' ?{
-						      	 colors: [(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:"#FFFFFF", "#ff000059"],
-					        	 width: [2.25,0]
+						      	 colors: [(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:"#FFFFFF", "#ff000000"],
+					        	    ...(![5,6,10, 11, 12, 13, 14, 15].includes(chartConfigSettings.functionId) 
+			            ? {  width: [2.25,0] } 
+			            : {}) 	//
 					        }: {},
  				       yaxis: [{
 								 labels: {
@@ -7888,12 +7894,29 @@ function getStrokeWidthPeriod(period, numColumns)
       
 	  return strokeWidth;
 	}
+	
+	function getDynamicWidth(numColumns) {
+	    var totalAvailableWidth = 931;
+		const minColumnWidth = 4; // Minimum width to prevent columns from being invisible
+	    const maxColumnWidth = 50; // Maximum width to avoid overly thick columns
+	
+	    // Calculate the dynamic factor as a percentage of totalAvailableWidth per column
+	    const dynamicFactor = Math.min(1 / numColumns, 0.1); // Decreases as column count increases, with a cap
+	
+	    // Compute initial column width
+	    let columnWidth = totalAvailableWidth  / numColumns * dynamicFactor;
+	
+	    // Clamp column width between min and max thresholds
+	    columnWidth = Math.max(minColumnWidth, Math.min(columnWidth, maxColumnWidth));
+
+    	return columnWidth*3;
+	}
 	function calculateSpacing(outerWidth, numColumns) {
 	    return outerWidth / numColumns;
 	}
 	
 	function calculateStrokeWidth(totalAvailableWidth, numColumns) {
-	    var factor = 0.1; 
+	    var factor = 0.05; 
 	    return totalAvailableWidth / (numColumns - 1) * factor;
 	}
    function initiateBarGraph (graphService,graphName,removeEmpty,saveHistory)

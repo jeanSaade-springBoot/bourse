@@ -34,4 +34,23 @@ public interface MacroDisplaySettingsRepository extends JpaRepository<MacroDispl
 			+ "		WHERE mds.is_visible = true AND mds.factor IN (16)\r\n"
 			+ "		ORDER BY mds.group_id, mds.subgroup_id;", nativeQuery = true)
 	public List<MacroDisplaySettings> findAllFinalWithFcst();
+	
+	
+	@Query(value = " WITH factors_16 AS ( \r\n"
+			+ "				    SELECT group_id, subgroup_id \r\n"
+			+ "				    FROM macro_display_settings \r\n"
+			+ "				    WHERE factor = 16 AND is_visible = true AND subgroup_id IN (1, 3)\r\n"
+			+ "				),\r\n"
+			+ "				factors_15 AS (\r\n"
+			+ "				    SELECT group_id, subgroup_id\r\n"
+			+ "				    FROM macro_display_settings\r\n"
+			+ "				    WHERE factor = 15 AND is_visible = true AND subgroup_id IN (1, 3)\r\n"
+			+ "				)\r\n"
+			+ "				SELECT mds.*\r\n"
+			+ "				FROM macro_display_settings mds\r\n"
+			+ "				JOIN factors_16 f16 ON mds.group_id = f16.group_id AND mds.subgroup_id = f16.subgroup_id\r\n"
+			+ "				JOIN factors_15 f14 ON mds.group_id = f14.group_id AND mds.subgroup_id = f14.subgroup_id\r\n"
+			+ "				WHERE mds.is_visible = true AND mds.factor IN (16)\r\n"
+			+ "				ORDER BY mds.group_id, mds.subgroup_id; ", nativeQuery = true)
+	public List<MacroDisplaySettings> findAllFinalWithFlash();
 }
