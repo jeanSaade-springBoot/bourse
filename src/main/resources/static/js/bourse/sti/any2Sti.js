@@ -79,11 +79,6 @@
 			"#jqxCheckBoxBovespa_usdbrl",
 			"#jqxCheckBoxMexbol",
 			"#jqxCheckBoxMexbol_usdmxn",
-			"#jqxCheckBoxBitcoin",
-			"#jqxCheckBoxEtherium",
-			"#jqxCheckBoxSolana",
-			"#jqxCheckBoxCardano",
-			"#jqxCheckBoxShiba",
 		];	
 
   var fromHistory=false;

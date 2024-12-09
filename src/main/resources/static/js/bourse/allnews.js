@@ -352,6 +352,8 @@
 						 return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>" + 'RATES' + "</span></div></div>";
 					else if (group.split("_")[1] == 10)
 						 return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>" + 'LONG-END FUTURES' + "</span></div></div>";
+					else if (group.split("_")[1] == 11)
+						 return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details' style='font-size: .75rem;'>" + 'CRYPTOS' + "</span></div></div>";
 				  } 
 				  else if (text.includes("Date"))
 				    return "<div role='gridcell' style='z-index: 1283; width: 650px;' class='jqx-grid-group-cell jqx-grid-cell-wrap' title=''><div class='jqx-grid-groups-row' style='position: absolute;'><span>	&nbsp; </span><span class='jqx-grid-groups-row-details'>"+$.datepicker.formatDate('dd-M-yy', group)+"</span></div></div>";

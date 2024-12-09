@@ -23,7 +23,6 @@ import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.longEnds.LongEndsDisplaySettings;
 import com.bourse.domain.longEnds.TmpAuditLefBunds;
-import com.bourse.domain.macro.MacroDisplaySettings;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseDTO;

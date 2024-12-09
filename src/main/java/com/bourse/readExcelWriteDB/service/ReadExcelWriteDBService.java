@@ -30,6 +30,7 @@ import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.ShatzOptionsVolume;
 import com.bourse.domain.SubGroup;
 import com.bourse.domain.TransportationData;
+import com.bourse.domain.cryptos.CryptosData;
 import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.rates.RatesData;
@@ -62,6 +63,7 @@ import com.bourse.service.FxDataService;
 import com.bourse.service.PerciousMetalsService;
 import com.bourse.service.ShatzOptionsVolumeService;
 import com.bourse.service.TransportationService;
+import com.bourse.service.cryptos.CryptosService;
 import com.bourse.service.longEnds.LongEndsService;
 import com.bourse.service.macro.MacroService;
 import com.bourse.service.rates.RatesService;
@@ -115,6 +117,8 @@ public class ReadExcelWriteDBService {
     RatesService ratesService;
     @Autowired
     LongEndsService longEndsService;
+    @Autowired
+    CryptosService cryptosService;
     
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
 		List<DataDTO> rowData = new ArrayList<>();
@@ -134,6 +138,15 @@ public class ReadExcelWriteDBService {
 	    
 	    Set<String> LongEndsGroupIds = new HashSet<>(); 
 	    LongEndsGroupIds.add("52");
+	    
+	    Set<String> cryptosGroupIds = new HashSet<>();
+	    cryptosGroupIds.add("71");
+	    cryptosGroupIds.add("72");
+	    cryptosGroupIds.add("73");
+	    cryptosGroupIds.add("74");
+	    cryptosGroupIds.add("75");
+	    cryptosGroupIds.add("76");
+	    
 	    
 		System.out.println("------------------ batch load: "+readExcelWriteDBDTO.getGroupId());
 		if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("6"))
@@ -1171,6 +1184,41 @@ public class ReadExcelWriteDBService {
 		            System.out.println("Maximum Date: " + minMaxDates[1]);
 
 		             longEndsService.doCalculationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
+		        } else {
+		            System.out.println("List is empty.");
+		        } 
+		}else if(cryptosGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim()))
+		{
+			   List<CryptosData> cryptosDataLst = new ArrayList<>();
+			   List<String> subgroups = Arrays.asList("1", "2","3","4","5","6","7","8");
+			   int[] subgroupOrder = {1,3,4,2,5,6,7,8};
+			   int i = 0; 
+			   for (String subGroupId: subgroups) {
+						   rowData.clear();
+						   cryptosDataLst.clear();
+						   rowData = ReadExcelWriteDBUtil.readExcelFileWithString(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+						   for (DataDTO data: rowData) {
+							 if(cryptosService.CheckIfCanSaveCryptos(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subgroupOrder[i])))
+							 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+							 CryptosData cryptosData = CryptosData.builder().referDate(data.getDate())
+							   												  .subgroupId(Long.valueOf(subgroupOrder[i]))
+							   												  .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+							   												  .value(data.getValue()==null?"":data.getValue())
+						   												  .build();
+							   
+							 cryptosDataLst.add(cryptosData);
+				      }
+						   cryptosService.saveCryptos(cryptosDataLst);
+					 i++;  
+			
+			   }
+			   if (!cryptosDataLst.isEmpty()) {
+		            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(cryptosDataLst, "referDate");
+
+		            System.out.println("Minimum Date: " + minMaxDates[0]);
+		            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+		            cryptosService.doCalculationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
 		        } else {
 		            System.out.println("List is empty.");
 		        } 

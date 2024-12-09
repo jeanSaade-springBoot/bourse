@@ -2344,7 +2344,7 @@ async function updateTrendLine(trendlineIdToUpdate){
 	 	     let found=false,channelFound=false;
 	 	     count=countDataPointsBetweenDates(x1, x2);
 			 const slope=(y2-y1)/count;
-	 	     var result = findThirdPoint(x1, y1, x2, y2, x3, slope.toFixed(3),latestEndDate);
+	 	     var result = findThirdPoint(x1, y1, x2, y2, x3, slope.toFixed(6),latestEndDate);
 			 
 			
 			 for (var i = 0; i < trendlineSeries.length; i++) {
@@ -2376,7 +2376,7 @@ async function updateTrendLine(trendlineIdToUpdate){
 				  x3:x3,
 				  y3:(result.xyValues[2].y).toFixed(3),
 				  endValue:(result.endValue).toFixed(3),
-				  slope:slope.toFixed(3)
+				  slope:slope.toFixed(6)
 			  }
 			  	 for (var i = 0; i < trendLines.length; i++) {
 				   if (trendLines[i].trendLineId === parseFloat(trendlineIdToUpdate)) {
@@ -2407,7 +2407,7 @@ async function updateTrendLine(trendlineIdToUpdate){
 				  x3:x3,
 				  y3:(result.xyValues[2].y).toFixed(3),
 				  endValue:(result.endValue).toFixed(3),
-				  slope:slope.toFixed(3)
+				  slope:slope.toFixed(6)
 			  } 
 			  }
 	          drawTrendLineTable(trendLines);
@@ -2589,7 +2589,7 @@ function drawLine(){
 				  y2:y2,
 				  x3:x3,
 				  y3:(result[2].y).toFixed(2),
-				  slope:slope.toFixed(3)
+				  slope:slope.toFixed(6)
 			  }
 			  trendLines.push(json);
 	          drawTrendLineTable(trendLines);
@@ -2672,7 +2672,9 @@ async function updateLatestTrendLine(trendLines, newDateX3,originalEndDate, grap
     if (item.x3 !== newDateX3) {
       	item.x3 = newDateX3;
         allDataAreLatest=false; 
-	    item.y3  = findThirdPoint(item.x1, item.y1, item.x2, item.y2, item.x3, item.slope, originalEndDate).xyValues[2].y.toFixed(3);
+        const newItem = findThirdPoint(item.x1, item.y1, item.x2, item.y2, item.x3, item.slope, originalEndDate);
+	    item.y3  = newItem.xyValues[2].y.toFixed(3);
+        item.endValue = newItem.endValue;
     if(typeof channelLine !=='undefined')
      if(channelLine.x3 !== newDateX3){
 		channelLine.x3 = newDateX3;

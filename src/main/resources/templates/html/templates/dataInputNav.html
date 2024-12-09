@@ -12,6 +12,7 @@
                 <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_STI')" th:classappend="${datainputmenu == 'DATABASE_INPUT_SCREEN_STI'} ? 'active' : ''"  class="navigation nav-item nav-link " id="nav-column-master-tab" href="/bourse/sti?sti=3" role="tab" aria-controls="nav-any2" aria-selected="false">STOCKS & INDICES</a>
                 <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_MACRO')" th:classappend="${datainputmenu == 'DATABASE_INPUT_SCREEN_MACRO'} ? 'active' : ''"  class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/macro" role="tab" aria-controls="nav-any2" aria-selected="false">MACRO PMI</a>
           		<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_LONGENDS')" th:classappend="${datainputmenu == 'DATABASE_INPUT_SCREEN_LONGENDS'} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/longends?longend=1" role="tab" aria-controls="nav-any2" aria-selected="false">LONG-END FUTURES</a>
+          	    <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_CRYPTOS')" th:classappend="${datainputmenu == 'DATABASE_INPUT_SCREEN_CRYPTOS'} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/cryptos?cryptos=1" role="tab" aria-controls="nav-any2" aria-selected="false">CRYPTOS</a>
           	 </div>
       	  </nav>
   </div>

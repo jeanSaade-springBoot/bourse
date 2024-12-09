@@ -140,11 +140,19 @@ div#container-wrapper {
               <!-- Form Basic -->
              <div class="col mt-4 ml-4 p-0">
               <div class="btn-group" role="group" aria-label="First group">
-			    <button type="button" class="btn btn-secondary mw-100" id="europe-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">Europe</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="wallStreet-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">Wall Street</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="asia-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">Asia</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="emerging-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">Emerging</button>
-			    </div>
+								<button type="button" class="btn btn-secondary mw-100"
+									id="Bitcoin-btn" th:onclick="'javascript:toggleDivVisibility(1)'">BITCOIN</button>
+								<button type="button" class="btn btn-secondary mw-100"
+									id="Ethereum-btn" th:onclick="'javascript:toggleDivVisibility(2)'">ETHEREUM</button>
+								<button type="button" class="btn btn-secondary mw-100"
+									id="Solana-btn" th:onclick="'javascript:toggleDivVisibility(3)'">SOLANA</button>
+								<button type="button" class="btn btn-secondary mw-100"
+									id="Shiba-btn" th:onclick="'javascript:toggleDivVisibility(4)'">SHIBA INU</button>
+							    <button type="button" class="btn btn-secondary mw-100"
+									id="Binance-btn" th:onclick="'javascript:toggleDivVisibility(5)'">BINANCE</button>
+								<button type="button" class="btn btn-secondary mw-100"
+									id="Xrp-btn" th:onclick="'javascript:toggleDivVisibility(6)'">XRP</button>
+				</div>
 			</div>
             <div class="collapse show" id="collapseExample">
   			 <div class="card mb-4">
@@ -157,8 +165,8 @@ div#container-wrapper {
 											    padding-left: 1.25rem;">
                  <div class="row">
                  <div  class="col-12 justify-content-between">
-                 	<div id="stiSubGroup" th:text="${sti}" style="display:none;"></div>
-                 	<input id="commoditySubGroup1" style="display:none;" value="th:text='${sti}'"/>
+                 	<div id="crySubGroup" th:text="${cryptos}" style="display:none;"></div>
+                 	<input id="commoditySubGroup1" style="display:none;" value="th:text='${cryptos}'"/>
                  	
                  		<div class="col-4 p-0">
 										<h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data
@@ -166,197 +174,307 @@ div#container-wrapper {
 										<div id='dateInput'></div>
 									</div>
 									
-                    <div th:if="${sti == 1}" class="col-12 p-0" id="Asia-input">
+                    <div th:if="${cryptos == 1}" class="col-12 p-0" id="Bitcoin-input">
 		                 <div class="col p-0 ">
-		                  <form  id="dataformInputAsia">
+		                  <form  id="dataformInputBitcoin">
 		                  <div class="form-group" style=" margin-top: 0">
 		                	<div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-											NIKKEI
+											OPENeur
 										</div>
 										<div class="fs-7">
-											CSI
+											HIGH
 										</div>
 										<div class="fs-7">
-											NIFTY
+											LOW
 										</div>
 										<div class="fs-7">
-											KOSPI
+											CLOSEeur
 										</div>
 										<div class="fs-7">
-											HANGSENG
+											VOLUME
 										</div>
 										<div class="fs-7">
-											HIS MAINLAND BANK 
+											MARKETCAP
 										</div>
 										<div class="fs-7">
-											HIS MAINLAND PROPERTY 
+											OPENint
+										</div>
+										<div class="fs-7">
+											CLOSEint
 										</div>
 									</div>
 			                   <div style=" display: flex;">
-			                      <input type="text" class="form-control" id="data-input-Asia" autocomplete="off">
+			                      <input type="text" class="form-control" id="data-input-Bitcoin" autocomplete="off">
 			                    </div>
 		                     </div>
 							<!--   <button type="submit" class="btn btn-primary">Save</button> -->
 		                    </form>
-		               <div id="dataInputGridAsia" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="dataInputButtonsAsia" style="display:none;">
+		               <div id="dataInputGridBitcoin" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsBitcoin" style="display:none;">
 							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadAsia" value="Load " />
-							<input id="cancelAsia" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadBitcoin" value="Load " />
+							<input id="cancelBitcoin" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
 						  </div>
 		                 </div>
 	                 </div>
-	                 	 <div th:if="${sti == 2}" class="col-12 p-0" id="WallStreet-input">
+	                 	 <div th:if="${cryptos == 2}" class="col-12 p-0" id="Ethereum-input">
 	                	
 		                 <div class="col p-0">
-		                  <form  id="dataformInputWallStreet">
+		                  <form  id="dataformInputEthereum">
 		                  <div class="form-group" style=" margin-top: 0">
-		                     <div class="pt-2" style="display: flex;">
+		                    <div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-											DOW JONES
+											OPENeur
 										</div>
 										<div class="fs-7">
-											S&P
+											HIGH
 										</div>
 										<div class="fs-7">
-											NASDAQ
+											LOW
 										</div>
 										<div class="fs-7">
-											RUSSELL
+											CLOSEeur
 										</div>
 										<div class="fs-7">
-											FANG+
+											VOLUME
 										</div>
 										<div class="fs-7">
-											DJ MAJOR BANKS
+											MARKETCAP
 										</div>
 										<div class="fs-7">
-											DJ REGIONAL BANKS
+											OPENint
+										</div>
+										<div class="fs-7">
+											CLOSEint
 										</div>
 									</div>
 			                   <div style=" display: flex;">
-			                    <input type="text" class="form-control" id="data-input-WallStreet" autocomplete="off">
+			                    <input type="text" class="form-control" id="data-input-Ethereum" autocomplete="off">
 			                    </div>
 		                     </div>
 		                    </form>
-		                   <div id="dataInputGridWallStreet" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="dataInputButtonsWallStreet" style="display:none;">
+		                   <div id="dataInputGridEthereum" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsEthereum" style="display:none;">
 							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadWallStreet" value="Load " />
-							<input id="cancelWallStreet" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadEthereum" value="Load " />
+							<input id="cancelEthereum" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
 						  </div>
 		                 </div>
 	                 </div>
-	                   <div th:if="${sti == 3}" class="col-12 p-0" id="Europe-input">
+	                   <div th:if="${cryptos == 3}" class="col-12 p-0" id="Solana-input">
 	                	
 		                 <div class="col p-0">
-		                  <form  id="dataformInputEurope">
+		                  <form  id="dataformInputSolana">
 		                  <div class="form-group" style=" margin-top: 0">
 		                   <div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-											DAX
+											OPENeur
 										</div>
 										<div class="fs-7">
-											CAC
+											HIGH
 										</div>
 										<div class="fs-7">
-											MIB
+											LOW
 										</div>
 										<div class="fs-7">
-											FTSE
+											CLOSEeur
 										</div>
 										<div class="fs-7">
-											STOXX-50
+											VOLUME
 										</div>
 										<div class="fs-7">
-											STOXX-600
+											MARKETCAP
 										</div>
 										<div class="fs-7">
-											EU BANKING INDEX
+											OPENint
+										</div>
+										<div class="fs-7">
+											CLOSEint
 										</div>
 									</div>
 			                   <div style=" display: flex;">
-			                    <input type="text" class="form-control" id="data-input-Europe" autocomplete="off">
+			                    <input type="text" class="form-control" id="data-input-Solana" autocomplete="off">
 			                    </div>
 		                     </div>
 		                    </form>
-		                   <div id="dataInputGridEurope" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="dataInputButtonsEurope" style="display:none;">
+		                   <div id="dataInputGridSolana" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsSolana" style="display:none;">
 							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadEurope" value="Load " />
-							<input id="cancelEurope" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadSolana" value="Load " />
+							<input id="cancelSolana" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
 						  </div>
 		                 </div>
 	                 </div>
-	                <div th:if="${sti == 4}" class="col-12 p-0" id="Emerging-input">
+	                <div th:if="${cryptos == 4}" class="col-12 p-0" id="Shiba-input">
 	                	
 		                 <div class="col p-0">
-		                  <form  id="dataformInputEmerging">
+		                  <form  id="dataformInputShiba">
 		                  <div class="form-group" style=" margin-top: 0">
-		                       <div class="pt-2" style="display: flex;">
+		                    <div class="pt-2" style="display: flex;">
 										<div class="fs-7">
-											TADAWUL
+											OPENeur
 										</div>
 										<div class="fs-7">
-											EGYPT-EGX30
+											HIGH
 										</div>
 										<div class="fs-7">
-											TURKISH BIST-100
+											LOW
 										</div>
 										<div class="fs-7">
-											RUSSIAN MOEX-50
+											CLOSEeur
 										</div>
 										<div class="fs-7">
-											JST TOP-40
+											VOLUME
 										</div>
 										<div class="fs-7">
-											BOVESPA
+											MARKETCAP
 										</div>
 										<div class="fs-7">
-											MEXBOL
+											OPENint
+										</div>
+										<div class="fs-7">
+											CLOSEint
 										</div>
 									</div>
 			                   <div style=" display: flex;">
-			                    <input type="text" class="form-control" id="data-input-Emerging" autocomplete="off">
+			                    <input type="text" class="form-control" id="data-input-Shiba" autocomplete="off">
 			                    </div>
 		                     </div>
 		                    </form>
-		                   <div id="dataInputGridEmerging" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="dataInputButtonsEmerging" style="display:none;">
+		                   <div id="dataInputGridShiba" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsShiba" style="display:none;">
 							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadEmerging" value="Load " />
-							<input id="cancelEmerging" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadShiba" value="Load " />
+							<input id="cancelShiba" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
 							</div>
 						  </div>
 		                 </div>
 	                 </div>
-
+  <div th:if="${cryptos == 5}" class="col-12 p-0" id="Binance-input">
+	                	
+		                 <div class="col p-0">
+		                  <form  id="dataformInputBinance">
+		                  <div class="form-group" style=" margin-top: 0">
+		                    <div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+											OPENeur
+										</div>
+										<div class="fs-7">
+											HIGH
+										</div>
+										<div class="fs-7">
+											LOW
+										</div>
+										<div class="fs-7">
+											CLOSEeur
+										</div>
+										<div class="fs-7">
+											VOLUME
+										</div>
+										<div class="fs-7">
+											MARKETCAP
+										</div>
+										<div class="fs-7">
+											OPENint
+										</div>
+										<div class="fs-7">
+											CLOSEint
+										</div>
+									</div>
+			                   <div style=" display: flex;">
+			                    <input type="text" class="form-control" id="data-input-Binance" autocomplete="off">
+			                    </div>
+		                     </div>
+		                    </form>
+		                   <div id="dataInputGridBinance" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsBinance" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadBinance" value="Load " />
+							<input id="cancelBinance" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+	                 </div>
+	                   <div th:if="${cryptos == 6}" class="col-12 p-0" id="Xrp-input">
+	                	
+		                 <div class="col p-0">
+		                  <form  id="dataformInputXrp">
+		                  <div class="form-group" style=" margin-top: 0">
+		                    <div class="pt-2" style="display: flex;">
+										<div class="fs-7">
+											OPENeur
+										</div>
+										<div class="fs-7">
+											HIGH
+										</div>
+										<div class="fs-7">
+											LOW
+										</div>
+										<div class="fs-7">
+											CLOSEeur
+										</div>
+										<div class="fs-7">
+											VOLUME
+										</div>
+										<div class="fs-7">
+											MARKETCAP
+										</div>
+										<div class="fs-7">
+											OPENint
+										</div>
+										<div class="fs-7">
+											CLOSEint
+										</div>
+									</div>
+			                   <div style=" display: flex;">
+			                    <input type="text" class="form-control" id="data-input-Xrp" autocomplete="off">
+			                    </div>
+		                     </div>
+		                    </form>
+		                   <div id="dataInputGridXrp" style="margin-top: 0rem;"> </div>
+					       <div class="row" id="dataInputButtonsXrp" style="display:none;">
+							<div class='col-12 d-flex justify-content-end mt-2'>
+							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadXrp" value="Load " />
+							<input id="cancelXrp" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+							</div>
+						  </div>
+		                 </div>
+	                 </div>
+	                 
                </div>
                <!--<div class="col-1"></div>-->
                 <div  class="col-12 p-0">
                	  	<div class="col-12 d-flex justify-content-between">
              	  			<div id='dateInputAudit'></div>
-					 		<div th:if="${sti == 1}"><button id="deleteAsia" style="font-size: .8rem; float: right;">Delete</button> </div>
-                  			<div th:if="${sti == 2}"><button id="deleteWallStreet" style="font-size: .8rem; float: right;">Delete</button> </div>
-                   			<div th:if="${sti == 3}"><button id="deleteEurope" style="font-size: .8rem; float: right;">Delete</button> </div>
-                   			<div th:if="${sti == 4}"><button id="deleteEmerging" style="font-size: .8rem; float: right;">Delete</button> </div>
+					 		<div th:if="${cryptos == 1}"><button id="deleteBitcoin" style="font-size: .8rem; float: right;">Delete</button> </div>
+                  			<div th:if="${cryptos == 2}"><button id="deleteEthereum" style="font-size: .8rem; float: right;">Delete</button> </div>
+                   			<div th:if="${cryptos == 3}"><button id="deleteSolana" style="font-size: .8rem; float: right;">Delete</button> </div>
+                   			<div th:if="${cryptos == 4}"><button id="deleteShiba" style="font-size: .8rem; float: right;">Delete</button> </div>
+                   			<div th:if="${cryptos == 5}"><button id="deleteBinance" style="font-size: .8rem; float: right;">Delete</button> </div>
+                   			<div th:if="${cryptos == 6}"><button id="deleteXrp" style="font-size: .8rem; float: right;">Delete</button> </div>
                    </div>
                    <div class="col-12 ">
-                   <div th:if="${sti == 1}" class="col-12 p-0" id="Asia-audit">
-					  <div id="AsiaAuditGrid"></div>
+                   <div th:if="${cryptos == 1}" class="col-12 p-0" id="Bitcoin-audit">
+					  <div id="BitcoinAuditGrid"></div>
 					</div>
-					<div th:if="${sti == 2}" class="col-12 p-0"  id="WallStreet-audit">
-					  <div id="WallStreetAuditGrid"></div>
+					<div th:if="${cryptos == 2}" class="col-12 p-0"  id="Ethereum-audit">
+					  <div id="EthereumAuditGrid"></div>
 					</div>
-					<div th:if="${sti == 3}" class="col-12 p-0"  id="Europe-audit">
-					  <div id="EuropeAuditGrid"></div>
+					<div th:if="${cryptos == 3}" class="col-12 p-0"  id="Solana-audit">
+					  <div id="SolanaAuditGrid"></div>
 					</div>
-					<div th:if="${sti == 4}" class="col-12 p-0"  id="Emerging-audit">
-					  <div id="EmergingAuditGrid"></div>
+					<div th:if="${cryptos == 4}" class="col-12 p-0"  id="Shiba-audit">
+					  <div id="ShibaAuditGrid"></div>
+					</div>
+					<div th:if="${cryptos == 5}" class="col-12 p-0"  id="Binance-audit">
+					  <div id="BinanceAuditGrid"></div>
+					</div>
+					<div th:if="${cryptos == 6}" class="col-12 p-0"  id="Xrp-audit">
+					  <div id="XrpAuditGrid"></div>
 					</div>
 				   </div>
                  </div>
@@ -396,105 +514,181 @@ div#container-wrapper {
     <div class="row mt-2">
      <div class="col border ml-2 p-1 rounded">
         <div class="row">
-          <div th:if="${sti == 1}" class="col-sm-12" id="Asia-filter">
-             <h6 class="col font-weight-bold">ASIA</h6>
+          <div th:if="${cryptos == 1}" class="col-sm-12" id="Bitcoin-filter">
+             <h6 class="col font-weight-bold">Bitcoin</h6>
              <div class="col d-flex justify-content-between">
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxNikkei' class="col  p-0" style='float: left;'><span class="checkboxesTitle">NIKKEI</span></div> 
-             		<div id='jqxCheckBoxNikkei_usdjpy'  class="col  p-0 pt-2" style='float: left;'><span class="checkboxesTitle">$-NIKKEI</span></div> 
+             		<div id='jqxCheckBox-71-1' class="col  p-0" style='float: left;'><span class="checkboxesTitle">OPENeur</span></div> 
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxCsi'  class="col" style='float: left;'><span class="checkboxesTitle">Csi</span></div>
-             		<div id='jqxCheckBoxCsi_usdcny'  class="col" style='float: left;'><span class="checkboxesTitle">$-CSI</span></div>
+             		<div id='jqxCheckBox-71-3'  class="col" style='float: left;'><span class="checkboxesTitle">HIGH</span></div>
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxNifty'  class="col" style='float: left;'><span class="checkboxesTitle">NIFTY</span></div>
-             		<div id='jqxCheckBoxNifty_usdinr' class="col" style='float: left;'><span class="checkboxesTitle">$-NIFTY</span></div>
+             		<div id='jqxCheckBox-71-4' class="col" style='float: left;'><span class="checkboxesTitle">LOW</span></div>
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxKospi' class="col" style='float: left;'><span class="checkboxesTitle">KOSPI</span></div>
-             		<div id='jqxCheckBoxKospi_usdkrw' class="col" style='float: left;'><span class="checkboxesTitle">$-KOSPI</span></div>
+             		<div id='jqxCheckBox-71-2'  class="col" style='float: left;'><span class="checkboxesTitle">CLOSEeur</span></div>
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxHangseng' class="col" style='float: left;'><span class="checkboxesTitle">HANGSENG</span></div> 
-             		<div id='jqxCheckBoxHangseng_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">$-HANGSENG</span></div> 
+             		<div id='jqxCheckBox-71-5' class="col" style='float: left;'><span class="checkboxesTitle">VOLUME</span></div> 
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxHismbi' class="col" style='float: left;'><span class="checkboxesTitle">HSI^ BANKING</span></div>
-             		<div id='jqxCheckBoxHismbi_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">$-HSI BANKING</span></div>
+             		<div id='jqxCheckBox-71-6' class="col" style='float: left;'><span class="checkboxesTitle">MARKETCAP</span></div>
              	</div>
              	<div class="col d-grid p-0">
-             		<div id='jqxCheckBoxHismpi' class="col" style='float: left;'><span class="checkboxesTitle">HSI^ PROPERTY</span></div>
-             		<div id='jqxCheckBoxHismpi_usdhkd' class="col" style='float: left;'><span class="checkboxesTitle">$-HSI PROPERTY</span></div>
+             		<div id='jqxCheckBox-71-7' class="col" style='float: left;'><span class="checkboxesTitle">OPENint</span></div>
+            	 </div>
+            	 <div class="col d-grid p-0">
+             		<div id='jqxCheckBox-71-8' class="col" style='float: left;'><span class="checkboxesTitle">CLOSEint</span></div>
             	 </div>
               </div>
            </div>
-           <div th:if="${sti == 2}" class="col-sm-8" id="WallStreet-filter">
+           <div th:if="${cryptos == 2}" class="col-sm-8" id="Ethereum-filter">
              <h6 class="col font-weight-bold">Wall Street</h6>
                 <div class="col d-flex justify-content-between">
-             	<div id='jqxCheckBoxDowjones' style='float: left;'><span class="checkboxesTitle">DOW JONES</span></div> 
-             	<div id='jqxCheckBoxSandp' style='float: left;'><span class="checkboxesTitle">S&P</span></div>
-             	<div id='jqxCheckBoxNasdaq' style='float: left;'><span class="checkboxesTitle">NASDAQ</span></div>
-             	<div id='jqxCheckBoxRussell' style='float: left;'><span class="checkboxesTitle">RUSSELL </span></div>
-             	<div id='jqxCheckBoxFang' style='float: left;'><span class="checkboxesTitle">FANG+</span></div>
-             	<div id='jqxCheckBoxDjmajorbanks' style='float: left;'><span class="checkboxesTitle">DJ MAJOR BANKS</span></div>
-         		<div id='jqxCheckBoxDjregionalbanks' style='float: left;'><span class="checkboxesTitle">DJ REGIONAL BANKS</span></div>
-         	 </div>
-          </div>
-          <div th:if="${sti == 3}" class="col-sm-12" id="Europe-filter">
-             <h6 class="col font-weight-bold">Europe</h6>
-                <div class="col d-flex justify-content-between">
-                <div class="col d-grid p-0">
-	             	<div id='jqxCheckBoxDax' class="col p-0"  style='float: left;'><span class="checkboxesTitle">DAX</span></div> 
-	             	<div id='jqxCheckBoxDax_Eurusd'  class="col p-0 pt-2" style='float: left;'><span class="checkboxesTitle">$-DAX</span></div> 
-	            </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxCac'  class="col" style='float: left;'><span class="checkboxesTitle">CAC</span></div>
-	             	<div id='jqxCheckBoxCac_Eurusd'  class="col" style='float: left;'><span class="checkboxesTitle">$-CAC</span></div>
-	             </div><div class="col d-grid p-0"> 
-	             	<div id='jqxCheckBoxMib'  class="col" style='float: left;'><span class="checkboxesTitle">MIB</span></div>
-	             	<div id='jqxCheckBoxMib_Eurusd'  class="col"  style='float: left;'><span class="checkboxesTitle">$-MIB</span></div>
-	             </div><div class="col d-grid p-0"> 
-	             	<div id='jqxCheckBoxFtse'  class="col" style='float: left;'><span class="checkboxesTitle">FTSE</span></div>
-	             	<div id='jqxCheckBoxFtse_Gbpusd' class="col" style='float: left;'><span class="checkboxesTitle">$-FTSE</span></div>
-	             </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxStoxx50'  class="col" style='float: left;'><span class="checkboxesTitle">STOXX-50</span></div>
-	             	<div id='jqxCheckBoxStoxx50_Eurusd'  class="col" style='float: left;'><span class="checkboxesTitle">$-STOXX50</span></div>
-	             </div><div class="col d-grid p-0"> 
-	             	<div id='jqxCheckBoxStoxx600' style='float: left;'><span class="checkboxesTitle">STOXX-600</span></div>
-	             	<div id='jqxCheckBoxStoxx600_Eurusd'  style='float: left;'><span class="checkboxesTitle">$-STOXX600</span></div>
-	             </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxEubanks' style='float: left;'><span class="checkboxesTitle">EUBANKS</span></div>
-	             	<div id='jqxCheckBoxEubanks_eurusd'  style='float: left;'><span class="checkboxesTitle">$-EUBANKS</span></div>
-	            </div>
-	             </div>
-          </div>
-          <div th:if="${sti == 4}" class="col-sm-11" id="Emerging-filter">
-             <h6 class="col font-weight-bold">Emerging</h6>
-              <div class="col d-flex justify-content-between">
              	<div class="col d-grid p-0">
-               		<div id='jqxCheckBoxTadawul' style='float: left;'><span class="checkboxesTitle">TADAWUL</span></div> 
-	             	<div id='jqxCheckBoxTadawul_usdsar' class="col p-0 pt-2" style='float: left;'><span class="checkboxesTitle">$-TADAWUL</span></div> 
-	             </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxEgx' style='float: left;'><span class="checkboxesTitle">EGX</span></div>
-	             	<div id='jqxCheckBoxEgx_usdegp' style='float: left;'><span class="checkboxesTitle">$-EGX</span></div>
-	             </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxBist' style='float: left;'><span class="checkboxesTitle">BIST</span></div>
-	             	<div id='jqxCheckBoxBist_usdtry' style='float: left;'><span class="checkboxesTitle">$-BIST</span></div>
-	             </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxMoex' style='float: left;'><span class="checkboxesTitle">MOEX</span></div>
-	             	<div id='jqxCheckBoxMoex_usdrub' style='float: left;'><span class="checkboxesTitle">$-MOEX</span></div>
-	              </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxJsttop' style='float: left;'><span class="checkboxesTitle">JSTTOP</span></div>
-	             	<div id='jqxCheckBoxJsttop_usdzar' style='float: left;'><span class="checkboxesTitle">$-JSTTOP</span></div>
-	              </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxBovespa' style='float: left;'><span class="checkboxesTitle">BOVESPA</span></div>
-	             	<div id='jqxCheckBoxBovespa_usdbrl' style='float: left;'><span class="checkboxesTitle">$-BOVESPA</span></div>
-	              </div><div class="col d-grid p-0"> 	
-	             	<div id='jqxCheckBoxMexbol' style='float: left;'><span class="checkboxesTitle">MEXBOL</span></div>
-	             	<div id='jqxCheckBoxMexbol_usdmxn' style='float: left;'><span class="checkboxesTitle">$-MEXBOL</span></div>
+             		<div id='jqxCheckBox-72-1' class="col  p-0" style='float: left;'><span class="checkboxesTitle">OPENeur</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-72-3'  class="col" style='float: left;'><span class="checkboxesTitle">HIGH</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-72-4' class="col" style='float: left;'><span class="checkboxesTitle">LOW</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-72-2'  class="col" style='float: left;'><span class="checkboxesTitle">CLOSEeur</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-72-5' class="col" style='float: left;'><span class="checkboxesTitle">VOLUME</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-72-6' class="col" style='float: left;'><span class="checkboxesTitle">MARKETCAP</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-72-7' class="col" style='float: left;'><span class="checkboxesTitle">OPENint</span></div>
+            	 </div>
+            	 <div class="col d-grid p-0">
+             		<div id='jqxCheckBox-72-8' class="col" style='float: left;'><span class="checkboxesTitle">CLOSEint</span></div>
             	 </div>
               </div>
           </div>
+          <div th:if="${cryptos == 3}" class="col-sm-12" id="Solana-filter">
+             <h6 class="col font-weight-bold">Solana</h6>
+                <div class="col d-flex justify-content-between">
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-73-1' class="col  p-0" style='float: left;'><span class="checkboxesTitle">OPENeur</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-73-3'  class="col" style='float: left;'><span class="checkboxesTitle">HIGH</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-73-4' class="col" style='float: left;'><span class="checkboxesTitle">LOW</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-73-2'  class="col" style='float: left;'><span class="checkboxesTitle">CLOSEeur</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-73-5' class="col" style='float: left;'><span class="checkboxesTitle">VOLUME</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-73-6' class="col" style='float: left;'><span class="checkboxesTitle">MARKETCAP</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-73-7' class="col" style='float: left;'><span class="checkboxesTitle">OPENint</span></div>
+            	 </div>
+            	 <div class="col d-grid p-0">
+             		<div id='jqxCheckBox-73-8' class="col" style='float: left;'><span class="checkboxesTitle">CLOSEint</span></div>
+            	 </div>
+	             </div>
+          </div>
+          <div th:if="${cryptos == 4}" class="col-sm-11" id="Shiba-filter">
+             <h6 class="col font-weight-bold">Shiba</h6>
+              <div class="col d-flex justify-content-between">
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-74-1' class="col  p-0" style='float: left;'><span class="checkboxesTitle">OPENeur</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-74-3'  class="col" style='float: left;'><span class="checkboxesTitle">HIGH</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-74-4' class="col" style='float: left;'><span class="checkboxesTitle">LOW</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-74-2'  class="col" style='float: left;'><span class="checkboxesTitle">CLOSEeur</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-74-5' class="col" style='float: left;'><span class="checkboxesTitle">VOLUME</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-74-6' class="col" style='float: left;'><span class="checkboxesTitle">MARKETCAP</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-74-7' class="col" style='float: left;'><span class="checkboxesTitle">OPENint</span></div>
+            	 </div>
+            	 <div class="col d-grid p-0">
+             		<div id='jqxCheckBox-74-8' class="col" style='float: left;'><span class="checkboxesTitle">CLOSEint</span></div>
+            	 </div>
+              </div>
+          </div>
+           <div th:if="${cryptos == 5}" class="col-sm-11" id="Binance-filter">
+             <h6 class="col font-weight-bold">Binance</h6>
+              <div class="col d-flex justify-content-between">
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-75-1' class="col  p-0" style='float: left;'><span class="checkboxesTitle">OPENeur</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-75-3'  class="col" style='float: left;'><span class="checkboxesTitle">HIGH</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-75-4' class="col" style='float: left;'><span class="checkboxesTitle">LOW</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-75-2'  class="col" style='float: left;'><span class="checkboxesTitle">CLOSEeur</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-75-5' class="col" style='float: left;'><span class="checkboxesTitle">VOLUME</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-75-6' class="col" style='float: left;'><span class="checkboxesTitle">MARKETCAP</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-75-7' class="col" style='float: left;'><span class="checkboxesTitle">OPENint</span></div>
+            	 </div>
+            	 <div class="col d-grid p-0">
+             		<div id='jqxCheckBox-75-8' class="col" style='float: left;'><span class="checkboxesTitle">CLOSEint</span></div>
+            	 </div>
+              </div>
+          </div>
+           <div th:if="${cryptos == 6}" class="col-sm-11" id="Xrp-filter">
+             <h6 class="col font-weight-bold">Xrp</h6>
+              <div class="col d-flex justify-content-between">
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-76-1' class="col  p-0" style='float: left;'><span class="checkboxesTitle">OPENeur</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-76-3'  class="col" style='float: left;'><span class="checkboxesTitle">HIGH</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-76-4' class="col" style='float: left;'><span class="checkboxesTitle">LOW</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-76-2'  class="col" style='float: left;'><span class="checkboxesTitle">CLOSEeur</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-76-5' class="col" style='float: left;'><span class="checkboxesTitle">VOLUME</span></div> 
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-76-6' class="col" style='float: left;'><span class="checkboxesTitle">MARKETCAP</span></div>
+             	</div>
+             	<div class="col d-grid p-0">
+             		<div id='jqxCheckBox-76-7' class="col" style='float: left;'><span class="checkboxesTitle">OPENint</span></div>
+            	 </div>
+            	 <div class="col d-grid p-0">
+             		<div id='jqxCheckBox-76-8' class="col" style='float: left;'><span class="checkboxesTitle">CLOSEint</span></div>
+            	 </div>
+              </div>
+          </div>
+          
     	</div>
     </div>
    </div>
@@ -582,7 +776,7 @@ div#container-wrapper {
 		    </div>
 		  </div>
 	 </div>
-	 	<div id="alert-modal-fx" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
+	 	<div id="alert-modal-cryptos" class="modal fade bd-example-modal-sm" tabindex="-1" role="dialog" aria-labelledby="myLargeModalLabel" aria-hidden="true">
 		<div class="modal-dialog modal-sm">
 		    <div class="modal-content">
 		
@@ -593,7 +787,7 @@ div#container-wrapper {
 		        </button>
 		      </div>
 		      <div class="modal-body">
-		      The date you are trying to insert has no data in the Fx and Cds Asset.
+		      The date you are trying to insert has no data in the Cryptos Asset.
 		      </div>
 		    </div>
 		  </div>
@@ -720,7 +914,7 @@ div#container-wrapper {
   <script src="/js/jqwidgets/jqxinput.js"></script>
   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
-  <script src="/js/bourse/sti/stiDataInput.js"></script> 
+  <script src="/js/bourse/cryptos/cryptosDataInput.js"></script> 
   <script src="/js/bourse/scrollBarNews.js"></script> 
   <script src="/js/common.js"></script>
   <script src="/js/notification/sockjs.js"></script>

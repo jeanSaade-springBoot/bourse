@@ -1,6 +1,5 @@
 package com.bourse.service.macro;
 
-import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
@@ -21,7 +20,6 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
-import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.macro.MacroDisplaySettings;
 import com.bourse.dto.GraphRequestDTO;
@@ -35,14 +33,12 @@ import com.bourse.dto.macro.MacroAuditCommonDTO;
 import com.bourse.dto.macro.MacroBarGraphResponseDTO;
 import com.bourse.dto.macro.MacroGraphResponseDTO;
 import com.bourse.dto.macro.MacroLatestDateResponseDTO;
-import com.bourse.enums.FunctionEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.TableManagementRepository;
 import com.bourse.repositories.macro.MacroDataRepository;
 import com.bourse.repositories.macro.MacroDisplaySettingsRepository;
 import com.bourse.service.AdminService;
 import com.bourse.util.MacroUtil;
-import com.bourse.util.VolumeUtil;
 
 import org.springframework.data.domain.Sort;
 

@@ -64,13 +64,7 @@ var EmergingItem = [
 	"#jqxCheckBoxMexbol",
 	"#jqxCheckBoxMexbol_usdmxn"
 ];
-var CryptosItem = [
-	"#jqxCheckBoxBitcoin",
-	"#jqxCheckBoxEtherium",
-	"#jqxCheckBoxSolana",
-	"#jqxCheckBoxCardano",
-	"#jqxCheckBoxShiba",
-];
+
 var AuditDefaultData = [];
 
 var source;
@@ -78,7 +72,6 @@ var inputDataAsia = document.getElementById("data-input-Asia");
 var inputDataWallStreet = document.getElementById("data-input-WallStreet");
 var inputDataEurope = document.getElementById("data-input-Europe");
 var inputDataEmerging = document.getElementById("data-input-Emerging");
-var inputDataCryptos = document.getElementById("data-input-Cryptos");
 
 var Type;
 
@@ -114,13 +107,7 @@ else if (stiSubGroupValue == 4) {
 	saveUrl = "/sti/save-sti-emerging";
 	deleteUrl = "/sti/delete-sti-emerging-byreferDate/" ;
 }
-else if (stiSubGroupValue == 5) {
-	Type = "Cryptos";
-	auditUrl = '/sti/sti-cryptos-data/';
-	updateUrl = "/sti/update-sti-cryptos-data";
-	saveUrl = "/sti/save-sti-cryptos";
-	deleteUrl = "/sti/delete-sti-cryptos-byreferDate/" ;
-}
+
 
 $(document).ready(function() {
 	$('#overlay').fadeOut();
@@ -145,10 +132,7 @@ $(document).ready(function() {
 			} else
 				if (stiSubGroupValue == 4) {
 					$("#emerging-btn").addClass('active');
-				} else
-					if (stiSubGroupValue == 5) {
-						$("#cryptos-btn").addClass('active');
-					}
+				}
 
 	renderSubGroup(stiSubGroupValue);
 
@@ -215,11 +199,6 @@ $(document).ready(function() {
 			{ "name": "BOVESPA_USDBRL", "type": "float" },
 			{ "name": "MEXBOL", "type": "float" },
 			{ "name": "MEXBOL_USDMXN", "type": "float" },
-			{ "name": "BITCOIN", "type": "float" },
-			{ "name": "ETHERIUM", "type": "float" },
-			{ "name": "SOLANA", "type": "float" },
-			{ "name": "CARDANO", "type": "float" },
-			{ "name": "SHIBA", "type": "float" },
 		],
 		id: 'id',
 		localdata: ''
@@ -279,11 +258,7 @@ $("#Clearfilter").click(function() {
 			$(EmergingItem[i]).jqxCheckBox({ checked: false });
 		}
 	}
-	else if (stiSubGroupValue == 5) {
-		for (i = 0; i < CryptosItem.length; i++) {
-			$(CryptosItem[i]).jqxCheckBox({ checked: false });
-		}
-	}
+	
 });
 function Edit(row, event) {
 
@@ -353,15 +328,8 @@ function Edit(row, event) {
 				"mexbol_USDMXN": data.mexbol_USDMXN
 			};
 		}
-		else if (stiSubGroupValue == 5) {
-			oldDataJson = {
-				"bitcoin": data.bitcoin,
-				"etherium": data.etherium,
-				"solana": data.solana,
-				"cardano": data.cardano,
-				"shiba": data.shiba
-				}
-	}
+		
+	
 	selectedRow.editrow = row;
 	date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 	if (auditGridSource.url == '' || date != filterDate) {
@@ -397,6 +365,7 @@ function Edit(row, event) {
 		return false;
 	}, 300);
 }
+
 
 function Update(row, event) {
 
@@ -473,15 +442,7 @@ function Update(row, event) {
 				"mexbol_USDMXN": updatedData.mexbol_USDMXN
 			};
 		}
-		else if (stiSubGroupValue == 5) {
-			updatedDataJson = {
-				"bitcoin": updatedData.bitcoin,
-				"etherium": updatedData.etherium,
-				"solana": updatedData.solana,
-				"cardano": updatedData.cardano,
-				"shiba": updatedData.shiba
-				};
-			}
+		
 
 	keys = Object.keys(updatedDataJson);
 
@@ -659,8 +620,6 @@ function getFilterData(stiSubGroupValue) {
 		items = EuropeItem;
 	}else if (stiSubGroupValue == 4) {
 		items = EmergingItem;
-	}else if (stiSubGroupValue == 5) {
-		items = CryptosItem;
 	}
 	for (i = 0; i < items.length; i++) {
 	         		if($(items[i]).jqxCheckBox('checked'))
@@ -1089,62 +1048,6 @@ function renderSubGroup(stiSubGroupValue) {
 			{ text: '$-BOVESPA', datafield: 'bovespa_USDBRL', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			{ text: 'MEXBOL', datafield: 'mexbol', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			{ text: '$-MEXBOL', datafield: 'mexbol_USDMXN', editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			];
-
-	}else 
-		if (stiSubGroupValue == 5) {
-			
-		inputDataType = inputDataCryptos;
-		items = CryptosItem;
-		var dataInputGridFields = [
-			{ name: 'bitcoin', type: 'string' },
-			{ name: 'etherium', type: 'string' },
-			{ name: 'solana', type: 'string' },
-			{ name: 'cardano', type: 'string' },
-			{ name: 'shiba', type: 'string' },
-		];
-		var totalFields = dataInputGridFields.length;
-		var widthPercentage = 100/totalFields;
-
-		var dataInputGridColumns = [
-			{
-				text: 'BITCOIN', datafield: 'bitcoin', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
-			},
-			{
-				text: 'ETHERIUM', datafield: 'etherium', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
-			},
-			{
-				text: 'SOLANA', datafield: 'solana', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
-			},
-			{
-				text: 'CARDANO', datafield: 'cardano', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
-			},
-			{
-				text: 'SHIBA', datafield: 'shiba', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
-			},
-		];
-		var defaultData = AuditDefaultData;
-		
-		var fields = [
-			{ name: 'bitcoin', type: 'string' },
-			{ name: 'etherium', type: 'string' },
-			{ name: 'solana', type: 'string' },
-			{ name: 'cardano', type: 'string' },
-			{ name: 'shiba', type: 'string' },
-		];
-		var totalFields = fields.length;
-		var widthPercentage = (100 - 20)/totalFields;
-		var arrayOFcolumns = [
-			{
-				text: '', editable: false, datafield: 'Edit', width: '20%', cellsrenderer: function(row) {
-					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
-				}
-			},
-			{ text: 'BITCOIN', datafield: 'bitcoin', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'ETHERIUM', datafield: 'etherium', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'SOLANA', datafield: 'solana', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'CARDANO', datafield: 'cardano', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'SHIBA', datafield: 'shiba', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			];
 
 	}

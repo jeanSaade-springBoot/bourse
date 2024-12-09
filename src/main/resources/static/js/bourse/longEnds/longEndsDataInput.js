@@ -1109,6 +1109,7 @@ function saveFilterHistory(selectedItem, checkedItem) {
             const dropdown = document.getElementById('date-dropdown');
             const months = ['DEC', 'SEP', 'JUN', 'MAR']; // Sorted from latest to earliest
             const currentDate =  new Date();
+            (currentDate.getMonth()==11)?currentDate.setYear(currentDate.getFullYear()+1):{}
             const currentYear = currentDate.getFullYear();
             const startYearSuffix = startYear.toString().slice(-2);
             const endYearSuffix = currentYear.toString().slice(-2);

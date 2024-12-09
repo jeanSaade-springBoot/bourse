@@ -277,7 +277,15 @@ var familysource =
 	     break; 
 	case 52:
 	   imagePath='/css/images/format/longEnds_format.jpg' 
-	     break;     
+	     break;    
+	case 71:
+	case 72:
+	case 73:
+	case 74:
+    case 75:
+	case 76:
+	   imagePath='/css/images/format/bitcoins_format.png' 
+	     break;       
 	}
 return imagePath;
   }

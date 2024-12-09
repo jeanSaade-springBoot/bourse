@@ -386,11 +386,6 @@ else if (serieValue === 5) {
 			"#jqxCheckBoxBovespa_usdbrl",
 			"#jqxCheckBoxMexbol",
 			"#jqxCheckBoxMexbol_usdmxn",
-			"#jqxCheckBoxBitcoin",
-			"#jqxCheckBoxEtherium",
-			"#jqxCheckBoxSolana",
-			"#jqxCheckBoxCardano",
-			"#jqxCheckBoxShiba",
 		];	
 			    
 		 }	else if (serieValue === 8) {

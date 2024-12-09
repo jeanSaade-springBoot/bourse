@@ -239,6 +239,19 @@ public class BourseController {
 	    
 	    return modelAndView;
     }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_CRYPTOS') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/cryptos")
+    public ModelAndView dataEntryPagecryptos(@RequestParam("cryptos") String cryptos,ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_CRYPTOS");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        model.addAttribute("cryptos", Integer.valueOf(cryptos));
+	    ModelAndView modelAndView = new ModelAndView("html/cryptos/cryptosDataInput");
+	    
+	    return modelAndView;
+    }
 	@RequestMapping( value =  "/returnfunction")
     public ModelAndView returnFunctionPage(ModelMap model)
     {
@@ -649,14 +662,7 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/sti/emerging");
     }
-	@PreAuthorize("hasAuthority('STI_CRYPTOS_GRAPH_SCREEN') and principal.tacAccepted == true")
-	@RequestMapping( value =  "/cryptos")
-    public ModelAndView stiCryptosGraphPage(ModelMap model, Authentication authentication)
-    {
-	    model.addAttribute("mainmenu", "html/templates/mainMenu");
-	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sti/cryptos");
-    }
+
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)
