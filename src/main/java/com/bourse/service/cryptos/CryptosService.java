@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
+import com.bourse.domain.TableManagement;
 import com.bourse.domain.cryptos.CryptosData;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
@@ -327,6 +329,21 @@ public class CryptosService {
 			return l1; 
 		
 		}
+		public List<GraphResponseColConfigDTO> getCandleGraphData(GraphRequestDTO graphReqDTO) {
+
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+		
+			List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+			
+			if(graphReqDTO.getGroupId1()!=null)
+			{
+				l1.add(getCandleGraphDataResult(graphReqDTO));
+			}
+			return l1; 
+		
+		}
 		
 	  public GraphResponseColConfigDTO getGraphDataResult(GraphRequestDTO graphReqDTO, Boolean isFunction) {
 			boolean hasData= adminService.getData();
@@ -433,5 +450,99 @@ public class CryptosService {
 			return graphResponseColConfigDTO; 
 		    
 		}
-	  
+	  public GraphResponseColConfigDTO getCandleGraphDataResult(GraphRequestDTO graphReqDTO) {
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+
+			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_candlestick_graph",GraphResponseDTO.class);
+			
+			List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+			ColumnConfiguration config = null;
+			GraphResponseColConfigDTO graphResponseColConfigDTO = null;
+			
+			String groupId = graphReqDTO.getGroupId1();
+			String subGroupId = graphReqDTO.getSubGroupId1(); 
+			String description = null;
+			TableManagement tableManagement = tableManagementRepository.findByGroupIdAndSubgroupId(groupId,subGroupId);
+			description = tableManagement.getColumnName()+"-"+groupId;
+			
+				
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			    System.out.println("period: "+graphReqDTO.getPeriod());
+			    System.out.println("type: "+graphReqDTO.getType());
+			    System.out.println("fromdate:"+graphReqDTO.getFromdate()+" to date:"+"graphReqDTO.getTodate()");
+			    config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+			    String[] values  = getColumnValues(groupId, subGroupId);
+			    
+				query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+				query.setParameter("fromDate",graphReqDTO.getFromdate() );
+				
+				query.registerStoredProcedureParameter("toDateDate", String.class, ParameterMode.IN);
+				query.setParameter("toDateDate",graphReqDTO.getTodate() );
+				
+				query.registerStoredProcedureParameter("tableName", String.class, ParameterMode.IN);
+				query.setParameter("tableName",tableManagement.getTableName());
+				
+				query.registerStoredProcedureParameter("column1", String.class, ParameterMode.IN);
+				query.setParameter("column1",values[0]);
+				
+				query.registerStoredProcedureParameter("column2", String.class, ParameterMode.IN);
+				query.setParameter("column2",values[1]);
+				
+				query.registerStoredProcedureParameter("column3", String.class, ParameterMode.IN);
+				query.setParameter("column3",values[2]);
+				
+				query.registerStoredProcedureParameter("column4", String.class, ParameterMode.IN);
+				query.setParameter("column4", values[3]);
+				
+				
+				query.execute();
+				
+				List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+				List<GraphResponseDTO> graphResponseDTOlstEmpty= LiquidityUtil.removeReplaceEmptyValueWithNull(graphResponseDTOlst1);
+				graphResponseDTOlst1.clear();
+				graphResponseDTOlst1=graphResponseDTOlstEmpty;
+				
+				if (graphReqDTO.getRemoveEmpty1()!=null)
+					if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
+					{	
+						List<GraphResponseDTO> graphResponseDTOlst= LiquidityUtil.removeEmptyY(graphResponseDTOlst1);
+						graphResponseDTOlst1.clear();
+						graphResponseDTOlst1=graphResponseDTOlst;
+					}
+					
+			  graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+						                  .graphResponseDTOLst(graphResponseDTOlst1)
+						                  .config(config)
+						                  .build();
+				entityManager.clear();
+				entityManager.close();
+			
+			return graphResponseColConfigDTO; 
+		    
+		}
+	  private String[] getColumnValues(String groupId, String subGroupId) {
+		    // Define a map for dynamic configuration
+		    Map<String, String[]> valueMap = new HashMap<>();
+		    valueMap.put("71_1", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("72_1", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("73_1", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("74_1", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("75_1", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("76_1", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("71_7", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("72_7", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("73_7", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("74_7", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("75_7", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("76_7", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("52_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("61_2", new String[]{"open", "high", "low", "close"});
+
+		    // Return the mapped values or null if no match is found
+		    return valueMap.get(groupId + "_" + subGroupId);
+		}
 }

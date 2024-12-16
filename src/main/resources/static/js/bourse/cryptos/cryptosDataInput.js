@@ -6,68 +6,68 @@ var updateUrl;
 var saveUrl;
 var deleteUrl;
 var checkifcanUrl;
-
+		
 var BitcoinItem = [
-	'#jqxCheckBox-71-1',
+	'#jqxCheckBox-71-7',
 	'#jqxCheckBox-71-3',
 	'#jqxCheckBox-71-4',
-	'#jqxCheckBox-71-2',
+	'#jqxCheckBox-71-8',
 	'#jqxCheckBox-71-5',
 	'#jqxCheckBox-71-6',
-	'#jqxCheckBox-71-7',
-	'#jqxCheckBox-71-8',
+	'#jqxCheckBox-71-1',
+	'#jqxCheckBox-71-2',
 ];
 
 var EthereumItem = [
-	'#jqxCheckBox-72-1',
+	'#jqxCheckBox-72-7',
 	'#jqxCheckBox-72-3',
 	'#jqxCheckBox-72-4',
-	'#jqxCheckBox-72-2',
+	'#jqxCheckBox-72-8',
 	'#jqxCheckBox-72-5',
 	'#jqxCheckBox-72-6',
-	'#jqxCheckBox-72-7',
-	'#jqxCheckBox-72-8',
+	'#jqxCheckBox-72-1',
+	'#jqxCheckBox-72-2',
 ];
 var SolanaItem = [
-	'#jqxCheckBox-73-1',
+	'#jqxCheckBox-73-7',
 	'#jqxCheckBox-73-3',
 	'#jqxCheckBox-73-4',
-	'#jqxCheckBox-73-2',
+	'#jqxCheckBox-73-8',
 	'#jqxCheckBox-73-5',
 	'#jqxCheckBox-73-6',
-	'#jqxCheckBox-73-7',
-	'#jqxCheckBox-73-8',
+	'#jqxCheckBox-73-1',
+	'#jqxCheckBox-73-2',
 ];
 var ShibaItem = [
-	'#jqxCheckBox-74-1',
+	'#jqxCheckBox-74-7',
 	'#jqxCheckBox-74-3',
 	'#jqxCheckBox-74-4',
-	'#jqxCheckBox-74-2',
+	'#jqxCheckBox-74-8',
 	'#jqxCheckBox-74-5',
 	'#jqxCheckBox-74-6',
-	'#jqxCheckBox-74-7',
-	'#jqxCheckBox-74-8',
+	'#jqxCheckBox-74-1',
+	'#jqxCheckBox-74-2',
 ];
 var BinanceItem = [
-	'#jqxCheckBox-75-1',
+	'#jqxCheckBox-75-7',
 	'#jqxCheckBox-75-3',
 	'#jqxCheckBox-75-4',
-	'#jqxCheckBox-75-2',
+	'#jqxCheckBox-75-8',
 	'#jqxCheckBox-75-5',
 	'#jqxCheckBox-75-6',
-	'#jqxCheckBox-75-7',
-	'#jqxCheckBox-75-8',
+	'#jqxCheckBox-75-1',
+	'#jqxCheckBox-75-2',
 ];
 var XrpItem = [
-	'#jqxCheckBox-76-1',
+'#jqxCheckBox-76-7',
 	'#jqxCheckBox-76-3',
 	'#jqxCheckBox-76-4',
-	'#jqxCheckBox-76-2',
+	'#jqxCheckBox-76-8',
 	'#jqxCheckBox-76-5',
 	'#jqxCheckBox-76-6',
-	'#jqxCheckBox-76-7',
-	'#jqxCheckBox-76-8',
-];
+	'#jqxCheckBox-76-1',
+	'#jqxCheckBox-76-2',
+	];
  const subgrouId_description =  [
 	 		    { name: 'Openeur', subgroupId: 1 ,dbName: 'openeur' },
                 { name: 'Closeeur', subgroupId: 2 ,dbName: 'closeeur'},
@@ -687,21 +687,23 @@ function renderSubGroup(crySubGroupValue) {
 			items = XrpItem;
 		}
 		var dataInputGridFields = [
-			{ name: 'openeur', type: 'string' },
+			{ name: 'openint', type: 'string' },
 			{ name: 'high', type: 'string' },
 			{ name: 'low', type: 'string' },
-			{ name: 'closeeur', type: 'string' },
+			{ name: 'closeint', type: 'string' },
 			{ name: 'volume', type: 'string' },
 			{ name: 'marketcap', type: 'string' },
-			{ name: 'openint', type: 'string' },
-			{ name: 'closeint', type: 'string' },
+			{ name: 'openeur', type: 'string' },
+			{ name: 'closeeur', type: 'string' },
+
+
 		];
 		var totalFields = dataInputGridFields.length;
 		var widthPercentage = 100/totalFields;
 
 		var dataInputGridColumns = [
 			{
-				text: 'Openeur', datafield: 'openeur', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'Openint', datafield: 'openint', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
 				text: 'High', datafield: 'high', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
@@ -710,7 +712,7 @@ function renderSubGroup(crySubGroupValue) {
 				text: 'Low', datafield: 'low', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
-				text: 'Closeeur', datafield: 'closeeur', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'Closeint', datafield: 'closeint', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
 				text: 'Volume', datafield: 'volume', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
@@ -719,23 +721,23 @@ function renderSubGroup(crySubGroupValue) {
 				text: 'Marketcap', datafield: 'marketcap', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
-				text: 'Openint', datafield: 'openint', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'Openeur', datafield: 'openeur', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 			{
-				text: 'Closeint', datafield: 'closeint', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
+				text: 'Closeeur', datafield: 'closeeur', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
 			},
 		];
 		var defaultData = AuditDefaultData;
 		
 		var fields = [
-			{ name: 'openeur', type: 'string' },
+			{ name: 'openint', type: 'string' },
 			{ name: 'high', type: 'string' },
 			{ name: 'low', type: 'string' },
-			{ name: 'closeeur', type: 'string' },
+			{ name: 'closeint', type: 'string' },
 			{ name: 'volume', type: 'string' },
 			{ name: 'marketcap', type: 'string' },
-			{ name: 'openint', type: 'string' },
-			{ name: 'closeint', type: 'string' },
+			{ name: 'openeur', type: 'string' },
+			{ name: 'closeeur', type: 'string' },
 		];
 		var totalFields = fields.length;
 		var widthPercentage = (100 - 10)/totalFields;
@@ -745,14 +747,14 @@ function renderSubGroup(crySubGroupValue) {
 					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 				}
 			},
-			{ text: 'Openeur', datafield: 'openeur', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'Openint', datafield: 'openint', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			{ text: 'High', datafield: 'high', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			{ text: 'Low', datafield: 'low', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Closeeur', datafield: 'closeeur', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'Closeint', datafield: 'closeint', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			{ text: 'Volume', datafield: 'volume', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			{ text: 'Marketcap', datafield: 'marketcap', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Openint', datafield: 'openint', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Closeint', datafield: 'closeint', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'Openeur', datafield: 'openeur', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'Closeeur', datafield: 'closeeur', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 			];
 
 	initiate(Type, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);

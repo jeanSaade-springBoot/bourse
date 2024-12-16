@@ -594,10 +594,12 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 		  var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
 		   graphService=typeof graphService!='undefined'?graphService:'';
 			  calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				     
+		
+		chart.w.config.series.length === 1 ? chart.w.config.series[0].type = SelectedchartType : null;		     
 				   		     
 	if (SelectedchartType=='area')
       chart.updateOptions({
+		
 		     legend: {
 						   show:eval(selectedChartLegend.split('legend')[1]),
 		   	  			   fontSize: fontsize,
@@ -788,6 +790,7 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 	document.dispatchEvent(updateEvent);
 }
 function updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend){
+	
 	if(typeof graphName !='undefined' && (graphName=="marketShareVolume"))
 		{
 			chartConfiguration={
@@ -808,8 +811,39 @@ function updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTra
 	    updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
 	
 }
+ $("#chartTypes .btn").on("click", function (event) {
+        // Prevent the default action temporarily
+        event.preventDefault();
+
+        // Logic to handle before executing the action
+        const buttonId = $(this).attr("id");
+
+        if (buttonId === "candle") {
+			 $("#candle").addClass("active");
+              renderCandleChart();
+              return;
+        }
+        else 
+	 		 if (checkedItem == 0) {
+				 $('#alertFiltter-modal').modal('show');
+	        	 $("#chartTypes .btn").removeClass("active");
+ 				if ($("#candle").length) {
+					    $("#candle").addClass("active");
+					}
+				return;
+			}
+
+        $("#chartTypes .btn").removeClass("active");
+
+        $(this).addClass("active");
+
+        const chartType = buttonId; 
+        graphTypeOption(chartType); 
+    });
 function graphTypeOption(chartType)
-{
+{   
+
+	$(document).trigger('graphTypeChange', chartType);
 	SelectedchartType=chartType;
 	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
     selectedChartColor = chartType=='line'?"#ffffff":'#'+$("#chartColor").find(".active")[0].id;
@@ -818,6 +852,7 @@ function graphTypeOption(chartType)
     selectedChartLegend=$("#gridLegend").find(".active")[0].id;
     
     updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
+
 }
 
 function chartColorOption(selectedChartColor)
@@ -1018,11 +1053,22 @@ function getChartLegend(chartLegend)
 	 
    return showLegend;
 }	
-function getChartPeriod(){
-	
-	 period=($('#groupOfPeriod').length)?getChartPeriodCode($('#groupOfPeriod').jqxButtonGroup('getSelection')):'d';
+function getChartPeriod() {
+    let period = 'd'; // Default value
 
- return period;
+    if ($('#groupOfPeriod').length) {
+        const selectedOption = $('#groupOfPeriod').jqxButtonGroup('getSelection');
+        if (selectedOption === -1) { // Check if no selection is made
+            $('#groupOfPeriod').jqxButtonGroup('setSelection', 0); // Set default selection
+        }
+        period = getChartPeriodCode(selectedOption) || 'd';
+    } else {
+		if ($('#groupOfPeriod').length) {
+		    $('#groupOfPeriod').jqxButtonGroup('setSelection', 0);
+		}   
+		 }
+
+    return period;
 }
 function getChartPeriodVolume(){
 	
@@ -1164,8 +1210,7 @@ return fullName;
 		resetActiveChartColorTransparency();
 		resetActiveChartGrid();
 		drawGraph();
-
-                });		
+  });		
  $("#groupOfPeriodVolume").on('buttonclick', function (event) {
                  
 	    resetActiveChartType();
@@ -1178,12 +1223,12 @@ return fullName;
                 });  
 $('#dropDownType').on('select', function (event)
 {
-    resetActiveChartType();
+        resetActiveChartType();
 		resetActiveFontSize();
 		resetActiveChartColor();
 		resetActiveChartColorTransparency();
 		resetActiveChartGrid();
-		drawGraph();                      
+		(checkedItem!=0)?drawGraph():null;                      
 });
 $('#dropDownFunctionss').on('select', function (event)
 {

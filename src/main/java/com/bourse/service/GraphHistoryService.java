@@ -43,12 +43,16 @@ public class GraphHistoryService
 	    		 .id(id)
 				 .parameter(graphHistorydto.getParameter())
 				 .screenName(graphHistorydto.getScreenName())
+				 .isCandle(Boolean.parseBoolean(graphHistorydto.getIsCandle()))
+				 .candleOptionIndex(graphHistorydto.getCandleOptionIndex())
 				.build();
 		return graphHistoryRepository.save(entity);
 	    }else {
 	    	GraphHistory entity = GraphHistory.builder()
 	    	 .parameter(graphHistorydto.getParameter())
 			 .screenName(graphHistorydto.getScreenName())
+			 .isCandle(Boolean.parseBoolean(graphHistorydto.getIsCandle()))
+			 .candleOptionIndex(graphHistorydto.getCandleOptionIndex())
 			.build();
 			return graphHistoryRepository.save(entity);
 	    }

@@ -4540,4 +4540,394 @@ var itemValue = {
     "title": "",
    
   },
+    
+  
+  
+  
+   "#jqxCheckBox-71-1": { 
+    "subGroupId": "1",
+    "GroupId": "71",
+    "description": "openeur-71",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-71-2": { 
+    "subGroupId": "2",
+    "GroupId": "71",
+    "description": "closeeur-71",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-71-3": { 
+    "subGroupId": "3",
+    "GroupId": "71",
+    "description": "high-71",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-71-4": { 
+	
+    "subGroupId": "4",
+    "GroupId": "71",
+    "description": "low-71",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-71-5": { 
+	
+    "subGroupId": "5",
+    "GroupId": "71",
+    "description": "volume-71",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-71-6": { 
+	
+    "subGroupId": "6",
+    "GroupId": "71",
+    "description": "marketcap-71",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-71-7": { 
+	
+    "subGroupId": "7",
+    "GroupId": "71",
+    "description": "openint-71",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-71-8": { 
+	
+    "subGroupId": "8",
+    "GroupId": "71",
+    "description": "closeint-71",
+    "title": "",
+   
+  },
+    
+  
+  
+  
+   "#jqxCheckBox-72-1": { 
+    "subGroupId": "1",
+    "GroupId": "72",
+    "description": "openeur-72",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-72-2": { 
+    "subGroupId": "2",
+    "GroupId": "72",
+    "description": "closeeur-72",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-72-3": { 
+    "subGroupId": "3",
+    "GroupId": "72",
+    "description": "high-72",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-72-4": { 
+	
+    "subGroupId": "4",
+    "GroupId": "72",
+    "description": "low-72",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-72-5": { 
+	
+    "subGroupId": "5",
+    "GroupId": "72",
+    "description": "volume-72",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-72-6": { 
+	
+    "subGroupId": "6",
+    "GroupId": "72",
+    "description": "marketcap-72",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-72-7": { 
+	
+    "subGroupId": "7",
+    "GroupId": "72",
+    "description": "openint-72",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-72-8": { 
+	
+    "subGroupId": "8",
+    "GroupId": "72",
+    "description": "closeint-72",
+    "title": "",
+   
+  },
+    
+  
+  
+  
+   "#jqxCheckBox-73-1": { 
+    "subGroupId": "1",
+    "GroupId": "73",
+    "description": "openeur-73",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-73-2": { 
+    "subGroupId": "2",
+    "GroupId": "73",
+    "description": "closeeur-73",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-73-3": { 
+    "subGroupId": "3",
+    "GroupId": "73",
+    "description": "high-73",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-73-4": { 
+	
+    "subGroupId": "4",
+    "GroupId": "73",
+    "description": "low-73",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-73-5": { 
+	
+    "subGroupId": "5",
+    "GroupId": "73",
+    "description": "volume-73",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-73-6": { 
+	
+    "subGroupId": "6",
+    "GroupId": "73",
+    "description": "marketcap-73",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-73-7": { 
+	
+    "subGroupId": "7",
+    "GroupId": "73",
+    "description": "openint-73",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-73-8": { 
+	
+    "subGroupId": "8",
+    "GroupId": "73",
+    "description": "closeint-73",
+    "title": "",
+   
+  },
+    
+  
+  
+  
+   "#jqxCheckBox-74-1": { 
+    "subGroupId": "1",
+    "GroupId": "74",
+    "description": "openeur-74",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-74-2": { 
+    "subGroupId": "2",
+    "GroupId": "74",
+    "description": "closeeur-74",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-74-3": { 
+    "subGroupId": "3",
+    "GroupId": "74",
+    "description": "high-74",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-74-4": { 
+	
+    "subGroupId": "4",
+    "GroupId": "74",
+    "description": "low-74",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-74-5": { 
+	
+    "subGroupId": "5",
+    "GroupId": "74",
+    "description": "volume-74",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-74-6": { 
+	
+    "subGroupId": "6",
+    "GroupId": "74",
+    "description": "marketcap-74",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-74-7": { 
+	
+    "subGroupId": "7",
+    "GroupId": "74",
+    "description": "openint-74",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-74-8": { 
+	
+    "subGroupId": "8",
+    "GroupId": "74",
+    "description": "closeint-74",
+    "title": "",
+   
+  },
+    
+  
+  
+  
+   "#jqxCheckBox-75-1": { 
+    "subGroupId": "1",
+    "GroupId": "75",
+    "description": "openeur-75",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-75-2": { 
+    "subGroupId": "2",
+    "GroupId": "75",
+    "description": "closeeur-75",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-75-3": { 
+    "subGroupId": "3",
+    "GroupId": "75",
+    "description": "high-75",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-75-4": { 
+	
+    "subGroupId": "4",
+    "GroupId": "75",
+    "description": "low-75",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-75-5": { 
+	
+    "subGroupId": "5",
+    "GroupId": "75",
+    "description": "volume-75",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-75-6": { 
+	
+    "subGroupId": "6",
+    "GroupId": "75",
+    "description": "marketcap-75",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-75-7": { 
+	
+    "subGroupId": "7",
+    "GroupId": "75",
+    "description": "openint-75",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-75-8": { 
+	
+    "subGroupId": "8",
+    "GroupId": "75",
+    "description": "closeint-75",
+    "title": "",
+   
+  },
+    
+  
+  
+  
+   "#jqxCheckBox-76-1": { 
+    "subGroupId": "1",
+    "GroupId": "76",
+    "description": "openeur-76",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-76-2": { 
+    "subGroupId": "2",
+    "GroupId": "76",
+    "description": "closeeur-76",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-76-3": { 
+    "subGroupId": "3",
+    "GroupId": "76",
+    "description": "high-76",
+    "title": "",
+   
+  },
+     "#jqxCheckBox-76-4": { 
+	
+    "subGroupId": "4",
+    "GroupId": "76",
+    "description": "low-76",
+    "title": "",
+   
+  },
+    "#jqxCheckBox-76-5": { 
+	
+    "subGroupId": "5",
+    "GroupId": "76",
+    "description": "volume-76",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-76-6": { 
+	
+    "subGroupId": "6",
+    "GroupId": "76",
+    "description": "marketcap-76",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-76-7": { 
+	
+    "subGroupId": "7",
+    "GroupId": "76",
+    "description": "openint-76",
+    "title": "",
+   
+  },
+   "#jqxCheckBox-76-8": { 
+	
+    "subGroupId": "8",
+    "GroupId": "76",
+    "description": "closeint-76",
+    "title": "",
+   
+  },
   	};

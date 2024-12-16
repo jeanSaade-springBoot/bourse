@@ -12,4 +12,6 @@ import lombok.NoArgsConstructor;
 public class GraphHistoryDTO {
     private String screenName;
 	private String parameter;
+	private String isCandle;
+	private Integer candleOptionIndex;
 }

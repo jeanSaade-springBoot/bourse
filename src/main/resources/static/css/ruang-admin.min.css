@@ -3,6 +3,12 @@
 	src: url(../font/Nunito-Regular.ttf);
 	src: url(../font/Nunito-Regular.ttf) format('ttf'), url(../font/Nunito-Regular.ttf) format('truetype')
 }
+.euro-intr-style{
+	position: absolute;
+    margin-left: 6rem;
+    z-index: 99;
+    margin-top: 2rem;
+}
 .blinking-button {
    display: flex;
     padding: 25px 15px;
@@ -245,12 +251,16 @@ div#content {
 .fs-7 {
     font-size: .8rem;
 }
+div#mainChart {
+    background: rgb(23, 37, 104);
+    border-radius: 0.25rem;
+    padding-bottom: 1.5rem;
+}
 .chart-option {
-    margin-top: 1.2rem;
     background: #172568;
     width: 120px;
     border-radius: 0.2rem;
-    height: 525px;
+    height: 569px;
     padding-left: 0.1rem;
 }
 .chart-option-title {
@@ -336,6 +346,13 @@ div#y {
 }
 .icon-barchart{
   background-image : url(/img/bar-chart.png);
+  background-size: cover;
+  display: inline-block;
+   height: 24px;
+  width: 24px;
+}
+.icon-candle{
+  background-image : url(/img/candle-chart.png);
   background-size: cover;
   display: inline-block;
    height: 24px;

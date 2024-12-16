@@ -18,6 +18,10 @@ var factorIner='';
 var factorInerItem='';
 var factorContainer='';
 var titleInnerItems='';
+const candleGroupIdSubgroups = [[52, 2], [61, 2]];
+const showGroupOfOptions = false;
+const candleGraphTitle = "Bunds";
+
  const groupId_Id =  [
                 { Id: '1', groupId: 52, rollingGroupId: 61  ,name:'BUNDS'},
 				{ Id: '2', groupId: 53, rollingGroupId: 62  ,name:'BOBLS'},
@@ -146,6 +150,10 @@ $(document).ready(function() {
 	 initialiazeClearFilterButton();
 	 initializeShowFilterButton();
 	 
+	 $("#groupOfOptions").hide();
+	$("#groupOfOptions").jqxButtonGroup({ theme: 'dark', mode: 'radio' });
+	$('#groupOfOptions').jqxButtonGroup('setSelection', 1);
+	 
 	 getGraphHistoryByScreenName(graphName);
 	 
      $("#SaveToFavorites").jqxButton({ theme: 'dark', height: 30, width: 100 });
@@ -162,7 +170,16 @@ function drawGraph() {
 	
 	var graphService = "longEnds";
 	const removeEmpty = false;
-	getGraphData(graphService,graphName,removeEmpty,true);
+		const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
+	if(chartType=="candle")
+		{    $("#functionOptionsMenu").hide();
+			candleStick(graphName,true);
+		}
+	else
+	{    $("#functionOptionsMenu").show();
+	 	$("#groupOfOptions").hide();
+		getGraphData(graphService,graphName,removeEmpty,true);
+	}
 }
  function groupByGroupIdAndSubgroupId(data) {
     var groupedData = {};

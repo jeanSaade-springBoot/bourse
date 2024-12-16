@@ -39,7 +39,7 @@
 	 $("#factorcalctype").jqxDropDownList({ dropDownHeight: 70, source: factorcalctypeSource, theme: 'dark' , width: '100%', height: 30});
 	 $("#factorcalctype_f").jqxDropDownList({ dropDownHeight: 70, source: factorcalctypeSource, theme: 'dark' , width: '100%', height: 30});
 	 
-	  formatSource =["0","0.0","0.00","0.000","0.0000","0%","0.0%","0.00%","0.000%","0.0000%"];
+	  formatSource =["0","0.0","0.00","0.000","0.00000","0.0000","0%","0.0%","0.00%","0.000%","0.0000%","0.00000%"];
 		 $("#dataFormat").jqxDropDownList({ dropDownHeight:320, source: formatSource, theme: 'dark' , width: '100%', height: 30});
 		 $("#yAxisFormats").jqxDropDownList({ dropDownHeight: 320, source: formatSource, theme: 'dark' , width: '100%', height: 30});
 		 $("#dataFormat_f").jqxDropDownList({ dropDownHeight:320, source: formatSource, theme: 'dark' , width: '100%', height: 30});

@@ -92,5 +92,13 @@ public class CryptosController {
 
 		return new ResponseEntity<>(cryptosService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
 	} 
+	@PostMapping(value = "getgraphdatabytype")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
+		return new ResponseEntity<>(cryptosService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
+	} 
+	@PostMapping(value = "getcandlegraphdata")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getCandleGraphDataResult(@RequestBody  GraphRequestDTO graphReqDTO) {
+		return new ResponseEntity<>(cryptosService.getCandleGraphData(graphReqDTO),HttpStatus.OK);
+	} 
 	
 }

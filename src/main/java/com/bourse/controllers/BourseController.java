@@ -590,6 +590,17 @@ public class BourseController {
 
 		return new ModelAndView("html/longEnds/longEndsDataFunctionDisplay");
     }
+    @PreAuthorize("hasAuthority('CRYPTOS_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+  	@RequestMapping( value =  "/cryptosdatafunctiondisplay")
+      public ModelAndView cryptosDataFunctionDisplay(ModelMap model, Authentication authentication)
+      {
+  	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+  	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+  	    model.addAttribute("datainputmenu", "CRYPTOS_DATA_FUNCTION_DISPLAY_SCREEN");
+  	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
+
+  		return new ModelAndView("html/cryptos/cryptosDataFunctionDisplay");
+      }
 	@PreAuthorize("hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/centralbanks")
     public ModelAndView centralBanksGraphPage(ModelMap model, Authentication authentication)
@@ -662,7 +673,54 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/sti/emerging");
     }
-
+	@PreAuthorize("hasAuthority('CRY_BITCOIN_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/bitcoin")
+    public ModelAndView cryBitcoinGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/cryptos/bitcoin");
+    }
+	@PreAuthorize("hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/ethereum")
+    public ModelAndView cryEthereumGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/cryptos/ethereum");
+    }
+	@PreAuthorize("hasAuthority('CRY_SOLANA_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/solana")
+    public ModelAndView crySolanaGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/cryptos/solana");
+    }
+	@PreAuthorize("hasAuthority('CRY_SHIBA_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/shiba")
+    public ModelAndView cryShibaGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/cryptos/shiba");
+    }
+	@PreAuthorize("hasAuthority('CRY_BINANCE_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/binance")
+    public ModelAndView cryBinanceGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/cryptos/binance");
+    }
+	@PreAuthorize("hasAuthority('CRY_XRP_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/xrp")
+    public ModelAndView cryXrpGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/cryptos/xrp");
+    }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)

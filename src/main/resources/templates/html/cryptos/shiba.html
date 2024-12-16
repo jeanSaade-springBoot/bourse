@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - Bunds</title>
+  <title>Libvol - Shiba Inu Coin</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -65,19 +65,40 @@
          <!-- TopBar -->
      	<div th:include="${mainmenu}"></div>
         <!-- Topbar -->
-		  <div class="d-sm-flex align-items-center">
-		     <h1 class="ml-6 text-darkorange">LONG-END FUTURES</h1>
+  <div class="d-sm-flex align-items-center">
+            <h1 class="ml-6 text-darkorange">Cryptos</h1>
 		     	   <nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
 		           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-		             <a sec:authorize="hasAuthority('LONGENDS_BUNDS_GRAPH_SCREEN')"
-		                 class="navigation nav-item nav-link active" id="nav-bunds-tab"
-		                 href="/bourse/bunds" role="tab" aria-controls="nav-bunds"
-		                 aria-selected="false">BUNDS</a>
+		             <a sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link " id="nav-bunds-tab"
+	                 href="/bourse/bitcoin" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">BITCOIN</a>
+	                   <a sec:authorize="hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/ethereum" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">ETHEREUM</a>
+		             <a sec:authorize="hasAuthority('CRY_SOLANA_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/solana" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">SOLANA</a>
+	                 <a sec:authorize="hasAuthority('CRY_SHIBA_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link active" id="nav-bunds-tab"
+	                 href="/bourse/shiba" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">SHIBA INU</a>
+	                 <a sec:authorize="hasAuthority('CRY_BINANCE_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link " id="nav-bunds-tab"
+	                 href="/bourse/binance" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">BINANCE COIN</a>
+	                  <a sec:authorize="hasAuthority('CRY_XRP_GRAPH_SCREEN')"
+	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
+	                 href="/bourse/xrp" role="tab" aria-controls="nav-bunds"
+	                 aria-selected="false">XRP</a>
+	                 
 		           </div>
 		        </nav>
-		    
-		   </div>
-      </div>
+           
+          </div>
+              </div>
         <div id="content">
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
@@ -89,17 +110,49 @@
 				...
 					 </div>
 				  <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-				  	<p class="mt-2" style=" margin-bottom: .5rem;">
-					  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
-				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
-				  	  	</p>
+				 
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
+					    <div class=" multi-collapse pt-3" id="collapseFilter" style="margin: 0px 8rem;">
 				<div class="row">
-				<div class="col-10 d-flex">
-                	<div id="longEndsContainer" class="col-12"></div>
-                 		</div>
+				<div class="col-12 row">
+							<div class="col d-flex justify-content-between">
+								<div id='jqxCheckBox-74-7' class="jqx-checkbox-items"
+									style='float: left;'>
+									<span class="checkboxesTitle">OPENint</span>
+								</div>
+								<div id='jqxCheckBox-74-3'
+									class="jqx-checkbox-items" style='float: left;'>
+									<span class="checkboxesTitle">HIGH</span>
+								</div>
+								<div id='jqxCheckBox-74-4'
+									class="jqx-checkbox-items" style='float: left;'>
+									<span class="checkboxesTitle">LOW</span>
+								</div>
+								<div id='jqxCheckBox-74-8'
+									class="jqx-checkbox-items" style='float: left;'>
+									<span class="checkboxesTitle">CLOSEint</span>
+								</div>
+								<div id='jqxCheckBox-74-5'
+									class="jqx-checkbox-items" style='float: left;'>
+									<span class="checkboxesTitle">VOLUME</span>
+								</div>
+								<div id='jqxCheckBox-74-6'
+									class="jqx-checkbox-items" style='float: left;'>
+									<span class="checkboxesTitle">MARKETCAP</span>
+								</div>
+								<div id='jqxCheckBox-74-1' class="jqx-checkbox-items"
+									style='float: left;'>
+									<span class="checkboxesTitle">OPENeur</span>
+								</div>
+								<div id='jqxCheckBox-74-2'
+									class="jqx-checkbox-items" style='float: left;'>
+									<span class="checkboxesTitle">CLOSEeur</span>
+								</div>
+								
+							</div>
+
+						</div>
                  		<div class="col-2"></div>
                  		<div class="col-5">
 		                     
@@ -140,7 +193,7 @@
 						<div class="chart-option">
 				   	        <div class="chart-option-title">Chart option</div>
 				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
-						         <div class="" role="group" aria-label="Button group with nested dropdown">
+						       <div class="" role="group" aria-label="Button group with nested dropdown">
 						            <button class="btn btn-option"  id="area" onclick="graphTypeOption('area')" data-pausetext="Break In" 
 									 data-resumetext="Resume" ><i class="icon-areachart"></i></button>
 								     <button class="btn btn-option"  id="line" onclick="graphTypeOption('line')" data-pausetext="Break In" 
@@ -219,13 +272,14 @@
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
 		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
 		   		</div>
-		   		   <div id='groupOfOptions' class="euro-intr-style">
-					            <button style="padding:4px 16px;" >
-					                Initials</button>
-					             <button style="padding:4px 16px;"  onclick="window.location.href='#mainChart'">
-					                Rolling</button>
+		   		
+				   	  	    <div id='groupOfOptions' class="euro-intr-style">
+					            <button style="padding:4px 16px;" id="w">
+					                Intr</button>
+					             <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
+					                Euro</button>
 					        </div>
-						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
+						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px; background: #172568;  border-radius: .25rem;   padding-bottom: 1.5rem;">
 						
 						 </div>
 						 <div class="row" style="min-width: 1153px;  max-width:1153px">
@@ -375,7 +429,7 @@
   <script src="/js/apexcharts.js"></script>
   <script src="/js/chartOptions.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
-  <script src="/js/bourse/longEnds/bunds.js"></script> 
+  <script src="/js/bourse/cryptos/shiba.js"></script> 
   <script src="/js/chart.js"></script>
    <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 

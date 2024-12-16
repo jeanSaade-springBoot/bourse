@@ -1191,7 +1191,7 @@ public class ReadExcelWriteDBService {
 		{
 			   List<CryptosData> cryptosDataLst = new ArrayList<>();
 			   List<String> subgroups = Arrays.asList("1", "2","3","4","5","6","7","8");
-			   int[] subgroupOrder = {1,3,4,2,5,6,7,8};
+			   int[] subgroupOrder = {7,3,4,8,5,6,1,2};
 			   int i = 0; 
 			   for (String subGroupId: subgroups) {
 						   rowData.clear();

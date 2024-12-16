@@ -172,12 +172,16 @@
 						          groupsexpandedbydefault: true,
 						          columns: [
 						           { text: 'Date', datafield: 'generationDateDate', hidden: true,  editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
-						           { text: 'News', datafield: 'template', width: '100%',   cellclassname:  cellclassname[i],
+						           { text: 'News', datafield: 'template', width: '96%',   cellclassname:  cellclassname[i],
 						        	   createfilterwidget: function (column, columnElement, widget) {
-						        	        widget.jqxInput({ width: '100%', height: 27, placeHolder: "Search" });
+						        	        widget.jqxInput({ width: '96%', height: 27, placeHolder: "Search" });
 						        	      }
 						           },
 						           { text: '', datafield: 'isBold', hidden: true  },
+						               { text: '',editable:false, datafield: 'copy',width:'2.5%', filterable: false ,cellsrenderer: function (row) {
+   	    	  return "<div class=\"copy-text\"><button onclick='Copy(\""+'#grid' + i +"\"," + row + ")'><i class=\"fa fa-clone\" aria-hidden=\"true\"></i></button></div>";
+				}
+				}
 						           ],
 						      groups: ['generationDateDate']
 						         
@@ -381,12 +385,16 @@
 			          columns: [
 			           { text: 'Date', datafield: 'generationDateDate', hidden: true,  editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
 			           { text: 'AssetId', datafield: 'order_id',  editable:false, hidden: true}, 
-			           { text: 'News', datafield: 'template', width: '100%',   cellclassname: cellclassnameall,
+			           { text: 'News', datafield: 'template', width: '96%',   cellclassname: cellclassnameall,
 			        	   createfilterwidget: function (column, columnElement, widget) {
-			        	        widget.jqxInput({ width: '100%', height: 27, placeHolder: "Search" });
+			        	        widget.jqxInput({ width: '96%', height: 27, placeHolder: "Search" });
 			        	      }
 			           },
 			           { text: '', datafield: 'isBold', hidden: true  },
+			           { text: '',editable:false, datafield: 'copy',width:'2.5%', filterable: false ,cellsrenderer: function (row) {
+   	    	  return "<div class=\"copy-text\"><button onclick='Copy(\"#gridall\"," + row + ")'><i class=\"fa fa-clone\" aria-hidden=\"true\"></i></button></div>";
+				}
+				}
 			           ],
 			      groups: ['generationDateDate','order_id']
 			         
@@ -741,12 +749,16 @@
     	          groupsexpandedbydefault: true,
     	          columns: [
     	           { text: 'Date', datafield: 'generationDateDate', hidden: true,  editable:false, cellsformat: 'dd-MMM-yyyy',filtertype: 'date' }, 
-    	           { text: 'News', datafield: 'template', width: '100%',   cellclassname: cellclassname,
+    	           { text: 'News', datafield: 'template', width: '96%',   cellclassname: cellclassname,
     	        	   createfilterwidget: function (column, columnElement, widget) {
-    	        	        widget.jqxInput({ width: '99%', height: 27, placeHolder: "Search" });
+    	        	        widget.jqxInput({ width: '96%', height: 27, placeHolder: "Search" });
     	        	      }
     	           },
     	           { text: '', datafield: 'isBold', hidden: true  },
+    	               { text: '',editable:false, datafield: 'copy',width:'2.5%', filterable: false ,cellsrenderer: function (row) {
+   	    	  return "<div class=\"copy-text\"><button onclick='Copy(\"#grid_filtered\"," + row + ")'><i class=\"fa fa-clone\" aria-hidden=\"true\"></i></button></div>";
+				}
+				}
     	           ],
     	      groups: ['generationDateDate']
     	         
@@ -789,4 +801,16 @@
         });
 }
 
-	
+	  function Copy(gridId,row) {
+	     var copyData = $(gridId).jqxGrid('getrowdata', row).template;
+			 copyToClipboard(copyData);
+    }
+     function copyToClipboard(text) {
+    var textarea = $("<textarea>");
+    textarea.val(text);
+    $("body").append(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+    //alert("Text copied to clipboard!");
+}

@@ -1857,13 +1857,14 @@ function getTrendLinesHistory(){
 										'50%':data.hidePercentage50,
 		 								'62%':data.hidePercentage62,
 										'66%':data.hidePercentage66,
-										'75%':data.hidePercentage75
+										'75%':data.hidePercentage75,
 										};						
 		       const parameters={
 				   startPrice:startPrice,
 				   endPrice:endPrice,
 				   startDate:startDate,
-				   endDate:endDate
+				   endDate:endDate,
+				   // add hideall here
 			   }
 						 
 			  acc[data.graphId].push({dbId:dbId,
@@ -2053,7 +2054,7 @@ function getRetracementHistory(){
 										'50%':data.hidePercentage50,
 		 								'62%':data.hidePercentage62,
 										'66%':data.hidePercentage66,
-										'75%':data.hidePercentage75
+										'75%':data.hidePercentage75,
 										};						
 		       const parameters={
 				   startPrice:startPrice,
@@ -3055,7 +3056,8 @@ async function saveRetracementHistory(retracementId) {
             hidePercentage50: true,
             hidePercentage62: true,
             hidePercentage66: true,
-            hidePercentage75: true
+            hidePercentage75: true,
+            hideAll:true
         };
 
         retracementValues.forEach(value => {
@@ -3091,6 +3093,9 @@ async function saveRetracementHistory(retracementId) {
                 case 'percentage75':
                     entity.percentage75 = value.y.toString();
                     entity.hidePercentage75 = value.hide;
+                    break;
+                 case 'hideAll':
+                    entity.hideAll = value.hide;
                     break;
                 default:
                     break;
@@ -3139,7 +3144,7 @@ async function saveRetracementHistory(retracementId) {
 										'50%':data.hidePercentage50,
 		 								'62%':data.hidePercentage62,
 										'66%':data.hidePercentage66,
-										'75%':data.hidePercentage75
+										'75%':data.hidePercentage75,
 										};						
 		       const parameters={
 				   startPrice:startPrice,

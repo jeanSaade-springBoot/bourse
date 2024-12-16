@@ -10738,6 +10738,138 @@
 			}
 			return a(s, [{
 				key: "draw",
+value: function (t, e) {
+  var i = this.w,
+      a = new b(this.ctx),
+      s = new L(this.ctx);
+  this.candlestickOptions = this.w.config.plotOptions.candlestick;
+
+  var r = new y(this.ctx, i);
+  t = r.getLogSeries(t);
+  this.series = t;
+  this.yRatio = r.getLogYRatios(this.yRatio);
+  this.barHelpers.initVariables(t);
+
+  var n = a.group({
+    class: "apexcharts-candlestick-series apexcharts-plot-series"
+  });
+
+  for (var o = 0; o < t.length; o++) {
+    var l, h, c, d, g = [],
+        u = [],
+        p = i.globals.comboCharts ? e[o] : o,
+        x = a.group({
+          class: "apexcharts-series",
+          seriesName: f.escapeString(i.globals.seriesNames[p]),
+          rel: o + 1,
+          "data:realIndex": p
+        });
+
+    if (t[o].length > 0) {
+      this.visibleI = this.visibleI + 1;
+    }
+
+    this.yRatio.length > 1 && (this.yaxisIndex = p);
+
+    var w = this.barHelpers.initialPositions();
+    d = w.y;
+    var m = w.barHeight,
+        v = w.barWidth;
+    c = w.x;
+    l = w.xDivision;
+    h = w.zeroH;
+
+    u.push(c + v / 2);
+
+    var k = a.group({
+      class: "apexcharts-datalabels",
+      "data:realIndex": p
+    });
+
+    for (var A = 0; A < i.globals.dataPoints; A++) {
+      var S, C = this.barHelpers.getStrokeWidth(o, A, p),
+          // After modifying drawCandleStickPaths, it now returns bar and line paths separately.
+          P = this.drawCandleStickPaths({
+            indexes: { i: o, j: A, realIndex: p },
+            x: c,
+            y: d,
+            xDivision: l,
+            barWidth: v,
+            zeroH: h,
+            strokeWidth: C,
+            elSeries: x
+          });
+
+      d = P.y;
+      c = P.x;
+      S = P.color;
+      A > 0 && u.push(c + v / 2);
+      g.push(d);
+
+      // Determine fill for the candle body
+      var T = s.fillPath({
+        seriesNumber: p,
+        dataPointIndex: A,
+        color: S,
+        value: t[o][A]
+      });
+      
+      // For the line (wick), choose a stroke color
+      var z = this.candlestickOptions.wick.useFillColor ? S : undefined;
+
+      // Render the candle body (bar) with barPathFrom/barPathTo
+      this.renderSeries({
+        realIndex: p,
+        pathFill: T,           // body fill
+        lineFill: T,
+        j: A,
+        i: o,
+        pathFrom: P.barPathFrom,
+        pathTo: P.barPathTo,
+        strokeWidth: C,
+        elSeries: x,
+        x: c,
+        y: d,
+        series: t,
+        barHeight: m,
+        barWidth: v,
+        elDataLabelsWrap: k,
+        visibleSeries: this.visibleI,
+        type: "candlestick-body" // just a custom identifier if needed
+      });
+
+      // Render the wick (line) separately with linePathFrom/linePathTo
+      // Here you can apply a different stroke style if desired.
+      this.renderSeries({
+        realIndex: p,
+        pathFill: 'transparent', // wick generally doesn't need fill
+        lineFill: z,             // wick stroke color
+        j: A,
+        i: o,
+        pathFrom: P.linePathFrom,
+        pathTo: P.linePathTo,
+        strokeWidth: C,
+        elSeries: x,
+        x: c,
+        y: d,
+        series: t,
+        barHeight: m,
+        barWidth: v,
+        elDataLabelsWrap: k,
+        visibleSeries: this.visibleI,
+        type: "candlestick-wick" // another custom identifier if needed
+      });
+    }
+
+    i.globals.seriesXvalues[p] = u;
+    i.globals.seriesYvalues[p] = g;
+    n.add(x);
+  }
+
+  return n;
+}
+/*
+				key: "draw",
 				value: function (t, e) {
 					var i = this.w,
 						a = new b(this.ctx),
@@ -10815,8 +10947,8 @@
 					}
 					return n
 				}
-			}, {
-				key: "drawCandleStickPaths",
+			*/}, {
+				key: "drawCandleStickPathss",
 				value: function (t) {
 					var e = t.indexes,
 						i = t.x,
@@ -10853,7 +10985,95 @@
 						color: d ? g : u
 					}
 				}
-			}, {
+			},{key: "drawCandleStickPaths",
+value: function(t) {
+  var e = t.indexes,
+      i = t.x,
+      a = t.xDivision,
+      s = t.barWidth,
+      r = t.zeroH,
+      n = t.strokeWidth,
+      o = this.w,
+      l = new b(this.ctx),
+      h = e.i,
+      c = e.j,
+      d = true,
+      g = o.config.plotOptions.candlestick.colors.upward,
+      u = o.config.plotOptions.candlestick.colors.downward,
+      f = this.yRatio[this.yaxisIndex],
+      p = e.realIndex,
+      x = this.getOHLCValue(p, c),
+      m = r,
+      v = r;
+
+  // Determine if candle is bullish or bearish
+  x.o > x.c && (d = false);
+
+  var y = Math.min(x.o, x.c),
+      w = Math.max(x.o, x.c);
+
+  // Calculate the x position if X is numeric
+  if (o.globals.isXNumeric) {
+    i = (o.globals.seriesX[p][c] - o.globals.minX) / this.xRatio - s / 2;
+  }
+
+  var k = i + s * this.visibleI;
+
+  // Transform O/H/L/C values into coordinates
+  if (this.series[h][c] !== undefined && this.series[h][c] !== null) {
+    y = r - y / f;
+    w = r - w / f;
+    m = r - x.h / f;
+    v = r - x.l / f;
+  } else {
+    y = r;
+  }
+
+  // Build the wick (line) path
+  // The wick is a vertical line through the center of the candle's body
+  var linePathTo = l.move(k + s/2, w)
+    + l.line(k + s/2, m)   // top wick
+    + l.move(k + s/2, y)
+    + l.line(k + s/2, v);  // bottom wick
+
+  // Build the candle body (bar) path
+  // The body is a rectangle spanning from y to w
+  var barPathTo = l.move(k, w)
+    + l.line(k + s, w)
+    + l.line(k + s, y)
+    + l.line(k, y)
+    + l.line(k, w);
+
+  // PathFrom logic (for transitions)
+  // Start both wick and bar paths from a minimal shape or previous position
+  var linePathFrom = l.move(k + s/2, r) + l.line(k + s/2, r); // a minimal line
+  var barPathFrom = l.move(k, r) + l.line(k, r);              // a minimal bar
+
+  // If previous paths exist (for smooth transitions), you might want to use them:
+  if (o.globals.previousPaths.length > 0) {
+    // Attempt to retrieve previous line and bar paths if stored previously
+    // This depends on how your charting library stores previous paths
+    // linePathFrom = this.getPreviousPath(p, c, true, 'line') || linePathFrom;
+    // barPathFrom = this.getPreviousPath(p, c, true, 'bar') || barPathFrom;
+  }
+
+  // If not numeric X, advance the X position by xDivision
+  if (!o.globals.isXNumeric) {
+    i += a;
+  }
+
+  return {
+    linePathTo: linePathTo,
+    linePathFrom: linePathFrom,
+    barPathTo: barPathTo,
+    barPathFrom: barPathFrom,
+    x: i,
+    y: w,
+    barXPosition: k,
+    color: d ? g : u
+  };
+}
+}, {
 				key: "getOHLCValue",
 				value: function (t, e) {
 					var i = this.w;

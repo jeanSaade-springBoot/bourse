@@ -144,6 +144,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .hidePercentage62(retacement.getHidePercentage62())
 			                  .hidePercentage66(retacement.getHidePercentage66())
 			                  .hidePercentage75(retacement.getHidePercentage75())
+			                  .hideAll(retacement.getHideAll())
 							  .screenName(retacement.getScreenName())
 			                  .build();
 			    	  dataList.add(entity);
@@ -172,6 +173,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .hidePercentage62(retacement.getHidePercentage62())
 			                  .hidePercentage66(retacement.getHidePercentage66())
 			                  .hidePercentage75(retacement.getHidePercentage75())
+			                  .hideAll(retacement.getHideAll())
 			                  .screenName(retacement.getScreenName())
 			   			.build();
 			    	     dataList.add(entity);

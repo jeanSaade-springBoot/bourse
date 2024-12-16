@@ -123,9 +123,7 @@ div#content {
 		 </ul>
     </div>
   </div>
-  </div>
-  <div class="col-4">
-    <div sec:authorize="hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')" class="card">
+      <div sec:authorize="hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN') OR hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')" class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">Liquidity</h5>
       <ul class="fa-ul">
@@ -140,6 +138,9 @@ div#content {
 		 </ul>
     </div>
   </div>
+  </div>
+  <div class="col-4">
+
    <div sec:authorize="hasAuthority('ONE_SERIE') OR hasAuthority('TWO_SERIES')"  class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">The Math Box</h5>
@@ -192,7 +193,20 @@ div#content {
 	   </ul>
     </div>
   </div>
-  
+   <div  sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN') OR hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN') OR hasAuthority('CRY_SOLANA_GRAPH_SCREEN') OR hasAuthority('CRY_SHIBA_GRAPH_SCREEN') OR hasAuthority('CRY_BINANCE_GRAPH_SCREEN') OR hasAuthority('CRY_XRP_GRAPH_SCREEN') OR hasAuthority('CRYPTOS_DATA_FUNCTION_DISPLAY_SCREEN')" class="card">
+    <div class="card-body">
+      <h5 class="card-title card-title-color">Cryptos</h5>
+      <ul class="fa-ul">
+		    <li sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN')"><a href="/bourse/bitcoin"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BITCOIN</a></li>
+	  	  <li sec:authorize="hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN')"><a href="/bourse/ethereum"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ETHEREUM</a></li>
+	  	  <li sec:authorize="hasAuthority('CRY_SOLANA_GRAPH_SCREEN')"><a href="/bourse/solana"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">SOLANA</a></li>
+	  	  <li sec:authorize="hasAuthority('CRY_SHIBA_GRAPH_SCREEN')"><a href="/bourse/shiba"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">SHIBA INU</a></li>
+	  	  <li sec:authorize="hasAuthority('CRY_BINANCE_GRAPH_SCREEN')"><a href="/bourse/binance"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BINANCE COIN</a></li>
+	  	  <li sec:authorize="hasAuthority('CRY_XRP_GRAPH_SCREEN')"><a href="/bourse/xrp"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">XRP</a></li>
+	  	  <li sec:authorize="hasAuthority('CRYPTOS_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/cryptosdatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+	   </ul>
+    </div>
+  </div>
   </div>
   <div class="col-4">
     <div sec:authorize="hasAuthority('ANY2_FXCDS_GRAPH_SCREEN')  OR hasAuthority('FX_GRAPH_SCREEN') OR hasAuthority('CDS_GRAPH_SCREEN') OR hasAuthority('FXCDS_DATA_FUNCTION_DISPLAY_SCREEN')" class="card">
