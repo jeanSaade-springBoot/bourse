@@ -42,4 +42,6 @@ public class GraphRequestDTO {
 	private String year; 
 	private String value;
 	private String dataType;
+	
+	private Boolean fulldates ;
 }

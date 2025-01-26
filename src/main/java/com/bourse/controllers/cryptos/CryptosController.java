@@ -18,6 +18,7 @@ import com.bourse.domain.cryptos.CryptosData;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.MainSearchFilterDTO;
+import com.bourse.dto.UpdateCryptosDataDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.cryptos.CryptosAuditCommonDTO;
 import com.bourse.repositories.TableManagementRepository;
@@ -62,6 +63,11 @@ public class CryptosController {
 		 System.out.println(className+": getgriddata");
 		return new ResponseEntity<>(cryptosService.getGridData(mainSearchFilterDTO),HttpStatus.OK);
 	}
+	@PostMapping(value = "getgriddata-four-hours-data")
+	public ResponseEntity<HashMap<String,List>> getGridDataFourHoursData(@RequestBody MainSearchFilterDTO mainSearchFilterDTO) {
+		 System.out.println(className+": getgriddata");
+		return new ResponseEntity<>(cryptosService.getGridDataFourHoursData(mainSearchFilterDTO),HttpStatus.OK);
+	}
 	@GetMapping(value = "cryptos-data/{groupId}/{referDate}")
 	public ResponseEntity<List<CryptosAuditCommonDTO>> getCryptosByGroupIdAndDataByReferDate(@PathVariable("groupId") String groupId, @PathVariable("referDate") String referDate) {
 	    System.out.println(className + ": getCryptosByGroupIdAndDataByReferDate");
@@ -69,15 +75,32 @@ public class CryptosController {
 	   
 	    return new ResponseEntity<>(data, HttpStatus.OK);
 	}
+	@GetMapping(value = "cryptos-four-hours-data/{groupId}/{referDate}")
+	public ResponseEntity<List<CryptosAuditCommonDTO>> getCryptosByGroupIdAndDataByReferDateFourHoursData(@PathVariable("groupId") String groupId, @PathVariable("referDate") String referDate) {
+	    System.out.println(className + ": getCryptosByGroupIdAndDataByReferDateFourHoursData");
+	    List<CryptosAuditCommonDTO> data = cryptosService.getCryptosByGroupIdAndDataByReferDateFourHoursData(groupId, referDate);
+	   
+	    return new ResponseEntity<>(data, HttpStatus.OK);
+	}
 	@GetMapping(value = "getlatest/{groupId}", produces = "application/json;charset=UTF-8")
     public ResponseEntity <String> getLatest(@PathVariable("groupId") String groupId){
 		return new ResponseEntity<>(cryptosService.findLatestData(groupId), HttpStatus.OK);
+    }
+	@GetMapping(value = "getlatest-four-hours-data/{groupId}", produces = "application/json;charset=UTF-8")
+    public ResponseEntity <String> getLatestFourHoursData(@PathVariable("groupId") String groupId){
+		return new ResponseEntity<>(cryptosService.findLatestDataFourHoursData(groupId), HttpStatus.OK);
     }
 	@PostMapping(value = "update-cryptos-data")
 	public ResponseEntity<Boolean> updateCryptosData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{  System.out.println(className+": updateCryptosData");
 		cryptosService.updateData(updateDataDTOlst);
 		cryptosService.doCalculation(updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getGroupId());
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "update-bitcoin-data-four-hours")
+	public ResponseEntity<Boolean> updateCryptosDataFourHoursData(@RequestBody UpdateCryptosDataDTO updateDataDTO) 
+	{  System.out.println(className+": updateCryptosDataFourHoursData");
+		cryptosService.updateBitcoinsDataFourHoursData(updateDataDTO);
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@DeleteMapping(value = "delete-cryptos/{groupId}/{referDate}")

@@ -242,6 +242,9 @@ function getGraphOptions(json) {
 		series: [{
 			data: json.data
 		}],
+		line:{
+			show: true,
+		},
 		grid: {
 			show: true,
 			borderColor: '#f0e68c',

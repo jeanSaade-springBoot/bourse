@@ -10,7 +10,7 @@ var allitems = [
 ];
 
 const graphName = "xrp";
-const candleGroupIdSubgroups = [[76, 7], [76, 1]];
+const candleGroupIdSubgroups = [[76, 8], [76, 2]];
 const showGroupOfOptions = true;
 const candleGraphTitle = "XRP";
 $(window).on('load', function() {
@@ -53,7 +53,7 @@ function drawGraph() {
 	const removeEmpty = true;
 	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 	if(chartType=="candle")
-		{    $("#functionOptionsMenu").hide();
+		{    $("#functionOptionsMenu").show(); //hide
 			candleStick(graphName,true);
 		}
 	else

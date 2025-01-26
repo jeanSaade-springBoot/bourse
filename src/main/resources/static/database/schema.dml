@@ -50590,6 +50590,7 @@ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('122', 'CRY
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('123', 'CRY_XRP_GRAPH_SCREEN', true);
 
 
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('124', 'TRENDLINE_CRYPTOS_SCREEN', true);
 
 
 

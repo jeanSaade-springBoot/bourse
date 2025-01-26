@@ -287,6 +287,275 @@ public class CryptosUtil {
 				 .build();
 		return queryColumnsDTO;
 	}
+	public static QueryColumnsDTO buildDynamicGridQueryFourHoursData(MainSearchFilterDTO mainSearchFilterDTO)
+	{
+		 String tableSchema = "bourse.";
+		 List<SelectedSearchDTO> selectedSearchDTOLst =mainSearchFilterDTO.getSelectedSearchDTOlst();
+		  
+		 String fromDate = mainSearchFilterDTO.getFromDate();
+		 String toDate = mainSearchFilterDTO.getToDate();
+		 String forUsetables = "",forUseWhere = "",forUseSelect = "",forUseAnd = "";
+		 String query ="",columName = "";
+		 int counter=1;
+		 int columnsId=1;
+		 HashMap<Integer,String>  colHash= new HashMap<Integer, String>();
+		 if(selectedSearchDTOLst!=null)
+		 for( SelectedSearchDTO selectedSearchDTO :selectedSearchDTOLst)
+		 {
+				
+				if(selectedSearchDTO.getGroupId() == 71) 
+				{
+				if(counter == 1)
+				 {
+					 forUseSelect = "select s"+counter+".start_time as start_time";
+					 colHash.put(columnsId, "start_time");
+					 columnsId++;
+					 
+					 forUsetables = " From ";
+				 }
+				 
+				 if(selectedSearchDTO.getSelectedValues()!=null)
+				 for(String value : selectedSearchDTO.getSelectedValues())
+				 {     
+					 
+						 if(counter == 1)
+						 {
+							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
+							 		+ "\n            and '"+toDate+"')\n ";
+							 
+						 }
+						else
+						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
+						 		    + "\n          and '"+toDate+"')\n";
+						 
+						 }
+						 forUsetables = forUsetables + tableSchema+"tmp_cry_bitcoin_four_hours";
+	    				 forUsetables = forUsetables + " s"+counter+" ,";
+					 	 forUseSelect = forUseSelect+", \n"+ 
+						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
+						                         " as '"+value+"'";
+					 	 colHash.put(columnsId, value);
+					 	 columnsId++;
+						 
+						 counter = counter+1;	 
+				 }
+				 
+				}
+		else if(selectedSearchDTO.getGroupId() == 72) 
+				{
+				if(counter == 1)
+				 {
+					 forUseSelect = "select s"+counter+".start_time as start_time";
+					 colHash.put(columnsId, "start_time");
+					 columnsId++;
+					 
+					 forUsetables = " From ";
+				 }
+				 
+				 if(selectedSearchDTO.getSelectedValues()!=null)
+				 for(String value : selectedSearchDTO.getSelectedValues())
+				 {     
+					 
+						 if(counter == 1)
+						 {
+							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
+							 		+ "\n            and '"+toDate+"')\n ";
+							 
+						 }
+						else
+						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
+						 		    + "\n          and '"+toDate+"')\n";
+						 
+						 }
+						 forUsetables = forUsetables + tableSchema+"tmp_cry_ethereum_four_hours";
+	    				 forUsetables = forUsetables + " s"+counter+" ,";
+					 	 forUseSelect = forUseSelect+", \n"+ 
+						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
+						                         " as '"+value+"'";
+					 	 colHash.put(columnsId, value);
+					 	 columnsId++;
+						 
+						 counter = counter+1;	 
+				 }
+				 
+				}
+				else if(selectedSearchDTO.getGroupId() == 73) 
+				{
+				if(counter == 1)
+				 {
+					 forUseSelect = "select s"+counter+".start_time as start_time";
+					 colHash.put(columnsId, "start_time");
+					 columnsId++;
+					 
+					 forUsetables = " From ";
+				 }
+				 
+				 if(selectedSearchDTO.getSelectedValues()!=null)
+				 for(String value : selectedSearchDTO.getSelectedValues())
+				 {     
+					 
+						 if(counter == 1)
+						 {
+							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
+							 		+ "\n            and '"+toDate+"')\n ";
+							 
+						 }
+						 else
+						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
+						 		    + "\n          and '"+toDate+"')\n";
+						 
+						 }
+						 forUsetables = forUsetables + tableSchema+"tmp_cry_solana_four_hours";
+	    				 forUsetables = forUsetables + " s"+counter+" ,";
+					 	 forUseSelect = forUseSelect+", \n"+ 
+						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
+						                         " as '"+value+"'";
+					 	 colHash.put(columnsId, value);
+					 	 columnsId++;
+						 
+						 counter = counter+1;	 
+				 }
+				 
+				}					
+						else if(selectedSearchDTO.getGroupId() == 74) 
+				{
+				if(counter == 1)
+				 {
+					 forUseSelect = "select s"+counter+".start_time as start_time";
+					 colHash.put(columnsId, "start_time");
+					 columnsId++;
+					 
+					 forUsetables = " From ";
+				 }
+				 
+				 if(selectedSearchDTO.getSelectedValues()!=null)
+				 for(String value : selectedSearchDTO.getSelectedValues())
+				 {     
+					 
+						 if(counter == 1)
+						 {
+							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
+							 		+ "\n            and '"+toDate+"')\n ";
+							 
+						 }
+						 else
+						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
+						 		    + "\n          and '"+toDate+"')\n";
+						 
+						 }
+						 forUsetables = forUsetables + tableSchema+"tmp_cry_shiba_four_hours";
+	    				 forUsetables = forUsetables + " s"+counter+" ,";
+					 	 forUseSelect = forUseSelect+", \n"+ 
+						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
+						                         " as '"+value+"'";
+					 	 colHash.put(columnsId, value);
+					 	 columnsId++;
+						 
+						 counter = counter+1;	 
+				 }
+				 
+				}		
+					else if(selectedSearchDTO.getGroupId() == 75) 
+				{
+				if(counter == 1)
+				 {
+					 forUseSelect = "select s"+counter+".start_time as start_time";
+					 colHash.put(columnsId, "start_time");
+					 columnsId++;
+					 
+					 forUsetables = " From ";
+				 }
+				 
+				 if(selectedSearchDTO.getSelectedValues()!=null)
+				 for(String value : selectedSearchDTO.getSelectedValues())
+				 {     
+					 
+						 if(counter == 1)
+						 {
+							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
+							 		+ "\n            and '"+toDate+"')\n ";
+							 
+						 }
+						else
+						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
+						 		    + "\n          and '"+toDate+"')\n";
+						 
+						 }
+						 forUsetables = forUsetables + tableSchema+"tmp_cry_binance_four_hours";
+	    				 forUsetables = forUsetables + " s"+counter+" ,";
+					 	 forUseSelect = forUseSelect+", \n"+ 
+						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
+						                         " as '"+value+"'";
+					 	 colHash.put(columnsId, value);
+					 	 columnsId++;
+						 
+						 counter = counter+1;	 
+				 }
+				 
+				}		
+				else if(selectedSearchDTO.getGroupId() == 76) 
+				{
+				if(counter == 1)
+				 {
+					 forUseSelect = "select s"+counter+".start_time as start_time";
+					 colHash.put(columnsId, "start_time");
+					 columnsId++;
+					 
+					 forUsetables = " From ";
+				 }
+				 
+				 if(selectedSearchDTO.getSelectedValues()!=null)
+				 for(String value : selectedSearchDTO.getSelectedValues())
+				 {     
+					 
+						 if(counter == 1)
+						 {
+							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
+							 		+ "\n            and '"+toDate+"')\n ";
+							 
+						 }
+						 else
+						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
+						 		    + "\n          and '"+toDate+"')\n";
+						 
+						 }
+						 forUsetables = forUsetables + tableSchema+"tmp_cry_xrp_four_hours";
+	    				 forUsetables = forUsetables + " s"+counter+" ,";
+					 	 forUseSelect = forUseSelect+", \n"+ 
+						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
+						                         " as '"+value+"'";
+					 	 colHash.put(columnsId, value);
+					 	 columnsId++;
+						 
+						 counter = counter+1;	 
+				 }
+				 
+				}								
+					
+				
+	 }
+		
+		 for(int i=1; i<counter;i++)
+		 {
+			 if(i<counter-1)
+				 forUseWhere = forUseWhere+" and s"+i+".start_time =  s"+(i+1)+".start_time \n";
+		 }
+		 if(forUsetables.substring(forUsetables.length() - 1).equalsIgnoreCase(","))
+			 forUsetables = forUsetables.substring(0, forUsetables.length() - 1);
+		 
+		 colHash.put(columnsId,"id");
+		 query = forUseSelect+",(@row_number:=@row_number + 1) AS id \n"
+				 +forUsetables+", (SELECT @row_number:=0) AS t  \n"
+				 +forUseWhere
+				 + forUseAnd
+				 +" order by s1.start_time desc";
+		 
+		 QueryColumnsDTO queryColumnsDTO = QueryColumnsDTO.builder()
+				 .colHash(colHash)
+				 .query(query)
+				 .build();
+		return queryColumnsDTO;
+	}
 	
 	public static List<GraphResponseDTO> removeEmptyY(List<GraphResponseDTO> graphResponseDTO) {
 		  List<GraphResponseDTO> updatedGraphResponseDTO = new ArrayList<>();

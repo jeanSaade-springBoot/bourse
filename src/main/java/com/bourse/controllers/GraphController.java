@@ -1,6 +1,7 @@
 package com.bourse.controllers;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -19,10 +20,12 @@ import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.graph.TechnicalAnalysisGraphHistory;
 import com.bourse.domain.graph.TechnicalAnalysisRelevantHistory;
 import com.bourse.domain.graph.TechnicalAnalysisRetracementHistory;
+import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.graph.TechnicalAnalysisGraphHistoryDTO;
 import com.bourse.dto.graph.TechnicalAnalysisRelevantHistoryDTO;
 import com.bourse.dto.graph.TechnicalAnalysisRetracementHistoryDTO;
 import com.bourse.service.AdminService;
+import com.bourse.service.GraphService;
 import com.bourse.service.TechnicalAnalysisGraphHistoryService;
 
 @RestController
@@ -32,11 +35,14 @@ public class GraphController {
 	@Autowired
 	private final TechnicalAnalysisGraphHistoryService technicalAnalysisGraphHistoryService;
 	@Autowired
+	private final GraphService graphService;
+	@Autowired
 	private final AdminService adminService;
 	
-	public GraphController(TechnicalAnalysisGraphHistoryService technicalAnalysisGraphHistoryService,AdminService adminService)
+	public GraphController(TechnicalAnalysisGraphHistoryService technicalAnalysisGraphHistoryService,GraphService graphService,AdminService adminService)
 	{
 		this.technicalAnalysisGraphHistoryService=technicalAnalysisGraphHistoryService;
+		this.graphService = graphService;
 		this.adminService = adminService;
 	}
 	@PostMapping(value = "save-history")
@@ -101,4 +107,10 @@ public class GraphController {
 				technicalAnalysisGraphHistoryService.deleteRelevantHistoryByGraphId(graphid, authentication);
 			return new ResponseEntity<>(HttpStatus.OK);
 		}
+	@PostMapping(value = "getperformancegraphdata")
+	 public ResponseEntity<List<Map<String, List<?>>>> getGraphBarData(@RequestBody List<GraphRequestDTO> graphReqDTO) {
+
+		List<Map<String, List<?>>> graphData = graphService.getPerformanceGraphBarDataResults(graphReqDTO);
+       return new ResponseEntity<>(graphData, HttpStatus.OK);
+   }
 }

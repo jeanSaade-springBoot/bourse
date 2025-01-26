@@ -10,7 +10,7 @@ var allitems = [
 ];
 
 const graphName = "solana";
-const candleGroupIdSubgroups = [[73, 7], [73, 1]];
+const candleGroupIdSubgroups = [[73, 8], [73, 2]];
 const showGroupOfOptions = true;
 const candleGraphTitle = "SOLANA";
 
@@ -54,7 +54,7 @@ function drawGraph() {
 	const removeEmpty = true;
 	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 	if(chartType=="candle")
-		{    $("#functionOptionsMenu").hide();
+		{    $("#functionOptionsMenu").show(); //hide
 			candleStick(graphName,true);
 		}
 	else

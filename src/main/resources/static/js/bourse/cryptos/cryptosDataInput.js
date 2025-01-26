@@ -368,7 +368,7 @@ function Update(row, event) {
 			dataToBeUpdated.push({
 				"groupId": getGroupId(crySubGroupValue),
 				"subgroupId": i + 1,
-				"value": updatedDataJson[field].replace(',', ''),
+				"value": updatedDataJson[field].replaceAll(',', ''),
 				"referdate": date
 			});
 		}
@@ -660,6 +660,12 @@ function updateRobotNewsOnChangeColumns(ArrayOfColumns) {
 function toggleDivVisibility(divNum) {
 
 	location.href = "/bourse/cryptos?cryptos=" + divNum;
+}
+function toggleDivVisibilityData(divNum) {
+    if(divNum==1)
+		location.href = "/bourse/cryptos?cryptos=1";
+		else 
+		location.href = "/bourse/cryptosFourHoursInterval?cryptos=1";
 }
 function renderSubGroup(crySubGroupValue) {
 
@@ -989,17 +995,14 @@ function initiate(Type, inputDataType, item, dataInputGridFields, dataInputGridC
 			dataToBeInserted.push({
 				"groupId": groupId,
 				"subgroupId": value[0],
-				"value": value[1].replace(',', ''),
+				"value":  value[1].replaceAll(',', ''),
 				"referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 			});
 		}
 
 		if ($("#dateInput").jqxDateTimeInput('getDate') < date) {
 			var today = $("#dateInput").jqxDateTimeInput('getDate');
-			if (today.getDay() == 6 || today.getDay() == 0) {
-				$('#alert-modal-weekend').modal('show');
-				return;
-			}
+			
 			today = $.jqx.dataFormat.formatdate(today, 'dd-MM-yyyy')
 			$.ajax({
 				contentType: "application/json",

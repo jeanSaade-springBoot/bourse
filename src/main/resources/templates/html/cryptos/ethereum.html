@@ -69,7 +69,11 @@
             <h1 class="ml-6 text-darkorange">Cryptos</h1>
 		     	   <nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
 		           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-		             <a sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN')"
+		              <a sec:authorize="hasAuthority('ANY2_CRYPTOS_GRAPH_SCREEN')"
+				     class="navigation nav-item nav-link" id="nav-any2-tab"  
+				     href="/bourse/any2cryptos" role="tab" aria-controls="nav-any2" 
+				     aria-selected="false">Any2</a>
+				     <a sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN')"
 	                 class="navigation nav-item nav-link " id="nav-bunds-tab"
 	                 href="/bourse/bitcoin" role="tab" aria-controls="nav-bunds"
 	                 aria-selected="false">BITCOIN</a>
@@ -93,6 +97,7 @@
 	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
 	                 href="/bourse/xrp" role="tab" aria-controls="nav-bunds"
 	                 aria-selected="false">XRP</a>
+	                  <a sec:authorize="hasAuthority('CRYPTOS_PERFORMANCE_SCREEN')" class="navigation nav-item nav-link" id="nav-performance-tab"  href="/bourse/cryptosperformance" role="tab" aria-controls="nav-performance" aria-selected="false">Performance</a>
 	                 
 		           </div>
 		        </nav>
@@ -273,7 +278,7 @@
 		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
 		   		</div>
 		   		
-				   	  	    <div id='groupOfOptions' class="euro-intr-style">
+				   	  	    <div id='groupOfOptions' class="euro-intr-style"  style="z-index: 1;">
 					            <button style="padding:4px 16px;" id="w">
 					                Intr</button>
 					             <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">

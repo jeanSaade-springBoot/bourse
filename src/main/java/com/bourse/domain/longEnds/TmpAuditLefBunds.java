@@ -48,4 +48,5 @@ public class TmpAuditLefBunds {
 	private String referDate;
 	private String spreadName;
 	private String spreadValue;
+	private String spreadTotals;
 }

@@ -373,6 +373,121 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 						    source = getMinMaxDateData(response[0].graphResponseDTOLst);
 				           //var data = transformData(response[0].graphResponseDTOLst);
  						
+					if (results && results[0] && Array.isArray(results[0].relevant)) {
+						results[0].relevant.forEach(relevantItem => {
+						    const relevantParameter = relevantItem.relevantParameter;
+						
+						    if (relevantParameter) {
+						        // Find the value for startDate
+						        const startPrice = parseFloat(response[0].graphResponseDTOLst
+						       .filter(item => item.x === relevantParameter.startDate)[0]?.y)
+						       .toFixed(getFormat(response[0].config.dataFormat)[0]);
+						
+						        // Find the value for endDate
+						        const endPrice = parseFloat(response[0].graphResponseDTOLst
+						            .filter(item => item.x === relevantParameter.endDate)[0]?.y)
+						       .toFixed(getFormat(response[0].config.dataFormat)[0]);
+						
+						        // Update the relevantParameter object
+						        if (startPrice !== undefined) {
+						            relevantParameter.startPrice = startPrice;
+						        }
+						        if (endPrice !== undefined) {
+						            relevantParameter.endPrice = endPrice;
+						        }
+						    }
+						});
+						}
+				if (results && results[0] && Array.isArray(results[0].retracementParameter)) {
+				    results[0].retracementParameter.forEach((retracementItem, index) => {
+				        const retracementParameter = retracementItem;
+				
+				        if (retracementParameter) {
+				            // Find the value for startDate
+				            const startPrice = parseFloat(
+				                response[0].graphResponseDTOLst
+				                    .filter(item => item.x === retracementParameter.startDate)[0]?.y
+				            ).toFixed(getFormat(response[0].config.dataFormat)[0]);
+				
+				            // Find the value for endDate
+				            const endPrice = parseFloat(
+				                response[0].graphResponseDTOLst
+				                    .filter(item => item.x === retracementParameter.endDate)[0]?.y
+				            ).toFixed(getFormat(response[0].config.dataFormat)[0]);
+				
+				            // Update the relevantParameter object
+				            if (startPrice !== undefined) {
+				                retracementParameter.startPrice = startPrice;
+				            }
+				            if (endPrice !== undefined) {
+				                retracementParameter.endPrice = endPrice;
+				            }
+				
+				            // Recalculate retracement data
+				            if (startPrice && endPrice) {
+				                const calculatedRetracementData = calculateRetracements(
+				                    parseFloat(startPrice),
+				                    parseFloat(endPrice)
+				                );
+				
+				                // Ensure retracementData exists
+				                if (!results[0].retracementData) {
+				                    results[0].retracementData = [];
+				                }
+				
+				                // Replace or update the corresponding index in retracementData for results[0]
+				                const retracementDataEntry = {};
+				                for (const level in calculatedRetracementData) {
+				                    if (calculatedRetracementData.hasOwnProperty(level)) {
+				                        retracementDataEntry[level] = calculatedRetracementData[level];
+				                    }
+				                }
+				
+				                if (results[0].retracementData[index]) {
+				                    results[0].retracementData[index] = retracementDataEntry;
+				                } else {
+				                    // Add a new entry if it doesn't exist (fallback case)
+				                    results[0].retracementData.push(retracementDataEntry);
+				                }
+				            }
+				        }
+				    });
+} 
+					if (results && results[0] && Array.isArray(results[0].trendlines)) {
+						results[0].trendlines.forEach(trendlinesItem => {
+						  
+						        // Find the value for startDate
+						        const startPrice = parseFloat(response[0].graphResponseDTOLst
+						       .filter(item => item.x === trendlinesItem.x1)[0]?.y)
+						       .toFixed(getFormat(response[0].config.dataFormat)[0]);
+						
+						        // Find the value for endDate
+						        const endPrice = parseFloat(response[0].graphResponseDTOLst
+						            .filter(item => item.x === trendlinesItem.x2)[0]?.y)
+						       .toFixed(getFormat(response[0].config.dataFormat)[0]);
+						
+						        // Update the trendlinesItem object
+						        if (startPrice !== undefined) {
+						            trendlinesItem.y1 = startPrice;
+						        }
+						        if (endPrice !== undefined) {
+						            trendlinesItem.y2 = endPrice;
+						        }
+						     
+						       let count = 0;
+							    for (const item of response[0].graphResponseDTOLst) {
+							        const itemDate = item.x; // Date is already in string format
+							        if (parseDate(itemDate) >= parseDate(trendlinesItem.x1) && parseDate(itemDate) <= parseDate(trendlinesItem.x2) ) {
+							            count++;
+							        }
+							        
+							    }
+							   
+							  const slope=(endPrice-startPrice)/count;
+							  trendlinesItem.slope = slope.toFixed(6);
+						});
+						}
+
  						   data=response;
  						    
 				           chartResponse =  response[0].graphResponseDTOLst;
@@ -513,6 +628,7 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 									 for (let i = 0; i < relevant.length; i++) {
 									 drawRelevant(relevant[i].relevantParameter,relevant[i].relevantId);
 									}
+									
 									 updateSeriesChart(chartConfigSettings);
 									}else{
 										$("#relevant-grid").empty();
@@ -554,7 +670,7 @@ function processRetracementData(retracementData, checkedItemValues) {
         chartConfigSettings.yaxisAnnotation = [];
         updateSeriesChart(chartConfigSettings);
     } else {
-        let yaxis = [];
+        /*let yaxis = [];
         retracement = [];
         retracementId = 0;
 
@@ -565,7 +681,8 @@ function processRetracementData(retracementData, checkedItemValues) {
                 item.retracementParameter.endDate,
                 item.retracementParameter.startPrice,
                 item.retracementParameter.endPrice,
-                item.retracementDataHide
+                item.retracementDataHide,
+                item.retracementParameter.hideAll,
             );
 
             retracementId += 1;
@@ -585,7 +702,49 @@ function processRetracementData(retracementData, checkedItemValues) {
 
         drawRetracementTable(retracement);
         chartConfigSettings.yaxisAnnotation = yaxis;
-        updateSeriesChart(chartConfigSettings);
+        updateSeriesChart(chartConfigSettings);*/
+    let yaxis = [];
+retracement = [];
+let retracementId = 0;
+
+// Separate existing non-retracement annotations
+let nonRetracementAnnotations = chartConfigSettings.yaxisAnnotation.filter(
+    annotation => !annotation.hasOwnProperty('retracementId')
+);
+
+// Process retracements and update annotations
+hasRetracement.forEach(function(item) {
+    const json = convertRetracementData(
+        item.retracementData,
+        item.retracementParameter.startDate,
+        item.retracementParameter.endDate,
+        item.retracementParameter.startPrice,
+        item.retracementParameter.endPrice,
+        item.retracementDataHide,
+        item.retracementParameter.hideAll
+    );
+
+    retracementId += 1;
+    retracement.push({
+        dbId: item.dbId,
+        retracementId: retracementId,
+        graphId: checkedItemValues[0],
+        retracementValues: json,
+        retracementParameter: item.retracementParameter
+    });
+    // Convert retracement values to y-axis annotations
+    const relatedyaxis = convertData(json, retracementId);
+    yaxis = yaxis.concat(relatedyaxis); // Add these to the retracement annotations
+});
+
+// Combine updated annotations with non-retracement annotations
+chartConfigSettings.yaxisAnnotation = [...nonRetracementAnnotations, ...yaxis];
+
+// Update the chart with the new annotations
+drawRetracementTable(retracement);
+updateSeriesChart(chartConfigSettings);
+
+    
     }
 }
 function getMinMaxDateData(data) {
@@ -803,9 +962,9 @@ function drawTrendLineTable(data){
 			
 			for (var i = 0; i < data.length; i++) {
 				
-				TrendLineId=data[i].trendLineId;
-				hasChannel = channelLines.filter(obj => obj.trendLineId === TrendLineId);
- 				cid=(hasChannel.length!=0)?hasChannel[0].channelId:"";
+				let TrendLineId=data[i].trendLineId;
+				let hasChannel = channelLines.filter(obj => obj.trendLineId === TrendLineId);
+ 				let cid=(hasChannel.length!=0)?hasChannel[0].channelId:"";
  				 						  
 				var shouldBeExpanded = (hasChannel.length!=0)?true:false; // Example condition, change this according to your logic
 		
@@ -1054,6 +1213,8 @@ function drawRetracementTable(data){
 		 const startPrice = retracementParameter!= null ?retracementParameter.startPrice:"";
 		 const endDate = retracementParameter!= null ?retracementParameter.endDate:"";
 		 const endPrice = retracementParameter!= null ?retracementParameter.endPrice:"";
+		 const hideAll = retracementParameter!= null ?retracementParameter.hideAll:"";
+		  
 		 const dbId = item.dbId;
 		//  const dbId = 1;
 		 retracementGrid += `
@@ -1113,9 +1274,15 @@ function drawRetracementTable(data){
 		    <div class='d-flex align-items-start flex-column bd-highlight' style='min-height: 115px;'>
 		        <div class='mb-auto bd-highlight'>
 		          ${typeof dbId !== 'undefined' ? `
-		             <button class='btn btn-light-secondary mr-1 mb-1 red' type='button' onclick='deleteRetracementHistory(${dbId}, ${retracementId})'>
+		           <button id='toggleAllRetracements_${retracementId}' 
+					        class='btn btn-light-secondary mr-1 mb-1 ${hideAll ? "hide" : "green"}' 
+					        type='button' 
+					        onclick='toggleAllRetracements(${retracementId}, ${hideAll})'>
+					  <i class='far ${hideAll ? "fa-eye-slash" : "fa-eye"} white'></i>
+					</button>
+					  <button class='btn btn-light-secondary mr-1 mb-1 red' type='button' onclick='deleteRetracementHistory(${dbId}, ${retracementId})'>
 		              <img src='/img/icon/delete.svg' width='16' height='16'>
-		            </button>` : `
+		            </button> `  : `
 		            <button class='btn btn-light-secondary mr-1 mb-1 green' type='button' onclick='saveRetracementHistory(${retracementId})'>
 		              <img src='/img/icon/save.svg' width='16' height='16'>
 		            </button>
@@ -1143,6 +1310,8 @@ function drawRetracementTable(data){
 		});
 		$("#retracement-grid").append(retracementGrid);
 		
+		data.forEach(item => {
+			let retracementId =item.retracementId;
 		$("#retracementEditDate_" + retracementId).jqxDateTimeInput({ min: source[0].minDate, max: source[0].maxDate, width: '0px', height: '0px', theme: 'dark' });
 		$("#inputretracementEditDate_" + retracementId).css("padding", "0");
 
@@ -1170,12 +1339,27 @@ function drawRetracementTable(data){
 			  
 			        $('#' + selectedstartCellId).text(formatTrendlineDate(jsDate));
 			        $('#' + priceId + selectedId).text(parseFloat(json[0].y).toFixed(getFormatResult0[0]));
-			         
+			      
+			  
+		    let toggleButton = $("#toggleAllRetracements_"+ retracementId);
+				let hideall;
+				
+				// Check the current state and toggle
+				if (toggleButton.hasClass("hide")) {
+				    toggleButton.removeClass("hide"); // Make the button visible
+				    hideall = true; // Set hideall to false
+				} else {
+				    toggleButton.addClass("hide"); // Hide the button
+				    hideall = false; // Set hideall to true
+				}
+		
+       
 			   const parameters={
 				   startPrice:$("#retracementStartPrice_"+ retracementId).text(),
 				   endPrice: $("#retracementEndPrice_"+ retracementId).text(),
 				   startDate:$("#retracementStart_"+ retracementId).text(),
-				   endDate: $("#retracementEnd_"+ retracementId).text()
+				   endDate: $("#retracementEnd_"+ retracementId).text(),
+				   hideAll: hideall,
 			   }
 			 for (var i = 0; i < retracement.length; i++) {
 				   if (retracement[i].retracementId === retracementId) {
@@ -1189,49 +1373,75 @@ function drawRetracementTable(data){
 			    }
    			 
 		});
-		$(".toggleRetracement").click(function() {
-		    const $button = $(this);
-		    const $icon = $button.find('i');
-		    const index = parseFloat($button.attr('id').split("_")[1]);
-		    const key = $button.attr('id').split("_")[2];
-		    const isHidden = $icon.hasClass('fa-eye');
-		
-		    $icon.toggleClass('fa-eye fa-eye-slash');
-		    
-		    $button
-		        .attr('title', isHidden ? 'Show' : 'Hide')
-		        .attr('aria-label', isHidden ? 'Show' : 'Hide')
-		        .toggleClass('green', !isHidden)
-		        .toggleClass('hide', isHidden)
-		        .toggleClass('red', isHidden);
-		 
-		      retracement.forEach(retracement => {
-				    if (retracement.retracementId === index) {
-				      retracement.retracementValues.forEach(value => {
-				        if (value.key === key) {
-				          value.hide = !value.hide;
-				        }
-				      });
-				    }
-				  });
-				  
-			  const selectedRetracement = retracement.find(item => item.retracementId === index)  ;
-		      
-		      chartConfigSettings.yaxisAnnotation=removeById(chartConfigSettings.yaxisAnnotation,"retracementId", selectedRetracement.retracementId);
+	});
+	$(".toggleRetracement").click(function() {
+    const $button = $(this);
+    const $icon = $button.find('i');
+    const index = parseFloat($button.attr('id').split("_")[1]);
+    const key = $button.attr('id').split("_")[2];
+    const isHidden = $icon.hasClass('fa-eye'); // true if currently visible
+    
+    // Toggle button icon and class
+    $icon.toggleClass('fa-eye fa-eye-slash');
+    $button
+        .attr('title', isHidden ? 'Show' : 'Hide')
+        .attr('aria-label', isHidden ? 'Show' : 'Hide')
+        .toggleClass('green', !isHidden)
+        .toggleClass('hide', isHidden)
+        .toggleClass('red', isHidden);
 
-		      const relatedyaxis = convertData(selectedRetracement.retracementValues,selectedRetracement.retracementId);
-       		  
-       		  const yaxis = chartConfigSettings.yaxisAnnotation;
-       		  	
-	            for (const newItem of relatedyaxis) {
-	                yaxis.push(newItem);
-	            }	
-	            		 
-	      	  chartConfigSettings.yaxisAnnotation = yaxis;
-		      updateSeriesChart(chartConfigSettings);
-			  saveRetracementHistory(index); 
+	    // Update retracement values
+	    retracement.forEach(retracement => {
+	        if (retracement.retracementId === index) {
+	            retracement.retracementValues.forEach(value => {
+	                if (value.key === key) {
+	                    value.hide = !value.hide;
+	                }
+	            });
+	        }
+	    });
 	
-		});
+	    const selectedRetracement = retracement.find(item => item.retracementId === index);
+	
+	    // Update chart annotations for the selected retracement
+	    chartConfigSettings.yaxisAnnotation = removeById(chartConfigSettings.yaxisAnnotation, "retracementId", selectedRetracement.retracementId);
+	
+	    const relatedyaxis = convertData(selectedRetracement.retracementValues, selectedRetracement.retracementId);
+	    const yaxis = chartConfigSettings.yaxisAnnotation;
+	
+	    for (const newItem of relatedyaxis) {
+	        yaxis.push(newItem);
+	    }
+	
+	    chartConfigSettings.yaxisAnnotation = yaxis;
+	    // Update the chart here if necessary
+	    // updateSeriesChart(chartConfigSettings);
+	
+	    // Check if all toggles are hidden or if one is visible
+	    const allHidden = selectedRetracement.retracementValues.every(value => value.hide === true);
+	    const oneVisible = selectedRetracement.retracementValues.some(value => value.hide === false);
+	
+	    // Get the main toggle button
+	    const $mainButton = $(`#toggleAllRetracements_${index}`);
+	    const $mainIcon = $mainButton.find('i');
+	
+	    // If all individual toggles are hidden, set main toggle to "Hide All" state
+	    if (allHidden) {
+	        $mainIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+	        $mainButton.removeClass('green').addClass('hide');
+	        selectedRetracement.retracementParameter.hideAll = true; // Update state
+	    }
+	
+	    // If at least one toggle is visible, set main toggle to "Show All" state
+	    if (oneVisible) {
+	        $mainIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+	        $mainButton.removeClass('hide').addClass('green');
+	        selectedRetracement.retracementParameter.hideAll = false; // Update state
+	    }
+	
+	    // Save the updated retracement state
+	    saveRetracementHistory(index);
+	});
 		
 		document.addEventListener('click', function(event) {
 	    if (event.target.classList.contains('retracement-start-date') || event.target.classList.contains('retracement-end-date')) {
@@ -1249,6 +1459,50 @@ function drawRetracementTable(data){
 		//resultss=mergeData(results, retracementData);
 
  		processGraphHistory();
+}
+function toggleAllRetracements(retracementId, currentHideAllState) {
+    const button = $(`#toggleAllRetracements_${retracementId}`);
+    const icon = button.find('i');
+    const isHidden = currentHideAllState;
+
+    // Toggle button state
+    icon.toggleClass('fa-eye fa-eye-slash');
+    button.toggleClass('green hide');
+    
+    // Update all retracement values
+    retracement.forEach(item => {
+        if (item.retracementId === retracementId) {
+            item.retracementValues.forEach(value => {
+                value.hide = !isHidden;
+            });
+            item.retracementParameter.hideAll = !isHidden; // Update the hideAll state
+        }
+    });
+
+    // Update the visibility of individual buttons
+    $(`#retracement${retracementId} .toggleRetracement`).each(function() {
+        const $btn = $(this);
+        const $btnIcon = $btn.find('i');
+        if (!isHidden) {
+            $btnIcon.removeClass('fa-eye').addClass('fa-eye-slash');
+            $btn.removeClass('green').addClass('hide');
+        } else {
+            $btnIcon.removeClass('fa-eye-slash').addClass('fa-eye');
+            $btn.removeClass('hide').addClass('green');
+        }
+    });
+
+    // Reflect changes in the chart
+    const selectedRetracement = retracement.find(item => item.retracementId === retracementId);
+    chartConfigSettings.yaxisAnnotation = removeById(chartConfigSettings.yaxisAnnotation, "retracementId", selectedRetracement.retracementId);
+
+    if (!isHidden) {
+        const relatedyaxis = convertData(selectedRetracement.retracementValues, selectedRetracement.retracementId);
+        relatedyaxis.forEach(newItem => chartConfigSettings.yaxisAnnotation.push(newItem));
+    }
+
+    updateSeriesChart(chartConfigSettings);
+    saveRetracementHistory(retracementId); // Save updated state to the database
 }
 function drawRelevantTable(data){
 		$("#relevant-grid").empty();
@@ -1333,8 +1587,8 @@ function drawRelevantTable(data){
 
 		$("#relevant-grid").append(relevantGrid);
 		
-		if(data.length!==0)
-		{
+		data.forEach(item => {
+			 let relevantId =item.relevantId;
 		$("#relevantEditDate_" + relevantId).jqxDateTimeInput({ min: source[0].minDate, max: source[0].maxDate, width: '0px', height: '0px', theme: 'dark' });
 		$("#inputrelevantEditDate_" + relevantId).css("padding", "0");
 
@@ -1369,6 +1623,8 @@ function drawRelevantTable(data){
 					   startDate:$("#relevantStart_"+ relevantId).text(),
 					   endDate: $("#relevantEnd_"+ relevantId).text()
 				   }
+				   
+				   
 				 for (var i = 0; i < relevant.length; i++) {
 					   if (relevant[i].relevantId === relevantId) {
 						        relevant[i].relevantParameter = parameters;
@@ -1382,9 +1638,11 @@ function drawRelevantTable(data){
 				      updateSeriesChart(chartConfigSettings);
 
 				    }
-	   			 
+			   			 
+				});
+	
 		});
-		$(".toggleRelevant").click(function() {
+			$(".toggleRelevant").click(function() {
 		    const $button = $(this);
 		    const $icon = $button.find('i');
 		    const index = parseFloat($button.attr('id').split("_")[1]);
@@ -1412,7 +1670,6 @@ function drawRelevantTable(data){
 			  updateSeriesChart(chartConfigSettings);
 	
 		});
-		}
 		document.addEventListener('click', function(event) {
 	    if (event.target.classList.contains('relevant-start-date') || event.target.classList.contains('relevant-end-date')) {
 			        const cell = event.target;
@@ -1504,8 +1761,10 @@ function updateSeriesChart(chartConfigSettings){
           
           $('#legendfalse').addClass("active");
 		  $('#legendtrue').removeClass("active");
-		
+		  markerSize=selectedChartMarkerID==null?markerSize:selectedChartMarkerID;
+		  
 				chartOpacity = typeof chartOpacity=='undefined'?eval(checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],'1')):SelectedChartTransparency;
+				chartOpacity = typeof chartOpacity=='undefined'?chartTransparency:chartOpacity;
 				chart.updateOptions({
 					chart: {
 			width: '100%',
@@ -1599,7 +1858,10 @@ function updateSeriesChart(chartConfigSettings){
 					},
 					markers: {
 						colors: chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
-						strokeColors: chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor]
+						strokeColors: chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
+						 size: serieArray.length >= 2 
+						    ? [...new Array(serieArray.length - 1).fill(0), parseFloat(markerSize) ] 
+						    : [parseFloat(markerSize)],
 					},
 					extra: {
 						isDecimal: chartConfigSettings.isdecimal,
@@ -1840,6 +2102,7 @@ function getTrendLinesHistory(){
 				const endPrice = data.endPrice;
 				const startDate = data.startDate;
 				const endDate = data.endDate;
+				const hideAll=data.hideAll;
 				
 		       const retracementData = {'10%':parseFloat(data.percentage10),
 									    '25%':parseFloat(data.percentage25),
@@ -1860,11 +2123,12 @@ function getTrendLinesHistory(){
 										'75%':data.hidePercentage75,
 										};						
 		       const parameters={
+				   dbId:dbId,
 				   startPrice:startPrice,
 				   endPrice:endPrice,
 				   startDate:startDate,
 				   endDate:endDate,
-				   // add hideall here
+				   hideAll:hideAll,
 			   }
 						 
 			  acc[data.graphId].push({dbId:dbId,
@@ -1898,6 +2162,7 @@ function getTrendLinesHistory(){
 				const endDate = data.endDate;
 				
 			    const parameters={
+					   dbId :dbId,
 					   startPrice:startPrice,
 					   endPrice:endPrice,
 					   startDate:startDate,
@@ -2037,7 +2302,7 @@ function getRetracementHistory(){
 				const endPrice = data.endPrice;
 				const startDate = data.startDate;
 				const endDate = data.endDate;
-				
+				const hideAll = data.hideAll;
 		       const retracementData = {'10%':parseFloat(data.percentage10),
 									    '25%':parseFloat(data.percentage25),
 									    '33%':parseFloat(data.percentage33),
@@ -2057,10 +2322,13 @@ function getRetracementHistory(){
 										'75%':data.hidePercentage75,
 										};						
 		       const parameters={
+				   dbId:dbId,
 				   startPrice:startPrice,
 				   endPrice:endPrice,
 				   startDate:startDate,
-				   endDate:endDate
+				   endDate:endDate,
+				   hideAll: hideAll
+				   
 			   }
 						 
 			  acc[data.graphId].push({dbId:dbId,
@@ -2343,10 +2611,19 @@ function confirmdeleteGraphHistory(graphId){
 }
 async function updateTrendLine(trendlineIdToUpdate){
 	 	     let found=false,channelFound=false;
-	 	     count=countDataPointsBetweenDates(x1, x2);
-			 const slope=(y2-y1)/count;
-	 	     var result = findThirdPoint(x1, y1, x2, y2, x3, slope.toFixed(6),latestEndDate);
-			 
+	 	     var result;
+	 	     
+			 count=countDataPointsBetweenDates(x1, x2);
+	 	     const slope=(y2-y1)/count;
+	 	     if(screenName=='CRYPTOS')
+	 	     {
+				result = findThirdPointNoMissingDates(x1, y1, x2, y2, x3, slope.toFixed(6),latestEndDate);
+
+			  }
+	 	     else
+	 	     {
+			result = findThirdPoint(x1, y1, x2, y2, x3, slope.toFixed(6),latestEndDate);
+			 }
 			
 			 for (var i = 0; i < trendlineSeries.length; i++) {
 				   if (trendlineSeries[i].trendLineId === parseFloat(trendlineIdToUpdate)) {
@@ -2418,8 +2695,12 @@ async function updateTrendLine(trendlineIdToUpdate){
 }
 function updateChannelLine(channelidToUpdate){
 	      const trendLine = trendLines.filter(obj => obj.trendLineId === parseFloat(channelidToUpdate.trendLineId))[0];
-	 	  const result = findChannelPoint(channelidToUpdate.x3 , channelidToUpdate.yc, channelidToUpdate.xc, trendLine.slope, latestEndDate);
-		
+	 	var result 
+	 	 if(screenName=='CRYPTOS')
+	 	   result = findChannelPointNoMissingDates(channelidToUpdate.x3 , channelidToUpdate.yc, channelidToUpdate.xc, trendLine.slope, latestEndDate);
+		else
+		   result = findChannelPoint(channelidToUpdate.x3 , channelidToUpdate.yc, channelidToUpdate.xc, trendLine.slope, latestEndDate);
+
 		
 			 serieArray=[];
 	         let channelId;
@@ -2468,8 +2749,12 @@ function updateChannelLine(channelidToUpdate){
 }
 function addChannelTrendLine(channelTrendline){
 	     const trendLine = trendLines.filter(obj => obj.trendLineId === parseFloat(channelTrendline.trendLineId))[0];
-	 	 const result = findChannelPoint(channelTrendline.x3 , channelTrendline.yc, channelTrendline.xc, trendLine.slope, latestEndDate);
-			
+	 	var result 
+	 	 if(screenName=='CRYPTOS') 
+	 	  	result = findChannelPointNoMissingDates(channelTrendline.x3 , channelTrendline.yc, channelTrendline.xc, trendLine.slope, latestEndDate);
+			else
+		  	result = findChannelPoint(channelTrendline.x3 , channelTrendline.yc, channelTrendline.xc, trendLine.slope, latestEndDate);
+
 		 channelId=channelId+1;
 	        
 	         trendlineSeries.push({
@@ -2504,10 +2789,10 @@ function initiateTrendLine(){
 			 var result = [];
 			 serieArray=[];
 	
-	         trendLineId=trendLineId+1;
-	       
+	         const trendLineId = Math.max(...trendLines.map(item => item.trendLineId));
+	         
 	         trendlineSeries.push({
-				channelId: trendLineId,
+				channelId: trendLineId+1,
 			    name: 'Trendline',
 			    data: result,
 			    type:'line',
@@ -2517,7 +2802,7 @@ function initiateTrendLine(){
 			  serieArray = getSerriesData();
 		   
 	          json={
-				  trendLineId:trendLineId,
+				  trendLineId:trendLineId+1,
 				  x1:null, 
 				  y1:null, 
 				  x2:null, 
@@ -2564,7 +2849,10 @@ function initiateRelevant(){
 function drawLine(){
 		 count=countDataPointsBetweenDates(x1, x2);
 		 const slope=(y2-y1)/count;
-		 var result = findThirdPoint(x1, y1, x2, y2, x3, slope);
+		 if(screenName=='CRYPTOS')
+			 var result =findThirdPointNoMissingDates(x1, y1, x2, y2, x3, slope.toFixed(6),latestEndDate);
+			  else
+		 	var result = findThirdPoint(x1, y1, x2, y2, x3, slope);
 		
 			 serieArray=[];
 	
@@ -2670,16 +2958,24 @@ async function updateLatestTrendLine(trendLines, newDateX3,originalEndDate, grap
   let allDataAreLatest=true;
   for (let item of trendLines) {
 	  channelLine=channelLines.filter(obj => obj.trendLineId === item.trendLineId)[0];
-    if (item.x3 !== newDateX3) {
+    // if (item.x3 !== newDateX3) {
       	item.x3 = newDateX3;
         allDataAreLatest=false; 
-        const newItem = findThirdPoint(item.x1, item.y1, item.x2, item.y2, item.x3, item.slope, originalEndDate);
+         if(screenName=='CRYPTOS')
+			 var newItem =findThirdPointNoMissingDates(item.x1, item.y1, item.x2, item.y2, item.x3, item.slope, originalEndDate);
+        else
+        	var newItem = findThirdPoint(item.x1, item.y1, item.x2, item.y2, item.x3, item.slope, originalEndDate);
+	   
 	    item.y3  = newItem.xyValues[2].y.toFixed(3);
         item.endValue = newItem.endValue;
     if(typeof channelLine !=='undefined')
      if(channelLine.x3 !== newDateX3){
 		channelLine.x3 = newDateX3;
-		channelLine.y3  = findChannelPoint(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate).xyValues[1].y.toFixed(3);
+		 if(screenName=='CRYPTOS')
+			channelLine.y3  = findChannelPointNoMissingDates(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate).xyValues[1].y.toFixed(3);
+		else
+			channelLine.y3  = findChannelPoint(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate).xyValues[1].y.toFixed(3);
+
 		}
       updatedTrendLines.push({
 				 "dbId":JSON.stringify(item.dbid),
@@ -2698,7 +2994,7 @@ async function updateLatestTrendLine(trendLines, newDateX3,originalEndDate, grap
 				 				})
 			});
     
-    }
+   // }
   } 
   updateJsonData(results, updatedTrendLines).then(results => {
 					   	serieArray = getSerriesData();
@@ -2882,7 +3178,7 @@ function drawRelevant(data,relevantId) {
 				}
 			    
 			drawRelevantTable(relevant);	  		
-          //  updateSeriesChart(chartConfigSettings);
+            updateSeriesChart(chartConfigSettings);
         
 }
 function calculateRetracement(retracementId){
@@ -2890,6 +3186,19 @@ function calculateRetracement(retracementId){
     const endPrice =  $("#retracementEndPrice_"+ retracementId).text();   
     const startDate = $("#retracementStart_"+ retracementId).text();
     const endDate = $("#retracementEnd_"+ retracementId).text();
+    let toggleButton = $("#toggleAllRetracements_"+ retracementId);
+		let hideall;
+		
+		// Check the current state and toggle
+		if (toggleButton.hasClass("hide")) {
+		    toggleButton.removeClass("hide"); // Make the button visible
+		    hideall = true; // Set hideall to false
+		} else {
+		    toggleButton.addClass("hide"); // Hide the button
+		    hideall = false; // Set hideall to true
+		}
+		
+
  
     if (startPrice != '' && endPrice != '') {
 	   const checkedItemValues = checkedItemid.filter(item => item != null);
@@ -2900,7 +3209,9 @@ function calculateRetracement(retracementId){
 		   startPrice:startPrice,
 		   endPrice:endPrice,
 		   startDate:startDate,
-		   endDate:endDate
+		   endDate:endDate,
+		   hideAll:hideall
+		   
 	   }
 	   const retracementDataHide = {'10%':false,
 							    '25%':false,
@@ -2917,7 +3228,7 @@ function calculateRetracement(retracementId){
 					        const checkedItemValues = checkedItemid.filter(item => item != null);
                             const dbRetracementDataHide = retracementData[checkedItemValues].filter(item => item.dbId === retracement[i].dbId);
 					        
-					        const json = convertRetracementData(calculatedretracementData, startDate, endDate, startPrice, endPrice,dbRetracementDataHide[0].retracementDataHide);
+					        const json = convertRetracementData(calculatedretracementData, startDate, endDate, startPrice, endPrice,dbRetracementDataHide[0].retracementDataHide, hideall);
 
 					        retracement[i].retracementParameter = parameters;
 					        retracement[i].retracementValues = json;
@@ -2929,7 +3240,7 @@ function calculateRetracement(retracementId){
 					  }
 				  }
 			 if(!found){
-			  const json = convertRetracementData(calculatedretracementData, startDate, endDate, startPrice, endPrice,retracementDataHide);
+			  const json = convertRetracementData(calculatedretracementData, startDate, endDate, startPrice, endPrice,retracementDataHide, hideall);
 			  
 			  retracement=removeById(retracement,"retracementId", retracementId);
 
@@ -2955,7 +3266,7 @@ function calculateRetracement(retracementId){
        
     }
 }
-function convertRetracementData(retracementData, startDate, endDate, startPrice, endPrice,retracementDataHide) {
+function convertRetracementData(retracementData, startDate, endDate, startPrice, endPrice,retracementDataHide,hideAll) {
     const result = [];
     const endDateTimestamp = dateToTimestamp(endDate);
     const startDateTimestamp = dateToTimestamp(startDate);
@@ -2982,7 +3293,7 @@ function convertRetracementData(retracementData, startDate, endDate, startPrice,
         y: parseFloat(startPrice),
         label: `${formattedStartPrice} STARTS`,
         key: "start",
-        hide: false
+        hide: hideAll
     });
 
     result.push({
@@ -2990,7 +3301,7 @@ function convertRetracementData(retracementData, startDate, endDate, startPrice,
         y: parseFloat(endPrice),
         label: `${formattedEndPrice} ENDS`,
         key: "end",
-        hide: false
+        hide: hideAll
     });
 
     return result;
@@ -3033,6 +3344,18 @@ async function saveRetracementHistory(retracementId) {
         const retracementParameter = data.retracementParameter;
         const retracementValues = data.retracementValues;
 		const checkedItemValues = checkedItemid.filter(item => item != null);
+		let toggleButton = $("#toggleAllRetracements_"+retracementId);
+		let hideall;
+		
+		// Check the current state and toggle
+		if (toggleButton.hasClass("hide")) {
+		    toggleButton.removeClass("hide"); // Make the button visible
+		    hideall = true; // Set hideall to false
+		} else {
+		    toggleButton.addClass("hide"); // Hide the button
+		    hideall = false; // Set hideall to true
+		}
+
         let entity = {
 			dbId: data.dbId,
             graphId: checkedItemValues[0],
@@ -3040,6 +3363,7 @@ async function saveRetracementHistory(retracementId) {
             startPrice: retracementParameter.startPrice,
             endDate: retracementParameter.endDate,
             endPrice: retracementParameter.endPrice,
+            hideAll:hideall,
             screenName:screenName,
             percentage10: null,
             percentage25: null,
@@ -3056,8 +3380,7 @@ async function saveRetracementHistory(retracementId) {
             hidePercentage50: true,
             hidePercentage62: true,
             hidePercentage66: true,
-            hidePercentage75: true,
-            hideAll:true
+            hidePercentage75: true
         };
 
         retracementValues.forEach(value => {
@@ -3094,9 +3417,6 @@ async function saveRetracementHistory(retracementId) {
                     entity.percentage75 = value.y.toString();
                     entity.hidePercentage75 = value.hide;
                     break;
-                 case 'hideAll':
-                    entity.hideAll = value.hide;
-                    break;
                 default:
                     break;
             }
@@ -3127,6 +3447,7 @@ async function saveRetracementHistory(retracementId) {
 				const endPrice = data.endPrice;
 				const startDate = data.startDate;
 				const endDate = data.endDate;
+				const hideAll = data.hideAll;
 				
 		       const retracementData = {'10%':parseFloat(data.percentage10),
 									    '25%':parseFloat(data.percentage25),
@@ -3147,10 +3468,12 @@ async function saveRetracementHistory(retracementId) {
 										'75%':data.hidePercentage75,
 										};						
 		       const parameters={
+				   dbId:dbId,
 				   startPrice:startPrice,
 				   endPrice:endPrice,
 				   startDate:startDate,
-				   endDate:endDate
+				   endDate:endDate,
+				   hideAll: hideAll
 			   }
 						 
 			  acc[data.graphId].push({dbId:dbId,

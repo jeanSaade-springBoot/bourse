@@ -11,7 +11,7 @@ var allitems = [
 
 const graphName = "shiba";
 
-const candleGroupIdSubgroups = [[74, 7], [74, 1]];
+const candleGroupIdSubgroups = [[74, 8], [74, 2]];
 const showGroupOfOptions = true;
 const candleGraphTitle = "Shiba Inu";
 
@@ -56,7 +56,7 @@ function drawGraph() {
 	const removeEmpty = true;
 	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 	if(chartType=="candle")
-		{    $("#functionOptionsMenu").hide();
+		{    $("#functionOptionsMenu").show(); //hide
 			candleStick(graphName,true);
 		}
 	else

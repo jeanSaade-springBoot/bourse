@@ -1,5 +1,8 @@
 package com.bourse.service.cryptos;
 
+import java.math.BigDecimal;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -20,11 +23,13 @@ import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.TableManagement;
 import com.bourse.domain.cryptos.CryptosData;
+import com.bourse.domain.cryptos.TmpCryBitcoinFourHours;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
+import com.bourse.dto.UpdateCryptosDataDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.cryptos.CryptosAuditCommonDTO;
 import com.bourse.enums.FunctionEnum;
@@ -36,6 +41,7 @@ import com.bourse.repositories.cryptos.TmpAuditCryEthereumRepository;
 import com.bourse.repositories.cryptos.TmpAuditCryShibaRepository;
 import com.bourse.repositories.cryptos.TmpAuditCrySolanaRepository;
 import com.bourse.repositories.cryptos.TmpAuditCryXrpRepository;
+import com.bourse.repositories.cryptos.TmpCryBitcoinFourHoursRepository;
 import com.bourse.service.AdminService;
 import com.bourse.service.FunctionConfigurationService;
 import com.bourse.util.CryptosUtil;
@@ -55,6 +61,8 @@ public class CryptosService {
 	TmpAuditCryShibaRepository tmpAuditCryShibaRepository;
 	@Autowired
 	TmpAuditCryXrpRepository tmpAuditCryXrpRepository;
+	@Autowired
+	TmpCryBitcoinFourHoursRepository tmpCryBitcoinFourHoursRepository;
 	@Autowired
 	AdminService adminService;
 	@Autowired
@@ -89,6 +97,36 @@ public class CryptosService {
         if(!hasData)
 		return null;
        return cryptosDataRepository.findLatest(groupId);
+	}
+	public String findLatestDataFourHoursData(String groupId) {
+		boolean hasData= adminService.getData();
+        if(!hasData)
+		return null;
+        
+        String value =null;
+        if(groupId.equalsIgnoreCase("71"))
+        	value=	tmpCryBitcoinFourHoursRepository.findLatest();
+        
+       return value;
+	}
+	public void updateBitcoinsDataFourHoursData(UpdateCryptosDataDTO updateDataDTO) {
+		
+		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		 LocalDateTime startTime = LocalDateTime.parse(updateDataDTO.getStartTime(), formatter);
+		    // Fetch the existing entity
+		TmpCryBitcoinFourHours existingEntity = tmpCryBitcoinFourHoursRepository.findByStartTime(startTime);
+
+		    existingEntity.setCloseeur(new BigDecimal(updateDataDTO.getCloseeur().replace(",", "")));
+		    existingEntity.setOpeneur(new BigDecimal(updateDataDTO.getOpeneur().replace(",", "")));
+		    existingEntity.setCloseint(new BigDecimal(updateDataDTO.getCloseint().replace(",", "")));
+		    existingEntity.setOpenint(new BigDecimal(updateDataDTO.getOpenint().replace(",", "")));
+		    existingEntity.setVolume(new BigDecimal(updateDataDTO.getVolume().replace(",", "")));
+		    existingEntity.setHigh(new BigDecimal(updateDataDTO.getHigh().replace(",", "")));
+		    existingEntity.setLow(new BigDecimal(updateDataDTO.getLow().replace(",", "")));
+		    existingEntity.setMarketcap(new BigDecimal(updateDataDTO.getMarketcap().replace(",", "")));
+		    // Save the updated entity
+		    tmpCryBitcoinFourHoursRepository.save(existingEntity);
+		
 	}
 	public void updateData(List<UpdateDataDTO> updateDataDTOlst) {
 		
@@ -127,6 +165,23 @@ public class CryptosService {
 			return null;
 			
 		 StoredProcedureQuery query = entityManager.createStoredProcedureQuery("calculation_audit_cryptos");
+	        query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
+	        query.setParameter("referDate", referDate);
+	        query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+	        query.setParameter("groupId", groupId);
+	        query.execute();
+
+	        List<Object[]> resultList = query.getResultList();
+	        List<CryptosAuditCommonDTO> auditProcedureDTOLst = mapResultListToDTO(resultList, groupId);
+	        return auditProcedureDTOLst;
+	}
+	public List<CryptosAuditCommonDTO> getCryptosByGroupIdAndDataByReferDateFourHoursData(String groupId, String referDate) {
+		
+		boolean hasData = adminService.getData();
+		if (!hasData)
+			return null;
+			
+		 StoredProcedureQuery query = entityManager.createStoredProcedureQuery("calculation_audit_cryptos_4_hour_data");
 	        query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 	        query.setParameter("referDate", referDate);
 	        query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
@@ -192,6 +247,45 @@ public class CryptosService {
 		public HashMap<String,List> getGridData( MainSearchFilterDTO mainSearchFilterDTO)
 		{
 			QueryColumnsDTO queryColumnsDTO = CryptosUtil.buildDynamicGridQuery(mainSearchFilterDTO);
+			String queryStr = queryColumnsDTO.getQuery();
+			System.out.println("queryStr:--------------: \n\n"+queryStr+"\n--------------------------");
+			HashMap<Integer,String>  colHash= new HashMap<Integer, String>(); 
+			colHash = queryColumnsDTO.getColHash();
+
+			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("GetDynnamicGridData");
+			query.registerStoredProcedureParameter("sqlQuery", String.class, ParameterMode.IN);
+			query.setParameter("sqlQuery",queryStr );
+			List<Object[]> lstdata = query.getResultList();
+	          
+			int i=1;
+			HashMap<String,List> hashData = new HashMap<String, List>();
+			HashMap<String,String> hashRows = new HashMap<String, String>();
+			List lstRowsDt = new ArrayList<String>();
+			List lstRowsConfig = new ArrayList<String>();
+			int id=1;
+			for(Object[] obj : lstdata)
+			{ 
+				for(Object dataIter :obj)
+				{
+					if(colHash.get(i).equals("id"))
+						hashRows.put(colHash.get(i), String.valueOf(id));
+					else
+						hashRows.put(colHash.get(i), String.valueOf(dataIter));
+					i++;
+				}
+				lstRowsDt.add(hashRows);
+				hashRows = new HashMap<String, String>();
+				i=1;
+				id = id+1;
+			}
+			hashData.put("rows", lstRowsDt);
+			lstRowsConfig = buildColumns(colHash);
+			hashData.put("columns", lstRowsConfig);
+			return hashData;
+		}
+		public HashMap<String,List> getGridDataFourHoursData( MainSearchFilterDTO mainSearchFilterDTO)
+		{
+			QueryColumnsDTO queryColumnsDTO = CryptosUtil.buildDynamicGridQueryFourHoursData(mainSearchFilterDTO);
 			String queryStr = queryColumnsDTO.getQuery();
 			System.out.println("queryStr:--------------: \n\n"+queryStr+"\n--------------------------");
 			HashMap<Integer,String>  colHash= new HashMap<Integer, String>(); 
@@ -340,6 +434,10 @@ public class CryptosService {
 			if(graphReqDTO.getGroupId1()!=null)
 			{
 				l1.add(getCandleGraphDataResult(graphReqDTO));
+			}
+			if(graphReqDTO.getIsFunctionGraph()!=null?graphReqDTO.getIsFunctionGraph().equals("true"):false)
+			{   
+			   l1.add(getGraphDataResult(graphReqDTO,true));
 			}
 			return l1; 
 		
@@ -539,8 +637,23 @@ public class CryptosService {
 		    valueMap.put("74_7", new String[]{"openint", "high", "low", "closeint"});
 		    valueMap.put("75_7", new String[]{"openint", "high", "low", "closeint"});
 		    valueMap.put("76_7", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("71_2", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("72_2", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("73_2", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("74_2", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("75_2", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("76_2", new String[]{"openeur", "high", "low", "closeeur"});
+		    valueMap.put("71_8", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("72_8", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("73_8", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("74_8", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("75_8", new String[]{"openint", "high", "low", "closeint"});
+		    valueMap.put("76_8", new String[]{"openint", "high", "low", "closeint"});
 		    valueMap.put("52_2", new String[]{"open", "high", "low", "close"});
 		    valueMap.put("61_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("52_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("61_4", new String[]{"open", "high", "low", "close"});
+
 
 		    // Return the mapped values or null if no match is found
 		    return valueMap.get(groupId + "_" + subGroupId);

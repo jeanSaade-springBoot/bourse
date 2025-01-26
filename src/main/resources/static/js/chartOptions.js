@@ -1,4 +1,5 @@
 const updateEvent = new Event('updateGraphConfiguration');
+var selectedChartMarkerID =null;
 var SelectedChartTransparency;
 period='DAILY';
 
@@ -879,7 +880,7 @@ function chartTransparencyOption(selectedChartTransparency)
    updateGraphOption(SelectedchartType,selectedChartColor,SelectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);    
 }
 function chartMarkerOption(selectedChartMarker)
-{
+{   selectedChartMarkerID=selectedChartMarker;
 	SelectedchartType=$("#chartTypes").find(".active")[0].id;
 	selectedChartTransparency=($("#chartColorTransparency").find(".active")[0].id!=1)?'0.'+$("#chartColorTransparency").find(".active")[0].id:$("#chartColorTransparency").find(".active")[0].id;
     selectedChartColor = SelectedchartType=='line'?"#ffffff":'#'+$("#chartColor").find(".active")[0].id;
@@ -1076,6 +1077,12 @@ function getChartPeriodVolume(){
 
  return period;
 }
+function getChartPeriodPerformance(){
+	
+	 period=($('#performanceGroupOfPeriod').length)?getChartPeriodCodePerformance($('#performanceGroupOfPeriod').jqxButtonGroup('getSelection')):'w';
+
+ return period;
+}
 function getChartPeriodName(){
 	
 	 period=($('#groupOfPeriod').length)?getChartPeriodFullName($('#groupOfPeriod').jqxButtonGroup('getSelection')):'DAILY';
@@ -1137,6 +1144,25 @@ function getChartPeriodCode(period)
 return code;
 }
 function getChartPeriodCodeVolume(period)
+{
+  var code='';	
+	switch(period) {
+	 case 0: 
+	   code='w'
+	        break;
+	 case 1: 
+		   code='m'
+		    break;
+	 case 2: 
+		   code='q'
+		    break;
+	 case 3: 
+		   code='y'
+		    break;
+	}
+return code;
+}
+function getChartPeriodCodePerformance(period)
 {
   var code='';	
 	switch(period) {

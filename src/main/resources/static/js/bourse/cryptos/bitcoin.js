@@ -10,7 +10,7 @@ var allitems = [
 ];
 
 const graphName = "bitcoin";
-const candleGroupIdSubgroups = [[71, 7], [71, 1]];
+const candleGroupIdSubgroups = [[71, 8], [71, 2]];
 const showGroupOfOptions = true;
 const candleGraphTitle = "Bitcoin";
 
@@ -50,7 +50,7 @@ function drawGraph() {
 	const removeEmpty = true;
 	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 	if(chartType=="candle")
-		{    $("#functionOptionsMenu").hide();
+		{    $("#functionOptionsMenu").show(); //hide
 			candleStick(graphName,true);
 		}
 	else

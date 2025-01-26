@@ -161,7 +161,13 @@ i.fa.fa-clone {
     width: 45%;
     border-radius: 0.2rem;
 }
-	.edit-style{
+.h-35{
+	height: 35px
+}
+.jqx-grid-column-sortascbutton-dark:after, .jqx-expander-arrow-bottom-dark:after, .jqx-window-collapse-button-dark:after, .jqx-menu-item-arrow-up-dark:after, .jqx-menu-item-arrow-up-selected-dark:after, .jqx-menu-item-arrow-top-up-dark:after, .jqx-icon-arrow-up-dark:after, .jqx-icon-arrow-up-hover-dark:after, .jqx-icon-arrow-up-selected-dark:after {
+    color: white;
+}
+.edit-style{
 	    background: #719df0;
 	    height: 32px;
 	    border: 1px solid #719df0;

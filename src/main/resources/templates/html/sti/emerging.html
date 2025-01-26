@@ -66,7 +66,7 @@
      	<div th:include="${mainmenu}"></div>
         <!-- Topbar -->
   <div class="d-sm-flex align-items-center">
-            <h1 class="ml-6 text-darkorange">Stocks & Indices</h1>
+            <h1 class="ml-6 text-darkorange">Stocks</h1>
 		     	   <nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
 		           <div class="nav nav-tabs" id="nav-tab" role="tablist">
 		             <a sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2sti" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
@@ -86,6 +86,8 @@
 	                 class="navigation nav-item nav-link active" id="nav-bunds-tab"
 	                 href="/bourse/emerging" role="tab" aria-controls="nav-bunds"
 	                 aria-selected="false">Emerging</a>
+	                 	                 <a sec:authorize="hasAuthority('STI_PERFORMANCE_SCREEN')" class="navigation nav-item nav-link" id="nav-performance-tab"  href="/bourse/stiperformance" role="tab" aria-controls="nav-performance" aria-selected="false">Performance</a>
+	                 
 		           </div>
 		        </nav>
            

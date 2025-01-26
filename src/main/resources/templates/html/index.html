@@ -111,7 +111,7 @@ div#content {
 	</div>
   <div sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN') OR hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') OR hasAuthority('YIELD_CURVES_GRAPH_SCREEN') OR hasAuthority('YIELD_CROSSES_GRAPH_SCREEN') OR hasAuthority('SPREAD_MAKER_GRAPH_SCREEN')" class="card">
     <div class="card-body">
-      <h5 class="card-title card-title-color">Commodities</h5>
+      <h5 class="card-title card-title-color">Commos</h5>
       <ul class="fa-ul">
 		  <li sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN')" ><a href="/bourse/any2metals"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
 		  <li sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')"><a href="/bourse/precious"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</a></li>
@@ -161,7 +161,7 @@ div#content {
   </div>
     <div  sec:authorize="hasAuthority('MACRO_GRAPH_SCREEN') OR hasAuthority('MACRO_DATA_FUNCTION_DISPLAY_SCREEN')"  class="card">
     <div class="card-body">
-      <h5 class="card-title card-title-color">MACRO PMI</h5>
+      <h5 class="card-title card-title-color">PMIs</h5>
       <ul class="fa-ul">
 	  	<li sec:authorize="hasAuthority('MACRO_GRAPH_SCREEN')" ><a href=" /bourse/macrograph"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">COUNTRY PMI</a></li>
 	  	<li sec:authorize="hasAuthority('MACRO_BAR_SCREEN')" ><a href=" /bourse/countrypmibar"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">MONTHLY RANKING</a></li> 
@@ -172,13 +172,14 @@ div#content {
   </div>
   <div  sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN') OR hasAuthority('STI_DATA_FUNCTION_DISPLAY_SCREEN')"  class="card">
     <div class="card-body">
-      <h5 class="card-title card-title-color">Stocks & Indices</h5>
+      <h5 class="card-title card-title-color">Stocks</h5>
       <ul class="fa-ul">
 		  <li sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" ><a href="/bourse/any2sti"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
  		  <li sec:authorize="hasAuthority('STI_EUROPE_GRAPH_SCREEN')"><a href="/bourse/europe"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">EUROPE</a></li>
 	  	  <li sec:authorize="hasAuthority('STI_WALLSTREET_GRAPH_SCREEN')"><a href="/bourse/wallstreet"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">WALL STREET</a></li>
 	  	  <li sec:authorize="hasAuthority('STI_ASIA_GRAPH_SCREEN')"><a href="/bourse/asia"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ASIA</a></li>
 	  	  <li sec:authorize="hasAuthority('STI_EMERGING_GRAPH_SCREEN')"><a href="/bourse/emerging"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">EMERGING</a></li>
+   	  	  <li sec:authorize="hasAuthority('STI_PERFORMANCE_SCREEN')"><a href="/bourse/stiperformance"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i6.png" align="absmiddle">PERFORMANCE</a></li>
    	  	  <li sec:authorize="hasAuthority('STI_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/stidatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	   
 	   </ul>
@@ -197,13 +198,15 @@ div#content {
     <div class="card-body">
       <h5 class="card-title card-title-color">Cryptos</h5>
       <ul class="fa-ul">
-		    <li sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN')"><a href="/bourse/bitcoin"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BITCOIN</a></li>
+		  <li sec:authorize="hasAuthority('ANY2_CRYPTOS_GRAPH_SCREEN')" ><a href="/bourse/any2cryptos"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+		  <li sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN')"><a href="/bourse/bitcoin"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BITCOIN</a></li>
 	  	  <li sec:authorize="hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN')"><a href="/bourse/ethereum"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ETHEREUM</a></li>
 	  	  <li sec:authorize="hasAuthority('CRY_SOLANA_GRAPH_SCREEN')"><a href="/bourse/solana"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">SOLANA</a></li>
 	  	  <li sec:authorize="hasAuthority('CRY_SHIBA_GRAPH_SCREEN')"><a href="/bourse/shiba"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">SHIBA INU</a></li>
 	  	  <li sec:authorize="hasAuthority('CRY_BINANCE_GRAPH_SCREEN')"><a href="/bourse/binance"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BINANCE COIN</a></li>
 	  	  <li sec:authorize="hasAuthority('CRY_XRP_GRAPH_SCREEN')"><a href="/bourse/xrp"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">XRP</a></li>
-	  	  <li sec:authorize="hasAuthority('CRYPTOS_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/cryptosdatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+	  	  <li sec:authorize="hasAuthority('CRYPTOS_PERFORMANCE_SCREEN')"><a href="/bourse/cryptosperformance"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i6.png" align="absmiddle">PERFORMANCE</a></li>
+	  	   <li sec:authorize="hasAuthority('CRYPTOS_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/cryptosdatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	   </ul>
     </div>
   </div>
@@ -272,6 +275,8 @@ div#content {
 		 <ul class="fa-ul">
 	  	  <li sec:authorize="hasAuthority('TRENDLINE_SCREEN')" ><a href="/bourse/trendline"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Trendlines</a></li>
 		  <li sec:authorize="hasAuthority('TRENDLINE_BUNDS_SCREEN')" ><a href="/bourse/bundsTech"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Bunds Techs</a></li>
+		  <li sec:authorize="hasAuthority('TRENDLINE_CRYPTOS_SCREEN')" ><a href="/bourse/cryptosTech"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Cryptos Techs</a></li>
+		
 		</ul>
     </div>
   </div>

@@ -59,7 +59,7 @@
        	   <div class="col-12 pt-2" id="container-wrapper" style="height: fit-content; margin-left:3rem;     margin-bottom: 4rem;">
 				<div class="col-12 pt-2">
 				 <div class="btn-group" role="group" aria-label="First group">
-				    <button sec:authorize="hasAuthority('MACRO_DISPLAY_SETTINGS')"  type="button" th:classappend="${assetId == 8} ? 'active' : ''" class="btn btn-secondary mw-100 " id="sovereign-btn"  th:onclick="'javascript:toggleDivVisibility(8)'">MACRO PMI</button>
+				    <button sec:authorize="hasAuthority('MACRO_DISPLAY_SETTINGS')"  type="button" th:classappend="${assetId == 8} ? 'active' : ''" class="btn btn-secondary mw-100 " id="sovereign-btn"  th:onclick="'javascript:toggleDivVisibility(8)'">PMIs</button>
 				    <button sec:authorize="hasAuthority('LONGENDS_DISPLAY_SETTINGS')" type="button" th:classappend="${assetId == 10} ? 'active' : ''"  class="btn btn-secondary mw-100" id="corporate-btn"  th:onclick="'javascript:toggleDivVisibility(10)'">LONG-END FUTURES</button>
 				   </div>
 				</div>

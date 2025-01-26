@@ -95,6 +95,8 @@ public class LongEndsService {
 		
 		LongEndData longEndsData=null;
 		String OldValue=null;
+		String spreadTotal= null;
+		
 		for(UpdateDataDTO updateDataDTO:updateDataDTOlst)
 		{
 			longEndsData = longEndsDataRepository.findLongEndsDataByReferDateAndGroupIdAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getGroupId()),Long.valueOf(updateDataDTO.getSubgroupId()));
@@ -117,10 +119,15 @@ public class LongEndsService {
 				
 			}
 		}
+		
 		List<LongEndData> longEndsDataLst = new ArrayList<LongEndData>();
 		longEndsDataLst.add(longEndsData);
+		 Optional<TmpAuditLefBunds> optional  = tmpAuditLefBundsRepository.findTmpAuditLefBundsByReferDate(updateDataDTOlst.get(0).getReferdate());
+		if (optional.isPresent()) {
+	        spreadTotal=optional.get().getSpreadTotals();
+	    } 
 		doCalculation(updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getGroupId());
-		doCalculationSpreadData(longEndsDataLst, OldValue);
+		doCalculationSpreadData(longEndsDataLst, OldValue, spreadTotal);
 	}
 	  
 	public List<LongEndsDisplaySettings> getLongEndsDisplaySettingsList() {
@@ -258,16 +265,14 @@ public class LongEndsService {
 	}
 	@Transactional
 	public void deleteLongEndsData(String groupId, String referDate) {
-	  List<LongEndData> longEndsData = longEndsDataRepository.findLongEndsDataByReferDateAndGroupId(referDate,Long.valueOf(groupId));
 			
 	  tmpAuditLefBundsRepository.deleteDataByReferDate(referDate);
 	  tmpAuditLefBundsRollingRepository.deleteDataByReferDate(referDate);
 	  longEndsDataRepository.deleteLongEndsByGroupIdAndReferDate(Long.valueOf(groupId),referDate);
 	  
-      onSuccessfulDelete(longEndsData);
 	}
 	// Function to be executed after successful delete
-    private void onSuccessfulDelete(List<LongEndData> longEndsData) {
+	public void onSuccessfulDelete(List<LongEndData> longEndsData) {
         // Your logic here
         System.out.println("Deletion successful. Executing additional logic...");
         // For example, recalculating data or any other post-deletion logic
@@ -279,6 +284,10 @@ public class LongEndsService {
 		 reCalculateData(longEndsData);
 	 
 	}
+	public List<LongEndData> findLongEndsDataByReferDateAndGroupId(String referDate,String groupId) {
+		return longEndsDataRepository.findLongEndsDataByReferDateAndGroupId(referDate,Long.valueOf(groupId));
+	}  
+
 	public void  reCalculateData(List<LongEndData> longEndsData) {
 		 
 		  Optional<LongEndData> result = longEndsData.stream()
@@ -320,28 +329,42 @@ public class LongEndsService {
 		spreadQuery.setParameter("groupId", groupId);
 		spreadQuery.execute();
    	}
-	public void doCalculationSpreadData(List<LongEndData> longEndDataDTOlst, String oldValue) {
-
-		Optional<LongEndData> result = longEndDataDTOlst.stream()
-                .filter(data -> data.getSubgroupId() == 15)
-                .findFirst();
-
-        // Check if the result is present
-        if (result.isPresent()) {
-            LongEndData longEndData = result.get();
-            String spreadValue = longEndData.getValue();
-            if(spreadValue!=null)
-            {  boolean executed = calculateRollingSpreadData(longEndData);
-            	System.out.println("Procedure calculation_longends_spread_data executed: " + executed);
-            } else if(oldValue!=null)
-            {
-            	boolean executed = calculateRollingSpreadData(longEndData);
-            	System.out.println("Procedure calculation_longends_spread_data executed: " + executed);
-            }
-            
-        } 
-		
+	public void doCalculationSpreadData(List<LongEndData> longEndDataDTOlst, String oldValue, String spreadTotal) {
+	    // Find the first LongEndData with subgroupId == 15
+	    longEndDataDTOlst.stream()
+	        .filter(data -> data.getSubgroupId() == 15)
+	        .findFirst()
+	        .ifPresent(longEndData -> {
+	            String spreadValue = longEndData.getValue();
+	            
+	            // Execute the calculation logic if either spreadValue or oldValue is non-null
+	            if (spreadValue != null || oldValue != null) {
+	                boolean executed = calculateRollingSpreadData(longEndData);
+	                System.out.println("Procedure calculation_longends_spread_data executed: " + executed);
+	            }
+	        });
+	    if (spreadTotal!=null) {
+            boolean executed = calculateRollingSpreadData(longEndDataDTOlst.get(0));
+            System.out.println("Procedure calculation_longends_spread_data executed: " + executed);
+        }
 	}
+
+	public void doCalculationSaveSpreadData(List<LongEndData> longEndDataDTOlst, String oldValue) {
+	    // Find the first LongEndData with subgroupId == 15
+	    longEndDataDTOlst.stream()
+	        .filter(data -> data.getSubgroupId() == 15)
+	        .findFirst()
+	        .ifPresent(longEndData -> {
+	            String spreadValue = longEndData.getValue();
+	            
+	            // Execute the calculation logic if either spreadValue or oldValue is non-null
+	            if (spreadValue != null || oldValue != null) {
+	                boolean executed = calculateRollingSpreadData(longEndData);
+	                System.out.println("Procedure calculation_longends_spread_data executed: " + executed);
+	            }
+	        });
+	}
+
 	public boolean calculateRollingSpreadData(LongEndData longEndData){
 		   String groupIdString = String.valueOf(longEndData.getGroupId());
 		   boolean executed = false;

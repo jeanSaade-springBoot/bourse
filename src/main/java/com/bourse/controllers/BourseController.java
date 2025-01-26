@@ -252,6 +252,19 @@ public class BourseController {
 	    
 	    return modelAndView;
     }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_CRYPTOS') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/cryptosFourHoursInterval")
+    public ModelAndView dataEntryPagecryptosFourHoursInterval(@RequestParam("cryptos") String cryptos,ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_CRYPTOS");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        model.addAttribute("cryptos", Integer.valueOf(cryptos));
+	    ModelAndView modelAndView = new ModelAndView("html/cryptos/cryptosDataInputFourHours");
+	    
+	    return modelAndView;
+    }
 	@RequestMapping( value =  "/returnfunction")
     public ModelAndView returnFunctionPage(ModelMap model)
     {
@@ -314,6 +327,14 @@ public class BourseController {
    	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
    		return new ModelAndView("html/sti/any2Sti");
        }
+    @PreAuthorize("hasAuthority('ANY2_CRYPTOS_GRAPH_SCREEN') and principal.tacAccepted == true")
+   	@RequestMapping( value =  "/any2cryptos")
+       public ModelAndView anyTwoCryptosPage(ModelMap model, Authentication authentication)
+       {
+   	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+   	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+   		return new ModelAndView("html/cryptos/any2Cryptos");
+       }
 	@PreAuthorize("hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/precious")
     public ModelAndView preciousMetalsPage(ModelMap model, Authentication authentication)
@@ -350,6 +371,18 @@ public class BourseController {
 	    model.addAttribute("trendlinenav", "html/templates/trendLineNav");
 	    return new ModelAndView("html/graph/trendlinesBunds");
     }
+	@PreAuthorize("hasAuthority('TRENDLINE_CRYPTOS_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/cryptosTech")
+    public ModelAndView cryptosTechGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+	    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+	    model.addAttribute("trendlinenav", "html/templates/trendLineNav");
+	    model.addAttribute("crytpos", "html/templates/cryptos");
+	    return new ModelAndView("html/graph/trendlinesCryptos");
+    }
+	
 	@PreAuthorize("hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/foodstuff")
     public ModelAndView foodStuffCommodityPage(ModelMap model, Authentication authentication)
@@ -825,6 +858,7 @@ public class BourseController {
 		    model.addAttribute("macro", "html/templates/macro");
 		    model.addAttribute("rates", "html/templates/rates");
 		    model.addAttribute("longends", "html/templates/longends");
+		    model.addAttribute("cryptos", "html/templates/cryptos");
 		    model.addAttribute("serie", Integer.valueOf(serie));
 		    ModelAndView modelAndView = new ModelAndView("html/twoSeries");
 		    
@@ -891,6 +925,24 @@ public class BourseController {
 	    model.addAttribute("fragment", "html/templates/macro");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/macro/countryPMIBar");
+    }
+	@PreAuthorize("hasAuthority('STI_PERFORMANCE_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/stiperformance")
+    public ModelAndView stiPerformanceScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/macro");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/sti/performance");
+    }
+	@PreAuthorize("hasAuthority('CRYPTOS_PERFORMANCE_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/cryptosperformance")
+    public ModelAndView cryptosPerformanceScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/macro");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/cryptos/performance");
     }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){

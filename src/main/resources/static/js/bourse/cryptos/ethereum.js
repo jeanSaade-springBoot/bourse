@@ -11,7 +11,7 @@ var allitems = [
 
 const graphName = "ethereum";
 
-const candleGroupIdSubgroups = [[72, 7], [72, 1]];
+const candleGroupIdSubgroups = [[72, 8], [72, 2]];
 const showGroupOfOptions = true;
 const candleGraphTitle = "Ethereum";
 
@@ -55,7 +55,7 @@ function drawGraph() {
 	const removeEmpty = true;
 	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 	if(chartType=="candle")
-		{    $("#functionOptionsMenu").hide();
+		{    $("#functionOptionsMenu").show(); //hide
 			candleStick(graphName,true);
 		}
 	else

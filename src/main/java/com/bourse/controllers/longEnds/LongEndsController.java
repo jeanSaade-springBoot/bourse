@@ -88,7 +88,7 @@ public class LongEndsController {
 		System.out.println(className+": save-longEnds-data");
 		longEndsService.saveLongEndsData(longEndDataDTOlst);
 		longEndsService.doCalculation(longEndDataDTOlst.get(0).getReferDate(),String.valueOf(longEndDataDTOlst.get(0).getGroupId()));
-		longEndsService.doCalculationSpreadData(longEndDataDTOlst,null);
+		longEndsService.doCalculationSaveSpreadData(longEndDataDTOlst,null);
 
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
@@ -121,7 +121,10 @@ public class LongEndsController {
     @DeleteMapping(value = "delete-longEnds/{groupId}/{referDate}")
 	public ResponseEntity<HttpStatus> deleteLongEndData(@PathVariable("groupId") String groupId ,@PathVariable("referDate") String referDate) {
 		System.out.println(className+": deleteLongEndsDataByReferDate");
-		longEndsService.deleteLongEndsData(groupId,referDate);
+		  List<LongEndData> longEndsData = longEndsService.findLongEndsDataByReferDateAndGroupId(referDate,groupId);
+		  longEndsService.deleteLongEndsData(groupId,referDate);
+		  longEndsService.onSuccessfulDelete(longEndsData);
+
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
    

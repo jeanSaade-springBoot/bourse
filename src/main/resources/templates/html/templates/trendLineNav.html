@@ -10,6 +10,10 @@
 				class="navigation nav-item nav-link " id="nav-trendlines-bunds-tab"
 				href="/bourse/bundsTech" role="tab" aria-controls="nav-trendlines-bunds"
 				aria-selected="false">Bunds Techs</a>
+			<a sec:authorize="hasAuthority('TRENDLINE_CRYPTOS_SCREEN')" th:classappend="${privilege == 'TRENDLINE_CRYPTOS_SCREEN'} ? 'active' : ''" 
+				class="navigation nav-item nav-link " id="nav-trendlines-cryptos-tab"
+				href="/bourse/cryptosTech" role="tab" aria-controls="nav-trendlines-cryptos"
+				aria-selected="false">Cryptos Techs</a>
 		</div>
 	</nav>
 </div>

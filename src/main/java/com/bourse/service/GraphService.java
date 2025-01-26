@@ -1,7 +1,11 @@
 package com.bourse.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -17,6 +21,7 @@ import com.bourse.dto.GraphReqDTO;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseDTO;
+import com.bourse.dto.graph.BarGraphResponseDTO;
 import com.bourse.enums.CrossCountryEnum;
 import com.bourse.enums.FunctionEnum;
 // import com.bourse.enums.SubGroupEnum;
@@ -298,5 +303,58 @@ public GraphResponseColConfigDTO getGraphYieldsDataResult(GraphReqDTO graphReqDT
 	
 	return graphResponseColConfigDTO; 
     
+}
+public List<Map<String, List<?>>> getPerformanceGraphBarDataResults(List<GraphRequestDTO> graphReqDTOList) {
+    boolean hasData = adminService.getData();
+    if (!hasData)
+        return Collections.emptyList();
+
+    List<Map<String, List<?>>> resultList = new ArrayList<>();
+
+    for (GraphRequestDTO graphReqDTO : graphReqDTOList) {
+        StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("CalculatePerformance", BarGraphResponseDTO.class);
+
+        String selectedDate = graphReqDTO.getFromdate();
+        String selectedPeriod = graphReqDTO.getPeriod();
+        
+        query.registerStoredProcedureParameter("selected_period", String.class, ParameterMode.IN);
+        query.setParameter("selected_period", selectedPeriod);
+        
+        query.registerStoredProcedureParameter("selectedDate", String.class, ParameterMode.IN);
+        query.setParameter("selectedDate", selectedDate);
+
+        query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+        query.setParameter("groupId", graphReqDTO.getGroupId1());
+        
+        query.registerStoredProcedureParameter("fulldates", Boolean.class, ParameterMode.IN);
+        query.setParameter("fulldates", graphReqDTO.getFulldates());
+      
+        query.execute();
+
+        List<BarGraphResponseDTO> graphResponseDTOlst1 = (List<BarGraphResponseDTO>) query.getResultList();
+
+        List<String> labels = graphResponseDTOlst1.stream()
+                .map(BarGraphResponseDTO::getName)
+                .collect(Collectors.toList());
+
+        List<Double> values = graphResponseDTOlst1.stream()
+                .map(BarGraphResponseDTO::getValue)
+                .map(Double::parseDouble)
+                .collect(Collectors.toList());
+
+        Map<String, List<?>> dataMap = getDataMap(labels, values);
+        resultList.add(dataMap);
+
+        entityManager.clear();
+        entityManager.close();
+    }
+
+    return resultList;
+}
+public Map<String, List<?>> getDataMap(List<?> labels, List<?> values) {
+    Map<String, List<?>> dataMap = new HashMap<>();
+    dataMap.put("labels", labels);
+    dataMap.put("values", values);
+    return Collections.unmodifiableMap(dataMap);
 }
 }

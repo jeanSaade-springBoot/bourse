@@ -3358,11 +3358,11 @@ function initializeFunctions(){
 	    var index = args.index;
 	    	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 
-			if(chartType!="candle")
-			{
+			//if(chartType!="candle")
+			//{
 			   functionId=parseInt($('#dropDownFunctions').val())-1;
 			   drawGraph();
-			   }
+			 //  }
 	 } 
 	});
 	
@@ -3804,7 +3804,7 @@ function getGraphHistoryByScreenName(screenName)
 				  $("#candle").addClass("active");
 				  $('#groupOfOptions').jqxButtonGroup('setSelection', data.candleOptionIndex);
 				  if ($("#functionOptionsMenu").length) {
-					    $("#functionOptionsMenu").hide();
+					    $("#functionOptionsMenu").show(); //hide
 					}
 	    		  renderCandleChart();
 	    		  $('#grid-content').css('display', 'block');
@@ -4332,7 +4332,9 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 				}
 			});
 		} 
-		  else
+		  else if (typeof checkedItemValues[0] === "undefined") 
+			$('#alertFiltter-modal').modal('show');
+		  else 
 				 {
 					enableDisableDropDowns(false);
 					title = itemValue[checkedItemValues[0]].title;
@@ -8622,6 +8624,28 @@ function getCurrentWeekNumber() {
 
     return weekNumber;
 }
+function addGridBackground(chartId) {
+	// Get the SVG element within the specified chartId
+	const chartSvg = document.querySelector(`#${chartId} .apexcharts-svg`);
+	if (!chartSvg) return; // Exit if the element is not found
+
+	const gridSize = chartSvg.querySelector('.apexcharts-grid').getBBox();
+	const grid = chartSvg.querySelector('.apexcharts-grid');
+	const gridBackgroundWidth = gridSize.width;
+	const gridBackgroundHeight = gridSize.height;
+
+	// Add the grid background
+	const gridBackground = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+	gridBackground.setAttribute('class', 'gridbackground');
+	gridBackground.setAttribute('x', 0);
+	gridBackground.setAttribute('y', 0);
+	gridBackground.setAttribute('width', gridBackgroundWidth);
+	gridBackground.setAttribute('height', gridBackgroundHeight);
+
+	// Insert the grid background before the grid lines
+	grid.insertBefore(gridBackground, grid.firstChild);
+}
+
 function getCurrentMonth() {
     const today = new Date();
     const currentMonth = today.getMonth() + 1; // Adding 1 to get the month starting from 1
@@ -8743,6 +8767,87 @@ function findThirdPoint(date1, y1, date2, y2, date3, m, endDate) {
         endValue
     };
 }
+function findThirdPointNoMissingDates(date1, y1, date2, y2, date3, m, endDate) {
+    // Convert dates to JavaScript Date objects
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    const d3 = new Date(date3);
+    
+    y2 = parseFloat(y2);
+	const y3 =y2+m*(countDays(date2,formatDates(date3)));
+
+    const endValue = y2+m*(countDays(date2,endDate));
+
+    return {
+        xyValues: [
+            { "x": formatTrendDate(d1), "y": y1 },
+            { "x": formatTrendDate(d2), "y": y2 },
+            { "x": formatTrendDate(d3), "y": y3 }
+        ],
+        endValue
+    };
+}
+/*function findThirdPointNoMissingDates(date1, y1, date2, y2, date3, m, endDate) {
+ 
+    const d1 = new Date(date1);
+    const d2 = new Date(date2);
+    const d3 = new Date(date3);
+    
+    var x1 = Math.floor((d1 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+    var x2 = Math.floor((d2 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+    var x3 = Math.floor((d3 - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+    var xc = Math.floor((endDate - new Date("January 1, 1970")) / (1000 * 60 * 60 * 24));
+
+  	const y3 = parseFloat(y1) + m * (x3 - x1);
+    const endValue = parseFloat(y1)+m*(xc - x1);
+
+    return {
+        xyValues: [
+            { "x": formatTrendDate(d1), "y": y1 },
+            { "x": formatTrendDate(d2), "y": y2 },
+            { "x": formatTrendDate(d3), "y": y3 }
+        ],
+        endValue
+    };
+}
+*/
+function countDays(dateStr1, dateStr2) {
+    // Define months in short form
+    const months = {
+        "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5, 
+        "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11
+    };
+    
+    // Helper function to parse the date string "dd-mmm-yy"
+    function parseDate(dateStr) {
+        const parts = dateStr.split("-");
+        const day = parseInt(parts[0], 10);
+        const month = months[parts[1]];
+        let year = parseInt(parts[2], 10);
+
+        // Adjust two-digit year to four digits
+        if (year < 100) {
+            year += (year < 50) ? 2000 : 1900;
+        }
+
+        return new Date(year, month, day);
+    }
+    
+    // Parse both date strings
+    const startDate = parseDate(dateStr1);
+    const endDate = parseDate(dateStr2);
+
+    // Initialize day counter
+    let dayCount = 0;
+
+    // Loop through each day in the range
+    for (let date = startDate; date <= endDate; date.setDate(date.getDate() + 1)) {
+        // Count all days without condition
+        dayCount++;
+    }
+
+    return dayCount;
+}
 function formatDates(dateString) {
     // Convert the input date string to a Date object
     let date = new Date(dateString);
@@ -8776,6 +8881,25 @@ function findChannelPoint(date3, yc, datec, m, endDate) {
 	    };
 }
 
+function findChannelPointNoMissingDates(date3, yc, datec, m, endDate) {
+    
+	const d3 = new Date(date3);
+	const dc = new Date(datec);
+    yc = parseFloat(yc);
+    const y3 = yc+m*(countDays(datec,formatDates(date3)));
+    
+    // Calculate y-coordinate of the end point
+    const endValue = yc+m*(countDays(datec,endDate));
+  
+    // Return the result in the specified JSON format
+    return {
+        xyValues:[
+        { "x": formatTrendDate(dc), "y": yc },
+        { "x": formatTrendDate(d3), "y": y3 }
+	    ] ,
+	        endValue
+	    };
+}
 function calculateNewEndDate(startDate, endDate, percentage) {
     // Parse the dates
     const start = new Date(startDate);
@@ -8875,6 +8999,44 @@ async function processDataAndAddNewEndDate(response, percentage) {
      return Promise.resolve({ originalEndDate: dataEndDate, newEndDate });
 
 }
+async function processDataAndAddNewEndDateForExtraSpace(response, percentage, isArray) {
+    // Extract start and end dates
+    const dataStartDate = response.graphResponseDTOLst[0].x;
+    const dataEndDate = response.graphResponseDTOLst[response.graphResponseDTOLst.length - 1].x;
+
+    // Calculate new end date
+    const newEndDate = calculateNewEndDate(dataStartDate, dataEndDate, percentage);
+
+    // Convert to Date objects for iteration
+    let currentDate = new Date(dataEndDate);
+    let finalDate = new Date(newEndDate);
+
+    // Function to format date as "DD-MMM-YY" (e.g., "05-Jan-25")
+    function formatDateToCustom(date) {
+        const day = date.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
+        const month = date.toLocaleString('en-GB', { month: 'short' }); // Get short month name
+        const year = date.getFullYear().toString().slice(-2); // Get last two digits of the year
+        return `${day}-${month}-${year}`;
+    }
+
+    // Ensure weekdays are added (skip weekends)
+    let newDates = [];
+    while (currentDate < finalDate) {
+        currentDate.setDate(currentDate.getDate() + 1); // Move to next day
+
+        // Skip weekends (Saturday = 6, Sunday = 0)
+        if (currentDate.getDay() !== 6 && currentDate.getDay() !== 0) {
+            let formattedDate = formatDateToCustom(currentDate); // Convert to "DD-MMM-YY"
+            newDates.push({ x: formattedDate, y: isArray?[]:null });
+        }
+    }
+
+    // Append the generated dates to the response
+    response.graphResponseDTOLst.push(...newDates);
+
+    // Return the modified response
+    return Promise.resolve({ response });
+}
 async function areValuesClose(value1, value2, threshold = 3) {
     // Calculate the absolute difference between the two values
     const difference = Math.abs(value1 - value2);
@@ -8884,7 +9046,7 @@ async function areValuesClose(value1, value2, threshold = 3) {
 }
 function renderCandleChart(){
 	  if ($("#functionOptionsMenu").length) {
-					    $("#functionOptionsMenu").hide();
+					    $("#functionOptionsMenu").show(); //hide
 					}
 		if(showGroupOfOptions)			
 		$("#groupOfOptions").show();
@@ -8897,7 +9059,7 @@ function candleStick(graphName, saveHistory) {
 	var dataParam;
 	var checkedItemValues = [];
 	$('#overlayChart').show();
-    functionId=-1;
+   // functionId=-1;
 	var fromdate = formatDate(monthDate);
 	var todate = formatDate(date);
 	$("#mainChart").html("");
@@ -9016,8 +9178,22 @@ function candleStick(graphName, saveHistory) {
 		"subGroupId1": subGroupId1,
 		"groupId1": groupId,
 	};
-
-	
+ 	if (!isNaN(functionId) && functionId != -1)
+		{	
+			
+		dataParam = { 
+	        		"fromdate":fromdate,
+	        	    "todate":todate,
+	        	    //"period": "d",
+	        	    "period":Period,
+	        	    "type": type,
+	        	    "subGroupId1":subGroupId1,
+	        	    "groupId1": groupId,
+	        	    "isFunctionGraph":true,
+					"functionId":functionId+1,
+     			   };
+		}
+		
 
 
 	disableOptions(true);
@@ -9033,6 +9209,8 @@ function candleStick(graphName, saveHistory) {
 
 			//disableChartType(false);
 			$("#candle").addClass("active");
+			
+			
 
 			startDateF1 = response[0].config.startDate;
 
@@ -9046,6 +9224,7 @@ function candleStick(graphName, saveHistory) {
 
 
 			chartDbFontSize = response[0].config.chartSize;
+	
 			chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0], response[0].config.chartTransparency);
 			fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
 			markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
@@ -9053,8 +9232,10 @@ function candleStick(graphName, saveHistory) {
 			showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 			// Flatten all "y" values into a single array and convert them to numbers
-			const allValues = response[0].graphResponseDTOLst.flatMap(item => item.y.map(Number));
-
+			const allValues = response[0]?.graphResponseDTOLst 
+			    ? response[0].graphResponseDTOLst.flatMap(item => item.y ? item.y.map(Number) : [])
+			    : [];
+			    
 			// Find the minimum and maximum values
 			const min = Math.min(...allValues);
 			const max = Math.max(...allValues);
@@ -9073,12 +9254,186 @@ function candleStick(graphName, saveHistory) {
 			var getFormatResult0 = getFormat(response[0].config.dataFormat);
 			var calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
 
-chart.updateOptions({
-				series: [{
+		processDataAndAddNewEndDateForExtraSpace(response[0] ,0.05,true)
+					    .then(({ response }) => {
+								response[0] = response;
+					    })
+					    .catch(error => {
+					        console.error('Error processing data:', error);
+					    });	
+					    
+		if (typeof response[1] !== "undefined")			    
+		{
+		processDataAndAddNewEndDateForExtraSpace(response[1] ,0.05,false)
+					    .then(({ response }) => {
+							response[1] = response;
+					    })
+					    .catch(error => {
+					         console.error('Error processing data:', error);
+					    });				   
+		
+		min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+						return item.y;
+					})),
+		max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+							return item.y;
+						}));
+		yAxisformat1 = getFormat(response[1].config.yAxisFormat);
+		
+		selectedValue = Math.abs(min2)>=Math.abs(max2)?Math.abs(min2):Math.abs(max2);		
+		
+		 getFormatResult1 = getFormat(response[1].config.dataFormat);
+		 
+		T2 = response[1].config.displayDescription == null ? itemValueYields[checkedItemValues[1]].title : response[1].config.displayDescription;
+		candleGraphTitleConfig = candleGraphTitle + " vs " + T2;		
+	
+		}else{
+			candleGraphTitleConfig = candleGraphTitle;
+		}
+let seriesArray=[{
+					type: 'candlestick',
 					data: response[0].graphResponseDTOLst
 
-				}],
-			
+				}];
+				
+let colorConfig=['#FFFFFF'];
+let strokeWidthConfig=[2];
+let yaxisConfig =[{
+					tooltip: {
+						enabled: true
+					},
+					labels: {
+						minWidth: 75, maxWidth: 75,
+						style: {
+							fontSize: fontsize,
+						},
+						formatter: function(val, index) {
+						 // Ensure val is a valid number before calling toFixed()
+					    if (typeof val === "number" && !isNaN(val)) {
+					        if (yAxisFormat[1])
+					            return val.toFixed(yAxisFormat[0]);
+					        else
+					            return val.toFixed(yAxisFormat[0]) + "%";
+					    }
+					    return ""; 
+											}
+					},
+					tickAmount: 6,
+					min: calculatedMinValue,
+					max: Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax,
+					axisBorder: {
+						width: 3,
+						show: true,
+						color: '#ffffff',
+						offsetX: 0,
+						offsetY: 0
+					},
+				}];
+				
+			if (functionId == 0 || functionId == 1) {
+				seriesArray.push({
+					name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
+					type: 'line',
+					data: response[1].graphResponseDTOLst
+				});
+				colorConfig = functionId == 0 ? ["#FFFFFF", "#FF0000"] : ["#FFFFFF", "#ffa4c5"];
+				strokeWidthConfig = [2, 2.25];
+			}
+			else if (functionId >= 6  && functionId<9) {
+				seriesArray.push({
+					name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
+					type: 'column',
+					data: response[1].graphResponseDTOLst
+				});
+				colorConfig = ["#FFFFFF", "#00c9ff96"];
+				yaxisConfig.push({
+						
+							  opposite: true,
+     				    	  labels: {
+     				    		    // minWidth: -50,maxWidth: -50,
+	 				        		 style: {
+	 						        	  fontSize: fontsize,
+	 						        	 },
+	 						        	 formatter: function(val, index) {
+										    if (val == null) return "N/A"; // Handle null or undefined values
+										
+										    if (getFormatResult1[1]) {
+										        return val.toFixed(getFormatResult1[0]);
+										    } else {
+										        return val.toFixed(getFormatResult1[0]) + "%";
+										    }
+										}
+		 				        	  },
+		 				          tickAmount: 6,
+		 				    	  min:min2,
+		 				    	  max:max2,
+ 				    			  axisBorder: {
+ 					                  width: 3,
+ 					                  show: true,
+ 					                  color: "#00c9ff96",
+ 					                  offsetX: 0,
+ 					                  offsetY: 0
+ 					              }
+ 				    			 
+				});
+			}
+			else if(!isNaN(functionId) && functionId != -1)
+			{
+				var strokeWidth1=getDynamicWidth(response[1].graphResponseDTOLst.filter(item => item.y !== null).length); 
+
+				seriesArray.push({
+								name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
+								type: 'column',
+								data: response[1].graphResponseDTOLst,
+								...([4,5, 9, 10, 11, 12, 13, 14].includes(functionId) 
+					            ? { strokeWidth: strokeWidth1 } 
+					            : {}) // Conditionally include strokeWidth
+
+							});
+				colorConfig = [function({ value, seriesIndex, w }) {
+							 return   chartColor == '#ffffff' ;
+							  
+							}, function({ value, seriesIndex, w }) {
+								  if(seriesIndex!=0)
+									if (value <= 0) {
+										 return '#f23a3aa3'; // Color for values less than or equal to zero
+										} else {
+										   return '#30d7818c'; // Color for values greater than zero
+										}
+							}];
+				yaxisConfig.push({
+						      opposite: true,
+     				    	  labels: {
+     				    		 minWidth: 75,maxWidth: 75,
+ 				        		 style: {
+ 						        	  fontSize: fontsize,
+ 						        	 },
+ 						        	 formatter: function(val, index) {
+										    if (val == null) return "N/A"; // Handle null or undefined values
+										
+										    if (getFormatResult1[1]) {
+										        return val.toFixed(getFormatResult1[0]);
+										    } else {
+										        return val.toFixed(getFormatResult1[0]) + "%";
+										    }
+										}
+ 				        	  },
+ 				          tickAmount: 6,
+ 				    	  min:Math.sign(min2)==-1 ? -Math.abs(selectedValue) : Math.abs(selectedValue),
+ 				    	  max:Math.sign(max2)==-1 ? -Math.abs(selectedValue) : Math.abs(selectedValue),
+ 				    			  axisBorder: {
+ 					                  width: 3,
+ 					                  show: true,
+ 					                  color: "#FF0000",
+ 					                  offsetX: 0,
+ 					                  offsetY: 0
+ 					              },
+ 				    			 });
+			}
+
+	
+chart.updateOptions({
+				series: seriesArray,
 				chart: {
 					toolbar: {
 						show: true,
@@ -9096,8 +9451,8 @@ chart.updateOptions({
 						}
 					},
 					height: 525,
-					type: 'candlestick',
-					animations: { enabled: false }
+					type: 'line',
+					animations: { enabled: false },
 				},
 				subtitle: {
 					text: 'copyright LibVol.com',
@@ -9125,12 +9480,13 @@ chart.updateOptions({
 				      },
 				   stroke: {
 			        show: true,
-			        width: [1],
-			        colors: ['#FFFFFF'], // Sets the wick (middle line) color to white
+			        width: strokeWidthConfig,
+			        colors: colorConfig, // Sets the wick (middle line) color to white
 			      },
+			    colors: colorConfig, 
 				title: {
 
-					text: candleGraphTitle,
+					text: candleGraphTitleConfig,
 					align: 'center',
 					margin: 0,
 					offsetY: 20,
@@ -9174,56 +9530,53 @@ chart.updateOptions({
 						offsetY: 0
 					},
 				},
-				yaxis: {
-					tooltip: {
-						enabled: true
-					},
-					labels: {
-						minWidth: 75, maxWidth: 75,
-						style: {
-							fontSize: fontsize,
-						},
-						formatter: function(val, index) {
-							if (yAxisFormat[1])
-								return val.toFixed(yAxisFormat[0]);
-							else
-								return val.toFixed(yAxisFormat[0]) + "%";
-						}
-					},
-					tickAmount: 6,
-					min: calculatedMinValue,
-					max: Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax,
-					axisBorder: {
-						width: 3,
-						show: true,
-						color: '#ffffff',
-						offsetX: 0,
-						offsetY: 0
-					},
-				},
-				 tooltip: {
-				    enabled: true,
-				    shared: false,
-				    custom: function({ seriesIndex, dataPointIndex, w }) {
-				      // Fetch OHLC values
-				      const open = w.globals.seriesCandleO[seriesIndex][dataPointIndex];
-				      const high = w.globals.seriesCandleH[seriesIndex][dataPointIndex];
-				      const low = w.globals.seriesCandleL[seriesIndex][dataPointIndex];
-				      const close = w.globals.seriesCandleC[seriesIndex][dataPointIndex];
-				
+				yaxis: yaxisConfig,
+		tooltip: {
+    enabled: true,
+    shared: true,
+    custom: function({ seriesIndex, dataPointIndex, w }) {
+        // Get the Y value at the current index
+        const yValue = w.globals.series[seriesIndex][dataPointIndex];
+
+        // If the value is an empty array ([]) or undefined, return null (hide tooltip)
+        if (!yValue || (Array.isArray(yValue) && yValue.length === 0)) {
+            return null; // Hide tooltip
+        }
+
+        // Check if it's a candlestick chart
+        const isCandlestick = w.config.series[seriesIndex].type === "candlestick";
+
+        if (isCandlestick) {
+            // Fetch OHLC values
+            const open = w.globals.seriesCandleO[seriesIndex][dataPointIndex];
+            const high = w.globals.seriesCandleH[seriesIndex][dataPointIndex];
+            const low = w.globals.seriesCandleL[seriesIndex][dataPointIndex];
+            const close = w.globals.seriesCandleC[seriesIndex][dataPointIndex];
+
 				      // Format the values
-				      const formatValue = value =>
+			const formatValue = value =>
 				        new Intl.NumberFormat("en-US", { minimumFractionDigits: getFormatResult0[0], maximumFractionDigits: getFormatResult0[0] }).format(value);
 				
-				      return `
-				        <div style="padding: 10px;">
-				          <div><strong>Open:</strong> ${formatValue(open)}</div>
-				          <div><strong>High:</strong> ${formatValue(high)}</div>
-				          <div><strong>Low:</strong> ${formatValue(low)}</div>
-				          <div><strong>Close:</strong> ${formatValue(close)}</div>
-				        </div>`;
-				    }
-				  },
+            return `
+                <div style="padding: 10px;">
+                    <div><strong>Open:</strong> ${formatValue(open)}</div>
+                    <div><strong>High:</strong> ${formatValue(high)}</div>
+                    <div><strong>Low:</strong> ${formatValue(low)}</div>
+                    <div><strong>Close:</strong> ${formatValue(close)}</div>
+                </div>`;
+        } else {
+            // Display the single Y value for line/bar charts
+            return `
+                <div style="padding: 10px;">
+                    <div><strong>Value:</strong> ${yValue}</div>
+                </div>`;
+        }
+    }
+}
+				,
+				legend: {
+		   show:false
+		   }
 				  
 			});
 
@@ -9234,7 +9587,7 @@ chart.updateOptions({
 			graphTitle = '';
 
 			$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 20px;left: 350px;height: 60px;" class="title-style">' + graphTitle + '</div>')
-			enableDisableDropDowns(true);
+		//	enableDisableDropDowns(true);
 		},
 		error: function(e) {
 
@@ -9252,6 +9605,7 @@ chart.updateOptions({
 	 inGraphNews(getSelectedCandleOptionNews(graphName,selectedCandleStickIndex));
 
 }
+
 function getSelectedCandleOptionNews(graphName, selectedOption) {
     // Define the mapping object
     const graphOptions = {

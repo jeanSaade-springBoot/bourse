@@ -18,7 +18,7 @@ var factorIner='';
 var factorInerItem='';
 var factorContainer='';
 var titleInnerItems='';
-const candleGroupIdSubgroups = [[52, 2], [61, 2]];
+const candleGroupIdSubgroups = [[52, 4], [61, 4]];
 const showGroupOfOptions = false;
 const candleGraphTitle = "Bunds";
 
@@ -172,7 +172,7 @@ function drawGraph() {
 	const removeEmpty = false;
 		const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 	if(chartType=="candle")
-		{    $("#functionOptionsMenu").hide();
+		{    $("#functionOptionsMenu").show(); //hide
 			candleStick(graphName,true);
 		}
 	else

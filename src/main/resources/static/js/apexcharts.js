@@ -4288,43 +4288,89 @@
 						const chartId =	this.ctx.core.el.getAttribute('id');
 						const chartSvg = document.querySelector(`#${chartId} .apexcharts-svg`);
 						
-						
-					    const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
-					    foreignObject.setAttribute('width', '40');
-					    foreignObject.setAttribute('height', '40');
+						// Get the value of the bar
+						const value = this.w.config.series[0].data[L]; // Assuming the bar has a 'value' attribute
+				
+						let imageWidth='40';
+						if (!(this.w?.config?.hasImages?.ImageWidth === undefined))
+					    imageWidth=this.w.config.hasImages.ImageWidth;
 					
-					    foreignObject.setAttribute('x', parseFloat(x_coords)+ 20);
-					    foreignObject.setAttribute('y', parseFloat(y_coords)- 7);
+						let imageHeight='40';
+						if (!(this.w?.config?.hasImages?.ImageHeight === undefined))
+					    imageHeight=this.w.config.hasImages.ImageHeight;
+					
+						let ImageXPositive=20;
+						if (!(this.w?.config?.hasImages?.ImageXPositive === undefined))
+					    ImageXPositive=this.w.config.hasImages.ImageXPositive;
+					
+						let ImageXnegative=55;
+						if (!(this.w?.config?.hasImages?.ImageXnegative === undefined))
+					    ImageXnegative=this.w.config.hasImages.ImageXnegative;
+					
+						let ImageY=7;
+						if (!(this.w?.config?.hasImages?.ImageY === undefined))
+					    ImageY=this.w.config.hasImages.ImageY;
+					
+					    const foreignObject = document.createElementNS('http://www.w3.org/2000/svg', 'foreignObject');
+					    foreignObject.setAttribute('width', imageWidth);
+					    foreignObject.setAttribute('height', imageHeight);
+					
+					    foreignObject.setAttribute('x',  value > 0 ? parseFloat(x_coords) + ImageXPositive : parseFloat(x_coords) - ImageXnegative);
+					    foreignObject.setAttribute('y', parseFloat(y_coords)- ImageY);
 					
 					    const img = document.createElement('img');
 					    img.setAttribute('src', this.w.config.hasImages.Images[L]);
 					    img.setAttribute('style', 'height: inherit;');
 					
 					    // Append the <img> to the <foreignObject>
-					    foreignObject.appendChild(img);
-
-						// Get the value of the bar
-						const value = this.w.config.series[0].data[L]; // Assuming the bar has a 'value' attribute
-				
+						let hasImage=false;
+					    if (!(this.w?.config?.hasImages?.Images?.[L] === undefined))
+					    {
+							foreignObject.appendChild(img);
+							hasImage=true;
+						}
+						let textBackground=30;
+						if (!(this.w?.config?.barText?.width === undefined))
+					    textBackground=50;
+					
+						let textXpositive=30;
+						if (!(this.w?.config?.barText?.Xpositive === undefined))
+					    textXpositive=(hasImage)?this.w.config.barText.Xpositive:this.w.config.barText.Xpositive+45;
+					
+					    let textXnegative=30;
+						if (!(this.w?.config?.barText?.Xnegative === undefined))
+					    textXnegative=(hasImage)?this.w.config.barText.Xnegative:this.w.config.barText.Xnegative+50;
+					
+						let backgroundOpacity='#00000050';
+						if (!(this.w?.config?.barText?.backgroundOpacity === undefined))
+					    backgroundOpacity=this.w.config.barText.backgroundOpacity;
+					
 						// Create a rectangle for the text background
 						const rect = document.createElementNS('http://www.w3.org/2000/svg', 'rect');
-						rect.setAttribute('x', parseFloat(x_coords) - 45); // Positioning inside the bar
+						rect.setAttribute('x', value > 0 ? parseFloat(x_coords) - 45:parseFloat(x_coords) + 20); // Positioning inside the bar
 						rect.setAttribute('y', parseFloat(y_coords) + 5); // Adjust y position as needed
-						rect.setAttribute('width', 30); // Adjust width as needed
+						rect.setAttribute('width', textBackground); // Adjust width as needed
 						rect.setAttribute('height', 18); // Adjust height as needed
-						rect.setAttribute('fill', '#00000050'); // Set background color
+						rect.setAttribute('fill', backgroundOpacity); // Set background color
 						rect.setAttribute('rx', 3); // Rounded corners
 						rect.setAttribute('ry', 3); // Rounded corners
 				
 						// Create a text element for the value
 						const text = document.createElementNS('http://www.w3.org/2000/svg', 'text');
-						text.setAttribute('x', parseFloat(x_coords) - 30); // Positioning inside the bar
+						text.setAttribute('x', value > 0 ? parseFloat(x_coords) - textXpositive : parseFloat(x_coords) + textXnegative); // Positioning inside the bar
 						text.setAttribute('y', parseFloat(y_coords)+ 18); // Adjust y position as needed
 						text.setAttribute('text-anchor', 'middle');
 						text.setAttribute('class', 'text-style');
 						text.setAttribute('fill', 'white'); // Set text color to white
 						text.textContent = value; // Set the text content to the bar's value
-				
+				            if(i.config?.barText?.show)
+				            { if (!i.config.barText.percentage)
+			  				  text.textContent = value.toFixed(i.config.barText.fixed);
+			  					else 
+			  				 text.textContent = value.toFixed(i.config.barText.fixed) + "%";
+								
+							}	
+				            
 						 const svg = document.querySelector(`#${chartId} .apexcharts-series`);
 							 // Ensure that the new elements are added after the existing bars
 							svg.appendChild(foreignObject);
@@ -4338,7 +4384,7 @@
 								// Initialize lineY to be at the bottom by default
 							
 								// Create the horizontal red line below the value of 50
-								if (found) {
+								if (found && i.config.line.show) {
 									const line1 = document.createElementNS("http://www.w3.org/2000/svg", "line");
 									line1.setAttribute("x1", 0);
 									line1.setAttribute("y1", parseFloat(lineY) + 57); // Position the line below the value of 50
@@ -8929,26 +8975,47 @@
 					t.dom.elGridRect = document.createElementNS(t.SVGNS, "foreignObject");
 					var v = t.dom.elGridRect;
 					var vLenght =this.w.config.series.length;
-					var value ='';
-					// mns
-					if (vLenght==1)
-						 value =this.w.config.series[0].type=='column';
-					if (vLenght==2)	
-					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column';
-				    if (vLenght==3)	
-					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column' || this.w.config.series[2].type=='column';
-					if (vLenght==4)	
-					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column'|| this.w.config.series[2].type=='column'|| this.w.config.series[3].type=='column';
-					if (vLenght==6)	
-					    value =this.w.config.series[0].type=='column' || this.w.config.series[1].type=='column'|| this.w.config.series[2].type=='column'|| this.w.config.series[3].type=='column' || this.w.config.series[4].type=='column' ||this.w.config.series[5].type=='column';
-					if (value)
-					{if (!a.config.grid.show)
-						v.setAttribute("class", "gridbackground"),v.setAttribute("x", -((this.gridRect.getBBox().width+(931-this.gridRect.getBBox().width))-a.globals.gridWidth)/2), v.setAttribute("y", 0), v.setAttribute("width", (this.gridRect.getBBox().width+(931-this.gridRect.getBBox().width))), v.setAttribute("height", this.gridRect.getBBox().height), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
-				     else 
-						v.setAttribute("class", "gridbackground"),v.setAttribute("x", -(this.gridRect.getBBox().width-a.globals.gridWidth)/2), v.setAttribute("y", 0), v.setAttribute("width", this.gridRect.getBBox().width), v.setAttribute("height", this.gridRect.getBBox().height), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
-				   }else 
-					v.setAttribute("class", "gridbackground"),v.setAttribute("x", 0), v.setAttribute("y", 0), v.setAttribute("width", a.globals.gridWidth), v.setAttribute("height", a.globals.gridHeight), t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml"), this.gridRect.insertBefore(v,this.gridRect.firstChild); 
+			// Initialize the variable
+			//mns 
+					let value = false;
+
+					// Check if any series type is 'column' dynamically
+					for (let i = 0; i < vLenght; i++) {
+						if (this.w.config.series[i]?.type === 'column' || this.w.config.series[i]?.type === 'candlestick') {
+							value = true;
+							break;  // Exit loop early if a column type is found
+						}
+					}
+
 				
+					if (value) {
+						v.setAttribute("class", "gridbackground");
+
+						let width = this.gridRect.getBBox().width;
+						let adjustedWidth = width + (931 - width);
+						let xOffset = -(adjustedWidth - a.globals.gridWidth) / 2;
+
+						if (!a.config.grid.show) {
+							v.setAttribute("x", xOffset);
+							v.setAttribute("width", adjustedWidth);
+						} else {
+							v.setAttribute("x", -(width - a.globals.gridWidth) / 2);
+							v.setAttribute("width", width);
+						}
+					} else {
+						v.setAttribute("class", "gridbackground");
+						v.setAttribute("x", 0);
+						v.setAttribute("width", a.globals.gridWidth);
+					}
+
+					// Set common attributes outside condition
+					v.setAttribute("y", 0);
+					v.setAttribute("height", this.gridRect.getBBox().height);
+					t.dom.elLegendWrap.setAttribute("xmlns", "http://www.w3.org/1999/xhtml");
+
+					// Insert the modified element
+					this.gridRect.insertBefore(v, this.gridRect.firstChild);
+									
 	                
 				}
 			}, {
@@ -10816,8 +10883,31 @@ value: function (t, e) {
       
       // For the line (wick), choose a stroke color
       var z = this.candlestickOptions.wick.useFillColor ? S : undefined;
-
-      // Render the candle body (bar) with barPathFrom/barPathTo
+//mns
+  
+      // Render the wick (line) separately with linePathFrom/linePathTo
+      // Here you can apply a different stroke style if desired.
+      this.renderSeries({
+        realIndex: p,
+        pathFill: 'transparent', // wick generally doesn't need fill
+        lineFill: '#ffffff',             // wick stroke color
+        j: A,
+        i: o,
+        pathFrom: P.linePathFrom,
+        pathTo: P.linePathTo,
+        strokeWidth: C,
+        elSeries: x,
+        x: c,
+        y: d,
+        series: t,
+        barHeight: m,
+        barWidth: v,
+        elDataLabelsWrap: k,
+        visibleSeries: this.visibleI,
+        type: "candlestick-wick" // another custom identifier if needed
+      });
+      
+          // Render the candle body (bar) with barPathFrom/barPathTo
       this.renderSeries({
         realIndex: p,
         pathFill: T,           // body fill
@@ -10838,27 +10928,6 @@ value: function (t, e) {
         type: "candlestick-body" // just a custom identifier if needed
       });
 
-      // Render the wick (line) separately with linePathFrom/linePathTo
-      // Here you can apply a different stroke style if desired.
-      this.renderSeries({
-        realIndex: p,
-        pathFill: 'transparent', // wick generally doesn't need fill
-        lineFill: z,             // wick stroke color
-        j: A,
-        i: o,
-        pathFrom: P.linePathFrom,
-        pathTo: P.linePathTo,
-        strokeWidth: C,
-        elSeries: x,
-        x: c,
-        y: d,
-        series: t,
-        barHeight: m,
-        barWidth: v,
-        elDataLabelsWrap: k,
-        visibleSeries: this.visibleI,
-        type: "candlestick-wick" // another custom identifier if needed
-      });
     }
 
     i.globals.seriesXvalues[p] = u;
@@ -11005,7 +11074,7 @@ value: function(t) {
       x = this.getOHLCValue(p, c),
       m = r,
       v = r;
-
+// mns
   // Determine if candle is bullish or bearish
   x.o > x.c && (d = false);
 

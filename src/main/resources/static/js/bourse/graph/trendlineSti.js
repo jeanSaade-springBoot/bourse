@@ -51,4 +51,5 @@
 
 const screenName='STI';
 const graphName="stiGraph"; 
+const isTrendlineScreen=true;
 var graphService = "sti";
