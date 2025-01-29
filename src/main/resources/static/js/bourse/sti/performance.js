@@ -133,8 +133,16 @@ $(document).ready(function() {
 	initialiazeItems(allitems, 1);
 	initialiazeClearFilterButtons(allitems);
 	getLatestDate().then(date => {
-	    getGraphHistoryByScreenName("performanceGraph");
-	});
+	    getGraphHistoryPerformanceByScreenName("performanceGraph");
+	}).then(() => {
+        console.log("Graph history successfully fetched!");
+          $("#dropDownSelection").jqxDropDownList({ checkboxes: true,  theme:'dark', source: configData , selectedIndex: 0,  displayMember: "displayName", valueMember: "columnName", width: '200px', height: '35px', dropDownHeight: 400});
+
+        
+    })
+    .catch(error => {
+        console.error("Error fetching graph history:", error);
+    });
 	$("#show").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	
 	$("#performanceGroupOfPeriod").jqxButtonGroup({theme: 'dark', mode: 'radio' });
@@ -177,8 +185,7 @@ $(document).ready(function() {
         updateChart();
     });
    
-   $("#dropDownSelection").jqxDropDownList({ checkboxes: true,  theme:'dark', source: configData , selectedIndex: 0,  displayMember: "displayName", valueMember: "columnName", width: '200px', height: '35px', dropDownHeight: 400});
-
+  //
 		// Check all items when clicking "Check All"
 	var isBulkAction = false; // Flag to detect bulk actions
 

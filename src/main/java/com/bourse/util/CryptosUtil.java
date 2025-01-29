@@ -329,7 +329,7 @@ public class CryptosUtil {
 						 		    + "\n          and '"+toDate+"')\n";
 						 
 						 }
-						 forUsetables = forUsetables + tableSchema+"tmp_cry_bitcoin_four_hours";
+						 forUsetables = forUsetables + tableSchema+"tmp_cry_bitcoin_high_low";
 	    				 forUsetables = forUsetables + " s"+counter+" ,";
 					 	 forUseSelect = forUseSelect+", \n"+ 
 						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+

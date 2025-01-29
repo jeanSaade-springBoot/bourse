@@ -3840,6 +3840,65 @@ function getGraphHistoryByScreenName(screenName)
 	});
 
 }
+async function getGraphHistoryPerformanceByScreenName(screenName) {
+    try {
+        const response = await fetch(`/bourse/findgraphhistorybyscreenname/${screenName}`, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+            cache: "no-cache"
+        });
+
+        if (!response.ok) {
+            throw new Error(`HTTP error! Status: ${response.status}`);
+        }
+
+        const data = await response.json();
+
+        if (data.candle === true) {
+            $("#candle").addClass("active");
+            $('#groupOfOptions').jqxButtonGroup('setSelection', data.candleOptionIndex);
+            if ($("#functionOptionsMenu").length) {
+                $("#functionOptionsMenu").show();
+            }
+            renderCandleChart();
+            $('#grid-content').css('display', 'block');
+        } else {
+            if ($("#functionOptionsMenu").length) {
+                $("#functionOptionsMenu").show();
+            }
+
+            let checkedItemId = JSON.parse(data.parameter)[0];
+            for (let j = 0; j < checkedItemId.length; j++) {
+                $(checkedItemId[j]).jqxCheckBox({ checked: true });
+            }
+
+            checkedItem = checkedItemId.length;
+            $("#collapseFilter").removeClass('show');
+            $('#grid-content').css('display', 'block');
+
+            if ($('#groupOfPeriod').length) {
+                $('#groupOfPeriod').jqxButtonGroup('setSelection', getChartPeriodIndex(JSON.parse(data.parameter)[1][0]));
+            }
+
+            if (JSON.parse(data.parameter)[2] != null) {
+                Items = JSON.parse(data.parameter)[2][0];
+            }
+
+            type = JSON.parse(data.parameter)[3][0];
+
+            if ($('#dropDownType').length) {
+                $("#dropDownType").jqxDropDownList('selectIndex', type);
+            }
+
+            drawGraph();
+        }
+    } catch (error) {
+        console.error("ERROR:", error);
+    }
+}
+
 function saveGraphHistory(graphName,checkedItemValues,Period,type){
 		const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 
