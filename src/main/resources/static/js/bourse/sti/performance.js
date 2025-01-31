@@ -3,6 +3,7 @@ var allitems = [
 	'#jqxCheckBoxDowjones', // wallstreet
 	'#jqxCheckBoxNikkei',//asia
 	'#jqxCheckBoxTadawul', // emerging
+	'#jqxCheckBoxAll'
 ];
 const labelImageMap = {
 		'NIFTY-32': '/img/flag/india.png',
@@ -53,10 +54,10 @@ const labelImageMap = {
 		
 	};
 const titleGroupMap = {
-		'32': 'ASIA Stock Market Performance',
-		'33': 'WALL STREET Stock Market Performance',
-		'34': 'EUROPE Stock Market Performance',
-		'35': 'EMERGING Stock Market Performance',
+		'32': 'ASIA Performance',
+		'33': 'WALL STREET Performance',
+		'34': 'EUROPE Performance',
+		'35': 'EMERGING Performance',
 		};
 		
 const configData = [
@@ -120,6 +121,9 @@ var subgroup2Container = '';
 var roundedValues = '';
 var yaxisformat0 = '';
 
+var selectedItems = []; // Array to store checked items in order
+
+
 const graphName = "performanceGraph";
 
 $(window).on('load', function() {
@@ -127,22 +131,33 @@ $(window).on('load', function() {
 	$('#nav-tabContent').show();
 });
 $(document).ready(function() {
+	
+
+    // jqxDropDownList with checkboxes
+    $("#dropDownSelection").on('checkChange', function (event) {
+        var itemValue = event.args.item.value;
+        var isChecked = event.args.checked;
+
+        if (isChecked) {
+            // Add the checked item to the array if not already there
+            if (!selectedItems.includes(itemValue)) {
+                selectedItems.push(itemValue);
+            }
+        } else {
+            // Remove the unchecked item from the array
+            selectedItems = selectedItems.filter(item => item !== itemValue);
+        }
+
+        console.log(selectedItems.join(", "));
+    });
 
 	initializeNewsBanner();
 	initializeNavigationButtons();
 	initialiazeItems(allitems, 1);
 	initialiazeClearFilterButtons(allitems);
 	getLatestDate().then(date => {
-	    getGraphHistoryPerformanceByScreenName("performanceGraph");
-	}).then(() => {
-        console.log("Graph history successfully fetched!");
-          $("#dropDownSelection").jqxDropDownList({ checkboxes: true,  theme:'dark', source: configData , selectedIndex: 0,  displayMember: "displayName", valueMember: "columnName", width: '200px', height: '35px', dropDownHeight: 400});
-
-        
-    })
-    .catch(error => {
-        console.error("Error fetching graph history:", error);
-    });
+	    getGraphHistoryByScreenName("performanceGraph");
+	});
 	$("#show").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	
 	$("#performanceGroupOfPeriod").jqxButtonGroup({theme: 'dark', mode: 'radio' });
@@ -185,7 +200,27 @@ $(document).ready(function() {
         updateChart();
     });
    
-  //
+   $("#dropDownSelection").jqxDropDownList({ checkboxes: true,  theme:'dark', source: configData , selectedIndex: 0,  displayMember: "displayName", valueMember: "columnName", width: '200px', height: '35px', dropDownHeight: 400});
+	 $('.jqx-checkbox').on('change', function (event) {
+		     const checkedItemValues = checkedItemid.filter(item => item != null);
+		     if(checkedItemValues[0]!="#jqxCheckBoxAll")
+		    { groupIdToFilter= itemValue[checkedItemValues[0]].GroupId;
+		     
+		      filteredData = configData.filter(item => item.groupId === groupIdToFilter);
+		     }
+		     else
+		       filteredData = configData;
+
+		    $("#dropDownSelection").jqxDropDownList({
+		        source: filteredData,  // Bind the filtered data
+		        displayMember: "displayName",  // Display name for each item
+		        valueMember: "columnName"  // Value associated with each item
+		    });
+		     selectedItems=[];
+		     $("#dropDownSelection").clear();
+		   
+		    
+	 });
 		// Check all items when clicking "Check All"
 	var isBulkAction = false; // Flag to detect bulk actions
 
@@ -219,6 +254,13 @@ $(document).ready(function() {
 
 });
 
+function drawGraph() {
+
+	var graphService = "macro";
+	const removeEmpty = false;
+	performanceGraph(graphService, "performanceGraph", removeEmpty, true);
+}
+
 function getImagePath(label) {
     return labelImageMap[label] || '/img/flag/default.png';
 }
@@ -243,12 +285,7 @@ function uncheckAllItems(items) {
 		$(items[i]).jqxCheckBox({ checked: false });
 	}
 }
-function drawGraph() {
 
-	var graphService = "macro";
-	const removeEmpty = false;
-	performanceGraph(graphService, "performanceGraph", removeEmpty, true);
-}
 async function getLatestDate() {
      date = new Date();
      return date;
@@ -275,10 +312,12 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 
         const checkedItemValues = checkedItemid.filter(item => item != null);
         
-            var items = $("#dropDownSelection").jqxDropDownList('getCheckedItems');
-	        var checkedItems = items.map(i => i.value).join(", ");
-	            console.log(checkedItems);
+	    var checkedItems = selectedItems.join(', ')
+	          
          let requestData;
+         if(getChartPeriodPerformance()=='w')
+         fromdate='Week '+getISOWeekNumber(date);
+         
       if(checkedItems!='')
 	        requestData = [{
 			            groupId1: checkedItems,
@@ -311,23 +350,44 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
         // Handle the response data here
         $("#mainChart").removeClass("d-none");
         $("#timeline-chart").addClass("d-none");
-        json.data = data[0].values;
-        json.labels = data[0].labels.map(label => {
+        
+       if(checkedItems!='')
+        {
+			const orderResult = reorderDataWithLabels(  data[0].labels.map(label => {return label.trim().replace(/\s*-\s*/g, '-')}),
+				  data[0].values ,
+				  selectedItems.map(label => {return label.split(':')[1]+'-'+label.split(':')[0]}));
+			
+        
+        json.data = orderResult.data;
+        json.labels = orderResult.labels.map(label => {
 				    const cleanedLabel = label.trim().replace(/\s*-\s*/g, '-'); // Remove extra spaces
 				    const matchedItem = configData.find(item => item.columnGroupId === cleanedLabel); 
 				    return matchedItem ? matchedItem.displayName : cleanedLabel; // Return displayName if found, else label
 				});
-				        
+			
+		}
+        else
+        {json.data = data[0].values;
+         json.labels = data[0].labels.map(label => {
+				    const cleanedLabel = label.trim().replace(/\s*-\s*/g, '-'); // Remove extra spaces
+				    const matchedItem = configData.find(item => item.columnGroupId === cleanedLabel); 
+				    return matchedItem ? matchedItem.displayName : cleanedLabel; // Return displayName if found, else label
+				});
+			}
+			
+		       
         const result = getColorsAndImagesForLabels(data[0].labels);
         json.images = result.images;
         
-        if (typeof itemValue !== 'undefined' && checkedItemValues.length > 0) {
-		     json.title = titleGroupMap[itemValue[checkedItemValues[0]].GroupId];
-
-		}  if(checkedItems!='') {
-		     json.title = 'Stock Market Performance';
+         if(checkedItems!='') {
+		     json.title = 'Stock Indices Performance'+" In "+ fromdate;
 
 		}
+		else
+        if (typeof itemValue !== 'undefined' && checkedItemValues.length > 0) {
+		     json.title = titleGroupMap[itemValue[checkedItemValues[0]].GroupId] +" In "+ fromdate;
+
+		} 
         json.chartId = 'mainChart';
         json.width = 1078;
 		json.height=(checkedItems!='')?getHeightBasedOnCount(checkedItems):525;
@@ -703,4 +763,41 @@ let timeIndex = 0;  // Tracks which week/month/quarter/year the user is viewing
     }
 
     return date.toLocaleDateString("en-US", options);
+}
+function getISOWeekNumber(date) {
+    const tempDate = new Date(date);
+    
+    // Set the date to the Thursday in the current week
+    tempDate.setDate(tempDate.getDate() + 4 - (tempDate.getDay() || 7));
+    
+    // Get the first day of the year
+    const yearStart = new Date(tempDate.getFullYear(), 0, 1);
+    
+    // Calculate the ISO week number
+    const weekNumber = Math.ceil(((tempDate - yearStart) / 86400000 + 1) / 7);
+    return weekNumber;
+}
+
+function reorderDataWithLabels(originalLabels, originalData, desiredOrder) {
+    // Create a map of labels to their corresponding data values
+    let dataMap = {};
+    for (let i = 0; i < originalLabels.length; i++) {
+        dataMap[originalLabels[i]] = originalData[i];
+    }
+
+    // Reorder the labels and data based on the desired order
+    let reorderedLabels = [];
+    let reorderedData = [];
+
+    for (let label of desiredOrder) {
+        if (dataMap.hasOwnProperty(label)) {
+            reorderedLabels.push(label);
+            reorderedData.push(dataMap[label]);
+        }
+    }
+
+    return {
+        labels: reorderedLabels,
+        data: reorderedData
+    };
 }

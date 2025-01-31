@@ -103,6 +103,37 @@ public class CryptosController {
 		cryptosService.updateBitcoinsDataFourHoursData(updateDataDTO);
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
+	@PostMapping(value = "update-ethereum-data-four-hours")
+	public ResponseEntity<Boolean> updateEtheremDataFourHoursData(@RequestBody UpdateCryptosDataDTO updateDataDTO) 
+	{  System.out.println(className+": updateEtheremDataFourHoursData");
+		cryptosService.updateEtheremDataFourHoursData(updateDataDTO);
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "update-xrp-data-four-hours")
+	public ResponseEntity<Boolean> updateXrpDataFourHoursData(@RequestBody UpdateCryptosDataDTO updateDataDTO) 
+	{  System.out.println(className+": updateXrpDataFourHoursData");
+		cryptosService.updateXrpDataFourHoursData(updateDataDTO);
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "update-solana-data-four-hours")
+	public ResponseEntity<Boolean> updateSolanaDataFourHoursData(@RequestBody UpdateCryptosDataDTO updateDataDTO) 
+	{  System.out.println(className+": updateSolanaDataFourHoursData");
+		cryptosService.updateSolanaDataFourHoursData(updateDataDTO);
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "update-shiba-data-four-hours")
+	public ResponseEntity<Boolean> updateShibaDataFourHoursData(@RequestBody UpdateCryptosDataDTO updateDataDTO) 
+	{  System.out.println(className+": updateShibaDataFourHoursData");
+		cryptosService.updateShibaDataFourHoursData(updateDataDTO);
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}	
+	@PostMapping(value = "update-binance-data-four-hours")
+	public ResponseEntity<Boolean> updateBinanceDataFourHoursData(@RequestBody UpdateCryptosDataDTO updateDataDTO) 
+	{  System.out.println(className+": updateBinanceDataFourHoursData");
+		cryptosService.updateBinanceDataFourHoursData(updateDataDTO);
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	
 	@DeleteMapping(value = "delete-cryptos/{groupId}/{referDate}")
 	public ResponseEntity<HttpStatus> deleteCryptosData(@PathVariable("groupId") String groupId ,@PathVariable("referDate") String referDate) {
 		System.out.println(className+": deleteCryptosDataByReferDate");

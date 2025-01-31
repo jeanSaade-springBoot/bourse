@@ -329,7 +329,7 @@ public class CryptosUtil {
 						 		    + "\n          and '"+toDate+"')\n";
 						 
 						 }
-						 forUsetables = forUsetables + tableSchema+"tmp_cry_bitcoin_high_low";
+						 forUsetables = forUsetables + tableSchema+"cr_bitcoin_four_hours";
 	    				 forUsetables = forUsetables + " s"+counter+" ,";
 					 	 forUseSelect = forUseSelect+", \n"+ 
 						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
@@ -367,7 +367,7 @@ public class CryptosUtil {
 						 		    + "\n          and '"+toDate+"')\n";
 						 
 						 }
-						 forUsetables = forUsetables + tableSchema+"tmp_cry_ethereum_four_hours";
+						 forUsetables = forUsetables + tableSchema+"cr_ethereum_four_hours";
 	    				 forUsetables = forUsetables + " s"+counter+" ,";
 					 	 forUseSelect = forUseSelect+", \n"+ 
 						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
@@ -405,7 +405,7 @@ public class CryptosUtil {
 						 		    + "\n          and '"+toDate+"')\n";
 						 
 						 }
-						 forUsetables = forUsetables + tableSchema+"tmp_cry_solana_four_hours";
+						 forUsetables = forUsetables + tableSchema+"cr_solana_four_hours";
 	    				 forUsetables = forUsetables + " s"+counter+" ,";
 					 	 forUseSelect = forUseSelect+", \n"+ 
 						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
@@ -443,7 +443,7 @@ public class CryptosUtil {
 						 		    + "\n          and '"+toDate+"')\n";
 						 
 						 }
-						 forUsetables = forUsetables + tableSchema+"tmp_cry_shiba_four_hours";
+						 forUsetables = forUsetables + tableSchema+"cr_shiba_four_hours";
 	    				 forUsetables = forUsetables + " s"+counter+" ,";
 					 	 forUseSelect = forUseSelect+", \n"+ 
 						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
@@ -481,7 +481,7 @@ public class CryptosUtil {
 						 		    + "\n          and '"+toDate+"')\n";
 						 
 						 }
-						 forUsetables = forUsetables + tableSchema+"tmp_cry_binance_four_hours";
+						 forUsetables = forUsetables + tableSchema+"cr_binance_four_hours";
 	    				 forUsetables = forUsetables + " s"+counter+" ,";
 					 	 forUseSelect = forUseSelect+", \n"+ 
 						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
@@ -519,7 +519,7 @@ public class CryptosUtil {
 						 		    + "\n          and '"+toDate+"')\n";
 						 
 						 }
-						 forUsetables = forUsetables + tableSchema+"tmp_cry_xrp_four_hours";
+						 forUsetables = forUsetables + tableSchema+"cr_xrp_four_hours";
 	    				 forUsetables = forUsetables + " s"+counter+" ,";
 					 	 forUseSelect = forUseSelect+", \n"+ 
 						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+

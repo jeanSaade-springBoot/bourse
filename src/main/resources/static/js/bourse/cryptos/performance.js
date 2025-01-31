@@ -175,6 +175,12 @@ $(document).ready(function() {
 	});
 
 });
+function drawGraph() {
+
+	var graphService = "macro";
+	const removeEmpty = false;
+	performanceGraph(graphService, "cryptosPerformanceGraph", removeEmpty, true);
+}
 
 function getImagePath(label) {
     return labelImageMap[label] || '/img/flag/default.png';
@@ -198,12 +204,7 @@ function uncheckAllItems(items) {
 		$(items[i]).jqxCheckBox({ checked: false });
 	}
 }
-function drawGraph() {
 
-	var graphService = "macro";
-	const removeEmpty = false;
-	performanceGraph(graphService, "cryptosPerformanceGraph", removeEmpty, true);
-}
 async function getLatestDate() {
      date = new Date();
      return date;
@@ -280,11 +281,11 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
         const result = getColorsAndImagesForLabels(json.labels);
         json.images = result.images;
         
-        if (typeof itemValue !== 'undefined' && checkedItemValues.length > 0) {
-		     json.title = titleGroupMap[itemValue[checkedItemValues[0]].GroupId];
+         if (typeof itemValue !== 'undefined' && checkedItemValues.length > 0) {
+		     json.title = titleGroupMap[itemValue[checkedItemValues[0]].GroupId] +" In "+ fromdate;
 
 		}  if(checkedItems!='') {
-		     json.title = 'Stock Market Performance';
+		     json.title = 'Crypto Performance'+" In "+ fromdate;
 
 		}
 		
@@ -675,4 +676,17 @@ let timeIndex = 0;  // Tracks which week/month/quarter/year the user is viewing
     }
 
     return date.toLocaleDateString("en-US", options);
+}
+function getISOWeekNumber(date) {
+    const tempDate = new Date(date);
+    
+    // Set the date to the Thursday in the current week
+    tempDate.setDate(tempDate.getDate() + 4 - (tempDate.getDay() || 7));
+    
+    // Get the first day of the year
+    const yearStart = new Date(tempDate.getFullYear(), 0, 1);
+    
+    // Calculate the ISO week number
+    const weekNumber = Math.ceil(((tempDate - yearStart) / 86400000 + 1) / 7);
+    return weekNumber;
 }

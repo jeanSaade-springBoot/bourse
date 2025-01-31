@@ -23,7 +23,12 @@ import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.TableManagement;
 import com.bourse.domain.cryptos.CryptosData;
-import com.bourse.domain.cryptos.TmpCryBitcoinFourHours;
+import com.bourse.domain.cryptos.CrBinanceFourHours;
+import com.bourse.domain.cryptos.CrBitcoinFourHours;
+import com.bourse.domain.cryptos.CrEthereumFourHours;
+import com.bourse.domain.cryptos.CrShibaFourHours;
+import com.bourse.domain.cryptos.CrSolanaFourHours;
+import com.bourse.domain.cryptos.CrXrpFourHours;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GraphResponseDTO;
@@ -41,7 +46,12 @@ import com.bourse.repositories.cryptos.TmpAuditCryEthereumRepository;
 import com.bourse.repositories.cryptos.TmpAuditCryShibaRepository;
 import com.bourse.repositories.cryptos.TmpAuditCrySolanaRepository;
 import com.bourse.repositories.cryptos.TmpAuditCryXrpRepository;
-import com.bourse.repositories.cryptos.TmpCryBitcoinFourHoursRepository;
+import com.bourse.repositories.cryptos.CrBinanceFourHoursRepository;
+import com.bourse.repositories.cryptos.CrBitcoinFourHoursRepository;
+import com.bourse.repositories.cryptos.CrShibaFourHoursRepository;
+import com.bourse.repositories.cryptos.CrSolanaFourHoursRepository;
+import com.bourse.repositories.cryptos.CrXrpFourHoursRepository;
+import com.bourse.repositories.cryptos.CrEthereumFourHoursRepository;
 import com.bourse.service.AdminService;
 import com.bourse.service.FunctionConfigurationService;
 import com.bourse.util.CryptosUtil;
@@ -62,7 +72,18 @@ public class CryptosService {
 	@Autowired
 	TmpAuditCryXrpRepository tmpAuditCryXrpRepository;
 	@Autowired
-	TmpCryBitcoinFourHoursRepository tmpCryBitcoinFourHoursRepository;
+	CrBitcoinFourHoursRepository crBitcoinFourHoursRepository;
+	@Autowired
+	CrBinanceFourHoursRepository crBinanceFourHoursRepository;
+	@Autowired
+	CrXrpFourHoursRepository crXrpFourHoursRepository;
+	@Autowired
+	CrSolanaFourHoursRepository crSolanaFourHoursRepository;
+	@Autowired
+	CrShibaFourHoursRepository crShibaFourHoursRepository;
+	@Autowired
+	CrEthereumFourHoursRepository crEthereumFourHoursRepository;
+	
 	@Autowired
 	AdminService adminService;
 	@Autowired
@@ -105,7 +126,17 @@ public class CryptosService {
         
         String value =null;
         if(groupId.equalsIgnoreCase("71"))
-        	value=	tmpCryBitcoinFourHoursRepository.findLatest();
+        	value=	crBitcoinFourHoursRepository.findLatest();
+        else  if(groupId.equalsIgnoreCase("72"))
+        	value=	crEthereumFourHoursRepository.findLatest();
+        else  if(groupId.equalsIgnoreCase("73"))
+        	value=	crSolanaFourHoursRepository.findLatest();
+        else  if(groupId.equalsIgnoreCase("74"))
+        	value=	crShibaFourHoursRepository.findLatest();
+        else  if(groupId.equalsIgnoreCase("75"))
+        	value=	crBinanceFourHoursRepository.findLatest();
+        else  if(groupId.equalsIgnoreCase("76"))
+        	value=	crXrpFourHoursRepository.findLatest();
         
        return value;
 	}
@@ -114,7 +145,7 @@ public class CryptosService {
 		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
 		 LocalDateTime startTime = LocalDateTime.parse(updateDataDTO.getStartTime(), formatter);
 		    // Fetch the existing entity
-		TmpCryBitcoinFourHours existingEntity = tmpCryBitcoinFourHoursRepository.findByStartTime(startTime);
+		CrBitcoinFourHours existingEntity = crBitcoinFourHoursRepository.findByStartTime(startTime);
 
 		    existingEntity.setCloseeur(new BigDecimal(updateDataDTO.getCloseeur().replace(",", "")));
 		    existingEntity.setOpeneur(new BigDecimal(updateDataDTO.getOpeneur().replace(",", "")));
@@ -125,7 +156,103 @@ public class CryptosService {
 		    existingEntity.setLow(new BigDecimal(updateDataDTO.getLow().replace(",", "")));
 		    existingEntity.setMarketcap(new BigDecimal(updateDataDTO.getMarketcap().replace(",", "")));
 		    // Save the updated entity
-		    tmpCryBitcoinFourHoursRepository.save(existingEntity);
+		    crBitcoinFourHoursRepository.save(existingEntity);
+		
+	}
+	
+	public void updateEtheremDataFourHoursData(UpdateCryptosDataDTO updateDataDTO) {
+		
+		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		 LocalDateTime startTime = LocalDateTime.parse(updateDataDTO.getStartTime(), formatter);
+		    // Fetch the existing entity
+		 CrEthereumFourHours existingEntity = crEthereumFourHoursRepository.findByStartTime(startTime);
+
+		    existingEntity.setCloseeur(new BigDecimal(updateDataDTO.getCloseeur().replace(",", "")));
+		    existingEntity.setOpeneur(new BigDecimal(updateDataDTO.getOpeneur().replace(",", "")));
+		    existingEntity.setCloseint(new BigDecimal(updateDataDTO.getCloseint().replace(",", "")));
+		    existingEntity.setOpenint(new BigDecimal(updateDataDTO.getOpenint().replace(",", "")));
+		    existingEntity.setVolume(new BigDecimal(updateDataDTO.getVolume().replace(",", "")));
+		    existingEntity.setHigh(new BigDecimal(updateDataDTO.getHigh().replace(",", "")));
+		    existingEntity.setLow(new BigDecimal(updateDataDTO.getLow().replace(",", "")));
+		    existingEntity.setMarketcap(new BigDecimal(updateDataDTO.getMarketcap().replace(",", "")));
+		    // Save the updated entity
+		    crEthereumFourHoursRepository.save(existingEntity);
+		
+	}
+	public void updateXrpDataFourHoursData(UpdateCryptosDataDTO updateDataDTO) {
+		
+		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		 LocalDateTime startTime = LocalDateTime.parse(updateDataDTO.getStartTime(), formatter);
+		    // Fetch the existing entity
+		 CrXrpFourHours existingEntity = crXrpFourHoursRepository.findByStartTime(startTime);
+
+		    existingEntity.setCloseeur(new BigDecimal(updateDataDTO.getCloseeur().replace(",", "")));
+		    existingEntity.setOpeneur(new BigDecimal(updateDataDTO.getOpeneur().replace(",", "")));
+		    existingEntity.setCloseint(new BigDecimal(updateDataDTO.getCloseint().replace(",", "")));
+		    existingEntity.setOpenint(new BigDecimal(updateDataDTO.getOpenint().replace(",", "")));
+		    existingEntity.setVolume(new BigDecimal(updateDataDTO.getVolume().replace(",", "")));
+		    existingEntity.setHigh(new BigDecimal(updateDataDTO.getHigh().replace(",", "")));
+		    existingEntity.setLow(new BigDecimal(updateDataDTO.getLow().replace(",", "")));
+		    existingEntity.setMarketcap(new BigDecimal(updateDataDTO.getMarketcap().replace(",", "")));
+		    // Save the updated entity
+		    crXrpFourHoursRepository.save(existingEntity);
+		
+	}
+	public void updateSolanaDataFourHoursData(UpdateCryptosDataDTO updateDataDTO) {
+		
+		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		 LocalDateTime startTime = LocalDateTime.parse(updateDataDTO.getStartTime(), formatter);
+		    // Fetch the existing entity
+		 CrSolanaFourHours existingEntity = crSolanaFourHoursRepository.findByStartTime(startTime);
+
+		    existingEntity.setCloseeur(new BigDecimal(updateDataDTO.getCloseeur().replace(",", "")));
+		    existingEntity.setOpeneur(new BigDecimal(updateDataDTO.getOpeneur().replace(",", "")));
+		    existingEntity.setCloseint(new BigDecimal(updateDataDTO.getCloseint().replace(",", "")));
+		    existingEntity.setOpenint(new BigDecimal(updateDataDTO.getOpenint().replace(",", "")));
+		    existingEntity.setVolume(new BigDecimal(updateDataDTO.getVolume().replace(",", "")));
+		    existingEntity.setHigh(new BigDecimal(updateDataDTO.getHigh().replace(",", "")));
+		    existingEntity.setLow(new BigDecimal(updateDataDTO.getLow().replace(",", "")));
+		    existingEntity.setMarketcap(new BigDecimal(updateDataDTO.getMarketcap().replace(",", "")));
+		    // Save the updated entity
+		    crSolanaFourHoursRepository.save(existingEntity);
+		
+	}
+	public void updateShibaDataFourHoursData(UpdateCryptosDataDTO updateDataDTO) {
+		
+		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		 LocalDateTime startTime = LocalDateTime.parse(updateDataDTO.getStartTime(), formatter);
+		    // Fetch the existing entity
+		 CrShibaFourHours existingEntity = crShibaFourHoursRepository.findByStartTime(startTime);
+
+		    existingEntity.setCloseeur(new BigDecimal(updateDataDTO.getCloseeur().replace(",", "")));
+		    existingEntity.setOpeneur(new BigDecimal(updateDataDTO.getOpeneur().replace(",", "")));
+		    existingEntity.setCloseint(new BigDecimal(updateDataDTO.getCloseint().replace(",", "")));
+		    existingEntity.setOpenint(new BigDecimal(updateDataDTO.getOpenint().replace(",", "")));
+		    existingEntity.setVolume(new BigDecimal(updateDataDTO.getVolume().replace(",", "")));
+		    existingEntity.setHigh(new BigDecimal(updateDataDTO.getHigh().replace(",", "")));
+		    existingEntity.setLow(new BigDecimal(updateDataDTO.getLow().replace(",", "")));
+		    existingEntity.setMarketcap(new BigDecimal(updateDataDTO.getMarketcap().replace(",", "")));
+		    // Save the updated entity
+		    crShibaFourHoursRepository.save(existingEntity);
+		
+	}
+	public void updateBinanceDataFourHoursData(UpdateCryptosDataDTO updateDataDTO) {
+		
+		 DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+		 LocalDateTime startTime = LocalDateTime.parse(updateDataDTO.getStartTime(), formatter);
+		    // Fetch the existing entity
+		 CrBinanceFourHours existingEntity = crBinanceFourHoursRepository.findByStartTime(startTime);
+
+		    existingEntity.setCloseeur(new BigDecimal(updateDataDTO.getCloseeur().replace(",", "")));
+		    existingEntity.setOpeneur(new BigDecimal(updateDataDTO.getOpeneur().replace(",", "")));
+		    existingEntity.setCloseint(new BigDecimal(updateDataDTO.getCloseint().replace(",", "")));
+		    existingEntity.setOpenint(new BigDecimal(updateDataDTO.getOpenint().replace(",", "")));
+		    existingEntity.setVolume(new BigDecimal(updateDataDTO.getVolume().replace(",", "")));
+		    existingEntity.setHigh(new BigDecimal(updateDataDTO.getHigh().replace(",", "")));
+		    existingEntity.setLow(new BigDecimal(updateDataDTO.getLow().replace(",", "")));
+		    existingEntity.setMarketcap(new BigDecimal(updateDataDTO.getMarketcap().replace(",", "")));
+		    // Save the updated entity
+		    crBinanceFourHoursRepository.save(existingEntity);
 		
 	}
 	public void updateData(List<UpdateDataDTO> updateDataDTOlst) {
