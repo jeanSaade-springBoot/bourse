@@ -5,6 +5,7 @@ var allitems = [
 	'#jqxCheckBox-74-1', // emerging
 	'#jqxCheckBox-75-1',
 	'#jqxCheckBox-76-1',
+	'#jqxCheckBoxAll'
 ];
 const labelImageMap = {
 	};
@@ -29,59 +30,59 @@ var yaxisformat0 = '';
 
 const graphName = "cryptosPerformanceGraph";
 const configData =[
-  { "columnName": "71:openeur", "displayName": "OPENEUR - BITCOIN", "groupid": "71", "columnGroupId": "openeur-71" },
-  { "columnName": "71:closeeur", "displayName": "CLOSEEUR - BITCOIN", "groupid": "71", "columnGroupId": "closeeur-71" },
-  { "columnName": "71:high", "displayName": "HIGH - BITCOIN", "groupid": "71", "columnGroupId": "high-71" },
-  { "columnName": "71:low", "displayName": "LOW - BITCOIN", "groupid": "71", "columnGroupId": "low-71" },
-  { "columnName": "71:volume", "displayName": "VOLUME - BITCOIN", "groupid": "71", "columnGroupId": "volume-71" },
-  { "columnName": "71:marketcap", "displayName": "MARKETCAP - BITCOIN", "groupid": "71", "columnGroupId": "marketcap-71" },
-  { "columnName": "71:openint", "displayName": "OPENINT - BITCOIN", "groupid": "71", "columnGroupId": "openint-71" },
-  { "columnName": "71:closeint", "displayName": "CLOSEINT - BITCOIN", "groupid": "71", "columnGroupId": "closeint-71" },
+  { "columnName": "71:openeur", "displayName": "OPENEUR - BITCOIN", "groupId": "71", "columnGroupId": "openeur-71" },
+  { "columnName": "71:closeeur", "displayName": "CLOSEEUR - BITCOIN", "groupId": "71", "columnGroupId": "closeeur-71" },
+  { "columnName": "71:high", "displayName": "HIGH - BITCOIN", "groupId": "71", "columnGroupId": "high-71" },
+  { "columnName": "71:low", "displayName": "LOW - BITCOIN", "groupId": "71", "columnGroupId": "low-71" },
+  { "columnName": "71:volume", "displayName": "VOLUME - BITCOIN", "groupId": "71", "columnGroupId": "volume-71" },
+  { "columnName": "71:marketcap", "displayName": "MARKETCAP - BITCOIN", "groupId": "71", "columnGroupId": "marketcap-71" },
+  { "columnName": "71:openint", "displayName": "OPENINT - BITCOIN", "groupId": "71", "columnGroupId": "openint-71" },
+  { "columnName": "71:closeint", "displayName": "CLOSEINT - BITCOIN", "groupId": "71", "columnGroupId": "closeint-71" },
 
-  { "columnName": "72:openeur", "displayName": "OPENEUR - ETHEREUM", "groupid": "72", "columnGroupId": "openeur-72" },
-  { "columnName": "72:closeeur", "displayName": "CLOSEEUR - ETHEREUM", "groupid": "72", "columnGroupId": "closeeur-72" },
-  { "columnName": "72:high", "displayName": "HIGH - ETHEREUM", "groupid": "72", "columnGroupId": "high-72" },
-  { "columnName": "72:low", "displayName": "LOW - ETHEREUM", "groupid": "72", "columnGroupId": "low-72" },
-  { "columnName": "72:volume", "displayName": "VOLUME - ETHEREUM", "groupid": "72", "columnGroupId": "volume-72" },
-  { "columnName": "72:marketcap", "displayName": "MARKETCAP - ETHEREUM", "groupid": "72", "columnGroupId": "marketcap-72" },
-  { "columnName": "72:openint", "displayName": "OPENINT - ETHEREUM", "groupid": "72", "columnGroupId": "openint-72" },
-  { "columnName": "72:closeint", "displayName": "CLOSEINT - ETHEREUM", "groupid": "72", "columnGroupId": "closeint-72" },
+  { "columnName": "72:openeur", "displayName": "OPENEUR - ETHEREUM", "groupId": "72", "columnGroupId": "openeur-72" },
+  { "columnName": "72:closeeur", "displayName": "CLOSEEUR - ETHEREUM", "groupId": "72", "columnGroupId": "closeeur-72" },
+  { "columnName": "72:high", "displayName": "HIGH - ETHEREUM", "groupId": "72", "columnGroupId": "high-72" },
+  { "columnName": "72:low", "displayName": "LOW - ETHEREUM", "groupId": "72", "columnGroupId": "low-72" },
+  { "columnName": "72:volume", "displayName": "VOLUME - ETHEREUM", "groupId": "72", "columnGroupId": "volume-72" },
+  { "columnName": "72:marketcap", "displayName": "MARKETCAP - ETHEREUM", "groupId": "72", "columnGroupId": "marketcap-72" },
+  { "columnName": "72:openint", "displayName": "OPENINT - ETHEREUM", "groupId": "72", "columnGroupId": "openint-72" },
+  { "columnName": "72:closeint", "displayName": "CLOSEINT - ETHEREUM", "groupId": "72", "columnGroupId": "closeint-72" },
 
-  { "columnName": "73:openeur", "displayName": "OPENEUR - SOLANA", "groupid": "73", "columnGroupId": "openeur-73" },
-  { "columnName": "73:closeeur", "displayName": "CLOSEEUR - SOLANA", "groupid": "73", "columnGroupId": "closeeur-73" },
-  { "columnName": "73:high", "displayName": "HIGH - SOLANA", "groupid": "73", "columnGroupId": "high-73" },
-  { "columnName": "73:low", "displayName": "LOW - SOLANA", "groupid": "73", "columnGroupId": "low-73" },
-  { "columnName": "73:volume", "displayName": "VOLUME - SOLANA", "groupid": "73", "columnGroupId": "volume-73" },
-  { "columnName": "73:marketcap", "displayName": "MARKETCAP - SOLANA", "groupid": "73", "columnGroupId": "marketcap-73" },
-  { "columnName": "73:openint", "displayName": "OPENINT - SOLANA", "groupid": "73", "columnGroupId": "openint-73" },
-  { "columnName": "73:closeint", "displayName": "CLOSEINT - SOLANA", "groupid": "73", "columnGroupId": "closeint-73" },
+  { "columnName": "73:openeur", "displayName": "OPENEUR - SOLANA", "groupId": "73", "columnGroupId": "openeur-73" },
+  { "columnName": "73:closeeur", "displayName": "CLOSEEUR - SOLANA", "groupId": "73", "columnGroupId": "closeeur-73" },
+  { "columnName": "73:high", "displayName": "HIGH - SOLANA", "groupId": "73", "columnGroupId": "high-73" },
+  { "columnName": "73:low", "displayName": "LOW - SOLANA", "groupId": "73", "columnGroupId": "low-73" },
+  { "columnName": "73:volume", "displayName": "VOLUME - SOLANA", "groupId": "73", "columnGroupId": "volume-73" },
+  { "columnName": "73:marketcap", "displayName": "MARKETCAP - SOLANA", "groupId": "73", "columnGroupId": "marketcap-73" },
+  { "columnName": "73:openint", "displayName": "OPENINT - SOLANA", "groupId": "73", "columnGroupId": "openint-73" },
+  { "columnName": "73:closeint", "displayName": "CLOSEINT - SOLANA", "groupId": "73", "columnGroupId": "closeint-73" },
 
-  { "columnName": "74:openeur", "displayName": "OPENEUR - SHIBA INU", "groupid": "74", "columnGroupId": "openeur-74" },
-  { "columnName": "74:closeeur", "displayName": "CLOSEEUR - SHIBA INU", "groupid": "74", "columnGroupId": "closeeur-74" },
-  { "columnName": "74:high", "displayName": "HIGH - SHIBA INU", "groupid": "74", "columnGroupId": "high-74" },
-  { "columnName": "74:low", "displayName": "LOW - SHIBA INU", "groupid": "74", "columnGroupId": "low-74" },
-  { "columnName": "74:volume", "displayName": "VOLUME - SHIBA INU", "groupid": "74", "columnGroupId": "volume-74" },
-  { "columnName": "74:marketcap", "displayName": "MARKETCAP - SHIBA INU", "groupid": "74", "columnGroupId": "marketcap-74" },
-  { "columnName": "74:openint", "displayName": "OPENINT - SHIBA INU", "groupid": "74", "columnGroupId": "openint-74" },
-  { "columnName": "74:closeint", "displayName": "CLOSEINT - SHIBA INU", "groupid": "74", "columnGroupId": "closeint-74" },
+  { "columnName": "74:openeur", "displayName": "OPENEUR - SHIBA INU", "groupId": "74", "columnGroupId": "openeur-74" },
+  { "columnName": "74:closeeur", "displayName": "CLOSEEUR - SHIBA INU", "groupId": "74", "columnGroupId": "closeeur-74" },
+  { "columnName": "74:high", "displayName": "HIGH - SHIBA INU", "groupId": "74", "columnGroupId": "high-74" },
+  { "columnName": "74:low", "displayName": "LOW - SHIBA INU", "groupId": "74", "columnGroupId": "low-74" },
+  { "columnName": "74:volume", "displayName": "VOLUME - SHIBA INU", "groupId": "74", "columnGroupId": "volume-74" },
+  { "columnName": "74:marketcap", "displayName": "MARKETCAP - SHIBA INU", "groupId": "74", "columnGroupId": "marketcap-74" },
+  { "columnName": "74:openint", "displayName": "OPENINT - SHIBA INU", "groupId": "74", "columnGroupId": "openint-74" },
+  { "columnName": "74:closeint", "displayName": "CLOSEINT - SHIBA INU", "groupId": "74", "columnGroupId": "closeint-74" },
 
-  { "columnName": "75:openeur", "displayName": "OPENEUR - BINANCE COIN", "groupid": "75", "columnGroupId": "openeur-75" },
-  { "columnName": "75:closeeur", "displayName": "CLOSEEUR - BINANCE COIN", "groupid": "75", "columnGroupId": "closeeur-75" },
-  { "columnName": "75:high", "displayName": "HIGH - BINANCE COIN", "groupid": "75", "columnGroupId": "high-75" },
-  { "columnName": "75:low", "displayName": "LOW - BINANCE COIN", "groupid": "75", "columnGroupId": "low-75" },
-  { "columnName": "75:volume", "displayName": "VOLUME - BINANCE COIN", "groupid": "75", "columnGroupId": "volume-75" },
-  { "columnName": "75:marketcap", "displayName": "MARKETCAP - BINANCE COIN", "groupid": "75", "columnGroupId": "marketcap-75" },
-  { "columnName": "75:openint", "displayName": "OPENINT - BINANCE COIN", "groupid": "75", "columnGroupId": "openint-75" },
-  { "columnName": "75:closeint", "displayName": "CLOSEINT - BINANCE COIN", "groupid": "75", "columnGroupId": "closeint-75" },
+  { "columnName": "75:openeur", "displayName": "OPENEUR - BINANCE COIN", "groupId": "75", "columnGroupId": "openeur-75" },
+  { "columnName": "75:closeeur", "displayName": "CLOSEEUR - BINANCE COIN", "groupId": "75", "columnGroupId": "closeeur-75" },
+  { "columnName": "75:high", "displayName": "HIGH - BINANCE COIN", "groupId": "75", "columnGroupId": "high-75" },
+  { "columnName": "75:low", "displayName": "LOW - BINANCE COIN", "groupId": "75", "columnGroupId": "low-75" },
+  { "columnName": "75:volume", "displayName": "VOLUME - BINANCE COIN", "groupId": "75", "columnGroupId": "volume-75" },
+  { "columnName": "75:marketcap", "displayName": "MARKETCAP - BINANCE COIN", "groupId": "75", "columnGroupId": "marketcap-75" },
+  { "columnName": "75:openint", "displayName": "OPENINT - BINANCE COIN", "groupId": "75", "columnGroupId": "openint-75" },
+  { "columnName": "75:closeint", "displayName": "CLOSEINT - BINANCE COIN", "groupId": "75", "columnGroupId": "closeint-75" },
 
-  { "columnName": "76:openeur", "displayName": "OPENEUR - XRP", "groupid": "76", "columnGroupId": "openeur-76" },
-  { "columnName": "76:closeeur", "displayName": "CLOSEEUR - XRP", "groupid": "76", "columnGroupId": "closeeur-76" },
-  { "columnName": "76:high", "displayName": "HIGH - XRP", "groupid": "76", "columnGroupId": "high-76" },
-  { "columnName": "76:low", "displayName": "LOW - XRP", "groupid": "76", "columnGroupId": "low-76" },
-  { "columnName": "76:volume", "displayName": "VOLUME - XRP", "groupid": "76", "columnGroupId": "volume-76" },
-  { "columnName": "76:marketcap", "displayName": "MARKETCAP - XRP", "groupid": "76", "columnGroupId": "marketcap-76" },
-  { "columnName": "76:openint", "displayName": "OPENINT - XRP", "groupid": "76", "columnGroupId": "openint-76" },
-  { "columnName": "76:closeint", "displayName": "CLOSEINT - XRP", "groupid": "76", "columnGroupId": "closeint-76" }
+  { "columnName": "76:openeur", "displayName": "OPENEUR - XRP", "groupId": "76", "columnGroupId": "openeur-76" },
+  { "columnName": "76:closeeur", "displayName": "CLOSEEUR - XRP", "groupId": "76", "columnGroupId": "closeeur-76" },
+  { "columnName": "76:high", "displayName": "HIGH - XRP", "groupId": "76", "columnGroupId": "high-76" },
+  { "columnName": "76:low", "displayName": "LOW - XRP", "groupId": "76", "columnGroupId": "low-76" },
+  { "columnName": "76:volume", "displayName": "VOLUME - XRP", "groupId": "76", "columnGroupId": "volume-76" },
+  { "columnName": "76:marketcap", "displayName": "MARKETCAP - XRP", "groupId": "76", "columnGroupId": "marketcap-76" },
+  { "columnName": "76:openint", "displayName": "OPENINT - XRP", "groupId": "76", "columnGroupId": "openint-76" },
+  { "columnName": "76:closeint", "displayName": "CLOSEINT - XRP", "groupId": "76", "columnGroupId": "closeint-76" }
 ]
 ;
 
@@ -90,6 +91,25 @@ $(window).on('load', function() {
 	$('#nav-tabContent').show();
 });
 $(document).ready(function() {
+	
+
+    // jqxDropDownList with checkboxes
+    $("#dropDownSelection").on('checkChange', function (event) {
+        var itemValue = event.args.item.value;
+        var isChecked = event.args.checked;
+
+        if (isChecked) {
+            // Add the checked item to the array if not already there
+            if (!selectedItems.includes(itemValue)) {
+                selectedItems.push(itemValue);
+            }
+        } else {
+            // Remove the unchecked item from the array
+            selectedItems = selectedItems.filter(item => item !== itemValue);
+        }
+
+        console.log(selectedItems.join(", "));
+    });
 
 	initializeNewsBanner();
 	initializeNavigationButtons();
@@ -142,7 +162,26 @@ $(document).ready(function() {
 
 
    $("#dropDownSelection").jqxDropDownList({ checkboxes: true,  theme:'dark', source: configData , selectedIndex: 0,  displayMember: "displayName", valueMember: "columnName", width: '200px', height: '35px', dropDownHeight: 400});
+	 $('.jqx-checkbox').on('change', function (event) {
+		     const checkedItemValues = checkedItemid.filter(item => item != null);
+		     if(checkedItemValues[0]!="#jqxCheckBoxAll")
+		    { groupIdToFilter= itemValue[checkedItemValues[0]].GroupId;
+		     
+		      filteredData = configData.filter(item => item.groupId === groupIdToFilter);
+		     }
+		     else
+		       filteredData = configData;
 
+		    $("#dropDownSelection").jqxDropDownList({
+		        source: filteredData,  // Bind the filtered data
+		        displayMember: "displayName",  // Display name for each item
+		        valueMember: "columnName"  // Value associated with each item
+		    });
+		     selectedItems=[];
+		     $("#dropDownSelection").clear();
+		   
+		    
+	 });
 		// Check all items when clicking "Check All"
 	var isBulkAction = false; // Flag to detect bulk actions
 
@@ -198,6 +237,8 @@ function initialiazeClearFilterButtons(items) {
 		}
 		resetDate();
 	});
+	
+	$("#dropDownSelection").jqxDropDownList('clear'); 
 }
 function uncheckAllItems(items) {
 	for (var i = 0; i < items.length; i++) {
@@ -231,11 +272,15 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 
         const checkedItemValues = checkedItemid.filter(item => item != null);
         
+	    var checkedItems = selectedItems.join(', ')
    
         var items = $("#dropDownSelection").jqxDropDownList('getCheckedItems');
         var checkedItems = items.map(i => i.value).join(", ");
             console.log(checkedItems);
          let requestData;
+         if(getChartPeriodPerformance()=='w')
+         fromdate='Week '+getISOWeekNumber(date);
+         
       if(checkedItems!='')
 	        requestData = [{
 			            groupId1: checkedItems,
@@ -269,6 +314,27 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
         // Handle the response data here
         $("#mainChart").removeClass("d-none");
         $("#timeline-chart").addClass("d-none");
+        
+       if(checkedItems!='')
+        {
+			const orderResult = reorderDataWithLabels(  data[0].labels.map(label => {return label.trim().replace(/\s*-\s*/g, '-')}),
+				  data[0].values ,
+				  selectedItems.map(label => {return label.split(':')[1]+'-'+label.split(':')[0]}));
+			
+        
+        json.data = orderResult.data;
+        json.series =  json.data.length==0?[]:[{
+			data:     json.data
+		}]
+        json.labels = orderResult.labels.map(label => {
+				    const cleanedLabel = label.trim().replace(/\s*-\s*/g, '-'); // Remove extra spaces
+				    const matchedItem = configData.find(item => item.columnGroupId === cleanedLabel); 
+				    return matchedItem ? matchedItem.displayName : cleanedLabel; // Return displayName if found, else label
+				});
+			
+		}
+        else
+        {        
         json.series = data[0].values.length==0?[]:[{
 			data: data[0].values
 		}];
@@ -277,18 +343,20 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 				    const matchedItem = configData.find(item => item.columnGroupId === cleanedLabel); 
 				    return matchedItem ? matchedItem.displayName : cleanedLabel; // Return displayName if found, else label
 				});
+			}
 				  
         const result = getColorsAndImagesForLabels(json.labels);
         json.images = result.images;
         
+         if(checkedItems!='') {
+		     json.title = 'Cryptos Performance'+" In "+ fromdate;
+
+		}
+		else
          if (typeof itemValue !== 'undefined' && checkedItemValues.length > 0) {
 		     json.title = titleGroupMap[itemValue[checkedItemValues[0]].GroupId] +" In "+ fromdate;
 
-		}  if(checkedItems!='') {
-		     json.title = 'Crypto Performance'+" In "+ fromdate;
-
-		}
-		
+		} 
         json.chartId = 'mainChart';
         json.width = 1078;
         json.height=(checkedItems!='')?getHeightBasedOnCount(checkedItems):525;
@@ -327,7 +395,9 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 
     // Save graph history if saveHistory is true
     if (saveHistory) {
-        saveGraphHistory(graphName, checkedItemid, null, null);
+        if(checkedItemid[0]!="#jqxCheckBoxAll")
+     	   saveGraphHistory(graphName, checkedItemid, null, null)
+        ;
     }
 }
 
@@ -689,4 +759,27 @@ function getISOWeekNumber(date) {
     // Calculate the ISO week number
     const weekNumber = Math.ceil(((tempDate - yearStart) / 86400000 + 1) / 7);
     return weekNumber;
+}
+function reorderDataWithLabels(originalLabels, originalData, desiredOrder) {
+    // Create a map of labels to their corresponding data values
+    let dataMap = {};
+    for (let i = 0; i < originalLabels.length; i++) {
+        dataMap[originalLabels[i]] = originalData[i];
+    }
+
+    // Reorder the labels and data based on the desired order
+    let reorderedLabels = [];
+    let reorderedData = [];
+
+    for (let label of desiredOrder) {
+        if (dataMap.hasOwnProperty(label)) {
+            reorderedLabels.push(label);
+            reorderedData.push(dataMap[label]);
+        }
+    }
+
+    return {
+        labels: reorderedLabels,
+        data: reorderedData
+    };
 }

@@ -550,6 +550,59 @@ public class CryptosService {
 			return l1; 
 		
 		}
+		
+		public List<GraphResponseColConfigDTO> getGraphDataResultForFourHoursIntereval(GraphRequestDTO graphReqDTO) {
+
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+		
+			List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+			
+			if(graphReqDTO.getGroupId1()!=null)
+			{
+				l1.add(getCandleGraphDataResultForFourHoursIntereval(graphReqDTO));
+			}
+			if(graphReqDTO.getIsFunctionGraph()!=null?graphReqDTO.getIsFunctionGraph().equals("true"):false)
+			{   
+			   l1.add(getGraphDataResultFourHoursInterval(graphReqDTO,true));
+			}
+			return l1; 
+		
+		}
+		
+		public List<GraphResponseColConfigDTO> getCandleGraphDataForFourHoursIntereval(GraphRequestDTO graphReqDTO) {
+
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+		
+			List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+			
+			if(graphReqDTO.getGroupId1()!=null)
+			{
+				l1.add(getGraphDataResultFourHoursInterval(graphReqDTO,true));
+			}
+			if(graphReqDTO.getIsFunctionGraph()!=null?graphReqDTO.getIsFunctionGraph().equals("true"):false)
+			{   
+			   l1.add(getGraphDataResultFourHoursInterval(graphReqDTO,true));
+			}if(graphReqDTO.getGroupId2()!=null)
+			{
+				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId2())
+						   .subGroupId1(graphReqDTO.getSubGroupId2())
+						   .period(graphReqDTO.getPeriod())
+						   .type(graphReqDTO.getType())
+						   .fromdate(graphReqDTO.getFromdate())
+						   .todate(graphReqDTO.getTodate())
+						   .functionId(graphReqDTO.getFunctionId())
+						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+						   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+						   .build();
+				l1.add(getGraphDataResultFourHoursInterval(graphRequestDTO,false));
+			}
+			return l1; 
+		
+		}
 		public List<GraphResponseColConfigDTO> getCandleGraphData(GraphRequestDTO graphReqDTO) {
 
 			boolean hasData= adminService.getData();
@@ -675,6 +728,88 @@ public class CryptosService {
 			return graphResponseColConfigDTO; 
 		    
 		}
+	  public GraphResponseColConfigDTO getGraphDataResultFourHoursInterval(GraphRequestDTO graphReqDTO, Boolean isFunction) {
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+
+			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("cr_dyanamic_calculation_graph",GraphResponseDTO.class);
+			
+			List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+			ColumnConfiguration config = null;
+			GraphResponseColConfigDTO graphResponseColConfigDTO = null;
+			
+			String groupId = graphReqDTO.getGroupId1();
+			String subGroupId = graphReqDTO.getSubGroupId1(); 
+			String description = null;
+			String tableName= null;
+			
+			description = tableManagementRepository.findByGroupIdAndSubgroupId(groupId,subGroupId).getColumnName()+"-"+groupId;
+				
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			    System.out.println("period: "+graphReqDTO.getPeriod());
+			    System.out.println("type: "+graphReqDTO.getType());
+			    System.out.println("fromdate:"+graphReqDTO.getFromdate()+" to date:"+"graphReqDTO.getTodate()");
+			    config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+
+			    if(groupId.equalsIgnoreCase("71"))
+			    	 tableName ="cr_btc_high_low";
+			    else  if(groupId.equalsIgnoreCase("72"))
+			    	tableName ="cr_ethereum_high_low";
+			    else  if(groupId.equalsIgnoreCase("73"))
+			    	tableName ="cr_solana_high_low";
+			    else  if(groupId.equalsIgnoreCase("74"))
+			    	tableName ="cr_shiba_high_low";
+			    else  if(groupId.equalsIgnoreCase("75"))
+			    	tableName ="cr_binance_high_low";
+			    else  if(groupId.equalsIgnoreCase("76"))
+			    	tableName ="cr_xrp_high_low";
+			    
+				query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+				query.setParameter("fromDate",graphReqDTO.getFromdate() );
+				
+				query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+				query.setParameter("toDate",graphReqDTO.getTodate() );
+				 
+				query.registerStoredProcedureParameter("tableName", String.class, ParameterMode.IN);
+				query.setParameter("tableName",tableName);
+				
+				query.registerStoredProcedureParameter("columnName", String.class, ParameterMode.IN);
+				query.setParameter("columnName",checkString(description) );
+				
+				query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+				query.setParameter("factor",graphReqDTO.getFactor1());
+				
+				query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+				query.setParameter("dayOrweek",(isFunction)?"d":graphReqDTO.getPeriod() );
+				
+				query.execute();
+				
+				List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+				List<GraphResponseDTO> graphResponseDTOlstEmpty= LiquidityUtil.removeReplaceEmptyValueWithNull(graphResponseDTOlst1);
+				graphResponseDTOlst1.clear();
+				graphResponseDTOlst1=graphResponseDTOlstEmpty;
+				
+				if (graphReqDTO.getRemoveEmpty1()!=null)
+					if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
+					{	
+						List<GraphResponseDTO> graphResponseDTOlst= LiquidityUtil.removeEmptyY(graphResponseDTOlst1);
+						graphResponseDTOlst1.clear();
+						graphResponseDTOlst1=graphResponseDTOlst;
+					}
+					
+			  graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+						                  .graphResponseDTOLst(graphResponseDTOlst1)
+						                  .config(config)
+						                  .build();
+				entityManager.clear();
+				entityManager.close();
+			
+			return graphResponseColConfigDTO; 
+		    
+		}
 	  public GraphResponseColConfigDTO getCandleGraphDataResult(GraphRequestDTO graphReqDTO) {
 			boolean hasData= adminService.getData();
 		    if(!hasData)
@@ -749,6 +884,93 @@ public class CryptosService {
 			return graphResponseColConfigDTO; 
 		    
 		}
+
+	  public GraphResponseColConfigDTO getCandleGraphDataResultForFourHoursIntereval(GraphRequestDTO graphReqDTO) {
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+
+			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_candlestick_graph_four_hour_interval",GraphResponseDTO.class);
+			
+			List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+			ColumnConfiguration config = null;
+			GraphResponseColConfigDTO graphResponseColConfigDTO = null;
+			
+			String groupId = graphReqDTO.getGroupId1();
+			String subGroupId = graphReqDTO.getSubGroupId1(); 
+			String description = null;
+			String tableName = null;
+			TableManagement tableManagement = tableManagementRepository.findByGroupIdAndSubgroupId(groupId,subGroupId);
+			description = tableManagement.getColumnName()+"-"+groupId;
+			
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			    System.out.println("period: "+graphReqDTO.getPeriod());
+			    System.out.println("type: "+graphReqDTO.getType());
+			    System.out.println("fromdate:"+graphReqDTO.getFromdate()+" to date:"+"graphReqDTO.getTodate()");
+			    config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+			    String[] values  = getColumnValues(groupId, subGroupId);
+			   
+			    if(groupId.equalsIgnoreCase("71"))
+			    	 tableName ="cr_btc_high_low";
+			    else  if(groupId.equalsIgnoreCase("72"))
+			    	tableName ="cr_ethereum_high_low";
+			    else  if(groupId.equalsIgnoreCase("73"))
+			    	tableName ="cr_solana_high_low";
+			    else  if(groupId.equalsIgnoreCase("74"))
+			    	tableName ="cr_shiba_high_low";
+			    else  if(groupId.equalsIgnoreCase("75"))
+			    	tableName ="cr_binance_high_low";
+			    else  if(groupId.equalsIgnoreCase("76"))
+			    	tableName ="cr_xrp_high_low";
+			    
+				query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+				query.setParameter("fromDate",graphReqDTO.getFromdate() );
+				
+				query.registerStoredProcedureParameter("toDateDate", String.class, ParameterMode.IN);
+				query.setParameter("toDateDate",graphReqDTO.getTodate() );
+				
+				query.registerStoredProcedureParameter("tableName", String.class, ParameterMode.IN);
+				query.setParameter("tableName", tableName);
+				
+				query.registerStoredProcedureParameter("column1", String.class, ParameterMode.IN);
+				query.setParameter("column1",values[0]);
+				
+				query.registerStoredProcedureParameter("column2", String.class, ParameterMode.IN);
+				query.setParameter("column2",values[1]);
+				
+				query.registerStoredProcedureParameter("column3", String.class, ParameterMode.IN);
+				query.setParameter("column3",values[2]);
+				
+				query.registerStoredProcedureParameter("column4", String.class, ParameterMode.IN);
+				query.setParameter("column4", values[3]);
+				
+				
+				query.execute();
+				
+				List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+				List<GraphResponseDTO> graphResponseDTOlstEmpty= LiquidityUtil.removeReplaceEmptyValueWithNull(graphResponseDTOlst1);
+				graphResponseDTOlst1.clear();
+				graphResponseDTOlst1=graphResponseDTOlstEmpty;
+				
+				if (graphReqDTO.getRemoveEmpty1()!=null)
+					if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
+					{	
+						List<GraphResponseDTO> graphResponseDTOlst= LiquidityUtil.removeEmptyY(graphResponseDTOlst1);
+						graphResponseDTOlst1.clear();
+						graphResponseDTOlst1=graphResponseDTOlst;
+					}
+					
+			  graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+						                  .graphResponseDTOLst(graphResponseDTOlst1)
+						                  .config(config)
+						                  .build();
+				entityManager.clear();
+			
+			return graphResponseColConfigDTO; 
+		    
+		}
 	  private String[] getColumnValues(String groupId, String subGroupId) {
 		    // Define a map for dynamic configuration
 		    Map<String, String[]> valueMap = new HashMap<>();
@@ -785,4 +1007,24 @@ public class CryptosService {
 		    // Return the mapped values or null if no match is found
 		    return valueMap.get(groupId + "_" + subGroupId);
 		}
+	   public static String checkString(String description) {
+	        // Split the string based on "-"
+	        String[] parts = description.split("-");
+
+	        // Check the first part and return appropriate value
+	        if (parts.length > 0) {
+	            String firstPart = parts[0];
+
+	            if (firstPart.equalsIgnoreCase("openint")) {
+	                return "open";
+	            } else if (firstPart.equalsIgnoreCase("closeint")) {
+	                return "close";
+	            } else {
+	                return firstPart;
+	            }
+	        }
+
+	        // Return empty if the string could not be split
+	        return "";
+	    }
 }

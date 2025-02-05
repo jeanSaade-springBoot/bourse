@@ -154,5 +154,13 @@ public class CryptosController {
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getCandleGraphDataResult(@RequestBody  GraphRequestDTO graphReqDTO) {
 		return new ResponseEntity<>(cryptosService.getCandleGraphData(graphReqDTO),HttpStatus.OK);
 	} 
+	@PostMapping(value = "getgraphdatafourhoursinterval")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getCandleGraphDataForFourHoursIntereval(@RequestBody  GraphRequestDTO graphReqDTO) {
+		return new ResponseEntity<>(cryptosService.getCandleGraphDataForFourHoursIntereval(graphReqDTO),HttpStatus.OK);
+	} 
+	@PostMapping(value = "getcandlegraphdatafourhoursinterval")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataResultForFourHoursIntereval(@RequestBody  GraphRequestDTO graphReqDTO) {
+		return new ResponseEntity<>(cryptosService.getGraphDataResultForFourHoursIntereval(graphReqDTO),HttpStatus.OK);
+	} 
 	
 }

@@ -96,27 +96,33 @@ const groupId=getGroupId(crySubGroupValue);
 checkifcanUrl = "/cryptos/checkifcansave/" + getGroupId(crySubGroupValue) + "/";
 
 saveUrl = "/cryptos/save-cryptos-data";
-updateUrl = "/cryptos/update-bitcoin-data-four-hours";
+
 deleteUrl = "/cryptos/delete-cryptos/"+getGroupId(crySubGroupValue)+"/" ;
 auditUrl = '/cryptos/cryptos-four-hours-data/'+getGroupId(crySubGroupValue)+"/" ;
 
 if (crySubGroupValue == 1) {
 	Type = "Bitcoin";
+	updateUrl = "/cryptos/update-bitcoin-data-four-hours";
 }
 else if (crySubGroupValue == 2) {
 	Type = "Ethereum";
+	updateUrl = "/cryptos/update-ethereum-data-four-hours";
 }
 else if (crySubGroupValue == 3) {
 	Type = "Solana";
+	updateUrl = "/cryptos/update-solana-data-four-hours";
 }
 else if (crySubGroupValue == 4) {
 	Type = "Shiba";
+	updateUrl = "/cryptos/update-shiba-data-four-hours";
 } 
 else if (crySubGroupValue == 5) {
 	Type = "Binance";
+	updateUrl = "/cryptos/update-binance-data-four-hours";
 } 
 else if (crySubGroupValue == 6) {
 	Type = "Xrp";
+	updateUrl = "/cryptos/update-xrp-data-four-hours";
 }
 
 

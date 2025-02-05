@@ -1,39 +1,64 @@
-     
-		var stompClient = null;
-    	const privateStompClient = null;
-		const $bell = document.getElementById('notification');
-		const $bell1 = document.getElementById('notification1');
-		const $bell2 = document.getElementById('notification2');
-		const socket = new SockJS('/ws');
-		stompClient = Stomp.over(socket);
-		stompClient.debug=null;
-		stompClient.connect({}, function(frame) {
-			
-			  if (typeof hasPendingApprovalGrid != 'undefined' )
-	         {
-				if(hasPendingApprovalGrid)
-		    	sendNotification();
-		     }
-		    stompClient.subscribe('/all/messages', function(result) {
-			if(JSON.parse(result.body).value!='0')
-		    	{ $bell.setAttribute('data-count', JSON.parse(result.body).value);
-		    	  $bell.classList.add('show-count');
-		    	  $bell.classList.add('notify');
-				if($bell1!=null)
-				 { $bell1.setAttribute('data-count', JSON.parse(result.body).value);
-		    	  $bell1.classList.add('show-count');
-		    	  $bell1.classList.add('notify');
-				}
-				if($bell2!=null)
-				 { $bell2.setAttribute('data-count', JSON.parse(result.body).value);
-		    	  $bell2.classList.add('show-count');
-		    	  $bell2.classList.add('notify');
-				}
-				}
-		    });
-		});
-		
-		 function sendNotification(){
-		           stompClient.send("/app/application", {},
-		           JSON.stringify({'text':''}));
-		 }
+let stompClient = null;
+let isConnected = false;
+const pendingSubscriptions = [];  // To store subscriptions before the connection is ready
+
+function connectWebSocket() {
+    if (isConnected) {
+        console.log('WebSocket already connected.');
+        return;
+    }
+
+    const socket = new SockJS('/ws');
+    stompClient = Stomp.over(socket);
+    stompClient.debug = null;  // Disable debugging logs (enable if needed)
+
+    // Connect to WebSocket server
+    stompClient.connect({}, function (frame) {
+        isConnected = true;
+
+        // Subscribe to /all/messages directly
+        stompClient.subscribe('/all/messages', function (result) {
+            const parsedBody = JSON.parse(result.body);
+
+            if (parsedBody.value !== '0') {
+                updateNotification(parsedBody.value);
+            }
+        });
+
+        // Process any pending subscriptions
+        pendingSubscriptions.forEach(sub => {
+            stompClient.subscribe(sub.destination, sub.callback);
+        });
+        pendingSubscriptions.length = 0;  // Clear pending subscriptions
+    });
+}
+
+function addSubscription(destination, callback) {
+    if (stompClient && isConnected) {
+        stompClient.subscribe(destination, callback);
+    } else {
+        pendingSubscriptions.push({ destination, callback });
+    }
+}
+
+// Function to update notifications
+function updateNotification(value) {
+    const bell = document.getElementById('notification');
+    const bell1 = document.getElementById('notification1');
+    const bell2 = document.getElementById('notification2');
+
+    if (bell) {
+        bell.setAttribute('data-count', value);
+        bell.classList.add('show-count', 'notify');
+    }
+
+    if (bell1) {
+        bell1.setAttribute('data-count', value);
+        bell1.classList.add('show-count', 'notify');
+    }
+
+    if (bell2) {
+        bell2.setAttribute('data-count', value);
+        bell2.classList.add('show-count', 'notify');
+    }
+}

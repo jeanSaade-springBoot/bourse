@@ -171,7 +171,10 @@
 						</div>
 					    </div>
 				    <div id="grid-content" style="display:none;">
-				 
+					 <div class="mt-2 mb-2">  <div class="btn-group" role="group" aria-label="First group">
+						<button type="button" class="btn btn-secondary mw-100 active" id="DailyData-btn" th:onclick="'javascript:toggleGraphData(1)'" fdprocessedid="tme8jf">Daily Data</button>
+						<button type="button" class="btn btn-secondary mw-100 " id="4HoursData-btn" th:onclick="'javascript:toggleGraphData(2)'" fdprocessedid="jpbc4x">4-Hour Data</button>
+					</div></div>
 				    <div class="row">
 				       <div class="row col-12" id="functionOptionsMenu">
 				   	  	   
@@ -279,9 +282,9 @@
 		   		</div>
 		   		
 				   	  	    <div id='groupOfOptions' class="euro-intr-style"  style="z-index: 1;">
-					            <button style="padding:4px 16px;" id="w">
+					            <button style="padding:4px 16px;" id="international">
 					                Intr</button>
-					             <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
+					             <button style="padding:4px 16px;" id="euroTime" onclick="window.location.href='#mainChart'">
 					                Euro</button>
 					        </div>
 						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px; background: #172568;  border-radius: .25rem;   padding-bottom: 1.5rem;">

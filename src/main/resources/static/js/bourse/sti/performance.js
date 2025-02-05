@@ -424,7 +424,8 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 
     // Save graph history if saveHistory is true
     if (saveHistory) {
-        saveGraphHistory(graphName, checkedItemid, null, null);
+          if(checkedItemid[0]!="#jqxCheckBoxAll")
+     	   saveGraphHistory(graphName, checkedItemid, null, null)
     }
 }
 
