@@ -27,7 +27,7 @@ public class MessageController {
         return message;
     }
     
-    @Scheduled(cron = "0 0/6 * * * ?")// Runs every 5 minutes
+    @Scheduled(cron = "0/30 * * * * ?")// Runs every 5 minutes
     public void updateGraph() {
         try {
             // Create the message
