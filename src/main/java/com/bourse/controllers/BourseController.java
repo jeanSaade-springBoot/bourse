@@ -239,6 +239,19 @@ public class BourseController {
 	    
 	    return modelAndView;
     }
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_USJOBS') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/usjobs")
+    public ModelAndView dataEntryPageUsjobs(@RequestParam("usjobs") String usjobs, ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_USJOBS");
+        model.addAttribute("usjobs", Integer.valueOf(usjobs));
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+        ModelAndView modelAndView = new ModelAndView("html/usjobs/usjobsDataInput");
+	    
+	    return modelAndView;
+    }
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_CRYPTOS') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/cryptos")
     public ModelAndView dataEntryPagecryptos(@RequestParam("cryptos") String cryptos,ModelMap model, Authentication authentication)

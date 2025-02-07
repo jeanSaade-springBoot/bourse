@@ -13,6 +13,7 @@
                 <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_SKEWS')" th:classappend="${datainputmenu == 'DATABASE_INPUT_SCREEN_SKEWS'} ? 'active' : ''"  class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/skews?skews=1" role="tab" aria-controls="nav-any2" aria-selected="false">SKEWS</a>
                 <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_MACRO')" th:classappend="${datainputmenu == 'DATABASE_INPUT_SCREEN_MACRO'} ? 'active' : ''"  class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/macro" role="tab" aria-controls="nav-any2" aria-selected="false">PMIs</a>
           		<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_LONGENDS')" th:classappend="${datainputmenu == 'DATABASE_INPUT_SCREEN_LONGENDS'} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/longends?longend=1" role="tab" aria-controls="nav-any2" aria-selected="false">LONG-END FUTURES</a>
+                <a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN_USJOBS')" th:classappend="${datainputmenu == 'DATABASE_INPUT_SCREEN_USJOBS'} ? 'active' : ''" class="navigation nav-item nav-link" id="nav-column-master-tab" href="/bourse/usjobs?usjobs=1" role="tab" aria-controls="nav-any2" aria-selected="false">US JOBS</a>
           	 </div>
       	  </nav>
   </div>
