@@ -1208,7 +1208,6 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				columns: arrayOFcolumns
 			});
 		$("#deleteUsJobsOpening").click(function() {
-			if (usjobsValue == 1)
 				value = "US JOBS OPENINGS";
 
 			$('#alertDeleteDataByDate-modal').modal('show');
@@ -1229,8 +1228,7 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				editmode: 'selectedrow',
 				columns: arrayOFcolumns
 			});
-		$("#deleteUsADPChange").click(function() {
-			if (usjobsValue == 1)
+		 $("#deleteUsADPChange").click(function() {
 				value = "US ADP CHANGE";
 
 			$('#alertDeleteDataByDate-modal').modal('show');
@@ -1253,7 +1251,7 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 					columns: arrayOFcolumns
 				});
 			$("#deleteUsNFP").click(function() {
-				if (usjobsValue == 1)
+				
 					value = "US NON-FARM PAYROLLS";
 	
 				$('#alertDeleteDataByDate-modal').modal('show');
@@ -1277,7 +1275,6 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				columns: arrayOFcolumns
 			});
 		$("#deleteUsUnempRate").click(function() {
-			if (usjobsValue == 1)
 				value = "US UNEMP. Rate";
 
 			$('#alertDeleteDataByDate-modal').modal('show');
@@ -1301,7 +1298,6 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				columns: arrayOFcolumns
 			});
 		$("#deleteUsHouseHoldSurv").click(function() {
-			if (usjobsValue == 1)
 				value = "US HOUSEHOLD SURVEY of JOBS";
 
 			$('#alertDeleteDataByDate-modal').modal('show');
