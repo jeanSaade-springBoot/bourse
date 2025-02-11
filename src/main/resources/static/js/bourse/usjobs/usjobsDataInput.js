@@ -15,6 +15,14 @@ const nameSubgroupId = [
 	{ name: '78final', subgroupId: '1' },
 	{ name: '78initial', subgroupId: '2' },
 	{ name: '78surv', subgroupId: '3' },
+	{ name: '79final', subgroupId: '1' },
+	{ name: '79index', subgroupId: '2' },
+	{ name: '79initial', subgroupId: '3' },
+	{ name: '79surv', subgroupId: '4' },
+	{ name: '80index', subgroupId: '1' },
+	{ name: '80surv', subgroupId: '2' },
+	{ name: '81civilianLabForce', subgroupId: '1' },
+	{ name: '81employedLabForce', subgroupId: '3' },
 ];
 
 var UsJobsOpeningItem = ["#jqxCheckBoxfinal-77",
@@ -37,8 +45,11 @@ var UsUnempRateItem = ["#jqxCheckBoxindex-80",
 	"#jqxCheckBoxsurv-80",
 ];
 
-var UsHouseHoldSurvItem = ["#jqxCheckBoxindex-80",
-	"#jqxCheckBoxsurv-80",
+var UsHouseHoldSurvItem = ["#jqxCheckBoxcivilianLabForce-81",
+	"#jqxCheckBoxcivilianLabForceChg-81",
+	"#jqxCheckBoxemployedLabForce-81",
+	"#jqxCheckBoxemployedLabForceChg-81",
+	"#jqxCheckBoxunemployed-81",
 ];
 
 var UsJobsOpeningAuditDefaultData = [{
@@ -63,6 +74,11 @@ var UsNFPAuditDefaultData = [{
 var UsUnempRateAuditDefaultData = [{
 	"index": "",
 	"surv": "",
+}];
+
+var UsHouseHoldSurvAuditDefaultData = [{
+	"civilianLabForce": "",
+	"employedLabForce": "",
 }];
 
 var source;
@@ -90,6 +106,10 @@ var inputData79surv = document.getElementById("data-input-79surv");
 var inputData80index = document.getElementById("data-input-80index");
 
 var inputData80surv = document.getElementById("data-input-80surv");
+
+var inputData81civilianLabForce = document.getElementById("data-input-81civilianLabForce");
+
+var inputData81employedLabForce = document.getElementById("data-input-81employedLabForce");
 
 var usjobsType;
 
@@ -287,12 +307,11 @@ function Edit(row, event) {
 	}
 	else if (usjobsValue == 5) {
 		oldDataJson = {
-			"euribor1": data.euribor1,
-			"sonia1": data.sonia1,
-			"libor1": data.libor1,
-			"euribor3": data.euribor3,
-			"sonia3": data.sonia3,
-			"libor3": data.libor3
+			"civilianLabForce": data.civilianLabForce,
+			"civilianLabForceChg": data.civilianLabForceChg,
+			"employedLabForce": data.employedLabForce,
+			"employedLabForceChg": data.employedLabForceChg,
+			"unemployed": data.unemployed
 		};
 	}
 	selectedRow.editrow = row;
@@ -345,12 +364,11 @@ function Edit(row, event) {
 				}
 			}
 		} else if (usjobsValue == 5) {
-			if (($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].euribor1 != null)
-				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].sonia1 != null)
-				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].libor1 != null)
-				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].euribor3 != null)
-				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].sonia3 != null)
-				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].libor3 != null)) {
+			if (($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].civilianLabForce != null)
+				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].civilianLabForceChg != null)
+				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].employedLabForce != null)
+				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].employedLabForceChg != null)
+				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].unemployed != null)) {
 				$('#' + usjobsType + 'AuditGrid').jqxGrid('beginrowedit', row);
 				$("#edit" + row).css("display", "none");
 				$("#actionButtons" + row).css("display", "contents");
@@ -440,6 +458,28 @@ function Update(row, event) {
 	}
 	else if (usjobsValue == 5) {
 		
+		updatedDataJson = {
+			"civilianLabForce": updatedData.civilianLabForce,
+			"civilianLabForceChg": updatedData.civilianLabForceChg,
+			"employedLabForce": updatedData.employedLabForce,
+			"employedLabForceChg": updatedData.employedLabForceChg,
+			"unemployed": updatedData.unemployed,
+		};
+		keys = Object.keys(updatedDataJson);
+		for (var i = 0; i < keys.length; i++) {
+			var field = keys[i];
+			if (updatedDataJson[field] !== oldDataJson[field]) {
+
+				dataToBeUpdated.push({
+					"subgroupId": getSubgroupIdByName(getGroupId(usjobsValue) + field),
+					"groupId": groupId,
+					"value": updatedDataJson[field].replace(',', ''),
+					"referdate": date
+				});
+			}
+		}
+
+	
 	}
 	var updatedJson = [];
 	for (let i = 0; i < keys.length; i++) {
@@ -913,6 +953,59 @@ function renderSubGroup(usjobsValue) {
 			initiate(Type, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
 
 		}
+	} else
+		if (usjobsValue == 5) {
+		
+
+		var defaultData = AuditDefaultData;
+		var fields = [
+			{ name: 'id', type: 'string' },
+			{ name: 'civilianLabForce', type: 'string' },
+			{ name: 'civilianLabForceChg', type: 'string' },
+			{ name: 'employedLabForce', type: 'string' },
+			{ name: 'employedLabForceChg', type: 'string' },
+			{ name: 'unemployed', type: 'string' },
+		];
+		var totalFields = fields.length - 1;
+		var widthPercentage = (100 - 20) / totalFields;
+		var arrayOFcolumns = [
+			{
+				text: '', editable: false, datafield: 'Edit', width: '20%', cellsrenderer: function(row) {
+					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+				}
+			},
+			{ text: '', editable: false, hidden: true, datafield: 'id', width: widthPercentage + '%' },
+			{ text: 'CIVILIAN lab. Force', datafield: 'civilianLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'Chg', datafield: 'civilianLabForceChg', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'EMPLOYED lab. Force', datafield: 'civilianLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'Chg', datafield: 'employedLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'UN-EMPLOYED', datafield: 'civilianLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+		];
+
+		Types = ["81civilianLabForce", "81employedLabForce"];
+		inputDataTypes = [inputData81civilianLabForce, inputData81employedLabForce];
+
+		for (var i = 0; i < Types.length; i++) {
+			var Type = Types[i];
+			inputDataType = inputDataTypes[i];
+
+			items = UsNFPItem;
+			var dataInputGridFields = [
+				(Type.includes("81civilianLabForce")) ? { name: 'civilianLabForce', type: 'string' }
+					: (Type.includes("81employedLabForce")) ? { name: 'employedLabForce', type: 'string' } : null,
+			];
+			var totalFields = dataInputGridFields.length;
+			var widthPercentage = 100 / totalFields;
+
+			var dataInputGridColumns = [
+				(Type.includes("81civilianLabForce")) ? { text: 'final', datafield: 'civilianLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+					: (Type.includes("81employedLabForce")) ? { text: 'inital', datafield: 'employedLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+						: null,
+			];
+
+			initiate(Type, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
+
+		}
 	}
 
 }
@@ -970,6 +1063,10 @@ function getFilterHistory(usjobsValue) {
 					} else if (usjobsValue == 4)
 					for (i = 0; i < UsUnempRateItem.length; i++) {
 						$(UsUnempRateItem[i]).jqxCheckBox({ checked: true });
+					}
+					else if (usjobsValue == 5)
+					for (i = 0; i < UsHouseHoldSurvItem.length; i++) {
+						$(UsHouseHoldSurvItem[i]).jqxCheckBox({ checked: true });
 					}
 			}
 		},
@@ -1189,6 +1286,30 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 			$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete all " + value + " record for the date '" + date + "'?</p>");
 		});
 	}
+		else
+		if (usjobsValue == 5) {
+			
+			$('#UsHouseHoldSurvAuditGrid').jqxGrid(
+			{
+				width: '100%',
+				source: dataAdapter,
+				theme: 'dark',
+				autoheight: true,
+				editable: true,
+				selectionmode: 'none',
+				editmode: 'selectedrow',
+				columns: arrayOFcolumns
+			});
+		$("#deleteUsHouseHoldSurv").click(function() {
+			if (usjobsValue == 1)
+				value = "US HOUSEHOLD SURVEY of JOBS";
+
+			$('#alertDeleteDataByDate-modal').modal('show');
+			date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+			$("#alertTextDeleteDataByDate").empty();
+			$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete all " + value + " record for the date '" + date + "'?</p>");
+		});
+	}
 
 	$("#load" + usjobsType).click(function() {
 		var date = new Date();
@@ -1227,13 +1348,13 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 
 		if ($("#dateInput").jqxDateTimeInput('getDate') < date) {
 			var today = $("#dateInput").jqxDateTimeInput('getDate');
-			// if (usjobsValue != 1)
+			if (usjobsValue != 1 && usjobsValue != 2  &&  usjobsValue != 3  &&  usjobsValue != 4)
 				if (today.getDay() == 6 || today.getDay() == 0) {
 						$('#alert-modal-weekend').modal('show');
 						return;
 					}
 
-			if (usjobsValue == 1)
+			//if (usjobsValue == 1)
 				checkifcanUrl = "/usjobs/checkifcansave/" + groupId + "/" + dataToBeInserted[0].subgroupId + "/";
 
 			today = $.jqx.dataFormat.formatdate(today, 'dd-MM-yyyy')
@@ -1296,7 +1417,11 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 												inputData80index.value = "";
 												inputData80surv.value = "";
 											}
-
+											else if (usjobsValue == 5)
+												{
+												inputData81civilianLabForce.value = "";
+												inputData81employedLabForce.value = "";
+											}
 											$("#dataformInput" + usjobsType).css("display", "block");
 											$("#dataInputButtons" + usjobsType).css("display", "none");
 											$("#dataInputGrid" + usjobsType).css("display", "none");

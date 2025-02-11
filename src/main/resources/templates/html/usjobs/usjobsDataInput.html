@@ -609,6 +609,17 @@ padding-right:.2rem;
 	                       </div>
 						  <div id="UsUnempRateAuditGrid"></div>
 						</div>
+						<div th:if="${usjobs == 5}" class="col-12 p-0" id="UsHouseHoldSurv-audit">
+						   <div class="d-flex justify-content-between pb-1">
+								<div class="col-9 p-0"> 
+									
+								</div>
+								<div class="col-3 p-0">
+								 <button id="deleteUsHouseHoldSurv" style="font-size: .8rem; float: right; ">Delete</button> 
+							   </div>
+						   </div>
+						  <div id="UsHouseHoldSurvAuditGrid"></div>
+						</div>
                  </div>
               </div>
           </div>
@@ -738,7 +749,38 @@ padding-right:.2rem;
              	</div>
          	 </div>
            </div>
-         
+              <div th:if="${usjobs == 5}" class="col-sm-9" id="UsHouseHoldSurv-filter">
+             <h6 class="col font-weight-bold">US HOUSEHOLD SURVEY of JOBS</h6>
+             <div class="d-flex justify-content-between col">
+             	
+             	<div class="col-2">
+             			
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxcivilianLabForce-81' style='float: left;'><span class="checkboxesTitle">CIVILIAN lab. Force</span></div> 
+             		</div>
+             	</div>
+             	<div class="col-2">
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxcivilianLabForceChg-81' style='float: left;'><span class="checkboxesTitle">CIVILIAN lab. Force Chg</span></div> 
+             		</div>
+             	</div>
+					<div class="col-2">
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxemployedLabForce-81' style='float: left;'><span class="checkboxesTitle">EMPLOYED lab. Force</span></div> 
+             		</div>
+             	</div>
+					<div class="col-2">
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxemployedLabForceChg-81' style='float: left;'><span class="checkboxesTitle">EMPLOYED lab. Force Chg</span></div> 
+             		</div>
+             	</div>
+					<div class="col-2">
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxunemployed-81' style='float: left;'><span class="checkboxesTitle">UN-EMPLOYED</span></div> 
+             		</div>
+             	</div>
+         	 </div>
+           </div>
     	</div>
     </div>
    </div>
