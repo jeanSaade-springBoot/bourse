@@ -9,13 +9,13 @@ var checkifcanUrl;
 var AuditDefaultData = [];
 
 const nameSubgroupId = [
-	{ name: '77final', subgroupId: '1' },
+	{ name: '77finals', subgroupId: '1' },
 	{ name: '77initial', subgroupId: '2' },
 	{ name: '77surv', subgroupId: '3' },
-	{ name: '78final', subgroupId: '1' },
+	{ name: '78finals', subgroupId: '1' },
 	{ name: '78initial', subgroupId: '2' },
 	{ name: '78surv', subgroupId: '3' },
-	{ name: '79final', subgroupId: '1' },
+	{ name: '79finals', subgroupId: '1' },
 	{ name: '79index', subgroupId: '2' },
 	{ name: '79initial', subgroupId: '3' },
 	{ name: '79surv', subgroupId: '4' },
