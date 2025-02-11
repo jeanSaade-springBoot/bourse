@@ -1435,8 +1435,14 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 											dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 											if (usjobsValue == 1)
 												$('#UsJobsOpeningAuditGrid').jqxGrid({ source: dataAdapter });
-											else
-												$('#' + usjobsType + 'AuditGrid').jqxGrid({ source: dataAdapter });
+											else if (usjobsValue == 2)
+												$('#UsADPChangeAuditGrid').jqxGrid({ source: dataAdapter });
+											else if (usjobsValue == 3)
+												$('#UsNFPAuditGrid').jqxGrid({ source: dataAdapter });
+											else if (usjobsValue == 4)
+												$('#UsUnempRateAuditGrid').jqxGrid({ source: dataAdapter });
+											else if (usjobsValue == 5)
+												$('#UsHouseHoldSurvAuditGrid').jqxGrid({ source: dataAdapter });
 
 											triggerRobots();
 
