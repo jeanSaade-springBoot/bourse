@@ -20,7 +20,7 @@ var factorContainer='';
 var titleInnerItems='';
 const candleGroupIdSubgroups = [[52, 4], [61, 4]];
 const showGroupOfOptions = false;
-const candleGraphTitle = "Bunds";
+const candleGraphTitle = "BUNDS ( OHLC - 21:00 CLOSE )";
 
  const groupId_Id =  [
                 { Id: '1', groupId: 52, rollingGroupId: 61  ,name:'BUNDS'},

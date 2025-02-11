@@ -7,87 +7,119 @@ var saveUrl;
 var deleteUrl;
 var checkifcanUrl;
 var AuditDefaultData = [];
-        
-const nameSubgroupId =  [
-                    { name: 'FED', subgroupId: '1' },
-                    { name: 'ECB', subgroupId: '2' },
-                    { name: 'BOE', subgroupId: '3' },
-                    { name: 'EU5', subgroupId: '1' },
-                    { name: 'US5', subgroupId: '2' },
-                    ];   
-                                  
-var USJobsOpeningItem = ["#jqxCheckBoxfinal-77",
-						 "#jqxCheckBoxinitial-77",
-						 "#jqxCheckBoxsurv-77"];
 
-var InflationSwapusjobsItem = ["#jqxCheckBoxEU5",
-							  "#jqxCheckBoxUS5"];
-								
-var MortageusjobsItem = ["#jqxCheckBoxUsa30"];
-var FixingsItem = ["#jqxCheckBoxEuribor_1",
-	"#jqxCheckBoxSonia_1",
-	"#jqxCheckBoxLibor_1",
-	"#jqxCheckBoxEuribor_3",
-	"#jqxCheckBoxSonia_3",
-	"#jqxCheckBoxLibor_3"];
-	
-var USJobsOpeningAuditDefaultData = [{
+const nameSubgroupId = [
+	{ name: '77final', subgroupId: '1' },
+	{ name: '77initial', subgroupId: '2' },
+	{ name: '77surv', subgroupId: '3' },
+	{ name: '78final', subgroupId: '1' },
+	{ name: '78initial', subgroupId: '2' },
+	{ name: '78surv', subgroupId: '3' },
+];
+
+var UsJobsOpeningItem = ["#jqxCheckBoxfinal-77",
+	"#jqxCheckBoxinitial-77",
+	"#jqxCheckBoxsurv-77",
+];
+
+var UsADPChangeItem = ["#jqxCheckBoxfinal-78",
+	"#jqxCheckBoxinitial-78",
+	"#jqxCheckBoxsurv-78",
+];
+
+var UsNFPItem = ["#jqxCheckBoxfinal-79",
+	"#jqxCheckBoxrev1-79",
+	"#jqxCheckBoxinitial-79",
+	"#jqxCheckBoxsurv-79",
+];
+
+var UsUnempRateItem = ["#jqxCheckBoxindex-80",
+	"#jqxCheckBoxsurv-80",
+];
+
+var UsHouseHoldSurvItem = ["#jqxCheckBoxindex-80",
+	"#jqxCheckBoxsurv-80",
+];
+
+var UsJobsOpeningAuditDefaultData = [{
 	"final": "",
 	"initial": "",
 	"surv": "",
 }];
-var InflationSwapusjobsAuditDefaultData = [{
-	"eu5": "",
-	"us5": "",
+
+var UsADPChangeAuditDefaultData = [{
+	"final": "",
+	"initial": "",
+	"surv": "",
 }];
-var MortageusjobsAuditDefaultData = [{
-	"usa30": "",
+
+var UsNFPAuditDefaultData = [{
+	"final": "",
+	"rev1": "",
+	"initial": "",
+	"surv": "",
 }];
-var FixingsAuditDefaultData = [{
-	"euribor1": "",
-	"sonia1": "",
-	"libor1": "",
-	"euribor3": "",
-	"sonia3": "",
-	"libor3": "",
+
+var UsUnempRateAuditDefaultData = [{
+	"index": "",
+	"surv": "",
 }];
+
 var source;
 
-	var inputData77final = document.getElementById("data-input-77final");
-		
-	var inputData77initial = document.getElementById("data-input-77initial");
-	
-	var inputData77surv = document.getElementById("data-input-77surv");
-	
-	var inputDataInflationSwapusjobs = document.getElementById("data-input-InflationSwapusjobs");
-	
-	
-	var inputDataMortageusjobs = document.getElementById("data-input-Mortageusjobs");
-	var inputDataFixings = document.getElementById("data-input-Fixings");
+var inputData77final = document.getElementById("data-input-77final");
+
+var inputData77initial = document.getElementById("data-input-77initial");
+
+var inputData77surv = document.getElementById("data-input-77surv");
+
+var inputData78final = document.getElementById("data-input-78final");
+
+var inputData78initial = document.getElementById("data-input-78initial");
+
+var inputData78surv = document.getElementById("data-input-78surv");
+
+var inputData79final = document.getElementById("data-input-79final");
+
+var inputData79rev1 = document.getElementById("data-input-79rev1");
+
+var inputData79initial = document.getElementById("data-input-79initial");
+
+var inputData79surv = document.getElementById("data-input-79surv");
+
+var inputData80index = document.getElementById("data-input-80index");
+
+var inputData80surv = document.getElementById("data-input-80surv");
 
 var usjobsType;
 
 const usjobsValue = $("#usjobsValue")[0].innerText;
-deleteUrl = "/usjobs/deletebyreferdate/" + usjobsValue + "/";
+const groupId = getGroupId(usjobsValue);
+deleteUrl = "/usjobs/delete-usjobs/" + getGroupId(usjobsValue) + "/";
 checkifcanUrl = "/usjobs/checkifcansave/" + getGroupId(usjobsValue) + "/";
 saveUrl = "/usjobs/save-usjobs-data";
 updateUrl = "/usjobs/update-usjobs-data";
-	
+
 if (usjobsValue == 1) {
-	usjobsType = "USJobsOpening";
-	auditUrl = '/usjobs/get-central-banks/'+ getGroupId(usjobsValue) + '/';
+	usjobsType = "UsJobsOpening";
+	auditUrl = '/usjobs/us-jobsopening-data/' + groupId + '/';
 
 }
 else if (usjobsValue == 2) {
-	usjobsType = "InflationSwapusjobs";
-	auditUrl = '/usjobs/get-inflation-swap-usjobs-data/'+ getGroupId(usjobsValue) + '/';
+	usjobsType = "UsADPChange";
+	auditUrl = '/usjobs/us-adpchange-data/' + groupId + '/';
 }
 else if (usjobsValue == 3) {
-	usjobsType = "Mortageusjobs";
-	auditUrl = '/usjobs/get-mortage-usjobs/';
+	usjobsType = "UsNFP";
+	auditUrl = '/usjobs/us-nfp-data/' + groupId + '/';
+
 } else if (usjobsValue == 4) {
-	usjobsType = "Fixings";
-	auditUrl = '/usjobs/get-fixings-data/';
+	usjobsType = "UsUnempRate";
+	auditUrl = '/usjobs/us-unemprate-data/' + groupId + '/';
+}
+else if (usjobsValue == 5) {
+	usjobsType = "UsHouseHoldSurv";
+	auditUrl = '/usjobs/us-householdsurv-data/' + groupId + '/';
 }
 $(document).ready(function() {
 	$('#overlay').fadeOut();
@@ -102,50 +134,51 @@ $(document).ready(function() {
 	$('[data-toggle="tooltip"]').tooltip();
 
 	if (usjobsValue == 1) {
-		$("#USJobsOpening-btn").addClass('active');
+		$("#UsJobsOpening-btn").addClass('active');
 
 	} else
 		if (usjobsValue == 2) {
-			$("#InflationSwapusjobs-btn").addClass('active');
+			$("#UsADPChange-btn").addClass('active');
 		} else
 			if (usjobsValue == 3) {
-				$("#EzMonetary-btn").addClass('active');
+				$("#UsNFP-btn").addClass('active');
 			} else
 				if (usjobsValue == 4) {
-					$("#Fixings_spreads-btn").addClass('active');
-				}
+					$("#UsUnempRate-btn").addClass('active');
+				} else
+					if (usjobsValue == 5) {
+						$("#UsHouseHoldSurv-btn").addClass('active');
+					}
 
 	renderSubGroup(usjobsValue);
-if(usjobsValue==1)
-	{ 
-	$("#dateInput").jqxDateTimeInput({theme: 'dark',  views:["year","decade"]
-   , width: "110px"
-   , height: "25px"
-   , formatString : "MMM-yy" });
-	$("#dateInputAudit").jqxDateTimeInput({ theme: 'dark',  views:["year","decade"]
-   , width: "110px"
-   , height: "25px"
-   , formatString : "MMM-yy" });
-   	  
-	$("#dateInputFrom").jqxDateTimeInput({theme: 'dark',  views:["year","decade"]
-   , width: "110px"
-   , height: "25px"
-   , formatString :"MMM-yy" });
-	$("#dateInputFrom").jqxDateTimeInput('setDate', monthDate);
-	$("#dateInputTo").jqxDateTimeInput({ theme: 'dark',  views:["year","decade"]
-   , width: "110px"
-   , height: "25px"
-   , formatString : "MMM-yy" });
 	
-	}
-	else{
-	$("#dateInput").jqxDateTimeInput({ theme: 'dark', width: '195px', height: '25px' });
-	$("#dateInputAudit").jqxDateTimeInput({ theme: 'dark', width: '195px', height: '25px' });
-	$("#dateInputFrom").jqxDateTimeInput({ theme: 'dark', width: '200px', height: '25px' });
+	$("#dateInput").jqxDateTimeInput({
+		theme: 'dark', views: ["year", "decade"]
+		, width: "110px"
+		, height: "25px"
+		, formatString: "MMM-yy"
+	});
+	$("#dateInputAudit").jqxDateTimeInput({
+		theme: 'dark', views: ["year", "decade"]
+		, width: "110px"
+		, height: "25px"
+		, formatString: "MMM-yy"
+	});
+
+	$("#dateInputFrom").jqxDateTimeInput({
+		theme: 'dark', views: ["year", "decade"]
+		, width: "110px"
+		, height: "25px"
+		, formatString: "MMM-yy"
+	});
 	$("#dateInputFrom").jqxDateTimeInput('setDate', monthDate);
-	$("#dateInputTo").jqxDateTimeInput({ theme: 'dark', width: '200px', height: '25px' });
-	
-	}
+	$("#dateInputTo").jqxDateTimeInput({
+		theme: 'dark', views: ["year", "decade"]
+		, width: "110px"
+		, height: "25px"
+		, formatString: "MMM-yy"
+	});
+
 	$("#filter").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	$("#Clearfilter").jqxButton({ theme: 'dark', height: 30, width: 74 });
 
@@ -154,25 +187,18 @@ if(usjobsValue==1)
 		datatype: "json",
 		datafields: [
 			{ name: 'refer_date', type: 'date' },
-			{ name: 'USA30', type: 'float' },
-			
-			{ name: 'EURIBOR_1', type: 'float' },
-			{ name: 'SONIA_1', type: 'float' },
-			{ name: 'LIBOR_1', type: 'float' },
-			{ name: 'EURIBOR_3', type: 'float' },
-			{ name: 'SONIA_3', type: 'float' },
-			{ name: 'LIBOR_3', type: 'float' },
-			
-			{ name: 'BOE-18.48', type: 'float' },
-			{ name: 'BOE-17.48', type: 'float' },
-			{ name: 'ECB-18.48', type: 'float' },
-			{ name: 'ECB-17.48', type: 'float' },
-			{ name: 'FED-18.48', type: 'float' },
-			{ name: 'FED-17.48', type: 'float' },
-			
-			{ name: 'US5' , type: 'float' },
-			{ name: 'EU5', type: 'float' },
-			
+			{ name: 'FINAL-77', type: 'float' },
+			{ name: 'INITIAL-77', type: 'float' },
+			{ name: 'SURV-77', type: 'float' },
+			{ name: 'FINAL-78', type: 'float' },
+			{ name: 'INITIAL-78', type: 'float' },
+			{ name: 'SURV-78', type: 'float' },
+			{ name: 'FINAL-79', type: 'float' },
+			{ name: 'REV1-79', type: 'float' },
+			{ name: 'INITIAL-79', type: 'float' },
+			{ name: 'SURV-79', type: 'float' },
+			{ name: 'INDEX-80', type: 'float' },
+			{ name: 'SURV-80', type: 'float' },
 		],
 		id: 'id',
 		localdata: ''
@@ -213,22 +239,26 @@ if(usjobsValue==1)
 });// end document ready
 $("#Clearfilter").click(function() {
 	if (usjobsValue == 1) {
-		for (i = 0; i < USJobsOpeningItem.length; i++) {
-			$(USJobsOpeningItem[i]).jqxCheckBox({ checked: false });
+		for (i = 0; i < UsJobsOpeningItem.length; i++) {
+			$(UsJobsOpeningItem[i]).jqxCheckBox({ checked: false });
 		}
 	}
 	else if (usjobsValue == 2) {
-		for (i = 0; i < InflationSwapusjobsItem.length; i++) {
-			$(InflationSwapusjobsItem[i]).jqxCheckBox({ checked: false });
+		for (i = 0; i < UsADPChangeItem.length; i++) {
+			$(UsADPChangeItem[i]).jqxCheckBox({ checked: false });
 		}
 	}
 	else if (usjobsValue == 3) {
-		for (i = 0; i < MortageusjobsItem.length; i++) {
-			$(MortageusjobsItem[i]).jqxCheckBox({ checked: false });
+		for (i = 0; i < UsNFPItem.length; i++) {
+			$(UsNFPItem[i]).jqxCheckBox({ checked: false });
 		}
 	} else if (usjobsValue == 4) {
-		for (i = 0; i < FixingsItem.length; i++) {
-			$(FixingsItem[i]).jqxCheckBox({ checked: false });
+		for (i = 0; i < UsUnempRateItem.length; i++) {
+			$(UsUnempRateItem[i]).jqxCheckBox({ checked: false });
+		}
+	} else if (usjobsValue == 5) {
+		for (i = 0; i < UsHouseHoldSurvItem.length; i++) {
+			$(UsHouseHoldSurvItem[i]).jqxCheckBox({ checked: false });
 		}
 	}
 });
@@ -236,23 +266,26 @@ function Edit(row, event) {
 
 	isedit = true;
 	var data = $('#' + usjobsType + 'AuditGrid').jqxGrid('getrowdata', row);
-	if (usjobsValue == 1) {
+	if (usjobsValue == 1 || usjobsValue == 2) {
 		oldDataJson = {
-			"final": data.final,
+			"finals": data.finals,
 			"initial": data.initial,
 			"surv": data.surv,
-			};
-	} else if (usjobsValue == 2) {
-		oldDataJson = {
-			"eu5": data.eu5,
-			"us5": data.us5,
 		};
 	} else if (usjobsValue == 3) {
+			oldDataJson = {
+			"finals": data.finals,
+			"rev1": data.rev1,
+			"initial": data.initial,
+			"surv": data.surv,
+		};
+	} else if (usjobsValue == 4) {
 		oldDataJson = {
-			"usa30": data.usa30
+			"index": data.index,
+			"surv": data.surv,
 		};
 	}
-		else if (usjobsValue == 4) {
+	else if (usjobsValue == 5) {
 		oldDataJson = {
 			"euribor1": data.euribor1,
 			"sonia1": data.sonia1,
@@ -271,10 +304,10 @@ function Edit(row, event) {
 		$('#' + usjobsType + 'AuditGrid').jqxGrid({ source: dataAdapter });
 	}
 	setTimeout(function() {
-		if (usjobsValue == 1) {
-			if (($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].fed != null) &&
-				($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].ecb != null) &&
-				($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].boe != null)) {
+		if (usjobsValue == 1 || usjobsValue == 2) {
+			if (($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].finals != null) &&
+				($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].initial != null) &&
+				($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].surv != null)) {
 				$('#' + usjobsType + 'AuditGrid').jqxGrid('beginrowedit', row);
 				$("#edit" + row).css("display", "none");
 				$("#actionButtons" + row).css("display", "contents");
@@ -285,9 +318,11 @@ function Edit(row, event) {
 				}
 			}
 		}
-		else if (usjobsValue == 2) {
-			if (($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].eu5 != null) &&
-				($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].us5 != null)) {
+		else if (usjobsValue == 3) {
+			if  (($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].finals != null) &&
+				($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].rev1 != null) &&
+				($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].initial != null) &&
+				($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].surv != null)) {
 				$('#' + usjobsType + 'AuditGrid').jqxGrid('beginrowedit', row);
 				$("#edit" + row).css("display", "none");
 				$("#actionButtons" + row).css("display", "contents");
@@ -297,8 +332,9 @@ function Edit(row, event) {
 					}
 				}
 			}
-		} else if (usjobsValue == 3) {
-			if (($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].usa30 != null)) {
+		} else if (usjobsValue == 4) {
+			if (($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].index != null) &&
+				($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].surv != null)) {
 				$('#' + usjobsType + 'AuditGrid').jqxGrid('beginrowedit', row);
 				$("#edit" + row).css("display", "none");
 				$("#actionButtons" + row).css("display", "contents");
@@ -308,22 +344,22 @@ function Edit(row, event) {
 					}
 				}
 			}
-		}else if (usjobsValue == 4) {
-			   if (($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].euribor1 != null)
+		} else if (usjobsValue == 5) {
+			if (($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].euribor1 != null)
 				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].sonia1 != null)
 				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].libor1 != null)
 				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].euribor3 != null)
 				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].sonia3 != null)
 				&& ($('#' + usjobsType + 'AuditGrid').jqxGrid('getrows')[0].libor3 != null)) {
-					$('#' + usjobsType + 'AuditGrid').jqxGrid('beginrowedit', row);
-					$("#edit" + row).css("display", "none");
-					$("#actionButtons" + row).css("display", "contents");
-					if (event) {
-						if (event.preventDefault) {
-							event.preventDefault();
-						}
+				$('#' + usjobsType + 'AuditGrid').jqxGrid('beginrowedit', row);
+				$("#edit" + row).css("display", "none");
+				$("#actionButtons" + row).css("display", "contents");
+				if (event) {
+					if (event.preventDefault) {
+						event.preventDefault();
 					}
 				}
+			}
 		}
 
 		return false;
@@ -337,117 +373,80 @@ function Update(row, event) {
 	var updatedDataJson;
 	var keys;
 	var updatedData = $('#' + usjobsType + 'AuditGrid').jqxGrid('getrowdata', row);
+	const groupId = getGroupId(usjobsValue);
 	selectedRow.editrow = -1;
 	$('#' + usjobsType + 'AuditGrid').jqxGrid('endrowedit', row);
 	var updatedData = $('#' + usjobsType + 'AuditGrid').jqxGrid('getrowdata', row);
-	if (usjobsValue == 1) {
+	if (usjobsValue == 1 || usjobsValue == 2) {
 		updatedDataJson = {
-			"final": data.final,
-			"initial": data.initial,
-			"surv": data.surv,
+			"finals": updatedData.finals,
+			"initial": updatedData.initial,
+			"surv": updatedData.surv,
 		};
 		keys = Object.keys(updatedDataJson);
 
 		for (var i = 0; i < keys.length; i++) {
-	        var field = keys[i];
-	        if (updatedDataJson[field] !== oldDataJson[field]) {
-				
-	            dataToBeUpdated.push({
-				   "subgroupId":getSubgroupIdByName(field.toUpperCase()),
-    			   "factor":getfactorIdByDescription(updatedDataJson.factor),
-    			   "groupId":getGroupId(usjobsValue) ,
-    			   "value":updatedDataJson[field].replace(',', ''),
-    			   "referdate":date
-	            });
-	        }
-	    }
-	} else if (usjobsValue == 2) {
-		updatedDataJson = {
-			"eu5": updatedData.eu5,
-			"us5": updatedData.us5,
-		};
-		keys = Object.keys(updatedDataJson);
+			var field = keys[i];
+			if (updatedDataJson[field] !== oldDataJson[field]) {
 
-		for (var i = 0; i < keys.length; i++) {
-	        var field = keys[i];
-	        if (updatedDataJson[field] !== oldDataJson[field]) {
-				
-	            dataToBeUpdated.push({
-				   "subgroupId":getSubgroupIdByName(field.toUpperCase()),
-    			   "groupId":getGroupId(usjobsValue) ,
-    			   "value":updatedDataJson[field].replace(',', ''),
-    			   "referdate":date
-	            });
-	        }
-	    }
+				dataToBeUpdated.push({
+					"subgroupId": getSubgroupIdByName(getGroupId(usjobsValue) + field),
+					"groupId": groupId,
+					"value": updatedDataJson[field].replace(',', ''),
+					"referdate": date
+				});
+			}
+		}
 	} else if (usjobsValue == 3) {
 		updatedDataJson = {
-			"usa30": updatedData.usa30
+			"finals": updatedData.finals,
+			"rev1": updatedData.rev1,
+			"initial": updatedData.initial,
+			"surv": updatedData.surv,
 		};
-		keys = ["usa30"];
+		keys = Object.keys(updatedDataJson);
 
-		dataToBeUpdated.push({
-			"subgroupId": "1",
-			"groupId": getGroupId(usjobsValue),
-			"value": updatedData.usa30.replaceAll(',', ''),
-			"referdate": date
-		});
+		for (var i = 0; i < keys.length; i++) {
+			var field = keys[i];
+			if (updatedDataJson[field] !== oldDataJson[field]) {
+
+				dataToBeUpdated.push({
+					"subgroupId": getSubgroupIdByName(getGroupId(usjobsValue) + field),
+					"groupId": groupId,
+					"value": updatedDataJson[field].replace(',', ''),
+					"referdate": date
+				});
+			}
+		}
+	} else if (usjobsValue == 4) {
+		updatedDataJson = {
+			"index": updatedData.index,
+			"surv": updatedData.surv,
+		};
+		keys = Object.keys(updatedDataJson);
+		for (var i = 0; i < keys.length; i++) {
+			var field = keys[i];
+			if (updatedDataJson[field] !== oldDataJson[field]) {
+
+				dataToBeUpdated.push({
+					"subgroupId": getSubgroupIdByName(getGroupId(usjobsValue) + field),
+					"groupId": groupId,
+					"value": updatedDataJson[field].replace(',', ''),
+					"referdate": date
+				});
+			}
+		}
+
+	}
+	else if (usjobsValue == 5) {
 		
 	}
-	else if (usjobsValue == 4) {
-		updatedDataJson = {
-			"euribor1": updatedData.euribor1,
-			"sonia1": updatedData.sonia1,
-			"libor1": updatedData.libor1,
-			"euribor3": updatedData.euribor3,
-			"sonia3": updatedData.sonia3,
-			"libor3": updatedData.libor3,
-		};
-		keys = ["euribor1", "sonia1", "libor1", "euribor3", "sonia3", "libor3"];
-
-		dataToBeUpdated.push({
-			"subgroupId": "1",
-			"groupId": getGroupId(usjobsValue),
-			"value": updatedData.euribor1.replaceAll(',', ''),
-			"referdate": date
-		});
-		dataToBeUpdated.push({
-			"subgroupId": "2",
-			"groupId": getGroupId(usjobsValue),
-			"value": updatedData.sonia1.replaceAll(',', ''),
-			"referdate": date
-		});
-		dataToBeUpdated.push({
-			"subgroupId": "3",
-			"groupId": getGroupId(usjobsValue),
-			"value": updatedData.libor1.replaceAll(',', ''),
-			"referdate": date
-		});
-		dataToBeUpdated.push({
-			"subgroupId": "4",
-			"groupId": getGroupId(usjobsValue),
-			"value": updatedData.euribor3.replaceAll(',', ''),
-			"referdate": date
-		});
-		dataToBeUpdated.push({
-			"subgroupId": "5",
-			"groupId": getGroupId(usjobsValue),
-			"value": updatedData.sonia3.replaceAll(',', ''),
-			"referdate": date
-		});
-		dataToBeUpdated.push({
-			"subgroupId": "6",
-			"groupId": getGroupId(usjobsValue),
-			"value": updatedData.libor3.replaceAll(',', ''),
-			"referdate": date
-		});
-	} 
 	var updatedJson = [];
 	for (let i = 0; i < keys.length; i++) {
 		if (updatedDataJson[keys[i]] != oldDataJson[keys[i]])
 			updatedJson.push({
-				"assetId": 9,
-				"groupId": getGroupId(usjobsValue),
+				"assetId": 12,
+				"groupId": groupId,
 				"value": keys[i].toUpperCase()
 			});
 	}
@@ -543,7 +542,7 @@ function deleteDataByDate() {
 
 function getAuditGridSource(usjobsValue) {
 
-	latestUrl = '/usjobs/getlatest/' +  getGroupId(usjobsValue);
+	latestUrl = '/usjobs/getlatest/' + getGroupId(usjobsValue);
 	$.ajax({
 		contentType: "application/json",
 		url: latestUrl,
@@ -587,13 +586,15 @@ function getFilterData(usjobsValue) {
 	$('#grid').jqxGrid({ showdefaultloadelement: true });
 	var item = 0;
 	if (usjobsValue == 1) {
-		items = USJobsOpeningItem;
+		items = UsJobsOpeningItem;
 	} else if (usjobsValue == 2) {
-		items = InflationSwapusjobsItem;
+		items = UsADPChangeItem;
 	} else if (usjobsValue == 3) {
-		items = MortageusjobsItem;
+		items = UsNFPItem;
 	} else if (usjobsValue == 4) {
-		items = FixingsItem;
+		items = UsUnempRateItem;
+	}else if (usjobsValue == 5) {
+		items = UsHouseHoldSurvItem;
 	}
 	for (i = 0; i < items.length; i++) {
 		if ($(items[i]).jqxCheckBox('checked')) {
@@ -670,7 +671,7 @@ function getFilterData(usjobsValue) {
 function triggerRobots() {
 	$.ajax({
 		contentType: "application/json; charset=utf-8",
-		url: "/robot/callrobotsasync/9/" + getGroupId(usjobsValue),
+		url: "/robot/callrobotsasync/12/" + getGroupId(usjobsValue),
 		dataType: 'json',
 		timeout: 600000,
 		async: true,
@@ -711,160 +712,208 @@ function toggleDivVisibility(divNum) {
 function renderSubGroup(usjobsValue) {
 
 	if (usjobsValue == 1) {
-		items = USJobsOpeningItem;
-		
-	var defaultData = AuditDefaultData;
-	var fields = [
+		items = UsJobsOpeningItem;
+
+		var defaultData = AuditDefaultData;
+		var fields = [
 			{ name: 'id', type: 'string' },
-			{ name: 'final', type: 'string' },
+			{ name: 'finals', type: 'string' },
 			{ name: 'initial', type: 'string' },
-			{ name: 'SURV', type: 'string' },
+			{ name: 'surv', type: 'string' },
 		];
-		var totalFields = fields.length-1;
-		var widthPercentage = (100 - 20)/totalFields;
+		var totalFields = fields.length - 1;
+		var widthPercentage = (100 - 20) / totalFields;
 		var arrayOFcolumns = [
 			{
 				text: '', editable: false, datafield: 'Edit', width: '20%', cellsrenderer: function(row) {
 					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 				}
 			},
-			  { text: '',editable:false,hidden:true,  datafield: 'id', width: widthPercentage + '%'},
-	          { text: '',editable:false,  datafield: 'factor', width: widthPercentage + '%'},
-	          { text: 'FINAL', datafield: 'final', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			  { text: 'INITIAL',  datafield: 'initial', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-	       	  { text: 'SURV',  datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
- ];
+			{ text: '', editable: false, hidden: true, datafield: 'id', width: widthPercentage + '%' },
+			{ text: 'FINAL', datafield: 'finals', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'INITIAL', datafield: 'initial', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'SURV', datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+		];
 
-	Types=["77final","77initial","77surv"];
-	inputDataTypes=[inputData77final,inputData77initial,inputData77surv];
-	
-	for (var i = 0; i < Types.length; i++) {
-	    	var Type = Types[i];
-	   		inputDataType = inputDataTypes[i];
-	    
-			items = USJobsOpeningItem;
+		Types = ["77final", "77initial", "77surv"];
+		inputDataTypes = [inputData77final, inputData77initial, inputData77surv];
+
+		for (var i = 0; i < Types.length; i++) {
+			var Type = Types[i];
+			inputDataType = inputDataTypes[i];
+
+			items = UsJobsOpeningItem;
 			var dataInputGridFields = [
-				(Type.includes("usjobs"))?{ name: 'usjobs', type: 'string' }:(Type.includes("moves"))?{ name: 'moves', type: 'string'  }:null,
+				(Type.includes("77final")) ? { name: 'finals', type: 'string' }
+					: (Type.includes("77initial")) ? { name: 'inital', type: 'string' }
+						: (Type.includes("77surv")) ? { name: 'surv', type: 'string' } : null,
 			];
 			var totalFields = dataInputGridFields.length;
-			var widthPercentage = 100/totalFields;
-	
+			var widthPercentage = 100 / totalFields;
+
 			var dataInputGridColumns = [
-				(Type.includes("usjobs"))?{text: 'usjobs', datafield: 'usjobs', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
-				}:(Type.includes("moves"))?{text: 'moves', datafield: 'moves', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
-				}:null,
+				(Type.includes("77final")) ? { text: 'final', datafield: 'finals', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+					: (Type.includes("77initial")) ? { text: 'inital', datafield: 'inital', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+						: (Type.includes("77surv")) ? { text: 'surv', datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+							: null,
 			];
-			
-		initiate(Type, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
-	  
-	}	
-}
+
+			initiate(Type, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
+
+		}
+	}
 	else
 		if (usjobsValue == 2) {
-			inputDataType = inputDataInflationSwapusjobs;
-			items = InflationSwapusjobsItem;
-		    
-			var dataInputGridFields = [
-						{ name: 'eu5', type: 'string' },
-						{ name: 'us5', type: 'string' },];
 		
-			var dataInputGridColumns = [
-					{ text: '5y5y EU', datafield: 'eu5', width: '50%' },
-					{ text: '5y5y USA', datafield: 'us5', width: '50%' },
-					];
-			var defaultData = InflationSwapusjobsAuditDefaultData;	
-			
-			var fields = [
-				{ name: 'id', type: 'string' },
-				{ name: 'eu5', type: 'string' },
-				{ name: 'us5', type: 'string' }
-			];
-			 	
-			var totalFields = fields.length-1;
-			var widthPercentage = (100 - 20)/totalFields;
-			var arrayOFcolumns = [
-				{
-					text: '', editable: false, datafield: 'Edit', width: '20%', cellsrenderer: function(row) {
-						return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
-					}
-				},
-				  { text: '',editable:false,hidden:true,  datafield: 'id', width: widthPercentage + '%'},
-		          { text: '5y5y EU', datafield: 'eu5', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-				  { text: '5y5y USA',  datafield: 'us5', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			 ];
-			initiate(usjobsType, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
 
-		} else
-			if (usjobsValue == 3) {
-				inputDataType = inputDataMortageusjobs;
-				items = MortageusjobsItem;
-				var dataInputGridFields = [
-					{ name: 'usa30', type: 'string' }
-				];
-				var dataInputGridColumns = [
-					{ text: '30yr USA Mortgage', datafield: 'usa30', width: '100%' }
-				];
-				var defaultData = MortageusjobsAuditDefaultData;
-				var fields = [
-					{ name: 'usa30', type: 'string' },
-				];
-				var arrayOFcolumns = [
-					{
-						text: '', editable: false, datafield: 'Edit', width: '24%', cellsrenderer: function(row) {
-							return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
-						}
-					},
-					{ text: '30yr USA Mortgage', datafield: 'usa30', width: '76%', cellsalign: 'center', align: 'center' },
-				];
-	initiate(usjobsType, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
-
-			} else
-				if (usjobsValue == 4) {
-					inputDataType = inputDataFixings;
-					items = FixingsItem;
-					
-					var dataInputGridFields = [
-						{ name: 'euribor1', type: 'string' },
-						{ name: 'euribor3', type: 'string' },
-						{ name: 'sonia1', type: 'string' },
-						{ name: 'sonia3', type: 'string' },
-						{ name: 'libor1', type: 'string' },
-						{ name: 'libor3', type: 'string' }];
-						
-					var dataInputGridColumns = [
-					{ text: 'Euribor 1 month', datafield: 'euribor1', width: '16.6666666667%' },
-					{ text: 'Euribor 3 months', datafield: 'euribor3', width: '16.6666666667%' },
-					{ text: '$Libor 3 months', datafield: 'libor3', width: '16.6666666667%' },
-					{ text: '$Libor 1 month', datafield: 'libor1', width: '16.6666666667%' },
-					{ text: 'Sonia 1 month', datafield: 'sonia1', width: '16.6666666667%' },
-					{ text: 'Sonia 3 months', datafield: 'sonia3', width: '16.6666666667%' },
-					];
-
-					var defaultData = FixingsAuditDefaultData;
-					var fields = [
-						{ name: 'euribor1', type: 'string' },
-						{ name: 'sonia1', type: 'string' },
-						{ name: 'libor1', type: 'string' },
-						{ name: 'euribor3', type: 'string' },
-						{ name: 'sonia3', type: 'string' },
-						{ name: 'libor3', type: 'string' },
-					];
-					var arrayOFcolumns = [
-						{
-						text: '', editable: false, datafield: 'Edit', width: '24%', cellsrenderer: function(row) {
-							return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
-						}
-						},
-						{ text: 'Euribor 1 month', datafield: 'euribor1', width: '12.6666666667%', cellsalign: 'center', align: 'center' },
-						{ text: 'Euribor 3 months', datafield: 'euribor3', width: '12.6666666667%', cellsalign: 'center', align: 'center' },
-						{ text: '$Libor 1 month', datafield: 'libor1', width: '12.6666666667%', cellsalign: 'center', align: 'center' },
-						{ text: '$Libor 3 months', datafield: 'libor3', width: '12.6666666667%', cellsalign: 'center', align: 'center' },
-						{ text: 'Sonia 1 month', datafield: 'sonia1', width: '12.6666666667%', cellsalign: 'center', align: 'center' },
-						{ text: 'Sonia 3 months', datafield: 'sonia3', width: '12.6666666667%', cellsalign: 'center', align: 'center' },
-						];
-	initiate(usjobsType, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
-
+		var defaultData = AuditDefaultData;
+		var fields = [
+			{ name: 'id', type: 'string' },
+			{ name: 'finals', type: 'string' },
+			{ name: 'initial', type: 'string' },
+			{ name: 'surv', type: 'string' },
+		];
+		var totalFields = fields.length - 1;
+		var widthPercentage = (100 - 20) / totalFields;
+		var arrayOFcolumns = [
+			{
+				text: '', editable: false, datafield: 'Edit', width: '20%', cellsrenderer: function(row) {
+					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 				}
+			},
+			{ text: '', editable: false, hidden: true, datafield: 'id', width: widthPercentage + '%' },
+			{ text: 'FINAL', datafield: 'finals', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'INITIAL', datafield: 'initial', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'SURV', datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+		];
+
+		Types = ["78final", "78initial", "78surv"];
+		inputDataTypes = [inputData78final, inputData78initial, inputData78surv];
+
+		for (var i = 0; i < Types.length; i++) {
+			var Type = Types[i];
+			inputDataType = inputDataTypes[i];
+
+			items = UsADPChangeItem;
+			var dataInputGridFields = [
+				(Type.includes("78final")) ? { name: 'finals', type: 'string' }
+					: (Type.includes("78initial")) ? { name: 'inital', type: 'string' }
+						: (Type.includes("78surv")) ? { name: 'surv', type: 'string' } : null,
+			];
+			var totalFields = dataInputGridFields.length;
+			var widthPercentage = 100 / totalFields;
+
+			var dataInputGridColumns = [
+				(Type.includes("78final")) ? { text: 'final', datafield: 'finals', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+					: (Type.includes("78initial")) ? { text: 'inital', datafield: 'inital', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+						: (Type.includes("78surv")) ? { text: 'surv', datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+							: null,
+			];
+
+			initiate(Type, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
+
+		}
+	} else
+		if (usjobsValue == 3) {
+		
+
+		var defaultData = AuditDefaultData;
+		var fields = [
+			{ name: 'id', type: 'string' },
+			{ name: 'finals', type: 'string' },
+			{ name: 'rev1', type: 'string' },
+			{ name: 'initial', type: 'string' },
+			{ name: 'surv', type: 'string' },
+		];
+		var totalFields = fields.length - 1;
+		var widthPercentage = (100 - 20) / totalFields;
+		var arrayOFcolumns = [
+			{
+				text: '', editable: false, datafield: 'Edit', width: '20%', cellsrenderer: function(row) {
+					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+				}
+			},
+			{ text: '', editable: false, hidden: true, datafield: 'id', width: widthPercentage + '%' },
+			{ text: 'FINAL', datafield: 'finals', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'REV1', datafield: 'rev1', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'INITIAL', datafield: 'initial', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'SURV', datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+		];
+
+		Types = ["79final", "79initial", "79surv"];
+		inputDataTypes = [inputData79final, inputData79initial, inputData79surv];
+
+		for (var i = 0; i < Types.length; i++) {
+			var Type = Types[i];
+			inputDataType = inputDataTypes[i];
+
+			items = UsNFPItem;
+			var dataInputGridFields = [
+				(Type.includes("79final")) ? { name: 'finals', type: 'string' }
+					: (Type.includes("79initial")) ? { name: 'inital', type: 'string' }
+						: (Type.includes("79surv")) ? { name: 'surv', type: 'string' } : null,
+			];
+			var totalFields = dataInputGridFields.length;
+			var widthPercentage = 100 / totalFields;
+
+			var dataInputGridColumns = [
+				(Type.includes("79final")) ? { text: 'final', datafield: 'finals', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+					: (Type.includes("79initial")) ? { text: 'inital', datafield: 'inital', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+						: (Type.includes("79surv")) ? { text: 'surv', datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+							: null,
+			];
+
+			initiate(Type, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
+
+		}
+	} else
+				if (usjobsValue == 4) {
+		
+
+		var defaultData = AuditDefaultData;
+		var fields = [
+			{ name: 'id', type: 'string' },
+			{ name: 'index', type: 'string' },
+			{ name: 'surv', type: 'string' },
+		];
+		var totalFields = fields.length - 1;
+		var widthPercentage = (100 - 20) / totalFields;
+		var arrayOFcolumns = [
+			{
+				text: '', editable: false, datafield: 'Edit', width: '20%', cellsrenderer: function(row) {
+					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+				}
+			},
+			{ text: '', editable: false, hidden: true, datafield: 'id', width: widthPercentage + '%' },
+			{ text: 'INDEX', datafield: 'index', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'SURV', datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+		];
+
+		Types = ["80index", "80surv"];
+		inputDataTypes = [inputData80index, inputData80surv];
+
+		for (var i = 0; i < Types.length; i++) {
+			var Type = Types[i];
+			inputDataType = inputDataTypes[i];
+
+			items = UsUnempRateItem;
+			var dataInputGridFields = [
+				(Type.includes("80index")) ? { name: 'index', type: 'string' }
+				: (Type.includes("80surv")) ? { name: 'surv', type: 'string' } : null,
+			];
+			var totalFields = dataInputGridFields.length;
+			var widthPercentage = 100 / totalFields;
+
+			var dataInputGridColumns = [
+				(Type.includes("80index")) ? { text: 'index', datafield: 'index', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+				: (Type.includes("80surv")) ? { text: 'surv', datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+							: null,
+			];
+
+			initiate(Type, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
+
+		}
+	}
 
 }
 function saveFilterHistory(usjobsValue, checkedItem) {
@@ -872,7 +921,7 @@ function saveFilterHistory(usjobsValue, checkedItem) {
 
 	var filterHistory = {
 		"filterHistory": checkedItem.toString(),
-		"screenName": "DATABASE_INPUT_SCREEN_usjobs-" + getGroupId(usjobsValue)
+		"screenName": "DATABASE_INPUT_SCREEN_USJOBS-" + getGroupId(usjobsValue)
 	};
 	$.ajax({
 		type: "POST",
@@ -895,7 +944,7 @@ function getFilterHistory(usjobsValue) {
 
 	$.ajax({
 		contentType: "application/json; charset=utf-8",
-		url: "/bourse/getdataentryfilterhistory/" + "DATABASE_INPUT_SCREEN_usjobs-" +  getGroupId(usjobsValue),
+		url: "/bourse/getdataentryfilterhistory/" + "DATABASE_INPUT_SCREEN_USJOBS-" + getGroupId(usjobsValue),
 		dataType: 'json',
 		timeout: 600000,
 		async: false,
@@ -909,18 +958,18 @@ function getFilterHistory(usjobsValue) {
 			}
 			else {
 				if (usjobsValue == 1)
-					for (i = 0; i < USJobsOpeningItem.length; i++) {
-						$(USJobsOpeningItem[i]).jqxCheckBox({ checked: true });
+					for (i = 0; i < UsJobsOpeningItem.length; i++) {
+						$(UsJobsOpeningItem[i]).jqxCheckBox({ checked: true });
 					}
 				else if (usjobsValue == 2)
-					for (i = 0; i < InflationSwapusjobsItem.length; i++) {
-						$(InflationSwapusjobsItem[i]).jqxCheckBox({ checked: true });
+					for (i = 0; i < UsADPChangeItem.length; i++) {
+						$(UsADPChangeItem[i]).jqxCheckBox({ checked: true });
 					} else if (usjobsValue == 3)
-					for (i = 0; i < MortageusjobsItem.length; i++) {
-						$(MortageusjobsItem[i]).jqxCheckBox({ checked: true });
-					}else if (usjobsValue == 4)
-					for (i = 0; i < FixingsItem.length; i++) {
-						$(FixingsItem[i]).jqxCheckBox({ checked: true });
+					for (i = 0; i < UsNFPItem.length; i++) {
+						$(UsNFPItem[i]).jqxCheckBox({ checked: true });
+					} else if (usjobsValue == 4)
+					for (i = 0; i < UsUnempRateItem.length; i++) {
+						$(UsUnempRateItem[i]).jqxCheckBox({ checked: true });
 					}
 			}
 		},
@@ -937,16 +986,19 @@ function getGroupId(usjobsValue) {
 	switch (usjobsValue) {
 
 		case '1':
-			groupId = '48'
+			groupId = '77'
 			break;
 		case '2':
-			groupId = '49'
+			groupId = '78'
 			break;
 		case '3':
-			groupId = '50'
+			groupId = '79'
 			break;
 		case '4':
-			groupId = '51'
+			groupId = '80'
+			break;
+		case '5':
+			groupId = '81'
 			break;
 	}
 	return groupId;
@@ -954,19 +1006,33 @@ function getGroupId(usjobsValue) {
 
 function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns) {
 	var jsonObject = null;
-	if(usjobsValue==1)
-	{	$("#deleteUSJobsOpening").jqxButton({ theme: 'dark', width: 90, height: 30, template: "danger" });
-	    $("#cancel" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74 ,imgSrc: "/img/icon/false.svg" });
-		$("#load" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74 , imgSrc: "/img/icon/true.svg"});
- 	}
-	else
-	{
-	$("#delete" + usjobsType).jqxButton({ theme: 'dark', width: 90, height: 30, template: "danger" });
-	$("#cancel" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74 });
-	$("#load" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74 });
-	
+	if (usjobsValue == 1) {
+		$("#deleteUsJobsOpening").jqxButton({ theme: 'dark', width: 90, height: 30, template: "danger" });
+		$("#cancel" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/false.svg" });
+		$("#load" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/true.svg" });
 	}
-$("#cancel" + usjobsType).click(function() {
+	else if (usjobsValue == 2) {
+		$("#deleteUsADPChange").jqxButton({ theme: 'dark', width: 90, height: 30, template: "danger" });
+		$("#cancel" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/false.svg" });
+		$("#load" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/true.svg" });
+	}
+	else if (usjobsValue == 3) {
+		$("#deleteUsNFP").jqxButton({ theme: 'dark', width: 90, height: 30, template: "danger" });
+		$("#cancel" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/false.svg" });
+		$("#load" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/true.svg" });
+	}
+	else if (usjobsValue == 4) {
+		$("#deleteUsUnempRate").jqxButton({ theme: 'dark', width: 90, height: 30, template: "danger" });
+		$("#cancel" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/false.svg" });
+		$("#load" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/true.svg" });
+	}
+	else {
+		$("#delete" + usjobsType).jqxButton({ theme: 'dark', width: 90, height: 30, template: "danger" });
+		$("#cancel" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74 });
+		$("#load" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74 });
+
+	}
+	$("#cancel" + usjobsType).click(function() {
 		inputDataType.value = "";
 		$("#dataformInput" + usjobsType).css("display", "block");
 		$("#dataInputButtons" + usjobsType).css("display", "none");
@@ -992,26 +1058,12 @@ $("#cancel" + usjobsType).click(function() {
 			var dataIput = $('#data-input-' + usjobsType).val()
 			var dataInputRows = dataIput.split(/\r?\n/);
 			var rowData = dataInputRows[0].split(/\r?\t/);
-			if (usjobsValue == 1 || usjobsValue == 2)
-				{
-				var jsonObject = {};
-				dataInputGridFields.forEach(function(field, index) {
+			
+			var jsonObject = {};
+			dataInputGridFields.forEach(function(field, index) {
 				jsonObject[field.name] = rowData[index];
-				});
-			}
-			else if (usjobsValue == 3)
-				jsonObject = {
-					"usa30": rowData[0],
-				};
-			else if (usjobsValue == 4)
-				jsonObject = {
-					"euribor1": rowData[0],
-					"sonia1": rowData[2],
-					"libor1": rowData[4],
-					"euribor3": rowData[1],
-					"sonia3": rowData[3],
-					"libor3": rowData[5],
-				};
+			});
+		
 			localdata.push(jsonObject);
 
 			var dataInputGridSource =
@@ -1046,168 +1098,144 @@ $("#cancel" + usjobsType).click(function() {
 	var dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 
 	getAuditGridSource(usjobsValue);
-	if(usjobsValue==1){
-		$('#USJobsOpeningAuditGrid').jqxGrid(
-		{
-			width: '100%',
-			source: dataAdapter,
-			theme: 'dark',
-			autoheight: true,
-			editable: true,
-			selectionmode: 'none',
-			editmode: 'selectedrow',
-			columns: arrayOFcolumns
+	if (usjobsValue == 1) {
+		$('#UsJobsOpeningAuditGrid').jqxGrid(
+			{
+				width: '100%',
+				source: dataAdapter,
+				theme: 'dark',
+				autoheight: true,
+				editable: true,
+				selectionmode: 'none',
+				editmode: 'selectedrow',
+				columns: arrayOFcolumns
+			});
+		$("#deleteUsJobsOpening").click(function() {
+			if (usjobsValue == 1)
+				value = "US JOBS OPENINGS";
+
+			$('#alertDeleteDataByDate-modal').modal('show');
+			date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+			$("#alertTextDeleteDataByDate").empty();
+			$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete all " + value + " record for the date '" + date + "'?</p>");
 		});
-	$("#deleteUSJobsOpening").click(function() {
-		 if (usjobsValue == 1)
-			value = "Central Banks";
-			
-		$('#alertDeleteDataByDate-modal').modal('show');
-		date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
-		$("#alertTextDeleteDataByDate").empty();
-		$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete all " + value + " record for the date '" + date + "'?</p>");
-	});
-	}else 
-		if(usjobsValue==2){
-		$('#InflationSwapusjobsAuditGrid').jqxGrid(
-		{
-			width: '100%',
-			source: dataAdapter,
-			theme: 'dark',
-			autoheight: true,
-			editable: true,
-			selectionmode: 'none',
-			editmode: 'selectedrow',
-			columns: arrayOFcolumns
+	} else
+		if (usjobsValue == 2) {	
+			$('#UsADPChangeAuditGrid').jqxGrid(
+			{
+				width: '100%',
+				source: dataAdapter,
+				theme: 'dark',
+				autoheight: true,
+				editable: true,
+				selectionmode: 'none',
+				editmode: 'selectedrow',
+				columns: arrayOFcolumns
+			});
+		$("#deleteUsADPChange").click(function() {
+			if (usjobsValue == 1)
+				value = "US ADP CHANGE";
+
+			$('#alertDeleteDataByDate-modal').modal('show');
+			date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+			$("#alertTextDeleteDataByDate").empty();
+			$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete all " + value + " record for the date '" + date + "'?</p>");
 		});
-	$("#deleteInflationSwapusjobs").click(function() {
-		 if (usjobsValue == 2)
-			value = "Inflation Swap usjobs";
-			
-		$('#alertDeleteDataByDate-modal').modal('show');
-		date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
-		$("#alertTextDeleteDataByDate").empty();
-		$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete all " + value + " record for the date '" + date + "'?</p>");
-	});
 	}
-	else{
-		$('#' + usjobsType + 'AuditGrid').jqxGrid(
-		{
-			width: '100%',
-			source: dataAdapter,
-			theme: 'dark',
-			autoheight: true,
-			editable: true,
-			selectionmode: 'none',
-			editmode: 'selectedrow',
-			columns: arrayOFcolumns
-		});
-	$("#delete" + usjobsType).click(function() {
-		 if (usjobsValue == 1)
-			value = "CENTRAL BANKS";
-		else if (usjobsValue == 2)
-			value = "INFLATION SWAP usjobs";
-		else if (usjobsValue == 3)
-			value = "MORTAGE usjobs";
-		else if (usjobsValue == 4)
-			value = "FIXINGS";
-				
-		$('#alertDeleteDataByDate-modal').modal('show');
-		date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
-		$("#alertTextDeleteDataByDate").empty();
-		$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete all " + value + " record for the date '" + date + "'?</p>");
-	});
-	}
+		else
+		if (usjobsValue == 3) {	
+			$('#UsNFPAuditGrid').jqxGrid(
+				{
+					width: '100%',
+					source: dataAdapter,
+					theme: 'dark',
+					autoheight: true,
+					editable: true,
+					selectionmode: 'none',
+					editmode: 'selectedrow',
+					columns: arrayOFcolumns
+				});
+			$("#deleteUsNFP").click(function() {
+				if (usjobsValue == 1)
+					value = "US NON-FARM PAYROLLS";
 	
+				$('#alertDeleteDataByDate-modal').modal('show');
+				date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+				$("#alertTextDeleteDataByDate").empty();
+				$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete all " + value + " record for the date '" + date + "'?</p>");
+			});
+	}
+		else
+		if (usjobsValue == 4) {
+			
+			$('#UsUnempRateAuditGrid').jqxGrid(
+			{
+				width: '100%',
+				source: dataAdapter,
+				theme: 'dark',
+				autoheight: true,
+				editable: true,
+				selectionmode: 'none',
+				editmode: 'selectedrow',
+				columns: arrayOFcolumns
+			});
+		$("#deleteUsUnempRate").click(function() {
+			if (usjobsValue == 1)
+				value = "US UNEMP. Rate";
+
+			$('#alertDeleteDataByDate-modal').modal('show');
+			date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+			$("#alertTextDeleteDataByDate").empty();
+			$("#alertTextDeleteDataByDate").append("<p> Are you sure you want to Delete all " + value + " record for the date '" + date + "'?</p>");
+		});
+	}
+
 	$("#load" + usjobsType).click(function() {
 		var date = new Date();
 		var dataToBeInserted = [];
-		var firstObject = ["1"];
-		var secondObject = ["2"];
-		var thirdObject = ["3"];
-		var fourthObject = ["4"];
-		var fifthObject = ["5"];
-		var sixObject = ["6"];
 		var listObject = [];
-		var groupId = null;
+		var groupId = getGroupId(usjobsValue);
 
 		var rows = $("#dataInputGrid" + usjobsType).jqxGrid('getrows');
 
 		for (i = 0; i < rows.length; i++) {
-			if (usjobsValue == 1 || usjobsValue == 2) {
-				for (var k = 0; k < dataInputGridFields.length; k++) {
+			for (var k = 0; k < dataInputGridFields.length; k++) {
 				var propertyName = dataInputGridFields[k].name;
-
 				listObject.push([String(k + 1), rows[i][propertyName]]);
+			}
+		}
 
-			   }
-			}  else
-					if (usjobsValue == 3) {
-						firstObject.push(rows[i].usa30);
-					}else
-					if (usjobsValue == 4) {
-						firstObject.push(rows[i].euribor1);
-						secondObject.push(rows[i].sonia1);
-						thirdObject.push(rows[i].libor1);
-						
-						fourthObject.push(rows[i].euribor3);
-						fifthObject.push(rows[i].sonia3);
-						sixObject.push(rows[i].libor3);
-					}
-		}
-		if (usjobsValue == 1) {
-			groupId = 48;
-		} else if (usjobsValue == 2) {
-			groupId = 49;
-		}
-		else if (usjobsValue == 3) {
-			listObject = ["firstObject"];
-			groupId = 50;
-		}
-		else if (usjobsValue == 4) {
-			listObject = ["firstObject", "secondObject", "thirdObject",'fourthObject','fifthObject','sixObject' ];
-			groupId = 51;
-		}
 		for (i = 0; i < listObject.length; i++) {
 
 			var value = eval(listObject[i]);
-			if (usjobsValue == 1) {
-				var parsedDate = new Date($("#dateInput").jqxDateTimeInput('getDate'));
-				parsedDate.setDate(1);
-				var formattedDate = ("0" + parsedDate.getDate()).slice(-2) + '-' + ("0" + (parsedDate.getMonth() + 1)).slice(-2) + '-' + parsedDate.getFullYear();
-		
-		
-						var value = eval(listObject[i]);
-						
-						subgroupId= extractNumber(usjobsType);
-						
-						dataToBeInserted.push({
-							"groupId": getGroupId(usjobsValue) ,
-							"subgroupId": (subgroupId==4)?1:(subgroupId==5)?2:subgroupId,
-							"value": value[1].replace(',', ''),
-							"referDate": (usjobsValue == 1)?formattedDate: $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
-						});
-			}
-			else
+
+			var parsedDate = new Date($("#dateInput").jqxDateTimeInput('getDate'));
+			parsedDate.setDate(1);
+			var formattedDate = ("0" + parsedDate.getDate()).slice(-2) + '-' + ("0" + (parsedDate.getMonth() + 1)).slice(-2) + '-' + parsedDate.getFullYear();
+
+
+			var value = eval(listObject[i]);
+
 			dataToBeInserted.push({
-				"groupId": groupId+ '',
-				"subgroupId": value[0],
+				"groupId": groupId,
+				"subgroupId": nameSubgroupId.filter(obj => obj.name === usjobsType)[0].subgroupId,
 				"value": value[1].replace(',', ''),
-				"referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+				"referDate": (usjobsValue == 1) ? formattedDate : $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 			});
+
 		}
 
 		if ($("#dateInput").jqxDateTimeInput('getDate') < date) {
 			var today = $("#dateInput").jqxDateTimeInput('getDate');
-			if(usjobsValue!=1)
+			// if (usjobsValue != 1)
 				if (today.getDay() == 6 || today.getDay() == 0) {
-					$('#alert-modal-weekend').modal('show');
-					return;
-				}
-				
-	if(usjobsValue==1)
-		checkifcanUrl = "/usjobs/checkifcansave/" + getGroupId(usjobsValue)+"/"+dataToBeInserted[0].subgroupId+"/"+dataToBeInserted[0].factorId+"/";
-	
+						$('#alert-modal-weekend').modal('show');
+						return;
+					}
+
+			if (usjobsValue == 1)
+				checkifcanUrl = "/usjobs/checkifcansave/" + groupId + "/" + dataToBeInserted[0].subgroupId + "/";
+
 			today = $.jqx.dataFormat.formatdate(today, 'dd-MM-yyyy')
 			$.ajax({
 				contentType: "application/json",
@@ -1221,7 +1249,7 @@ $("#cancel" + usjobsType).click(function() {
 					if (!response) {
 						$.ajax({
 							contentType: "application/json",
-							url: "/process/isrobottriggered/9/" + groupId,
+							url: "/process/isrobottriggered/12/" + groupId,
 							dataType: 'text',
 							async: true,
 							cache: false,
@@ -1246,22 +1274,29 @@ $("#cancel" + usjobsType).click(function() {
 
 
 											getFilterData(usjobsValue);
-											if (usjobsValue == 1)
-												{
-													inputData77final.value = "";
-													inputData77initial.value = "";
-													inputData77surv.value = "";
-													inputData3moves.value = "";
-												}
-											else if (usjobsValue == 2)
-												{
-													inputDataInflationSwapusjobs.value = "";
-												}
+											if (usjobsValue == 1) {
+												inputData77final.value = "";
+												inputData77initial.value = "";
+												inputData77surv.value = "";
+											}
+											else if (usjobsValue == 2) {
+												inputData78final.value = "";
+												inputData78initial.value = "";
+												inputData78surv.value = "";
+											}
 											else if (usjobsValue == 3)
-													inputDataMortageusjobs.value = "";
+												{
+												inputData79final.value = "";
+											    inputData79rev1.value = "";
+												inputData79initial.value = "";
+												inputData79surv.value = "";
+											}
 											else if (usjobsValue == 4)
-													inputDataFixings.value = "";
-												
+												{
+												inputData80index.value = "";
+												inputData80surv.value = "";
+											}
+
 											$("#dataformInput" + usjobsType).css("display", "block");
 											$("#dataInputButtons" + usjobsType).css("display", "none");
 											$("#dataInputGrid" + usjobsType).css("display", "none");
@@ -1273,8 +1308,8 @@ $("#cancel" + usjobsType).click(function() {
 											delete auditGridSource.localdata;
 											auditGridSource.url = auditUrl + date;
 											dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-											if(usjobsValue==1)
-												$('#USJobsOpeningAuditGrid').jqxGrid({ source: dataAdapter });
+											if (usjobsValue == 1)
+												$('#UsJobsOpeningAuditGrid').jqxGrid({ source: dataAdapter });
 											else
 												$('#' + usjobsType + 'AuditGrid').jqxGrid({ source: dataAdapter });
 
@@ -1313,19 +1348,14 @@ $("#cancel" + usjobsType).click(function() {
 			$('#alertDate-modal').modal('show');
 		}
 	});
-	
-}
-function extractNumber(type) {
-    // Match the numeric part of the string using regular expression
-    const numericPart = type.match(/\d+/);
-    return numericPart ? numericPart[0] : null;
+
 }
 
-	function getSubgroupIdByName(name) {
-    const matchingObject = nameSubgroupId.find(item => item.name === name);
-    return matchingObject ? matchingObject.subgroupId : null;
+function getSubgroupIdByName(name) {
+	const matchingObject = nameSubgroupId.find(item => item.name === name);
+	return matchingObject ? matchingObject.subgroupId : null;
 }
- function getfactorIdByDescription(name) {
-    const matchingObject = nameFactorId.find(item => item.name === name);
-    return matchingObject ? matchingObject.factor : null;
+function getfactorIdByDescription(name) {
+	const matchingObject = nameFactorId.find(item => item.name === name);
+	return matchingObject ? matchingObject.factor : null;
 }

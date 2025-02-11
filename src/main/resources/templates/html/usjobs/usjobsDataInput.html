@@ -168,11 +168,11 @@ padding-right:.2rem;
               <!-- Form Basic -->
              <div class="col mt-4 ml-4">
               <div class="btn-group" role="group" aria-label="First group">
-			    <button type="button" class="btn btn-secondary mw-100" id="USJobsOpening-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">US JOBS OPENINGS</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="Fixings_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">US ADP CHANGE</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="InflationSwapusjobs-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">US NON-FARM PAYROLLS</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="EzMonetary-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">US UNEMP. Rate</button>
-			   	<button type="button" class="btn btn-secondary mw-100" id="EzMonetary-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">US HOUSEHOLD SURVEY of JOBS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="UsJobsOpening-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">US JOBS OPENINGS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="UsADPChange-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">US ADP CHANGE</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="UsNFP-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">US NON-FARM PAYROLLS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="UsUnempRate-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">US UNEMP. Rate</button>
+			   	<button type="button" class="btn btn-secondary mw-100" id="UsHouseHoldSurv-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">US HOUSEHOLD SURVEY of JOBS</button>
 			   </div>
 			</div>
             <div class="collapse show" id="collapseExample">
@@ -195,37 +195,11 @@ padding-right:.2rem;
                  <div th:classappend="${usjobs == 1} ? 'col-6' : 'col-5'" class=" d-flex justify-content-between">
                  	<div id="usjobsValue" th:text="${usjobs}" style="display:none;"></div>
                  	<input id="usjobsSubGroup1" style="display:none;" value="th:text='${usjobs}'"/>
-                    <div th:if="${usjobs == 1}" class="col-12 pr-0" id="USJobsOpening-input">
+                    <div th:if="${usjobs == 1}" class="col-12 pr-0" id="UsJobsOpening-input">
 	          
 		                <div class="col-6   p-0 " style="min-width: 660px;">
                           <div class="col-12 d-flex">
-                               <div class="  pr-0 " id="2">
-                               
-                              <div class="col d-flex p-0">
-							  
-                                <div class="" id="3-17">
-                                  <div class="col  ">
-                                    <form id="dataformInput77initial">
-                                      <div class="form-group" style="margin-top: 0">
-                                        <div class="pt-2 d-flex">
-                                          <div class="" id="3-usjobs"> FINAL <input type="text" class="form-control" id="data-input-77initial" autocomplete="off">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
-                                    </form>
-                                    <div id="dataInputGrid77initial" style="margin-top: 0rem;"></div>
-                                    <div class="row" id="dataInputButtons77initial" style="display: none;">
-                                      <div class='col-12 d-flex justify-content-end mt-2'>
-                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load77initial" value="" />
-                                        <input id="cancel77initial" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                          
-                              </div>
-                            </div>
+                             
                             <div class="pl-0 " id="1">
                              
                               <div class="col d-flex p-0">
@@ -235,7 +209,7 @@ padding-right:.2rem;
                                     <form id="dataformInput77final">
                                       <div class="form-group" style="margin-top: 0">
                                         <div class="pt-2 d-flex">
-                                          <div class="" id="1-usjobs"> INITIAL <input type="text" class="form-control" id="data-input-77final" autocomplete="off">
+                                          <div class="" id="1-usjobs">FINAL <input type="text" class="form-control" id="data-input-77final" autocomplete="off">
                                           </div>
                                         </div>
                                       </div>
@@ -253,7 +227,33 @@ padding-right:.2rem;
                             
                               </div>
                             </div>
-                         
+                           <div class="  pr-0 " id="2">
+                               
+                              <div class="col d-flex p-0">
+							  
+                                <div class="" id="3-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput77initial">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="3-usjobs"> INITIAL <input type="text" class="form-control" id="data-input-77initial" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid77initial" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons77initial" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load77initial" value="" />
+                                        <input id="cancel77initial" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                          
+                              </div>
+                            </div>
 							   <div class="  pr-0 " id="3">
 							  
                               <div class="col d-flex p-0">
@@ -286,155 +286,329 @@ padding-right:.2rem;
                          
                         </div>
 	                 </div>
-					<div th:if="${usjobs == 2}" class="col-12 pr-0"
-						id="InflationSwapusjobs-input">
-						<div class="col pl-0 ">&#x200b;</div>
-						<div class="col p-0 ">
-							<form id="dataformInputInflationSwapusjobs">
-								<div class="pt-2 col-12 p-0" style="display: flex;">
-									<div class="col-4 p-0">
-										<div class="d-flex">
-											<div class="fs-7 col p-0 text-center">5Y5Y EU</div>
-											<div class="fs-7 col p-0 text-center">5Y5Y USA</div>
-										</div>
-									</div>
-								</div>
-								<div class="d-flex">
-									<input class="form-control"
-										id="data-input-InflationSwapusjobs" autocomplete="off" />
-								</div>
-							</form>
-							<div id="dataInputGridInflationSwapusjobs"
-								style="margin-top: 0rem;"></div>
-							<div class="row" id="dataInputButtonsInflationSwapusjobs"
-								style="display: none;">
-								<div class='col-12 d-flex justify-content-end mt-2'>
-									<input class="btn btn-primary mr-1 mb-1"
-										style="margin-right: 1rem !important; color: white;"
-										type="button" id="loadInflationSwapusjobs" value="Load " />
-									<input id="cancelInflationSwapusjobs" type="button"
-										style="margin: 0 !important;"
-										class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-								</div>
-							</div>
-						</div>
-					</div>
-					<div th:if="${usjobs == 3}" class="col-12 pr-0" id="Mortageusjobs-input">
-	                  <div class="col pl-0 ">&#x200b; </div>
-		                 <div class="col p-0 ">
-		                	<form id="dataformInputMortageusjobs">
-									<div class="pt-2" style="display: flex;">
-										<div class="fs-7">
-										 30yr USA Mortgage			
-										 </div>
-									</div>
-								<div class="d-flex">
-									<input class="form-control" id="data-input-Mortageusjobs" autocomplete="off"/>
-								</div>
-							</form>
-		               <div id="dataInputGridMortageusjobs" style="margin-top: 0rem;"> </div>
-					   <div class="row" id="dataInputButtonsMortageusjobs" style="display:none;">
-							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadMortageusjobs" value="Load " />
-							<input id="cancelMortageusjobs" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-							</div>
-						</div>
-		                </div>
+					  <div th:if="${usjobs == 2}" class="col-12 pr-0" id="UsADPChange-input">
+	          
+		                <div class="col-6   p-0 " style="min-width: 660px;">
+                          <div class="col-12 d-flex">
+                             
+                            <div class="pl-0 " id="1">
+                             
+                              <div class="col d-flex p-0">
+							  
+                                <div class="" id="1-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput78final">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="1-usjobs">FINAL <input type="text" class="form-control" id="data-input-78final" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid78final" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons78final" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load78final" value="" />
+                                        <input id="cancel78final" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                              </div>
+                            </div>
+                           <div class="  pr-0 " id="2">
+                               
+                              <div class="col d-flex p-0">
+							  
+                                <div class="" id="3-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput78initial">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="3-usjobs"> INITIAL <input type="text" class="form-control" id="data-input-78initial" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid78initial" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons78initial" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load78initial" value="" />
+                                        <input id="cancel78initial" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                          
+                              </div>
+                            </div>
+							   <div class="  pr-0 " id="3">
+							  
+                              <div class="col d-flex p-0">
+							     
+                                <div class="" id="3-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput78surv">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="3-usjobs"> SURV <input type="text" class="form-control" id="data-input-78surv" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid78surv" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons78surv" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load78surv" value="" />
+                                        <input id="cancel78surv" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                          
+                              </div>
+                            </div>
+                          </div>
+                         
+                        </div>
 	                 </div>
-	                  <div th:if="${usjobs == 4}" class="col-12 pr-0" id="Fixingsinput">
-	                  <div class="col pl-0 ">&#x200b; </div>
-		                 <div class="col p-0 ">
-		                	<form id="dataformInputFixings">
-								<div class="pt-2 col-12 p-0" style="display: flex;">
-										<div class="col-4 p-0 align-middle">
-											<div class="align-middle">
-												<img src="/img/flag/eu.png" width="70px">
-											</div>
-											<div class="d-flex">
-												<div class="fs-7 col p-0 text-center">Euribor <br>1 month</div>
-												<div class="fs-7 col p-0 text-center">Euribor <br>3 months</div>
-											</div>
-										</div>
-										<div class="col-4 p-0 align-middle">
-											<div class="align-middle">
-												<img src="/img/flag/united-states.png" width="70px">
-											</div>
-											<div class="d-flex">
-												<div class="fs-7 col p-0 text-center">$Libor <br>1 month</div>
-												<div class="fs-7 col p-0 text-center">$Libor <br>3 months</div>
-											</div>
-										</div>
-										<div class="col-4 p-0 align-middle">
-											<div class="align-middle">
-												<img src="/img/flag/united-kingdom.png" width="70px">
-											</div>
-											<div class="d-flex">
-												<div class="fs-7 col p-0 text-center">Sonia <br>1 month</div>
-												<div class="fs-7 col p-0 text-center">Sonia <br>3 months</div>
-											</div>
-										</div>
-									</div>
-								<div class="d-flex">
-									<input class="form-control" id="data-input-Fixings" autocomplete="off"/>
-								</div>
-							</form>
-		               <div id="dataInputGridFixings" style="margin-top: 0rem;"> </div>
-					   <div class="row" id="dataInputButtonsFixings" style="display:none;">
-							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadFixings" value="Load " />
-							<input id="cancelFixings" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-							</div>
-						</div>
-		                </div>
+					  <div th:if="${usjobs == 3}" class="col-12 pr-0" id="UsNFP-input">
+	          
+		                <div class="col-6   p-0 " style="min-width: 660px;">
+                          <div class="col-12 d-flex">
+                             
+                            <div class="pl-0 " id="1">
+                             
+                              <div class="col d-flex p-0">
+							  
+                                <div class="" id="1-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput79final">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="1-usjobs">FINAL <input type="text" class="form-control" id="data-input-79final" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid79final" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons79final" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load79final" value="" />
+                                        <input id="cancel79final" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                              </div>
+                            </div>
+							 <div class="  pr-0 " id="2">
+                               
+                              <div class="col d-flex p-0">
+							  
+                                <div class="" id="2-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput79rev1">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="3-usjobs"> REV1 <input type="text" class="form-control" id="data-input-79rev1" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid79rev1" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons79rev1" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load79initial" value="" />
+                                        <input id="cancel79rev1" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                          
+                              </div>
+                            </div>
+                           <div class="  pr-0 " id="3">
+                               
+                              <div class="col d-flex p-0">
+							  
+                                <div class="" id="3-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput79initial">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="3-usjobs"> INITIAL <input type="text" class="form-control" id="data-input-79initial" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid79initial" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons79initial" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load79initial" value="" />
+                                        <input id="cancel79initial" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                          
+                              </div>
+                            </div>
+							   <div class="  pr-0 " id="4">
+							  
+                              <div class="col d-flex p-0">
+							     
+                                <div class="" id="4-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput79surv">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="4-usjobs"> SURV <input type="text" class="form-control" id="data-input-79surv" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid79surv" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons79surv" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load79surv" value="" />
+                                        <input id="cancel79surv" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                          
+                              </div>
+                            </div>
+                          </div>
+                         
+                        </div>
+	                 </div>
+	                    <div th:if="${usjobs == 4}" class="col-12 pr-0" id="UsUnempRate-input">
+	          
+		                <div class="col-6   p-0 " style="min-width: 660px;">
+                          <div class="col-12 d-flex">
+                             
+                            <div class="pl-0 " id="1">
+                             
+                              <div class="col d-flex p-0">
+							  
+                                <div class="" id="1-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput80index">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="1-usjobs">INDEX <input type="text" class="form-control" id="data-input-80index" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid80index" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons80index" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load80index" value="" />
+                                        <input id="cancel80index" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                              </div>
+                            </div>
+						
+							   <div class="  pr-0 " id="2">
+							  
+                              <div class="col d-flex p-0">
+							     
+                                <div class="" id="2-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput80surv">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="2-usjobs"> SURV <input type="text" class="form-control" id="data-input-80surv" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid80surv" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons80surv" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load80surv" value="" />
+                                        <input id="cancel80surv" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                          
+                              </div>
+                            </div>
+                          </div>
+                         
+                        </div>
 	                 </div>
                </div>
                <div th:if="${usjobs != 1}" class="col-1"></div>
                <div class="col-6 d-flex justify-content-between">
-                  <div th:if="${usjobs == 1}" class="col-12 p-0" id="USJobsOpening-audit">
+                  <div th:if="${usjobs == 1}" class="col-12 p-0" id="UsJobsOpening-audit">
                        <div class="d-flex justify-content-between pb-1">
 		
 		                    <div class="col-9 p-0"> 
 		                    	
 							</div>
 							<div class="col-3 p-0">
-							 <button id="deleteUSJobsOpening" style="font-size: .8rem; float: right;">Delete</button> 
+							 <button id="deleteUsJobsOpening" style="font-size: .8rem; float: right;">Delete</button> 
 		                   </div>
                        </div>
-					  <div id="USJobsOpeningAuditGrid"></div>
+					  <div id="UsJobsOpeningAuditGrid"></div>
 					</div>
-                   <div th:if="${usjobs == 2}" class="col-12 p-0" id="InflationSwapusjobs-audit">
-                       <div class="d-flex justify-content-between pb-1">
-		                    <div class="col-9 p-0"> 
-		                    	
+                   <div th:if="${usjobs == 2}" class="col-12 p-0" id="UsADPChange-audit">
+					   <div class="d-flex justify-content-between pb-1">
+				
+							<div class="col-9 p-0"> 
+								
 							</div>
 							<div class="col-3 p-0">
-							 <button id="deleteInflationSwapusjobs" style="font-size: .8rem; float: right;">Delete</button> 
-		                   </div>
-                       </div>
-					  <div id="InflationSwapusjobsAuditGrid"></div>
+							 <button id="deleteUsADPChange" style="font-size: .8rem; float: right;">Delete</button> 
+						   </div>
+					   </div>
+					  <div id="UsADPChangeAuditGrid"></div>
 					</div>
-					<div th:if="${usjobs == 3}" class="col-12 p-0" id="Mortageusjobs-audit">
-                       <div class="d-flex justify-content-between pb-1">
-		                    <div class="col-9 p-0"> 
-		                    	
-							</div>
-							<div class="col-3 p-0">
-							 <button id="deleteMortageusjobs" style="font-size: .8rem; float: right;">Delete</button> 
-		                   </div>
-                       </div>
-					  <div id="MortageusjobsAuditGrid"></div>
-					</div>
-						<div th:if="${usjobs == 4}" class="col-12 p-0" id="Fixings-audit">
-                       <div class="d-flex justify-content-between pb-1">
-		                    <div class="col-9 p-0"> 
-		                    	
-							</div>
-							<div class="col-3 p-0">
-							 <button id="deleteFixings" style="font-size: .8rem; float: right; ">Delete</button> 
-		                   </div>
-                       </div>
-					  <div id="FixingsAuditGrid"></div>
-					</div>
+					<div th:if="${usjobs == 3}" class="col-12 p-0" id="UsNFP-audit">
+						   <div class="d-flex justify-content-between pb-1">
+								<div class="col-9 p-0"> 
+									
+								</div>
+								<div class="col-3 p-0">
+								 <button id="deleteUsNFP" style="font-size: .8rem; float: right;">Delete</button> 
+							   </div>
+						   </div>
+						  <div id="UsNFPAuditGrid"></div>
+						</div>
+						<div th:if="${usjobs == 4}" class="col-12 p-0" id="UsUnempRate-audit">
+	                       <div class="d-flex justify-content-between pb-1">
+			                    <div class="col-9 p-0"> 
+			                    	
+								</div>
+								<div class="col-3 p-0">
+								 <button id="deleteUsUnempRate" style="font-size: .8rem; float: right; ">Delete</button> 
+			                   </div>
+	                       </div>
+						  <div id="UsUnempRateAuditGrid"></div>
+						</div>
                  </div>
               </div>
           </div>
@@ -472,7 +646,7 @@ padding-right:.2rem;
     <div class="row mt-2">
      <div class="col border ml-2 p-1 rounded">
         <div class="row">
-          <div th:if="${usjobs == 1}" class="col-sm-9" id="USJobsOpening-filter">
+          <div th:if="${usjobs == 1}" class="col-sm-9" id="UsJobsOpening-filter">
              <h6 class="col font-weight-bold">US JOBS OPENINGS</h6>
              <div class="d-flex justify-content-between col">
              	
@@ -495,59 +669,74 @@ padding-right:.2rem;
              	</div>
          	 </div>
            </div>
-            <div th:if="${usjobs == 2}" class="col-sm-11" >
-             <h6 class="col font-weight-bold">INFLATION SWAP usjobs</h6>
-              <div class="d-flex justify-content-between col">
+               <div th:if="${usjobs == 2}" class="col-sm-9" id="UsADPChange-filter">
+             <h6 class="col font-weight-bold">US ADP CHANGE</h6>
+             <div class="d-flex justify-content-between col">
+             	
              	<div class="col-4">
-             		<div class="row">
-             			<div id='jqxCheckBoxEU5' style='float: left;'><span class="checkboxesTitle">5Y5Y EU</span></div> 
+             			
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxfinal-78' style='float: left;'><span class="checkboxesTitle">FINAL</span></div> 
              		</div>
              	</div>
              	<div class="col-4">
-             		<div class="row">
-             			<div id='jqxCheckBoxUS5' style='float: left;'><span class="checkboxesTitle">5Y5Y USA</span></div> 
+             		
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxinitial-78' style='float: left;'><span class="checkboxesTitle">INITIAL</span></div> 
+             		</div>
+             	</div>
+             	<div class="col-4">
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxsurv-78' style='float: left;'><span class="checkboxesTitle">SURV</span></div> 
              		</div>
              	</div>
          	 </div>
            </div>
-             <div th:if="${usjobs == 3}" class="col-sm-9" >
-             <h6 class="col font-weight-bold">MORTGAGE usjobs</h6>
+           <div th:if="${usjobs == 3}" class="col-sm-9" id="UsNFPItem-filter">
+             <h6 class="col font-weight-bold">US NON-FARM PAYROLLS</h6>
              <div class="d-flex justify-content-between col">
-             	<div id='jqxCheckBoxUsa30' style='float: left;'><span class="checkboxesTitle">30yr USA Mortgage</span></div> 
-              </div>
-           </div>
-            <div th:if="${usjobs == 4}" class="col-sm-9" >
-             <h6 class="col font-weight-bold">FIXINGS</h6>
-             <div class="d-flex justify-content-between col">
-                 	<div class="col-4">
-             			<div class="align-middle">
-             			<img src="/img/flag/eu.png" width="70px">
-             		</div>
-             		<div class="row ">
-             			<div id='jqxCheckBoxEuribor_1' style='float: left;' class="col p-0"><span class="checkboxesTitle">EURIBOR 1 MONTH</span></div> 
-             			<div id='jqxCheckBoxEuribor_3' style='float: left;' class="col p-0"><span class="checkboxesTitle">EURIBOR 3 MONTHS</span></div>
+             	
+             	<div class="col-3">
+             			
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxfinal-79' style='float: left;'><span class="checkboxesTitle">FINAL</span></div> 
              		</div>
              	</div>
-             	<div class="col-4">
-             			<div class="align-middle">
-             			<img src="/img/flag/united-kingdom.png" width="70px">
-             		</div>
-             		<div class="row ">
-             		        <div id='jqxCheckBoxSonia_1' style='float: left;' class="col p-0"><span class="checkboxesTitle">SONIA 1 MONTH</span></div>
-             				<div id='jqxCheckBoxSonia_3' style='float: left;' class="col p-0"><span class="checkboxesTitle">SONIA 3 MONTHS</span></div>
-            		</div>
-             	</div>
-             		<div class="col-4">
-             			<div class="align-middle">
-             			<img src="/img/flag/united-states.png" width="70px">
-             		</div>
-             		<div class="row ">
-             			<div id='jqxCheckBoxLibor_1' style='float: left;' class="col p-0"><span class="checkboxesTitle">$LIBOR 1 MONTH</span></div>
-		             	<div id='jqxCheckBoxLibor_3' style='float: left;' class="col p-0"><span class="checkboxesTitle">$LIBOR 3 MONTHS</span></div>
-		           </div>
-             	</div>
+				<div class="col-3">
              		
-             </div>
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxrev1-79' style='float: left;'><span class="checkboxesTitle">REV1</span></div> 
+             		</div>
+             	</div>
+             	<div class="col-3">
+             		
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxinitial-79' style='float: left;'><span class="checkboxesTitle">INITIAL</span></div> 
+             		</div>
+             	</div>
+             	<div class="col-3">
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxsurv-79' style='float: left;'><span class="checkboxesTitle">SURV</span></div> 
+             		</div>
+             	</div>
+         	 </div>
+           </div>
+             <div th:if="${usjobs == 4}" class="col-sm-9" id="UsUnempRate-filter">
+             <h6 class="col font-weight-bold">US UNEMP. Rate</h6>
+             <div class="d-flex justify-content-between col">
+             	
+             	<div class="col-4">
+             			
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxindex-80' style='float: left;'><span class="checkboxesTitle">INDEX</span></div> 
+             		</div>
+             	</div>
+             	<div class="col-3">
+             		<div class="row align-middle">
+             			<div id='jqxCheckBoxsurv-80' style='float: left;'><span class="checkboxesTitle">SURV</span></div> 
+             		</div>
+             	</div>
+         	 </div>
            </div>
          
     	</div>

@@ -97,16 +97,10 @@ document.addEventListener('DOMContentLoaded', function () {
         
         // Parse and handle the message
         try {
-            const parsedMessage = JSON.parse(message.body);
-            updateChart(parsedMessage);
+			var graphService = "cryptos";
+            updateChart(graphService);
         } catch (e) {
             console.error('Error parsing message:', e);
         }
     });
 });
-
-// Function to handle chart updates
-function updateChart(data) {
-   drawGraph();
-    // Add your chart update logic here
-}

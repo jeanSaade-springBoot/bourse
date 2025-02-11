@@ -9524,6 +9524,7 @@ chart.updateOptions({
 						formatter: function(value, timestamp, opts) {
 						if(timeRange != "Daily")
 							value =	convertToLocalTime(value);
+							
 							let a = [{ day: 'numeric' }, { month: 'short' }, { year: '2-digit' }];
 							let s = (isTimestamp(value)) ? join(value, a, '-') : value;
 
@@ -10409,8 +10410,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 function convertToLocalTime(dateInput) {
   // If dateInput is undefined, null, or empty, log an error and return an empty string.
   if (!dateInput) {
-    console.error("No date input provided.");
-    return "";
+   return "";
   }
   
   // Check if dateInput is numeric (or can be parsed as a number).
@@ -10478,4 +10478,131 @@ function convertToLocalTime(dateInput) {
   }).replaceAll(',', '');
   
   return formatted;
+}
+
+// Function to handle chart updates
+function updateChart(graphService) {
+  if(timeRange != "Daily")
+  	 {
+		   	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
+
+		if(chartType=="candle")
+		{  	const selectedCandleStickIndex =$('#groupOfOptions').jqxButtonGroup('getSelection');
+
+			dataParam = {
+				"fromdate": formatDate(monthDate),
+				"todate":  formatDate(date)+' 23:59:59',
+				"subGroupId1": candleGroupIdSubgroups [selectedCandleStickIndex][1],
+				"groupId1": candleGroupIdSubgroups [selectedCandleStickIndex][0],
+			};	
+			
+				$.ajax({
+						type: "POST",
+						contentType: "application/json; charset=utf-8",
+						url: "/cryptos/getcandlegraphdatafourhoursinterval",
+						data: JSON.stringify(dataParam),
+						dataType: 'json',
+						timeout: 600000,
+						success: function(response) {	
+								response[0].graphResponseDTOLst.forEach(item => {
+									item.y = JSON.parse(item.y);
+								});
+
+							  chart.updateSeries([{
+								    data: response[0].graphResponseDTOLst
+								  }]);
+							},
+				error: function(e) {
+		
+					console.log("ERROR : ", e);
+		
+				}
+
+	});
+   }
+	else
+	{      
+		var checkedItemValues = [];
+
+		for (i = 0; i < checkedItemid.length; i++) {
+				if (checkedItemid[i] != null)
+					checkedItemValues.push(checkedItemid[i]);
+			}
+			
+			 if (checkedItem == 2) {
+					  dataParam = { 
+				        		"fromdate": formatDate(monthDate),
+				        	    "todate": formatDate(date)+' 23:59:59',
+				        	    "period":"d",
+				        	    "type": '0',
+				        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
+				        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
+				        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
+				        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
+					        	  //  "removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false,
+					        	   // "removeEmpty2":itemValue[checkedItemValues[1]].subGroupId==2?"true":false
+					        	 "removeEmpty1":true,
+					        	 "removeEmpty2":true
+			     			   };
+			     			   
+		    $.ajax({
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				url: "/"+graphService+"/getgraphdatafourhoursinterval",
+				data: JSON.stringify(dataParam),
+				dataType: 'json',
+				timeout: 600000,
+				success: function(response) {	
+								
+							  chart.updateSeries([{
+								    data: response[0].graphResponseDTOLst
+								  },
+								  {
+								    data: response[1].graphResponseDTOLst
+								  }
+								  ]);
+											},
+								error: function(e) {
+						
+									console.log("ERROR : ", e);
+						
+								}
+				
+					});
+     			   }
+     			   else{
+						dataParam = { 
+				        		"fromdate": formatDate(monthDate),
+				        	    "todate": formatDate(date)+' 23:59:59',
+				        	    "period":"d",
+				        	    "type": '0',
+				        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
+				        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
+					        	 "removeEmpty1":true,
+			     			   };
+			 $.ajax({
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				url: "/"+graphService+"/getgraphdatafourhoursinterval",
+				data: JSON.stringify(dataParam),
+				dataType: 'json',
+				timeout: 600000,
+				success: function(response) {	
+								
+							  chart.updateSeries([{
+								    data: response[0].graphResponseDTOLst
+								  }
+								  ]);
+											},
+								error: function(e) {
+						
+									console.log("ERROR : ", e);
+						
+								}
+				
+					});
+					}
+	}
+	   }
+    // Add your chart update logic here
 }
