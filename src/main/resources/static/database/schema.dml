@@ -50593,5 +50593,1294 @@ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('123', 'CRY
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('124', 'TRENDLINE_CRYPTOS_SCREEN', true);
 
 
+INSERT INTO `bourse`.`asset_class` (`id`, `description`, `asset_code`) VALUES ('12', 'US JOBS', 'USJ');
+ 
+ INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('77', '12', 'US JOBS OPENINGS', 'UJO');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('78', '12', 'US ADP CHANGE', 'UAC');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('79', '12', 'US NON-FARM PAYROLLS', 'UNF');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('80', '12', 'US UNEMP. Rate', 'UUR');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('81', '12', 'US HOUSEHOLD SURVEY of JOBS', 'UHJ');
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('547', 'FINAL', '77', '1', 'US JOBS OPENINGS', 'FIN');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('548', 'INITIAL', '77', '2', 'US JOBS OPENINGS', 'INI');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('549', 'SURV', '77', '3', 'US JOBS OPENINGS', 'SUR');
+
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('550', 'FINAL', '78', '1', 'US ADP CHANGE', 'FIN');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('551', 'INITIAL', '78', '2', 'US ADP CHANGE', 'INI');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('552', 'SURV', '78', '3', 'US ADP CHANGE', 'SUR');
+
+ 
+ INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('553', 'FINAL', '79', '1', 'US NON-FARM PAYROLLS', 'FIN');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('554', 'REV1', '79', '2', 'US NON-FARM PAYROLLS', 'REV');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('555', 'INITIAL', '79', '3', 'US NON-FARM PAYROLLS', 'INI');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('556', 'SURV', '79', '4', 'US NON-FARM PAYROLLS', 'SUR');
+
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('557', 'INDEX', '80', '1', 'US UNEMP. Rate', 'IND');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('558', 'SURV', '80', '2', 'US UNEMP. Rate', 'SUR');
+
+
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('559', 'CIVILIAN lab. Force', '81', '1', 'US HOUSEHOLD SURVEY of JOBS', 'CIV');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('560', 'CIVILIAN lab. Force Chg', '81', '2', 'US HOUSEHOLD SURVEY of JOBS', 'CIC');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('561', 'EMPLOYED lab. Force', '81', '3', 'US HOUSEHOLD SURVEY of JOBS', 'EMP');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('562', 'EMPLOYED lab. Force Chg', '81', '4', 'US HOUSEHOLD SURVEY of JOBS', 'EMPC');
+INSERT INTO `bourse`.`subgroup` (`id`, `description`, `group_id`, `id_sub_group`, `group_desc`, `subgroup_code`) VALUES ('563', 'UN-EMPLOYED', '81', '5', 'US HOUSEHOLD SURVEY of JOBS', 'UNE');
+
+
+INSERT INTO `bourse`.`asset_news_order` (`id`, `asset_code`, `asset_name`, `order_id`, `asset_id`) VALUES ('12', 'USJ', 'US JOBS', '11', '12');
+
+
+create table usjobs_data (
+  id bigint not null, 
+  refer_date varchar(255), 
+  group_id bigint, 
+  subgroup_id bigint, 
+  value varchar(255), 
+  primary key (id)
+);
+
+create table usjobs_data_sequence (next_val bigint) ;
+insert into usjobs_data_sequence values ( 1 );
+
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`, `parent_id`) VALUES ('128', 'DATABASE_INPUT_SCREEN_USJOBS', TRUE, '25');
+
+create table tmp_audit_us_jobsopenings (id bigint not null, 
+	 `final` varchar(255), 
+     `initial` varchar(255), 
+     `surv` varchar(255), 
+ refer_date varchar(255), primary key (id));
+create table audit_us_jobsopenings_sequence (next_val bigint) ;
+insert into audit_us_jobsopenings_sequence values ( 1 );
+
+
+create table tmp_audit_us_adpchange (id bigint not null, 
+	 `final` varchar(255), 
+     `initial` varchar(255), 
+     `surv` varchar(255), 
+ refer_date varchar(255), primary key (id));
+create table audit_us_adpchange_sequence (next_val bigint) ;
+insert into audit_us_adpchange_sequence values ( 1 );
+
+
+create table tmp_audit_us_nfpayrolls(id bigint not null, 
+	 `final` varchar(255), 
+	 `rev1` varchar(255), 
+     `initial` varchar(255), 
+     `surv` varchar(255), 
+ refer_date varchar(255), primary key (id));
+create table audit_us_nfpayrolls_sequence (next_val bigint) ;
+insert into audit_us_nfpayrolls_sequence values ( 1 );
+
+
+create table tmp_audit_us_unemprate(id bigint not null, 
+	 `index` varchar(255), 
+     `surv` varchar(255), 
+ refer_date varchar(255), primary key (id));
+create table audit_us_unemprate_sequence (next_val bigint) ;
+insert into audit_us_unemprate_sequence values ( 1 );
+
+
+create table tmp_audit_us_householdsurv(id bigint not null, 
+	 `civilian_lab_force` varchar(255), 
+     `civilian_lab_force_chg` varchar(255), 
+      `employed_lab_force` varchar(255), 
+     `employed_lab_force_chg` varchar(255), 
+      `unemployed` varchar(255), 
+ refer_date varchar(255), primary key (id));
+create table audit_us_householdsurv_sequence (next_val bigint) ;
+insert into audit_us_householdsurv_sequence values ( 1 );
+
+
+
+INSERT INTO `bourse`.`table_management`
+	(`id`,
+	`asset_id`,
+	`group_id`,
+	`subgroup_id`,
+	`column_name`,
+	`table_name`)
+	select
+	@rownum:=@rownum + 1  as id ,
+	12 as asset_id,
+	s.group_id,
+	s.id_sub_group,
+	 CASE s.id_sub_group
+        WHEN 1 THEN 'final'
+        WHEN 2 THEN 'initial'
+        WHEN 3 THEN 'surv'
+    END AS column_name ,
+	  CASE s.group_id 
+          WHEN 77 THEN 'tmp_audit_us_jobsopenings'
+          WHEN 78 THEN 'tmp_audit_us_adpchange' end as table_name 
+          from subgroup s,
+	 (SELECT @rownum:=(select max(id) from table_management)) r where s.group_id in(77,78) ;
+
+
+
+INSERT INTO `bourse`.`table_management`
+	(`id`,
+	`asset_id`,
+	`group_id`,
+	`subgroup_id`,
+	`column_name`,
+	`table_name`)
+	select
+	@rownum:=@rownum + 1  as id ,
+	12 as asset_id,
+	s.group_id,
+	s.id_sub_group,
+	 CASE s.id_sub_group
+        WHEN 1 THEN 'final'
+		WHEN 2 THEN 'rev1'
+        WHEN 3 THEN 'initial'
+        WHEN 4 THEN 'surv'
+    END AS column_name ,
+	  CASE s.group_id 
+          WHEN 79 THEN 'tmp_audit_us_nfpayrolls' end as table_name 
+          from subgroup s,
+	 (SELECT @rownum:=(select max(id) from table_management)) r where s.group_id in(79) ;
+
+INSERT INTO `bourse`.`table_management`
+	(`id`,
+	`asset_id`,
+	`group_id`,
+	`subgroup_id`,
+	`column_name`,
+	`table_name`)
+	select
+	@rownum:=@rownum + 1  as id ,
+	12 as asset_id,
+	s.group_id,
+	s.id_sub_group,
+	 CASE s.id_sub_group
+        WHEN 1 THEN 'index'
+        WHEN 2 THEN 'surv'
+    END AS column_name ,
+	  CASE s.group_id 
+          WHEN 80 THEN 'tmp_audit_us_unemprate' end as table_name 
+          from subgroup s,
+	 (SELECT @rownum:=(select max(id) from table_management)) r where s.group_id in(80) ;
+
+
+INSERT INTO `bourse`.`table_management`
+	(`id`,
+	`asset_id`,
+	`group_id`,
+	`subgroup_id`,
+	`column_name`,
+	`table_name`)
+	select
+	@rownum:=@rownum + 1  as id ,
+	12 as asset_id,
+	s.group_id,
+	s.id_sub_group,
+	 CASE s.id_sub_group
+        WHEN 1 THEN 'civilian_lab_force'
+        WHEN 2 THEN 'civilian_lab_force_chg'
+		WHEN 3 THEN 'employed_lab_force'
+        WHEN 4 THEN 'employed_lab_force_chg'
+        WHEN 5 THEN 'unemployed'
+    END AS column_name ,
+	  CASE s.group_id 
+          WHEN 81 THEN 'tmp_audit_us_householdsurv' end as table_name 
+          from subgroup s,
+	 (SELECT @rownum:=(select max(id) from table_management)) r where s.group_id in(81) ;
+
+
+
+INSERT INTO `bourse`.`column_configuration`
+		(`id`,
+		`calculation_type`,
+		`can_be_negative`,
+		`currency`,
+		`data_format`,
+		`description`,
+		`display_description`,
+		`graph_scale`,
+		`group_id`,
+		`start_date`,
+		`subgroup_id`,
+		`tick_value`,
+		`chart_type`,
+		`y_axis_format`,
+		`factor`,
+		`descwitoutfactor`,
+		`column_name`,
+		`data_min_increment`,
+		`chart_color`,
+		`chart_showgrid`,
+		`chart_size`,
+		`chart_transparency`,
+		`chartshow_markes`,
+		`exchange_link`,
+		`show_in_database`,
+		`show_in_news_graph`,
+		`column_code`,
+		`status`)
+select 
+		 @row_number:=@row_number + 1 as id ,
+		'INPUT' as `calculation_type`,
+		 false as `can_be_negative`,
+		 null as `currency`,
+		'0.000%' as `data_format`,
+         CONCAT(t.column_name, '-', s.group_Id) as `description`,
+		 s.description as `display_description`,
+		null as `graph_scale`,
+		s.group_Id as `group_id`,
+		'03-01-2000' as `start_date`,
+		s.id_sub_group as`subgroup_id`,
+		null as `tick_value`,
+		'Area' as `chart_type`,
+		'0.00%' as `y_axis_format`,
+		0 as `factor`,
+		s.description  as `descwitoutfactor`,
+		s.description as `column_name`,
+		null as `data_min_increment`,
+		'#44546a' as `chart_color`,
+		'true' as `chart_showgrid`,
+		'12px' as `chart_size`,
+		1 as `chart_transparency`,
+		1 as `chartshow_markes`,
+		null as `exchange_link`,
+		false as `show_in_database`,
+		false as `show_in_news_graph`,
+		'00' as `column_code`,
+		'Ti3lZXf6Pk2NuA3KpLTEUv4voVgsqAR2' as `status`
+		 from  subgroup s, table_management t, 
+(SELECT @row_number:=(SELECT max(id) from column_configuration)) AS t 
+where 
+	 s.group_id in (77,78,79,80,81)
+      and s.group_id = t.group_id 
+	   and s.id_sub_group = t.subgroup_id;
+	  
+
+ INSERT INTO `bourse`.`function_configuration`
+(`id`,
+`calculation_type`,
+`data_format`,
+`description`,
+`display_description`,
+`group_id`,
+`start_date`,
+`subgroup_id`,
+`config_id`,
+`function_id`,
+`tick_value`,
+`chart_type`,
+`y_axis_format`,
+`factor`,
+`descwitoutfactor`,
+`column_name`,
+`data_min_increment`,
+`chart_color`,
+`chart_showgrid`,
+`chart_size`,
+`chart_transparency`,
+`chartshow_markes`,
+`exchange_link`,
+`show_in_database`,
+`show_in_news_graph`,
+`currency`,
+`column_code`)
+select 
+		 @row_number:=@row_number + 1 as id ,
+		'CALCULATED' as `calculation_type`,
+		'0.000%' as `data_format`,
+		s.description as `description`,
+		s.display_description as `display_description`,
+		s.group_Id as `group_id`,
+		'03-01-2000' as `start_date`,
+		s.subgroup_id as`subgroup_id`,
+		s.id  as`config_id`,
+        f.id as `function_id`,
+		null as `tick_value`,
+		'Area' as `chart_type`,
+		'0.00%' as `y_axis_format`,
+		 s.factor as `factor`,
+		 s.description as `descwitoutfactor`,
+		 s.description as `column_name`,
+		null as `data_min_increment`,
+		'#44546a' as `chart_color`,
+		'true' as `chart_showgrid`,
+		'12px' as `chart_size`,
+		1 as `chart_transparency`,
+		1 as `chartshow_markes`,
+		null as `exchange_link`,
+		false as `show_in_database`,
+		false as `show_in_news_graph`,
+		null as `currency`,
+		s.column_code as `column_code`
+		 from  column_configuration s,
+				functions f,
+(SELECT @row_number:=(SELECT max(id) from function_configuration)) AS t where s.group_id in (77,78,79,80,81);
+
+
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('57', 'DATABASE_INPUT_SCREEN_USJOBS-77');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('58', 'DATABASE_INPUT_SCREEN_USJOBS-78');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('59', 'DATABASE_INPUT_SCREEN_USJOBS-79');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('60', 'DATABASE_INPUT_SCREEN_USJOBS-80');
+INSERT INTO `bourse`.`data_entry_filter_history` (`id`, `screen_name`) VALUES ('61', 'DATABASE_INPUT_SCREEN_USJOBS-81');
+
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('129', 'USJOBS_DATA_FUNCTION_DISPLAY_SCREEN', true);
+
+
+
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+SELECT @rownum := @rownum + 1 AS id, 
+       c.description, 
+       'dyncamic_robots_highlow_mono' AS robot_name, 
+       'PROCESS_WITHOUT_FUNCTION' AS process_name, 
+       12 AS asset_id, 
+       c.group_id, 
+       null as function_id
+FROM column_configuration c,
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+WHERE group_id IN (77,78,79,80,81);
+
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+SELECT @rownum := @rownum + 1 AS id, 
+       c.description, 
+       'dyncamic_robots_jump_mono' AS robot_name, 
+       'PROCESS_WITHOUT_FUNCTION' AS process_name, 
+       12 AS asset_id, 
+       c.group_id, 
+       null as function_id
+FROM column_configuration c,
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+WHERE group_id IN (77,78,79,80,81);
+
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+SELECT @rownum := @rownum + 1 AS id, 
+       c.description, 
+       'dyncamic_robots_trend_mono' AS robot_name, 
+       'PROCESS_WITHOUT_FUNCTION' AS process_name, 
+       12 AS asset_id, 
+       c.group_id, 
+       null as function_id
+FROM column_configuration c, 
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+WHERE group_id IN (77,78,79,80,81);
+
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+SELECT @rownum := @rownum + 1 AS id, 
+       c.description, 
+       'dyncamic_robots_function_jump_mono' AS robot_name, 
+       'PROCESS_WITH_FUNCTION' AS process_name, 
+       12 AS asset_id, 
+       c.group_id, 
+       f.id AS function_id
+FROM column_configuration c, functions f,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+WHERE group_id IN (77,78,79,80,81);
+
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+SELECT @rownum := @rownum + 1 AS id, 
+       c.description, 
+       'dyncamic_robots_function_highlow_mono' AS robot_name, 
+       'PROCESS_WITH_FUNCTION' AS process_name, 
+       12 AS asset_id, 
+       c.group_id, 
+       f.id AS function_id
+FROM column_configuration c, functions f,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+WHERE group_id IN (77,78,79,80,81);
+	 
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+ INSERT INTO `bourse`.`robot_initializer`
+(`id`,
+`column_name`,
+`robot_name`,
+`process_name`,
+`asset_id`,
+`group_id`,
+`FUNCTION_ID`)
+SELECT @rownum := @rownum + 1 AS id, 
+       c.description, 
+       'dyncamic_robots_function_trend_mono' AS robot_name, 
+       'PROCESS_WITH_FUNCTION' AS process_name, 
+       12 AS asset_id, 
+       c.group_id, 
+       f.id AS function_id
+FROM column_configuration c, functions f,   
+ (SELECT @rownum:=(select next_val from robot_initializer_sequence)) r
+WHERE group_id IN (77,78,79,80,81);
+	 
+update robot_initializer_sequence set next_val =(select max(id)  from robot_initializer);
+
+
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686147','1','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686148','2','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686149','3','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686150','4','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686151','5','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686152','6','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686153','7','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686154','8','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686155','9','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686156','10','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686157','11','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686158','12','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686159','13','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686160','14','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686161','15','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686162','16','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686163','17','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686164','18','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686165','19','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686166','20','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686167','21','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686168','22','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686169','23','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686170','24','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686171','25','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686172','26','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686173','27','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686174','28','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686175','29','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686176','30','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686177','31','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686178','32','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686179','33','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686180','34','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686181','35','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686182','36','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686183','37','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686184','38','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686185','39','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686186','40','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686187','41','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686188','42','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686189','43','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686190','44','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686191','45','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686192','46','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686193','47','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686194','48','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686195','49','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686196','50','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686197','51','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686198','52','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686199','53','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686200','54','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686201','55','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686202','56','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686203','57','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686204','58','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686205','59','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686206','60','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686207','61','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686208','62','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686209','63','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686210','64','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686211','65','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686212','66','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686213','67','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686214','68','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686215','69','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686216','70','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686217','71','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686218','72','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686219','73','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686220','74','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686221','75','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686222','76','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686223','77','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686224','78','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686225','79','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686226','80','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686227','81','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686228','82','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686229','83','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686230','84','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686231','85','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686232','86','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686233','87','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686234','88','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686235','89','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686236','90','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686237','91','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686238','92','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686239','93','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686240','94','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686241','95','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686242','96','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686243','97','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686244','98','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686245','99','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686246','100','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686247','101','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686248','102','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686249','103','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686250','104','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686251','105','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686252','106','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686253','107','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686254','108','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686255','109','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686256','110','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686257','111','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686258','112','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686259','113','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686260','114','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686261','115','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686262','116','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686263','117','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686264','118','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686265','119','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686266','120','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686267','121','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686268','122','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686269','123','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686270','124','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686271','125','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686272','126','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686273','127','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686274','128','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686275','129','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686276','130','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686277','131','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686278','132','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686279','133','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686280','134','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686281','135','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686282','136','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686283','137','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686284','138','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686285','139','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686286','140','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686287','141','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686288','142','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686289','143','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686290','144','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686291','145','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686292','146','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686293','147','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686294','148','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686295','149','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686296','150','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686297','151','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686298','152','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686299','153','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686300','154','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686301','155','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686302','156','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686303','157','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686304','158','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686305','159','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686306','160','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686307','161','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686308','162','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686309','163','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686310','164','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686311','165','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686312','166','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686313','167','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686314','168','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686315','169','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686316','170','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686317','171','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686318','172','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686319','173','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686320','174','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686321','175','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686322','176','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686323','177','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686324','178','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686325','179','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686326','180','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686327','181','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686328','182','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686329','183','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686330','184','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686331','185','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686332','186','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686333','187','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686334','188','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686335','189','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686336','190','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686337','191','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686338','192','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686339','193','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686340','194','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686341','195','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686342','196','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686343','197','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686344','198','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686345','199','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686346','200','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686347','201','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686348','202','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686349','203','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686350','204','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686351','205','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686352','206','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686353','207','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686354','208','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686355','209','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686356','210','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686357','211','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686358','212','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686359','213','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686360','214','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686361','215','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686362','216','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686363','217','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686364','218','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686365','219','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686366','220','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686367','221','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686368','222','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686369','223','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686370','224','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686371','225','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686372','226','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686373','227','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686374','228','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686375','229','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686376','230','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686377','231','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686378','232','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686379','233','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686380','234','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686381','235','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686382','236','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686383','237','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686384','238','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686385','239','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686386','240','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686387','241','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686388','242','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686389','243','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686390','244','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686391','245','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686392','246','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686393','247','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686394','248','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686395','249','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686396','250','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686397','251','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686398','252','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686399','253','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686400','254','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686401','255','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686402','256','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686403','257','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686404','258','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686405','259','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686406','260','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686407','261','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686408','262','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686409','263','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686410','264','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686411','265','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686412','266','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686413','267','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686414','268','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686415','269','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686416','270','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686417','271','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686418','272','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686419','273','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686420','274','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686421','275','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686422','276','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686423','277','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686424','278','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686425','279','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686426','280','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686427','281','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686428','282','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686429','283','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686430','284','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686431','285','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686432','286','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686433','287','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686434','288','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686435','289','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686436','290','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686437','291','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686438','292','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686439','293','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686440','294','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686441','295','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686442','296','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686443','297','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686444','298','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686445','299','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686446','300','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686447','301','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686448','302','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686449','303','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686450','304','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686451','305','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686452','306','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686453','307','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686454','308','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686455','309','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686456','310','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686457','311','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686458','312','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686459','313','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686460','314','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686461','315','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686462','316','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686463','317','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686464','318','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686465','319','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686466','320','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686467','321','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686468','322','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686469','323','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686470','324','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686471','325','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686472','326','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686473','327','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686474','328','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686475','329','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686476','330','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686477','331','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686478','332','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686479','333','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686480','334','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686481','335','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686482','336','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686483','337','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686484','338','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686485','339','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686486','340','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686487','341','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686488','342','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686489','343','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686490','344','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686491','345','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686492','346','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686493','347','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686494','348','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686495','349','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686496','350','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686497','351','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686498','352','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686499','353','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686500','354','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686501','355','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686502','356','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686503','357','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686504','358','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686505','359','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686506','360','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686507','361','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686508','362','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686509','363','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686510','364','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686511','365','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686512','366','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686513','367','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686514','368','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686515','369','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686516','370','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686517','371','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686518','372','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686519','373','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686520','374','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686521','375','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686522','376','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686523','377','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686524','378','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686525','379','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686526','380','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686527','381','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686528','382','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686529','383','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686530','384','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686531','385','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686532','386','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686533','387','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686534','388','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686535','389','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686536','390','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686537','391','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686538','392','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686539','393','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686540','394','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686541','395','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686542','396','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686543','397','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686544','398','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686545','399','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686546','400','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686547','401','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686548','402','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686549','403','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686550','404','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686551','405','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686552','406','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686553','407','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686554','408','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686555','409','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686556','410','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686557','411','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686558','412','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686559','413','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686560','414','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686561','415','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686562','416','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686563','417','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686564','418','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686565','419','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686566','420','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686567','421','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686568','422','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686569','423','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686570','424','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686571','425','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686572','426','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686573','427','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686574','428','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686575','429','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686576','430','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686577','431','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686578','432','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686579','433','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686580','434','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686581','435','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686582','436','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686583','437','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686584','438','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686585','439','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686586','440','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686587','441','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686588','442','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686589','443','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686590','444','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686591','445','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686592','446','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686593','447','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686594','448','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686595','449','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686596','450','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686597','451','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686598','452','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686599','453','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686600','454','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686601','455','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686602','456','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686603','457','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686604','458','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686605','459','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686606','460','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686607','461','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686608','462','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686609','463','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686610','464','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686611','465','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686612','466','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686613','467','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686614','468','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686615','469','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686616','470','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686617','471','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686618','472','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686619','473','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686620','474','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686621','475','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686622','476','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686623','477','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686624','478','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686625','479','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686626','480','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686627','481','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686628','482','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686629','483','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686630','484','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686631','485','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686632','486','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686633','487','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686634','488','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686635','489','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686636','490','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686637','491','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686638','492','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686639','493','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686640','494','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686641','495','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686642','496','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686643','497','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686644','498','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686645','499','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686646','500','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686647','501','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686648','502','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686649','503','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686650','504','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686651','505','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686652','506','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686653','507','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686654','508','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686655','509','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686656','510','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686657','511','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686658','512','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686659','513','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686660','514','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686661','515','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686662','516','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686663','517','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686664','518','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686665','519','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686666','520','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686667','521','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686668','522','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686669','523','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686670','524','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686671','525','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686672','526','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686673','527','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686674','528','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686675','529','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686676','530','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686677','531','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686678','532','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686679','533','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686680','534','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686681','535','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686682','536','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686683','537','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686684','538','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686685','539','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686686','540','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686687','541','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686688','542','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686689','543','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686690','544','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686691','545','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686692','546','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686693','547','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686694','548','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686695','549','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686696','550','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686697','551','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686698','552','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686699','553','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686700','554','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686701','555','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686702','556','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686703','557','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686704','558','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686705','559','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686706','560','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686707','561','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686708','562','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686709','563','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686710','564','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686711','565','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686712','566','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686713','567','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686714','568','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686715','569','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686716','570','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686717','571','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686718','572','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686719','573','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686720','574','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686721','575','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686722','576','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686723','577','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686724','578','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686725','579','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686726','580','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686727','581','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686728','582','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686729','583','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686730','584','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686731','585','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686732','586','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686733','587','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686734','588','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686735','589','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686736','590','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686737','591','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686738','592','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686739','593','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686740','594','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686741','595','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686742','596','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686743','597','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686744','598','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686745','599','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686746','600','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686747','601','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686748','602','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686749','603','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686750','604','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686751','605','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686752','606','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686753','607','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686754','608','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686755','609','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686756','610','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686757','611','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686758','612','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686759','613','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686760','614','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686761','615','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686762','616','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686763','617','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686764','618','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686765','619','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686766','620','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686767','621','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686768','622','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686769','623','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686770','624','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686771','625','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686772','626','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686773','627','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686774','628','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686775','629','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686776','630','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686777','631','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686778','632','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686779','633','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686780','634','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686781','635','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686782','636','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686783','637','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686784','638','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686785','639','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686786','640','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686787','641','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686788','642','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686789','643','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686790','644','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686791','645','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686792','646','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686793','647','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686794','648','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686795','649','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686796','650','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686797','651','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686798','652','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686799','653','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686800','654','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686801','655','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686802','656','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686803','657','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686804','658','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686805','659','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686806','660','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686807','661','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686808','662','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686809','663','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686810','664','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686811','665','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686812','666','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686813','667','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686814','668','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686815','669','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686816','670','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686817','671','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686818','672','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686819','673','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686820','674','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686821','675','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686822','676','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686823','677','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686824','678','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686825','679','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686826','680','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686827','681','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686828','682','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686829','683','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686830','684','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686831','685','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686832','686','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686833','687','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686834','688','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686835','689','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686836','690','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686837','691','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686838','692','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686839','693','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686840','694','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686841','695','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686842','696','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686843','697','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686844','698','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686845','699','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686846','700','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686847','701','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686848','702','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686849','703','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686850','704','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686851','705','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686852','706','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686853','707','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686854','708','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686855','709','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686856','710','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686857','711','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686858','712','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686859','713','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686860','714','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686861','715','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686862','716','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686863','717','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686864','718','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686865','719','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686866','720','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686867','721','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686868','722','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686869','723','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686870','724','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686871','725','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686872','726','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686873','727','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686874','728','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686875','729','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686876','730','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686877','731','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686878','732','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686879','733','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686880','734','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686881','735','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686882','736','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686883','737','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686884','738','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686885','739','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686886','740','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686887','741','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686888','742','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686889','743','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686890','744','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686891','745','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686892','746','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686893','747','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686894','748','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686895','749','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686896','750','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686897','751','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686898','752','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686899','753','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686900','754','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686901','755','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686902','756','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686903','757','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686904','758','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686905','759','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686906','760','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686907','761','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686908','762','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686909','763','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686910','764','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686911','765','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686912','766','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686913','767','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686914','768','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686915','769','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686916','770','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686917','771','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686918','772','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686919','773','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686920','774','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686921','775','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686922','776','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686923','777','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686924','778','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686925','779','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686926','780','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686927','781','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686928','782','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686929','783','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686930','784','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686931','785','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686932','786','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686933','787','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686934','788','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686935','789','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686936','790','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686937','791','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686938','792','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686939','793','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686940','794','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686941','795','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686942','796','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686943','797','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686944','798','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686945','799','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686946','800','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686947','801','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686948','802','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686949','803','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686950','804','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686951','805','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686952','806','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686953','807','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686954','808','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686955','809','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686956','810','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686957','811','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686958','812','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686959','813','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686960','814','USJUJOINI00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686961','815','USJUJOFIN00LASTHILO','new',12);
+INSERT INTO news_order(id,order_id,robot_code,state,asset_id) VALUES ('686962','816','USJUJOINI00LASTHILO','new',12);
+
+update news_order_sequence set next_val = (select max(id)+1 from news_order);	   
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('130', 'US_JOBS_GRAPH_SCREEN', true);
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('131', 'ANY2_USJOBS_GRAPH_SCREEN', true);
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('132', 'USJOBS_BAR_GRAPH_SCREEN', true);
+
 
  

@@ -207,7 +207,7 @@ public List<TmpAuditUsHouseHoldSurv> getAuditUsHouseHoldSurv(String groupId, Str
 	  
 	public void doCalculationLoader(String fromDate,String toDate,String groupId)
    	{
-   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_cryptos_loader");
+   		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_usjobs_loader");
    		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
 		query.setParameter("fromDate", fromDate);
 		query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
@@ -475,5 +475,62 @@ public List<TmpAuditUsHouseHoldSurv> getAuditUsHouseHoldSurv(String groupId, Str
 		    
 		}
 	
+	  public List<GraphResponseColConfigDTO> getGraphData(GraphRequestDTO graphReqDTO) {
 
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+		
+			List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+			
+			if(graphReqDTO.getGroupId1()!=null)
+			{
+				l1.add(getGraphDataResult(graphReqDTO,false));
+			}
+			if(graphReqDTO.getGroupId2()!=null)
+			{
+				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId2())
+						   .subGroupId1(graphReqDTO.getSubGroupId2())
+						   .period(graphReqDTO.getPeriod())
+						   .type(graphReqDTO.getType())
+						   .fromdate(graphReqDTO.getFromdate())
+						   .todate(graphReqDTO.getTodate())
+						   .functionId(graphReqDTO.getFunctionId())
+						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+						   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+						   .factor1(graphReqDTO.getFactor2())
+						   .build();
+				l1.add(getGraphDataResult(graphRequestDTO,false));
+			}
+			if(graphReqDTO.getGroupId3()!=null)
+			{
+				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId3())
+						   .subGroupId1(graphReqDTO.getSubGroupId3())
+						   .period(graphReqDTO.getPeriod())
+						   .type(graphReqDTO.getType())
+						   .fromdate(graphReqDTO.getFromdate())
+						   .todate(graphReqDTO.getTodate())
+						   .functionId(graphReqDTO.getFunctionId())
+						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+						   .removeEmpty1(graphReqDTO.getRemoveEmpty3())
+						   .factor1(graphReqDTO.getFactor3())
+						   .build();
+				l1.add(getGraphDataResult(graphRequestDTO,false));
+			}
+			if(graphReqDTO.getGroupId4()!=null)
+			{
+				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId4())
+						   .subGroupId1(graphReqDTO.getSubGroupId4())
+						   .period(graphReqDTO.getPeriod())
+						   .type(graphReqDTO.getType())
+						   .fromdate(graphReqDTO.getFromdate())
+						   .todate(graphReqDTO.getTodate())
+						   .functionId(graphReqDTO.getFunctionId())
+						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+						   .build();
+				l1.add(getGraphDataResult(graphRequestDTO,false));
+			}
+			return l1; 
+		
+		}
 }

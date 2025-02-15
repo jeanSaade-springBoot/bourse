@@ -26,6 +26,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.bourse.authsecurity.enums.FailureEnum;
 import com.bourse.authsecurity.exception.BadRequestException;
 import com.bourse.readExcelWriteDB.dto.DataDTO;
+import java.util.regex.Pattern;
 
 public class ReadExcelWriteDBUtil {
 
@@ -424,5 +425,41 @@ public static <T> String[] findMinMaxDatesAsString(List<T> dataList, String date
     String maxDateString = outputDateFormat.format(maxDate);
 
     return new String[]{minDateString, maxDateString};
+}
+public static String parseDate(String dateStr) {
+    if (dateStr == null || dateStr.trim().isEmpty()) {
+        return null;
+    }
+
+    // Regular expression to check if the date is already in dd-MM-yyyy format
+    Pattern correctFormatPattern = Pattern.compile("\\d{2}-\\d{2}-\\d{4}");
+
+    if (correctFormatPattern.matcher(dateStr).matches()) {
+        return dateStr; // Return as is if it's already correct
+    }
+
+    // Possible date formats that need to be converted
+    String[] dateFormats = {
+        "MMM-yy",    // Dec-24
+        "MMM-yyyy",  // Dec-2024
+        "dd-MMM-yyyy", 
+        "MM/dd/yyyy", 
+        "yyyy-MM-dd"
+    };
+
+    for (String format : dateFormats) {
+        try {
+            SimpleDateFormat inputFormat = new SimpleDateFormat(format, Locale.ENGLISH);
+            Date parsedDate = inputFormat.parse(dateStr);
+
+            // Standardize to "dd-MM-yyyy"
+            SimpleDateFormat outputFormat = new SimpleDateFormat("dd-MM-yyyy");
+            return outputFormat.format(parsedDate);
+        } catch (ParseException ignored) {
+        }
+    }
+
+    // If parsing fails, return original string (debugging purpose)
+    return dateStr;
 }
 }

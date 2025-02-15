@@ -15,8 +15,9 @@ const nameSubgroupId = [
 	{ name: '78finals', subgroupId: '1' },
 	{ name: '78initial', subgroupId: '2' },
 	{ name: '78surv', subgroupId: '3' },
+	{ name: '79final', subgroupId: '1' },
 	{ name: '79finals', subgroupId: '1' },
-	{ name: '79index', subgroupId: '2' },
+	{ name: '79rev1', subgroupId: '2' },
 	{ name: '79initial', subgroupId: '3' },
 	{ name: '79surv', subgroupId: '4' },
 	{ name: '80index', subgroupId: '1' },
@@ -45,10 +46,10 @@ var UsUnempRateItem = ["#jqxCheckBoxindex-80",
 	"#jqxCheckBoxsurv-80",
 ];
 
-var UsHouseHoldSurvItem = ["#jqxCheckBoxcivilianLabForce-81",
-	"#jqxCheckBoxcivilianLabForceChg-81",
-	"#jqxCheckBoxemployedLabForce-81",
-	"#jqxCheckBoxemployedLabForceChg-81",
+var UsHouseHoldSurvItem = ["#jqxCheckBoxcivilian_Lab_Force-81",
+	"#jqxCheckBoxcivilian_Lab_Force_Chg-81",
+	"#jqxCheckBoxemployed_Lab_Force-81",
+	"#jqxCheckBoxemployed_Lab_Force_Chg-81",
 	"#jqxCheckBoxunemployed-81",
 ];
 
@@ -110,6 +111,7 @@ var inputData80surv = document.getElementById("data-input-80surv");
 var inputData81civilianLabForce = document.getElementById("data-input-81civilianLabForce");
 
 var inputData81employedLabForce = document.getElementById("data-input-81employedLabForce");
+
 
 var usjobsType;
 
@@ -219,6 +221,11 @@ $(document).ready(function() {
 			{ name: 'SURV-79', type: 'float' },
 			{ name: 'INDEX-80', type: 'float' },
 			{ name: 'SURV-80', type: 'float' },
+			{ name: 'CIVILIAN_LAB_FORCE-81', type: 'float' },
+			{ name: 'CIVILIAN_LAB_FORCE_CHG-81', type: 'float' },
+			{ name: 'EMPLOYED_LAB_FORCE-81', type: 'float' },
+			{ name: 'EMPLOYED_LAB_FORCE_CHG-81', type: 'float' },
+			{ name: 'UNEMPLOYED-81', type: 'float' },
 		],
 		id: 'id',
 		localdata: ''
@@ -652,11 +659,14 @@ function getFilterData(usjobsValue) {
 		});
 		values = [];
 	}
+	var parsedDateFrom = new Date($("#dateInputFrom").jqxDateTimeInput('getDate'));
+		parsedDateFrom.setDate(1);
+	var formattedDateFrom =  parsedDateFrom.getFullYear()+ '-' + ("0" + (parsedDateFrom.getMonth() + 1)).slice(-2)+ '-'+("0" + parsedDateFrom.getDate()).slice(-2) ;
 
 	if (allItems != 0) {
 		json = {
 			"selectedSearchDTOlst": SelectedSearchDTO,
-			"fromDate": $.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'), 'yyyy-MM-dd'),
+			"fromDate": formattedDateFrom,
 			"toDate": $.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'), 'yyyy-MM-dd')
 		};
 
@@ -678,7 +688,7 @@ function getFilterData(usjobsValue) {
 
 					for (i = 0; i < data.columns.length; i++) {
 						if (data.columns[i].datafield == "refer_date") {
-							data.columns[i].cellsformat = 'dd-MMM-yyyy';
+							data.columns[i].cellsformat = 'MMM-yyyy';
 							break;
 						}
 					}
@@ -880,8 +890,8 @@ function renderSubGroup(usjobsValue) {
 			{ text: 'SURV', datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 		];
 
-		Types = ["79final", "79initial", "79surv"];
-		inputDataTypes = [inputData79final, inputData79initial, inputData79surv];
+		Types = ["79final",  "79rev1", "79initial", "79surv"];
+		inputDataTypes = [inputData79final, inputData79rev1, inputData79initial, inputData79surv];
 
 		for (var i = 0; i < Types.length; i++) {
 			var Type = Types[i];
@@ -890,6 +900,7 @@ function renderSubGroup(usjobsValue) {
 			items = UsNFPItem;
 			var dataInputGridFields = [
 				(Type.includes("79final")) ? { name: 'finals', type: 'string' }
+				 :(Type.includes("79rev1")) ? { name: 'rev1', type: 'string' }
 					: (Type.includes("79initial")) ? { name: 'inital', type: 'string' }
 						: (Type.includes("79surv")) ? { name: 'surv', type: 'string' } : null,
 			];
@@ -898,7 +909,8 @@ function renderSubGroup(usjobsValue) {
 
 			var dataInputGridColumns = [
 				(Type.includes("79final")) ? { text: 'final', datafield: 'finals', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
-					: (Type.includes("79initial")) ? { text: 'inital', datafield: 'inital', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+				:(Type.includes("79rev1")) ? { text: 'rev1', datafield: 'rev1', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+				: (Type.includes("79initial")) ? { text: 'inital', datafield: 'inital', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
 						: (Type.includes("79surv")) ? { text: 'surv', datafield: 'surv', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
 							: null,
 			];
@@ -907,7 +919,7 @@ function renderSubGroup(usjobsValue) {
 
 		}
 	} else
-				if (usjobsValue == 4) {
+		if (usjobsValue == 4) {
 		
 
 		var defaultData = AuditDefaultData;
@@ -975,13 +987,16 @@ function renderSubGroup(usjobsValue) {
 				}
 			},
 			{ text: '', editable: false, hidden: true, datafield: 'id', width: widthPercentage + '%' },
-			{ text: 'CIVILIAN lab. Force', datafield: 'civilianLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Chg', datafield: 'civilianLabForceChg', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'EMPLOYED lab. Force', datafield: 'civilianLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'Chg', datafield: 'employedLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			{ text: 'UN-EMPLOYED', datafield: 'civilianLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'CIVILIAN Labor Force', datafield: 'civilianLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'Chg', datafield: 'civilianLabForceChg',editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'EMPLOYED Labor Force', datafield: 'employedLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'Chg', datafield: 'employedLabForceChg',editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
+			{ text: 'UN-EMPLOYED', datafield: 'unemployed',editable: false, width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 		];
 
+		Types = usjobsType;
+
+		
 		Types = ["81civilianLabForce", "81employedLabForce"];
 		inputDataTypes = [inputData81civilianLabForce, inputData81employedLabForce];
 
@@ -989,18 +1004,18 @@ function renderSubGroup(usjobsValue) {
 			var Type = Types[i];
 			inputDataType = inputDataTypes[i];
 
-			items = UsNFPItem;
+			items = UsHouseHoldSurvItem;
 			var dataInputGridFields = [
 				(Type.includes("81civilianLabForce")) ? { name: 'civilianLabForce', type: 'string' }
-					: (Type.includes("81employedLabForce")) ? { name: 'employedLabForce', type: 'string' } : null,
+				: (Type.includes("81employedLabForce")) ? { name: 'employedLabForce', type: 'string' } : null,
 			];
 			var totalFields = dataInputGridFields.length;
 			var widthPercentage = 100 / totalFields;
 
 			var dataInputGridColumns = [
-				(Type.includes("81civilianLabForce")) ? { text: 'final', datafield: 'civilianLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
-					: (Type.includes("81employedLabForce")) ? { text: 'inital', datafield: 'employedLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
-						: null,
+				(Type.includes("81civilianLabForce")) ? { text: 'Civilian Labor Force', datafield: 'civilianLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+				: (Type.includes("81employedLabForce")) ? { text: 'Employed Labor Force', datafield: 'employedLabForce', width: widthPercentage + '%', cellsalign: 'center', align: 'center' }
+							: null,
 			];
 
 			initiate(Type, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
@@ -1123,6 +1138,11 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 		$("#cancel" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/false.svg" });
 		$("#load" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/true.svg" });
 	}
+	else if (usjobsValue == 5) {
+		$("#deleteUsHouseHoldSurv").jqxButton({ theme: 'dark', width: 90, height: 30, template: "danger" });
+		$("#cancel" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/false.svg" });
+		$("#load" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74, imgSrc: "/img/icon/true.svg" });
+	}
 	else {
 		$("#delete" + usjobsType).jqxButton({ theme: 'dark', width: 90, height: 30, template: "danger" });
 		$("#cancel" + usjobsType).jqxButton({ theme: 'dark', height: 30, width: 74 });
@@ -1208,7 +1228,7 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				columns: arrayOFcolumns
 			});
 		$("#deleteUsJobsOpening").click(function() {
-				value = "US JOBS OPENINGS";
+				value = "JOLTS";
 
 			$('#alertDeleteDataByDate-modal').modal('show');
 			date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
@@ -1229,7 +1249,7 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				columns: arrayOFcolumns
 			});
 		 $("#deleteUsADPChange").click(function() {
-				value = "US ADP CHANGE";
+				value = "ADP";
 
 			$('#alertDeleteDataByDate-modal').modal('show');
 			date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
@@ -1252,7 +1272,7 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				});
 			$("#deleteUsNFP").click(function() {
 				
-					value = "US NON-FARM PAYROLLS";
+					value = "NON-FARM PAYROLLS";
 	
 				$('#alertDeleteDataByDate-modal').modal('show');
 				date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
@@ -1275,7 +1295,7 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				columns: arrayOFcolumns
 			});
 		$("#deleteUsUnempRate").click(function() {
-				value = "US UNEMP. Rate";
+				value = "UNEMP. Rate";
 
 			$('#alertDeleteDataByDate-modal').modal('show');
 			date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
@@ -1298,7 +1318,7 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				columns: arrayOFcolumns
 			});
 		$("#deleteUsHouseHoldSurv").click(function() {
-				value = "US HOUSEHOLD SURVEY of JOBS";
+				value = "HOUSEHOLD SURVEY of JOBS";
 
 			$('#alertDeleteDataByDate-modal').modal('show');
 			date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
@@ -1332,24 +1352,25 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 
 
 			var value = eval(listObject[i]);
-
-			dataToBeInserted.push({
-				"groupId": groupId,
-				"subgroupId": nameSubgroupId.filter(obj => obj.name === usjobsType)[0].subgroupId,
-				"value": value[1].replace(',', ''),
-				"referDate": (usjobsValue == 1) ? formattedDate : $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
-			});
+			
+			
+				dataToBeInserted.push({
+					"groupId": groupId,
+					"subgroupId": nameSubgroupId.filter(obj => obj.name === usjobsType)[0].subgroupId,
+					"value": value[1].replace(',', ''),
+					"referDate":  formattedDate 
+				});
+				
 
 		}
 
 		if ($("#dateInput").jqxDateTimeInput('getDate') < date) {
 			var today = $("#dateInput").jqxDateTimeInput('getDate');
-			if (usjobsValue != 1 && usjobsValue != 2  &&  usjobsValue != 3  &&  usjobsValue != 4)
-				if (today.getDay() == 6 || today.getDay() == 0) {
+			/*	if (today.getDay() == 6 || today.getDay() == 0) {
 						$('#alert-modal-weekend').modal('show');
 						return;
 					}
-
+				*/
 			//if (usjobsValue == 1)
 				checkifcanUrl = "/usjobs/checkifcansave/" + groupId + "/" + dataToBeInserted[0].subgroupId + "/";
 

@@ -348,6 +348,14 @@ public class BourseController {
    	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
    		return new ModelAndView("html/cryptos/any2Cryptos");
        }
+    @PreAuthorize("hasAuthority('ANY2_USJOBS_GRAPH_SCREEN') and principal.tacAccepted == true")
+   	@RequestMapping( value =  "/any2usjobs")
+       public ModelAndView anyTwoUsJobsPage(ModelMap model, Authentication authentication)
+       {
+   	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+   	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+   		return new ModelAndView("html/usjobs/any2UsJobs");
+       }
 	@PreAuthorize("hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/precious")
     public ModelAndView preciousMetalsPage(ModelMap model, Authentication authentication)
@@ -647,6 +655,17 @@ public class BourseController {
 
   		return new ModelAndView("html/cryptos/cryptosDataFunctionDisplay");
       }
+    @PreAuthorize("hasAuthority('USJOBS_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+  	@RequestMapping( value =  "/usjobsdatafunctiondisplay")
+      public ModelAndView usjobsDataFunctionDisplay(ModelMap model, Authentication authentication)
+      {
+  	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+  	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+  	    model.addAttribute("datainputmenu", "USJOBS_DATA_FUNCTION_DISPLAY_SCREEN");
+  	    model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
+
+  		return new ModelAndView("html/usjobs/usjobsDataFunctionDisplay");
+      }
 	@PreAuthorize("hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/centralbanks")
     public ModelAndView centralBanksGraphPage(ModelMap model, Authentication authentication)
@@ -920,6 +939,23 @@ public class BourseController {
 	    model.addAttribute("fragment", "html/templates/macro");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/macro/macroGraph");
+    }
+	@PreAuthorize("hasAuthority('US_JOBS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/usJobsgraph")
+    public ModelAndView usJobsGraphScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/macro");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/usjobs/usJobsGraph");
+    }
+	@PreAuthorize("hasAuthority('USJOBS_BAR_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/usJobs")
+    public ModelAndView usJobsScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/usjobs/usJobs");
     }
 	@PreAuthorize("hasAuthority('MACRO_PMI_VS_SURVEY') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/pmivssurvey")

@@ -4930,4 +4930,109 @@ var itemValue = {
     "title": "",
    
   },
+   "#jqxCheckBoxfinal-77": { 
+	"subGroupId": "1",
+    "GroupId": "77",
+    "description": "final-77",
+    "title": "",
+  },
+   "#jqxCheckBoxinitial-77": { 
+	"subGroupId": "2",
+    "GroupId": "77",
+    "description": "initial-77",
+    "title": "",
+  },
+   "#jqxCheckBoxsurv-77": { 
+	"subGroupId": "3",
+    "GroupId": "77",
+    "description": "surv-77",
+    "title": "",
+  },
+  
+ "#jqxCheckBoxfinal-78": { 
+	"subGroupId": "1",
+    "GroupId": "78",
+    "description": "final-78",
+    "title": "",
+  },
+   "#jqxCheckBoxinitial-78": { 
+	"subGroupId": "2",
+    "GroupId": "78",
+    "description": "initial-78",
+    "title": "",
+  },
+   "#jqxCheckBoxsurv-78": { 
+	"subGroupId": "3",
+    "GroupId": "78",
+    "description": "surv-78",
+    "title": "",
+  },
+  
+ "#jqxCheckBoxfinal-79": { 
+	"subGroupId": "1",
+    "GroupId": "79",
+    "description": "final-79",
+    "title": "",
+  },
+   "#jqxCheckBoxrev1-79": { 
+	"subGroupId": "2",
+    "GroupId": "79",
+    "description": "rev1-79",
+    "title": "",
+  },
+   "#jqxCheckBoxinitial-79": { 
+	"subGroupId": "3",
+    "GroupId": "79",
+    "description": "initial-79",
+    "title": "",
+  },
+   "#jqxCheckBoxsurv-79": { 
+	"subGroupId": "4",
+    "GroupId": "79",
+    "description": "surv-79",
+    "title": "",
+  },
+ "#jqxCheckBoxindex-80": { 
+	"subGroupId": "1",
+    "GroupId": "80",
+    "description": "index-80",
+    "title": "",
+  },
+   "#jqxCheckBoxsurv-80": { 
+	"subGroupId": "2",
+    "GroupId": "80",
+    "description": "surv-80",
+    "title": "",
+  },
+  
+ "#jqxCheckBoxcivilian_Lab_Force-81": { 
+	"subGroupId": "1",
+    "GroupId": "81",
+    "description": "civilian_lab_force-81",
+    "title": "",
+  },
+   "#jqxCheckBoxcivilian_Lab_Force_Chg-81": { 
+	"subGroupId": "2",
+    "GroupId": "81",
+    "description": "civilian_lab_force_chg-81",
+    "title": "",
+  },
+   "#jqxCheckBoxemployed_Lab_Force-81": { 
+	"subGroupId": "3",
+    "GroupId": "81",
+    "description": "employed_lab_force-81",
+    "title": "",
+  },
+   "#jqxCheckBoxemployed_Lab_Force_Chg-81": { 
+	"subGroupId": "4",
+    "GroupId": "81",
+    "description": "employed_lab_force_chg-81",
+    "title": "",
+  },
+   "#jqxCheckBoxunemployed-81": { 
+	"subGroupId": "5",
+    "GroupId": "81",
+    "description": "unemployed-81",
+    "title": "",
+  },
   	};

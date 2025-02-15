@@ -14,8 +14,6 @@ var BitcoinItem = [
 	'#jqxCheckBox-71-8',
 	'#jqxCheckBox-71-5',
 	'#jqxCheckBox-71-6',
-	'#jqxCheckBox-71-1',
-	'#jqxCheckBox-71-2',
 ];
 
 var EthereumItem = [
@@ -25,8 +23,6 @@ var EthereumItem = [
 	'#jqxCheckBox-72-8',
 	'#jqxCheckBox-72-5',
 	'#jqxCheckBox-72-6',
-	'#jqxCheckBox-72-1',
-	'#jqxCheckBox-72-2',
 ];
 var SolanaItem = [
 	'#jqxCheckBox-73-7',
@@ -35,8 +31,6 @@ var SolanaItem = [
 	'#jqxCheckBox-73-8',
 	'#jqxCheckBox-73-5',
 	'#jqxCheckBox-73-6',
-	'#jqxCheckBox-73-1',
-	'#jqxCheckBox-73-2',
 ];
 var ShibaItem = [
 	'#jqxCheckBox-74-7',
@@ -45,8 +39,6 @@ var ShibaItem = [
 	'#jqxCheckBox-74-8',
 	'#jqxCheckBox-74-5',
 	'#jqxCheckBox-74-6',
-	'#jqxCheckBox-74-1',
-	'#jqxCheckBox-74-2',
 ];
 var BinanceItem = [
 	'#jqxCheckBox-75-7',
@@ -55,8 +47,6 @@ var BinanceItem = [
 	'#jqxCheckBox-75-8',
 	'#jqxCheckBox-75-5',
 	'#jqxCheckBox-75-6',
-	'#jqxCheckBox-75-1',
-	'#jqxCheckBox-75-2',
 ];
 var XrpItem = [
 '#jqxCheckBox-76-7',
@@ -65,8 +55,6 @@ var XrpItem = [
 	'#jqxCheckBox-76-8',
 	'#jqxCheckBox-76-5',
 	'#jqxCheckBox-76-6',
-	'#jqxCheckBox-76-1',
-	'#jqxCheckBox-76-2',
 	];
  const subgrouId_description =  [
 	 		    { name: 'Openeur', subgroupId: 1 ,dbName: 'openeur' },
@@ -579,13 +567,16 @@ function getFilterData(crySubGroupValue) {
 				timeout: 600000,
 				success: function(data) {
 					delete source.url;
+					data.rows.forEach(row => {
+					    row.start_time = convertToLocalTime(row.start_time);
+					});
 					source.localdata = data.rows;
 					dataAdapter = new $.jqx.dataAdapter(source);
 					$('#grid').jqxGrid('hideloadelement');
 
 					for (i = 0; i < data.columns.length; i++) {
-						if (data.columns[i].datafield == "refer_date") {
-							data.columns[i].cellsformat = 'dd-MMM-yyyy';
+						if (data.columns[i].datafield == "start_time") {
+							data.columns[i].cellsformat = 'dd-MMM-yy HH:mm';
 							break;
 						}
 					}
@@ -1126,3 +1117,14 @@ function initiate(Type, inputDataType, item, dataInputGridFields, dataInputGridC
         // Update the button UI to reflect the active time
         activateButton(hour);
     }
+    
+    function convertToLocalTime(datetimeStr) {
+    // Remove milliseconds (.0) if present
+    let cleanDateTimeStr = datetimeStr.replace(".0", "");
+
+    // Convert to a JavaScript Date object (assuming UTC)
+    let utcDate = new Date(cleanDateTimeStr + " UTC");
+
+    // Convert to local time string
+    return utcDate.toLocaleString();  // Adjusts to user's local timezone
+}

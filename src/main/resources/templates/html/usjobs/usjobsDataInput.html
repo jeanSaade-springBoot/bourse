@@ -168,11 +168,11 @@ padding-right:.2rem;
               <!-- Form Basic -->
              <div class="col mt-4 ml-4">
               <div class="btn-group" role="group" aria-label="First group">
-			    <button type="button" class="btn btn-secondary mw-100" id="UsJobsOpening-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">US JOBS OPENINGS</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="UsADPChange-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">US ADP CHANGE</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="UsNFP-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">US NON-FARM PAYROLLS</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="UsUnempRate-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">US UNEMP. Rate</button>
-			   	<button type="button" class="btn btn-secondary mw-100" id="UsHouseHoldSurv-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">US HOUSEHOLD SURVEY of JOBS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="UsJobsOpening-btn"  th:onclick="'javascript:toggleDivVisibility(1)'"> JOLTS</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="UsADPChange-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">ADP</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="UsNFP-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">NON-FARM</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="UsUnempRate-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">UNEMP. Rate</button>
+			   	<button type="button" class="btn btn-secondary mw-100" id="UsHouseHoldSurv-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">HOUSEHOLD SURVEY of JOBS</button>
 			   </div>
 			</div>
             <div class="collapse show" id="collapseExample">
@@ -427,7 +427,7 @@ padding-right:.2rem;
                                     <div id="dataInputGrid79rev1" style="margin-top: 0rem;"></div>
                                     <div class="row" id="dataInputButtons79rev1" style="display: none;">
                                       <div class='col-12 d-flex justify-content-end mt-2'>
-                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load79initial" value="" />
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load79rev1" value="" />
                                         <input id="cancel79rev1" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
                                       </div>
                                     </div>
@@ -560,6 +560,71 @@ padding-right:.2rem;
                          
                         </div>
 	                 </div>
+	                  <div th:if="${usjobs == 5}" class="col-12 pr-0" id="UsHouseHoldSurv-input">
+	          
+		                <div class="col-6   p-0 " style="min-width: 660px;">
+                          <div class="col-12 d-flex">
+                             
+                            <div class="pl-0 " id="1">
+                             
+                              <div class="col d-flex p-0">
+							  
+                                <div class="" id="1-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput81civilianLabForce">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="1-usjobs">CIVILIAN Labor Force<input type="text" class="form-control" id="data-input-81civilianLabForce" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid81civilianLabForce" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons81civilianLabForce" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load81civilianLabForce" value="" />
+                                        <input id="cancel81civilianLabForce" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                              </div>
+                            </div>
+						
+							   <div class="  pr-0 " id="2">
+							  
+                              <div class="col d-flex p-0">
+							     
+                                <div class="" id="2-17">
+                                  <div class="col  ">
+                                    <form id="dataformInput81employedLabForce">
+                                      <div class="form-group" style="margin-top: 0">
+                                        <div class="pt-2 d-flex">
+                                          <div class="" id="2-usjobs"> EMPLOYED Labor Force <input type="text" class="form-control" id="data-input-81employedLabForce" autocomplete="off">
+                                          </div>
+                                        </div>
+                                      </div>
+                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
+                                    </form>
+                                    <div id="dataInputGrid81employedLabForce" style="margin-top: 0rem;"></div>
+                                    <div class="row" id="dataInputButtons81employedLabForce" style="display: none;">
+                                      <div class='col-12 d-flex justify-content-end mt-2'>
+                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load81employedLabForce" value="" />
+                                        <input id="cancel81employedLabForce" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+                                      </div>
+                                    </div>
+                                  </div>
+                                </div>
+                            
+                          
+                              </div>
+                            </div>
+                          </div>
+                         
+                        </div>
+	                 </div>
                </div>
                <div th:if="${usjobs != 1}" class="col-1"></div>
                <div class="col-6 d-flex justify-content-between">
@@ -658,7 +723,7 @@ padding-right:.2rem;
      <div class="col border ml-2 p-1 rounded">
         <div class="row">
           <div th:if="${usjobs == 1}" class="col-sm-9" id="UsJobsOpening-filter">
-             <h6 class="col font-weight-bold">US JOBS OPENINGS</h6>
+             <h6 class="col font-weight-bold">JOLTS</h6>
              <div class="d-flex justify-content-between col">
              	
              	<div class="col-4">
@@ -681,7 +746,7 @@ padding-right:.2rem;
          	 </div>
            </div>
                <div th:if="${usjobs == 2}" class="col-sm-9" id="UsADPChange-filter">
-             <h6 class="col font-weight-bold">US ADP CHANGE</h6>
+             <h6 class="col font-weight-bold">ADP</h6>
              <div class="d-flex justify-content-between col">
              	
              	<div class="col-4">
@@ -704,7 +769,7 @@ padding-right:.2rem;
          	 </div>
            </div>
            <div th:if="${usjobs == 3}" class="col-sm-9" id="UsNFPItem-filter">
-             <h6 class="col font-weight-bold">US NON-FARM PAYROLLS</h6>
+             <h6 class="col font-weight-bold">NON-FARM PAYROLLS</h6>
              <div class="d-flex justify-content-between col">
              	
              	<div class="col-3">
@@ -733,7 +798,7 @@ padding-right:.2rem;
          	 </div>
            </div>
              <div th:if="${usjobs == 4}" class="col-sm-9" id="UsUnempRate-filter">
-             <h6 class="col font-weight-bold">US UNEMP. Rate</h6>
+             <h6 class="col font-weight-bold">UNEMP. Rate</h6>
              <div class="d-flex justify-content-between col">
              	
              	<div class="col-4">
@@ -750,28 +815,28 @@ padding-right:.2rem;
          	 </div>
            </div>
               <div th:if="${usjobs == 5}" class="col-sm-9" id="UsHouseHoldSurv-filter">
-             <h6 class="col font-weight-bold">US HOUSEHOLD SURVEY of JOBS</h6>
+             <h6 class="col font-weight-bold">HOUSEHOLD SURVEY of JOBS</h6>
              <div class="d-flex justify-content-between col">
              	
              	<div class="col-2">
              			
              		<div class="row align-middle">
-             			<div id='jqxCheckBoxcivilianLabForce-81' style='float: left;'><span class="checkboxesTitle">CIVILIAN lab. Force</span></div> 
+             			<div id='jqxCheckBoxcivilian_Lab_Force-81' style='float: left;'><span class="checkboxesTitle">CIVILIAN Labor Force</span></div> 
              		</div>
              	</div>
              	<div class="col-2">
              		<div class="row align-middle">
-             			<div id='jqxCheckBoxcivilianLabForceChg-81' style='float: left;'><span class="checkboxesTitle">CIVILIAN lab. Force Chg</span></div> 
+             			<div id='jqxCheckBoxcivilian_Lab_Force_Chg-81' style='float: left;'><span class="checkboxesTitle">CIVILIAN Labor Force Chg</span></div> 
              		</div>
              	</div>
 					<div class="col-2">
              		<div class="row align-middle">
-             			<div id='jqxCheckBoxemployedLabForce-81' style='float: left;'><span class="checkboxesTitle">EMPLOYED lab. Force</span></div> 
+             			<div id='jqxCheckBoxemployed_Lab_Force-81' style='float: left;'><span class="checkboxesTitle">EMPLOYED Labor Force</span></div> 
              		</div>
              	</div>
 					<div class="col-2">
              		<div class="row align-middle">
-             			<div id='jqxCheckBoxemployedLabForceChg-81' style='float: left;'><span class="checkboxesTitle">EMPLOYED lab. Force Chg</span></div> 
+             			<div id='jqxCheckBoxemployed_Lab_Force_Chg-81' style='float: left;'><span class="checkboxesTitle">EMPLOYED Labor Force Chg</span></div> 
              		</div>
              	</div>
 					<div class="col-2">

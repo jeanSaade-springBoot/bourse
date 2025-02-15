@@ -285,7 +285,20 @@ var familysource =
     case 75:
 	case 76:
 	   imagePath='/css/images/format/bitcoins_format.png' 
-	     break;       
+	     break;      
+	case 77:
+	case 78:
+	   imagePath='/css/images/format/usjobs_opening_adp_format.png' 
+	     break;   
+	case 79:
+	   imagePath='/css/images/format/usjobs_nfp_format.png' 
+	     break;
+	 case 80:
+	   imagePath='/css/images/format/usjobs_unemployed_format.png' 
+	     break;         
+	  case 81:
+	   imagePath='/css/images/format/usjobs_houseHoldSurv_format.png' 
+	     break;     
 	}
 return imagePath;
   }

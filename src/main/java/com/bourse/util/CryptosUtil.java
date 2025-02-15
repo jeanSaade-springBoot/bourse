@@ -307,32 +307,19 @@ public class CryptosUtil {
 				{
 				if(counter == 1)
 				 {
-					 forUseSelect = "select s"+counter+".start_time as start_time";
+					 forUseSelect = "select s1.start_time as start_time";
 					 colHash.put(columnsId, "start_time");
 					 columnsId++;
 					 
-					 forUsetables = " From ";
 				 }
 				 
 				 if(selectedSearchDTO.getSelectedValues()!=null)
 				 for(String value : selectedSearchDTO.getSelectedValues())
 				 {     
 					 
-						 if(counter == 1)
-						 {
-							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
-							 		+ "\n            and '"+toDate+"')\n ";
-							 
-						 }
-						else
-						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
-						 		    + "\n          and '"+toDate+"')\n";
-						 
-						 }
-						 forUsetables = forUsetables + tableSchema+"cr_bitcoin_four_hours";
-	    				 forUsetables = forUsetables + " s"+counter+" ,";
+						 forUsetables = "cr_btc_high_low";
 					 	 forUseSelect = forUseSelect+", \n"+ 
-						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
+						                         "IFNULL(s1."+value.split("-")[0]+", '')"+
 						                         " as '"+value+"'";
 					 	 colHash.put(columnsId, value);
 					 	 columnsId++;
@@ -343,194 +330,129 @@ public class CryptosUtil {
 				}
 		else if(selectedSearchDTO.getGroupId() == 72) 
 				{
-				if(counter == 1)
-				 {
-					 forUseSelect = "select s"+counter+".start_time as start_time";
-					 colHash.put(columnsId, "start_time");
-					 columnsId++;
-					 
-					 forUsetables = " From ";
-				 }
+			if(counter == 1)
+			 {
+				 forUseSelect = "select s1.start_time as start_time";
+				 colHash.put(columnsId, "start_time");
+				 columnsId++;
 				 
-				 if(selectedSearchDTO.getSelectedValues()!=null)
-				 for(String value : selectedSearchDTO.getSelectedValues())
-				 {     
-					 
-						 if(counter == 1)
-						 {
-							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
-							 		+ "\n            and '"+toDate+"')\n ";
-							 
-						 }
-						else
-						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
-						 		    + "\n          and '"+toDate+"')\n";
-						 
-						 }
-						 forUsetables = forUsetables + tableSchema+"cr_ethereum_four_hours";
-	    				 forUsetables = forUsetables + " s"+counter+" ,";
-					 	 forUseSelect = forUseSelect+", \n"+ 
-						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
-						                         " as '"+value+"'";
-					 	 colHash.put(columnsId, value);
-					 	 columnsId++;
-						 
-						 counter = counter+1;	 
-				 }
+			 }
+			 
+			 if(selectedSearchDTO.getSelectedValues()!=null)
+			 for(String value : selectedSearchDTO.getSelectedValues())
+			 {     
 				 
-				}
+					 forUsetables = "cr_ethereum_high_low";
+				 	 forUseSelect = forUseSelect+", \n"+ 
+					                         "IFNULL(s1."+value.split("-")[0]+", '')"+
+					                         " as '"+value+"'";
+				 	 colHash.put(columnsId, value);
+				 	 columnsId++;
+					 
+					 counter = counter+1;	 
+			 }
+			 
+			}
 				else if(selectedSearchDTO.getGroupId() == 73) 
 				{
-				if(counter == 1)
-				 {
-					 forUseSelect = "select s"+counter+".start_time as start_time";
-					 colHash.put(columnsId, "start_time");
-					 columnsId++;
+					if(counter == 1)
+					 {
+						 forUseSelect = "select s1.start_time as start_time";
+						 colHash.put(columnsId, "start_time");
+						 columnsId++;
+						 
+					 }
 					 
-					 forUsetables = " From ";
-				 }
-				 
-				 if(selectedSearchDTO.getSelectedValues()!=null)
-				 for(String value : selectedSearchDTO.getSelectedValues())
-				 {     
-					 
-						 if(counter == 1)
-						 {
-							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
-							 		+ "\n            and '"+toDate+"')\n ";
+					 if(selectedSearchDTO.getSelectedValues()!=null)
+					 for(String value : selectedSearchDTO.getSelectedValues())
+					 {     
+						 
+							 forUsetables = "cr_solana_high_low";
+						 	 forUseSelect = forUseSelect+", \n"+ 
+							                         "IFNULL(s1."+value.split("-")[0]+", '')"+
+							                         " as '"+value+"'";
+						 	 colHash.put(columnsId, value);
+						 	 columnsId++;
 							 
-						 }
-						 else
-						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
-						 		    + "\n          and '"+toDate+"')\n";
-						 
-						 }
-						 forUsetables = forUsetables + tableSchema+"cr_solana_four_hours";
-	    				 forUsetables = forUsetables + " s"+counter+" ,";
-					 	 forUseSelect = forUseSelect+", \n"+ 
-						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
-						                         " as '"+value+"'";
-					 	 colHash.put(columnsId, value);
-					 	 columnsId++;
-						 
-						 counter = counter+1;	 
-				 }
-				 
-				}					
+							 counter = counter+1;	 
+					 }
+					 
+					}					
 						else if(selectedSearchDTO.getGroupId() == 74) 
 				{
-				if(counter == 1)
-				 {
-					 forUseSelect = "select s"+counter+".start_time as start_time";
-					 colHash.put(columnsId, "start_time");
-					 columnsId++;
-					 
-					 forUsetables = " From ";
-				 }
-				 
-				 if(selectedSearchDTO.getSelectedValues()!=null)
-				 for(String value : selectedSearchDTO.getSelectedValues())
-				 {     
-					 
-						 if(counter == 1)
-						 {
-							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
-							 		+ "\n            and '"+toDate+"')\n ";
+							if(counter == 1)
+							 {
+								 forUseSelect = "select s1.start_time as start_time";
+								 colHash.put(columnsId, "start_time");
+								 columnsId++;
+								 
+							 }
 							 
-						 }
-						 else
-						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
-						 		    + "\n          and '"+toDate+"')\n";
-						 
-						 }
-						 forUsetables = forUsetables + tableSchema+"cr_shiba_four_hours";
-	    				 forUsetables = forUsetables + " s"+counter+" ,";
-					 	 forUseSelect = forUseSelect+", \n"+ 
-						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
-						                         " as '"+value+"'";
-					 	 colHash.put(columnsId, value);
-					 	 columnsId++;
-						 
-						 counter = counter+1;	 
-				 }
-				 
-				}		
+							 if(selectedSearchDTO.getSelectedValues()!=null)
+							 for(String value : selectedSearchDTO.getSelectedValues())
+							 {     
+								 
+									 forUsetables = "cr_shiba_high_low";
+								 	 forUseSelect = forUseSelect+", \n"+ 
+									                         "IFNULL(s1."+value.split("-")[0]+", '')"+
+									                         " as '"+value+"'";
+								 	 colHash.put(columnsId, value);
+								 	 columnsId++;
+									 
+									 counter = counter+1;	 
+							 }
+							 
+							}		
 					else if(selectedSearchDTO.getGroupId() == 75) 
 				{
-				if(counter == 1)
-				 {
-					 forUseSelect = "select s"+counter+".start_time as start_time";
-					 colHash.put(columnsId, "start_time");
-					 columnsId++;
-					 
-					 forUsetables = " From ";
-				 }
-				 
-				 if(selectedSearchDTO.getSelectedValues()!=null)
-				 for(String value : selectedSearchDTO.getSelectedValues())
-				 {     
-					 
-						 if(counter == 1)
+						if(counter == 1)
 						 {
-							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
-							 		+ "\n            and '"+toDate+"')\n ";
+							 forUseSelect = "select s1.start_time as start_time";
+							 colHash.put(columnsId, "start_time");
+							 columnsId++;
 							 
 						 }
-						else
-						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
-						 		    + "\n          and '"+toDate+"')\n";
 						 
+						 if(selectedSearchDTO.getSelectedValues()!=null)
+						 for(String value : selectedSearchDTO.getSelectedValues())
+						 {     
+							 
+								 forUsetables = "cr_binance_high_low";
+							 	 forUseSelect = forUseSelect+", \n"+ 
+								                         "IFNULL(s1."+value.split("-")[0]+", '')"+
+								                         " as '"+value+"'";
+							 	 colHash.put(columnsId, value);
+							 	 columnsId++;
+								 
+								 counter = counter+1;	 
 						 }
-						 forUsetables = forUsetables + tableSchema+"cr_binance_four_hours";
-	    				 forUsetables = forUsetables + " s"+counter+" ,";
-					 	 forUseSelect = forUseSelect+", \n"+ 
-						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
-						                         " as '"+value+"'";
-					 	 colHash.put(columnsId, value);
-					 	 columnsId++;
 						 
-						 counter = counter+1;	 
-				 }
-				 
-				}		
+						}		
 				else if(selectedSearchDTO.getGroupId() == 76) 
 				{
-				if(counter == 1)
-				 {
-					 forUseSelect = "select s"+counter+".start_time as start_time";
-					 colHash.put(columnsId, "start_time");
-					 columnsId++;
+					if(counter == 1)
+					 {
+						 forUseSelect = "select s1.start_time as start_time";
+						 colHash.put(columnsId, "start_time");
+						 columnsId++;
+						 
+					 }
 					 
-					 forUsetables = " From ";
-				 }
-				 
-				 if(selectedSearchDTO.getSelectedValues()!=null)
-				 for(String value : selectedSearchDTO.getSelectedValues())
-				 {     
-					 
-						 if(counter == 1)
-						 {
-							 forUseWhere = "    where (s"+counter+".start_time between '"+fromDate+"'"
-							 		+ "\n            and '"+toDate+"')\n ";
+					 if(selectedSearchDTO.getSelectedValues()!=null)
+					 for(String value : selectedSearchDTO.getSelectedValues())
+					 {     
+						 
+							 forUsetables = "cr_xrp_high_low";
+						 	 forUseSelect = forUseSelect+", \n"+ 
+							                         "IFNULL(s1."+value.split("-")[0]+", '')"+
+							                         " as '"+value+"'";
+						 	 colHash.put(columnsId, value);
+						 	 columnsId++;
 							 
-						 }
-						 else
-						 { forUseWhere = forUseWhere+"      and ( s"+counter+".start_time between '"+fromDate+"'"
-						 		    + "\n          and '"+toDate+"')\n";
-						 
-						 }
-						 forUsetables = forUsetables + tableSchema+"cr_xrp_four_hours";
-	    				 forUsetables = forUsetables + " s"+counter+" ,";
-					 	 forUseSelect = forUseSelect+", \n"+ 
-						                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
-						                         " as '"+value+"'";
-					 	 colHash.put(columnsId, value);
-					 	 columnsId++;
-						 
-						 counter = counter+1;	 
-				 }
-				 
-				}								
+							 counter = counter+1;	 
+					 }
+					 
+					}								
 					
 				
 	 }
@@ -544,11 +466,44 @@ public class CryptosUtil {
 			 forUsetables = forUsetables.substring(0, forUsetables.length() - 1);
 		 
 		 colHash.put(columnsId,"id");
-		 query = forUseSelect+",(@row_number:=@row_number + 1) AS id \n"
-				 +forUsetables+", (SELECT @row_number:=0) AS t  \n"
-				 +forUseWhere
-				 + forUseAnd
-				 +" order by s1.start_time desc";
+	
+		 
+		 query = forUseSelect
+		 		+ "        from (\r\n"
+		 		+ "			SELECT \r\n"
+		 		+ "			  DATE(start_time) AS trade_date,\r\n"
+		 		+ "			  -- This expression computes the period start hour (0, 4, 8, …)\r\n"
+		 		+ "			  CONCAT(LPAD(FLOOR(HOUR(start_time)/4)*4, 2, '0'), ':00:00') AS period,\r\n"
+		 		+ "			  MIN(start_time) AS start_time,\r\n"
+		 		+ "			  MAX(end_time) AS end_time,\r\n"
+		 		+ "			  \r\n"
+		 		+ "			  -- Get the open value from the first record of the group\r\n"
+		 		+ "			  (SELECT open \r\n"
+		 		+ "			   FROM `"+forUsetables+"` t2 \r\n"
+		 		+ "			   WHERE t2.start_time = MIN(t1.start_time)\r\n"
+		 		+ "			   LIMIT 1) AS openint,\r\n"
+		 		+ "			  \r\n"
+		 		+ "			  -- Get the close value from the last record of the group\r\n"
+		 		+ "			  (SELECT close \r\n"
+		 		+ "			   FROM  `"+forUsetables+"`  t3 \r\n"
+		 		+ "			   WHERE t3.end_time = MAX(t1.end_time)\r\n"
+		 		+ "			   LIMIT 1) AS closeint,\r\n"
+		 		+ "			  \r\n"
+		 		+ "			  MAX(high) AS high,\r\n"
+		 		+ "			  MIN(low) AS low,\r\n"
+		 		+ "			  SUM(volume) AS volume,\r\n"
+		 		+ "			  (SELECT marketcap\r\n"
+		 		+ "			FROM  `"+forUsetables+"`  t\r\n"
+		 		+ "			WHERE t.end_time <= MAX(t1.end_time)\r\n"
+		 		+ "			  AND marketcap <> 0\r\n"
+		 		+ "			ORDER BY t.end_time DESC\r\n"
+		 		+ "			LIMIT 1) AS marketcap\r\n"
+		 		+ "			FROM  `"+forUsetables+"`  t1\r\n"
+		 		+ "			GROUP BY trade_date, period\r\n"
+		 		+ "			ORDER BY trade_date, period)s1  \r\n"
+		 		+ "					WHERE  (start_time between '"+fromDate+"' "
+		 		+ "							 		          and '"+toDate+"')"
+		 		+ "					ORDER BY  start_time  DESC";
 		 
 		 QueryColumnsDTO queryColumnsDTO = QueryColumnsDTO.builder()
 				 .colHash(colHash)

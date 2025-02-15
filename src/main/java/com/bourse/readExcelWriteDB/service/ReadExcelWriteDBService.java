@@ -41,6 +41,7 @@ import com.bourse.domain.sti.StiCryptosData;
 import com.bourse.domain.sti.StiEmergingData;
 import com.bourse.domain.sti.StiEuropeData;
 import com.bourse.domain.sti.StiWallStreetData;
+import com.bourse.domain.usJobs.UsJobsData;
 import com.bourse.readExcelWriteDB.dto.DataDTO;
 import com.bourse.readExcelWriteDB.dto.ReadExcelWriteDBDTO;
 import com.bourse.readExcelWriteDB.enums.SubGroupEnum;
@@ -69,6 +70,7 @@ import com.bourse.service.macro.MacroService;
 import com.bourse.service.rates.RatesService;
 import com.bourse.service.skews.SkewsService;
 import com.bourse.service.sti.StiService;
+import com.bourse.service.usJobs.UsJobsService;
 
 @Service
 public class ReadExcelWriteDBService {
@@ -119,6 +121,8 @@ public class ReadExcelWriteDBService {
     LongEndsService longEndsService;
     @Autowired
     CryptosService cryptosService;
+    @Autowired
+    UsJobsService usJobsService;
     
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
 		List<DataDTO> rowData = new ArrayList<>();
@@ -147,6 +151,9 @@ public class ReadExcelWriteDBService {
 	    cryptosGroupIds.add("75");
 	    cryptosGroupIds.add("76");
 	    
+	    Set<String> UsJobsSimilarGroupIds = new HashSet<>();
+	    UsJobsSimilarGroupIds.add("77");
+	    UsJobsSimilarGroupIds.add("78");
 	    
 		System.out.println("------------------ batch load: "+readExcelWriteDBDTO.getGroupId());
 		if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("6"))
@@ -1222,6 +1229,154 @@ public class ReadExcelWriteDBService {
 		        } else {
 		            System.out.println("List is empty.");
 		        } 
+		}else if(UsJobsSimilarGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim()))
+		{
+			   List<UsJobsData> usJobsDataLst = new ArrayList<>();
+			   List<String> subgroups = Arrays.asList("1", "2","3");
+			   int[] subgroupOrder = {1,2,3};
+			   int i = 0; 
+			   for (String subGroupId: subgroups) {
+						   rowData.clear();
+						   usJobsDataLst.clear();
+						   rowData = ReadExcelWriteDBUtil.readExcelFileWithString(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+						   for (DataDTO data: rowData) {
+							 if(usJobsService.CheckIfCanSaveUsJobs(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subgroupOrder[i])))
+							 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+							 
+							 UsJobsData usJobsData = UsJobsData.builder().referDate(ReadExcelWriteDBUtil.parseDate(data.getDate()))
+							   												  .subgroupId(Long.valueOf(subgroupOrder[i]))
+							   												  .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+							   												  .value(data.getValue()==null?"":data.getValue())
+						   												  .build();
+							   
+							 usJobsDataLst.add(usJobsData);
+				      }
+						   usJobsService.saveUsJobs(usJobsDataLst);
+					 i++;  
+			
+			   }
+			   if (!usJobsDataLst.isEmpty()) {
+		            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(usJobsDataLst, "referDate");
+
+		            System.out.println("Minimum Date: " + minMaxDates[0]);
+		            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+		            usJobsService.doCalculationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
+		        } else {
+		            System.out.println("List is empty.");
+		        } 
+		}
+		else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("79"))
+		{
+			  List<UsJobsData> usJobsDataLst = new ArrayList<>();
+			   List<String> subgroups = Arrays.asList("1", "2","3","4");
+			   int[] subgroupOrder = {1,2,3,4};
+			   int i = 0; 
+			   for (String subGroupId: subgroups) {
+						   rowData.clear();
+						   usJobsDataLst.clear();
+						   rowData = ReadExcelWriteDBUtil.readExcelFileWithString(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+						   for (DataDTO data: rowData) {
+							 if(usJobsService.CheckIfCanSaveUsJobs(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subgroupOrder[i])))
+							 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+							 
+							 UsJobsData usJobsData = UsJobsData.builder().referDate(ReadExcelWriteDBUtil.parseDate(data.getDate()))
+							   												  .subgroupId(Long.valueOf(subgroupOrder[i]))
+							   												  .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+							   												  .value(data.getValue()==null?"":data.getValue())
+						   												  .build();
+							   
+							 usJobsDataLst.add(usJobsData);
+				      }
+						   usJobsService.saveUsJobs(usJobsDataLst);
+					 i++;  
+			
+			   }
+			   if (!usJobsDataLst.isEmpty()) {
+		            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(usJobsDataLst, "referDate");
+
+		            System.out.println("Minimum Date: " + minMaxDates[0]);
+		            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+		            usJobsService.doCalculationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
+		        } else {
+		            System.out.println("List is empty.");
+		        } 
+		
+		}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("80"))
+		{
+			  List<UsJobsData> usJobsDataLst = new ArrayList<>();
+			   List<String> subgroups = Arrays.asList("1", "2");
+			   int[] subgroupOrder = {1,2};
+			   int i = 0; 
+			   for (String subGroupId: subgroups) {
+						   rowData.clear();
+						   usJobsDataLst.clear();
+						   rowData = ReadExcelWriteDBUtil.readExcelFileWithString(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+						   for (DataDTO data: rowData) {
+							 if(usJobsService.CheckIfCanSaveUsJobs(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subgroupOrder[i])))
+							 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+							 
+							 UsJobsData usJobsData = UsJobsData.builder().referDate(ReadExcelWriteDBUtil.parseDate(data.getDate()))
+							   												  .subgroupId(Long.valueOf(subgroupOrder[i]))
+							   												  .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+							   												  .value(data.getValue()==null?"":data.getValue())
+						   												  .build();
+							   
+							 usJobsDataLst.add(usJobsData);
+				      }
+						   usJobsService.saveUsJobs(usJobsDataLst);
+					 i++;  
+			
+			   }
+			   if (!usJobsDataLst.isEmpty()) {
+		            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(usJobsDataLst, "referDate");
+
+		            System.out.println("Minimum Date: " + minMaxDates[0]);
+		            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+		            usJobsService.doCalculationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
+		        } else {
+		            System.out.println("List is empty.");
+		        } 
+		
+		}else if(readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("81"))
+		{
+			  List<UsJobsData> usJobsDataLst = new ArrayList<>();
+			   List<String> subgroups = Arrays.asList("1", "2");
+			   int[] subgroupOrder = {1,3};
+			   int i = 0; 
+			   for (String subGroupId: subgroups) {
+						   rowData.clear();
+						   usJobsDataLst.clear();
+						   rowData = ReadExcelWriteDBUtil.readExcelFileWithString(readExcelWriteDBDTO.getFile(),"0",subGroupId);
+						   for (DataDTO data: rowData) {
+							 if(usJobsService.CheckIfCanSaveUsJobs(data.getDate(),Long.valueOf(readExcelWriteDBDTO.getGroupId()),Long.valueOf(subgroupOrder[i])))
+							 	throw new BadRequestException(data.getDate()+" "+MessageEnum.DATE_EXISTS.message, FailureEnum.EXCEL_DATA_INSERT_FAILED, MessageEnum.DATE_EXISTS.service);	   
+							 
+							 UsJobsData usJobsData = UsJobsData.builder().referDate(ReadExcelWriteDBUtil.parseDate(data.getDate()))
+							   												  .subgroupId(Long.valueOf(subgroupOrder[i]))
+							   												  .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+							   												  .value(data.getValue()==null?"":data.getValue())
+						   												  .build();
+							   
+							 usJobsDataLst.add(usJobsData);
+				      }
+						   usJobsService.saveUsJobs(usJobsDataLst);
+					 i++;  
+			
+			   }
+			   if (!usJobsDataLst.isEmpty()) {
+		            String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(usJobsDataLst, "referDate");
+
+		            System.out.println("Minimum Date: " + minMaxDates[0]);
+		            System.out.println("Maximum Date: " + minMaxDates[1]);
+
+		            usJobsService.doCalculationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
+		        } else {
+		            System.out.println("List is empty.");
+		        } 
+		
 		}
 		
 }

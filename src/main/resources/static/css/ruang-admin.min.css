@@ -557,7 +557,7 @@ a.nav-item.nav-link {
     text-align: center;
     width: 100px;
     color: #d7dee9;
-    text-transform: uppercase;
+   /*  text-transform: uppercase; */
     font-size: 0.75rem;
     width: 100px;
 }

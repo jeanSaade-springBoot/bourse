@@ -101,6 +101,12 @@ public class UsJobsController {
 	   
 	    return new ResponseEntity<>(data, HttpStatus.OK);
 	}
+	@PostMapping(value = "get-graph-data")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphData(@RequestBody  GraphRequestDTO graphReqDTO) {
+		System.out.println(className+": get-graph-data");
+
+		return new ResponseEntity<>(usJobsService.getGraphData(graphReqDTO),HttpStatus.OK);
+	} 
 	@GetMapping(value = "getlatest/{groupId}", produces = "application/json;charset=UTF-8")
     public ResponseEntity <String> getLatest(@PathVariable("groupId") String groupId){
 		return new ResponseEntity<>(usJobsService.findLatestData(groupId), HttpStatus.OK);
