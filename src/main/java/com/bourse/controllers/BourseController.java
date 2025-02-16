@@ -957,6 +957,14 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/usjobs/usJobs");
     }
+	@PreAuthorize("hasAuthority('USJOBS_JOLTS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/jolts")
+    public ModelAndView usJobsJoltsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/usJobs/jolts");
+    }
 	@PreAuthorize("hasAuthority('MACRO_PMI_VS_SURVEY') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/pmivssurvey")
     public ModelAndView macroGraphPmivsSurveyScreen(ModelMap model, Authentication authentication)
