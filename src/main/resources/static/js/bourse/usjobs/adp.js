@@ -1,8 +1,8 @@
-var allitems=["#jqxCheckBoxfinal-77",
-				"#jqxCheckBoxinitial-77",
-				"#jqxCheckBoxsurv-77",];
+var allitems=["#jqxCheckBoxfinal-78",
+				"#jqxCheckBoxinitial-78",
+				"#jqxCheckBoxsurv-78",];
 
-const graphName="jolts"; 
+const graphName="adp"; 
 			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();

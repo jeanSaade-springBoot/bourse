@@ -173,13 +173,38 @@ div#content {
   <div  sec:authorize="hasAuthority('US_JOBS_GRAPH_SCREEN') OR hasAuthority('USJOBS_DATA_FUNCTION_DISPLAY_SCREEN')" class="card">
     <div class="card-body">
       <h5 class="card-title card-title-color">US Jobs</h5>
-      <ul class="fa-ul">
-		  <li sec:authorize="hasAuthority('ANY2_USJOBS_GRAPH_SCREEN')" ><a href="/bourse/any2usjobs"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-<!-- 		  <li sec:authorize="hasAuthority('US_JOBS_GRAPH_SCREEN')"><a href="/bourse/usJobsgraph"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">US JOBS</a></li> -->
- 		  <li sec:authorize="hasAuthority('USJOBS_BAR_GRAPH_SCREEN')"><a href="/bourse/usJobs"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">US JOBS</a></li>
-	  	   <li sec:authorize="hasAuthority('USJOBS_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/usjobsdatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
-	   </ul>
-    </div>
+		<ul class="fa-ul">
+			<li sec:authorize="hasAuthority('ANY2_USJOBS_GRAPH_SCREEN')"><a
+				href="/bourse/any2usjobs"><img class="img-m-right"
+					src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+			<li sec:authorize="hasAuthority('USJOBS_JOLTS_GRAPH_SCREEN')"><a
+				href="/bourse/jolts"><img class="img-m-right"
+					src="../../img/i2.png" align="absmiddle">JOLTS</a></li>
+
+			<li sec:authorize="hasAuthority('USJOBS_ADP_GRAPH_SCREEN')"><a
+				href="/bourse/adp"><img class="img-m-right"
+					src="../../img/i2.png" align="absmiddle">ADP</a></li>
+
+			<li sec:authorize="hasAuthority('USJOBS_NFP_GRAPH_SCREEN')"><a
+				href="/bourse/nfp"><img class="img-m-right"
+					src="../../img/i2.png" align="absmiddle">NON-FARM PAYROLLS</a></li>
+
+			<li sec:authorize="hasAuthority('USJOBS_UNEMPRATE_GRAPH_SCREEN')"><a
+				href="/bourse/unemprate"><img class="img-m-right"
+					src="../../img/i2.png" align="absmiddle">UNEMP. Rate</a></li>
+
+			<li sec:authorize="hasAuthority('USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN')"><a
+				href="/bourse/householdsurv"><img class="img-m-right"
+					src="../../img/i2.png" align="absmiddle">HOUSEHOLD SURVEY of JOBS</a></li>
+
+			<li
+				sec:authorize="hasAuthority('USJOBS_DATA_FUNCTION_DISPLAY_SCREEN')"><a
+				href="/bourse/usjobsdatafunctiondisplay"><img
+					class="img-m-right" id="ContentPlaceHolder1_Image13"
+					src="../../img/i5.png" align="absmiddle">DATA &
+					FUNCTION DISPLAY</a></li>
+		</ul>
+	</div>
   </div>
   <div  sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN') OR hasAuthority('STI_DATA_FUNCTION_DISPLAY_SCREEN')"  class="card">
     <div class="card-body">

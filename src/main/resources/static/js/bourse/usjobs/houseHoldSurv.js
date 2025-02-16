@@ -1,8 +1,11 @@
-var allitems=["#jqxCheckBoxfinal-77",
-				"#jqxCheckBoxinitial-77",
-				"#jqxCheckBoxsurv-77",];
+var allitems=[
+	"#jqxCheckBoxcivilian_Lab_Force-81",
+	"#jqxCheckBoxcivilian_Lab_Force_Chg-81",
+	"#jqxCheckBoxemployed_Lab_Force-81",
+	"#jqxCheckBoxemployed_Lab_Force_Chg-81",
+	"#jqxCheckBoxunemployed-81"];
 
-const graphName="jolts"; 
+const graphName="householdssurv"; 
 			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();

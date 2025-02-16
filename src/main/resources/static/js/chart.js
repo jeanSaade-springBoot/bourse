@@ -9,7 +9,7 @@ var startdate = new Date();
 var date = new Date();
 var timeRange="Daily";
 const missingDatesGroups=["10","15", "16","32","33","34","35","36","22","23","24"];
-const PositiveGraphs=['sti','fxcds'];
+const PositiveGraphs=['sti','fxcds', 'usjobs'];
 var T1;
 var T2;
 var chartType1 = 'area';
@@ -1127,8 +1127,9 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 				     var valueMax1 = values1; 	
 				    var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
 				     graphService=typeof graphService!='undefined'?graphService:'';
-				     calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				      
+				   //  calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				     calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(min1)==-1)  )? 0: calculatedMinValue;
+
 				  const values2 = addMarginToMinMax(min2, max2, 5);
 				     var valueMin2 = values2;
 				     var valueMax2 = values2; 
@@ -1232,8 +1233,9 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 				     var valueMax = values; 
 				     var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
 				      graphService=typeof graphService!='undefined'?graphService:'';
-				         calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				    
+				        // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				    	 calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(minvalue)==-1)  )? 0: calculatedMinValue;
+
 					   chart.updateOptions({
 							xaxis: {
 					        	labels: {
@@ -2433,8 +2435,9 @@ function updateChartSelectedItem(chartConfigSettings){
 				    
 				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
 				      graphService=typeof graphService!='undefined'?graphService:'';
-				      calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				     
+				    //   calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				      calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1)  )? 0: calculatedMinValue;
+
 				     var valueMax = values; 		
 							chart.updateOptions({
 								series:[{
@@ -2509,7 +2512,13 @@ function updateChartSelectedItem(chartConfigSettings){
 				      const values2 = addMarginToMinMax(chartConfigSettings.min2, chartConfigSettings.max2, 5);
 				     var valueMin2 = values2;
 				     var valueMax2 = values2; 	
-				     
+				    
+				     calculatedMinValue1 =  Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1;
+				     calculatedMinValue1 =  (Math.sign(calculatedMinValue1) == -1 && !(Math.sign(chartConfigSettings.min1)==-1) )? 0: calculatedMinValue1;
+
+				     calculatedMinValue2 =  Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(chartConfigSettings.min2)-valueMin2 : Math.abs(chartConfigSettings.min2)-valueMin2;
+				     calculatedMinValue2 =  (Math.sign(calculatedMinValue2) == -1 && !(Math.sign(chartConfigSettings.min2)==-1) )? 0: calculatedMinValue2;
+
 						 chart.updateOptions({
 							  series:[{
 							          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
@@ -2543,7 +2552,7 @@ function updateChartSelectedItem(chartConfigSettings){
 									      }
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1,
+					     				    	  min:calculatedMinValue1,
 					     				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
 					     				    			  axisBorder: {
 					     					                  width: 3,
@@ -2570,7 +2579,7 @@ function updateChartSelectedItem(chartConfigSettings){
 														      }
 						 				        	  },
 					     				          tickAmount: 6,
-					     				    	  min:Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(chartConfigSettings.min2)-valueMin2 : Math.abs(chartConfigSettings.min2)-valueMin2,
+					     				    	  min:calculatedMinValue2,
 					     				    	  max:Math.sign(chartConfigSettings.max2)==-1 ? -Math.abs(chartConfigSettings.max2)+valueMax2 : Math.abs(chartConfigSettings.max2)+valueMax2,
 					     				    			  axisBorder: {
 					     					                  width: 3,
@@ -2635,8 +2644,8 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 				     var valueMax = values; 	
 				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
 				          graphService=typeof graphService!='undefined'?graphService:'';
-				         calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				    
+				         // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				    calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
 							chart.updateOptions({
 								
 								series:[{
@@ -2733,14 +2742,15 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 					 var valueMax1 = values1;
  					  graphService=typeof graphService!='undefined'?graphService:'';
  					 var calculatedMinValue1 = Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1;
-				         calculatedMinValue1 = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue1) == -1 ?0:calculatedMinValue1): calculatedMinValue1;
-				    
+				         //calculatedMinValue1 = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue1) == -1 ?0:calculatedMinValue1): calculatedMinValue1;
+				    	 calculatedMinValue1 =  (Math.sign(calculatedMinValue1) == -1 && !(Math.sign(chartConfigSettings.min1)==-1)  )? 0: calculatedMinValue1;
+
 					 const values2 = addMarginToMinMax(chartConfigSettings.min2, chartConfigSettings.max2, 5);
 					 var valueMin2 = values2;
 					 var valueMax2 = values2;
  				  	 var calculatedMinValue2 = Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(chartConfigSettings.min2)-valueMin2 : Math.abs(chartConfigSettings.min2)-valueMin2;
-				         calculatedMinValue2 = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2): calculatedMinValue2;
-				    
+				       //  calculatedMinValue2 = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2): calculatedMinValue2;
+				         calculatedMinValue2 =  (Math.sign(calculatedMinValue2) == -1 && !(Math.sign(chartConfigSettings.min2)==-1) )? 0: calculatedMinValue2;
       	    	    	chart.updateOptions({
 						  series:[{
 						          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
@@ -3772,6 +3782,46 @@ function initializeShowFilterButton(){
 			}
 	});
 }
+function initializeShowFilterButtonThreeYears(){
+	$("#show").jqxButton({ theme: 'dark', height: 30, width: 74 });
+	
+	$("#show").click(function() {
+		functionId=-1;
+		monthDate = new Date();
+		monthDate.setMonth(monthDate.getMonth() - 6);
+		 monthDate.setFullYear((new Date).getFullYear() - 3);
+		 monthDate.setHours(0, 0, 0, 0);
+		resetActiveChartType();
+		resetActiveFontSize();
+		resetActiveChartColor();
+		resetActiveChartColorTransparency();
+		resetActiveChartGrid();
+		$("#button-monthBackward").prop('disabled', false);
+		$("#button-yearBackward").prop('disabled', false);
+		fromNavigation = false;
+		if(checkedItemLeft>0 || checkedItemRight>0)
+		{
+		  if(checkedItemLeft>0 && checkedItemRight>0)
+	      {	
+	    	 $("#collapseFilter").removeClass('show');
+	    	 $('#grid-content').css('display', 'block');
+	    	drawGraph();
+	      } 
+	       else {
+				$('#alertFiltter-modal').modal('show');
+				$("#collapseFilter").addClass('show');
+			}
+	    }else 
+	 		 if (checkedItem > 0) {
+				$("#collapseFilter").removeClass('show');
+				$('#grid-content').css('display', 'block');
+				drawGraph();
+			} else {
+				$('#alertFiltter-modal').modal('show');
+				$("#collapseFilter").addClass('show');
+			}
+	});
+}
 function initialiazeAllButtons(){
 	var monthDate = new Date();
 		monthDate.setMonth(monthDate.getMonth() - 6);
@@ -4064,8 +4114,9 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 				     var valueMax = values; 	
 				     var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
 				     graphService=typeof graphService!='undefined'?graphService:'';
-				     calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				   
+				     // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				   	 calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(min)==-1)  )? 0: calculatedMinValue;
+
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
 					
 					notDecimal=yaxisformat0[1];
@@ -9838,8 +9889,9 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 				     var valueMax = values; 	
 				     var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
 				     graphService=typeof graphService!='undefined'?graphService:'';
-				     calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				   
+				     // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				   	 calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(min)==-1) )? 0: calculatedMinValue;
+
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
 					
 					notDecimal=yaxisformat0[1];
@@ -10294,8 +10346,9 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 				     var valueMax = values; 	
 				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
 				          graphService=typeof graphService!='undefined'?graphService:'';
-				         calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				    
+				        // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				    	   calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
+
 							chart.updateOptions({
 								
 								series:[{

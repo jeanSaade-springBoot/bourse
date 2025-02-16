@@ -1,8 +1,10 @@
-var allitems=["#jqxCheckBoxfinal-77",
-				"#jqxCheckBoxinitial-77",
-				"#jqxCheckBoxsurv-77",];
+var allitems=[
+	"#jqxCheckBoxfinal-79",
+	"#jqxCheckBoxrev1-79",
+	"#jqxCheckBoxinitial-79",
+	"#jqxCheckBoxsurv-79",];
 
-const graphName="jolts"; 
+const graphName="nfp"; 
 			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();

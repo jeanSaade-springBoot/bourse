@@ -965,6 +965,38 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/usJobs/jolts");
     }
+	@PreAuthorize("hasAuthority('USJOBS_ADP_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/adp")
+    public ModelAndView usJobsAdpGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/usJobs/adp");
+    }
+	@PreAuthorize("hasAuthority('USJOBS_NFP_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/nfp")
+    public ModelAndView usJobsNfpGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/usJobs/nfp");
+    }
+	@PreAuthorize("hasAuthority('USJOBS_UNEMPRATE_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/unemprate")
+    public ModelAndView usJobsUnempRateGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/usJobs/unemp");
+    }
+	@PreAuthorize("hasAuthority('USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/householdsurv")
+    public ModelAndView usJobsHouseHoldSurvGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/usJobs/houseHoldSurv");
+    }
 	@PreAuthorize("hasAuthority('MACRO_PMI_VS_SURVEY') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/pmivssurvey")
     public ModelAndView macroGraphPmivsSurveyScreen(ModelMap model, Authentication authentication)

@@ -30,7 +30,7 @@
   var notDecimal1;
   var nbrOfDigits1;
   var hasMissingDates=false;
-  var graphService = "cryptos";
+  var graphService = "usjobs";
   
  var allitems=["#jqxCheckBoxfinal-77",
 	"#jqxCheckBoxinitial-77",
@@ -457,8 +457,9 @@
 				    	  var valueMax = values;
 				    	  var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
 			  			 graphService=typeof graphService!='undefined'?graphService:'';
-			  			calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-		 	
+			  			//calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+		 			    calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(min)==-1) )? 0: calculatedMinValue;
+
 	      	    	    var yaxisformat = getFormat(response[0].config.yAxisFormat);
 									
 	      	    	     notDecimal=yaxisformat[1];

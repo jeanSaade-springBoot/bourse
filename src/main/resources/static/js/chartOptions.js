@@ -159,8 +159,9 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 				     var valueMax = values; 	
 	var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
 	 graphService=typeof graphService!='undefined'?graphService:'';
-	calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-			
+	//calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+	 calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(minvalue)==-1)  )? 0: calculatedMinValue;
+
 	if (SelectedchartType=='area')
       chart.updateOptions({
 		     legend: {
@@ -594,8 +595,9 @@ function updateGraphConfigurationMissingConfiguration(SelectedchartType,selected
 				     
 		  var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
 		   graphService=typeof graphService!='undefined'?graphService:'';
-			  calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-		
+			//  calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+	     calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(minvalue)==-1) )? 0: calculatedMinValue;
+
 		chart.w.config.series.length === 1 ? chart.w.config.series[0].type = SelectedchartType : null;		     
 				   		     
 	if (SelectedchartType=='area')

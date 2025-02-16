@@ -92,10 +92,30 @@ svg.apexcharts-svg.apexcharts-zoomable {
 						     class="navigation nav-item nav-link" id="nav-any2-tab"  
 						     href="/bourse/any2usjobs" role="tab" aria-controls="nav-any2" 
 						     aria-selected="false">Any2</a>
+						      <a sec:authorize="hasAuthority('USJOBS_JOLTS_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link" id="nav-jolts-tab"
+								href="/bourse/jolts" role="tab" aria-controls="nav-jolts"
+								aria-selected="false">JOLTS</a>
+								 <a sec:authorize="hasAuthority('USJOBS_ADP_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link " id="nav-adp-tab"
+								href="/bourse/adp" role="tab" aria-controls="nav-adp"
+								aria-selected="false">ADP</a>
+							<a sec:authorize="hasAuthority('USJOBS_NFP_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link" id="nav-nfp-tab"
+								href="/bourse/nfp" role="tab" aria-controls="nav-nfp"
+								aria-selected="false">NON-FARM PAYROLLS</a>
+							<a sec:authorize="hasAuthority('USJOBS_UNEMPRATE_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link " id="nav-unemp-tab"
+								href="/bourse/unemprate" role="tab" aria-controls="nav-unemp"
+								aria-selected="false">UNEMP. Rate</a>
 							<a sec:authorize="hasAuthority('USJOBS_BAR_GRAPH_SCREEN')"
 								class="navigation nav-item nav-link active" id="nav-usjobs-tab"
 								href="/bourse/usJobs" role="tab" aria-controls="nav-usjobs"
 								aria-selected="false">US JOBS</a>
+								<a sec:authorize="hasAuthority('USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link" id="nav-householdsurv-tab"
+								href="/bourse/householdsurv" role="tab" aria-controls="nav-householdsurv"
+								aria-selected="false">HOUSEHOLD SURVEY of JOBS</a>
 						</div>
 					</nav>
 

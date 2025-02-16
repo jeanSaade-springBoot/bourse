@@ -1,8 +1,8 @@
-var allitems=["#jqxCheckBoxfinal-77",
-				"#jqxCheckBoxinitial-77",
-				"#jqxCheckBoxsurv-77",];
+var allitems=[
+	"#jqxCheckBoxindex-80",
+	"#jqxCheckBoxsurv-80",];
 
-const graphName="jolts"; 
+const graphName="unemp"; 
 			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();

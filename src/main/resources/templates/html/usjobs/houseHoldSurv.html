@@ -8,7 +8,7 @@
   <meta name="description" content="">
   <meta name="author" content="">
   <link href="img/logo/logo.png" rel="icon">
-  <title>Libvol - Any2 US Jobs</title>
+  <title>Libvol - JOLTS</title>
   <link rel="icon" href="/favicon.ico" type="image/x-icon">
   <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
   <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
@@ -52,6 +52,7 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
+
   </style>
 </head>
 
@@ -60,47 +61,45 @@
     <!-- Sidebar -->
     <!-- Sidebar -->
     <div id="content-wrapper" class="d-flex flex-column">
-     <div id="fixedMenu">
-       <!-- TopBar -->
+      <div id="fixedMenu">
+         <!-- TopBar -->
      	<div th:include="${mainmenu}"></div>
         <!-- Topbar -->
-    	<div class="d-sm-flex align-items-center">
-            <h1 class="ml-6 text-darkorange">US JOBS</h1>
-            	 <nav style="margin-left: 3rem;
-    						 height: 35px;
-    						 margin-top: 0.5rem;">
-				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a sec:authorize="hasAuthority('ANY2_USJOBS_GRAPH_SCREEN')"
-				     class="navigation nav-item nav-link active" id="nav-any2-tab"  
-				     href="/bourse/any2usjobs" role="tab" aria-controls="nav-any2" 
-				     aria-selected="false">Any2</a>
-				      <a sec:authorize="hasAuthority('USJOBS_JOLTS_GRAPH_SCREEN')"
+			<div class="d-sm-flex align-items-center">
+					<h1 class="ml-6 text-darkorange">US JOBS</h1>
+					<nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
+						<div class="nav nav-tabs" id="nav-tab" role="tablist">
+						   <a sec:authorize="hasAuthority('ANY2_USJOBS_GRAPH_SCREEN')"
+						     class="navigation nav-item nav-link" id="nav-any2-tab"  
+						     href="/bourse/any2usjobs" role="tab" aria-controls="nav-any2" 
+						     aria-selected="false">Any2</a>
+						     <a sec:authorize="hasAuthority('USJOBS_JOLTS_GRAPH_SCREEN')"
 								class="navigation nav-item nav-link" id="nav-jolts-tab"
 								href="/bourse/jolts" role="tab" aria-controls="nav-jolts"
 								aria-selected="false">JOLTS</a>
-					<a sec:authorize="hasAuthority('USJOBS_ADP_GRAPH_SCREEN')"
+							 <a sec:authorize="hasAuthority('USJOBS_ADP_GRAPH_SCREEN')"
 								class="navigation nav-item nav-link" id="nav-adp-tab"
 								href="/bourse/adp" role="tab" aria-controls="nav-adp"
 								aria-selected="false">ADP</a>
-					<a sec:authorize="hasAuthority('USJOBS_NFP_GRAPH_SCREEN')"
-								class="navigation nav-item nav-link" id="nav-nfp-tab"
+							<a sec:authorize="hasAuthority('USJOBS_NFP_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link " id="nav-nfp-tab"
 								href="/bourse/nfp" role="tab" aria-controls="nav-nfp"
 								aria-selected="false">NON-FARM PAYROLLS</a>
-						<a sec:authorize="hasAuthority('USJOBS_UNEMPRATE_GRAPH_SCREEN')"
+							<a sec:authorize="hasAuthority('USJOBS_UNEMPRATE_GRAPH_SCREEN')"
 								class="navigation nav-item nav-link " id="nav-unemp-tab"
 								href="/bourse/unemprate" role="tab" aria-controls="nav-unemp"
 								aria-selected="false">UNEMP. Rate</a>
-						<a sec:authorize="hasAuthority('USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN')"
-								class="navigation nav-item nav-link" id="nav-householdsurv-tab"
+							<a sec:authorize="hasAuthority('USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link active" id="nav-householdsurv-tab"
 								href="/bourse/householdsurv" role="tab" aria-controls="nav-householdsurv"
 								aria-selected="false">HOUSEHOLD SURVEY of JOBS</a>
-				 </div>
-				</nav>
-           
-          </div>
-          </div>
+								
+						</div>
+					</nav>
+
+				</div>
               </div>
-               <div id="content">
+        <div id="content">
         <!-- Container Fluid-->
         <div class="container-fluid" id="container-wrapper">
 
@@ -112,74 +111,17 @@
 					 </div>
 				  <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 				  	<p class="mt-2" style=" margin-bottom: .5rem;">
-					  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
-				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
+		<!-- 			  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
+				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a> -->
 				  	  	</p>
 					<div class="row">
 					  <div class="col">
-				 <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
-				 <div class="col-12 ">
-							 <div class="row">
-						       <div class="col-12 d-flex">
-						        	<div class="col">
-								<h7 class="m-0 font-weight-bold">JOLTS</h7>
-									<div class=" no-gutters">
-									  <div class="col-custom">
-										 <div id='jqxCheckBoxfinal-77' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">FINAL</span></div>
-									   </div>
-										 <div class="col-custom">
-												<div id='jqxCheckBoxinitial-77' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">INITIAL</span></div>
-										 </div>
-										 <div class="col-custom">
-												<div id='jqxCheckBoxsurv-77' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">SURV</span></div>
-										 </div>
-								</div>
-							</div>
-							 <div class="col">
-							  <h7 class="m-0 font-weight-bold">ADP</h7>
-								<div class=" no-gutters">
-								  <div class="col-custom">
-										 <div id='jqxCheckBoxfinal-78' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">FINAL</span></div>
-									   </div>
-										 <div class="col-custom">
-												<div id='jqxCheckBoxinitial-78' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">INITIAL</span></div>
-										 </div>
-										 <div class="col-custom">
-												<div id='jqxCheckBoxsurv-78' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">SURV</span></div>
-										 </div>
-								</div>
-							</div>
-							<div class="col">
-							  <h7 class="m-0 font-weight-bold">NON-FARM PAYROLLS</h7>
-								<div class=" no-gutters">
-								  <div class="col-custom">
-									 <div id='jqxCheckBoxfinal-79' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">FINAL</span></div>
-								   </div>
-								    <div class="col-custom">
-											<div id='jqxCheckBoxrev1-79' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">REV1</span></div>
-									 </div>
-									 <div class="col-custom">
-											<div id='jqxCheckBoxinitial-79' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">INITIAL</span></div>
-									 </div>
-									 <div class="col-custom">
-											<div id='jqxCheckBoxsurv-79' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">SURV</span></div>
-									 </div>
-								</div>
-							</div>
-							<div class="col">
-							  <h7 class="m-0 font-weight-bold">UNEMP. Rate</h7>
-								<div class=" no-gutters">
-									   <div class="col-custom">
-										 <div id='jqxCheckBoxindex-80' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">INDEX</span></div>
-									   </div>
-									  <div class="col-custom">
-											<div id='jqxCheckBoxsurv-80' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">SURV</span></div>
-									  </div>
-								</div>
-							</div>
-						  <div class="col">
-							  <h7 class="m-0 font-weight-bold">HOUSEHOLD SURVEY of JOBS</h7>
-								<div class=" no-gutters">
+					    <div class=" multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
+							<div class="row">
+							<div class="col-12 row">    
+							  <div class="col">
+							  <h7 class="m-0 font-weight-bold"></h7>
+								<div class=" no-gutters d-flex">
 								<div class="col-custom">
 								 <div id='jqxCheckBoxcivilian_Lab_Force-81' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">CIVILIAN Labor Force</span></div>
 								</div>
@@ -197,10 +139,13 @@
 								</div>
 								</div>
 							</div>
-						    </div>
-						  </div>
- 
-						</div>
+		                  
+                 		</div>
+                 		<div class="col-2"></div>
+                 		<div class="col-5">
+		                     
+		                 </div>
+                     </div>
                      	<div class="row pt-2">
 							<div class='col-12 d-flex justify-content-end'>
 							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
@@ -211,6 +156,27 @@
 				    <div id="grid-content" style="display:none;">
 				 
 				    <div class="row">
+				       <div class="row col-12 d-none">
+				   	  	   
+				   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
+					            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
+					                Daily</button>
+					            <button style="padding:4px 16px;" id="w">
+					                Weekly</button>
+					            <button style="padding:4px 16px;" id="m">
+					                Monthly</button>
+								 <button style="padding:4px 16px;" id="q">
+									Quarterly</button>
+								 <button style="padding:4px 16px;" id="y">
+									Yearly</button>
+					        </div>
+								<div id='dropDownType' style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
+								<div class="d-flex" style=' margin-left: 2.4rem;'>
+									<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
+									<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
+								</div>
+							</div>
+							
 				     <div class="col-1" style="z-index: 1;">
 						<div class="chart-option">
 				   	        <div class="chart-option-title">Chart option</div>
@@ -309,10 +275,7 @@
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
-					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
-							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split">
-					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
-							  </div>
+					 	      
 					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
 							  <div class="btn-group mr-2" role="group" aria-label="First group">
 							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
@@ -445,10 +408,11 @@
   <script src="/js/apexcharts.js"></script>
   <script src="/js/chartOptions.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
-  <script src="/js/bourse/usjobs/any2UsJobs.js"></script> 
+  <script src="/js/bourse/usjobs/houseHoldSurv.js"></script> 
   <script src="/js/chart.js"></script>
-   <script src="/js/jqwidgets/jqxdata.js"></script> 
+  <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 
+ <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
@@ -462,6 +426,7 @@
  <script src="/js/bourse/scrollBarNews.js"></script> 
  <script src="/js/bourse/inGraphNews.js"></script> 
  <script src="/js/common.js"></script>
+ 
   <script src="/js/notification/sockjs.js"></script>
   <script src="/js/notification/stomp.js"></script>
   <script src="/js/notification/config.js"></script>

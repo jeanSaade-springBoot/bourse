@@ -65,33 +65,38 @@
          <!-- TopBar -->
      	<div th:include="${mainmenu}"></div>
         <!-- Topbar -->
-  <div class="d-sm-flex align-items-center">
-            <h1 class="ml-6 text-darkorange">Stocks</h1>
-		     	   <nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
-		           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-		             <a sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2sti" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-		             <a sec:authorize="hasAuthority('STI_EUROPE_GRAPH_SCREEN')"
-	                 class="navigation nav-item nav-link active" id="nav-bunds-tab"
-	                 href="/bourse/europe" role="tab" aria-controls="nav-bunds"
-	                 aria-selected="false">Europe</a>
-		             <a sec:authorize="hasAuthority('STI_WALLSTREET_GRAPH_SCREEN')"
-	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/wallstreet" role="tab" aria-controls="nav-bunds"
-	                 aria-selected="false">Wall Street</a>
-	                 <a sec:authorize="hasAuthority('STI_ASIA_GRAPH_SCREEN')"
-	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/asia" role="tab" aria-controls="nav-bunds"
-	                 aria-selected="false">Asia</a>
-	                 <a sec:authorize="hasAuthority('STI_EMERGING_GRAPH_SCREEN')"
-	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/emerging" role="tab" aria-controls="nav-bunds"
-	                 aria-selected="false">Emerging</a>
-	                 	                 <a sec:authorize="hasAuthority('STI_PERFORMANCE_SCREEN')" class="navigation nav-item nav-link" id="nav-performance-tab"  href="/bourse/stiperformance" role="tab" aria-controls="nav-performance" aria-selected="false">Performance</a>
-	                 
-		           </div>
-		        </nav>
-           
-          </div>
+			<div class="d-sm-flex align-items-center">
+					<h1 class="ml-6 text-darkorange">US JOBS</h1>
+					<nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
+						<div class="nav nav-tabs" id="nav-tab" role="tablist">
+						   <a sec:authorize="hasAuthority('ANY2_USJOBS_GRAPH_SCREEN')"
+						     class="navigation nav-item nav-link" id="nav-any2-tab"  
+						     href="/bourse/any2usjobs" role="tab" aria-controls="nav-any2" 
+						     aria-selected="false">Any2</a>
+						     <a sec:authorize="hasAuthority('USJOBS_JOLTS_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link active" id="nav-jolts-tab"
+								href="/bourse/jolts" role="tab" aria-controls="nav-jolts"
+								aria-selected="false">JOLTS</a>
+								 <a sec:authorize="hasAuthority('USJOBS_ADP_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link" id="nav-adp-tab"
+								href="/bourse/adp" role="tab" aria-controls="nav-adp"
+								aria-selected="false">ADP</a>
+							<a sec:authorize="hasAuthority('USJOBS_NFP_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link" id="nav-nfp-tab"
+								href="/bourse/nfp" role="tab" aria-controls="nav-nfp"
+								aria-selected="false">NON-FARM PAYROLLS</a>
+							<a sec:authorize="hasAuthority('USJOBS_UNEMPRATE_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link " id="nav-unemp-tab"
+								href="/bourse/unemprate" role="tab" aria-controls="nav-unemp"
+								aria-selected="false">UNEMP. Rate</a>
+									<a sec:authorize="hasAuthority('USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN')"
+								class="navigation nav-item nav-link" id="nav-householdsurv-tab"
+								href="/bourse/householdsurv" role="tab" aria-controls="nav-householdsurv"
+								aria-selected="false">HOUSEHOLD SURVEY of JOBS</a>
+						</div>
+					</nav>
+
+				</div>
               </div>
         <div id="content">
         <!-- Container Fluid-->
@@ -105,36 +110,28 @@
 					 </div>
 				  <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 				  	<p class="mt-2" style=" margin-bottom: .5rem;">
-					  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
-				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
+		<!-- 			  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
+				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a> -->
 				  	  	</p>
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
-				<div class="row">
-				<div class="col-12 row">    
-									 <div class="row">
-									    <div id='jqxCheckBoxDax' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">DAX</span></div> 
-						             	<div id='jqxCheckBoxDax_Eurusd'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-DAX</span></div> 
-						             </div><div class="row">
-						             	<div id='jqxCheckBoxCac'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">CAC</span></div>
-						             	<div id='jqxCheckBoxCac_Eurusd'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-CAC</span></div>
-						             </div><div class="row">
-						             	<div id='jqxCheckBoxMib'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">MIB</span></div>
-						             	<div id='jqxCheckBoxMib_Eurusd'  class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">$-MIB</span></div>
-						             </div><div class="row">
-						             	<div id='jqxCheckBoxFtse'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">FTSE</span></div>
-						             	<div id='jqxCheckBoxFtse_Gbpusd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-FTSE</span></div>
-						             </div><div class="row">	
-						             	<div id='jqxCheckBoxStoxx50'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">STOXX-50</span></div>
-						             	<div id='jqxCheckBoxStoxx50_Eurusd'  class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-STOXX50</span></div>
-						            </div> <div class="row">
-						             	<div id='jqxCheckBoxStoxx600' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">STOXX-600</span></div>
-						             	<div id='jqxCheckBoxStoxx600_Eurusd' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">$-STOXX600</span></div>
-						              </div><div class="row">
-						             	<div id='jqxCheckBoxEubanks' class="jqx-checkbox-items" style='float: left;'><span class="checkboxesTitle">EUBANKS</span></div>
-						             	<div id='jqxCheckBoxEubanks_eurusd' class="jqx-checkbox-items"  style='float: left;'><span class="checkboxesTitle">$-EUBANKS</span></div>
-						              </div>
+					    <div class=" multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
+							<div class="row">
+							<div class="col-12 row">    
+								<div class="col">
+								<h7 class="m-0 font-weight-bold"></h7>
+									<div class=" no-gutters d-flex">
+									  <div class="col-custom">
+										 <div id='jqxCheckBoxfinal-77' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">FINAL</span></div>
+									   </div>
+										 <div class="col-custom">
+												<div id='jqxCheckBoxinitial-77' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">INITIAL</span></div>
+										 </div>
+										 <div class="col-custom">
+												<div id='jqxCheckBoxsurv-77' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">SURV</span></div>
+										 </div>
+								</div>
+							</div>
 		                  
                  		</div>
                  		<div class="col-2"></div>
@@ -152,7 +149,7 @@
 				    <div id="grid-content" style="display:none;">
 				 
 				    <div class="row">
-				       <div class="row col-12">
+				       <div class="row col-12 d-none">
 				   	  	   
 				   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
 					            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">

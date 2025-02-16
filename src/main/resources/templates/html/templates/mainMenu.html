@@ -7,15 +7,15 @@
 	<div id="navbarCollapse" class="collapse navbar-collapse justify-content-start">	
 		<div class="navbar-nav mr-auto">
 		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
-			<a sec:authorize="hasAuthority('HOME_SCREEN')" href="/bourse/home" th:classappend="${menuId == 1} ? 'active' : ''"  class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+			<a sec:authorize="hasAuthority('HOME_SCREEN')" href="/bourse/home" th:classappend="${menuId == 1} ? 'active' : ''"  class="nav-item nav-link"><img alt="" src="../../img/ico-home.png" class="MainMenuIcon">HOME</a>
 			<li sec:authorize="hasAuthority('ADMIN_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
-			<a sec:authorize="hasAuthority('ADMIN_SCREEN')" href="/bourse/users" th:classappend="${menuId == 3} ? 'active' : ''" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon"><span id="notification" class="notification"></span>Admin</a>
+			<a sec:authorize="hasAuthority('ADMIN_SCREEN')" href="/bourse/users" th:classappend="${menuId == 3} ? 'active' : ''" class="nav-item nav-link"><img alt="" src="../../img/ico-admin.png" class="MainMenuIcon"><span id="notification" class="notification"></span>ADMIN</a>
 			<li sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
-			<a sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" href="/bourse/newsmanagement" th:classappend="${menuId == 16} ? 'active' : ''" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">news</a>
+			<a sec:authorize="hasAuthority('NEWS_MANAGEMENT_SCREEN')" href="/bourse/newsmanagement" th:classappend="${menuId == 16} ? 'active' : ''" class="nav-item nav-link"><img alt="" src="../../img/ico-news.png" class="MainMenuIcon">NEWS</a>
 			<li sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')"class="rtbSeparator"><span class="rtbText"></span></li>
-			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields?yield=1"  th:classappend="${menuId == 25} ? 'active' : ''"  class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">database</a>
+			<a sec:authorize="hasAuthority('DATABASE_INPUT_SCREEN')" href="/bourse/sovereignyields?yield=1"  th:classappend="${menuId == 25} ? 'active' : ''"  class="nav-item nav-link"><img alt="" src="../../img/ico-database.png" class="MainMenuIcon">DATABASE</a>
 			<li sec:authorize="hasAuthority('SETTINGS_SCREEN')" class="rtbSeparator"><span class="rtbText"></span></li>
-			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" th:classappend="${menuId == 26} ? 'active' : ''"  class="nav-item nav-link"><img  alt="" src="../../img/ico-admin.png" class="MainMenuIcon">settings</a>
+			<a sec:authorize="hasAuthority('SETTINGS_SCREEN')" href="/bourse/settings" th:classappend="${menuId == 26} ? 'active' : ''"  class="nav-item nav-link"><img  alt="" src="../../img/ico-admin.png" class="MainMenuIcon">SETTINGS</a>
 		    </div>
 		</div>
 		<button class="blinking-button mr-2" id="video-button">

@@ -481,7 +481,7 @@
 				    	  var valueMax = values;
 				    	  var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
 			  			 graphService=typeof graphService!='undefined'?graphService:'';
-			  			calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+			  			calculatedMinValue =(Math.sign(calculatedMinValue) == -1 && Math.sign(min)!=-1 )? 0: calculatedMinValue;
 		 	
 	      	    	    var yaxisformat = getFormat(response[0].config.yAxisFormat);
 									
