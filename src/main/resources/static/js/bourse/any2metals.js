@@ -28,6 +28,7 @@
   var notDecimal1;
   var nbrOfDigits1;
   var hasMissingDates=false;
+    var chartConfigSettings;
   
   var allitems=["#jqxCheckBoxGold",
 		   		"#jqxCheckBoxPlatinum",
@@ -1956,6 +1957,8 @@
 					   chart.destroy();
 			        			
 		    	  if (checkedItem==2) {
+					    $("#scaleManagement").removeClass("d-none");
+					  $("#scaleManagement").addClass("d-block");
 		    	  for(i=0; i<checkedItemid.length; i++)
 				   		   {
 				   	  		 if(checkedItemid[i]!=null)
@@ -2202,7 +2205,7 @@
 									 nbrOfDigits1=yaxisformat1[0];
 									 
 									 
-									var chartConfigSettings={
+									 chartConfigSettings={
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
 											 yAxisFormat1:yaxisformat1,
@@ -2260,6 +2263,8 @@
 			        chart.render();
 				}
 				else{
+					 $("#scaleManagement").removeClass("d-block");
+					  $("#scaleManagement").addClass("d-none");
 						for(i=0; i<checkedItemid.length; i++)
 			   		   {
 			   	  		 if(checkedItemid[i]!=null)

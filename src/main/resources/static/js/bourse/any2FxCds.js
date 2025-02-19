@@ -28,6 +28,7 @@
   var notDecimal1;
   var nbrOfDigits1;
   var hasMissingDates=false;
+    var chartConfigSettings;
   
  var allitems= ["#jqxCheckBoxusdeur",
 			    "#jqxCheckBoxgbpusd",
@@ -1097,7 +1098,9 @@
 				 if(chart!=null)
 					   chart.destroy();
 			      
-		    	  if (checkedItem==2) {  
+		    	  if (checkedItem==2) {
+					   $("#scaleManagement").removeClass("d-none");
+					  $("#scaleManagement").addClass("d-block");  
 				  
 				   const group22Items = [];
 				   const otherItems = [];
@@ -1368,7 +1371,7 @@
 									 nbrOfDigits1=yaxisformat1[0];
 									 // chartType2=='column'? response[1].graphResponseDTOLst = updateSeriesValue(response[0].graphResponseDTOLst,response[1].graphResponseDTOLst):null;
 							       
-							        var chartConfigSettings={
+							         chartConfigSettings={
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
 											 yAxisFormat1:yaxisformat1,
@@ -1426,6 +1429,8 @@
 			        chart.render();
 					}
 				else{
+					 $("#scaleManagement").removeClass("d-block");
+					  $("#scaleManagement").addClass("d-none");
 						for(i=0; i<checkedItemid.length; i++)
 			   		   {
 			   	  		 if(checkedItemid[i]!=null)

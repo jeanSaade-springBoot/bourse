@@ -28,6 +28,7 @@
   var notDecimal1;
   var nbrOfDigits1;
   var hasMissingDates=false;
+   var chartConfigSettings;
 
 var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 				, "#jqxCheckBox-25-DP15_ATM-11"
@@ -625,6 +626,8 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 					   chart.destroy();
 			        			
 		    	  if (checkedItem==2) {
+					     $("#scaleManagement").removeClass("d-none");
+					  $("#scaleManagement").addClass("d-block");
 		    	  for(i=0; i<checkedItemid.length; i++)
 				   		   {
 				   	  		 if(checkedItemid[i]!=null)
@@ -872,7 +875,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 									 notDecimal1=yaxisformat1[1];
 									 nbrOfDigits1=yaxisformat1[0];
 									
-							        var chartConfigSettings={
+							         chartConfigSettings={
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
 											 yAxisFormat1:yaxisformat1,
@@ -930,6 +933,8 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 			        chart.render();
 				}
 				else{
+					 $("#scaleManagement").removeClass("d-block");
+					  $("#scaleManagement").addClass("d-none");
 						for(i=0; i<checkedItemid.length; i++)
 			   		   {
 			   	  		 if(checkedItemid[i]!=null)
