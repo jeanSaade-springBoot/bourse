@@ -408,6 +408,20 @@ div#y {
    height: 24px;
   width: 24px;
 }
+.icon-1-scale{
+  background-image : url(/img/1-scale.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
+.icon-2-scale{
+  background-image : url(/img/2-scale.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
 .icon-legendchart{
   background-image : url(/img/Legend-chart.png);
   background-size: cover;

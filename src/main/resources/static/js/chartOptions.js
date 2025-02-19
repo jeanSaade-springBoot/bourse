@@ -325,7 +325,7 @@ function updateGraphConfiguration(SelectedchartType,selectedChartColor,selectedC
 									      }
 	        	  },
           tickAmount: 6,
-    	    min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+    	    min:calculatedMinValue,
  		    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
 			 axisBorder: {
 	                  width: 3,
@@ -359,7 +359,9 @@ function updateGraphConfigurationVolumes(SelectedchartType,selectedChartColor,se
 	
 	var valueMin = getMarginLenghtVolume(minvalue); 
 	var valueMax = getMarginLenghtVolume(maxvalue); 
-	
+	var calculatedMinValue = Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin;
+	   calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(minvalue)==-1)  )? 0: calculatedMinValue;
+	 
 	chart.updateSeries([{ type:SelectedchartType}]);
 	if (SelectedchartType=='area')
       chart.updateOptions({
@@ -431,7 +433,7 @@ function updateGraphConfigurationVolumes(SelectedchartType,selectedChartColor,se
 						} 
 	        	  },
           tickAmount: 6,
-    	  min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+    	  min:calculatedMinValue,
  		  max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
 				axisBorder: {
 	                  width: 3,
@@ -558,7 +560,7 @@ function updateGraphConfigurationVolumes(SelectedchartType,selectedChartColor,se
 									  }
 	        	  },
           tickAmount: 6,
-            min:Math.sign(minvalue)==-1 ? -Math.abs(minvalue)-valueMin : Math.abs(minvalue)-valueMin,
+            min:calculatedMinValue,
  		    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
 			 axisBorder: {
 	                  width: 3,
@@ -926,6 +928,33 @@ function chartLegendOption(selectedChartLegend)
     
     updateGraphOption(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend);
 }
+
+function chartScaleOption(selectedChartScale)
+{
+	   // Toggle scale selection
+    isOneScale = selectedChartScale === "1scale";
+
+    // Get all buttons inside the gridLegend div
+    let buttons = document.querySelectorAll("#scaleManagement .btn-option");
+
+    // Remove 'active' class from all buttons
+    buttons.forEach(btn => btn.classList.remove("active"));
+
+    // Add 'active' class to the clicked button
+    let clickedButton = document.querySelector(`button[onclick="chartScaleOption('${selectedChartScale}')"]`);
+    if (clickedButton) {
+        clickedButton.classList.add("active");
+    }
+
+    // Call the appropriate update function
+    if (hasMissingDates) {
+        updateChartSelectedItemMissingDates(chartConfigSettings);
+    } else {
+        updateChartSelectedItem(chartConfigSettings);
+    }
+		 
+}
+
 function checkActiveFontSize(activeFontSize,dbFontSize)
 {
 	if (typeof  activeFontSize == 'undefined')

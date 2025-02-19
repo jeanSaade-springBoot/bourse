@@ -468,42 +468,68 @@ public class CryptosUtil {
 		 colHash.put(columnsId,"id");
 	
 		 
-		 query = forUseSelect
-		 		+ "        from (\r\n"
-		 		+ "			SELECT \r\n"
-		 		+ "			  DATE(start_time) AS trade_date,\r\n"
-		 		+ "			  -- This expression computes the period start hour (0, 4, 8, …)\r\n"
-		 		+ "			  CONCAT(LPAD(FLOOR(HOUR(start_time)/4)*4, 2, '0'), ':00:00') AS period,\r\n"
-		 		+ "			  MIN(start_time) AS start_time,\r\n"
-		 		+ "			  MAX(end_time) AS end_time,\r\n"
-		 		+ "			  \r\n"
-		 		+ "			  -- Get the open value from the first record of the group\r\n"
-		 		+ "			  (SELECT open \r\n"
-		 		+ "			   FROM `"+forUsetables+"` t2 \r\n"
-		 		+ "			   WHERE t2.start_time = MIN(t1.start_time)\r\n"
-		 		+ "			   LIMIT 1) AS openint,\r\n"
-		 		+ "			  \r\n"
-		 		+ "			  -- Get the close value from the last record of the group\r\n"
-		 		+ "			  (SELECT close \r\n"
-		 		+ "			   FROM  `"+forUsetables+"`  t3 \r\n"
-		 		+ "			   WHERE t3.end_time = MAX(t1.end_time)\r\n"
-		 		+ "			   LIMIT 1) AS closeint,\r\n"
-		 		+ "			  \r\n"
-		 		+ "			  MAX(high) AS high,\r\n"
-		 		+ "			  MIN(low) AS low,\r\n"
-		 		+ "			  SUM(volume) AS volume,\r\n"
-		 		+ "			  (SELECT marketcap\r\n"
-		 		+ "			FROM  `"+forUsetables+"`  t\r\n"
-		 		+ "			WHERE t.end_time <= MAX(t1.end_time)\r\n"
-		 		+ "			  AND marketcap <> 0\r\n"
-		 		+ "			ORDER BY t.end_time DESC\r\n"
-		 		+ "			LIMIT 1) AS marketcap\r\n"
-		 		+ "			FROM  `"+forUsetables+"`  t1\r\n"
-		 		+ "			GROUP BY trade_date, period\r\n"
-		 		+ "			ORDER BY trade_date, period)s1  \r\n"
-		 		+ "					WHERE  (start_time between '"+fromDate+"' "
-		 		+ "							 		          and '"+toDate+"')"
-		 		+ "					ORDER BY  start_time  DESC";
+			/*
+			 * query = forUseSelect
+			 * 
+			 * + "        from (\r\n" + "			SELECT \r\n" +
+			 * "			  DATE(start_time) AS trade_date,\r\n" +
+			 * "			  -- This expression computes the period start hour (0, 4, 8, …)\r\n"
+			 * +
+			 * "			  CONCAT(LPAD(FLOOR(HOUR(start_time)/4)*4, 2, '0'), ':00:00') AS period,\r\n"
+			 * + "			  MIN(start_time) AS start_time,\r\n" +
+			 * "			  MAX(end_time) AS end_time,\r\n" + "			  \r\n" +
+			 * "			  -- Get the open value from the first record of the group\r\n"
+			 * + "			  (SELECT open \r\n" +
+			 * "			   FROM `"+forUsetables+"` t2 \r\n" +
+			 * "			   WHERE t2.start_time = MIN(t1.start_time)\r\n" +
+			 * "			   LIMIT 1) AS openint,\r\n" + "			  \r\n" +
+			 * "			  -- Get the close value from the last record of the group\r\n"
+			 * + "			  (SELECT close \r\n" +
+			 * "			   FROM  `"+forUsetables+"`  t3 \r\n" +
+			 * "			   WHERE t3.end_time = MAX(t1.end_time)\r\n" +
+			 * "			   LIMIT 1) AS closeint,\r\n" + "			  \r\n" +
+			 * "			  MAX(high) AS high,\r\n" + "			  MIN(low) AS low,\r\n"
+			 * + "			  SUM(volume) AS volume,\r\n" +
+			 * "			  (SELECT marketcap\r\n" +
+			 * "			FROM  `"+forUsetables+"`  t\r\n" +
+			 * "			WHERE t.end_time <= MAX(t1.end_time)\r\n" +
+			 * "			  AND marketcap <> 0\r\n" +
+			 * "			ORDER BY t.end_time DESC\r\n" +
+			 * "			LIMIT 1) AS marketcap\r\n" +
+			 * "			FROM  `"+forUsetables+"`  t1\r\n" +
+			 * "			GROUP BY trade_date, period\r\n" +
+			 * "			ORDER BY trade_date, period)s1  \r\n" +
+			 * "					WHERE  (start_time between '"+fromDate+"' " +
+			 * "							 		          and '"+toDate+"')" +
+			 * "					ORDER BY  start_time  DESC";
+			 */
+		 query = "  WITH grouped_data AS ( SELECT \r\n"
+		 + "		 DATE(start_time) AS time_interval,\r\n"
+				 + "				MIN(low) AS min_low,\r\n"
+				 + "				MAX(high) AS max_high,\r\n"
+				 + "				MIN(start_time) AS first_start_time,  -- Used for Open price\r\n"
+				 + "				MAX(start_time) AS last_start_time,   -- Used for Close price\r\n"
+				 + "				sum(volume) as volume\r\n"
+				 + "			FROM `"+forUsetables+"`\r\n"
+				 + "					WHERE  (start_time between '"+fromDate+"' "
+			 	 + "							 		          and '"+toDate+"')"
+				 + "			GROUP BY time_interval\r\n"
+				 + "		)\r\n"
+				 +  forUseSelect 
+				 + "\r\n"
+				 + "		   from( \r\n"
+				 + "     select DATE_FORMAT(time_interval, '%d-%m-%Y') AS start_time, \r\n"
+				 + "			o.open as openint, \r\n"
+				 + "			g.max_high as high, \r\n"
+				 + "			g.min_low as low, \r\n"
+				 + "			c.close as closeint,\r\n"
+				 + "			mc.marketcap AS marketcap,  -- Fetch last market cap value\r\n"
+				 + "			g.volume	"
+				 + "		FROM grouped_data g\r\n"
+				 + "		LEFT JOIN `"+forUsetables+"` o ON g.first_start_time = o.start_time  -- Fetch Open price\r\n"
+				 + "		LEFT JOIN `"+forUsetables+"` c ON g.last_start_time = c.start_time   -- Fetch Close price\r\n"
+				 + "		LEFT JOIN `"+forUsetables+"` mc ON g.last_start_time = mc.start_time -- Fetch last Market Cap\r\n"
+				 + "		ORDER BY g.time_interval ASC) s1  ; ";
 		 
 		 QueryColumnsDTO queryColumnsDTO = QueryColumnsDTO.builder()
 				 .colHash(colHash)

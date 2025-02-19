@@ -580,6 +580,7 @@ function getFilterData(crySubGroupValue) {
 							break;
 						}
 					}
+					updateMarketCapColumn(data.columns);
 					$('#grid').jqxGrid({
 						width: data.columns.length > 12 ? '100%' : data.columns.length*110,
 						source: dataAdapter,
@@ -1127,4 +1128,48 @@ function initiate(Type, inputDataType, item, dataInputGridFields, dataInputGridC
 
     // Convert to local time string
     return utcDate.toLocaleString();  // Adjusts to user's local timezone
+}
+function updateMarketCapColumn(columns) {
+    // Find index of "marketCap" column
+    let index = columns.findIndex(col => col.datafield === 'marketcap-'+groupId);
+
+    if (index !== -1) {
+        // If "marketCap" column exists, replace it with formatted version
+        columns[index] = {
+            text: columns[index].text,
+            datafield: 'marketcap-'+groupId,
+            cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+                // Check if value is at least 1 billion
+                if (value >= 1e9) {
+                    const inBillions = value / 1e9;
+                    const formatted = formatNumberWithCommas(inBillions); // Format with commas
+                    return `<div style="margin:4px;">${formatted}B</div>`;
+                } else {
+                    return `<div style="margin:4px;">${formatNumberWithCommas(value)}</div>`; // Keep original with commas
+                }
+            }
+        };
+    }
+       let indexVolume = columns.findIndex(col => col.datafield === 'volume-'+groupId);
+
+    if (indexVolume !== -1) {
+        // If "marketCap" column exists, replace it with formatted version
+        columns[indexVolume] = {
+            text: columns[indexVolume].text,
+            datafield: 'volume-'+groupId,
+            cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+                // Check if value is at least 1 billion
+                if (value >= 1e9) {
+                    const inBillions = value / 1e9;
+                    const formatted = formatNumberWithCommas(inBillions); // Format with commas
+                    return `<div style="margin:4px;">${formatted}B</div>`;
+                } else {
+                    return `<div style="margin:4px;">${formatNumberWithCommas(value)}</div>`; // Keep original with commas
+                }
+            }
+        };
+    }
+}
+function formatNumberWithCommas(num) {
+    return num.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
 }

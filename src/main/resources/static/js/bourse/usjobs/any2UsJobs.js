@@ -29,9 +29,10 @@
   var nbrOfDigits;
   var notDecimal1;
   var nbrOfDigits1;
-  var hasMissingDates=false;
+  var hasMissingDates=true;
   var graphService = "usjobs";
-  
+   var chartConfigSettings;
+   
  var allitems=["#jqxCheckBoxfinal-77",
 	"#jqxCheckBoxinitial-77",
 	"#jqxCheckBoxsurv-77",
@@ -1049,6 +1050,9 @@
 					   chart.destroy();
 			        			
 		    	  if (checkedItem==2) {
+					  $("#scaleManagement").removeClass("d-none");
+					  $("#scaleManagement").addClass("d-block");
+					  
 		    	  for(i=0; i<checkedItemid.length; i++)
 				   		   {
 				   	  		 if(checkedItemid[i]!=null)
@@ -1218,6 +1222,11 @@
 		      	    	        timeout: 600000,
 		      	    	        success: function (response) {
 		      	    	         
+		      	    	            alignMergeDataSets(response[0].graphResponseDTOLst, response[1].graphResponseDTOLst) ;
+		      	    	            let { data1: alignedData1, data2: alignedData2 } = alignMergeDataSets(response[0].graphResponseDTOLst, response[1].graphResponseDTOLst) ;
+									response[0].graphResponseDTOLst = alignedData1;
+									response[1].graphResponseDTOLst = alignedData2;
+		      	    	         
 		      	    	        	startDateF1=response[0].config.startDate;
 		      	    	        	startDateF2=response[1].config.startDate;
 		      	    	        	 if (startDateF1!=null)
@@ -1298,7 +1307,7 @@
 									 nbrOfDigits1=yaxisformat1[0];
 									 chartType2=='column'? response[1].graphResponseDTOLst = updateSeriesValue(response[0].graphResponseDTOLst,response[1].graphResponseDTOLst):null;
 							       
-							        var chartConfigSettings={
+							         chartConfigSettings={
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
 											 yAxisFormat1:yaxisformat1,
@@ -1356,6 +1365,9 @@
 			        chart.render();
 				}
 				else{
+					  $("#scaleManagement").removeClass("d-block");
+					  $("#scaleManagement").addClass("d-none");
+					
 						for(i=0; i<checkedItemid.length; i++)
 			   		   {
 			   	  		 if(checkedItemid[i]!=null)

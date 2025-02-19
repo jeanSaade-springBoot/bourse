@@ -49,7 +49,7 @@ var T1;
 var T2; 
 var yaxisformat=3;
 var dataFormat=3;
-  
+var isOneScale=false;
 var options = {
 		series: [],
 		chart: {
@@ -2502,14 +2502,11 @@ function updateChartSelectedItem(chartConfigSettings){
 				}
 				else if(chartConfigSettings.checkedItem ==2 )
 				{
-						// var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
-						// var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
-						// var valueMin2 = getMarginLenght(chartConfigSettings.min2);
-						// var valueMax2 = getMarginLenght(chartConfigSettings.max2); 
-						  const values1 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
+					 const values1 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
 				     var valueMin1 = values1;
 				     var valueMax1 = values1; 	
-				      const values2 = addMarginToMinMax(chartConfigSettings.min2, chartConfigSettings.max2, 5);
+				     
+				     const values2 = addMarginToMinMax(chartConfigSettings.min2, chartConfigSettings.max2, 5);
 				     var valueMin2 = values2;
 				     var valueMax2 = values2; 	
 				    
@@ -2519,26 +2516,8 @@ function updateChartSelectedItem(chartConfigSettings){
 				     calculatedMinValue2 =  Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(chartConfigSettings.min2)-valueMin2 : Math.abs(chartConfigSettings.min2)-valueMin2;
 				     calculatedMinValue2 =  (Math.sign(calculatedMinValue2) == -1 && !(Math.sign(chartConfigSettings.min2)==-1) )? 0: calculatedMinValue2;
 
-						 chart.updateOptions({
-							  series:[{
-							          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
-							          type: chartConfigSettings.chartType1,
-							          data: chartConfigSettings.response[0].graphResponseDTOLst
-							        },{
-							          name: chartConfigSettings.response[1].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[1]].title:chartConfigSettings.response[1].config.displayDescription,
-							          type: chartConfigSettings.chartType2,
-							          data: chartConfigSettings.response[1].graphResponseDTOLst
-							        }],
-      	    	    	  extra:{
-								isDecimal: chartConfigSettings.isdecimal,
-								yAxisFormat:chartConfigSettings.yaxisformat,
-							},
-							 colors: ["#FFFFFF", "#FF0000"],
-      	    	    		 markers: {
-      	    	    		   colors: ["#FFFFFF", "#FF0000"],
-      	    	    		   strokeColors:["#FFFFFF", "#FF0000"]
-      	    	    		 },
-     				       yaxis: [{
+
+      	    	     let yAxis =   [{
 									 labels: {
 	     				    		 minWidth: 75,maxWidth: 75,
 	 				        		 style: {
@@ -2588,7 +2567,68 @@ function updateChartSelectedItem(chartConfigSettings){
 					     					                  offsetX: 0,
 					     					                  offsetY: 0
 					     					              },
-					     				    			 }],
+					     				    			 }] ;
+      	    	    	
+      	    	     if(isOneScale)
+      	    	     {	
+						   let min = Math.min(chartConfigSettings.min1, chartConfigSettings.min2);
+					       let max = Math.max(chartConfigSettings.max1, chartConfigSettings.max2);
+						    const values1 = addMarginToMinMax(min, max, 5);
+						 var valueMin1 = values1;
+						 var valueMax1 = values1;
+	 					  graphService=typeof graphService!='undefined'?graphService:'';
+	 					 var calculatedMinValue1 = Math.sign(min)==-1 ? -Math.abs(min)-valueMin1 : Math.abs(min)-valueMin1;
+					         //calculatedMinValue1 = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue1) == -1 ?0:calculatedMinValue1): calculatedMinValue1;
+					    	 calculatedMinValue1 =  (Math.sign(calculatedMinValue1) == -1 && !(Math.sign(min)==-1)  )? 0: calculatedMinValue1;
+	
+						   yAxis =  [{
+									 labels: {
+	     				    		 minWidth: 75,maxWidth: 75,
+	 				        		 style: {
+	 						        	  fontSize: chartConfigSettings.fontSize,
+	 						        	 },
+										 formatter: function(val, index) {
+										 if (chartConfigSettings.yAxisFormat[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]);
+						  				else 
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]) + "%";
+									      }
+						 				        	  },
+				     				          tickAmount: 6,
+				     				    	  min:calculatedMinValue1,
+				     				    	  max:Math.sign(chartConfigSettings.max)==-1 ? -Math.abs(chartConfigSettings.max)+valueMax1 : Math.abs(chartConfigSettings.max)+valueMax1,
+				     				    			  axisBorder: {
+				     					                  width: 3,
+				     					                  show: true,
+				     					                  color: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors[0] : "#FFFFFF",
+				     					                  offsetX: 0,
+				     					                  offsetY: 0
+				     					              },
+				     				    			 }] ;
+							}
+      	    	    	
+
+
+						 chart.updateOptions({
+							  series:[{
+							          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
+							          type: chartConfigSettings.chartType1,
+							          data: chartConfigSettings.response[0].graphResponseDTOLst
+							        },{
+							          name: chartConfigSettings.response[1].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[1]].title:chartConfigSettings.response[1].config.displayDescription,
+							          type: chartConfigSettings.chartType2,
+							          data: chartConfigSettings.response[1].graphResponseDTOLst
+							        }],
+      	    	    	  extra:{
+								isDecimal: chartConfigSettings.isdecimal,
+								yAxisFormat:chartConfigSettings.yaxisformat,
+							},
+							 colors: ["#FFFFFF", "#FF0000"],
+      	    	    		 markers: {
+      	    	    		   colors: ["#FFFFFF", "#FF0000"],
+      	    	    		   strokeColors:["#FFFFFF", "#FF0000"]
+      	    	    		 },
+     				       yaxis: yAxis,
 												  tooltip: {
 													  x: {
 					    						          show: false,
@@ -2645,8 +2685,9 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
 				          graphService=typeof graphService!='undefined'?graphService:'';
 				         // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				    calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
-							chart.updateOptions({
+				     calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
+						
+					 chart.updateOptions({
 								
 								series:[{
 										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -2735,8 +2776,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 
 				}
 				else if(chartConfigSettings.checkedItem ==2 )
-				{
-					
+				{    				    			 
 					 const values1 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
 					 var valueMin1 = values1;
 					 var valueMax1 = values1;
@@ -2751,27 +2791,8 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
  				  	 var calculatedMinValue2 = Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(chartConfigSettings.min2)-valueMin2 : Math.abs(chartConfigSettings.min2)-valueMin2;
 				       //  calculatedMinValue2 = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2): calculatedMinValue2;
 				         calculatedMinValue2 =  (Math.sign(calculatedMinValue2) == -1 && !(Math.sign(chartConfigSettings.min2)==-1) )? 0: calculatedMinValue2;
-      	    	    	chart.updateOptions({
-						  series:[{
-						          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
-						          type: chartConfigSettings.chartType1,
-						          data: chartConfigSettings.response[0].graphResponseDTOLst
-						        },{
-						          name: chartConfigSettings.response[1].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[1]].title:chartConfigSettings.response[1].config.displayDescription,
-						          type: chartConfigSettings.chartType2,
-						          data: chartConfigSettings.response[1].graphResponseDTOLst,
-						          strokeWidth:getStrokeWidth()
-						        }],
-      	    	    	  extra:{
-								isDecimal: chartConfigSettings.isdecimal,
-								yAxisFormat:chartConfigSettings.yaxisformat,
-							},
-							 colors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FF0000"],
-      	    	    		 markers: {
-      	    	    		   colors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FF0000"],
-      	    	    		   strokeColors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FF0000"]
-      	    	    		 },
-     				       yaxis: [{
+      	    	   
+      	    	     let yAxis =  [{
 									 labels: {
 	     				    		 minWidth: 75,maxWidth: 75,
 	 				        		 style: {
@@ -2822,7 +2843,67 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 					     					                  offsetX: 0,
 					     					                  offsetY: 0
 					     					              },
-					     				    			 }],
+					     				    			 }] ;
+      	    	    	
+      	    	     if(isOneScale)
+      	    	     {	
+						   let min = Math.min(chartConfigSettings.min1, chartConfigSettings.min2);
+					       let max = Math.max(chartConfigSettings.max1, chartConfigSettings.max2);
+						    const values1 = addMarginToMinMax(min, max, 5);
+						 var valueMin1 = values1;
+						 var valueMax1 = values1;
+	 					  graphService=typeof graphService!='undefined'?graphService:'';
+	 					 var calculatedMinValue1 = Math.sign(min)==-1 ? -Math.abs(min)-valueMin1 : Math.abs(min)-valueMin1;
+					         //calculatedMinValue1 = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue1) == -1 ?0:calculatedMinValue1): calculatedMinValue1;
+					    	 calculatedMinValue1 =  (Math.sign(calculatedMinValue1) == -1 && !(Math.sign(min)==-1)  )? 0: calculatedMinValue1;
+	
+						   yAxis =  [{
+									 labels: {
+	     				    		 minWidth: 75,maxWidth: 75,
+	 				        		 style: {
+	 						        	  fontSize: chartConfigSettings.fontSize,
+	 						        	 },
+										 formatter: function(val, index) {
+										 if (chartConfigSettings.yAxisFormat[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]);
+						  				else 
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]) + "%";
+									      }
+						 				        	  },
+				     				          tickAmount: 6,
+				     				    	  min:calculatedMinValue1,
+				     				    	  max:Math.sign(chartConfigSettings.max)==-1 ? -Math.abs(chartConfigSettings.max)+valueMax1 : Math.abs(chartConfigSettings.max)+valueMax1,
+				     				    			  axisBorder: {
+				     					                  width: 3,
+				     					                  show: true,
+				     					                  color: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors[0] : "#FFFFFF",
+				     					                  offsetX: 0,
+				     					                  offsetY: 0
+				     					              },
+				     				    			 }] ;
+							}
+      	    	    	
+      	    	    	chart.updateOptions({
+						  series:[{
+						          name: chartConfigSettings.response[0].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[0]].title:chartConfigSettings.response[0].config.displayDescription,
+						          type: chartConfigSettings.chartType1,
+						          data: chartConfigSettings.response[0].graphResponseDTOLst
+						        },{
+						          name: chartConfigSettings.response[1].config.displayDescription==null?itemValue[chartConfigSettings.checkedItemValues[1]].title:chartConfigSettings.response[1].config.displayDescription,
+						          type: chartConfigSettings.chartType2,
+						          data: chartConfigSettings.response[1].graphResponseDTOLst,
+						          strokeWidth:getStrokeWidth()
+						        }],
+      	    	    	  extra:{
+								isDecimal: chartConfigSettings.isdecimal,
+								yAxisFormat:chartConfigSettings.yaxisformat,
+							},
+							 colors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FF0000"],
+      	    	    		 markers: {
+      	    	    		   colors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FF0000"],
+      	    	    		   strokeColors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FF0000"]
+      	    	    		 },
+     				       yaxis: yAxis,
 												  tooltip: {
 													  x: {
 					    						          show: false,
@@ -6390,182 +6471,87 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 	inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValueYields));
 }
 function navigationGraph(condition) {
-	fromNavigation = true;
-	const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-		"Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
-	];
-	if (condition == "yearBackward") {
-		expectedmonthdate = new Date(monthDate.getMonth() + "-" + monthDate.getDay() + "-" + (monthDate.getFullYear() - 1));
-		if (startDateF1 != null) {
-			if (expectedmonthdate <= startDateF1) {
-				$("#button-yearBackward").prop('disabled', true);
-				$('#startdatetext').empty();
-				$('#startdatetext').append("No data available before " + monthNames[startDateF1.getMonth()] + " " + startDateF1.getFullYear())
-				$('#alertStartDate-modal').modal('show');
-				return;
-			}
-		}
-		else
-			if (startDateF2 != null) {
-				if (expectedmonthdate <= startDateF2) {
-					$("#button-yearBackward").prop('disabled', true);
-					$('#startdatetext').empty();
-					$('#startdatetext').append("No data available before " + monthNames[startDateF2.getMonth()] + " " + startDateF2.getFullYear())
-					$('#alertStartDate-modal').modal('show');
-					return;
-				}
-			}
-			else
-				if (typeof (startDateF3) != "undefined")
-					if (startDateF3 != null) {
-						if (expectedmonthdate <= startDateF3) {
-							$("#button-yearBackward").prop('disabled', true);
-							$('#startdatetext').empty();
-							$('#startdatetext').append("No data available before " + monthNames[startDateF3.getMonth()] + " " + startDateF3.getFullYear())
-							$('#alertStartDate-modal').modal('show');
-							return;
-						}
-					}
-					else
-						if (startDateF4 != null) {
-							if (expectedmonthdate <= startDateF4) {
-								$("#button-yearBackward").prop('disabled', true);
-								$('#startdatetext').empty();
-								$('#startdatetext').append("No data available before " + monthNames[startDateF4.getMonth()] + " " + startDateF4.getFullYear())
-								$('#alertStartDate-modal').modal('show');
-								return;
-							}
-						} else
-							if (startDateF5 != null) {
-								if (expectedmonthdate <= startDateF5) {
-									$("#button-yearBackward").prop('disabled', true);
-									$('#startdatetext').empty();
-									$('#startdatetext').append("No data available before " + monthNames[startDateF5.getMonth()] + " " + startDateF5.getFullYear())
-									$('#alertStartDate-modal').modal('show');
-									return;
-								}
-							}
-							else
-								if (startDateF6 != null) {
-									if (expectedmonthdate <= startDateF6) {
-										$("#button-yearBackward").prop('disabled', true);
-										$('#startdatetext').empty();
-										$('#startdatetext').append("No data available before " + monthNames[startDateF6.getMonth()] + " " + startDateF6.getFullYear())
-										$('#alertStartDate-modal').modal('show');
-										return;
-									}
-								}
-		monthDate.setFullYear(monthDate.getFullYear() - 1);
-		if(mode=="merge") 
-				  drawGraph();
-					else
-						splitGraph();
-	} else
-		if (condition == "monthBackward") {
-			expectedmonthdate = new Date(monthDate.getMonth() + "-" + monthDate.getDay() + "-" + monthDate.getFullYear());
-			if (startDateF1 != null) {
-				if (expectedmonthdate <= startDateF1) {
-					$("#button-monthBackward").prop('disabled', true);
-					$("#button-yearBackward").prop('disabled', true);
-					$('#startdatetext').empty();
-					$('#startdatetext').append("No data available before " + monthNames[startDateF1.getMonth()] + " " + startDateF1.getFullYear())
-					$('#alertStartDate-modal').modal('show');
-					return;
-				}
-			}
-			else
-				if (startDateF2 != null) {
-					if (expectedmonthdate <= startDateF2) {
-						$("#button-monthBackward").prop('disabled', true);
-						$("#button-yearBackward").prop('disabled', true);
-						$('#startdatetext').empty();
-						$('#startdatetext').append("No data available before " + monthNames[startDateF2.getMonth()] + " " + startDateF2.getFullYear())
-						$('#alertStartDate-modal').modal('show');
-						return;
-					}
-				}
-				else
-					if (startDateF3 != null) {
-						if (expectedmonthdate <= startDateF3) {
-							$("#button-monthBackward").prop('disabled', true);
-							$("#button-yearBackward").prop('disabled', true);
-							$('#startdatetext').empty();
-							$('#startdatetext').append("No data available before " + monthNames[startDateF3.getMonth()] + " " + startDateF3.getFullYear())
-							$('#alertStartDate-modal').modal('show');
-							return;
-						}
-					}
-					else
-						if (startDateF4 != null) {
-							if (expectedmonthdate <= startDateF4) {
-								$("#button-monthBackward").prop('disabled', true);
-								$("#button-yearBackward").prop('disabled', true);
-								$('#startdatetext').empty();
-								$('#startdatetext').append("No data available before " + monthNames[startDateF4.getMonth()] + " " + startDateF4.getFullYear())
-								$('#alertStartDate-modal').modal('show');
-								return;
-							}
-						} else
-							if (startDateF5 != null) {
-								if (expectedmonthdate <= startDateF5) {
-									$("#button-monthBackward").prop('disabled', true);
-									$("#button-yearBackward").prop('disabled', true);
-									$('#startdatetext').empty();
-									$('#startdatetext').append("No data available before " + monthNames[startDateF5.getMonth()] + " " + startDateF5.getFullYear())
-									$('#alertStartDate-modal').modal('show');
-									return;
-								}
-							}
-							else
-								if (startDateF6 != null) {
-									if (expectedmonthdate <= startDateF6) {
-										$("#button-monthBackward").prop('disabled', true);
-										$("#button-yearBackward").prop('disabled', true);
-										$('#startdatetext').empty();
-										$('#startdatetext').append("No data available before " + monthNames[startDateF6.getMonth()] + " " + startDateF6.getFullYear())
-										$('#alertStartDate-modal').modal('show');
-										return;
-									}
-								}
-			monthDate.setMonth(monthDate.getMonth() - 1);
-			if(mode=="merge") 
-				  drawGraph();
-					else
-						splitGraph();
-		}
-		else
-			if (condition == "monthForward") {
-				$("#button-monthBackward").prop('disabled', false);
-				monthDate.setMonth(monthDate.getMonth() + 1);
-				if(mode=="merge") 
-				  drawGraph();
-					else
-						splitGraph();
-			}
-			else
-				if (condition == "yearForward") {
-					$("#button-yearBackward").prop('disabled', false);
-					monthDate.setFullYear(monthDate.getFullYear() + 1);
-					if(mode=="merge") 
-				  drawGraph();
-					else
-						splitGraph();
-				}
+    fromNavigation = true;
+    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
 
-	if (checkDateMonth(monthDate, date)) {
-		$("#button-monthForward").prop('disabled', false);
-	}
-	else {
-		$("#button-monthForward").prop('disabled', true);
-	}
+    if (condition == "yearBackward") {
+        expectedmonthdate = new Date(monthDate.getFullYear() - 1, monthDate.getMonth(), monthDate.getDate());
+        if (checkStartDate(expectedmonthdate)) return;
+        monthDate.setFullYear(monthDate.getFullYear() - 1);
+    } else if (condition == "monthBackward") {
+        expectedmonthdate = new Date(monthDate.getFullYear(), monthDate.getMonth() - 1, monthDate.getDate());
+        if (checkStartDate(expectedmonthdate)) return;
+        monthDate.setMonth(monthDate.getMonth() - 1);
+    } else if (condition == "monthForward") {
+        $("#button-monthBackward").prop('disabled', false);
+        monthDate.setMonth(monthDate.getMonth() + 1);
+    } else if (condition == "yearForward") {
+        $("#button-yearBackward").prop('disabled', false);
+        monthDate.setFullYear(monthDate.getFullYear() + 1);
+    } else if (condition == "weekBackward") {
+        expectedmonthdate = new Date(monthDate.getFullYear(), monthDate.getMonth(), monthDate.getDate() - 7);
+        if (checkStartDate(expectedmonthdate)) return;
+        monthDate.setDate(monthDate.getDate() - 7);
+    } else if (condition == "weekForward") {
+        $("#button-weekBackward").prop('disabled', false);
+        monthDate.setDate(monthDate.getDate() + 7);
+    }
 
-	if (checkDateYear(monthDate, date)) {
-		$("#button-yearForward").prop('disabled', false);
-	}
-	else {
-		$("#button-yearForward").prop('disabled', true);
-	}
+    if (mode == "merge") {
+        drawGraph();
+    } else {
+        splitGraph();
+    }
+
+    updateNavigationButtons();
 }
+
+// Function to check start date and disable button if needed
+function checkStartDate(expectedDate) {
+    let startDates = [startDateF1, startDateF2, startDateF3, startDateF4, startDateF5, startDateF6];
+    
+    for (let startDate of startDates) {
+        if (startDate != null && expectedDate <= startDate) {
+            disableNavigation(expectedDate, startDate);
+            return true;
+        }
+    }
+    return false;
+}
+
+// Function to disable navigation buttons and show modal
+function disableNavigation(expectedDate, startDate) {
+    $("#button-yearBackward").prop('disabled', true);
+    $("#button-monthBackward").prop('disabled', true);
+    $("#button-weekBackward").prop('disabled', true);
+    
+    $('#startdatetext').empty();
+    $('#startdatetext').append("No data available before " + monthNames[startDate.getMonth()] + " " + startDate.getFullYear());
+    $('#alertStartDate-modal').modal('show');
+}
+
+// Function to update navigation buttons
+function updateNavigationButtons() {
+    if (checkDateMonth(monthDate, date)) {
+        $("#button-monthForward").prop('disabled', false);
+    } else {
+        $("#button-monthForward").prop('disabled', true);
+    }
+
+    if (checkDateYear(monthDate, date)) {
+        $("#button-yearForward").prop('disabled', false);
+    } else {
+        $("#button-yearForward").prop('disabled', true);
+    }
+
+    if (checkDateWeek(monthDate, date)) {
+        $("#button-weekForward").prop('disabled', false);
+    } else {
+        $("#button-weekForward").prop('disabled', true);
+    }
+}
+
 	
 			  function formatDate(date) {
 				    var d = new Date(date),
@@ -6580,6 +6566,15 @@ function navigationGraph(condition) {
 			
 				    return [year, month, day].join('-');
 				}
+				
+			function checkDateWeek(monthDate, date) {
+			    // Example logic: Check if date is within the same week as monthDate
+			    let oneWeekLater = new Date(monthDate);
+			    oneWeekLater.setDate(oneWeekLater.getDate() + 7);
+			
+			    return date <= oneWeekLater;
+			}
+
 			  function checkDateMonth(monthDate,date)
 			  {    var d = new Date(monthDate);
 				   d.setMonth(monthDate.getMonth() + 1);
@@ -10402,10 +10397,11 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 											fontSize: fontsize,
 										},
 										 formatter: function(val, index) {
-										 if (chartConfigSettings.yAxisFormat[1])
+											 return formatInBillionsOnly(val);
+										/* if (chartConfigSettings.yAxisFormat[1])
 						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]);
 						  					else 
-						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]) + "%";
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]) + "%";*/
 									      }
 									},
 									tickAmount: 6,
@@ -10494,7 +10490,7 @@ function convertToLocalTime(dateInput) {
   // Split into components. This should produce five parts: day, month, year, hour, and minute.
   let parts = dateInput.split(/[\s-:]+/);
   if (parts.length < 5) {
-    console.error("Invalid date string format:", dateInput);
+   // console.error("Invalid date string format:", dateInput);
     return "";
   }
   
@@ -10658,4 +10654,63 @@ function updateChart(graphService) {
 	}
 	   }
     // Add your chart update logic here
+}
+
+function formatInBillionsOnly(value) {
+	if (value >= 1e9) {
+		const inBillions = value / 1e9;
+
+		const formatted = formatNumberWithCommas(inBillions); // Format with commas
+
+		return `${formatted}B`;
+	} else {
+		return formatNumberWithCommas(value);
+	}
+
+}
+function formatNumberWithCommas(num) {
+	return num.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
+}
+function alignMergeDataSets(data1, data2) {
+    let parseDate = (dateStr) => {
+        let [day, month, year] = dateStr.split('-');
+        let months = {
+            "Jan": 0, "Feb": 1, "Mar": 2, "Apr": 3, "May": 4, "Jun": 5,
+            "Jul": 6, "Aug": 7, "Sep": 8, "Oct": 9, "Nov": 10, "Dec": 11
+        };
+        return new Date(parseInt(year, 10), months[month], parseInt(day, 10));
+    };
+
+    let allXValues = new Set([...data1.map(d => d.x), ...data2.map(d => d.x)]); // Collect all unique x values
+
+    let data1Map = new Map(data1.map(item => [item.x, item.y]));
+    let data2Map = new Map(data2.map(item => [item.x, item.y]));
+
+    let sortedXValues = [...allXValues].sort((a, b) => parseDate(a) - parseDate(b)); // Sort using actual dates
+
+    let alignedData1 = sortedXValues.map(x => ({
+        x: x,
+        y: data1Map.has(x) ? data1Map.get(x) : null
+    }));
+
+    let alignedData2 = sortedXValues.map(x => ({
+        x: x,
+        y: data2Map.has(x) ? data2Map.get(x) : null
+    }));
+
+    // Remove entries where BOTH are null
+    let filteredData1 = [];
+    let filteredData2 = [];
+
+    for (let i = 0; i < alignedData1.length; i++) {
+        let item1 = alignedData1[i];
+        let item2 = alignedData2[i];
+
+        if (!(item1.y === null && item2.y === null)) {  // Keep only if at least one is NOT null
+            filteredData1.push(item1);
+            filteredData2.push(item2);
+        }
+    }
+
+    return { data1: filteredData1, data2: filteredData2 };
 }
