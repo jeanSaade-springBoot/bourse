@@ -40,5 +40,6 @@ public class TechnicalAnalysisRelevantHistory {
     private String endPrice;
     private Boolean isHidden;
     private String screenName;
+    private String color;
 
 }

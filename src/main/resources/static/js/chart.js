@@ -9568,8 +9568,9 @@ chart.updateOptions({
 							fontSize: '12px',
 						},
 						formatter: function(value, timestamp, opts) {
-						if(timeRange != "Daily")
-							value =	convertToLocalTime(value);
+							
+					//	if(timeRange != "Daily")
+						//	value =	convertToLocalTime(value);
 							
 							let a = [{ day: 'numeric' }, { month: 'short' }, { year: '2-digit' }];
 							let s = (isTimestamp(value)) ? join(value, a, '-') : value;
@@ -9999,11 +10000,11 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 							fontSize: '12px',
 						},
 						formatter: function(value, timestamp, opts) {
-							if(timeRange!= "Daily")
+						/*	if(timeRange!= "Daily")
 							 	{
 								return formattedDate=convertToLocalTime(value);
 								}
-								else{
+								else{*/
 							const options = { 
 									  day: 'numeric', 
 									  month: 'short', 
@@ -10012,7 +10013,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 							
 							 formattedDate = new Date(value).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');
 							 return formattedDate;
-							}
+							//}
 				           
 				          }
 					},
@@ -10360,8 +10361,8 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 											fontSize: '12px',
 										},
 										formatter: function(value, timestamp, opts) {
-											if(timeRange != "Daily")
-											 value =	convertToLocalTime(value);
+											//if(timeRange != "Daily")
+											// value =	convertToLocalTime(value);
 											let a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
 											let s =  (isTimestamp(value))?join(value, a, '-'):value;
 											

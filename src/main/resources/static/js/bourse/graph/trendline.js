@@ -982,7 +982,8 @@ function drawTrendLineTable(data){
 					var selectedId = selectedstartCellId.split("_")[1];
 					var selectedColumn = selectedstartCellId.split("_")[0];
 					var jsDate = event.args.date;
-
+					//	jsDate = jsDate<=event.owner.minDate.dateTime?event.owner.minDate.dateTime:jsDate;
+					
 					var json = chartResponse.filter(obj => obj.x === formatTrendlineDate(jsDate));
 					if (selectedColumn == "start") {
 						if (jsDate > parseDate($('#cross_' + selectedId).text())) {
@@ -1318,8 +1319,9 @@ function drawRetracementTable(data){
 		$("#retracementEditDate_" + retracementId).on('valueChanged', async function(event) {
 			 const selectedId = selectedstartCellId.split("_")[1];
    			 const selectedColumn = selectedstartCellId.split("_")[0];
-   			 const jsDate = event.args.date;
-   			 
+   			 var jsDate = event.args.date;
+				//	jsDate = jsDate<=event.owner.minDate.dateTime?event.owner.minDate.dateTime:jsDate;
+					
    			 const json = chartResponse.filter(obj => obj.x === formatTrendlineDate(jsDate));
 			 if (selectedColumn == "retracementStart" || selectedColumn == "retracementEnd") {
 			        const startDate = parseDate($('#retracementStart_' + selectedId).text());
@@ -1327,8 +1329,9 @@ function drawRetracementTable(data){
 			        const priceId = selectedColumn == "retracementStart" ? "retracementStartPrice_" : "retracementEndPrice_";
 			
 			        if ((selectedColumn == "retracementStart" && jsDate > endDate) ||
-			            (selectedColumn == "retracementEnd" && jsDate < startDate) ||
-			            typeof json[0] === 'undefined') {
+			            (selectedColumn == "retracementEnd" && jsDate < startDate) 
+			            || typeof json[0] === 'undefined'
+			            ) {
 			            const message = selectedColumn == "retracementStart" ? "The start date must be earlier than the end date." :
 			                "The end date must be later than the start date.";
 			            $('#alertLimitation-modal').modal('show');
@@ -1516,6 +1519,8 @@ function drawRelevantTable(data){
 		 const startPrice = relevantParameter!= null ?relevantParameter.startPrice:"";
 		 const endDate = relevantParameter!= null ?relevantParameter.endDate:"";
 		 const endPrice = relevantParameter!= null ?relevantParameter.endPrice:"";
+		 const color = relevantParameter!= null ?relevantParameter.color?relevantParameter.color:"rgba(255, 0, 0, 1)":"rgba(255, 0, 0, 1)";
+		 
 		 const Hide = item.isHidden;
 
 		 const dbId = item.dbId; 
@@ -1565,20 +1570,35 @@ function drawRelevantTable(data){
 		                </button>` : `
 		                <button id='togglerelevant_${relevantId}' class='toggleRelevant btn btn-light-secondary mr-1  hide'>
 		                  <i class='far fa-eye-slash white'></i>
-		                </button>`}
+		                </button>
+		               `}
 		              ` : ""}
 		          </div>
 		          <div class='mb-auto bd-highlight'>
 		          ${typeof dbId !== 'undefined' ? `
 		             <button class='btn btn-light-secondary mr-1 mt-1 red' type='button' onclick='deleteRelevantHistory(${dbId}, ${relevantId})'>
 		              <img src='/img/icon/delete.svg' width='16' height='16'>
-		            </button>` : `
+		            </button> 
+	                <div class="dropdown" data-id="${relevantId}">
+			        <button class="btn btn-outline-secondary dropdown-toggle mr-1 mt-1 border-0 p-0" type="button" id="colorDropdown${relevantId}" data-bs-toggle="dropdown" aria-expanded="false" style=" height: 30px;" >
+			            <div id="selectedColor" class="selected-color-option" style="background-color: ${color};"></div>
+			        </button>
+				        <ul class="dropdown-menu dropdown-color-style" aria-labelledby="colorDropdown${relevantId}">
+				            <li>
+				                <button class="color-option" data-color="rgba(255, 0, 0, 0.5)" style="background-color: rgba(255, 0, 0, 1);"></button>
+				                <button class="color-option" data-color="rgba(0, 128, 0, 0.5)" style="background-color: rgba(0, 128, 0, 1)"></button>
+				                <button class="color-option" data-color="rgba(255, 165, 0, 0.5)" style="background-color: rgba(255, 165, 0, 1)"></button>
+				                
+				            </li>
+				        </ul>
+			    	</div>` : `
 		            <button class='btn btn-light-secondary mr-1 mb-1 green' type='button' onclick='saveRelevantHistory(${relevantId})'>
 		              <img src='/img/icon/save.svg' width='16' height='16'>
 		            </button>
 		            <button class='btn btn-light-secondary mr-1 mb-1 blue' type='button' onclick='cancelRelevant(${relevantId})'>
 		              <img src='/img/icon/false.svg' width='16' height='16'>
-		            </button>`} 
+		            </button>
+		            `} 
 		        </div>
 		          ` : ""}
 		     </div>
@@ -1587,15 +1607,123 @@ function drawRelevantTable(data){
 
 		$("#relevant-grid").append(relevantGrid);
 		
+		
+		
 		data.forEach(item => {
 			 let relevantId =item.relevantId;
+			 
+			 
+	    $("#colorDropdown" + relevantId).click(function () {
+		        $(this).dropdown("toggle");
+		    });
+		    
+		 $(".color-option").click(function() {
+			       var selectedColor = $(this).data("color");
+				   var dropdown = $(this).closest(".dropdown");
+    			   var dropdownId = dropdown.attr("data-id"); // Get the dropdown ID
+				    
+				    // Update the selected color display
+				    dropdown.find("[id^='selectedColor']").css("background-color", selectedColor);
+				    
+				    // Close the dropdown menu
+				    dropdown.find(".dropdown-toggle").dropdown("hide");
+				    
+				    let annotation = chart.w.config.annotations.yaxis.find(obj => obj.relevantId === parseInt(dropdownId));
+			
+					if (annotation) {
+					    annotation.fillColor = selectedColor; // Change this to your desired color
+					}
+					relevant.find(obj => obj.relevantId === parseInt(dropdownId)).color=selectedColor;
+					
+					const url = '/graph/save-relevant-history'; 
+			 		const filteredData = relevant.filter(data => data.relevantId === relevantId);
+			    	const payload = filteredData.map(data => {
+			        const relevantParameter = data.relevantParameter;
+					const checkedItemValues = checkedItemid.filter(item => item != null);
+					
+			        let entity = {
+								dbId: data.dbId,
+					            graphId: checkedItemValues[0],
+					            startDate: relevantParameter.startDate,
+					            startPrice: relevantParameter.startPrice,
+					            endDate: relevantParameter.endDate,
+					            endPrice: relevantParameter.endPrice,
+					            isHidden:data.isHidden,
+					            screenName:screenName,
+					            color:filteredData[0].color !== undefined ? filteredData[0].color : "rgba(255, 0, 0, 0.5)"
+					        };
+					
+					        return entity;
+					    });
+					
+					    try {
+					        const response =  fetch(url, {
+					            method: 'POST',
+					            headers: {
+					                'Content-Type': 'application/json',
+					            },
+					            body: JSON.stringify(payload)
+					        });
+					
+											if (response.ok) {
+												const result = response.json();
+									
+												relevantData = result.reduce((acc, data) => {
+									
+													if (!acc[data.graphId]) {
+														acc[data.graphId] = {
+															relevant: [],
+									
+														};
+													}
+													const dbId = data.id;
+													const color = data.color;
+									
+													relevant.forEach(obj => {
+														if (obj.relevantId === relevantId) {
+															obj.dbId = dbId; // Add the dbid field with the desired value
+															obj.relevantParameter.color = color;
+														}
+													});
+													relevant.forEach(obj => {
+														acc[data.graphId].relevant.push({
+															dbId: obj.dbId,
+															relevantParameter: obj.relevantParameter,
+															isHidden: obj.isHidden
+														});
+													});
+													/*acc[data.graphId].relevant.push({dbId:dbId,
+																			   relevantParameter:parameters,
+																			   isHidden: data.isHidden});*/
+									
+									
+													return acc;
+									
+												}, {});
+									
+												mergeRelevantData(results, relevantData);
+									
+							
+									} else {
+										throw new Error('Failed to save retracement history');
+									}
+								} catch (error) {
+									console.error('Error:', error);
+								}
+					
+			   		chart.updateOptions(chart.w.config);
+			    });
+			    
+		
+			 
 		$("#relevantEditDate_" + relevantId).jqxDateTimeInput({ min: source[0].minDate, max: source[0].maxDate, width: '0px', height: '0px', theme: 'dark' });
 		$("#inputrelevantEditDate_" + relevantId).css("padding", "0");
 
 		$("#relevantEditDate_" + relevantId).on('valueChanged', async function(event) {
 			 const selectedId = selectedstartCellId.split("_")[1];
    			 const selectedColumn = selectedstartCellId.split("_")[0];
-   			 const jsDate = event.args.date;
+   				var jsDate = event.args.date;
+				//	jsDate = jsDate<=event.owner.minDate.dateTime?event.owner.minDate.dateTime:jsDate;
    			 
    			 const json = chartResponse.filter(obj => obj.x === formatTrendlineDate(jsDate));
 			 if (selectedColumn == "relevantStart" || selectedColumn == "relevantEnd") {
@@ -2161,13 +2289,15 @@ function getTrendLinesHistory(){
 				const endPrice = data.endPrice;
 				const startDate = data.startDate;
 				const endDate = data.endDate;
+				const color = data.color;
 				
 			    const parameters={
 					   dbId :dbId,
 					   startPrice:startPrice,
 					   endPrice:endPrice,
 					   startDate:startDate,
-					   endDate:endDate
+					   endDate:endDate,
+					   color:color
 				   }
 						 
 			  acc[data.graphId].relevant.push({dbId:dbId,
@@ -3153,7 +3283,7 @@ function drawRelevant(data,relevantId) {
 		  		   y2:data.endPrice,
 		  		   position:'left',
 		  		   borderColor: "#ffffff00",
-		  		   fillColor: "#FF000050",
+		  		   fillColor: data.color?data.color:"#FF000050",
 		  		   strokeDashArray: 0,
 		  		   opacity: 1,
 		  		   label: {
@@ -3215,14 +3345,14 @@ function calculateRetracement(retracementId){
 		   
 	   }
 	   const retracementDataHide = {'10%':false,
-							    '25%':false,
-							    '33%':false,
-								'38%':false,
-								'50%':false,
- 								'62%':false,
-								'66%':false,
-								'75%':false
-								};	
+								    '25%':false,
+								    '33%':false,
+									'38%':false,
+									'50%':false,
+	 								'62%':false,
+									'66%':false,
+									'75%':false
+									};	
       
 			 for (var i = 0; i < retracement.length; i++) {
 				   if (retracement[i].retracementId === retracementId && typeof retracement[i].dbId !='undefined') {
@@ -3612,6 +3742,7 @@ async function saveRelevantHistory(relevantId) {
             endPrice: relevantParameter.endPrice,
             isHidden:data.isHidden,
             screenName:screenName,
+            color:filteredData[0].color !== undefined ? filteredData[0].color : "rgba(255, 0, 0, 0.5)"
         };
 
         return entity;
@@ -3638,20 +3769,12 @@ async function saveRelevantHistory(relevantId) {
 				        };
 			  }
 			    const dbId = data.id;
-				const startPrice = data.startPrice;
-				const endPrice = data.endPrice;
-				const startDate = data.startDate;
-				const endDate = data.endDate;
+				const color = data.color;
 				
-			    const parameters={
-					   startPrice:startPrice,
-					   endPrice:endPrice,
-					   startDate:startDate,
-					   endDate:endDate
-				   }
 				relevant.forEach(obj => {
 				    if (obj.relevantId === relevantId) {
 				        obj.dbId = dbId; // Add the dbid field with the desired value
+				        obj.relevantParameter.color= color;
 				    }
 				});		
 				 relevant.forEach(obj => {

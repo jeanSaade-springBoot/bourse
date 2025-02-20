@@ -56,6 +56,33 @@
     background: #cddef8;
     border-color: #a0b0d1;
 }
+.dropdown-color-style{
+	position: absolute;
+    will-change: transform;
+    border: 0px;
+    background: rgb(0, 3, 6);
+    top: 0px;
+    left: 0px;
+    transform: translate3d(0px, 38px, 0px);
+}
+ .color-option {
+            width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            border: none;
+            margin: 5px;
+            cursor: pointer;
+        }
+  .selected-color-option {
+   			width: 30px;
+            height: 30px;
+            border-radius: 5px;
+            display: inline-block;
+                }
+   
+ button[id^="colorDropdown"]::after {
+    display: none !important;
+}             
 a#termsConditions {
     font-size: 0.75rem;
 }

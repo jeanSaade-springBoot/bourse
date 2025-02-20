@@ -568,7 +568,7 @@ function getFilterData(crySubGroupValue) {
 				success: function(data) {
 					delete source.url;
 					data.rows.forEach(row => {
-					    row.start_time = convertToLocalTime(row.start_time);
+					   // row.start_time = convertToLocalTime(row.start_time);
 					});
 					source.localdata = data.rows;
 					dataAdapter = new $.jqx.dataAdapter(source);

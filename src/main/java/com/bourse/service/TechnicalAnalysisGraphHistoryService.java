@@ -204,6 +204,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .endPrice(relevant.getEndPrice())
 			                  .isHidden(relevant.getIsHidden())
 			                  .screenName(relevant.getScreenName())
+			                  .color(relevant.getColor())
 			                  .build();
 			    	  dataList.add(entity);
 			    	  technicalAnalysisRelevantHistoryRepository.save(entity);
@@ -217,6 +218,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .endPrice(relevant.getEndPrice())
 			                  .isHidden(relevant.getIsHidden())
 			                  .screenName(relevant.getScreenName())
+			                  .color(relevant.getColor())
 			   			.build();
 			    	     dataList.add(entity);
 			   			 technicalAnalysisRelevantHistoryRepository.save(entity);

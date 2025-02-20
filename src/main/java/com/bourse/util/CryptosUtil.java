@@ -504,7 +504,7 @@ public class CryptosUtil {
 			 * "					ORDER BY  start_time  DESC";
 			 */
 		 query = "  WITH grouped_data AS ( SELECT \r\n"
-		 + "		 DATE(start_time) AS time_interval,\r\n"
+		 + "		   CONCAT( DATE(start_time), ' ',  LPAD(FLOOR(HOUR(start_time)/4)*4, 2, '0'), ':00:00' ) AS time_interval,\r\n"
 				 + "				MIN(low) AS min_low,\r\n"
 				 + "				MAX(high) AS max_high,\r\n"
 				 + "				MIN(start_time) AS first_start_time,  -- Used for Open price\r\n"
@@ -518,7 +518,7 @@ public class CryptosUtil {
 				 +  forUseSelect 
 				 + "\r\n"
 				 + "		   from( \r\n"
-				 + "     select DATE_FORMAT(time_interval, '%d-%m-%Y') AS start_time, \r\n"
+				 + "     select time_interval AS start_time,  \r\n"
 				 + "			o.open as openint, \r\n"
 				 + "			g.max_high as high, \r\n"
 				 + "			g.min_low as low, \r\n"
