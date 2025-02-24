@@ -6571,8 +6571,12 @@ function updateNavigationButtons() {
 			    // Example logic: Check if date is within the same week as monthDate
 			    let oneWeekLater = new Date(monthDate);
 			    oneWeekLater.setDate(oneWeekLater.getDate() + 7);
-			
-			    return date <= oneWeekLater;
+			 
+				   if(oneWeekLater<date)
+					   return true;
+				   else
+					   return false;
+			   
 			}
 
 			  function checkDateMonth(monthDate,date)

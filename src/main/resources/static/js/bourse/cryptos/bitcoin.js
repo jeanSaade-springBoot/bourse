@@ -63,17 +63,29 @@ function drawGraph() {
 }
 function toggleGraphData(time) {
     if(time==1)
-		{timeRange = "Daily";
-			 $('#DailyData-btn').addClass('active');
-	         $('#4HoursData-btn').removeClass('active');
-			 drawGraph();
-			 $('#functionOptionsMenu').addClass("d-flex");
-			 $('#functionOptionsMenu').removeClass("d-none");
-			 $('#euroTime').addClass("d-flex");
-             $('#euroTime').removeClass("d-none");
+		{ 
+		timeRange = "Daily";
+		
+		monthDate = new Date();
+		monthDate.setMonth(monthDate.getMonth() - 6);
+		monthDate.setHours(0, 0, 0, 0);
+		
+		 $('#DailyData-btn').addClass('active');
+         $('#4HoursData-btn').removeClass('active');
+		 drawGraph();
+		 $('#functionOptionsMenu').addClass("d-flex");
+		 $('#functionOptionsMenu').removeClass("d-none");
+		 $('#euroTime').addClass("d-flex");
+         $('#euroTime').removeClass("d-none");
 		}
 		else 
 		{timeRange = "FourHours";
+		
+		 monthDate = new Date();
+		 monthDate.setMonth(monthDate.getMonth() - 1);
+	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
+	 	 monthDate.setHours(0, 0, 0, 0);
+		
 		  $('#4HoursData-btn').addClass('active');
           $('#DailyData-btn').removeClass('active');
           $('#functionOptionsMenu').removeClass("d-flex");
