@@ -529,7 +529,7 @@ public class CryptosUtil {
 				 + "		LEFT JOIN `"+forUsetables+"` o ON g.first_start_time = o.start_time  -- Fetch Open price\r\n"
 				 + "		LEFT JOIN `"+forUsetables+"` c ON g.last_start_time = c.start_time   -- Fetch Close price\r\n"
 				 + "		LEFT JOIN `"+forUsetables+"` mc ON g.last_start_time = mc.start_time -- Fetch last Market Cap\r\n"
-				 + "		ORDER BY g.time_interval ASC) s1  ; ";
+				 + "		ORDER BY g.time_interval DESC) s1  ; ";
 		 
 		 QueryColumnsDTO queryColumnsDTO = QueryColumnsDTO.builder()
 				 .colHash(colHash)

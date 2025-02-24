@@ -963,7 +963,7 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usJobs/jolts");
+		return new ModelAndView("html/usjobs/jolts");
     }
 	@PreAuthorize("hasAuthority('USJOBS_ADP_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/adp")
@@ -971,7 +971,7 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usJobs/adp");
+		return new ModelAndView("html/usjobs/adp");
     }
 	@PreAuthorize("hasAuthority('USJOBS_NFP_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/nfp")
@@ -979,7 +979,7 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usJobs/nfp");
+		return new ModelAndView("html/usjobs/nfp");
     }
 	@PreAuthorize("hasAuthority('USJOBS_UNEMPRATE_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/unemprate")
@@ -987,7 +987,7 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usJobs/unemp");
+		return new ModelAndView("html/usjobs/unemp");
     }
 	@PreAuthorize("hasAuthority('USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/householdsurv")
@@ -995,7 +995,7 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usJobs/houseHoldSurv");
+		return new ModelAndView("html/usjobs/houseHoldSurv");
     }
 	@PreAuthorize("hasAuthority('MACRO_PMI_VS_SURVEY') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/pmivssurvey")
