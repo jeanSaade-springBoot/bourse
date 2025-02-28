@@ -51888,3 +51888,20 @@ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('135', 'USJ
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('136', 'USJOBS_UNEMPRATE_GRAPH_SCREEN', true);
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('137', 'USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN', true);
  
+ 
+ UPDATE `bourse`.`groups_table` SET `description` = 'HOUSEHOLD SURVEY of JOBS' WHERE (`id` = '81');
+UPDATE `bourse`.`groups_table` SET `description` = 'UNEMP. Rate' WHERE (`id` = '80');
+UPDATE `bourse`.`groups_table` SET `description` = 'NON-FARM PAYROLLS' WHERE (`id` = '79');
+UPDATE `bourse`.`groups_table` SET `description` = 'ADP' WHERE (`id` = '78');
+UPDATE `bourse`.`groups_table` SET `description` = 'JOLTS' WHERE (`id` = '77');
+
+
+
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('133', 'USJOBS_JOLTS_GRAPH_SCREEN', true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('134', 'USJOBS_ADP_GRAPH_SCREEN', true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('135', 'USJOBS_NFP_GRAPH_SCREEN', true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('136', 'USJOBS_UNEMPRATE_GRAPH_SCREEN', true);
+INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('137', 'USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN', true);
+ 
+ 
+ 

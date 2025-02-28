@@ -1,6 +1,6 @@
 var selectedRow = this;
-var monthDate = new Date();
-monthDate.setMonth(monthDate.getMonth() - 6);
+var monthDate = new Date(2000, 0, 1);
+ // monthDate.setMonth(monthDate.getMonth() - 6);
 var auditUrl;
 var updateUrl;
 var saveUrl;
@@ -1295,7 +1295,7 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				columns: arrayOFcolumns
 			});
 		$("#deleteUsUnempRate").click(function() {
-				value = "UNEMP. Rate";
+				value = "UNEMPLOYMENT RATE";
 
 			$('#alertDeleteDataByDate-modal').modal('show');
 			date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')

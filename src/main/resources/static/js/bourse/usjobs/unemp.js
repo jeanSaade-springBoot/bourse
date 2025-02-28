@@ -18,9 +18,9 @@ $(document).ready(function() {
 	 initializeNavigationButtons();
 	 initialiazeItems(allitems,2);
 	 initialiazeClearFilterButton();
-	 initializeShowFilterButtonThreeYears();
-	 monthDate.setMonth(monthDate.getMonth() - 6);
-	 monthDate.setFullYear((new Date).getFullYear() - 3);
+	 initializeShowFilterButtonTwoYears();
+	 monthDate= new Date();
+	 monthDate.setFullYear((new Date).getFullYear() - 2);
 	 monthDate.setHours(0, 0, 0, 0);
 	
 	 getGraphHistoryByScreenName(graphName);

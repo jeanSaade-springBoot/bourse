@@ -171,15 +171,15 @@ padding-right:.2rem;
 			    <button type="button" class="btn btn-secondary mw-100" id="UsJobsOpening-btn"  th:onclick="'javascript:toggleDivVisibility(1)'"> JOLTS</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="UsADPChange-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">ADP</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="UsNFP-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">NON-FARM</button>
-			    <button type="button" class="btn btn-secondary mw-100" id="UsUnempRate-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">UNEMP. Rate</button>
+			    <button type="button" class="btn btn-secondary mw-100" id="UsUnempRate-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">UNEMPLOYMENT RATE</button>
 			   	<button type="button" class="btn btn-secondary mw-100" id="UsHouseHoldSurv-btn"  th:onclick="'javascript:toggleDivVisibility(5)'">HOUSEHOLD SURVEY of JOBS</button>
 			   </div>
 			</div>
             <div class="collapse show" id="collapseExample">
   			 <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
-                 <div  th:classappend="${usjobs == 1} ? 'col-6' : 'col-5'" class=" d-flex justify-content-between">
-                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input</h6>
+                 <div  th:classappend="${usjobs == 1} ? 'col-6' : 'col-5'" class="  ">
+                  <h6 class="m-0 font-weight-bold pr-3" style="color: #9ab4e0;">Data Input</h6>
                   <div id='dateInput'></div>
                    </div>
                    <div th:if="${usjobs != 1}" class="col-1"></div>
@@ -198,14 +198,14 @@ padding-right:.2rem;
                     <div th:if="${usjobs == 1}" class="col-12 pr-0" id="UsJobsOpening-input">
 	          
 		                <div class="col-6   p-0 " style="min-width: 660px;">
-                          <div class="col-12 d-flex">
+                          <div class="col-12 d-flex p-0">
                              
                             <div class="pl-0 " id="1">
                              
                               <div class="col d-flex p-0">
 							  
                                 <div class="" id="1-17">
-                                  <div class="col  ">
+                                  <div class="col p-0 ">
                                     <form id="dataformInput77final">
                                       <div class="form-group" style="margin-top: 0">
                                         <div class="pt-2 d-flex">
@@ -232,7 +232,7 @@ padding-right:.2rem;
                               <div class="col d-flex p-0">
 							  
                                 <div class="" id="3-17">
-                                  <div class="col  ">
+                                  <div class="col  pr-0">
                                     <form id="dataformInput77initial">
                                       <div class="form-group" style="margin-top: 0">
                                         <div class="pt-2 d-flex">
@@ -289,14 +289,14 @@ padding-right:.2rem;
 					  <div th:if="${usjobs == 2}" class="col-12 pr-0" id="UsADPChange-input">
 	          
 		                <div class="col-6   p-0 " style="min-width: 660px;">
-                          <div class="col-12 d-flex">
+                          <div class="col-12 d-flex p-0">
                              
                             <div class="pl-0 " id="1">
                              
                               <div class="col d-flex p-0">
 							  
                                 <div class="" id="1-17">
-                                  <div class="col  ">
+                                  <div class="col p-0 ">
                                     <form id="dataformInput78final">
                                       <div class="form-group" style="margin-top: 0">
                                         <div class="pt-2 d-flex">
@@ -323,7 +323,7 @@ padding-right:.2rem;
                               <div class="col d-flex p-0">
 							  
                                 <div class="" id="3-17">
-                                  <div class="col  ">
+                                  <div class="col pr-0 ">
                                     <form id="dataformInput78initial">
                                       <div class="form-group" style="margin-top: 0">
                                         <div class="pt-2 d-flex">
@@ -380,14 +380,14 @@ padding-right:.2rem;
 					  <div th:if="${usjobs == 3}" class="col-12 pr-0" id="UsNFP-input">
 	          
 		                <div class="col-6   p-0 " style="min-width: 660px;">
-                          <div class="col-12 d-flex">
+                          <div class="col-12 d-flex p-0">
                              
                             <div class="pl-0 " id="1">
                              
                               <div class="col d-flex p-0">
 							  
                                 <div class="" id="1-17">
-                                  <div class="col  ">
+                                  <div class="col p-0 ">
                                     <form id="dataformInput79final">
                                       <div class="form-group" style="margin-top: 0">
                                         <div class="pt-2 d-flex">
@@ -414,7 +414,7 @@ padding-right:.2rem;
                               <div class="col d-flex p-0">
 							  
                                 <div class="" id="2-17">
-                                  <div class="col  ">
+                                  <div class="col  pr-0">
                                     <form id="dataformInput79rev1">
                                       <div class="form-group" style="margin-top: 0">
                                         <div class="pt-2 d-flex">
@@ -441,7 +441,7 @@ padding-right:.2rem;
                               <div class="col d-flex p-0">
 							  
                                 <div class="" id="3-17">
-                                  <div class="col  ">
+                                  <div class="col pr-0 ">
                                     <form id="dataformInput79initial">
                                       <div class="form-group" style="margin-top: 0">
                                         <div class="pt-2 d-flex">
@@ -498,18 +498,18 @@ padding-right:.2rem;
 	                    <div th:if="${usjobs == 4}" class="col-12 pr-0" id="UsUnempRate-input">
 	          
 		                <div class="col-6   p-0 " style="min-width: 660px;">
-                          <div class="col-12 d-flex">
+                          <div class="col-12 d-flex p-0">
                              
                             <div class="pl-0 " id="1">
                              
                               <div class="col d-flex p-0">
 							  
                                 <div class="" id="1-17">
-                                  <div class="col  ">
+                                  <div class="col  p-0 ">
                                     <form id="dataformInput80index">
                                       <div class="form-group" style="margin-top: 0">
                                         <div class="pt-2 d-flex">
-                                          <div class="" id="1-usjobs">INDEX <input type="text" class="form-control" id="data-input-80index" autocomplete="off">
+                                          <div class="" id="1-usjobs">UNEMPLOYMENT RATE <input type="text" class="form-control" id="data-input-80index" autocomplete="off">
                                           </div>
                                         </div>
                                       </div>
@@ -563,14 +563,14 @@ padding-right:.2rem;
 	                  <div th:if="${usjobs == 5}" class="col-12 pr-0" id="UsHouseHoldSurv-input">
 	          
 		                <div class="col-6   p-0 " style="min-width: 660px;">
-                          <div class="col-12 d-flex">
+                          <div class="col-12 d-flex p-0">
                              
                             <div class="pl-0 " id="1">
                              
                               <div class="col d-flex p-0">
 							  
                                 <div class="" id="1-17">
-                                  <div class="col  ">
+                                  <div class="col p-0 ">
                                     <form id="dataformInput81civilianLabForce">
                                       <div class="form-group" style="margin-top: 0">
                                         <div class="pt-2 d-flex">
@@ -798,7 +798,7 @@ padding-right:.2rem;
          	 </div>
            </div>
              <div th:if="${usjobs == 4}" class="col-sm-9" id="UsUnempRate-filter">
-             <h6 class="col font-weight-bold">UNEMP. Rate</h6>
+             <h6 class="col font-weight-bold">UNEMPLOYMENT RATE</h6>
              <div class="d-flex justify-content-between col">
              	
              	<div class="col-4">

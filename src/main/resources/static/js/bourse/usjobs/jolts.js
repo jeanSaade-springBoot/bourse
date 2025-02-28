@@ -16,11 +16,11 @@ $(document).ready(function() {
 	 initializeFunctions();
 	 
 	 initializeNavigationButtons();
-	 initialiazeItems(allitems,2);
+	 initialiazeItems(allitems,3);
 	 initialiazeClearFilterButton();
-	 initializeShowFilterButtonThreeYears();
-	 monthDate.setMonth(monthDate.getMonth() - 6);
-	 monthDate.setFullYear((new Date).getFullYear() - 3);
+	 initializeShowFilterButtonTwoYears();
+	 monthDate= new Date();
+	 monthDate.setFullYear((new Date).getFullYear() - 2);
 	 monthDate.setHours(0, 0, 0, 0);
 	
 	 getGraphHistoryByScreenName(graphName);
@@ -34,7 +34,7 @@ function drawGraph() {
 	var graphService = "usjobs";
 	const removeEmpty = true;
 	
-	getGraphData(graphService,graphName,removeEmpty,true);
+	getGraphUsJobData(graphService,graphName,removeEmpty,true);
 }
 
 

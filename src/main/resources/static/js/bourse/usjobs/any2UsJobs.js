@@ -85,9 +85,8 @@
 	        cache: false,
 	        timeout: 600000,
 	        success: function (data) {
-				
-	        		monthDate.setMonth(monthDate.getMonth() - 6);
-					monthDate.setFullYear((new Date).getFullYear() - 3);
+				    monthDate= new Date();
+	        		monthDate.setFullYear((new Date).getFullYear() - 2);
 					monthDate.setHours(0, 0, 0, 0);
 					
 	    	     checkedItemId=JSON.parse(data.parameter);
@@ -131,9 +130,10 @@
 	
      $("#show").click(function () {
     	  monthDate=new Date(); 
-    		monthDate.setMonth(monthDate.getMonth() - 6);
-			monthDate.setFullYear((new Date).getFullYear() - 3);
-			monthDate.setHours(0, 0, 0, 0);
+    		
+		 monthDate= new Date();
+		 monthDate.setFullYear((new Date).getFullYear() - 2);
+		 monthDate.setHours(0, 0, 0, 0);
 		
     	  resetActiveChartType();
     	  resetActiveFontSize();
