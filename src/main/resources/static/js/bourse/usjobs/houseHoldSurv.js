@@ -16,7 +16,7 @@ $(document).ready(function() {
      initializeNewsBanner();
 	 initializePeriods();
 	 initializeTypes();
-	 initializeFunctions();
+	 initializeFunctions(81);
 	 
 	 initializeNavigationButtons();
 	 initialiazeItems(allitems,2);
@@ -37,7 +37,7 @@ function drawGraph() {
 	var graphService = "usjobs";
 	const removeEmpty = true;
 	
-	getGraphData(graphService,graphName,removeEmpty,true);
+	getGraphUsJobData(graphService,graphName,removeEmpty,true);
 }
 
 

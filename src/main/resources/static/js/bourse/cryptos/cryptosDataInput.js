@@ -666,8 +666,10 @@ function toggleDivVisibility(divNum) {
 function toggleDivVisibilityData(divNum) {
     if(divNum==1)
 		location.href = "/bourse/cryptos?cryptos=1";
-		else 
-		location.href = "/bourse/cryptosFourHoursInterval?cryptos=1";
+	else if(divNum==2)
+		location.href = "/bourse/cryptosInterval?cryptos=1&interval=4h";
+	else 
+		location.href = "/bourse/cryptosInterval?cryptos=1&interval=1w";
 }
 function renderSubGroup(crySubGroupValue) {
 

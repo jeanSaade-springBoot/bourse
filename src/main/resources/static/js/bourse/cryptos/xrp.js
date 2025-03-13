@@ -22,7 +22,7 @@ $(document).ready(function() {
 	initializeNewsBanner();
 	initializePeriods();
 	initializeTypes();
-	initializeFunctions();
+	initializeFunctions(76);
 
 	initializeNavigationButtons();
 	initialiazeItems(allitems, 2);
@@ -64,22 +64,24 @@ function drawGraph() {
 }
 function toggleGraphData(time) {
     if(time==1)
-		{timeRange = "Daily";
+		{ 
+		timeRange = "Daily";
 		
 		monthDate = new Date();
 		monthDate.setMonth(monthDate.getMonth() - 6);
 		monthDate.setHours(0, 0, 0, 0);
-
+		
 		 $('#DailyData-btn').addClass('active');
          $('#4HoursData-btn').removeClass('active');
+         $('#weeklyData-btn').removeClass('active');
 		 drawGraph();
 		 $('#functionOptionsMenu').addClass("d-flex");
 		 $('#functionOptionsMenu').removeClass("d-none");
 		 $('#euroTime').addClass("d-flex");
          $('#euroTime').removeClass("d-none");
 		}
-		else 
-		{timeRange = "FourHours";
+		else if(time==2)
+		{timeRange = "4h";
 		
 		 monthDate = new Date();
 		 monthDate.setMonth(monthDate.getMonth() - 1);
@@ -88,6 +90,25 @@ function toggleGraphData(time) {
 		
 		  $('#4HoursData-btn').addClass('active');
           $('#DailyData-btn').removeClass('active');
+          $('#weeklyData-btn').removeClass('active');
+          
+          $('#functionOptionsMenu').removeClass("d-flex");
+          $('#functionOptionsMenu').addClass("d-none");
+          $('#euroTime').addClass("d-none");
+          $('#euroTime').removeClass("d-flex");
+		 drawGraph();
+		}else 
+		{timeRange = "1w";
+		
+		 monthDate = new Date();
+		 monthDate.setMonth(monthDate.getMonth() - 1);
+	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
+	 	 monthDate.setHours(0, 0, 0, 0);
+		
+		  $('#4HoursData-btn').removeClass('active');
+          $('#DailyData-btn').removeClass('active');
+          $('#weeklyData-btn').addClass('active');
+          
           $('#functionOptionsMenu').removeClass("d-flex");
           $('#functionOptionsMenu').addClass("d-none");
           $('#euroTime').addClass("d-none");

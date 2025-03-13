@@ -8,7 +8,6 @@ import javax.persistence.PersistenceContext;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.Functions;
@@ -28,6 +27,10 @@ public class FunctionsService
 	{      
         return functionsRepository.findAll();
 	}
-
+	
+	public List<Functions> getFunctionsByGroupId(String groupId)
+	{      
+        return functionsRepository.findByGroupId(groupId);
+	}
 
 }

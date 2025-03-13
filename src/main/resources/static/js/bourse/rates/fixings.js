@@ -16,7 +16,7 @@ $(document).ready(function() {
      initializeNewsBanner();
 	 initializePeriods();
 	 initializeTypes();
-	 initializeFunctions();
+	 initializeFunctions(51);
 	 
 	 initializeNavigationButtons();
 	 initialiazeItems(allitems,2);

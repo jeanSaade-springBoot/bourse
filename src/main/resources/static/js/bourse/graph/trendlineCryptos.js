@@ -55,3 +55,4 @@ const graphName="bundsCryptos";
 const isTrendlineScreen=true;
 var graphService = "cryptos";
 	
+initializeFunctions(71);

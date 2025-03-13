@@ -143,7 +143,7 @@ $(document).ready(function() {
 	 initializeNewsBanner();
 	 initializePeriods();
 	 initializeTypes();
-	 initializeFunctions();
+	 initializeFunctions(52);
 	 
 	 initializeNavigationButtons();
 	 initialiazeItems(allitems,2);

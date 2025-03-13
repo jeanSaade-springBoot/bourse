@@ -10,9 +10,11 @@ var AuditDefaultData = [];
 
 const nameSubgroupId = [
 	{ name: '77finals', subgroupId: '1' },
+	{ name: '77final', subgroupId: '1' },
 	{ name: '77initial', subgroupId: '2' },
 	{ name: '77surv', subgroupId: '3' },
 	{ name: '78finals', subgroupId: '1' },
+	{ name: '78final', subgroupId: '1' },
 	{ name: '78initial', subgroupId: '2' },
 	{ name: '78surv', subgroupId: '3' },
 	{ name: '79final', subgroupId: '1' },
@@ -674,7 +676,7 @@ function getFilterData(usjobsValue) {
 			$.ajax({
 				type: "POST",
 				contentType: "application/json",
-				url: "/usjobs/getgriddata",
+				url: "/usjobs/getgriddata/",
 				data: JSON.stringify(json),
 				dataType: 'json',
 				async: true,

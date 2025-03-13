@@ -1635,8 +1635,25 @@ function getMarginLenghtVolume(value) {
 				     var valueMin = values2;
 				     var valueMax = values2; 		
 				 //	console.log(chartConfigSettings.fontSize,chartConfigSettings.min1,chartConfigSettings.max1,chartConfigSettings.min2,chartConfigSettings.max2,valueMin,valueMin1,valueMax,valueMax1)
-			     if(chartConfigSettings.functionId==1 || chartConfigSettings.functionId==2)
+			     if([1,2, 16, 17, 18, 19].includes(chartConfigSettings.functionId))
 			     { 
+					  let mva = "";
+					if (chartConfigSettings.functionId === 1) {
+					  mva = "#FF0000"; // Red for functionId 1
+					} else if (chartConfigSettings.functionId === 2) {
+					  mva = "#ffa4c5"; // Pink for functionId 2
+					} else if (chartConfigSettings.functionId === 16) {
+					  mva = "#1f77b4"; // Blue for functionId 16
+					} else if (chartConfigSettings.functionId === 17) {
+					  mva = "#2ca02c"; // Green for functionId 17
+					} else if (chartConfigSettings.functionId === 18) {
+					  mva = "#ff7f0e"; // Orange for functionId 18
+					} else if (chartConfigSettings.functionId === 19) {
+					  mva = "#9467bd"; // Purple for functionId 19
+					} else {
+					  mva = "#000000"; // Default fallback color (optional)
+					}
+					
 					 chart.updateOptions({ 
 						series: [{
 							name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -1651,14 +1668,14 @@ function getMarginLenghtVolume(value) {
 							isDecimal: chartConfigSettings.isDecimal,
 							yAxisFormat:chartConfigSettings.yAxisFormat0[1],
 						},
-						colors: chartConfigSettings.functionId==1?[chartColorOpacity(chartConfigSettings.chartColor), "#FF0000"]:[chartColorOpacity(chartConfigSettings.chartColor), "#ffa4c5"],
+						colors: [chartColorOpacity(chartConfigSettings.chartColor), mva],
   	    	    	    markers: {
-  	    	    		   colors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
-  	    	    		   strokeColors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
+  	    	    		   colors:  ["#FFFFFF", mva],
+  	    	    		   strokeColors:  ["#FFFFFF", mva],
   	    	    		   size: 0,
   	    	    		 },
   	    	    		  stroke: {
-						      	 colors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
+						      	 colors: ["#FFFFFF",mva],
 					        },
  				         yaxis: {
 
@@ -1936,7 +1953,7 @@ function getMarginLenghtVolume(value) {
 				}
 }
 
- function updateChartByFunctionIdMissingDates(chartConfigSettings){
+ function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate){
 			// var valueMin = getMarginLenght(chartConfigSettings.min); 
 			// var valueMax = getMarginLenght(chartConfigSettings.max); 
 			// var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
@@ -1964,8 +1981,25 @@ function getMarginLenghtVolume(value) {
 	      : selectedChartColor
 	    : '#44546a';
 
-				  if(chartConfigSettings.functionId==1 || chartConfigSettings.functionId==2)
+				  if([1,2, 16, 17, 18, 19].includes(chartConfigSettings.functionId))
 			     {
+					 let mva = "";
+					if (chartConfigSettings.functionId === 1) {
+					  mva = "#FF0000"; // Red for functionId 1
+					} else if (chartConfigSettings.functionId === 2) {
+					  mva = "#ffa4c5"; // Pink for functionId 2
+					} else if (chartConfigSettings.functionId === 16) {
+					  mva = "#1f77b4"; // Blue for functionId 16
+					} else if (chartConfigSettings.functionId === 17) {
+					  mva = "#2ca02c"; // Green for functionId 17
+					} else if (chartConfigSettings.functionId === 18) {
+					  mva = "#ff7f0e"; // Orange for functionId 18
+					} else if (chartConfigSettings.functionId === 19) {
+					  mva = "#9467bd"; // Purple for functionId 19
+					} else {
+					  mva = "#000000"; // Default fallback color (optional)
+					}
+
 					// var valueMin1 = getMarginLenght(chartConfigSettings.min); 
 			        // var valueMax1 = getMarginLenght(chartConfigSettings.max); 
 			          const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
@@ -1994,11 +2028,23 @@ function getMarginLenghtVolume(value) {
 											fontSize: '12px',
 										},
 										formatter: function(value, timestamp, opts) {
+												
+											if (isFullDate) {  
+											  let a = [{ day: 'numeric' }, { month: 'short' }, { year: '2-digit' }];
+											  let options = Object.assign({}, ...a);
+											  let s = (isTimestamp(value)) ? join(value, options, '-') : value;
+											  return s;
+											} else { 
+											  let a = [{ month: 'short' }, { year: '2-digit' }];
+											  let options = Object.assign({}, ...a);
+											  const formattedDate = new Date(value)
+											    .toLocaleDateString('en-US', options)
+											    .replace(/ /g, '-')
+											    .replace(',', '');
+											  return formattedDate;
+											}
+
 											
-											let a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
-											let s = (isTimestamp(value))?join(value, a, '-'):value;
-											
-								            return s;
 								          }
 									},
 									type: 'datetime',
@@ -2016,14 +2062,14 @@ function getMarginLenghtVolume(value) {
 							isDecimal: chartConfigSettings.isDecimal,
 							yAxisFormat:chartConfigSettings.yAxisFormat,
 						},
-						 colors:chartConfigSettings.functionId==1?[chartConfigSettings.Period=='d' ?(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:chartColorOpacity(chartConfigSettings.chartColor):(chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor), "#FF0000"]:[chartConfigSettings.Period=='d' ?(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:chartColorOpacity(chartConfigSettings.chartColor):(chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor), "#ffa4c5"],
+						 colors:[chartConfigSettings.Period=='d' ?(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:chartColorOpacity(chartConfigSettings.chartColor):(chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor), mva],
   	    	    		 markers: {
 						   size: 0,
-  	    	    		   colors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
-  	    	    		   strokeColors: chartConfigSettings.functionId==1?["#FFFFFF", "#FF0000"]:["#FFFFFF", "#ffa4c5"],
+  	    	    		   colors:  ["#FFFFFF", mva],
+  	    	    		   strokeColors:  ["#FFFFFF", mva],
   	    	    		 },
   	    	    		 stroke: chartConfigSettings.Period=='d' ?{
-						      	 colors: chartConfigSettings.functionId==1?[(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:"#FFFFFF", "#FF0000"]:[(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:"#FFFFFF", "#ffa4c5"],
+						      	 colors: [(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:"#FFFFFF", mva],
 					        }: {},
 					          grid: {
 							  show:eval(chartConfigSettings.chartShowGrid),
@@ -2111,10 +2157,22 @@ function getMarginLenghtVolume(value) {
 										},
 										formatter: function(value, timestamp, opts) {
 											
-											let a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
-											let s = (isTimestamp(value))?join(value, a, '-'):value;
+												
+											if (isFullDate) {  
+											  let a = [{ day: 'numeric' }, { month: 'short' }, { year: '2-digit' }];
+											  let options = Object.assign({}, ...a);
+											  let s = (isTimestamp(value)) ? join(value, options, '-') : value;
+											  return s;
+											} else { 
+											  let a = [{ month: 'short' }, { year: '2-digit' }];
+											  let options = Object.assign({}, ...a);
+											  const formattedDate = new Date(value)
+											    .toLocaleDateString('en-US', options)
+											    .replace(/ /g, '-')
+											    .replace(',', '');
+											  return formattedDate;
+											}
 											
-								            return s;
 								          }
 									},
 									type: 'datetime',
@@ -2259,10 +2317,22 @@ function getMarginLenghtVolume(value) {
 										},
 										formatter: function(value, timestamp, opts) {
 											
-											let a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
-											let s = (isTimestamp(value))?join(value, a, '-'):value;
+												
+											if (isFullDate) {  
+											  let a = [{ day: 'numeric' }, { month: 'short' }, { year: '2-digit' }];
+											  let options = Object.assign({}, ...a);
+											  let s = (isTimestamp(value)) ? join(value, options, '-') : value;
+											  return s;
+											} else { 
+											  let a = [{ month: 'short' }, { year: '2-digit' }];
+											  let options = Object.assign({}, ...a);
+											  const formattedDate = new Date(value)
+											    .toLocaleDateString('en-US', options)
+											    .replace(/ /g, '-')
+											    .replace(',', '');
+											  return formattedDate;
+											}
 											
-								            return s;
 								          }
 									},
 									type: 'datetime',
@@ -3391,7 +3461,7 @@ function initializeTypes()
 	 $("#dropDownType").jqxDropDownList({selectedIndex: 0, dropDownHeight: 130,  source: dataAdapter,displayMember: "type",valueMember: "value", theme: 'dark' , width: 70, height: 25});
 	
 }
-function initializeFunctions(){
+function initializeFunctions(groupId){/*
 	var  dropDownFunctionSource =[
 							{"name":"100D moving average",
                             "value":"1"}, 
@@ -3432,9 +3502,21 @@ function initializeFunctions(){
          ],
          localdata: dropDownFunctionSource,
          async: true
-     };
+     };*/
+     
+      var functionSource =
+      {
+          datatype: "json",
+          datafields: [
+              { name: 'id' },
+              { name: 'description' }
+          ],
+          url: '/admin/getfunctions/' + groupId ,
+          async: true
+      };
+      
 	  var functionDataAdapter = new $.jqx.dataAdapter(functionSource);
-	 $("#dropDownFunctions").jqxDropDownList({dropDownHeight: 480,  source: functionDataAdapter, placeHolder: "Select a Function",  displayMember: "name",valueMember: "value", theme: 'dark' , width: 220, height: 25});
+	 $("#dropDownFunctions").jqxDropDownList({dropDownHeight: 480,  source: functionDataAdapter, placeHolder: "Select a Function",  displayMember: "description",valueMember: "id", theme: 'dark' , width: 220, height: 25});
 	 $("#reset").click(function() {
 		 functionId=-1;
 		 $("#dropDownFunctions").jqxDropDownList({selectedIndex: -1});
@@ -4493,7 +4575,7 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 											 chartShowGrid:showGrid,
 											 overideChartype:typeof overide != 'undefined'? overide:null};
 											 	
-					updateChartByFunctionIdMissingDates(chartConfigSettings);	
+					updateChartByFunctionIdMissingDates(chartConfigSettings, true);	
 						
 					$('#overlayChart').hide();
 				},
@@ -4685,26 +4767,38 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 	   if(isNaN(functionId))
 	  	 functionId=-1 ;
 	  	 
-	   if (checkedItem == 2) {
-		functionId=-1;
-		dataParam = { 
-	        		"fromdate":fromdate,
-	        	    "todate":todate,
-	        	    "period":"d",
-	        	    "type": type,
-	        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
-	        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
-	        	    "subGroupId2":itemValue[checkedItemValues[1]].subGroupId,
-	        	    "groupId2": itemValue[checkedItemValues[1]].GroupId,
-		        
-		        	 "removeEmpty1":removeEmpty,
-		        	 "removeEmpty2":removeEmpty
-     			   };
+	   if ([2, 3, 4].includes(checkedItem)) {
+    functionId = -1;
+			    dataParam = {
+			        "fromdate": fromdate,
+			        "todate": todate,
+			        "period": "d",
+			        "type": type,
+			        "subGroupId1": itemValue[checkedItemValues[0]].subGroupId,
+			        "groupId1": itemValue[checkedItemValues[0]].GroupId,
+			        "subGroupId2": itemValue[checkedItemValues[1]].subGroupId,
+			        "groupId2": itemValue[checkedItemValues[1]].GroupId,
+			        "removeEmpty1": removeEmpty,
+			        "removeEmpty2": removeEmpty
+			    };
+			
+			    if (checkedItem == 3) {
+			        dataParam["subGroupId3"] = itemValue[checkedItemValues[2]].subGroupId;
+			        dataParam["groupId3"] = itemValue[checkedItemValues[2]].GroupId;
+			        dataParam["removeEmpty3"] = removeEmpty;
+			    }
+			    if (checkedItem == 4) {
+			        dataParam["subGroupId3"] = itemValue[checkedItemValues[2]].subGroupId;
+			        dataParam["groupId3"] = itemValue[checkedItemValues[2]].GroupId;
+			        dataParam["subGroupId4"] = itemValue[checkedItemValues[3]].subGroupId;
+			        dataParam["groupId4"] = itemValue[checkedItemValues[3]].GroupId;
+			        dataParam["removeEmpty3"] = removeEmpty;
+			        dataParam["removeEmpty4"] = removeEmpty;
+			    }
+
            enableDisableDropDowns(true);
-			if (checkedItemValues.length > 1)
-				title = itemValue[checkedItemValues[0]].title + " vs " + itemValue[checkedItemValues[1]].title
-			else
-				title = itemValue[checkedItemValues[0]].title
+			
+			title = checkedItemValues.map(id => itemValue[id].title).join(" vs ");
 
 			disableOptions(true);
 			$.ajax({
@@ -4715,189 +4809,120 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 				dataType: 'json',
 				timeout: 600000,
 				success: function(response) {
-					startDateF1 = response[0].config.startDate;
-					startDateF2 = response[1].config.startDate;
+	            let startDates = [];
+	            let formattedTitles = [];
+	            let yAxisFormats = [];
+	            let seriesData = [];
+				let colorsArray = [];
+			    let getFormatResults = []; 
+				
+				 const seriesColors = {
+		            'SURV': '#ff99ff',  // Pink
+		            'INITIAL': '#2ca02c', // Green
+		            'FINAL': '#ffc000', // Yellow
+		            'REV1': '#1f77b4' // Blue
+		        };
+		        const defaultColors = ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"];
 
-					if (startDateF1 != null)
-						startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
-					if (startDateF2 != null)
-						startDateF2 = new Date(startDateF2.split("-")[1] + "-" + startDateF2.split("-")[0] + "-" + startDateF2.split("-")[2]);
-					var dates = [];
+		        
+            for (let i = 0; i < checkedItem; i++) {
+				
+	 			let columnName = response[i].config.columnName;
+	            let seriesColor = seriesColors[columnName] || defaultColors[i];
+ 	            colorsArray.push(seriesColor);
 
-					T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
-					T2 = response[1].config.displayDescription == null ? itemValue[checkedItemValues[1]].title : response[1].config.displayDescription;
-					title = T1 + " vs " + T2;
-					if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
-						if (response[0].config.yAxisFormat.includes("%")) {
-							isdecimal = false;
-							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
-								yaxisformat = response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
-							else
-								yaxisformat = 0;
-						}
-						else {
-							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
-								yaxisformat = response[0].config.yAxisFormat.split(".")[1].length
-							else
-								yaxisformat = 0
+				
+                let startDate = response[i].config.startDate;
+                if (startDate != null)
+                    startDates.push(new Date(startDate.split("-")[1] + "-" + startDate.split("-")[0] + "-" + startDate.split("-")[2]));
+                
+                formattedTitles.push(response[i].config.displayDescription ?? itemValue[checkedItemValues[i]].title);
+                
+                  // Get the correct format function for this series
+            let getFormatResult = getFormat(response[i].config.yAxisFormat);
+            getFormatResults.push(getFormatResult); // Store format result
+                
+                let yAxisFormat = response[i].config.yAxisFormat;
+                if (yAxisFormat && yAxisFormat.includes("%")) {
+                    isdecimal = false;
+                    yAxisFormats.push(yAxisFormat.includes(".") ? yAxisFormat.split("%")[0].split(".")[1].length : 0);
+                } else {
+                    yAxisFormats.push(yAxisFormat.includes(".") ? yAxisFormat.split(".")[1].length : 0);
+                    isdecimal = true;
+                }
 
-							isdecimal = true;
-						}
-					}
-					else
-						yaxisformat = 3;
+                seriesData.push({
+                    name: formattedTitles[i],
+                    type: 'column',
+                    data: response[i].graphResponseDTOLst
+                });
+            }
 
-					var getFormatResult0 = getFormat(response[0].config.dataFormat);
-					var getFormatResult1 = getFormat(response[1].config.dataFormat);
+            title = formattedTitles.join(" vs ");
+			chart.w.config.title.text=title;
+            let minValues = response.map(res => Math.min.apply(null, res.graphResponseDTOLst.map(item => item.y)));
+            let maxValues = response.map(res => Math.max.apply(null, res.graphResponseDTOLst.map(item => item.y)));
 
-					chartDbFontSize = response[0].config.chartSize;
-					fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
-					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
-					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
-					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-		
-					chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+            let min = Math.min(...minValues);
+            let max = Math.max(...maxValues);
 
-					var dbchartType1 = response[0].config.chartType;
-					chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
+            let valueMin = addMarginToMinMax(min, max, 5);
+            let valueMax = addMarginToMinMax(min, max, 5);
+            let calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
+            calculatedMinValue = (Math.sign(calculatedMinValue) == -1 || !(Math.sign(min) == -1)) ? 0 : calculatedMinValue;
+			chart.w.config.grid.show=true;
+			let chartGrid=chart.w.config.grid; 
+			
+			chart.w.config.fill.opacity=1
+			
+            chart.updateOptions({
+				grid:chartGrid,
+				colors: colorsArray,
+                series: seriesData,
+                xaxis: {
+                    labels: {
+                        rotate: -65,
+                        rotateAlways: true,
+                        minHeight: 0,
+                        style: { fontSize: '12px' },
+                        formatter: function(value, timestamp, opts) {
+                            const options = { month: 'short', year: '2-digit' };
+                            return new Date(value).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');
+                        }
+                    },
+                    type: 'datetime',
+                    tickAmount: 19,
+                    axisBorder: { show: true, color: '#ffffff', height: 3, width: '100%', offsetX: 0, offsetY: 0 }
+                },
+                extra: { isDecimal: isdecimal, yAxisFormat: yAxisFormats[0] },
+                markers: { colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"], strokeColors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"] },
+                yaxis: {
+                    labels: {
+                        minWidth: 75, maxWidth: 75,
+                        style: { fontSize: '12px' },
+                        formatter: function(val) {
+                            return isdecimal ? val.toFixed(yAxisFormats[0]) : val.toFixed(yAxisFormats[0]) + "%";
+                        }
+                    },
+                    tickAmount: 6,
+                    min: calculatedMinValue,
+                    max: Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax,
+                    axisBorder: { width: 3, show: true, color: '#ffffff', offsetX: 0, offsetY: 0 }
+                },
+                tooltip:{
+			            x: { show: false },
+			            y: {
+			                formatter: function(value, { seriesIndex }) {
+			                    let formatResult = getFormatResults[seriesIndex]; // Get the correct format for this series
+			                    return formatResult[1] ? value.toFixed(formatResult[0]) : value.toFixed(formatResult[0]) + "%";
+			                },
+			                title: { formatter: (seriesName) => seriesName }
+			            }
+			        },
+            });
 
-					var dbchartType2 = response[1].config.chartType;
-					chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
-
-					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
-					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
-
-					min = Math.min(min1, min2);
-					max = Math.max(max1, max2);
-					//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
-					//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
-					minvalue = min;
-					maxvalue = max;
-					//var valueMin = getMarginLenght(min); 
-			 		//var valueMax = getMarginLenght(max);  		
-			 				 	
-					 const values = addMarginToMinMax(min, max, 5);
-				     var valueMin = values
-				     var valueMax = values; 	
-				     var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
-				     graphService=typeof graphService!='undefined'?graphService:'';
-				     // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				   	 calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(min)==-1)  )? 0: calculatedMinValue;
-
-					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
-					
-					notDecimal=yaxisformat0[1];
-			    	nbrOfDigits=yaxisformat0[0];
-			    	
-					chart.updateOptions({
-						series:[{
-						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-						type:Period=='d' ? chartType1 : 'column',
-						data: response[0].graphResponseDTOLst
-					}, {
-						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
-						type:Period=='d' ? chartType2 : 'column',
-						data: response[1].graphResponseDTOLst
-					}],
-						xaxis: {
-					labels: {
-						rotate: -65,
-						rotateAlways: true,
-						minHeight: 0,
-						style: {
-							fontSize: '12px',
-						},
-						formatter: function(value, timestamp, opts) {
-								const options = { 
-												  month: 'short', 
-												  year: '2-digit'  
-												};
-												const formattedDate = new Date(value).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');
-												
-							            return formattedDate;
-				          }
-					},
-					type: 'datetime',
-					tickAmount: 19,
-					axisBorder: {
-						show: true,
-						color: '#ffffff',
-						height: 3,
-						width: '100%',
-						offsetX: 0,
-						offsetY: 0
-					},
-				},
-						extra: {
-							isDecimal: isdecimal,
-							yAxisFormat: yaxisformat,
-						},
-						markers: {
-							colors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
-							strokeColors: ["#FFFFFF", "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"]
-						},
-						yaxis: {
-							labels: {
-								minWidth: 75, maxWidth: 75,
-								style: {
-									fontSize: fontsize,
-								},
-								 formatter: function(val, index) {
-										 if (yaxisformat0[1])
-						  				  return  val.toFixed(yaxisformat0[0]);
-						  				else 
-						  				  return  val.toFixed(yaxisformat0[0]) + "%";
-									      }
-							},
-							tickAmount: 6,
-							min: calculatedMinValue,
-							max: Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + valueMax : Math.abs(maxvalue) + valueMax,
-							axisBorder: {
-								width: 3,
-								show: true,
-								color: '#ffffff',
-								offsetX: 0,
-								offsetY: 0
-							},
-						},
-						tooltip: {
-							x: {
-								show: false,
-							},
-							y: {
-								formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-									if (seriesIndex == 0) {
-										if (getFormatResult0[1])
-											return value.toFixed(getFormatResult0[0]);
-										else
-											return value.toFixed(getFormatResult0[0]) + "%";
-									} else
-										if (seriesIndex == 1) {
-											if (getFormatResult1[1])
-												return value.toFixed(getFormatResult1[0]);
-											else
-												return value.toFixed(getFormatResult1[0]) + "%";
-										}
-								},
-								title: {
-									formatter: (seriesName) => '',
-								},
-							},
-						},
-						
-					});
-					$('#overlayChart').hide();
-				},
+            $('#overlayChart').hide();
+      },
 				error: function(e) {
 
 					console.log("ERROR : ", e);
@@ -5050,7 +5075,7 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 											 chartShowGrid:showGrid,
 											 overideChartype:typeof overide != 'undefined'? overide:null};
 											 	
-					updateChartByFunctionIdMissingDates(chartConfigSettings);	
+					updateChartByFunctionIdMissingDates(chartConfigSettings, false);	
 						
 					$('#overlayChart').hide();
 				},
@@ -5185,7 +5210,7 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 								
 								series:[{
 										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-										type: chartConfigSettings.chartType1,
+										type: 'column',
 										data: chartConfigSettings.response[0].graphResponseDTOLst
 									}],
 									xaxis: {
@@ -5220,6 +5245,7 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 								},
 								stroke: {
 									colors: chartConfigSettings.chartType1 == "area" ? ["#ffffff"] : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
+								width:0
 								},
 								markers: {
 									colors: chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
@@ -5286,8 +5312,8 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 
 		    (saveHistory)?saveGraphHistory(graphName,checkedItemValues,Period,type):null;
 		    
-	$("#dateFrom-mainChart").val(fromdate);
-	$("#dateTo-mainChart").val(todate);
+	$("#dateFrom-mainChart").val(formatedDate(fromdate));
+	$("#dateTo-mainChart").val(formatedDate(todate));
 	
 	inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValue));
 
@@ -5479,7 +5505,7 @@ function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
 											 chartShowGrid:showGrid,
 											 overideChartype:typeof overide != 'undefined'? overide:null};
 											 	
-					updateChartByFunctionIdMissingDates(chartConfigSettings);	
+					updateChartByFunctionIdMissingDates(chartConfigSettings, true);	
 						
 					$('#overlayChart').hide();
 				},
@@ -6339,7 +6365,7 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 											 chartTransparency:chartTransparency,
 											 chartShowGrid:showGrid};
 											 	
-					updateChartByFunctionIdMissingDates(chartConfigSettings);	
+					updateChartByFunctionIdMissingDates(chartConfigSettings, true);	
 						
 					$('#overlayChart').hide();
 				},
@@ -7193,8 +7219,10 @@ function navigationGraph(condition) {
         $("#button-weekBackward").prop('disabled', false);
         monthDate.setDate(monthDate.getDate() + 7);
     }
-
-    if (mode == "merge") {
+    if (mode == "usJobsCurrent") {
+        redirectFunction(groupId);
+    }
+    else if (mode == "merge") {
         drawGraph();
     } else {
         splitGraph();
@@ -9785,6 +9813,80 @@ async function processDataAndAddNewEndDateForExtraSpace(response, percentage, is
     // Return the modified response
     return Promise.resolve({ response });
 }
+async function processDataAndAddNewEndDateForExtraSpaceInGraph(response, percentage, isArray) {
+    // Extract start and end dates
+    const dataStartDate = response[0].x;
+    const dataEndDate = response[response.length - 1].x;
+
+    // Calculate new end date
+    const newEndDate = calculateNewEndDate(dataStartDate, dataEndDate, percentage);
+
+    // Convert to Date objects for iteration
+    let currentDate = new Date(dataEndDate);
+    let finalDate = new Date(newEndDate);
+
+    // Function to format date as "DD-MMM-YY" (e.g., "05-Jan-25")
+    function formatDateToCustom(date) {
+        const day = date.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
+        const month = date.toLocaleString('en-GB', { month: 'short' }); // Get short month name
+        const year = date.getFullYear().toString().slice(-2); // Get last two digits of the year
+        return `${day}-${month}-${year}`;
+    }
+
+    // Ensure weekdays are added (skip weekends)
+    let newDates = [];
+    while (currentDate < finalDate) {
+        currentDate.setDate(currentDate.getDate() + 1); // Move to next day
+
+        // Skip weekends (Saturday = 6, Sunday = 0)
+        if (currentDate.getDay() !== 6 && currentDate.getDay() !== 0) {
+            let formattedDate = formatDateToCustom(currentDate); // Convert to "DD-MMM-YY"
+            newDates.push({ x: formattedDate, y: isArray?[]:null });
+        }
+    }
+
+    // Append the generated dates to the response
+    response.push(...newDates);
+
+    // Return the modified response
+    return Promise.resolve({ response });
+}
+async function processDataAndAddNewEndMonthForExtraSpace(response, percentage, isArray) {
+    // Extract start and end dates
+    const dataStartDate = new Date(response.graphResponseDTOLst[0].x);
+    const dataEndDate = new Date(response.graphResponseDTOLst[response.graphResponseDTOLst.length - 1].x);
+
+    // Calculate new end date by adding extra months
+    const newEndDate = calculateNewEndDate(dataStartDate, dataEndDate, percentage);
+
+    // Function to format date as "01-MMM-YY" (e.g., "01-Jan-25")
+    function formatMonthToCustom(date) {
+        const day = "01"; // Fixed day
+        const month = date.toLocaleString('en-GB', { month: 'short' }); // Short month name
+        const year = date.getFullYear().toString().slice(-2); // Last two digits of year
+        return `${day}-${month}-${year}`;
+    }
+
+    // Generate new months up to the final date
+    let newDates = [];
+    let currentDate = new Date(dataEndDate);
+    let finalDate = new Date(newEndDate);
+
+    while (currentDate < finalDate) {
+        currentDate.setMonth(currentDate.getMonth() + 1); // Move to next month
+        currentDate.setDate(1); // Ensure it's the first day of the month
+
+        let formattedDate = formatMonthToCustom(currentDate); // Convert to "01-MMM-YY"
+        newDates.push({ x: formattedDate, y: isArray ? [] : null });
+    }
+
+    // Append the generated months to the response
+    response.graphResponseDTOLst.push(...newDates);
+
+    // Return the modified response
+    return Promise.resolve({ response });
+}
+
 async function areValuesClose(value1, value2, threshold = 3) {
     // Calculate the absolute difference between the two values
     const difference = Math.abs(value1 - value2);
@@ -9853,7 +9955,8 @@ function candleStick(graphName, saveHistory) {
                 reset: true | '<img src="/static/icons/reset.png" width="20">',
                 customIcons: []
             }
-        }
+        },
+         
     },
     title: {
         text: '',
@@ -9915,16 +10018,20 @@ function candleStick(graphName, saveHistory) {
 };
 	chart = new ApexCharts(document.querySelector("#mainChart"), chartOptions);
 	chart.render();
-
+	
 	const selectedCandleStickIndex =$('#groupOfOptions').jqxButtonGroup('getSelection');
     const subGroupId1 = candleGroupIdSubgroups [selectedCandleStickIndex][1];
     const groupId = candleGroupIdSubgroups [selectedCandleStickIndex][0];
-
+    
+	let interval=null;
+	
 	if(timeRange== "Daily")
 	    url ="/cryptos/getcandlegraphdata";
 	else
-	  { url ="/cryptos/getcandlegraphdatafourhoursinterval";
+	  { 
+		url ="/cryptos/getcandlegraphdatainterval";
 	   todate= todate+' 23:59:59';
+	   interval =timeRange;
 	  }
 	
 	dataParam = {
@@ -9932,6 +10039,7 @@ function candleStick(graphName, saveHistory) {
 		"todate": todate,
 		"subGroupId1": subGroupId1,
 		"groupId1": groupId,
+		"interval":interval
 	};
  	if (!isNaN(functionId) && functionId != -1)
 		{	
@@ -9975,7 +10083,7 @@ function candleStick(graphName, saveHistory) {
 
 
 			response[0].graphResponseDTOLst.forEach(item => {
-				item.y = JSON.parse(item.y);
+				item.y = JSON.parse(item.y).map(yValue => parseFloat(yValue));
 			});
 
 
@@ -10044,7 +10152,8 @@ function candleStick(graphName, saveHistory) {
 		candleGraphTitleConfig = candleGraphTitle + " vs " + T2;		
 	
 		}else{
-			candleGraphTitleConfig = candleGraphTitle;
+			let candleGraphTimeRange = (timeRange=="4h")?" 4-Hour ":(timeRange=="1w")?" Weekly":" DAILY"
+			candleGraphTitleConfig = candleGraphTitle +candleGraphTimeRange;
 		}
 let seriesArray=[{
 					type: 'candlestick',
@@ -10268,14 +10377,20 @@ chart.updateOptions({
 							fontSize: '12px',
 						},
 						formatter: function(value, timestamp, opts) {
-							
-					//	if(timeRange != "Daily")
-						//	value =	convertToLocalTime(value);
-							
-							let a = [{ day: 'numeric' }, { month: 'short' }, { year: '2-digit' }];
-							let s = (isTimestamp(value)) ? join(value, a, '-') : value;
-
-							return s;
+							let a = '';
+							let s = '';
+							if(timeRange == "1w")
+							{ a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
+							  s =  (isTimestamp(value))?join(value, a, '-'):value;
+							  if (typeof s === "string" && s.includes(" ")) {
+							        s=   s.split(" ")[0]; // Take only the date part
+							    }
+							 }
+							else
+							{ a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
+							  s =  (isTimestamp(value))?join(value, a, '-'):value;
+							}
+				            return s;
 						}
 					},
 					type: 'datetime',
@@ -10431,13 +10546,14 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 	$("#mainChart").html("");
 	$("#mainChart").css("display", "block");
 	
-	
+	let interval=null
 	
 	if(timeRange== "Daily")
 		url="/"+graphService+"/getgraphdatabytype";
 	else
-		{ url="/"+graphService+"/getgraphdatafourhoursinterval";
+		{ url="/"+graphService+"/getgraphdatainterval";
   		  todate= todate+' 23:59:59';
+  		  interval=timeRange;
   		 }
 	if (checkDateMonth(monthDate, date)) {
 		$("#button-monthForward").prop('disabled', false);
@@ -10492,7 +10608,8 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 		        	  //  "removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false,
 		        	   // "removeEmpty2":itemValue[checkedItemValues[1]].subGroupId==2?"true":false
 		        	 "removeEmpty1":removeEmpty,
-		        	 "removeEmpty2":removeEmpty
+		        	 "removeEmpty2":removeEmpty,
+		        	  "interval" :interval
      			   };
            enableDisableDropDowns(true);
 			if (checkedItemValues.length > 1)
@@ -10520,7 +10637,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 
 					T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
 					T2 = response[1].config.displayDescription == null ? itemValue[checkedItemValues[1]].title : response[1].config.displayDescription;
-					title = T1 + " vs " + T2;
+					title = T1 + " vs " + T2 +" DAILY";
 					if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
 						if (response[0].config.yAxisFormat.includes("%")) {
 							isdecimal = false;
@@ -10788,13 +10905,14 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 	        	    "isFunctionGraph":true,
 					"functionId":functionId+1,
 					//"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
-					 "removeEmpty1":removeEmpty
+					 "removeEmpty1":removeEmpty,
+					   "interval" :interval
      			   };
 
 			if (checkedItemValues.length > 1)
-				title = itemValue[checkedItemValues[0]].title + " vs " + itemValue[checkedItemValues[1]].title
+				title = itemValue[checkedItemValues[0]].title + " vs " + itemValue[checkedItemValues[1]].title +" DAILY"
 			else
-				title = itemValue[checkedItemValues[0]].title
+				title = itemValue[checkedItemValues[0]].title +" DAILY"
 
 			disableOptions(true);
 			
@@ -10917,7 +11035,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 											 chartShowGrid:showGrid,
 											 overideChartype:typeof overide != 'undefined'? overide:null};
 											 	
-					updateChartByFunctionIdMissingDates(chartConfigSettings);	
+					updateChartByFunctionIdMissingDates(chartConfigSettings, true);	
 						
 					$('#overlayChart').hide();
 				},
@@ -10945,7 +11063,8 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 						"isFunctionGraph":functionId=='-1'?false:true,
 						"functionId":functionId,
 						//"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
-						"removeEmpty1":removeEmpty
+						"removeEmpty1":removeEmpty,
+						interval:interval
 					};
 					
 					$.ajax({
@@ -10964,7 +11083,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 
 
 							T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
-							title = T1;
+							title = T1+" DAILY";
 							if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
 								if (response[0].config.yAxisFormat.includes("%")) {
 									isdecimal = false;
@@ -11063,9 +11182,19 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 										formatter: function(value, timestamp, opts) {
 											//if(timeRange != "Daily")
 											// value =	convertToLocalTime(value);
-											let a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
-											let s =  (isTimestamp(value))?join(value, a, '-'):value;
-											
+											let a = '';
+											let s = '';
+											if(timeRange == "1w")
+											{ a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
+											  s =  (isTimestamp(value))?join(value, a, '-'):value;
+											  if (typeof s === "string" && s.includes(" ")) {
+											        s=   s.split(" ")[0]; // Take only the date part
+											    }
+											 }
+											else
+											{ a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
+											  s =  (isTimestamp(value))?join(value, a, '-'):value;
+											}
 								            return s;
 								          }
 									},
@@ -11243,19 +11372,19 @@ function updateChart(graphService) {
 				"fromdate": formatDate(monthDate),
 				"todate":  formatDate(date)+' 23:59:59',
 				"subGroupId1": candleGroupIdSubgroups [selectedCandleStickIndex][1],
-				"groupId1": candleGroupIdSubgroups [selectedCandleStickIndex][0],
-			};	
+				"groupId1" : candleGroupIdSubgroups [selectedCandleStickIndex][0],
+			    "interval" :timeRange };	
 			
 				$.ajax({
 						type: "POST",
 						contentType: "application/json; charset=utf-8",
-						url: "/cryptos/getcandlegraphdatafourhoursinterval",
+						url: "/cryptos/getcandlegraphdatainterval",
 						data: JSON.stringify(dataParam),
 						dataType: 'json',
 						timeout: 600000,
 						success: function(response) {	
 								response[0].graphResponseDTOLst.forEach(item => {
-									item.y = JSON.parse(item.y);
+									item.y = JSON.parse(item.y).map(yValue => parseFloat(yValue));
 								});
 
 							  chart.updateSeries([{
@@ -11292,13 +11421,14 @@ function updateChart(graphService) {
 					        	  //  "removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false,
 					        	   // "removeEmpty2":itemValue[checkedItemValues[1]].subGroupId==2?"true":false
 					        	 "removeEmpty1":true,
-					        	 "removeEmpty2":true
+					        	 "removeEmpty2":true,
+					        	 "interval" :timeRange
 			     			   };
 			     			   
 		    $.ajax({
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
-				url: "/"+graphService+"/getgraphdatafourhoursinterval",
+				url: "/"+graphService+"/getgraphdatainterval",
 				data: JSON.stringify(dataParam),
 				dataType: 'json',
 				timeout: 600000,
@@ -11329,11 +11459,12 @@ function updateChart(graphService) {
 				        	    "subGroupId1":itemValue[checkedItemValues[0]].subGroupId,
 				        	    "groupId1": itemValue[checkedItemValues[0]].GroupId,
 					        	 "removeEmpty1":true,
+					        	 "interval" :timeRange
 			     			   };
 			 $.ajax({
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
-				url: "/"+graphService+"/getgraphdatafourhoursinterval",
+				url: "/"+graphService+"/getgraphdatainterval",
 				data: JSON.stringify(dataParam),
 				dataType: 'json',
 				timeout: 600000,
@@ -11356,7 +11487,358 @@ function updateChart(graphService) {
 	   }
     // Add your chart update logic here
 }
+ 
+ function currentUsJobsFunction(groupId){
+	mode = "usJobsCurrent";
+	var dataParam;
+	var checkedItemValues = [];
+	$('#overlayChart').show();
 
+	var fromdate = formatDate(monthDate);
+	var todate = formatDate(date);
+	$("#mainChart").html("");
+	$("#mainChart").css("display", "block");
+	
+	if (checkDateMonth(monthDate, date)) {
+		$("#button-monthForward").prop('disabled', false);
+	}
+	else {
+		$("#button-monthForward").prop('disabled', true);
+	}
+
+	if (checkDateYear(monthDate, date)) {
+		$("#button-yearForward").prop('disabled', false);
+	}
+	else {
+		$("#button-yearForward").prop('disabled', true);
+	}
+
+	var Period = getChartPeriod();
+	var type = getSelectedType();
+	if (chart != null)
+		chart.destroy();
+
+	//chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options_missingDates : optionsWeekly);
+	chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options : ((functionId!=-1)?optionsWeekly:optionsWeeklyy));
+
+	chart.render();
+	
+	dataParam = { 
+	        		"fromdate":fromdate,
+	        	    "todate":todate,
+	        	    "period":"d",
+	        	    "type": type,
+	        	    "subGroupId1":1,
+	        	    "groupId1": groupId,
+     			   };
+     			   
+           enableDisableDropDowns(true);
+
+			disableOptions(true);
+			$.ajax({
+				type: "POST",
+				contentType: "application/json; charset=utf-8",
+				url: "/"+graphService+"/getgraphdatacurrent",
+				data: JSON.stringify(dataParam),
+				dataType: 'json',
+				timeout: 600000,
+				success: function(response) {
+					startDateF1 = response[0].config.startDate;
+					
+					if (startDateF1 != null)
+						startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
+					var dates = [];
+
+					T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
+					
+					title="";
+					if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
+						if (response[0].config.yAxisFormat.includes("%")) {
+							isdecimal = false;
+							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+								yaxisformat = response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+							else
+								yaxisformat = 0;
+						}
+						else {
+							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
+								yaxisformat = response[0].config.yAxisFormat.split(".")[1].length
+							else
+								yaxisformat = 0
+
+							isdecimal = true;
+						}
+					}
+					else
+						yaxisformat = 3;
+
+					var getFormatResult0 = getFormat(response[0].config.dataFormat);
+					
+					//chartDbFontSize = response[0].config.chartSize;
+					chartDbFontSize = '14px';
+					fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
+					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
+					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+
+					chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+
+					var dbchartType1 = response[0].config.chartType;
+					chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
+
+					let yValues1 = response[0].graphResponseDTOLst.map(function(item) {
+					    return item.y;
+					}).filter(function(y) {
+					    return y !== null; // Filter out null values
+					});
+					
+					let min1 = Math.min.apply(null, yValues1);
+					
+						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+							return item.y;
+						}));
+					
+
+					min = min1;
+					max = max1;
+					
+					minvalue = min;
+					maxvalue = max;
+				
+					 let selectedValue=(Math.abs(min)>=Math.abs(max)?Math.abs(min):Math.abs(max));
+					 const values =  addMarginToMinMax(min, max, 5);
+					 
+					 
+					 calculatedMin = min > 0 ? min - values : -(values - min);
+					 calculatedMax= max > 0 ? max + values : -(values + max);
+					 
+					 roundedValues = adjustMinMax(calculatedMin,calculatedMax);
+					 
+				     graphService=typeof graphService!='undefined'?graphService:'';
+				   
+					 yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+					
+					notDecimal=yaxisformat0[1];
+			    	nbrOfDigits=yaxisformat0[0];
+			    	
+					for (let i = 0; i < response[0].graphResponseDTOLst.length; i++) {
+					    let data = response[0].graphResponseDTOLst[i];
+					    let y = parseFloat(data.y);
+					    if (y !== null && !isNaN(y)) {
+					        data.y = y ;
+					    }
+					}
+					
+					let isMaxItems1 =  response[0].graphResponseDTOLst.filter(function(item) {
+					    return item.ismax === "1";
+					});
+				
+					value1=isMaxItems1[0].y;
+					if (getFormatResult0[1])
+							value1=	 value1.toFixed(getFormatResult0[0]);
+							else
+							value1=	 value1.toFixed(getFormatResult0[0]) + "%";
+										
+						
+					let maxcalculated=Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + selectedValue : Math.abs(maxvalue) + selectedValue;			
+					
+					$('#legendfalse').addClass("active");
+					$('#legendtrue').removeClass("active");
+					chart.w.config.title.text=title;
+					
+					processDataAndAddNewEndMonthForExtraSpace(response[0] ,0.10,true)
+					    .then(({ response }) => {
+								response[0] = response;
+					    })
+					    .catch(error => {
+					        console.error('Error processing data:', error);
+					    });	
+					    
+					  const options = { month: 'short', year: '2-digit' };
+     				var fomartedXAnnotation=new Date(isMaxItems1[0].x).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');    
+					var offsetYValue1=25;
+					
+					graphTitle=T1;
+					chart.updateOptions({
+						series:[{
+						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
+						type:'column',
+						data: response[0].graphResponseDTOLst
+					}],
+					title: {
+					text: graphTitle,
+					align: 'center',
+					margin: 10,
+					offsetY: 0,
+					style: {
+						fontWeight: 'bold',
+					},
+				},
+					chart: {
+						
+				     /* toolbar: {
+				       // show: false,
+				      },
+				        zoom: {
+							    enabled: false
+							  }*/
+				      },
+						xaxis: {
+					labels: {
+						rotate: -65,
+						rotateAlways: true,
+						minHeight: 0,
+						style: {
+							fontSize: fontsize,
+						},
+						
+					  formatter: function(value, timestamp, opts) {
+                            const options = { month: 'short', year: '2-digit' };
+                            return new Date(value).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');
+                        }
+					},
+				//	type: 'datetime',
+					tickAmount: 19,
+					axisBorder: {
+						show: true,
+						color: '#ffffff',
+						height: 3,
+						width: '100%',
+						offsetX: 0,
+						offsetY: 0
+					},
+					   axisTicks: {
+				          show: false,
+				          borderType: 'solid',
+				          color: '#78909C',
+				          height: 6,
+				          offsetX: 0,
+				          offsetY: 0
+				      },
+				},
+						extra: {
+							isDecimal: isdecimal,
+							yAxisFormat: yaxisformat,
+						},
+						colors: ["#ffc000"],
+						stroke:{width: 0},
+						markers: {
+							colors: [ "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
+							strokeColors: [ "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
+							shape: 'square',
+							// size: 2,
+						},
+						yaxis: {
+							labels: {
+								minWidth: 75, maxWidth: 75,
+								style: {
+									fontSize: fontsize,
+								},
+								 formatter: function(val, index) {
+										 val = val ;
+										 if (yaxisformat0[1])
+						  				  return  val.toFixed(yaxisformat0[0]);
+						  				else 
+						  				  return  val.toFixed(yaxisformat0[0]) + "%";
+									      }
+							},
+							tickAmount: 6,
+						
+							min:calculatedMin,
+							max:calculatedMax,
+							
+					axisBorder: {
+								width: 3,
+								show: true,
+								color: '#ffffff',
+								offsetX: 0,
+								offsetY: 0
+							},
+						},
+						tooltip: {
+							x: {
+								show: false,
+							},
+							y: {
+								formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+									 value = value ;
+									if (seriesIndex == 0) {
+										if (getFormatResult0[1])
+											return value.toFixed(getFormatResult0[0]);
+										else
+											return value.toFixed(getFormatResult0[0]) + "%";
+									} 
+								},
+								title: {
+									formatter: (seriesName) => '',
+								},
+							},
+						},
+						annotations: {
+					        
+					         points: [
+					      {
+					         x: fomartedXAnnotation,
+					         y: isMaxItems1[0].y,
+					        marker: {
+					          size: 8,
+					          fillColor: "#ffffff00",
+					          strokeColor: "#FF00FF",
+					          radius: 6
+					        },
+					        label: {
+					         borderColor: "#ffffff00",
+					          offsetY: offsetYValue1,
+					          //offsetY: 0,
+					          offsetX: 70,
+					          style: {
+					            color: "#FF00FF",
+					            background:  "#00000000",
+					          },
+					
+					          text: toTitleCase(isMaxItems1[0].x.split('-')[1]+' '+ toTitleCase(isMaxItems1[0].factor.toString()+' '+value1))
+					        }
+					      },
+					        
+					         
+					      
+					    ],
+					    
+					      },legend: {
+						   show:false,
+				    	  },
+					});
+					
+					
+					disableChartFont(false);
+					$('#overlayChart').hide();
+				    $("#mainChart-title").empty();
+				    
+				    graphTitle=T1;
+				   // graphTitle=graphTitle.toUpperCase().replace(/\bFINAL\b/g, '').replace(/SERVICES/g, '<span style="color:#ffc000">Services</span>').replace(/MANUFACTURING/g, 'Manuf').replace(/AND/g, 'and')
+
+					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 20px;left: 350px;height: 60px;" class="title-style">'+graphTitle+'</div>')
+				
+							   
+				},
+				error: function(e) {
+
+					console.log("ERROR : ", e);
+
+				}
+				
+			});
+
+		
+		   // (saveHistory)?saveGraphHistory(graphName,checkedItemid,Period,type):null;
+    
+	$("#dateFrom-mainChart").val(formatedDate(fromdate));
+	$("#dateTo-mainChart").val(formatedDate(todate));
+	
+	// inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValue));
+
+		 
+ }
 function formatInBillionsOnly(value) {
 	if (value >= 1e9) {
 		const inBillions = value / 1e9;
@@ -11414,4 +11896,59 @@ function alignMergeDataSets(data1, data2) {
     }
 
     return { data1: filteredData1, data2: filteredData2 };
+}
+function adjustMinMax(min, max) {
+    period=(max-min)/6;
+    let values=[];
+    increment=min;
+    for (var i = 0; i < 7; i++) {
+		
+		values.push(increment)
+		increment=increment+period;
+		
+		}
+		
+    let result = normalizeAroundZero(values);
+    let updatedValues = result.values
+  //  min = min > 0 ? min - period: -(period - min);
+  //  max = max > 0 ? max + period: -(period + max);
+   min = Math.min(...updatedValues);
+   max = Math.max(...updatedValues);
+    return { min: min, max: max };
+}
+
+function normalizeAroundZero(numbers) {
+    let closest = numbers[0];
+    let minDiff = Math.abs(numbers[0]);
+    let normalized ='';
+    for (let i = 1; i < numbers.length; i++) {
+        const diff = Math.abs(numbers[i]);
+        if (diff < minDiff) {
+            closest = numbers[i];
+            minDiff = diff;
+        }
+    }
+   if(Math.min(...numbers)>0)
+   {
+	    normalized = numbers.map(num => (num==closest)?num - closest:num + closest/2);
+   }else if(Math.max(...numbers)<0)
+   {
+	    normalized = numbers.map(num => (num==closest)?num - closest:  -(closest/2 - num));
+   }
+   else
+        normalized = numbers.map(num => num - closest);
+
+    return { values: normalized };
+}
+function toTitleCase(str) {
+    return str.replace(/\w\S*/g, function(txt) {
+        return txt.charAt(0).toUpperCase() + txt.substr(1).toLowerCase();
+    });
+}
+function formatedDate(inputDate) {
+    const [year, month] = inputDate.split('-');
+    const monthAbbreviation = new Date(inputDate).toLocaleString('en-US', { month: 'short' }).toUpperCase();
+	const yearLastTwoDigits = year.slice(-2);
+	
+    return monthAbbreviation + '-' + yearLastTwoDigits;
 }

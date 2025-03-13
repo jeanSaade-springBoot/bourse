@@ -14,6 +14,10 @@ public enum FunctionEnum {
 	QUARTERLY_CHANGE_INCREMENT(13,"QCI","Quarterly Change Increment"), 
 	YEARLY_CHANGE_IN_PERCENTAGE(14,"YCP","Yearly Change In %"), 
 	YEARLY_CHANGE_INCREMENT(15,"YCI","Yearly Change Increment"), 
+	SIXTH_MONTH_MOVING_AVERAGE(16,"6MA","6M moving average"), 
+	EIGHTEEN_MONTH_MOVING_AVERAGE(17,"18MA","18M moving average"), 
+	ONE_YEAR_MOVING_AVERAGE(18,"12MA","1yr moving average"), 
+	TWO_YEAR_MOVING_AVERAGE(19,"24MA","2yr moving average"), 
 	TEN_YR_PERCENTILE(7,"10YP","10 Yr Percentile"),
 	TWENTY_YR_PERCENTILE(8,"20YP","20 Yr Percentile"),
 	CENTURY_PERCENTILE(9,"CP","Century Percentile"),
@@ -61,6 +65,14 @@ public enum FunctionEnum {
                 return YEARLY_CHANGE_IN_PERCENTAGE.function;
             case 15:
                 return YEARLY_CHANGE_INCREMENT.function;
+            case 16:
+                return SIXTH_MONTH_MOVING_AVERAGE.function;
+            case 17:
+                return EIGHTEEN_MONTH_MOVING_AVERAGE.function;  
+            case 18:
+                   return ONE_YEAR_MOVING_AVERAGE.function; 
+            case 19:
+                return TWO_YEAR_MOVING_AVERAGE.function;        
         }
         return OTHER.function;
     }

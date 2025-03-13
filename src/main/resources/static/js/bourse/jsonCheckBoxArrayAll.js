@@ -4541,10 +4541,7 @@ var itemValue = {
    
   },
     
-  
-  
-  
-   "#jqxCheckBox-71-1": { 
+  "#jqxCheckBox-71-1": { 
     "subGroupId": "1",
     "GroupId": "71",
     "description": "openeur-71",

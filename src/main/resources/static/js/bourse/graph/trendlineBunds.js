@@ -9,4 +9,5 @@ const screenName='BUNDS';
 const graphName="bundsTech"; 
 const isTrendlineScreen=true;
 var graphService = "longEnds";
-	
+
+initializeFunctions(52);

@@ -52,7 +52,11 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
-
+.apexcharts-point-annotation-label {
+    fill: magenta;
+    font-weight: bold;
+    font-size: .8rem;
+}
   </style>
 </head>
 
@@ -145,11 +149,9 @@
 						</div>
 					    </div>
 				    <div id="grid-content" style="display:none;">
+				    <div class="row ">
 				 
-				    <div class="row">
-				       <div class="row col-12 d-none">
-				   	  	   
-				   	  	    <div id='groupOfPeriod' style='margin-left:1rem'>
+				   	  	    <div id='groupOfPeriod' style='margin-left:1rem' class="d-none">
 					            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
 					                Daily</button>
 					            <button style="padding:4px 16px;" id="w">
@@ -161,14 +163,19 @@
 								 <button style="padding:4px 16px;" id="y">
 									Yearly</button>
 					        </div>
-								<div id='dropDownType' style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
-								<div class="d-flex" style=' margin-left: 2.4rem;'>
+							<div id='dropDownType' class="d-none" style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
+								<div class="col-1"></div>
+								<div class="col-10">
+									<div class="d-flex" >
 									<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
 									<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
 								</div>
 							</div>
+							</div>
 							
-				     <div class="col-1" style="z-index: 1;">
+				    <div class="row">
+							
+				     <div class="col-1 invisible" style="z-index: 1;">
 						<div class="chart-option">
 				   	        <div class="chart-option-title">Chart option</div>
 				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">

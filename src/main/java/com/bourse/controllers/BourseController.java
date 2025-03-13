@@ -266,15 +266,16 @@ public class BourseController {
 	    return modelAndView;
     }
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_CRYPTOS') and principal.tacAccepted == true")
-	@RequestMapping( value =  "/cryptosFourHoursInterval")
-    public ModelAndView dataEntryPagecryptosFourHoursInterval(@RequestParam("cryptos") String cryptos,ModelMap model, Authentication authentication)
+	@RequestMapping( value =  "/cryptosInterval")
+    public ModelAndView dataEntryPagecryptosFourHoursInterval(@RequestParam("cryptos") String cryptos,@RequestParam("interval") String interval,ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
 	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_CRYPTOS");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("cryptos", Integer.valueOf(cryptos));
-	    ModelAndView modelAndView = new ModelAndView("html/cryptos/cryptosDataInputFourHours");
+        model.addAttribute("interval", interval);
+	    ModelAndView modelAndView = new ModelAndView("html/cryptos/cryptosDataInputInterval");
 	    
 	    return modelAndView;
     }

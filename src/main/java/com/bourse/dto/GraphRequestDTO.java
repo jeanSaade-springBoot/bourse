@@ -47,4 +47,7 @@ public class GraphRequestDTO {
 	private String dataType;
 	
 	private Boolean fulldates ;
+	
+	private String interval;
+	
 }

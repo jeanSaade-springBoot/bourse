@@ -52,7 +52,11 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
-
+.apexcharts-point-annotation-label {
+    fill: magenta;
+    font-weight: bold;
+    font-size: .8rem;
+}
   </style>
 </head>
 
@@ -121,15 +125,22 @@
 								<div class="col">
 								<h7 class="m-0 font-weight-bold"></h7>
 									<div class=" no-gutters d-flex">
-									  <div class="col-custom">
-										 <div id='jqxCheckBoxfinal-77' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">FINAL</span></div>
-									   </div>
+									  
+										 <div class="col-custom">
+												<div id='jqxCheckBoxsurv-77' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">SURV</span></div>
+										 </div>
 										 <div class="col-custom">
 												<div id='jqxCheckBoxinitial-77' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">INITIAL</span></div>
 										 </div>
 										 <div class="col-custom">
-												<div id='jqxCheckBoxsurv-77' class="jqx-checkbox-items" style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">SURV</span></div>
-										 </div>
+										 <div id='jqxCheckBoxfinal-77' class="jqx-checkbox-items" style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">FINAL</span></div>
+									   </div>
+										  <div class="col-custom">
+											  <input id="jqxCheckBoxCurrentfinal-77" type="checkbox" class="switch" onclick="redirectFunction(77);">
+											  <label for="jqxCheckBoxCurrentfinal-77" class="checkboxesTitle" style="font-size: .75rem; margin-left: 4px;">CURRENT</label>
+											</div>
+										
+											
 								</div>
 							</div>
 		                  

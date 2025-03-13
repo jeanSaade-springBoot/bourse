@@ -142,8 +142,10 @@ div#container-wrapper {
                 <div class="btn-group" role="group" aria-label="First group">
 					<button type="button" class="btn btn-secondary mw-100"
 						id="DailyData-btn" th:onclick="'javascript:toggleDivVisibilityData(1)'">Daily Data</button>
-					<button type="button" class="btn btn-secondary mw-100 active"
+					<button type="button" th:class="${interval=='4h'?'btn btn-secondary mw-100 active':'btn btn-secondary mw-100'}" 
 						id="4HoursData-btn" th:onclick="'javascript:toggleDivVisibilityData(2)'" >4-Hour Data</button>
+					<button type="button" th:class="${interval=='1w'?'btn btn-secondary mw-100 active':'btn btn-secondary mw-100'}"  
+						id="weeklyData-btn" th:onclick="'javascript:toggleDivVisibilityData(3)'" >Weekly Data</button>
 				</div>
 			</div>
               <!-- Form Basic -->
@@ -175,6 +177,7 @@ div#container-wrapper {
                  <div class="row">
                  <div  class="col-12 d-none sjustify-content-between">
                  	<div id="crySubGroup" th:text="${cryptos}" style="display:none;"></div>
+                 	<div id="interval" th:text="${interval}" style="display:none;"></div>
                  	<input id="commoditySubGroup1" style="display:none;" value="th:text='${cryptos}'"/>
                  	
                  		<div class="col-4 p-0">
@@ -925,7 +928,7 @@ div#container-wrapper {
   <script src="/js/jqwidgets/jqxinput.js"></script>
   <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
   <script src="/js/jqwidgets/jqxcalendar.js"></script>
-  <script src="/js/bourse/cryptos/cryptosDataInputFourHours.js"></script> 
+  <script src="/js/bourse/cryptos/cryptosDataInputInterval.js"></script> 
   <script src="/js/bourse/scrollBarNews.js"></script> 
   <script src="/js/common.js"></script>
   <script src="/js/notification/sockjs.js"></script>

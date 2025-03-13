@@ -76,6 +76,8 @@ var inputDataShiba = document.getElementById("data-input-Shiba");
 var inputDataBinance = document.getElementById("data-input-Binance");
 var inputDataXrp = document.getElementById("data-input-Xrp");
 
+const interval = $("#interval")[0].innerText;
+
 var Type;
 
 const crySubGroupValue = $("#crySubGroup")[0].innerText;
@@ -552,7 +554,8 @@ function getFilterData(crySubGroupValue) {
 		json = {
 			"selectedSearchDTOlst": SelectedSearchDTO,
 			"fromDate":formattedFromDate,
-			"toDate": formattedToDate
+			"toDate": formattedToDate,
+			"interval":interval
 		};
 
 		if (allItems <= 15) {
@@ -576,7 +579,10 @@ function getFilterData(crySubGroupValue) {
 
 					for (i = 0; i < data.columns.length; i++) {
 						if (data.columns[i].datafield == "start_time") {
-							data.columns[i].cellsformat = 'dd-MMM-yy HH:mm';
+							if(interval=='4h')
+								data.columns[i].cellsformat = 'dd-MMM-yy HH:mm';
+							else
+								data.columns[i].cellsformat = 'dd-MMM-yy';
 							break;
 						}
 					}
@@ -646,14 +652,16 @@ function updateRobotNewsOnChangeColumns(ArrayOfColumns) {
 
 function toggleDivVisibility(divNum) {
 
-	location.href = "/bourse/cryptosFourHoursInterval?cryptos=" + divNum;
+	location.href = "/bourse/cryptosInterval?cryptos=" + divNum +"&interval="+interval;
 }
 
 function toggleDivVisibilityData(divNum) {
     if(divNum==1)
 		location.href = "/bourse/cryptos?cryptos=1";
-		else 
-		location.href = "/bourse/cryptosFourHoursInterval?cryptos=1";
+	else if(divNum==2)
+		location.href = "/bourse/cryptosInterval?cryptos=1&interval=4h";
+	else 
+		location.href = "/bourse/cryptosInterval?cryptos=1&interval=1w";
 }
 
 function renderSubGroup(crySubGroupValue) {

@@ -12,7 +12,7 @@ $(document).ready(function() {
      initializeNewsBanner();
 	 initializePeriods();
 	 initializeTypes();
-	 initializeFunctions();
+	 initializeFunctions(10);
 	 
 	 initializeNavigationButtons();
 	 initialiazeItems(allitems,2);

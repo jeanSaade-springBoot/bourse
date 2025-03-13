@@ -29,6 +29,8 @@ import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.UpdateDataDTO;
+import com.bourse.dto.macro.MacroGraphResponseColConfigDTO;
+import com.bourse.dto.macro.MacroGraphResponseDTO;
 import com.bourse.enums.FunctionEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.TableManagementRepository;
@@ -365,6 +367,34 @@ public List<TmpAuditUsHouseHoldSurv> getAuditUsHouseHoldSurv(String groupId, Str
 				l1.add(getGraphDataResult(graphRequestDTO,false));
 			}
 				
+			if(graphReqDTO.getGroupId3()!=null)
+			{
+				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId3())
+						   .subGroupId1(graphReqDTO.getSubGroupId3())
+						   .period(graphReqDTO.getPeriod())
+						   .type(graphReqDTO.getType())
+						   .fromdate(graphReqDTO.getFromdate())
+						   .todate(graphReqDTO.getTodate())
+						   .functionId(graphReqDTO.getFunctionId())
+						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+						   .removeEmpty1(graphReqDTO.getRemoveEmpty1())
+						   .build();
+				l1.add(getGraphDataResult(graphRequestDTO,false));
+			}
+			if(graphReqDTO.getGroupId4()!=null)
+			{
+				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId4())
+						   .subGroupId1(graphReqDTO.getSubGroupId4())
+						   .period(graphReqDTO.getPeriod())
+						   .type(graphReqDTO.getType())
+						   .fromdate(graphReqDTO.getFromdate())
+						   .todate(graphReqDTO.getTodate())
+						   .functionId(graphReqDTO.getFunctionId())
+						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+						   .removeEmpty1(graphReqDTO.getRemoveEmpty1())
+						   .build();
+				l1.add(getGraphDataResult(graphRequestDTO,false));
+			}
 			return l1; 
 		
 		}
@@ -474,7 +504,79 @@ public List<TmpAuditUsHouseHoldSurv> getAuditUsHouseHoldSurv(String groupId, Str
 			return graphResponseColConfigDTO; 
 		    
 		}
-	
+		public List<MacroGraphResponseColConfigDTO> getUsJobsGraphData(GraphRequestDTO graphReqDTO) {
+
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+		
+			List<MacroGraphResponseColConfigDTO> l1 = new ArrayList<>();
+			
+			if(graphReqDTO.getGroupId1()!=null)
+			{
+				l1.add(getUsJobsGraphDataResult(graphReqDTO,false));
+			}
+				
+			return l1; 
+		
+		}
+		public MacroGraphResponseColConfigDTO getUsJobsGraphDataResult(GraphRequestDTO graphReqDTO, Boolean isFunction) {
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+
+			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("usjobs_calculation_graph",MacroGraphResponseDTO.class);
+			
+			List<MacroGraphResponseColConfigDTO> l1 = new ArrayList<>();
+			ColumnConfiguration config = null;
+			MacroGraphResponseColConfigDTO graphResponseColConfigDTO = null;
+			
+			String groupId = graphReqDTO.getGroupId1();
+			String subGroupId = graphReqDTO.getSubGroupId1(); 
+			String factor = graphReqDTO.getFactor1(); 
+			String description = null;
+			description = tableManagementRepository.findByGroupIdAndSubgroupId(groupId,subGroupId).getColumnName();
+				
+			    System.out.println("goupid: "+groupId);
+			    System.out.println("subGroupId: "+subGroupId);
+			    System.out.println("description: "+description);
+			    
+			    config = adminService.getColumnsconfigurationByGroupAndSubgroup(groupId, subGroupId);
+			  
+				query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+				query.setParameter("groupId",graphReqDTO.getGroupId1() );
+				
+				query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+				query.setParameter("fromDate",graphReqDTO.getFromdate() );
+				
+				query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+				query.setParameter("toDate",graphReqDTO.getTodate() );
+				
+				query.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
+				query.setParameter("subgroupId",graphReqDTO.getSubGroupId1() );
+				
+				query.registerStoredProcedureParameter("factor", String.class, ParameterMode.IN);
+				query.setParameter("factor",graphReqDTO.getFactor1()  );
+				
+				query.registerStoredProcedureParameter("dayOrweek", String.class, ParameterMode.IN);
+				query.setParameter("dayOrweek",(isFunction)?"d":graphReqDTO.getPeriod()  );
+				
+				query.execute();
+				
+				List<MacroGraphResponseDTO> graphResponseDTOlst1 = (List<MacroGraphResponseDTO>) query.getResultList();
+				
+				
+					
+			  graphResponseColConfigDTO = MacroGraphResponseColConfigDTO.builder()
+						                  .graphResponseDTOLst(graphResponseDTOlst1)
+						                  .config(config)
+						                  .build();
+				entityManager.clear();
+				entityManager.close();
+			
+			return graphResponseColConfigDTO; 
+		    
+		}
 	  public List<GraphResponseColConfigDTO> getGraphData(GraphRequestDTO graphReqDTO) {
 
 			boolean hasData= adminService.getData();

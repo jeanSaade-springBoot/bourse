@@ -14,6 +14,7 @@ const candleGroupIdSubgroups = [[71, 8], [71, 2]];
 const showGroupOfOptions = true;
 const candleGraphTitle = "Bitcoin";
 
+const graphService = "cryptos";
 
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -24,7 +25,7 @@ $(document).ready(function() {
 	initializeNewsBanner();
 	initializePeriods();
 	initializeTypes();
-	initializeFunctions();
+	initializeFunctions(71);
 
 	initializeNavigationButtons();
 	initialiazeItems(allitems, 2);
@@ -47,7 +48,6 @@ $(document).ready(function() {
 
 function drawGraph() {
 
-	var graphService = "cryptos";
 	const removeEmpty = true;
 	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 	if(chartType=="candle")
@@ -72,14 +72,15 @@ function toggleGraphData(time) {
 		
 		 $('#DailyData-btn').addClass('active');
          $('#4HoursData-btn').removeClass('active');
+         $('#weeklyData-btn').removeClass('active');
 		 drawGraph();
 		 $('#functionOptionsMenu').addClass("d-flex");
 		 $('#functionOptionsMenu').removeClass("d-none");
 		 $('#euroTime').addClass("d-flex");
          $('#euroTime').removeClass("d-none");
 		}
-		else 
-		{timeRange = "FourHours";
+		else if(time==2)
+		{timeRange = "4h";
 		
 		 monthDate = new Date();
 		 monthDate.setMonth(monthDate.getMonth() - 1);
@@ -88,6 +89,25 @@ function toggleGraphData(time) {
 		
 		  $('#4HoursData-btn').addClass('active');
           $('#DailyData-btn').removeClass('active');
+          $('#weeklyData-btn').removeClass('active');
+          
+          $('#functionOptionsMenu').removeClass("d-flex");
+          $('#functionOptionsMenu').addClass("d-none");
+          $('#euroTime').addClass("d-none");
+          $('#euroTime').removeClass("d-flex");
+		 drawGraph();
+		}else 
+		{timeRange = "1w";
+		
+		 monthDate = new Date();
+		 monthDate.setMonth(monthDate.getMonth() - 1);
+	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
+	 	 monthDate.setHours(0, 0, 0, 0);
+		
+		  $('#4HoursData-btn').removeClass('active');
+          $('#DailyData-btn').removeClass('active');
+          $('#weeklyData-btn').addClass('active');
+          
           $('#functionOptionsMenu').removeClass("d-flex");
           $('#functionOptionsMenu').addClass("d-none");
           $('#euroTime').addClass("d-none");
@@ -110,4 +130,102 @@ document.addEventListener('DOMContentLoaded', function () {
             console.error('Error parsing message:', e);
         }
     });
+    addSubscription('/all/chart/BTC', function (message) {
+
+    try {
+        const data = JSON.parse(message.body); // Parse incoming data
+        const checkedItemValues = [];
+
+        // Extract checked items
+        for (let i = 0; i < checkedItemid.length; i++) {
+            if (checkedItemid[i] !== null) {
+                checkedItemValues.push(checkedItemid[i]);
+            }
+        }
+
+        // Format date for x-axis
+        let formattedDate = formatDate(data.startTime);
+        let newDataPoint = null;
+
+        // Loop through selected items and find the correct y-axis value
+        for (let i = 0; i < checkedItemValues.length; i++) {
+            let selectedMetric = checkedItemValues[i];
+
+            if (itemValue[selectedMetric].description.includes("open")) {
+                newDataPoint = { x: formattedDate, y: data.open };
+            }
+            if (itemValue[selectedMetric].description.includes("high")) {
+                newDataPoint = { x: formattedDate, y: data.high };
+            }
+            if (itemValue[selectedMetric].description.includes("low")) {
+                newDataPoint = { x: formattedDate, y: data.low };
+            }
+            if (itemValue[selectedMetric].description.includes("close")) {
+                newDataPoint = { x: formattedDate, y: data.close };
+            }
+            if (itemValue[selectedMetric].description.includes("volume")) {
+                newDataPoint = { x: formattedDate, y: data.volume };
+            }
+            if (itemValue[selectedMetric].description.includes("marketcap")) {
+                newDataPoint = { x: formattedDate, y: data.marketcap };
+            }
+            if (newDataPoint) {
+            // **Remove existing entry with the same x (date)**
+            chart.w.config.series[i].data = chart.w.config.series[i].data.filter(point => point.x !== formattedDate);
+
+            // **Append new data point**
+            chart.w.config.series[i].data.push(newDataPoint);
+ 			}
+        }
+
+        if (newDataPoint) {
+           // **Update the chart**
+            chart.updateOptions({
+                series: chart.w.config.series
+            });
+
+        }
+
+    } catch (e) {
+        console.error("Error processing BTC message:", e);
+    }
+});
+
+addSubscription('/all/chart/candle/BTC', function (message) {
+
+    try {
+        const data = JSON.parse(message.body); // Parse incoming data
+  		data[0].graphResponseDTOLst.forEach(item => {
+				item.x = item.x.split(" ")[0];
+				item.y = JSON.parse(item.y);
+			});
+	        let liveData = data[0].graphResponseDTOLst[0];
+	        const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
+		    let formattedDate = liveData.x;
+	        if(timeRange == "Daily" && chartType=="candle")
+	        {
+				chart.w.config.series[0].data = chart.w.config.series[0].data.filter(
+			        point => point.x !== formattedDate && point.y.length !== 0
+			    );
+			
+			    // Append new data point
+			    chart.w.config.series[0].data.push(liveData);
+			
+				processDataAndAddNewEndDateForExtraSpaceInGraph(chart.w.config.series[0].data ,0.05,true)
+						    .then(({ response }) => {
+									chart.w.config.series[0].data = response;
+						    })
+						    .catch(error => {
+						        console.error('Error processing data:', error);
+						    });	
+			
+			    // Update the chart
+			    chart.updateOptions({
+			        series: chart.w.config.series
+			    });
+			}
+	    } catch (e) {
+	        console.error("Error processing BTC message:", e);
+	    }
+	});
 });

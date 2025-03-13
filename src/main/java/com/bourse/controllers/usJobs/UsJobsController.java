@@ -24,6 +24,7 @@ import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
+import com.bourse.dto.macro.MacroGraphResponseColConfigDTO;
 import com.bourse.repositories.TableManagementRepository;
 import com.bourse.service.usJobs.UsJobsService;
 
@@ -131,6 +132,12 @@ public class UsJobsController {
 		System.out.println(className+": getgraphdata");
 
 		return new ResponseEntity<>(usJobsService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
+	} 
+	@PostMapping(value = "getgraphdatacurrent")
+	public ResponseEntity<List<MacroGraphResponseColConfigDTO>> getUsJobsGraphDataCurrentByType(@RequestBody  GraphRequestDTO graphReqDTO) {
+		System.out.println(className+": getgraphdatacurrent");
+
+		return new ResponseEntity<>(usJobsService.getUsJobsGraphData(graphReqDTO),HttpStatus.OK);
 	} 
 	@PostMapping(value = "getgraphdatabytype")
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {

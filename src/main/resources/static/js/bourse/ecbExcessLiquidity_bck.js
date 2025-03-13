@@ -578,7 +578,7 @@ function drawGraph() {
 											 chartTransparency:chartTransparency,
 											 chartShowGrid:showGrid};
 											 	
-					updateChartByFunctionIdMissingDates(chartConfigSettings);	
+					updateChartByFunctionIdMissingDates(chartConfigSettings,true);	
 						
 					$('#overlayChart').hide();
 				},

@@ -43,7 +43,7 @@ $(document).ready(function() {
 	initializeNewsBanner();
 	initializePeriods();
     initializeTypes();
-	initializeFunctions();
+	initializeFunctions(1);
 	initializeNavigationButtons();
 	initialiazeItems(allitems,4);
 	initialiazeClearFilterButton();

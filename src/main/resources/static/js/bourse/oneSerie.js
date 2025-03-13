@@ -788,7 +788,7 @@ $(document).ready(function() {
 				
 					 
 	 initializeNewsBanner();
-	 initializeFunctions();
+	 initializeFunctions(39);
 	 
 	 initializeNavigationButtons();
 	 initialiazeItem(allitems,1);
@@ -921,7 +921,7 @@ $(document).ready(function() {
 			
 							 
 			 initializeNewsBanner();
-			 initializeFunctions();
+			 initializeFunctions(52);
 			 
 			 initializeNavigationButtons();
 			 initialiazeItem(allitems,1);
@@ -940,10 +940,12 @@ $(document).ready(function() {
 	    }); 
 	  
 	 }
+	 else if (serieValue === 12) {
+	 }
      else{
 		 
 	 initializeNewsBanner();
-	 initializeFunctions();
+	 initializeFunctions(1);
 	 
 	 initializeNavigationButtons();
 	 initialiazeItem(allitems,1);

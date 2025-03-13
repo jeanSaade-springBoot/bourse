@@ -49,7 +49,7 @@ $(document).ready(function() {
      initializeNewsBanner();
 	 initializePeriods();
 	 initializeTypes();
-	 initializeFunctions();
+	 initializeFunctions(23);
 	 
 	 initializeNavigationButtons();
 	 initialiazeItems(allitems,2);

@@ -173,7 +173,6 @@ $(document).ready(function() {
      initializeNewsBanner();
 	 initializePeriods();
 	 initializeTypes();
-	 initializeFunctions();
 	 
 	 initializeNavigationButtons();
 	 initialiazeItems(allitems,1);
@@ -2581,7 +2580,7 @@ function deleteRetracement(retracementdbId,retracementid){
 							const checkedItemValues = checkedItemid.filter(item => item != null);
 							retracementData = removeByDbId(retracementData, retracementdbId);
 							
-							if(retracementData[checkedItemValues].length==0)
+							if (retracementData[checkedItemValues]?.length === 0)
 								{results  = results.filter(item => item.graphId != checkedItemValues);
 								if (retracementData.hasOwnProperty(checkedItemValues)) {
 								    delete retracementData[checkedItemValues];

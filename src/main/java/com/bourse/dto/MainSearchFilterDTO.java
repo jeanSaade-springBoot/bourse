@@ -16,4 +16,5 @@ public class MainSearchFilterDTO {
 	private List<SelectedSearchDTO> selectedSearchDTOlst;
 	private String fromDate;
 	private String toDate;
+	private String interval;
 }

@@ -159,31 +159,7 @@
 	 fieldTypeSource =["DATE","NUMBER","TEXT"];
 	 $("#fieldType").jqxDropDownList({dropDownHeight: 120,  source: fieldTypeSource, theme: 'dark' , width: '100%', height: 30});
 	
-	var functionSource =
-      {
-          datatype: "json",
-          datafields: [
-              { name: 'id' },
-              { name: 'description' }
-          ],
-          url: '/admin/getfunctions',
-          async: true
-      };
-	   var dataAdapter = new $.jqx.dataAdapter(functionSource);
-	 	$("#functionDropDown").jqxDropDownList({ source: dataAdapter , displayMember: "description", valueMember: "id", theme: 'dark' , width: 210, height: 30});
-	 	$("#functionDropDown").on('select', function (event) {
-            if (event.args) {
-			   functionItem = event.args.item;
-			    var rowID = $('#grid').jqxGrid('getrowid', editrow);
-				var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
-				
-				$('#functionColumn').empty();
-				$('#functionColumn').append(dataRecord.columnName+' - '+functionItem.label);
-				functionSelected(dataRecord.id,functionItem.value);
-				getRobotFunctionsConfiguration(dataRecord.id,functionItem.value);
-            }
-		}); 
-			 
+
 	var familysource =
       {
           datatype: "json",
@@ -327,8 +303,36 @@
 				        }
             }
         });
+        
+    var functionSource =
+      {
+          datatype: "json",
+          datafields: [
+              { name: 'id' },
+              { name: 'description' }
+          ],
+          url: '/admin/getfunctions/' + groupItem.value ,
+          async: true
+      };
+	   var dataAdapter = new $.jqx.dataAdapter(functionSource);
+	 	$("#functionDropDown").jqxDropDownList({ source: dataAdapter , displayMember: "description", valueMember: "id", theme: 'dark' , width: 210, height: 30});
+	 	$("#functionDropDown").on('select', function (event) {
+            if (event.args) {
+			   functionItem = event.args.item;
+			    var rowID = $('#grid').jqxGrid('getrowid', editrow);
+				var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
+				
+				$('#functionColumn').empty();
+				$('#functionColumn').append(dataRecord.columnName+' - '+functionItem.label);
+				functionSelected(dataRecord.id,functionItem.value);
+				getRobotFunctionsConfiguration(dataRecord.id,functionItem.value);
+            }
+		}); 
+			 
     }
 });
+
+
 	   // $("#jqxCheckBoxNegative").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});
 	    $("#jqxCheckBoxShowIndb").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 180, height: 25});  
 	    $("#jqxCheckBoxShowInNews").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 192, height: 25});  
