@@ -44,6 +44,8 @@ import com.bourse.dto.UpdateCryptosDataDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.cryptos.CrCryptoDTO;
 import com.bourse.dto.cryptos.CryptosAuditCommonDTO;
+import com.bourse.dto.cryptos.GraphDataReqDTO;
+import com.bourse.dto.cryptos.OrderBookDataDTO;
 import com.bourse.enums.FunctionEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.TableManagementRepository;
@@ -1065,4 +1067,24 @@ public class CryptosService {
 	        // Return empty if the string could not be split
 	        return "";
 	    }
+	   public OrderBookDataDTO fetchLatestOrderBookData(String apiEndpoint) {
+		    GraphDataReqDTO orderBookDto = new GraphDataReqDTO();
+		    orderBookDto.setCryptoCurrencyCode("btc");
+		    orderBookDto.setLimit(17);
+		    orderBookDto.setPeriod("1");
+		    orderBookDto.setHmd("MINUTE");
+
+		    try {
+		        return webClient.post()
+		                .uri(apiEndpoint)
+		                .header("Content-Type", "application/json")
+		                .bodyValue(orderBookDto)
+		                .retrieve()
+		                .bodyToMono(OrderBookDataDTO.class)
+		                .block();
+		    } catch (Exception e) {
+		        System.out.println("Failed to fetch data from " + apiEndpoint + ": " + e.getMessage());
+		        return null;
+		    }
+		}
 }

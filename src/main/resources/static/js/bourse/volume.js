@@ -1211,7 +1211,7 @@
             	     var value = eval(listObject[i]);
             		 	dataToBeInserted.push({
             			   "subgroupId":value[0],
-            			   "value":value[1].replace(',', ''),
+            			   "value":value[1].replaceAll(',', ''),
             			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
             			});
             	 }

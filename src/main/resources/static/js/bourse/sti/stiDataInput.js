@@ -1273,7 +1273,7 @@ function initiate(Type, inputDataType, item, dataInputGridFields, dataInputGridC
 			var value = eval(allObjects[i]);
 			dataToBeInserted.push({
 				"subgroupId": value[0],
-				"value": value[1].replace(',', ''),
+				"value": value[1].replaceAll(',', ''),
 				"referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 			});
 		}

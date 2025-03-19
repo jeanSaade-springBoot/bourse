@@ -14,6 +14,7 @@ import org.springframework.stereotype.Controller;
 
 import com.bourse.authsecurity.service.UsersMembershipViewService;
 import com.bourse.dto.cryptos.CrCryptoDTO;
+import com.bourse.dto.cryptos.OrderBookDataDTO;
 import com.bourse.notification.dto.MessageDTO;
 import com.bourse.service.cryptos.CryptosService;
 import com.bourse.dto.GraphResponseColConfigDTO;
@@ -98,5 +99,18 @@ public class MessageController {
                 System.err.println("No data for: " + currency);
             }
         });
+    }
+    
+    @Scheduled(cron = "0/10 * * * * ?") // Runs every 30 seconds
+    public void updateOrderBookData() {
+    	 
+    		OrderBookDataDTO latestData = cryptosService.fetchLatestOrderBookData("/order-book/get-order-book-data");
+             if (latestData != null) {
+                 System.out.println("Sending  data: " + latestData);
+                 messagingTemplate.convertAndSend("/all/chart/order-book" , latestData);
+             } else {
+                 System.err.println("No data for: btc order book" );
+             }
+        
     }
 }

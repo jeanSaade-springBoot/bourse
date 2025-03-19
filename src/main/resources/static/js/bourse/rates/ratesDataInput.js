@@ -1197,7 +1197,7 @@ $("#cancel" + ratesType).click(function() {
 						dataToBeInserted.push({
 							"groupId": getGroupId(ratesValue) ,
 							"subgroupId": (subgroupId==4)?1:(subgroupId==5)?2:subgroupId,
-							"value": value[1].replace(',', ''),
+							"value": value[1].replaceAll(',', ''),
 							"factorId":factorId,
 							"referDate": (ratesValue == 1)?formattedDate: $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 						});
@@ -1206,7 +1206,7 @@ $("#cancel" + ratesType).click(function() {
 			dataToBeInserted.push({
 				"groupId": groupId+ '',
 				"subgroupId": value[0],
-				"value": value[1].replace(',', ''),
+				"value": value[1].replaceAll(',', ''),
 				"referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 			});
 		}

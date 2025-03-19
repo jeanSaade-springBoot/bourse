@@ -1359,7 +1359,7 @@ function initiate(usjobsType, inputDataType, item, dataInputGridFields, dataInpu
 				dataToBeInserted.push({
 					"groupId": groupId,
 					"subgroupId": nameSubgroupId.filter(obj => obj.name === usjobsType)[0].subgroupId,
-					"value": value[1].replace(',', ''),
+					"value": value[1].replaceAll(',', ''),
 					"referDate":  formattedDate 
 				});
 				

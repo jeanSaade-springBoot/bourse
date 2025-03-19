@@ -16,6 +16,7 @@ const candleGraphTitle = "Bitcoin";
 
 const graphService = "cryptos";
 
+
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -197,7 +198,7 @@ addSubscription('/all/chart/candle/BTC', function (message) {
         const data = JSON.parse(message.body); // Parse incoming data
   		data[0].graphResponseDTOLst.forEach(item => {
 				item.x = item.x.split(" ")[0];
-				item.y = JSON.parse(item.y);
+				item.y = JSON.parse(item.y).map(yValue => parseFloat(yValue));
 			});
 	        let liveData = data[0].graphResponseDTOLst[0];
 	        const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
@@ -228,4 +229,89 @@ addSubscription('/all/chart/candle/BTC', function (message) {
 	        console.error("Error processing BTC message:", e);
 	    }
 	});
+	
+	addSubscription('/all/chart/order-book', function (message) {
+
+    try {
+        const data = JSON.parse(message.body); // Parse incoming data
+  		 renderOrderBook(data);
+			console.log(data)
+	    } catch (e) {
+	        console.error("Error processing BTC message:", e);
+	    }
+	});
+	
 });
+
+
+        function calculateBuySellPercentage(asks, bids) {
+            const totalBuyVolume = bids.reduce((sum, order) => Number(sum) + Number(order.volume), 0);
+            const totalSellVolume = asks.reduce((sum, order) => Number(sum) + Number(order.volume), 0);
+            const totalVolume = totalBuyVolume + totalSellVolume;
+
+            if (totalVolume === 0) return { buyPercent: 50, sellPercent: 50 };
+
+            return {
+                buyPercent: ((totalBuyVolume / totalVolume) * 100).toFixed(2),
+                sellPercent: ((totalSellVolume / totalVolume) * 100).toFixed(2)
+            };
+        }
+
+        function renderOrderBook(data) {
+            const asksContainer = $('#order-book .asks').empty();
+            const bidsContainer = $('#order-book .bids').empty();
+            if (Number(data.currencyPreviousPriceDTO.currentPrice) > Number(data.currencyPreviousPriceDTO.previousPrice)) {
+			    arrowIcon = '<i class="fa-solid fa-arrow-up"></i>';
+			    color = 'green-text';
+			} else if (Number(data.currencyPreviousPriceDTO.currentPrice) < Number(data.currencyPreviousPriceDTO.previousPrice)) {
+			    arrowIcon = '<i class="fa-solid fa-arrow-down"></i>';
+			    color = 'red-text';
+			} else {
+			    arrowIcon = '';
+			    color = 'white';
+			}
+			
+			$('.mid-price').removeClass('green-text red-text');
+			
+			$('.mid-price').addClass(color)
+			.html(`
+				 ${data.currencyPreviousPriceDTO.currentPrice.toLocaleString()}
+			    <span class="${color}" style=" margin-right: 5px;">${arrowIcon}</span>
+			`);
+			 
+			
+            const maxVolume = Math.max(
+                ...data.orderBookDataBidAsk.ask.map(a => a.volume),
+                ...data.orderBookDataBidAsk.bid.map(b => b.volume)
+            );
+
+          const createRow = (type, price, volume) => {
+			    const widthPercent = (volume / maxVolume) * 100;
+			    const colorClass = type === 'ask' ? 'red-text' : 'green-text';
+			    
+			    return `
+			        <div class="order-book-entry">
+			            <span class="d-flex ${colorClass}" style="flex: 1 1 0%; justify-content: flex-start;">${Number(price).toLocaleString()}</span>
+			            <span class="d-flex white" style="flex: 1 1 0%; justify-content: flex-end;">${Number(volume).toFixed(2)}</span>
+			            <span class="d-flex white" style="flex: 1 1 0%; justify-content: flex-end;">${(Number(price)*Number(volume)).toFixed(2)}</span>
+			            <div class="volume-bar" style="width: ${widthPercent}%;"></div>
+			        </div>
+			    `;
+			};
+
+            data.orderBookDataBidAsk.ask.forEach(order => {
+                asksContainer.append(createRow('ask',order.price, order.volume));
+            });
+
+            data.orderBookDataBidAsk.bid.forEach(order => {
+                bidsContainer.append(createRow('bids',order.price, order.volume));
+            });
+
+            // Update Buy/Sell Percentage
+            const { buyPercent, sellPercent } = calculateBuySellPercentage(data.orderBookDataBidAsk.ask, data.orderBookDataBidAsk.bid);
+            $('.buy-percentage').css('width', `${buyPercent}%`)
+            $('.sell-percentage').css('width', `${sellPercent}%`);
+            $('.sell-percentage-text').text(`${sellPercent}%`);
+            $('.buy-percentage-text').text(`${buyPercent}%`);
+        }
+

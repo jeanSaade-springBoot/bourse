@@ -1000,7 +1000,7 @@ function initiate(Type, inputDataType, item, dataInputGridFields, dataInputGridC
 			dataToBeInserted.push({
 				"groupId":  $("#countriesDropDown").val(),
 				"subgroupId": subgroupId,
-				"value": value[1].replace(',', ''),
+				"value": value[1].replaceAll(',', ''),
 				"factorId":factorId,
 				"referDate": formattedDate
 			});

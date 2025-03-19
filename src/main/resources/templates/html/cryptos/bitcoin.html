@@ -19,6 +19,7 @@
   <link href="/css/jqx.dark.css" rel="stylesheet">
   <link href="/css/custom.grid.css" rel="stylesheet">
   <link href="/css/notification.css" rel="stylesheet">
+  <link href="/css/order-book.css" rel="stylesheet">
     
   <style>
   .mt-3.btn-toolbar.justify-content-between {
@@ -280,10 +281,10 @@
 														    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
 						   </div>
 						</div>
-						 <div class="col-10">
+						 <div class="col-8">
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   		</div>
+						   	  <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+						   	</div>
 		   		
 				   	  	    <div id='groupOfOptions' class="euro-intr-style"  style="z-index: 1;">
 					             <button style="padding:4px 16px;" id="international">
@@ -298,14 +299,14 @@
 						 <div class="row" style="min-width: 1153px;  max-width:1153px">
 						 	<div class='col-6'>
 						 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   </div>
-						 		<div id="SubChart1" class="chart-box"></div>
+						     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+						   </div>
+						   <div id="SubChart1" class="chart-box"></div>
 						 	</div>
 						 	<div class='col-6'>
 						 	<div id="overlayChart2" class="overlayChart-split" style="display:none">
-		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-		   </div>
+							     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
+							   </div>
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
@@ -329,6 +330,39 @@
 							  </div>
 							</div>
 					  </div>
+						<div class="col-3 layout-wrapper ">
+							<div class="">										
+					  			<div class="mid-price">Loading...</div> <!-- Mid Price -->
+					  		</div>
+						    <div class="col-2">
+						  	 <div id="order-book" class="order-book">
+			    				<div class="white border-bottom  pt-2 pb-2"><span class="p-2">Order Book</span></div>
+									<div class="d-flex    pl-2 pr-2">
+										<div class="d-flex"
+											style="flex: 1 1 0%; justify-content: flex-start;">Price</div>
+										<div class="d-flex"
+											style="flex: 1 1 0%; justify-content: flex-end;">Amount</div>
+										<div class="d-flex"
+											style="flex: 1 1 0%; justify-content: flex-end;">Total</div>
+									</div>
+									<div class="order-book-section asks pl-2 pr-2"></div>
+									<!-- Sell Orders -->
+							        <div class="order-book-section bids pl-2 pr-2"></div> <!-- Buy Orders -->
+							
+							        <!-- Buy/Sell Percentage -->
+							        <div class="order-book-summary pl-2 pr-2 d-flex align-items-center">
+							             <span class="pr-2 white">B</span>
+							             <span class="pr-2 green-text buy-percentage-text"></span>
+							              <div class="order-book-percentage">
+							              	<div class="buy-percentage" style="width: 50%;"></div>
+							                <div class="sell-percentage" style="width: 50%;"></div>  
+							            </div>
+							            <span  class="pl-2 red-text sell-percentage-text"></span>
+							            <span  class="pl-2 white">S </span>
+							        </div>
+							    </div>
+						  </div>
+						</div>
 					    </div>
 					</div>
 					
