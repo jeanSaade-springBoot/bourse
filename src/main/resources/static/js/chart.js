@@ -11386,7 +11386,13 @@ function updateChart(graphService) {
 								response[0].graphResponseDTOLst.forEach(item => {
 									item.y = JSON.parse(item.y).map(yValue => parseFloat(yValue));
 								});
-
+						  processDataAndAddNewEndDateForExtraSpaceInGraph(response[0].graphResponseDTOLst ,0.05,true)
+						    .then(({ response }) => {
+									response[0].graphResponseDTOLst = response;
+						    })
+						    .catch(error => {
+						        console.error('Error processing data:', error);
+						    });	
 							  chart.updateSeries([{
 								    data: response[0].graphResponseDTOLst
 								  }]);

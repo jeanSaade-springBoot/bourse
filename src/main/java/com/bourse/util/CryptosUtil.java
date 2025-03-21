@@ -181,7 +181,9 @@ public class CryptosUtil {
 	    				 if      (value.split("-")[0].equalsIgnoreCase("openint") || 
 	    						 value.split("-")[0].equalsIgnoreCase("closeint") || 
 	    						 value.split("-")[0].equalsIgnoreCase("high") || 
-	    						 value.split("-")[0].equalsIgnoreCase("low")) 
+	    						 value.split("-")[0].equalsIgnoreCase("low")|| 
+						 		 value.split("-")[0].equalsIgnoreCase("closeeur")|| 
+						 		 value.split("-")[0].equalsIgnoreCase("openeur")) 
 					 	    forUseSelect = forUseSelect+", \n"+ 
 						                         "IFNULL(s"+counter+"."+value.split("-")[0]+"*1000, '')"+
 						                         " as '"+value+"'";
@@ -421,7 +423,9 @@ public class CryptosUtil {
 								 	 if  (value.split("-")[0].equalsIgnoreCase("openint") || 
 								 			value.split("-")[0].equalsIgnoreCase("closeint") || 
 								 			value.split("-")[0].equalsIgnoreCase("high") || 
-								 			value.split("-")[0].equalsIgnoreCase("low")) 
+								 			value.split("-")[0].equalsIgnoreCase("low")|| 
+								 			value.split("-")[0].equalsIgnoreCase("closeeur")|| 
+								 			value.split("-")[0].equalsIgnoreCase("openeur")) 
 								 		 forUseSelect = forUseSelect+", \n"+ 
 						                         "IFNULL(s1."+value.split("-")[0]+"*1000, '')"+
 						                         " as '"+value+"'";
@@ -511,16 +515,16 @@ public class CryptosUtil {
 		 
 		 if(mainSearchFilterDTO.getInterval().equalsIgnoreCase("4h"))
 		 {
-			 intervalQuery = "	CONCAT( DATE(start_time), ' ',  LPAD(FLOOR(HOUR(start_time)/4)*4, 2, '0'), ':00:00' ) ";
+			 intervalQuery = "	CONCAT( DATE(	DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(start_timestamp / 1000), @@session.time_zone, '+00:00'), '%Y-%m-%d %H:%i:%s')), ' ',  LPAD(FLOOR(HOUR(	DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(start_timestamp / 1000), @@session.time_zone, '+00:00'), '%Y-%m-%d %H:%i:%s'))/4)*4, 2, '0'), ':00:00' ) ";
 			 query = "  WITH grouped_data AS ( SELECT \r\n"
 					 + intervalQuery + " AS time_interval,\r\n"
 					 + "				MIN(low) AS min_low,\r\n"
 					 + "				MAX(high) AS max_high,\r\n"
-					 + "				MIN(start_time) AS first_start_time,  -- Used for Open price\r\n"
-					 + "				MAX(start_time) AS last_start_time,   -- Used for Close price\r\n"
+					 + "				MIN(	DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(start_timestamp / 1000), @@session.time_zone, '+00:00'), '%Y-%m-%d %H:%i:%s')) AS first_start_time,  -- Used for Open price\r\n"
+					 + "				MAX(	DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(start_timestamp / 1000), @@session.time_zone, '+00:00'), '%Y-%m-%d %H:%i:%s')) AS last_start_time,   -- Used for Close price\r\n"
 					 + "				sum(volume) as volume\r\n"
 					 + "			FROM `"+forUsetables+"`\r\n"
-					 + "					WHERE  (start_time between '"+fromDate+"' "
+					 + "					WHERE  (	DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(start_timestamp / 1000), @@session.time_zone, '+00:00'), '%Y-%m-%d %H:%i:%s') between '"+fromDate+"' "
 				 	 + "							 		          and '"+toDate+"')"
 					 + "			GROUP BY time_interval\r\n"
 					 + "		)\r\n"
@@ -535,9 +539,9 @@ public class CryptosUtil {
 					 + "			mc.marketcap AS marketcap,  -- Fetch last market cap value\r\n"
 					 + "			g.volume	"
 					 + "		FROM grouped_data g\r\n"
-					 + "		LEFT JOIN `"+forUsetables+"` o ON g.first_start_time = o.start_time  -- Fetch Open price\r\n"
-					 + "		LEFT JOIN `"+forUsetables+"` c ON g.last_start_time = c.start_time   -- Fetch Close price\r\n"
-					 + "		LEFT JOIN `"+forUsetables+"` mc ON g.last_start_time = mc.start_time -- Fetch last Market Cap\r\n"
+					 + "		LEFT JOIN `"+forUsetables+"` o ON g.first_start_time = 	DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(o.start_timestamp / 1000), @@session.time_zone, '+00:00'), '%Y-%m-%d %H:%i:%s')  -- Fetch Open price\r\n"
+					 + "		LEFT JOIN `"+forUsetables+"` c ON g.last_start_time = 	DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(c.start_timestamp / 1000), @@session.time_zone, '+00:00'), '%Y-%m-%d %H:%i:%s')   -- Fetch Close price\r\n"
+					 + "		LEFT JOIN `"+forUsetables+"` mc ON g.last_start_time =  DATE_FORMAT(CONVERT_TZ(FROM_UNIXTIME(mc.start_timestamp / 1000), @@session.time_zone, '+00:00'), '%Y-%m-%d %H:%i:%s') -- Fetch last Market Cap\r\n"
 					 + "		ORDER BY g.time_interval DESC) s1  ; ";
 			 
 		 }

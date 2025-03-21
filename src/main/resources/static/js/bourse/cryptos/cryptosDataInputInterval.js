@@ -220,7 +220,7 @@ $(document).ready(function() {
 		columnsresize: true,
 		theme: 'dark',
 		pageable: true,
-		pagesize: 10,
+		pagesize: 20,
 		showfilterrow: true,
 		filterable: true,
 		autoheight: true,
