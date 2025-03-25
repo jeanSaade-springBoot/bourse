@@ -7,7 +7,7 @@ monthDate.setMonth(monthDate.getMonth() - 6);
 monthDate.setHours(0, 0, 0, 0);
 var startdate = new Date();
 var date = new Date();
-var timeRange="Daily";
+var timeRange="4h";
 const missingDatesGroups=["10","15", "16","32","33","34","35","36","22","23","24"];
 const PositiveGraphs=['sti','fxcds', 'usjobs'];
 var T1;
@@ -1295,7 +1295,84 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 					        }]
 							})
 	
-			};   	    	           	    	          
+			};   	
+			    	    
+function updateGraphFontTrendline(fontsize,minvalue,maxvalue){
+
+				//var valueMin = getMarginLenght(minvalue); 
+				//var valueMax = getMarginLenght(maxvalue); 
+				 const values = addMarginToMinMax(minvalue, maxvalue, 5);
+				     var valueMin = values;
+				     var valueMax = values; 
+				     var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
+				      graphService=typeof graphService!='undefined'?graphService:'';
+				        // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				    	 calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(minvalue)==-1)  )? 0: calculatedMinValue;
+						chart.w.config.annotations.yaxis.forEach((axis) => {
+						  if (axis.label && axis.label.style) {
+						    axis.label.style.fontSize = fontsize; // e.g., "14px"
+						  }
+						});
+					   chart.updateOptions({
+							xaxis: {
+					        	labels: {
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 }
+					        	  },
+					        	  axisBorder: {
+									  show: true,
+									  color: '#ffffff',
+									  height: 3,
+									  width: '100%',
+									  offsetX: 0,
+									  offsetY: 0
+								  },
+					        },
+					     legend: {
+						   show:eval(showLegend.split('legend')[1]),
+		   	  			   fontSize: fontsize,
+			        	   showForSingleSeries: true,
+				    	   labels: {
+				    	          colors: 'White',
+				    	          useSeriesColors: false
+				    	   },
+				    	      markers: {
+				    	          width: 12,
+				    	          height: 2
+				    	      },
+				    	    formatter: function(seriesName, opts) {
+				    	    	img= getCountryFlag(seriesName);
+				    	         return [img , seriesName];
+				    	    }
+				    	  },
+					         yaxis: [{
+						    tickAmount: 6,
+ 				    	    min:calculatedMinValue,
+ 				    	    max:Math.sign(maxvalue)==-1 ? -Math.abs(maxvalue)+valueMax : Math.abs(maxvalue)+valueMax,
+				     	   	labels: {
+					 				 minWidth: 75,maxWidth: 75,
+					        		 style: {
+							        	  fontSize: fontsize,
+							        	 },
+							        	  formatter: function(val, index) {
+										 if (notDecimal)
+						  				  return  val.toFixed(nbrOfDigits);
+						  				else 
+						  				  return  val.toFixed(nbrOfDigits) + "%";
+									      }
+					        	  },
+					        	  axisBorder: {
+					                  width: 3,
+					                  show: true,
+					                  color: '#ffffff',
+					                  offsetX: 0,
+					                  offsetY: 0
+					              },
+					        }]
+							})
+	
+			};   	       	    	          
 function getCountryFlag(seriesName)
 {
 	var img;
@@ -4161,7 +4238,10 @@ function graphfont(fontSize){
 	else
 	if (typeof min1 != 'undefined' && functionId>=2)
 			 updateGraphFont2YAxis(fontSize,min1,max1,min2,max2);
-			 else 
+	else
+	if (typeof graphType != 'undefined' && graphType=="trendline")
+			 updateGraphFontTrendline(fontSize,minvalue,maxvalue);
+			else 
 			 updateGraphFont(fontSize,minvalue,maxvalue);
 }
 function getGraphData(graphService,graphName,removeEmpty,saveHistory){

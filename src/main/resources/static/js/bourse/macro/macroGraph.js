@@ -429,8 +429,15 @@ function drawGraph() {
 									var offsetYValue1=30;
 									var offsetYValue2=20;
 									if(areClose){
-										offsetYValue1=35;
-										offsetYValue2=15;
+										
+										if(isMaxItems1[0].y>isMaxItems2[0].y)
+										{	offsetYValue1=15;
+											offsetYValue2=35;
+											}
+										else
+											{offsetYValue1=35;
+											 offsetYValue2=15;
+											}
 									}
 					chart.updateOptions({
 						series:[{

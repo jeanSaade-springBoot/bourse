@@ -1,4 +1,4 @@
- 
+const graphType="trendline";
 var options_graph = {
 		series: [],
 		chart: {
@@ -827,7 +827,9 @@ function drawTrendLineTable(data){
 	var trendlineGrid ='';
 	let cid,TrendLineId;
 		for (var i = 0; i < data.length; i++) {
-			
+			if(data[i].trendLineId==null)
+					data[i].trendLineId=trendLineId;
+					
 			 TrendLineId=data[i].trendLineId;
 	         const slope=(data[i].slope!=null)?parseFloat(data[i].slope).toFixed(3):"";
 	         const trendlineValue=(data[i].endValue!=null)?parseFloat(data[i].endValue).toFixed(getFormatResult0[0]):"";
@@ -960,7 +962,9 @@ function drawTrendLineTable(data){
 			
 			
 			for (var i = 0; i < data.length; i++) {
-				
+				if(data[i].trendLineId==null)
+					data[i].trendLineId=trendLineId;
+					
 				let TrendLineId=data[i].trendLineId;
 				let hasChannel = channelLines.filter(obj => obj.trendLineId === TrendLineId);
  				let cid=(hasChannel.length!=0)?hasChannel[0].channelId:"";
@@ -2820,7 +2824,7 @@ async function updateTrendLine(trendlineIdToUpdate){
 			  }
 	          drawTrendLineTable(trendLines);
 			  resetParameters();
-			  updateSeriesChart(chartConfigSettings);
+			 // updateSeriesChart(chartConfigSettings);
 			
 }
 function updateChannelLine(channelidToUpdate){
@@ -2922,7 +2926,7 @@ function initiateTrendLine(){
 	         const trendLineId = Math.max(...trendLines.map(item => item.trendLineId));
 	         
 	         trendlineSeries.push({
-				channelId: trendLineId+1,
+				channelId: (trendLineId==-Infinity?0:trendLineId)+1,
 			    name: 'Trendline',
 			    data: result,
 			    type:'line',
@@ -2932,7 +2936,7 @@ function initiateTrendLine(){
 			  serieArray = getSerriesData();
 		   
 	          json={
-				  trendLineId:trendLineId+1,
+				  trendLineId:(trendLineId==-Infinity?0:trendLineId)+1,
 				  x1:null, 
 				  y1:null, 
 				  x2:null, 
@@ -3026,7 +3030,8 @@ function savetrendlinedata(graphHistory) {
 				timeout: 600000,
 				success: function(response) {
 					$("#graphs-history").empty(); 
-					getTrendLinesHistory();
+					
+						getTrendLinesHistory();
 				
 				},
 				error: function(e) {
@@ -3356,7 +3361,9 @@ function calculateRetracement(retracementId){
 			 for (var i = 0; i < retracement.length; i++) {
 				   if (retracement[i].retracementId === retracementId && typeof retracement[i].dbId !='undefined') {
 					        const checkedItemValues = checkedItemid.filter(item => item != null);
-                            const dbRetracementDataHide = retracementData[checkedItemValues].filter(item => item.dbId === retracement[i].dbId);
+                            const uniqueItems = [...new Set(checkedItemValues)];
+
+                            const dbRetracementDataHide = retracementData[uniqueItems].filter(item => item.dbId === retracement[i].dbId);
 					        
 					        const json = convertRetracementData(calculatedretracementData, startDate, endDate, startPrice, endPrice,dbRetracementDataHide[0].retracementDataHide, hideall);
 

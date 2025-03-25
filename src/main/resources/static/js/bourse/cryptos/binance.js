@@ -23,6 +23,58 @@ $(window).on('load', function() {
 });
 $(document).ready(function() {
 
+   if(timeRange =="Daily")
+		{ 
+		
+		monthDate = new Date();
+		monthDate.setMonth(monthDate.getMonth() - 6);
+		monthDate.setHours(0, 0, 0, 0);
+		
+		 $('#DailyData-btn').addClass('active');
+         $('#4HoursData-btn').removeClass('active');
+         $('#weeklyData-btn').removeClass('active');
+		
+		 $('#functionOptionsMenu').addClass("d-flex");
+		 $('#functionOptionsMenu').removeClass("d-none");
+		 $('#euroTime').addClass("d-flex");
+         $('#euroTime').removeClass("d-none");
+		}
+		else 
+		if(timeRange=="4h")
+		{
+		 monthDate = new Date();
+		 monthDate.setDate(monthDate.getDate() - 21);
+	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
+	 	 monthDate.setHours(0, 0, 0, 0);
+		
+		  $('#4HoursData-btn').addClass('active');
+          $('#DailyData-btn').removeClass('active');
+          $('#weeklyData-btn').removeClass('active');
+          
+          $('#functionOptionsMenu').removeClass("d-flex");
+          $('#functionOptionsMenu').addClass("d-none");
+          $('#euroTime').addClass("d-none");
+          $('#euroTime').removeClass("d-flex");
+		 
+		}else 
+		if(timeRange=="1w")
+		{
+		
+		 monthDate = new Date();
+		 monthDate.setMonth(monthDate.getMonth() - 6);
+	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
+	 	 monthDate.setHours(0, 0, 0, 0);
+		
+		  $('#4HoursData-btn').removeClass('active');
+          $('#DailyData-btn').removeClass('active');
+          $('#weeklyData-btn').addClass('active');
+          
+          $('#functionOptionsMenu').removeClass("d-flex");
+          $('#functionOptionsMenu').addClass("d-none");
+          $('#euroTime').addClass("d-none");
+          $('#euroTime').removeClass("d-flex");
+		
+		}
 	initializeNewsBanner();
 	initializePeriods();
 	initializeTypes();
@@ -39,6 +91,10 @@ $(document).ready(function() {
 	$("#groupOfOptions").hide();
 	$("#groupOfOptions").jqxButtonGroup({ theme: 'dark', mode: 'radio' });
 	$('#groupOfOptions').jqxButtonGroup('setSelection', 0);
+	  
+	$('#euroTime').addClass("d-none");
+        $('#euroTime').removeClass("d-flex");
+          
 
 	$(document).on('graphTypeChange', function(event, type) {
 		$("#groupOfOptions").hide();
@@ -72,7 +128,7 @@ function toggleGraphData(time) {
 		timeRange = "Daily";
 		
 		monthDate = new Date();
-		monthDate.setMonth(monthDate.getMonth() - 6);
+		monthDate.setMonth(monthDate.getMonth() - 4);
 		monthDate.setHours(0, 0, 0, 0);
 		
 			 $('#DailyData-btn').addClass('active');
@@ -88,7 +144,7 @@ function toggleGraphData(time) {
 		{timeRange = "4h";
 		
 		 monthDate = new Date();
-		 monthDate.setMonth(monthDate.getMonth() - 1);
+		 monthDate.setDate(monthDate.getDate() - 21);
 	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
 	 	 monthDate.setHours(0, 0, 0, 0);
 	 	 
@@ -105,7 +161,7 @@ function toggleGraphData(time) {
 		{timeRange = "1w";
 		
 		 monthDate = new Date();
-		 monthDate.setMonth(monthDate.getMonth() - 1);
+		 monthDate.setMonth(monthDate.getMonth() - 6);
 	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
 	 	 monthDate.setHours(0, 0, 0, 0);
 		
@@ -125,7 +181,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Subscribe to chart updates
     addSubscription('/all/chart', function (message) {
-        console.log('Chart update received:', message.body);
         
         // Parse and handle the message
         try {
@@ -204,6 +259,8 @@ addSubscription('/all/chart/candle/BNB', function (message) {
 				item.y = JSON.parse(item.y).map(yValue => parseFloat(yValue));
 			});
 	        let liveData = data[0].graphResponseDTOLst[0];
+	        var yAxisFormat = getFormat(data[0].config.yAxisFormat);
+
 	        const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 		    let formattedDate = liveData.x;
 	        if(timeRange == "Daily" && chartType=="candle")
@@ -222,10 +279,55 @@ addSubscription('/all/chart/candle/BNB', function (message) {
 						    .catch(error => {
 						        console.error('Error processing data:', error);
 						    });	
+				const allValues =chart.w.config.series[0].data.flatMap(item => item.y ? item.y.map(Number) : []);
 			
+			// Find the minimum and maximum values
+			const min = Math.min(...allValues);
+			const max = Math.max(...allValues);
+
+
+			const values = addMarginToMinMax(min, max, 5);
+
+			var valueMin = values;
+			var valueMax = values;
+			 calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
+			 calculatedMaxValue = Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax;
+		
+			 let yaxisConfig =[{
+					tooltip: {
+						enabled: true
+					},
+					labels: {
+						minWidth: 75, maxWidth: 75,
+						style: {
+							fontSize: fontsize,
+						},
+						formatter: function(val, index) {
+						 // Ensure val is a valid number before calling toFixed()
+					    if (typeof val === "number" && !isNaN(val)) {
+					        if (yAxisFormat[1])
+					            return val.toFixed(yAxisFormat[0]);
+					        else
+					            return val.toFixed(yAxisFormat[0]) + "%";
+					    }
+					    return ""; 
+											}
+					},
+					tickAmount: 6,
+					min: calculatedMinValue,
+					max: Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax,
+					axisBorder: {
+						width: 3,
+						show: true,
+						color: '#ffffff',
+						offsetX: 0,
+						offsetY: 0
+					},
+				}];
 			    // Update the chart
 			    chart.updateOptions({
-			        series: chart.w.config.series
+			        series: chart.w.config.series,
+			        yaxis: yaxisConfig,
 			    });
 			}
 	    } catch (e) {
