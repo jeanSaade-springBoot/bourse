@@ -178,7 +178,7 @@ public class CryptosUtil {
 						 }
 						 forUsetables = forUsetables + tableSchema+"tmp_audit_cry_shiba";
 	    				 forUsetables = forUsetables + " s"+counter+" ,";
-	    				 if      (value.split("-")[0].equalsIgnoreCase("openint") || 
+	    				/* if      (value.split("-")[0].equalsIgnoreCase("openint") || 
 	    						 value.split("-")[0].equalsIgnoreCase("closeint") || 
 	    						 value.split("-")[0].equalsIgnoreCase("high") || 
 	    						 value.split("-")[0].equalsIgnoreCase("low")|| 
@@ -187,7 +187,7 @@ public class CryptosUtil {
 					 	    forUseSelect = forUseSelect+", \n"+ 
 						                         "IFNULL(s"+counter+"."+value.split("-")[0]+"*1000, '')"+
 						                         " as '"+value+"'";
-	    				 else 
+	    				else */ 
 	    					 forUseSelect = forUseSelect+", \n"+ 
 			                         "IFNULL(s"+counter+"."+value.split("-")[0]+", '')"+
 			                         " as '"+value+"'";
@@ -419,8 +419,8 @@ public class CryptosUtil {
 									 forUsetables = "cr_shiba_high_low";
 								 else
 									 forUsetables = "tmp_audit_cry_shiba"; 
-								 
-								 	 if  (value.split("-")[0].equalsIgnoreCase("openint") || 
+								 if(mainSearchFilterDTO.getInterval().equalsIgnoreCase("4h"))
+								 	{if  (value.split("-")[0].equalsIgnoreCase("openint") || 
 								 			value.split("-")[0].equalsIgnoreCase("closeint") || 
 								 			value.split("-")[0].equalsIgnoreCase("high") || 
 								 			value.split("-")[0].equalsIgnoreCase("low")|| 
@@ -433,6 +433,13 @@ public class CryptosUtil {
 					    					 forUseSelect = forUseSelect+", \n"+ 
 							                         "IFNULL(s1."+value.split("-")[0]+", '')"+
 							                         " as '"+value+"'";
+								 	}
+								 else
+								 {
+									  forUseSelect = forUseSelect+", \n"+ 
+						                         "IFNULL(s1."+value.split("-")[0]+", '')"+
+						                         " as '"+value+"'";
+								 }
 								 	 colHash.put(columnsId, value);
 								 	 columnsId++;
 									 

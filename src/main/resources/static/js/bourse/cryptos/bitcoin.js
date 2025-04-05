@@ -14,7 +14,7 @@ const candleGroupIdSubgroups = [[71, 8], [71, 2]];
 const showGroupOfOptions = true;
 const candleGraphTitle = "Bitcoin";
 
-const graphService = "cryptos";
+var graphService = "cryptos";
 
 
 $(window).on('load', function() {
@@ -27,7 +27,7 @@ $(document).ready(function() {
 		{ 
 		
 		monthDate = new Date();
-		monthDate.setMonth(monthDate.getMonth() - 6);
+		monthDate.setMonth(monthDate.getMonth() - 4);
 		monthDate.setHours(0, 0, 0, 0);
 		
 		 $('#DailyData-btn').addClass('active');
@@ -111,89 +111,27 @@ function drawGraph() {
 	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 	if(chartType=="candle")
 		{    $("#functionOptionsMenu").show(); //hide
-			candleStick(graphName,true);
+			candleStick(graphName,false);
 		}
 	else
 	{   
 		$("#functionOptionsMenu").show();
 	 	$("#groupOfOptions").hide();
-		getGraphDataCrypto(graphService, graphName, removeEmpty, true);
+		getGraphDataCrypto(graphService, graphName, removeEmpty, false);
 	}
 }
-function toggleGraphData(time) {
-    if(time==1)
-		{ 
-		timeRange = "Daily";
-		
-		monthDate = new Date();
-		monthDate.setMonth(monthDate.getMonth() - 4);
-		monthDate.setHours(0, 0, 0, 0);
-		
-		 $('#DailyData-btn').addClass('active');
-         $('#4HoursData-btn').removeClass('active');
-         $('#weeklyData-btn').removeClass('active');
-		 drawGraph();
-		 $('#functionOptionsMenu').addClass("d-flex");
-		 $('#functionOptionsMenu').removeClass("d-none");
-		 $('#euroTime').addClass("d-flex");
-         $('#euroTime').removeClass("d-none");
-		}
-		else if(time==2)
-		{timeRange = "4h";
-		
-		 monthDate = new Date();
-		 monthDate.setDate(monthDate.getDate() - 21);
-	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
-	 	 monthDate.setHours(0, 0, 0, 0);
-		
-		  $('#4HoursData-btn').addClass('active');
-          $('#DailyData-btn').removeClass('active');
-          $('#weeklyData-btn').removeClass('active');
-          
-          $('#functionOptionsMenu').removeClass("d-flex");
-          $('#functionOptionsMenu').addClass("d-none");
-          $('#euroTime').addClass("d-none");
-          $('#euroTime').removeClass("d-flex");
-		 drawGraph();
-		}else 
-		{timeRange = "1w";
-		
-		 monthDate = new Date();
-		 monthDate.setMonth(monthDate.getMonth() - 6);
-	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
-	 	 monthDate.setHours(0, 0, 0, 0);
-		
-		  $('#4HoursData-btn').removeClass('active');
-          $('#DailyData-btn').removeClass('active');
-          $('#weeklyData-btn').addClass('active');
-          
-          $('#functionOptionsMenu').removeClass("d-flex");
-          $('#functionOptionsMenu').addClass("d-none");
-          $('#euroTime').addClass("d-none");
-          $('#euroTime').removeClass("d-flex");
-		 drawGraph();
-		}
-}
+
 document.addEventListener('DOMContentLoaded', function () {
     connectWebSocket();
 
-    // Subscribe to chart updates
-    addSubscription('/all/chart', function (message) {
-        
-        // Parse and handle the message
-        try {
-			var graphService = "cryptos";
-            updateChart(graphService);
-        } catch (e) {
-            console.error('Error parsing message:', e);
-        }
-    });
+    
     addSubscription('/all/chart/BTC', function (message) {
 
     try {
         const data = JSON.parse(message.body); // Parse incoming data
         const checkedItemValues = [];
-
+		if(timeRange == "Daily")
+	  	 {
         // Extract checked items
         for (let i = 0; i < checkedItemid.length; i++) {
             if (checkedItemid[i] !== null) {
@@ -202,7 +140,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Format date for x-axis
-        let formattedDate = formatDate(data.startTime);
+        let formattedDate = formatDateShort(data.startTime);
         let newDataPoint = null;
 
         // Loop through selected items and find the correct y-axis value
@@ -229,21 +167,63 @@ document.addEventListener('DOMContentLoaded', function () {
             }
             if (newDataPoint) {
             // **Remove existing entry with the same x (date)**
-            chart.w.config.series[i].data = chart.w.config.series[i].data.filter(point => point.x !== formattedDate);
-
+            if (chart.w.config.series[i] && chart.w.config.series[i].data) {
+				    chart.w.config.series[i].data = chart.w.config.series[i].data.filter(point => point.x !== formattedDate && point.y !== null);
+				} else {
+				    console.error(`Series[${i}] or its data is undefined`);
+				}
             // **Append new data point**
             chart.w.config.series[i].data.push(newDataPoint);
+           
  			}
         }
 
         if (newDataPoint) {
            // **Update the chart**
-            chart.updateOptions({
+           processDataAndAddNewEndDateForExtraSpaceInGraph( chart.w.config.series[0].data ,0.10,false)
+							    .then(({ response }) => {
+										 chart.w.config.series[0].data = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+
+           let allValues=[];			    
+			if (chart.w.config.length>1) {
+				 allValues = [
+				  ...chart.w.config.series[0].data.map(item =>  Number(item.y) ),
+				  ...chart.w.config.series[1].data.map(item =>  Number(item.y) )
+				];
+			}			    
+			else 
+            allValues =chart.w.config.series[0].data.map(item =>  Number(item.y) );
+			    
+			// Find the minimum and maximum values
+			const min  = Math.min(...allValues.filter(value => value !== 0));
+
+			const max = Math.max(...allValues.filter(value => value !== 0));
+
+			const values = addMarginToMinMax(min, max, 5);
+
+			var valueMin = values;
+			var valueMax = values;
+			 calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
+			 calculatedMaxValue = Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax;
+			 chart.w.config.yaxis[0].min=calculatedMinValue;
+			 chart.w.config.yaxis[0].max=calculatedMaxValue;
+			    // Update the chart
+			    chart.updateOptions({
+			        series: chart.w.config.series,
+			        yaxis: chart.w.config.yaxis,
+			    });
+           
+           /* chart.updateOptions({
                 series: chart.w.config.series
-            });
+            });*/
 
         }
-
+	}
+	
     } catch (e) {
         console.error("Error processing BTC message:", e);
     }
@@ -264,25 +244,39 @@ addSubscription('/all/chart/candle/BTC', function (message) {
 		    let formattedDate = liveData.x;
 	        if(timeRange == "Daily" && chartType=="candle")
 	        {
-				chart.w.config.series[0].data = chart.w.config.series[0].data.filter(
-			        point => point.x !== formattedDate && point.y.length !== 0
-			    );
+				if (chart.w.config.series[0] && Array.isArray(chart.w.config.series[0].data)) {
+				    chart.w.config.series[0].data = chart.w.config.series[0].data.filter(
+				        point => point.x !== formattedDate && point.y.length !== 0
+				    );
+				} else {
+				    console.error("Series[0] or its data is undefined");
+				}
+
 			
 			    // Append new data point
 			    chart.w.config.series[0].data.push(liveData);
 			
-				processDataAndAddNewEndDateForExtraSpaceInGraph(chart.w.config.series[0].data ,0.05,true)
+			processDataAndAddNewEndDateForExtraSpaceInGraph(chart.w.config.series[0].data ,0.05,true)
 						    .then(({ response }) => {
 									chart.w.config.series[0].data = response;
 						    })
 						    .catch(error => {
 						        console.error('Error processing data:', error);
 						    });	
-				const allValues =chart.w.config.series[0].data.flatMap(item => item.y ? item.y.map(Number) : []);
+			let allValues=[];			    
+			if (functionId == 0 || functionId == 1) {
+				 allValues = [
+				  ...chart.w.config.series[0].data.flatMap(item => item.y ? item.y.map(Number) : []),
+				  ...chart.w.config.series[1].data.map(item =>  Number(item.y) )
+				];
+			}			    
+			else 
+			 allValues =chart.w.config.series[0].data.flatMap(item => item.y ? item.y.map(Number) : []);
 			    
 			// Find the minimum and maximum values
-			const min = Math.min(...allValues);
-			const max = Math.max(...allValues);
+			const min  = Math.min(...allValues.filter(value => value !== 0));
+
+			const max = Math.max(...allValues.filter(value => value !== 0));
 
 
 			const values = addMarginToMinMax(min, max, 5);
@@ -292,42 +286,17 @@ addSubscription('/all/chart/candle/BTC', function (message) {
 			 calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
 			 calculatedMaxValue = Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax;
 			 
-			 let yaxisConfig =[{
-					tooltip: {
-						enabled: true
-					},
-					labels: {
-						minWidth: 75, maxWidth: 75,
-						style: {
-							fontSize: fontsize,
-						},
-						formatter: function(val, index) {
-						 // Ensure val is a valid number before calling toFixed()
-					    if (typeof val === "number" && !isNaN(val)) {
-					        if (yAxisFormat[1])
-					            return val.toFixed(yAxisFormat[0]);
-					        else
-					            return val.toFixed(yAxisFormat[0]) + "%";
-					    }
-					    return ""; 
-											}
-					},
-					tickAmount: 6,
-					min: calculatedMinValue,
-					max: Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax,
-					axisBorder: {
-						width: 3,
-						show: true,
-						color: '#ffffff',
-						offsetX: 0,
-						offsetY: 0
-					},
-				}];
+		
+			 chart.w.config.yaxis[0].min=calculatedMinValue;
+			 chart.w.config.yaxis[0].max=calculatedMaxValue;
 			    // Update the chart
 			    chart.updateOptions({
 			        series: chart.w.config.series,
-			        yaxis: yaxisConfig,
+			        yaxis: chart.w.config.yaxis,
 			    });
+			}
+			else if(timeRange == "4h" && chartType=="candle"){
+				 updateChart(graphService);
 			}
 	    } catch (e) {
 	        console.error("Error processing BTC message:", e);
@@ -338,6 +307,7 @@ addSubscription('/all/chart/candle/BTC', function (message) {
 
     try {
         const data = JSON.parse(message.body); // Parse incoming data
+        console.log(data);
   		 renderOrderBook(data);
 	    } catch (e) {
 	        console.error("Error processing BTC message:", e);
@@ -378,9 +348,9 @@ addSubscription('/all/chart/candle/BTC', function (message) {
 			
 			$('.mid-price').addClass(color)
 			.html(`
-				 ${data.currencyPreviousPriceDTO.currentPrice.toLocaleString()}
+				 ${Number(data.currencyPreviousPriceDTO.currentPrice).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}
 			    <span class="${color}" style=" margin-right: 5px;">${arrowIcon}</span>
-			`);
+			`)
 			 
 			
             const maxVolume = Math.max(
@@ -390,13 +360,12 @@ addSubscription('/all/chart/candle/BTC', function (message) {
 
           const createRow = (type, price, volume) => {
 			    const widthPercent = (volume / maxVolume) * 100;
-			    const colorClass = type === 'ask' ? 'red-text' : 'green-text';
+			    const colorClass = type === 'bids' ? 'red-text' : 'green-text';
 			    
 			    return `
 			        <div class="order-book-entry">
-			            <span class="d-flex ${colorClass}" style="flex: 1 1 0%; justify-content: flex-start;">${Number(price).toLocaleString()}</span>
-			            <span class="d-flex white" style="flex: 1 1 0%; justify-content: flex-end;">${Number(volume).toFixed(2)}</span>
-			            <span class="d-flex white" style="flex: 1 1 0%; justify-content: flex-end;">${(Number(price)*Number(volume)).toFixed(2)}</span>
+			            <span class="d-flex ${colorClass}" style="flex: 1 1 0%; justify-content: flex-start;">${Number(price).toFixed(0).replace(/\B(?=(\d{3})+(?!\d))/g, ",")}</span>
+			            <span class="d-flex white" style="flex: 1 1 0%; justify-content: flex-end;">${formatNumberShort((Number(price)*Number(volume)))}</span>
 			            <div class="volume-bar" style="width: ${widthPercent}%;"></div>
 			        </div>
 			    `;
@@ -418,3 +387,14 @@ addSubscription('/all/chart/candle/BTC', function (message) {
             $('.buy-percentage-text').text(`${buyPercent}%`);
         }
 
+function formatNumberShort(num) {
+  if (num >= 1_000_000_000) {
+    return (num / 1_000_000_000).toFixed(2) + 'B';
+  } else if (num >= 1_000_000) {
+    return (num / 1_000_000).toFixed(2) + 'M';
+  } else if (num >= 1_000) {
+    return (num / 1_000).toFixed(2) + 'K';
+  } else {
+    return num.toString(); // No formatting for small numbers
+  }
+}

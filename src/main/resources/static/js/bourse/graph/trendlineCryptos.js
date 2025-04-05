@@ -56,3 +56,90 @@ const isTrendlineScreen=true;
 var graphService = "cryptos";
 	
 initializeFunctions(71);
+
+document.addEventListener('DOMContentLoaded', function () {
+    connectWebSocket();
+    const currencies = ['BTC', 'ETH', 'SOL', 'SHIB', 'BNB', 'XRP'];
+
+    // Iterate over each currency and subscribe to the corresponding WebSocket channel
+    currencies.forEach(currency => {
+        const channel = `/all/chart/${currency}`;
+
+        addSubscription(channel, function (message) {
+            try {
+                const data = JSON.parse(message.body); // Parse incoming data
+                
+                // Only update the chart if this currency is selected
+                if (!selectedCurrencies.has(currency)) {
+                    console.log(`Skipping update for ${currency} (not selected)`);
+                    return;
+                }
+                
+                const checkedItemValues = [];
+
+                // Extract checked items
+                for (let i = 0; i < checkedItemid.length; i++) {
+                    if (checkedItemid[i] !== null) {
+                        checkedItemValues.push(checkedItemid[i]);
+                    }
+                }
+
+                // Format date for x-axis
+                let formattedDate = formatDateShort(data.startTime);
+                let newDataPoint = null;
+
+                // Loop through selected items and find the correct y-axis value
+                for (let i = 0; i < checkedItemValues.length; i++) {
+                    let selectedMetric = checkedItemValues[i];
+
+                    // Determine the correct data point for each selected metric
+                    if (itemValue[selectedMetric].description.includes("open")) {
+                        newDataPoint = { x: formattedDate, y: data.open };
+                    }
+                    if (itemValue[selectedMetric].description.includes("high")) {
+                        newDataPoint = { x: formattedDate, y: data.high };
+                    }
+                    if (itemValue[selectedMetric].description.includes("low")) {
+                        newDataPoint = { x: formattedDate, y: data.low };
+                    }
+                    if (itemValue[selectedMetric].description.includes("close")) {
+                        newDataPoint = { x: formattedDate, y: data.close };
+                    }
+                    if (itemValue[selectedMetric].description.includes("volume")) {
+                        newDataPoint = { x: formattedDate, y: data.volume };
+                    }
+                    if (itemValue[selectedMetric].description.includes("marketcap")) {
+                        newDataPoint = { x: formattedDate, y: data.marketcap };
+                    }
+
+                    if (newDataPoint) {
+                        // Get the series data dynamically based on the currency
+                        let serieArray = getSerriesData();
+
+                        // **Remove existing entry with the same x (date)**
+                        serieArray[serieArray.length - 1].data = serieArray[serieArray.length - 1].data.filter(point => point.x !== formattedDate);
+
+                        // **Append new data point**
+                          if (selectedCurrencies.has('SHIB')) {
+							 newDataPoint.y=newDataPoint.y*1000;
+							 
+		                    serieArray[serieArray.length - 1].data.splice(-1, 0, newDataPoint);
+		                }
+                		else
+                      	 	 serieArray[serieArray.length - 1].data.splice(-1, 0, newDataPoint);
+                    }
+                }
+
+                if (newDataPoint) {
+                    // **Update the chart for the current currency**
+                    chart.updateSeries(serieArray);
+                }
+
+            } catch (e) {
+                console.error("Error processing message for " + currency + ":", e);
+            }
+        });
+    });
+
+
+});

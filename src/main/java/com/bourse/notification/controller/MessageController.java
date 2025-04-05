@@ -101,7 +101,7 @@ public class MessageController {
         });
     }
     
-    @Scheduled(cron = "0/10 * * * * ?") // Runs every 30 seconds
+    @Scheduled(cron = "0/10 * * * * ?") // Runs every 10 seconds
     public void updateOrderBookData() {
     	 
     		OrderBookDataDTO latestData = cryptosService.fetchLatestOrderBookData("/order-book/get-order-book-data");

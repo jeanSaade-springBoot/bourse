@@ -174,7 +174,7 @@
 				    <div id="grid-content" style="display:none;">
 				 <div class="mt-2 mb-2">  
 					 <div class="btn-group" role="group" aria-label="First group">
-						<button type="button" class="btn btn-secondary mw-100 active" id="4HoursData-btn" th:onclick="'javascript:toggleGraphData(2)'" fdprocessedid="jpbc4x">4-Hour Data</button>
+						<button type="button" class="btn btn-secondary mw-100 " id="4HoursData-btn" th:onclick="'javascript:toggleGraphData(2)'" fdprocessedid="jpbc4x">4-Hour Data</button>
 						<button type="button" class="btn btn-secondary mw-100 " id="DailyData-btn" th:onclick="'javascript:toggleGraphData(1)'" fdprocessedid="tme8jf">Daily Data</button>
 						<button type="button" class="btn btn-secondary mw-100 " id="weeklyData-btn" th:onclick="'javascript:toggleGraphData(3)'" >Weekly Data</button>
 					</div>
@@ -330,9 +330,7 @@
 							</div>
 					  </div>
 						<div class="col-3 layout-wrapper ">
-							<div class="">										
-					  			<div class="mid-price">Loading...</div> <!-- Mid Price -->
-					  		</div>
+							
 						    <div class="col-2">
 						  	 <div id="order-book" class="order-book">
 			    				<div class="white border-bottom  pt-2 pb-2"><span class="p-2">Order Book</span></div>
@@ -340,13 +338,11 @@
 										<div class="d-flex"
 											style="flex: 1 1 0%; justify-content: flex-start;">Price</div>
 										<div class="d-flex"
-											style="flex: 1 1 0%; justify-content: flex-end;">Amount</div>
-										<div class="d-flex"
 											style="flex: 1 1 0%; justify-content: flex-end;">Total</div>
 									</div>
-									<div class="order-book-section asks pl-2 pr-2"></div>
-									<!-- Sell Orders -->
-							        <div class="order-book-section bids pl-2 pr-2"></div> <!-- Buy Orders -->
+									<div class="order-book-section bids pl-2 pr-2"></div> 
+									<div class="mid-price">Loading...</div>
+							        <div class="order-book-section asks pl-2 pr-2"></div> <!-- Buy Orders -->
 							
 							        <!-- Buy/Sell Percentage -->
 							        <div class="order-book-summary pl-2 pr-2 d-flex align-items-center">

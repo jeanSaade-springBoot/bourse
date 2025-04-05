@@ -7,7 +7,7 @@ monthDate.setMonth(monthDate.getMonth() - 6);
 monthDate.setHours(0, 0, 0, 0);
 var startdate = new Date();
 var date = new Date();
-var timeRange="4h";
+var timeRange="Daily";
 const missingDatesGroups=["10","15", "16","32","33","34","35","36","22","23","24"];
 const PositiveGraphs=['sti','fxcds', 'usjobs'];
 var T1;
@@ -7370,7 +7370,17 @@ function updateNavigationButtons() {
 			
 				    return [year, month, day].join('-');
 				}
-				
+			function formatDateShort(date) {
+				    var d = new Date(date),
+				        day = '' + d.getDate(),
+				        month = d.toLocaleString('en-US', { month: 'short' }),
+				        year = d.getFullYear().toString().slice(-2);
+				  if (day.length < 2) 
+				        day = '0' + day;
+				        
+				    return `${day}-${month}-${year}`;
+				}
+	
 			function checkDateWeek(monthDate, date) {
 			    // Example logic: Check if date is within the same week as monthDate
 			    let oneWeekLater = new Date(monthDate);
@@ -9849,7 +9859,7 @@ async function processDataAndAddNewEndDate(response, percentage) {
     const newEndDate = calculateNewEndDate(dataStartDate, dataEndDate, percentage);
 
     // Add new data point
-    response[0].graphResponseDTOLst.push({ x: newEndDate, y: null });
+     response[0].graphResponseDTOLst.push({ x: newEndDate, y: null });
 
     // Return the modified response as a promise
      return Promise.resolve({ originalEndDate: dataEndDate, newEndDate });
@@ -9981,7 +9991,7 @@ function renderCandleChart(){
 		if(showGroupOfOptions)			
 		$("#groupOfOptions").show();
 	
-	candleStick(graphName,true);
+	candleStick(graphName,false);
 }
 
 function candleStick(graphName, saveHistory) {
@@ -10113,7 +10123,7 @@ function candleStick(graphName, saveHistory) {
 	   todate= todate+' 23:59:59';
 	   interval =timeRange;
 	  }
-	
+	console.log(timeRange);
 	dataParam = {
 		"fromdate": fromdate,
 		"todate": todate,
@@ -10176,7 +10186,7 @@ function candleStick(graphName, saveHistory) {
 			showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 			// Flatten all "y" values into a single array and convert them to numbers
-			const allValues = response[0]?.graphResponseDTOLst 
+			let  allValues = response[0]?.graphResponseDTOLst 
 			    ? response[0].graphResponseDTOLst.flatMap(item => item.y ? item.y.map(Number) : [])
 			    : [];
 			    
@@ -10226,7 +10236,7 @@ function candleStick(graphName, saveHistory) {
 		
 		selectedValue = Math.abs(min2)>=Math.abs(max2)?Math.abs(min2):Math.abs(max2);		
 		
-		 getFormatResult1 = getFormat(response[1].config.dataFormat);
+		getFormatResult1 = getFormat(response[1].config.dataFormat);
 		 
 		T2 = response[1].config.displayDescription == null ? itemValueYields[checkedItemValues[1]].title : response[1].config.displayDescription;
 		candleGraphTitleConfig = candleGraphTitle + " vs " + T2;		
@@ -10243,6 +10253,7 @@ let seriesArray=[{
 				
 let colorConfig=['#FFFFFF'];
 let strokeWidthConfig=[2];
+let annotations = {};
 let yaxisConfig =[{
 					tooltip: {
 						enabled: true
@@ -10276,6 +10287,24 @@ let yaxisConfig =[{
 				}];
 				
 			if (functionId == 0 || functionId == 1) {
+				
+				 allValues = [
+				  ...response[0].graphResponseDTOLst.flatMap(item => item.y ? item.y.map(Number) : []),
+				  ...response[1].graphResponseDTOLst.map(item =>  Number(item.y) )
+				];
+				const min  = Math.min(...allValues.filter(value => value !== 0));
+	
+				const max = Math.max(...allValues.filter(value => value !== 0));
+	
+	
+				const values = addMarginToMinMax(min, max, 5);
+	
+				var valueMin = values;
+				var valueMax = values;
+				 calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
+				 calculatedMaxValue = Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax;
+				 
+		
 				seriesArray.push({
 					name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
 					type: 'line',
@@ -10283,6 +10312,38 @@ let yaxisConfig =[{
 				});
 				colorConfig = functionId == 0 ? ["#FFFFFF", "#FF0000"] : ["#FFFFFF", "#ffa4c5"];
 				strokeWidthConfig = [2, 2.25];
+				
+				yaxisConfig =[{
+					tooltip: {
+						enabled: true
+					},
+					labels: {
+						minWidth: 75, maxWidth: 75,
+						style: {
+							fontSize: fontsize,
+						},
+						formatter: function(val, index) {
+						 // Ensure val is a valid number before calling toFixed()
+					    if (typeof val === "number" && !isNaN(val)) {
+					        if (yAxisFormat[1])
+					            return val.toFixed(yAxisFormat[0]);
+					        else
+					            return val.toFixed(yAxisFormat[0]) + "%";
+					    }
+					    return ""; 
+											}
+					},
+					tickAmount: 6,
+					min: calculatedMinValue,
+					max: calculatedMaxValue,
+					axisBorder: {
+						width: 3,
+						show: true,
+						color: '#ffffff',
+						offsetX: 0,
+						offsetY: 0
+					},
+				}];
 			}
 			else if (functionId >= 6  && functionId<9) {
 				seriesArray.push({
@@ -10323,7 +10384,7 @@ let yaxisConfig =[{
 				});
 			}
 			else if(!isNaN(functionId) && functionId != -1)
-			{
+			{ 
 				var strokeWidth1=getDynamicWidth(response[1].graphResponseDTOLst.filter(item => item.y !== null).length); 
 
 				seriesArray.push({
@@ -10374,10 +10435,33 @@ let yaxisConfig =[{
  					                  offsetY: 0
  					              },
  				    			 });
+ 				    			 
+ 				    		annotations = {
+							  yaxis: [{
+							    y: 0,
+							    yAxisIndex: 1,
+								strokeDashArray: 0,
+								offsetX: 0,
+								width: '100%',
+								borderColor: '#FF0000',
+							    label: {
+								    position: 'right',
+								    offsetX: 70,
+					                offsetY: 0,
+							        borderColor: '#FF0000',
+							        style: {
+							          color: '#fff',
+							          background: '#ff000052'
+							        },
+							        text: ''
+							      }
+							  }]
+							};
 			}
 
 	
 chart.updateOptions({
+				annotations:annotations,
 				series: seriesArray,
 				chart: {
 					toolbar: {
@@ -10611,7 +10695,7 @@ function getSelectedCandleOptionNews(graphName, selectedOption) {
 }
 
 	$("#groupOfOptions").on('buttonclick', function(event) {
-		candleStick(graphName, true);
+		candleStick(graphName, false);
 
 	});
 function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
@@ -10786,6 +10870,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 				   	 calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(min)==-1) )? 0: calculatedMinValue;
 
 					var yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+					var yaxisformat1 = getFormat(response[1].config.yAxisFormat);
 					
 					notDecimal=yaxisformat0[1];
 			    	nbrOfDigits=yaxisformat0[0];
@@ -10859,10 +10944,10 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 									style: {
 										fontSize: fontsize,
 									}, formatter: function(val, index) {
-										if (notDecimal1)
-											return val.toFixed(nbrOfDigits1);
-										else
-											return val.toFixed(nbrOfDigits1) + "%";
+										 if (yaxisformat1[1])
+						  				  return  val.toFixed(yaxisformat1[0]);
+						  				else 
+						  				  return  val.toFixed(yaxisformat1[0]) + "%";
 									}
 								},
 								tickAmount: 6,
@@ -10877,11 +10962,21 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 								},
 							}]
 					}
+				  	 let data0 =  response[0].graphResponseDTOLst;
+      		 	  processDataAndAddNewEndDateForExtraSpaceInGraph( data0,0.10,false)
+					    .then(({ response }) => {
+								data0 = response;
+					    })
+					    .catch(error => {
+					        console.error('Error processing data:', error);
+					    });	
+					 
+						    	    
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
 						type:Period=='d' ? chartType1 : 'column',
-						data: response[0].graphResponseDTOLst
+						data: data0
 					}, {
 						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
 						type:Period=='d'  ? chartType2 : 'column',
@@ -11216,7 +11311,6 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 							notDecimal=yaxisformat[1];
 					        nbrOfDigits=yaxisformat[0];
 							
-							
 							var getFormatResult0 = getFormat(response[0].config.dataFormat);
 					       
 							var chartConfigSettings={functionId:functionId+1,
@@ -11243,6 +11337,14 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 				          graphService=typeof graphService!='undefined'?graphService:'';
 				        // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
 				    	   calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
+
+		 			processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,0.10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
 
 							chart.updateOptions({
 								
@@ -12037,4 +12139,62 @@ function formatedDate(inputDate) {
 	const yearLastTwoDigits = year.slice(-2);
 	
     return monthAbbreviation + '-' + yearLastTwoDigits;
+}
+
+function toggleGraphData(time) {
+
+    if(time==1)
+		{ 
+		timeRange = "Daily";
+		
+		monthDate = new Date();
+		monthDate.setMonth(monthDate.getMonth() - 4);
+		monthDate.setHours(0, 0, 0, 0);
+		
+		 $('#DailyData-btn').addClass('active');
+         $('#4HoursData-btn').removeClass('active');
+         $('#weeklyData-btn').removeClass('active');
+		 drawGraph();
+		 $('#functionOptionsMenu').addClass("d-flex");
+		 $('#functionOptionsMenu').removeClass("d-none");
+		 $('#euroTime').addClass("d-flex");
+         $('#euroTime').removeClass("d-none");
+		}
+		else if(time==2)
+		{timeRange = "4h";
+		functionId=-1;	
+		 monthDate = new Date();
+		 monthDate.setDate(monthDate.getDate() - 21);
+	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
+	 	 monthDate.setHours(0, 0, 0, 0);
+		
+		  $('#4HoursData-btn').addClass('active');
+          $('#DailyData-btn').removeClass('active');
+          $('#weeklyData-btn').removeClass('active');
+          
+          $('#functionOptionsMenu').removeClass("d-flex");
+          $('#functionOptionsMenu').addClass("d-none");
+          $('#euroTime').addClass("d-none");
+          $('#euroTime').removeClass("d-flex");
+		 drawGraph();
+		}else 
+		{
+		functionId=-1;	
+		timeRange = "1w";
+		
+		 monthDate = new Date();
+		 monthDate.setMonth(monthDate.getMonth() - 6);
+	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
+	 	 monthDate.setHours(0, 0, 0, 0);
+		
+		  $('#4HoursData-btn').removeClass('active');
+          $('#DailyData-btn').removeClass('active');
+          $('#weeklyData-btn').addClass('active');
+          
+          $('#functionOptionsMenu').removeClass("d-flex");
+          $('#functionOptionsMenu').addClass("d-none");
+          $('#euroTime').addClass("d-none");
+          $('#euroTime').removeClass("d-flex");
+		 drawGraph();
+		}
 }

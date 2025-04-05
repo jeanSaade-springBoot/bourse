@@ -15,7 +15,7 @@ const candleGroupIdSubgroups = [[74, 8], [74, 2]];
 const showGroupOfOptions = true;
 const candleGraphTitle = "Shiba Inu";
 
-const graphService = "cryptos";
+var graphService = "cryptos";
 
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -27,7 +27,7 @@ $(document).ready(function() {
 		{ 
 		
 		monthDate = new Date();
-		monthDate.setMonth(monthDate.getMonth() - 6);
+		monthDate.setMonth(monthDate.getMonth() - 4);
 		monthDate.setHours(0, 0, 0, 0);
 		
 		 $('#DailyData-btn').addClass('active');
@@ -101,7 +101,7 @@ $(document).ready(function() {
 	});
 
 	$("#groupOfOptions").on('buttonclick', function(event) {
-		candleStick(graphName, true);
+		candleStick(graphName, false);
 
 	});
 
@@ -113,69 +113,16 @@ function drawGraph() {
 	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
 	if(chartType=="candle")
 		{    $("#functionOptionsMenu").show(); //hide
-			candleStick(graphName,true);
+			candleStick(graphName,false);
 		}
 	else
 	{   
 		$("#functionOptionsMenu").show();
 	 	$("#groupOfOptions").hide();
-		getGraphDataCrypto(graphService, graphName, removeEmpty, true);
+		getGraphDataCrypto(graphService, graphName, removeEmpty, false);
 	}
 }
-function toggleGraphData(time) {
-    if(time==1)
-		{ 
-		timeRange = "Daily";
-		
-		monthDate = new Date();
-		monthDate.setMonth(monthDate.getMonth() - 4);
-		monthDate.setHours(0, 0, 0, 0);
-		
-			 $('#DailyData-btn').addClass('active');
-	         $('#4HoursData-btn').removeClass('active');
-         $('#weeklyData-btn').removeClass('active');
-			 drawGraph();
-			 $('#functionOptionsMenu').addClass("d-flex");
-			 $('#functionOptionsMenu').removeClass("d-none");
-			 $('#euroTime').addClass("d-flex");
-             $('#euroTime').removeClass("d-none");
-		}
-		else if(time==2)
-		{timeRange = "4h";
-		
-		 monthDate = new Date();
-		 monthDate.setDate(monthDate.getDate() - 21);
-	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
-	 	 monthDate.setHours(0, 0, 0, 0);
-		
-		  $('#4HoursData-btn').addClass('active');
-          $('#DailyData-btn').removeClass('active');
-          $('#weeklyData-btn').removeClass('active');
-          
-          $('#functionOptionsMenu').removeClass("d-flex");
-          $('#functionOptionsMenu').addClass("d-none");
-          $('#euroTime').addClass("d-none");
-          $('#euroTime').removeClass("d-flex");
-		 drawGraph();
-		}else 
-		{timeRange = "1w";
-		
-		 monthDate = new Date();
-		 monthDate.setMonth(monthDate.getMonth() - 6);
-	 	 // monthDate.setFullYear((new Date).getFullYear() - 3);
-	 	 monthDate.setHours(0, 0, 0, 0);
-		
-		  $('#4HoursData-btn').removeClass('active');
-          $('#DailyData-btn').removeClass('active');
-          $('#weeklyData-btn').addClass('active');
-          
-          $('#functionOptionsMenu').removeClass("d-flex");
-          $('#functionOptionsMenu').addClass("d-none");
-          $('#euroTime').addClass("d-none");
-          $('#euroTime').removeClass("d-flex");
-		 drawGraph();
-		}
-}
+
 document.addEventListener('DOMContentLoaded', function () {
     connectWebSocket();
 
@@ -195,7 +142,8 @@ document.addEventListener('DOMContentLoaded', function () {
     try {
         const data = JSON.parse(message.body); // Parse incoming data
         const checkedItemValues = [];
-
+if(timeRange == "Daily")
+  	 {
         // Extract checked items
         for (let i = 0; i < checkedItemid.length; i++) {
             if (checkedItemid[i] !== null) {
@@ -204,7 +152,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
 
         // Format date for x-axis
-        let formattedDate = formatDate(data.startTime);
+        let formattedDate = formatDateShort(data.startTime);
         let newDataPoint = null;
 
         // Loop through selected items and find the correct y-axis value
@@ -212,16 +160,16 @@ document.addEventListener('DOMContentLoaded', function () {
             let selectedMetric = checkedItemValues[i];
 
             if (itemValue[selectedMetric].description.includes("open")) {
-                newDataPoint = { x: formattedDate, y: data.open };
+                newDataPoint = { x: formattedDate, y: data.open*1000 };
             }
             if (itemValue[selectedMetric].description.includes("high")) {
-                newDataPoint = { x: formattedDate, y: data.high };
+                newDataPoint = { x: formattedDate, y: data.high*1000 };
             }
             if (itemValue[selectedMetric].description.includes("low")) {
-                newDataPoint = { x: formattedDate, y: data.low };
+                newDataPoint = { x: formattedDate, y: data.low*1000 };
             }
             if (itemValue[selectedMetric].description.includes("close")) {
-                newDataPoint = { x: formattedDate, y: data.close };
+                newDataPoint = { x: formattedDate, y: data.close*1000 };
             }
             if (itemValue[selectedMetric].description.includes("volume")) {
                 newDataPoint = { x: formattedDate, y: data.volume };
@@ -240,12 +188,32 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (newDataPoint) {
            // **Update the chart**
-            chart.updateOptions({
-                series: chart.w.config.series
-            });
+          
+            let min = Math.min.apply(null, chart.w.config.series[0].data.map(function(item) {
+						return item.y;
+					}));
+			let max = Math.max.apply(null, chart.w.config.series[0].data.map(function(item) {
+							return item.y;
+						}));
+			
+			const values = addMarginToMinMax(min, max, 5);
+
+			var valueMin = values;
+			var valueMax = values;
+			 calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
+			 calculatedMaxValue = Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax;
+			 chart.w.config.yaxis[0].min=calculatedMinValue;
+			 chart.w.config.yaxis[0].max=calculatedMaxValue;
+			    // Update the chart
+			    chart.updateOptions({
+			        series: chart.w.config.series,
+			        yaxis: chart.w.config.yaxis,
+			    });
+           
 
         }
 
+}
     } catch (e) {
         console.error("Error processing SHIB message:", e);
     }
@@ -293,41 +261,13 @@ addSubscription('/all/chart/candle/SHIB', function (message) {
 			 calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
 			 calculatedMaxValue = Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax;
 			 
-			 let yaxisConfig =[{
-					tooltip: {
-						enabled: true
-					},
-					labels: {
-						minWidth: 75, maxWidth: 75,
-						style: {
-							fontSize: fontsize,
-						},
-						formatter: function(val, index) {
-						 // Ensure val is a valid number before calling toFixed()
-					    if (typeof val === "number" && !isNaN(val)) {
-					        if (yAxisFormat[1])
-					            return val.toFixed(yAxisFormat[0]);
-					        else
-					            return val.toFixed(yAxisFormat[0]) + "%";
-					    }
-					    return ""; 
-											}
-					},
-					tickAmount: 6,
-					min: calculatedMinValue,
-					max: Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax,
-					axisBorder: {
-						width: 3,
-						show: true,
-						color: '#ffffff',
-						offsetX: 0,
-						offsetY: 0
-					},
-				}];
+			
+			 chart.w.config.yaxis[0].min=calculatedMinValue;
+			 chart.w.config.yaxis[0].max=calculatedMaxValue;
 			    // Update the chart
 			    chart.updateOptions({
 			        series: chart.w.config.series,
-			        yaxis: yaxisConfig,
+			        yaxis: chart.w.config.yaxis,
 			    });
 			}
 	    } catch (e) {

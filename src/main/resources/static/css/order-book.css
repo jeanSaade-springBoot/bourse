@@ -37,16 +37,17 @@
             z-index: 1;
         }
         .asks .order-book-entry .volume-bar {
-            background-color: #F6465D;
+            background-color: #2EBD85; 
         }
         .bids .order-book-entry .volume-bar {
-            background-color: #2EBD85;
+            background-color: #F6465D;;
         }
 		.mid-price {
 		    color: #f6465d;
 		    font-weight: bold;
 		    padding: 0.5rem;
 		    background: #0d1b2a;
+		    font-size:1rem
 		}
 
         /* Buy/Sell Percentage Bar */

@@ -12,6 +12,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
+import java.lang.reflect.Field;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -107,7 +108,33 @@ public class CryptosService {
 	
 	private final WebClient webClient;
 	
-	 public CryptosService(WebClient.Builder webClientBuilder, @Value("${liveFlow.apiLiveFlowUrl}") String apiLiveFlowUrl) {
+	private static final Map<String, String> CURRENCY_API_MAP;
+	private static final Map<String, String> SUBGROUP_NAME_MAP;
+
+    static {
+        // Populate CURRENCY_API_MAP
+        Map<String, String> apiMap = new HashMap<>();
+        apiMap.put("71", "/api/btc/latest");
+        apiMap.put("72", "/api/eth/latest");
+        apiMap.put("73", "/api/sol/latest");
+        apiMap.put("74", "/api/shib/latest");
+        apiMap.put("75", "/api/bnb/latest");
+        apiMap.put("76", "/api/xrp/latest");
+        CURRENCY_API_MAP = Collections.unmodifiableMap(apiMap); // Make it immutable
+        
+        Map<String, String> subgroupMap = new HashMap<>();
+        subgroupMap.put("1", "open");
+        subgroupMap.put("2", "close");
+        subgroupMap.put("3", "high");
+        subgroupMap.put("4", "low");
+        subgroupMap.put("5", "volume");
+        subgroupMap.put("6", "marketcap");
+        subgroupMap.put("7", "open");
+        subgroupMap.put("8", "close");
+        SUBGROUP_NAME_MAP = Collections.unmodifiableMap(subgroupMap); // Make it immutable
+
+    }
+    public CryptosService(WebClient.Builder webClientBuilder, @Value("${liveFlow.apiLiveFlowUrl}") String apiLiveFlowUrl) {
 	        this.webClient = webClientBuilder.baseUrl(apiLiveFlowUrl).build();
 	    }
 	
@@ -774,7 +801,60 @@ public class CryptosService {
 						graphResponseDTOlst1=graphResponseDTOlst;
 					}
 					
-			  graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+				 // **🔹 Append Crypto Data**
+				if(!isFunction)
+				{
+				Map<String, CrCryptoDTO> cryptoDataMap = fetchCryptoData(graphReqDTO.getGroupId1());
+		        
+		        String fieldName = SUBGROUP_NAME_MAP.get(graphReqDTO.getSubGroupId1());
+
+		        for (Map.Entry<String, CrCryptoDTO> entry : cryptoDataMap.entrySet()) {
+		            CrCryptoDTO cryptoDto = entry.getValue();
+		            Object fieldValue = null;
+		            Object fieldDate = null;
+		            String formattedDate = null;
+		            try {
+		                // Use reflection to get the field value dynamically
+		                Field field = CrCryptoDTO.class.getDeclaredField(fieldName);
+		                field.setAccessible(true);
+		                fieldValue = field.get(cryptoDto);
+		                
+		                Field date = CrCryptoDTO.class.getDeclaredField("startTime");
+		                date.setAccessible(true);
+		                fieldDate = date.get(cryptoDto);
+		                
+		                String inputDate = String.valueOf(date.get(cryptoDto));
+
+		                // Define the input format
+		                DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd'T'HH:mm");
+
+		                // Parse the input date to LocalDateTime
+		                LocalDateTime dateTime = LocalDateTime.parse(inputDate, inputFormatter);
+
+		                // Define the desired output format
+		                DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MMM-yy");
+
+		                // Format the LocalDateTime to the desired format
+		                formattedDate = dateTime.format(outputFormatter);
+		                
+		            } catch (NoSuchFieldException | IllegalAccessException e) {
+		                e.printStackTrace();
+		                // Handle error as needed
+		            }
+
+		            GraphResponseDTO cryptoData = new GraphResponseDTO();
+		            // Assuming you want to set the currency as the name and the dynamic value as value:
+		            cryptoData.setX(formattedDate); 
+		            cryptoData.setId(Long.valueOf(0));// Currency key, for instance "71"
+		            if(graphReqDTO.getGroupId1().equalsIgnoreCase("74"))
+		            	cryptoData.setY(String.valueOf(((BigDecimal) fieldValue).multiply(BigDecimal.valueOf(1000))));
+		            else
+		            	 cryptoData.setY(String.valueOf(fieldValue));  // The value for the specified subgroup field
+
+		            graphResponseDTOlst1.add(cryptoData);
+		        }
+				}
+			   graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
 						                  .graphResponseDTOLst(graphResponseDTOlst1)
 						                  .config(config)
 						                  .build();
@@ -784,6 +864,22 @@ public class CryptosService {
 			return graphResponseColConfigDTO; 
 		    
 		}
+	  
+
+	    public Map<String, CrCryptoDTO> fetchCryptoData(String targetCurrency) {
+	        Map<String, CrCryptoDTO> cryptoDataMap = new HashMap<>();
+	        
+	        if (CURRENCY_API_MAP.containsKey(targetCurrency)) {
+	            String apiEndpoint = CURRENCY_API_MAP.get(targetCurrency);
+	            CrCryptoDTO latestData = fetchLatestCryptoData(apiEndpoint);
+	            if (latestData != null) {
+	                cryptoDataMap.put(targetCurrency, latestData);
+	            }
+	        }
+	        
+	        return cryptoDataMap;
+	    }
+	    
 	  public GraphResponseColConfigDTO getGraphDataResultFourHoursInterval(GraphRequestDTO graphReqDTO, Boolean isFunction) {
 		    if (!adminService.getData()) {
 		        return null;
@@ -1070,7 +1166,7 @@ public class CryptosService {
 	   public OrderBookDataDTO fetchLatestOrderBookData(String apiEndpoint) {
 		    GraphDataReqDTO orderBookDto = new GraphDataReqDTO();
 		    orderBookDto.setCryptoCurrencyCode("btc");
-		    orderBookDto.setLimit(17);
+		    orderBookDto.setLimit(15);
 		    orderBookDto.setPeriod("1");
 		    orderBookDto.setHmd("MINUTE");
 

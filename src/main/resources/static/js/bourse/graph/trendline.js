@@ -1,4 +1,6 @@
 const graphType="trendline";
+let selectedCurrencies = new Set(); // Stores selected currencies
+
 var options_graph = {
 		series: [],
 		chart: {
@@ -226,8 +228,35 @@ $(document).ready(function() {
 //getRetracementHistory();	
 getTrendLinesHistory();
 
-    });
+$('.jqx-checkbox').on('change', function (event) {
+    updateSelectedCurrencies();
+});
 
+
+    });
+function updateSelectedCurrencies() {
+    // Mapping of group_id to currency
+    const currencyMap = {
+        '71': 'BTC',
+        '72': 'ETH',
+        '73': 'SOL',
+        '74': 'SHIB',
+        '75': 'BNB',
+        '76': 'XRP'
+    };
+
+    selectedCurrencies.clear(); // Clear previous selections
+    
+    for (let i = 0; i < checkedItemid.length; i++) {
+        let selectedMetric = checkedItemid[i]; // Remove "#" to match itemValue keys
+
+        if (itemValue[selectedMetric] &&  itemValue[selectedMetric].GroupId in currencyMap) {
+            selectedCurrencies.add(currencyMap[itemValue[selectedMetric].GroupId]);
+        }
+    }
+
+   
+}
 function drawGraph() {
 	
 	const removeEmpty = true;
