@@ -519,11 +519,21 @@
 									
 	      	    	     notDecimal=yaxisformat[1];
 				         nbrOfDigits=yaxisformat[0];
+				          let data0 =  response[0].graphResponseDTOLst;
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+							    .then(({ response }) => {
+										 data0 = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+							    
+							    
 	      	    	    	chart1.updateOptions({
 								  series:[{
 							          name: itemValue[checkedItemValues[0]].title,
 							          type: chartType1,
-							          data: response[0].graphResponseDTOLst
+							          data: data0
 							        }],
 	      	    	    	  extra:{
 									isDecimal: isdecimal,
@@ -758,14 +768,22 @@
 			      	    		    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 		    	    	          	
 			      	    	       chart2.updateOptions(getSubChartDailyOption(response[0].config.displayDescription,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
-			   		      	    
+			   		      	        
+			   		      	        let data0 =  response[0].graphResponseDTOLst;
+							          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+										    .then(({ response }) => {
+													 data0 = response;
+										    })
+										    .catch(error => {
+										        console.error('Error processing data:', error);
+										    });	
 			   	      	    	
 				      	    	   if (chartType2=='area')
 			   	    	        	{	chart2.updateOptions({
 										  series:[{
 								          name: itemValue[checkedItemValues[1]].title,
 								          type: chartType2,
-								          data: response[0].graphResponseDTOLst
+								          data: data0
 								        }],
 			   	    	        		colors: ['#0097fe'], // [response[0].config.chartColor],
 			   	    	        		fill: {
@@ -816,7 +834,13 @@
 									
 				      	    	     notDecimal=yaxisformat[1];
 								     nbrOfDigits=yaxisformat[0];
+								
 				      	    	    	chart2.updateOptions({
+										 series:[{
+								          name: itemValue[checkedItemValues[1]].title,
+								          type: chartType2,
+								          data: data0
+								        }],
 				      	    	    	  extra:{
 												isDecimal: isdecimal,
 												yAxisFormat:yaxisformat,
@@ -1393,6 +1417,14 @@
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
 											 
+											 processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+											    .then(({ response }) => {
+														 chartConfigSettings.response[0].graphResponseDTOLst = response;
+											    })
+											    .catch(error => {
+											        console.error('Error processing data:', error);
+											    });					 
+										 
 											 if(hasMissingDates)
 											 	updateChartSelectedItemMissingDates(chartConfigSettings);
 											 else
@@ -1683,6 +1715,14 @@
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
 							
+							 processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+							    
 							updateChartSelectedItem(chartConfigSettings);
 							renderChartFlagAny2(chart,0,itemValue[checkedItemValues[0]].img);
 				      	    	      $('#overlayChart').hide();

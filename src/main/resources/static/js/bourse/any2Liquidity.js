@@ -1155,14 +1155,22 @@
 				     var valueMin = values;
 				     var valueMax = values; 	
 	      	    	    var yaxisformat = getFormat(response[0].config.yAxisFormat);
-									
+						  let data0 =  response[0].graphResponseDTOLst;
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+							    .then(({ response }) => {
+										 data0 = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+							    			
 	      	    	     notDecimal=yaxisformat[1];
 				         nbrOfDigits=yaxisformat[0];
 	      	    	    	chart1.updateOptions({
 								  series:[{
 							          name: itemValue[checkedItemValues[0]].title,
 							          type: chartType1,
-							          data: response[0].graphResponseDTOLst
+							          data: data0
 							        }],
 	      	    	    	  extra:{
 									isDecimal: isdecimal,
@@ -1446,14 +1454,23 @@
 				     var valueMin = values;
 				     var valueMax = values; 	
 	      	    	                 var yaxisformat = getFormat(response[0].config.yAxisFormat);
-									
+								  
+								  let data0 =  response[0].graphResponseDTOLst;
+						          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+									    .then(({ response }) => {
+												 data0 = response;
+									    })
+									    .catch(error => {
+									        console.error('Error processing data:', error);
+									    });	
+									    
 				      	    	     notDecimal=yaxisformat[1];
 								     nbrOfDigits=yaxisformat[0];
 				      	    	    	chart2.updateOptions({
 										 series:[{
 								          name: itemValue[checkedItemValues[1]].title,
 								          type: chartType2,
-								          data: response[0].graphResponseDTOLst
+								          data: data0
 								        }],
 				      	    	    	  extra:{
 												isDecimal: isdecimal,
@@ -2011,6 +2028,14 @@
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
 											 
+											  processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+											    .then(({ response }) => {
+														 chartConfigSettings.response[0].graphResponseDTOLst = response;
+											    })
+											    .catch(error => {
+											        console.error('Error processing data:', error);
+											    });	
+											    	
 											 if(hasMissingDates)
 											 	updateChartSelectedItemMissingDates(chartConfigSettings);
 											 else
@@ -2301,7 +2326,13 @@
 											 chartColor:chartColor,
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
-							
+							processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
 							updateChartSelectedItem(chartConfigSettings);
 				      	    	      $('#overlayChart').hide();
 				      	   },

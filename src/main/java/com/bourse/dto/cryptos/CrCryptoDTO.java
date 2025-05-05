@@ -18,6 +18,7 @@ public class CrCryptoDTO {
 	    private BigDecimal low;
 	    private BigDecimal volume;
 	    private BigDecimal marketcap;
+	    private BigDecimal totalVolume;
 	    private BigDecimal open;
 	    private BigDecimal close;
 	    private LocalDateTime startTime;

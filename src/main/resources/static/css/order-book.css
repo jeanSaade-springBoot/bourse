@@ -95,3 +95,76 @@
       align-items: center; /* centers mid-price vertically */
       gap: 20px;
     }
+    .h-550{
+      height: 550px;
+      overflow: auto!important;
+     }
+    /* new order book css*/
+    
+     
+    .order-book {
+  	  width: 280px;
+   	  margin: 0 .5rem;
+      border: 1px solid #222;
+      border-radius: 8px;
+      background: #152238;
+      overflow: hidden;
+    }
+    .header {
+      text-align: center;
+      padding: 10px;
+      font-weight: bold;
+      background: #1e2d44;
+    }
+    .row-order-book  {
+      display: flex;
+      justify-content: space-between;
+      font-size: 14px;
+      position: relative;
+    }
+    .price {
+      color: #f65c5c;
+    }
+    .price.green {
+      color: #34c77b;
+    }
+    .bar {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      opacity: 0.3;
+      z-index: 0;
+    }
+    .bar.red {
+      background: #f65c5c;
+      left: 0;
+    }
+    .bar.green {
+      background: #34c77b;
+      right: 0;
+    }
+    .content-order-book {
+      z-index: 1;
+      display: flex;
+      justify-content: space-between;
+      width: 100%;
+      padding: 0 0.6rem;
+    }
+    .mid-price {
+      text-align: center;
+      padding: 8px;
+      background: #0f1c2e;
+      color: #ffffff;
+      font-weight: bold;
+    }
+    .footer {
+      display: flex;
+      justify-content: space-between;
+      padding: 5px 10px;
+      font-size: 12px;
+      background: #1e2d44;
+      color: #ccc;
+    }
+    .content-order-book > span.value {
+    color:white;
+    }

@@ -50,6 +50,9 @@ var T2;
 var yaxisformat=3;
 var dataFormat=3;
 var isOneScale=false;
+var globalCandleStickSeries ;
+var dropDownCandleOptions =[];
+let suppressDropDownChange = false;
 var options = {
 		series: [],
 		chart: {
@@ -3092,6 +3095,8 @@ function updateBarChartSelectedItem(chartConfigSettings){
 					 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
 				     var valueMin = values;
 				     var valueMax = values; 	
+				     let minVal = chartConfigSettings.minvalue;
+
 							chart.updateOptions({
 								series:[{
 										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -3173,7 +3178,11 @@ function updateBarChartSelectedItem(chartConfigSettings){
 									      }
 									},
 									tickAmount: 6,
-									min: Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin,
+									min: (Math.abs(minVal) - valueMin < 0 && minVal > 0)
+						  ? 0
+						  : (Math.sign(minVal) === -1
+						      ? -Math.abs(minVal) - valueMin
+						      : Math.abs(minVal) - valueMin),
 									max: Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax,
 									axisBorder: {
 										width: 3,
@@ -4022,6 +4031,61 @@ function initializeShowFilterButton(){
 			}
 	});
 }
+function initializeShowFilterButtonCrypro(){
+	$("#show").jqxButton({ theme: 'dark', height: 30, width: 74 });
+	
+	$("#show").click(function() {
+		functionId=-1;
+		monthDate = new Date();
+		if(timeRange =="Daily")
+		{ 
+		monthDate.setMonth(monthDate.getMonth() - 4);
+		monthDate.setHours(0, 0, 0, 0);
+		}
+		else 
+			if(timeRange=="4h")
+			{
+			 monthDate.setDate(monthDate.getDate() - 21);
+		 	 monthDate.setHours(0, 0, 0, 0);
+		 	 }
+		 	 else 
+				if(timeRange=="1w")
+				{
+				
+				 monthDate.setMonth(monthDate.getMonth() - 6);
+			 	 monthDate.setHours(0, 0, 0, 0);
+			  	}
+		resetActiveChartType();
+		resetActiveFontSize();
+		resetActiveChartColor();
+		resetActiveChartColorTransparency();
+		resetActiveChartGrid();
+		$("#button-monthBackward").prop('disabled', false);
+		$("#button-yearBackward").prop('disabled', false);
+		fromNavigation = false;
+		if(checkedItemLeft>0 || checkedItemRight>0)
+		{
+		  if(checkedItemLeft>0 && checkedItemRight>0)
+	      {	
+	    	 $("#collapseFilter").removeClass('show');
+	    	 $('#grid-content').css('display', 'block');
+	    	drawGraph();
+	      } 
+	       else {
+				$('#alertFiltter-modal').modal('show');
+				$("#collapseFilter").addClass('show');
+			}
+	    }else 
+	 		 if (checkedItem > 0) {
+				$("#collapseFilter").removeClass('show');
+				$('#grid-content').css('display', 'block');
+				drawGraph();
+			} else {
+				$('#alertFiltter-modal').modal('show');
+				$("#collapseFilter").addClass('show');
+			}
+	});
+}
 function initializeShowFilterButtonTwoYears(){
 	$("#show").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	
@@ -4402,12 +4466,20 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 					
 					notDecimal=yaxisformat0[1];
 			    	nbrOfDigits=yaxisformat0[0];
-			    	
+			    	let data0 = response[0].graphResponseDTOLst;
+					processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+					    .then(({ response }) => {
+								data0 = response;
+					    })
+					    .catch(error => {
+					        console.error('Error processing data:', error);
+					    });	
+					 		
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
 						type:Period=='d' ? chartType1 : 'column',
-						data: response[0].graphResponseDTOLst
+						data: data0
 					}, {
 						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
 						type:Period=='d' ? chartType2 : 'column',
@@ -4544,7 +4616,7 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 				dataType: 'json',
 				timeout: 600000,
 				success: function(response) {
-					
+							
 					startDateF1 = response[0].config.startDate;
 					startDateF2 = response[1].config.startDate;
 
@@ -4654,7 +4726,15 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 											 chartTransparency:chartTransparency,
 											 chartShowGrid:showGrid,
 											 overideChartype:typeof overide != 'undefined'? overide:null};
-											 	
+					 
+					   processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+							    						 	
 					updateChartByFunctionIdMissingDates(chartConfigSettings, true);	
 						
 					$('#overlayChart').hide();
@@ -4777,6 +4857,15 @@ function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 											 chartColor:chartColor,
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
+											 
+							 processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });					 
+											 
 							//if(Period=='d')
 								updateChartSelectedItemMissingDates(chartConfigSettings);
 							//else
@@ -4953,8 +5042,16 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 			chart.w.config.grid.show=true;
 			let chartGrid=chart.w.config.grid; 
 			
-			chart.w.config.fill.opacity=1
+			chart.w.config.fill.opacity=1;
 			
+			 processDataAndAddNewEndDateForExtraSpaceInGraph( seriesData[0].data ,10,false)
+							    .then(({ response }) => {
+										 seriesData[0].data = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+									
             chart.updateOptions({
 				grid:chartGrid,
 				colors: colorsArray,
@@ -5128,7 +5225,7 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 					chartTransparency=response[0].config.chartTransparency;
 					
 					[5,6,10,11,12,13,14,15].includes(functionId+1) ? response[1].graphResponseDTOLst = updateSeriesValue(response[0].graphResponseDTOLst,response[1].graphResponseDTOLst):null;
-				
+				    		    
 					var chartConfigSettings={functionId:functionId+1,
 											 isDecimal:isdecimal,
 											 yAxisFormat0:yaxisformat0,
@@ -5154,7 +5251,16 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 											 chartTransparency:chartTransparency,
 											 chartShowGrid:showGrid,
 											 overideChartype:typeof overide != 'undefined'? overide:null};
-											 	
+						
+				   
+				          processDataAndAddNewEndDateForExtraSpaceInGraph(  chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										  chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });		
+							    				 	
 					updateChartByFunctionIdMissingDates(chartConfigSettings, false);	
 						
 					$('#overlayChart').hide();
@@ -5286,12 +5392,21 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 				         // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
 				     calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
 						
+				 let data0 =  response[0].graphResponseDTOLst;
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+							    .then(({ response }) => {
+										 data0 = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });		
+							    
 					 chart.updateOptions({
 								
 								series:[{
 										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
 										type: 'column',
-										data: chartConfigSettings.response[0].graphResponseDTOLst
+										data: data0
 									}],
 									xaxis: {
 									labels: {
@@ -5584,7 +5699,15 @@ function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
 											 chartTransparency:chartTransparency,
 											 chartShowGrid:showGrid,
 											 overideChartype:typeof overide != 'undefined'? overide:null};
-											 	
+
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });		
+							    					 	
 					updateChartByFunctionIdMissingDates(chartConfigSettings, true);	
 						
 					$('#overlayChart').hide();
@@ -5706,11 +5829,20 @@ function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
 					
 					notDecimal=yaxisformat0[1];
 			    	nbrOfDigits=yaxisformat0[0];
+			    	let data0 =  response[0].graphResponseDTOLst;
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+							    .then(({ response }) => {
+										 data0 = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+										
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
 						type:Period=='d' ? chartType1 : 'column',
-						data: response[0].graphResponseDTOLst
+						data:data0
 					}, {
 						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
 						type:Period=='d' ? chartType2 : 'column',
@@ -5919,6 +6051,14 @@ function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
 											 chartColor:chartColor,
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
+							
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
 							//if(Period=='d')
 								updateChartSelectedItemMissingDates(chartConfigSettings);
 							//else
@@ -6165,11 +6305,21 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 				
 				notDecimal=yaxisformat0[1];
 				nbrOfDigits=yaxisformat0[0];
+				
+				let data0 =  response[0].graphResponseDTOLst;
+		          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+					    .then(({ response }) => {
+								 data0 = response;
+					    })
+					    .catch(error => {
+					        console.error('Error processing data:', error);
+					    });	
+									
 				chart.updateOptions({
 					series:[{
 					name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
 					type:Period=='d' ? chartType1 : 'column',
-					data: response[0].graphResponseDTOLst
+					data: data0
 				}, {
 					name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
 					type:Period=='d' ? chartType2 : 'column',
@@ -6444,7 +6594,15 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 											 chartColor:chartColor,
 											 chartTransparency:chartTransparency,
 											 chartShowGrid:showGrid};
-											 	
+						
+				          
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });							 	
 					updateChartByFunctionIdMissingDates(chartConfigSettings, true);	
 						
 					$('#overlayChart').hide();
@@ -6565,11 +6723,22 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 					 const values = addMarginToMinMax(min, max, 5);
 				     var valueMin1 = values;
 				     var valueMax1 = values; 	
+				     
+				     let data0 =  response[0].graphResponseDTOLst;
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+							    .then(({ response }) => {
+										 data0 = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+									
+				     
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
 						type:Period=='d' ? chartType1 : 'column',
-						data: response[0].graphResponseDTOLst
+						data: data0
 					}, {
 						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
 						type:Period=='d' ? chartType2 : 'column',
@@ -6789,11 +6958,20 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 						notDecimal=yaxisformat[1];
 						nbrOfDigits=yaxisformat[0];
 						
+						let data0 =  response[0].graphResponseDTOLst;
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+							    .then(({ response }) => {
+										 data0 = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+									
 						chart.updateOptions({
 							series:[{
 							name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
 							type:Period=='d' ? chartType1 : 'column',
-							data: response[0].graphResponseDTOLst
+							data: data0
 						}, {
 							name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
 							type:Period=='d' ? chartType2 : 'column',
@@ -7027,11 +7205,20 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 							notDecimal=yaxisformat0[1];
 					 		nbrOfDigits=yaxisformat0[0];
 					 		
+					 		let data0 =  response[0].graphResponseDTOLst;
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+							    .then(({ response }) => {
+										 data0 = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+							    
 							chart.updateOptions({
 								series:[{
 								name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
 								type:Period=='d' ? chartType1 : 'column',
-								data: response[0].graphResponseDTOLst
+								data: data0
 							}, {
 								name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
 								type:Period=='d' ? chartType2 : 'column',
@@ -7249,6 +7436,15 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
 							//if(Period=='d')
+							
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+							    
 								updateChartSelectedItemMissingDates(chartConfigSettings);
 							//else
 							//	updateChartSelectedItem(chartConfigSettings);
@@ -7380,7 +7576,18 @@ function updateNavigationButtons() {
 				        
 				    return `${day}-${month}-${year}`;
 				}
-	
+	function formatDateWithTime(dateStr) {
+			  let date = new Date(dateStr);
+			  
+			  let day = date.getDate().toString().padStart(2, '0'); // 06
+			  let month = date.toLocaleString('en-US', { month: 'short' }); // Apr
+			  let year = date.getFullYear().toString().slice(-2); // 25
+			
+			  let hours = date.getHours().toString().padStart(2, '0'); // 12
+			  let minutes = date.getMinutes().toString().padStart(2, '0'); // 00
+			
+			  return `${day}-${month}-${year} ${hours}:${minutes}`;
+			}
 			function checkDateWeek(monthDate, date) {
 			    // Example logic: Check if date is within the same week as monthDate
 			    let oneWeekLater = new Date(monthDate);
@@ -7725,6 +7932,14 @@ function updateNavigationButtons() {
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
 											 
+											 processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+												    .then(({ response }) => {
+															 chartConfigSettings.response[0].graphResponseDTOLst = response;
+												    })
+												    .catch(error => {
+												        console.error('Error processing data:', error);
+												    });	
+									
 											 if(hasMissingDates)
 											 	updateChartSelectedItemMissingDates(chartConfigSettings);
 											 else
@@ -8006,11 +8221,19 @@ function updateNavigationButtons() {
 	      	    	     notDecimal=yaxisformat[1];
 				         nbrOfDigits=yaxisformat[0];
 				       
+				       let data0 =  response[0].graphResponseDTOLst;
+				       processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+							    .then(({ response }) => {
+										 data0 = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
 	      	    	     chart1.updateOptions({
 							   series:[{
 							          name: (itemValue[checkedItemValues[0]].title=="")?response[0].config.displayDescription:itemValue[checkedItemValues[0]].title,
 							          type: chartType1,
-							          data: response[0].graphResponseDTOLst
+							          data: data0
 							        }],
 	      	    	    	  extra:{
 									isDecimal: isdecimal,
@@ -8293,11 +8516,19 @@ function updateNavigationButtons() {
 					
 				      	    	     notDecimal=yaxisformat[1];
 								     nbrOfDigits=yaxisformat[0];
+								      let data0 =  response[0].graphResponseDTOLst;
+									       processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+												    .then(({ response }) => {
+															 data0 = response;
+												    })
+												    .catch(error => {
+												        console.error('Error processing data:', error);
+												    });
 				      	    	    	chart2.updateOptions({
 											series:  [{
 								          name: (itemValue[checkedItemValues[1]].title=="")?response[0].config.displayDescription:itemValue[checkedItemValues[1]].title,
 								          type: chartType2,
-								          data: response[0].graphResponseDTOLst
+								          data: data0
 								         }],
 				      	    	    	  extra:{
 												isDecimal: isdecimal,
@@ -8682,6 +8913,14 @@ function updateNavigationButtons() {
 											 checkedItem:checkedItem,
 											 overideColors: colors};
 											 
+				          processDataAndAddNewEndDateForExtraSpaceInGraph(  chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										  chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+									
 											 if(hasMissingDates)
 											 	updateChartSelectedItemMissingDates(chartConfigSettings);
 											 else
@@ -9004,7 +9243,6 @@ function getStrokeWidthPeriod(period, numColumns)
 					chartColor = response[0].config.chartColor;
 					chartTransparency=response[0].config.chartTransparency;
 					
-					
 					var chartConfigSettings={isDecimal:isdecimal,
 											 yAxisFormat0:yaxisformat0,
 											 yAxisFormat1:yaxisformat1,
@@ -9029,7 +9267,15 @@ function getStrokeWidthPeriod(period, numColumns)
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem,
 											 chartShowGrid:showGrid};
-											 	
+
+				          processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });		
+							    						 	
 					updateBarChartSelectedItem(chartConfigSettings);	
 						
 					
@@ -9184,7 +9430,15 @@ function getStrokeWidthPeriod(period, numColumns)
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem,
 											 chartShowGrid:showGrid};
-											 	
+											 
+					processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+							    					 	
 					updateBarChartSelectedItem(chartConfigSettings);	
 						
 					
@@ -9304,7 +9558,15 @@ function getStrokeWidthPeriod(period, numColumns)
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem,
 											 chartShowGrid:showGrid};
-							
+											 
+							 processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+							    
 								updateBarChartSelectedItem(chartConfigSettings);
 						
 						
@@ -9904,43 +10166,46 @@ async function processDataAndAddNewEndDateForExtraSpace(response, percentage, is
     return Promise.resolve({ response });
 }
 async function processDataAndAddNewEndDateForExtraSpaceInGraph(response, percentage, isArray) {
-    // Extract start and end dates
-    const dataStartDate = response[0].x;
-    const dataEndDate = response[response.length - 1].x;
+    const dataStartDate = new Date(response[0].x);
+    const dataEndDate = new Date(response[response.length - 1].x);
 
-    // Calculate new end date
-    const newEndDate = calculateNewEndDate(dataStartDate, dataEndDate, percentage);
+    // Detect interval in milliseconds
+    const first = new Date(response[0].x);
+    const second = new Date(response[1].x);
+    const intervalMs = second - first;
 
-    // Convert to Date objects for iteration
+    const totalPoints = response.length;
+    const extraPoints = Math.ceil(totalPoints * (percentage / 100));
+
+    let newDates = [];
     let currentDate = new Date(dataEndDate);
-    let finalDate = new Date(newEndDate);
 
-    // Function to format date as "DD-MMM-YY" (e.g., "05-Jan-25")
+    for (let i = 0; i < extraPoints; i++) {
+        currentDate = new Date(currentDate.getTime() + intervalMs);
+
+        // Optionally skip weekends if interval is daily
+        if (intervalMs === 24 * 60 * 60 * 1000) {
+            if (currentDate.getDay() === 0 || currentDate.getDay() === 6) {
+                i--; // skip and do not count this as a valid point
+                continue;
+            }
+        }
+
+        const formattedDate = formatDateToCustom(currentDate);
+        newDates.push({ x: formattedDate, y: isArray ? [] : null });
+    }
+
+    response.push(...newDates);
+    return Promise.resolve({ response });
+
     function formatDateToCustom(date) {
-        const day = date.getDate().toString().padStart(2, '0'); // Ensure 2-digit day
-        const month = date.toLocaleString('en-GB', { month: 'short' }); // Get short month name
-        const year = date.getFullYear().toString().slice(-2); // Get last two digits of the year
+        const day = date.getDate().toString().padStart(2, '0');
+        const month = date.toLocaleString('en-GB', { month: 'short' });
+        const year = date.getFullYear().toString().slice(-2);
         return `${day}-${month}-${year}`;
     }
-
-    // Ensure weekdays are added (skip weekends)
-    let newDates = [];
-    while (currentDate < finalDate) {
-        currentDate.setDate(currentDate.getDate() + 1); // Move to next day
-
-        // Skip weekends (Saturday = 6, Sunday = 0)
-        if (currentDate.getDay() !== 6 && currentDate.getDay() !== 0) {
-            let formattedDate = formatDateToCustom(currentDate); // Convert to "DD-MMM-YY"
-            newDates.push({ x: formattedDate, y: isArray?[]:null });
-        }
-    }
-
-    // Append the generated dates to the response
-    response.push(...newDates);
-
-    // Return the modified response
-    return Promise.resolve({ response });
 }
+
 async function processDataAndAddNewEndMonthForExtraSpace(response, percentage, isArray) {
     // Extract start and end dates
     const dataStartDate = new Date(response.graphResponseDTOLst[0].x);
@@ -9990,21 +10255,49 @@ function renderCandleChart(){
 					}
 		if(showGroupOfOptions)			
 		$("#groupOfOptions").show();
-	
+		if(timeRange=="4h")
+			$("#dropDownCandleOptionsContainer").removeClass("d-none").addClass("d-flex");
+		else
+			$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
+		
 	candleStick(graphName,false);
 }
-
+async function fetchChartData(url, dataParam) {
+  return new Promise((resolve, reject) => {
+    $.ajax({
+      type: "POST",
+      contentType: "application/json; charset=utf-8",
+      url: url,
+      data: JSON.stringify(dataParam),
+      dataType: 'json',
+      timeout: 600000,
+      success: function (response) {
+        resolve(response);
+      },
+      error: function (e) {
+        console.error("Error fetching chart data:", e);
+        reject(e);
+      }
+    });
+  });
+}
 function candleStick(graphName, saveHistory) {
+	
+	$("#order-book").addClass("d-block");
+
 	mode = "merge";
 	var dataParam;
 	var checkedItemValues = [];
 	$('#overlayChart').show();
+	
+	chartType = 'candle'
+	
    // functionId=-1;
 	var fromdate = formatDate(monthDate);
 	var todate = formatDate(date);
 	$("#mainChart").html("");
 	$("#mainChart").css("display", "block");
-
+	
 	if (checkDateMonth(monthDate, date)) {
 		$("#button-monthForward").prop('disabled', false);
 	}
@@ -10146,19 +10439,41 @@ function candleStick(graphName, saveHistory) {
 					"functionId":functionId+1,
      			   };
 		}
+	else if(dropDownCandleOptions.length!=0)
+	{
 		
+		dataParam = { 
+	        		"fromdate":fromdate,
+	        	    "todate":todate,
+	        	    //"period": "d",
+	        	    "period":Period,
+	        	    "type": type,
+	        	    "subGroupId1":subGroupId1,
+	        	    "groupId1": groupId,
+	        	    "subGroupId2":dropDownCandleOptions[1],
+	        	    "groupId2": groupId,
+	        	    "interval":interval
+     			   };
+	}
 
 
 	disableOptions(true);
 	
-	$.ajax({
-		type: "POST",
-		contentType: "application/json; charset=utf-8",
-		url: url,
-		data: JSON.stringify(dataParam),
-		dataType: 'json',
-		timeout: 600000,
-		success: function(response) {
+	(async () => {
+  try {
+    const response = await fetchChartData(url, dataParam);
+			
+		if (response.length>1 && dropDownCandleOptions.length!=0 && dropDownCandleOptions[1]=="funding_rate")
+			{ 
+				
+			response[1].graphResponseDTOLst.forEach(item => {
+			  item.y = item.y * 109500;
+			});	
+			
+			let { data1: alignedData1, data2: alignedData2 } = alignMergeDataSets(response[0].graphResponseDTOLst, response[1].graphResponseDTOLst) ;
+			 response[1].graphResponseDTOLst = alignedData2;
+			}
+		
 			$("#Clearfilter").trigger('click');
 
 			//disableChartType(false);
@@ -10208,53 +10523,54 @@ function candleStick(graphName, saveHistory) {
 			var getFormatResult0 = getFormat(response[0].config.dataFormat);
 			var calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
 
-		processDataAndAddNewEndDateForExtraSpace(response[0] ,0.05,true)
-					    .then(({ response }) => {
-								response[0] = response;
-					    })
-					    .catch(error => {
-					        console.error('Error processing data:', error);
-					    });	
+			processDataAndAddNewEndDateForExtraSpaceInGraph(response[0].graphResponseDTOLst ,10,true)
+				.then(({ response }) => {
+						response[0].graphResponseDTOLst = response;
+				})
+				.catch(error => {
+				    console.error('Error processing data:', error);
+				});	
+
 					    
 		if (typeof response[1] !== "undefined")			    
 		{
-		processDataAndAddNewEndDateForExtraSpace(response[1] ,0.05,false)
-					    .then(({ response }) => {
-							response[1] = response;
-					    })
-					    .catch(error => {
-					         console.error('Error processing data:', error);
-					    });				   
-		
+		processDataAndAddNewEndDateForExtraSpaceInGraph(response[1].graphResponseDTOLst ,10,true)
+			.then(({ response }) => {
+					response[1].graphResponseDTOLst = response;
+			})
+			.catch(error => {
+			    console.error('Error processing data:', error);
+			});	
+									    
 		min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
 						return item.y;
 					})),
 		max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
 							return item.y;
 						}));
-		yAxisformat1 = getFormat(response[1].config.yAxisFormat);
+		yAxisformat1 = getFormat(response[1]?.config?.yAxisFormat || "0.00000000%");
 		
 		selectedValue = Math.abs(min2)>=Math.abs(max2)?Math.abs(min2):Math.abs(max2);		
 		
-		getFormatResult1 = getFormat(response[1].config.dataFormat);
+		getFormatResult1 = getFormat(response[1]?.config?.dataFormat || "0.00000000%");
 		 
-		T2 = response[1].config.displayDescription == null ? itemValueYields[checkedItemValues[1]].title : response[1].config.displayDescription;
+		T2 = response[1].config && response[1].config.displayDescription != null
+		  ? response[1].config.displayDescription
+		  : "FUNDING RATE";
+  
 		candleGraphTitleConfig = candleGraphTitle + " vs " + T2;		
 	
 		}else{
 			let candleGraphTimeRange = (timeRange=="4h")?" 4-Hour ":(timeRange=="1w")?" Weekly":" DAILY"
 			candleGraphTitleConfig = candleGraphTitle +candleGraphTimeRange;
 		}
-let seriesArray=[{
-					type: 'candlestick',
-					data: response[0].graphResponseDTOLst
-
-				}];
+		let seriesArray=[];
+		
 				
-let colorConfig=['#FFFFFF'];
-let strokeWidthConfig=[2];
-let annotations = {};
-let yaxisConfig =[{
+				let colorConfig=['#FFFFFF'];
+				let strokeWidthConfig=[2];
+				let annotations = {};
+				let yaxisConfig =[{
 					tooltip: {
 						enabled: true
 					},
@@ -10285,6 +10601,133 @@ let yaxisConfig =[{
 						offsetY: 0
 					},
 				}];
+				
+			if (response.length>1 && dropDownCandleOptions.length!=0)
+			{    const values = addMarginToMinMax(min2, max2, 5);
+				    	
+			 	seriesArray=[{
+							type: 'candlestick',
+							data: response[0].graphResponseDTOLst
+			  			},
+						{
+							type: 'column',
+							data: response[1].graphResponseDTOLst
+		
+						}];
+						
+						if(dropDownCandleOptions[1]=="funding_rate")
+						 yaxisConfig.push({
+										  opposite: true,
+				     				    	  labels: {
+				     				    		    // minWidth: -50,maxWidth: -50,
+					 				        		 style: {
+					 						        	  fontSize: fontsize,
+					 						        	 },
+					 						        	 formatter: function(val, index) {
+														    if (val == null) return "N/A"; // Handle null or undefined values
+														
+														    function formatNumberShort(num, decimals) {
+														        if (num >= 1_000_000_000) {
+														            return (num / 1_000_000_000).toFixed(decimals) + 'B';
+														        } else if (num >= 1_000_000) {
+														            return (num / 1_000_000).toFixed(decimals) + 'M';
+														        } else if (num >= 1_000) {
+														            return (num / 1_000).toFixed(decimals) + 'K';
+														        } else {
+														            return num.toFixed(decimals).toString();
+														        }
+														    }
+														
+														    const decimals = getFormatResult1[0];
+														    const isRaw = getFormatResult1[1];
+														    const formatted = formatNumberShort(val, decimals);
+														    return isRaw ? formatted : formatted + "%";
+														}
+						 				        	  },
+						 				          tickAmount: 6,
+						 				    	 min:Math.sign(min2)==-1 ? -Math.abs(selectedValue)-values : Math.abs(selectedValue)-values,
+ 				    	 						 max:Math.sign(max2)==-1 ? -Math.abs(selectedValue)+values : Math.abs(selectedValue)+values,
+				 				    			  axisBorder: {
+				 					                  width: 3,
+				 					                  show: true,
+				 					                  color: "#f0ab2e50",
+				 					                  offsetX: 0,
+				 					                  offsetY: 0
+				 					              }
+				 				    			 
+								});
+						
+						else 
+								yaxisConfig.push({
+										  opposite: true,
+				     				    	  labels: {
+				     				    		    // minWidth: -50,maxWidth: -50,
+					 				        		 style: {
+					 						        	  fontSize: fontsize,
+					 						        	 },
+					 						        	 formatter: function(val, index) {
+														    if (val == null) return "N/A"; // Handle null or undefined values
+														
+														    function formatNumberShort(num, decimals) {
+														        if (num >= 1_000_000_000) {
+														            return (num / 1_000_000_000).toFixed(decimals) + 'B';
+														        } else if (num >= 1_000_000) {
+														            return (num / 1_000_000).toFixed(decimals) + 'M';
+														        } else if (num >= 1_000) {
+														            return (num / 1_000).toFixed(decimals) + 'K';
+														        } else {
+														            return num.toFixed(decimals).toString();
+														        }
+														    }
+														
+														    const decimals = getFormatResult1[0];
+														    const isRaw = getFormatResult1[1];
+														    const formatted = formatNumberShort(val, decimals);
+														    return isRaw ? formatted : formatted + "%";
+														}
+						 				        	  },
+						 				          tickAmount: 6,
+						 				    	  min:min2,
+ 				    	 						  max:Math.sign(max2)==-1 ? -Math.abs(max2)+values : Math.abs(max2)+values,
+				 				    				 axisBorder: {
+				 					                  width: 3,
+				 					                  show: true,
+				 					                  color: "#f0ab2e50",
+				 					                  offsetX: 0,
+				 					                  offsetY: 0
+				 					              }
+				 				    			 
+								});
+				colorConfig=["#FFFFFF", "#f0ab2e50"];
+				
+					annotations = {
+							  yaxis: [{
+							    y: 0,
+							    yAxisIndex: 1,
+								strokeDashArray: 0,
+								offsetX: 0,
+								width: '100%',
+								borderColor: '#f0ab2e',
+							    label: {
+								    position: 'right',
+								    offsetX: 70,
+					                offsetY: 0,
+							        borderColor: '#FF0000',
+							        style: {
+							          color: '#fff',
+							          background: '#ff000052'
+							        },
+							        text: ''
+							      }
+							  }]
+							}
+						}
+		else
+		    seriesArray=[{
+					type: 'candlestick',
+					data: response[0].graphResponseDTOLst
+
+				}]; 	
 				
 			if (functionId == 0 || functionId == 1) {
 				
@@ -10458,9 +10901,9 @@ let yaxisConfig =[{
 							  }]
 							};
 			}
-
 	
-chart.updateOptions({
+	globalCandleStickSeries= JSON.parse(JSON.stringify(seriesArray));
+	chart.updateOptions({
 				annotations:annotations,
 				series: seriesArray,
 				chart: {
@@ -10573,28 +11016,42 @@ chart.updateOptions({
     enabled: true,
     shared: true,
     custom: function({ seriesIndex, dataPointIndex, w }) {
+        // Utility function for short number formatting
+        function formatNumberShort(num, decimals) {
+            if (num >= 1_000_000_000) {
+                return (num / 1_000_000_000).toFixed(decimals) + 'B';
+            } else if (num >= 1_000_000) {
+                return (num / 1_000_000).toFixed(decimals) + 'M';
+            } else if (num >= 1_000) {
+                return (num / 1_000).toFixed(decimals) + 'K';
+            } else {
+                return num.toFixed(decimals);
+            }
+        }
+
         // Get the Y value at the current index
         const yValue = w.globals.series[seriesIndex][dataPointIndex];
 
-        // If the value is an empty array ([]) or undefined, return null (hide tooltip)
+        // Hide tooltip for null or empty values
         if (!yValue || (Array.isArray(yValue) && yValue.length === 0)) {
-            return null; // Hide tooltip
+            return null;
         }
 
-        // Check if it's a candlestick chart
         const isCandlestick = w.config.series[seriesIndex].type === "candlestick";
 
         if (isCandlestick) {
-            // Fetch OHLC values
             const open = w.globals.seriesCandleO[seriesIndex][dataPointIndex];
             const high = w.globals.seriesCandleH[seriesIndex][dataPointIndex];
             const low = w.globals.seriesCandleL[seriesIndex][dataPointIndex];
             const close = w.globals.seriesCandleC[seriesIndex][dataPointIndex];
 
-				      // Format the values
-			const formatValue = value =>
-				        new Intl.NumberFormat("en-US", { minimumFractionDigits: getFormatResult0[0], maximumFractionDigits: getFormatResult0[0] }).format(value);
+            const decimals = getFormatResult0[0];
+            const isRaw = getFormatResult0[1];
+
+           const formatValue = value =>
+				        new Intl.NumberFormat("en-US", { minimumFractionDigits: decimals, maximumFractionDigits: decimals}).format(value);
 				
+
             return `
                 <div style="padding: 10px;">
                     <div><strong>Open:</strong> ${formatValue(open)}</div>
@@ -10603,14 +11060,18 @@ chart.updateOptions({
                     <div><strong>Close:</strong> ${formatValue(close)}</div>
                 </div>`;
         } else {
-            // Display the single Y value for line/bar charts
+            const decimals = seriesIndex === 0 ? getFormatResult0[0] : getFormatResult1[0];
+            const isRaw = seriesIndex === 0 ? getFormatResult0[1] : getFormatResult1[1];
+
+            const formatted = formatNumberShort(yValue, decimals);
             return `
                 <div style="padding: 10px;">
-                    <div><strong>Value:</strong> ${yValue}</div>
+                    <div><strong>Value:</strong> ${isRaw ? formatted : formatted + "%"}</div>
                 </div>`;
         }
     }
 }
+
 				,
 				legend: {
 		   show:false
@@ -10626,14 +11087,10 @@ chart.updateOptions({
 
 			$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 20px;left: 350px;height: 60px;" class="title-style">' + graphTitle + '</div>')
 		//	enableDisableDropDowns(true);
-		},
-		error: function(e) {
-
-			console.log("ERROR : ", e);
-
-		}
-
-	});
+		} catch (error) {
+    console.error("Chart loading failed:", error);
+  }
+})();
 
 
 	(saveHistory) ? saveGraphHistory(graphName, checkedItemid, Period, type) : null;
@@ -10801,7 +11258,8 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 
 					T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
 					T2 = response[1].config.displayDescription == null ? itemValue[checkedItemValues[1]].title : response[1].config.displayDescription;
-					title = T1 + " vs " + T2 +" DAILY";
+					let GraphTimeRange = (timeRange=="4h")?" 4-Hour ":(timeRange=="1w")?" Weekly":" DAILY";
+					title = T1 + " vs " + T2 + GraphTimeRange;
 					if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
 						if (response[0].config.yAxisFormat.includes("%")) {
 							isdecimal = false;
@@ -10944,10 +11402,27 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 									style: {
 										fontSize: fontsize,
 									}, formatter: function(val, index) {
-										 if (yaxisformat1[1])
-						  				  return  val.toFixed(yaxisformat1[0]);
-						  				else 
-						  				  return  val.toFixed(yaxisformat1[0]) + "%";
+										
+										
+									 function formatNumberShort(num, decimals) {
+								        if (num >= 1_000_000_000) {
+								            return (num / 1_000_000_000).toFixed(decimals) + 'B';
+								        } else if (num >= 1_000_000) {
+								            return (num / 1_000_000).toFixed(decimals) + 'M';
+								        } else if (num >= 1_000) {
+								            return (num / 1_000).toFixed(decimals) + 'K';
+								        } else {
+								            return num.toFixed(decimals).toString();
+								        }
+								    }
+								
+								    const decimals = yaxisformat1[0];
+								    const isRaw = yaxisformat1[1];
+								
+								    const formatted = formatNumberShort(val, decimals);
+								    return isRaw ? formatted : formatted + "%";
+									
+										
 									}
 								},
 								tickAmount: 6,
@@ -10963,7 +11438,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 							}]
 					}
 				  	 let data0 =  response[0].graphResponseDTOLst;
-      		 	  processDataAndAddNewEndDateForExtraSpaceInGraph( data0,0.10,false)
+      		 	  processDataAndAddNewEndDateForExtraSpaceInGraph( data0,10,false)
 					    .then(({ response }) => {
 								data0 = response;
 					    })
@@ -11004,7 +11479,10 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 									};
 							
 							 formattedDate = new Date(value).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');
+							if(timeRange=='Daily')
 							 return formattedDate;
+							 else
+							 return value;
 							//}
 				           
 				          }
@@ -11035,18 +11513,29 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 							},
 							y: {
 								formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-									if (seriesIndex == 0) {
-										if (getFormatResult0[1])
-											return value.toFixed(getFormatResult0[0]);
-										else
-											return value.toFixed(getFormatResult0[0]) + "%";
-									} else
-										if (seriesIndex == 1) {
-											if (getFormatResult1[1])
-												return value.toFixed(getFormatResult1[0]);
-											else
-												return value.toFixed(getFormatResult1[0]) + "%";
-										}
+									   function formatNumberShort(num, decimals) {
+											        if (num >= 1_000_000_000) {
+											            return (num / 1_000_000_000).toFixed(decimals) + 'B';
+											        } else if (num >= 1_000_000) {
+											            return (num / 1_000_000).toFixed(decimals) + 'M';
+											        } else if (num >= 1_000) {
+											            return (num / 1_000).toFixed(decimals) + 'K';
+											        } else {
+											            return num.toFixed(decimals).toString();
+											        }
+											    }
+											
+											    if (seriesIndex === 0) {
+											        const decimals = getFormatResult0[0];
+											        const isRaw = getFormatResult0[1];
+											        const formatted = formatNumberShort(value, decimals);
+											        return isRaw ? formatted : formatted + "%";
+											    } else if (seriesIndex === 1) {
+											        const decimals = getFormatResult1[0];
+											        const isRaw = getFormatResult1[1];
+											        const formatted = formatNumberShort(value, decimals);
+											        return isRaw ? formatted : formatted + "%";
+											    }
 								},
 								title: {
 									formatter: (seriesName) => '',
@@ -11081,13 +11570,14 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 					"functionId":functionId+1,
 					//"removeEmpty1":itemValue[checkedItemValues[0]].subGroupId==2?"true":false
 					 "removeEmpty1":removeEmpty,
-					   "interval" :interval
+					 "interval" :interval
      			   };
-
+				let GraphTimeRange = (timeRange=="4h")?" 4-Hour ":(timeRange=="1w")?" Weekly":" DAILY";
+				
 			if (checkedItemValues.length > 1)
-				title = itemValue[checkedItemValues[0]].title + " vs " + itemValue[checkedItemValues[1]].title +" DAILY"
+				title = itemValue[checkedItemValues[0]].title + " vs " + itemValue[checkedItemValues[1]].title +GraphTimeRange
 			else
-				title = itemValue[checkedItemValues[0]].title +" DAILY"
+				title = itemValue[checkedItemValues[0]].title +GraphTimeRange
 
 			disableOptions(true);
 			
@@ -11209,7 +11699,15 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 											 chartTransparency:chartTransparency,
 											 chartShowGrid:showGrid,
 											 overideChartype:typeof overide != 'undefined'? overide:null};
-											 	
+					  
+					  processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+					    .then(({ response }) => {
+								chartConfigSettings.response[0].graphResponseDTOLst = response;
+					    })
+					    .catch(error => {
+					        console.error('Error processing data:', error);
+					    });	
+					 						 	
 					updateChartByFunctionIdMissingDates(chartConfigSettings, true);	
 						
 					$('#overlayChart').hide();
@@ -11256,9 +11754,10 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 							if (startDateF1 != null)
 								startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
 
+				let GraphTimeRange = (timeRange=="4h")?" 4-Hour ":(timeRange=="1w")?" Weekly":" DAILY";
 
 							T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
-							title = T1+" DAILY";
+							title = T1+GraphTimeRange;
 							if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
 								if (response[0].config.yAxisFormat.includes("%")) {
 									isdecimal = false;
@@ -11338,7 +11837,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 				        // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
 				    	   calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
 
-		 			processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,0.10,false)
+		 			processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
 							    .then(({ response }) => {
 										 chartConfigSettings.response[0].graphResponseDTOLst = response;
 							    })
@@ -11564,20 +12063,24 @@ function updateChart(graphService) {
 						data: JSON.stringify(dataParam),
 						dataType: 'json',
 						timeout: 600000,
-						success: function(response) {	
-								response[0].graphResponseDTOLst.forEach(item => {
-									item.y = JSON.parse(item.y).map(yValue => parseFloat(yValue));
-								});
-						  processDataAndAddNewEndDateForExtraSpaceInGraph(response[0].graphResponseDTOLst ,0.05,true)
+						success: function(response) {
+								
+						response[0].graphResponseDTOLst.forEach(item => {
+							item.y = JSON.parse(item.y).map(yValue => parseFloat(yValue));
+						});
+								
+						 	processDataAndAddNewEndDateForExtraSpaceInGraph(response[0].graphResponseDTOLst ,10,true)
 						    .then(({ response }) => {
 									response[0].graphResponseDTOLst = response;
 						    })
 						    .catch(error => {
 						        console.error('Error processing data:', error);
 						    });	
-							  chart.updateSeries([{
-								    data: response[0].graphResponseDTOLst
-								  }]);
+						    let seriesValue=  globalCandleStickSeries;
+						    
+						     seriesValue[0].data = response[0].graphResponseDTOLst
+							 
+							 chart.updateSeries(seriesValue);
 							},
 				error: function(e) {
 		
@@ -11847,6 +12350,7 @@ function updateChart(graphService) {
 					var offsetYValue1=25;
 					
 					graphTitle=T1;
+									
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
@@ -12142,9 +12646,15 @@ function formatedDate(inputDate) {
 }
 
 function toggleGraphData(time) {
-
+	 $("#dropDownCandleOptions").jqxDropDownList({ selectedIndex: -1 });
+	 suppressDropDownChange = true;
+	 setTimeout(() => suppressDropDownChange = false, 50);	 
+	 
+	 
     if(time==1)
-		{ 
+		{
+		$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none"); 
+		
 		timeRange = "Daily";
 		
 		monthDate = new Date();
@@ -12161,7 +12671,9 @@ function toggleGraphData(time) {
          $('#euroTime').removeClass("d-none");
 		}
 		else if(time==2)
-		{timeRange = "4h";
+		{
+		$("#dropDownCandleOptionsContainer").removeClass("d-none").addClass("d-flex");
+		timeRange = "4h";
 		functionId=-1;	
 		 monthDate = new Date();
 		 monthDate.setDate(monthDate.getDate() - 21);
@@ -12179,6 +12691,8 @@ function toggleGraphData(time) {
 		 drawGraph();
 		}else 
 		{
+		$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
+			
 		functionId=-1;	
 		timeRange = "1w";
 		
@@ -12197,4 +12711,69 @@ function toggleGraphData(time) {
           $('#euroTime').removeClass("d-flex");
 		 drawGraph();
 		}
+}
+
+function initializeCandleOptions(groupId){
+	
+	var  dropDownOptionsource =[
+							{"name":"VOLUME",
+                            "value":"5"}, 
+					        {"name":"FUNDING RATE",
+                             "value":"funding_rate"}];
+   var Optionsource =
+     {
+         datatype: "json",
+         datafields: [
+             { name: 'name' },
+             { name: 'value' }
+         ],
+         localdata: dropDownOptionsource,
+         async: true
+     };
+     
+	  var functionDataAdapter = new $.jqx.dataAdapter(Optionsource);
+	 $("#dropDownCandleOptions").jqxDropDownList({dropDownHeight: 80,  source: functionDataAdapter, placeHolder: "",  displayMember: "name",valueMember: "value", theme: 'dark' , width: 120, height: 25});
+		$("#resetOptions").click(function () {
+	    suppressDropDownChange = true;
+	
+	    $("#dropDownCandleOptions").jqxDropDownList({ selectedIndex: -1 });
+	
+	    // Reset the array manually without triggering the handler
+	    dropDownCandleOptions = [];
+	
+	     drawGraph(); 
+	
+	    setTimeout(() => suppressDropDownChange = false, 50);
+	});
+	
+	$('#dropDownCandleOptions').on('change', function (event) {
+    if (suppressDropDownChange) {
+        return; // Skip the handler if we're suppressing it
+    }
+
+    var args = event.args;
+    if (args) {
+        var index = args.index;
+        const subGroupId = $('#dropDownCandleOptions').val();
+
+        if (subGroupId === '')
+            dropDownCandleOptions = [];
+        else
+            dropDownCandleOptions = [groupId, subGroupId];
+
+        drawGraph();
+    }
+});
+	
+}
+function formatNumberShort(num) {
+  if (num >= 1_000_000_000) {
+    return (num / 1_000_000_000).toFixed(2) + 'B';
+  } else if (num >= 1_000_000) {
+    return (num / 1_000_000).toFixed(2) + 'M';
+  } else if (num >= 1_000) {
+    return (num / 1_000).toFixed(2) + 'K';
+  } else {
+    return num.toFixed(2).toString(); // No formatting for small numbers
+  }
 }

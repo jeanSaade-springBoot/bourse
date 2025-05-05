@@ -155,85 +155,12 @@ var retracementId=0;
 var relevantId=0;
 var channelId=0;
 var getFormatResult0=2;
-var results;
+var results=[];
 var retracementData;
 var selectedstartCellId;
 var source;
 var latestEndDate;
-		   
-$(window).on('load', function() {
-	$('#overlay').fadeOut();
-	$('#nav-tabContent').show();
-});
-document.addEventListener('updateGraphConfiguration', () => {
-  updateSeriesChart(chartConfigSettings);
-      
-});
 
-$(document).ready(function() {
-	
-     initializeNewsBanner();
-	 initializePeriods();
-	 initializeTypes();
-	 
-	 initializeNavigationButtons();
-	 initialiazeItems(allitems,1);
-	 initialiazeClearFilterButton();
-	 initializeShowFilterButton();
-	 
-	$("#SaveToFavorites").jqxButton({ theme: 'dark', height: 30, width: 100 });
-     
-	$("#addTrendLine").jqxButton({ theme: 'dark', height: 30, width: 140 });
-	$("#addRetracement").jqxButton({ theme: 'dark', height: 30, width: 140 });
-	$("#addRelevant").jqxButton({ theme: 'dark', height: 30, width: 140 });
-
-	$("#addTrendLine").click(function() {
-		  graph_trendlines = results.filter(obj => obj.graphId ===  checkedItemid[0]);
-			if(graph_trendlines.length==0 || graph_trendlines[0].trendlines.length<3)
-			{ initiateTrendLine();
-			  
-			 }else
-			{
-		$('#alertLimitation-modal').modal('show');
-		$("#alertTextLimitation").empty();
-		$("#alertTextLimitation").append("<p> Maximum reached: You cannot draw more than 3 trendlines. </p>");
-		}
-	});
-	
-	$("#addRetracement").click(function() {
-	   
-			if (retracement.length<2)
-			initiateRetracement();
-			else
-			{
-		$('#alertLimitation-modal').modal('show');
-		$("#alertTextLimitation").empty();
-		$("#alertTextLimitation").append("<p> Maximum reached: You cannot draw more than 2 retracement. </p>");
-		}
-		
-	});
-	
-	$("#addRelevant").click(function() {
-	   
-			if (relevant.length<5)
-			initiateRelevant();
-			else
-			{
-			$('#alertLimitation-modal').modal('show');
-			$("#alertTextLimitation").empty();
-			$("#alertTextLimitation").append("<p> Maximum reached: You cannot draw more than 5 relevant. </p>");
-		    }
-		
-	});
-//getRetracementHistory();	
-getTrendLinesHistory();
-
-$('.jqx-checkbox').on('change', function (event) {
-    updateSelectedCurrencies();
-});
-
-
-    });
 function updateSelectedCurrencies() {
     // Mapping of group_id to currency
     const currencyMap = {
@@ -261,10 +188,10 @@ function drawGraph() {
 	
 	const removeEmpty = true;
 
-	drawTechnicalGraph(graphService,graphName,removeEmpty,true);
+	drawTechnicalGraph("#mainChart",graphService,graphName,removeEmpty,true);
 	
 }
-function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
+function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHistory)
 {	
 	mode = "merge";
 	var dataParam;
@@ -275,8 +202,8 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 	var fromdate = formatDate(monthDate);
 	var todate = formatDate(date);
 
-	$("#mainChart").html("");
-	$("#mainChart").css("display", "block");
+	$(chartId).html("");
+	$(chartId).css("display", "block");
 	
 	if (checkDateMonth(monthDate, date)) {
 		$("#button-monthForward").prop('disabled', false);
@@ -299,7 +226,7 @@ function drawTechnicalGraph(graphService,graphName,removeEmpty,saveHistory)
 
 	checkedItemValues = checkedItemid.filter(item => item != null);
 			
-	chart = new ApexCharts(document.querySelector("#mainChart"), options_graph);
+	chart = new ApexCharts(document.querySelector(chartId), options_graph);
 
 	chart.render();
 	

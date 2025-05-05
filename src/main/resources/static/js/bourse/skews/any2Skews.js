@@ -897,6 +897,14 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
 											 
+											 processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+											    .then(({ response }) => {
+														 chartConfigSettings.response[0].graphResponseDTOLst = response;
+											    })
+											    .catch(error => {
+											        console.error('Error processing data:', error);
+											    });					 
+										 
 											 if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
 											 	updateChartSelectedItemMissingDates(chartConfigSettings);
 											 else
@@ -1187,7 +1195,15 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 											 chartColor:chartColor,
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
-							
+						  
+						   processDataAndAddNewEndDateForExtraSpaceInGraph( chartConfigSettings.response[0].graphResponseDTOLst ,10,false)
+							    .then(({ response }) => {
+										 chartConfigSettings.response[0].graphResponseDTOLst = response;
+							    })
+							    .catch(error => {
+							        console.error('Error processing data:', error);
+							    });	
+							    
 							updateChartSelectedItem(chartConfigSettings);
 				      	    	      $('#overlayChart').hide();
 				      	   },

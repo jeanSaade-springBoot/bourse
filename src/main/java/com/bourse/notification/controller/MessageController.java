@@ -64,21 +64,19 @@ public class MessageController {
         return MessageDTO.builder().value(String.valueOf(count)).build();
     }
 
-    @Scheduled(cron = "0/30 * * * * ?") // Runs every 30 seconds
-    public void updateGraph() {
-        try {
-            MessageDTO message = MessageDTO.builder().value("update").build();
-            messagingTemplate.convertAndSend("/all/chart", message);
-            System.out.println("Sent message to /all/chart: " + message.getValue());
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
+	/*
+	  @Scheduled(cron = "0/15 * * * * ?") // Runs every 30 seconds public void
+	  updateGraph() { try { MessageDTO message =
+	  MessageDTO.builder().value("update").build();
+	  messagingTemplate.convertAndSend("/all/chart", message);
+	  System.out.println("Sent message to /all/chart: " + message.getValue()); }
+	  catch (Exception e) { e.printStackTrace(); } }
+	 */
 
-    @Scheduled(cron = "0/30 * * * * ?") // Runs every 30 seconds
+    @Scheduled(cron = "0/15 * * * * ?") // Runs every 30 seconds
     public void updateCryptoData() {
         CURRENCY_API_MAP.forEach((currency, apiEndpoint) -> {
-            CrCryptoDTO latestData = cryptosService.fetchLatestCryptoData(apiEndpoint);
+        	  List<CrCryptoDTO> latestData = cryptosService.fetchLatestCryptoData(apiEndpoint);
             if (latestData != null) {
                 System.out.println("Sending " + currency + " data: " + latestData);
                 messagingTemplate.convertAndSend("/all/chart/" + currency, latestData);
@@ -88,23 +86,20 @@ public class MessageController {
         });
     }
 
-    @Scheduled(cron = "0/30 * * * * ?") // Runs every 30 seconds
-    public void updateCryptoCandleDailyLiveData() {
-        CURRENCY_MAP.forEach((currency, apiEndpoint) -> {
-            List<GraphResponseColConfigDTO> latestData = cryptosService.getGraphDataResultForDailyLive(apiEndpoint);
-            if (latestData != null) {
-                System.out.println("Sending " + currency + " data: " + latestData);
-                messagingTemplate.convertAndSend("/all/chart/candle/" + currency, latestData);
-            } else {
-                System.err.println("No data for: " + currency);
-            }
-        });
-    }
+	/*
+	 * @Scheduled(cron = "0/30 * * * * ?") // Runs every 30 seconds public void
+	 * updateCryptoCandleDailyLiveData() { CURRENCY_MAP.forEach((currency,
+	 * apiEndpoint) -> { List<GraphResponseColConfigDTO> latestData =
+	 * cryptosService.getGraphDataResultForDailyLive(apiEndpoint); if (latestData !=
+	 * null) { System.out.println("Sending " + currency + " data: " + latestData);
+	 * messagingTemplate.convertAndSend("/all/chart/candle/" + currency,
+	 * latestData); } else { System.err.println("No data for: " + currency); } }); }
+	 */
     
     @Scheduled(cron = "0/10 * * * * ?") // Runs every 10 seconds
     public void updateOrderBookData() {
     	 
-    		OrderBookDataDTO latestData = cryptosService.fetchLatestOrderBookData("/order-book/get-order-book-data");
+    		OrderBookDataDTO latestData = cryptosService.fetchLatestOrderBookData("/order-book/get-order-book-data-list");
              if (latestData != null) {
                  System.out.println("Sending  data: " + latestData);
                  messagingTemplate.convertAndSend("/all/chart/order-book" , latestData);

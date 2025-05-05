@@ -10,6 +10,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Optional;
 import java.lang.reflect.Field;
@@ -23,6 +24,7 @@ import javax.transaction.Transactional;
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
 
@@ -138,17 +140,20 @@ public class CryptosService {
 	        this.webClient = webClientBuilder.baseUrl(apiLiveFlowUrl).build();
 	    }
 	
-    public CrCryptoDTO fetchLatestCryptoData(String apiEndpoint) {
-	        try {
-	            return webClient.get()
-	                    .uri(apiEndpoint)
-	                    .retrieve()
-	                    .bodyToMono(CrCryptoDTO.class)
-	                    .block(); // Synchronous call
-	        } catch (Exception e) {
-	        	 System.out.println("Failed to fetch data from {}: {}"+ apiEndpoint+ e.getMessage());
-	            return null;
-	        }
+    public List<CrCryptoDTO> fetchLatestCryptoData(String apiEndpoint) {
+    	   try {
+    	        List<CrCryptoDTO> result = webClient.get()
+    	                .uri(apiEndpoint)
+    	                .retrieve()
+    	                .bodyToFlux(CrCryptoDTO.class)  // Notice bodyToFlux not bodyToMono
+    	                .collectList()                 // Collect list of DTOs
+    	                .block();                      // Synchronous
+
+    	        return result;
+    	    } catch (Exception e) {
+    	        System.out.println("Failed to fetch data from API: " + apiEndpoint + " Error: " + e.getMessage());
+    	        return Collections.emptyList();
+    	    }
 	    }
 	  
 	public void saveCryptos(List<CryptosData> CryptoDTOLst) {
@@ -649,6 +654,40 @@ public class CryptosService {
 			{   
 			   l1.add(getGraphDataResultFourHoursInterval(graphReqDTO,true));
 			}
+			if(graphReqDTO.getGroupId2()!=null)
+			{
+				if ("funding_rate".equalsIgnoreCase(graphReqDTO.getSubGroupId2())) 
+				{
+					GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId2())
+							   .subGroupId1(graphReqDTO.getSubGroupId2())
+							   .period(graphReqDTO.getPeriod())
+							   .type(graphReqDTO.getType())
+							   .fromdate(graphReqDTO.getFromdate())
+							   .todate(graphReqDTO.getTodate())
+							   .functionId(graphReqDTO.getFunctionId())
+							   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+							   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+							   .interval(graphReqDTO.getInterval())
+							   .build();
+					l1.add(getGraphDataResultFundingRate(graphRequestDTO,false));
+				}
+				else 
+				{
+				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId2())
+						   .subGroupId1(graphReqDTO.getSubGroupId2())
+						   .period(graphReqDTO.getPeriod())
+						   .type(graphReqDTO.getType())
+						   .fromdate(graphReqDTO.getFromdate())
+						   .todate(graphReqDTO.getTodate())
+						   .functionId(graphReqDTO.getFunctionId())
+						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+						   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+						   .interval(graphReqDTO.getInterval())
+						   .build();
+				l1.add(getGraphDataResultFourHoursInterval(graphRequestDTO,false));
+				}
+			}
+			
 			return l1; 
 		
 		}
@@ -804,7 +843,7 @@ public class CryptosService {
 				 // **🔹 Append Crypto Data**
 				if(!isFunction)
 				{
-				Map<String, CrCryptoDTO> cryptoDataMap = fetchCryptoData(graphReqDTO.getGroupId1());
+				Map<String, CrCryptoDTO> cryptoDataMap = fetchCryptoData(graphReqDTO.getGroupId1(),0);
 		        
 		        String fieldName = SUBGROUP_NAME_MAP.get(graphReqDTO.getSubGroupId1());
 
@@ -815,7 +854,12 @@ public class CryptosService {
 		            String formattedDate = null;
 		            try {
 		                // Use reflection to get the field value dynamically
-		                Field field = CrCryptoDTO.class.getDeclaredField(fieldName);
+		            	Field field;
+		            	if ("volume".equalsIgnoreCase(fieldName)) {
+		            	    field = CrCryptoDTO.class.getDeclaredField("totalVolume"); // If fieldName is "volume", use "totalVolume"
+		            	} else {
+		            	    field = CrCryptoDTO.class.getDeclaredField(fieldName);
+		            	}
 		                field.setAccessible(true);
 		                fieldValue = field.get(cryptoDto);
 		                
@@ -846,10 +890,8 @@ public class CryptosService {
 		            // Assuming you want to set the currency as the name and the dynamic value as value:
 		            cryptoData.setX(formattedDate); 
 		            cryptoData.setId(Long.valueOf(0));// Currency key, for instance "71"
-		            if(graphReqDTO.getGroupId1().equalsIgnoreCase("74"))
-		            	cryptoData.setY(String.valueOf(((BigDecimal) fieldValue).multiply(BigDecimal.valueOf(1000))));
-		            else
-		            	 cryptoData.setY(String.valueOf(fieldValue));  // The value for the specified subgroup field
+		            
+		            cryptoData.setY(String.valueOf(fieldValue));  // The value for the specified subgroup field
 
 		            graphResponseDTOlst1.add(cryptoData);
 		        }
@@ -866,20 +908,50 @@ public class CryptosService {
 		}
 	  
 
-	    public Map<String, CrCryptoDTO> fetchCryptoData(String targetCurrency) {
-	        Map<String, CrCryptoDTO> cryptoDataMap = new HashMap<>();
-	        
-	        if (CURRENCY_API_MAP.containsKey(targetCurrency)) {
-	            String apiEndpoint = CURRENCY_API_MAP.get(targetCurrency);
-	            CrCryptoDTO latestData = fetchLatestCryptoData(apiEndpoint);
-	            if (latestData != null) {
-	                cryptoDataMap.put(targetCurrency, latestData);
-	            }
-	        }
-	        
-	        return cryptoDataMap;
-	    }
-	    
+	  public Map<String, CrCryptoDTO> fetchCryptoData(String targetCurrency, int index) {
+		    Map<String, CrCryptoDTO> cryptoDataMap = new HashMap<>();
+
+		    if (CURRENCY_API_MAP.containsKey(targetCurrency)) {
+		        String apiEndpoint = CURRENCY_API_MAP.get(targetCurrency);
+		        List<CrCryptoDTO> cryptoDTOList = fetchLatestCryptoData(apiEndpoint);
+
+		        if (cryptoDTOList != null && !cryptoDTOList.isEmpty()) {
+		            if (index < cryptoDTOList.size()) {
+		                CrCryptoDTO selectedData = cryptoDTOList.get(index);
+		                cryptoDataMap.put(targetCurrency, selectedData);
+		            } else {
+		                System.err.print("Requested index {} exceeds list size {} for currency "+targetCurrency);
+		            }
+		        } else {
+		        	System.err.print("No crypto data found for currency "+targetCurrency);
+		        }
+		    }
+
+		    return cryptoDataMap;
+		}
+
+	    public GraphResponseColConfigDTO getGraphDataResultFundingRate(GraphRequestDTO graphReqDTO, Boolean isFunction) {
+		    if (!adminService.getData()) {
+		        return null;
+		    }
+
+		    String groupId = graphReqDTO.getGroupId1();
+		    String subGroupId = graphReqDTO.getSubGroupId1();
+		    
+		    String fromDate=graphReqDTO.getFromdate();
+		    String toDate=graphReqDTO.getTodate();
+		  
+		    List<GraphResponseDTO> graphResponseDTOlst1 = webClient.get()
+		    	    .uri("/api/btc/fundingRate/" + groupId + "/" + fromDate + "/" + toDate)
+		    	    .retrieve()
+		    	    .bodyToMono(new ParameterizedTypeReference<List<GraphResponseDTO>>() {})
+		    	    .block(); // Synchronous call
+
+		    return GraphResponseColConfigDTO.builder()
+		            .graphResponseDTOLst(graphResponseDTOlst1)
+		            .config(null)
+		            .build();
+		}
 	  public GraphResponseColConfigDTO getGraphDataResultFourHoursInterval(GraphRequestDTO graphReqDTO, Boolean isFunction) {
 		    if (!adminService.getData()) {
 		        return null;
@@ -975,7 +1047,7 @@ public class CryptosService {
 				query.setParameter("tableName",tableManagement.getTableName());
 				
 				query.registerStoredProcedureParameter("tableNameLive", String.class, ParameterMode.IN);
-				query.setParameter("tableNameLive",getTableName( groupId, "1d") );
+				query.setParameter("tableNameLive",""/*getTableName( groupId, "1d")*/ );
 				
 				query.registerStoredProcedureParameter("column1", String.class, ParameterMode.IN);
 				query.setParameter("column1",values[0]);
@@ -988,7 +1060,6 @@ public class CryptosService {
 				
 				query.registerStoredProcedureParameter("column4", String.class, ParameterMode.IN);
 				query.setParameter("column4", values[3]);
-				
 				
 				query.execute();
 				
@@ -1004,8 +1075,53 @@ public class CryptosService {
 						graphResponseDTOlst1.clear();
 						graphResponseDTOlst1=graphResponseDTOlst;
 					}
+				// append live data 
+				Map<String, CrCryptoDTO> cryptoDataMap = fetchCryptoData(graphReqDTO.getGroupId1(),0);
+
+				for (Map.Entry<String, CrCryptoDTO> entry : cryptoDataMap.entrySet()) {
+				    CrCryptoDTO cryptoDto = entry.getValue();
+				    String formattedDate = null;
+
+				    try {
+				        // Extract OHLC fields
+				        Field openField = CrCryptoDTO.class.getDeclaredField("open");
+				        Field highField = CrCryptoDTO.class.getDeclaredField("high");
+				        Field lowField = CrCryptoDTO.class.getDeclaredField("low");
+				        Field closeField = CrCryptoDTO.class.getDeclaredField("close");
+				        Field startTimeField = CrCryptoDTO.class.getDeclaredField("startTime");
+
+				        openField.setAccessible(true);
+				        highField.setAccessible(true);
+				        lowField.setAccessible(true);
+				        closeField.setAccessible(true);
+				        startTimeField.setAccessible(true);
+
+				        BigDecimal open = (BigDecimal) openField.get(cryptoDto);
+				        BigDecimal high = (BigDecimal) highField.get(cryptoDto);
+				        BigDecimal low = (BigDecimal) lowField.get(cryptoDto);
+				        BigDecimal close = (BigDecimal) closeField.get(cryptoDto);
+				        LocalDateTime startTime = (LocalDateTime) startTimeField.get(cryptoDto);
+
+				        // Format date if needed
+				        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("dd-MMM-yy", Locale.ENGLISH);
+
+				        // Build JSON-like y: [open, high, low, close]
+				        String yAsJsonArray = "[" + open + "," + high + "," + low + "," + close + "]";
+
+				        // Build DTO
+				        GraphResponseDTO candle = new GraphResponseDTO();
+				        candle.setX(startTime.format(outputFormatter));
+				        candle.setY(yAsJsonArray); // ⚠️ Make sure your `GraphResponseDTO` supports `List<BigDecimal>` or use a custom JSON serializer
+				        candle.setId(0L);
+
+				        graphResponseDTOlst1.add(candle);
+
+				    } catch (NoSuchFieldException | IllegalAccessException e) {
+				        e.printStackTrace();
+				    }
+				}
 				
-			  graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+				graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
 						                  .graphResponseDTOLst(graphResponseDTOlst1)
 						                  .config(config)
 						                  .build();
@@ -1049,6 +1165,48 @@ public class CryptosService {
 		    }
 
 		    entityManager.clear();
+		 // append live data 
+			/*
+			 * Map<String, CrCryptoDTO> cryptoDataMap =
+			 * fetchCryptoData(graphReqDTO.getGroupId1(),1);
+			 * 
+			 * for (Map.Entry<String, CrCryptoDTO> entry : cryptoDataMap.entrySet()) {
+			 * CrCryptoDTO cryptoDto = entry.getValue(); String formattedDate = null;
+			 * 
+			 * try { // Extract OHLC fields Field openField =
+			 * CrCryptoDTO.class.getDeclaredField("open"); Field highField =
+			 * CrCryptoDTO.class.getDeclaredField("high"); Field lowField =
+			 * CrCryptoDTO.class.getDeclaredField("low"); Field closeField =
+			 * CrCryptoDTO.class.getDeclaredField("close"); Field startTimeField =
+			 * CrCryptoDTO.class.getDeclaredField("startTime");
+			 * 
+			 * openField.setAccessible(true); highField.setAccessible(true);
+			 * lowField.setAccessible(true); closeField.setAccessible(true);
+			 * startTimeField.setAccessible(true);
+			 * 
+			 * BigDecimal open = (BigDecimal) openField.get(cryptoDto); BigDecimal high =
+			 * (BigDecimal) highField.get(cryptoDto); BigDecimal low = (BigDecimal)
+			 * lowField.get(cryptoDto); BigDecimal close = (BigDecimal)
+			 * closeField.get(cryptoDto); LocalDateTime startTime = (LocalDateTime)
+			 * startTimeField.get(cryptoDto);
+			 * 
+			 * // Format date if needed DateTimeFormatter outputFormatter =
+			 * DateTimeFormatter.ofPattern("dd-MMM-yy HH:mm", Locale.ENGLISH);
+			 * 
+			 * // Build JSON-like y: [open, high, low, close] String yAsJsonArray = "[" +
+			 * open + "," + high + "," + low + "," + close + "]";
+			 * 
+			 * // Build DTO GraphResponseDTO candle = new GraphResponseDTO();
+			 * candle.setX(startTime.format(outputFormatter)); candle.setY(yAsJsonArray); //
+			 * ⚠️ Make sure your `GraphResponseDTO` supports `List<BigDecimal>` or use a
+			 * custom JSON serializer candle.setId(0L);
+			 * 
+			 * graphResponseDTOList.add(candle);
+			 * 
+			 * } catch (NoSuchFieldException | IllegalAccessException e) {
+			 * e.printStackTrace(); } }
+			 */
+		    
 		    return GraphResponseColConfigDTO.builder()
 		            .graphResponseDTOLst(graphResponseDTOList)
 		            .config(config)
@@ -1067,6 +1225,8 @@ public class CryptosService {
 	        tableMapping.put("74", new String[]{"cr_shiba_high_low", "tmp_audit_cry_shiba"});
 	        tableMapping.put("75", new String[]{"cr_binance_high_low", "tmp_audit_cry_binance"});
 	        tableMapping.put("76", new String[]{"cr_xrp_high_low", "tmp_audit_cry_xrp"});
+	        
+	        tableMapping.put("61", new String[]{"", ""});
 	        tableMapping = Collections.unmodifiableMap(tableMapping); // Make it immutable
 
 	        return Optional.ofNullable(tableMapping.get(groupId))

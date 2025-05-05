@@ -25,7 +25,6 @@ $(document).ready(function() {
 
    if(timeRange =="Daily")
 		{ 
-		
 		monthDate = new Date();
 		monthDate.setMonth(monthDate.getMonth() - 4);
 		monthDate.setHours(0, 0, 0, 0);
@@ -83,40 +82,43 @@ $(document).ready(function() {
 	initializeNavigationButtons();
 	initialiazeItems(allitems, 2);
 	initialiazeClearFilterButton();
-	initializeShowFilterButton();
-
-
+	initializeShowFilterButtonCrypro();
 
 	getGraphHistoryByScreenName(graphName);
-
 
 	$("#SaveToFavorites").jqxButton({ theme: 'dark', height: 30, width: 100 });
 	$("#groupOfOptions").hide();
 	$("#groupOfOptions").jqxButtonGroup({ theme: 'dark', mode: 'radio' });
 	$('#groupOfOptions').jqxButtonGroup('setSelection', 0);
-	  
-	$('#euroTime').addClass("d-none");
-    $('#euroTime').removeClass("d-flex");
-          
-
+	
 	$(document).on('graphTypeChange', function(event, type) {
 		$("#groupOfOptions").hide();
 	});
-
+   initializeCandleOptions(71);
 });
 
 function drawGraph() {
 
 	const removeEmpty = true;
 	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
+	$("#order-book").addClass("d-none");
+	$("#order-book").removeClass("d-block");
 	if(chartType=="candle")
 		{    $("#functionOptionsMenu").show(); //hide
+			if(	timeRange == "4h")
+			  $("#dropDownCandleOptionsContainer").removeClass("d-none").addClass("d-flex");
+			else
+		 	$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
+
 			candleStick(graphName,false);
+			
 		}
 	else
-	{   
+	{  
 		$("#functionOptionsMenu").show();
 	 	$("#groupOfOptions").hide();
+	 	$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
+
 		getGraphDataCrypto(graphService, graphName, removeEmpty, false);
 	}
 }
@@ -128,19 +130,46 @@ document.addEventListener('DOMContentLoaded', function () {
     addSubscription('/all/chart/BTC', function (message) {
 
     try {
-        const data = JSON.parse(message.body); // Parse incoming data
+        const returnedData = JSON.parse(message.body); // Parse incoming data
         const checkedItemValues = [];
+		let data;
 		if(timeRange == "Daily")
 	  	 {
+		 data = returnedData[0];
         // Extract checked items
         for (let i = 0; i < checkedItemid.length; i++) {
-            if (checkedItemid[i] !== null) {
-                checkedItemValues.push(checkedItemid[i]);
-            }
-        }
-
+	            if (checkedItemid[i] !== null) {
+	                checkedItemValues.push(checkedItemid[i]);
+	            }
+	        }
+		}
+		else 
+		if(timeRange == "4h")
+	  	 {
+			  
+		 data = returnedData[1];
+		 
+        // Extract checked items
+        for (let i = 0; i < checkedItemid.length; i++) {
+	            if (checkedItemid[i] !== null) {
+	                checkedItemValues.push(checkedItemid[i]);
+	            }
+	        }
+		}
+		if(chartType!="candle")
+		{
         // Format date for x-axis
-        let formattedDate = formatDateShort(data.startTime);
+         let formattedDate = null;
+         let volume = null;
+		if(timeRange == "4h")
+		{
+			formattedDate = formatDateWithTime(data.startTime);
+			volume = data.volume;
+			}else
+			{
+				formattedDate = formatDateShort(data.startTime);
+				volume =  data.totalVolume;
+			}
         let newDataPoint = null;
 
         // Loop through selected items and find the correct y-axis value
@@ -160,7 +189,7 @@ document.addEventListener('DOMContentLoaded', function () {
                 newDataPoint = { x: formattedDate, y: data.close };
             }
             if (itemValue[selectedMetric].description.includes("volume")) {
-                newDataPoint = { x: formattedDate, y: data.volume };
+                newDataPoint = { x: formattedDate, y: volume };
             }
             if (itemValue[selectedMetric].description.includes("marketcap")) {
                 newDataPoint = { x: formattedDate, y: data.marketcap };
@@ -180,7 +209,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
         if (newDataPoint) {
            // **Update the chart**
-           processDataAndAddNewEndDateForExtraSpaceInGraph( chart.w.config.series[0].data ,0.10,false)
+           processDataAndAddNewEndDateForExtraSpaceInGraph( chart.w.config.series[0].data ,10,false)
 							    .then(({ response }) => {
 										 chart.w.config.series[0].data = response;
 							    })
@@ -220,99 +249,90 @@ document.addEventListener('DOMContentLoaded', function () {
            /* chart.updateOptions({
                 series: chart.w.config.series
             });*/
-
         }
 	}
-	
+	else{
+		
+	    let date = null;
+		if(timeRange == "4h")
+			date = formatDateWithTime(data.startTime);
+			else
+			date = formatDateShort(data.startTime);
+			
+	    const liveData = {
+	        x: date,
+	        y: [data.open, data.high, data.low, data.close]
+	    };
+
+    const chartType = typeof($("#chartTypes").find(".active")[0]) !== 'undefined'
+        ? $("#chartTypes").find(".active")[0].id
+        : null;
+
+    let seriesValue = globalCandleStickSeries;
+    let yAxisFormat = chart.w.config.yaxis;
+    let formattedDate = liveData.x;
+
+    if (seriesValue[0] && Array.isArray(seriesValue[0].data)) {
+        // Remove duplicate point
+        seriesValue[0].data = seriesValue[0].data.filter(
+            point => point.x !== formattedDate && point.y.length !== 0
+        );
+    } else {
+        console.error("Series[0] or its data is undefined");
+    }
+
+    // Add new candlestick data point
+    seriesValue[0].data.push(liveData);
+
+    // Optional: stretch X-axis with dummy data point
+    processDataAndAddNewEndDateForExtraSpaceInGraph(seriesValue[0].data, 10, true)
+        .then(({ response }) => {
+            seriesValue[0].data = response;
+        })
+        .catch(error => {
+            console.error('Error processing data:', error);
+        });
+
+    // Compute min/max from OHLC (flattened)
+    let allValues = seriesValue[0].data.flatMap(item => item.y ? item.y.map(Number) : []);
+    if (functionId === 0 || functionId === 1) {
+        allValues = allValues.concat(seriesValue[1].data.map(item => Number(item.y)));
+    }
+
+    const filtered = allValues.filter(value => value !== 0);
+    const min = Math.min(...filtered);
+    const max = Math.max(...filtered);
+    const values = addMarginToMinMax(min, max, 5);
+
+    let valueMin = values;
+    let valueMax = values;
+
+    const calculatedMinValue = Math.sign(min) === -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
+    const calculatedMaxValue = Math.sign(max) === -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax;
+
+    yAxisFormat[0].min = calculatedMinValue;
+    yAxisFormat[0].max = calculatedMaxValue;
+
+    chart.updateOptions({
+        series: seriesValue,
+        yaxis: yAxisFormat
+    });
+		}
     } catch (e) {
         console.error("Error processing BTC message:", e);
     }
 });
 
-addSubscription('/all/chart/candle/BTC', function (message) {
+	/*addSubscription('/all/chart/order-book', function (message) {
 
     try {
         const data = JSON.parse(message.body); // Parse incoming data
-  		data[0].graphResponseDTOLst.forEach(item => {
-				item.x = item.x.split(" ")[0];
-				item.y = JSON.parse(item.y).map(yValue => parseFloat(yValue));
-			});
-	        let liveData = data[0].graphResponseDTOLst[0];
-	        var yAxisFormat = getFormat(data[0].config.yAxisFormat);
-
-	        const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
-		    let formattedDate = liveData.x;
-	        if(timeRange == "Daily" && chartType=="candle")
-	        {
-				if (chart.w.config.series[0] && Array.isArray(chart.w.config.series[0].data)) {
-				    chart.w.config.series[0].data = chart.w.config.series[0].data.filter(
-				        point => point.x !== formattedDate && point.y.length !== 0
-				    );
-				} else {
-				    console.error("Series[0] or its data is undefined");
-				}
-
-			
-			    // Append new data point
-			    chart.w.config.series[0].data.push(liveData);
-			
-			processDataAndAddNewEndDateForExtraSpaceInGraph(chart.w.config.series[0].data ,0.05,true)
-						    .then(({ response }) => {
-									chart.w.config.series[0].data = response;
-						    })
-						    .catch(error => {
-						        console.error('Error processing data:', error);
-						    });	
-			let allValues=[];			    
-			if (functionId == 0 || functionId == 1) {
-				 allValues = [
-				  ...chart.w.config.series[0].data.flatMap(item => item.y ? item.y.map(Number) : []),
-				  ...chart.w.config.series[1].data.map(item =>  Number(item.y) )
-				];
-			}			    
-			else 
-			 allValues =chart.w.config.series[0].data.flatMap(item => item.y ? item.y.map(Number) : []);
-			    
-			// Find the minimum and maximum values
-			const min  = Math.min(...allValues.filter(value => value !== 0));
-
-			const max = Math.max(...allValues.filter(value => value !== 0));
-
-
-			const values = addMarginToMinMax(min, max, 5);
-
-			var valueMin = values;
-			var valueMax = values;
-			 calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
-			 calculatedMaxValue = Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax;
-			 
-		
-			 chart.w.config.yaxis[0].min=calculatedMinValue;
-			 chart.w.config.yaxis[0].max=calculatedMaxValue;
-			    // Update the chart
-			    chart.updateOptions({
-			        series: chart.w.config.series,
-			        yaxis: chart.w.config.yaxis,
-			    });
-			}
-			else if(timeRange == "4h" && chartType=="candle"){
-				 updateChart(graphService);
-			}
-	    } catch (e) {
-	        console.error("Error processing BTC message:", e);
-	    }
-	});
-	
-	addSubscription('/all/chart/order-book', function (message) {
-
-    try {
-        const data = JSON.parse(message.body); // Parse incoming data
-        console.log(data);
+      
   		 renderOrderBook(data);
 	    } catch (e) {
 	        console.error("Error processing BTC message:", e);
 	    }
-	});
+	});*/
 	
 });
 
@@ -386,15 +406,3 @@ addSubscription('/all/chart/candle/BTC', function (message) {
             $('.sell-percentage-text').text(`${sellPercent}%`);
             $('.buy-percentage-text').text(`${buyPercent}%`);
         }
-
-function formatNumberShort(num) {
-  if (num >= 1_000_000_000) {
-    return (num / 1_000_000_000).toFixed(2) + 'B';
-  } else if (num >= 1_000_000) {
-    return (num / 1_000_000).toFixed(2) + 'M';
-  } else if (num >= 1_000) {
-    return (num / 1_000).toFixed(2) + 'K';
-  } else {
-    return num.toString(); // No formatting for small numbers
-  }
-}

@@ -3200,12 +3200,20 @@
 
 				      	    	     notDecimal=yaxisformat[1];
 									 nbrOfDigits=yaxisformat[0];
-									 
+									  let data0 =  response[0].graphResponseDTOLst;
+							          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
+										    .then(({ response }) => {
+													 data0 = response;
+										    })
+										    .catch(error => {
+										        console.error('Error processing data:', error);
+										    });		
+										    
 				      	    	     chart.updateOptions({
 										   series:[{
 									          name: title,
 									          type: chartType1,
-									          data: response[0].graphResponseDTOLst
+									          data: data0
 									        }],
 				      	    	    		 stroke: {
 				      	    	 		      colors: chartType1=="area"? ["#ffffff"]:[chartColor=='#44546a'?'#2e75b6':chartColor],

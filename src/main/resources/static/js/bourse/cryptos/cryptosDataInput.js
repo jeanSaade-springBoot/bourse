@@ -6,7 +6,7 @@ var updateUrl;
 var saveUrl;
 var deleteUrl;
 var checkifcanUrl;
-		
+var globalData;		
 var BitcoinItem = [
 	'#jqxCheckBox-71-7',
 	'#jqxCheckBox-71-3',
@@ -589,6 +589,11 @@ function getFilterData(crySubGroupValue) {
 					dataAdapter = new $.jqx.dataAdapter(source);
 					$('#grid').jqxGrid('hideloadelement');
 
+					data.columns.push(       { text: '',editable:false, datafield: 'copy',width:'2.5%', filterable: false ,cellsrenderer: function (row) {
+		   	    	  return "<div class=\"copy-text\"><button onclick='Copy(\""+'#grid'  +"\"," + row + ")'><i class=\"fa fa-clone\" aria-hidden=\"true\"></i></button></div>";
+						}
+						});
+
 					for (i = 0; i < data.columns.length; i++) {
 						if (data.columns[i].datafield == "refer_date") {
 							data.columns[i].cellsformat = 'dd-MMM-yyyy';
@@ -601,7 +606,7 @@ function getFilterData(crySubGroupValue) {
 						source: dataAdapter,
 						columns: data.columns
 					});
-
+					globalData=data.columns;
 					saveFilterHistory(crySubGroupValue, checkedItem);
 				},
 				error: function(e) {
@@ -1129,7 +1134,33 @@ function updateMarketCapColumn(columns) {
             }
         };
     }
+    
+        let indexVolume = columns.findIndex(col => col.datafield === 'volume-'+groupId);
+
+    if (indexVolume !== -1) {
+        // If "marketCap" column exists, replace it with formatted version
+        columns[indexVolume] = {
+            text: columns[indexVolume].text,
+            datafield: 'volume-'+groupId,
+            cellsrenderer: function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
+                function formatNumberShort(num) {
+                    if (num >= 1_000_000_000) {
+                        return (num / 1_000_000_000).toFixed(2) + 'B';
+                    } else if (num >= 1_000_000) {
+                        return (num / 1_000_000).toFixed(2) + 'M';
+                    } else if (num >= 1_000) {
+                        return (num / 1_000).toFixed(2) + 'K';
+                    } else {
+                        return num.toFixed(2).toString();
+                    }
+                }
+
+                return `<div style="margin:4px;">${formatNumberShort(value)}</div>`;
+                }
+        };
+    }
 }
+
  // Function to format numbers with commas
 function formatNumberWithCommas(num) {
     return num.toLocaleString(undefined, { minimumFractionDigits: 1, maximumFractionDigits: 1 });
@@ -1148,4 +1179,40 @@ function formatInBillionsOnly(value) {
   }
 
   
+}
+
+function formatDate(dateStr) {
+  let date = new Date(dateStr);
+  let day = date.getDate();
+  let month = date.toLocaleString('en-US', { month: 'short' }); // e.g. "Dec"
+  let year = date.getFullYear().toString().slice(-2); // last 2 digits
+  return `${day}-${month}-${year}`;
+}
+
+function Copy(gridId,row) {
+		
+		let rowData = $(gridId).jqxGrid('getrowdata', row);
+
+		let copyData = globalData
+		  .filter(item => item.datafield !== 'copy')
+		   .map(item => {
+			    let value = rowData[item.datafield];
+			    if (item.datafield === 'refer_date') {
+			      return formatDate(value);
+			    }
+			    return value;
+			  })
+			  .join('\t');
+
+
+			 copyToClipboard(copyData);
+    }
+function copyToClipboard(text) {
+    var textarea = $("<textarea>");
+    textarea.val(text);
+    $("body").append(textarea);
+    textarea.select();
+    document.execCommand("copy");
+    textarea.remove();
+    //alert("Text copied to clipboard!");
 }

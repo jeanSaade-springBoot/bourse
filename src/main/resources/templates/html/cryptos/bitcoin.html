@@ -199,8 +199,12 @@
 									<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
 									<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
 								</div>
+								
 							</div>
-							
+							<div class="row col-12 d-none" style=' margin-left: -6px;' id="dropDownCandleOptionsContainer">
+									<div id='dropDownCandleOptions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
+									<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="resetOptions"></i></div>
+								</div>
 				     <div class="col-1" style="z-index: 1;">
 						<div class="chart-option">
 				   	        <div class="chart-option-title">Chart option</div>
@@ -332,7 +336,17 @@
 						<div class="col-3 layout-wrapper ">
 							
 						    <div class="col-2">
-						  	 <div id="order-book" class="order-book">
+						      <div id="order-book" class="order-book">
+							    <div class="header">Order Book</div>
+							    <div id="asks"></div>
+							    <div class="mid-price" id="midPrice">Loading...</div>
+							    <div id="bids"></div>
+							    <div class="footer">
+							      <span id="buyRatio">B --%</span>
+							      <span id="sellRatio">S --%</span>
+							    </div>
+							  </div>
+						<!--   	 <div id="order-book" class="order-book">
 			    				<div class="white border-bottom  pt-2 pb-2"><span class="p-2">Order Book</span></div>
 									<div class="d-flex    pl-2 pr-2">
 										<div class="d-flex"
@@ -342,9 +356,9 @@
 									</div>
 									<div class="order-book-section bids pl-2 pr-2"></div> 
 									<div class="mid-price">Loading...</div>
-							        <div class="order-book-section asks pl-2 pr-2"></div> <!-- Buy Orders -->
+							        <div class="order-book-section asks pl-2 pr-2"></div> Buy Orders
 							
-							        <!-- Buy/Sell Percentage -->
+							        Buy/Sell Percentage
 							        <div class="order-book-summary pl-2 pr-2 d-flex align-items-center">
 							             <span class="pr-2 white">B</span>
 							             <span class="pr-2 green-text buy-percentage-text"></span>
@@ -355,7 +369,7 @@
 							            <span  class="pl-2 red-text sell-percentage-text"></span>
 							            <span  class="pl-2 white">S </span>
 							        </div>
-							    </div>
+							    </div> -->
 						  </div>
 						</div>
 					    </div>
@@ -496,8 +510,9 @@
   <script src="/js/notification/sockjs.js"></script>
   <script src="/js/notification/stomp.js"></script>
   <script src="/js/notification/config.js"></script>
-    <script src="/js/bourse/cryptos/bitcoin.js"></script> 
-  
+  <script src="/js/bourse/cryptos/bitcoin.js"></script>
+  <script src="/js/bourse/cryptos/orderBook.js"></script> 
+      
   <script th:inline="javascript">
 	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
 	  const hasPendingApprovalGrid= authorities.filter(item => {
