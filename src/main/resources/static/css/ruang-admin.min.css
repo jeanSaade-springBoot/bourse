@@ -23,6 +23,7 @@
     align-items: center;
     animation: blink 2s infinite ease-in-out;
   }
+  
 @supports (-webkit-appearance: none) or (-moz-appearance: none) {
   input[type=checkbox],
 input[type=radio] {

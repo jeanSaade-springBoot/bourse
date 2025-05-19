@@ -280,9 +280,33 @@ document.addEventListener('DOMContentLoaded', function () {
     } else {
         console.error("Series[0] or its data is undefined");
     }
+    seriesValue[0].data.push(liveData);
+    
+    if(globalCandleStickSeries.length>1)
+    {
+		if(dropDownCandleOptions.length!=0)
+		 if($('#dropDownCandleOptions').val()=='5')
+		 {
+			  const liveVolumeData = {
+		        x: date,
+		        y: data.volume+''
+		    };
+	    
+			 if (seriesValue[1] && Array.isArray(seriesValue[1].data)) {
+		        // Remove duplicate point
+		        seriesValue[1].data = seriesValue[1].data.filter(
+		            point => point.x !== formattedDate && point.y.length !== 0
+		        );
+		    } else {
+		        console.error("Series[1] or its data is undefined");
+		    }
+		     seriesValue[1].data.push(liveVolumeData);
+		 }
+		
+	}
 
     // Add new candlestick data point
-    seriesValue[0].data.push(liveData);
+    
 
     // Optional: stretch X-axis with dummy data point
     processDataAndAddNewEndDateForExtraSpaceInGraph(seriesValue[0].data, 10, true)

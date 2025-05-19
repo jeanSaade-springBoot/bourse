@@ -53,7 +53,7 @@ const screenName='STI';
 const graphName="stiGraph"; 
 const isTrendlineScreen=true;
 var graphService = "sti";
-		   
+var chartHeight=625;		   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -96,7 +96,7 @@ $(document).ready(function() {
 	$("#addRetracement").click(function() {
 	   
 			if (retracement.length<2)
-			initiateRetracement();
+			initiateRetracement(true);
 			else
 			{
 		$('#alertLimitation-modal').modal('show');
@@ -109,7 +109,7 @@ $(document).ready(function() {
 	$("#addRelevant").click(function() {
 	   
 			if (relevant.length<5)
-			initiateRelevant();
+			initiateRelevant(true);
 			else
 			{
 			$('#alertLimitation-modal').modal('show');
@@ -128,3 +128,10 @@ $('.jqx-checkbox').on('change', function (event) {
 
     });
 initializeFunctions(32);
+function drawGraph() {
+	
+	const removeEmpty = true;
+
+	drawTechnicalGraph("#mainChart",graphService,graphName,removeEmpty,true);
+	
+}

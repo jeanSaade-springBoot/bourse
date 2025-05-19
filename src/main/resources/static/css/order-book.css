@@ -87,7 +87,7 @@
         	color:#F6465D;
         }
         .green-text{
-        	color:#2EBD85;
+        	color:#2EBD85!important;
         }
         
         .layout-wrapper {
@@ -96,11 +96,13 @@
       gap: 20px;
     }
     .h-550{
-      height: 550px;
+      height: 619px;
       overflow: auto!important;
      }
     /* new order book css*/
-    
+    .w-150{
+        width: 150px!important;
+    }
      
     .order-book {
   	  width: 280px;

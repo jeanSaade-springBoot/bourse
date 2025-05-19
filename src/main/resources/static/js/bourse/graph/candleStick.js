@@ -2,8 +2,7 @@
 	 const selectedIndex = $('#dropDownCryptoOptions').jqxDropDownList('selectedIndex'); 
 
 	 const candleGraphTitle = dropDownCryptosource[selectedIndex].name; // need to be dynamic
-	  
-	$("#order-book").addClass("d-block");
+	
 
 	mode = "merge";
 	var dataParam;
@@ -42,7 +41,7 @@
     series: [], // Empty series, to be filled later with data
     chart: {
         type: 'candlestick',
-        height: 525,
+        height: 585,
         animations: { enabled: false },
         toolbar: {
             show: true,
@@ -107,7 +106,7 @@
             }
         },
         type: 'category',
-        tickAmount: 19,
+        tickAmount: 6,
         axisBorder: {
             show: true,
             color: '#ffffff',
@@ -194,7 +193,7 @@
 			 response[1].graphResponseDTOLst = alignedData2;
 			}
 		
-			$("#Clearfilter").trigger('click');
+		//	$("#Clearfilter").trigger('click');
 
 			//disableChartType(false);
 			$("#candle").addClass("active");
@@ -642,7 +641,7 @@
 							customIcons: []
 						}
 					},
-					height: 525,
+					height: 585,
 					type: 'line',
 					animations: { enabled: false },
 				},

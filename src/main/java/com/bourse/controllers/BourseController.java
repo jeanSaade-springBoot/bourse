@@ -740,13 +740,16 @@ public class BourseController {
 		return new ModelAndView("html/sti/emerging");
     }
 	@PreAuthorize("hasAuthority('CRY_TRADING_GRAPH_SCREEN') and principal.tacAccepted == true")
-	@RequestMapping( value =  "/trading")
+	@RequestMapping( value =  "/technical-analysis")
     public ModelAndView cryTradingGraphPage(ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/cryptos/trading");
+	    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+	    model.addAttribute("crytpos", "html/templates/cryptos");
+	    return new ModelAndView("html/cryptos/technical-analysis");
     }
+	
 	@PreAuthorize("hasAuthority('CRY_BITCOIN_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/bitcoin")
     public ModelAndView cryBitcoinGraphPage(ModelMap model, Authentication authentication)

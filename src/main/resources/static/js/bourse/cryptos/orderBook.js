@@ -166,7 +166,7 @@
 
         priceElem.classList.add("price");
 
-        if (isBid) priceElem.classList.add("green");
+        if (isBid) priceElem.classList.add("green-text");
 
         priceElem.textContent = price;
 

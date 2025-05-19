@@ -12732,7 +12732,7 @@ function initializeCandleOptions(groupId){
      };
      
 	  var functionDataAdapter = new $.jqx.dataAdapter(Optionsource);
-	 $("#dropDownCandleOptions").jqxDropDownList({dropDownHeight: 80,  source: functionDataAdapter, placeHolder: "",  displayMember: "name",valueMember: "value", theme: 'dark' , width: 120, height: 25});
+	 $("#dropDownCandleOptions").jqxDropDownList({dropDownHeight: 80,  source: functionDataAdapter, placeHolder: "",  displayMember: "name",valueMember: "value", theme: 'dark' , width: 120, height: 40});
 		$("#resetOptions").click(function () {
 	    suppressDropDownChange = true;
 	

@@ -54,7 +54,7 @@ const screenName='CRYPTOS';
 const graphName="bundsCryptos"; 
 const isTrendlineScreen=true;
 var graphService = "cryptos";
-		   
+var chartHeight=625;		   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -84,7 +84,7 @@ $(document).ready(function() {
 	$("#addTrendLine").click(function() {
 		  graph_trendlines = results.filter(obj => obj.graphId ===  checkedItemid[0]);
 			if(graph_trendlines.length==0 || graph_trendlines[0].trendlines.length<3)
-			{ initiateTrendLine();
+			{ initiateTrendLine(true);
 			  
 			 }else
 			{
@@ -97,7 +97,7 @@ $(document).ready(function() {
 	$("#addRetracement").click(function() {
 	   
 			if (retracement.length<2)
-			initiateRetracement();
+			initiateRetracement(true);
 			else
 			{
 		$('#alertLimitation-modal').modal('show');
@@ -110,7 +110,7 @@ $(document).ready(function() {
 	$("#addRelevant").click(function() {
 	   
 			if (relevant.length<5)
-			initiateRelevant();
+			initiateRelevant(true);
 			else
 			{
 			$('#alertLimitation-modal').modal('show');
@@ -130,7 +130,13 @@ $('.jqx-checkbox').on('change', function (event) {
     });
     	
 initializeFunctions(71);
+function drawGraph() {
+	
+	const removeEmpty = true;
 
+	drawTechnicalGraph("#mainChart",graphService,graphName,removeEmpty,true);
+	
+}
 document.addEventListener('DOMContentLoaded', function () {
     connectWebSocket();
     const currencies = ['BTC', 'ETH', 'SOL', 'SHIB', 'BNB', 'XRP'];

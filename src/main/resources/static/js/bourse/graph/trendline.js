@@ -20,7 +20,7 @@ var options_graph = {
 					customIcons: []
 				}
 			},
-			height: 625,
+			height: chartHeight,
 			type: 'line',
 			animations: { enabled: false }
 		},
@@ -184,13 +184,7 @@ function updateSelectedCurrencies() {
 
    
 }
-function drawGraph() {
-	
-	const removeEmpty = true;
 
-	drawTechnicalGraph("#mainChart",graphService,graphName,removeEmpty,true);
-	
-}
 function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHistory)
 {	
 	mode = "merge";
@@ -225,7 +219,6 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 		chart.destroy();
 
 	checkedItemValues = checkedItemid.filter(item => item != null);
-			
 	chart = new ApexCharts(document.querySelector(chartId), options_graph);
 
 	chart.render();
@@ -866,7 +859,7 @@ function drawTrendLineTable(data){
 								
 								trendlineGrid +="<div class='d-flex align-items-start flex-column bd-highlight' style='min-height: 115px;'>";
 									
-									trendlineGrid +="  <div class='mb-auto bd-highlight'>";
+									trendlineGrid +="  <div class='mb-auto bd-highlight d-grid'>";
 								
 									if(typeof(data[i].dbid)!='undefined')
 									{
@@ -1029,7 +1022,7 @@ function drawTrendLineTable(data){
 						else
 						   addChannelTrendLine(channelLineJson);
 					}
-			
+			    updateSeriesChart(chartConfigSettings);
 			});
 			
 			
@@ -1264,7 +1257,16 @@ function drawRetracementTable(data){
 		                </button>`}
 			        `).join('')}
 		              ` : ""}
-		          </div>` : ""}
+		          </div>` :  `
+		           <div class='d-flex align-items-start flex-column bd-highlight' style='min-height: 115px;'>
+				        <div class='mb-auto bd-highlight'> <button class='btn btn-light-secondary mr-1 mb-1 green' type='button' onclick='saveRetracementHistory(${retracementId})'>
+				              <img src='/img/icon/save.svg' width='16' height='16'>
+				            </button>
+				            <button class='btn btn-light-secondary mr-1 mb-1 blue' type='button' onclick='cancelRetracement(${retracementId})'>
+				              <img src='/img/icon/false.svg' width='16' height='16'>
+				            </button>
+              		</div>
+                </div>`}
 		      </div>
 		  </div>`;
 		});
@@ -1559,7 +1561,16 @@ function drawRelevantTable(data){
 		            </button>
 		            `} 
 		        </div>
-		          ` : ""}
+		          ` : `<div class='d-flex align-items-start flex-column bd-highlight' style='height: fit-content;'>
+		          		<div class='mb-auto bd-highlight'>
+			          		<button class='btn btn-light-secondary mr-1 mb-1 green' type='button' onclick='saveRelevantHistory(${relevantId})'>
+				              <img src='/img/icon/save.svg' width='16' height='16'>
+				            </button>
+				            <button class='btn btn-light-secondary mr-1 mb-1 blue' type='button' onclick='cancelRelevant(${relevantId})'>
+				              <img src='/img/icon/false.svg' width='16' height='16'>
+				            </button>
+			            	</div>
+			            </div>`}
 		     </div>
 		  </div>`;
 		});
@@ -1871,7 +1882,7 @@ function updateSeriesChart(chartConfigSettings){
 					customIcons: []
 				}
 			},
-			height: 625,
+			height: chartHeight,
 			type: 'line',
 			animations: { enabled: false }
 		},
@@ -2705,7 +2716,7 @@ async function updateTrendLine(trendlineIdToUpdate){
 	 	     
 			 count=countDataPointsBetweenDates(x1, x2);
 	 	     const slope=(y2-y1)/count;
-	 	     if(screenName=='CRYPTOS')
+	 	     if(screenName=='CRYPTOS' || screenName=='CryptosAnalisys')
 	 	     {
 				result = findThirdPointNoMissingDates(x1, y1, x2, y2, x3, slope.toFixed(6),latestEndDate);
 
@@ -2786,7 +2797,7 @@ async function updateTrendLine(trendlineIdToUpdate){
 function updateChannelLine(channelidToUpdate){
 	      const trendLine = trendLines.filter(obj => obj.trendLineId === parseFloat(channelidToUpdate.trendLineId))[0];
 	 	var result 
-	 	 if(screenName=='CRYPTOS')
+	 	 if(screenName=='CRYPTOS' || screenName=='CryptosAnalisys')
 	 	   result = findChannelPointNoMissingDates(channelidToUpdate.x3 , channelidToUpdate.yc, channelidToUpdate.xc, trendLine.slope, latestEndDate);
 		else
 		   result = findChannelPoint(channelidToUpdate.x3 , channelidToUpdate.yc, channelidToUpdate.xc, trendLine.slope, latestEndDate);
@@ -2840,7 +2851,7 @@ function updateChannelLine(channelidToUpdate){
 function addChannelTrendLine(channelTrendline){
 	     const trendLine = trendLines.filter(obj => obj.trendLineId === parseFloat(channelTrendline.trendLineId))[0];
 	 	var result 
-	 	 if(screenName=='CRYPTOS') 
+	 	 if(screenName=='CRYPTOS' || screenName=='CryptosAnalisys') 
 	 	  	result = findChannelPointNoMissingDates(channelTrendline.x3 , channelTrendline.yc, channelTrendline.xc, trendLine.slope, latestEndDate);
 			else
 		  	result = findChannelPoint(channelTrendline.x3 , channelTrendline.yc, channelTrendline.xc, trendLine.slope, latestEndDate);
@@ -2875,7 +2886,7 @@ function addChannelTrendLine(channelTrendline){
 			  updateSeriesChart(chartConfigSettings);
 			
 }
-function initiateTrendLine(){
+function initiateTrendLine(navigation){
 			 var result = [];
 			 serieArray=[];
 	
@@ -2905,24 +2916,41 @@ function initiateTrendLine(){
 			  trendLines.push(json);
 	          drawTrendLineTable(trendLines);
 			  resetParameters();
+			  if(navigation)
 			   $('html,body').animate({
 		        scrollTop: $("#trendline-grid").offset().top},
 		        'slow');
 }
-function initiateRetracement(){
-			 const result = [];
-			 
-	         retracementId=retracementId+1;
-	         retracement.push({retracementId:retracementId,
-       					 retracementValues:result,
-       					 retracementParameter: null});
-	          drawRetracementTable(retracement);
-			  
-			   $('html,body').animate({
-		        scrollTop: $("#retracement-grid").offset().top},
-		        'slow');
-} 
-function initiateRelevant(){
+function initiateRetracement(navigation) {
+    const result = [];
+
+    if (!Array.isArray(retracement)) {
+        retracement = [];
+    }
+
+    let maxId = 0;
+    for (const r of retracement) {
+        if (r.retracementId > maxId) {
+            maxId = r.retracementId;
+        }
+    }
+
+    retracementId = maxId + 1;
+
+    retracement.push({
+        retracementId: retracementId,
+        retracementValues: result,
+        retracementParameter: null
+    });
+
+    drawRetracementTable(retracement);
+	if(navigation)
+    $('html,body').animate({
+        scrollTop: $("#retracement-grid").offset().top
+    }, 'slow');
+}
+
+function initiateRelevant(navigation){
 			 const result = [];
 			 
 	         relevantId=relevantId+1;
@@ -2931,15 +2959,15 @@ function initiateRelevant(){
 	       					 relevantParameter: null,
 	       					 isHidden:false});
 	         drawRelevantTable(relevant);
-			  
+			 if(navigation)
 			   $('html,body').animate({
-		        scrollTop: $("#retracement-grid").offset().top},
+		        scrollTop: $("#relevant-grid").offset().top},
 		        'slow');
 } 
 function drawLine(){
 		 count=countDataPointsBetweenDates(x1, x2);
 		 const slope=(y2-y1)/count;
-		 if(screenName=='CRYPTOS')
+		 if(screenName=='CRYPTOS' || screenName=='CryptosAnalisys')
 			 var result =findThirdPointNoMissingDates(x1, y1, x2, y2, x3, slope.toFixed(6),latestEndDate);
 			  else
 		 	var result = findThirdPoint(x1, y1, x2, y2, x3, slope);
@@ -3052,7 +3080,7 @@ async function updateLatestTrendLine(trendLines, newDateX3,originalEndDate, grap
     // if (item.x3 !== newDateX3) {
       	item.x3 = newDateX3;
         allDataAreLatest=false; 
-         if(screenName=='CRYPTOS')
+         if(screenName=='CRYPTOS' || screenName=='CryptosAnalisys')
 			 var newItem =findThirdPointNoMissingDates(item.x1, item.y1, item.x2, item.y2, item.x3, item.slope, originalEndDate);
         else
         	var newItem = findThirdPoint(item.x1, item.y1, item.x2, item.y2, item.x3, item.slope, originalEndDate);
@@ -3062,7 +3090,7 @@ async function updateLatestTrendLine(trendLines, newDateX3,originalEndDate, grap
     if(typeof channelLine !=='undefined')
      if(channelLine.x3 !== newDateX3){
 		channelLine.x3 = newDateX3;
-		 if(screenName=='CRYPTOS')
+		 if(screenName=='CRYPTOS' || screenName=='CryptosAnalisys')
 			channelLine.y3  = findChannelPointNoMissingDates(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate).xyValues[1].y.toFixed(3);
 		else
 			channelLine.y3  = findChannelPoint(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate).xyValues[1].y.toFixed(3);

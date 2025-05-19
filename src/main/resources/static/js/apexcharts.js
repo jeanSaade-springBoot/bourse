@@ -6322,7 +6322,7 @@
 			    var a = this.w,
 			        s = a.config.xaxis.tickAmount;
 			    
-			    var step = Math.ceil(i / ((a.config.chart.width === 543) ? 10 : 25));
+			    var step = Math.ceil(i / ((a.config.chart.width === 543) ? 10 : 25)); 
 			    var counter = t + 1; // Increment counter to start from 1-based index
 			
 			    if (counter % step !== 0) {

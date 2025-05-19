@@ -1,0 +1,104 @@
+/* 
+.drag-scroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+  position: relative;
+  cursor: grab;
+}
+ */
+
+   /* Scroll buttons */
+   #scrollLeftBtn, #scrollRightBtn {
+     position: fixed;
+     top: 10%;
+     z-index: 1000;
+     background: rgba(0,0,0,0.5);
+     color: white;
+     padding: 10px 20px;
+     border: none;
+     cursor: pointer;
+     font-size: 20px;
+   }
+
+   #scrollLeftBtn {
+     right: 75px;
+   }
+
+   #scrollRightBtn {
+     right: 10px;
+   }
+ 
+@media (max-width: 1920px) {
+   #container-wrapper{
+   	width: 3000px!important;
+	}
+   #mainChart {
+    min-width: 725px;
+    max-width: 725px;
+    background: #172568;
+    min-height: 555px;
+    border-radius: .25rem;
+    padding-bottom: 1.5rem;
+  }
+  #technicalChart,
+  #trendFollowinhgChart,
+  #benchMarkChart {
+    min-width: 725px;
+    max-width: 725px;
+    min-height: 555px;
+    background: #172568;
+    border-radius: .25rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+
+@media (min-width: 1921px) and (max-width: 2500px) {
+	#container-wrapper{
+   	width: 3550px!important;
+	}
+     #mainChart {
+    min-width: 925px;
+    max-width: 925px;
+    background: #172568;
+    min-height: 555px;
+    border-radius: .25rem;
+    padding-bottom: 1.5rem;
+  }
+  #technicalChart,
+  #trendFollowinhgChart,
+  #benchMarkChart {
+    min-width: 1040px;
+    max-width: 1040px;
+    min-height: 555px;
+    background: #172568;
+    border-radius: .25rem;
+    padding-bottom: 1.5rem;
+  }
+}
+
+
+@media (min-width: 2500px) {
+   #container-wrapper{
+   	width: 3750px!important;
+	}
+   #mainChart {
+    min-width: 1040px;
+    max-width: 1040px;
+    background: #172568;
+    min-height: 600px;
+    border-radius: .25rem;
+    padding-bottom: 1.5rem;
+  }
+  #technicalChart,
+  #trendFollowinhgChart,
+  #benchMarkChart {
+    min-width: 1040px;
+    max-width: 1040px;
+    min-height: 600px;
+    background: #172568;
+    border-radius: .25rem;
+    padding-bottom: 1.5rem;
+  }
+}
