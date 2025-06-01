@@ -1,0 +1,221 @@
+
+<div id="checkboxes-container-chart-1"></div>
+<div id="candlestickkk-container" class="chart-box">
+
+
+</div>
+
+<!-- 
+<div id="candlestick-container" class="chart-box">
+	<div class=" d-flex">
+		<div class="col" style="z-index: 1;">
+			<div class="chart-sidebar collapsed" id="chartSidebar-1">
+				<div class="toggle-sidebar" onclick="toggleSidebar(this)">&#10094;</div>
+				<div class="chart-option">
+					<div class="chart-option-title">Chart option</div>
+					<div class="btn-group  mt-2 ml-1" role="group"
+						aria-label="Vertical" id="chartTypes">
+						<div class="" role="group"
+							aria-label="Button group with nested dropdown">
+							<button class="btn btn-option" id="area"
+								onclick="graphTypeOption('area')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-areachart"></i>
+							</button>
+							<button class="btn btn-option" id="line"
+								onclick="graphTypeOption('line')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-linechart"></i>
+							</button>
+							<button class="btn btn-option d-none" id="column"
+								onclick="graphTypeOption('column')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-barchart"></i>
+							</button>
+						</div>
+					</div>
+					<div class="btn-group  mt-2 ml-1" role="group"
+						aria-label="Vertical" id="chartColor">
+						<div class="" role="group"
+							aria-label="Button group with nested dropdown">
+							<button class="btn btn-option" id="F0AB2E"
+								onclick="chartColorOption('#F0AB2E')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-goldchart"></i>
+							</button>
+							<button class="btn btn-option" id="0097FE"
+								onclick="chartColorOption('#0097FE')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-bluechart"></i>
+							</button>
+							<button class="btn btn-option" id="44546a"
+								onclick="chartColorOption('#44546a')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-darkchart"></i>
+							</button>
+						</div>
+					</div>
+					<div class="btn-group  mt-2 ml-1" role="group"
+						aria-label="Vertical" id="chartColorTransparency">
+						<div class="" role="group"
+							aria-label="Button group with nested dropdown">
+							<button class="btn btn-option" id="1"
+								onclick="chartTransparencyOption('1')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<label class="transparency-text"><span>&shy;</span>&nbsp;0%</label><i
+									class="icon-chart-1"></i>
+							</button>
+							<button class="btn btn-option" id="75"
+								onclick="chartTransparencyOption('0.75')"
+								data-pausetext="Break In" data-resumetext="Resume">
+								<label class="transparency-text">25%</label><i
+									class="icon-chart-25"></i>
+							</button>
+							<button class="btn btn-option" id="5"
+								onclick="chartTransparencyOption('0.50')"
+								data-pausetext="Break In" data-resumetext="Resume">
+								<label class="transparency-text">50%</label><i
+									class="icon-chart-50"></i>
+							</button>
+						</div>
+					</div>
+					<div class="btn-group  mt-2 ml-1" role="group"
+						aria-label="Vertical" id="chartMarker">
+						<div class="" role="group"
+							aria-label="Button group with nested dropdown">
+							<button class="btn btn-option" id="1-0"
+								onclick="chartMarkerOption('0')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-linechart"></i>
+							</button>
+							<button class="btn btn-option" id="1-1"
+								onclick="chartMarkerOption('1')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-smallmarkerchart"></i>
+							</button>
+							<button class="btn btn-option" id="1-3"
+								onclick="chartMarkerOption('3')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-bigmarkerchart"></i>
+							</button>
+						</div>
+					</div>
+					<div class="btn-group mt-2 ml-1" role="group"
+						aria-label="Vertical " id="fontOptions-mainChart">
+						<div class="" role="group" aria-label="Vertical example">
+							<button type="button" class="btn btn-option" id="12px-mainChart"
+								onclick="graphfont(candleStickChart,'12px')">
+								<i class="icon-small-a"></i>
+							</button>
+							<button type="button" class="btn btn-option" id="14px-mainChart"
+								onclick="graphfont(candleStickChart,'14px')">
+								<i class="icon-medium-a"></i>
+							</button>
+							<button type="button" class="btn btn-option" id="16px-mainChart"
+								onclick="graphfont(candleStickChart,'16px')">
+								<i class="icon-large-a"></i>
+							</button>
+						</div>
+					</div>
+					<div class="btn-group  mt-2 ml-1" role="group"
+						aria-label="Vertical" id="gridOptions">
+						<div class="" role="group"
+							aria-label="Button group with nested dropdown">
+							<button class="btn btn-option" id="true"
+								onclick="chartGridOption('true')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-withLinechart"></i>
+							</button>
+							<button class="btn btn-option" id="false"
+								onclick="chartGridOption('false')" data-pausetext="Break In"
+								data-resumetext="Resume">
+								<i class="icon-withoutLinechart"></i>
+							</button>
+						</div>
+					</div>
+					<div class="btn-group  mt-2 ml-1" role="group"
+						aria-label="Vertical" id="gridLegend">
+						<div class="" role="group"
+							aria-label="Button group with nested dropdown">
+							<button class="btn btn-option" id="legendtrue"
+								onclick="chartLegendOption('legendtrue')"
+								data-pausetext="Break In" data-resumetext="Resume">
+								<i class="icon-legendchart"></i>
+							</button>
+							<button class="btn btn-option" id="legendfalse"
+								onclick="chartLegendOption('legendfalse')"
+								data-pausetext="Break In" data-resumetext="Resume">
+								<i class="icon-nolegendchart"></i>
+							</button>
+						</div>
+					</div>
+					<input aria-expanded="true" aria-controls="collapseFilter"
+						class="btn btn-primary mr-1 mb-1"
+						style="display: none; margin: 1.1rem; color: white; font-size: 0.54rem; height: 30px; position: absolute; bottom: 4px; font-weight: bold; left: -1px; text-transform: uppercase;"
+						type="button" id="SaveToFavorites" value="Save To Favorites" />
+				</div>
+			</div>
+		</div>
+		<div id="mainChart" class="chart-box col-12"></div>
+		<div>
+			<div id="order-book" class="order-book h-550 w-150">
+				<div class="header">Order Book</div>
+				<div id="asks"></div>
+				<div class="mid-price" id="midPrice">Loading...</div>
+				<div id="bids"></div>
+				<div class="footer">
+					<span id="buyRatio">B --%</span> <span id="sellRatio">S --%</span>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<div class="mt-2 d-flex justify-content-between date-navigtion"
+		role="toolbar" aria-label="Toolbar with button groups">
+		<div class="btn-group mr-2" role="group" aria-label="First group">
+			<button type="button" id="button-yearBackward"
+				class="btn btn-secondary  fs-7 d-flex align-items-center"
+				onclick="navigationTargetGraph('yearBackward', 'mainChart',candleStickChart)">
+				<i class="fas fa-angle-double-left pr-1"></i> Y
+			</button>
+			<button type="button" id="button-monthBackward"
+				class="btn btn-secondary fs-7 d-flex align-items-center"
+				onclick="navigationTargetGraph('monthBackward', 'mainChart',candleStickChart)">
+				<i class="fas fa-angle-double-left pr-1"></i> M
+			</button>
+			<button type="button" id="button-weekBackward"
+				class="btn btn-secondary fs-7 d-flex align-items-center"
+				onclick="navigationTargetGraph('weekBackward', 'mainChart',candleStickChart)">
+				<i class="fas fa-angle-double-left pr-1"></i> W
+			</button>
+
+		</div>
+		<div class="btn-group mr-2" style="justify-content: center;"
+			role="group" aria-label="Second group">
+			<label>From</label> <input id="dateFrom-mainChart" type="search"
+				class="inputdate form-control form-control-sm" placeholder=""
+				aria-controls="DataTables_Table_4" disabled> <label>To</label>
+			<input id="dateTo-mainChart" type="search"
+				class="inputdate form-control form-control-sm" placeholder=""
+				aria-controls="DataTables_Table_4" disabled>
+		</div>
+		<div class="btn-group" role="group" aria-label="Third group">
+			<button type="button" id="button-weekForward"
+				class="btn btn-secondary fs-7 d-flex align-items-center"
+				onclick="navigationTargetGraph('weekForward', 'mainChart')">
+				W <i class="fas fa-angle-double-right pl-1"></i>
+			</button>
+
+			<button type="button" id="button-monthForward"
+				class="btn btn-secondary fs-7 d-flex align-items-center"
+				onclick="navigationTargetGraph('monthForward', 'mainChart')">
+				M <i class="fas fa-angle-double-right pl-1"></i>
+			</button>
+			<button type="button" id="button-yearForward"
+				class="btn btn-secondary fs-7 d-flex align-items-center"
+				onclick="navigationTargetGraph('yearForward', 'mainChart')">
+				Y <i class="fas fa-angle-double-right pl-1"></i>
+			</button>
+		</div>
+	</div>
+</div> -->

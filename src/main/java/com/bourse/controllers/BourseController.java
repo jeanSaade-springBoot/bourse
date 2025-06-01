@@ -747,6 +747,9 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 	    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
 	    model.addAttribute("crytpos", "html/templates/cryptos");
+	    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
+	    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
+	    
 	    return new ModelAndView("html/cryptos/technical-analysis");
     }
 	

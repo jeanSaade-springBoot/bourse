@@ -946,10 +946,11 @@ public class CryptosService {
 		    	    .retrieve()
 		    	    .bodyToMono(new ParameterizedTypeReference<List<GraphResponseDTO>>() {})
 		    	    .block(); // Synchronous call
-
+		    ColumnConfiguration columnConfiguration = ColumnConfiguration.builder().displayDescription("FUNDING RATE").build();
+		    
 		    return GraphResponseColConfigDTO.builder()
 		            .graphResponseDTOLst(graphResponseDTOlst1)
-		            .config(null)
+		            .config(columnConfiguration)
 		            .build();
 		}
 	  public GraphResponseColConfigDTO getGraphDataResultFourHoursInterval(GraphRequestDTO graphReqDTO, Boolean isFunction) {

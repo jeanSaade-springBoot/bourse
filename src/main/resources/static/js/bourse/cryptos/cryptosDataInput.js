@@ -17,7 +17,6 @@ var BitcoinItem = [
 	'#jqxCheckBox-71-1',
 	'#jqxCheckBox-71-2',
 ];
-
 var EthereumItem = [
 	'#jqxCheckBox-72-7',
 	'#jqxCheckBox-72-3',
