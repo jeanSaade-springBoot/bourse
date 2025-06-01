@@ -134,7 +134,7 @@ function drawGraph() {
 	
 	const removeEmpty = true;
 
-	drawTechnicalGraph(`chart${chartId}`,graphService,graphName,removeEmpty,true);
+	drawTechnicalGraph("#mainChart",graphService,graphName,removeEmpty,true);
 	
 }
 document.addEventListener('DOMContentLoaded', function () {
