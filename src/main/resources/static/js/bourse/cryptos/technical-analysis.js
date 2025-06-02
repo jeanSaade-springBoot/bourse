@@ -1,6 +1,6 @@
 const checkedItemCountPerChart = {};      // chartId → count
 const checkedItemIdsPerChart = {};        // chartId → array of IDs
-
+let cachedTrendlineResult = null;
 const checkboxOptions = [
 	{ label: "OPENint", index: 7 },
 	{ label: "HIGH", index: 3 },
@@ -21,9 +21,15 @@ const chartItemLimits = {
   1: 2, // Chart 1: allow 2 items
   2: 1  // Chart 2: allow 1 item
 };
+$(window).on('load', function() {
+	$('#overlay').fadeOut();
+	$('#container-wrapper').show();
+});
+
 $(document).ready(function() {
 
 	if (timeRange == "Daily") {
+		$('#trendlineButtons').css('min-height', '71.1px');
 		monthDate = new Date();
 		monthDate.setMonth(monthDate.getMonth() - 4);
 		monthDate.setHours(0, 0, 0, 0);
@@ -125,9 +131,9 @@ $(document).ready(function() {
 		//CryptosAnalisys
 		
 		initializeCryptoOptions();
-		getTrendLinesHistory();
-		//loadGraphDrawings('CryptosAnalisys', 2)
-		
+		// getTrendLinesHistory();
+		 
+
 });
  $("#groupOfPeriod-chart1").on('buttonclick', function (event) {
 	        updateFunctionBasedOnSelectedPeriod($('#groupOfPeriod-chart1').jqxButtonGroup('getSelection'));         
@@ -602,62 +608,30 @@ function getDataChart2(checkedItemIds) {
 		params[`removeEmpty${index + 1}`] = false;
 	});
 	
-	let isCentred = [false];
-	let applyTransparency=false;
 
-	let seriesColors = [];
+	loadGraphWithTrendlines(screenName, 'chart2',params)
+}
 
-	if (functionId === 1) {
-	  seriesColors = ['#ffffff', '#FF0000'];
-	} else if (functionId === 2) {
-	  seriesColors = ['#ffffff', '#ffa4c5'];
-	} else if ([3, 4, 5, 6, 10, 11, 12, 13, 14].includes(functionId)) {
-	  seriesColors = ['#ffffff', '#ffa4c5'];
-	  applyTransparency=true;
-	} else if ([7,8,9].includes(functionId)) {
-	  seriesColors = ['#ffffff', '#0cb1e6'];
-	}else if (metadataList.length > 1) {
-	  seriesColors = sorted.map((m, i) => {
-	    if (i === 1) {
-	      return has5or6 ? 'rgba(240, 171, 46, 0.5)' : '#0000ff'; // Yellow or blue based on condition
-	    }
-	    return '#ffffff'; // Default
-	  });
+async function loadGraphWithTrendlines(screenName, chartId, dataParam) {
+	try {
+		
+		if (!cachedTrendlineResult) {
+			cachedTrendlineResult = await getTrendLinesHistoryAsync(screenName);
+		}
+
+		
+		ChartManager.instances[chartId].loadDataWithOverlays({
+			service: "cryptos",
+			api: "/cryptos/getgraphdatabytype",
+			name: "Technical Chart",
+			removeEmpty: true,
+			saveHistory: true,
+			dataParam,
+			result: cachedTrendlineResult
+		});
+	} catch (err) {
+		console.error("Error loading trendlines + technical chart:", err);
 	}
-	let useDualYAxis = (
-	  (functionId !== 1 && functionId !== 2 && functionId !== -1) ||
-	  (sorted.length === 2 && has5or6)
-	);
-	const useShortFormatList = sorted.map(m => (m.subGroupId === '5' || m.subGroupId === '6'));
-	
-	const disableMarkers = (functionId === 1 || functionId === 2) ? true : false;
-	
-	let api = '';
-	if (timeRange == "Daily")
-		api = "/cryptos/getgraphdatabytype";
-	else {
-		api = "/cryptos/getgraphdatainterval";
-		//todate= todate+' 23:59:59';
-	}
-	// Load chart
-	manager.loadData({
-	    service: "cryptos",
-		api: api,
-		name: "BTC-vs-ETH",
-		removeEmpty: false,
-		saveHistory: false,
-		applyDb: true,
-		seriesColors,
-		useDualYAxis,
-		dataParam: params,
-		useShortFormatList,
-		interval: timeRange,
-		applyTransparency: applyTransparency,
-		disableMarkers:disableMarkers,
-		isCentred:isCentred
-	});
-	
-	
 }
 // Attach events for Right button
 const rightBtn = document.getElementById('scrollRightBtn');
@@ -680,10 +654,14 @@ function toggleGraphData(time) {
 	// Update timeRange based on selection
 	if (time === 1) {
 		timeRange = "Daily";
+		$('#trendlineButtons').css('min-height', '71.1px');
 	} else if (time === 2) {
 		timeRange = "4h";
+		$('#trendlineButtons').css('min-height', '34px');
 	} else {
 		timeRange = "1w";
+		$('#trendlineButtons').css('min-height', '34px');
+		
 	}
 
 	// 🔄 Reset from-date field dynamically
@@ -730,10 +708,15 @@ function toggleGraphData(time) {
 
 		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
 		$('#euroTime').removeClass("d-flex").addClass("d-none");
-	} else {
+	} else if(timeRange === "Daily"){
 		$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
 		$('#functionOptionsMenu').addClass("d-flex").removeClass("d-none");
 		$('#euroTime').addClass("d-flex").removeClass("d-none");
+	}
+	else
+		if(timeRange === "1w"){
+		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
+
 	}
 
 
@@ -863,106 +846,3 @@ function getChartPeriod() {
 
     return period;
 }
-async function loadGraphDrawings(screenName, chartId) {
-	const trendUrl = `/graph/find-graph-history-by-userid-screen-name/${screenName}`;
-	const retracementUrl = `/graph/find-retracement-history-by-userid-screen-name/${screenName}`;
-	const relevantUrl = `/graph/find-relevant-history-by-userid-screen-name/${screenName}`;
-
-	const trendResponse = await fetch(trendUrl).then(r => r.json());
-	const retracementResponse = await fetch(retracementUrl).then(r => r.json());
-	const relevantResponse = await fetch(relevantUrl).then(r => r.json());
-
-	const groupedTrendData = {};
-	const retracementData = {};
-	const relevantData = {};
-
-	// 1. Group trendlines and channel lines
-	trendResponse.forEach(obj => {
-		if (!groupedTrendData[obj.graphId]) {
-			groupedTrendData[obj.graphId] = {
-				trendlines: [],
-				channelLines: [],
-				chartOptions: JSON.parse(obj.chartOptions)
-			};
-		}
-
-		const trendline = JSON.parse(obj.trendlines);
-		const channelline = JSON.parse(obj.channel);
-
-		if (trendline) {
-			trendline.hidden = obj.isVisibleTrendline ?? false;
-			trendline.dbid = obj.id;
-			groupedTrendData[obj.graphId].trendlines.push(trendline);
-		}
-		if (channelline) {
-			channelline.hidden = obj.isVisibleChannel ?? false;
-			channelline.dbid = obj.id;
-			groupedTrendData[obj.graphId].channelLines.push(channelline);
-		}
-	});
-
-	// 2. Group retracements
-	retracementResponse.forEach(data => {
-		if (!retracementData[data.graphId]) retracementData[data.graphId] = [];
-
-		retracementData[data.graphId].push({
-			dbId: data.id,
-			retracementData: {
-				'10%': +data.percentage10,
-				'25%': +data.percentage25,
-				'33%': +data.percentage33,
-				'38%': +data.percenetage38,
-				'50%': +data.percentage50,
-				'62%': +data.percentage62,
-				'66%': +data.percentage66,
-				'75%': +data.percentage75
-			},
-			retracementDataHide: {
-				'10%': data.hidePercentage10,
-				'25%': data.hidePercentage25,
-				'33%': data.hidePercentage33,
-				'38%': data.hidePercenetage38,
-				'50%': data.hidePercentage50,
-				'62%': data.hidePercentage62,
-				'66%': data.hidePercentage66,
-				'75%': data.hidePercentage75
-			},
-			retracementParameter: {
-				startPrice: data.startPrice,
-				endPrice: data.endPrice,
-				startDate: data.startDate,
-				endDate: data.endDate,
-				hideAll: data.hideAll
-			}
-		});
-	});
-
-	// 3. Group relevant points
-	relevantResponse.forEach(data => {
-		if (!relevantData[data.graphId]) relevantData[data.graphId] = [];
-		relevantData[data.graphId].push({
-			dbId: data.id,
-			isHidden: data.isHidden,
-			relevantParameter: {
-				startPrice: data.startPrice,
-				endPrice: data.endPrice,
-				startDate: data.startDate,
-				endDate: data.endDate,
-				color: data.color
-			}
-		});
-	});
-
-	// Final merge per chart
-		Object.keys(groupedTrendData).forEach(graphId => {
-			const drawingData = {
-				trendlines: groupedTrendData[graphId].trendlines,
-				channelLines: groupedTrendData[graphId].channelLines,
-				retracements: retracementData[graphId] || [],
-				relevantPoints: relevantData[graphId] || []
-			};
-	
-			// 🎯 Attach this to your chart by ID
-			this.attachDrawingsToChart(chartId, drawingData);
-		});
-	}

@@ -260,10 +260,13 @@ height:34px;
 			<!-- Buttons -->
 			<button id="scrollLeftBtn">◀</button>
 			<button id="scrollRightBtn">▶</button>
+			<div id="overlay" class="col-12 d-block">
+		     			<img src="/css/images/loader.gif" alt="Loading" width="46px" />
+		   </div>
 			<div id="content" class="drag-scroll">
 				<!-- Container Fluid-->
 				
-				<div class="container-fluid" id="container-wrapper">
+				<div class="container-fluid" id="container-wrapper" style="display:none">
 				<div class="row col-8 mt-2" >
 						
 						<!-- 
@@ -346,12 +349,13 @@ height:34px;
 									</div>
 								</div>
 								<div class="col h-100 p-0">
+									<!--<div th:include="${graph2}"></div>-->
 									<div id="checkboxes-container-chart-2"></div>
 									<div class="col-12 d-flex justify-content-end">
 										<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-2" value="Show" />
 										<input id="clear-filter-chart-2" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 									</div>
-									<div class="col-8">	
+									<div class="col-8" id="trendlineButtons">	
 										  <div class="d-flex">
 											<input aria-expanded="true" aria-controls="collapseFilter"
 												class="btn btn-primary  mb-1 mr-1" style="color: white;"
@@ -867,7 +871,7 @@ height:34px;
 	    <script src="/js/graph/chartManager.js"></script>
 
 		<script src="/js/bourse/cryptos/technical-analysis.js"></script>
- 		<script src="/js/bourse/graph/trendline.js"></script>
+ 		<script src="/js/graph/trendlineManager.js"></script>
  		<script src="/js/bourse/graph/candleStick.js"></script>
 	    <script src="/js/bourse/cryptos/orderBook.js"></script> 
     

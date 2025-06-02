@@ -155,7 +155,7 @@ class ChartManager {
 		);
 
 		return this.chart.render().then(() => {
-			this.applyStyleSettings();
+			this.applyStyle();
 			if (!this._eventsBound) {
 				this._bindUIEvents();
 				this._eventsBound = true;
@@ -168,7 +168,7 @@ class ChartManager {
 		try { fn(); }
 		finally {
 			this._batching = false;
-			this.applyStyleSettings();
+			this.applyStyle();
 		}
 	}
 
@@ -349,7 +349,7 @@ class ChartManager {
 		}
 	return colorCode;
 	}
-	applyStyleSettings() {
+	applyStyle() {
 		const s = this.state;
 		const base = s.color;
 		const finalColor = base === '#44546a' ? '#2e75b6' : base;
@@ -523,16 +523,16 @@ class ChartManager {
 		});
 	}
 
-	setChartType(v) { this.state.chartType = v; if (!this._batching) this.applyStyleSettings(); }
-	setColor(v) { this.state.color = v; if (!this._batching) this.applyStyleSettings(); }
-	setTransparency(v) { this.state.transparency = v; if (!this._batching) this.applyStyleSettings(); }
-	setMarkerSize(v) { this.state.markerSize = v; if (!this._batching) this.applyStyleSettings(); }
-	setFontSize(v) { this.state.fontSize = v; if (!this._batching) this.applyStyleSettings(); }
-	setGrid(v) { this.state.gridVisible = v; if (!this._batching) this.applyStyleSettings(); }
-	setLegend(v) { this.state.legendOption = v; if (!this._batching) this.applyStyleSettings(); }
-	setYAxisLimits(min, max) { this.state.yAxisLimits = { min, max }; if (!this._batching) this.applyStyleSettings(); }
-	setYAxisFormat(fmt, dec = true) { this.state.yAxisFormat = fmt; this.state.isDecimal = dec; if (!this._batching) this.applyStyleSettings(); }
-	setSeries(arr) { this.state.series = arr; if (!this._batching) this.applyStyleSettings(); }
+	setChartType(v) { this.state.chartType = v; if (!this._batching) this.applyStyle(); }
+	setColor(v) { this.state.color = v; if (!this._batching) this.applyStyle(); }
+	setTransparency(v) { this.state.transparency = v; if (!this._batching) this.applyStyle(); }
+	setMarkerSize(v) { this.state.markerSize = v; if (!this._batching) this.applyStyle(); }
+	setFontSize(v) { this.state.fontSize = v; if (!this._batching) this.applyStyle(); }
+	setGrid(v) { this.state.gridVisible = v; if (!this._batching) this.applyStyle(); }
+	setLegend(v) { this.state.legendOption = v; if (!this._batching) this.applyStyle(); }
+	setYAxisLimits(min, max) { this.state.yAxisLimits = { min, max }; if (!this._batching) this.applyStyle(); }
+	setYAxisFormat(fmt, dec = true) { this.state.yAxisFormat = fmt; this.state.isDecimal = dec; if (!this._batching) this.applyStyle(); }
+	setSeries(arr) { this.state.series = arr; if (!this._batching) this.applyStyle(); }
 
 	toggleSidebar() {
 		const sb = document.getElementById(`chartSidebar-${this.chartId}`);
@@ -616,13 +616,15 @@ class ChartManager {
 		
 			
 		// ✅ Re-fetch using the adjusted fromDate and existing toDate
-		await this.loadData({
+		const loadFn = this._loadMethod || this.loadData.bind(this); // fallback to default if not set
+
+		await loadFn({
 			service: this._lastService,
 			api: this._api,
 			name: this._lastGraphName,
 			removeEmpty: this._lastRemoveEmpty,
 			saveHistory: this._lastSaveHistory,
-			fromOverride: this._formatDate(fromDate),
+			fromOverride: this._formatDate(fromDate), 
 			toOverride: this._formatDate(toDate),
 			applyDb: false,
 			seriesTypes: this.state.series.map(s => s.type),
@@ -630,11 +632,12 @@ class ChartManager {
 			useDualYAxis: this.state.useDualYAxis,
 			dataParam: this._lastDataParam,
 			useShortFormatList: this._useShortFormatList,
-			interval:this._interval,
-			applyTransparency:this._applyTransparency,
-		    shouldAlign:this._shouldAlign,
-		    disableMarkers:this._disableMarkers,
-		    isCentred:this._isCentred,
+			interval: this._interval,
+			applyTransparency: this._applyTransparency,
+			shouldAlign: this._shouldAlign,
+			disableMarkers: this._disableMarkers,
+			isCentred: this._isCentred,
+			results: this._lastOverlayResults || [] // optional: only if using loadDataWithOverlays
 		});
 
 		this._updateNavButtons();
@@ -729,6 +732,8 @@ class ChartManager {
 				removeEmpty2: removeEmpty
 			};
 		}*/
+		this._loadMethod = this.loadData.bind(this); // in loadData
+
 		const resp = await fetch(`${api}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataParam) }).then(r => r.json());
 
 		// Apply multiplier if series is funding rate
@@ -1145,7 +1150,6 @@ class ChartManager {
 		const interval = getActiveTimeRange();
 		const dropdownVal = $('#dropDownCandleOptions').val();
 
-		// ✅ Base parameters
 		const newCandlestickParam = {
 			fromdate: from,
 			todate: to,
@@ -1157,7 +1161,6 @@ class ChartManager {
 			candlestickMode: true
 		};
 		let seriesTypes = ['candlestick'];
-		// ✅ Add second group if dropdown value is selected
 		if (dropdownVal) {
 			newCandlestickParam.groupId2 = this._lastDataParam?.groupId1;
 			newCandlestickParam.subGroupId2 = dropdownVal;
@@ -1194,6 +1197,64 @@ class ChartManager {
 		if ($('#weeklyData-btn').hasClass('active')) return '1w';
 		return null; // if none is active
 	}
+async loadDataWithOverlays({
+	service,
+	api,
+	name,
+	removeEmpty = false,
+	saveHistory = false,
+	applyDb = true,
+	seriesTypes = [],
+	seriesColors = [],
+	useDualYAxis = false,
+	dataParam = null,
+	useShortFormatList = [],
+	interval = null,
+	applyTransparency = false,
+	shouldAlign = false,
+	disableMarkers = false,
+	isCentred = [],
+	result = []
+}) {
+	this._lastService = service;
+	this._api = api;
+	this._lastGraphName = name;
+	this._lastRemoveEmpty = removeEmpty;
+	this._lastSaveHistory = saveHistory;
+	this._lastDataParam = dataParam;
+	this._useShortFormatList = useShortFormatList;
+	this._interval = interval;
+	this._applyTransparency = applyTransparency;
+	this._shouldAlign = shouldAlign;
+	this._disableMarkers = disableMarkers;
+	this._isCentred = isCentred;
+
+	this._showLoading(true);
+
+	if (interval !== null) {
+		dataParam.interval = interval;
+	}
+	this._loadMethod = (options) => {
+	const from = options.fromOverride || this._formatDate(this.state.defaultFromDate);
+	const to = options.toOverride || this._formatDate(new Date());
+
+		drawTechnicalGraph(
+			'#chart-chart2',
+			options.service,
+			options.name,
+			options.removeEmpty,
+			options.saveHistory,
+			from,
+			to
+		);
+	};  
+    this._lastOverlayResults = result;
+	chart= ChartManager.instances['chart2'].chart;
+	results=result;
+	drawTechnicalGraph('#chart-chart2', service,name,removeEmpty,saveHistory)
 	
+	this._showLoading(false);
+}
+
 }
 
