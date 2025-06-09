@@ -494,23 +494,28 @@ class ChartManager {
 						const high = w.globals.seriesCandleH?.[seriesIndex]?.[dataPointIndex];
 						const low = w.globals.seriesCandleL?.[seriesIndex]?.[dataPointIndex];
 						const close = w.globals.seriesCandleC?.[seriesIndex]?.[dataPointIndex];
-
+					
+						// 🛑 Exit early if any value is missing
+						if ([open, high, low, close].some(val => val == null || isNaN(val))) {
+							return null; // 🧼 Don't show tooltip at all
+						}
+					
 						const formatVal = (val) =>
 							new Intl.NumberFormat("en-US", {
 								minimumFractionDigits: decimals,
 								maximumFractionDigits: decimals
 							}).format(val);
-
+					
 						return `
-				        <div style="padding: 10px;">
-				          <div><strong>Open:</strong> ${formatVal(open)}</div>
-				          <div><strong>High:</strong> ${formatVal(high)}</div>
-				          <div><strong>Low:</strong> ${formatVal(low)}</div>
-				          <div><strong>Close:</strong> ${formatVal(close)}</div>
-				        </div>`;
+							<div style="padding: 10px;">
+							  <div><strong>Open:</strong> ${formatVal(open)}</div>
+							  <div><strong>High:</strong> ${formatVal(high)}</div>
+							  <div><strong>Low:</strong> ${formatVal(low)}</div>
+							  <div><strong>Close:</strong> ${formatVal(close)}</div>
+							</div>`;
 					} else {
 						const yValue = w.globals.series[seriesIndex][dataPointIndex];
-						const formatted = formatNumberShort(yValue);
+						const formatted = fmt.useShortFormat?formatNumberShort(yValue):yValue.toFixed(decimals);
 						return `
 				        <div style="padding: 10px;">
 				          <div><strong>Value:</strong> ${fmt.isPercentage ? formatted + "%" : formatted}</div>
@@ -699,6 +704,8 @@ class ChartManager {
 	    shouldAlign = false,
 	    disableMarkers = false,
 	    isCentred = [],
+	    currency='BTC'
+		
 	}) {
 		this._lastService = service;
 		this._api = api;
@@ -713,7 +720,7 @@ class ChartManager {
 		this._shouldAlign=shouldAlign;
 		this._disableMarkers=disableMarkers;
 		this._isCentred=isCentred;
-
+      
 		if (interval !== null) {
 			dataParam.interval = interval;
 		}
@@ -766,7 +773,7 @@ class ChartManager {
 			this.applyDbConfig(resp[0].config);
 		}
 		this.state.functionId = dataParam?.functionId ?? -1;
-
+		this.state.currency=currency;
 		// map to series data
 		const series = resp.map((dto, idx) => {
 		const type = seriesTypes[idx] || this.state.chartType;
@@ -798,6 +805,7 @@ class ChartManager {
 		this.state.applyTransparency = applyTransparency;
 		this.state.disableMarkers = disableMarkers;
 		this.state.seriesColors = seriesColors.length ? seriesColors : [this.state.color];
+
 		this.state.seriesFormats = resp.map((r, idx) => {
 			const [digits, isRaw] = getFormat(r.config?.yAxisFormat || '');
 			return {
@@ -1020,13 +1028,28 @@ class ChartManager {
 			tickAmount: 6,
 			labels: {
 				style: { fontSize },
-				formatter: val => isNaN(val)
-					? ''
-					: fmt.useShortFormat
-						? this.formatNumberShort(val)
-						: isCandle
-							? Number(val).toFixed(fmt.digits)
-							: (fmt[1] ? val.toFixed(fmt[0]) + '%' : val.toFixed(fmt[0]))
+				formatter: val => {
+					if (val == null || isNaN(val)) return '';
+				
+					if (fmt.useShortFormat) {
+						return this.formatNumberShort(val);
+					}
+				
+					if (isCandle) {
+						return Number(val).toFixed(fmt.digits);
+					}
+				
+					// Handle percentage formatting
+					const digits = fmt.digits ?? 2;
+					const isPercentage = fmt.isPercentage ?? fmt[1]; // fallback to old style
+				
+					try {
+						return isPercentage ? Number(val).toFixed(digits) + '%' : Number(val).toFixed(digits);
+					} catch (e) {
+						console.warn('Invalid value in formatter:', val, e);
+						return '';
+					}
+				}
 			},
 			axisBorder: { show: true, color: '#ffffff', width: 3 },
 			opposite: index === 1,
@@ -1053,7 +1076,7 @@ class ChartManager {
 
 			const newCandlestickParam = {
 				fromdate: document.getElementById(`dateFrom-${this.chartId}`)?.value,
-				todate: document.getElementById(`dateTo-${this.chartId}`)?.value,
+				todate: document.getElementById(`dateTo-${this.chartId}`)?.value +' 23:59:59',
 				groupId1: this._lastDataParam.groupId1,
 				subGroupId1: this._lastDataParam.subGroupId1,
 				interval: this._lastDataParam.interval,
@@ -1081,7 +1104,8 @@ class ChartManager {
 				useDualYAxis: false,
 				dataParam: newCandlestickParam,
 				useShortFormatList: [false],
-				interval: timeRange
+				interval: timeRange,
+				currency:selectedLiveCurrency
 			});
 
 			this._disableChartSettings(true, ['fontOptions']);
@@ -1149,10 +1173,10 @@ class ChartManager {
 		const to = document.getElementById(`dateTo-${this.chartId}`)?.value;
 		const interval = getActiveTimeRange();
 		const dropdownVal = $('#dropDownCandleOptions').val();
-
+         
 		const newCandlestickParam = {
 			fromdate: from,
-			todate: to,
+			todate: to+' 23:59:59',
 			groupId1: this._lastDataParam?.groupId1,
 			subGroupId1: this._lastDataParam?.subGroupId1,
 			interval,
@@ -1161,12 +1185,14 @@ class ChartManager {
 			candlestickMode: true
 		};
 		let seriesTypes = ['candlestick'];
+		let seriesColors = ['rgba(240, 171, 46, 0.5)'];
 		if (dropdownVal) {
 			newCandlestickParam.groupId2 = this._lastDataParam?.groupId1;
 			newCandlestickParam.subGroupId2 = dropdownVal;
 			newCandlestickParam.removeEmpty1 = false;
 			newCandlestickParam.removeEmpty2 = false;
 			seriesTypes = ['candlestick', 'column'];
+			seriesColors = ['#ffffff', 'rgba(240, 171, 46, 0.5)'];
 		}
 
 		const api = interval === "Daily"
@@ -1183,12 +1209,13 @@ class ChartManager {
 			toOverride: to,
 			applyDb: false,
 			seriesTypes: seriesTypes,
-			seriesColors: ['rgba(240, 171, 46, 0.5)'],
+			seriesColors: seriesColors,
 			useDualYAxis: !!dropdownVal,
 			dataParam: newCandlestickParam,
 			useShortFormatList: [false, true],
-			interval,
-			applyTransparency: true
+			interval:interval,
+			applyTransparency: true,
+			currency:selectedLiveCurrency
 		});
 	}
 	getActiveTimeRange() {
@@ -1214,7 +1241,8 @@ async loadDataWithOverlays({
 	shouldAlign = false,
 	disableMarkers = false,
 	isCentred = [],
-	result = []
+	result = [],
+	currency='BTC'
 }) {
 	this._lastService = service;
 	this._api = api;
@@ -1230,6 +1258,7 @@ async loadDataWithOverlays({
 	this._isCentred = isCentred;
 
 	this._showLoading(true);
+	this.state.currency=currency;
 
 	if (interval !== null) {
 		dataParam.interval = interval;
@@ -1250,10 +1279,163 @@ async loadDataWithOverlays({
 	};  
     this._lastOverlayResults = result;
 	chart= ChartManager.instances['chart2'].chart;
+	
 	results=result;
 	drawTechnicalGraph('#chart-chart2', service,name,removeEmpty,saveHistory)
 	
 	this._showLoading(false);
+	this._disableChartSettings(true);
+
+}
+static handleLiveUpdate(currency, message) {
+	try {
+		
+		const returnedData = JSON.parse(message.body);
+		const chartInstances = Object.values(ChartManager.instances);
+
+		chartInstances.forEach(instance => {
+			let updatedChart = instance.chart;
+
+			if (instance.state.currency !== currency) return; 
+
+			updatedChart = instance.chartId=='chart2'?chart:updatedChart;
+			if (!updatedChart || !updatedChart.w || !updatedChart.w.config || !Array.isArray(updatedChart.w.config.series)) return;
+
+			const timeRange = instance.getActiveTimeRange?.() || 'Daily';
+			const isCandlestick = Array.isArray(instance.state.series)
+				&& instance.state.series.some(s => s?.type === "candlestick");
+
+			const data = timeRange === '4h' ? returnedData[1] : returnedData[0];
+			const formattedDate = timeRange === '4h'
+				? formatDateWithTime(data.startTime)
+				: formatDateShort(data.startTime);
+
+			// 🔧 Utility: returns updated sorted series with new point
+			const buildUpdatedSeriesData = (seriesData, newPoint) => {
+				const cleanData = (seriesData || []).filter(p => p.x !== newPoint.x);
+				cleanData.push(newPoint);
+				return cleanData.sort((a, b) => new Date(a.x) - new Date(b.x));
+			};
+
+			if (!isCandlestick) {
+				
+				const chartNum = instance.chartId.replace('chart', '');
+				const checkedItems = checkedItemIdsPerChart[chartNum] || [];
+
+				checkedItems.forEach((idSelector, i) => {
+					const checkboxId = idSelector.split('-')[2];
+					const meta = checkboxOptions.find(o => o.index == checkboxId);
+					if (!meta) return;
+
+					let y = null;
+					if (meta.label.includes("OPEN")) y = data.open;
+					if (meta.label.includes("HIGH")) y = data.high;
+					if (meta.label.includes("LOW")) y = data.low;
+					if (meta.label.includes("CLOSE")) y = data.close;
+					if (meta.label.includes("VOLUME")) {
+						y = instance._interval === '4h' ? data.volume : (data.totalVolume ?? data.volume);
+					}				
+					if (meta.label.includes("MARKETCAP")) y = data.marketcap;
+
+						if (y != null) {
+						const point = { x: formattedDate, y: +y };
+				
+						// 🔁 Choose correct series index
+						const seriesIndex = (instance.chartId === 'chart2')
+							? updatedChart.w.config.series.length - 1
+							: i;
+				
+						if (!updatedChart.w.config.series[seriesIndex]) {
+							return;
+						}
+				
+						const updatedSeries = buildUpdatedSeriesData(updatedChart.w.config.series[seriesIndex]?.data, point);
+						updatedChart.w.config.series[seriesIndex].data = updatedSeries;
+				
+					}
+				});
+
+				// Stretch & Update
+				const targetSeriesIndex = instance.chartId === 'chart2'
+					? updatedChart.w.config.series.length - 1
+					: 0;
+				
+				const cleanData = updatedChart.w.config.series[targetSeriesIndex]?.data?.filter(p => p.y != null) || [];
+				instance.processDataAndAddNewEndDateForExtraSpaceInGraph(cleanData, 10, false)
+					.then(({ response }) => {
+						updatedChart.w.config.series[targetSeriesIndex].data = response;
+
+						const newYaxis = instance.state.useDualYAxis && updatedChart.w.config.series.length > 1
+							? updatedChart.w.config.series.map((_, idx) => instance.generateYAxisConfig(idx, instance._isCentred?.[idx]))
+							: [instance.generateYAxisConfig(0, instance._isCentred?.[0])];
+						
+						newYaxis.forEach((axis, idx) => {
+							const seriesData = updatedChart.w.config.series[idx]?.data || [];
+							const values = [];
+						
+							seriesData.forEach(p => {
+								if (Array.isArray(p.y)) {
+									values.push(...p.y.map(Number));
+								} else if (p.y != null) {
+									values.push(Number(p.y));
+								}
+							});
+						
+							const filtered = values.filter(v => !isNaN(v) && v !== 0);
+							if (filtered.length === 0) return;
+						
+							const min = Math.min(...filtered);
+							const max = Math.max(...filtered);
+							let margin = (max - min) * 0.05;
+						    let minValue = 0;
+							// 👉 Ensure margin is not negative
+							minValue = (min - margin > 0)? min - margin :minValue;
+						
+							axis.min = minValue;
+							axis.max = max + margin;
+						});
+
+						updatedChart.updateOptions({
+							series: updatedChart.w.config.series,
+							yaxis: newYaxis
+						});
+					});
+			} else {
+				if(instance._interval=='1w') return;
+				// Candlestick update
+				const candlePoint = {
+					x: formattedDate,
+					y: [data.open, data.high, data.low, data.close].map(Number)
+				};
+				let updatedCandleData = buildUpdatedSeriesData(updatedChart.w.config.series[0]?.data, candlePoint);
+
+				// Optional: Volume
+				if (updatedChart.w.config.series.length > 1 && $('#dropDownCandleOptions').val() === '5') {
+					const volPoint = { x: formattedDate, y: +data.volume };
+					const updatedVolumeData = buildUpdatedSeriesData(updatedChart.w.config.series[1]?.data, volPoint);
+					updatedChart.w.config.series[1].data = updatedVolumeData;
+				}
+
+				// Stretch only candle data
+				const cleanCandle = updatedCandleData.filter(p => p.y?.length === 4);
+				instance.processDataAndAddNewEndDateForExtraSpaceInGraph(cleanCandle, 10, true)
+					.then(({ response }) => {
+						updatedChart.w.config.series[0].data = response;
+
+						const newYaxis = instance.state.useDualYAxis && updatedChart.w.config.series.length > 1
+							? updatedChart.w.config.series.map((_, idx) => instance.generateYAxisConfig(idx, instance._isCentred?.[idx]))
+							: [instance.generateYAxisConfig(0, instance._isCentred?.[0])];
+
+						updatedChart.updateOptions({
+							series: updatedChart.w.config.series,
+							yaxis: newYaxis
+						});
+					});
+			}
+		});
+	} catch (e) {
+		console.error("Live update failed:", e);
+	}
 }
 
 }

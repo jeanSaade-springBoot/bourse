@@ -35,12 +35,13 @@ function connectWebSocket() {
 
 function addSubscription(destination, callback) {
     if (stompClient && isConnected) {
-        stompClient.subscribe(destination, callback);
+        return stompClient.subscribe(destination, callback); 
     } else {
-        pendingSubscriptions.push({ destination, callback });
+        const sub = { destination, callback };
+        pendingSubscriptions.push(sub);
+        return sub; 
     }
 }
-
 // Function to update notifications
 function updateNotification(value) {
     const bell = document.getElementById('notification');

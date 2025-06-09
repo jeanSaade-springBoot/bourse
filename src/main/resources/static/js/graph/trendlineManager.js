@@ -324,8 +324,7 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 							
 						    source = getMinMaxDateData(response[0].graphResponseDTOLst);
 				           //var data = transformData(response[0].graphResponseDTOLst);
- 						
-					if (results && results[0] && Array.isArray(results[0].relevant)) {
+ 					if (results && results[0] && Array.isArray(results[0].relevant)) {
 						results[0].relevant.forEach(relevantItem => {
 						    const relevantParameter = relevantItem.relevantParameter;
 						
@@ -604,7 +603,7 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 
 						}
 					});
-					
+			
 		    (saveHistory)?saveGraphHistory(graphName,checkedItemValues,Period,type):null;
 		    
 	$("#dateFrom-chart2").val(fromdate);
@@ -1888,7 +1887,8 @@ function updateSeriesChart(chartConfigSettings){
 			},
 			height: chartHeight,
 			type: 'line',
-			animations: { enabled: false }
+			animations: { enabled: false },
+			redrawOnParentResize: false
 		},
 				series:serieArray,
 				title: {

@@ -1,6 +1,9 @@
 const checkedItemCountPerChart = {};      // chartId → count
 const checkedItemIdsPerChart = {};        // chartId → array of IDs
 let cachedTrendlineResult = null;
+let liveSubscription = null;
+let selectedLiveCurrency = 'BTC'; // default
+
 const checkboxOptions = [
 	{ label: "OPENint", index: 7 },
 	{ label: "HIGH", index: 3 },
@@ -21,6 +24,13 @@ const chartItemLimits = {
   1: 2, // Chart 1: allow 2 items
   2: 1  // Chart 2: allow 1 item
 };
+var dropDownCryptosource = [{ name: "BITCOIN", groupId: "71", ticker: "BTC" },
+	{ name: "ETHEREUM", groupId: "72", ticker: "ETH" },
+	{ name: "SOLANA", groupId: "73", ticker: "SOL" },
+	{ name: "SHIBA INU", groupId: "74", ticker: "SHIB" },
+	{ name: "BINANCE COIN", groupId: "75", ticker: "BNB" },
+	{ name: "XRP", groupId: "76", ticker: "XRP" }];
+	
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#container-wrapper').show();
@@ -250,30 +260,7 @@ function getCheckedCount(chartId) {
 
 function initializeCryptoOptions() {
 
-	var dropDownCryptosource = [{
-		"name": "BITCOIN",
-		"groupId": "71"
-	},
-	{
-		"name": "ETHEREUM",
-		"groupId": "72"
-	},
-	{
-		"name": "SOLANA",
-		"groupId": "73",
-	},
-	{
-		"name": "SHIBA INU",
-		"groupId": "74"
-	},
-	{
-		"name": "BINANCE COIN",
-		"groupId": "75"
-	},
-	{
-		"name": "XRP",
-		"groupId": "76"
-	}];
+
 	var Optionsource =
 	{
 		datatype: "json",
@@ -289,28 +276,33 @@ function initializeCryptoOptions() {
 	$("#dropDownCryptoOptions").jqxDropDownList({ dropDownHeight: 200, selectedIndex: 0, source: functionDataAdapter, placeHolder: "", displayMember: "name", valueMember: "groupId", theme: 'dark', width: 150, height: 25 });
 
 	$('#dropDownCryptoOptions').on('change', function(event) {
-
-		const selectedCrypto = $('#dropDownCryptoOptions').val();
-
-		renderCheckboxesPerChart(selectedCrypto);
-
-		initializeCandlesOptions(Number(selectedCrypto));
-
-		if (selectedCrypto == '71') {
+		const selectedGroupId = $('#dropDownCryptoOptions').val();
+		const selected = dropDownCryptosource.find(c => c.groupId === selectedGroupId);
+	
+		if (!selected) return;
+	
+		selectedLiveCurrency = selected.ticker; // <-- Update live currency
+	
+		renderCheckboxesPerChart(selectedGroupId);
+		initializeCandlesOptions(Number(selectedGroupId));
+	
+		if (selectedGroupId === '71') {
 			$("#order-book").addClass("d-block").removeClass("d-none");
 			$('#mainChart').css('max-width', '600px');
 		} else {
 			$("#order-book").addClass("d-none").removeClass("d-block");
 			$('#mainChart').css('max-width', '1100px');
 		}
-		// Hide all crypto sections
+	
 		dropDownCryptosource.forEach(c => {
 			$('#crypto-' + c.groupId.toUpperCase().replace(/\s/g, '')).removeClass("d-flex").addClass("d-none");
 		});
 		$("#Clearfilter").trigger('click');
-		// Show the selected crypto section
-		$('#crypto-' + selectedCrypto).addClass("d-flex").removeClass("d-none");
-		candleStickTranding(graphName, false);
+		$('#crypto-' + selectedGroupId).addClass("d-flex").removeClass("d-none");
+	
+		// ✅ Use updated currency ticker
+		console.log(selectedLiveCurrency)
+		updateLiveSubscription(selectedLiveCurrency);
 	});
 
 	renderCheckboxesPerChart($("#dropDownCryptoOptions").val());
@@ -541,7 +533,7 @@ function getDataChart1(checkedItemIds) {
 		api = "/cryptos/getgraphdatabytype";
 	else {
 		api = "/cryptos/getgraphdatainterval";
-		//todate= todate+' 23:59:59';
+		params[`todate`]= to+' 23:59:59';
 	}
 	// Load chart
 	manager.loadData({
@@ -559,7 +551,8 @@ function getDataChart1(checkedItemIds) {
 		interval: timeRange,
 		applyTransparency: applyTransparency,
 		disableMarkers:disableMarkers,
-		isCentred:isCentred
+		isCentred:isCentred,
+		currency:selectedLiveCurrency
 	});
 }
 function getDataChart2(checkedItemIds) {
@@ -627,7 +620,8 @@ async function loadGraphWithTrendlines(screenName, chartId, dataParam) {
 			removeEmpty: true,
 			saveHistory: true,
 			dataParam,
-			result: cachedTrendlineResult
+			result: cachedTrendlineResult,
+			currency:selectedLiveCurrency
 		});
 	} catch (err) {
 		console.error("Error loading trendlines + technical chart:", err);
@@ -846,3 +840,18 @@ function getChartPeriod() {
 
     return period;
 }
+function updateLiveSubscription(currency) {
+    if (liveSubscription && typeof liveSubscription.unsubscribe === 'function') {
+        liveSubscription.unsubscribe();
+    }
+    liveSubscription = addSubscription(`/all/chart/${currency}`, function (message) {
+        ChartManager.handleLiveUpdate(currency, message);
+    });
+}
+function addSubscription(channel, callback) {
+	return stompClient.subscribe(channel, callback); // if using Stomp.js
+}
+document.addEventListener('DOMContentLoaded', function () {
+	connectWebSocket();
+	updateLiveSubscription(selectedLiveCurrency);
+});
