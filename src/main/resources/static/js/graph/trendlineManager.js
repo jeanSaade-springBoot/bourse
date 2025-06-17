@@ -579,7 +579,6 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 									 for (let i = 0; i < relevant.length; i++) {
 									 drawRelevant(relevant[i].relevantParameter,relevant[i].relevantId);
 									}
-									
 									 updateSeriesChart(chartConfigSettings);
 									}else{
 										$("#relevant-grid").empty();
@@ -590,6 +589,14 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 							        console.error('Error updateLatestTrendLine data:', error);
 							    });			 
 							
+									 ChartManager.instances.chart2.state.seriesFormats = response.map((r, idx) => {
+											const [digits, isRaw] = getFormat(r.config?.yAxisFormat || '');
+											return {
+												digits,
+												isRaw,
+												useShortFormat: false
+											};
+										});
 									 
 							    })
 							    .catch(error => {
@@ -1848,13 +1855,32 @@ function resetParameters(){
 
 function updateSeriesChart(chartConfigSettings){
 
-		 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
+		const lastSeries = serieArray[serieArray.length - 1];
+		const allValues = (lastSeries?.data || []).flatMap(p =>
+		Array.isArray(p.y) ? p.y.map(Number) : p.y != null ? [Number(p.y)] : []
+		);
+
+		const filtered = allValues.filter(v => !isNaN(v) && v !== 0);
+		if (filtered.length === 0) return;
+
+		// 2. Compute global min/max
+		const min = Math.min(...filtered);
+		const max = Math.max(...filtered);
+
+
+		 const values = addMarginToMinMax(min, max, 5);
+
 	     var valueMin = values;
 	     var valueMax = values; 	
-	     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
+	     var calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
 	       //   graphService=typeof graphService!='undefined'?graphService:'';
 	        // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-	     	 calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
+	     	 calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(min)==-1) )? 0: calculatedMinValue;
+
+		const margin = (max - min) * 0.05;
+		const minValue = (min - margin > 0) ? min - margin : 0;
+		const maxValue = max + margin;
+
 
 	      if (serieArray.length==1) 
           disableChartType(false);
@@ -1984,8 +2010,8 @@ function updateSeriesChart(chartConfigSettings){
 						      }
 						},
 						tickAmount: 6,
-						min: calculatedMinValue,
-						max: Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax,
+						min: minValue,
+						max: maxValue,
 						axisBorder: {
 							width: 3,
 							show: true,

@@ -10,6 +10,7 @@ class ChartManager {
       <div class="chart-sidebar collapsed" id="chartSidebar-{chartId}">
         <div class="toggle-sidebar" data-chart-id="{chartId}">&#10094;</div>
         <div class="chart-option">
+          <div class="chart-option-title" id="chart-settings-{chartId}"></div>
           <div class="chart-option-title">Chart Option</div>
           <!-- Chart Type -->
           <div class="btn-group mt-2 ml-1" id="chartTypes-{chartId}">
@@ -53,7 +54,7 @@ class ChartManager {
         </div>
       </div>
     </div>
-    <div id="chart-{chartId}" class="chart-box col-11 chartStyle"></div>
+    <div id="chart-{chartId}" class="chart-box col-11 chartStyle d-flex"></div>
   </div>
   <div class="mt-2 d-flex justify-content-between date-navigation">
     <div class="btn-group mr-2">
@@ -121,7 +122,7 @@ class ChartManager {
 		ChartManager.instances[chartId] = this;
 	}
 
-	render() {
+	async render() {
 
 		const parent = document.querySelector(this.parentSelector);
 		if (!parent) throw new Error(`Container "${this.parentSelector}" not found`);
@@ -351,6 +352,7 @@ class ChartManager {
 	}
 	applyStyle() {
 		const s = this.state;
+		const showLegend = this._showLegend;
 		const base = s.color;
 		const finalColor = base === '#44546a' ? '#2e75b6' : base;
 		const fill = s.chartType === 'area' && !s.applyTransparency
@@ -458,7 +460,7 @@ class ChartManager {
 			legend: s.series?.[0]?.type === 'candlestick'
 				? { show: false }
 				: {
-					show: s.legendOption,
+					show: showLegend?s.legendOption:false, // here
 					fontSize: s.fontSize,
 					showForSingleSeries: true,
 					labels: { colors: 'White' },
@@ -616,7 +618,7 @@ class ChartManager {
 		// ✅ Update stored dataParam with new dates before fetch
 		if (this._lastDataParam) {
 			this._lastDataParam.fromdate = this._formatDate(fromDate);
-			this._lastDataParam.todate = this._formatDate(toDate);
+			this._lastDataParam.todate = this._formatDate(toDate)+' 23:59:59';
 		}
 		
 			
@@ -642,7 +644,9 @@ class ChartManager {
 			shouldAlign: this._shouldAlign,
 			disableMarkers: this._disableMarkers,
 			isCentred: this._isCentred,
-			results: this._lastOverlayResults || [] // optional: only if using loadDataWithOverlays
+			results: this._lastOverlayResults || [], // optional: only if using loadDataWithOverlays
+		    applyTitle: this._applyTitle,
+		    showLegend:this._showLegend,
 		});
 
 		this._updateNavButtons();
@@ -670,14 +674,22 @@ class ChartManager {
 				const lastDate = new Date(last.x);
 
 				for (let i = 1; i <= extraCount; i++) {
-					const futureDate = new Date(lastDate);
-					futureDate.setDate(futureDate.getDate() + i);
-					result.push({
-						x: futureDate.toISOString().split('T')[0],
-						y: isCandlestick ? [] : null
-					});
+				    const futureDate = new Date(lastDate);
+				    futureDate.setDate(futureDate.getDate() + i);
+				
+				    const months = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+				                    "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+				    const day = futureDate.getDate().toString().padStart(2, '0');
+				    const month = months[futureDate.getMonth()];
+				    const year = futureDate.getFullYear().toString().slice(-2);
+				
+				    const formattedDate = `${day}-${month}-${year}`;
+				
+				    result.push({
+				        x: formattedDate,
+				        y: isCandlestick ? [] : null
+				    });
 				}
-
 				resolve({ response: result });
 			} catch (err) {
 				reject(err);
@@ -704,7 +716,9 @@ class ChartManager {
 	    shouldAlign = false,
 	    disableMarkers = false,
 	    isCentred = [],
-	    currency='BTC'
+	    currency='BTC',
+	    applyTitle = false,
+	    showLegend = true,
 		
 	}) {
 		this._lastService = service;
@@ -720,7 +734,9 @@ class ChartManager {
 		this._shouldAlign=shouldAlign;
 		this._disableMarkers=disableMarkers;
 		this._isCentred=isCentred;
-      
+		this._applyTitle = applyTitle;
+        this._showLegend = showLegend;
+       
 		if (interval !== null) {
 			dataParam.interval = interval;
 		}
@@ -795,7 +811,7 @@ class ChartManager {
 		 const strokeWidth = shouldApplyWidth ? this.getDynamicWidth(cleanData.filter(d => d.y !== null).length) : undefined;
 
 		 return {
-		    name: dto.config?.displayDescription || `Series${idx + 1}`,
+		    name: (applyTitle)?name:dto.config?.displayDescription || `Series${idx + 1}`,
 		    type,
 		    data: cleanData,
 		    ...(strokeWidth !== undefined ? { strokeWidth } : {}) // only apply if valid
@@ -825,7 +841,7 @@ class ChartManager {
 		});
 	
 	
-	    this.state.title = this.generateDynamicTitle(series, timeRange, this.chartId);
+	    this.state.title = (applyTitle)?name:this.generateDynamicTitle(series, timeRange, this.chartId);
 		this.state.useDualYAxis = useDualYAxis;
 
 		this.state.seriesLimits = series.map((s, idx) => {
@@ -1287,16 +1303,23 @@ async loadDataWithOverlays({
 	this._disableChartSettings(true);
 
 }
+disableChartGroup(groupId) {
+  const group = document.getElementById(`${groupId}-${this.chartId}`);
+  if (!group) return;
+
+  group.querySelectorAll('button').forEach(btn => btn.disabled = true);
+}
 static handleLiveUpdate(currency, message) {
 	try {
-		
 		const returnedData = JSON.parse(message.body);
 		const chartInstances = Object.values(ChartManager.instances);
 
 		chartInstances.forEach(instance => {
-			let updatedChart = instance.chart;
 
-			if (instance.state.currency !== currency) return; 
+			let updatedChart = instance.chart;
+            if(instance.chartId=='chart3') return; 
+          //  console.log(selectedLiveCurrency , currency)
+			if (selectedLiveCurrency !== currency) return; 
 
 			updatedChart = instance.chartId=='chart2'?chart:updatedChart;
 			if (!updatedChart || !updatedChart.w || !updatedChart.w.config || !Array.isArray(updatedChart.w.config.series)) return;
@@ -1361,45 +1384,79 @@ static handleLiveUpdate(currency, message) {
 					: 0;
 				
 				const cleanData = updatedChart.w.config.series[targetSeriesIndex]?.data?.filter(p => p.y != null) || [];
+
 				instance.processDataAndAddNewEndDateForExtraSpaceInGraph(cleanData, 10, false)
 					.then(({ response }) => {
 						updatedChart.w.config.series[targetSeriesIndex].data = response;
+						let newYaxis=[];
+						if(instance.chartId=='chart2')
+						{
+							const lastSeries = serieArray[serieArray.length - 1];
+							const allValues = (lastSeries?.data || []).flatMap(p =>
+							Array.isArray(p.y) ? p.y.map(Number) : p.y != null ? [Number(p.y)] : []
+							);
 
-						const newYaxis = instance.state.useDualYAxis && updatedChart.w.config.series.length > 1
-							? updatedChart.w.config.series.map((_, idx) => instance.generateYAxisConfig(idx, instance._isCentred?.[idx]))
-							: [instance.generateYAxisConfig(0, instance._isCentred?.[0])];
-						
-						newYaxis.forEach((axis, idx) => {
-							const seriesData = updatedChart.w.config.series[idx]?.data || [];
-							const values = [];
-						
-							seriesData.forEach(p => {
-								if (Array.isArray(p.y)) {
-									values.push(...p.y.map(Number));
-								} else if (p.y != null) {
-									values.push(Number(p.y));
-								}
-							});
-						
-							const filtered = values.filter(v => !isNaN(v) && v !== 0);
+							const filtered = allValues.filter(v => !isNaN(v) && v !== 0);
 							if (filtered.length === 0) return;
-						
+
+							// 2. Compute global min/max
 							const min = Math.min(...filtered);
 							const max = Math.max(...filtered);
-							let margin = (max - min) * 0.05;
-						    let minValue = 0;
-							// 👉 Ensure margin is not negative
-							minValue = (min - margin > 0)? min - margin :minValue;
-						
-							axis.min = minValue;
-							axis.max = max + margin;
-						});
+							const margin = (max - min) * 0.05;
+							const minValue = (min - margin > 0) ? min - margin : 0;
+							const maxValue = max + margin;
 
+							// 3. Generate new Y-axis config using global min/max
+						   newYaxis = instance.state.useDualYAxis && updatedChart.w.config.series.length > 1
+								? updatedChart.w.config.series.map((_, idx) => ({
+									...instance.generateYAxisConfig(idx, instance._isCentred?.[idx]),
+									min: minValue,
+									max: maxValue
+								}))
+								: [{
+									...instance.generateYAxisConfig(0, instance._isCentred?.[0]),
+									min: minValue,
+									max: maxValue
+								}];
+						}
+						else
+						{ newYaxis = instance.state.useDualYAxis && updatedChart.w.config.series.length > 1
+								? updatedChart.w.config.series.map((_, idx) => instance.generateYAxisConfig(idx, instance._isCentred?.[idx]))
+								: [instance.generateYAxisConfig(0, instance._isCentred?.[0])];
+							
+							newYaxis.forEach((axis, idx) => {
+								const seriesData = updatedChart.w.config.series[idx]?.data || [];
+								const values = [];
+							
+								seriesData.forEach(p => {
+									if (Array.isArray(p.y)) {
+										values.push(...p.y.map(Number));
+									} else if (p.y != null) {
+										values.push(Number(p.y));
+									}
+								});
+							
+								const filtered = values.filter(v => !isNaN(v) && v !== 0);
+								if (filtered.length === 0) return;
+							
+								const min = Math.min(...filtered);
+								const max = Math.max(...filtered);
+								let margin = (max - min) * 0.05;
+								let minValue = 0;
+								// 👉 Ensure margin is not negative
+								minValue = (min - margin > 0)? min - margin :minValue;
+							
+								axis.min = minValue;
+								axis.max = max + margin;
+							});
+						}
 						updatedChart.updateOptions({
 							series: updatedChart.w.config.series,
 							yaxis: newYaxis
 						});
 					});
+					
+					
 			} else {
 				if(instance._interval=='1w') return;
 				// Candlestick update

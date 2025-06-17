@@ -45,7 +45,9 @@
 	color: #ffffff;
 	padding: 0;
 }
-
+.chart-box{
+ position: relative;
+}
 .edit {
 	text-transform: uppercase;
 	margin: 0.5rem;
@@ -372,7 +374,7 @@ height:34px;
 								</div>
 							</div>
 
-							<div class="row">
+							<div class="row justify-content-between">
 								<div class=" h-100 p-0">
 									<div id="eth-btc-chart" class="chart-box">
 										
@@ -381,8 +383,10 @@ height:34px;
 									</div>
 								</div>
 								<div class=" h-100 p-0">
-									<div id="volume-chart" class="chart-box ">
-										<div id="benchMarkChart" class="chart-box col-12"></div>
+									<div id="pairDropdown" class="mt-2"></div>
+									<div id="" class="chart-box d-flex ">
+										<div id="crypto3-container"></div>
+										<div id="arrows-container"></div>
 									</div>
 								</div>
 							</div>

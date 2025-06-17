@@ -18,10 +18,13 @@ import java.lang.reflect.Field;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
+import org.hibernate.Session;
+import org.hibernate.query.NativeQuery;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
@@ -611,6 +614,61 @@ public class CryptosService {
 			return l1; 
 		
 		}
+		public List<GraphResponseColConfigDTO> getGraphDataBenchmarking (GraphRequestDTO graphReqDTO) {
+
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+		
+			List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+			ColumnConfiguration config = null;
+			GraphResponseColConfigDTO graphResponseColConfigDTO = null;
+			
+			String groupId1 = graphReqDTO.getGroupId1();
+			String subGroupId1 = graphReqDTO.getSubGroupId1(); 
+			String groupId2 = graphReqDTO.getGroupId2();
+			String subGroupId2 = graphReqDTO.getSubGroupId2(); 
+			
+			String description = null;
+			TableManagement tableManagementA = tableManagementRepository.findByGroupIdAndSubgroupId(groupId1,subGroupId1);
+			TableManagement tableManagementB = tableManagementRepository.findByGroupIdAndSubgroupId(groupId2,subGroupId2);
+
+			description=tableManagementA.getColumnName()+"-"+groupId1;
+		    String tableA = tableManagementA.getTableName();
+		    String tableB = tableManagementB.getTableName();
+		    
+			config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId1, subGroupId1, description);
+			StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_graph_Benchmarking",GraphResponseDTO.class);
+
+			query.registerStoredProcedureParameter("tableA", String.class, ParameterMode.IN);
+			query.setParameter("tableA",tableA);
+
+			query.registerStoredProcedureParameter("tableB", String.class, ParameterMode.IN);
+			query.setParameter("tableB",tableB );
+			
+			query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query.registerStoredProcedureParameter("toDateDate", String.class, ParameterMode.IN);
+			query.setParameter("toDateDate",graphReqDTO.getTodate() );
+			
+			
+			query.execute();
+			
+			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+			
+		    graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+					                  .graphResponseDTOLst(graphResponseDTOlst1)
+					                  .config(config)
+					                  .build();
+			entityManager.clear();
+			entityManager.close();
+		
+		    l1.add(graphResponseColConfigDTO);
+			return l1; 
+		
+		}
+		
 		@Transactional
 		public List<GraphResponseColConfigDTO> getGraphDataResultForDailyLive(String groupSubgroup) {
 			String groupId = groupSubgroup.split("-")[0];

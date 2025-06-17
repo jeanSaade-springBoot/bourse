@@ -3,6 +3,25 @@
 	src: url(../font/Nunito-Regular.ttf);
 	src: url(../font/Nunito-Regular.ttf) format('ttf'), url(../font/Nunito-Regular.ttf) format('truetype')
 }
+.arrows{
+	margin-left: -4.5rem;
+    margin-top: 13rem;
+    width: 75px;
+    position: relative;
+}
+.arrow{
+	 margin: 0 1.35rem;
+}
+.label-green{
+	color:#93c954;
+	font-size: 0.75rem;
+	font-weight: bold;
+}
+.label-red{
+	color:#ed2024;
+	font-size: 0.75rem;
+	font-weight: bold;
+}
 .euro-intr-style{
 	position: absolute;
     margin-left: 6rem;
