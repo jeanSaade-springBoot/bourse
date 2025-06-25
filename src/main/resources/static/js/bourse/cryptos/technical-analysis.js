@@ -1,9 +1,15 @@
 const checkedItemCountPerChart = {};      // chartId → count
-const checkedItemIdsPerChart = {};        // chartId → array of IDs
+const checkedItemIdsPerChart = {};   
+var checkedItemIdPerChart = {};
+
+let suppressFunctionDropdownChange = false;
+
 const livePriceCache = {};
 let cachedTrendlineResult = null;
 let liveSubscription = null;
 let selectedLiveCurrency = 'BTC'; // default
+
+const checkboxCache = {}; // key: `${groupId}-${chartId}` → true
 
 const checkboxOptions = [
 	{ label: "OPENint", index: 7 },
@@ -14,6 +20,11 @@ const checkboxOptions = [
 	{ label: "MARKETCAP", index: 6 },
 	{ label: "OPENeur", index: 1 },
 	{ label: "CLOSEeur", index: 2 },
+	{ label: "FUNDING RATE", index: 'funding_rate' },
+];
+const candleStickcheckboxOptions = [
+	{ label: "VOLUME", index: '5' },
+	{ label: "FUNDING RATE", index: 'funding_rate' },
 ];
 var chartHeight=625;
 const screenName='CryptosAnalisys';
@@ -62,7 +73,6 @@ $(window).on('load', function() {
 $(document).ready(function() {
 
 	if (timeRange == "Daily") {
-		$('#trendlineButtons').css('min-height', '71.1px');
 		monthDate = new Date();
 		monthDate.setMonth(monthDate.getMonth() - 4);
 		monthDate.setHours(0, 0, 0, 0);
@@ -155,17 +165,15 @@ $(document).ready(function() {
 	
 		});
 
-		initializeShowFilterButtonForChart('1');
-		initializeShowFilterButtonForChart('2');
-		
-		initializeCandlesOptions(71);
-		initializeFunctions(71)
+		//initializeCandlesOptions(71);
+		initializeFunctions(71);
 		
 		//CryptosAnalisys
-		
 		initializeCryptoOptions();
 		// getTrendLinesHistory();
 		 getDataChart3();
+		 getDataChart1(null);
+		 getDataChart2(null);
 		initializeOrderBookForCrypto("BTC");
 });
  $("#groupOfPeriod-chart1").on('buttonclick', function (event) {
@@ -180,7 +188,7 @@ $(document).ready(function() {
  
 function buildCheckboxGroup(groupId, chartId) {
 	const container = document.createElement('div');
-	container.className = 'col d-flex justify-content-between mb-2';
+	container.className = 'col mb-2';
 	container.id = `crypto-${groupId}-chart-${chartId}`;
 
 	checkboxOptions.forEach(opt => {
@@ -196,10 +204,59 @@ function buildCheckboxGroup(groupId, chartId) {
 
 	return container;
 }
+function buildCandleStickCheckboxGroup(groupId, chartId) {
+	const container = document.createElement('div');
+	container.className = 'col mb-2';
+	container.id = `crypto-${groupId}-chart-${chartId}`;
 
-function renderCheckboxesPerChart(cryptoGroupId, chartCount = 2) {
-	for (let chartId = 1; chartId <= chartCount; chartId++) {
+	// ⏱️ Filter based on timeRange
+	const timeRange = getActiveTimeRange(); // 'Daily', '4h', or '1w'
+	const filteredOptions = candleStickcheckboxOptions.filter(opt =>
+		timeRange === '4h' || opt.index !== 'funding_rate'
+	);
+
+	filteredOptions.forEach(opt => {
+		const checkboxDiv = document.createElement('div');
+		checkboxDiv.className = 'jqx-checkbox';
+		checkboxDiv.style.float = 'left';
+		checkboxDiv.style.marginRight = '10px';
+		checkboxDiv.id = `jqxCheckBox-${groupId}-${opt.index}-chart-${chartId}`;
+		checkboxDiv.innerText = opt.label;
+
+		container.appendChild(checkboxDiv);
+	});
+
+	return container;
+}
+async function renderCheckboxesChart1VolumeFundingRate(cryptoGroupId, chartId = 2) {
+
 		const container = document.getElementById(`checkboxes-container-chart-${chartId}`);
+		container.innerHTML = '';
+
+		const checkboxGroup = buildCandleStickCheckboxGroup(cryptoGroupId, chartId);
+		container.appendChild(checkboxGroup);
+
+		const timeRange = getActiveTimeRange();
+		const filteredOptions = candleStickcheckboxOptions.filter(opt =>
+			timeRange === '4h' || opt.index !== 'funding_rate'
+		);
+		
+		const allItems = filteredOptions.map(opt =>
+			`#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`
+		);
+		
+		const itemLimit = 1; // default to 1 if not defined
+		initializeItemsPerChart(allItems, itemLimit, chartId);
+		
+		initializeClearFilterButtonForChart(chartId, allItems, true);
+}
+async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2) {
+	const cacheKey = `${cryptoGroupId}-${chartId}`;
+	const container = document.getElementById(`checkboxes-container-chart-${chartId}`);
+
+	// 🧠 Only build once
+	if (!checkboxCache[cacheKey]) {
+		
 		container.innerHTML = '';
 
 		const checkboxGroup = buildCheckboxGroup(cryptoGroupId, chartId);
@@ -208,29 +265,102 @@ function renderCheckboxesPerChart(cryptoGroupId, chartCount = 2) {
 		const allItems = checkboxOptions.map(opt =>
 			`#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`
 		);
-		
-		const itemLimit = chartItemLimits[chartId] || 1; // default to 1 if not defined
+
+		const itemLimit = chartItemLimits[chartId] || 1;
 		initializeItemsPerChart(allItems, itemLimit, chartId);
 
-		if (chartId == 1) {
+		// Pre-check logic
+		if (chartId === 1) {
 			allItems.forEach(id => {
 				if (id.includes('-5-') || id.includes('-8-')) {
 					$(id).jqxCheckBox('check');
 				}
 			});
-			drawGraphForChart(chartId);
 		}
-		if (chartId == 2) {
+		if (chartId === 2) {
 			allItems.forEach(id => {
 				if (id.includes('-8-')) {
 					$(id).jqxCheckBox('check');
 				}
 			});
-			drawGraphForChart(chartId);
 		}
 
-		initializeClearFilterButtonForChart(chartId, allItems);
+		initializeClearFilterButtonForChart(chartId, allItems, false);
+		checkboxCache[cacheKey] = true; // ✅ Mark as built
 	}
+
+		if (chartId === 1) {
+			const allItems = checkboxOptions.map(opt =>
+				`#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`
+			);
+		
+			const isCandleStick = $('#candlestick-chart1').hasClass('active');
+			const timeRange = getActiveTimeRange();
+		
+			if (isCandleStick) {
+				// Uncheck all
+				allItems.forEach(id => {
+					$(id).jqxCheckBox('uncheck');
+				});
+		
+				// Show only Volume (5) and Funding Rate
+				checkboxOptions.forEach(opt => {
+					const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`;
+					if (opt.index === 5 || opt.index === 'funding_rate') {
+						$(id).show().jqxCheckBox({ disabled: false });
+					} else {
+						$(id).jqxCheckBox('uncheck');
+						$(id).jqxCheckBox({ disabled: true });
+						$(id).hide();
+					}
+				});
+				 if (timeRange !== '4h')
+				 $(`#jqxCheckBox-${cryptoGroupId}-funding_rate-chart-${chartId}`).hide();
+			} else if (timeRange === '4h') {
+				
+				if (isCandleStick) {
+					// Uncheck all
+					allItems.forEach(id => {
+						$(id).jqxCheckBox('uncheck');
+					});
+			
+					// Show only Volume (5) and Funding Rate
+					checkboxOptions.forEach(opt => {
+						const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`;
+						if (opt.index === 5 || opt.index === 'funding_rate') {
+							$(id).show().jqxCheckBox({ disabled: false });
+						} else {
+							$(id).jqxCheckBox('uncheck');
+							$(id).jqxCheckBox({ disabled: true });
+							$(id).hide();
+						}
+					});
+				}
+				else{
+					// Hide Euro series (1, 2)
+				checkboxOptions.forEach(opt => {
+					const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`;
+					if (opt.index === 1 || opt.index === 2) {
+						$(id).hide();
+					} else {
+						$(id).show().jqxCheckBox({ disabled: false });
+					}
+				});
+				$(`#jqxCheckBox-${cryptoGroupId}-funding_rate-chart-${chartId}`).hide();
+				}
+				
+			} else {
+				// Regular mode: show all except funding_rate
+				checkboxOptions.forEach(opt => {
+					const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`;
+					$(id).show().jqxCheckBox({ disabled: false });
+				});
+				$(`#jqxCheckBox-${cryptoGroupId}-funding_rate-chart-${chartId}`).hide();
+			}
+		} else {
+			// For chart 2+ → always hide funding rate
+			$(`#jqxCheckBox-${cryptoGroupId}-funding_rate-chart-${chartId}`).hide();
+		}
 }
 
 function initializeItemsPerChart(allItems, numberOfItems, chartId) {
@@ -242,7 +372,9 @@ function initializeItemsPerChart(allItems, numberOfItems, chartId) {
 		$(allItems[i]).jqxCheckBox({ theme: 'dark', width: '100%', height: 26 });
 	}
 
-	$(`#checkboxes-container-chart-${chartId} .jqx-checkbox`).on('change', function(event) {
+	$(`#checkboxes-container-chart-${chartId} .jqx-checkbox`)
+	.off('change')
+	.on('change', function(event) {
 		const $checkbox = $(this);
 		const checked = event.args.checked;
 		const checkboxId = $checkbox.attr('id');
@@ -274,7 +406,22 @@ function initializeItemsPerChart(allItems, numberOfItems, chartId) {
 	});
 }
 function getCheckedItems(chartId) {
-	return checkedItemIdsPerChart[chartId] || [];
+	const items = checkedItemIdsPerChart[chartId] || [];
+
+	if (items.length === 2) {
+		// Find Volume or Market Cap checkbox
+		const priorityItem = items.find(id => 
+			id.includes(`-5-chart-${chartId}`) || id.includes(`-6-chart-${chartId}`)
+		);
+
+		if (priorityItem) {
+			const reordered = items.filter(id => id !== priorityItem);
+			reordered.push(priorityItem); // Move it to the end
+			return reordered;
+		}
+	}
+
+	return items;
 }
 
 function getCheckedCount(chartId) {
@@ -299,6 +446,10 @@ function initializeCryptoOptions() {
 	$("#dropDownCryptoOptions").jqxDropDownList({ dropDownHeight: 200, selectedIndex: 0, source: functionDataAdapter, placeHolder: "", displayMember: "name", valueMember: "groupId", theme: 'dark', width: 150, height: 25 });
 
 	$('#dropDownCryptoOptions').on('change', function(event) {
+		Object.keys(checkboxCache).forEach(key => delete checkboxCache[key]);
+		if(functionId!=-1)
+			$("#reset").click();
+			
 		const selectedGroupId = $('#dropDownCryptoOptions').val();
 		const selected = dropDownCryptosource.find(c => c.groupId === selectedGroupId);
 		
@@ -309,8 +460,8 @@ function initializeCryptoOptions() {
 	
 		selectedLiveCurrency = selected.ticker; // <-- Update live currency
 	
-		renderCheckboxesPerChart(selectedGroupId);
-		initializeCandlesOptions(Number(selectedGroupId));
+		//renderCheckboxesPerChart(selectedGroupId);
+		//initializeCandlesOptions(Number(selectedGroupId));
 	
 		if (selectedGroupId === '71' || selectedGroupId === '73') {
 			$("#order-book").addClass("d-block").removeClass("d-none");
@@ -327,15 +478,21 @@ function initializeCryptoOptions() {
 		$('#crypto-' + selectedGroupId).addClass("d-flex").removeClass("d-none");
 	
 		// ✅ Use updated currency ticker
-		updateLiveSubscription(selectedLiveCurrency);
+		//updateLiveSubscription(selectedLiveCurrency);
 		initializeOrderBookForCrypto(selectedTicker);
 		
 		$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
 	    $("#dropDownCandleOptions").removeClass("d-block").addClass("d-none");
-		toggleGraphData(1);
+	
+		  renderCheckboxesPerChart(selectedGroupId,1).then(() => {
+		   	 	toggleGraphData(1);
+		});
+		 renderCheckboxesPerChart(selectedGroupId,2).then(() => {
+		   	 	 loadChart2Data();
+		});
 	});
 
-	renderCheckboxesPerChart($("#dropDownCryptoOptions").val());
+	// renderCheckboxesPerChart($("#dropDownCryptoOptions").val());
 
 }
 
@@ -370,7 +527,7 @@ function stopScroll() {
 function initializeShowFilterButtonForChart(chartId) {
 	$(`#show-chart-${chartId}`).jqxButton({ theme: 'dark', height: 30, width: 100 });
 
-	$(`#show-chart-${chartId}`).click(function() {
+	$(`#show-chart-${chartId}`).off('click').click(function() {
 		functionId = -1;
 		monthDate = new Date();
 
@@ -401,20 +558,32 @@ function initializeShowFilterButtonForChart(chartId) {
 			$('#alertFiltter-modal').modal('show');
 			$("#collapseFilter").addClass('show');
 		}
+		if(chartId=='1')
+		$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
 	});
-}
-function initializeClearFilterButtonForChart(chartId, allItems) {
-	$(`#clear-filter-chart-${chartId}`).jqxButton({ theme: 'dark', height: 30, width: 100 });
+	
 
-	$(`#clear-filter-chart-${chartId}`).click(function() {
-		// Uncheck all checkboxes for this chart
+}
+function initializeClearFilterButtonForChart(chartId, allItems,reset) {
+	const buttonSelector = `#clear-filter-chart-${chartId}`;
+	
+	$(buttonSelector).jqxButton({ theme: 'dark', height: 30, width: 100 });
+
+	// Remove previous click handlers to prevent duplication
+	$(buttonSelector).off('click').on('click', function () {
+		// Uncheck all checkboxes
 		for (let i = 0; i < allItems.length; i++) {
 			$(allItems[i]).jqxCheckBox('uncheck');
 			$(allItems[i]).jqxCheckBox({ disabled: false });
 		}
 
-		// Reset the checked item count for this chart
-		checkedItemPerChart[chartId] = 0;
+		// Reset the count
+		checkedItemIdPerChart[chartId] = 0;
+		const isCandleStick = $('#candlestick-chart1').hasClass('active');
+		if(isCandleStick)
+			{  const timeRange = getActiveTimeRange();
+				loadChart1Data(ChartManager.instances['chart1'],timeRange);
+			}
 	});
 }
 function drawGraphForChart(chartId) {
@@ -436,11 +605,11 @@ function drawGraphForChart(chartId) {
 }
 function getDataChart1(checkedItemIds) {
 
-	$("#candlestick-chart1").removeClass('active');
+	//$("#candlestick-chart1").removeClass('active');
 
 	const chartId = '1';
-	const manager = new ChartManager(`chart${chartId}`, options, `#crypto${chartId}-container`);
-
+	const chartKey = `chart${chartId}`;
+	const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#crypto${chartId}-container`);
 
 	const timeRange = getActiveTimeRange();
 	const fromDate = new Date();
@@ -458,142 +627,277 @@ function getDataChart1(checkedItemIds) {
 	manager.state.defaultFromDate = fromDate;
 	manager.state.defaultToDate = new Date(); // Today
 
-	// Now render with correct defaults in place
-	manager.render();
-    
-    
-	// Gather metadata with IDs
-	const metadataList = checkedItemIds.map(fullId => {
-		const cleanId = fullId.replace(`-chart-${chartId}`, '');
-		return itemValue[cleanId];
-	}).filter(Boolean);
+	if (manager && manager.chart) {
+	  loadChart1Data(manager,timeRange);
+	} else {
+	manager.render().then(() => {
+		    
+		    $('#chart-option-chart1').append(`
+		    <!-- Candlestick Toggle -->
+		    <br>
+			<div class="btn-group" id="candlestickToggle-chart1">
+			  <button id="candlestick-chart1" class="btn btn-option" onclick="ChartManager.instances['chart1'].toggleCandlestick(this,'1')">
+			    <i class="icon-candle"></i>
+			  </button>
+			</div>
+		    <div id="checkboxes-container-chart-1"></div>
+		    <div class="col-12 d-flex">
+					<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-1" value="Show" />
+					<input id="clear-filter-chart-1" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			</div>`);
+			
+			initializeShowFilterButtonForChart('1');
+		    const selectedGroupsId = $('#dropDownCryptoOptions').val();
 	
-	if (metadataList.length === 0) {
-		console.error("At least one valid series is required.");
-		return;
-	}
-	const sorted = [...metadataList];
-    
-	const from = document.getElementById(`dateFrom-chart${chartId}`).value;
-	const to = document.getElementById(`dateTo-chart${chartId}`).value;
-    let  period = getChartPeriod();
-    
-	const params = {
-		fromdate: from,
-		todate: to,
-		period: period,
-		type: '3'
-	};
+		   renderCheckboxesPerChart(selectedGroupsId,1).then(() => {
+		   	 loadChart1Data(manager,timeRange);
+		});
+    });
+    }
+}
+async function loadChart1Data(manager,timeRange,chartId=1){
+	    	const isCandleStick = $('#candlestick-chart1').hasClass('active');
+	
+			const checkedItemIds = getCheckedItems(chartId);
+			
+			const metadataList = checkedItemIds.map(fullId => {
+				const cleanId = fullId.replace(`-chart-${chartId}`, '');
+				return itemValue[cleanId];
+			}).filter(Boolean);
+			
+			if (metadataList.length === 0 && !isCandleStick) {
+				console.error("At least one valid series is required.");
+				return;
+			}
+			const functionId = getSelectedFunctionId(); // returns -1 if none selected
+			let seriesColors = [];
+			if(isCandleStick){
+				
+				let isCentred = [false];
+				let applyTransparency=false;
+				
+				const from = document.getElementById(`dateFrom-chart${chartId}`).value;
+				const to = document.getElementById(`dateTo-chart${chartId}`).value+' 23:59:59';
+				
+				const newCandlestickParam = {
+				fromdate: from,
+				todate: to,
+				groupId1: manager._lastDataParam.groupId1,
+				subGroupId1: manager._lastDataParam.subGroupId1,
+				interval: manager._lastDataParam.interval,
+				period: manager._lastDataParam.period,
+				type: manager._lastDataParam.type,
+				candlestickMode: true,
+				};
+				
+				const isFunctionLine = functionId === 1 || functionId === 2;
+				const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
+				const isFunctionLineColumn = [7,8,9].includes(functionId);
+				
+				let disableMarkers = false;
+				
+				let useDualYAxis = (
+				  (functionId !== 1 && functionId !== 2 && functionId !== -1)
+				);
+				let useShortFormatList= [false];
+				let seriesTypes= ['candlestick'];
+				if (metadataList.length>=1) {
+					   if(functionId!=-1)
+						$("#reset").click();
+					
+						newCandlestickParam.groupId2 = manager._lastDataParam?.groupId1;
+						newCandlestickParam.subGroupId2 = metadataList[0].subGroupId;
+						newCandlestickParam.removeEmpty1 = false;
+						newCandlestickParam.removeEmpty2 = false;
+						seriesTypes = ['candlestick', 'column'];
+						seriesColors = ['#ffffff', 'rgba(240, 171, 46, 0.5)'];
+						useDualYAxis=true;
+						useShortFormatList= [false, true];
+						newCandlestickParam[`isFunctionGraph`] = false;
+						
+					}
+				else 
+				if (functionId != -1) {
+				  newCandlestickParam[`functionId`] = functionId ;
+				  newCandlestickParam[`isFunctionGraph`] = true;
+				  if (isFunctionLine) {
+						  if (functionId === 1) {
+						  seriesColors = ['#ffffff', '#FF0000'];
+						} else if (functionId === 2) {
+						  seriesColors = ['#ffffff', '#ffa4c5'];
+						}
+					    seriesTypes = ['candlestick', 'line'];
+					    isCentred.push(false);
+						disableMarkers = true;
+					  } else if (isFunctionAreaColumn) {
+					    seriesTypes = ['candlestick', 'column'];
+					    isCentred.push(true);
+						seriesColors = ['#ffffff', '#ffa4c5'];
+					    applyTransparency=true;
+					  }  else if (isFunctionLineColumn) {
+					    seriesTypes = ['candlestick', 'column'];
+						seriesColors = ['#ffffff', '#0cb1e6'];
+					    isCentred.push(false);
+					  }
+				}
+			
+			
+			const timeRange = getActiveTimeRange();
+			const api = timeRange === "Daily"
+				? "/cryptos/getcandlegraphdata"
+				: "/cryptos/getcandlegraphdatainterval";
 
-	// If two items, apply preferred order logic (5 or 6 last)
-	
-	if (sorted.length === 2 && (sorted[0].subGroupId === '5' || sorted[0].subGroupId === '6')) {
-		[sorted[0], sorted[1]] = [sorted[1], sorted[0]]; // swap
-	}
-	
-	// Build dynamic param structure
-	sorted.forEach((meta, index) => {
-		params[`subGroupId${index + 1}`] = meta.subGroupId;
-		params[`groupId${index + 1}`] = meta.GroupId;
-		params[`removeEmpty${index + 1}`] = false;
-	});
-	const functionId = getSelectedFunctionId(); // returns -1 if none selected
-	
-	const isFunctionLine = functionId === 1 || functionId === 2;
-    const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14].includes(functionId);
-	const isFunctionLineColumn = [7,8,9].includes(functionId);
-	if (functionId != -1) {
-	  params[`functionId`] = functionId ;
-	  params[`isFunctionGraph`] = true;
-	}else{
-	  params[`isFunctionGraph`] = false;
-	}
-	// Dynamic series config
-	const has5or6 = sorted.some(m => m.subGroupId === '5' || m.subGroupId === '6');
-	let isCentred = [false];
-	let applyTransparency=false;
-	if (functionId !== -1) {
-	  if (isFunctionLine) {
-	    seriesTypes = ['line', 'line'];
-	    isCentred.push(false);
-	  } else if (isFunctionAreaColumn) {
-	    seriesTypes = ['area', 'column'];
-	    isCentred.push(true);
-	  }  else if (isFunctionLineColumn) {
-	    seriesTypes = ['line', 'column'];
-	    isCentred.push(false);
-	  }
-	} else 
-	  {
-		if (metadataList.length > 1) {
-		  seriesTypes = sorted.map(m =>
-		    m.subGroupId === '5' || m.subGroupId === '6' ? 'column' : 'line'
-		  );
-		  applyTransparency=true;
-		}
-		else{
-			seriesTypes=[];
-		}
-		isCentred.push(false);
-	 }
-	let seriesColors = [];
-
-	if (functionId === 1) {
-	  seriesColors = ['#ffffff', '#FF0000'];
-	} else if (functionId === 2) {
-	  seriesColors = ['#ffffff', '#ffa4c5'];
-	} else if ([3, 4, 5, 6, 10, 11, 12, 13, 14].includes(functionId)) {
-	  seriesColors = ['#ffffff', '#ffa4c5'];
-	  applyTransparency=true;
-	} else if ([7,8,9].includes(functionId)) {
-	  seriesColors = ['#ffffff', '#0cb1e6'];
-	}else if (metadataList.length > 1) {
-	  seriesColors = sorted.map((m, i) => {
-	    if (i === 1) {
-	      return has5or6 ? 'rgba(240, 171, 46, 0.5)' : '#0000ff'; // Yellow or blue based on condition
-	    }
-	    return '#ffffff'; // Default
-	  });
-	}
-	let useDualYAxis = (
-	  (functionId !== 1 && functionId !== 2 && functionId !== -1) ||
-	  (sorted.length === 2 && has5or6)
-	);
-	const useShortFormatList = sorted.map(m => (m.subGroupId === '5' || m.subGroupId === '6'));
-	
-	const disableMarkers = (functionId === 1 || functionId === 2) ? true : false;
-	
-	let api = '';
-	if (timeRange == "Daily")
-		api = "/cryptos/getgraphdatabytype";
-	else {
-		api = "/cryptos/getgraphdatainterval";
-		params[`todate`]= to+' 23:59:59';
-	}
-	// Load chart
-	manager.loadData({
-	    service: "cryptos",
-		api: api,
-		name: "BTC-vs-ETH",
-		removeEmpty: false,
-		saveHistory: false,
-		applyDb: true,
-		seriesTypes,
-		seriesColors,
-		useDualYAxis,
-		dataParam: params,
-		useShortFormatList,
-		interval: timeRange,
-		applyTransparency: applyTransparency,
-		disableMarkers:disableMarkers,
-		isCentred:isCentred,
-		currency:selectedLiveCurrency
-	});
+			await manager.loadData({
+				service: manager._lastService,
+				api: api,
+				name: manager._lastGraphName + ' - Candlestick',
+				removeEmpty: manager._lastRemoveEmpty,
+				saveHistory: false,
+				fromOverride: manager.state.defaultFromDate,
+				toOverride: manager.state.defaultToDate,
+				applyDb: false,
+				seriesTypes,
+				seriesColors,
+				useDualYAxis,
+				dataParam: newCandlestickParam,
+				interval: timeRange,
+				applyTransparency: applyTransparency,
+				disableMarkers:disableMarkers,
+				isCentred:isCentred,
+				useShortFormatList:useShortFormatList,
+				currency:selectedLiveCurrency
+			});
+			manager._disableChartSettings(true, ['fontOptions']);
+			}
+			else {
+				const sorted = [...metadataList];
+			    
+				const from = document.getElementById(`dateFrom-chart${chartId}`).value;
+				const to = document.getElementById(`dateTo-chart${chartId}`).value;
+			    let  period = getChartPeriod();
+			    
+				const params = {
+					fromdate: from,
+					todate: to,
+					period: period,
+					type: '3'
+				};
+			
+				// If two items, apply preferred order logic (5 or 6 last)
+				
+				if (sorted.length === 2 && (sorted[0].subGroupId === '5' || sorted[0].subGroupId === '6')) {
+					[sorted[0], sorted[1]] = [sorted[1], sorted[0]]; // swap
+				}
+				
+				// Build dynamic param structure
+				sorted.forEach((meta, index) => {
+					params[`subGroupId${index + 1}`] = meta.subGroupId;
+					params[`groupId${index + 1}`] = meta.GroupId;
+					params[`removeEmpty${index + 1}`] = false;
+				});
+				
+				const isFunctionLine = functionId === 1 || functionId === 2;
+			    const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
+				const isFunctionLineColumn = [7,8,9].includes(functionId);
+				if (functionId != -1) {
+				  params[`functionId`] = functionId ;
+				  params[`isFunctionGraph`] = true;
+				}else{
+				  params[`isFunctionGraph`] = false;
+				}
+				// Dynamic series config
+				const has5or6 = sorted.some(m => m.subGroupId === '5' || m.subGroupId === '6');
+				let isCentred = [false];
+				let applyTransparency=false;
+				if (functionId !== -1) {
+				  if (isFunctionLine) {
+				    seriesTypes = ['line', 'line'];
+				    isCentred.push(false);
+				  } else if (isFunctionAreaColumn) {
+				    seriesTypes = ['area', 'column'];
+				    isCentred.push(true);
+				  }  else if (isFunctionLineColumn) {
+				    seriesTypes = ['line', 'column'];
+				    isCentred.push(false);
+				  }
+				} else 
+				  {
+					if (metadataList.length > 1) {
+					  seriesTypes = sorted.map(m =>
+					    m.subGroupId === '5' || m.subGroupId === '6' ? 'column' : 'line'
+					  );
+					  applyTransparency=true;
+					}
+					else{
+						seriesTypes=[];
+					}
+					isCentred.push(false);
+				 }
+			
+				if (functionId === 1) {
+				  seriesColors = ['#ffffff', '#FF0000'];
+				} else if (functionId === 2) {
+				  seriesColors = ['#ffffff', '#ffa4c5'];
+				} else if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15 ].includes(functionId)) {
+				  seriesColors = ['#ffffff', '#ffa4c5'];
+				  applyTransparency=true;
+				} else if ([7,8,9].includes(functionId)) {
+				  seriesColors = ['#ffffff', '#0cb1e6'];
+				}else if (metadataList.length > 1) {
+				  seriesColors = sorted.map((m, i) => {
+				    if (i === 1) {
+				      return has5or6 ? 'rgba(240, 171, 46, 0.5)' : '#0000ff'; // Yellow or blue based on condition
+				    }
+				    return '#ffffff'; // Default
+				  });
+				}
+				const SelectedSorted = sorted.filter(
+				  (item, index, self) =>
+				    index === self.findIndex(
+				      (t) => t.subGroupId === item.subGroupId && t.GroupId === item.GroupId
+				    )
+				);
+				let useDualYAxis = (
+				  (functionId !== 1 && functionId !== 2 && functionId !== -1) ||
+				  (SelectedSorted.length === 2 && has5or6)
+				);
+				const useShortFormatList = sorted.map(m => (m.subGroupId === '5' || m.subGroupId === '6'));
+				
+				const disableMarkers = (functionId === 1 || functionId === 2) ? true : false;
+				
+				let api = '';
+				if (timeRange == "Daily")
+					api = "/cryptos/getgraphdatabytype";
+				else {
+					api = "/cryptos/getgraphdatainterval";
+					params[`todate`]= to+' 23:59:59';
+				}
+				// Load chart
+				manager.loadData({
+				    service: "cryptos",
+					api: api,
+					name: "BTC-vs-ETH",
+					removeEmpty: false,
+					saveHistory: false,
+					applyDb: true,
+					seriesTypes,
+					seriesColors,
+					useDualYAxis,
+					dataParam: params,
+					useShortFormatList,
+					interval: timeRange,
+					applyTransparency: applyTransparency,
+					disableMarkers:disableMarkers,
+					isCentred:isCentred,
+					currency:selectedLiveCurrency
+				});
+			}
 }
 function getDataChart2(checkedItemIds) {
 
 	const chartId = '2';
-	const manager = new ChartManager(`chart${chartId}`, options, `#crypto${chartId}-container`);
+	const chartKey = `chart${chartId}`;
+	const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#crypto${chartId}-container`);
 
 	const timeRange = getActiveTimeRange();
 	const fromDate = new Date();
@@ -605,39 +909,58 @@ function getDataChart2(checkedItemIds) {
 	manager.state.defaultFromDate = fromDate;
 	manager.state.defaultToDate = new Date(); // Today
 
-	manager.render();
-    
-    
-	const metadataList = checkedItemIds.map(fullId => {
-		const cleanId = fullId.replace(`-chart-${chartId}`, '');
-		return itemValue[cleanId];
-	}).filter(Boolean);
+	if (manager && manager.chart) {
+	  loadChart2Data();
+	} else {
+	manager.render().then(() => {
+		
+		 $('#chart-option-chart2').append(`<div id="checkboxes-container-chart-2"></div>
+		    <div class="col-12 d-flex">
+					<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-2" value="Show" />
+					<input id="clear-filter-chart-2" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			</div>`);
+			
+			initializeShowFilterButtonForChart('2');
+		    const selectedGroupsId = $('#dropDownCryptoOptions').val();
 	
-	if (metadataList.length === 0) {
-		console.error("At least one valid series is required.");
-		return;
-	}
-	const sorted = [...metadataList];
-    
-	const from = document.getElementById(`dateFrom-chart${chartId}`).value;
-	const to = document.getElementById(`dateTo-chart${chartId}`).value;
-    let  period = getChartPeriod();
-    
-	const params = {
-		fromdate: from,
-		todate: to,
-		period: period,
-		type: '3'
-	};
-
-	sorted.forEach((meta, index) => {
-		params[`subGroupId${index + 1}`] = meta.subGroupId;
-		params[`groupId${index + 1}`] = meta.GroupId;
-		params[`removeEmpty${index + 1}`] = false;
+		   renderCheckboxesPerChart(selectedGroupsId,2).then(() => {
+		   	 loadChart2Data();
+		});
+		
 	});
+    
+    }
+}
+function  loadChart2Data(chartId=2){
+		const checkedItemIds = getCheckedItems(chartId);
+		const metadataList = checkedItemIds.map(fullId => {
+			const cleanId = fullId.replace(`-chart-${chartId}`, '');
+			return itemValue[cleanId];
+		}).filter(Boolean);
+		
+		if (metadataList.length === 0) {
+			console.error("At least one valid series is required.");
+			return;
+		}
+		const sorted = [...metadataList];
+	    
+		const from = document.getElementById(`dateFrom-chart${chartId}`).value;
+		const to = document.getElementById(`dateTo-chart${chartId}`).value;
+	    let  period = getChartPeriod();
+	    
+		const params = {
+			fromdate: from,
+			todate: to,
+			period: period,
+			type: '3'
+		};
 	
-
-	loadGraphWithTrendlines(screenName, 'chart2',params)
+		sorted.forEach((meta, index) => {
+			params[`subGroupId${index + 1}`] = meta.subGroupId;
+			params[`groupId${index + 1}`] = meta.GroupId;
+			params[`removeEmpty${index + 1}`] = false;
+		});
+		loadGraphWithTrendlines(screenName, 'chart2',params);
 }
 function getDataChart3() {
 
@@ -689,7 +1012,7 @@ function updatePairDropdown(ticker) {
 	    });
 }
 function updateBenchmarkingGraph(chartId,manager){
-	const from = document.getElementById(`dateFrom-chart${chartId}`).value;
+			const from = document.getElementById(`dateFrom-chart${chartId}`).value;
 			const to = document.getElementById(`dateTo-chart${chartId}`).value;
 		    let  period = getChartPeriod();
 		    
@@ -747,7 +1070,6 @@ async function loadGraphWithTrendlines(screenName, chartId, dataParam) {
 			cachedTrendlineResult = await getTrendLinesHistoryAsync(screenName);
 		}
 
-		
 		ChartManager.instances[chartId].loadDataWithOverlays({
 			service: "cryptos",
 			api: "/cryptos/getgraphdatabytype",
@@ -775,34 +1097,16 @@ leftBtn.addEventListener('mouseup', stopScroll);
 leftBtn.addEventListener('mouseleave', stopScroll);
 
 function toggleGraphData(time) {
-	// Temporarily suppress dropdown event if it's connected
-	$("#dropDownCandleOptions").jqxDropDownList({ selectedIndex: -1 });
-	suppressDropDownChange = true;
-	setTimeout(() => suppressDropDownChange = false, 50);
+	$("#reset").trigger("click", [true]);
+	// 1️⃣ Set active button FIRST
+	$('#DailyData-btn').toggleClass('active', time === 1);
+	$('#4HoursData-btn').toggleClass('active', time === 2);
+	$('#weeklyData-btn').toggleClass('active', time === 3);
 
-	// Update timeRange based on selection
-	if (time === 1) {
-		timeRange = "Daily";
-		$('#trendlineButtons').css('min-height', '71.1px');
-	} else if (time === 2) {
-		timeRange = "4h";
-		$('#trendlineButtons').css('min-height', '34px');
-	} else {
-		timeRange = "1w";
-		$('#trendlineButtons').css('min-height', '34px');
-		
-	}
+	// 2️⃣ Get correct time range AFTER button state is updated
+	const timeRange = getActiveTimeRange();
 
-	// 🔄 Reset from-date field dynamically
-	const fromDateInput = document.getElementById('dateFrom-chart1');
-	const toDateInput = document.getElementById('dateTo-chart1');
-
-
-	// Check if candlestick is active for chart1
-	const candlestickBtn = document.getElementById('candlestick-chart1');
-	const isCandleActive = candlestickBtn?.classList.contains('active');
-
-
+	// 3️⃣ Update date ranges accordingly
 	const date = new Date();
 	if (timeRange === "Daily") {
 		date.setMonth(date.getMonth() - 4);
@@ -813,6 +1117,9 @@ function toggleGraphData(time) {
 	}
 	date.setHours(0, 0, 0, 0);
 
+	const fromDateInput = document.getElementById('dateFrom-chart1');
+	const toDateInput = document.getElementById('dateTo-chart1');
+
 	if (fromDateInput) {
 		fromDateInput.value = date.toISOString().split('T')[0];
 	}
@@ -821,43 +1128,37 @@ function toggleGraphData(time) {
 		toDateInput.value = today.toISOString().split('T')[0];
 	}
 
-	// 🔘 Update button active states
-	$('#DailyData-btn').toggleClass('active', time === 1);
-	$('#4HoursData-btn').toggleClass('active', time === 2);
-	$('#weeklyData-btn').toggleClass('active', time === 3);
+	const candlestickBtn = document.getElementById('candlestick-chart1');
+	const isCandleActive = candlestickBtn?.classList.contains('active');
 
 	if (timeRange === "4h") {
-		if (isCandleActive) {
-			$("#dropDownCandleOptionsContainer").removeClass("d-none").addClass("d-flex");
-			$("#dropDownCandleOptions").removeClass("d-none").addClass("d-block");
-		} else {
-			$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
-			$("#dropDownCandleOptions").removeClass("d-block").addClass("d-none");
-		}
-
 		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
 		$('#euroTime').removeClass("d-flex").addClass("d-none");
-	} else if(timeRange === "Daily"){
-		$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
+		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
+	} else if (timeRange === "Daily") {
 		$('#functionOptionsMenu').addClass("d-flex").removeClass("d-none");
 		$('#euroTime').addClass("d-flex").removeClass("d-none");
-	}
-	else
-		if(timeRange === "1w"){
+		$('#functionOptionsMenu').addClass("d-flex").removeClass("d-none");
+	} else if (timeRange === "1w") {
 		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
-
+		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
 	}
 
-
+	const selectedGroupId = $('#dropDownCryptoOptions').val();
+	// 5️⃣ Trigger re-render
 	if (isCandleActive) {
-		// Trigger candlestick re-render explicitly
-		ChartManager.instances['chart1']?.loadCandlestickData(); // ✅ No toggle — just reload
+		ChartManager.instances['chart1']?.loadCandlestickData();
+		//renderCheckboxesChart1VolumeFundingRate(selectedGroupId, 1);
+		renderCheckboxesPerChart(selectedGroupId,1).then(() => {
+		   	  drawGraphForChart(1);	
+		});
 	} else {
-		// ⏺️ Reset functionId & redraw chart normally
 		functionId = -1;
-		drawGraphForChart(1);
+		renderCheckboxesPerChart(selectedGroupId,1).then(() => {
+		   	  drawGraphForChart(1);	
+		});
+		
 	}
-
 }
 function getSelectedFunctionId() {
   const dropdown = $("#dropDownFunctions").jqxDropDownList('getSelectedItem');
@@ -949,15 +1250,30 @@ function initializeFunctions(groupId){
 	};
 
 	var functionDataAdapter = new $.jqx.dataAdapter(functionSource);
-	$("#dropDownFunctions").jqxDropDownList({ dropDownHeight: 480, source: functionDataAdapter, placeHolder: "Select a Function", displayMember: "description", valueMember: "id", theme: 'dark', width: 180, height: 25 });
-	$("#reset").click(function() {
+	$("#dropDownFunctions").jqxDropDownList({ dropDownHeight: 480, source: functionDataAdapter, placeHolder: "Select a Function", displayMember: "description", valueMember: "id", theme: 'dark', width: 180, height: 40 });
+	$("#reset").on("click", function (e, isProgrammatic = false) {
+		if (isProgrammatic) {
+		suppressFunctionDropdownChange = true;
+		}
+	
 		functionId = -1;
 		$("#dropDownFunctions").jqxDropDownList({ selectedIndex: -1 });
+	
+		if (isProgrammatic) {
+			setTimeout(() => {
+				suppressFunctionDropdownChange = false;
+			}, 100);
+		} else {
+			// Manual reset = draw chart normally
+			drawGraphForChart(1);
+		}
 	});
 
 
-	$('#dropDownFunctions').on('change', function(event) {
-		var args = event.args;
+	$('#dropDownFunctions').on('change', function (event) {
+		if (suppressFunctionDropdownChange) return;
+	
+		const args = event.args;
 		if (args) {
 			functionId = parseInt($('#dropDownFunctions').val()) - 1;
 			drawGraphForChart(1);
@@ -995,5 +1311,12 @@ function addSubscription(channel, callback) {
 }
 document.addEventListener('DOMContentLoaded', function () {
 	connectWebSocket();
-	updateLiveSubscription(selectedLiveCurrency);
+	//updateLiveSubscription(selectedLiveCurrency);
+	const allCurrencies = ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'SHIB'];
+
+	allCurrencies.forEach(currency => {
+	    addSubscription(`/all/chart/${currency}`, function (message) {
+	        ChartManager.handleLiveUpdate(currency, message);
+	    });
+	});
 });

@@ -9,7 +9,7 @@ class ChartManager {
     <div class="bg-chart-dark" style="z-index: 1;">
       <div class="chart-sidebar collapsed" id="chartSidebar-{chartId}">
         <div class="toggle-sidebar" data-chart-id="{chartId}">&#10094;</div>
-        <div class="chart-option">
+        <div class="chart-option" id="chart-option-{chartId}">
           <div class="chart-option-title" id="chart-settings-{chartId}"></div>
           <div class="chart-option-title">Chart Option</div>
           <!-- Chart Type -->
@@ -377,7 +377,7 @@ class ChartManager {
 		const annotations = this.generateDynamicYAnnotations(s.series, s.functionId);
 		const hasColumn = s.series.some(series => series.type === 'column');
 		
-		const isSpecialFunctionId = [3, 4, 5, 6, 10, 11, 12, 13, 14].includes(s.functionId);
+		const isSpecialFunctionId = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(s.functionId);
 
 	let colors = [];
 	let strokeColors = [];
@@ -454,7 +454,7 @@ class ChartManager {
 				colors: isSingleSeries ? [useWhiteStroke ? '#ffffff' : baseColors[0]] : baseColors,
 				strokeColors: isSingleSeries ? [useWhiteStroke ? '#ffffff' : baseColors[0]] : baseColors,
 				shape: 'square',
-				size: s.disableMarkers? 0 :s.markerSize
+				size: s.disableMarkers? [s.markerSize,0] :s.markerSize
 			},
 			grid: { show: s.gridVisible, borderColor: '#f0e68c', strokeDashArray: 1, padding: { right: 60 } },
 			legend: s.series?.[0]?.type === 'candlestick'
@@ -758,7 +758,7 @@ class ChartManager {
 		this._loadMethod = this.loadData.bind(this); // in loadData
 
 		const resp = await fetch(`${api}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataParam) }).then(r => r.json());
-
+		const timeRange = getActiveTimeRange();
 		// Apply multiplier if series is funding rate
 		if (Array.isArray(resp)) {
 			resp.forEach(series => {
@@ -804,10 +804,16 @@ class ChartManager {
 		    } else {
 		      yValue = +yValue;
 		    }
+		   
+		    if(timeRange=='1w')
+		  	 pt.x= formatDateShort(pt.x);
+		    else if(timeRange=='4h')
+		    pt.x= formatDateWithTime(pt.x); 
+		    
 		    return { x: pt.x, y: yValue };
 		  });
 
- 		 const shouldApplyWidth = ['column'].includes(type) && [3, 4, 5, 6, 10, 11, 12, 13, 14].includes(this.state.functionId);
+ 		 const shouldApplyWidth = ['column'].includes(type) && [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(this.state.functionId);
 		 const strokeWidth = shouldApplyWidth ? this.getDynamicWidth(cleanData.filter(d => d.y !== null).length) : undefined;
 
 		 return {
@@ -901,13 +907,14 @@ class ChartManager {
 		const isCandleActive = document.getElementById('candlestick-chart1')?.classList.contains('active');
 		const timeRange = getActiveTimeRange();
 
-		if (timeRange === "4h" && isCandleActive) {
+		/*if (isCandleActive)//(timeRange === "4h" && isCandleActive) 
+		 {
 			$("#dropDownCandleOptionsContainer").removeClass("d-none").addClass("d-flex");
 			$("#dropDownCandleOptions").removeClass("d-none").addClass("d-block");
 		} else {
 			$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
 			$("#dropDownCandleOptions").removeClass("d-block").addClass("d-none");
-		}
+		}*/
 	}
 	getDynamicWidth(numColumns) {
 	    var totalAvailableWidth = 931;
@@ -926,6 +933,7 @@ class ChartManager {
     	return columnWidth*3;
 	}
 	generateDynamicTitle(series, timeRange, chartId = 'chart1') {
+		
 		const isCandlestick = series.some(s => s.type === 'candlestick');
 
 		if (!isCandlestick) {
@@ -938,18 +946,16 @@ class ChartManager {
 			: timeRange === "1w" ? "Weekly"
 				: "Daily";
 
-		const dropdownEl = $(`#dropDownCandleOptions`);
-		const selectedOptions = dropdownEl.val(); // could be string or array
+		const option = candleStickcheckboxOptions.find(
+		  c => c.index === ChartManager.instances[chartId]._lastDataParam.subGroupId2
+		);
+		const label = option?.label || '';
 		let secondaryLabel = '';
 
-		if (selectedOptions) {
-			const labels = Array.isArray(selectedOptions)
-				? selectedOptions.map(v => dropdownEl.jqxDropDownList('getItemByValue', v)?.label).filter(Boolean)
-				: [dropdownEl.jqxDropDownList('getItemByValue', selectedOptions)?.label];
+		const labels = label
 
-			if (labels.length > 0) {
-				secondaryLabel = ` vs ${labels.join(" & ")}`;
-			}
+		if (labels.length > 0) {
+			secondaryLabel = ` vs ${labels}`;
 		}
 
 		return `${mainCryptoLabel} ${timeLabel}${secondaryLabel}`;
@@ -1021,17 +1027,33 @@ class ChartManager {
 			};
 		}
 
-		// 🧩 Default config
-		const lim = this.state.seriesLimits?.[index] || { min: 0, max: 100 };
+		
+		let lim = { min: 0, max: 100 };  // default fallback
+		const limitsArray = this.state.seriesLimits || [];
+		const isDualAxis = this.state.useDualYAxis;
+		
+		if (!isDualAxis && limitsArray.length > 1 && (index === 0 || index === 1)) {
+			// Merge axis ranges from both series
+			lim = {
+				min: Math.min(limitsArray[0]?.min ?? 0, limitsArray[1]?.min ?? 0),
+				max: Math.max(limitsArray[0]?.max ?? 0, limitsArray[1]?.max ?? 0)
+			};
+		} else if (limitsArray[index]) {
+			lim = limitsArray[index];
+		}
+		 
 		const fmt = this.state.seriesFormats?.[index] || { digits: 2, isPercentage: true, useShortFormat: false };
 		const seriesType = this.state.seriesTypes?.[index] || 'line';
 		const isCandle = seriesType === 'candlestick';
 		let minVal=0;
 		let maxVal=0;
         if(isCentered){
-			const maxValue = Math.max(lim.min, lim.max);
-			minVal=-maxValue;
-			maxVal=maxValue;
+			const baseMax = Math.max(Math.abs(lim.min), Math.abs(lim.max));  // in case values are negative
+			const margin = baseMax * 0.05;
+			const paddedMax = baseMax + margin;
+			
+			 minVal = -paddedMax;
+			 maxVal = paddedMax;
 		}else
 			{
 			minVal= lim.min;
@@ -1074,22 +1096,40 @@ class ChartManager {
 	}
 	async toggleCandlestick(btn, id) {
 		const isActive = btn.classList.contains('active');
-
+		const selectedGroupId = $('#dropDownCryptoOptions').val();
+		$("#dropDownFunctions").jqxDropDownList({ disabled: false });
+		
 		if (isActive) {
 			// ⛔ Deactivate candlestick
 			btn.classList.remove('active');
-
+			$("#reset").click();
+			renderCheckboxesPerChart(selectedGroupId, 1);
+			
+			const allItems = checkboxOptions.map(opt =>
+				`#jqxCheckBox-${selectedGroupId}-${opt.index}-chart-1`
+			);
+			
+			allItems.forEach(id => {
+				if (id.includes('-5-') || id.includes('-8-')) {
+					$(id).jqxCheckBox('check');
+				}
+			});
+			//drawGraphForChart(chartId);
+		
+		
 			// 👉 Instead of loading old options, trigger updated logic
 			const showBtn = document.getElementById(`show-chart-${id}`);
 			if (showBtn) {
 				showBtn.click();  // Simulates user clicking "Show"
 			}
+			
 
 		} else {
 
 			// ✅ Activate candlestick
 			btn.classList.add('active');
-
+			//renderCheckboxesChart1VolumeFundingRate(selectedGroupId, 1)
+			renderCheckboxesPerChart(selectedGroupId, 1);
 			const newCandlestickParam = {
 				fromdate: document.getElementById(`dateFrom-${this.chartId}`)?.value,
 				todate: document.getElementById(`dateTo-${this.chartId}`)?.value +' 23:59:59',
@@ -1156,7 +1196,7 @@ class ChartManager {
 				});
 			}
 		});
-        if ([3, 4, 5, 6, 10, 11, 12, 13, 14].includes(functionId))
+        if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId))
         {
 			annotations.yaxis.push({
 							    y: 0,
@@ -1233,6 +1273,7 @@ class ChartManager {
 			applyTransparency: true,
 			currency:selectedLiveCurrency
 		});
+		this._disableChartSettings(true, ['fontOptions']);
 	}
 	getActiveTimeRange() {
 		if ($('#DailyData-btn').hasClass('active')) return 'Daily';
@@ -1314,10 +1355,81 @@ static handleLiveUpdate(currency, message) {
 		const returnedData = JSON.parse(message.body);
 		const chartInstances = Object.values(ChartManager.instances);
 
+		const symbol = currency; // assumed BTC, ETH, etc.
+
+		livePriceCache[symbol] = returnedData[0];  // or [1] if it's 4h — pick consistently
+
 		chartInstances.forEach(instance => {
 
 			let updatedChart = instance.chart;
-            if(instance.chartId=='chart3') return; 
+            if (instance.chartId === 'chart3') {
+				
+				const selectedCurrency = dropDownBenchmarkSource.find(c => c.groupId ===  $("#pairDropdown").val()).name.split('/');
+				const baseSymbol = selectedCurrency[0];   // e.g. 'BTC'
+				const quoteSymbol = selectedCurrency[1]; // e.g. 'ETH'
+
+				if (!livePriceCache[baseSymbol] || !livePriceCache[quoteSymbol]) return;
+		
+				// Use latest close price from both
+				const baseData = livePriceCache[baseSymbol];
+				const quoteData = livePriceCache[quoteSymbol];
+
+				const ratio = +baseData.close / +quoteData.close;
+
+				if (!isFinite(ratio)) return;
+			
+				const formattedDate = formatDateShort(baseData.startTime);  // use base timestamp
+			
+				const point = { x: formattedDate, y: ratio };
+			
+				// Update chart3 with new point
+				const updatedChart = instance.chart;
+				const currentSeries = updatedChart?.w?.config?.series?.[0]?.data || [];
+			
+				const updatedSeries = currentSeries.filter(p => p.x !== point.x);
+				updatedSeries.push(point);
+				updatedSeries.sort((a, b) => new Date(a.x) - new Date(b.x));
+			
+				updatedChart.w.config.series[0].data = updatedSeries;
+			
+				 const	newYaxis = instance.state.useDualYAxis && updatedChart.w.config.series.length > 1
+								? updatedChart.w.config.series.map((_, idx) => instance.generateYAxisConfig(idx, instance._isCentred?.[idx]))
+								: [instance.generateYAxisConfig(0, instance._isCentred?.[0])];
+							
+							newYaxis.forEach((axis, idx) => {
+								const seriesData = updatedChart.w.config.series[idx]?.data || [];
+								const values = [];
+							
+								seriesData.forEach(p => {
+									if (Array.isArray(p.y)) {
+										values.push(...p.y.map(Number));
+									} else if (p.y != null) {
+										values.push(Number(p.y));
+									}
+								});
+							
+								const filtered = values.filter(v => !isNaN(v) && v !== 0);
+								if (filtered.length === 0) return;
+							
+								const min = Math.min(...filtered);
+								const max = Math.max(...filtered);
+								let margin = (max - min) * 0.05;
+								let minValue = 0;
+								// 👉 Ensure margin is not negative
+								minValue = (min - margin > 0)? min - margin :minValue;
+							
+								axis.min = minValue;
+								axis.max = max + margin;
+							});
+					
+				updatedChart.updateOptions({
+							series: updatedChart.w.config.series,
+							yaxis: newYaxis
+						});
+				
+				return; // ✅ done for chart3
+			}
+ 
           //  console.log(selectedLiveCurrency , currency)
 			if (selectedLiveCurrency !== currency) return; 
 
@@ -1341,9 +1453,9 @@ static handleLiveUpdate(currency, message) {
 			};
 
 			if (!isCandlestick) {
-				
+				if(instance._interval=='1w') return;
 				const chartNum = instance.chartId.replace('chart', '');
-				const checkedItems = checkedItemIdsPerChart[chartNum] || [];
+				const checkedItems = getCheckedItems(chartNum);
 
 				checkedItems.forEach((idSelector, i) => {
 					const checkboxId = idSelector.split('-')[2];
@@ -1423,11 +1535,26 @@ static handleLiveUpdate(currency, message) {
 						{ newYaxis = instance.state.useDualYAxis && updatedChart.w.config.series.length > 1
 								? updatedChart.w.config.series.map((_, idx) => instance.generateYAxisConfig(idx, instance._isCentred?.[idx]))
 								: [instance.generateYAxisConfig(0, instance._isCentred?.[0])];
-							
+
 							newYaxis.forEach((axis, idx) => {
+								
 								const seriesData = updatedChart.w.config.series[idx]?.data || [];
 								const values = [];
-							
+							// here
+								let lim = { min: 0, max: 100 };  // default fallback
+									const limitsArray = instance.state.seriesLimits || [];
+									const isDualAxis = instance.state.useDualYAxis;
+									
+									if (!isDualAxis && limitsArray.length > 1 && (idx === 0 || idx === 1)) {
+										// Merge axis ranges from both series
+										lim = {
+											min: Math.min(limitsArray[0]?.min ?? 0, limitsArray[1]?.min ?? 0),
+											max: Math.max(limitsArray[0]?.max ?? 0, limitsArray[1]?.max ?? 0)
+										};
+									} else if (limitsArray[idx]) {
+										lim = limitsArray[idx];
+									}
+
 								seriesData.forEach(p => {
 									if (Array.isArray(p.y)) {
 										values.push(...p.y.map(Number));
@@ -1438,17 +1565,34 @@ static handleLiveUpdate(currency, message) {
 							
 								const filtered = values.filter(v => !isNaN(v) && v !== 0);
 								if (filtered.length === 0) return;
+						
+							let minVal=0;
+							let maxVal=0;
+							 if(instance._isCentred[idx]){
+								const baseMax = Math.max(Math.abs(lim.min), Math.abs(lim.max));  // in case values are negative
+								const margin = baseMax * 0.05;
+								const paddedMax = baseMax + margin;
+								
+								 minVal = -paddedMax;
+								 maxVal = paddedMax;
+							}else
+								{
+								minVal= lim.min;
+								maxVal= lim.max;
+								}
 							
-								const min = Math.min(...filtered);
-								const max = Math.max(...filtered);
+								const min =minVal;// Math.min(...filtered);
+								const max =maxVal; //Math.max(...filtered);
 								let margin = (max - min) * 0.05;
 								let minValue = 0;
 								// 👉 Ensure margin is not negative
-								minValue = (min - margin > 0)? min - margin :minValue;
+								minValue = instance._lastDataParam.isFunctionGraph?axis.min:(min - margin > 0)? min - margin :minValue;
 							
-								axis.min = minValue;
-								axis.max = max + margin;
+								axis.min = minVal//minValue;
+								axis.max = maxVal//max + margin;
+										
 							});
+
 						}
 						updatedChart.updateOptions({
 							series: updatedChart.w.config.series,
@@ -1468,7 +1612,8 @@ static handleLiveUpdate(currency, message) {
 
 				// Optional: Volume
 				if (updatedChart.w.config.series.length > 1 && $('#dropDownCandleOptions').val() === '5') {
-					const volPoint = { x: formattedDate, y: +data.volume };
+					const yValue=(timeRange!='4h')?+data.totalVolume:+data.volume;
+					const volPoint = { x: formattedDate, y: yValue };
 					const updatedVolumeData = buildUpdatedSeriesData(updatedChart.w.config.series[1]?.data, volPoint);
 					updatedChart.w.config.series[1].data = updatedVolumeData;
 				}

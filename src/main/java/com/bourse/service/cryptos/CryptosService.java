@@ -799,6 +799,21 @@ public class CryptosService {
 			{   
 			   l1.add(getGraphDataResult(graphReqDTO,true));
 			}
+			if(graphReqDTO.getGroupId2()!=null)
+			{
+				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId2())
+						   .subGroupId1(graphReqDTO.getSubGroupId2())
+						   .period(graphReqDTO.getPeriod())
+						   .type(graphReqDTO.getType())
+						   .fromdate(graphReqDTO.getFromdate())
+						   .todate(graphReqDTO.getTodate())
+						   .functionId(graphReqDTO.getFunctionId())
+						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+						   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+						   .build();
+				l1.add(getGraphDataResult(graphRequestDTO,false));
+			}
+				
 			return l1; 
 		
 		}

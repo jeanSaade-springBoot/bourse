@@ -283,39 +283,38 @@ height:34px;
 					
 					<div class="row ">
 						<div class="">
-							<div class="">
+							<div class="row">
 								<div id='dropDownCryptoOptions' style='border-radius: 0.2rem;'></div>
 						   </div>
 						 	<div class="row ">
-								<div class="col h-100 p-0">
+								<div class="col h-100">
 									<!-- <div th:include="${graph1}"></div> -->
 									
 									<div class="d-flex align-items-center">
 										<div>
- 											<div id="checkboxes-container-chart-1"></div>
+ 											<!--<div id="checkboxes-container-chart-1"></div>
 											<div class="col-12 d-flex justify-content-end">
 												<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-1" value="Show" />
 												<input id="clear-filter-chart-1" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-											</div>
+											</div>-->
 											<div class="row align-items-center">  
-												 <div class="btn-group col-6" role="group" aria-label="First group">
+												 <div class="btn-group col-6 pl-0" role="group" aria-label="First group">
 													<button type="button" class="btn btn-secondary mw-100 " id="4HoursData-btn" th:onclick="'javascript:toggleGraphData(2)'" fdprocessedid="jpbc4x">4-Hour Data</button>
 													<button type="button" class="btn btn-secondary mw-100 " id="DailyData-btn" th:onclick="'javascript:toggleGraphData(1)'" fdprocessedid="tme8jf">Daily Data</button>
 													<button type="button" class="btn btn-secondary mw-100 " id="weeklyData-btn" th:onclick="'javascript:toggleGraphData(3)'" >Weekly Data</button>
 												</div>
-												<!-- Candlestick Toggle -->
-												<div class="btn-group" id="candlestickToggle-chart1">
-												  <button id="candlestick-chart1" class="btn btn-option" onclick="ChartManager.instances['chart1'].toggleCandlestick(this,'1')">
-												    <i class="icon-candle"></i>
-												  </button>
-												</div>
-											 	<div class="row col align-items-center d-none" style=' margin-left: -6px;' id="dropDownCandleOptionsContainer">
+												
+											 	<div class="row align-items-center d-none" style=' margin-left: -6px;' id="dropDownCandleOptionsContainer">
 													<div id='dropDownCandleOptions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
 													<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="resetOptions"></i></div>
 												</div>
+												<div  id="functionOptionsMenu" class="d-flex align-items-center" style=' margin-left: 0.6rem;'>
+														<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
+														<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
+													</div>
 											</div>
-											 <div class="row pt-1" id="functionOptionsMenu">
-				   	  	   						<div id='groupOfPeriod-chart1' style='padding-left: .75rem'>
+											 <div class="row">
+				   	  	   						<div id='groupOfPeriod-chart1' class='d-none' style='padding-left: .75rem'>
 										            <button style="padding:4px 16px;" id="d" onclick="window.location.href='#mainChart'">
 										                Daily</button>
 										            <button style="padding:4px 16px;" id="w">
@@ -327,11 +326,11 @@ height:34px;
 													 <button style="padding:4px 16px;" id="y">
 														Yearly</button>
 										        </div>
-												<div id='dropDownType' style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
-													<div class="d-flex" style=' margin-left: 2.4rem;'>
+												<div id='dropDownType' class='d-none' style='border-radius: 0.2rem;margin-left: 2.4rem;'></div> 
+													<!--<div class="d-flex" style=' margin-left: 2.4rem;'>
 														<div id='dropDownFunctions' style='border-radius: 0.2rem;  margin-left: .4rem;'></div>
 														<div style=" margin-left: .4rem;"><i class="fa-solid fa-xmark" id="reset"></i></div>
-													</div>
+													</div>-->
 													
 												</div>
 												<div class="d-flex">
@@ -351,12 +350,13 @@ height:34px;
 									</div>
 								</div>
 								<div class="col h-100 p-0">
-									<!--<div th:include="${graph2}"></div>-->
+									<!--<div th:include="${graph2}"></div>
 									<div id="checkboxes-container-chart-2"></div>
 									<div class="col-12 d-flex justify-content-end">
 										<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-2" value="Show" />
 										<input id="clear-filter-chart-2" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 									</div>
+									-->
 									<div class="col-8" id="trendlineButtons">	
 										  <div class="d-flex">
 											<input aria-expanded="true" aria-controls="collapseFilter"

@@ -5032,4 +5032,28 @@ var itemValue = {
     "description": "unemployed-81",
     "title": "",
   },
+  "#jqxCheckBox-71-funding_rate": { 
+	  "subGroupId": "funding_rate",
+   
+  },
+  "#jqxCheckBox-72-funding_rate": { 
+	  "subGroupId": "funding_rate",
+   
+  },
+  "#jqxCheckBox-73-funding_rate": { 
+	  "subGroupId": "funding_rate",
+   
+  },
+  "#jqxCheckBox-74-funding_rate": { 
+	  "subGroupId": "funding_rate",
+   
+  },
+    "#jqxCheckBox-75-funding_rate": { 
+	  "subGroupId": "funding_rate",
+   
+  },
+  "#jqxCheckBox-76-funding_rate": { 
+	  "subGroupId": "funding_rate",
+   
+  },
   	};
