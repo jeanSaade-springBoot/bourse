@@ -7,6 +7,9 @@ var allitems = [
 	'#jqxCheckBox-76-1',
 	'#jqxCheckBoxAll'
 ];
+
+let isRanked = false;
+
 const labelImageMap = {
 	};
 const titleGroupMap = {
@@ -92,7 +95,16 @@ $(window).on('load', function() {
 });
 $(document).ready(function() {
 	
-
+	$("#toggleRankBtn").on('click', function () {
+	    isRanked = !isRanked;
+	
+	    // Toggle active style (simulate radio button)
+	    $(this).toggleClass('active', isRanked);
+	
+	    // Redraw the graph
+	    drawGraph();
+	    $("#toggleRankBtn").text(isRanked ? "Unrank" : "Rank");
+	});
     // jqxDropDownList with checkboxes
     $("#dropDownSelection").on('checkChange', function (event) {
         var itemValue = event.args.item.value;
@@ -321,7 +333,17 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 				  data[0].values ,
 				  selectedItems.map(label => {return label.split(':')[1]+'-'+label.split(':')[0]}));
 			
-        
+        	if (isRanked) {
+			// Sort by values descending (positive to negative)
+			const combined = orderResult.labels.map((label, i) => ({
+				label: label,
+				value: orderResult.data[i]
+			}));
+			combined.sort((a, b) => b.value - a.value);
+			orderResult.labels = combined.map(item => item.label);
+			orderResult.data = combined.map(item => item.value);
+		}
+		
         json.data = orderResult.data;
         json.series =  json.data.length==0?[]:[{
 			data:     json.data
@@ -334,21 +356,39 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 			
 		}
         else
-        {        
-        json.series = data[0].values.length==0?[]:[{
-			data: data[0].values
-		}];
-        json.labels = data[0].labels.map(label => {
-				    const cleanedLabel = label.trim().replace(/\s*-\s*/g, '-'); // Remove extra spaces
-				    const matchedItem = configData.find(item => item.columnGroupId === cleanedLabel); 
-				    return matchedItem ? matchedItem.displayName : cleanedLabel; // Return displayName if found, else label
-				});
+        {   let dataValues = data[0].values;     
+	       
+			
+			let labels = data[0].labels;
+			
+			if (isRanked) {
+				const orderResult = data[0];
+	        
+				const combined = orderResult.labels.map((label, i) => ({
+					label: label,
+					value: orderResult.values[i]
+				}));
+				combined.sort((a, b) => b.value - a.value);
+				json.labels = combined.map(item => item.label);
+				json.data = combined.map(item => item.value);
+				labels = json.labels;
+				dataValues = json.data;
 			}
+			 json.series = dataValues.length==0?[]:[{
+				data: dataValues
+			}];
+	        json.labels = labels.map(label => {
+			    const cleanedLabel = label.trim().replace(/\s*-\s*/g, '-'); // Remove extra spaces
+			    const matchedItem = configData.find(item => item.columnGroupId === cleanedLabel); 
+			    return matchedItem ? matchedItem.displayName : cleanedLabel; // Return displayName if found, else label
+			});
+		
+		}
 				  
-        const result = getColorsAndImagesForLabels(json.labels);
-        json.images = result.images;
+       // const result = getColorsAndImagesForLabels(json.labels);
+        json.images = [];
         
-         if(checkedItems!='') {
+        if(checkedItems!='') {
 		     json.title = 'Cryptos Performance'+" In "+ fromdate;
 
 		}

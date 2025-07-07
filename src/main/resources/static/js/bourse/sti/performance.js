@@ -5,6 +5,9 @@ var allitems = [
 	'#jqxCheckBoxTadawul', // emerging
 	'#jqxCheckBoxAll'
 ];
+
+let isRanked = false;
+
 const labelImageMap = {
 		'NIFTY-32': '/img/flag/india.png',
 		'NIFTY_USDINR-32': '/img/flag/india_usd.png',
@@ -20,6 +23,14 @@ const labelImageMap = {
 		'HISMBI_USDHKD-32': '/img/flag/hismbi_usd.png',
 		'HISMPI-32': '/img/flag/hismpi.png',
 		'HISMPI_USDHKD-32': '/img/flag/hismpi_usd.png',
+		
+		'DOWJONES-33': '/img/flag/united-states.png',
+		'SANDP-33': '/img/flag/united-states.png',
+		'NASDAQ-33': '/img/flag/united-states.png',
+		'RUSSELL-33': '/img/flag/united-states.png',
+		'FANG-33': '/img/flag/united-states.png',
+		'DJMAJORBANKS-33': '/img/flag/united-states.png',
+		'DJREGIONALBANKS-33': '/img/flag/united-states.png',
 		
 		'DAX-34': '/img/flag/germany.png',
 		'DAX_EURUSD-34': '/img/flag/usa-ger.png',
@@ -38,7 +49,7 @@ const labelImageMap = {
 		
 		
 		'TADAWUL-35': '/img/flag/saudi-arabia.png',
-		'TADAWUL_USDSAR': '/img/flag/saudi-arabia_usd.png',
+		'TADAWUL_USDSAR-35': '/img/flag/saudi-arabia_usd.png',
 		'EGX-35': '/img/flag/egypt.png',
 		'EGX_USDEGP-35': '/img/flag/egypt_usd.png',
 		'BIST-35': '/img/flag/turkey.png',
@@ -62,12 +73,12 @@ const titleGroupMap = {
 		
 const configData = [
   // groupId = 32
-  { "columnName": "32:NIFTY", "displayName": "NIFTY", "groupId": "32", "columnGroupId": "NIFTY-32" },
-  { "columnName": "32:NIFTY_USDINR", "displayName": "$-NIFTY", "groupId": "32", "columnGroupId": "NIFTY_USDINR-32" },
-  { "columnName": "32:CSI", "displayName": "CSI", "groupId": "32", "columnGroupId": "CSI-32" },
-  { "columnName": "32:CSI_USDCNY", "displayName": "$-CSI", "groupId": "32", "columnGroupId": "CSI_USDCNY-32" },
   { "columnName": "32:NIKKEI", "displayName": "NIKKEI", "groupId": "32", "columnGroupId": "NIKKEI-32" },
   { "columnName": "32:NIKKEI_USDJPY", "displayName": "$-NIKKEI", "groupId": "32", "columnGroupId": "NIKKEI_USDJPY-32" },
+  { "columnName": "32:CSI", "displayName": "CSI", "groupId": "32", "columnGroupId": "CSI-32" },
+  { "columnName": "32:CSI_USDCNY", "displayName": "$-CSI", "groupId": "32", "columnGroupId": "CSI_USDCNY-32" },
+  { "columnName": "32:NIFTY", "displayName": "NIFTY", "groupId": "32", "columnGroupId": "NIFTY-32" },
+  { "columnName": "32:NIFTY_USDINR", "displayName": "$-NIFTY", "groupId": "32", "columnGroupId": "NIFTY_USDINR-32" },
   { "columnName": "32:KOSPI", "displayName": "KOSPI", "groupId": "32", "columnGroupId": "KOSPI-32" },
   { "columnName": "32:KOSPI_USDKRW", "displayName": "$-KOSPI", "groupId": "32", "columnGroupId": "KOSPI_USDKRW-32" },
   { "columnName": "32:HANGSENG", "displayName": "HANGSENG", "groupId": "32", "columnGroupId": "HANGSENG-32" },
@@ -76,7 +87,6 @@ const configData = [
   { "columnName": "32:HISMBI_USDHKD", "displayName": "$-HSI BANKING", "groupId": "32", "columnGroupId": "HISMBI_USDHKD-32" },
   { "columnName": "32:HISMPI", "displayName": "HSI^ PROPERTY", "groupId": "32", "columnGroupId": "HISMPI-32" },
   { "columnName": "32:HISMPI_USDHKD", "displayName": "$-HSI PROPERTY", "groupId": "32", "columnGroupId": "HISMPI_USDHKD-32" },
-
   // groupId = 33
   { "columnName": "33:DOWJONES", "displayName": "DOWJONES", "groupId": "33", "columnGroupId": "DOWJONES-33" },
   { "columnName": "33:SANDP", "displayName": "S&P", "groupId": "33", "columnGroupId": "SANDP-33" },
@@ -108,7 +118,15 @@ const configData = [
   { "columnName": "35:EGX", "displayName": "EGX", "groupId": "35", "columnGroupId": "EGX-35" },
   { "columnName": "35:EGX_USDEGP", "displayName": "$-EGX", "groupId": "35", "columnGroupId": "EGX_USDEGP-35" },
   { "columnName": "35:BIST", "displayName": "BIST", "groupId": "35", "columnGroupId": "BIST-35" },
-  { "columnName": "35:BIST_USDTRY", "displayName": "$-BIST", "groupId": "35", "columnGroupId": "BIST_USDTRY-35" }
+  { "columnName": "35:BIST_USDTRY", "displayName": "$-BIST", "groupId": "35", "columnGroupId": "BIST_USDTRY-35" },
+  { "columnName": "35:MOEX", "displayName": "MOEX", "groupId": "35", "columnGroupId": "MOEX-35" },
+  { "columnName": "35:MOEX_USDRUB", "displayName": "$-MOEX", "groupId": "35", "columnGroupId": "MOEX_USDRUB-35" },
+  { "columnName": "35:JSTTOP", "displayName": "JSTOP", "groupId": "35", "columnGroupId": "JSTTOP-35" },
+  { "columnName": "35:JSTTOP_USDZAR", "displayName": "$-JSTOP", "groupId": "35", "columnGroupId": "JSTTOP_USDZAR-35" },
+  { "columnName": "35:BOVESPA", "displayName": "BOVESPA", "groupId": "35", "columnGroupId": "BOVESPA-35" },
+  { "columnName": "35:BOVESPA_USDBRL", "displayName": "$-BOVESPA", "groupId": "35", "columnGroupId": "BOVESPA_USDBRL-35" },
+  { "columnName": "35:MEXBOL", "displayName": "MEXBOL", "groupId": "35", "columnGroupId": "MEXBOL-35" },
+  { "columnName": "35:MEXBOL_USDMXN", "displayName": "$-MEXBOL", "groupId": "35", "columnGroupId": "MEXBOL_USDMXN-35" }
 ];
 
 		
@@ -132,7 +150,16 @@ $(window).on('load', function() {
 });
 $(document).ready(function() {
 	
-
+	$("#toggleRankBtn").on('click', function () {
+	    isRanked = !isRanked;
+	
+	    // Toggle active style (simulate radio button)
+	    $(this).toggleClass('active', isRanked);
+	
+	    // Redraw the graph
+	    drawGraph();
+	    $("#toggleRankBtn").text(isRanked ? "Unrank" : "Rank");
+	});
     // jqxDropDownList with checkboxes
     $("#dropDownSelection").on('checkChange', function (event) {
         var itemValue = event.args.item.value;
@@ -148,7 +175,6 @@ $(document).ready(function() {
             selectedItems = selectedItems.filter(item => item !== itemValue);
         }
 
-        console.log(selectedItems.join(", "));
     });
 
 	initializeNewsBanner();
@@ -297,9 +323,9 @@ function countItems(groupColumnPairs) {
 function getHeightBasedOnCount(groupColumnPairs) {
     const count = countItems(groupColumnPairs); // Get the count
 
-    if (count < 10) return 525;
-    if (count >= 10 && count <= 20) return 755;
-    return 975; // More than 20
+    if (count < 15) return 525;
+    if (count >= 15 && count <= 20) return 755;
+    return 1075; // More than 20
 }
 async function performanceGraph(graphService, graphName, removeEmpty, saveHistory) {
     try {
@@ -353,32 +379,62 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
         
        if(checkedItems!='')
         {
-			const orderResult = reorderDataWithLabels(  data[0].labels.map(label => {return label.trim().replace(/\s*-\s*/g, '-')}),
+		
+		const orderResult = reorderDataWithLabels(  data[0].labels.map(label => {return label.trim().replace(/\s*-\s*/g, '-')}),
 				  data[0].values ,
 				  selectedItems.map(label => {return label.split(':')[1]+'-'+label.split(':')[0]}));
 			
-        
+        	
+		if (isRanked) {
+			// Sort by values descending (positive to negative)
+			const combined = orderResult.labels.map((label, i) => ({
+				label: label,
+				value: orderResult.data[i]
+			}));
+			combined.sort((a, b) => b.value - a.value);
+			orderResult.labels = combined.map(item => item.label);
+			orderResult.data = combined.map(item => item.value);
+		}
+		
         json.data = orderResult.data;
         json.labels = orderResult.labels.map(label => {
 				    const cleanedLabel = label.trim().replace(/\s*-\s*/g, '-'); // Remove extra spaces
 				    const matchedItem = configData.find(item => item.columnGroupId === cleanedLabel); 
 				    return matchedItem ? matchedItem.displayName : cleanedLabel; // Return displayName if found, else label
 				});
-			
+			       
+        const result = getColorsAndImagesForLabels(orderResult.labels);
+        json.images = result.images;
 		}
         else
-        {json.data = data[0].values;
-         json.labels = data[0].labels.map(label => {
+        {
+	    json.data = data[0].values;
+       
+		let result = getColorsAndImagesForLabels(data[0].labels);
+		let labels = data[0].labels;
+		if (isRanked) {
+			const orderResult = data[0];
+        
+			const combined = orderResult.labels.map((label, i) => ({
+				label: label,
+				value: orderResult.values[i]
+			}));
+			combined.sort((a, b) => b.value - a.value);
+			json.labels = combined.map(item => item.label);
+			json.data = combined.map(item => item.value);
+			labels = json.labels;
+			result = getColorsAndImagesForLabels(json.labels);
+		}
+			
+        json.images = result.images;
+        json.labels = labels.map(label => {
 				    const cleanedLabel = label.trim().replace(/\s*-\s*/g, '-'); // Remove extra spaces
 				    const matchedItem = configData.find(item => item.columnGroupId === cleanedLabel); 
 				    return matchedItem ? matchedItem.displayName : cleanedLabel; // Return displayName if found, else label
 				});
-			}
-			
-		       
-        const result = getColorsAndImagesForLabels(data[0].labels);
-        json.images = result.images;
-        
+				
+		}
+		
          if(checkedItems!='') {
 		     json.title = 'Stock Indices Performance'+" In "+ fromdate;
 
