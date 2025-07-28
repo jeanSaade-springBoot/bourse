@@ -75,6 +75,16 @@
 	height: 30px;
 	color: #99b3e0;
 }
+.vertical-text {
+    text-orientation: sideways;
+    writing-mode: vertical-rl;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0px;
+    border-left:0px solid
+}
+.top-100 {
+    top: 140px;
+}
   table {
             border-collapse: collapse;
             width: 100%;
@@ -216,7 +226,15 @@ height:34px;
 				<!-- TopBar -->
 				<div th:include="${mainmenu}"></div>
 				<!-- Topbar -->
-				 <div class="d-sm-flex align-items-center">
+				<div id="portfolio-toggle" class="position-fixed top-100 end-0 d-flex flex-column z-3">
+				  <button id="btn-shared" class="btn vertical-text px-2 py-3 rounded-4 rounded-start-0 shadow mb-2" data-type="shared">
+				    Shared <i class="bi bi-people-fill"></i>
+				  </button>
+				  <button id="btn-private" class="btn vertical-text px-2 py-3 rounded-4 rounded-start-0 shadow" data-type="private">
+				    Private <i class="bi bi-lock-fill"></i>
+				  </button>
+				</div>
+				<div class="d-sm-flex align-items-center">
 	            <h1 class="ml-6 text-darkorange">Cryptos</h1>
 			     	   <nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
 			           <div class="nav nav-tabs" id="nav-tab" role="tablist">
@@ -374,12 +392,10 @@ height:34px;
 								</div>
 							</div>
 
-							<div class="row justify-content-between">
+							<div class="row justify-content-between align-items-end">
 								<div class=" h-100 p-0">
-									<div id="eth-btc-chart" class="chart-box">
-										
-										<div id="trendFollowinhgChart" class="chart-box col-12"></div>
-
+									<div id="" class="chart-box d-flex ">
+										<div id="crypto4-container"></div>
 									</div>
 								</div>
 								<div class=" h-100 p-0">
@@ -889,7 +905,25 @@ height:34px;
 		  const hasPendingApprovalGrid= authorities.filter(item => {
 		  	   return item.authority === "PENDING_APPROVAL_GRID"
 		  })[0]!== undefined;
-		 
+		  
+		  const isShared = /*[[${isShared}]]*/ "false"; // Will be injected as "true" or "false"
+
+		  const btnShared = document.getElementById('btn-shared');
+		  const btnPrivate = document.getElementById('btn-private');
+
+		  if (isShared === "true") {
+		    btnShared.classList.add('btn-primary');
+		    btnShared.classList.remove('btn-secondary');
+
+		    btnPrivate.classList.add('btn-secondary');
+		    btnPrivate.classList.remove('btn-primary');
+		  } else {
+		    btnPrivate.classList.add('btn-primary');
+		    btnPrivate.classList.remove('btn-secondary');
+
+		    btnShared.classList.add('btn-secondary');
+		    btnShared.classList.remove('btn-primary');
+		  }
   </script>
 </body>
 

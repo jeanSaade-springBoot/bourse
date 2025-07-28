@@ -614,6 +614,118 @@ public class CryptosService {
 			return l1; 
 		
 		}
+		public List<GraphResponseColConfigDTO> getTrendFollowingGraph (GraphRequestDTO graphReqDTO) {
+
+			boolean hasData= adminService.getData();
+		    if(!hasData)
+				return null;
+		
+			List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+			
+			if(graphReqDTO.getCandlestickMode())
+			{
+				l1.add(getCandleGraphDataResult(graphReqDTO));
+			}
+			else
+				if(graphReqDTO.getGroupId1()!=null)
+				{
+					l1.add(getGraphDataResult(graphReqDTO,false));
+				}
+			
+			if (graphReqDTO.getIsFunctionGraph() != null ? graphReqDTO.getIsFunctionGraph().equals("true") : false) {
+			    // Split comma-separated IDs
+			    String[] functionIds = graphReqDTO.getFunctionId().split(",");
+			    for (int i = 0; i < functionIds.length; i++) {
+			        l1.add(getTrendFollowingGraphData(graphReqDTO, functionIds[i], true));
+			    }
+			}
+			
+				
+			return l1; 
+		
+		}
+		public GraphResponseColConfigDTO getTrendFollowingGraphData (GraphRequestDTO graphReqDTO,String functionId, Boolean isFunction) {
+		
+		boolean hasData= adminService.getData();
+	    if(!hasData)
+			return null;
+
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_crypto_weighted_moving_avg",GraphResponseDTO.class);
+		
+		List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+		ColumnConfiguration config = null;
+		GraphResponseColConfigDTO graphResponseColConfigDTO = null;
+		
+		String groupId = graphReqDTO.getGroupId1();
+		String subGroupId = graphReqDTO.getSubGroupId1(); 
+		String description = null;
+		description = tableManagementRepository.findByGroupIdAndSubgroupId(groupId,subGroupId).getColumnName()+"-"+groupId;
+			
+		    System.out.println("goupid: "+groupId);
+		    System.out.println("subGroupId: "+subGroupId);
+		    System.out.println("description: "+description);
+		    System.out.println("period: "+graphReqDTO.getPeriod());
+		    System.out.println("type: "+graphReqDTO.getType());
+		    System.out.println("fromdate:"+graphReqDTO.getFromdate()+" to date:"+"graphReqDTO.getTodate()");
+		    config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
+		    if (isFunction)
+		    {
+		    	FunctionConfiguration fConfig = functionConfigurationService.findFunctionConfigurationByConfigIdAndFonctionId(String.valueOf(config.getId()), functionId);
+				config = ColumnConfiguration.builder()
+						.chartColor(fConfig.getChartColor()==null?"#F0AB2E":fConfig.getChartColor())
+						.chartShowgrid(fConfig.getChartShowgrid())
+						.chartSize(fConfig.getChartSize())
+						.chartTransparency(fConfig.getChartTransparency()==null?"0.50":fConfig.getChartTransparency())
+						.chartType(fConfig.getChartType())
+						.chartshowMarkes(fConfig.getChartshowMarkes())
+						.displayDescription(fConfig.getDisplayDescription())
+						.yAxisFormat(fConfig.getYAxisFormat())
+						.startDate(fConfig.getStartDate())
+						.dataFormat(fConfig.getDataFormat())
+						.build();
+				
+		    }
+			query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+			query.setParameter("groupId",graphReqDTO.getGroupId1() );
+			
+			query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+			query.setParameter("fromDate",graphReqDTO.getFromdate() );
+			
+			query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+			query.setParameter("toDate",graphReqDTO.getTodate() );
+			
+			query.registerStoredProcedureParameter("subgroupId", String.class, ParameterMode.IN);
+			query.setParameter("subgroupId",graphReqDTO.getSubGroupId1() );
+			
+			query.registerStoredProcedureParameter("functionCode", String.class, ParameterMode.IN);
+			query.setParameter("functionCode",FunctionEnum.getFunctionByID(functionId.isEmpty()?0:Integer.valueOf(functionId)));
+			
+			
+			query.execute();
+			
+			List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+			List<GraphResponseDTO> graphResponseDTOlstEmpty= LiquidityUtil.removeReplaceEmptyValueWithNull(graphResponseDTOlst1);
+			graphResponseDTOlst1.clear();
+			graphResponseDTOlst1=graphResponseDTOlstEmpty;
+			
+			if (graphReqDTO.getRemoveEmpty1()!=null)
+				if (graphReqDTO.getRemoveEmpty1().equalsIgnoreCase("true"))
+				{	
+					List<GraphResponseDTO> graphResponseDTOlst= LiquidityUtil.removeEmptyY(graphResponseDTOlst1);
+					graphResponseDTOlst1.clear();
+					graphResponseDTOlst1=graphResponseDTOlst;
+				}
+				
+		   graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+					                  .graphResponseDTOLst(graphResponseDTOlst1)
+					                  .config(config)
+					                  .build();
+			entityManager.clear();
+			entityManager.close();
+		
+		return graphResponseColConfigDTO; 
+	    }
+		
 		public List<GraphResponseColConfigDTO> getGraphDataBenchmarking (GraphRequestDTO graphReqDTO) {
 
 			boolean hasData= adminService.getData();

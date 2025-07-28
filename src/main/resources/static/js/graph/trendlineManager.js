@@ -2214,7 +2214,7 @@ async function getTrendLinesHistory(){
 function getTrendLinesHistoryAsync(screenName) {
 	return new Promise((resolve, reject) => {
 		$.ajax({
-			url: `/graph/find-graph-history-by-userid-screen-name/${screenName}`,
+			url: `/graph/find-trendline-history-by-userid-screen-name/${screenName}/${isShared}`,
 			dataType: 'json',
 			success: function(data) {
 				const groupedData = data.reduce((acc, obj) => {

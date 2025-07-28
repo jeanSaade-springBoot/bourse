@@ -65,12 +65,54 @@ const dropDownBenchmarkSource = [
     { name: "XRP/1mSHIB", groupId: "76-74", ticker: "XRP-1mSHIB", crypto: "XRP" }
 ];
 	
+const fullOptions = [
+    { id: 20, label: "5dw MovAvg" },
+    { id: 21, label: "6dw MovAvg" },
+    { id: 22, label: "7dw MovAvg" },
+    { id: 23, label: "9dw MovAvg" },
+    { id: 24, label: "18dw MovAvg" },
+    { id: 25, label: "21dw MovAvg" },
+    { id: 26, label: "25dw MovAvg" },
+    { id: 27, label: "30dw MovAvg" },
+    { id: 28, label: "45dw MovAvg" },
+    { id: 29, label: "63dw MovAvg" }
+];
+
+const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+const selectedValues = {};
+let isRefreshingDropdowns = false;
+let isProgrammaticDropdownUpdate = false;
+let trendfollowingDbId;
+
+
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#container-wrapper').show();
 });
 
 $(document).ready(function() {
+
+	$('#portfolio-toggle button').on('click', function () {
+		  const type = $(this).data('type');
+		  const isShared = type === 'shared' ? 'true' : 'false';
+		
+		  // Update button styles
+		  $('#portfolio-toggle button').removeClass('btn-primary').addClass('btn-secondary');
+		  $(this).removeClass('btn-secondary').addClass('btn-primary');
+		
+		  // Replace or append the isShared parameter in the URL
+		  const url = new URL(window.location.href);
+		  url.searchParams.set('isShared', isShared);
+		
+		  // Reload page with new parameter
+		  window.location.href = url.toString();
+		});
+	
+	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35 ,template: "primary" });
+	  $("#viewall").css("display","block");
+	  $("#viewall").click(function () {
+		popupWindow('/bourse/allnews', 'Libvol - View All News', window, 1300, 600);
+	  });
 
 	if (timeRange == "Daily") {
 		monthDate = new Date();
@@ -174,6 +216,9 @@ $(document).ready(function() {
 		 getDataChart3();
 		 getDataChart1(null);
 		 getDataChart2(null);
+		 getDataChart4() ;
+
+		 
 		initializeOrderBookForCrypto("BTC");
 });
  $("#groupOfPeriod-chart1").on('buttonclick', function (event) {
@@ -186,6 +231,8 @@ $(document).ready(function() {
 			drawGraphForChart(1);
 	  });	
  
+
+
 function buildCheckboxGroup(groupId, chartId) {
 	const container = document.createElement('div');
 	container.className = 'col mb-2';
@@ -490,6 +537,17 @@ function initializeCryptoOptions() {
 		 renderCheckboxesPerChart(selectedGroupId,2).then(() => {
 		   	 	 loadChart2Data();
 		});
+		const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+
+	    dropdownIds.forEach((dropdownId, index) => {
+	       
+	        const instance = $(`#${dropdownId}`);
+			instance.jqxDropDownList('clearSelection');
+	        
+	    });
+	    $("#candlestick-chart4").removeClass('active');	
+		getTrendFollowingHistory();
+		
 	});
 
 	// renderCheckboxesPerChart($("#dropDownCryptoOptions").val());
@@ -631,12 +689,11 @@ function getDataChart1(checkedItemIds) {
 	  loadChart1Data(manager,timeRange);
 	} else {
 	manager.render().then(() => {
-		    
 		    $('#chart-option-chart1').append(`
 		    <!-- Candlestick Toggle -->
 		    <br>
 			<div class="btn-group" id="candlestickToggle-chart1">
-			  <button id="candlestick-chart1" class="btn btn-option" onclick="ChartManager.instances['chart1'].toggleCandlestick(this,'1')">
+			  <button id="candlestick-chart1" class="btn btn-option" onclick="ChartManager.instances['chart1'].toggleCandlestick(this,1)">
 			    <i class="icon-candle"></i>
 			  </button>
 			</div>
@@ -695,7 +752,7 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				const isFunctionLineColumn = [7,8,9].includes(functionId);
 				
 				let disableMarkers = false;
-				
+				let markerSizeArray=[];
 				let useDualYAxis = (
 				  (functionId !== 1 && functionId !== 2 && functionId !== -1)
 				);
@@ -729,6 +786,7 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 					    seriesTypes = ['candlestick', 'line'];
 					    isCentred.push(false);
 						disableMarkers = true;
+						markerSizeArray=[1,0];
 					  } else if (isFunctionAreaColumn) {
 					    seriesTypes = ['candlestick', 'column'];
 					    isCentred.push(true);
@@ -763,9 +821,12 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				interval: timeRange,
 				applyTransparency: applyTransparency,
 				disableMarkers:disableMarkers,
+				markerSizeArray:markerSizeArray,
 				isCentred:isCentred,
 				useShortFormatList:useShortFormatList,
 				currency:selectedLiveCurrency
+			}).then(() => {
+				 $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
 			manager._disableChartSettings(true, ['fontOptions']);
 			}
@@ -864,7 +925,7 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				const useShortFormatList = sorted.map(m => (m.subGroupId === '5' || m.subGroupId === '6'));
 				
 				const disableMarkers = (functionId === 1 || functionId === 2) ? true : false;
-				
+				let markerSizeArray=(disableMarkers)?[1,0]:[];
 				let api = '';
 				if (timeRange == "Daily")
 					api = "/cryptos/getgraphdatabytype";
@@ -888,9 +949,12 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 					interval: timeRange,
 					applyTransparency: applyTransparency,
 					disableMarkers:disableMarkers,
+					markerSizeArray:markerSizeArray,
 					isCentred:isCentred,
 					currency:selectedLiveCurrency
-				});
+				}).then(() => {
+				 $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
+			});
 			}
 }
 function getDataChart2(checkedItemIds) {
@@ -994,7 +1058,102 @@ function getDataChart3() {
 		});
   
 }
+function getDataChart4() { // trendfollowing
+
+	const chartId = '4';
+	const manager = new ChartManager(`chart${chartId}`, options, `#crypto${chartId}-container`);
+
+	const fromDate = new Date();
 	
+	fromDate.setMonth(fromDate.getMonth() - 6);
+	fromDate.setHours(0, 0, 0, 0);
+
+	manager.state.defaultFromDate = fromDate;
+	manager.state.defaultToDate = new Date();
+	if (manager && manager.chart) {
+	 
+         updateTrendFollowingGraph(chartId,manager);
+	}
+	manager.render().then(() => {
+		    $('#chart-option-chart4').append(`
+		    <!-- Candlestick Toggle -->
+		    <br>
+			<div class="btn-group" id="candlestickToggle-chart4">
+			  <button id="candlestick-chart4" class="btn btn-option" onclick="toggleCandlestickChartTrendFollowing(this,'4')">
+			    <i class="icon-candle"></i>
+			  </button>
+			</div>
+			
+			    <div class="d-flex align-items-center">
+			    	<div id="dropdown1" class="mt-2"></div>
+				    <div style="margin-left: .4rem;">
+						<i class="fa-solid fa-xmark" id="reset1"></i>
+					</div>
+				</div>
+				<div class="d-flex align-items-center">
+			    	<div id="dropdown2" class="mt-2"></div>
+				    <div style="margin-left: .4rem;">
+						<i class="fa-solid fa-xmark" id="reset2"></i>
+					</div>
+				</div>
+				<div class="d-flex align-items-center">
+			    	<div id="dropdown3" class="mt-2"></div>
+				    <div style="margin-left: .4rem;">
+						<i class="fa-solid fa-xmark" id="reset3"></i>
+					</div>
+				</div>
+				<div class="d-flex align-items-center">
+			    	<div id="dropdown4" class="mt-2"></div>
+				    <div style="margin-left: .4rem;">
+						<i class="fa-solid fa-xmark" id="reset4"></i>
+					</div>
+				</div>
+		    `);
+			// Initial load with first ticker
+			
+			dropdownIds.forEach(id => {
+			  $(`#${id}`).jqxDropDownList({
+			    source: fullOptions,
+			    displayMember: "label",
+			    valueMember: "id",
+			    width: 100,
+			    height: 30,
+			    autoDropDownHeight: true,
+			    selectedIndex: -1,
+			    theme: 'dark'
+			  });
+			
+			$(`#${id}`).on('select', function () {
+			    // Prevent triggering during programmatic update or refresh loop
+			    if (isProgrammaticDropdownUpdate || isRefreshingDropdowns) return;
+			
+			    const chartId = '4';
+			    const manager = ChartManager.instances.chart4;
+			
+			    updateTrendFollowingGraph(chartId, manager);
+			
+			    // Now refresh others safely
+			    isRefreshingDropdowns = true;
+			    setTimeout(() => {
+			        refreshAllDropdowns();
+			        isRefreshingDropdowns = false;
+			    }, 0);
+			});
+
+			});
+
+		    bindResetButton('reset1', 'dropdown1');
+			bindResetButton('reset2', 'dropdown2');
+			bindResetButton('reset3', 'dropdown3');
+			bindResetButton('reset4', 'dropdown4'); 
+			getTrendFollowingHistory();
+			//updateTrendFollowingGraph(chartId,manager);
+			
+			
+		});
+  
+}
+
 function updatePairDropdown(ticker) {
 	    const filteredPairs = dropDownBenchmarkSource
 	        .filter(pair => pair.name.includes(ticker))
@@ -1063,6 +1222,102 @@ function updateBenchmarkingGraph(chartId,manager){
 	
 	
 }
+async function updateTrendFollowingGraph(chartId, manager) {
+	
+	 $("#dropdown1").jqxDropDownList({ disabled: true }); 
+	 $("#dropdown2").jqxDropDownList({ disabled: true }); 
+     $("#dropdown3").jqxDropDownList({ disabled: true }); 
+	 $("#dropdown4").jqxDropDownList({ disabled: true }); 
+
+
+    const from = document.getElementById(`dateFrom-chart${chartId}`).value;
+    const to = document.getElementById(`dateTo-chart${chartId}`).value;
+    const timeRange = getActiveTimeRange();
+    const period = getChartPeriod();
+    const candlestickIsActive = $(`#candlestick-chart${chartId}`).hasClass('active');
+
+    const selectedGroupsId = $('#dropDownCryptoOptions').val();
+    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+    const selectedFunctionIds = dropdownIds
+        .map(id => {
+            const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
+            return item ? item.originalItem.id : null;
+        })
+        .filter(id => id !== null)
+        .join(',');
+
+    const commonParams = {
+        fromdate: from,
+        todate: to + (candlestickIsActive ? ' 23:59:59' : ''),
+        period: period,
+        type: '3',
+        groupId1: selectedGroupsId,
+        subGroupId1: '8',
+        removeEmpty1: false,
+        candlestickMode: candlestickIsActive,
+        functionId: selectedFunctionIds,
+        isFunctionGraph: selectedFunctionIds !== '' ? true : null
+    };
+
+    const api = "/cryptos/gettrendfollowingGraph";
+	let titleA = dropDownCryptosource.find(c => c.groupId === commonParams[`groupId1`]).name;
+    let titleB = commonParams[`isFunctionGraph`]?'with TIME&VOLATILITY WEIGHTED ARRAYS':''; 
+    if (candlestickIsActive) {
+        await manager.loadData({
+            service: manager._lastService || "cryptos",
+            api: api,
+            name: `${titleA} Daily ${titleB}`,
+            applyTitle: true,
+            removeEmpty: manager._lastRemoveEmpty || false,
+            saveHistory: false,
+            fromOverride: manager.state.defaultFromDate,
+            toOverride: manager.state.defaultToDate,
+            applyDb: false,
+            seriesTypes: ['candlestick', 'line', 'line', 'line', 'line'], // You can make this dynamic if needed
+            seriesColors: ['#00ff99', '#fac1e2', '#e436c1', '#42f5c5','#57f542'],
+            useDualYAxis: false,
+            dataParam: commonParams,
+            useShortFormatList: [false],
+            interval: timeRange,
+            currency: selectedLiveCurrency,
+            disableMarkers: true,
+            markerSizeArray: [1, 0, 0, 0, 0],
+            showLegend: false,
+        }).then(() => {
+				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
+				 $("#dropdown2").jqxDropDownList({ disabled: false }); 
+			     $("#dropdown3").jqxDropDownList({ disabled: false }); 
+				 $("#dropdown4").jqxDropDownList({ disabled: false }); 
+
+			});
+
+        manager._disableChartSettings(true, ['fontOptions']);
+    } else {
+        await manager.loadData({
+            service: "cryptos",
+            api: api,
+            name: `${titleA} CLOSE ${titleB}`,
+            applyTitle: true,
+            removeEmpty: false,
+            saveHistory: false,
+            applyDb: true,
+            dataParam: commonParams,
+            showLegend: false,
+            seriesTypes: ['line', 'line', 'line', 'line', 'line'], // Adjust if more
+            seriesColors: ['#ffffff', '#fac1e2', '#e436c1', '#42f5c5','#57f542'],
+            disableMarkers: true,
+            markerSizeArray: [1, 0, 0, 0, 0],
+            currency: selectedLiveCurrency
+        }).then(() => {
+				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
+				 $("#dropdown2").jqxDropDownList({ disabled: false }); 
+			     $("#dropdown3").jqxDropDownList({ disabled: false }); 
+				 $("#dropdown4").jqxDropDownList({ disabled: false }); 
+
+			});
+    }
+     saveTrendLineHistory(false); //isShared
+}
 async function loadGraphWithTrendlines(screenName, chartId, dataParam) {
 	try {
 		
@@ -1097,6 +1352,7 @@ leftBtn.addEventListener('mouseup', stopScroll);
 leftBtn.addEventListener('mouseleave', stopScroll);
 
 function toggleGraphData(time) {
+	$("#dropDownCryptoOptions").jqxDropDownList({ disabled: true }); 
 	$("#reset").trigger("click", [true]);
 	// 1️⃣ Set active button FIRST
 	$('#DailyData-btn').toggleClass('active', time === 1);
@@ -1320,3 +1576,194 @@ document.addEventListener('DOMContentLoaded', function () {
 	    });
 	});
 });
+
+async function toggleCandlestickChartTrendFollowing(btn, id) {
+		const isActive = btn.classList.contains('active');
+		const selectedGroupId = $('#dropDownCryptoOptions').val();
+		$("#dropDownFunctions").jqxDropDownList({ disabled: false });
+		
+		const chartId = id;
+	    const manager = ChartManager.instances.chart4;
+        
+		
+		if (isActive) {
+			btn.classList.remove('active');	
+		    
+		} else {
+			// ✅ Activate candlestick
+			btn.classList.add('active');
+		
+		}
+		updateTrendFollowingGraph(chartId,manager);
+
+		manager.updateCandleOptionsVisibility();
+
+	}	
+	
+
+// Initialize all dropdowns with no selection
+function getAllSelectedValues() {
+  const selected = {};
+  dropdownIds.forEach(id => {
+    const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
+    selected[id] = item ? item.originalItem.id : null;
+  });
+  return selected;
+}
+
+function updateDropdown(idToUpdate, selectedValues) {
+  const currentSelected = selectedValues[idToUpdate];
+  const excluded = Object.entries(selectedValues)
+    .filter(([key, val]) => key !== idToUpdate && val !== null)
+    .map(([_, val]) => val);
+
+  const filteredOptions = fullOptions.filter(opt => !excluded.includes(opt.id) || opt.id === currentSelected);
+
+  const instance = $(`#${idToUpdate}`);
+  instance.jqxDropDownList({ source: filteredOptions });
+
+  // Restore value if it's still valid
+  if (currentSelected && filteredOptions.find(o => o.id === currentSelected)) {
+    instance.jqxDropDownList('val', currentSelected);
+  } else {
+    instance.jqxDropDownList('clearSelection');
+  }
+}
+
+function refreshAllDropdowns() {
+  const currentSelections = getAllSelectedValues();
+  dropdownIds.forEach(id => updateDropdown(id, currentSelections));
+}
+
+function bindResetButton(resetBtnId, dropdownId, chartId = '4') {
+	let suppressFunctionDropdownChange = false;
+
+	$(`#${resetBtnId}`).on("click", function (e, isProgrammatic = false) {
+		if (isProgrammatic) suppressFunctionDropdownChange = true;
+
+		$(`#${dropdownId}`).jqxDropDownList({ selectedIndex: -1 });
+
+		if (isProgrammatic) {
+			setTimeout(() => {
+				suppressFunctionDropdownChange = false;
+			}, 100);
+		} else {
+			// Manual reset: refresh others and re-draw chart
+			refreshAllDropdowns();
+
+			const manager = ChartManager.instances[`chart${chartId}`];
+			if (manager) {
+				updateTrendFollowingGraph(chartId, manager);
+			}
+		}
+	});
+}
+
+function getTrendFollowingHistory(){
+	const selectedGroupsId = $('#dropDownCryptoOptions').val();
+			
+	$.ajax({
+		contentType: "application/json",
+		url: "/graph/find-trend-following-history-by-userid-groupId/"+selectedGroupsId+`/true`,
+		dataType: 'json',
+		async: true,
+		cache: false,
+		timeout: 600000,
+		success: function(result) {
+			const manager = ChartManager.instances.chart4;
+    				
+			if(result.length==0)
+				{
+					updateTrendFollowingGraph(4,manager);
+					trendfollowingDbId = null;	
+				}
+				else{
+					
+					if(result[0].isCandleStick)
+						$("#candlestick-chart4").addClass('active');
+					else
+						$("#candlestick-chart4").removeClass('active');	
+					trendfollowingDbId = result[0].id;	
+					
+					result[0].functionId!=""?loadHistoryAndFillDropdowns(result[0]):updateTrendFollowingGraph(4,manager);
+				}
+		},
+		error: function(e) {
+
+			console.log("ERROR : ", e);
+
+		}
+	});
+}
+
+function loadHistoryAndFillDropdowns(data) {
+    isProgrammaticDropdownUpdate = true;
+
+    const functionIds = data.functionId ? data.functionId.split(',') : [];
+    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+
+    dropdownIds.forEach((dropdownId, index) => {
+        const valueToSelect = functionIds[index] || null;
+        const instance = $(`#${dropdownId}`);
+
+        if (valueToSelect) {
+            const parsedValue = parseInt(valueToSelect);
+            instance.jqxDropDownList('val', parsedValue);
+
+            const item = instance.jqxDropDownList('getItemByValue', parsedValue);
+            if (item) {
+                instance.trigger('select', { item }); // Ignored during programmatic update
+            }
+        } else {
+            instance.jqxDropDownList('clearSelection');
+        }
+    });
+
+    setTimeout(() => {
+        isProgrammaticDropdownUpdate = false;
+        refreshAllDropdowns();
+    }, 200);
+}
+
+async function saveTrendLineHistory(isShared) {
+	
+    	const url = '/graph/save-trend-following-history'; 
+        const candlestickIsActive = $(`#candlestick-chart4`).hasClass('active');
+		const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+        const selectedFunctionIds = dropdownIds
+        .map(id => {
+            const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
+            return item ? item.originalItem.id : null;
+        })
+        .filter(id => id !== null)
+        .join(',');
+        
+        let entity = {
+			id: trendfollowingDbId,
+            functionId: selectedFunctionIds,
+            isCandleStick: candlestickIsActive,
+            isShared: isShared ,
+            groupId:  $('#dropDownCryptoOptions').val(),
+        };
+
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(entity)
+        });
+
+        if (response.ok) {
+            const result = await response.json();
+            
+            trendfollowingDbId = result.id;
+        
+        } else {
+            throw new Error('Failed to save retracement history');
+        }
+    } catch (error) {
+        console.error('Error:', error);
+    }
+}

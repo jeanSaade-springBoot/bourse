@@ -50,4 +50,6 @@ public class GraphRequestDTO {
 	
 	private String interval;
 	
+	private Boolean candlestickMode;
+	
 }

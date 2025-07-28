@@ -15,12 +15,14 @@ import org.springframework.stereotype.Service;
 import com.bourse.domain.graph.TechnicalAnalysisGraphHistory;
 import com.bourse.domain.graph.TechnicalAnalysisRelevantHistory;
 import com.bourse.domain.graph.TechnicalAnalysisRetracementHistory;
+import com.bourse.domain.graph.TechnicalAnalysisTrendFollowingHistory;
 import com.bourse.dto.graph.TechnicalAnalysisGraphHistoryDTO;
 import com.bourse.dto.graph.TechnicalAnalysisRelevantHistoryDTO;
 import com.bourse.dto.graph.TechnicalAnalysisRetracementHistoryDTO;
 import com.bourse.repositories.graph.TechnicalAnalysisGraphHistoryRepository;
 import com.bourse.repositories.graph.TechnicalAnalysisRelevantHistoryRepository;
 import com.bourse.repositories.graph.TechnicalAnalysisRetracementHistoryRepository;
+import com.bourse.repositories.graph.TechnicalAnalysisTrendFollowingHistoryRepository;
 
 @Service
 public class TechnicalAnalysisGraphHistoryService 
@@ -34,11 +36,17 @@ public class TechnicalAnalysisGraphHistoryService
 	TechnicalAnalysisRetracementHistoryRepository technicalAnalysisRetracementHistoryRepository;
 	@Autowired
 	TechnicalAnalysisRelevantHistoryRepository technicalAnalysisRelevantHistoryRepository;
+	@Autowired
+	TechnicalAnalysisTrendFollowingHistoryRepository technicalAnalysisTrendFollowingHistoryRepository;
 	
 	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserIdAndScreenName(String screenName, Authentication authentication) 
 	{      
         return technicalAnalysisGraphHistoryRepository.findGraphHistoryByUserNameAndScreenName(authentication.getName(),screenName);
-	}	
+	}
+	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserIdAndScreenNameAndIsShared(String screenName, Boolean isShared, Authentication authentication) 
+	{      
+        return technicalAnalysisGraphHistoryRepository.findGraphHistoryByUserNameAndScreenNameAndIsShared(authentication.getName(),screenName,isShared);
+	}
 	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserIdAndScreenName(String screenName, Authentication authentication) 
 	{      
         return technicalAnalysisRetracementHistoryRepository.findRetracementHistoryByUserNameAndScreenName(authentication.getName(),screenName);
@@ -46,6 +54,10 @@ public class TechnicalAnalysisGraphHistoryService
 	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserIdAndScreenName( String screenName, Authentication authentication) 
 	{      
         return technicalAnalysisRelevantHistoryRepository.findRelevantHistoryByUserNameAndScreenName(authentication.getName(), screenName);
+	}
+	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndUserNameAndIsShared( String groupId, Boolean isShared, Authentication authentication) 
+	{      
+        return technicalAnalysisTrendFollowingHistoryRepository.findGraphHistoryByGroupIdAndUserNameAndIsShared(groupId ,authentication.getName(), isShared);
 	}
 	public TechnicalAnalysisGraphHistory SaveGraphHistory(TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication) 
 	{  
@@ -281,4 +293,36 @@ public class TechnicalAnalysisGraphHistoryService
 	            	technicalAnalysisRelevantHistoryRepository.deleteById(data.getId());
 	            });
 	}
+	public TechnicalAnalysisTrendFollowingHistory saveTrendFollowingHistory(TechnicalAnalysisTrendFollowingHistory dto, Authentication authentication) {
+	   System.out.println("---------- groupId"+dto.getGroupId());
+		if (dto.getId() != null) {
+	        Optional<TechnicalAnalysisTrendFollowingHistory> graphHistory =
+	                technicalAnalysisTrendFollowingHistoryRepository.findById(dto.getId());
+
+	        if (graphHistory.isPresent()) {
+	            TechnicalAnalysisTrendFollowingHistory existing = graphHistory.get();
+	            TechnicalAnalysisTrendFollowingHistory updated = TechnicalAnalysisTrendFollowingHistory.builder()
+	                    .id(existing.getId())
+	                    .functionId(dto.getFunctionId())
+	                    .isCandleStick(dto.getIsCandleStick())
+	                    .isShared(dto.getIsShared())
+	                    .userName(authentication.getName())
+	                    .groupId(dto.getGroupId())
+	                    .build();
+	            return technicalAnalysisTrendFollowingHistoryRepository.save(updated);
+	        }
+	    }
+
+	    // If no ID or not found → new insert
+	    TechnicalAnalysisTrendFollowingHistory entity = TechnicalAnalysisTrendFollowingHistory.builder()
+	            .functionId(dto.getFunctionId())
+	            .isCandleStick(dto.getIsCandleStick())
+	            .isShared(dto.getIsShared())
+	            .userName(authentication.getName())
+	            .groupId(dto.getGroupId())
+	            .build();
+
+	    return technicalAnalysisTrendFollowingHistoryRepository.save(entity);
+	}
+
 }

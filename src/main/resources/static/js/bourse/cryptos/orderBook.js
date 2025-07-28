@@ -107,14 +107,25 @@ function initializeOrderBookForCrypto(selectedTicker) {
         orderBook.bids = Object.fromEntries(data.bids.map(([p, q]) => [parseFloat(p), parseFloat(q)]));
         orderBook.asks = Object.fromEntries(data.asks.map(([p, q]) => [parseFloat(p), parseFloat(q)]));
     }
-
+	function updateLivePrice(price, decimalPlaces = 0) {
+	    const displayPrice = price.toLocaleString(undefined, {
+	        minimumFractionDigits: decimalPlaces,
+	        maximumFractionDigits: decimalPlaces
+	    });
+	
+	    document.getElementById("midPrice").innerHTML = `LIVE Price: <br> ${displayPrice} $`;
+	}
     async function fetchLivePrice() {
         try {
             const res = await fetch(`https://api.binance.com/api/v3/ticker/price?symbol=${symbol}`);
             const data = await res.json();
             const price = parseFloat(data.price);
             lastMidPrice = price;
-		    document.getElementById("midPrice").innerHTML = `LIVE Price: <br> ${Math.floor(price).toLocaleString()} $`;
+
+            const decimal = symbol=="BTCUSDT"?0:1
+            updateLivePrice(price, decimal);
+           // console.log(price )
+		   // document.getElementById("midPrice").innerHTML = `LIVE Price: <br> ${Math.floor(price).toLocaleString()} $`;
 
             const { bids, asks } = getGroupedVolumes(price);
             renderLevels("bids", bids, true);

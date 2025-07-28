@@ -152,6 +152,12 @@ public class CryptosController {
 
 		return new ResponseEntity<>(cryptosService.getGraphDataBenchmarking(graphReqDTO),HttpStatus.OK);
 	} 
+	@PostMapping(value = "gettrendfollowingGraph")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getTrendFollowingGraph(@RequestBody  GraphRequestDTO graphReqDTO) {
+		System.out.println(className+": gettrendfollowingGraph");
+
+		return new ResponseEntity<>(cryptosService.getTrendFollowingGraph(graphReqDTO),HttpStatus.OK);
+	} 
 	@PostMapping(value = "getgraphdatabytype")
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
 		return new ResponseEntity<>(cryptosService.getGraphDataByType(graphReqDTO),HttpStatus.OK);

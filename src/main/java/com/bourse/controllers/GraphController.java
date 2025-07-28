@@ -20,6 +20,7 @@ import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.graph.TechnicalAnalysisGraphHistory;
 import com.bourse.domain.graph.TechnicalAnalysisRelevantHistory;
 import com.bourse.domain.graph.TechnicalAnalysisRetracementHistory;
+import com.bourse.domain.graph.TechnicalAnalysisTrendFollowingHistory;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.graph.TechnicalAnalysisGraphHistoryDTO;
 import com.bourse.dto.graph.TechnicalAnalysisRelevantHistoryDTO;
@@ -61,6 +62,10 @@ public class GraphController {
     public ResponseEntity<List<TechnicalAnalysisRelevantHistory>> saveRelevantHistory(@RequestBody  List<TechnicalAnalysisRelevantHistoryDTO> graphRelevantdto, Authentication authentication){
 	  return  new ResponseEntity<>( technicalAnalysisGraphHistoryService.SaveRelevantListHistory(graphRelevantdto,authentication), HttpStatus.OK);
     }
+	@PostMapping(value = "save-trend-following-history")
+    public ResponseEntity<TechnicalAnalysisTrendFollowingHistory> saveTrendFollowingHistory(@RequestBody  TechnicalAnalysisTrendFollowingHistory graphRelevantdto, Authentication authentication){
+	  return  new ResponseEntity<>( technicalAnalysisGraphHistoryService.saveTrendFollowingHistory(graphRelevantdto,authentication), HttpStatus.OK);
+    }
 	@PostMapping(value = "save-visible-channel")
     public TechnicalAnalysisGraphHistory saveVisibiltyOfChannel(@RequestBody TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication){
 	  return  technicalAnalysisGraphHistoryService.saveVisibiltyOfChannel(graphHistorydto,authentication);
@@ -73,6 +78,10 @@ public class GraphController {
 	public  List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserIdAndScreenName(@PathVariable("screenName") String screenName, Authentication authentication) {
 	return technicalAnalysisGraphHistoryService.findGraphHistoryByUserIdAndScreenName(screenName,authentication);
 	} 
+	@GetMapping(value = "find-trendline-history-by-userid-screen-name/{screenName}/{isShared}")
+	public  List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserIdAndScreenNameAndIsShared(@PathVariable("screenName") String screenName,@PathVariable("isShared") Boolean isShared, Authentication authentication) {
+	return technicalAnalysisGraphHistoryService.findGraphHistoryByUserIdAndScreenNameAndIsShared(screenName,isShared,authentication);
+	} 
 	@GetMapping(value = "find-retracement-history-by-userid-screen-name/{screenName}")
 	public  List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserId( @PathVariable("screenName") String screenName,  Authentication authentication) {
 	return technicalAnalysisGraphHistoryService.findRetracementHistoryByUserIdAndScreenName(screenName,authentication);
@@ -80,6 +89,10 @@ public class GraphController {
 	@GetMapping(value = "find-relevant-history-by-userid-screen-name/{screenName}")
 	public  List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserId(@PathVariable("screenName") String screenName,  Authentication authentication) {
 	return technicalAnalysisGraphHistoryService.findRelevantHistoryByUserIdAndScreenName(screenName,authentication);
+	} 
+	@GetMapping(value = "find-trend-following-history-by-userid-groupId/{groupId}/{isShared}")
+	public  List<TechnicalAnalysisTrendFollowingHistory> findTrendFollowingHistoryByUserIdAndScreenName(@PathVariable("groupId") String groupId,@PathVariable("isShared") Boolean isShared , Authentication authentication) {
+	return technicalAnalysisGraphHistoryService.findGraphHistoryByGroupIdAndUserNameAndIsShared(groupId,isShared, authentication);
 	} 
 	@DeleteMapping(value = "deletetrendline/{id}")
 	public ResponseEntity<Object>  deleteByReferDate(@PathVariable("id") String id) {

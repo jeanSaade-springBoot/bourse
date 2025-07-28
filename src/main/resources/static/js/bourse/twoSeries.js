@@ -750,13 +750,13 @@ $(document).ready(function() {
 				 mainContainer+='</div>';
 				  $('#macroContainer').append(mainContainer); 
 
- mainContainer='';
- mainGroupContainer='';
- groupContainer='';
- subgroupContainer='';
- factorIner='';
- factorInerItem='';
- factorContainer='';	
+			 mainContainer='';
+			 mainGroupContainer='';
+			 groupContainer='';
+			 subgroupContainer='';
+			 factorIner='';
+			 factorInerItem='';
+			 factorContainer='';	
  
 		 $.ajax({
 	        contentType: "application/json",

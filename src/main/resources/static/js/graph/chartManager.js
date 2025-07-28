@@ -454,7 +454,7 @@ class ChartManager {
 				colors: isSingleSeries ? [useWhiteStroke ? '#ffffff' : baseColors[0]] : baseColors,
 				strokeColors: isSingleSeries ? [useWhiteStroke ? '#ffffff' : baseColors[0]] : baseColors,
 				shape: 'square',
-				size: s.disableMarkers? [s.markerSize,0] :s.markerSize
+				size: s.disableMarkers? s.markerSizeArray :s.markerSize
 			},
 			grid: { show: s.gridVisible, borderColor: '#f0e68c', strokeDashArray: 1, padding: { right: 60 } },
 			legend: s.series?.[0]?.type === 'candlestick'
@@ -647,6 +647,8 @@ class ChartManager {
 			results: this._lastOverlayResults || [], // optional: only if using loadDataWithOverlays
 		    applyTitle: this._applyTitle,
 		    showLegend:this._showLegend,
+		    disableMarkers:this._disableMarkers,
+			markerSizeArray:this._markerSizeArray,//need to be dynamic
 		});
 
 		this._updateNavButtons();
@@ -715,6 +717,7 @@ class ChartManager {
 		applyTransparency = false,
 	    shouldAlign = false,
 	    disableMarkers = false,
+	    markerSizeArray = [],
 	    isCentred = [],
 	    currency='BTC',
 	    applyTitle = false,
@@ -733,6 +736,7 @@ class ChartManager {
 		this._applyTransparency=applyTransparency;
 		this._shouldAlign=shouldAlign;
 		this._disableMarkers=disableMarkers;
+		this._markerSizeArray=markerSizeArray;
 		this._isCentred=isCentred;
 		this._applyTitle = applyTitle;
         this._showLegend = showLegend;
@@ -826,6 +830,7 @@ class ChartManager {
 		this.state.isCentred = isCentred;
 		this.state.applyTransparency = applyTransparency;
 		this.state.disableMarkers = disableMarkers;
+		this.state.markerSizeArray = markerSizeArray;
 		this.state.seriesColors = seriesColors.length ? seriesColors : [this.state.color];
 
 		this.state.seriesFormats = resp.map((r, idx) => {
@@ -1103,7 +1108,7 @@ class ChartManager {
 			// ⛔ Deactivate candlestick
 			btn.classList.remove('active');
 			$("#reset").click();
-			renderCheckboxesPerChart(selectedGroupId, 1);
+			renderCheckboxesPerChart(selectedGroupId, id);
 			
 			const allItems = checkboxOptions.map(opt =>
 				`#jqxCheckBox-${selectedGroupId}-${opt.index}-chart-1`
@@ -1129,7 +1134,7 @@ class ChartManager {
 			// ✅ Activate candlestick
 			btn.classList.add('active');
 			//renderCheckboxesChart1VolumeFundingRate(selectedGroupId, 1)
-			renderCheckboxesPerChart(selectedGroupId, 1);
+			renderCheckboxesPerChart(selectedGroupId, id);
 			const newCandlestickParam = {
 				fromdate: document.getElementById(`dateFrom-${this.chartId}`)?.value,
 				todate: document.getElementById(`dateTo-${this.chartId}`)?.value +' 23:59:59',

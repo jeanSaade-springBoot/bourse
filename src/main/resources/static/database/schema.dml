@@ -50595,7 +50595,7 @@ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('124', 'TRE
 
 INSERT INTO `bourse`.`asset_class` (`id`, `description`, `asset_code`) VALUES ('12', 'US JOBS', 'USJ');
  
- INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('77', '12', 'US JOBS OPENINGS', 'UJO');
+INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('77', '12', 'US JOBS OPENINGS', 'UJO');
 INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('78', '12', 'US ADP CHANGE', 'UAC');
 INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('79', '12', 'US NON-FARM PAYROLLS', 'UNF');
 INSERT INTO `bourse`.`groups_table` (`id`, `asset_id`, `description`, `group_code`) VALUES ('80', '12', 'US UNEMP. Rate', 'UUR');
@@ -51903,5 +51903,112 @@ INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('135', 'USJ
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('136', 'USJOBS_UNEMPRATE_GRAPH_SCREEN', true);
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('137', 'USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN', true);
  
+ 
+
+INSERT INTO `bourse`.`functions` (`id`, `description`, `function_code`) VALUES ('20', '5dw MovAvg', 'CaV0');
+INSERT INTO `bourse`.`functions` (`id`, `description`, `function_code`) VALUES ('21', '6dw MovAvg', 'CaV1');
+INSERT INTO `bourse`.`functions` (`id`, `description`, `function_code`) VALUES ('22', '7dw MovAvg', 'CaV2');
+INSERT INTO `bourse`.`functions` (`id`, `description`, `function_code`) VALUES ('23', '9dw MovAvg', 'CaV3');
+INSERT INTO `bourse`.`functions` (`id`, `description`, `function_code`) VALUES ('24', '18dw MovAvg', 'CaV4');
+INSERT INTO `bourse`.`functions` (`id`, `description`, `function_code`) VALUES ('25', '21dw MovAvg', 'CaV5');
+INSERT INTO `bourse`.`functions` (`id`, `description`, `function_code`) VALUES ('26', '25dw MovAvg', 'CaV6');
+INSERT INTO `bourse`.`functions` (`id`, `description`, `function_code`) VALUES ('27', '30dw MovAvg', 'CaV7');
+INSERT INTO `bourse`.`functions` (`id`, `description`, `function_code`) VALUES ('28', '45dw MovAvg', 'CaV8');
+INSERT INTO `bourse`.`functions` (`id`, `description`, `function_code`) VALUES ('29', '63dw MovAvg', 'CaV9');
+
+
+INSERT INTO `bourse`.`function_configuration`
+(`id`,
+`calculation_type`,
+`data_format`,
+`description`,
+`display_description`,
+`group_id`,
+`start_date`,
+`subgroup_id`,
+`config_id`,
+`function_id`,
+`tick_value`,
+`chart_type`,
+`y_axis_format`,
+`factor`,
+`descwitoutfactor`,
+`column_name`,
+`data_min_increment`,
+`chart_color`,
+`chart_showgrid`,
+`chart_size`,
+`chart_transparency`,
+`chartshow_markes`,
+`exchange_link`,
+`show_in_database`,
+`show_in_news_graph`,
+`currency`,
+`column_code`)
+select 
+		 @row_number:=@row_number + 1 as id ,
+		'CALCULATED' as `calculation_type`,
+		'0.000%' as `data_format`,
+		s.description as `description`,
+		concat(s.display_description, ' - ',f.description) as `display_description`,
+		s.group_Id as `group_id`,
+		'03-01-2000' as `start_date`,
+		s.subgroup_id as`subgroup_id`,
+		s.id  as`config_id`,
+        f.id as `function_id`,
+		null as `tick_value`,
+		'Area' as `chart_type`,
+		'0.00%' as `y_axis_format`,
+		 s.factor as `factor`,
+		 s.description as `descwitoutfactor`,
+		 s.description as `column_name`,
+		null as `data_min_increment`,
+		'#44546a' as `chart_color`,
+		'true' as `chart_showgrid`,
+		'12px' as `chart_size`,
+		1 as `chart_transparency`,
+		1 as `chartshow_markes`,
+		null as `exchange_link`,
+		false as `show_in_database`,
+		false as `show_in_news_graph`,
+		null as `currency`,
+		s.column_code as `column_code`
+		 from  column_configuration s,
+				functions f,
+(SELECT @row_number:=(SELECT max(id) from function_configuration)) AS t where s.group_id in (71,72,73,74,75,76)  and f.id>=20;
+
+
+
+                    
+insert into function_asset (id,is_hidden,asset_class_id,function_id) 
+select  @row_number:=@row_number + 1 as id ,
+ false,
+ 11,
+ f.id
+ from functions f , (SELECT @row_number:=(SELECT max(id) from function_asset)) AS t 
+ where f.id in (select id from functions where id not in (select function_id from function_asset where asset_class_id=11));
+
+
+alter table technical_analysis_graph_history add column is_shared BOOLEAN DEFAULT FALSE;
+
+
+create table technical_analysis_trend_following_history (
+  id bigint not null, 
+  function_id varchar(255), 
+  is_candle_stick BOOLEAN DEFAULT FALSE, 
+  is_shared BOOLEAN DEFAULT FALSE, 
+  user_name varchar(255), 
+  primary key (id)
+);
+
+ create table technical_analysis_trend_following_history_sequence (next_val bigint);
+ 
+ insert into technical_analysis_trend_following_history_sequence values ( 2 );
+  
+  alter table technical_analysis_trend_following_history add column group_id varchar(255);
+  
+
+
+
  
  

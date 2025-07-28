@@ -539,14 +539,14 @@
 				 const groupWithFactor = ["25", "26", "27","28", "29", "30", "31"];
 				  if (event.args) {
 				    
-	                  if(groupWithFactor.includes($("#groupDropDown").val()))
+	                /*  if(groupWithFactor.includes($("#groupDropDown").val()))
 				      { 
 						  $("#subGroupDropDown").jqxDropDownList('removeAt', 4 ); 
 						  $("#subGroupDropDown").jqxDropDownList('removeAt', 3 ); 
 						  $("#subGroupDropDown").jqxDropDownList('removeAt', 2 ); 
 						  $("#subGroupDropDown").jqxDropDownList('removeAt', 1 ); 
 						  $("#subGroupDropDown").jqxDropDownList('removeAt', 0 ); 
-					  } 
+					  } */
 				 }
 			  });
 			 subgroupsource =

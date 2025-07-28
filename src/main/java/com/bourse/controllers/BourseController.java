@@ -741,9 +741,10 @@ public class BourseController {
     }
 	@PreAuthorize("hasAuthority('CRY_TRADING_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/technical-analysis")
-    public ModelAndView cryTradingGraphPage(ModelMap model, Authentication authentication)
+    public ModelAndView cryTradingGraphPage(@RequestParam("isShared") String isShared , ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+        model.addAttribute("isShared", isShared);
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 	    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
 	    model.addAttribute("crytpos", "html/templates/cryptos");
