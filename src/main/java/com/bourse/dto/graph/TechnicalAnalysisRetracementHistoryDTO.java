@@ -34,4 +34,5 @@ public class TechnicalAnalysisRetracementHistoryDTO {
     private Boolean hidePercentage75;
     private Boolean hideAll;
     private String screenName;
+    private Boolean isShared;
 }

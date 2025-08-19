@@ -790,7 +790,8 @@ function drawTrendLineTable(data){
 					data[i].trendLineId=trendLineId;
 					
 			 TrendLineId=data[i].trendLineId;
-	         const slope=(data[i].slope!=null)?parseFloat(data[i].slope).toFixed(3):"";
+			 const isBitcoin =  $('#dropDownCryptoOptions').val()=='71';
+	         const slope=(data[i].slope!=null)?parseFloat(data[i].slope).toFixed(isBitcoin?0:3):"";
 	         const trendlineValue=(data[i].endValue!=null)?parseFloat(data[i].endValue).toFixed(getFormatResult0[0]):"";
 	         const x1=(data[i].x1!=null)?data[i].x1:"";
 	         const y1=(data[i].y1!=null)?parseFloat(data[i].y1).toFixed(getFormatResult0[0]):"";
@@ -800,7 +801,7 @@ function drawTrendLineTable(data){
 			 hasChannel = channelLines.filter(obj => obj.trendLineId === TrendLineId);
 			 let xc=(hasChannel.length!=0)?hasChannel[0].xc:"";
 			 let yc=(hasChannel.length!=0)?parseFloat(hasChannel[0].yc).toFixed(getFormatResult0[0]):"";
-			 let y3c=(hasChannel.length!=0)?parseFloat(hasChannel[0].endValue).toFixed(2):"";
+			 let y3c=(hasChannel.length!=0)?parseFloat(hasChannel[0].endValue).toFixed(isBitcoin?0:2):"";
 			 cid=(hasChannel.length!=0)?hasChannel[0].channelId:"";
 			 
 	         
@@ -1630,6 +1631,7 @@ function drawRelevantTable(data){
 					            endPrice: relevantParameter.endPrice,
 					            isHidden:data.isHidden,
 					            screenName:screenName,
+					            isShared:isShared,
 					            color:filteredData[0].color !== undefined ? filteredData[0].color : "rgba(255, 0, 0, 0.5)"
 					        };
 					
@@ -2107,6 +2109,7 @@ function saveTrendLinesHistory(trendLineId){
 					checkedItemValues.push(checkedItemId[i]);
 			}
 			graphHistory = {
+				"isShared":isShared,
 				 "dbId":(typeof (JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0].dbid))!='undefined')?JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0].dbid):null,
 				 "graphId": checkedItemValues[0],
 				 "trendlines": JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0]),
@@ -2152,7 +2155,9 @@ function saveChannelHistory(trendLineId){
 				 		         showGrid: $("#gridOptions").find(".active")[0].id,
 				 		         showLegend: $("#gridLegend").find(".active")[0].id
 				 				}),
-				"screenName":screenName
+				"screenName":screenName,
+				isShared: isShared ,
+
 			};
             const graphExist = results.some(item => item.graphId === checkedItemValues[0]);
            if(graphExist==true)
@@ -2243,7 +2248,7 @@ function getTrendLinesHistoryAsync(screenName) {
 
 				// Step 2: Retracement
 				$.ajax({
-					url: `/graph/find-retracement-history-by-userid-screen-name/${screenName}`,
+					url: `/graph/find-retracement-history-by-userid-screen-name/${screenName}/${isShared}`,
 					dataType: 'json',
 					success: function(retracementRes) {
 						 retracementData = retracementRes.reduce((acc, data) => {
@@ -2291,7 +2296,7 @@ function getTrendLinesHistoryAsync(screenName) {
 
 						// Step 3: Relevant
 						$.ajax({
-							url: `/graph/find-relevant-history-by-userid-screen-name/${screenName}`,
+							url: `/graph/find-relevant-history-by-userid-screen-name/${screenName}/${isShared}`,
 							dataType: 'json',
 							success: function(relevantRes) {
 								 relevantData = relevantRes.reduce((acc, data) => {
@@ -2391,7 +2396,7 @@ function getRetracementHistory(){
 
 	$.ajax({
 		contentType: "application/json",
-		url: "/graph/find-retracement-history-by-userid-screen-name/"+screenName,
+		url: "/graph/find-retracement-history-by-userid-screen-name/"+screenName+`/${isShared}`,
 		dataType: 'json',
 		async: true,
 		cache: false,
@@ -2518,7 +2523,7 @@ function deleteTrendLines(trendlineDbId,trendline){
                     
 			     $.ajax({
 			             type : "DELETE",
-			             url : '/graph/deletetrendline/' + trendlineDbId,
+			             url : '/graph/deletetrendline/' + trendlineDbId + '/' + $('#dropDownCryptoOptions').val(),
 			             success: function (result) {   
 							
 							
@@ -2552,7 +2557,7 @@ function deleteRetracement(retracementdbId,retracementid){
                     
 			     $.ajax({
 			             type : "DELETE",
-			             url : '/graph/delete-retracement-by-id/' + retracementdbId,
+			             url : '/graph/delete-retracement-by-id/' + retracementdbId+ '/' + $('#dropDownCryptoOptions').val(),
 			             success: function (result) {   
 							const checkedItemValues = checkedItemId.filter(item => item != null);
 							retracementData = removeByDbId(retracementData, retracementdbId);
@@ -2585,7 +2590,7 @@ function deleteRelevant(relevantdbId,relevantid){
                     
 			     $.ajax({
 			             type : "DELETE",
-			             url : '/graph/delete-relevant-by-id/' + relevantdbId,
+			             url : '/graph/delete-relevant-by-id/' + relevantdbId+ '/' + $('#dropDownCryptoOptions').val(),
 			             success: function (result) {   
 							const checkedItemValues = checkedItemId.filter(item => item != null);
 							relevant = removeById(relevant,"relevantId", relevantid);
@@ -2617,6 +2622,7 @@ function deleteChannelLine(trendlineDbId,trendLineId){
 					checkedItemValues.push(checkedItemId[i]);
 			}
 			graphHistory = {
+				 "isShared":isShared,
 				 "dbId":(typeof (JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0].dbid))!='undefined')?JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0].dbid):null,
 				 "graphId": checkedItemValues[0],
 				 "trendlines": JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0]),
@@ -2631,6 +2637,7 @@ function deleteChannelLine(trendlineDbId,trendLineId){
 				 		         showLegend: $("#gridLegend").find(".active")[0].id
 				 				})
 			};
+		
            	$.ajax({
 				type: "POST",
 				contentType: "application/json; charset=utf-8",
@@ -3097,10 +3104,12 @@ async function updateLatestTrendLine(trendLines, newDateX3,originalEndDate, grap
      if(channelLine.x3 !== newDateX3){
 		channelLine.x3 = newDateX3;
 		 if(screenName=='CRYPTOS' || screenName=='CryptosAnalisys')
-			channelLine.y3  = findChannelPointNoMissingDates(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate).xyValues[1].y.toFixed(3);
+			var newItem =  findChannelPointNoMissingDates(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate);
 		else
-			channelLine.y3  = findChannelPoint(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate).xyValues[1].y.toFixed(3);
+			var newItem =  findChannelPoint(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate);
 
+		channelLine.y3  = newItem.xyValues[1].y.toFixed(3);
+        channelLine.endValue = newItem.endValue;
 		}
       updatedTrendLines.push({
 				 "dbId":JSON.stringify(item.dbid),
@@ -3272,7 +3281,7 @@ function drawRelevant(data,relevantId) {
             const newEntry={
 				   relevantId:relevantId,
 				   x:dateToTimestamp(x),
-                   isRectangle:true,
+                   isRectangle:true,       
 		  		   y:data.startPrice,
 		  		   y2:data.endPrice,
 		  		   position:'left',
@@ -3507,7 +3516,8 @@ async function saveRetracementHistory(retracementId) {
             hidePercentage50: true,
             hidePercentage62: true,
             hidePercentage66: true,
-            hidePercentage75: true
+            hidePercentage75: true,
+            isShared:isShared
         };
 
         retracementValues.forEach(value => {
@@ -3738,6 +3748,7 @@ async function saveRelevantHistory(relevantId) {
             endPrice: relevantParameter.endPrice,
             isHidden:data.isHidden,
             screenName:screenName,
+            isShared:isShared,
             color:filteredData[0].color !== undefined ? filteredData[0].color : "rgba(255, 0, 0, 0.5)"
         };
 

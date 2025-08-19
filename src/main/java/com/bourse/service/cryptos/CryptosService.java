@@ -1026,7 +1026,7 @@ public class CryptosService {
 					}
 					
 				 // **🔹 Append Crypto Data**
-				if(!isFunction)
+			/*	if(!isFunction)
 				{
 				Map<String, CrCryptoDTO> cryptoDataMap = fetchCryptoData(graphReqDTO.getGroupId1(),0);
 		        
@@ -1081,6 +1081,7 @@ public class CryptosService {
 		            graphResponseDTOlst1.add(cryptoData);
 		        }
 				}
+				*/
 			   graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
 						                  .graphResponseDTOLst(graphResponseDTOlst1)
 						                  .config(config)
@@ -1262,7 +1263,7 @@ public class CryptosService {
 						graphResponseDTOlst1=graphResponseDTOlst;
 					}
 				// append live data 
-				Map<String, CrCryptoDTO> cryptoDataMap = fetchCryptoData(graphReqDTO.getGroupId1(),0);
+				/*Map<String, CrCryptoDTO> cryptoDataMap = fetchCryptoData(graphReqDTO.getGroupId1(),0);
 
 				for (Map.Entry<String, CrCryptoDTO> entry : cryptoDataMap.entrySet()) {
 				    CrCryptoDTO cryptoDto = entry.getValue();
@@ -1306,7 +1307,7 @@ public class CryptosService {
 				        e.printStackTrace();
 				    }
 				}
-				
+				*/
 				graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
 						                  .graphResponseDTOLst(graphResponseDTOlst1)
 						                  .config(config)

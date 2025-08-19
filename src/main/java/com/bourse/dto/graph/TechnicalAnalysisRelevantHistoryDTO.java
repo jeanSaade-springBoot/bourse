@@ -19,5 +19,6 @@ public class TechnicalAnalysisRelevantHistoryDTO {
     private Boolean isHidden;
     private String screenName;
     private String color;
+    private Boolean isShared;
 
 }

@@ -1,5 +1,6 @@
 package com.bourse.domain.graph;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -42,4 +43,7 @@ public class TechnicalAnalysisRelevantHistory {
     private String screenName;
     private String color;
 
+    @Builder.Default
+    @Column(name = "is_shared", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isShared = false;
 }

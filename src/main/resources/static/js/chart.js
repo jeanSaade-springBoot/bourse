@@ -8,7 +8,7 @@ monthDate.setHours(0, 0, 0, 0);
 var startdate = new Date();
 var date = new Date();
 var timeRange="Daily";
-const missingDatesGroups=["10","15", "16","32","33","34","35","36","22","23","24"];
+const missingDatesGroups=["10","15", "16","32","33","34","35","36","22","23","24","71","72","73","74","75","76"];
 const PositiveGraphs=['sti','fxcds', 'usjobs'];
 var T1;
 var T2;
@@ -3054,33 +3054,33 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
       	    	    		   strokeColors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FF0000"]
       	    	    		 },
      				       yaxis: yAxis,
-												  tooltip: {
-													  x: {
-					    						          show: false,
-					    						      },
-					    							  y: {
-					    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-					    									  if(seriesIndex == 0)
-												  				{
-												  				if (chartConfigSettings.getFormatResult1[1])
-												  				  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):'';
-												  				else 
-												  				  {  
-																		return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0])+ "%" :'' ;}
-												  				}else 
-												  					 if(seriesIndex == 1){
-												  					  if (chartConfigSettings.getFormatResult1[1])
-												  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):'';
-												  						else 
-												  							 return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0])+ "%":'' ;
-												  					 }
-					    								    },
-					    								    title: {
-					    							              formatter: (seriesName) => '',
-					    							          },
-					    					      },
-					    						}
-				      	    	    		});     
+						  tooltip: {
+							  x: {
+						          show: false,
+						      },
+							  y: {
+								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+									  if(seriesIndex == 0)
+						  				{
+						  				if (chartConfigSettings.getFormatResult1[1])
+						  				  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):'';
+						  				else 
+						  				  {  
+												return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0])+ "%" :'' ;}
+						  				}else 
+						  					 if(seriesIndex == 1){
+						  					  if (chartConfigSettings.getFormatResult1[1])
+						  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):'';
+						  						else 
+						  							 return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0])+ "%":'' ;
+						  					 }
+								    },
+								    title: {
+							              formatter: (seriesName) => '',
+							          },
+					      },
+						}
+    	    		});     
 			      	    	           
 				}
 }
@@ -4984,8 +4984,14 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 	            let seriesData = [];
 				let colorsArray = [];
 			    let getFormatResults = []; 
-				
-				 const seriesColors = {
+				 
+				 const seriesColors = graphName=="nfp"?{
+					'SURV': '#ff99ff',  // Pink
+		            'INITIAL': '#ffd960', // Green
+		            'FINAL': '#ffb30c', // Yellow
+		            'REV1': '#9f7b13' 
+				 }:
+				 {
 		            'SURV': '#ff99ff',  // Pink
 		            'INITIAL': '#2ca02c', // Green
 		            'FINAL': '#ffc000', // Yellow
@@ -7909,6 +7915,11 @@ function updateNavigationButtons() {
 									 notDecimal1=yaxisformat1[1];
 									 nbrOfDigits1=yaxisformat1[0];
 									 chartType2=='column'? response[1].graphResponseDTOLst = updateSeriesValue(response[0].graphResponseDTOLst,response[1].graphResponseDTOLst):null;
+							   /*    
+							       let { data1: alignedData1, data2: alignedData2 } = alignMergeDataSets(response[0].graphResponseDTOLst, response[1].graphResponseDTOLst) ;
+					 			   
+					 			   response[0].graphResponseDTOLst = alignedData1;
+							       response[1].graphResponseDTOLst = alignedData2;*/
 							       
 							        var chartConfigSettings={
 											 isDecimal:isdecimal,

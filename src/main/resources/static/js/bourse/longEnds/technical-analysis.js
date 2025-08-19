@@ -7,9 +7,11 @@ let suppressFunctionDropdownChange = false;
 const livePriceCache = {};
 let cachedTrendlineResult = null;
 let liveSubscription = null;
-let selectedLiveCurrency = 'BTC'; // default
+let selectedLiveCurrency = 'BUNDS'; // default
 
 const checkboxCache = {}; // key: `${groupId}-${chartId}` → true
+
+const isShared=true;
 
 const checkboxOptions = [
 	{ label: "OPENint", index: 7 },
@@ -96,22 +98,6 @@ document.addEventListener('updateGraphConfiguration', () => {
       
 });
 $(document).ready(function() {
-
-	$('#portfolio-toggle button').on('click', function () {
-		  const type = $(this).data('type');
-		  const isShared = type === 'shared' ? 'true' : 'false';
-		
-		  // Update button styles
-		  $('#portfolio-toggle button').removeClass('btn-primary').addClass('btn-secondary');
-		  $(this).removeClass('btn-secondary').addClass('btn-primary');
-		
-		  // Replace or append the isShared parameter in the URL
-		  const url = new URL(window.location.href);
-		  url.searchParams.set('isShared', isShared);
-		
-		  // Reload page with new parameter
-		  window.location.href = url.toString();
-		});
 	
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35 ,template: "primary" });
 	  $("#viewall").css("display","block");
@@ -218,13 +204,13 @@ $(document).ready(function() {
 		//CryptosAnalisys
 		initializeCryptoOptions();
 		// getTrendLinesHistory();
-		 getDataChart3();
+		// getDataChart3();
 		 getDataChart1(null);
 		 getDataChart2(null);
 		 getDataChart4() ;
 
 		 
-		initializeOrderBookForCrypto("BTC");
+		//initializeOrderBookForCrypto("BTC");
 });
  $("#groupOfPeriod-chart1").on('buttonclick', function (event) {
 	        updateFunctionBasedOnSelectedPeriod($('#groupOfPeriod-chart1').jqxButtonGroup('getSelection'));         
@@ -510,10 +496,7 @@ function initializeCryptoOptions() {
 			
 		if (!selected) return;
 	
-		selectedLiveCurrency = selected.ticker; // <-- Update live currency
 	
-		//renderCheckboxesPerChart(selectedGroupId);
-		//initializeCandlesOptions(Number(selectedGroupId));
 	
 		if (selectedGroupId === '71' || selectedGroupId === '73') {
 			$("#order-book").addClass("d-block").removeClass("d-none");
@@ -524,10 +507,10 @@ function initializeCryptoOptions() {
 		}
 	
 		dropDownCryptosource.forEach(c => {
-			$('#crypto-' + c.groupId.toUpperCase().replace(/\s/g, '')).removeClass("d-flex").addClass("d-none");
+			$('#longend-' + c.groupId.toUpperCase().replace(/\s/g, '')).removeClass("d-flex").addClass("d-none");
 		});
 		$("#Clearfilter").trigger('click');
-		$('#crypto-' + selectedGroupId).addClass("d-flex").removeClass("d-none");
+		$('#longend-' + selectedGroupId).addClass("d-flex").removeClass("d-none");
 	
 		// ✅ Use updated currency ticker
 		//updateLiveSubscription(selectedLiveCurrency);
@@ -665,7 +648,7 @@ function getDataChart1(checkedItemIds) {
 
 	const chartId = '1';
 	const chartKey = `chart${chartId}`;
-	const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#crypto${chartId}-container`);
+	const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#longend${chartId}-container`);
 
 	const timeRange = getActiveTimeRange();
 	const fromDate = new Date();
@@ -823,7 +806,6 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				markerSizeArray:markerSizeArray,
 				isCentred:isCentred,
 				useShortFormatList:useShortFormatList,
-				currency:selectedLiveCurrency
 			}).then(() => {
 				 $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
@@ -950,7 +932,6 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 					disableMarkers:disableMarkers,
 					markerSizeArray:markerSizeArray,
 					isCentred:isCentred,
-					currency:selectedLiveCurrency
 				}).then(() => {
 				 $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
@@ -960,7 +941,7 @@ function getDataChart2(checkedItemIds) {
 
 	const chartId = '2';
 	const chartKey = `chart${chartId}`;
-	const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#crypto${chartId}-container`);
+	const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#longend${chartId}-container`);
 
 	const timeRange = getActiveTimeRange();
 	const fromDate = new Date();
@@ -1028,7 +1009,7 @@ function  loadChart2Data(chartId=2){
 function getDataChart3() {
 
 	const chartId = '3';
-	const manager = new ChartManager(`chart${chartId}`, options, `#crypto${chartId}-container`);
+	const manager = new ChartManager(`chart${chartId}`, options, `#longend${chartId}-container`);
 
 	const fromDate = new Date();
 	
@@ -1060,7 +1041,7 @@ function getDataChart3() {
 function getDataChart4() { // trendfollowing
 
 	const chartId = '4';
-	const manager = new ChartManager(`chart${chartId}`, options, `#crypto${chartId}-container`);
+	const manager = new ChartManager(`chart${chartId}`, options, `#longend${chartId}-container`);
 
 	const fromDate = new Date();
 	
@@ -1212,7 +1193,6 @@ function updateBenchmarkingGraph(chartId,manager){
 				applyDb: true,
 				dataParam: params,
 				showLegend:false,
-				currency:selectedLiveCurrency
 			}).then(() => {
 				$(`#arrows-container`).empty().append(`<div class="arrows">
 								  <div>
@@ -1293,7 +1273,6 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
             dataParam: commonParams,
             useShortFormatList: [false],
             interval: 'Daily',
-            currency: selectedLiveCurrency,
             disableMarkers: true,
             markerSizeArray: [1, 0, 0, 0, 0],
             showLegend: false,
@@ -1331,7 +1310,6 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
             seriesColors: ['#ffffff', '#fac1e2', '#e436c1', '#42f5c5','#57f542'],
             disableMarkers: true,
             markerSizeArray: [1, 0, 0, 0, 0],
-            currency: selectedLiveCurrency, 
             combineTooltips:true,
         }).then(() => {
 				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
@@ -1368,7 +1346,6 @@ async function loadGraphWithTrendlines(screenName, chartId, dataParam) {
 			saveHistory: true,
 			dataParam,
 			result: cachedTrendlineResult,
-			currency:selectedLiveCurrency
 		});
 	} catch (err) {
 		console.error("Error loading trendlines + technical chart:", err);
@@ -1589,112 +1566,6 @@ function getChartPeriod() {
 
     return period;
 }
-function updateLiveSubscription(currency) {
-    if (liveSubscription && typeof liveSubscription.unsubscribe === 'function') {
-        liveSubscription.unsubscribe();
-    }
-    liveSubscription = addSubscription(`/all/chart/${currency}`, function (message) {
-        ChartManager.handleLiveUpdate(currency, message);
-    });
-}
-function addSubscription(channel, callback) {
-	return stompClient.subscribe(channel, callback); // if using Stomp.js
-}
-document.addEventListener('DOMContentLoaded', function () {
-	connectWebSocket();
-	//updateLiveSubscription(selectedLiveCurrency);
-	const allCurrencies = ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'SHIB'];
-
-	allCurrencies.forEach(currency => {
-	    addSubscription(`/all/chart/${currency}`, function (message) {
-	        ChartManager.handleLiveUpdate(currency, message);
-	    });
-	});
-	
-	const groupIds = dropDownCryptosource.map(item => item.groupId);
-	groupIds.forEach(groupId => {
-		
-		addSubscription(`/all/chart/technical/${groupId}`, function (message) {
-	
-	    try {
-		   	const data = message.body;
-
- 		    if (data.userName === username) return; // 🔁 Ignore self
-	        if (groupId == $('#dropDownCryptoOptions').val()) {
-					
-			    // 🔒 Disable all reset buttons
-			    ['reset1', 'reset2', 'reset3', 'reset4'].forEach(id => {
-			        $(`#${id}`).addClass('disabled').css({
-			            pointerEvents: 'none',
-			            opacity: 0.5,
-			            cursor: 'not-allowed'
-			        });
-			    });
-	            isProcessingRemoteUpdate = true;
-	            getTrendFollowingHistory();  // This internally triggers chart updates
-	           
-	        }
-		  			
-	  			
-		    } catch (e) {
-		        console.error("Error processing BTC message:", e);
-		    }
-		});
-		
-		addSubscription(`/all/chart/trendline/${groupId}`, function (message) {
-	
-	    try {
-		   const data = message.body;
-
- 		    if (data=== username) return; // 🔁 Ignore self
-	        if (groupId == $('#dropDownCryptoOptions').val()) {
-				getTrendLinesHistory();
-	           
-	        }
-		  			
-	  			
-		    } catch (e) {
-		        console.error("Error processing BTC message:", e);
-		    }
-		});
-		
-			
-		addSubscription(`/all/chart/retracement/${groupId}`, function (message) {
-	
-	    try {
-		const data = message.body;
-
- 		    if (data=== username) return; // 🔁 Ignore self
-	        if (groupId == $('#dropDownCryptoOptions').val()) {
-				getTrendLinesHistory();
-	        }
-		  			
-	  			
-		    } catch (e) {
-		        console.error("Error processing BTC message:", e);
-		    }
-		});
-		
-		addSubscription(`/all/chart/relevant/${groupId}`, function (message) {
-	
-	    try {
-		 const data = message.body;
-
- 		    if (data=== username) return; // 🔁 Ignore self
-	       
-	        if (groupId == $('#dropDownCryptoOptions').val()) {
-				getTrendLinesHistory();
-	        }
-		  			
-	  			
-		    } catch (e) {
-		        console.error("Error processing BTC message:", e);
-		    }
-		});
-		
-	});
-	
-});
 
 async function toggleCandlestickChartTrendFollowing(btn, id) {
 		const isActive = btn.classList.contains('active');

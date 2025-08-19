@@ -17,4 +17,11 @@ public interface TechnicalAnalysisRetracementHistoryRepository extends JpaReposi
 
 	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserNameAndScreenName(String userName,
 			String screenName);
+	
+	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserNameAndScreenNameAndIsShared(String userName,
+			String screenName, Boolean isShared);
+	
+	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByScreenNameAndIsShared(
+			String screenName, Boolean isShared);
+	
 }

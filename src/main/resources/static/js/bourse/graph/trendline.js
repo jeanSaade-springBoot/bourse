@@ -3088,13 +3088,15 @@ async function updateLatestTrendLine(trendLines, newDateX3,originalEndDate, grap
 	    item.y3  = newItem.xyValues[2].y.toFixed(3);
         item.endValue = newItem.endValue;
     if(typeof channelLine !=='undefined')
-     if(channelLine.x3 !== newDateX3){
+      if(channelLine.x3 !== newDateX3){
 		channelLine.x3 = newDateX3;
 		 if(screenName=='CRYPTOS' || screenName=='CryptosAnalisys')
-			channelLine.y3  = findChannelPointNoMissingDates(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate).xyValues[1].y.toFixed(3);
+			var newItem =  findChannelPointNoMissingDates(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate);
 		else
-			channelLine.y3  = findChannelPoint(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate).xyValues[1].y.toFixed(3);
+			var newItem =  findChannelPoint(channelLine.x3 , channelLine.yc, channelLine.xc,  item.slope, originalEndDate);
 
+		channelLine.y3  = newItem.xyValues[1].y.toFixed(3);
+        channelLine.endValue = newItem.endValue;
 		}
       updatedTrendLines.push({
 				 "dbId":JSON.stringify(item.dbid),

@@ -76,7 +76,7 @@ class ChartManager {
   </div>
   
   <div id="overlay-{chartId}" class="chart-overlay d-none">
-	 	<img src="/css/images/loader.gif" alt="Loading" style="width: 100%;" />
+	 	<img src="/css/images/loader.gif" alt="Loading" class="chart-overlay-img" />
 	</div>
 </div>
 `;
@@ -471,60 +471,102 @@ class ChartManager {
 				? this.state.series.map((_, idx) => this.generateYAxisConfig(idx,s.isCentred[idx]))
 				: [this.generateYAxisConfig(0)],
 			xaxis: { type: 'category', labels: { rotate: -70, style: { fontSize: s.fontSize } }, axisBorder: { show: true, color: '#ffffff', height: 3 } },
-			tooltip: {
-				enabled: true,
-				shared: true,
-				custom: ({ seriesIndex, dataPointIndex, w }) => {
-					const isCandlestick = w.config.series?.[seriesIndex]?.type === "candlestick";
+	tooltip: {
+  enabled: true,
+  shared: true,
+  custom: ({ series, seriesIndex, dataPointIndex, w }) => {
+    const combineTooltips = this.state?.combineTooltips ?? false;
 
-					const fmt = this.state.seriesTooltipFormats?.[seriesIndex] || { digits: 2, isPercentage: true, useShortFormat: false };
-					const decimals = fmt.digits ?? 2;
+    const candlestickIndex = w.config.series.findIndex(s => s.type === 'candlestick');
+    const isCandlestickHover = seriesIndex === candlestickIndex;
 
-					const formatNumberShort = (num) => {
-						if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(decimals) + 'B';
-						if (num >= 1_000_000) return (num / 1_000_000).toFixed(decimals) + 'M';
-						if (num >= 1_000) return (num / 1_000).toFixed(decimals) + 'K';
-						return num.toFixed(decimals);
-					};
+    const getFormat = (i) =>
+      this.state?.seriesTooltipFormats?.[i] || {
+        digits: 2,
+        isPercentage: true,
+        useShortFormat: false
+      };
 
-					if (!w?.globals?.series?.[seriesIndex] || w.globals.series[seriesIndex][dataPointIndex] == null) {
-						return null;
-					}
+    const formatNumberShort = (num, digits) => {
+      if (num >= 1_000_000_000) return (num / 1_000_000_000).toFixed(digits) + 'B';
+      if (num >= 1_000_000) return (num / 1_000_000).toFixed(digits) + 'M';
+      if (num >= 1_000) return (num / 1_000).toFixed(digits) + 'K';
+      return num.toFixed(digits);
+    };
 
-					if (isCandlestick) {
-						const open = w.globals.seriesCandleO?.[seriesIndex]?.[dataPointIndex];
-						const high = w.globals.seriesCandleH?.[seriesIndex]?.[dataPointIndex];
-						const low = w.globals.seriesCandleL?.[seriesIndex]?.[dataPointIndex];
-						const close = w.globals.seriesCandleC?.[seriesIndex]?.[dataPointIndex];
-					
-						// 🛑 Exit early if any value is missing
-						if ([open, high, low, close].some(val => val == null || isNaN(val))) {
-							return null; // 🧼 Don't show tooltip at all
-						}
-					
-						const formatVal = (val) =>
-							new Intl.NumberFormat("en-US", {
-								minimumFractionDigits: decimals,
-								maximumFractionDigits: decimals
-							}).format(val);
-					
-						return `
-							<div style="padding: 10px;">
-							  <div><strong>Open:</strong> ${formatVal(open)}</div>
-							  <div><strong>High:</strong> ${formatVal(high)}</div>
-							  <div><strong>Low:</strong> ${formatVal(low)}</div>
-							  <div><strong>Close:</strong> ${formatVal(close)}</div>
-							</div>`;
-					} else {
-						const yValue = w.globals.series[seriesIndex][dataPointIndex];
-						const formatted = fmt.useShortFormat?formatNumberShort(yValue):yValue.toFixed(decimals);
-						return `
-				        <div style="padding: 10px;">
-				          <div><strong>Value:</strong> ${fmt.isPercentage ? formatted + "%" : formatted}</div>
-				        </div>`;
-					}
-				}
-			},
+    // === CASE 1: Hovering over candlestick ===
+    if (isCandlestickHover) {
+      const open = w.globals.seriesCandleO?.[candlestickIndex]?.[dataPointIndex];
+      const high = w.globals.seriesCandleH?.[candlestickIndex]?.[dataPointIndex];
+      const low = w.globals.seriesCandleL?.[candlestickIndex]?.[dataPointIndex];
+      const close = w.globals.seriesCandleC?.[candlestickIndex]?.[dataPointIndex];
+
+      if ([open, high, low, close].some(val => val == null || isNaN(val))) return null;
+
+      const decimals = getFormat(candlestickIndex).digits ?? 2;
+      const formatVal = (val) =>
+        new Intl.NumberFormat("en-US", {
+          minimumFractionDigits: decimals,
+          maximumFractionDigits: decimals
+        }).format(val);
+
+      return `
+        <div style="padding: 10px;">
+          <div><strong>Open:</strong> ${formatVal(open)}</div>
+          <div><strong>High:</strong> ${formatVal(high)}</div>
+          <div><strong>Low:</strong> ${formatVal(low)}</div>
+          <div><strong>Close:</strong> ${formatVal(close)}</div>
+        </div>`;
+    }
+
+    // === CASE 2: Combine tooltips ===
+	  if (combineTooltips) {
+		  
+	  const timeLabel = w.globals.categoryLabels?.[dataPointIndex] ?? 'Time';
+	
+	  let html = `<div style="padding: 10px;">`;
+	  html += `<div style="margin-bottom: 8px; font-weight: bold;">${timeLabel}</div>`;
+	
+	  w.config.series.forEach((s, i) => {
+	    if (i === candlestickIndex) return;
+	
+	    const yVal = w.globals.series[i]?.[dataPointIndex];
+	    if (yVal == null || isNaN(yVal)) return;
+	
+	    const fmt = getFormat(i);
+	    const val = fmt.useShortFormat
+	      ? formatNumberShort(yVal, fmt.digits)
+	      : yVal.toFixed(fmt.digits);
+	
+	    const color = w.globals.colors?.[i] || '#ccc';
+	
+	    html += `
+	      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
+	        <span style="display: inline-block; width: 10px; height: 10px; background-color: ${color}; border-radius: 50%;"></span>
+	        <div><strong>${s.name}:</strong> ${fmt.isPercentage ? val + "%" : val}</div>
+	      </div>`;
+	  });
+	
+	  html += `</div>`;
+	  return html;
+	}
+
+    // === CASE 3: Default behavior: show single value tooltip
+    const fmt = getFormat(seriesIndex);
+    const yValue = w.globals.series?.[seriesIndex]?.[dataPointIndex];
+    if (yValue == null || isNaN(yValue)) return null;
+
+    const formatted = fmt.useShortFormat
+      ? formatNumberShort(yValue, fmt.digits)
+      : yValue.toFixed(fmt.digits);
+
+    return `
+      <div style="padding: 10px;">
+        <div><strong>Value:</strong> ${fmt.isPercentage ? formatted + "%" : formatted}</div>
+      </div>`;
+  }
+}
+,
 
 			annotations: annotations,
 		});
@@ -649,6 +691,7 @@ class ChartManager {
 		    showLegend:this._showLegend,
 		    disableMarkers:this._disableMarkers,
 			markerSizeArray:this._markerSizeArray,//need to be dynamic
+			combineTooltips:this._combineTooltips,
 		});
 
 		this._updateNavButtons();
@@ -722,6 +765,7 @@ class ChartManager {
 	    currency='BTC',
 	    applyTitle = false,
 	    showLegend = true,
+	    combineTooltips = false,
 		
 	}) {
 		this._lastService = service;
@@ -740,11 +784,11 @@ class ChartManager {
 		this._isCentred=isCentred;
 		this._applyTitle = applyTitle;
         this._showLegend = showLegend;
-       
+        this._combineTooltips=combineTooltips;
+        
 		if (interval !== null) {
 			dataParam.interval = interval;
 		}
-
 		/*if (!dataParam) {
 			const from = fromOverride ?? document.getElementById(`dateFrom-${this.chartId}`)?.value;
 			const to = toOverride ?? document.getElementById(`dateTo-${this.chartId}`)?.value;
@@ -762,7 +806,7 @@ class ChartManager {
 		this._loadMethod = this.loadData.bind(this); // in loadData
 
 		const resp = await fetch(`${api}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataParam) }).then(r => r.json());
-		const timeRange = getActiveTimeRange();
+		const timeRange = (interval !== null)?interval:getActiveTimeRange();
 		// Apply multiplier if series is funding rate
 		if (Array.isArray(resp)) {
 			resp.forEach(series => {
@@ -794,6 +838,7 @@ class ChartManager {
 		}
 		this.state.functionId = dataParam?.functionId ?? -1;
 		this.state.currency=currency;
+		this.state.combineTooltips=combineTooltips;
 		// map to series data
 		const series = resp.map((dto, idx) => {
 		const type = seriesTypes[idx] || this.state.chartType;
@@ -821,7 +866,7 @@ class ChartManager {
 		 const strokeWidth = shouldApplyWidth ? this.getDynamicWidth(cleanData.filter(d => d.y !== null).length) : undefined;
 
 		 return {
-		    name: (applyTitle)?name:dto.config?.displayDescription || `Series${idx + 1}`,
+		    name: dto.config?.displayDescription, //(applyTitle)?name:dto.config?.displayDescription || `Series${idx + 1}`,
 		    type,
 		    data: cleanData,
 		    ...(strokeWidth !== undefined ? { strokeWidth } : {}) // only apply if valid
@@ -1346,7 +1391,7 @@ async loadDataWithOverlays({
 	drawTechnicalGraph('#chart-chart2', service,name,removeEmpty,saveHistory)
 	
 	this._showLoading(false);
-	this._disableChartSettings(true);
+	this._disableChartSettings(true); // disabled chart 2 chart options
 
 }
 disableChartGroup(groupId) {
@@ -1435,13 +1480,12 @@ static handleLiveUpdate(currency, message) {
 				return; // ✅ done for chart3
 			}
  
-          //  console.log(selectedLiveCurrency , currency)
 			if (selectedLiveCurrency !== currency) return; 
 
 			updatedChart = instance.chartId=='chart2'?chart:updatedChart;
 			if (!updatedChart || !updatedChart.w || !updatedChart.w.config || !Array.isArray(updatedChart.w.config.series)) return;
 
-			const timeRange = instance.getActiveTimeRange?.() || 'Daily';
+			const timeRange = instance._interval!=null? instance._interval : instance.getActiveTimeRange?.() || 'Daily';
 			const isCandlestick = Array.isArray(instance.state.series)
 				&& instance.state.series.some(s => s?.type === "candlestick");
 

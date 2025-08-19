@@ -1546,6 +1546,7 @@
 						//var c = this.annoCtx.graphics.drawRect(0 + t.offsetX, a + t.offsetY, s.globals.gridWidth + t.offsetX, n - a, 0, t.fillColor, t.opacity, 1, t.borderColor, r);
 						if(typeof t.isRectangle !='undefined') // new logic for the rectangle
 						{
+							calculatedX=(calculatedX<0)?0:calculatedX;
 							if(t.isRectangle)
 							var c = this.annoCtx.graphics.drawRect(
 							calculatedX + t.offsetX

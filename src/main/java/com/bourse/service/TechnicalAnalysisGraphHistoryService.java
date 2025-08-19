@@ -45,19 +45,49 @@ public class TechnicalAnalysisGraphHistoryService
 	}
 	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserIdAndScreenNameAndIsShared(String screenName, Boolean isShared, Authentication authentication) 
 	{      
-        return technicalAnalysisGraphHistoryRepository.findGraphHistoryByUserNameAndScreenNameAndIsShared(authentication.getName(),screenName,isShared);
+		if (isShared)
+			return technicalAnalysisGraphHistoryRepository.findGraphHistoryByScreenNameAndIsShared(screenName,
+					isShared);
+		else
+			return technicalAnalysisGraphHistoryRepository
+					.findGraphHistoryByUserNameAndScreenNameAndIsShared(authentication.getName(), screenName, isShared);
 	}
 	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserIdAndScreenName(String screenName, Authentication authentication) 
 	{      
         return technicalAnalysisRetracementHistoryRepository.findRetracementHistoryByUserNameAndScreenName(authentication.getName(),screenName);
 	}
+	public List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserIdAndScreenNameAndIsShared(String screenName, Authentication authentication, Boolean isShared) 
+	{    
+		if (isShared)
+			return technicalAnalysisRetracementHistoryRepository
+					.findRetracementHistoryByScreenNameAndIsShared(screenName, isShared);
+		else
+			return technicalAnalysisRetracementHistoryRepository
+					.findRetracementHistoryByUserNameAndScreenNameAndIsShared(authentication.getName(), screenName,
+							isShared);
+	}
 	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserIdAndScreenName( String screenName, Authentication authentication) 
 	{      
         return technicalAnalysisRelevantHistoryRepository.findRelevantHistoryByUserNameAndScreenName(authentication.getName(), screenName);
 	}
-	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndUserNameAndIsShared( String groupId, Boolean isShared, Authentication authentication) 
+	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserIdAndScreenNameAndIsShared( String screenName, Authentication authentication , Boolean isShared) 
 	{      
-        return technicalAnalysisTrendFollowingHistoryRepository.findGraphHistoryByGroupIdAndUserNameAndIsShared(groupId ,authentication.getName(), isShared);
+		if (isShared)
+			return technicalAnalysisRelevantHistoryRepository.findRelevantHistoryByScreenNameAndIsShared(screenName,
+					isShared);
+		else
+			return technicalAnalysisRelevantHistoryRepository.findRelevantHistoryByUserNameAndScreenNameAndIsShared(
+					authentication.getName(), screenName, isShared);
+	}
+	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndUserNameAndIsShared( String groupId, Boolean isShared, Authentication authentication) 
+	{
+		if (isShared)
+		return	technicalAnalysisTrendFollowingHistoryRepository
+			.findGraphHistoryByGroupIdAndIsShared(groupId, isShared);
+
+		else
+			return technicalAnalysisTrendFollowingHistoryRepository
+					.findGraphHistoryByGroupIdAndUserNameAndIsShared(groupId, authentication.getName(), isShared);
 	}
 	public TechnicalAnalysisGraphHistory SaveGraphHistory(TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication) 
 	{  
@@ -78,6 +108,7 @@ public class TechnicalAnalysisGraphHistoryService
 				 .channel(graphHistorydto.getChannel())
 				 .isVisibleChannel(graphHistorydto.getIsVisibleChannel())
 				 .screenName(graphHistorydto.getScreenName())
+				 .isShared(graphHistorydto.getIsShared())
 				.build();
 	    	return technicalAnalysisGraphHistoryRepository.save(entity);
 	    }else {
@@ -90,6 +121,7 @@ public class TechnicalAnalysisGraphHistoryService
 			 .channel(graphHistorydto.getChannel())
 			 .isVisibleChannel(graphHistorydto.getIsVisibleChannel())
 			 .screenName(graphHistorydto.getScreenName())
+			 .isShared(graphHistorydto.getIsShared())
 			.build();
 			return technicalAnalysisGraphHistoryRepository.save(entity);
 		}
@@ -114,6 +146,7 @@ public class TechnicalAnalysisGraphHistoryService
 						 .channel(history.getChannel())
 						 .isVisibleChannel(history.getIsVisibleChannel())
 						 .screenName(history.getScreenName())
+						 .isShared(history.getIsShared())
 						.build();
 			    	 technicalAnalysisGraphHistoryRepository.save(entity);
 			    }
@@ -158,6 +191,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .hidePercentage75(retacement.getHidePercentage75())
 			                  .hideAll(retacement.getHideAll())
 							  .screenName(retacement.getScreenName())
+							  .isShared(retacement.getIsShared())
 			                  .build();
 			    	  dataList.add(entity);
 			    	  technicalAnalysisRetracementHistoryRepository.save(entity);
@@ -187,6 +221,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .hidePercentage75(retacement.getHidePercentage75())
 			                  .hideAll(retacement.getHideAll())
 			                  .screenName(retacement.getScreenName())
+			                  .isShared(retacement.getIsShared())
 			   			.build();
 			    	     dataList.add(entity);
 			   			 technicalAnalysisRetracementHistoryRepository.save(entity);
@@ -217,6 +252,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .isHidden(relevant.getIsHidden())
 			                  .screenName(relevant.getScreenName())
 			                  .color(relevant.getColor())
+			                  .isShared(relevant.getIsShared())
 			                  .build();
 			    	  dataList.add(entity);
 			    	  technicalAnalysisRelevantHistoryRepository.save(entity);
@@ -231,6 +267,7 @@ public class TechnicalAnalysisGraphHistoryService
 			                  .isHidden(relevant.getIsHidden())
 			                  .screenName(relevant.getScreenName())
 			                  .color(relevant.getColor())
+			                  .isShared(relevant.getIsShared())
 			   			.build();
 			    	     dataList.add(entity);
 			   			 technicalAnalysisRelevantHistoryRepository.save(entity);
@@ -245,6 +282,7 @@ public class TechnicalAnalysisGraphHistoryService
 	  
 	    	TechnicalAnalysisGraphHistory entity = graphHistory.get();
 	    	   entity.setIsVisibleChannel(graphHistorydto.getIsVisibleChannel());
+	    	   entity.setUserName(authentication.getName());
 	    	return technicalAnalysisGraphHistoryRepository.save(entity);
 	    
 		}
@@ -255,6 +293,7 @@ public class TechnicalAnalysisGraphHistoryService
 	  
 	    	TechnicalAnalysisGraphHistory entity = graphHistory.get();
 	    	   entity.setIsVisibleTrendline(graphHistorydto.getIsVisibleTrendline());
+	    	   entity.setUserName(authentication.getName());
 	    	return technicalAnalysisGraphHistoryRepository.save(entity);
 	    
 		}
@@ -294,7 +333,6 @@ public class TechnicalAnalysisGraphHistoryService
 	            });
 	}
 	public TechnicalAnalysisTrendFollowingHistory saveTrendFollowingHistory(TechnicalAnalysisTrendFollowingHistory dto, Authentication authentication) {
-	   System.out.println("---------- groupId"+dto.getGroupId());
 		if (dto.getId() != null) {
 	        Optional<TechnicalAnalysisTrendFollowingHistory> graphHistory =
 	                technicalAnalysisTrendFollowingHistoryRepository.findById(dto.getId());

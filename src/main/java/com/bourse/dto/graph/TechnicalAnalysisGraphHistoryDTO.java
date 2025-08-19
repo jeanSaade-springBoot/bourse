@@ -18,4 +18,5 @@ public class TechnicalAnalysisGraphHistoryDTO {
     private String channel;
     private Boolean isVisibleChannel;
     private String screenName;
+    private Boolean isShared;
 }

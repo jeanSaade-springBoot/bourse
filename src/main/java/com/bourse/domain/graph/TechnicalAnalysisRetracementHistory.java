@@ -76,4 +76,7 @@ public class TechnicalAnalysisRetracementHistory {
     private Boolean hideAll = true; 
     private String screenName;
     
+    @Builder.Default
+    @Column(name = "is_shared", columnDefinition = "BOOLEAN DEFAULT FALSE")
+    private Boolean isShared = false;
 }

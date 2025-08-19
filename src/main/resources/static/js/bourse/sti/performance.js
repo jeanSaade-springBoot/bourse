@@ -7,6 +7,7 @@ var allitems = [
 ];
 
 let isRanked = false;
+let isDollarDominator = false;
 
 const labelImageMap = {
 		'NIFTY-32': '/img/flag/india.png',
@@ -73,60 +74,60 @@ const titleGroupMap = {
 		
 const configData = [
   // groupId = 32
-  { "columnName": "32:NIKKEI", "displayName": "NIKKEI", "groupId": "32", "columnGroupId": "NIKKEI-32" },
-  { "columnName": "32:NIKKEI_USDJPY", "displayName": "$-NIKKEI", "groupId": "32", "columnGroupId": "NIKKEI_USDJPY-32" },
-  { "columnName": "32:CSI", "displayName": "CSI", "groupId": "32", "columnGroupId": "CSI-32" },
-  { "columnName": "32:CSI_USDCNY", "displayName": "$-CSI", "groupId": "32", "columnGroupId": "CSI_USDCNY-32" },
-  { "columnName": "32:NIFTY", "displayName": "NIFTY", "groupId": "32", "columnGroupId": "NIFTY-32" },
-  { "columnName": "32:NIFTY_USDINR", "displayName": "$-NIFTY", "groupId": "32", "columnGroupId": "NIFTY_USDINR-32" },
-  { "columnName": "32:KOSPI", "displayName": "KOSPI", "groupId": "32", "columnGroupId": "KOSPI-32" },
-  { "columnName": "32:KOSPI_USDKRW", "displayName": "$-KOSPI", "groupId": "32", "columnGroupId": "KOSPI_USDKRW-32" },
-  { "columnName": "32:HANGSENG", "displayName": "HANGSENG", "groupId": "32", "columnGroupId": "HANGSENG-32" },
-  { "columnName": "32:HANGSENG_USDHKD", "displayName": "$-HANGSENG", "groupId": "32", "columnGroupId": "HANGSENG_USDHKD-32" },
-  { "columnName": "32:HISMBI", "displayName": "HSI^ BANKING", "groupId": "32", "columnGroupId": "HISMBI-32" },
-  { "columnName": "32:HISMBI_USDHKD", "displayName": "$-HSI BANKING", "groupId": "32", "columnGroupId": "HISMBI_USDHKD-32" },
-  { "columnName": "32:HISMPI", "displayName": "HSI^ PROPERTY", "groupId": "32", "columnGroupId": "HISMPI-32" },
-  { "columnName": "32:HISMPI_USDHKD", "displayName": "$-HSI PROPERTY", "groupId": "32", "columnGroupId": "HISMPI_USDHKD-32" },
+  { "columnName": "32:NIKKEI", "displayName": "NIKKEI", "groupId": "32", "columnGroupId": "NIKKEI-32" ,"isDollarDominator":false },
+  { "columnName": "32:NIKKEI_USDJPY", "displayName": "$-NIKKEI", "groupId": "32", "columnGroupId": "NIKKEI_USDJPY-32", "isDollarDominator":true },
+  { "columnName": "32:CSI", "displayName": "CSI", "groupId": "32", "columnGroupId": "CSI-32","isDollarDominator":false },
+  { "columnName": "32:CSI_USDCNY", "displayName": "$-CSI", "groupId": "32", "columnGroupId": "CSI_USDCNY-32" ,"isDollarDominator":true},
+  { "columnName": "32:NIFTY", "displayName": "NIFTY", "groupId": "32", "columnGroupId": "NIFTY-32", "isDollarDominator":false },
+  { "columnName": "32:NIFTY_USDINR", "displayName": "$-NIFTY", "groupId": "32", "columnGroupId": "NIFTY_USDINR-32", "isDollarDominator":true },
+  { "columnName": "32:KOSPI", "displayName": "KOSPI", "groupId": "32", "columnGroupId": "KOSPI-32" ,"isDollarDominator":false},
+  { "columnName": "32:KOSPI_USDKRW", "displayName": "$-KOSPI", "groupId": "32", "columnGroupId": "KOSPI_USDKRW-32" ,"isDollarDominator":true },
+  { "columnName": "32:HANGSENG", "displayName": "HANGSENG", "groupId": "32", "columnGroupId": "HANGSENG-32" ,"isDollarDominator":false },
+  { "columnName": "32:HANGSENG_USDHKD", "displayName": "$-HANGSENG", "groupId": "32", "columnGroupId": "HANGSENG_USDHKD-32" ,"isDollarDominator":true},
+  { "columnName": "32:HISMBI", "displayName": "HSI^ BANKING", "groupId": "32", "columnGroupId": "HISMBI-32" ,"isDollarDominator":false},
+  { "columnName": "32:HISMBI_USDHKD", "displayName": "$-HSI BANKING", "groupId": "32", "columnGroupId": "HISMBI_USDHKD-32" ,"isDollarDominator":true },
+  { "columnName": "32:HISMPI", "displayName": "HSI^ PROPERTY", "groupId": "32", "columnGroupId": "HISMPI-32" ,"isDollarDominator":false},
+  { "columnName": "32:HISMPI_USDHKD", "displayName": "$-HSI PROPERTY", "groupId": "32", "columnGroupId": "HISMPI_USDHKD-32" ,"isDollarDominator":true},
   // groupId = 33
-  { "columnName": "33:DOWJONES", "displayName": "DOWJONES", "groupId": "33", "columnGroupId": "DOWJONES-33" },
-  { "columnName": "33:SANDP", "displayName": "S&P", "groupId": "33", "columnGroupId": "SANDP-33" },
-  { "columnName": "33:NASDAQ", "displayName": "NASDAQ", "groupId": "33", "columnGroupId": "NASDAQ-33" },
-  { "columnName": "33:RUSSELL", "displayName": "RUSSELL", "groupId": "33", "columnGroupId": "RUSSELL-33" },
-  { "columnName": "33:FANG", "displayName": "FANG+", "groupId": "33", "columnGroupId": "FANG-33" },
-  { "columnName": "33:DJMAJORBANKS", "displayName": "DJ MAJOR BANKS", "groupId": "33", "columnGroupId": "DJMAJORBANKS-33" },
-  { "columnName": "33:DJREGIONALBANKS", "displayName": "DJ REGIONAL BANKS", "groupId": "33", "columnGroupId": "DJREGIONALBANKS-33" },
+  { "columnName": "33:DOWJONES", "displayName": "DOWJONES", "groupId": "33", "columnGroupId": "DOWJONES-33" ,"isDollarDominator":true},
+  { "columnName": "33:SANDP", "displayName": "S&P", "groupId": "33", "columnGroupId": "SANDP-33" ,"isDollarDominator":true},
+  { "columnName": "33:NASDAQ", "displayName": "NASDAQ", "groupId": "33", "columnGroupId": "NASDAQ-33" ,"isDollarDominator":true},
+  { "columnName": "33:RUSSELL", "displayName": "RUSSELL", "groupId": "33", "columnGroupId": "RUSSELL-33" ,"isDollarDominator":true},
+  { "columnName": "33:FANG", "displayName": "FANG+", "groupId": "33", "columnGroupId": "FANG-33" ,"isDollarDominator":true},
+  { "columnName": "33:DJMAJORBANKS", "displayName": "DJ MAJOR BANKS", "groupId": "33", "columnGroupId": "DJMAJORBANKS-33" ,"isDollarDominator":true},
+  { "columnName": "33:DJREGIONALBANKS", "displayName": "DJ REGIONAL BANKS", "groupId": "33", "columnGroupId": "DJREGIONALBANKS-33" ,"isDollarDominator":true},
 
   // groupId = 34
-  { "columnName": "34:DAX", "displayName": "DAX", "groupId": "34", "columnGroupId": "DAX-34" },
-  { "columnName": "34:DAX_EURUSD", "displayName": "$-DAX", "groupId": "34", "columnGroupId": "DAX_EURUSD-34" },
-  { "columnName": "34:CAC", "displayName": "CAC", "groupId": "34", "columnGroupId": "CAC-34" },
-  { "columnName": "34:CAC_EURUSD", "displayName": "$-CAC", "groupId": "34", "columnGroupId": "CAC_EURUSD-34" },
-  { "columnName": "34:MIB", "displayName": "MIB", "groupId": "34", "columnGroupId": "MIB-34" },
-  { "columnName": "34:MIB_EURUSD", "displayName": "$-MIB", "groupId": "34", "columnGroupId": "MIB_EURUSD-34" },
-  { "columnName": "34:FTSE", "displayName": "FTSE", "groupId": "34", "columnGroupId": "FTSE-34" },
-  { "columnName": "34:FTSE_GBPUSD", "displayName": "$-FTSE", "groupId": "34", "columnGroupId": "FTSE_GBPUSD-34" },
-  { "columnName": "34:STOXX50", "displayName": "STOXX-50", "groupId": "34", "columnGroupId": "STOXX50-34" },
-  { "columnName": "34:STOXX50_EURUSD", "displayName": "$-STOXX-50", "groupId": "34", "columnGroupId": "STOXX50_EURUSD-34" },
-  { "columnName": "34:STOXX600", "displayName": "STOXX-600", "groupId": "34", "columnGroupId": "STOXX600-34" },
-  { "columnName": "34:STOXX600_EURUSD", "displayName": "$-STOXX-600", "groupId": "34", "columnGroupId": "STOXX600_EURUSD-34" },
-  { "columnName": "34:EUBANKS", "displayName": "EU-BANKS", "groupId": "34", "columnGroupId": "EUBANKS-34" },
-  { "columnName": "34:EUBANKS_EURUSD", "displayName": "$-EU-BANKS", "groupId": "34", "columnGroupId": "EUBANKS_EURUSD-34" },
+  { "columnName": "34:DAX", "displayName": "DAX", "groupId": "34", "columnGroupId": "DAX-34","isDollarDominator":false },
+  { "columnName": "34:DAX_EURUSD", "displayName": "$-DAX", "groupId": "34", "columnGroupId": "DAX_EURUSD-34" ,"isDollarDominator":true},
+  { "columnName": "34:CAC", "displayName": "CAC", "groupId": "34", "columnGroupId": "CAC-34" ,"isDollarDominator":false},
+  { "columnName": "34:CAC_EURUSD", "displayName": "$-CAC", "groupId": "34", "columnGroupId": "CAC_EURUSD-34" ,"isDollarDominator":true},
+  { "columnName": "34:MIB", "displayName": "MIB", "groupId": "34", "columnGroupId": "MIB-34" ,"isDollarDominator":false},
+  { "columnName": "34:MIB_EURUSD", "displayName": "$-MIB", "groupId": "34", "columnGroupId": "MIB_EURUSD-34" ,"isDollarDominator":true},
+  { "columnName": "34:FTSE", "displayName": "FTSE", "groupId": "34", "columnGroupId": "FTSE-34" ,"isDollarDominator":false},
+  { "columnName": "34:FTSE_GBPUSD", "displayName": "$-FTSE", "groupId": "34", "columnGroupId": "FTSE_GBPUSD-34" ,"isDollarDominator":true},
+  { "columnName": "34:STOXX50", "displayName": "STOXX-50", "groupId": "34", "columnGroupId": "STOXX50-34" ,"isDollarDominator":false},
+  { "columnName": "34:STOXX50_EURUSD", "displayName": "$-STOXX-50", "groupId": "34", "columnGroupId": "STOXX50_EURUSD-34" ,"isDollarDominator":true},
+  { "columnName": "34:STOXX600", "displayName": "STOXX-600", "groupId": "34", "columnGroupId": "STOXX600-34" ,"isDollarDominator":false},
+  { "columnName": "34:STOXX600_EURUSD", "displayName": "$-STOXX-600", "groupId": "34", "columnGroupId": "STOXX600_EURUSD-34" ,"isDollarDominator":true},
+  { "columnName": "34:EUBANKS", "displayName": "EU-BANKS", "groupId": "34", "columnGroupId": "EUBANKS-34" ,"isDollarDominator":false},
+  { "columnName": "34:EUBANKS_EURUSD", "displayName": "$-EU-BANKS", "groupId": "34", "columnGroupId": "EUBANKS_EURUSD-34" ,"isDollarDominator":true},
 
   // groupId = 35
-  { "columnName": "35:TADAWUL", "displayName": "TADAWUL", "groupId": "35", "columnGroupId": "TADAWUL-35" },
-  { "columnName": "35:TADAWUL_USDSAR", "displayName": "$-TADAWUL", "groupId": "35", "columnGroupId": "TADAWUL_USDSAR-35" },
-  { "columnName": "35:EGX", "displayName": "EGX", "groupId": "35", "columnGroupId": "EGX-35" },
-  { "columnName": "35:EGX_USDEGP", "displayName": "$-EGX", "groupId": "35", "columnGroupId": "EGX_USDEGP-35" },
-  { "columnName": "35:BIST", "displayName": "BIST", "groupId": "35", "columnGroupId": "BIST-35" },
-  { "columnName": "35:BIST_USDTRY", "displayName": "$-BIST", "groupId": "35", "columnGroupId": "BIST_USDTRY-35" },
-  { "columnName": "35:MOEX", "displayName": "MOEX", "groupId": "35", "columnGroupId": "MOEX-35" },
-  { "columnName": "35:MOEX_USDRUB", "displayName": "$-MOEX", "groupId": "35", "columnGroupId": "MOEX_USDRUB-35" },
-  { "columnName": "35:JSTTOP", "displayName": "JSTOP", "groupId": "35", "columnGroupId": "JSTTOP-35" },
-  { "columnName": "35:JSTTOP_USDZAR", "displayName": "$-JSTOP", "groupId": "35", "columnGroupId": "JSTTOP_USDZAR-35" },
-  { "columnName": "35:BOVESPA", "displayName": "BOVESPA", "groupId": "35", "columnGroupId": "BOVESPA-35" },
-  { "columnName": "35:BOVESPA_USDBRL", "displayName": "$-BOVESPA", "groupId": "35", "columnGroupId": "BOVESPA_USDBRL-35" },
-  { "columnName": "35:MEXBOL", "displayName": "MEXBOL", "groupId": "35", "columnGroupId": "MEXBOL-35" },
-  { "columnName": "35:MEXBOL_USDMXN", "displayName": "$-MEXBOL", "groupId": "35", "columnGroupId": "MEXBOL_USDMXN-35" }
+  { "columnName": "35:TADAWUL", "displayName": "TADAWUL", "groupId": "35", "columnGroupId": "TADAWUL-35" ,"isDollarDominator":false},
+  { "columnName": "35:TADAWUL_USDSAR", "displayName": "$-TADAWUL", "groupId": "35", "columnGroupId": "TADAWUL_USDSAR-35" ,"isDollarDominator":true},
+  { "columnName": "35:EGX", "displayName": "EGX", "groupId": "35", "columnGroupId": "EGX-35" ,"isDollarDominator":false},
+  { "columnName": "35:EGX_USDEGP", "displayName": "$-EGX", "groupId": "35", "columnGroupId": "EGX_USDEGP-35" ,"isDollarDominator":true},
+  { "columnName": "35:BIST", "displayName": "BIST", "groupId": "35", "columnGroupId": "BIST-35" ,"isDollarDominator":false},
+  { "columnName": "35:BIST_USDTRY", "displayName": "$-BIST", "groupId": "35", "columnGroupId": "BIST_USDTRY-35" ,"isDollarDominator":true},
+  { "columnName": "35:MOEX", "displayName": "MOEX", "groupId": "35", "columnGroupId": "MOEX-35" ,"isDollarDominator":false},
+  { "columnName": "35:MOEX_USDRUB", "displayName": "$-MOEX", "groupId": "35", "columnGroupId": "MOEX_USDRUB-35" ,"isDollarDominator":true},
+  { "columnName": "35:JSTTOP", "displayName": "JSTOP", "groupId": "35", "columnGroupId": "JSTTOP-35" ,"isDollarDominator":false},
+  { "columnName": "35:JSTTOP_USDZAR", "displayName": "$-JSTOP", "groupId": "35", "columnGroupId": "JSTTOP_USDZAR-35" ,"isDollarDominator":true},
+  { "columnName": "35:BOVESPA", "displayName": "BOVESPA", "groupId": "35", "columnGroupId": "BOVESPA-35" ,"isDollarDominator":false},
+  { "columnName": "35:BOVESPA_USDBRL", "displayName": "$-BOVESPA", "groupId": "35", "columnGroupId": "BOVESPA_USDBRL-35" ,"isDollarDominator":true},
+  { "columnName": "35:MEXBOL", "displayName": "MEXBOL", "groupId": "35", "columnGroupId": "MEXBOL-35" ,"isDollarDominator":false},
+  { "columnName": "35:MEXBOL_USDMXN", "displayName": "$-MEXBOL", "groupId": "35", "columnGroupId": "MEXBOL_USDMXN-35" ,"isDollarDominator":true}
 ];
 
 		
@@ -150,6 +151,85 @@ $(window).on('load', function() {
 });
 $(document).ready(function() {
 	
+	const flatTreeData = [];
+	const addedGroups = {};
+
+// Build flat tree structure from configData
+configData.forEach((item, index) => {
+    const groupId = item.groupId;
+	const groupTitle = (titleGroupMap[groupId] || `Group ${groupId}`).replace(' Performance', '');
+    const icon = labelImageMap[item.columnGroupId] || '/img/flag/default.png';
+
+    // Add group root only once
+    if (!addedGroups[groupId]) {
+        flatTreeData.push({
+            id: `group-${groupId}`,
+            parentid: "-1",
+            text: groupTitle,
+            icon: "/img/group.png"  // optional group icon
+        });
+        addedGroups[groupId] = true;
+    }
+
+    // Add item under group
+    flatTreeData.push({
+        id: `item-${index}`,
+        parentid: `group-${groupId}`,
+        text: item.displayName,
+        value: item.columnName,
+        icon: icon
+    });
+});
+	const treeSource = {
+    datatype: "json",
+    datafields: [
+        { name: 'id' },
+        { name: 'parentid' },
+        { name: 'text' },
+        { name: 'value' },
+        { name: 'icon' }
+    ],
+    id: 'id',
+    localdata: flatTreeData
+};
+
+const dataAdapter = new $.jqx.dataAdapter(treeSource);
+dataAdapter.dataBind();
+
+const treeRecords = dataAdapter.getRecordsHierarchy(
+    'id', 'parentid', 'items',
+    [
+        { name: 'text', map: 'label' },
+        { name: 'value', map: 'value' },
+        { name: 'icon', map: 'icon' }
+    ]
+);
+
+// Initialize DropDownButton (if not already done)
+$("#dropDownButton").jqxDropDownButton({ theme: 'dark', width: 200, height: 35 });
+
+// Initialize jqxTree with renderer
+$("#treeWrapper").jqxTree({
+    source: treeRecords,
+    width: '100%',
+    checkboxes: true,
+    hasThreeStates: true,
+    theme: 'dark'
+});
+setTimeout(() => {
+    const items = $('#treeWrapper').jqxTree('getItems');
+
+    items.forEach(item => {
+        const $element = $(item.element).find('.jqx-tree-item');
+        const icon = item.originalItem?.icon;
+
+        if (icon && $element.length) {
+            const img = `<img src="${icon}" style="width:16px; margin-right:5px; vertical-align:middle"/>`;
+            const label = $element.text().trim();
+            $element.html(img + label);
+        }
+    });
+}, 100); // Wait until after rendering
 	$("#toggleRankBtn").on('click', function () {
 	    isRanked = !isRanked;
 	
@@ -160,6 +240,44 @@ $(document).ready(function() {
 	    drawGraph();
 	    $("#toggleRankBtn").text(isRanked ? "Unrank" : "Rank");
 	});
+	
+	
+	$("#toggleDollarDominatorBtn").on('click', function () {
+	    isDollarDominator = !isDollarDominator;
+	
+	    const checkedItemValues = checkedItemid.filter(item => item != null);
+		     if(checkedItemValues[0]!="#jqxCheckBoxAll")
+		    { 
+			  
+			  groupIdToFilter= itemValue[checkedItemValues[0]].GroupId;
+		       if(isDollarDominator)
+		      	filteredData = configData.filter(item => item.groupId === groupIdToFilter && item.isDollarDominator==isDollarDominator);
+		      	else
+		      	filteredData = configData.filter(item => item.groupId === groupIdToFilter);
+		     }
+		     else
+		       {
+				  
+				if(isDollarDominator)
+		      		filteredData = configData.filter(item => item.isDollarDominator==isDollarDominator);
+		      	else
+				   filteredData = configData;
+				}
+		    $("#dropDownSelection").jqxDropDownList({
+		        source: filteredData,  // Bind the filtered data
+		        displayMember: "displayName",  // Display name for each item
+		        valueMember: "columnName"  // Value associated with each item
+		    });
+		     selectedItems=[];
+		
+		    
+	 
+	    $(this).toggleClass('active', isDollarDominator);
+	
+	    // Redraw the graph
+	    drawGraph();
+	});
+	
     // jqxDropDownList with checkboxes
     $("#dropDownSelection").on('checkChange', function (event) {
         var itemValue = event.args.item.value;
@@ -230,13 +348,22 @@ $(document).ready(function() {
 	 $('.jqx-checkbox').on('change', function (event) {
 		     const checkedItemValues = checkedItemid.filter(item => item != null);
 		     if(checkedItemValues[0]!="#jqxCheckBoxAll")
-		    { groupIdToFilter= itemValue[checkedItemValues[0]].GroupId;
-		     
-		      filteredData = configData.filter(item => item.groupId === groupIdToFilter);
+		    { 
+			  
+			  groupIdToFilter= itemValue[checkedItemValues[0]].GroupId;
+		       if(isDollarDominator)
+		      	filteredData = configData.filter(item => item.groupId === groupIdToFilter && item.isDollarDominator==isDollarDominator);
+		      	else
+		      	filteredData = configData.filter(item => item.groupId === groupIdToFilter);
 		     }
 		     else
-		       filteredData = configData;
-
+		       {
+				  
+				if(isDollarDominator)
+		      		filteredData = configData.filter(item => item.isDollarDominator==isDollarDominator);
+		      	else
+				   filteredData = configData;
+				}
 		    $("#dropDownSelection").jqxDropDownList({
 		        source: filteredData,  // Bind the filtered data
 		        displayMember: "displayName",  // Display name for each item
@@ -343,7 +470,8 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
          let requestData;
          if(getChartPeriodPerformance()=='w')
          fromdate='Week '+getISOWeekNumber(date);
-         
+   
+	
       if(checkedItems!='')
 	        requestData = [{
 			            groupId1: checkedItems,
@@ -352,12 +480,28 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 			            fulldates:false
 			        }];
 	        else 
-		 		requestData = [{
-	            groupId1: itemValue[checkedItemValues[0]].GroupId,
-	            period: getChartPeriodPerformance(),
-	            fromdate: dbDate,
-	            fulldates:false
-	        }];
+	        {
+				      
+		     if(isDollarDominator)
+		       {
+				var checkedItemsisDollarDominator = configData.filter(item => item.groupId === itemValue[checkedItemValues[0]].GroupId && item.isDollarDominator==isDollarDominator).map(item => item.columnName)  
+  .join(", "); 
+				requestData = [{
+					            groupId1: checkedItemsisDollarDominator,
+					            period: getChartPeriodPerformance(),
+					            fromdate: dbDate,
+					            fulldates:false
+					        }];
+					        }
+			else requestData = [{
+			            groupId1: itemValue[checkedItemValues[0]].GroupId,
+			            period: getChartPeriodPerformance(),
+			            fromdate: dbDate,
+			            fulldates:false
+			        }];
+			        
+			}
+		 		
 
         const response = await fetch('/graph/getperformancegraphdata', {
             method: 'POST',

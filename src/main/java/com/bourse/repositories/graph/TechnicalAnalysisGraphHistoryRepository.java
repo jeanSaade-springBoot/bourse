@@ -19,5 +19,6 @@ public interface TechnicalAnalysisGraphHistoryRepository extends JpaRepository<T
 	
 	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserNameAndScreenNameAndIsShared(String userName, String screenName, Boolean isShared);
 
-	
+	public List<TechnicalAnalysisGraphHistory> findGraphHistoryByScreenNameAndIsShared(String screenName, Boolean isShared);
+
 }

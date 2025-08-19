@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,6 +34,8 @@ import com.bourse.service.TechnicalAnalysisGraphHistoryService;
 @RequestMapping(value = "graph")
 public class GraphController {
 	
+    private final SimpMessagingTemplate messagingTemplate;
+
 	@Autowired
 	private final TechnicalAnalysisGraphHistoryService technicalAnalysisGraphHistoryService;
 	@Autowired
@@ -40,39 +43,108 @@ public class GraphController {
 	@Autowired
 	private final AdminService adminService;
 	
-	public GraphController(TechnicalAnalysisGraphHistoryService technicalAnalysisGraphHistoryService,GraphService graphService,AdminService adminService)
+	public GraphController(SimpMessagingTemplate template, TechnicalAnalysisGraphHistoryService technicalAnalysisGraphHistoryService,GraphService graphService,AdminService adminService)
 	{
 		this.technicalAnalysisGraphHistoryService=technicalAnalysisGraphHistoryService;
 		this.graphService = graphService;
 		this.adminService = adminService;
+		this.messagingTemplate = template;
 	}
 	@PostMapping(value = "save-history")
     public TechnicalAnalysisGraphHistory saveGraphHistory(@RequestBody TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication){
-	  return  technicalAnalysisGraphHistoryService.SaveGraphHistory(graphHistorydto,authentication);
+	
+		System.out.println(" ----------  save-trend-line-history");
+		TechnicalAnalysisGraphHistory saved = technicalAnalysisGraphHistoryService.SaveGraphHistory(graphHistorydto,authentication);
+
+        String groupId = saved.getGraphId().toLowerCase().split("-")[1];  
+        
+        messagingTemplate.convertAndSend("/all/chart/trendline/" + groupId,  authentication.getName());
+
+        return saved;
+        
     }
 	@PostMapping(value = "update-trendline-history")
-    public boolean updateGraphHistory(@RequestBody  List<TechnicalAnalysisGraphHistoryDTO> graphHistorydto, Authentication authentication){
-	  return  technicalAnalysisGraphHistoryService.SaveGraphListHistory(graphHistorydto,authentication);
-    }
+	public ResponseEntity<Boolean> updateGraphHistory(
+	        @RequestBody List<TechnicalAnalysisGraphHistoryDTO> graphHistorydto,
+	        Authentication authentication) {
+		System.out.println(" ----------  update-trendline-history");
+
+	    boolean success = technicalAnalysisGraphHistoryService.SaveGraphListHistory(graphHistorydto, authentication);
+
+	    if (success && graphHistorydto != null && !graphHistorydto.isEmpty()) {
+	        String groupId = graphHistorydto.get(0).getGraphId().toLowerCase().split("-")[1];
+	        messagingTemplate.convertAndSend("/all/chart/trendline/" + groupId,  authentication.getName());
+	    }
+
+	    return ResponseEntity.ok(success);
+	}
 	@PostMapping(value = "save-retracement-history")
-    public ResponseEntity<List<TechnicalAnalysisRetracementHistory>> saveRetracementHistory(@RequestBody  List<TechnicalAnalysisRetracementHistoryDTO> graphRetracementdto, Authentication authentication){
-	  return  new ResponseEntity<>( technicalAnalysisGraphHistoryService.SaveRetracementListHistory(graphRetracementdto,authentication), HttpStatus.OK);
-    }
+	public ResponseEntity<List<TechnicalAnalysisRetracementHistory>> saveRetracementHistory(
+	        @RequestBody List<TechnicalAnalysisRetracementHistoryDTO> graphRetracementdto,
+	        Authentication authentication) {
+
+	    System.out.println(" ----------  save-retracement-history");
+
+	    List<TechnicalAnalysisRetracementHistory> saved =
+	            technicalAnalysisGraphHistoryService.SaveRetracementListHistory(graphRetracementdto, authentication);
+
+	    if (saved != null && !saved.isEmpty()) {
+	        String groupId = saved.get(0).getGraphId().toLowerCase().split("-")[1];
+	        messagingTemplate.convertAndSend("/all/chart/retracement/" + groupId,  authentication.getName());
+	    }
+
+	    return new ResponseEntity<>(saved, HttpStatus.OK);
+	}
 	@PostMapping(value = "save-relevant-history")
-    public ResponseEntity<List<TechnicalAnalysisRelevantHistory>> saveRelevantHistory(@RequestBody  List<TechnicalAnalysisRelevantHistoryDTO> graphRelevantdto, Authentication authentication){
-	  return  new ResponseEntity<>( technicalAnalysisGraphHistoryService.SaveRelevantListHistory(graphRelevantdto,authentication), HttpStatus.OK);
-    }
+	public ResponseEntity<List<TechnicalAnalysisRelevantHistory>> saveRelevantHistory(
+	        @RequestBody List<TechnicalAnalysisRelevantHistoryDTO> graphRelevantdto,
+	        Authentication authentication) {
+
+	    List<TechnicalAnalysisRelevantHistory> saved =
+	            technicalAnalysisGraphHistoryService.SaveRelevantListHistory(graphRelevantdto, authentication);
+
+	    if (saved != null && !saved.isEmpty()) {
+	        String groupId = saved.get(0).getGraphId().toLowerCase().split("-")[1];
+	        messagingTemplate.convertAndSend("/all/chart/relevant/" + groupId,  authentication.getName());
+	    }
+
+	    return ResponseEntity.ok(saved);
+	}
 	@PostMapping(value = "save-trend-following-history")
-    public ResponseEntity<TechnicalAnalysisTrendFollowingHistory> saveTrendFollowingHistory(@RequestBody  TechnicalAnalysisTrendFollowingHistory graphRelevantdto, Authentication authentication){
-	  return  new ResponseEntity<>( technicalAnalysisGraphHistoryService.saveTrendFollowingHistory(graphRelevantdto,authentication), HttpStatus.OK);
-    }
+    public ResponseEntity<TechnicalAnalysisTrendFollowingHistory> saveTrendFollowingHistory(@RequestBody  TechnicalAnalysisTrendFollowingHistory history, Authentication authentication){
+		
+		System.out.println(" ----------  save-trend-following-history");
+        TechnicalAnalysisTrendFollowingHistory saved = technicalAnalysisGraphHistoryService
+            .saveTrendFollowingHistory(history, authentication);
+
+        // Broadcast to others watching this crypto (e.g., "btc", "eth")
+        String groupId = saved.getGroupId().toLowerCase();  // Assuming you have this field
+        messagingTemplate.convertAndSend("/all/chart/technical/" + groupId, authentication.getName());
+
+        return new ResponseEntity<>(saved, HttpStatus.OK);
+	}
 	@PostMapping(value = "save-visible-channel")
     public TechnicalAnalysisGraphHistory saveVisibiltyOfChannel(@RequestBody TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication){
-	  return  technicalAnalysisGraphHistoryService.saveVisibiltyOfChannel(graphHistorydto,authentication);
-    }
+	    System.out.println(" ----------  save-visible-channel");
+		TechnicalAnalysisGraphHistory saved = technicalAnalysisGraphHistoryService.saveVisibiltyOfChannel(graphHistorydto,authentication);
+
+      String groupId = saved.getGraphId().toLowerCase().split("-")[1];  
+      
+      messagingTemplate.convertAndSend("/all/chart/trendline/" + groupId, authentication.getName());
+
+      return saved;
+	}
 	@PostMapping(value = "save-visible-trendline")
     public TechnicalAnalysisGraphHistory saveVisibiltyOfTrendline(@RequestBody TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication){
-	  return  technicalAnalysisGraphHistoryService.saveVisibiltyOfTrendline(graphHistorydto,authentication);
+	  
+		System.out.println(" ----------  save-visible-history");
+		TechnicalAnalysisGraphHistory saved = technicalAnalysisGraphHistoryService.saveVisibiltyOfTrendline(graphHistorydto,authentication);
+
+        String groupId = saved.getGraphId().toLowerCase().split("-")[1];  
+        
+        messagingTemplate.convertAndSend("/all/chart/trendline/" + groupId, authentication.getName());
+
+        return saved;
     }
 	@GetMapping(value = "find-graph-history-by-userid-screen-name/{screenName}")
 	public  List<TechnicalAnalysisGraphHistory> findGraphHistoryByUserIdAndScreenName(@PathVariable("screenName") String screenName, Authentication authentication) {
@@ -86,10 +158,19 @@ public class GraphController {
 	public  List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserId( @PathVariable("screenName") String screenName,  Authentication authentication) {
 	return technicalAnalysisGraphHistoryService.findRetracementHistoryByUserIdAndScreenName(screenName,authentication);
 	} 
+	@GetMapping(value = "find-retracement-history-by-userid-screen-name/{screenName}/{isShared}")
+	public  List<TechnicalAnalysisRetracementHistory> findRetracementHistoryByUserId( @PathVariable("screenName") String screenName, @PathVariable("isShared") Boolean isShared, Authentication authentication) {
+	return technicalAnalysisGraphHistoryService.findRetracementHistoryByUserIdAndScreenNameAndIsShared(screenName,authentication,isShared);
+	} 
 	@GetMapping(value = "find-relevant-history-by-userid-screen-name/{screenName}")
 	public  List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserId(@PathVariable("screenName") String screenName,  Authentication authentication) {
 	return technicalAnalysisGraphHistoryService.findRelevantHistoryByUserIdAndScreenName(screenName,authentication);
 	} 
+	@GetMapping(value = "find-relevant-history-by-userid-screen-name/{screenName}/{isShared}")
+	public  List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserIdAndScreenNameAndIsShared(@PathVariable("screenName") String screenName,@PathVariable("isShared") Boolean isShared, Authentication authentication) {
+	return technicalAnalysisGraphHistoryService.findRelevantHistoryByUserIdAndScreenNameAndIsShared(screenName,authentication,isShared);
+	} 
+	
 	@GetMapping(value = "find-trend-following-history-by-userid-groupId/{groupId}/{isShared}")
 	public  List<TechnicalAnalysisTrendFollowingHistory> findTrendFollowingHistoryByUserIdAndScreenName(@PathVariable("groupId") String groupId,@PathVariable("isShared") Boolean isShared , Authentication authentication) {
 	return technicalAnalysisGraphHistoryService.findGraphHistoryByGroupIdAndUserNameAndIsShared(groupId,isShared, authentication);
@@ -99,14 +180,35 @@ public class GraphController {
 		technicalAnalysisGraphHistoryService.deleteTrendlineById(id);
 	return new ResponseEntity<>(HttpStatus.OK);
 	}
+	@DeleteMapping(value = "deletetrendline/{id}/{groupId}")
+	public ResponseEntity<Object>  deleteByReferDate(@PathVariable("id") String id, @PathVariable("groupId") String groupId , Authentication authentication) {
+		technicalAnalysisGraphHistoryService.deleteTrendlineById(id);
+	    messagingTemplate.convertAndSend("/all/chart/trendline/" + groupId, authentication.getName());
+
+	return new ResponseEntity<>(HttpStatus.OK);
+	}
 	@DeleteMapping(value = "delete-retracement-by-id/{id}")
 	public ResponseEntity<Object>  deleteRetracementById(@PathVariable("id") String id) {
 		technicalAnalysisGraphHistoryService.deleteRetracementById(id);
 	return new ResponseEntity<>(HttpStatus.OK);
 	}
+	@DeleteMapping(value = "delete-retracement-by-id/{id}/{groupId}")
+	public ResponseEntity<Object>  deleteRetracementById(@PathVariable("id") String id, @PathVariable("groupId") String groupId , Authentication authentication) {
+		technicalAnalysisGraphHistoryService.deleteRetracementById(id);
+        messagingTemplate.convertAndSend("/all/chart/retracement/" + groupId,  authentication.getName());
+
+	return new ResponseEntity<>(HttpStatus.OK);
+	}
 	@DeleteMapping(value = "delete-relevant-by-id/{id}")
 	public ResponseEntity<Object>  deleteRelevantById(@PathVariable("id") String id) {
 		technicalAnalysisGraphHistoryService.deleteRelevantById(id);
+	return new ResponseEntity<>(HttpStatus.OK);
+	}
+	@DeleteMapping(value = "delete-relevant-by-id/{id}/{groupId}")
+	public ResponseEntity<Object>  deleteRelevantById(@PathVariable("id") String id, @PathVariable("groupId") String groupId , Authentication authentication) {
+		technicalAnalysisGraphHistoryService.deleteRelevantById(id);
+        messagingTemplate.convertAndSend("/all/chart/relevant/" + groupId,  authentication.getName());
+
 	return new ResponseEntity<>(HttpStatus.OK);
 	}
 	 @GetMapping(value ="configurations")

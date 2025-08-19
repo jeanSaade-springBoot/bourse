@@ -10,11 +10,18 @@ public interface TechnicalAnalysisRelevantHistoryRepository extends JpaRepositor
 	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByGraphIdAndUserName(String graphId,String userName);
 
 	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserName(String userName);
-
+	
 	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByGraphId(String graphid);
 
 	public Optional<TechnicalAnalysisRelevantHistory> findRelevantHistoryById(Long dbId);
 
 	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserNameAndScreenName(String userName,
 			String screenName);
+
+	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByUserNameAndScreenNameAndIsShared(String userName,
+			String screenName, Boolean isShared);
+	
+	public List<TechnicalAnalysisRelevantHistory> findRelevantHistoryByScreenNameAndIsShared(
+			String screenName, Boolean isShared);
+	
 }
