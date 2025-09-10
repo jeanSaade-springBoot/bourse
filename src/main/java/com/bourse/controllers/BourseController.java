@@ -706,7 +706,7 @@ public class BourseController {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		
-        model.addAttribute("privilege", "TRENDLINE_BUND_SCREEN");
+        model.addAttribute("privilege", "LONGENDS_BUNDS_GRAPH_SCREEN");
 	    return new ModelAndView("html/longEnds/technical-analysis");
     }
 	@PreAuthorize("hasAuthority('STI_EUROPE_GRAPH_SCREEN') and principal.tacAccepted == true")

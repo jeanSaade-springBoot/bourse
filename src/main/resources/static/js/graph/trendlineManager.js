@@ -3098,7 +3098,7 @@ async function updateLatestTrendLine(trendLines, newDateX3,originalEndDate, grap
         else
         	var newItem = findThirdPoint(item.x1, item.y1, item.x2, item.y2, item.x3, item.slope, originalEndDate);
 	   
-	    item.y3  = newItem.xyValues[2].y.toFixed(3);
+	    item.y3  = newItem.xyValues[2].y//.toFixed(3);
         item.endValue = newItem.endValue;
     if(typeof channelLine !=='undefined')
      if(channelLine.x3 !== newDateX3){

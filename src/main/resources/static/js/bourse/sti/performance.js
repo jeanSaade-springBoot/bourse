@@ -3,6 +3,7 @@ var allitems = [
 	'#jqxCheckBoxDowjones', // wallstreet
 	'#jqxCheckBoxNikkei',//asia
 	'#jqxCheckBoxTadawul', // emerging
+	'#jqxCheckBoxDollarIndex',
 	'#jqxCheckBoxAll'
 ];
 
@@ -246,7 +247,11 @@ setTimeout(() => {
 	    isDollarDominator = !isDollarDominator;
 	
 	    const checkedItemValues = checkedItemid.filter(item => item != null);
-		     if(checkedItemValues[0]!="#jqxCheckBoxAll")
+		    if(checkedItemValues[0]=='jqxCheckBoxDollarIndex'){
+				filteredData = configData.filter(item => item.isDollarDominator==true);
+			}
+			else
+		    if(checkedItemValues[0]!="#jqxCheckBoxAll")
 		    { 
 			  
 			  groupIdToFilter= itemValue[checkedItemValues[0]].GroupId;
@@ -471,7 +476,17 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
          if(getChartPeriodPerformance()=='w')
          fromdate='Week '+getISOWeekNumber(date);
    
-	
+	  if(checkedItemid[0]=="#jqxCheckBoxDollarIndex"){
+		 var checkedItemsisDollarDominator = configData.filter(item =>  item.isDollarDominator==true).map(item => item.columnName)  
+  .join(", "); 
+ 		 requestData = [{
+					            groupId1: checkedItemsisDollarDominator,
+					            period: getChartPeriodPerformance(),
+					            fromdate: dbDate,
+					            fulldates:false
+					        }];
+	  }
+	  else
       if(checkedItems!='')
 	        requestData = [{
 			            groupId1: checkedItems,
@@ -579,7 +594,7 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 				
 		}
 		
-         if(checkedItems!='') {
+         if(checkedItems!='' || checkedItemid[0]=="#jqxCheckBoxDollarIndex") {
 		     json.title = 'Stock Indices Performance'+" In "+ fromdate;
 
 		}
@@ -590,7 +605,7 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 		} 
         json.chartId = 'mainChart';
         json.width = 1078;
-		json.height=(checkedItems!='')?getHeightBasedOnCount(checkedItems):525;
+		json.height=(checkedItemid[0]=="#jqxCheckBoxDollarIndex")?825:(checkedItems!='')?getHeightBasedOnCount(checkedItems):525;
 		
         let min = Math.min(...data[0].values);
         let max = Math.max(...data[0].values);

@@ -1220,7 +1220,7 @@ public class CryptosService {
 			    System.out.println("description: "+description);
 			    System.out.println("period: "+graphReqDTO.getPeriod());
 			    System.out.println("type: "+graphReqDTO.getType());
-			    System.out.println("fromdate:"+graphReqDTO.getFromdate()+" to date:"+"graphReqDTO.getTodate()");
+			    System.out.println("fromdate:"+graphReqDTO.getFromdate()+" to date:"+graphReqDTO.getTodate());
 			    config = adminService.getColumnsconfigurationByGroupAndSubgroupDescription(groupId, subGroupId, description);
 			    String[] values  = getColumnValues(groupId, subGroupId);
 			    

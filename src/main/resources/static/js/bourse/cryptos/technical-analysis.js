@@ -30,6 +30,7 @@ var chartHeight=625;
 const screenName='CryptosAnalisys';
 const graphName='CryptosAnalisys';
 let graphService = "cryptos";
+let mainLabel =  'Crypto';
 const removeEmpty = true;
 	
 const chartItemLimits = {
@@ -689,13 +690,28 @@ function getDataChart1(checkedItemIds) {
 	manager.render().then(() => {
 		    $('#chart-option-chart1').append(`
 		    <!-- Candlestick Toggle -->
-		    <br>
+		  
 			<div class="btn-group" id="candlestickToggle-chart1">
 			  <button id="candlestick-chart1" class="btn btn-option" onclick="ChartManager.instances['chart1'].toggleCandlestick(this,1)">
 			    <i class="icon-candle"></i>
 			  </button>
 			</div>
-		    <div id="checkboxes-container-chart-1"></div>
+			  <button
+				  type="button"
+				  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
+				  id="btn-checkboxes-container-chart-1"
+				  data-pcollapse="toggle"
+				  data-target="#checkboxes-container-chart-1"
+				  aria-expanded="false"
+				  aria-controls="checkboxes-container-chart-1">
+				  <span class="left">
+				    <span class="label">Select Factor</span>
+				  </span>
+				  <i class="fa-solid fa-chevron-down chev ms-auto"></i>
+				</button>
+          <div id="checkboxes-container-chart-1" class="collapse"></div>
+		    
+		  
 		    <div class="col-12 d-flex">
 					<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-1" value="Show" />
 					<input id="clear-filter-chart-1" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
@@ -823,7 +839,8 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				markerSizeArray:markerSizeArray,
 				isCentred:isCentred,
 				useShortFormatList:useShortFormatList,
-				currency:selectedLiveCurrency
+				currency:selectedLiveCurrency,
+				timeLabel:true
 			}).then(() => {
 				 $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
@@ -950,7 +967,8 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 					disableMarkers:disableMarkers,
 					markerSizeArray:markerSizeArray,
 					isCentred:isCentred,
-					currency:selectedLiveCurrency
+					currency:selectedLiveCurrency,
+					timeLabel:true
 				}).then(() => {
 				 $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
@@ -977,7 +995,20 @@ function getDataChart2(checkedItemIds) {
 	} else {
 	manager.render().then(() => {
 		
-		 $('#chart-option-chart2').append(`<div id="checkboxes-container-chart-2"></div>
+		 $('#chart-option-chart2').append(`
+		 	<button
+			  type="button"
+			  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
+			  data-pcollapse="toggle"
+			  data-target="#checkboxes-container-chart-2"
+			  aria-expanded="false"
+			  aria-controls="checkboxes-container-chart-2">
+			  <span class="left">
+			    <span class="label">Select Factor</span>
+			  </span>
+			  <i class="fa-solid fa-chevron-down chev ms-auto"></i>
+			</button>
+		    <div id="checkboxes-container-chart-2" class="collapse"></div>
 		    <div class="col-12 d-flex">
 					<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-2" value="Show" />
 					<input id="clear-filter-chart-2" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
@@ -1212,7 +1243,8 @@ function updateBenchmarkingGraph(chartId,manager){
 				applyDb: true,
 				dataParam: params,
 				showLegend:false,
-				currency:selectedLiveCurrency
+				currency:selectedLiveCurrency,
+				timeLabel:true
 			}).then(() => {
 				$(`#arrows-container`).empty().append(`<div class="arrows">
 								  <div>

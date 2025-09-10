@@ -17,6 +17,65 @@
 	width: 10%;
 	margin: .5rem auto;
 }
+/* Collapsible header button */
+.menu-header {
+    background: #0f1946;
+    color: #cfe3f6;
+    border: 0;
+    border-radius: 0 0.5rem 0.5rem 0;
+    padding: 0.5rem 0.5rem;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    width: 100%;
+    text-align: left;
+    gap: 10px;
+    margin-bottom: 6px;
+}
+.chart-option {
+    width: 160px;
+}
+.menu-header:hover {  
+	background: #293984;
+    color: white; }
+.menu-header .label { font-weight: 700; letter-spacing: 0.3px; }
+.menu-header.active .label { color: #2dd4bf; } /* teal active text */
+.menu-header .chev { margin-left: auto; transition: transform .2s ease; }
+.menu-header:not(.collapsed) .chev { transform: rotate(180deg); }
+
+/* Collapsible content */
+.submenu {
+  padding: 8px 0;
+}
+.submenu-group {
+  background: rgba(255,255,255,.03);
+  border-radius: 10px;
+  padding: 10px;
+  margin-bottom: 8px;
+}
+.submenu-title {
+  font-size: .85rem;
+  margin-left: 4px;
+  color: #8fa3b6;
+}
+
+/* Option buttons inside submenu */
+.btn.btn-option {
+  background: rgba(255,255,255,.06);
+  border: 0;
+  color: #dbe7f4;
+  border-radius: 8px;
+  margin: 2px;
+}
+.btn.btn-option:hover {
+  background: rgba(255,255,255,.12);
+}
+
+/* Transparency labels */
+.transparency-text {
+  font-size: .75rem;
+  display: block;
+}
    /* Scroll buttons */
     .chart-sidebar {
     background-color: #142760;

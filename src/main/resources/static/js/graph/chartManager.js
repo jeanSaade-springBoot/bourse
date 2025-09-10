@@ -11,8 +11,22 @@ class ChartManager {
         <div class="toggle-sidebar" data-chart-id="{chartId}">&#10094;</div>
         <div class="chart-option" id="chart-option-{chartId}">
           <div class="chart-option-title" id="chart-settings-{chartId}"></div>
-          <div class="chart-option-title">Chart Option</div>
+          
+          <button
+            type="button"
+            class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
+             data-pcollapse="toggle"
+  			data-target="#menu-{chartId}"
+            aria-expanded="false"
+            aria-controls="menu-{chartId}">
+            <span class="left">
+              <span class="label">Chart Options</span>
+            </span>
+            <i class="fa-solid fa-chevron-down chev ms-auto"></i>
+          </button>
+          
           <!-- Chart Type -->
+          <div id="menu-{chartId}" class="collapse">
           <div class="btn-group mt-2 ml-1" id="chartTypes-{chartId}">
             <button id="area-{chartId}" class="btn btn-option"><i class="icon-areachart"></i></button>
             <button id="line-{chartId}" class="btn btn-option"><i class="icon-linechart"></i></button>
@@ -47,10 +61,12 @@ class ChartManager {
             <button id="true-{chartId}" class="btn btn-option"><i class="icon-withLinechart"></i></button>
             <button id="false-{chartId}" class="btn btn-option"><i class="icon-withoutLinechart"></i></button>
           </div>
+          <br>
           <div class="btn-group mt-2 ml-1" id="gridLegend-{chartId}">
             <button id="legendtrue-{chartId}" class="btn btn-option"><i class="icon-legendchart"></i></button>
             <button id="legendfalse-{chartId}" class="btn btn-option"><i class="icon-nolegendchart"></i></button>
           </div>
+         </div>
         </div>
       </div>
     </div>
@@ -63,11 +79,15 @@ class ChartManager {
       <button id="button-weekBackward-{chartId}" class="btn btn-secondary fs-7 d-flex align-items-center" onclick="ChartManager.instances['{chartId}'].navigate('weekBackward')"><i class="fas fa-angle-double-left pr-1"></i>W</button>
     </div>
     <div class="btn-group mr-2 justify-content-center">
-      <label>From</label>
-      <input id="dateFrom-{chartId}" class="inputdate form-control form-control-sm" disabled>
-      <label>To</label>
-      <input id="dateTo-{chartId}" class="inputdate form-control form-control-sm" disabled>
-    </div>
+	  <label>From</label>
+	  <input id="dateFrom-{chartId}" class="inputdate form-control form-control-sm" disabled>
+	  <label>To</label>
+	  <input id="dateTo-{chartId}" class="inputdate form-control form-control-sm" disabled>
+	  <div class="form-check ml-2 d-flex align-items-center">
+	    <input class="form-check-input" type="checkbox" id="freezeRange-{chartId}">
+	    <label class="form-check-label ml-1" for="freezeRange-{chartId}">Freeze</label>
+	  </div>
+</div>
     <div class="btn-group">
       <button id="button-weekForward-{chartId}" class="btn btn-secondary fs-7 d-flex align-items-center" onclick="ChartManager.instances['{chartId}'].navigate('weekForward')"> W<i class="fas fa-angle-double-right pl-1"></i></button>
       <button id="button-monthForward-{chartId}" class="btn btn-secondary fs-7 d-flex align-items-center" onclick="ChartManager.instances['{chartId}'].navigate('monthForward')"> M<i class="fas fa-angle-double-right pl-1"></i></button>
@@ -193,67 +213,123 @@ class ChartManager {
 		return seriesData.map(p => p.y).filter(y => !isNaN(y));
 	}
 	_bindUIEvents() {
-		const id = this.chartId;
-		const makeGroupHandler = (groupId, handler) => {
-			const group = document.getElementById(`${groupId}-${id}`);
-			if (!group) return;
-			group.querySelectorAll('button').forEach(btn => {
-				btn.onclick = () => {
-					group.querySelectorAll('button.active').forEach(a => a.classList.remove('active'));
-					btn.classList.add('active');
-					handler(btn);
-				};
-			});
-		};
-		// Chart Type
-		makeGroupHandler('chartTypes', btn => {
-			const type = btn.id.split(`-${id}`)[0];
+  const id = this.chartId;
+  const makeGroupHandler = (groupId, handler) => {
+    const group = document.getElementById(`${groupId}-${id}`);
+    if (!group) return;
+    group.querySelectorAll('button').forEach(btn => {
+      btn.onclick = () => {
+        group.querySelectorAll('button.active').forEach(a => a.classList.remove('active'));
+        btn.classList.add('active');
+        handler(btn);
+      };
+    });
+  };
 
-			if (type === 'column') {
-				const updated = this.state.series.map(s => ({ ...s, type: 'column' }));
-				this.batch(() => {
-					this.setSeries(updated);
-					this.setChartType('line');
-					this.setColor('#ffffff'); // force white for column-line switch
-				});
-			} else {
-				const updated = this.state.series.map(s => ({ ...s, type }));
+  // Chart Type
+  makeGroupHandler('chartTypes', btn => {
+    const type = btn.id.split(`-${id}`)[0];
 
-				this.batch(() => {
-					this.setSeries(updated);
-					this.setChartType(type);
+    if (type === 'column') {
+      const updated = this.state.series.map(s => ({ ...s, type: 'column' }));
+      this.batch(() => {
+        this.setSeries(updated);
+        this.setChartType('line');
+        this.setColor('#ffffff'); // force white for column-line switch
+      });
+    } else {
+      const updated = this.state.series.map(s => ({ ...s, type }));
+      this.batch(() => {
+        this.setSeries(updated);
+        this.setChartType(type);
+        if (type === 'line') {
+          this.setColor('#ffffff');
+        } else {
+          const colorGroup = document.getElementById(`chartColor-${id}`);
+          const activeBtn = colorGroup?.querySelector('button.active');
+          if (activeBtn) {
+            const colorHex = '#' + activeBtn.id.split('-')[0];
+            this.setColor(colorHex);
+          }
+        }
+      });
+    }
+  });
 
-					if (type === 'line') {
-						this.setColor('#ffffff');
-					} else {
-						// Get active color button from chartColor group
-						const colorGroup = document.getElementById(`chartColor-${id}`);
-						const activeBtn = colorGroup?.querySelector('button.active');
-						if (activeBtn) {
-							const colorHex = '#' + activeBtn.id.split('-')[0];
-							this.setColor(colorHex);
-						}
-					}
-				});
-			}
-		});
+  // Color
+  makeGroupHandler('chartColor', btn => this.setColor(`#${btn.id.split('-')[0]}`));
+  // Transparency
+  makeGroupHandler('chartColorTransparency', btn => {
+    const val = parseInt(btn.id.split('-')[0], 10) / (btn.id.startsWith('1-') ? 1 : 100);
+    this.setTransparency(val);
+  });
+  // Marker
+  makeGroupHandler('chartMarker', btn => this.setMarkerSize(Number(btn.id.split('-')[1])));
+  // Font
+  makeGroupHandler('fontOptions', btn => this.setFontSize(btn.id.split(`-${id}`)[0]));
+  // Grid
+  makeGroupHandler('gridOptions', btn => this.setGrid(btn.id.startsWith('true')));
+  // Legend
+  makeGroupHandler('gridLegend', btn => this.setLegend(btn.id.startsWith('legendtrue')));
 
-		// Color
-		makeGroupHandler('chartColor', btn => this.setColor(`#${btn.id.split('-')[0]}`));
-		// Transparency
-		makeGroupHandler('chartColorTransparency', btn => {
-			const val = parseInt(btn.id.split('-')[0], 10) / (btn.id.startsWith('1-') ? 1 : 100);
-			this.setTransparency(val);
-		});
-		// Marker
-		makeGroupHandler('chartMarker', btn => this.setMarkerSize(Number(btn.id.split('-')[1])));
-		// Font
-		makeGroupHandler('fontOptions', btn => this.setFontSize(btn.id.split(`-${id}`)[0]));
-		// Grid
-		makeGroupHandler('gridOptions', btn => this.setGrid(btn.id.startsWith('true')));
-		// Legend
-		makeGroupHandler('gridLegend', btn => this.setLegend(btn.id.startsWith('legendtrue')));
-	}
+  // 🔁 Freeze toggle → just recompute which buttons should be enabled
+ // 🔁 Freeze toggle — when unchecked, force To date = today and reload
+const freezeEl = document.getElementById(`freezeRange-${id}`);
+if (freezeEl && !freezeEl._bound) {
+  freezeEl.addEventListener('change', async () => {
+    if (!freezeEl.checked) {
+      const toInput   = document.getElementById(`dateTo-${id}`);
+      const fromInput = document.getElementById(`dateFrom-${id}`);
+
+      // set To to today's date (00:00)
+      const today = new Date(); today.setHours(0,0,0,0);
+      const toStr = this._formatDate(today);
+      if (toInput) toInput.value = toStr;
+
+      // persist in state / last data param
+      this.state.defaultToDate = today;
+      if (this._lastDataParam) this._lastDataParam.todate = toStr + ' 23:59:59';
+
+      // reload with same From + new To
+      const loadFn = this._loadMethod || this.loadData.bind(this);
+      const fromStr = fromInput?.value || this._formatDate(this.state.defaultFromDate);
+
+      await loadFn({
+        service: this._lastService,
+        api: this._api,
+        name: this._lastGraphName,
+        removeEmpty: this._lastRemoveEmpty,
+        saveHistory: this._lastSaveHistory,
+        fromOverride: fromStr,
+        toOverride: toStr,
+        applyDb: false,
+        seriesTypes: this.state.series.map(s => s.type),
+        seriesColors: this.state.seriesColors ?? [this.state.color],
+        useDualYAxis: this.state.useDualYAxis,
+        dataParam: this._lastDataParam,
+        useShortFormatList: this._useShortFormatList,
+        interval: this._interval,
+        applyTransparency: this._applyTransparency,
+        shouldAlign: this._shouldAlign,
+        disableMarkers: this._disableMarkers,
+        isCentred: this._isCentred,
+        results: this._lastOverlayResults || [],
+        applyTitle: this._applyTitle,
+        showLegend: this._showLegend,
+        disableMarkers: this._disableMarkers,
+        markerSizeArray: this._markerSizeArray,
+        combineTooltips: this._combineTooltips,
+        timeLabel: this._timeLabel,
+      });
+    }
+
+    // refresh button states after any toggle
+    this._updateNavButtons();
+  });
+  freezeEl._bound = true;
+}
+
+}
 	_showLoading(show = true) {
 		const overlay = document.getElementById(`overlay-${this.chartId}`);
 		if (overlay) {
@@ -283,28 +359,45 @@ class ChartManager {
 			}
 		}
 	}
-	_updateNavButtons() {
-		const id = this.chartId;
-		const fromDate = new Date(document.getElementById(`dateFrom-${id}`).value);
-		const toDate = new Date(document.getElementById(`dateTo-${id}`).value);
-		const today = new Date();
+_updateNavButtons() {
+  const id = this.chartId;
+  const { from, to, today, freeze } = this._getDates();
+  if (!from || !to) return;
 
-		// Disable forward if it would go beyond today
-		const nextWeek = new Date(fromDate); nextWeek.setDate(nextWeek.getDate() + 7);
-		const nextMonth = new Date(fromDate); nextMonth.setMonth(nextMonth.getMonth() + 1);
-		const nextYear = new Date(fromDate); nextYear.setFullYear(nextYear.getFullYear() + 1);
+  // Forward candidates
+  const fWeek  = this._shiftBy(from, to, 'weekForward',  freeze);
+  const fMonth = this._shiftBy(from, to, 'monthForward', freeze);
+  const fYear  = this._shiftBy(from, to, 'yearForward',  freeze);
 
-		document.getElementById(`button-weekForward-${id}`).disabled = nextWeek > today;
-		document.getElementById(`button-monthForward-${id}`).disabled = nextMonth > today;
-		document.getElementById(`button-yearForward-${id}`).disabled = nextYear > today;
+  const capExceeds = cand => (freeze ? cand.to : cand.from) > today;
 
-		// Disable backward if before the allowed startDate
-		const disableBack = this.state.startDate && (fromDate <= this.state.startDate);
-		['yearBackward', 'monthBackward', 'weekBackward'].forEach(dir => {
-			const btn = document.getElementById(`button-${dir.replace(/([A-Z])/g, '-$1').toLowerCase()}-${id}`);
-			if (btn) btn.disabled = disableBack;
-		});
-	}
+  const btnWF = document.getElementById(`button-weekForward-${id}`);
+  const btnMF = document.getElementById(`button-monthForward-${id}`);
+  const btnYF = document.getElementById(`button-yearForward-${id}`);
+  if (btnWF) btnWF.disabled = capExceeds(fWeek);
+  if (btnMF) btnMF.disabled = capExceeds(fMonth);
+  if (btnYF) btnYF.disabled = capExceeds(fYear);
+
+  // Backward candidates
+  const bWeek  = this._shiftBy(from, to, 'weekBackward',  freeze);
+  const bMonth = this._shiftBy(from, to, 'monthBackward', freeze);
+  const bYear  = this._shiftBy(from, to, 'yearBackward',  freeze);
+
+  const start = this.state?.startDate ? new Date(this.state.startDate) : null;
+  if (start) start.setHours(0,0,0,0);
+
+  const beforeStart = cand => (start ? cand.from <= start : false);
+
+  // ✅ Use your actual button IDs (no kebab-case transform)
+  const btnWB = document.getElementById(`button-weekBackward-${id}`);
+  const btnMB = document.getElementById(`button-monthBackward-${id}`);
+  const btnYB = document.getElementById(`button-yearBackward-${id}`);
+
+  if (btnWB) btnWB.disabled = beforeStart(bWeek);
+  if (btnMB) btnMB.disabled = beforeStart(bMonth);
+  if (btnYB) btnYB.disabled = beforeStart(bYear);
+}
+
 	/**
 	 * Apply a DB row of chart settings into both state and UI
 	 */
@@ -595,108 +688,130 @@ class ChartManager {
   * Shift the From/To date range by a unit and direction,
   * enforce earliest date, re-load and redraw that chart only.
   */
+ _getDates() {
+  const id = this.chartId;
+  const read = (elId) => {
+    const v = document.getElementById(elId)?.value;
+    const d = v ? new Date(v) : null;
+    if (!d || isNaN(d)) return null;
+    d.setHours(0,0,0,0);
+    return d;
+  };
+
+  const from = read(`dateFrom-${id}`);
+  const to   = read(`dateTo-${id}`);
+  const today = new Date(); today.setHours(0,0,0,0);
+  const freeze = !!document.getElementById(`freezeRange-${id}`)?.checked;
+
+  return { from, to, today, freeze };
+}
+
+/**
+ * step: 'weekForward' | 'monthForward' | 'yearForward' | 'weekBackward' | 'monthBackward' | 'yearBackward'
+ * When freeze=true, shift both from & to; when false, only from moves (to stays).
+ */
+_shiftBy(from, to, step, freeze) {
+  const unit  = step.includes('week')  ? 'week'  : step.includes('month') ? 'month' : 'year';
+  const dir   = step.endsWith('Forward') ? 1 : -1;
+
+  const f = new Date(from);
+  const t = new Date(to);
+
+  if (unit === 'week')  { f.setDate(f.getDate() + 7 * dir); if (freeze) t.setDate(t.getDate() + 7 * dir); }
+  if (unit === 'month') { f.setMonth(f.getMonth() + 1 * dir); if (freeze) t.setMonth(t.getMonth() + 1 * dir); }
+  if (unit === 'year')  { f.setFullYear(f.getFullYear() + 1 * dir); if (freeze) t.setFullYear(t.getFullYear() + 1 * dir); }
+
+  return { from: f, to: freeze ? t : to };
+}
 	async navigate(direction) {
-		const id = this.chartId;
-		const fromInput = document.getElementById(`dateFrom-${id}`);
-		const toInput = document.getElementById(`dateTo-${id}`);
+  const id = this.chartId;
+  const fromInput = document.getElementById(`dateFrom-${id}`);
+  const toInput   = document.getElementById(`dateTo-${id}`);
+  if (!fromInput || !toInput) return;
 
-		let fromDate = new Date(fromInput.value);
-		const toDate = new Date(toInput.value); // stays fixed
+  const { from, to, today, freeze } = this._getDates();
+  if (!from || !to) return;
 
-		let expected;
+  // Propose new window
+  let { from: nf, to: nt } = this._shiftBy(from, to, direction, freeze);
 
-		switch (direction) {
-			case 'yearBackward':
-				expected = new Date(fromDate.getFullYear() - 1, fromDate.getMonth(), fromDate.getDate());
-				if (this.state.startDate && expected <= this.state.startDate) {
-					this._showStartDateModal(this.state.startDate);
-					return;
-				}
-				fromDate.setFullYear(fromDate.getFullYear() - 1);
-				break;
+  // Clamp forward vs today
+  if (direction.endsWith('Forward')) {
+    if (freeze) {
+      if (nt > today) {
+        // shift left so that window ends at today
+        const width = nt.getTime() - nf.getTime();
+        nt = new Date(today);
+        nf = new Date(nt.getTime() - width);
+        nf.setHours(0,0,0,0);
+      }
+    } else {
+      if (nf > today) nf.setTime(today.getTime());
+    }
+  }
 
-			case 'monthBackward':
-				expected = new Date(fromDate.getFullYear(), fromDate.getMonth() - 1, fromDate.getDate());
-				if (this.state.startDate && expected <= this.state.startDate) {
-					this._showStartDateModal(this.state.startDate);
-					return;
-				}
-				fromDate.setMonth(fromDate.getMonth() - 1);
-				break;
+  // Clamp backward vs startDate
+  const start = this.state?.startDate ? new Date(this.state.startDate) : null;
+  if (start) start.setHours(0,0,0,0);
 
-			case 'weekBackward':
-				expected = new Date(fromDate);
-				expected.setDate(expected.getDate() - 7);
-				if (this.state.startDate && expected <= this.state.startDate) {
-					this._showStartDateModal(this.state.startDate);
-					return;
-				}
-				fromDate.setDate(fromDate.getDate() - 7);
-				break;
+  if (start && nf <= start) {
+    if (freeze) {
+      const width = nt.getTime() - nf.getTime();
+      nf = new Date(start);
+      nt = new Date(nf.getTime() + width);
+    } else {
+      nf = new Date(start);
+    }
+  }
 
-			case 'weekForward':
-				fromDate.setDate(fromDate.getDate() + 7);
-				break;
+  // Write back to inputs
+  const fmt = d => this._formatDate(d);
+  fromInput.value = fmt(nf);
+  toInput.value   = fmt(nt);
 
-			case 'monthForward':
-				fromDate.setMonth(fromDate.getMonth() + 1);
-				break;
+  // Persist defaults (useful for later toggles like candlestick)
+  this.state.defaultFromDate = nf;
+  this.state.defaultToDate   = nt;
 
-			case 'yearForward':
-				fromDate.setFullYear(fromDate.getFullYear() + 1);
-				break;
+  // Keep request param dates consistent (when present)
+  if (this._lastDataParam) {
+    this._lastDataParam.fromdate = fmt(nf);
+    this._lastDataParam.todate   = fmt(nt) + ' 23:59:59';
+  }
 
-			default:
-				console.warn(`Unknown navigation direction: ${direction}`);
-				return;
-		}
+  // Re-fetch using adjusted range
+  const loadFn = this._loadMethod || this.loadData.bind(this);
+  await loadFn({
+    service: this._lastService,
+    api: this._api,
+    name: this._lastGraphName,
+    removeEmpty: this._lastRemoveEmpty,
+    saveHistory: this._lastSaveHistory,
+    fromOverride: fmt(nf),
+    toOverride: fmt(nt),
+    applyDb: false,
+    seriesTypes: this.state.series.map(s => s.type),
+    seriesColors: this.state.seriesColors ?? [this.state.color],
+    useDualYAxis: this.state.useDualYAxis,
+    dataParam: this._lastDataParam,
+    useShortFormatList: this._useShortFormatList,
+    interval: this._interval,
+    applyTransparency: this._applyTransparency,
+    shouldAlign: this._shouldAlign,
+    disableMarkers: this._disableMarkers,
+    isCentred: this._isCentred,
+    results: this._lastOverlayResults || [],
+    applyTitle: this._applyTitle,
+    showLegend: this._showLegend,
+    disableMarkers: this._disableMarkers,
+    markerSizeArray: this._markerSizeArray,
+    combineTooltips: this._combineTooltips,
+    timeLabel: this._timeLabel,
+  });
 
-		// ✅ Update input
-		fromInput.value = this._formatDate(fromDate);
+  this._updateNavButtons();
+}
 
-		// ✅ Persist only fromDate
-		this.state.defaultFromDate = fromDate;
-
-		// ✅ Update stored dataParam with new dates before fetch
-		if (this._lastDataParam) {
-			this._lastDataParam.fromdate = this._formatDate(fromDate);
-			this._lastDataParam.todate = this._formatDate(toDate)+' 23:59:59';
-		}
-		
-			
-		// ✅ Re-fetch using the adjusted fromDate and existing toDate
-		const loadFn = this._loadMethod || this.loadData.bind(this); // fallback to default if not set
-
-		await loadFn({
-			service: this._lastService,
-			api: this._api,
-			name: this._lastGraphName,
-			removeEmpty: this._lastRemoveEmpty,
-			saveHistory: this._lastSaveHistory,
-			fromOverride: this._formatDate(fromDate), 
-			toOverride: this._formatDate(toDate),
-			applyDb: false,
-			seriesTypes: this.state.series.map(s => s.type),
-			seriesColors: this.state.seriesColors ?? [this.state.color],
-			useDualYAxis: this.state.useDualYAxis,
-			dataParam: this._lastDataParam,
-			useShortFormatList: this._useShortFormatList,
-			interval: this._interval,
-			applyTransparency: this._applyTransparency,
-			shouldAlign: this._shouldAlign,
-			disableMarkers: this._disableMarkers,
-			isCentred: this._isCentred,
-			results: this._lastOverlayResults || [], // optional: only if using loadDataWithOverlays
-		    applyTitle: this._applyTitle,
-		    showLegend:this._showLegend,
-		    disableMarkers:this._disableMarkers,
-			markerSizeArray:this._markerSizeArray,//need to be dynamic
-			combineTooltips:this._combineTooltips,
-		});
-
-		this._updateNavButtons();
-
-	}
 	/**
  * Adds extra empty points to the right of the graph to maintain spacing.
  * @param {Array} data - List of {x, y} points.
@@ -766,7 +881,7 @@ class ChartManager {
 	    applyTitle = false,
 	    showLegend = true,
 	    combineTooltips = false,
-		
+		timeLabel=true,
 	}) {
 		this._lastService = service;
 		this._api = api;
@@ -785,6 +900,7 @@ class ChartManager {
 		this._applyTitle = applyTitle;
         this._showLegend = showLegend;
         this._combineTooltips=combineTooltips;
+        this._timeLabel=timeLabel;
         
 		if (interval !== null) {
 			dataParam.interval = interval;
@@ -897,7 +1013,7 @@ class ChartManager {
 		});
 	
 	
-	    this.state.title = (applyTitle)?name:this.generateDynamicTitle(series, timeRange, this.chartId);
+	    this.state.title = (applyTitle)?name:this.generateDynamicTitle(series, timeRange, this.chartId, this._timeLabel);
 		this.state.useDualYAxis = useDualYAxis;
 
 		this.state.seriesLimits = series.map((s, idx) => {
@@ -982,7 +1098,7 @@ class ChartManager {
 
     	return columnWidth*3;
 	}
-	generateDynamicTitle(series, timeRange, chartId = 'chart1') {
+	generateDynamicTitle(series, timeRange, chartId = 'chart1' , enableTimeLabel = true) {
 		
 		const isCandlestick = series.some(s => s.type === 'candlestick');
 
@@ -990,11 +1106,11 @@ class ChartManager {
 			return series.length > 1 ? series.map(s => s.name).join(' vs ') : series[0]?.name || 'Chart';
 		}
 
-		const mainCryptoLabel = $('#dropDownCryptoOptions').jqxDropDownList('getItemByValue', $('#dropDownCryptoOptions').val())?.label || 'Crypto';
+		const mainCryptoLabel = $('#dropDownCryptoOptions').jqxDropDownList('getItemByValue', $('#dropDownCryptoOptions').val())?.label || mainLabel;
 
-		const timeLabel = timeRange === "4h" ? "4-Hour"
+		const timeLabel = enableTimeLabel?timeRange === "4h" ? "4-Hour"
 			: timeRange === "1w" ? "Weekly"
-				: "Daily";
+				: "Daily":'';
 
 		const option = candleStickcheckboxOptions.find(
 		  c => c.index === ChartManager.instances[chartId]._lastDataParam.subGroupId2
@@ -1211,7 +1327,8 @@ class ChartManager {
 				dataParam: newCandlestickParam,
 				useShortFormatList: [false],
 				interval: timeRange,
-				currency:selectedLiveCurrency
+				currency:selectedLiveCurrency,
+				timeLabel:this._timeLabel
 			});
 
 			this._disableChartSettings(true, ['fontOptions']);
@@ -1321,7 +1438,8 @@ class ChartManager {
 			useShortFormatList: [false, true],
 			interval:interval,
 			applyTransparency: true,
-			currency:selectedLiveCurrency
+			currency:selectedLiveCurrency,
+			timeLabel:this._timeLabel
 		});
 		this._disableChartSettings(true, ['fontOptions']);
 	}

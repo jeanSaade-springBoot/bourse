@@ -1271,7 +1271,7 @@ function Update(row, event) {
 				    value.replace(',', '');
 				}
 	            dataToBeUpdated.push({
-				   "subgroupId":getIdfromSubgroupName(field),
+				   "subgroupId":getIdfromSubgroupName((field=='maturityName')?'mtty':field),
     			   "groupId":groupId,
     			   "value":value,
     			   "referdate":date
@@ -1292,7 +1292,7 @@ function Update(row, event) {
 		success: function(data) {
 
 		
-
+			renderlookUpGridsData();
 			renderAuditGrids(date);
 			getFilterData(selectedItem);
 		},

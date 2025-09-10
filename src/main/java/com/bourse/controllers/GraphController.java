@@ -23,6 +23,7 @@ import com.bourse.domain.graph.TechnicalAnalysisRelevantHistory;
 import com.bourse.domain.graph.TechnicalAnalysisRetracementHistory;
 import com.bourse.domain.graph.TechnicalAnalysisTrendFollowingHistory;
 import com.bourse.dto.GraphRequestDTO;
+import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.graph.TechnicalAnalysisGraphHistoryDTO;
 import com.bourse.dto.graph.TechnicalAnalysisRelevantHistoryDTO;
 import com.bourse.dto.graph.TechnicalAnalysisRetracementHistoryDTO;
@@ -42,6 +43,8 @@ public class GraphController {
 	private final GraphService graphService;
 	@Autowired
 	private final AdminService adminService;
+	
+	private String className = "GraphController";
 	
 	public GraphController(SimpMessagingTemplate template, TechnicalAnalysisGraphHistoryService technicalAnalysisGraphHistoryService,GraphService graphService,AdminService adminService)
 	{

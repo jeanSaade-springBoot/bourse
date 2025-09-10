@@ -36,7 +36,7 @@ public class CryptosController {
 	@Autowired
 	private final DataFunctionService dataFunctionService;
 	
-	private String className = "";
+	private String className = "CryptosController";
 	
 	public CryptosController(
 			CryptosService cryptosService,
