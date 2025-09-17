@@ -1528,7 +1528,19 @@ static handleLiveUpdate(currency, message) {
 		livePriceCache[symbol] = returnedData[0];  // or [1] if it's 4h — pick consistently
 
 		chartInstances.forEach(instance => {
-
+			const freezeEl = document.getElementById(`freezeRange-${instance.chartId}`);
+			if (freezeEl && freezeEl.checked) {
+				const today = new Date();
+				today.setHours(0, 0, 0, 0); // strip time
+				
+				const inputDate = new Date($(`#dateTo-${instance.chartId}`).val());
+				inputDate.setHours(0, 0, 0, 0);
+				
+				if (inputDate < today) {
+								return;
+								}
+			}
+			
 			let updatedChart = instance.chart;
             if (instance.chartId === 'chart3') {
 				
@@ -1601,6 +1613,7 @@ static handleLiveUpdate(currency, message) {
 			if (selectedLiveCurrency !== currency) return; 
 
 			updatedChart = instance.chartId=='chart2'?chart:updatedChart;
+			
 			if (!updatedChart || !updatedChart.w || !updatedChart.w.config || !Array.isArray(updatedChart.w.config.series)) return;
 
 			const timeRange = instance._interval!=null? instance._interval : instance.getActiveTimeRange?.() || 'Daily';

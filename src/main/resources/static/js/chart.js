@@ -2713,7 +2713,7 @@ function updateChartSelectedItem(chartConfigSettings){
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
-					     					                  color: "#FF0000",
+					     					                  color: "#FFA500",
 					     					                  offsetX: 0,
 					     					                  offsetY: 0
 					     					              },
@@ -2773,10 +2773,10 @@ function updateChartSelectedItem(chartConfigSettings){
 								isDecimal: chartConfigSettings.isdecimal,
 								yAxisFormat:chartConfigSettings.yaxisformat,
 							},
-							 colors: ["#FFFFFF", "#FF0000"],
+							 colors: ["#FFFFFF", "#FFA500"],
       	    	    		 markers: {
-      	    	    		   colors: ["#FFFFFF", "#FF0000"],
-      	    	    		   strokeColors:["#FFFFFF", "#FF0000"]
+      	    	    		   colors: ["#FFFFFF", "#FFA500"],
+      	    	    		   strokeColors:["#FFFFFF", "#FFA500"]
       	    	    		 },
      				       yaxis: yAxis,
 												  tooltip: {
@@ -2989,7 +2989,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
-					     					                  color: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors[1] :"#FF0000",
+					     					                  color: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors[1] :"#FFA500",
 					     					                  offsetX: 0,
 					     					                  offsetY: 0
 					     					              },
@@ -3048,10 +3048,10 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 								isDecimal: chartConfigSettings.isdecimal,
 								yAxisFormat:chartConfigSettings.yaxisformat,
 							},
-							 colors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FF0000"],
+							 colors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FFA500"],
       	    	    		 markers: {
-      	    	    		   colors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FF0000"],
-      	    	    		   strokeColors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FF0000"]
+      	    	    		   colors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FFA500"],
+      	    	    		   strokeColors: typeof chartConfigSettings.overideColors != 'undefined'? chartConfigSettings.overideColors : ["#FFFFFF", "#FFA500"]
       	    	    		 },
      				       yaxis: yAxis,
 						  tooltip: {
@@ -7474,45 +7474,123 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 	
 	inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValueYields));
 }
-function navigationGraph(condition) {
-    fromNavigation = true;
-    const monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
-        "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-    if (condition == "yearBackward") {
-        expectedmonthdate = new Date(monthDate.getFullYear() - 1, monthDate.getMonth(), monthDate.getDate());
-        if (checkStartDate(expectedmonthdate)) return;
-        monthDate.setFullYear(monthDate.getFullYear() - 1);
-    } else if (condition == "monthBackward") {
-        expectedmonthdate = new Date(monthDate.getFullYear(), monthDate.getMonth() - 1, monthDate.getDate());
-        if (checkStartDate(expectedmonthdate)) return;
-        monthDate.setMonth(monthDate.getMonth() - 1);
-    } else if (condition == "monthForward") {
-        $("#button-monthBackward").prop('disabled', false);
-        monthDate.setMonth(monthDate.getMonth() + 1);
-    } else if (condition == "yearForward") {
-        $("#button-yearBackward").prop('disabled', false);
-        monthDate.setFullYear(monthDate.getFullYear() + 1);
-    } else if (condition == "weekBackward") {
-        expectedmonthdate = new Date(monthDate.getFullYear(), monthDate.getMonth(), monthDate.getDate() - 7);
-        if (checkStartDate(expectedmonthdate)) return;
-        monthDate.setDate(monthDate.getDate() - 7);
-    } else if (condition == "weekForward") {
-        $("#button-weekBackward").prop('disabled', false);
-        monthDate.setDate(monthDate.getDate() + 7);
-    }
-    if (mode == "usJobsCurrent") {
-        redirectFunction(groupId);
-    }
-    else if (mode == "merge") {
-        drawGraph();
-    } else {
-        splitGraph();
-    }
-
-    updateNavigationButtons();
+const _MS_DAY = 86400000;
+function _dateOnly(d){ const x=new Date(d); x.setHours(0,0,0,0); return x; }
+function _ymd(d){ return `${d.getFullYear()}-${String(d.getMonth()+1).padStart(2,'0')}-${String(d.getDate()).padStart(2,'0')}`; }
+function _writeInput(id, d){
+  const el = document.getElementById(id);
+  if (!el) return;
+  const local = _dateOnly(d);
+  if ('valueAsDate' in el) el.valueAsDate = local;
+  el.value = _ymd(local);
 }
+document.addEventListener('DOMContentLoaded', () => {
+  const freezeEl = document.getElementById('freezeRange');
+  if (!freezeEl) return;
 
+  freezeEl.addEventListener('change', () => {
+    if (!freezeEl.checked) {
+      // Unfreeze → set To = today
+      const today = new Date(); today.setHours(0,0,0,0);
+      date = today;                     // update your global "To"
+      _writeInput('toDate', date);      // update the input
+
+      // (Optional) keep From as-is:
+      // _writeInput('fromDate', monthDate);
+
+      // 🔁 Your original redraw logic
+      if (mode == "usJobsCurrent") {
+        redirectFunction(groupId);
+      } else if (mode == "merge") {
+        drawGraph();
+      } else {
+        splitGraph();
+      }
+
+      updateNavigationButtons();
+    }
+  });
+});
+function navigationGraph(condition) {
+  fromNavigation = true;
+
+  // Keep old behavior
+  const prevMonthDate = new Date(monthDate.getTime());
+
+  if (condition == "yearBackward") {
+    expectedmonthdate = new Date(monthDate.getFullYear() - 1, monthDate.getMonth(), monthDate.getDate());
+    if (checkStartDate(expectedmonthdate)) return;
+    monthDate.setFullYear(monthDate.getFullYear() - 1);
+
+  } else if (condition == "monthBackward") {
+    expectedmonthdate = new Date(monthDate.getFullYear(), monthDate.getMonth() - 1, monthDate.getDate());
+    if (checkStartDate(expectedmonthdate)) return;
+    monthDate.setMonth(monthDate.getMonth() - 1);
+
+  } else if (condition == "monthForward") {
+    $("#button-monthBackward").prop('disabled', false);
+    monthDate.setMonth(monthDate.getMonth() + 1);
+
+  } else if (condition == "yearForward") {
+    $("#button-yearBackward").prop('disabled', false);
+    monthDate.setFullYear(monthDate.getFullYear() + 1);
+
+  } else if (condition == "weekBackward") {
+    expectedmonthdate = new Date(monthDate.getFullYear(), monthDate.getMonth(), monthDate.getDate() - 7);
+    if (checkStartDate(expectedmonthdate)) return;
+    monthDate.setDate(monthDate.getDate() - 7);
+
+  } else if (condition == "weekForward") {
+    $("#button-weekBackward").prop('disabled', false);
+    monthDate.setDate(monthDate.getDate() + 7);
+  }
+
+  // --- NEW: Freeze handling using your globals (monthDate = from, date = to) ---
+  (function(){
+    const freeze = !!document.getElementById('freezeRange')?.checked;
+    const today  = _dateOnly(new Date());
+
+    // delta moved by monthDate
+    const deltaDays = Math.round((_dateOnly(monthDate) - _dateOnly(prevMonthDate)) / _MS_DAY);
+
+    if (freeze) {
+      // shift TO (date) by same delta
+      let newTo = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+      newTo.setDate(newTo.getDate() + deltaDays);
+
+      // if TO > today, clamp TO=today and preserve span by sliding monthDate left
+      if (newTo > today) {
+        const spanDays = Math.max(1, Math.round((_dateOnly(newTo) - _dateOnly(monthDate)) / _MS_DAY));
+        newTo = new Date(today);
+        const newFrom = new Date(newTo.getTime() - spanDays * _MS_DAY);
+        monthDate = _dateOnly(newFrom);  // adjust FROM to preserve width
+      }
+
+      date = _dateOnly(newTo);          // update your global To
+
+    } else {
+      // Freeze OFF → To must be today
+      date = today;
+      // (From stays as you navigated it)
+    }
+
+    // write inputs from your globals
+    _writeInput('fromDate', monthDate);
+    _writeInput('toDate',   date);
+  })();
+
+  // Your original redraw logic
+  if (mode == "usJobsCurrent") {
+    redirectFunction(groupId);
+  }
+  else if (mode == "merge") {
+    drawGraph();
+  } else {
+    splitGraph();
+  }
+
+  updateNavigationButtons();
+}
 // Function to check start date and disable button if needed
 function checkStartDate(expectedDate) {
     let startDates = [startDateF1, startDateF2, startDateF3, startDateF4, startDateF5, startDateF6];
@@ -7537,26 +7615,60 @@ function disableNavigation(expectedDate, startDate) {
     $('#alertStartDate-modal').modal('show');
 }
 
-// Function to update navigation buttons
 function updateNavigationButtons() {
-    if (checkDateMonth(monthDate, date)) {
-        $("#button-monthForward").prop('disabled', false);
-    } else {
-        $("#button-monthForward").prop('disabled', true);
-    }
+  const freeze = !!document.getElementById('freezeRange')?.checked;
+  const today = new Date(); today.setHours(0,0,0,0);
 
-    if (checkDateYear(monthDate, date)) {
-        $("#button-yearForward").prop('disabled', false);
-    } else {
-        $("#button-yearForward").prop('disabled', true);
-    }
+  // Optional lower bound if you have one; otherwise leave null
+  const start = (typeof startDate !== 'undefined' && startDate)
+    ? new Date(new Date(startDate).setHours(0,0,0,0))
+    : null;
 
-    if (checkDateWeek(monthDate, date)) {
-        $("#button-weekForward").prop('disabled', false);
-    } else {
-        $("#button-weekForward").prop('disabled', true);
+  // Simulate a nav step and return candidate range
+  function simulate(step) {
+    const f = new Date(monthDate.getFullYear(), monthDate.getMonth(), monthDate.getDate());
+    const t = new Date(date.getFullYear(), date.getMonth(), date.getDate());
+
+    const dir = step.endsWith('Forward') ? +1 : -1;
+
+    if (step.includes('week')) {
+      if (freeze) t.setDate(t.getDate() + 7 * dir);
+      else        f.setDate(f.getDate() + 7 * dir);
+    } else if (step.includes('month')) {
+      if (freeze) t.setMonth(t.getMonth() + 1 * dir);
+      else        f.setMonth(f.getMonth() + 1 * dir);
+    } else if (step.includes('year')) {
+      if (freeze) t.setFullYear(t.getFullYear() + 1 * dir);
+      else        f.setFullYear(f.getFullYear() + 1 * dir);
     }
+    return { f, t };
+  }
+
+  // Forward: valid if next move does NOT push past today
+  const wf = simulate('weekForward');
+  const mf = simulate('monthForward');
+  const yf = simulate('yearForward');
+
+  const disableFwd = (cand) => (freeze ? cand.t > today : cand.f > today);
+
+  $("#button-weekForward").prop('disabled',  disableFwd(wf));
+  $("#button-monthForward").prop('disabled', disableFwd(mf));
+  $("#button-yearForward").prop('disabled',  disableFwd(yf));
+
+  // Backward: valid if next move does NOT go before start (if you have one)
+  if (start) {
+    const wb = simulate('weekBackward');
+    const mb = simulate('monthBackward');
+    const yb = simulate('yearBackward');
+
+    const disableBack = (cand) => cand.f < start; // From would cross the min
+
+    $("#button-weekBackward").prop('disabled',  disableBack(wb));
+    $("#button-monthBackward").prop('disabled', disableBack(mb));
+    $("#button-yearBackward").prop('disabled',  disableBack(yb));
+  }
 }
+
 
 	
 			  function formatDate(date) {

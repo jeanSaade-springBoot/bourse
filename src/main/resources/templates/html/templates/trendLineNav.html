@@ -6,7 +6,7 @@
 				th:classappend="${privilege == 'TRENDLINE_SCREEN'} ? 'active' : ''"  class="navigation nav-item nav-link" id="nav-trendlines-tab"
 				href="/bourse/trendline" role="tab" aria-controls="nav-trendlines"
 				aria-selected="false">Trendlines</a>
-			<a sec:authorize="hasAuthority('TRENDLINE_BUNDS_SCREEN')" th:classappend="${privilege == 'TRENDLINE_BUNDS_SCREEN'} ? 'active' : ''" 
+			<a sec:authorize="hasAuthority('TRENDLINE_BUNDS_SCREENss')" th:classappend="${privilege == 'TRENDLINE_BUNDS_SCREEN'} ? 'active' : ''" 
 				class="navigation nav-item nav-link " id="nav-trendlines-bunds-tab"
 				href="/bourse/bundsTech" role="tab" aria-controls="nav-trendlines-bunds"
 				aria-selected="false">Bunds Techs</a>

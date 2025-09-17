@@ -7,35 +7,65 @@ let suppressFunctionDropdownChange = false;
 const livePriceCache = {};
 let cachedTrendlineResult = null;
 let liveSubscription = null;
-let selectedLiveCurrency = 'BUNDS'; // default
-let mainLabel = "BUNDS ( OHLC - 21:00 CLOSE )";
+let selectedLiveCurrency = 'SHIB'; // default
+
 const checkboxCache = {}; // key: `${groupId}-${chartId}` → true
 
-const isShared=false;
-
 const checkboxOptions = [
-	{ label: "OPEN", index: 2 },
-	{ label: "SETTLE", index: 3 },
-	{ label: "CLOSE", index: 4 },
-	{ label: "HIGH", index: 5 },
-	{ label: "LOW", index: 6 },
+	{ label: "OPENint", index: 7 },
+	{ label: "HIGH", index: 3 },
+	{ label: "LOW", index: 4 },
+	{ label: "CLOSEint", index: 8 },
+	{ label: "VOLUME", index: 5 },
+	{ label: "MARKETCAP", index: 6 },
+	{ label: "OPENeur", index: 1 },
+	{ label: "CLOSEeur", index: 2 },
+	{ label: "FUNDING RATE", index: 'funding_rate' },
 ];
-const candleStickcheckboxOptions = [];
+const candleStickcheckboxOptions = [
+	{ label: "VOLUME", index: '5' },
+	{ label: "FUNDING RATE", index: 'funding_rate' },
+];
 var chartHeight=625;
-const screenName='BundsAnalisys';
-const graphName='BundsAnalisys';
+const screenName='CryptosAnalisys';
+const graphName='CryptosAnalisys';
 let graphService = "cryptos";
+let mainLabel =  'Crypto';
 const removeEmpty = true;
 	
 const chartItemLimits = {
   1: 2, // Chart 1: allow 2 items
   2: 1  // Chart 2: allow 1 item
 };
-const groupId="61";
+var dropDownCryptosource = [{ name: "BITCOIN", groupId: "71", ticker: "BTC" },
+	{ name: "ETHEREUM", groupId: "72", ticker: "ETH" },
+	{ name: "SOLANA", groupId: "73", ticker: "SOL" },
+	{ name: "SHIBA INU", groupId: "74", ticker: "SHIB" },
+	{ name: "BINANCE COIN", groupId: "75", ticker: "BNB" },
+	{ name: "XRP", groupId: "76", ticker: "XRP" }];
 
-var dropDownSource = [{ name: "INITIALS", groupId: "52", ticker: "INITIALS" },
-	{ name: "ROLLING", groupId: "61", ticker: "ROLLING" },];
+const dropDownBenchmarkSource = [
+    { name: "BTC/ETH", groupId: "71-72", ticker: "BTC-ETH", crypto: "BTC" },
+    { name: "BTC/SOL", groupId: "71-73", ticker: "BTC-SOL", crypto: "BTC" },
+    { name: "BTC/BNB", groupId: "71-75", ticker: "BTC-BNB", crypto: "BTC" },
+    { name: "BTC/XRP", groupId: "71-76", ticker: "BTC-XRP", crypto: "BTC" },
+    { name: "BTC/1mSHIB", groupId: "71-74", ticker: "BTC-1mSHIB", crypto: "BTC" },
 
+    { name: "ETH/SOL", groupId: "72-73", ticker: "ETH-SOL", crypto: "ETH" },
+    { name: "ETH/BNB", groupId: "72-75", ticker: "ETH-BNB", crypto: "ETH" },
+    { name: "ETH/XRP", groupId: "72-76", ticker: "ETH-XRP", crypto: "ETH" },
+    { name: "ETH/1mSHIB", groupId: "72-74", ticker: "ETH-1mSHIB", crypto: "ETH" },
+
+    { name: "SOL/BNB", groupId: "73-75", ticker: "SOL-BNB", crypto: "SOL" },
+    { name: "SOL/XRP", groupId: "73-76", ticker: "SOL-XRP", crypto: "SOL" },
+    { name: "SOL/1mSHIB", groupId: "73-74", ticker: "SOL-1mSHIB", crypto: "SOL" },
+
+    { name: "BNB/XRP", groupId: "75-76", ticker: "BNB-XRP", crypto: "BNB" },
+    { name: "BNB/1mSHIB", groupId: "75-74", ticker: "BNB-1mSHIB", crypto: "BNB" },
+
+    { name: "XRP/1mSHIB", groupId: "76-74", ticker: "XRP-1mSHIB", crypto: "XRP" }
+];
+	
 const fullOptions = [
     { id: 20, label: "5dw MovAvg" },
     { id: 21, label: "6dw MovAvg" },
@@ -67,6 +97,22 @@ document.addEventListener('updateGraphConfiguration', () => {
       
 });
 $(document).ready(function() {
+
+	$('#portfolio-toggle button').on('click', function () {
+		  const type = $(this).data('type');
+		  const isShared = type === 'shared' ? 'true' : 'false';
+		
+		  // Update button styles
+		  $('#portfolio-toggle button').removeClass('btn-primary').addClass('btn-secondary');
+		  $(this).removeClass('btn-secondary').addClass('btn-primary');
+		
+		  // Replace or append the isShared parameter in the URL
+		  const url = new URL(window.location.href);
+		  url.searchParams.set('isShared', isShared);
+		
+		  // Reload page with new parameter
+		  window.location.href = url.toString();
+		});
 	
 	  $("#viewall").jqxButton({  theme:'dark', width: 110, height: 35 ,template: "primary" });
 	  $("#viewall").css("display","block");
@@ -83,7 +129,7 @@ $(document).ready(function() {
 		$('#4HoursData-btn').removeClass('active');
 		$('#weeklyData-btn').removeClass('active');
 		
-		$("#groupOfPeriod-chart1").jqxButtonGroup({theme: 'dark', mode: 'radio' , height: 40});
+		$("#groupOfPeriod-chart1").jqxButtonGroup({theme: 'dark', mode: 'radio' });
 		$('#groupOfPeriod-chart1').jqxButtonGroup('setSelection', 0);
 		initializeTypes();
 		
@@ -167,19 +213,19 @@ $(document).ready(function() {
 	
 		});
 
-		
-		initializeFunctions(52);
+		//initializeCandlesOptions(71);
+		initializeFunctions(71);
 		
 		//CryptosAnalisys
-		//initializeCryptoOptions();
+		initializeCryptoOptions();
 		// getTrendLinesHistory();
-		// getDataChart3();
+		 getDataChart3();
 		 getDataChart1(null);
 		 getDataChart2(null);
 		 getDataChart4() ;
 
 		 
-		//initializeOrderBookForCrypto("BTC");
+		initializeOrderBookForCrypto("BTC");
 });
  $("#groupOfPeriod-chart1").on('buttonclick', function (event) {
 	        updateFunctionBasedOnSelectedPeriod($('#groupOfPeriod-chart1').jqxButtonGroup('getSelection'));         
@@ -193,31 +239,23 @@ $(document).ready(function() {
  
 
 
-// Reuse the same filter logic everywhere
-function getCheckboxOptionsForChart(chartId) {
-  return (chartId === 2)
-    ? checkboxOptions.filter(opt => opt.index === 3 || opt.index === 4) // SETTLE & CLOSE
-    : checkboxOptions;
-}
-
 function buildCheckboxGroup(groupId, chartId) {
-  const container = document.createElement('div');
-  container.className = 'col mb-2';
-  container.id = `crypto-${groupId}-chart-${chartId}`;
+	const container = document.createElement('div');
+	container.className = 'col mb-2';
+	container.id = `crypto-${groupId}-chart-${chartId}`;
 
-  const opts = getCheckboxOptionsForChart(chartId);
+	checkboxOptions.forEach(opt => {
+		const checkboxDiv = document.createElement('div');
+		checkboxDiv.className = 'jqx-checkbox';
+		checkboxDiv.style.float = 'left';
+		checkboxDiv.style.marginRight = '10px';
+		checkboxDiv.id = `jqxCheckBox-${groupId}-${opt.index}-chart-${chartId}`;
+		checkboxDiv.innerText = opt.label;
 
-  opts.forEach(opt => {
-    const checkboxDiv = document.createElement('div');
-    checkboxDiv.className = 'jqx-checkbox';
-    checkboxDiv.style.float = 'left';
-    checkboxDiv.style.marginRight = '10px';
-    checkboxDiv.id = `jqxCheckBox-${groupId}-${opt.index}-chart-${chartId}`;
-    checkboxDiv.innerText = opt.label;
-    container.appendChild(checkboxDiv);
-  });
+		container.appendChild(checkboxDiv);
+	});
 
-  return container;
+	return container;
 }
 function buildCandleStickCheckboxGroup(groupId, chartId) {
 	const container = document.createElement('div');
@@ -265,116 +303,119 @@ async function renderCheckboxesChart1VolumeFundingRate(cryptoGroupId, chartId = 
 		
 		initializeClearFilterButtonForChart(chartId, allItems, true);
 }
-async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth = true) {
-  const container = document.getElementById(`checkboxes-container-chart-${chartId}`);
-  if (!container) return;
+async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2) {
+	const cacheKey = `${cryptoGroupId}-${chartId}`;
+	const container = document.getElementById(`checkboxes-container-chart-${chartId}`);
 
-  // Decide which groups to render
-  const groupsToRender = renderBoth
-    ? dropDownSource.filter(g => g.groupId === '52' || g.groupId === '61')
-    : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId));
+	// 🧠 Only build once
+	if (!checkboxCache[cacheKey]) {
+		
+		container.innerHTML = '';
 
-  // Cache key: per chart if both, otherwise per group+chart
-  const cacheKey = renderBoth
-    ? `multi-${chartId}`
-    : `${groupsToRender[0]?.groupId || cryptoGroupId}-${chartId}`;
+		const checkboxGroup = buildCheckboxGroup(cryptoGroupId, chartId);
+		container.appendChild(checkboxGroup);
 
-  // 🧠 Only build once per cacheKey
-  if (!checkboxCache[cacheKey]) {
-    container.innerHTML = '';
+		const allItems = checkboxOptions.map(opt =>
+			`#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`
+		);
 
-    // Create a sub-section per group (title + checkboxes)
-    groupsToRender.forEach(g => {
-      const wrapper = document.createElement('div');
-      wrapper.className = 'checkbox-subgroup mb-2';
-      wrapper.id = `checkbox-subgroup-${g.groupId}-chart-${chartId}`;
+		const itemLimit = chartItemLimits[chartId] || 1;
+		initializeItemsPerChart(allItems, itemLimit, chartId);
 
-      // optional title
-      const title = document.createElement('div');
-      title.className = 'checkbox-subgroup-title fw-bold mb-1';
-      title.textContent = g.name;
-      wrapper.appendChild(title);
+		// Pre-check logic
+		if (chartId === 1) {
+			allItems.forEach(id => {
+				if (id.includes('-5-') || id.includes('-8-')) {
+					$(id).jqxCheckBox('check');
+				}
+			});
+		}
+		if (chartId === 2) {
+			allItems.forEach(id => {
+				if (id.includes('-8-')) {
+					$(id).jqxCheckBox('check');
+				}
+			});
+		}
 
-      // build one set of checkboxes for this group
-      const checkboxGroup = buildCheckboxGroup(g.groupId, chartId);
-      wrapper.appendChild(checkboxGroup);
+		initializeClearFilterButtonForChart(chartId, allItems, false);
+		checkboxCache[cacheKey] = true; // ✅ Mark as built
+	}
 
-      container.appendChild(wrapper);
-    });
-	// Collect all checkbox ids across rendered groups
-	const filteredOptions = (chartId === 2)
-	  ? checkboxOptions.filter(opt => opt.index === 3 || opt.index === 4)
-	  : checkboxOptions;
-	
-	const allItems = groupsToRender.flatMap(g =>
-	  filteredOptions.map(opt => `#jqxCheckBox-${g.groupId}-${opt.index}-chart-${chartId}`)
-	);
-	    
-    const itemLimit = chartItemLimits[chartId] || 1;
-    initializeItemsPerChart(allItems, itemLimit, chartId);
-
-    // Pre-check "CLOSE" (index 4) for all groups
-    allItems.forEach(id => {
-      if (id.includes('61-4-')) $(id).jqxCheckBox('check');
-    });
-
-    initializeClearFilterButtonForChart(chartId, allItems, false);
-    checkboxCache[cacheKey] = true; // ✅ Mark as built
-  }
-
-  // ---- Visibility/enable rules (no funding_rate / euro logic anymore) ----
-  // Chart 1: if candlestick active → hide/disable all OHLC checkboxes (candles already show OHLC)
-  if (chartId === 1) {
-    const isCandleStick = $('#candlestick-chart1').hasClass('active');
-    const timeRange = getActiveTimeRange();
-
-    const allItems = (renderBoth
-      ? dropDownSource.filter(g => g.groupId === '52' || g.groupId === '61')
-      : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId))
-    ).flatMap(g =>
-      checkboxOptions.map(opt => `#jqxCheckBox-${g.groupId}-${opt.index}-chart-${chartId}`)
-    );
-
-    $("#btn-checkboxes-container-chart-1").removeClass("d-none").addClass("d-block");
+		if (chartId === 1) {
+			const allItems = checkboxOptions.map(opt =>
+				`#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`
+			);
+		
+			const isCandleStick = $('#candlestick-chart1').hasClass('active');
+			const timeRange = getActiveTimeRange();
+		
+			if (isCandleStick) {
+				// Uncheck all
+				allItems.forEach(id => {
+					$(id).jqxCheckBox('uncheck');
+				});
+		
+				// Show only Volume (5) and Funding Rate
+				checkboxOptions.forEach(opt => {
+					const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`;
+					if (opt.index === 5 || opt.index === 'funding_rate') {
+						$(id).show().jqxCheckBox({ disabled: false });
+					} else {
+						$(id).jqxCheckBox('uncheck');
+						$(id).jqxCheckBox({ disabled: true });
+						$(id).hide();
+					}
+				});
+				 if (timeRange !== '4h')
+				 $(`#jqxCheckBox-${cryptoGroupId}-funding_rate-chart-${chartId}`).hide();
+			} else if (timeRange === '4h') {
 				
-	if(isCandleStick){
-	$("#btn-checkboxes-container-chart-1").addClass("d-none").removeClass("d-block");
-      // Hide & disable everything (candles handle OHLC)
-      allItems.forEach(id => {
-        $(id).jqxCheckBox('uncheck');
-        $(id).jqxCheckBox({ disabled: true });
-        $(id).hide();
-      });
-    } else {
-      // Regular mode: show & enable all
-      allItems.forEach(id => {
-        $(id).show().jqxCheckBox({ disabled: false });
-      });
-
-      // If you still want special handling for a certain timeRange, do it here.
-      // Example placeholder for 4h (currently no-op since no Euro/funding in options):
-      if (timeRange === '4h') {
-        // no special hides needed with current options (2..6)
-      }
-    }
-  } else {
-    // Other charts: show & enable all
-    const filteredOptions = (chartId === 2)
-	  ? checkboxOptions.filter(opt => opt.index === 3 || opt.index === 4) // only SETTLE & CLOSE
-	  : checkboxOptions;
-	
-	const allItems = (renderBoth
-	  ? dropDownSource.filter(g => g.groupId === '52' || g.groupId === '61')
-	  : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId))
-	).flatMap(g =>
-	  filteredOptions.map(opt => `#jqxCheckBox-${g.groupId}-${opt.index}-chart-${chartId}`)
-	);
-	
-	allItems.forEach(id => {
-	  $(id).show().jqxCheckBox({ disabled: false });
-	});
-  }
+				if (isCandleStick) {
+					// Uncheck all
+					allItems.forEach(id => {
+						$(id).jqxCheckBox('uncheck');
+					});
+			
+					// Show only Volume (5) and Funding Rate
+					checkboxOptions.forEach(opt => {
+						const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`;
+						if (opt.index === 5 || opt.index === 'funding_rate') {
+							$(id).show().jqxCheckBox({ disabled: false });
+						} else {
+							$(id).jqxCheckBox('uncheck');
+							$(id).jqxCheckBox({ disabled: true });
+							$(id).hide();
+						}
+					});
+				}
+				else{
+					// Hide Euro series (1, 2)
+				checkboxOptions.forEach(opt => {
+					const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`;
+					if (opt.index === 1 || opt.index === 2) {
+						$(id).hide();
+					} else {
+						$(id).show().jqxCheckBox({ disabled: false });
+					}
+				});
+				$(`#jqxCheckBox-${cryptoGroupId}-funding_rate-chart-${chartId}`).hide();
+				}
+				
+			} else {
+				// Regular mode: show all except funding_rate
+				checkboxOptions.forEach(opt => {
+					const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`;
+					$(id).show().jqxCheckBox({ disabled: false });
+				});
+				$(`#jqxCheckBox-${cryptoGroupId}-funding_rate-chart-${chartId}`).hide();
+			}
+		} else {
+			// For chart 2+ → always hide funding rate
+			$(`#jqxCheckBox-${cryptoGroupId}-funding_rate-chart-${chartId}`).hide();
+		}
 }
+
 function initializeItemsPerChart(allItems, numberOfItems, chartId) {
 	checkedItemCountPerChart[chartId] = 0;
 	checkedItemIdsPerChart[chartId] = [];
@@ -390,7 +431,7 @@ function initializeItemsPerChart(allItems, numberOfItems, chartId) {
 		const $checkbox = $(this);
 		const checked = event.args.checked;
 		const checkboxId = $checkbox.attr('id');
-    
+
 		if (checkedItemCountPerChart[chartId] < 0)
 			checkedItemCountPerChart[chartId] = 0;
 
@@ -438,6 +479,78 @@ function getCheckedItems(chartId) {
 
 function getCheckedCount(chartId) {
 	return checkedItemCountPerChart[chartId] || 0;
+}
+
+function initializeCryptoOptions() {
+
+
+	var Optionsource =
+	{
+		datatype: "json",
+		datafields: [
+			{ name: 'name' },
+			{ name: 'groupId' }
+		],
+		localdata: dropDownCryptosource,
+		async: true
+	};
+
+	var functionDataAdapter = new $.jqx.dataAdapter(Optionsource);
+	$("#dropDownCryptoOptions").jqxDropDownList({ dropDownHeight: 200, selectedIndex: 3, source: functionDataAdapter, placeHolder: "", displayMember: "name", valueMember: "groupId", theme: 'dark', width: 150, height: 25 });
+
+	$('#dropDownCryptoOptions').on('change', function(event) {
+		Object.keys(checkboxCache).forEach(key => delete checkboxCache[key]);
+		if(functionId!=-1)
+			$("#reset").click();
+			
+		const selectedGroupId = $('#dropDownCryptoOptions').val();
+		const selected = dropDownCryptosource.find(c => c.groupId === selectedGroupId);
+		
+	    const selectedTicker = selected.ticker;
+			updatePairDropdown(selectedTicker);
+			
+		if (!selected) return;
+	
+		selectedLiveCurrency = selected.ticker; // <-- Update live currency
+	
+		//renderCheckboxesPerChart(selectedGroupId);
+		//initializeCandlesOptions(Number(selectedGroupId));
+	
+		if (selectedGroupId === '71' || selectedGroupId === '73') {
+			$("#order-book").addClass("d-block").removeClass("d-none");
+			$('#mainChart').css('max-width', '600px');
+		} else {
+			$("#order-book").addClass("d-none").removeClass("d-block");
+			$('#mainChart').css('max-width', '1100px');
+		}
+	
+		dropDownCryptosource.forEach(c => {
+			$('#crypto-' + c.groupId.toUpperCase().replace(/\s/g, '')).removeClass("d-flex").addClass("d-none");
+		});
+		$("#Clearfilter").trigger('click');
+		$('#crypto-' + selectedGroupId).addClass("d-flex").removeClass("d-none");
+	
+		// ✅ Use updated currency ticker
+		//updateLiveSubscription(selectedLiveCurrency);
+		initializeOrderBookForCrypto(selectedTicker);
+		
+		$("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
+	    $("#dropDownCandleOptions").removeClass("d-block").addClass("d-none");
+	
+		  renderCheckboxesPerChart(selectedGroupId,1).then(() => {
+		   	 	toggleGraphData(1);
+		});
+		 renderCheckboxesPerChart(selectedGroupId,2).then(() => {
+		   	 	 loadChart2Data();
+		});
+		
+	    $("#candlestick-chart4").addClass('active');	
+		getTrendFollowingHistory();
+		
+	});
+
+	// renderCheckboxesPerChart($("#dropDownCryptoOptions").val());
+
 }
 
 $('#myDraggableModal').on('shown.bs.modal', function() {
@@ -541,7 +654,11 @@ function drawGraphForChart(chartId) {
 		getDataChart2(checkItems);
 		
 	}
-	
+	else
+	if (chartId == 3) {
+		getDataChart3();
+		
+	}
 }
 function getDataChart1(checkedItemIds) {
 
@@ -549,7 +666,7 @@ function getDataChart1(checkedItemIds) {
 
 	const chartId = '1';
 	const chartKey = `chart${chartId}`;
-	const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#longend${chartId}-container`);
+	const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#crypto${chartId}-container`);
 
 	const timeRange = getActiveTimeRange();
 	const fromDate = new Date();
@@ -571,43 +688,40 @@ function getDataChart1(checkedItemIds) {
 	  loadChart1Data(manager,timeRange);
 	} else {
 	manager.render().then(() => {
-		
 		    $('#chart-option-chart1').append(`
 		    <!-- Candlestick Toggle -->
-		   
+		  
 			<div class="btn-group" id="candlestickToggle-chart1">
-			  <button id="candlestick-chart1" class="btn btn-option active" onclick="ChartManager.instances['chart1'].toggleCandlestick(this,1)">
+			  <button id="candlestick-chart1" class="btn btn-option" onclick="ChartManager.instances['chart1'].toggleCandlestick(this,1)">
 			    <i class="icon-candle"></i>
 			  </button>
 			</div>
-			 
-        <button
-		  type="button"
-		  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
-		  id="btn-checkboxes-container-chart-1"
-		  data-pcollapse="toggle"
-		  data-target="#checkboxes-container-chart-1"
-		  aria-expanded="false"
-		  aria-controls="checkboxes-container-chart-1">
-		  <span class="left">
-		    <span class="label">Select Factor</span>
-		  </span>
-		  <i class="fa-solid fa-chevron-down chev ms-auto"></i>
-		</button>
+			  <button
+				  type="button"
+				  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
+				  id="btn-checkboxes-container-chart-1"
+				  data-pcollapse="toggle"
+				  data-target="#checkboxes-container-chart-1"
+				  aria-expanded="false"
+				  aria-controls="checkboxes-container-chart-1">
+				  <span class="left">
+				    <span class="label">Select Factor</span>
+				  </span>
+				  <i class="fa-solid fa-chevron-down chev ms-auto"></i>
+				</button>
           <div id="checkboxes-container-chart-1" class="collapse"></div>
 		    
 		  
-		    <div class="col-12 d-flex pt-2">
+		    <div class="col-12 d-flex">
 					<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-1" value="Show" />
 					<input id="clear-filter-chart-1" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 			</div>`);
 			
 			initializeShowFilterButtonForChart('1');
-		    const selectedGroupsId = groupId;
+		    const selectedGroupsId = $('#dropDownCryptoOptions').val();
 	
 		   renderCheckboxesPerChart(selectedGroupsId,1).then(() => {
 		   	 loadChart1Data(manager,timeRange);
-		   	 $("#dropDownFunctions").jqxDropDownList({ disabled: false });
 		});
     });
     }
@@ -628,10 +742,9 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 			}
 			const functionId = getSelectedFunctionId(); // returns -1 if none selected
 			let seriesColors = [];
-			 const selectedGroupsId =groupId;
-				
+			 const selectedGroupsId = $('#dropDownCryptoOptions').val();
 			if(isCandleStick){
-				$("#btn-checkboxes-container-chart-1").addClass("d-none").removeClass("d-block");
+				
 				let isCentred = [false];
 				let applyTransparency=false;
 				
@@ -642,10 +755,10 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				fromdate: from,
 				todate: to,
 				groupId1: selectedGroupsId,
-				subGroupId1:4,
-				interval: manager._lastDataParam?.interval || "Daily",
-				period: manager._lastDataParam?.period || 'd',
-				type: manager._lastDataParam?.type || '3',
+				subGroupId1: manager._lastDataParam.subGroupId1,
+				interval: manager._lastDataParam.interval,
+				period: manager._lastDataParam.period,
+				type: manager._lastDataParam.type,
 				candlestickMode: true,
 				};
 				
@@ -726,9 +839,10 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				markerSizeArray:markerSizeArray,
 				isCentred:isCentred,
 				useShortFormatList:useShortFormatList,
-				timeLabel:false
+				currency:selectedLiveCurrency,
+				timeLabel:true
 			}).then(() => {
-				 //$("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
+				 $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
 			manager._disableChartSettings(true, ['fontOptions']);
 			}
@@ -755,7 +869,7 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				// Build dynamic param structure
 				sorted.forEach((meta, index) => {
 					params[`subGroupId${index + 1}`] = meta.subGroupId;
-					params[`groupId${index + 1}`] = meta.GroupId;
+					params[`groupId${index + 1}`] = selectedGroupsId;
 					params[`removeEmpty${index + 1}`] = false;
 				});
 				
@@ -853,9 +967,10 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 					disableMarkers:disableMarkers,
 					markerSizeArray:markerSizeArray,
 					isCentred:isCentred,
-					timeLabel:false
+					currency:selectedLiveCurrency,
+					timeLabel:true
 				}).then(() => {
-				// $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
+				 $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
 			}
 }
@@ -863,7 +978,7 @@ function getDataChart2(checkedItemIds) {
 
 	const chartId = '2';
 	const chartKey = `chart${chartId}`;
-	const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#longend${chartId}-container`);
+	const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#crypto${chartId}-container`);
 
 	const timeRange = getActiveTimeRange();
 	const fromDate = new Date();
@@ -881,7 +996,7 @@ function getDataChart2(checkedItemIds) {
 	manager.render().then(() => {
 		
 		 $('#chart-option-chart2').append(`
-		  <button
+		 	<button
 			  type="button"
 			  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
 			  data-pcollapse="toggle"
@@ -900,7 +1015,7 @@ function getDataChart2(checkedItemIds) {
 			</div>`);
 			
 			initializeShowFilterButtonForChart('2');
-		    const selectedGroupsId = groupId;
+		    const selectedGroupsId = $('#dropDownCryptoOptions').val();
 	
 		   renderCheckboxesPerChart(selectedGroupsId,2).then(() => {
 		   	 loadChart2Data();
@@ -941,11 +1056,42 @@ function  loadChart2Data(chartId=2){
 		});
 		loadGraphWithTrendlines(screenName, 'chart2',params);
 }
+function getDataChart3() {
 
+	const chartId = '3';
+	const manager = new ChartManager(`chart${chartId}`, options, `#crypto${chartId}-container`);
+
+	const fromDate = new Date();
+	
+	fromDate.setMonth(fromDate.getMonth() - 6);
+	fromDate.setHours(0, 0, 0, 0);
+
+	manager.state.defaultFromDate = fromDate;
+	manager.state.defaultToDate = new Date();
+
+	manager.render().then(() => {
+		// $("#chart-settings-chart3").append(`<div id="pairDropdown" class="ml-2"></div>`); 
+		   
+			// Initial load with first ticker
+			const defaultTicker = dropDownCryptosource[0].ticker;
+			updatePairDropdown(defaultTicker);
+
+			updateBenchmarkingGraph(chartId,manager);
+			
+			$('#pairDropdown').on('change', function(event) {
+				var args = event.args;
+				if (args) {
+					updateBenchmarkingGraph(chartId,manager);
+				}
+			});
+			
+		});
+  
+}
 function getDataChart4() { // trendfollowing
 
 	const chartId = '4';
-	const manager = new ChartManager(`chart${chartId}`, options, `#longend${chartId}-container`);
+	const manager = new ChartManager(`chart${chartId}`, options, `#crypto${chartId}-container`);
 
 	const fromDate = new Date();
 	
@@ -1047,7 +1193,75 @@ function getDataChart4() { // trendfollowing
   
 }
 
-
+function updatePairDropdown(ticker) {
+	    const filteredPairs = dropDownBenchmarkSource
+	        .filter(pair => pair.name.includes(ticker))
+	        .map(pair => ({
+	            label: pair.name,
+	            value: pair.groupId
+	        }));
+	
+	    $("#pairDropdown").jqxDropDownList({
+	        source: filteredPairs,
+	        width: 100,
+	        height: 30,
+	        theme: 'dark',
+	        selectedIndex:0
+	    });
+}
+function updateBenchmarkingGraph(chartId,manager){
+			const from = document.getElementById(`dateFrom-chart${chartId}`).value;
+			const to = document.getElementById(`dateTo-chart${chartId}`).value;
+		    let  period = getChartPeriod();
+		    
+			const params = {
+				fromdate: from,
+				todate: to,
+				period: period,
+				type: '3'
+			};
+		    const selectedPairs = $("#pairDropdown").val().split('-');
+		    
+			params[`subGroupId1`] = '8';
+			params[`groupId1`] = selectedPairs[0];
+			params[`subGroupId2`] = '8';
+			params[`groupId2`] =  selectedPairs[1];
+			params[`removeEmpty1`] = false;
+			
+			let api =  "/cryptos/getgraphdatabenchmarking";
+		    let titleA = dropDownCryptosource.find(c => c.groupId === params[`groupId1`]).name;
+		    let titleB = dropDownCryptosource.find(c => c.groupId === params[`groupId2`]).name;
+		    let ticker =  dropDownCryptosource.find(c => c.groupId === params[`groupId2`]).ticker
+			let graphTitle = `1 ${titleA} / X ${titleB} RATIO`;
+			manager.loadData({
+			    service: "cryptos",
+				api: api,
+				name: graphTitle,
+				applyTitle:true,
+				removeEmpty: false,
+				saveHistory: false,
+				applyDb: true,
+				dataParam: params,
+				showLegend:false,
+				currency:selectedLiveCurrency,
+				timeLabel:true
+			}).then(() => {
+				$(`#arrows-container`).empty().append(`<div class="arrows">
+								  <div>
+								    <div><img src='/img/icon/green-arrow.svg' width='30' class='arrow'></div>
+								    <div class="label-green text-center mt-1">CHEAP ${ticker}</div>
+								  </div>
+								  <div class="mt-2">
+								    <div class="label-red text-center mb-1">EXPENSIVE ${ticker}</div>
+								    <div><img src='/img/icon/red-arrow.svg' width='30' class='arrow'></div>
+								  </div>
+								</div>`); 
+								manager.disableChartGroup('gridLegend');
+									
+						  });
+	
+	
+}
 async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 	
 	 $("#dropdown1").jqxDropDownList({ disabled: true }); 
@@ -1064,7 +1278,7 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
     const period = getChartPeriod();
     const candlestickIsActive = $(`#candlestick-chart${chartId}`).hasClass('active');
 
-    const selectedGroupsId = groupId;
+    const selectedGroupsId = $('#dropDownCryptoOptions').val();
     const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
     const selectedFunctionIds = dropdownIds
         .map(id => {
@@ -1080,7 +1294,7 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
         period: period,
         type: '3',
         groupId1: selectedGroupsId,
-        subGroupId1: '4',
+        subGroupId1: '8',
         removeEmpty1: false,
         candlestickMode: candlestickIsActive,
         functionId: selectedFunctionIds,
@@ -1088,7 +1302,7 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
     };
 
     const api = "/cryptos/gettrendfollowingGraph";
-	let titleA = 'BUNDS ( OHLC - 21:00 CLOSE )';//dropDownSource.find(c => c.groupId === commonParams[`groupId1`]).name;
+	let titleA = dropDownCryptosource.find(c => c.groupId === commonParams[`groupId1`]).name;
     let titleB = commonParams[`isFunctionGraph`]?'with TIME&VOLATILITY WEIGHTED ARRAYS':''; 
     
     const selectedFunctionIdsArray = getAllSelectedDropdownValues(); 
@@ -1098,7 +1312,7 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
         await manager.loadData({
             service: manager._lastService || "cryptos",
             api: api,
-            name: `${titleA} ${titleB}`,
+            name: `${titleA} Daily ${titleB}`,
             applyTitle: true,
             removeEmpty: manager._lastRemoveEmpty || false,
             saveHistory: false,
@@ -1111,11 +1325,11 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
             dataParam: commonParams,
             useShortFormatList: [false],
             interval: 'Daily',
+            currency: selectedLiveCurrency,
             disableMarkers: true,
             markerSizeArray: [1, 0, 0, 0, 0],
             showLegend: false,
             combineTooltips:true,
-            timeLabel:false
         }).then(() => {
 				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
 				 $("#dropdown2").jqxDropDownList({ disabled: false }); 
@@ -1149,6 +1363,7 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
             seriesColors: ['#ffffff', '#fac1e2', '#e436c1', '#42f5c5','#57f542'],
             disableMarkers: true,
             markerSizeArray: [1, 0, 0, 0, 0],
+            currency: selectedLiveCurrency, 
             combineTooltips:true,
         }).then(() => {
 				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
@@ -1185,6 +1400,7 @@ async function loadGraphWithTrendlines(screenName, chartId, dataParam) {
 			saveHistory: true,
 			dataParam,
 			result: cachedTrendlineResult,
+			currency:selectedLiveCurrency
 		});
 	} catch (err) {
 		console.error("Error loading trendlines + technical chart:", err);
@@ -1203,7 +1419,7 @@ leftBtn.addEventListener('mouseup', stopScroll);
 leftBtn.addEventListener('mouseleave', stopScroll);
 
 function toggleGraphData(time) {
-	//$("#dropDownCryptoOptions").jqxDropDownList({ disabled: true }); 
+	$("#dropDownCryptoOptions").jqxDropDownList({ disabled: true }); 
 	$("#reset").trigger("click", [true]);
 	// 1️⃣ Set active button FIRST
 	$('#DailyData-btn').toggleClass('active', time === 1);
@@ -1251,7 +1467,7 @@ function toggleGraphData(time) {
 		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
 	}
 
-	const selectedGroupId = groupId;
+	const selectedGroupId = $('#dropDownCryptoOptions').val();
 	// 5️⃣ Trigger re-render
 	if (isCandleActive) {
 		//ChartManager.instances['chart1']?.loadCandlestickData();
@@ -1405,10 +1621,116 @@ function getChartPeriod() {
 
     return period;
 }
+function updateLiveSubscription(currency) {
+    if (liveSubscription && typeof liveSubscription.unsubscribe === 'function') {
+        liveSubscription.unsubscribe();
+    }
+    liveSubscription = addSubscription(`/all/chart/${currency}`, function (message) {
+        ChartManager.handleLiveUpdate(currency, message);
+    });
+}
+function addSubscription(channel, callback) {
+	return stompClient.subscribe(channel, callback); // if using Stomp.js
+}
+document.addEventListener('DOMContentLoaded', function () {
+	connectWebSocket();
+	//updateLiveSubscription(selectedLiveCurrency);
+	const allCurrencies = ['BTC', 'ETH', 'SOL', 'BNB', 'XRP', 'SHIB'];
+
+	allCurrencies.forEach(currency => {
+	    addSubscription(`/all/chart/${currency}`, function (message) {
+	        ChartManager.handleLiveUpdate(currency, message);
+	    });
+	});
+	
+	const groupIds = dropDownCryptosource.map(item => item.groupId);
+	groupIds.forEach(groupId => {
+		
+		addSubscription(`/all/chart/technical/${groupId}`, function (message) {
+	
+	    try {
+		   	const data = message.body;
+
+ 		    if (data.userName === username) return; // 🔁 Ignore self
+	        if (groupId == $('#dropDownCryptoOptions').val()) {
+					
+			    // 🔒 Disable all reset buttons
+			    ['reset1', 'reset2', 'reset3', 'reset4'].forEach(id => {
+			        $(`#${id}`).addClass('disabled').css({
+			            pointerEvents: 'none',
+			            opacity: 0.5,
+			            cursor: 'not-allowed'
+			        });
+			    });
+	            isProcessingRemoteUpdate = true;
+	            getTrendFollowingHistory();  // This internally triggers chart updates
+	           
+	        }
+		  			
+	  			
+		    } catch (e) {
+		        console.error("Error processing BTC message:", e);
+		    }
+		});
+		
+		addSubscription(`/all/chart/trendline/${groupId}`, function (message) {
+	
+	    try {
+		   const data = message.body;
+
+ 		    if (data=== username) return; // 🔁 Ignore self
+	        if (groupId == $('#dropDownCryptoOptions').val()) {
+				getTrendLinesHistory();
+	           
+	        }
+		  			
+	  			
+		    } catch (e) {
+		        console.error("Error processing BTC message:", e);
+		    }
+		});
+		
+			
+		addSubscription(`/all/chart/retracement/${groupId}`, function (message) {
+	
+	    try {
+		const data = message.body;
+
+ 		    if (data=== username) return; // 🔁 Ignore self
+	        if (groupId == $('#dropDownCryptoOptions').val()) {
+				getTrendLinesHistory();
+	        }
+		  			
+	  			
+		    } catch (e) {
+		        console.error("Error processing BTC message:", e);
+		    }
+		});
+		
+		addSubscription(`/all/chart/relevant/${groupId}`, function (message) {
+	
+	    try {
+		 const data = message.body;
+
+ 		    if (data=== username) return; // 🔁 Ignore self
+	       
+	        if (groupId == $('#dropDownCryptoOptions').val()) {
+				getTrendLinesHistory();
+	        }
+		  			
+	  			
+		    } catch (e) {
+		        console.error("Error processing BTC message:", e);
+		    }
+		});
+		
+	});
+	
+});
 
 async function toggleCandlestickChartTrendFollowing(btn, id) {
 		const isActive = btn.classList.contains('active');
-		const selectedGroupId = groupId;
+		const selectedGroupId = $('#dropDownCryptoOptions').val();
 		$("#dropDownFunctions").jqxDropDownList({ disabled: false });
 		
 		const chartId = id;
@@ -1518,7 +1840,7 @@ function getTrendFollowingHistory(){
 	        
 	    });
 	    
-	const selectedGroupsId = groupId;
+	const selectedGroupsId = $('#dropDownCryptoOptions').val();
 			
 	$.ajax({
 		contentType: "application/json",
@@ -1611,7 +1933,7 @@ async function saveTrendLineHistory(isShared) {
             functionId: selectedFunctionIds,
             isCandleStick: candlestickIsActive,
             isShared: isShared ,
-            groupId: groupId,
+            groupId:  $('#dropDownCryptoOptions').val(),
         };
 
     try {

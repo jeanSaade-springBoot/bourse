@@ -22,6 +22,10 @@
 	font-size: 0.75rem;
 	font-weight: bold;
 }
+.freeze-auto {
+   margin: .25rem 0;
+   user-select: none;
+}
 .euro-intr-style{
 	position: absolute;
     margin-left: 6rem;

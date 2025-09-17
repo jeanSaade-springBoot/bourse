@@ -76,11 +76,11 @@
 				     aria-selected="false">Any2</a>
 					<a sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN')"
 	                 class="navigation nav-item nav-link " id="nav-bunds-tab"
-	                 href="/bourse/bitcoin" role="tab" aria-controls="nav-bunds"
+	                 href="/bourse/bitcoin?isShared=true" role="tab" aria-controls="nav-bunds"
 	                 aria-selected="false">BITCOIN</a>
 	                   <a sec:authorize="hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN')"
 	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/ethereum" role="tab" aria-controls="nav-bunds"
+	                 href="/bourse/ethereum?isShared=true" role="tab" aria-controls="nav-bunds"
 	                 aria-selected="false">ETHEREUM</a>
 		             <a sec:authorize="hasAuthority('CRY_SOLANA_GRAPH_SCREEN')"
 	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
@@ -88,21 +88,18 @@
 	                 aria-selected="false">SOLANA</a>
 	                 <a sec:authorize="hasAuthority('CRY_SHIBA_GRAPH_SCREEN')"
 	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/shiba" role="tab" aria-controls="nav-bunds"
+	                 href="/bourse/shiba?isShared=true" role="tab" aria-controls="nav-bunds"
 	                 aria-selected="false">SHIBA INU</a>
 	                 <a sec:authorize="hasAuthority('CRY_BINANCE_GRAPH_SCREEN')"
 	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/binance" role="tab" aria-controls="nav-bunds"
+	                 href="/bourse/binance?isShared=true" role="tab" aria-controls="nav-bunds"
 	                 aria-selected="false">BINANCE COIN</a>
 	                  <a sec:authorize="hasAuthority('CRY_XRP_GRAPH_SCREEN')"
 	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/xrp" role="tab" aria-controls="nav-bunds"
+	                 href="/bourse/xrp?isShared=true" role="tab" aria-controls="nav-bunds"
 	                 aria-selected="false">XRP</a>
 	                <a sec:authorize="hasAuthority('CRYPTOS_PERFORMANCE_SCREEN')" class="navigation nav-item nav-link" id="nav-performance-tab"  href="/bourse/cryptosperformance" role="tab" aria-controls="nav-performance" aria-selected="false">Performance</a>
-	                  <a sec:authorize="hasAuthority('CRY_TRADING_GRAPH_SCREEN')"
-		                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-		                 href="/bourse/technical-analysis?isShared=true" role="tab" aria-controls="nav-bunds"
-		                 aria-selected="false">Technical Analysis</a>
+	                 
 				 </div>
 				</nav>
            
@@ -342,26 +339,12 @@
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
-					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
+					 	        <div class="col-9" style="justify-content: center;    text-align: center; margin-top:.5rem " >
 							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split">
 					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
 							  </div>
-					 	       <div class="mt-2 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1090px; max-width: 1090px;">
-							  <div class="btn-group mr-2" role="group" aria-label="First group">
-							    <button type="button" id="button-yearBackward"  class="btn btn-secondary" onclick="navigationGraph('yearBackward')"><i class="fas fa-angle-double-left"></i> 1 Year</button>
-							    <button type="button" id="button-monthBackward" class="btn btn-secondary" onclick="navigationGraph('monthBackward')"><i class="fas fa-angle-double-left"></i> 1 Month</button>
-							  </div>
-							  <div class="btn-group mr-2" style="justify-content: center;" role="group" aria-label="Second group">
-							       <label>From</label>
-							       <input id="dateFrom-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
-							       <label>To</label>
-							       <input id="dateTo-mainChart" type="search" class="inputdate form-control form-control-sm" placeholder="" aria-controls="DataTables_Table_4" disabled>
-							  </div>
-							  <div class="btn-group" role="group" aria-label="Third group">
-							   <button type="button" id="button-monthForward" class="btn btn-secondary" onclick="navigationGraph('monthForward')">1 Month <i class="fas fa-angle-double-right"></i></button>
-							   <button type="button" id="button-yearForward" class="btn btn-secondary" onclick="navigationGraph('yearForward')">1 Year <i class="fas fa-angle-double-right"></i></button>
-							  </div>
-							</div>
+					 	      <div th:include="${chartNav}"></div>
+
 					  </div>
 					    </div>
 					</div>

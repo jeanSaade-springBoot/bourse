@@ -249,33 +249,30 @@ height:34px;
 					     aria-selected="false">Any2</a>
 					     <a sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN')"
 		                 class="navigation nav-item nav-link " id="nav-bunds-tab"
-		                 href="/bourse/bitcoin" role="tab" aria-controls="nav-bunds"
+		                 href="/bourse/bitcoin?isShared=true" role="tab" aria-controls="nav-bunds"
 		                 aria-selected="false">BITCOIN</a>
 		                   <a sec:authorize="hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN')"
-		                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-		                 href="/bourse/ethereum" role="tab" aria-controls="nav-bunds"
+		                 class="navigation nav-item nav-link " id="nav-bunds-tab"
+		                 href="/bourse/ethereum?isShared=true" role="tab" aria-controls="nav-bunds"
 		                 aria-selected="false">ETHEREUM</a>
 			             <a sec:authorize="hasAuthority('CRY_SOLANA_GRAPH_SCREEN')"
-		                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-		                 href="/bourse/solana" role="tab" aria-controls="nav-bunds"
+		                 class="navigation nav-item nav-link " id="nav-bunds-tab"
+		                 href="/bourse/solana?isShared=true" role="tab" aria-controls="nav-bunds"
 		                 aria-selected="false">SOLANA</a>
 		                 <a sec:authorize="hasAuthority('CRY_SHIBA_GRAPH_SCREEN')"
 		                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-		                 href="/bourse/shiba" role="tab" aria-controls="nav-bunds"
+		                 href="/bourse/shiba?isShared=true" role="tab" aria-controls="nav-bunds"
 		                 aria-selected="false">SHIBA INU</a>
 		                 <a sec:authorize="hasAuthority('CRY_BINANCE_GRAPH_SCREEN')"
-		                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-		                 href="/bourse/binance" role="tab" aria-controls="nav-bunds"
+		                 class="navigation nav-item nav-link active" id="nav-bunds-tab"
+		                 href="/bourse/binance?isShared=true" role="tab" aria-controls="nav-bunds"
 		                 aria-selected="false">BINANCE COIN</a>
 		                  <a sec:authorize="hasAuthority('CRY_XRP_GRAPH_SCREEN')"
-		                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-		                 href="/bourse/xrp" role="tab" aria-controls="nav-bunds"
+		                 class="navigation nav-item nav-link " id="nav-bunds-tab"
+		                 href="/bourse/xrp?isShared=true" role="tab" aria-controls="nav-bunds"
 		                 aria-selected="false">XRP</a>
-		                  <a sec:authorize="hasAuthority('CRYPTOS_PERFORMANCE_SCREEN')" class="navigation nav-item nav-link" id="nav-performance-tab"  href="/bourse/cryptosperformance" role="tab" aria-controls="nav-performance" aria-selected="false">Performance</a>
-		                        <a sec:authorize="hasAuthority('CRY_TRADING_GRAPH_SCREEN')"
-		                 class="navigation nav-item nav-link active" id="nav-bunds-tab"
-		                 href="/bourse/technical-analysis?isShared=true" role="tab" aria-controls="nav-bunds"
-		                 aria-selected="false">Technical Analysis</a>
+		                <a sec:authorize="hasAuthority('CRYPTOS_PERFORMANCE_SCREEN')" class="navigation nav-item nav-link" id="nav-performance-tab"  href="/bourse/cryptosperformance" role="tab" aria-controls="nav-performance" aria-selected="false">Performance</a>
+		               
 			           </div>
 			        </nav>
 	           
@@ -308,7 +305,7 @@ height:34px;
 					<div class="row ">
 						<div class="">
 							<div class="row">
-								<div id='dropDownCryptoOptions' style='border-radius: 0.2rem;'></div>
+								<div id='dropDownCryptoOptions' class="d-none" style='border-radius: 0.2rem;'></div>
 						   </div>
 						 	<div class="row ">
 								<div class="col h-100">
@@ -361,7 +358,7 @@ height:34px;
 												<div class="d-flex">
 												<div id="crypto1-container">
 												</div>
-												<div id="order-book" class="order-book h-550 w-150">
+												<div id="order-book" class="d-none order-book h-550 w-150">
 														<div class="header">Order Book</div>
 														<div id="asks"></div>
 														<div class="mid-price" id="midPrice">Loading...</div>
@@ -899,7 +896,7 @@ height:34px;
 		
 	    <script src="/js/graph/chartManager.js"></script>
 
-		<script src="/js/bourse/cryptos/technical-analysis.js"></script>
+		<script src="/js/bourse/cryptos/technical-analysis-bnb.js"></script>
  		<script src="/js/graph/trendlineManager.js"></script>
  		<script src="/js/bourse/graph/candleStick.js"></script>
 	    <script src="/js/bourse/cryptos/orderBook.js"></script> 

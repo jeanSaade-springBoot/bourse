@@ -235,14 +235,13 @@ div#content {
       <h5 class="card-title card-title-color">Cryptos</h5>
       <ul class="fa-ul">
 		  <li sec:authorize="hasAuthority('ANY2_CRYPTOS_GRAPH_SCREEN')" ><a href="/bourse/any2cryptos"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-		  <li sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN')"><a href="/bourse/bitcoin"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BITCOIN</a></li>
-	  	  <li sec:authorize="hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN')"><a href="/bourse/ethereum"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ETHEREUM</a></li>
-	  	  <li sec:authorize="hasAuthority('CRY_SOLANA_GRAPH_SCREEN')"><a href="/bourse/solana"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">SOLANA</a></li>
-	  	  <li sec:authorize="hasAuthority('CRY_SHIBA_GRAPH_SCREEN')"><a href="/bourse/shiba"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">SHIBA INU</a></li>
-	  	  <li sec:authorize="hasAuthority('CRY_BINANCE_GRAPH_SCREEN')"><a href="/bourse/binance"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BINANCE COIN</a></li>
-	  	  <li sec:authorize="hasAuthority('CRY_XRP_GRAPH_SCREEN')"><a href="/bourse/xrp"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">XRP</a></li>
+		  <li sec:authorize="hasAuthority('CRY_BITCOIN_GRAPH_SCREEN')"><a href="/bourse/bitcoin?isShared=true"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BITCOIN</a></li>
+	  	  <li sec:authorize="hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN')"><a href="/bourse/ethereum?isShared=true"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ETHEREUM</a></li>
+	  	  <li sec:authorize="hasAuthority('CRY_SOLANA_GRAPH_SCREEN')"><a href="/bourse/solana?isShared=true"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">SOLANA</a></li>
+	  	  <li sec:authorize="hasAuthority('CRY_SHIBA_GRAPH_SCREEN')"><a href="/bourse/shiba?isShared=true"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">SHIBA INU</a></li>
+	  	  <li sec:authorize="hasAuthority('CRY_BINANCE_GRAPH_SCREEN')"><a href="/bourse/binance?isShared=true"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BINANCE COIN</a></li>
+	  	  <li sec:authorize="hasAuthority('CRY_XRP_GRAPH_SCREEN')"><a href="/bourse/xrp?isShared=true"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">XRP</a></li>
 	  	  <li sec:authorize="hasAuthority('CRYPTOS_PERFORMANCE_SCREEN')"><a href="/bourse/cryptosperformance"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i6.png" align="absmiddle">PERFORMANCE</a></li>
-	  	  <li sec:authorize="hasAuthority('CRY_TRADING_GRAPH_SCREEN')"><a href="/bourse/technical-analysis?isShared=true"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Technical Analysis</a></li>
 	  	   
 	  	  <li sec:authorize="hasAuthority('CRYPTOS_DATA_FUNCTION_DISPLAY_SCREEN')"><a href="/bourse/cryptosdatafunctiondisplay"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	   </ul>

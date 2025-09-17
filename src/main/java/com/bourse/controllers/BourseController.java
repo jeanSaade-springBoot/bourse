@@ -173,6 +173,7 @@ public class BourseController {
 	    model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_FXCDS");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
         model.addAttribute("fxcds", Integer.valueOf(fxcds));
+        
 	    ModelAndView modelAndView = new ModelAndView("html/fxAndCds");
 	    
 	    return modelAndView;
@@ -290,7 +291,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/any2");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/any2");
     }
 	@PreAuthorize("hasAuthority('ANY2_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/any2metals")
@@ -298,7 +300,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/any2metals");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+return new ModelAndView("html/any2metals");
     }
 	@PreAuthorize("hasAuthority('ANY2_VOLUME_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/any2volume")
@@ -306,7 +309,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/any2Volume");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+return new ModelAndView("html/any2Volume");
     }
 	@PreAuthorize("hasAuthority('ANY2_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/any2liquidity")
@@ -314,7 +318,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/any2Liquidity");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+return new ModelAndView("html/any2Liquidity");
     }
     @PreAuthorize("hasAuthority('ANY2_FXCDS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/any2fxcds")
@@ -322,7 +327,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/any2FxCds");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+return new ModelAndView("html/any2FxCds");
 	   // return new ModelAndView("html/graphtest");
     }
     @PreAuthorize("hasAuthority('ANY2_SKEWS_GRAPH_SCREEN') and principal.tacAccepted == true")
@@ -331,7 +337,9 @@ public class BourseController {
        {
    	    model.addAttribute("mainmenu", "html/templates/mainMenu");
    	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-   		return new ModelAndView("html/skews/any2Skews");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/skews/any2Skews");
        }
     @PreAuthorize("hasAuthority('ANY2_STI_GRAPH_SCREEN') and principal.tacAccepted == true")
    	@RequestMapping( value =  "/any2sti")
@@ -339,13 +347,17 @@ public class BourseController {
        {
    	    model.addAttribute("mainmenu", "html/templates/mainMenu");
    	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-   		return new ModelAndView("html/sti/any2Sti");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+   	    return new ModelAndView("html/sti/any2Sti");
        }
     @PreAuthorize("hasAuthority('ANY2_CRYPTOS_GRAPH_SCREEN') and principal.tacAccepted == true")
    	@RequestMapping( value =  "/any2cryptos")
        public ModelAndView anyTwoCryptosPage(ModelMap model, Authentication authentication)
        {
    	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
    	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
    		return new ModelAndView("html/cryptos/any2Cryptos");
        }
@@ -355,7 +367,9 @@ public class BourseController {
        {
    	    model.addAttribute("mainmenu", "html/templates/mainMenu");
    	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-   		return new ModelAndView("html/usjobs/any2UsJobs");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/usjobs/any2UsJobs");
        }
 	@PreAuthorize("hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/precious")
@@ -363,7 +377,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/precious");
+		model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/precious");
     }
 	@PreAuthorize("hasAuthority('BASE_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/base")
@@ -371,7 +386,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/base");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+return new ModelAndView("html/base");
     }
 	@PreAuthorize("hasAuthority('TRENDLINE_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/trendline")
@@ -381,6 +397,8 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 	    model.addAttribute("privilege", "TRENDLINE_SCREEN");
 	    model.addAttribute("trendlinenav", "html/templates/trendLineNav");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
 	    return new ModelAndView("html/graph/trendlines");
     }
 	@PreAuthorize("hasAuthority('TRENDLINE_BUNDS_SCREEN') and principal.tacAccepted == true")
@@ -402,6 +420,8 @@ public class BourseController {
 	    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
 	    model.addAttribute("trendlinenav", "html/templates/trendLineNav");
 	    model.addAttribute("crytpos", "html/templates/cryptos");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
 	    return new ModelAndView("html/graph/trendlinesCryptos");
     }
 	
@@ -411,7 +431,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/foodstuff");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/foodstuff");
     }
 	@PreAuthorize("hasAuthority('ENERGY_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/energy")
@@ -419,7 +441,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/energy");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/energy");
     }
 	@PreAuthorize("hasAuthority('TRANSPORTATION_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/transportation")
@@ -427,7 +451,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/transportation");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/transportation");
     }
 	@PreAuthorize("hasAuthority('SOVEREIGN_YIELDS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereignyieldsgraph")
@@ -435,7 +461,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sovereignYieldsGraph");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/sovereignYieldsGraph");
     }
 	@PreAuthorize("hasAuthority('YIELD_CURVES_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereigncurvesgraph")
@@ -443,7 +471,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sovereignCurvesGraph");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/sovereignCurvesGraph");
     }
 	@PreAuthorize("hasAuthority('YIELD_CROSSES_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereigncrossesgraph")
@@ -451,7 +481,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sovereignCrossesGraph");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/sovereignCrossesGraph");
     }
 	@PreAuthorize("hasAuthority('YIELD_CORPORATE_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "sovereigncorporategraph")
@@ -459,7 +491,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sovereignCorporate");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/sovereignCorporate");
     }
 	@PreAuthorize("hasAuthority('CREDIT_SPREAD_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "creditsspreadgraph")
@@ -467,7 +501,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sovereignCredits");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/sovereignCredits");
     }
 	
 	@PreAuthorize("hasAuthority('SPREAD_MAKER_GRAPH_SCREEN') and principal.tacAccepted == true")
@@ -475,6 +511,7 @@ public class BourseController {
     public ModelAndView spreadMakerGraphPage(ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/spreadMaker");
     }
@@ -485,7 +522,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/fxChart");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/fxChart");
     }
 	@PreAuthorize("hasAuthority('CDS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "cds")
@@ -493,7 +531,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/cdsChart");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/cdsChart");
     }
 	@PreAuthorize("hasAuthority('SETTINGS_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "settings")
@@ -673,7 +713,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/rates/centralBanks");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/rates/centralBanks");
     }
 	@PreAuthorize("hasAuthority('RATES_FIXINGS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/fixings")
@@ -681,7 +723,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/rates/fixings");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/rates/fixings");
     }
 	@PreAuthorize("hasAuthority('RATES_MORTGAGE_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/mortgage")
@@ -689,7 +732,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/rates/mortgage");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/rates/mortgage");
     }
 	@PreAuthorize("hasAuthority('RATES_INFLATION_SWAP_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/inflation-swap")
@@ -697,7 +742,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/rates/inflation");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/rates/inflation");
     }
 	@PreAuthorize("hasAuthority('LONGENDS_BUNDS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/bunds")
@@ -715,7 +762,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sti/europe");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/sti/europe");
     }
 	@PreAuthorize("hasAuthority('STI_WALLSTREET_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/wallstreet")
@@ -723,7 +771,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sti/wallstreet");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/sti/wallstreet");
     }
 	@PreAuthorize("hasAuthority('STI_ASIA_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/asia")
@@ -731,7 +781,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sti/asia");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/sti/asia");
     }
 	@PreAuthorize("hasAuthority('STI_EMERGING_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/emerging")
@@ -739,7 +791,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/sti/emerging");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/sti/emerging");
     }
 	@PreAuthorize("hasAuthority('CRY_TRADING_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/technical-analysis")
@@ -758,59 +812,96 @@ public class BourseController {
 	
 	@PreAuthorize("hasAuthority('CRY_BITCOIN_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/bitcoin")
-    public ModelAndView cryBitcoinGraphPage(ModelMap model, Authentication authentication)
+    public ModelAndView cryBitcoinGraphPage(@RequestParam("isShared") String isShared , ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+        model.addAttribute("isShared", isShared);
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/cryptos/bitcoin");
+	    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+	    model.addAttribute("crytpos", "html/templates/cryptos");
+	    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
+	    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
+	    
+	    return new ModelAndView("html/cryptos/technical-analysis-btc");
     }
 	@PreAuthorize("hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ethereum")
-    public ModelAndView cryEthereumGraphPage(ModelMap model, Authentication authentication)
+    public ModelAndView cryEthereumGraphPage(@RequestParam("isShared") String isShared , ModelMap model, Authentication authentication)
     {
-	    model.addAttribute("mainmenu", "html/templates/mainMenu");
-	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/cryptos/ethereum");
+		   model.addAttribute("mainmenu", "html/templates/mainMenu");
+	        model.addAttribute("isShared", isShared);
+		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+		    model.addAttribute("crytpos", "html/templates/cryptos");
+		    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
+		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
+		    
+		    return new ModelAndView("html/cryptos/technical-analysis-eth");
     }
 	@PreAuthorize("hasAuthority('CRY_SOLANA_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/solana")
-    public ModelAndView crySolanaGraphPage(ModelMap model, Authentication authentication)
+    public ModelAndView crySolanaGraphPage(@RequestParam("isShared") String isShared , ModelMap model, Authentication authentication)
     {
-	    model.addAttribute("mainmenu", "html/templates/mainMenu");
-	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/cryptos/solana");
-    }
+		   model.addAttribute("mainmenu", "html/templates/mainMenu");
+	        model.addAttribute("isShared", isShared);
+		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+		    model.addAttribute("crytpos", "html/templates/cryptos");
+		    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
+		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
+		    
+		    return new ModelAndView("html/cryptos/technical-analysis-sol");
+ }
 	@PreAuthorize("hasAuthority('CRY_SHIBA_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/shiba")
-    public ModelAndView cryShibaGraphPage(ModelMap model, Authentication authentication)
+    public ModelAndView cryShibaGraphPage(@RequestParam("isShared") String isShared , ModelMap model, Authentication authentication)
     {
-	    model.addAttribute("mainmenu", "html/templates/mainMenu");
-	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/cryptos/shiba");
-    }
+		   model.addAttribute("mainmenu", "html/templates/mainMenu");
+	        model.addAttribute("isShared", isShared);
+		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+		    model.addAttribute("crytpos", "html/templates/cryptos");
+		    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
+		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
+		    
+		    return new ModelAndView("html/cryptos/technical-analysis-shib");
+}
 	@PreAuthorize("hasAuthority('CRY_BINANCE_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/binance")
-    public ModelAndView cryBinanceGraphPage(ModelMap model, Authentication authentication)
+    public ModelAndView cryBinanceGraphPage(@RequestParam("isShared") String isShared , ModelMap model, Authentication authentication)
     {
-	    model.addAttribute("mainmenu", "html/templates/mainMenu");
-	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/cryptos/binance");
-    }
+		   model.addAttribute("mainmenu", "html/templates/mainMenu");
+	        model.addAttribute("isShared", isShared);
+		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+		    model.addAttribute("crytpos", "html/templates/cryptos");
+		    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
+		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
+		    
+		    return new ModelAndView("html/cryptos/technical-analysis-bnb");
+}
 	@PreAuthorize("hasAuthority('CRY_XRP_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/xrp")
-    public ModelAndView cryXrpGraphPage(ModelMap model, Authentication authentication)
+    public ModelAndView cryXrpGraphPage(@RequestParam("isShared") String isShared , ModelMap model, Authentication authentication)
     {
-	    model.addAttribute("mainmenu", "html/templates/mainMenu");
-	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/cryptos/xrp");
-    }
+		   model.addAttribute("mainmenu", "html/templates/mainMenu");
+	        model.addAttribute("isShared", isShared);
+		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+		    model.addAttribute("crytpos", "html/templates/cryptos");
+		    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
+		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
+		    
+		    return new ModelAndView("html/cryptos/technical-analysis-xrp");
+}
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/corporateLiquidity");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+return new ModelAndView("html/corporateLiquidity");
     }
 	@PreAuthorize("hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ecbexcessliquidity")
@@ -818,7 +909,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/ecbExcessLiquidity");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/ecbExcessLiquidity");
     }
 	@PreAuthorize("hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ecbqeliquidity")
@@ -826,7 +919,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/ecbQeLiquidity");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/ecbQeLiquidity");
     }
 	@PreAuthorize("hasAuthority('ECB_IMPACT_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ecbimpactliquidity")
@@ -834,7 +928,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/ecbImpactLiquidity");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/ecbImpactLiquidity");
     }
 	@PreAuthorize("hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ezmmliquidity")
@@ -842,7 +937,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/ezmmLiquidity");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/ezmmLiquidity");
     }
 	@PreAuthorize("hasAuthority('USERS_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/users")
@@ -883,19 +979,21 @@ public class BourseController {
     {
 	   		    String fragmentName=dynamicTemplateService.getDynamicTemplateBySerie(serie);
 	   		    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	   		    model.addAttribute("chartNav", "html/fragment/chart-nav");
 	 	        model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
  		        model.addAttribute("fragment", fragmentName);
 		        model.addAttribute("serie", Integer.valueOf(serie));
 		        ModelAndView modelAndView = new ModelAndView("html/oneSerie");
 		        modelAndView.addObject("fragment", fragmentName);
 			        
-			        return modelAndView;
+			    return modelAndView;
 	    }
 	@PreAuthorize("hasAuthority('TWO_SERIES') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/twoserie")
     public ModelAndView twoSeriesPage(@RequestParam("serie") String serie, ModelMap model, Authentication authentication)
     {
 		    model.addAttribute("mainmenu", "html/templates/mainMenu");
+		    model.addAttribute("chartNav", "html/fragment/chart-nav");
 	        model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		    model.addAttribute("submenu", "html/templates/twoseries");
 		    model.addAttribute("yields", "html/templates/yields");
@@ -921,7 +1019,8 @@ public class BourseController {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("fragment", "html/templates/volume");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/dailyVolume");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/dailyVolume");
     }
 	@PreAuthorize("hasAuthority('WMQY_VOLUME_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/wmqyvolume")
@@ -930,7 +1029,9 @@ public class BourseController {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("fragment", "html/templates/volume");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/wmqyVolume");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/wmqyVolume");
     }
 	@PreAuthorize("hasAuthority('MARKET_SHARE_VOLUME_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/marketshare")
@@ -956,7 +1057,9 @@ public class BourseController {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("fragment", "html/templates/macro");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/macro/macroGraph");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/macro/macroGraph");
     }
 	@PreAuthorize("hasAuthority('US_JOBS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/usJobsgraph")
@@ -973,7 +1076,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usjobs/usJobs");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/usjobs/usJobs");
     }
 	@PreAuthorize("hasAuthority('USJOBS_JOLTS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/jolts")
@@ -981,7 +1085,8 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usjobs/jolts");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    return new ModelAndView("html/usjobs/jolts");
     }
 	@PreAuthorize("hasAuthority('USJOBS_ADP_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/adp")
@@ -989,7 +1094,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usjobs/adp");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/usjobs/adp");
     }
 	@PreAuthorize("hasAuthority('USJOBS_NFP_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/nfp")
@@ -997,7 +1104,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usjobs/nfp");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/usjobs/nfp");
     }
 	@PreAuthorize("hasAuthority('USJOBS_UNEMPRATE_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/unemprate")
@@ -1005,7 +1114,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usjobs/unemp");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/usjobs/unemp");
     }
 	@PreAuthorize("hasAuthority('USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/householdsurv")
@@ -1013,7 +1124,9 @@ public class BourseController {
     {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/usjobs/houseHoldSurv");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/usjobs/houseHoldSurv");
     }
 	@PreAuthorize("hasAuthority('MACRO_PMI_VS_SURVEY') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/pmivssurvey")
@@ -1022,7 +1135,9 @@ public class BourseController {
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
 	    model.addAttribute("fragment", "html/templates/macro");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		return new ModelAndView("html/macro/macroPmiVsSurvey");
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+
+	    return new ModelAndView("html/macro/macroPmiVsSurvey");
     }
 	@PreAuthorize("hasAuthority('MACRO_BAR_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/countrypmibar")
