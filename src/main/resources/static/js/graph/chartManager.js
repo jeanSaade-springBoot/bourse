@@ -330,6 +330,28 @@ if (freezeEl && !freezeEl._bound) {
 }
 
 }
+// Hide or show specific controls (buttons), e.g. 'column', 'line', 'area'
+_setControlsVisible(controlIds, visible = true) {
+  const ids = Array.isArray(controlIds) ? controlIds : [controlIds];
+  ids.forEach(baseId => {
+    const el = document.getElementById(`${baseId}-${this.chartId}`);
+    if (!el) return;
+
+    // Visual + a11y
+    el.hidden = !visible;
+    el.style.display = visible ? '' : 'none';
+    el.setAttribute('aria-hidden', String(!visible));
+    if (!visible) {
+      el.setAttribute('inert', '');
+      el.disabled = true;
+      // hide tooltip if any (Tippy.js, etc.)
+      if (el._tippy) el._tippy.hide();
+    } else {
+      el.removeAttribute('inert');
+      el.disabled = false;
+    }
+  });
+}
 	_showLoading(show = true) {
 		const overlay = document.getElementById(`overlay-${this.chartId}`);
 		if (overlay) {
@@ -359,6 +381,60 @@ if (freezeEl && !freezeEl._bound) {
 			}
 		}
 	}
+	_toggleChartSettingsVisibility(hidden, excludeGroupIds = [], keepCandlestickVisible = true) {
+  const groups = [
+    'chartTypes',
+    'chartColor',
+    'chartColorTransparency',
+    'chartMarker',
+    'fontOptions',
+    'gridOptions',
+    'gridLegend'
+  ];
+
+  const applyHiddenA11y = (el, value) => {
+    if (!el) return;
+    // Visual + accessibility
+    el.hidden = value;                     // removes from accessibility tree
+    el.style.display = value ? 'none' : ''; 
+    el.setAttribute('aria-hidden', String(value));
+    if (value) el.setAttribute('inert', ''); else el.removeAttribute('inert');
+  };
+
+  for (const groupId of groups) {
+    if (excludeGroupIds.includes(groupId)) continue;
+
+    const group = document.getElementById(`${groupId}-${this.chartId}`);
+    if (!group) continue;
+
+    if (!keepCandlestickVisible) {
+      // Hide/show the entire group at once
+      applyHiddenA11y(group, hidden);
+      continue;
+    }
+
+    // Keep candlestick buttons visible, toggle others
+    const buttons = Array.from(group.querySelectorAll('button'));
+    let nonCandleHiddenCount = 0;
+
+    buttons.forEach(btn => {
+      const isCandlestick = btn.id.startsWith('candlestick-');
+      if (isCandlestick) {
+        applyHiddenA11y(btn, false); // always visible
+      } else {
+        applyHiddenA11y(btn, hidden);
+        if (hidden) nonCandleHiddenCount++;
+      }
+    });
+
+    // If we hid all non-candlestick buttons, keep the group container visible
+    // so candlestick controls still show. Otherwise mirror the hidden state.
+    const onlyCandlesVisible = hidden && nonCandleHiddenCount > 0 && buttons.length === nonCandleHiddenCount + buttons.filter(b=>b.id.startsWith('candlestick-')).length;
+    applyHiddenA11y(group, false); // default keep group visible
+    if (!keepCandlestickVisible) applyHiddenA11y(group, hidden);
+    // If not keeping candlesticks visible, the branch above already handled the group.
+  }
+}
 _updateNavButtons() {
   const id = this.chartId;
   const { from, to, today, freeze } = this._getDates();
@@ -503,7 +579,25 @@ _updateNavButtons() {
 	
 	  strokeColors =  isSingleSeries ? [useWhiteStroke ? '#ffffff' : baseColors[0]] : baseColors; // Match stroke to fill for default
 	}
-		this.chart.updateOptions({
+
+	 
+if (this.chartId === 'chart2' && chart !== undefined) {
+	// good: mutate in place
+		
+		Object.assign(chartConfigSettings, {
+		  transparency: s.transparency,
+		  colors:colors,
+		  finalColor:finalColor,
+		  fontSize: this.state.fontSize,
+		  markerSize: s.markerSize,
+		  gridVisible: s.gridVisible,
+		  chartType: s.chartType
+		});
+		
+	updateSeriesChart(chartConfigSettings);
+	    return;
+	}	
+this.chart.updateOptions({
 			series: s.series,
 			chart: {
 				type:hasColumn? 'line': s.chartType,
@@ -1158,7 +1252,7 @@ _shiftBy(from, to, step, freeze) {
 	generateYAxisConfig(index = 0, isCentered,customSettings = {}) {
 		const name = this.state.series?.[index]?.name?.toLowerCase() || '';
 		const isFundingRate = name.includes('funding');
-		const fontSize = this.state.chartSettings?.fontSize || '12px';
+		const fontSize = this.state.fontSize  || '12px';
 
 		if (isFundingRate) {
 			const decimals = 4;
@@ -1484,14 +1578,14 @@ async loadDataWithOverlays({
 
 	this._showLoading(true);
 	this.state.currency=currency;
-
+    this.state._updateChartSettings = true;
 	if (interval !== null) {
 		dataParam.interval = interval;
 	}
 	this._loadMethod = (options) => {
 	const from = options.fromOverride || this._formatDate(this.state.defaultFromDate);
 	const to = options.toOverride || this._formatDate(new Date());
-
+    this.state._updateChartSettings = false;
 		drawTechnicalGraph(
 			'#chart-chart2',
 			options.service,
@@ -1499,7 +1593,8 @@ async loadDataWithOverlays({
 			options.removeEmpty,
 			options.saveHistory,
 			from,
-			to
+			to, 
+			 this.state._updateChartSettings
 		);
 	};  
     this._lastOverlayResults = result;
@@ -1509,7 +1604,16 @@ async loadDataWithOverlays({
 	drawTechnicalGraph('#chart-chart2', service,name,removeEmpty,saveHistory)
 	
 	this._showLoading(false);
-	this._disableChartSettings(true); // disabled chart 2 chart options
+	this._toggleChartSettingsVisibility(true, [ 'chartTypes',
+    'chartColor',
+    'chartColorTransparency',
+    'chartMarker',
+    'fontOptions',
+    'gridOptions'],  false);
+    
+	this._setControlsVisible('column', false);
+	
+	// this._disableChartSettings(true); // disabled chart 2 chart options
 
 }
 disableChartGroup(groupId) {

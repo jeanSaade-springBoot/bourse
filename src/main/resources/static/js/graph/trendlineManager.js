@@ -185,7 +185,7 @@ function updateSelectedCurrencies() {
    
 }
 
-function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHistory,fromDate=null, toDate=null)
+function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHistory,fromDate=null, toDate=null , updateChartSettings=true)
 {	
 	mode = "merge";
 	var dataParam;
@@ -520,25 +520,7 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 					        nbrOfDigits=yaxisformat[0];
 					        
 						   getFormatResult0 = getFormat(response[0].config.dataFormat);
-					   
-							chartConfigSettings={functionId:functionId+1,
-												 isDecimal:isdecimal,
-												 yAxisFormat:yaxisformat,
-												 fontSize:fontsize,
-												 min:min,
-												 max:max,
-												 minvalue:minvalue,
-												 maxvalue:maxvalue,
-												 response:response,
-												 Period:Period,
-												 chartColor:chartColor,
-												 chartTransparency:chartTransparency,
-												 getFormatResult0:getFormatResult0,
-												 checkedItem:checkedItem,
-												 chartType1:chartType1,
-												 yaxisAnnotation:[]};
-												 
-								
+					      
 								processDataAndAddNewEndDate(response,0.1)
 							    .then(({ originalEndDate, newEndDate }) => {
 									latestEndDate=originalEndDate;
@@ -562,7 +544,7 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 										 if(allDataAreLatest)
 									    {
 											serieArray = getSerriesData();
-										    updateSeriesChart(chartConfigSettings);
+										 //   updateSeriesChart(chartConfigSettings);
 										    
 										/*   const dataStartDate=response[0].graphResponseDTOLst[0].x;
 				 						   const dataEndDate=response[0].graphResponseDTOLst[response[0].graphResponseDTOLst.length-1].x;
@@ -579,7 +561,7 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 									 for (let i = 0; i < relevant.length; i++) {
 									 drawRelevant(relevant[i].relevantParameter,relevant[i].relevantId);
 									}
-									 updateSeriesChart(chartConfigSettings);
+									// updateSeriesChart(chartConfigSettings);
 									}else{
 										$("#relevant-grid").empty();
 
@@ -587,9 +569,9 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 									$('#overlayChart').hide(); 		    
 									}).catch(error => {
 							        console.error('Error updateLatestTrendLine data:', error);
-							    });			 
-							
-									 ChartManager.instances.chart2.state.seriesFormats = response.map((r, idx) => {
+							    });	
+							    		 
+							 ChartManager.instances.chart2.state.seriesFormats = response.map((r, idx) => {
 											const [digits, isRaw] = getFormat(r.config?.yAxisFormat || '');
 											return {
 												digits,
@@ -602,6 +584,34 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 							    .catch(error => {
 							        console.error('Error processing data:', error);
 							    });			 
+							    
+						 if(updateChartSettings)
+							{
+								chartConfigSettings={
+												 functionId:functionId+1,
+												 isDecimal:isdecimal,
+												 yAxisFormat:yaxisformat,
+												 fontSize:fontsize,
+												 min:min,
+												 max:max,
+												 minvalue:minvalue,
+												 maxvalue:maxvalue,
+												 response:response,
+												 Period:Period,
+												 chartColor:chartColor,
+												 chartTransparency:chartTransparency,
+												 getFormatResult0:getFormatResult0,
+												 checkedItem:checkedItem,
+												 chartType1:chartType1,
+												 yaxisAnnotation:[]
+												 };
+								serieArray = getSerriesData();
+								ChartManager.instances.chart2.applyDbConfig(response[0].config);
+
+								}
+								else				 
+								chartConfigSettings.response = response;
+								
 							
 						},
 						error: function(e) {
@@ -1893,10 +1903,44 @@ function updateSeriesChart(chartConfigSettings){
 		  $('#legendtrue').removeClass("active");
 		  markerSize=selectedChartMarkerID==null?markerSize:selectedChartMarkerID;
 		  
-				chartOpacity = typeof chartOpacity=='undefined'?eval(checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],'1')):SelectedChartTransparency;
-				chartOpacity = typeof chartOpacity=='undefined'?chartTransparency:chartOpacity;
-				chart.updateOptions({
-					chart: {
+		  
+		const t = chartConfigSettings.transparency ?? 1;
+		
+					
+		chartOpacity = typeof chartOpacity=='undefined'?eval(checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],'1')):SelectedChartTransparency;
+		chartOpacity = typeof chartOpacity=='undefined'?chartTransparency:chartOpacity;
+		chartOpacity = chartConfigSettings.chartType =='line'?0:chartOpacity;
+		
+		const hasColumn = serieArray.some(series => series.type === 'column');
+			
+			fill =  {  colors: chartConfigSettings.colors,
+					   type: (serieArray.length==2) ?['solid','gradient']  
+			      	     :(serieArray.length==3)? ['solid', 'solid','gradient']
+			      	     :(serieArray.length==4)? ['solid', 'solid', 'solid','gradient'] 
+						 :(serieArray.length==5)? ['solid', 'solid', 'solid', 'solid','gradient']
+						 :(serieArray.length==6)? ['solid', 'solid', 'solid', 'solid', 'solid','gradient'] 
+						 :(serieArray.length==7)? ['solid', 'solid', 'solid', 'solid', 'solid', 'solid','gradient']
+						 :['gradient'],
+			      	   opacity: (serieArray.length==2) ?[1,chartOpacity]  
+			      	     :(serieArray.length==3)? [1, 1,chartOpacity]
+			      	     :(serieArray.length==4)? [1, 1, 1,chartOpacity] 
+						 :(serieArray.length==5)? [1, 1, 1, 1,chartOpacity]
+						 :(serieArray.length==6)? [1, 1, 1, 1, 1,chartOpacity] 
+						 :(serieArray.length==7)? [1, 1, 1, 1, 1, 1,chartOpacity]
+						 :[chartOpacity],
+						 gradient: {
+					      type: 'vertical',
+					      shadeIntensity: 0,
+					      inverseColors: false,
+					      stops: [30, 90, 100],
+					      opacityFrom: chartConfigSettings.chartType =='line'? 0: (t === 1 ? 1 : (t === 0.75 ? 0.8 : 0.6)),
+					      opacityTo: chartConfigSettings.chartType =='line'?0:t,
+					      gradientToColors:chartConfigSettings.finalColor
+					    }
+					};	
+			
+		chart.updateOptions({
+				chart: {
 			width: '100%',
 			toolbar: {
 				show: true,
@@ -1913,8 +1957,9 @@ function updateSeriesChart(chartConfigSettings){
 					customIcons: []
 				}
 			},
+			colors: chartConfigSettings.colors,
 			height: chartHeight,
-			type: 'line',
+			type : hasColumn? 'line': chartConfigSettings.chartType , 
 			animations: { enabled: false },
 			redrawOnParentResize: false
 		},
@@ -1947,7 +1992,7 @@ function updateSeriesChart(chartConfigSettings){
 							rotateAlways: true,
 							minHeight: 30,
 							style: {
-								fontSize: '12px',
+									fontSize: chartConfigSettings.fontSize,
 							},
 							formatter: function(value, timestamp, opts) {
 								
@@ -1968,7 +2013,7 @@ function updateSeriesChart(chartConfigSettings){
 							offsetY: 0
 						},
 					},
-					 fill: {
+					/* fill: {
 					   type:'solid',
 			      	   opacity: (serieArray.length==2) ?[1,chartOpacity]  
 			      	     :(serieArray.length==3)? [1, 1,chartOpacity]
@@ -1977,7 +2022,9 @@ function updateSeriesChart(chartConfigSettings){
 						 :(serieArray.length==6)? [1, 1, 1, 1, 1,chartOpacity] 
 						 :(serieArray.length==7)? [1, 1, 1, 1, 1, 1,chartOpacity]
 						 :[chartOpacity],
-					},
+					},*/
+						fill: fill,
+					grid: { show: chartConfigSettings.gridVisible, borderColor: '#f0e68c', strokeDashArray: 1, padding: { right: 60 } },
 					stroke: {
 						//colors: chartConfigSettings.chartType1 == "area" ? ["#ffffff"] : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
 						colors: (serieArray.length==2) ?["#FF0000","#FFFFFF",]  : (serieArray.length==3)? ["#FF0000","#FF0000","#FFFFFF",] : (serieArray.length==4)? ["#FF0000","#FF0000","#FF0000","#FFFFFF",] 
@@ -1991,8 +2038,8 @@ function updateSeriesChart(chartConfigSettings){
 						colors: chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
 						strokeColors: chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
 						 size: serieArray.length >= 2 
-						    ? [...new Array(serieArray.length - 1).fill(0), parseFloat(markerSize) ] 
-						    : [parseFloat(markerSize)],
+						    ? [...new Array(serieArray.length - 1).fill(0), chartConfigSettings.markerSize] 
+						    : [chartConfigSettings.markerSize],
 					},
 					extra: {
 						isDecimal: chartConfigSettings.isdecimal,
@@ -2002,7 +2049,7 @@ function updateSeriesChart(chartConfigSettings){
 						labels: {
 							minWidth: 75, maxWidth: 75,
 							style: {
-								fontSize: checkActiveFontSize($("#fontOptions").find(".active")[0], '12px'),
+									fontSize: chartConfigSettings.fontSize,
 							},
 							 formatter: function(val, index) {
 							 if (chartConfigSettings.yAxisFormat[1])

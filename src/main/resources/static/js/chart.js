@@ -8033,7 +8033,7 @@ function updateNavigationButtons() {
 					 			   response[0].graphResponseDTOLst = alignedData1;
 							       response[1].graphResponseDTOLst = alignedData2;*/
 							       
-							        var chartConfigSettings={
+							         chartConfigSettings={
 											 isDecimal:isdecimal,
 											 yAxisFormat:yaxisformat,
 											 yAxisFormat1:yaxisformat1,
@@ -12900,3 +12900,23 @@ function formatNumberShort(num) {
     return num.toFixed(2).toString(); // No formatting for small numbers
   }
 }
+(function () {
+  const group = document.getElementById('scaleManagement');
+  if (!group) return; // exit if element not present
+
+  group.querySelectorAll('.seg-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      // update active
+      group.querySelectorAll('.seg-btn').forEach(b => {
+        b.classList.remove('active');
+        b.setAttribute('aria-pressed', 'false');
+      });
+      btn.classList.add('active');
+      btn.setAttribute('aria-pressed', 'true');
+
+      // call your existing handler with the selected value
+      const value = btn.dataset.value; // "1scale" or "2scale"
+      if (typeof chartScaleOption === 'function') chartScaleOption(value);
+    });
+  });
+})();

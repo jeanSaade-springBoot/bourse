@@ -44,7 +44,7 @@
     border: 1px solid transparent;
     padding: 1px 42px;
     font-weight: bold;
- 
+ height:35px
 }
 .col-2 {
     -webkit-box-flex: 0;
@@ -373,14 +373,6 @@ font-size: .7rem;
 									 data-resumetext="Resume" ><i class="icon-nolegendchart"></i></button>
 								 </div>
    						   </div>
-   						   <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="scaleManagement" >
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" id="true"  onclick="chartScaleOption('1scale')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-1-scale"></i></button>
-									 <button class="btn btn-option active"  id="legendfalse"   onclick="chartScaleOption('2scale')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-2-scale"></i></button>
-								 </div>
-   						   </div>
    						   	<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="display:none;    margin: 1.1rem;
 														    color: white;
 														    font-size: 0.54rem;
@@ -413,8 +405,21 @@ font-size: .7rem;
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
-					 	        <div class="col-9" style="justify-content: center;    text-align: center; margin-top:.5rem " >
-							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split">
+					 	        <div class="col-9  justify-content-center"  id="scaleManagement" style="min-width: 1100px;max-width: 1100px;">
+							     <div id="split">
+								    <div class="d-flex">
+								      <input class="edit" type="button" onclick="splitGraph()"  value="Split">
+								      <!-- Pill Toggle -->
+											<div class="segmented d-flex" aria-label="Scale toggle" role="group">
+											  <button type="button" class="seg-btn " data-value="1scale" aria-pressed="true">
+											    <i class="icon-1-scale"></i> <span>1-SCALE</span>
+											  </button>
+											  <button type="button" class="seg-btn active" data-value="2scale" aria-pressed="false">
+											    <i class="icon-2-scale"></i> <span>2-SCALE</span>
+											  </button>
+											</div>
+		   						   		</div>
+							      </div>
 					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
 							  </div>
 					 	      <div th:include="${chartNav}"></div>

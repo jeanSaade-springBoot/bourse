@@ -1978,7 +1978,7 @@
 			        			
 		    	  if (checkedItem==2) {
 					    $("#scaleManagement").removeClass("d-none");
-					  $("#scaleManagement").addClass("d-block");
+					  $("#scaleManagement").addClass("d-flex");
 		    	  for(i=0; i<checkedItemid.length; i++)
 				   		   {
 				   	  		 if(checkedItemid[i]!=null)
@@ -2291,7 +2291,7 @@
 			        chart.render();
 				}
 				else{
-					 $("#scaleManagement").removeClass("d-block");
+					 $("#scaleManagement").removeClass("d-flex");
 					  $("#scaleManagement").addClass("d-none");
 						for(i=0; i<checkedItemid.length; i++)
 			   		   {

@@ -994,11 +994,15 @@ function drawGraph() {
 	
 	if (checkedItem == 2) {
 		if (graphName === "") {
-		
+		   $("#scaleManagement").removeClass("d-none");
+			$("#scaleManagement").addClass("d-flex");
+					 				
 			isAny2Series();
 			return;
 		}
 	}else {
+			$("#scaleManagement").removeClass("d-flex");
+					  $("#scaleManagement").addClass("d-none");
 			for (i = 0; i < checkedItemid.length; i++) {
 				if (checkedItemid[i] != null)
 					{const groupId = itemValue[checkedItemid[i]].GroupId;
