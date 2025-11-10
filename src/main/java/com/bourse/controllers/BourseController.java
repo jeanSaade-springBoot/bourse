@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -51,6 +52,7 @@ import com.bourse.service.CorporatesYieldsService;
 import com.bourse.service.DataEntryFilterHistoryService;
 import com.bourse.service.DataFunctionService;
 import com.bourse.service.DynamicTemplateService;
+import com.bourse.service.GlobalService;
 import com.bourse.service.GraphHistoryService;
 import com.bourse.service.GraphNewsService;
 import com.bourse.service.GraphService;
@@ -79,6 +81,8 @@ public class BourseController {
 	private final DynamicTemplateService dynamicTemplateService;
 	@Autowired
 	private final GraphService graphService;
+	@Autowired
+	private final GlobalService globalService;
 	public BourseController(
 			SovereignYieldsService sovereignYieldsService,
 			GraphHistoryService graphHistoryService,
@@ -88,7 +92,8 @@ public class BourseController {
 			DataFunctionService dataFunctionService,
 			CorporatesYieldsService corporatesYieldsService,
 			DynamicTemplateService dynamicTemplateService,
-			GraphService graphService)
+			GraphService graphService,
+			GlobalService globalService)
 	{
 		this.sovereignYieldsService   = sovereignYieldsService;
 		this.graphHistoryService      = graphHistoryService;
@@ -99,6 +104,7 @@ public class BourseController {
 		this.corporatesYieldsService  = corporatesYieldsService;
 		this.dynamicTemplateService   = dynamicTemplateService;
 		this.graphService             = graphService;
+		this.globalService            = globalService;
 	}
 	@RequestMapping( value =  "/pageunderconstruction")
     public ModelAndView underConstructionPage(ModelMap model, Authentication authentication)
@@ -1190,7 +1196,16 @@ return new ModelAndView("html/corporateLiquidity");
 	     sovereignYieldsService.SaveSovereignDatas(sovereignDataList);
 	     sovereignYieldsService.doCalculation(sovereignDataList.get(0).getReferDate());
 		return new ResponseEntity<>(HttpStatus.OK);
-    }
+    } 
+	
+	 @PostMapping("/api/config/{key}")
+	    public String updateConfig(@PathVariable("key") String key, @RequestParam("config") long newValue) {
+	        if ("config".equals(key)) {
+	            globalService.updateConfigValue(newValue);
+	            return " ";
+	        }
+	        return "Invalid key!";
+	    }
 	@PostMapping(value = "savesovereigndata")
     public List<SovereignData>  saveSovereignData(@RequestBody List<SovereignData> sovereignDataList){
 	    List<SovereignData> sovereignDataLst= sovereignYieldsService.SaveSovereignDatas(sovereignDataList);

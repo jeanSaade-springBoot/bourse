@@ -229,9 +229,8 @@ font-size: .7rem;
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
 								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
 								   		</div>
-												 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
-												
-												 </div>
+												 <div id="mainChart" class="chart-box col-12 pb-0" style=" min-height: 365px;min-width: 1100px;  max-width:1100px"></div>
+												 <div id="mainChart-correlation"  class="chart-box col-12 correlation-chart d-none" style=" min-height: 100px;min-width: 1100px;  max-width:1100px"></div>
 												 <div class="row" style="min-width: 1153px;  max-width:1153px">
 												 	<div class='col-6'>
 												 	<div id="overlayChart1" class="overlayChart-split" style="display:none">
@@ -383,8 +382,10 @@ font-size: .7rem;
   <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
   <script src="/js/bourse/jsonCheckBoxArray.js"></script>  
   <script src="/js/bourse/twoSeries.js"></script> 
+  <script src="/js/graph/chartManager.js"></script>
+  
   <script src="/js/chart.js"></script>
-   <script src="/js/jqwidgets/jqxdata.js"></script> 
+  <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 
  <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 

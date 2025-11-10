@@ -52,4 +52,6 @@ public class GraphRequestDTO {
 	
 	private Boolean candlestickMode;
 	
+	private Boolean isCorrelation;
+	private String correlaltionNbrOfDays;
 }

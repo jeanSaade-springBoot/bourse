@@ -100,7 +100,10 @@ public class GraphService {
 			l1.add(getGraphDataResult(graphRequestDTO,false));
 		 }
 		}
-			
+		if(graphReqDTO.getIsCorrelation()!= null)
+		{   if(graphReqDTO.getIsCorrelation()==true)
+			l1.add(getCorrelationDataResults(graphReqDTO));
+		}	
 		return l1; 
 	
 	}
@@ -351,6 +354,83 @@ public List<Map<String, List<?>>> getPerformanceGraphBarDataResults(List<GraphRe
 
     return resultList;
 }
+
+public GraphResponseColConfigDTO getCorrelationDataResults(GraphRequestDTO graphReqDTO) {
+	
+	boolean hasData= adminService.getData();
+    if(!hasData)
+		return null;
+    GraphResponseColConfigDTO graphResponseColConfigDTO = null;
+    
+        StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_rolling_correlation", GraphResponseDTO.class);
+
+        query.registerStoredProcedureParameter("p_x_group_id", Integer.class, ParameterMode.IN);
+        query.setParameter("p_x_group_id", Integer.valueOf(graphReqDTO.getGroupId1()));
+        
+        query.registerStoredProcedureParameter("p_x_subgroup_id", Integer.class, ParameterMode.IN);
+        query.setParameter("p_x_subgroup_id", Integer.valueOf(graphReqDTO.getSubGroupId1()));
+        
+        query.registerStoredProcedureParameter("p_y_group_id", Integer.class, ParameterMode.IN);
+        query.setParameter("p_y_group_id", Integer.valueOf(graphReqDTO.getGroupId2()));
+        
+        query.registerStoredProcedureParameter("p_y_subgroup_id", Integer.class, ParameterMode.IN);
+        query.setParameter("p_y_subgroup_id", Integer.valueOf(graphReqDTO.getSubGroupId2()));
+        
+        
+        query.registerStoredProcedureParameter("p_date_trunc", String.class, ParameterMode.IN);
+		query.setParameter("p_date_trunc","DATE");
+		
+		query.registerStoredProcedureParameter("p_frame_mode", String.class, ParameterMode.IN);
+		query.setParameter("p_frame_mode","ROWS");
+		
+	    query.registerStoredProcedureParameter("p_window_n", Integer.class, ParameterMode.IN);
+	    query.setParameter("p_window_n", Integer.valueOf(graphReqDTO.getCorrelaltionNbrOfDays()));
+	        
+	    query.registerStoredProcedureParameter("p_min_periods", Integer.class, ParameterMode.IN);
+	    query.setParameter("p_min_periods", Integer.valueOf(graphReqDTO.getCorrelaltionNbrOfDays()));
+	        
+	        
+	    query.registerStoredProcedureParameter("p_dst_table", String.class, ParameterMode.IN);
+		query.setParameter("p_dst_table","");
+		
+		query.registerStoredProcedureParameter("p_x_date_fmt", String.class, ParameterMode.IN);
+		query.setParameter("p_x_date_fmt", "%d-%m-%Y");
+
+		query.registerStoredProcedureParameter("p_y_date_fmt", String.class, ParameterMode.IN);
+		query.setParameter("p_y_date_fmt", "%d-%m-%Y");
+		
+		query.registerStoredProcedureParameter("p_output_scale", String.class, ParameterMode.IN);
+		query.setParameter("p_output_scale", "PERCENT");
+		
+		query.registerStoredProcedureParameter("p_round_decimals", Integer.class, ParameterMode.IN);
+		query.setParameter("p_round_decimals", 2);
+		
+		query.registerStoredProcedureParameter("p_display_fmt", String.class, ParameterMode.IN);
+		query.setParameter("p_display_fmt", "%d-%b-%y");
+		
+		
+		query.registerStoredProcedureParameter("p_from_str", String.class, ParameterMode.IN);
+		query.setParameter("p_from_str", graphReqDTO.getFromdate());
+		query.registerStoredProcedureParameter("p_to_str", String.class, ParameterMode.IN);
+		query.setParameter("p_to_str", graphReqDTO.getTodate());
+		query.registerStoredProcedureParameter("p_range_fmt", String.class, ParameterMode.IN);
+		query.setParameter("p_range_fmt", "%Y-%m-%d");
+      
+        query.execute();
+
+    	List<GraphResponseDTO> graphResponseDTOlst1 = (List<GraphResponseDTO>) query.getResultList();
+
+        entityManager.clear();
+        entityManager.close();
+        
+  	  graphResponseColConfigDTO = GraphResponseColConfigDTO.builder()
+              .graphResponseDTOLst(graphResponseDTOlst1)
+              .config(null)
+              .build();
+  	  
+    return graphResponseColConfigDTO;
+}
+
 public Map<String, List<?>> getDataMap(List<?> labels, List<?> values) {
     Map<String, List<?>> dataMap = new HashMap<>();
     dataMap.put("labels", labels);
