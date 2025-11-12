@@ -1409,8 +1409,11 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
             applyDb: true,
             dataParam: commonParams,
             showLegend: false,
-            seriesTypes: ['line', 'line', 'line', 'line', 'line'], // Adjust if more
-            seriesColors: ['#ffffff', '#fac1e2', '#e436c1', '#42f5c5','#57f542'],
+            useDualYAxis: true,
+            seriesTypes: ['line', 'line', 'line', 'line', 'line', 'column', 'column', 'column'], // Adjust if more //['line', 'line', 'line', 'line', 'line'], // Adjust if more
+            seriesColors: ['#ffffff', '#fac1e2', '#e436c1', '#42f5c5','#57f542', '#30d781','#30d781','#30d781'],
+            seriesSides :['left', 'left', 'left', 'left', 'left', 'right', 'right', 'right'],
+           	isCentred:[false, false, false, false,  false, true, true, true],
             disableMarkers: true,
             markerSizeArray: [1, 0, 0, 0, 0],
             currency: selectedLiveCurrency, 

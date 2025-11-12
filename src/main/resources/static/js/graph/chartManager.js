@@ -524,33 +524,86 @@ _updateNavButtons() {
 		const showLegend = this._showLegend;
 		const base = s.color;
 		const finalColor = base === '#44546a' ? '#2e75b6' : base;
-		const fill = s.chartType === 'area' && !s.applyTransparency
-			? {
-				type: 'gradient',
-				gradient: {// gradientToColors: [finalColor], 
-					type: 'vertical',
-					shadeIntensity: 0,
-					inverseColors: false,
-					stops: [30, 90, 100],
-					opacityFrom: s.transparency === 1 ? 1 : (s.transparency === 0.75 ? 0.8 : 0.6),
-					opacityTo: s.transparency
-				}
-			}
-			: { type: 'solid', opacity: [1, 1] };
+		const fill = this.chartId!=="chart4"?
+				s.chartType === 'area' && !s.applyTransparency
+					? {
+						type: 'gradient',
+						gradient: {// gradientToColors: [finalColor], 
+							type: 'vertical',
+							shadeIntensity: 0,
+							inverseColors: false,
+							stops: [30, 90, 100],
+							opacityFrom: s.transparency === 1 ? 1 : (s.transparency === 0.75 ? 0.8 : 0.6),
+							opacityTo: s.transparency
+						}
+					}
+					: { type: 'solid', opacity: [1, 1] }
+			:{ type: 'solid', opacity: [1, 1,1,1,1] };
 
 		const baseColors = Array.isArray(s.seriesColors) && s.seriesColors.length > 1
 		  ? s.seriesColors
 		  : [finalColor];
   		const isSingleSeries = s.series.length === 1;
 		const useWhiteStroke = isSingleSeries && (s.series[0].type === 'area'||s.series[0].type === 'line');
-		const annotations = this.generateDynamicYAnnotations(s.series, s.functionId);
+		const annotations = this.generateDynamicYAnnotations(s.series, s.functionId,(this.chartId === 'chart4'?true:false));
 		const hasColumn = s.series.some(series => series.type === 'column');
 		
 		const isSpecialFunctionId = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(s.functionId);
-
+		const hasSpecialColor = this.state?.hasSpecialColor ?? true; // 🆕 new flag
 	let colors = [];
 	let strokeColors = [];
 	
+
+	 if (hasSpecialColor && this.chartId === 'chart4') {
+	 // Default behavior s.series
+	 colors = s.series.map((series, index) => {
+  const base = baseColors[index % baseColors.length] || '#2e75b6'; // ✅ fallback if missing
+
+  return function({ value, seriesIndex, w }) {
+    try {
+      // For your special case (index 5)
+      if (index === 5|| index === 6) {
+   
+       return  value <= 0 ? '#f23a3aa3' : '#30d7818c';
+        // value != null && !isNaN(value)? (value <= 0 ? '#f23a3aa3' : '#30d7818c'): base;
+      }
+
+      // Always return something valid for others
+      return base;
+    } catch (e) {
+      console.error('Color function error:', e);
+      return base;
+    }
+  };
+});
+   console.log(colors)
+   strokeColors = s.series.map((series, index) => {
+	   if(series === 0)
+	  return isSingleSeries ? [useWhiteStroke ? '#ffffff' : baseColors[0]] : baseColors; // Match stroke to fill for default
+	  const base = baseColors[index % baseColors.length] || '#2e75b6'; // ✅ fallback if missing
+
+	  return function({ value, seriesIndex, w }) {
+	    try {
+	      // For your special case (index 5)
+	      if (index === 5 || index === 6) {
+	        console.log(value);
+	        console.log(value <= 0 ? '#f23a3aa3' : '#30d7818c');
+	       return  value <= 0 ? '#f23a3a' : '#30d781';
+	        // value != null && !isNaN(value)? (value <= 0 ? '#f23a3aa3' : '#30d7818c'): base;
+	      }
+	
+	      // Always return something valid for others
+	      return base;
+	    } catch (e) {
+	      console.error('Color function error:', e);
+	      return base;
+	    }
+	  };
+	
+	});
+}
+
+else  
 	if (isSpecialFunctionId) {
 	  // Main color (for area/column fill)
 	  colors = [
@@ -573,7 +626,8 @@ _updateNavButtons() {
 	      return 'rgba(255,255,255,0.4)'; // fallback
 	    }];
 	
-	} else {
+	}
+else {
 	  // Default behavior
 	  colors = baseColors;
 	
@@ -976,6 +1030,7 @@ _shiftBy(from, to, step, freeze) {
 	    showLegend = true,
 	    combineTooltips = false,
 		timeLabel=true,
+		seriesSides=[],
 	}) {
 		this._lastService = service;
 		this._api = api;
@@ -1049,6 +1104,7 @@ _shiftBy(from, to, step, freeze) {
 		this.state.functionId = dataParam?.functionId ?? -1;
 		this.state.currency=currency;
 		this.state.combineTooltips=combineTooltips;
+		this.state.seriesSides = seriesSides;
 		// map to series data
 		const series = resp.map((dto, idx) => {
 		const type = seriesTypes[idx] || this.state.chartType;
@@ -1082,6 +1138,36 @@ _shiftBy(from, to, step, freeze) {
 		    ...(strokeWidth !== undefined ? { strokeWidth } : {}) // only apply if valid
 		  };
 		});
+		if(this.chartId=='chart4')
+		{
+			const statisData =  {
+			    "name": "5dw-6dw Diff",
+			    "type": "column","yAxisIndex": 1,
+			    isMultiColor:true,
+			    "data": [
+			      {"x":"09-Oct-25","y":-80.77},{"x":"10-Oct-25","y":-589.11},{"x":"11-Oct-25","y":-1160.27},{"x":"12-Oct-25","y":-915.41},{"x":"13-Oct-25","y":-731.99},{"x":"14-Oct-25","y":-420.36},{"x":"15-Oct-25","y":-23.69},{"x":"16-Oct-25","y":-260.07},{"x":"17-Oct-25","y":-642.86},{"x":"18-Oct-25","y":-601.68},{"x":"19-Oct-25","y":-346.58},{"x":"20-Oct-25","y":2.15},{"x":"21-Oct-25","y":144.59},{"x":"22-Oct-25","y":131.96},{"x":"23-Oct-25","y":91.46},{"x":"24-Oct-25","y":100.22},{"x":"25-Oct-25","y":167.28},{"x":"26-Oct-25","y":412.31},{"x":"27-Oct-25","y":377.24},{"x":"28-Oct-25","y":192.38},{"x":"29-Oct-25","y":-0.75},{"x":"30-Oct-25","y":-299.52},{"x":"31-Oct-25","y":-494.95},{"x":"01-Nov-25","y":-380.13},{"x":"02-Nov-25","y":-132.67},{"x":"03-Nov-25","y":-102.55},{"x":"04-Nov-25","y":-431.72},{"x":"05-Nov-25","y":-373.25},{"x":"06-Nov-25","y":-370.64},{"x":"07-Nov-25","y":-252.56},{"x":"08-Nov-25","y":-97.25},{"x":"09-Nov-25","y":104.41}
+			    ]
+			  };
+			const statisData1 = {
+			    "name": "5dw-7dw Diff",
+			    "type": "column","yAxisIndex": 1,
+			    // isMultiColor:true,
+			    "data": [
+			      {"x":"09-Oct-25","y":-109.16},{"x":"10-Oct-25","y":-949.23},{"x":"11-Oct-25","y":-1981.27},{"x":"12-Oct-25","y":-1891.75},{"x":"13-Oct-25","y":-1435.70},{"x":"14-Oct-25","y":-1032.16},{"x":"15-Oct-25","y":-452.83},{"x":"16-Oct-25","y":-442.41},{"x":"17-Oct-25","y":-1015.67},{"x":"18-Oct-25","y":-1156.51},{"x":"19-Oct-25","y":-794.36},{"x":"20-Oct-25","y":-169.25},{"x":"21-Oct-25","y":136.80},{"x":"22-Oct-25","y":206.61},{"x":"23-Oct-25","y":250.08},{"x":"24-Oct-25","y":256.45},{"x":"25-Oct-25","y":317.86},{"x":"26-Oct-25","y":682.26},{"x":"27-Oct-25","y":744.11},{"x":"28-Oct-25","y":465.62},{"x":"29-Oct-25","y":54.70},{"x":"30-Oct-25","y":-439.07},{"x":"31-Oct-25","y":-785.65},{"x":"01-Nov-25","y":-771.98},{"x":"02-Nov-25","y":-384.63},{"x":"03-Nov-25","y":-332.81},{"x":"04-Nov-25","y":-807.51},{"x":"05-Nov-25","y":-677.82},{"x":"06-Nov-25","y":-709.59},{"x":"07-Nov-25","y":-520.36},{"x":"08-Nov-25","y":-304.97},{"x":"09-Nov-25","y":95.02}
+			    ]
+			  };
+			  	const statisData2 = {
+    "name": "5dw-9dw Diff",
+    "type": "column","yAxisIndex": 1,
+    "data": [
+      {"x":"09-Oct-25","y":-19.20},{"x":"10-Oct-25","y":-1322.67},{"x":"11-Oct-25","y":-2935.23},{"x":"12-Oct-25","y":-3195.32},{"x":"13-Oct-25","y":-2925.56},{"x":"14-Oct-25","y":-2404.48},{"x":"15-Oct-25","y":-1644.55},{"x":"16-Oct-25","y":-1509.05},{"x":"17-Oct-25","y":-1810.05},{"x":"18-Oct-25","y":-1815.94},{"x":"19-Oct-25","y":-1549.65},{"x":"20-Oct-25","y":-784.43},{"x":"21-Oct-25","y":-249.16},{"x":"22-Oct-25","y":40.21},{"x":"23-Oct-25","y":361.36},{"x":"24-Oct-25","y":595.90},{"x":"25-Oct-25","y":711.98},{"x":"26-Oct-25","y":1168.42},{"x":"27-Oct-25","y":1254.52},{"x":"28-Oct-25","y":974.46},{"x":"29-Oct-25","y":388.05},{"x":"30-Oct-25","y":-442.50},{"x":"31-Oct-25","y":-1029.12},{"x":"01-Nov-25","y":-1181.31},{"x":"02-Nov-25","y":-882.23},{"x":"03-Nov-25","y":-965.93},{"x":"04-Nov-25","y":-1683.75},{"x":"05-Nov-25","y":-1305.75},{"x":"06-Nov-25","y":-1284.99},{"x":"07-Nov-25","y":-1013.52},{"x":"08-Nov-25","y":-754.93},{"x":"09-Nov-25","y":-172.46}
+    ]
+  };
+			  
+			series.push(statisData);
+			series.push(statisData1);
+			// series.push(statisData2);
+		}
 		this.state.isCentred = isCentred;
 		this.state.applyTransparency = applyTransparency;
 		this.state.disableMarkers = disableMarkers;
@@ -1249,111 +1335,145 @@ _shiftBy(from, to, step, freeze) {
 	
 		return { data1: alignedData1, data2: alignedData2 };
 	}
-	generateYAxisConfig(index = 0, isCentered,customSettings = {}) {
-		const name = this.state.series?.[index]?.name?.toLowerCase() || '';
-		const isFundingRate = name.includes('funding');
-		const fontSize = this.state.fontSize  || '12px';
+	generateYAxisConfig(index = 0, isCentered = false, customSettings = {}) {
+	const name = this.state.series?.[index]?.name?.toLowerCase() || '';
+	const isFundingRate = name.includes('funding');
+	const fontSize = this.state.fontSize || '12px';
 
-		if (isFundingRate) {
-			const decimals = 4;
-			const lim = this.state.seriesLimits?.[index] || { min: 0, max: 100 };
-			const maxValue = Math.max(lim.min, lim.max);
+	//-------------------------------------------------------
+	// (1) Axis grouping logic: left or right
+	//-------------------------------------------------------
+	// You can define it explicitly in this.state.seriesSides = ['left','left','right','right']
+	// or it defaults automatically (even index = left, odd = right)
+	const sideGroup = this.state.seriesSides?.[index] || (index % 2 === 0 ? 'left' : 'right');
+	const show = sideGroup === undefined
+	  ? true
+	  : this.shouldShowYAxis(sideGroup, index);
+	//-------------------------------------------------------
+	// (2) Special handling for Funding Rate (preserve original)
+	//-------------------------------------------------------
+	if (isFundingRate) {
+		const decimals = 4;
+		const lim = this.state.seriesLimits?.[index] || { min: 0, max: 100 };
+		const maxValue = Math.max(Math.abs(lim.min), Math.abs(lim.max));
 
-			return {
-				seriesName: this.state.series?.[index]?.name || `Series ${index + 1}`,
-				min: -maxValue,
-				max: maxValue,
-				tickAmount: 6,
-				labels: {
-					style: { fontSize },
-					formatter: val => {
-						if (val == null || isNaN(val)) return "N/A";
-
-						const formatted = Math.abs(val) < 1
-							? (val * 100).toFixed(decimals) + '%'
-							: val.toFixed(decimals);
-						return formatted;
-					}
-				},
-				axisBorder: {
-					show: true,
-					color: "#f0ab2e50",
-					width: 3,
-					offsetX: 0,
-					offsetY: 0
-				},
-				opposite: true,
-				...customSettings
-			};
-		}
-
-		
-		let lim = { min: 0, max: 100 };  // default fallback
-		const limitsArray = this.state.seriesLimits || [];
-		const isDualAxis = this.state.useDualYAxis;
-		
-		if (!isDualAxis && limitsArray.length > 1 && (index === 0 || index === 1)) {
-			// Merge axis ranges from both series
-			lim = {
-				min: Math.min(limitsArray[0]?.min ?? 0, limitsArray[1]?.min ?? 0),
-				max: Math.max(limitsArray[0]?.max ?? 0, limitsArray[1]?.max ?? 0)
-			};
-		} else if (limitsArray[index]) {
-			lim = limitsArray[index];
-		}
-		 
-		const fmt = this.state.seriesFormats?.[index] || { digits: 2, isPercentage: true, useShortFormat: false };
-		const seriesType = this.state.seriesTypes?.[index] || 'line';
-		const isCandle = seriesType === 'candlestick';
-		let minVal=0;
-		let maxVal=0;
-        if(isCentered){
-			const baseMax = Math.max(Math.abs(lim.min), Math.abs(lim.max));  // in case values are negative
-			const margin = baseMax * 0.05;
-			const paddedMax = baseMax + margin;
-			
-			 minVal = -paddedMax;
-			 maxVal = paddedMax;
-		}else
-			{
-			minVal= lim.min;
-			maxVal= lim.max;
-			}
 		return {
 			seriesName: this.state.series?.[index]?.name || `Series ${index + 1}`,
-			min: minVal,
-			max: maxVal,
+			min: -maxValue,
+			max: maxValue,
 			tickAmount: 6,
 			labels: {
 				style: { fontSize },
 				formatter: val => {
-					if (val == null || isNaN(val)) return '';
-				
-					if (fmt.useShortFormat) {
-						return this.formatNumberShort(val);
-					}
-				
-					if (isCandle) {
-						return Number(val).toFixed(fmt.digits);
-					}
-				
-					// Handle percentage formatting
-					const digits = fmt.digits ?? 2;
-					const isPercentage = fmt.isPercentage ?? fmt[1]; // fallback to old style
-				
-					try {
-						return isPercentage ? Number(val).toFixed(digits) + '%' : Number(val).toFixed(digits);
-					} catch (e) {
-						console.warn('Invalid value in formatter:', val, e);
-						return '';
-					}
+					if (val == null || isNaN(val)) return 'N/A';
+					const formatted =
+						Math.abs(val) < 1
+							? (val * 100).toFixed(decimals) + '%'
+							: val.toFixed(decimals);
+					return formatted;
 				}
 			},
-			axisBorder: { show: true, color: '#ffffff', width: 3 },
-			opposite: index === 1,
+			axisBorder: {
+				show: true,
+				color: '#f0ab2e50',
+				width: 3
+			},
+			opposite: sideGroup === 'right',
+			show: show,
 			...customSettings
 		};
 	}
+
+	//-------------------------------------------------------
+	// (3) Default range / limits handling
+	//-------------------------------------------------------
+	let lim = { min: 0, max: 100 };
+	const limitsArray = this.state.seriesLimits || [];
+	const isDualAxis = this.state.useDualYAxis;
+
+	if (!isDualAxis && limitsArray.length > 1 && (index === 0 || index === 1)) {
+		// merge both if dual axis off
+		lim = {
+			min: Math.min(limitsArray[0]?.min ?? 0, limitsArray[1]?.min ?? 0),
+			max: Math.max(limitsArray[0]?.max ?? 0, limitsArray[1]?.max ?? 0)
+		};
+	} else if (limitsArray[index]) {
+		lim = limitsArray[index];
+	}
+
+	const fmt = this.state.seriesFormats?.[index] || {
+		digits: 2,
+		isPercentage: true,
+		useShortFormat: false
+	};
+	const seriesType = this.state.seriesTypes?.[index] || 'line';
+	const isCandle = seriesType === 'candlestick';
+
+	//-------------------------------------------------------
+	// (4) Centering logic (preserved)
+	//-------------------------------------------------------
+	let minVal = lim.min;
+	let maxVal = lim.max;
+
+	if (isCentered) {
+		const baseMax = Math.max(Math.abs(lim.min), Math.abs(lim.max));
+		const margin = baseMax * 0.05;
+		minVal = -baseMax - margin;
+		maxVal = baseMax + margin;
+	}
+
+	//-------------------------------------------------------
+	// (5) Build final config
+	//-------------------------------------------------------
+	return {
+		seriesName: this.state.series?.[index]?.name || `Series ${index + 1}`,
+		min: minVal,
+		max: maxVal,
+		tickAmount: 6,
+		labels: {
+			style: { fontSize },
+			formatter: val => {
+				if (val == null || isNaN(val)) return '';
+
+				if (fmt.useShortFormat) return this.formatNumberShort(val);
+				if (isCandle) return Number(val).toFixed(fmt.digits);
+
+				const digits = fmt.digits ?? 2;
+				const isPercentage = fmt.isPercentage ?? fmt[1];
+
+				try {
+					return isPercentage
+						? Number(val).toFixed(digits) + '%'
+						: Number(val).toFixed(digits);
+				} catch (e) {
+					console.warn('Invalid value in formatter:', val, e);
+					return '';
+				}
+			}
+		},
+		axisBorder: { show: true, color: '#ffffff', width: 3 },
+		opposite: sideGroup === 'right',
+		show: show,
+		...customSettings
+	};
+}
+
+
+/**
+ * Only one visible Y-axis per side
+ * (The rest are hidden but still mapped by `seriesName`)
+ */
+shouldShowYAxis(sideGroup, index) {
+	if (!this.state.seriesSides) {
+		// fallback: show only first left + first right
+		if (sideGroup === 'left') return index === 0;
+		if (sideGroup === 'right') return index === 1;
+		return true;
+	}
+	// if explicit sides are defined, show only first occurrence per side
+	const firstIndexForSide = this.state.seriesSides.findIndex(s => s === sideGroup);
+	return index === firstIndexForSide;
+}
 	async toggleCandlestick(btn, id) {
 		const isActive = btn.classList.contains('active');
 		const selectedGroupId = $('#dropDownCryptoOptions').val();
@@ -1430,7 +1550,7 @@ _shiftBy(from, to, step, freeze) {
 		this.updateCandleOptionsVisibility();
 
 	}
-	generateDynamicYAnnotations(series = [],functionId) {
+	generateDynamicYAnnotations(series = [],functionId, isRequired=false) {
 		const annotations = { yaxis: [] };
 
 		series.forEach((s, idx) => {
@@ -1459,6 +1579,29 @@ _shiftBy(from, to, step, freeze) {
 		});
         if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId))
         {
+			annotations.yaxis.push({
+							    y: 0,
+							    yAxisIndex: 1,
+								strokeDashArray: 0,
+								offsetX: 0,
+								width: '100%',
+								borderColor: '#FF0000',
+							    label: {
+								    position: 'right',
+								    offsetX: 70,
+					                offsetY: 0,
+							        borderColor: '#FF0000',
+							        style: {
+							          color: '#fff',
+							          background: '#ff000052'
+							        },
+							        text: ''
+							      }
+							  });
+		}
+		else 
+		if(isRequired)
+		{
 			annotations.yaxis.push({
 							    y: 0,
 							    yAxisIndex: 1,
