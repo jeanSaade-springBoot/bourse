@@ -7950,6 +7950,10 @@
 			}, {
 				key: "pushExtraColors",
 				value: function (t, e) {
+					
+					if(t==="#ffffff") // mns added since it was retruning error when there is more than 7 series
+					t=["#ffffff"];
+					 
 					var i = arguments.length > 2 && void 0 !== arguments[2] ? arguments[2] : null,
 						a = this.w,
 						s = e || a.globals.series.length;

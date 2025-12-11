@@ -78,17 +78,43 @@ const fullOptions = [
     { id: 28, label: "45dw MovAvg" },
     { id: 29, label: "63dw MovAvg" }
 ];
+const difffullOptions = [
+    { id: 30, label: "5-6dw MovAvg" },
+    { id: 31, label: "5-7dw MovAvg" },
+    { id: 32, label: "5-9dw MovAvg" },
+    { id: 33, label: "18-21dw MovAvg" },
+    { id: 34, label: "18-25dw MovAvg" },
+    { id: 35, label: "18-30dw MovAvg" },
+    { id: 36, label: "45-63dw MovAvg" },
+];
 const defaultSelections = {
-  short: [20, 21, 22, 23],   // ids for 5,6,7,9
-  medium: [24, 25, 26, 27], // ids for 18,21,25,30
-  long: [28, 29]            // ids for 45,63 (only 2, rest will stay empty)
+  short: [20, 21, 22, 23, 30, 31, 32],   // ids for 5,6,7,9
+  medium: [24, 25, 26, 27, 33, 34, 35], // ids for 18,21,25,30
+  long: [28, 29, 36]            // ids for 45,63 (only 2, rest will stay empty)
 };
-const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+const dropdownIds = [
+  'dropdown1', 'dropdown2', 'dropdown3', 'dropdown4',
+  'dropdown5', 'dropdown6', 'dropdown7'
+];
+const dropdownOptionSource = {
+  dropdown1: fullOptions,
+  dropdown2: fullOptions,
+  dropdown3: fullOptions,
+  dropdown4: fullOptions,
+
+  dropdown5: difffullOptions,
+  dropdown6: difffullOptions,
+  dropdown7: difffullOptions
+};
+const sourceAIds = new Set([20, 21, 22, 23, 24, 25, 26, 27, 28, 29]); 
+const sourceBIds = new Set([30, 31, 32, 33, 34, 35, 36]);   
+	
 const selectedValues = {};
 let isRefreshingDropdowns = false;
 let isProgrammaticDropdownUpdate = false;
 let isProcessingRemoteUpdate = false;
 let isBulkUpdatingDropdowns = false;
+let suppressTrendFollowingReload = false;
 
 let trendfollowingDbId;
 
@@ -1106,7 +1132,8 @@ function getDataChart4() { // trendfollowing
 	manager.state.defaultFromDate = fromDate;
 	manager.state.defaultToDate = new Date();
 	if (manager && manager.chart) {
-	 
+	 console.log('1135')
+
          updateTrendFollowingGraph(chartId,manager,false);
 	}
 	manager.render().then(() => {
@@ -1154,87 +1181,143 @@ function getDataChart4() { // trendfollowing
 			            <input type="radio" name="options" value="2"> Long
 			        </label>
 		        </div>
+		        
+		        <div class="d-flex align-items-center pl-3">
+			    	<div id="dropdown5" class="mt-2"></div>
+				    <div style="margin-left: .4rem;">
+						<i class="fa-solid fa-xmark" id="reset5"></i>
+					</div>
+				</div>
+				<div class="d-flex align-items-center pl-3">
+			    	<div id="dropdown6" class="mt-2"></div>
+				    <div style="margin-left: .4rem;">
+						<i class="fa-solid fa-xmark" id="reset6"></i>
+					</div>
+				</div>
+				<div class="d-flex align-items-center pl-3">
+			    	<div id="dropdown7" class="mt-2"></div>
+				    <div style="margin-left: .4rem;">
+						<i class="fa-solid fa-xmark" id="reset7"></i>
+					</div>
+				</div>
 		    `);
 			// Initial load with first ticker
 			
-			dropdownIds.forEach(id => {
-			  $(`#${id}`).jqxDropDownList({
-			    source: fullOptions,
-			    displayMember: "label",
-			    valueMember: "id",
-			    width: 100,
-			    height: 30,
-			    autoDropDownHeight: true,
-			    selectedIndex: -1,
-			    theme: 'dark'
-			  });
-			
-			$(`#${id}`).on('select', function () {
-				
-				    // Prevent triggering during programmatic/bulk update
-				    if (isProgrammaticDropdownUpdate || isRefreshingDropdowns || isBulkUpdatingDropdowns) return;
-				  
-				    // 🔒 Disable reset buttons
-				    ['reset1', 'reset2', 'reset3', 'reset4'].forEach(id => {
-				        $(`#${id}`).addClass('disabled').css({
-				            pointerEvents: 'none',
-				            opacity: 0.5,
-				            cursor: 'not-allowed'
-				        });
-				    });
-				
-				    const chartId = '4';
-				    const manager = ChartManager.instances.chart4;
-				
- 					updateTrendFollowingGraph(chartId, manager, (isProgrammaticDropdownUpdate || isRefreshingDropdowns || isBulkUpdatingDropdowns)?false:true);				
-				    // Now refresh others safely
-				    isRefreshingDropdowns = true;
-				    setTimeout(() => {
-				        refreshAllDropdowns();
-				        isRefreshingDropdowns = false;
-				    }, 0);
-				    
-				    validateRadioSelection();
-				});
+		dropdownIds.forEach(id => {
+	
+		  $(`#${id}`).jqxDropDownList({
+		    source: dropdownOptionSource[id],
+		    displayMember: "label",
+		    valueMember: "id",
+		    width: 100,
+		    height: 30,
+		    autoDropDownHeight: true,
+		    selectedIndex: -1,
+		    theme: 'dark'
+		  });
+		
+		  
+		  $(`#${id}`).on('select', function () {
+	
+		    // Skip programmatic/bulk updates
+		    if (isProgrammaticDropdownUpdate || isRefreshingDropdowns || isBulkUpdatingDropdowns)
+		      return;
+		
+		    // Disable all reset icons
+		    dropdownIds.forEach((dd, index) => {
+		      const resetId = "reset" + (index + 1);
+		      $(`#${resetId}`).addClass('disabled').css({
+		        pointerEvents: 'none',
+		        opacity: 0.5,
+		        cursor: 'not-allowed'
+		      });
+		    });
+		
+		    const chartId = '4';
+		    const manager = ChartManager.instances.chart4;
+		
+		    suppressTrendFollowingReload = true;
+		    // Reload chart only for user-initiated event
+		    console.log('1241')
 
-			});
+		    updateTrendFollowingGraph(
+		      chartId,
+		      manager,
+		      true
+		    );
+		
+		    // Refresh UNIQUE selection logic
+		    isRefreshingDropdowns = true;
+		    setTimeout(() => {
+		      refreshAllDropdowns();
+		      isRefreshingDropdowns = false;
+		    });
+		
+		    validateRadioSelection();
+		  });
+		
+		});
+		$('input[name="options"]').on('change', function () {
+		  let selected = $(this).val();
+		  let group;
+		
+		  bindResetButton('reset1', 'dropdown1');
+		  bindResetButton('reset2', 'dropdown2');
+		  bindResetButton('reset3', 'dropdown3');
+		  bindResetButton('reset4', 'dropdown4'); 
+		  bindResetButton('reset5', 'dropdown5'); 
+		  bindResetButton('reset6', 'dropdown6');
+		  bindResetButton('reset7', 'dropdown7');
+		
+		  if (selected === "0")      group = defaultSelections.short;
+		  else if (selected === "1") group = defaultSelections.medium;
+		  else if (selected === "2") group = defaultSelections.long;
+		
+		  if (group) {
+		    isBulkUpdatingDropdowns = true;
+		
+		    const dropdownA = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+		    const dropdownB = ['dropdown5', 'dropdown6', 'dropdown7'];
+		
+		    const sourceAValues = group.filter(id => sourceAIds.has(id));
+		    const sourceBValues = group.filter(id => sourceBIds.has(id));
+		
+		    const applyValuesToDropdowns = (dropdownIds, values) => {
+		      dropdownIds.forEach((id, idx) => {
+		        const instance = $(`#${id}`);
+		        const valueToSelect = values[idx] ?? null;
+		
+		        if (valueToSelect != null) {
+		          instance.jqxDropDownList('selectItem', valueToSelect);
+		        } else {
+		          instance.jqxDropDownList('clearSelection');
+		        }
+		      });
+		    };
+		
+		    // 💡 Same logic as loadHistoryAndFillDropdowns
+		    applyValuesToDropdowns(dropdownA, sourceAValues);
+		    applyValuesToDropdowns(dropdownB, sourceBValues);
+		
+		    isBulkUpdatingDropdowns = false;
+		
+		    // ✅ One backend call after bulk change
+		    const chartId = '4';
+		    const manager = ChartManager.instances.chart4;
+		    console.log('1307')
 
-			$('input[name="options"]').on('change', function () {
-				  let selected = $(this).val();
-				  let group;
-				    bindResetButton('reset1', 'dropdown1');
-					bindResetButton('reset2', 'dropdown2');
-					bindResetButton('reset3', 'dropdown3');
-					bindResetButton('reset4', 'dropdown4'); 
-					
-				  if (selected === "0") group = defaultSelections.short;
-				  else if (selected === "1") group = defaultSelections.medium;
-				  else if (selected === "2") group = defaultSelections.long;
-				
-				  if (group) {
-				    isBulkUpdatingDropdowns = true;
-				
-				    dropdownIds.forEach((id, idx) => {
-				      if (group[idx] !== undefined) {
-				        $(`#${id}`).jqxDropDownList('selectItem', group[idx]);
-				      } else {
-				        $(`#${id}`).jqxDropDownList('clearSelection');
-				      }
-				    });
-				
-				    isBulkUpdatingDropdowns = false;
-				
-				    // ✅ Now trigger backend once after all are loaded
-				    const chartId = '4';
-				    const manager = ChartManager.instances.chart4;
-				    updateTrendFollowingGraph(chartId, manager, true);
-				  }
-				});
+		    updateTrendFollowingGraph(chartId, manager, true);
+		  }
+		});
 				
 		    bindResetButton('reset1', 'dropdown1');
 			bindResetButton('reset2', 'dropdown2');
 			bindResetButton('reset3', 'dropdown3');
 			bindResetButton('reset4', 'dropdown4'); 
+			bindResetButton('reset5', 'dropdown5'); 
+			bindResetButton('reset6', 'dropdown6');
+			bindResetButton('reset7', 'dropdown7');
+			
 			getTrendFollowingHistory();
 			//updateTrendFollowingGraph(chartId,manager);
 			
@@ -1313,11 +1396,16 @@ function updateBenchmarkingGraph(chartId,manager){
 	
 }
 async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
-	
+console.log('here')
+    try {
 	 $("#dropdown1").jqxDropDownList({ disabled: true }); 
 	 $("#dropdown2").jqxDropDownList({ disabled: true }); 
      $("#dropdown3").jqxDropDownList({ disabled: true }); 
 	 $("#dropdown4").jqxDropDownList({ disabled: true }); 
+	 
+	 $("#dropdown5").jqxDropDownList({ disabled: true }); 
+	 $("#dropdown6").jqxDropDownList({ disabled: true }); 
+     $("#dropdown7").jqxDropDownList({ disabled: true }); 
 
   if(saveHistory)
      saveTrendLineHistory(isShared); //isShared
@@ -1329,7 +1417,6 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
     const candlestickIsActive = $(`#candlestick-chart${chartId}`).hasClass('active');
 
     const selectedGroupsId = $('#dropDownCryptoOptions').val();
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
     const selectedFunctionIds = dropdownIds
         .map(id => {
             const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
@@ -1358,7 +1445,93 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
     const selectedFunctionIdsArray = getAllSelectedDropdownValues(); 
 
     resetAndReassignDropdowns(selectedFunctionIdsArray);
+    	let colorsArray = [];
+    	let strokecolorsArray = [];
+    	let isCentredArray = [false];
+    	let seriesSidesArray=['left'];
+    	let yxannotaionRequired=[];
+		const baseColors = ['#ffffff', '#fac1e2', '#e436c1', '#42f5c5', '#57f542', '#30d781', '#30d781', '#30d781'];
+			
+			// MAIN PRICE SERIES — always index 0
+			colorsArray.push(function({ value, seriesIndex }) {
+			    // Always return base color for the price / first series
+			    return baseColors[0];
+			});
+			strokecolorsArray.push(function({ value, seriesIndex }) {
+			    // Always return base color for the price / first series
+			    return '#ffffff';
+			});
+			
+			selectedFunctionIdsArray.forEach((val, index) => {
+			    if (val === null || val === undefined) return;
+			
+			    const base = baseColors[index + 1] || '#2e75b6';  // shift because index 0 is already taken
+			
+			    colorsArray.push(function({ value, seriesIndex, w }) {
+			
+			        try {
+			            // HISTOGRAM SERIES STARTING FROM index >= 4
+			            if (index >= 4) {
+			                if (value == null || isNaN(value)) return base;
+			                return value <= 0 ? '#f23a3aa3' : '#30d7818c';
+			            }
+			
+			            // NORMAL LINE SERIES (close, ma, rsi, etc.)
+			            return base;
+			
+			        } catch (e) {
+			            console.error("Color calc error", e);
+			            return base;
+			        }
+			    });
+			      strokecolorsArray.push(function({ value, seriesIndex, w }) {
+			
+			        try {
+			            // HISTOGRAM SERIES STARTING FROM index >= 4
+			            if (index >= 4) {
+			                if (value == null || isNaN(value)) return base;
+			                return value <= 0 ? '#f23a3a' : '#30d781';
+			            }
+			
+			            // NORMAL LINE SERIES (close, ma, rsi, etc.)
+			            return base;
+			
+			        } catch (e) {
+			            console.error("Color calc error", e);
+			            return base;
+			        }
+			    });
+			    
+		        if (index <= 3) {
+		            // dropdown1–4 (index 0–3)
+		            isCentredArray.push(false);
+		            seriesSidesArray.push('left');
+		            yxannotaionRequired=[false];
+		        } else {
+		            // dropdown5–7 (index 4–6)
+		            isCentredArray.push(true);
+		            seriesSidesArray.push('right');
+		            yxannotaionRequired=[true ,colorsArray.length-1 ]
+		        }
+		    
+			  
+			});
+	
+
     if (candlestickIsActive) {
+		let seriesTypes = ["candlestick"];  // always first
+		
+		selectedFunctionIdsArray.forEach((val, index) => {
+		    if (val !== null) {
+		        if (index <= 3) {
+		            // dropdown1–4 (index 0–3)
+		            seriesTypes.push("line");
+		        } else {
+		            // dropdown5–7 (index 4–6)
+		            seriesTypes.push("column");
+		        }
+		    }
+		});
         await manager.loadData({
             service: manager._lastService || "cryptos",
             api: api,
@@ -1368,16 +1541,20 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
             saveHistory: false,
             fromOverride: manager.state.defaultFromDate,
             toOverride: manager.state.defaultToDate,
-            applyDb: false,
-            seriesTypes: ['candlestick', 'line', 'line', 'line', 'line'], // You can make this dynamic if needed
-            seriesColors: ['#00ff99', '#fac1e2', '#e436c1', '#42f5c5','#57f542'],
-            useDualYAxis: false,
+            applyDb: true,
+            seriesTypes: seriesTypes, // Adjust if more //['line', 'line', 'line', 'line', 'line'], // Adjust if more
+            seriesColors: colorsArray,
+            seriesStrokesColors:strokecolorsArray,
+            seriesSides :seriesSidesArray,
+            isCentred:isCentredArray,
+            useDualYAxis: true,
             dataParam: commonParams,
             useShortFormatList: [false],
             interval: 'Daily',
             currency: selectedLiveCurrency,
             disableMarkers: true,
             markerSizeArray: [1, 0, 0, 0, 0],
+            yAnnotaionRequired:yxannotaionRequired,
             showLegend: false,
             combineTooltips:true,
         }).then(() => {
@@ -1386,8 +1563,11 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 			     $("#dropdown3").jqxDropDownList({ disabled: false }); 
 				 $("#dropdown4").jqxDropDownList({ disabled: false }); 
 				 
+				 $("#dropdown5").jqxDropDownList({ disabled: false }); 
+				 $("#dropdown6").jqxDropDownList({ disabled: false }); 
+			     $("#dropdown7").jqxDropDownList({ disabled: false }); 
 			          // 🔓 Re-enable all reset buttons after loading is done
-		    ['reset1', 'reset2', 'reset3', 'reset4'].forEach(id => {
+		    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
 		        $(`#${id}`).removeClass('disabled').css({
 		            pointerEvents: '',
 		            opacity: '',
@@ -1399,6 +1579,20 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 
         manager._disableChartSettings(true, ['fontOptions']);
     } else {
+		let seriesTypes = ["line"];  // always first
+		
+		selectedFunctionIdsArray.forEach((val, index) => {
+		    if (val !== null) {
+		        if (index <= 3) {
+		            // dropdown1–4 (index 0–3)
+		            seriesTypes.push("line");
+		        } else {
+		            // dropdown5–7 (index 4–6)
+		            seriesTypes.push("column");
+		        }
+		    }
+		});
+	
         await manager.loadData({
             service: "cryptos",
             api: api,
@@ -1410,13 +1604,15 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
             dataParam: commonParams,
             showLegend: false,
             useDualYAxis: true,
-            seriesTypes: ['line', 'line', 'line', 'line', 'line', 'column', 'column', 'column'], // Adjust if more //['line', 'line', 'line', 'line', 'line'], // Adjust if more
-            seriesColors: ['#ffffff', '#fac1e2', '#e436c1', '#42f5c5','#57f542', '#30d781','#30d781','#30d781'],
-            seriesSides :['left', 'left', 'left', 'left', 'left', 'right', 'right', 'right'],
-           	isCentred:[false, false, false, false,  false, true, true, true],
+            seriesTypes: seriesTypes, // Adjust if more //['line', 'line', 'line', 'line', 'line'], // Adjust if more
+            seriesColors: colorsArray,
+            seriesStrokesColors:strokecolorsArray,
+            seriesSides :seriesSidesArray,
+           	isCentred:isCentredArray,
             disableMarkers: true,
             markerSizeArray: [1, 0, 0, 0, 0],
             currency: selectedLiveCurrency, 
+            yAnnotaionRequired:yxannotaionRequired,
             combineTooltips:true,
         }).then(() => {
 				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
@@ -1424,8 +1620,11 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 			     $("#dropdown3").jqxDropDownList({ disabled: false }); 
 				 $("#dropdown4").jqxDropDownList({ disabled: false }); 
 				 
+				 $("#dropdown5").jqxDropDownList({ disabled: false }); 
+				 $("#dropdown6").jqxDropDownList({ disabled: false }); 
+			     $("#dropdown7").jqxDropDownList({ disabled: false }); 
 			          // 🔓 Re-enable all reset buttons after loading is done
-		    ['reset1', 'reset2', 'reset3', 'reset4'].forEach(id => {
+		    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
 		        $(`#${id}`).removeClass('disabled').css({
 		            pointerEvents: '',
 		            opacity: '',
@@ -1435,7 +1634,9 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 				
 			});
     }
-    
+     } finally {
+        setTimeout(() => suppressTrendFollowingReload = false, 200);
+    }
   
 }
 async function loadGraphWithTrendlines(screenName, chartId, dataParam) {
@@ -1708,16 +1909,15 @@ document.addEventListener('DOMContentLoaded', function () {
 	        if (groupId == $('#dropDownCryptoOptions').val()) {
 					
 			    // 🔒 Disable all reset buttons
-			    ['reset1', 'reset2', 'reset3', 'reset4'].forEach(id => {
+			    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
 			        $(`#${id}`).addClass('disabled').css({
 			            pointerEvents: 'none',
 			            opacity: 0.5,
 			            cursor: 'not-allowed'
 			        });
 			    });
-	            isProcessingRemoteUpdate = true;
-	            getTrendFollowingHistory();  // This internally triggers chart updates
-	           
+		
+	                    
 	        }
 		  			
 	  			
@@ -1798,6 +1998,7 @@ async function toggleCandlestickChartTrendFollowing(btn, id) {
 			btn.classList.add('active');
 		
 		}
+		console.log('2000')
 		updateTrendFollowingGraph(chartId,manager, true);
 
 		manager.updateCandleOptionsVisibility();
@@ -1816,17 +2017,23 @@ function getAllSelectedValues() {
 }
 
 function updateDropdown(idToUpdate, selectedValues) {
+
   const currentSelected = selectedValues[idToUpdate];
+
   const excluded = Object.entries(selectedValues)
     .filter(([key, val]) => key !== idToUpdate && val !== null)
     .map(([_, val]) => val);
 
-  const filteredOptions = fullOptions.filter(opt => !excluded.includes(opt.id) || opt.id === currentSelected);
+  const source = dropdownOptionSource[idToUpdate];  // 👈 USE THE CORRECT OPTION SET
+
+  const filteredOptions = source.filter(opt =>
+    !excluded.includes(opt.id) || opt.id === currentSelected
+  );
 
   const instance = $(`#${idToUpdate}`);
+
   instance.jqxDropDownList({ source: filteredOptions });
 
-  // Restore value if it's still valid
   if (currentSelected && filteredOptions.find(o => o.id === currentSelected)) {
     instance.jqxDropDownList('val', currentSelected);
   } else {
@@ -1846,7 +2053,7 @@ function bindResetButton(resetBtnId, dropdownId, chartId = '4') {
 
 		
     // 🔒 Disable all reset buttons
-    ['reset1', 'reset2', 'reset3', 'reset4'].forEach(id => {
+    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
         $(`#${id}`).addClass('disabled').css({
             pointerEvents: 'none',
             opacity: 0.5,
@@ -1868,12 +2075,15 @@ function bindResetButton(resetBtnId, dropdownId, chartId = '4') {
 
         const manager = ChartManager.instances[`chart${chartId}`];
         if (manager) {
+			 console.log('2072')
             await updateTrendFollowingGraph(chartId, manager, true); // ← await if it's async
+       
+
         }
     }
 
     // 🔓 Re-enable all reset buttons after loading is done
-    ['reset1', 'reset2', 'reset3', 'reset4'].forEach(id => {
+    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
         $(`#${id}`).removeClass('disabled').css({
             pointerEvents: '',
             opacity: '',
@@ -1884,7 +2094,8 @@ function bindResetButton(resetBtnId, dropdownId, chartId = '4') {
 }
 
 function getTrendFollowingHistory(){
-	const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+
+        const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
 
 	    dropdownIds.forEach((dropdownId, index) => {
 	       
@@ -1906,7 +2117,8 @@ function getTrendFollowingHistory(){
 			const manager = ChartManager.instances.chart4;
     				
 			if(result.length==0)
-				{
+				{console.log('2113')
+
 					updateTrendFollowingGraph(4,manager,false);
 					trendfollowingDbId = null;	
 				}
@@ -1917,6 +2129,8 @@ function getTrendFollowingHistory(){
 					else
 						$("#candlestick-chart4").removeClass('active');	
 					trendfollowingDbId = result[0].id;	
+					
+					console.log('2133');
 					
 					result[0].functionId!=""?
 					loadHistoryAndFillDropdowns(result[0]):
@@ -1932,40 +2146,58 @@ function getTrendFollowingHistory(){
 }
 
 function loadHistoryAndFillDropdowns(data) {
-    isProgrammaticDropdownUpdate = true;
 
-    const functionIds = data.functionId ? data.functionId.split(',').map(v => parseInt(v)) : [];
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+   isProgrammaticDropdownUpdate = true;
 
-    dropdownIds.forEach((dropdownId, index) => {
-        const valueToSelect = functionIds[index] || null;
-        const instance = $(`#${dropdownId}`);
+    // 1) Parse stored functionId string → [20,21,22,30]
+    const allFunctionIds = (data.functionId || '')
+        .split(',')
+        .map(v => v.trim())
+        .filter(v => v.length > 0)
+        .map(v => parseInt(v, 10));
 
-        if (valueToSelect) {
-            instance.jqxDropDownList('val', valueToSelect);
+    // 2) Split by source
+    const sourceAValues = allFunctionIds.filter(id => sourceAIds.has(id));
+    const sourceBValues = allFunctionIds.filter(id => sourceBIds.has(id));
 
-            const item = instance.jqxDropDownList('getItemByValue', valueToSelect);
-            if (item) {
-                instance.trigger('select', { item }); // ignored during programmatic update
+    const dropdownA = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+    const dropdownB = ['dropdown5', 'dropdown6', 'dropdown7'];
+
+    const applyValuesToDropdowns = (dropdownIds, values) => {
+        dropdownIds.forEach((dropdownId, index) => {
+            const instance = $(`#${dropdownId}`);
+            const valueToSelect = values[index] ?? null;
+
+            if (valueToSelect != null) {
+                instance.jqxDropDownList('val', valueToSelect);
+
+                const item = instance.jqxDropDownList('getItemByValue', valueToSelect);
+                if (item) {
+                    // ignored while isProgrammaticDropdownUpdate = true
+                    instance.trigger('select', { item });
+                }
+            } else {
+                instance.jqxDropDownList('clearSelection');
             }
-        } else {
-            instance.jqxDropDownList('clearSelection');
-        }
-    });
+        });
+    };
 
+    // 3) Apply A values to dropdown1–4, B values to dropdown5–7
+    applyValuesToDropdowns(dropdownA, sourceAValues);
+    applyValuesToDropdowns(dropdownB, sourceBValues);
+
+    // 4) Radio buttons logic stays based on full list
     setTimeout(() => {
         isProgrammaticDropdownUpdate = false;
         refreshAllDropdowns();
 
-        // ✅ Check which group matches
-        if (arraysEqual(functionIds, defaultSelections.short)) {
+        if (arraysEqual(allFunctionIds, defaultSelections.short)) {
             $('input[name="options"][value="0"]').prop('checked', true);
-        } else if (arraysEqual(functionIds, defaultSelections.medium)) {
+        } else if (arraysEqual(allFunctionIds, defaultSelections.medium)) {
             $('input[name="options"][value="1"]').prop('checked', true);
-        } else if (arraysEqual(functionIds, defaultSelections.long)) {
-            $('input[name="options"][value="3"]').prop('checked', true);
+        } else if (arraysEqual(allFunctionIds, defaultSelections.long)) {
+            $('input[name="options"][value="2"]').prop('checked', true);
         } else {
-            // clear radios if not an exact match
             $('input[name="options"]').prop('checked', false);
         }
     }, 200);
@@ -1976,7 +2208,8 @@ function arraysEqual(arr1, arr2) {
     return arr1.every((val, idx) => val === arr2[idx]);
 }
 function validateRadioSelection() {
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
+
     const currentValues = dropdownIds.map(id => {
         const val = $(`#${id}`).jqxDropDownList('val');
         return val ? parseInt(val) : null;
@@ -1999,7 +2232,7 @@ function validateRadioSelection() {
 async function saveTrendLineHistory(isShared) {
 	
 					
-		 if (isProcessingRemoteUpdate) {
+		if (isProcessingRemoteUpdate) {
 	        console.log("Skipping save due to remote-triggered update");
 	        isProcessingRemoteUpdate = false;
 	        
@@ -2008,7 +2241,9 @@ async function saveTrendLineHistory(isShared) {
 	
     	const url = '/graph/save-trend-following-history'; 
         const candlestickIsActive = $(`#candlestick-chart4`).hasClass('active');
-		const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+	   
+	    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
+
         const selectedFunctionIds = dropdownIds
         .map(id => {
             const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
@@ -2050,7 +2285,7 @@ async function saveTrendLineHistory(isShared) {
 function resetAndReassignDropdowns(values = []) {
     isProgrammaticDropdownUpdate = true;
 
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
 
     dropdownIds.forEach((dropdownId, index) => {
         const instance = $(`#${dropdownId}`);
@@ -2075,7 +2310,7 @@ function resetAndReassignDropdowns(values = []) {
 }
 
 function getAllSelectedDropdownValues() {
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
 
     return dropdownIds.map(id => {
         const item = $(`#${id}`).jqxDropDownList('getSelectedItem');

@@ -61,7 +61,7 @@
 
 /* Option buttons inside submenu */
 .btn.btn-option {
-  background: rgba(255,255,255,.06);
+  background: rgba(255,255,255,0);
   border: 0;
   color: #dbe7f4;
   border-radius: 8px;

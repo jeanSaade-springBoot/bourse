@@ -30,7 +30,16 @@ public enum FunctionEnum {
 	TWENTYFIVE_DAY_WEIGHTED_MOVING_AVERAGE(26,"25DWM","25-days weighted MovAvg"),
 	THIRTY_DAY_WEIGHTED_MOVING_AVERAGE(27,"30DWM","30-days weighted MovAvg"),
 	FOURTYFIVE_DAY_WEIGHTED_MOVING_AVERAGE(28,"45DWM","45-days weighted MovAvg"),
-	SIXTYTHREE_DAY_WEIGHTED_MOVING_AVERAGE(20,"63DWM","63-days weighted MovAvg"),
+	SIXTYTHREE_DAY_WEIGHTED_MOVING_AVERAGE(29,"63DWM","63-days weighted MovAvg"),
+	
+	DIFF_FIVE_SIX_DAY_WEIGHTED_MOVING_AVERAGE(30,"5DWM6DWM","5-days weighted MovAvg - 6-days weighted MovAvg"),
+	DIFF_FIVE_SEVEN_DAY_WEIGHTED_MOVING_AVERAGE(31,"5DWM7DWM","5-days weighted MovAvg - 7-days weighted MovAvg"),
+	DIFF_FIVE_NINE_DAY_WEIGHTED_MOVING_AVERAGE(32,"5DWM9DWM","5-days weighted MovAvg - 9-days weighted MovAvg"),
+	DIFF_EIGHTEEN_TWENTYONE_DAY_WEIGHTED_MOVING_AVERAGE(33,"18DWM21DWM","18-days weighted MovAvg - 21-days weighted MovAvg"),
+	DIFF_EIGHTEEN_TWENTYFIVE_DAY_WEIGHTED_MOVING_AVERAGE(34,"18DWM25DWM","18-days weighted MovAvg - 25-days weighted MovAvg"),
+	DIFF_EIGHTEEN_THIRTY_DAY_WEIGHTED_MOVING_AVERAGE(35,"18DWM30DWM","18-days weighted MovAvg - 30-days weighted MovAvg"),
+	DIFF_FOURTYFIVE_SIXTYTHREE_DAY_WEIGHTED_MOVING_AVERAGE(36,"45DWM63DWM","45-days weighted MovAvg - 63-days weighted MovAvg"),
+	
 	OTHER(0,"OTHER","");
 	
 	public int id;
@@ -102,7 +111,22 @@ public enum FunctionEnum {
             case 28:
                  return FOURTYFIVE_DAY_WEIGHTED_MOVING_AVERAGE.function; 
             case 29:
-                return SIXTYTHREE_DAY_WEIGHTED_MOVING_AVERAGE.function;       
+                return SIXTYTHREE_DAY_WEIGHTED_MOVING_AVERAGE.function;  
+                
+            case 30:
+                return DIFF_FIVE_SIX_DAY_WEIGHTED_MOVING_AVERAGE.function;       
+            case 31:
+                return DIFF_FIVE_SEVEN_DAY_WEIGHTED_MOVING_AVERAGE.function;       
+            case 32:
+                return DIFF_FIVE_NINE_DAY_WEIGHTED_MOVING_AVERAGE.function;       
+            case 33:
+                return DIFF_EIGHTEEN_TWENTYONE_DAY_WEIGHTED_MOVING_AVERAGE.function;       
+            case 34:
+                return DIFF_EIGHTEEN_TWENTYFIVE_DAY_WEIGHTED_MOVING_AVERAGE.function; 
+            case 35:
+                return DIFF_EIGHTEEN_THIRTY_DAY_WEIGHTED_MOVING_AVERAGE.function;       
+            case 36:
+                return DIFF_FOURTYFIVE_SIXTYTHREE_DAY_WEIGHTED_MOVING_AVERAGE.function;     
         }
         return OTHER.function;
     }
@@ -159,6 +183,21 @@ public enum FunctionEnum {
                 return FOURTYFIVE_DAY_WEIGHTED_MOVING_AVERAGE.id;
             case "63DWM":
                 return SIXTYTHREE_DAY_WEIGHTED_MOVING_AVERAGE.id;
+                
+            case "5DWM6DWM":
+                return DIFF_FIVE_SIX_DAY_WEIGHTED_MOVING_AVERAGE.id;
+            case "5DWM7DWM":
+                return DIFF_FIVE_SEVEN_DAY_WEIGHTED_MOVING_AVERAGE.id;
+            case "5DWM9DWM":
+                return DIFF_FIVE_NINE_DAY_WEIGHTED_MOVING_AVERAGE.id;
+            case "18DWM21DWM":
+                return DIFF_EIGHTEEN_TWENTYONE_DAY_WEIGHTED_MOVING_AVERAGE.id;
+            case "18DWM25DWM":
+                return DIFF_EIGHTEEN_TWENTYFIVE_DAY_WEIGHTED_MOVING_AVERAGE.id;
+            case "18DWM30DWM":
+                return DIFF_EIGHTEEN_THIRTY_DAY_WEIGHTED_MOVING_AVERAGE.id;
+            case "45DWM63DWM":
+                return DIFF_FOURTYFIVE_SIXTYTHREE_DAY_WEIGHTED_MOVING_AVERAGE.id;
         }
         return OTHER.id;
     }
@@ -215,6 +254,21 @@ public enum FunctionEnum {
                 return FOURTYFIVE_DAY_WEIGHTED_MOVING_AVERAGE.description;
              case 29:
                 return SIXTYTHREE_DAY_WEIGHTED_MOVING_AVERAGE.description;
+                
+             case 30:
+                 return DIFF_FIVE_SIX_DAY_WEIGHTED_MOVING_AVERAGE.description;
+             case 31:
+                 return DIFF_FIVE_SEVEN_DAY_WEIGHTED_MOVING_AVERAGE.description;
+             case 32:
+                 return DIFF_FIVE_NINE_DAY_WEIGHTED_MOVING_AVERAGE.description;
+             case 33:
+                 return DIFF_EIGHTEEN_TWENTYONE_DAY_WEIGHTED_MOVING_AVERAGE.description;
+             case 34:
+                 return DIFF_EIGHTEEN_TWENTYFIVE_DAY_WEIGHTED_MOVING_AVERAGE.description;
+             case 35:
+                 return DIFF_EIGHTEEN_THIRTY_DAY_WEIGHTED_MOVING_AVERAGE.description;
+             case 36:
+                 return DIFF_FOURTYFIVE_SIXTYTHREE_DAY_WEIGHTED_MOVING_AVERAGE.description;
         }
         return OTHER.description;
     }

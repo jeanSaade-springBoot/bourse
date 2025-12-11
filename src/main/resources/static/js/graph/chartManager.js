@@ -110,7 +110,7 @@ class ChartManager {
 		this._eventsBound = false;
 		this._batching = false;
 		this._originalDataParam = null; // holds previous data param
-
+  
 		const today = new Date();
 		const fromDate = new Date();
 		fromDate.setMonth(today.getMonth() - 4);
@@ -136,7 +136,8 @@ class ChartManager {
 			defaultFromDate: fromDate,
 			defaultToDate: today,
 			formatYAxisShort: false, // default: use full numbers
-			applyTransparency: false
+			applyTransparency: false,
+			yAnnotaionRequired:[false]
 
 		};
 		ChartManager.instances[chartId] = this;
@@ -545,7 +546,7 @@ _updateNavButtons() {
 		  : [finalColor];
   		const isSingleSeries = s.series.length === 1;
 		const useWhiteStroke = isSingleSeries && (s.series[0].type === 'area'||s.series[0].type === 'line');
-		const annotations = this.generateDynamicYAnnotations(s.series, s.functionId,(this.chartId === 'chart4'?true:false));
+		const annotations = this.generateDynamicYAnnotations(s.series, s.functionId,s.yAnnotaionRequired);
 		const hasColumn = s.series.some(series => series.type === 'column');
 		
 		const isSpecialFunctionId = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(s.functionId);
@@ -553,57 +554,6 @@ _updateNavButtons() {
 	let colors = [];
 	let strokeColors = [];
 	
-
-	 if (hasSpecialColor && this.chartId === 'chart4') {
-	 // Default behavior s.series
-	 colors = s.series.map((series, index) => {
-  const base = baseColors[index % baseColors.length] || '#2e75b6'; // ✅ fallback if missing
-
-  return function({ value, seriesIndex, w }) {
-    try {
-      // For your special case (index 5)
-      if (index === 5|| index === 6) {
-   
-       return  value <= 0 ? '#f23a3aa3' : '#30d7818c';
-        // value != null && !isNaN(value)? (value <= 0 ? '#f23a3aa3' : '#30d7818c'): base;
-      }
-
-      // Always return something valid for others
-      return base;
-    } catch (e) {
-      console.error('Color function error:', e);
-      return base;
-    }
-  };
-});
-   console.log(colors)
-   strokeColors = s.series.map((series, index) => {
-	   if(series === 0)
-	  return isSingleSeries ? [useWhiteStroke ? '#ffffff' : baseColors[0]] : baseColors; // Match stroke to fill for default
-	  const base = baseColors[index % baseColors.length] || '#2e75b6'; // ✅ fallback if missing
-
-	  return function({ value, seriesIndex, w }) {
-	    try {
-	      // For your special case (index 5)
-	      if (index === 5 || index === 6) {
-	        console.log(value);
-	        console.log(value <= 0 ? '#f23a3aa3' : '#30d7818c');
-	       return  value <= 0 ? '#f23a3a' : '#30d781';
-	        // value != null && !isNaN(value)? (value <= 0 ? '#f23a3aa3' : '#30d7818c'): base;
-	      }
-	
-	      // Always return something valid for others
-	      return base;
-	    } catch (e) {
-	      console.error('Color function error:', e);
-	      return base;
-	    }
-	  };
-	
-	});
-}
-
-else  
 	if (isSpecialFunctionId) {
 	  // Main color (for area/column fill)
 	  colors = [
@@ -631,7 +581,11 @@ else {
 	  // Default behavior
 	  colors = baseColors;
 	
-	  strokeColors =  isSingleSeries ? [useWhiteStroke ? '#ffffff' : baseColors[0]] : baseColors; // Match stroke to fill for default
+	  strokeColors =  Array.isArray(s.seriesStrokesColors) && s.seriesStrokesColors.length > 0
+				        ? s.seriesStrokesColors
+				        : (isSingleSeries
+				            ? [useWhiteStroke ? '#ffffff' : baseColors[0]]
+				            : baseColors); // Match stroke to fill for default
 	}
 
 	 
@@ -692,8 +646,8 @@ this.chart.updateOptions({
 				colors: strokeColors
 			},
 			markers: {
-				colors: isSingleSeries ? [useWhiteStroke ? '#ffffff' : baseColors[0]] : baseColors,
-				strokeColors: isSingleSeries ? [useWhiteStroke ? '#ffffff' : baseColors[0]] : baseColors,
+				colors: ['#ffffff'],//strokeColors,
+				strokeColors: ['#ffffff'],//strokeColors,
 				shape: 'square',
 				size: s.disableMarkers? s.markerSizeArray :s.markerSize
 			},
@@ -871,7 +825,7 @@ _shiftBy(from, to, step, freeze) {
 
   return { from: f, to: freeze ? t : to };
 }
-	async navigate(direction) {
+async navigate(direction) {
   const id = this.chartId;
   const fromInput = document.getElementById(`dateFrom-${id}`);
   const toInput   = document.getElementById(`dateTo-${id}`);
@@ -955,6 +909,8 @@ _shiftBy(from, to, step, freeze) {
     markerSizeArray: this._markerSizeArray,
     combineTooltips: this._combineTooltips,
     timeLabel: this._timeLabel,
+    yAnnotaionRequired:this.state.yAnnotaionRequired,
+    seriesSides:this.state.seriesSides
   });
 
   this._updateNavButtons();
@@ -1031,6 +987,8 @@ _shiftBy(from, to, step, freeze) {
 	    combineTooltips = false,
 		timeLabel=true,
 		seriesSides=[],
+		yAnnotaionRequired=[],
+		seriesStrokesColors=[]
 	}) {
 		this._lastService = service;
 		this._api = api;
@@ -1105,6 +1063,7 @@ _shiftBy(from, to, step, freeze) {
 		this.state.currency=currency;
 		this.state.combineTooltips=combineTooltips;
 		this.state.seriesSides = seriesSides;
+		this.state.yAnnotaionRequired=yAnnotaionRequired;
 		// map to series data
 		const series = resp.map((dto, idx) => {
 		const type = seriesTypes[idx] || this.state.chartType;
@@ -1128,7 +1087,12 @@ _shiftBy(from, to, step, freeze) {
 		    return { x: pt.x, y: yValue };
 		  });
 
- 		 const shouldApplyWidth = ['column'].includes(type) && [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(this.state.functionId);
+		const shouldApplyWidth =
+		    ['column'].includes(type) &&
+		    String(this.state.functionId)
+		        .split(',')
+		        .map(x => Number(x.trim()))
+		        .some(id => [3,4,5,6,10,11,12,13,14,15,30,31,32,33,34,35,36].includes(id));
 		 const strokeWidth = shouldApplyWidth ? this.getDynamicWidth(cleanData.filter(d => d.y !== null).length) : undefined;
 
 		 return {
@@ -1138,41 +1102,13 @@ _shiftBy(from, to, step, freeze) {
 		    ...(strokeWidth !== undefined ? { strokeWidth } : {}) // only apply if valid
 		  };
 		});
-		if(this.chartId=='chart4')
-		{
-			const statisData =  {
-			    "name": "5dw-6dw Diff",
-			    "type": "column","yAxisIndex": 1,
-			    isMultiColor:true,
-			    "data": [
-			      {"x":"09-Oct-25","y":-80.77},{"x":"10-Oct-25","y":-589.11},{"x":"11-Oct-25","y":-1160.27},{"x":"12-Oct-25","y":-915.41},{"x":"13-Oct-25","y":-731.99},{"x":"14-Oct-25","y":-420.36},{"x":"15-Oct-25","y":-23.69},{"x":"16-Oct-25","y":-260.07},{"x":"17-Oct-25","y":-642.86},{"x":"18-Oct-25","y":-601.68},{"x":"19-Oct-25","y":-346.58},{"x":"20-Oct-25","y":2.15},{"x":"21-Oct-25","y":144.59},{"x":"22-Oct-25","y":131.96},{"x":"23-Oct-25","y":91.46},{"x":"24-Oct-25","y":100.22},{"x":"25-Oct-25","y":167.28},{"x":"26-Oct-25","y":412.31},{"x":"27-Oct-25","y":377.24},{"x":"28-Oct-25","y":192.38},{"x":"29-Oct-25","y":-0.75},{"x":"30-Oct-25","y":-299.52},{"x":"31-Oct-25","y":-494.95},{"x":"01-Nov-25","y":-380.13},{"x":"02-Nov-25","y":-132.67},{"x":"03-Nov-25","y":-102.55},{"x":"04-Nov-25","y":-431.72},{"x":"05-Nov-25","y":-373.25},{"x":"06-Nov-25","y":-370.64},{"x":"07-Nov-25","y":-252.56},{"x":"08-Nov-25","y":-97.25},{"x":"09-Nov-25","y":104.41}
-			    ]
-			  };
-			const statisData1 = {
-			    "name": "5dw-7dw Diff",
-			    "type": "column","yAxisIndex": 1,
-			    // isMultiColor:true,
-			    "data": [
-			      {"x":"09-Oct-25","y":-109.16},{"x":"10-Oct-25","y":-949.23},{"x":"11-Oct-25","y":-1981.27},{"x":"12-Oct-25","y":-1891.75},{"x":"13-Oct-25","y":-1435.70},{"x":"14-Oct-25","y":-1032.16},{"x":"15-Oct-25","y":-452.83},{"x":"16-Oct-25","y":-442.41},{"x":"17-Oct-25","y":-1015.67},{"x":"18-Oct-25","y":-1156.51},{"x":"19-Oct-25","y":-794.36},{"x":"20-Oct-25","y":-169.25},{"x":"21-Oct-25","y":136.80},{"x":"22-Oct-25","y":206.61},{"x":"23-Oct-25","y":250.08},{"x":"24-Oct-25","y":256.45},{"x":"25-Oct-25","y":317.86},{"x":"26-Oct-25","y":682.26},{"x":"27-Oct-25","y":744.11},{"x":"28-Oct-25","y":465.62},{"x":"29-Oct-25","y":54.70},{"x":"30-Oct-25","y":-439.07},{"x":"31-Oct-25","y":-785.65},{"x":"01-Nov-25","y":-771.98},{"x":"02-Nov-25","y":-384.63},{"x":"03-Nov-25","y":-332.81},{"x":"04-Nov-25","y":-807.51},{"x":"05-Nov-25","y":-677.82},{"x":"06-Nov-25","y":-709.59},{"x":"07-Nov-25","y":-520.36},{"x":"08-Nov-25","y":-304.97},{"x":"09-Nov-25","y":95.02}
-			    ]
-			  };
-			  	const statisData2 = {
-    "name": "5dw-9dw Diff",
-    "type": "column","yAxisIndex": 1,
-    "data": [
-      {"x":"09-Oct-25","y":-19.20},{"x":"10-Oct-25","y":-1322.67},{"x":"11-Oct-25","y":-2935.23},{"x":"12-Oct-25","y":-3195.32},{"x":"13-Oct-25","y":-2925.56},{"x":"14-Oct-25","y":-2404.48},{"x":"15-Oct-25","y":-1644.55},{"x":"16-Oct-25","y":-1509.05},{"x":"17-Oct-25","y":-1810.05},{"x":"18-Oct-25","y":-1815.94},{"x":"19-Oct-25","y":-1549.65},{"x":"20-Oct-25","y":-784.43},{"x":"21-Oct-25","y":-249.16},{"x":"22-Oct-25","y":40.21},{"x":"23-Oct-25","y":361.36},{"x":"24-Oct-25","y":595.90},{"x":"25-Oct-25","y":711.98},{"x":"26-Oct-25","y":1168.42},{"x":"27-Oct-25","y":1254.52},{"x":"28-Oct-25","y":974.46},{"x":"29-Oct-25","y":388.05},{"x":"30-Oct-25","y":-442.50},{"x":"31-Oct-25","y":-1029.12},{"x":"01-Nov-25","y":-1181.31},{"x":"02-Nov-25","y":-882.23},{"x":"03-Nov-25","y":-965.93},{"x":"04-Nov-25","y":-1683.75},{"x":"05-Nov-25","y":-1305.75},{"x":"06-Nov-25","y":-1284.99},{"x":"07-Nov-25","y":-1013.52},{"x":"08-Nov-25","y":-754.93},{"x":"09-Nov-25","y":-172.46}
-    ]
-  };
-			  
-			series.push(statisData);
-			series.push(statisData1);
-			// series.push(statisData2);
-		}
+	 
 		this.state.isCentred = isCentred;
 		this.state.applyTransparency = applyTransparency;
 		this.state.disableMarkers = disableMarkers;
 		this.state.markerSizeArray = markerSizeArray;
 		this.state.seriesColors = seriesColors.length ? seriesColors : [this.state.color];
+	    this.state.seriesStrokesColors = seriesStrokesColors;
 
 		this.state.seriesFormats = resp.map((r, idx) => {
 			const [digits, isRaw] = getFormat(r.config?.yAxisFormat || '');
@@ -1378,8 +1314,8 @@ _shiftBy(from, to, step, freeze) {
 				color: '#f0ab2e50',
 				width: 3
 			},
-			opposite: sideGroup === 'right',
-			show: show,
+		   opposite: this.chartId!=="chart4"?index === 1:sideGroup === 'right',
+		   show: this.chartId!=="chart4"?true:show,
 			...customSettings
 		};
 	}
@@ -1452,8 +1388,8 @@ _shiftBy(from, to, step, freeze) {
 			}
 		},
 		axisBorder: { show: true, color: '#ffffff', width: 3 },
-		opposite: sideGroup === 'right',
-		show: show,
+		opposite: this.chartId!=="chart4"?index === 1:sideGroup === 'right',
+		show: this.chartId!=="chart4"?true:show,
 		...customSettings
 	};
 }
@@ -1550,7 +1486,7 @@ shouldShowYAxis(sideGroup, index) {
 		this.updateCandleOptionsVisibility();
 
 	}
-	generateDynamicYAnnotations(series = [],functionId, isRequired=false) {
+	generateDynamicYAnnotations(series = [],functionId, isRequired=[false]) {
 		const annotations = { yaxis: [] };
 
 		series.forEach((s, idx) => {
@@ -1600,11 +1536,11 @@ shouldShowYAxis(sideGroup, index) {
 							  });
 		}
 		else 
-		if(isRequired)
+		if(isRequired[0])
 		{
 			annotations.yaxis.push({
 							    y: 0,
-							    yAxisIndex: 1,
+							    yAxisIndex: isRequired[1], // need fix 
 								strokeDashArray: 0,
 								offsetX: 0,
 								width: '100%',
