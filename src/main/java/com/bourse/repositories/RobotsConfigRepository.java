@@ -27,6 +27,7 @@ public interface RobotsConfigRepository extends JpaRepository<RobotsConfiguratio
 													 		+ " rc.threshHoldNotification,\r\n"
 													 		+ " rc.JumpValueTick,\r\n"
 													 		+ " rc.JumpPercentage,\r\n"
+													 		+ " rc.JumpScaledValue,\r\n"
 													 		+ " rc.robotName,\r\n"
 													 		+ " rc.groupId,\r\n"
 													 		+ " rc.subgroupId,\r\n"

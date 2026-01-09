@@ -247,7 +247,7 @@ setTimeout(() => {
 	    isDollarDominator = !isDollarDominator;
 	
 	    const checkedItemValues = checkedItemid.filter(item => item != null);
-		    if(checkedItemValues[0]=='jqxCheckBoxDollarIndex'){
+		    if(checkedItemValues[0]=='#jqxCheckBoxDollarIndex'){
 				filteredData = configData.filter(item => item.isDollarDominator==true);
 			}
 			else
@@ -336,6 +336,8 @@ setTimeout(() => {
 			$("#collapseFilter").addClass('show');
 		}
 	});
+	
+	
 	$('#performanceGroupOfPeriod').on('selected', function () { 
 		drawGraph()
 	}); 
@@ -535,6 +537,9 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
         // Handle the response data here
         $("#mainChart").removeClass("d-none");
         $("#timeline-chart").addClass("d-none");
+        	
+        let min = Math.min(...data[0].values);
+        let max = Math.max(...data[0].values);
         
        if(checkedItems!='')
         {
@@ -543,7 +548,9 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 				  data[0].values ,
 				  selectedItems.map(label => {return label.split(':')[1]+'-'+label.split(':')[0]}));
 			
-        	
+        min = Math.min(...orderResult.data);
+        max = Math.max(...orderResult.data);
+         
 		if (isRanked) {
 			// Sort by values descending (positive to negative)
 			const combined = orderResult.labels.map((label, i) => ({
@@ -606,10 +613,7 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
         json.chartId = 'mainChart';
         json.width = 1078;
 		json.height=(checkedItemid[0]=="#jqxCheckBoxDollarIndex")?825:(checkedItems!='')?getHeightBasedOnCount(checkedItems):525;
-		
-        let min = Math.min(...data[0].values);
-        let max = Math.max(...data[0].values);
-        
+	
         const valueMin = addMarginToMinMax(min, max, 20);
         const valueMax = addMarginToMinMax(min, max, 15);
         json.min = min;
@@ -719,12 +723,12 @@ function getGraphOptions(json) {
           bar: {
 			  colors: {
               ranges: [{
-                from: -100,
+                from: -1000,
                 to: 0,
                 color: '#f23a3a'
               }, {
                 from: 0,
-                to: 100,
+                to: 1000,
                 color: '#30d781'
               }]
             },

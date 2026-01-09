@@ -27,7 +27,7 @@
   background-color: #6495ed;
   color:white;
 } 
-  .jqx-widget-header:nth-child(32) {
+  .jqx-widget-header:nth-child(33) {
   background-color: #ffa500;
     color:white;
 } 
@@ -338,7 +338,7 @@
 				    <div class="col-12 row  mt-4">
 				            <div class="col-12">
 							   <form id="robotform">
-							   <div style="overflow-y: scroll;overflow-x: hidden; height:520px;">
+							   <div style="overflow-y: auto; overflow-x: hidden; ">
 							     <div class="form-group row">
 							      <div class="col-2">
 							 <!--        <div class="form-group" style='margin: 35% 0;'>
@@ -441,17 +441,17 @@
 							        <div id='HighLowdropDown'>
                                        </div>
                                        </div> -->
-								  <div id='jump_jqxCheckRobot' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
-                                   JUMP ROBOT</div> 
-                                  <div id="robotCodeJump" class="robotcode_style"></div>
+								  <div id='sjump_jqxCheckRobot' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
+                                  SCALED JUMP ROBOT</div> 
+                                  <div id="srobotCodeJump" class="robotcode_style"></div>
                                   </div>
                                     <div class="col-4">
                                     <div class="form-group">
 									    <label for="exampleFormControlTextarea1">Template</label>
-									    <textarea class="form-control" id="jump_TemplateRobot" rows="3"></textarea>
+									    <textarea class="form-control" id="sjump_TemplateRobot" rows="3"></textarea>
 									   <div class="">
 									  Select Variables: 
-									   <ul onclick="addText(event,'jump_TemplateRobot')" class="list-inline">
+									   <ul onclick="addText(event,'sjump_TemplateRobot')" class="list-inline">
 									   	  <li class="list-inline-item">{ColumnTitle}</li>
 										  <li class="list-inline-item">{RuleResult}</li>
 										  <li class="list-inline-item">{P0}</li>
@@ -462,12 +462,19 @@
 										</div>
 									  </div>
                                     </div>
-                                     <div class="col-2">
+                                      <div class="col-1">
+                                     	        <div class="form-group" style='margin: 35% 0;'>
+									  <label for="sjump_value">Scaled By</label>
+                                      <div id='sjump_value'>
+                                       </div>
+                                       </div>
+                                     </div>
+                                     <div class="col-1 p-0">
                                      	        <div class="form-group" style='margin: 15% 0;'>
-									  <label for="triggerKey">Trigger Key</label>
-                                      		<div style="margin: 3px;" id="jump_isTick">
+									  <label for="striggerKey">Trigger Key</label>
+                                      		<div style="margin: 3px;" id="sjump_isTick">
               									  Ticks</div>
-								            <div style="margin: 3px;" id="jump_isPercentage">
+								            <div style="margin: 3px;" id="sjump_isPercentage">
 								                Percentage %</div>
                                        </div>
                                      </div>
@@ -475,7 +482,7 @@
                                      	        <div class="form-group" style='margin: 15% 0;'>
 									    <label for="Trigger">Trigger</label>
                                         <div class="col-10" style='padding: 0;'>
-									  	<input type="number" class="form-control" id="jump_Trigger">
+									  	<input type="number" class="form-control" id="sjump_Trigger">
 									   </div>
                                        </div>
                                        </div>
@@ -483,7 +490,7 @@
                                      	        <div class="form-group" style='margin:15% 0;'>
 									    <label for="Trigger">Highlight</label>
                                         <div class="col-10" style='padding: 0;'>
-									  	<input type="number" class="form-control" id="jump_Highlight">
+									  	<input type="number" class="form-control" id="sjump_Highlight">
 									   </div>
                                        </div>
                                        </div>
@@ -866,6 +873,67 @@
 									    <label for="Trigger">Highlight</label>
                                         <div class="col-10" style='padding: 0;'>
 									  	<input type="number" class="form-control" id="jump_Highlight_f">
+									   </div>
+                                       </div>
+                                       </div>
+								  </div>
+								    <div class="form-group row">
+							      <div class="col-2">
+							 <!--        <div class="form-group" style='margin: 35% 0;'>
+									    <label for="HighLowdropDown">High/Low Robot </label>
+							        <div id='HighLowdropDown'>
+                                       </div>
+                                       </div> -->
+								  <div id='sjump_jqxCheckRobot_f' style='margin: 35% 0 0 0; padding-left: .75rem;text-align: left!important;'>
+                                   SCALED JUMP ROBOT</div> 
+                                  <div id="srobotCodeJump_f" class="robotcode_style"></div>
+                                  </div>
+                                    <div class="col-4">
+                                    <div class="form-group">
+									    <label for="exampleFormControlTextarea1">Template</label>
+									    <textarea class="form-control" id="sjump_TemplateRobot_f" rows="3"></textarea>
+									   <div class="">
+									  Select Variables: 
+									   <ul onclick="addText(event,'sjump_TemplateRobot_f')" class="list-inline">
+									   	  <li class="list-inline-item">{ColumnTitle}</li>
+										  <li class="list-inline-item">{RuleResult}</li>
+										  <li class="list-inline-item">{P0}</li>
+										  <li class="list-inline-item">{P1}</li>
+										  <li class="list-inline-item">{JumpValue}</li>
+										  <li class="list-inline-item">{Jump%}</li>
+										</ul>
+										</div>
+									  </div>
+                                    </div>
+                                    <div class="col-1">
+                                     	        <div class="form-group" style='margin: 35% 0;'>
+									  <label for="sjump_value_f">Scaled By</label>
+                                      <div id='sjump_value_f'>
+                                       </div>
+                                       </div>
+                                     </div>
+                                     <div class="col-1 p-0">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									  <label for="striggerKey_f">Trigger Key</label>
+                                      		<div style="margin: 3px;" id="sjump_isTick_f">
+              									  Ticks</div>
+								            <div style="margin: 3px;" id="sjump_isPercentage_f">
+								                Percentage %</div>
+                                       </div>
+                                     </div>
+                                       <div class="col-2">
+                                     	        <div class="form-group" style='margin: 15% 0;'>
+									    <label for="Trigger">Trigger</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="number" class="form-control" id="sjump_Trigger_f">
+									   </div>
+                                       </div>
+                                       </div>
+                                        <div class="col-2">
+                                     	        <div class="form-group" style='margin:15% 0;'>
+									    <label for="Trigger">Highlight</label>
+                                        <div class="col-10" style='padding: 0;'>
+									  	<input type="number" class="form-control" id="sjump_Highlight_f">
 									   </div>
                                        </div>
                                        </div>

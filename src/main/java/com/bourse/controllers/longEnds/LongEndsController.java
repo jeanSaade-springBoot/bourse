@@ -89,7 +89,7 @@ public class LongEndsController {
 		longEndsService.saveLongEndsData(longEndDataDTOlst);
 		longEndsService.doCalculation(longEndDataDTOlst.get(0).getReferDate(),String.valueOf(longEndDataDTOlst.get(0).getGroupId()));
 		longEndsService.doCalculationSaveSpreadData(longEndDataDTOlst,null);
-
+		longEndsService.runTrendFollowingMavgTask(longEndDataDTOlst.get(0).getGroupId(),longEndDataDTOlst.get(0).getReferDate(),longEndDataDTOlst.get(0).getReferDate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@GetMapping(value = "findlatestdata")
@@ -124,6 +124,7 @@ public class LongEndsController {
 		  List<LongEndData> longEndsData = longEndsService.findLongEndsDataByReferDateAndGroupId(referDate,groupId);
 		  longEndsService.deleteLongEndsData(groupId,referDate);
 		  longEndsService.onSuccessfulDelete(longEndsData);
+		  longEndsService.runTrendFollowingMavgTask(Long.valueOf(groupId),referDate,referDate);
 
 		return new ResponseEntity<>(HttpStatus.OK);
 	}

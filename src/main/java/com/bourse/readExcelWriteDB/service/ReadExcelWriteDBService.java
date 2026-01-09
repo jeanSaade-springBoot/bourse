@@ -1191,7 +1191,8 @@ public class ReadExcelWriteDBService {
 		            System.out.println("Maximum Date: " + minMaxDates[1]);
 
 		             longEndsService.doCalculationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
-		        } else {
+		             longEndsService.runTrendFollowingMavgTask(Long.valueOf(readExcelWriteDBDTO.getGroupId()),minMaxDates[0],minMaxDates[1]);
+			   } else {
 		            System.out.println("List is empty.");
 		        } 
 		}else if(cryptosGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim()))

@@ -16,6 +16,7 @@ public interface RobotsFunctionConfigRepository extends JpaRepository<RobotsFunc
 	  @Query("SELECT new com.bourse.domain.RobotsFunctionConfiguration(     rc.id,\r\n"
 													  		+ "	  rc.JumpValueTick,\r\n"
 													  		+ "	  rc.JumpPercentage,\r\n"
+													 		+ "   rc.JumpScaledValue,\r\n"
 													  		+ "	  rc.columnDescription,\r\n"
 													  		+ "	  rc.configId,\r\n"
 													  		+ "	  rc.functionId,\r\n"

@@ -1,5 +1,7 @@
 package com.bourse.service.longEnds;
 
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -31,6 +33,7 @@ import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.longends.LongEndsAuditCommonDTO;
 import com.bourse.enums.FunctionEnum;
+import com.bourse.enums.GroupRollingEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
 import com.bourse.repositories.TableManagementRepository;
 import com.bourse.repositories.longEnds.LongEndsDataRepository;
@@ -47,6 +50,7 @@ import com.bourse.repositories.longEnds.TmpAuditLefTbondsRepository;
 import com.bourse.repositories.longEnds.TmpAuditLefTnotesRepository;
 import com.bourse.service.AdminService;
 import com.bourse.service.FunctionConfigurationService;
+import com.bourse.util.DateFormatUtil;
 import com.bourse.util.LiquidityUtil;
 import com.bourse.util.LongEndsUtil;
 import org.springframework.data.domain.Sort;
@@ -128,6 +132,8 @@ public class LongEndsService {
 	    } 
 		doCalculation(updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getGroupId());
 		doCalculationSpreadData(longEndsDataLst, OldValue, spreadTotal);
+		runTrendFollowingMavgTask(Long.valueOf(updateDataDTOlst.get(0).getGroupId()),updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getReferdate());
+
 	}
 	  
 	public List<LongEndsDisplaySettings> getLongEndsDisplaySettingsList() {
@@ -203,6 +209,30 @@ public class LongEndsService {
 	        List<LongEndsAuditCommonDTO> auditProcedureDTOLst = mapResultListToDTO(resultList, groupId);
 	        return auditProcedureDTOLst;
 	}
+	public void runTrendFollowingMavgTask(Long groupId, String fromDate, String toDateDate) {
+
+	    Long rollingId = GroupRollingEnum.getRollingGroupId(groupId);
+
+	    String formattedFromDate = DateFormatUtil.normalizeToIso(fromDate);
+	    String formattedToDate   = DateFormatUtil.normalizeToIso(toDateDate);
+
+	    StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_get_all_weighted_mavg");
+	    query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+	    query.setParameter("groupId", String.valueOf(rollingId));
+
+	    query.registerStoredProcedureParameter("subGroupId", String.class, ParameterMode.IN);
+	    query.setParameter("subGroupId", "4");
+
+	    query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+	    query.setParameter("fromDate", formattedFromDate);
+
+	    query.registerStoredProcedureParameter("toDateDate", String.class, ParameterMode.IN);
+	    query.setParameter("toDateDate", formattedToDate);
+
+	    query.execute();
+	    entityManager.clear();
+	}
+
 	public List<LongEndsAuditCommonDTO> getLongEndsRollingByGroupIdAndByReferDate(String groupId, String referDate) {
 		
 		boolean hasData = adminService.getData();

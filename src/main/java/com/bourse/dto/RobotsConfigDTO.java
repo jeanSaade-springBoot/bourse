@@ -20,6 +20,7 @@ public class RobotsConfigDTO {
 	private String threshHoldNotification;
 	private String jumpValueTick;
 	private String jumpPercentage;
+	private String jumpScaledValue;
 	private String robotName;
 	private String groupId;
 	private String subgroupId;

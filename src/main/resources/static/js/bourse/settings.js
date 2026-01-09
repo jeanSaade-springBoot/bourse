@@ -340,18 +340,25 @@
 		$("#jqxCheckBoxShowInNews_f").jqxCheckBox({ theme: 'dark' ,rtl: true, width: 192, height: 25});  
 		
 	    $("#highLow_jqxCheckBox").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
-	    $("#jump_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
+	    $("#jump_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});  
+	    $("#sjump_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});  
 		$("#trend_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
 		$("#trendDepth_jqxCheckRobot").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
 		
 		 $("#highLow_jqxCheckBox_f").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
 	    $("#jump_jqxCheckRobot_f").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
+	    $("#sjump_jqxCheckRobot_f").jqxCheckBox({ theme: 'dark', width: 180, height: 25});    
 		$("#trend_jqxCheckRobot_f").jqxCheckBox({ theme: 'dark', width: 180, height: 25});
 	    
-        $("#jump_isTick").jqxRadioButton({ theme: 'dark', checked: true});
-        $("#jump_isPercentage").jqxRadioButton({ theme: 'dark'});
-        $("#jump_isTick_f").jqxRadioButton({ theme: 'dark', checked: true});
-        $("#jump_isPercentage_f").jqxRadioButton({ theme: 'dark'});
+        $("#jump_isTick").jqxRadioButton({ theme: 'dark', checked: true, groupName :"jump"});
+        $("#jump_isPercentage").jqxRadioButton({ theme: 'dark', groupName :"jump"});
+        $("#jump_isTick_f").jqxRadioButton({ theme: 'dark', checked: true, groupName :"jump"});
+        $("#jump_isPercentage_f").jqxRadioButton({ theme: 'dark', groupName :"jump"});
+        
+        $("#sjump_isTick").jqxRadioButton({ theme: 'dark', checked: true, groupName :"sjump"});
+        $("#sjump_isPercentage").jqxRadioButton({ theme: 'dark', groupName :"sjump"});
+        $("#sjump_isTick_f").jqxRadioButton({ theme: 'dark', checked: true, groupName :"sjump"});
+        $("#sjump_isPercentage_f").jqxRadioButton({ theme: 'dark', groupName :"sjump"});
 	   
 	    $("#update").jqxButton({ theme: 'dark',height:30,width:74  });
         $("#cancel").jqxButton({ theme: 'dark',height:30,width:74 });
@@ -379,13 +386,19 @@
         var trendingDescriptionsource = [ "Higher / Lower",
         	"Increasing / Decreasing",
         	"Streepening / Flattening"];
+        	
+        var jumpScaleValueSource = [ "1","10","100" ];
         
     // Create a jqxDropDownList
     $("#highLow_thresholddl").jqxDropDownList({theme: 'dark', source: thresholdsource,width: 80, height: 30,dropDownHeight: 150});
     $("#highLow_thighlightdropdown").jqxDropDownList({theme: 'dark', source: thresholdsource, width: 80, height: 30,dropDownHeight: 150});
     $("#highLow_thresholddl_f").jqxDropDownList({theme: 'dark', source: thresholdsource,width: 80, height: 30,dropDownHeight: 150});
     $("#highLow_thighlightdropdown_f").jqxDropDownList({theme: 'dark', source: thresholdsource, width: 80, height: 30,dropDownHeight: 150});
-    
+        
+    $("#sjump_value").jqxDropDownList({theme: 'dark', source: jumpScaleValueSource,width: 50, height: 30,dropDownHeight: 150});
+    $("#sjump_value_f").jqxDropDownList({theme: 'dark', source: jumpScaleValueSource,width: 50, height: 30,dropDownHeight: 150});
+
+
     $("#trend_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 177, height: 30,dropDownHeight: 100});
 	$("#trendDepth_Description").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 230, height: 30,dropDownHeight: 100});
     $("#trend_Description_f").jqxDropDownList({theme: 'dark', source: trendingDescriptionsource,width: 177, height: 30,dropDownHeight: 100});
@@ -410,6 +423,7 @@
               { name: 'startDate', type: 'string' },
               { name: 'lowHighActive', type: 'bool' },
               { name: 'jumpActive', type: 'bool' },
+              { name: 'sjumpActive', type: 'bool' },
               { name: 'trendActive', type: 'bool' },
               { name: 'graphScale', type: 'string' },
               { name: 'Crossing100d200dRobot', type: 'string' },
@@ -462,10 +476,11 @@
 		   $("#trend_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#trendDepth_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#jump_jqxCheckRobot").jqxCheckBox('val',false);
+    	   $("#sjump_jqxCheckRobot").jqxCheckBox('val',false);
     	   $("#trend_Description").jqxDropDownList('clearSelection');
     	   $("#trendDepth_Description").jqxDropDownList('clearSelection');
-    	   $("#jump_isTick").jqxRadioButton({checked: true});
-    	   $("#jump_isPercentage").jqxRadioButton({checked: false});
+    	   $("#jump_isTick").jqxRadioButton({checked: true, groupName :"jump"});
+    	   $("#jump_isPercentage").jqxRadioButton({checked: false, groupName :"jump"});
 		   $( "#nav-graphsData-tab" ).trigger('click');
 		   $("#functionDropDown").jqxDropDownList('clearSelection'); 
 		   $('#jqxCheckBoxShowIndb').jqxCheckBox('val',false);
@@ -507,7 +522,18 @@
 	                  $("#jump_Highlight").val(data[i].threshHoldNotification);
 	                  $("#jump_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
 	         		 }
-	       	          
+	       	            if (data[i].robotName=="ScaledJumpRobot")
+	         		 {
+	       	          $("#srobotCodeJump").text(data[i].robotCode);
+	         		  $("#sjump_TemplateRobot").val(data[i].template);
+	                  $("#sjump_isTick").val(data[i].jumpValueTick==1?true:false);
+	                  $("#sjump_isPercentage").val(data[i].jumpPercentage==1?true:false);
+	                  $("#sjump_Trigger").val(data[i].threshholdTrigger);
+	                  $("#sjump_Highlight").val(data[i].threshHoldNotification);
+	                  $("#sjump_jqxCheckRobot").jqxCheckBox('val', data[i].isactive==1?true:false);
+	                  $("#sjump_value").jqxDropDownList('val', data[i].jumpScaledValue);
+	         		 }
+	         		 
 	       	       if (data[i].robotName=="TrendRobot")
 	         		 {
 	       	    	  $("#robotCodeTrend").text(data[i].robotCode);
@@ -616,6 +642,7 @@
 							yaxisFormat:$("#yAxisFormats").val()!=''?$("#yAxisFormats").val():null,
 							lowHighActive:rowdata.lowHighActive,
 							jumpActive:rowdata.jumpActive,
+							sjumpActive:rowdata.sjumpActive,
 							trendActive:rowdata.trendActive
                 		    });
                       $("#jqxNotification").jqxNotification("open");
@@ -666,6 +693,25 @@
         		    "subgroupId":subGroupDropDown.value,
         		    "configId":$("#configId").val(),
 					"robotCode":"JUMP",
+				  },
+				  {
+    		    	"robotName":"ScaledJumpRobot",
+            		"isactive": $("#sjump_jqxCheckRobot").jqxCheckBox('val'),
+            		"columnDescription":$("#DisplayName").val(),
+        		    "displayDescription": $("#graphTitle").val(),
+        		    "rule":"",
+        		    "template":$("#sjump_TemplateRobot").val(),
+        		    "lastData":"",
+        		    "threshholdTrigger": $("#sjump_Trigger").val(),
+        		    "threshHoldNotification": $("#sjump_Highlight").val(),
+        		    "jumpValueTick":$('#sjump_isTick').jqxRadioButton('val')==true?'1':'0',
+        		    "jumpPercentage":$('#sjump_isPercentage').jqxRadioButton('val')==true?'1':'0',
+        		    "jumpScaledValue": $("#sjump_value").jqxDropDownList('val'),
+ 					"description":"",
+        		    "groupId":groupItem.value,
+        		    "subgroupId":subGroupDropDown.value,
+        		    "configId":$("#configId").val(),
+					"robotCode":"SJUMP",
 				  },
     		       {
         		    "robotName":"TrendRobot",
@@ -843,6 +889,26 @@
 					"functionId":$("#function_id").val(),
 					"robotCode":"JUMP",
 				  },
+				    {
+    		    	"robotName":"ScaledJumpRobot",
+            		"isactive": $("#sjump_jqxCheckRobot_f").jqxCheckBox('val'),
+            		"columnDescription":$("#DisplayName").val(),
+        		    "displayDescription": $("#graphTitle").val(),
+        		    "rule":"",
+        		    "template":$("#sjump_TemplateRobot_f").val(),
+        		    "lastData":"",
+        		    "threshholdTrigger": $("#sjump_Trigger_f").val(),
+        		    "threshHoldNotification": $("#sjump_Highlight_f").val(),
+        		    "jumpValueTick":$('#sjump_isTick_f').jqxRadioButton('val')==true?'1':'0',
+        		    "jumpPercentage":$('#sjump_isPercentage_f').jqxRadioButton('val')==true?'1':'0',
+        		    "jumpScaledValue": $("#sjump_value_f").jqxDropDownList('val'),
+        		    "description":"",
+        		    "groupId":groupItem.value,
+        		    "subgroupId":subGroupDropDown.value,
+					"configId":$("#configId").val(),
+					"functionId":$("#function_id").val(),
+					"robotCode":"SJUMP",
+				  },
     		       {
         		    "robotName":"TrendRobot",
             		"isactive": $("#trend_jqxCheckRobot_f").jqxCheckBox('val'),
@@ -966,9 +1032,10 @@
             { text: 'Data Format', columngroup: 'TimeAndFormat', datafield: 'dataFormat', width: '12.84%' },
             { text: 'Y Axis Format', columngroup: 'TimeAndFormat', datafield: 'yaxisFormat', width: '12.84%'},
             { text: 'Factor Calc Type', columngroup: 'TimeAndFormat', datafield: 'calculationType', width: '12.84%' },
-            { text: 'HighOrLow', columngroup: 'NewsRobot', datafield: 'lowHighActive',columntype: 'checkbox', width: '12.84%' },
-            { text: 'Jump', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'jumpActive', width: '12.84%' },
-            { text: 'Trend', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'trendActive', width: '12.84%' },
+            { text: 'HighOrLow', columngroup: 'NewsRobot', datafield: 'lowHighActive',columntype: 'checkbox', width: '9.63%' },
+            { text: 'Jump', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'jumpActive', width: '9.63%' },
+            { text: 'SJump', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'sjumpActive', width: '9.63%' },
+			{ text: 'Trend', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'trendActive', width: '9.63%' },
             { text: '', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'graphScale', hidden: true },
             { text: 'Crossing 100d-200d Robot', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'Crossing100d200dRobot',hidden: true  },
             { text: 'SignChange', columngroup: 'NewsRobot', columntype: 'checkbox', datafield: 'SignChange',hidden: true  }
@@ -998,8 +1065,8 @@ async function resetFunctionSection()
 	$("#trend_jqxCheckRobot_f").jqxCheckBox('val',false);
 	$("#jump_jqxCheckRobot_f").jqxCheckBox('val',false);
 	$("#trend_Description_f").jqxDropDownList('clearSelection');
-	$("#jump_isTick_f").jqxRadioButton({checked: true});
-	$("#jump_isPercentage_f").jqxRadioButton({checked: false});
+	$("#jump_isTick_f").jqxRadioButton({checked: true, groupName :"jump"});
+	$("#jump_isPercentage_f").jqxRadioButton({checked: false, groupName :"jump"});
 		   
 	$("#chartType_f").jqxDropDownList('clearSelection'); 
 	$("#chartColor_f").jqxDropDownList('clearSelection'); 
@@ -1104,6 +1171,18 @@ function getRobotFunctionsConfiguration(configId,functionId)
 	                  $("#jump_jqxCheckRobot_f").jqxCheckBox('val', data[i].isactive==1?true:false);
 	         		 }
 	       	          
+	       	          if (data[i].robotName=="ScaledJumpRobot")
+	         		 {
+	       	          $("#srobotCodeJump_f").text(data[i].robotCode);
+	         		  $("#sjump_TemplateRobot_f").val(data[i].template);
+	                  $("#sjump_isTick_f").val(data[i].jumpValueTick==1?true:false);
+	                  $("#sjump_isPercentage_f").val(data[i].jumpPercentage==1?true:false);
+	                  $("#sjump_value_f").jqxDropDownList('val', data[i].jumpScaledValue);
+	                  $("#sjump_Trigger_f").val(data[i].threshholdTrigger);
+	                  $("#sjump_Highlight_f").val(data[i].threshHoldNotification);
+	                  $("#sjump_jqxCheckRobot_f").jqxCheckBox('val', data[i].isactive==1?true:false);
+	         		 }
+	         		 
 	       	       if (data[i].robotName=="TrendRobot")
 	         		 {
 	       	    	  $("#robotCodeTrend_f").text(data[i].robotCode);

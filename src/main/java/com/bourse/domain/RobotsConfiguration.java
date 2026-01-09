@@ -31,6 +31,7 @@ public class RobotsConfiguration {
 	private String threshHoldNotification;
 	private String JumpValueTick;
 	private String JumpPercentage;
+	private String JumpScaledValue;
 	private String robotName;
 	private String groupId;
 	private String subgroupId;

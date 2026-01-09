@@ -462,7 +462,7 @@ i.fa.fa-clone {
 #fixedMenu{
 	position: fixed;
     width: 100%;
-    z-index: 100;
+    z-index: 200;
 }
 .modal-backdrop.show {
     opacity: .5;

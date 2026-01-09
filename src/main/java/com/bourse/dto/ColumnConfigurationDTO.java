@@ -27,6 +27,7 @@ public interface ColumnConfigurationDTO {
 	public boolean isShowInNewsGraph();
 	public String getYAxisFormat();
 	public String getJumpActive();
+	public String getSjumpActive();
 	public String getLowHighActive();
 	public String getTrendActive();
 	public String getColumnCode();

@@ -56,7 +56,7 @@ checkifcanUrl = "/longEnds/checkifcansave/";
 
 auditUrl = '/longEnds/longEnds-data/';
 rollingAuditUrl = '/longEnds/longEnds-data-rolling/'+rollingGroupId;
-updateUrl = "/longEnds/update-longEnds-data";
+updateUrl="/longEnds/update-long-longEnds-data";
 saveUrl = "/longEnds/save-longEnds-data";
 deleteUrl = "/longEnds/delete-longEnds/";
 
@@ -70,7 +70,7 @@ var factorContainer='';
 
 var inputDataLongEnds = document.getElementById("data-input-data");
 Type="data" ;
-updateUrl="/longEnds/update-long-longEnds-data";
+
 
           
 

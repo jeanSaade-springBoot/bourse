@@ -23,6 +23,7 @@ public class RobotsFunctionConfiguration {
     private Long id;
 	private String JumpValueTick;
 	private String JumpPercentage;
+	private String JumpScaledValue;
 	private String columnDescription;
 	private String configId;
 	private String functionId;
