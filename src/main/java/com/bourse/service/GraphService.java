@@ -100,10 +100,11 @@ public class GraphService {
 			l1.add(getGraphDataResult(graphRequestDTO,false));
 		 }
 		}
-		if(graphReqDTO.getIsCorrelation()!= null)
-		{   if(graphReqDTO.getIsCorrelation()==true)
-			l1.add(getCorrelationDataResults(graphReqDTO));
-		}	
+		/*
+		 * if(graphReqDTO.getIsCorrelation()!= null) {
+		 * if(graphReqDTO.getIsCorrelation()==true)
+		 * l1.add(getCorrelationDataResults(graphReqDTO)); }
+		 */
 		return l1; 
 	
 	}

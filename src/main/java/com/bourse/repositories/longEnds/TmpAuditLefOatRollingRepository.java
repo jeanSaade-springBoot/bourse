@@ -11,5 +11,5 @@ import com.bourse.domain.longEnds.TmpAuditLefOatRolling;
 public interface TmpAuditLefOatRollingRepository extends JpaRepository<TmpAuditLefOatRolling, Long> {
 
 	List<TmpAuditLefOatRolling> findByReferDate(String referDate);
-
+	void deleteDataByReferDate(String referDate);
 }

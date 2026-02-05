@@ -19,5 +19,5 @@ public interface TmpAuditLefGiltsRepository extends JpaRepository<TmpAuditLefGil
 				      nativeQuery = true)
 	TmpAuditLefGilts findFirstOrderByReferDateDesc();
 
-
+	 void deleteDataByReferDate(String referDate);
 }

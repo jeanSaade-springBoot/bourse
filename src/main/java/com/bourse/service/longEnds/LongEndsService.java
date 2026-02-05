@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import javax.persistence.EntityManager;
@@ -50,6 +51,7 @@ import com.bourse.repositories.longEnds.TmpAuditLefTbondsRepository;
 import com.bourse.repositories.longEnds.TmpAuditLefTnotesRepository;
 import com.bourse.service.AdminService;
 import com.bourse.service.FunctionConfigurationService;
+import com.bourse.service.audit.AuditLefOpsRegistry;
 import com.bourse.util.DateFormatUtil;
 import com.bourse.util.LiquidityUtil;
 import com.bourse.util.LongEndsUtil;
@@ -72,26 +74,31 @@ public class LongEndsService {
 	@Autowired
 	TableManagementRepository tableManagementRepository;
 	@Autowired
-	TmpAuditLefBoblsRepository tmpAuditLefboblsRepository;
+	TmpAuditLefBoblsRepository tmpAuditLefBoblsRepository;
 	@Autowired
-	TmpAuditLefShatzRepository tmpAuditLefshatzRepository;
+	TmpAuditLefShatzRepository tmpAuditLefShatzRepository;
 	@Autowired
-	TmpAuditLefBuxlRepository tmpAuditLefbuxlRepository;
+	TmpAuditLefBuxlRepository tmpAuditLefBuxlRepository;
 	@Autowired
-	TmpAuditLefOatRepository tmpAuditLefoatRepository;
+	TmpAuditLefOatRepository tmpAuditLefOatRepository;
 	@Autowired
-	TmpAuditLefBtpRepository tmpAuditLefbtpRepository;
+	TmpAuditLefBtpRepository tmpAuditLefBtpRepository;
 	@Autowired
-	TmpAuditLefGiltsRepository tmpAuditLefgiltsRepository;
+	TmpAuditLefGiltsRepository tmpAuditLefGiltsRepository;
 	@Autowired
-	TmpAuditLefTnotesRepository tmpAuditLeftnotesRepository;
+	TmpAuditLefTnotesRepository tmpAuditLefTnotesRepository;
 	@Autowired
-	TmpAuditLefTbondsRepository tmpAuditLeftbondsRepository;
+	TmpAuditLefTbondsRepository tmpAuditLefTbondsRepository;
 	@Autowired
 	TmpAuditLefBundsRollingRepository tmpAuditLefBundsRollingRepository;
 	
 
-	
+	private final AuditLefOpsRegistry auditOpsRegistry;
+
+	public LongEndsService(AuditLefOpsRegistry auditOpsRegistry) {
+	        this.auditOpsRegistry = auditOpsRegistry;
+	    }
+	 
 	@PersistenceContext
 	private EntityManager entityManager;
 	
@@ -296,9 +303,9 @@ public class LongEndsService {
 	@Transactional
 	public void deleteLongEndsData(String groupId, String referDate) {
 			
-	  tmpAuditLefBundsRepository.deleteDataByReferDate(referDate);
-	  tmpAuditLefBundsRollingRepository.deleteDataByReferDate(referDate);
-	  longEndsDataRepository.deleteLongEndsByGroupIdAndReferDate(Long.valueOf(groupId),referDate);
+	   Long baseGroupId = Long.valueOf(groupId);
+	   auditOpsRegistry.deleteAudit(baseGroupId, referDate);
+	   longEndsDataRepository.deleteLongEndsByGroupIdAndReferDate(baseGroupId, referDate);
 	  
 	}
 	// Function to be executed after successful delete
@@ -418,7 +425,60 @@ public class LongEndsService {
 		return null;
        return longEndsDataRepository.findLatest(groupId);
 	}
-	
+	public Object findLatestAuditData(Long baseGroupId) {
+
+	    GroupRollingEnum group =
+	            GroupRollingEnum.fromBaseGroupId(baseGroupId);
+
+	    if (group == null) {
+	        throw new IllegalArgumentException(
+	                "Invalid baseGroupId " + baseGroupId);
+	    }
+
+	    switch (group) {
+
+	        case BUNDS:
+	            return tmpAuditLefBundsRepository
+	                    .findFirstOrderByReferDateDesc();
+
+	        case BOBLS:
+	            return tmpAuditLefBoblsRepository
+	                    .findFirstOrderByReferDateDesc();
+
+	        case SHATZ:
+	            return tmpAuditLefShatzRepository
+	                    .findFirstOrderByReferDateDesc();
+
+	        case BUXL:
+	            return tmpAuditLefBuxlRepository
+	                    .findFirstOrderByReferDateDesc();
+
+	        case OAT:
+	            return tmpAuditLefOatRepository
+	                    .findFirstOrderByReferDateDesc();
+
+	        case BTP:
+	            return tmpAuditLefBtpRepository
+	                    .findFirstOrderByReferDateDesc();
+
+	        case GILTS:
+	            return tmpAuditLefGiltsRepository
+	                    .findFirstOrderByReferDateDesc();
+
+	        case T_NOTES:
+	            return tmpAuditLefTnotesRepository
+	                    .findFirstOrderByReferDateDesc();
+
+	        case T_BONDS:
+	            return tmpAuditLefTbondsRepository
+	                    .findFirstOrderByReferDateDesc();
+
+	        default:
+	            throw new IllegalStateException("Unsupported group " + group);
+	    }
+	}
+
+
 	public HashMap<String,List> getGridData( MainSearchFilterDTO mainSearchFilterDTO)
 			{
 				QueryColumnsDTO queryColumnsDTO = LongEndsUtil.buildDynamicGridQuery(mainSearchFilterDTO);

@@ -1485,8 +1485,38 @@ public class CryptosService {
 		    valueMap.put("61_2", new String[]{"open", "high", "low", "close"});
 		    valueMap.put("52_4", new String[]{"open", "high", "low", "close"});
 		    valueMap.put("61_4", new String[]{"open", "high", "low", "close"});
-
-
+		    valueMap.put("53_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("62_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("53_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("62_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("54_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("63_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("54_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("63_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("55_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("64_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("55_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("64_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("56_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("65_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("56_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("65_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("57_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("67_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("57_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("67_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("58_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("68_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("58_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("68_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("59_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("69_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("59_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("69_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("60_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("70_2", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("60_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("70_4", new String[]{"open", "high", "low", "close"});
 		    // Return the mapped values or null if no match is found
 		    return valueMap.get(groupId + "_" + subGroupId);
 		}

@@ -9,7 +9,26 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link href="img/logo/logo.png" rel="icon">
-<title>Libvol - Bunds</title>
+<title> Libvol </title>
+<script th:inline="javascript">
+/*<![CDATA[*/
+    const titleMap = {
+        "LONGENDS_SHATZ_GRAPH_SCREEN": "Libvol - Shatz",
+        "LONGENDS_BUNDS_GRAPH_SCREEN": "Libvol - Bunds",
+        "LONGENDS_BOBL_GRAPH_SCREEN":  "Libvol - Bobl",
+        "LONGENDS_BUXL_GRAPH_SCREEN":  "Libvol - Buxl",
+        "LONGENDS_OAT_GRAPH_SCREEN":   "Libvol - OAT",
+        "LONGENDS_BTP_GRAPH_SCREEN":   "Libvol - BTP",
+        "LONGENDS_GILTS_GRAPH_SCREEN": "Libvol - Gilts",
+        "LONGENDS_TNOTES_GRAPH_SCREEN":"Libvol - T-Notes",
+        "LONGENDS_TBONDS_GRAPH_SCREEN":"Libvol - T-Bonds"
+    };
+
+    const privileges = /*[[${privilege}]]*/ "DEFAULT";
+
+    document.title = titleMap[privileges] || "Libvol";
+/*]]>*/
+</script>
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">
@@ -243,13 +262,44 @@ height:34px;
 	            <h1 class="ml-6 text-darkorange">LONG-END FUTURES</h1>
 			     	   <nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
 			           <div class="nav nav-tabs" id="nav-tab" role="tablist">
-		                <a sec:authorize="hasAuthority('CRY_TRADING_GRAPH_SCREEN')"
-		                 class="navigation nav-item nav-link active" id="nav-bunds-tab"
+		                 <a sec:authorize="hasAuthority('LONGENDS_BUNDS_GRAPH_SCREEN')"
+		                 class="navigation nav-item nav-link" th:classappend="${privilege == 'LONGENDS_BUNDS_GRAPH_SCREEN'} ? 'active' : ''" id="nav-bunds-tab"
 		                 href="/bourse/bunds" role="tab" aria-controls="nav-bunds"
 		                 aria-selected="false">BUNDS</a>
+		                 <a sec:authorize="hasAuthority('LONGENDS_BOBL_GRAPH_SCREEN')"
+		                 class="navigation nav-item nav-link" th:classappend="${privilege == 'LONGENDS_BOBL_GRAPH_SCREEN'} ? 'active' : ''" id="nav-bunds-tab"
+		                 href="/bourse/bobls" role="tab" aria-controls="nav-bobl"
+		                 aria-selected="false">BOBLS</a>
+		                  <a sec:authorize="hasAuthority('LONGENDS_SHATZ_GRAPH_SCREEN')"
+		                 class="navigation nav-item nav-link" th:classappend="${privilege == 'LONGENDS_SHATZ_GRAPH_SCREEN'} ? 'active' : ''" id="nav-bunds-tab"
+		                 href="/bourse/shatz" role="tab" aria-controls="nav-shatz"
+		                 aria-selected="false">SHATZ</a>
+		                   <a sec:authorize="hasAuthority('LONGENDS_BUXL_GRAPH_SCREEN')"
+		                 class="navigation nav-item nav-link" th:classappend="${privilege == 'LONGENDS_BUXL_GRAPH_SCREEN'} ? 'active' : ''" id="nav-bunds-tab"
+		                 href="/bourse/buxl" role="tab" aria-controls="nav-buxl"
+		                 aria-selected="false">BUXL</a>
+		                 <a sec:authorize="hasAuthority('LONGENDS_OAT_GRAPH_SCREEN')"
+		                 class="navigation nav-item nav-link" th:classappend="${privilege == 'LONGENDS_OAT_GRAPH_SCREEN'} ? 'active' : ''" id="nav-bunds-tab"
+		                 href="/bourse/oat" role="tab" aria-controls="nav-oat"
+		                 aria-selected="false">OAT</a>
+		                 <a sec:authorize="hasAuthority('LONGENDS_BTP_GRAPH_SCREEN')"
+		                 class="navigation nav-item nav-link" th:classappend="${privilege == 'LONGENDS_BTP_GRAPH_SCREEN'} ? 'active' : ''" id="nav-bunds-tab"
+		                 href="/bourse/btp" role="tab" aria-controls="nav-btp"
+		                 aria-selected="false">BTP</a>
+		                 <a sec:authorize="hasAuthority('LONGENDS_GILTS_GRAPH_SCREEN')"
+		                 class="navigation nav-item nav-link" th:classappend="${privilege == 'LONGENDS_GILTS_GRAPH_SCREEN'} ? 'active' : ''" id="nav-bunds-tab"
+		                 href="/bourse/gilts" role="tab" aria-controls="nav-gilts"
+		                 aria-selected="false">GILTS</a>
+		                 <a sec:authorize="hasAuthority('LONGENDS_TNOTES_GRAPH_SCREEN')"
+		                 class="navigation nav-item nav-link" th:classappend="${privilege == 'LONGENDS_TNOTES_GRAPH_SCREEN'} ? 'active' : ''" id="nav-bunds-tab"
+		                 href="/bourse/tnotes" role="tab" aria-controls="nav-tnotes"
+		                 aria-selected="false">T-NOTES</a>
+		                  <a sec:authorize="hasAuthority('LONGENDS_TBONDS_GRAPH_SCREEN')"
+		                 class="navigation nav-item nav-link" th:classappend="${privilege == 'LONGENDS_TBONDS_GRAPH_SCREEN'} ? 'active' : ''" id="nav-bunds-tab"
+		                 href="/bourse/tbonds" role="tab" aria-controls="nav-tnotes"
+		                 aria-selected="false">T-BONDS</a>
 			           </div>
 			        </nav>
-	           
 	          </div>
 
 			</div>
@@ -866,7 +916,25 @@ height:34px;
 		
 	    <script src="/js/graph/chartManager.js"></script>
 
-		<script src="/js/bourse/longEnds/technical-analysis.js"></script>
+		
+		<script th:inline="javascript">
+		    const privilegeMap = {
+		        "LONGENDS_BUNDS_GRAPH_SCREEN": { mainGroupId: 52, rollingGroupId: 61, screenName:'BUNDSAnalisys',graphName:'BUNDSAnalisys',selectedLiveCurrency: 'BUNDS', imagePath:'/img/flag/germany.png', x1:'110',x2:'285'},
+		        "LONGENDS_BOBL_GRAPH_SCREEN":  { mainGroupId: 53, rollingGroupId: 62, screenName:'BOBLSAnalisys',graphName:'BOBLSAnalisys' ,selectedLiveCurrency: 'BOBLS', imagePath:'/img/flag/germany.png', x1:'150',x2:'275'},
+		        "LONGENDS_SHATZ_GRAPH_SCREEN": { mainGroupId: 54, rollingGroupId: 63, screenName:'SHATZAnalisys',graphName:'SHATZAnalisys',selectedLiveCurrency: 'SHATZ', imagePath:'/img/flag/germany.png' , x1:'150',x2:'275'},
+		        "LONGENDS_BUXL_GRAPH_SCREEN":  { mainGroupId: 55, rollingGroupId: 64, screenName:'BUXLAnalisys',graphName:'BUXLAnalisys',selectedLiveCurrency: 'BUXL', imagePath:'/img/flag/germany.png' , x1:'150',x2:'275'},
+		        "LONGENDS_OAT_GRAPH_SCREEN":   { mainGroupId: 56, rollingGroupId: 65, screenName:'OATAnalisys',graphName:'OATAnalisys',selectedLiveCurrency: 'OAT', imagePath:'/img/flag/france.png' , x1:'150',x2:'275'},
+		        "LONGENDS_BTP_GRAPH_SCREEN":   { mainGroupId: 57, rollingGroupId: 67, screenName:'BTPAnalisys',graphName:'BTPAnalisys',selectedLiveCurrency: 'BTP', imagePath:'/img/flag/italy.png' , x1:'150',x2:'275'},
+		        "LONGENDS_GILTS_GRAPH_SCREEN": { mainGroupId: 58, rollingGroupId: 68, screenName:'GILTSAnalisys',graphName:'GILTSAnalisys',selectedLiveCurrency: 'GILTS', imagePath:'/img/flag/united-kingdom.png' , x1:'150',x2:'275'},
+		        "LONGENDS_TNOTES_GRAPH_SCREEN":{ mainGroupId: 59, rollingGroupId: 69, screenName:'TNOTESAnalisys',graphName:'TNOTESAnalisys',selectedLiveCurrency: 'TNOTES', imagePath:'/img/flag/united-states.png' , x1:'150',x2:'275'},
+		        "LONGENDS_TBONDS_GRAPH_SCREEN":{ mainGroupId: 60, rollingGroupId: 70, screenName:'TBONDSAnalisys',graphName:'TBONDSAnalisys',selectedLiveCurrency: 'TBONDS', imagePath:'/img/flag/united-states.png' , x1:'150',x2:'275'}
+		    };
+		  
+		    const privilege = /*[[${privilege}]]*/ "";
+		    const { mainGroupId, rollingGroupId,screenName,graphName,selectedLiveCurrency,imagePath, x1, x2 } = privilegeMap[privilege] || {};
+		</script>
+		
+        <script src="/js/bourse/longEnds/technical-analysis.js"></script>
  		<script src="/js/graph/trendlineManager.js"></script>
  		<script src="/js/bourse/graph/candleStick.js"></script>
     

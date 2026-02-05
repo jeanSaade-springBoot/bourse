@@ -1745,7 +1745,7 @@ function updateCount(checked,count){
 												 }
 									
 									
-									
+/*									
     var optionsCorrelation = {
 					     	  			           series: [{
 			          data: chartConfigSettings.response[2].graphResponseDTOLst
@@ -1758,7 +1758,7 @@ function updateCount(checked,count){
 					  		   	  			        offsetX: -50,
 					  		   	  			        offsetY: 0,
 					  		   	  			        tools: {
-					  		   	  			          download: false,
+					  		   	  			          download: false,s
 					  		   	  			          selection: true,
 					  		   	  			          zoom: true,
 					  		   	  			          zoomin: true,
@@ -1872,7 +1872,7 @@ function updateCount(checked,count){
 					  			        	}
 					     	  			        };	    	
    
-	    correlationChart = new ApexCharts(document.querySelector("#mainChart-correlation"), optionsCorrelation);
+	    correlationChart = new ApexCharts(document.querySelector("#mainChart-correlation"), optionsCorrelation);*/
        // correlationChart.render();
 				
 			   $('#overlayChart').hide();

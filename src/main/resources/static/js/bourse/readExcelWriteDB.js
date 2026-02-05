@@ -103,14 +103,14 @@ var familysource =
 						    $("#groupDropDown").jqxDropDownList('removeAt', 11 ); 
 						    $("#groupDropDown").jqxDropDownList('removeAt', 10 ); 
 						    $("#groupDropDown").jqxDropDownList('removeAt', 9); 
-				            $("#groupDropDown").jqxDropDownList('removeAt', 8); 
+				    /*        $("#groupDropDown").jqxDropDownList('removeAt', 8); 
 				            $("#groupDropDown").jqxDropDownList('removeAt', 7); 
 				            $("#groupDropDown").jqxDropDownList('removeAt', 6); 
 				            $("#groupDropDown").jqxDropDownList('removeAt', 5); 
 				            $("#groupDropDown").jqxDropDownList('removeAt', 4); 
 				            $("#groupDropDown").jqxDropDownList('removeAt', 3); 
 				            $("#groupDropDown").jqxDropDownList('removeAt', 2); 
-				            $("#groupDropDown").jqxDropDownList('removeAt', 1);
+				            $("#groupDropDown").jqxDropDownList('removeAt', 1);*/
 				
 					  }
 				 }
@@ -276,6 +276,14 @@ var familysource =
 	   imagePath='/css/images/format/rts_fixings_format.png' 
 	     break; 
 	case 52:
+	case 53:
+	case 54:
+	case 55:
+	case 56:
+	case 57:
+	case 58:
+	case 59:
+	case 60:
 	   imagePath='/css/images/format/longEnds_format.jpg' 
 	     break;    
 	case 71:

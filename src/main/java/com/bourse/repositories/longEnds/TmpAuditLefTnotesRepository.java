@@ -18,5 +18,5 @@ public interface TmpAuditLefTnotesRepository extends JpaRepository<TmpAuditLefTn
 				      nativeQuery = true)
 	TmpAuditLefTnotes findFirstOrderByReferDateDesc();
 
-
+	 void deleteDataByReferDate(String referDate);
 }

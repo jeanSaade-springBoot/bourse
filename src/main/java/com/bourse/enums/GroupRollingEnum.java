@@ -58,4 +58,14 @@ public enum GroupRollingEnum {
         }
         return null;
     }
+    public static GroupRollingEnum fromBaseGroupId(Long baseGroupId) {
+        if (baseGroupId == null) return null;
+
+        for (GroupRollingEnum g : values()) {
+            if (g.baseGroupId.equals(baseGroupId)) {
+                return g;
+            }
+        }
+        return null;
+    }
 }

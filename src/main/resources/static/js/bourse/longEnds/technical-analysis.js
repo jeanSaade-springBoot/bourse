@@ -7,8 +7,8 @@ let suppressFunctionDropdownChange = false;
 const livePriceCache = {};
 let cachedTrendlineResult = null;
 let liveSubscription = null;
-let selectedLiveCurrency = 'BUNDS'; // default
-let mainLabel = "BUNDS ( OHLC - 21:00 CLOSE )";
+
+let mainLabel = selectedLiveCurrency+" ( OHLC - 21:00 CLOSE )";
 const checkboxCache = {}; // key: `${groupId}-${chartId}` → true
 
 const isShared=false;
@@ -22,8 +22,7 @@ const checkboxOptions = [
 ];
 const candleStickcheckboxOptions = [];
 var chartHeight=625;
-const screenName='BundsAnalisys';
-const graphName='BundsAnalisys';
+
 let graphService = "cryptos";
 const removeEmpty = true;
 	
@@ -31,10 +30,12 @@ const chartItemLimits = {
   1: 2, // Chart 1: allow 2 items
   2: 1  // Chart 2: allow 1 item
 };
-const groupId="61";
+const groupId=rollingGroupId;
 
-var dropDownSource = [{ name: "INITIALS", groupId: "52", ticker: "INITIALS" },
-	{ name: "ROLLING", groupId: "61", ticker: "ROLLING" },];
+var dropDownSource = [{ name: "INITIALS", groupId: mainGroupId, ticker: "INITIALS" },
+	{ name: "ROLLING", groupId: rollingGroupId, ticker: "ROLLING" },];
+
+let trendFollowingLoading = false;
 
 const fullOptions = [
     { id: 20, label: "5dw MovAvg" },
@@ -199,7 +200,7 @@ $(document).ready(function() {
 		});
 
 		
-		initializeFunctions(52);
+		initializeFunctions(mainGroupId);
 		
 		//CryptosAnalisys
 		//initializeCryptoOptions();
@@ -302,7 +303,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth =
 
   // Decide which groups to render
   const groupsToRender = renderBoth
-    ? dropDownSource.filter(g => g.groupId === '52' || g.groupId === '61')
+    ? dropDownSource.filter(g => g.groupId === mainGroupId || g.groupId === rollingGroupId)
     : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId));
 
   // Cache key: per chart if both, otherwise per group+chart
@@ -346,7 +347,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth =
 
     // Pre-check "CLOSE" (index 4) for all groups
     allItems.forEach(id => {
-      if (id.includes('61-4-')) $(id).jqxCheckBox('check');
+      if (id.includes(rollingGroupId+'-4-')) $(id).jqxCheckBox('check');
     });
 
     initializeClearFilterButtonForChart(chartId, allItems, false);
@@ -360,7 +361,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth =
     const timeRange = getActiveTimeRange();
 
     const allItems = (renderBoth
-      ? dropDownSource.filter(g => g.groupId === '52' || g.groupId === '61')
+      ? dropDownSource.filter(g => g.groupId === mainGroupId || g.groupId === rollingGroupId)
       : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId))
     ).flatMap(g =>
       checkboxOptions.map(opt => `#jqxCheckBox-${g.groupId}-${opt.index}-chart-${chartId}`)
@@ -395,7 +396,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth =
 	  : checkboxOptions;
 	
 	const allItems = (renderBoth
-	  ? dropDownSource.filter(g => g.groupId === '52' || g.groupId === '61')
+	  ? dropDownSource.filter(g => g.groupId === mainGroupId || g.groupId === rollingGroupId)
 	  : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId))
 	).flatMap(g =>
 	  filteredOptions.map(opt => `#jqxCheckBox-${g.groupId}-${opt.index}-chart-${chartId}`)
@@ -1070,7 +1071,7 @@ function getDataChart4() { // trendfollowing
 			  });
 			
 		  
-			$(`#${id}`).on('select', function () {
+		  $(`#${id}`).off('select').on('select', function () {
 				
 		    // Skip programmatic/bulk updates
 		    if (isProgrammaticDropdownUpdate || isRefreshingDropdowns || isBulkUpdatingDropdowns)
@@ -1139,7 +1140,8 @@ function getDataChart4() { // trendfollowing
 		        const valueToSelect = values[idx] ?? null;
 		
 		        if (valueToSelect != null) {
-		          instance.jqxDropDownList('selectItem', valueToSelect);
+		         // instance.jqxDropDownList('selectItem', valueToSelect);
+		           instance.jqxDropDownList('val', valueToSelect);
 				      } else {
 		          instance.jqxDropDownList('clearSelection');
 				      }
@@ -1176,6 +1178,8 @@ function getDataChart4() { // trendfollowing
 }
 
 async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
+if (trendFollowingLoading) return;   // ✅ stop re-entry
+  trendFollowingLoading = true;
     try {
 	 $("#dropdown1").jqxDropDownList({ disabled: true }); 
 	 $("#dropdown2").jqxDropDownList({ disabled: true }); 
@@ -1218,12 +1222,12 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
     };
 
     const api = "/cryptos/gettrendfollowingGraph";
-	let titleA = 'BUNDS ( OHLC - 21:00 CLOSE )';//dropDownSource.find(c => c.groupId === commonParams[`groupId1`]).name;
+	let titleA = selectedLiveCurrency+' ( OHLC - 21:00 CLOSE )';//dropDownSource.find(c => c.groupId === commonParams[`groupId1`]).name;
     let titleB = commonParams[`isFunctionGraph`]?'with TIME&VOLATILITY WEIGHTED ARRAYS':''; 
     
     const selectedFunctionIdsArray = getAllSelectedDropdownValues(); 
-
-    resetAndReassignDropdowns(selectedFunctionIdsArray);
+ //   resetAndReassignDropdowns(selectedFunctionIdsArray);
+ 
     	let colorsArray = [];
     	let strokecolorsArray = [];
     	let isCentredArray = [false];
@@ -1335,7 +1339,8 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
             yAnnotaionRequired:yxannotaionRequired,
             showLegend: false,
             combineTooltips:true,
-            timeLabel:false
+            timeLabel:false,
+            
         }).then(() => {
 				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
 				 $("#dropdown2").jqxDropDownList({ disabled: false }); 
@@ -1413,6 +1418,7 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 			});
     }
      } finally {
+		   trendFollowingLoading = false;
         setTimeout(() => suppressTrendFollowingReload = false, 200);
     }
   
@@ -1887,7 +1893,7 @@ function validateRadioSelection() {
     } else if (arraysEqual(currentValues, defaultSelections.medium)) {
         $('input[name="options"][value="1"]').prop('checked', true);
     } else if (arraysEqual(currentValues, defaultSelections.long)) {
-        $('input[name="options"][value="3"]').prop('checked', true);
+        $('input[name="options"][value="2"]').prop('checked', true);
     } else {
         // no exact match -> uncheck all
         $('input[name="options"]').prop('checked', false);

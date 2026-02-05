@@ -12,5 +12,5 @@ import com.bourse.domain.longEnds.TmpAuditLefShatzRolling;
 public interface TmpAuditLefShatzRollingRepository extends JpaRepository<TmpAuditLefShatzRolling, Long> {
 
 	List<TmpAuditLefShatzRolling> findByReferDate(String referDate);
-
+	void deleteDataByReferDate(String referDate);
 }

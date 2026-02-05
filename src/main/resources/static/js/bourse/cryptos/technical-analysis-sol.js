@@ -31,6 +31,9 @@ const screenName='CryptosAnalisys';
 const graphName='CryptosAnalisys';
 let graphService = "cryptos";
 let mainLabel =  'Crypto';
+
+let trendFollowingLoading = false;
+
 const removeEmpty = true;
 	
 const chartItemLimits = {
@@ -1216,7 +1219,7 @@ function getDataChart4() { // trendfollowing
 			  });
 			
 		  
-			$(`#${id}`).on('select', function () {
+		  $(`#${id}`).off('select').on('select', function () {
 				
 		    // Skip programmatic/bulk updates
 		    if (isProgrammaticDropdownUpdate || isRefreshingDropdowns || isBulkUpdatingDropdowns)
@@ -1285,7 +1288,8 @@ function getDataChart4() { // trendfollowing
 		        const valueToSelect = values[idx] ?? null;
 		
 		        if (valueToSelect != null) {
-		          instance.jqxDropDownList('selectItem', valueToSelect);
+		         // instance.jqxDropDownList('selectItem', valueToSelect);
+		           instance.jqxDropDownList('val', valueToSelect);
 				      } else {
 		          instance.jqxDropDownList('clearSelection');
 				      }
@@ -1391,7 +1395,8 @@ function updateBenchmarkingGraph(chartId,manager){
 	
 }
 async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
-
+	if (trendFollowingLoading) return;   // ✅ stop re-entry
+          trendFollowingLoading = true;
     try {
 	 $("#dropdown1").jqxDropDownList({ disabled: true }); 
 	 $("#dropdown2").jqxDropDownList({ disabled: true }); 
@@ -1438,8 +1443,8 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
     let titleB = commonParams[`isFunctionGraph`]?'with TIME&VOLATILITY WEIGHTED ARRAYS':''; 
     
     const selectedFunctionIdsArray = getAllSelectedDropdownValues(); 
-
-    resetAndReassignDropdowns(selectedFunctionIdsArray);
+ //   resetAndReassignDropdowns(selectedFunctionIdsArray);
+ 
     	let colorsArray = [];
     	let strokecolorsArray = [];
     	let isCentredArray = [false];
@@ -1630,6 +1635,7 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 			});
     }
      } finally {
+		   trendFollowingLoading = false;
         setTimeout(() => suppressTrendFollowingReload = false, 200);
     }
   
@@ -2210,7 +2216,7 @@ function validateRadioSelection() {
     } else if (arraysEqual(currentValues, defaultSelections.medium)) {
         $('input[name="options"][value="1"]').prop('checked', true);
     } else if (arraysEqual(currentValues, defaultSelections.long)) {
-        $('input[name="options"][value="3"]').prop('checked', true);
+        $('input[name="options"][value="2"]').prop('checked', true);
     } else {
         // no exact match -> uncheck all
         $('input[name="options"]').prop('checked', false);
@@ -2285,7 +2291,8 @@ function resetAndReassignDropdowns(values = []) {
 
             const item = instance.jqxDropDownList('getItemByValue', value);
             if (item) {
-                instance.trigger('select', { item });
+                // instance.trigger('select', { item });
+                 instance.jqxDropDownList('val', item);
             }
         } else {
             instance.jqxDropDownList('clearSelection');

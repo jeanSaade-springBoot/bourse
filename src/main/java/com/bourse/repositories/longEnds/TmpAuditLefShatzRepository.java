@@ -18,5 +18,5 @@ public interface TmpAuditLefShatzRepository extends JpaRepository<TmpAuditLefSha
 				      nativeQuery = true)
 	TmpAuditLefShatz findFirstOrderByReferDateDesc();
 
-
+	 void deleteDataByReferDate(String referDate);
 }

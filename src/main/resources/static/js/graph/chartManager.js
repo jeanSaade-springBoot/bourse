@@ -70,6 +70,7 @@ class ChartManager {
         </div>
       </div>
     </div>
+    <div id="mainChart-title-{chartId}"></div>
     <div id="chart-{chartId}" class="chart-box col-11 chartStyle d-flex"></div>
   </div>
   <div class="mt-2 d-flex justify-content-between date-navigation">

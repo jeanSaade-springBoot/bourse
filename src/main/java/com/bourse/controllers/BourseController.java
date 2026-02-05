@@ -762,6 +762,86 @@ return new ModelAndView("html/base");
         model.addAttribute("privilege", "LONGENDS_BUNDS_GRAPH_SCREEN");
 	    return new ModelAndView("html/longEnds/technical-analysis");
     }
+	@PreAuthorize("hasAuthority('LONGENDS_BOBL_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/bobls")
+    public ModelAndView boblLongEndsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		
+        model.addAttribute("privilege", "LONGENDS_BOBL_GRAPH_SCREEN");
+	    return new ModelAndView("html/longEnds/technical-analysis");
+    }
+	@PreAuthorize("hasAuthority('LONGENDS_SHATZ_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/shatz")
+    public ModelAndView shatzLongEndsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		
+        model.addAttribute("privilege", "LONGENDS_SHATZ_GRAPH_SCREEN");
+	    return new ModelAndView("html/longEnds/technical-analysis");
+    }
+	@PreAuthorize("hasAuthority('LONGENDS_BUXL_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/buxl")
+    public ModelAndView buxlLongEndsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		
+        model.addAttribute("privilege", "LONGENDS_BUXL_GRAPH_SCREEN");
+	    return new ModelAndView("html/longEnds/technical-analysis");
+    }
+	@PreAuthorize("hasAuthority('LONGENDS_OAT_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/oat")
+    public ModelAndView oatLongEndsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		
+        model.addAttribute("privilege", "LONGENDS_OAT_GRAPH_SCREEN");
+	    return new ModelAndView("html/longEnds/technical-analysis");
+    }
+	@PreAuthorize("hasAuthority('LONGENDS_BTP_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/btp")
+    public ModelAndView btpLongEndsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		
+        model.addAttribute("privilege", "LONGENDS_BTP_GRAPH_SCREEN");
+	    return new ModelAndView("html/longEnds/technical-analysis");
+    }
+	@PreAuthorize("hasAuthority('LONGENDS_GILTS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/gilts")
+    public ModelAndView giltsLongEndsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		
+        model.addAttribute("privilege", "LONGENDS_GILTS_GRAPH_SCREEN");
+	    return new ModelAndView("html/longEnds/technical-analysis");
+    }
+	@PreAuthorize("hasAuthority('LONGENDS_TNOTES_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/tnotes")
+    public ModelAndView tnotesLongEndsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		
+        model.addAttribute("privilege", "LONGENDS_TNOTES_GRAPH_SCREEN");
+	    return new ModelAndView("html/longEnds/technical-analysis");
+    }
+	@PreAuthorize("hasAuthority('LONGENDS_TBONDS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/tbonds")
+    public ModelAndView tbondsLongEndsGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		
+        model.addAttribute("privilege", "LONGENDS_TBONDS_GRAPH_SCREEN");
+	    return new ModelAndView("html/longEnds/technical-analysis");
+    }
 	@PreAuthorize("hasAuthority('STI_EUROPE_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/europe")
     public ModelAndView stiEuropeGraphPage(ModelMap model, Authentication authentication)

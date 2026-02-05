@@ -142,6 +142,14 @@ public class ReadExcelWriteDBService {
 	    
 	    Set<String> LongEndsGroupIds = new HashSet<>(); 
 	    LongEndsGroupIds.add("52");
+	    LongEndsGroupIds.add("53");
+	    LongEndsGroupIds.add("54");
+	    LongEndsGroupIds.add("55");
+	    LongEndsGroupIds.add("56");
+	    LongEndsGroupIds.add("57");
+	    LongEndsGroupIds.add("58");
+	    LongEndsGroupIds.add("59");
+	    LongEndsGroupIds.add("60");
 	    
 	    Set<String> cryptosGroupIds = new HashSet<>();
 	    cryptosGroupIds.add("71");

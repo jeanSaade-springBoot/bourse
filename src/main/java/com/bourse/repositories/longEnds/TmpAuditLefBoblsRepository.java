@@ -16,6 +16,8 @@ public interface TmpAuditLefBoblsRepository extends JpaRepository<TmpAuditLefBob
 	 @Query(value = "SELECT * FROM tmp_audit_lef_bobls l ORDER BY STR_TO_DATE(l.refer_Date,'%d-%m-%Y') DESC LIMIT 1;",
 				      nativeQuery = true)
 	TmpAuditLefBobls findFirstOrderByReferDateDesc();
+	 
+	void deleteDataByReferDate(String referDate);
 
 
 }

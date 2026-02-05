@@ -92,10 +92,10 @@ public class LongEndsController {
 		longEndsService.runTrendFollowingMavgTask(longEndDataDTOlst.get(0).getGroupId(),longEndDataDTOlst.get(0).getReferDate(),longEndDataDTOlst.get(0).getReferDate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
-	@GetMapping(value = "findlatestdata")
-	public ResponseEntity<TmpAuditLefBunds> findFirstByOrderDesc() {
-		System.out.println(className+": findlatestdata");
-		return new ResponseEntity<>(longEndsService.findFirstByOrderDesc(),HttpStatus.OK);
+	@GetMapping("findlatestdata/{groupId}")
+	public ResponseEntity<Object> findLatestData( @PathVariable("groupId") String groupId) {
+		Object data =  longEndsService.findLatestAuditData(Long.valueOf(groupId));
+		return ResponseEntity.ok(data);
 	}
 	@GetMapping(value = "getlatest/{groupId}", produces = "application/json;charset=UTF-8")
     public ResponseEntity <String> getLatest(@PathVariable("groupId") String groupId){
