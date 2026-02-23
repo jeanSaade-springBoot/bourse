@@ -58,6 +58,23 @@ const difffullOptions = [
     { id: 35, label: "18-30dw MovAvg" },
     { id: 36, label: "45-63dw MovAvg" },
 ];
+const FUNCTION_COLOR_MAP = {
+  // SHORT group (yellow shades)
+  20: '#fcf800',  // Short MA 5
+  21: '#fcf800c2',  // Short MA 6
+  22: '#fcf80091',  // Short MA 7
+  23: '#fcf80061',  // Short MA 9
+
+  // MEDIUM group (orange shades)
+  24: '#ffb500',
+  25: '#ffb500d6',
+  26: '#ffb5009e',
+  27: '#ffb50070',
+
+  // LONG group (brown shades)
+  28: '#8b4c00',
+  29: '#8b4c00b5',
+};
 const defaultSelections = {
   short: [20, 21, 22, 23, 30, 31, 32],   // ids for 5,6,7,9
   medium: [24, 25, 26, 27, 33, 34, 35], // ids for 18,21,25,30
@@ -758,7 +775,9 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				markerSizeArray:markerSizeArray,
 				isCentred:isCentred,
 				useShortFormatList:useShortFormatList,
-				timeLabel:false
+				timeLabel:false,
+				hasImage:true,
+				xValue:x1
 			}).then(() => {
 				 //$("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
@@ -885,7 +904,9 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 					disableMarkers:disableMarkers,
 					markerSizeArray:markerSizeArray,
 					isCentred:isCentred,
-					timeLabel:false
+					timeLabel:false,
+					hasImage:true,
+					xValue:x1
 				}).then(() => {
 				// $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
@@ -980,18 +1001,18 @@ function getDataChart4() { // trendfollowing
 	const manager = new ChartManager(`chart${chartId}`, options, `#longend${chartId}-container`);
 
 	const fromDate = new Date();
-	
+
 	fromDate.setMonth(fromDate.getMonth() - 1);
 	fromDate.setHours(0, 0, 0, 0);
 
 	manager.state.defaultFromDate = fromDate;
 	manager.state.defaultToDate = new Date();
 	if (manager && manager.chart) {
-	 
-         updateTrendFollowingGraph(chartId,manager,false);
+
+		updateTrendFollowingGraph(chartId, manager, false);
 	}
 	manager.render().then(() => {
-		    $('#chart-option-chart4').append(`
+		$('#chart-option-chart4').append(`
 		    <!-- Candlestick Toggle -->
 		    <br>
 			<div class="btn-group" id="candlestickToggle-chart4">
@@ -1055,373 +1076,376 @@ function getDataChart4() { // trendfollowing
 					</div>
 				</div>
 		    `);
-			// Initial load with first ticker
-			
-			dropdownIds.forEach(id => {
-	
-			  $(`#${id}`).jqxDropDownList({
-		    source: dropdownOptionSource[id],
-			    displayMember: "label",
-			    valueMember: "id",
-			    width: 100,
-			    height: 30,
-			    autoDropDownHeight: true,
-			    selectedIndex: -1,
-			    theme: 'dark'
-			  });
-			
-		  
-		  $(`#${id}`).off('select').on('select', function () {
-				
-		    // Skip programmatic/bulk updates
-		    if (isProgrammaticDropdownUpdate || isRefreshingDropdowns || isBulkUpdatingDropdowns)
-		      return;
-				  
-		    // Disable all reset icons
-		    dropdownIds.forEach((dd, index) => {
-		      const resetId = "reset" + (index + 1);
-		      $(`#${resetId}`).addClass('disabled').css({
-			            pointerEvents: 'none',
-			            opacity: 0.5,
-			            cursor: 'not-allowed'
-			        });
-			    });
-			    
-			    const chartId = '4';
-			    const manager = ChartManager.instances.chart4;
-			
-		    suppressTrendFollowingReload = true;
-		    // Reload chart only for user-initiated event
-		    updateTrendFollowingGraph(
-		      chartId,
-		      manager,
-		      true
-		    );
-			
-		    // Refresh UNIQUE selection logic
-			    isRefreshingDropdowns = true;
-			    setTimeout(() => {
-			        refreshAllDropdowns();
-			        isRefreshingDropdowns = false;
-		    });
-				    
-				    validateRadioSelection();
+		// Initial load with first ticker
+
+		dropdownIds.forEach(id => {
+
+			$(`#${id}`).jqxDropDownList({
+				source: dropdownOptionSource[id],
+				displayMember: "label",
+				valueMember: "id",
+				width: 100,
+				height: 30,
+				autoDropDownHeight: true,
+				selectedIndex: -1,
+				theme: 'dark'
 			});
-		
-			});
-			$('input[name="options"]').on('change', function () {
-				  let selected = $(this).val();
-				  let group;
-		
-				    bindResetButton('reset1', 'dropdown1');
-					bindResetButton('reset2', 'dropdown2');
-					bindResetButton('reset3', 'dropdown3');
-					bindResetButton('reset4', 'dropdown4'); 
-		  bindResetButton('reset5', 'dropdown5'); 
-		  bindResetButton('reset6', 'dropdown6');
-		  bindResetButton('reset7', 'dropdown7');
-					
-				  if (selected === "0") group = defaultSelections.short;
-				  else if (selected === "1") group = defaultSelections.medium;
-				  else if (selected === "2") group = defaultSelections.long;
-				
-				  if (group) {
-				    isBulkUpdatingDropdowns = true;
-				
-		    const dropdownA = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
-		    const dropdownB = ['dropdown5', 'dropdown6', 'dropdown7'];
-		
-		    const sourceAValues = group.filter(id => sourceAIds.has(id));
-		    const sourceBValues = group.filter(id => sourceBIds.has(id));
-		
-		    const applyValuesToDropdowns = (dropdownIds, values) => {
-				    dropdownIds.forEach((id, idx) => {
-		        const instance = $(`#${id}`);
-		        const valueToSelect = values[idx] ?? null;
-		
-		        if (valueToSelect != null) {
-		         // instance.jqxDropDownList('selectItem', valueToSelect);
-		           instance.jqxDropDownList('val', valueToSelect);
-				      } else {
-		          instance.jqxDropDownList('clearSelection');
-				      }
-				    });
-		    };
-		
-		    // 💡 Same logic as loadHistoryAndFillDropdowns
-		    applyValuesToDropdowns(dropdownA, sourceAValues);
-		    applyValuesToDropdowns(dropdownB, sourceBValues);
-				
-				    isBulkUpdatingDropdowns = false;
-				
-		    // ✅ One backend call after bulk change
-				    const chartId = '4';
-				    const manager = ChartManager.instances.chart4;
-				    updateTrendFollowingGraph(chartId, manager, true);
-				  }
+
+
+			$(`#${id}`).off('select').on('select', function() {
+
+				// Skip programmatic/bulk updates
+				if (isProgrammaticDropdownUpdate || isRefreshingDropdowns || isBulkUpdatingDropdowns)
+					return;
+
+				// Disable all reset icons
+				dropdownIds.forEach((dd, index) => {
+					const resetId = "reset" + (index + 1);
+					$(`#${resetId}`).addClass('disabled').css({
+						pointerEvents: 'none',
+						opacity: 0.5,
+						cursor: 'not-allowed'
+					});
 				});
-				
-		    bindResetButton('reset1', 'dropdown1');
+
+				const chartId = '4';
+				const manager = ChartManager.instances.chart4;
+
+				suppressTrendFollowingReload = true;
+				// Reload chart only for user-initiated event
+				updateTrendFollowingGraph(
+					chartId,
+					manager,
+					true
+				);
+
+				// Refresh UNIQUE selection logic
+				isRefreshingDropdowns = true;
+				setTimeout(() => {
+					refreshAllDropdowns();
+					isRefreshingDropdowns = false;
+				});
+
+				validateRadioSelection();
+			});
+
+		});
+		$('input[name="options"]').on('change', function() {
+			let selected = $(this).val();
+			let group;
+
+			bindResetButton('reset1', 'dropdown1');
 			bindResetButton('reset2', 'dropdown2');
 			bindResetButton('reset3', 'dropdown3');
-			bindResetButton('reset4', 'dropdown4'); 
-			bindResetButton('reset5', 'dropdown5'); 
+			bindResetButton('reset4', 'dropdown4');
+			bindResetButton('reset5', 'dropdown5');
 			bindResetButton('reset6', 'dropdown6');
 			bindResetButton('reset7', 'dropdown7');
-			
-			getTrendFollowingHistory();
-			//updateTrendFollowingGraph(chartId,manager);
-			
-			
+
+			if (selected === "0") group = defaultSelections.short;
+			else if (selected === "1") group = defaultSelections.medium;
+			else if (selected === "2") group = defaultSelections.long;
+
+			if (group) {
+				isBulkUpdatingDropdowns = true;
+
+				const dropdownA = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
+				const dropdownB = ['dropdown5', 'dropdown6', 'dropdown7'];
+
+				const sourceAValues = group.filter(id => sourceAIds.has(id));
+				const sourceBValues = group.filter(id => sourceBIds.has(id));
+
+				const applyValuesToDropdowns = (dropdownIds, values) => {
+					dropdownIds.forEach((id, idx) => {
+						const instance = $(`#${id}`);
+						const valueToSelect = values[idx] ?? null;
+
+						if (valueToSelect != null) {
+							// instance.jqxDropDownList('selectItem', valueToSelect);
+							instance.jqxDropDownList('val', valueToSelect);
+						} else {
+							instance.jqxDropDownList('clearSelection');
+						}
+					});
+				};
+
+				// 💡 Same logic as loadHistoryAndFillDropdowns
+				applyValuesToDropdowns(dropdownA, sourceAValues);
+				applyValuesToDropdowns(dropdownB, sourceBValues);
+
+				isBulkUpdatingDropdowns = false;
+
+				// ✅ One backend call after bulk change
+				const chartId = '4';
+				const manager = ChartManager.instances.chart4;
+				updateTrendFollowingGraph(chartId, manager, true);
+			}
 		});
-  
+
+		bindResetButton('reset1', 'dropdown1');
+		bindResetButton('reset2', 'dropdown2');
+		bindResetButton('reset3', 'dropdown3');
+		bindResetButton('reset4', 'dropdown4');
+		bindResetButton('reset5', 'dropdown5');
+		bindResetButton('reset6', 'dropdown6');
+		bindResetButton('reset7', 'dropdown7');
+
+		getTrendFollowingHistory();
+		//updateTrendFollowingGraph(chartId,manager);
+
+
+	});
+
 }
 
 async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
-if (trendFollowingLoading) return;   // ✅ stop re-entry
-  trendFollowingLoading = true;
-    try {
-	 $("#dropdown1").jqxDropDownList({ disabled: true }); 
-	 $("#dropdown2").jqxDropDownList({ disabled: true }); 
-     $("#dropdown3").jqxDropDownList({ disabled: true }); 
-	 $("#dropdown4").jqxDropDownList({ disabled: true }); 
-	 
-	 $("#dropdown5").jqxDropDownList({ disabled: true }); 
-	 $("#dropdown6").jqxDropDownList({ disabled: true }); 
-     $("#dropdown7").jqxDropDownList({ disabled: true }); 
+	if (trendFollowingLoading) return;   // ✅ stop re-entry
+	trendFollowingLoading = true;
+	try {
+		$("#dropdown1").jqxDropDownList({ disabled: true });
+		$("#dropdown2").jqxDropDownList({ disabled: true });
+		$("#dropdown3").jqxDropDownList({ disabled: true });
+		$("#dropdown4").jqxDropDownList({ disabled: true });
 
-  if(saveHistory)
-     saveTrendLineHistory(isShared); //isShared
-     
-    const from = document.getElementById(`dateFrom-chart${chartId}`).value;
-    const to = document.getElementById(`dateTo-chart${chartId}`).value;
-    const timeRange = getActiveTimeRange();
-    const period = getChartPeriod();
-    const candlestickIsActive = $(`#candlestick-chart${chartId}`).hasClass('active');
+		$("#dropdown5").jqxDropDownList({ disabled: true });
+		$("#dropdown6").jqxDropDownList({ disabled: true });
+		$("#dropdown7").jqxDropDownList({ disabled: true });
 
-    const selectedGroupsId = groupId;
-    const selectedFunctionIds = dropdownIds
-        .map(id => {
-            const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
-            return item ? item.originalItem.id : null;
-        })
-        .filter(id => id !== null)
-        .join(',');
+		if (saveHistory)
+			saveTrendLineHistory(isShared); //isShared
 
-    const commonParams = {
-        fromdate: from,
-        todate: to + (candlestickIsActive ? ' 23:59:59' : ''),
-        period: period,
-        type: '3',
-        groupId1: selectedGroupsId,
-        subGroupId1: '4',
-        removeEmpty1: false,
-        candlestickMode: candlestickIsActive,
-        functionId: selectedFunctionIds,
-        isFunctionGraph: selectedFunctionIds !== '' ? true : null
-    };
+		const from = document.getElementById(`dateFrom-chart${chartId}`).value;
+		const to = document.getElementById(`dateTo-chart${chartId}`).value;
+		const timeRange = getActiveTimeRange();
+		const period = getChartPeriod();
+		const candlestickIsActive = $(`#candlestick-chart${chartId}`).hasClass('active');
 
-    const api = "/cryptos/gettrendfollowingGraph";
-	let titleA = selectedLiveCurrency+' ( OHLC - 21:00 CLOSE )';//dropDownSource.find(c => c.groupId === commonParams[`groupId1`]).name;
-    let titleB = commonParams[`isFunctionGraph`]?'with TIME&VOLATILITY WEIGHTED ARRAYS':''; 
-    
-    const selectedFunctionIdsArray = getAllSelectedDropdownValues(); 
- //   resetAndReassignDropdowns(selectedFunctionIdsArray);
- 
-    	let colorsArray = [];
-    	let strokecolorsArray = [];
-    	let isCentredArray = [false];
-    	let seriesSidesArray=['left'];
-    	let yxannotaionRequired=[];
+		const selectedGroupsId = groupId;
+		const selectedFunctionIds = dropdownIds
+			.map(id => {
+				const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
+				return item ? item.originalItem.id : null;
+			})
+			.filter(id => id !== null)
+			.join(',');
+
+		const commonParams = {
+			fromdate: from,
+			todate: to + (candlestickIsActive ? ' 23:59:59' : ''),
+			period: period,
+			type: '3',
+			groupId1: selectedGroupsId,
+			subGroupId1: '4',
+			removeEmpty1: false,
+			candlestickMode: candlestickIsActive,
+			functionId: selectedFunctionIds,
+			isFunctionGraph: selectedFunctionIds !== '' ? true : null
+		};
+
+		const api = "/cryptos/gettrendfollowingGraph";
+		let titleA = selectedLiveCurrency + ' ( OHLC - 21:00 CLOSE )';//dropDownSource.find(c => c.groupId === commonParams[`groupId1`]).name;
+		let titleB = commonParams[`isFunctionGraph`] ? 'with TIME&VOLATILITY WEIGHTED ARRAYS' : '';
+
+		const selectedFunctionIdsArray = getAllSelectedDropdownValues();
+		//   resetAndReassignDropdowns(selectedFunctionIdsArray);
+
+		let colorsArray = [];
+		let strokecolorsArray = [];
+		let isCentredArray = [false];
+		let seriesSidesArray = ['left'];
+		let yxannotaionRequired = [];
 		const baseColors = ['#ffffff', '#fac1e2', '#e436c1', '#42f5c5', '#57f542', '#30d781', '#30d781', '#30d781'];
+
+		// MAIN PRICE SERIES — always index 0
+		colorsArray.push(function({ value, seriesIndex }) {
+			// Always return base color for the price / first series
+			return baseColors[0];
+		});
+		strokecolorsArray.push(function({ value, seriesIndex }) {
+			// Always return base color for the price / first series
+			return '#ffffff';
+		});
+
+		selectedFunctionIdsArray.forEach((val, index) => {
+			if (val === null || val === undefined) return;
 			
-			// MAIN PRICE SERIES — always index 0
-			colorsArray.push(function({ value, seriesIndex }) {
-			    // Always return base color for the price / first series
-			    return baseColors[0];
-			});
-			strokecolorsArray.push(function({ value, seriesIndex }) {
-			    // Always return base color for the price / first series
-			    return '#ffffff';
-			});
+			const base = FUNCTION_COLOR_MAP[val] === undefined ? baseColors[index + 1] : FUNCTION_COLOR_MAP[val] || '#2e75b6';  // shift because index 0 is already taken
 			
+			colorsArray.push(function({ value, seriesIndex, w }) {
+
+				try {
+					// HISTOGRAM SERIES STARTING FROM index >= 4
+					if (index >= 4) {
+						if (value == null || isNaN(value)) return base;
+						return value <= 0 ? '#f23a3aa3' : '#30d7818c';
+					}
+
+					// NORMAL LINE SERIES (close, ma, rsi, etc.)
+					return base;
+
+				} catch (e) {
+					console.error("Color calc error", e);
+					return base;
+				}
+			});
+			strokecolorsArray.push(function({ value, seriesIndex, w }) {
+
+				try {
+					// HISTOGRAM SERIES STARTING FROM index >= 4
+					if (index >= 4) {
+						if (value == null || isNaN(value)) return base;
+						return value <= 0 ? '#f23a3a' : '#30d781';
+					}
+
+					// NORMAL LINE SERIES (close, ma, rsi, etc.)
+					return base;
+
+				} catch (e) {
+					console.error("Color calc error", e);
+					return base;
+				}
+			});
+
+			if (index <= 3) {
+				// dropdown1–4 (index 0–3)
+				isCentredArray.push(false);
+				seriesSidesArray.push('left');
+				yxannotaionRequired = [false];
+			} else {
+				// dropdown5–7 (index 4–6)
+				isCentredArray.push(true);
+				seriesSidesArray.push('right');
+				yxannotaionRequired = [true, colorsArray.length - 1]
+			}
+
+
+		});
+
+
+		if (candlestickIsActive) {
+			let seriesTypes = ["candlestick"];  // always first
+
 			selectedFunctionIdsArray.forEach((val, index) => {
-			    if (val === null || val === undefined) return;
-			
-			    const base = baseColors[index + 1] || '#2e75b6';  // shift because index 0 is already taken
-			
-			    colorsArray.push(function({ value, seriesIndex, w }) {
-			
-			        try {
-			            // HISTOGRAM SERIES STARTING FROM index >= 4
-			            if (index >= 4) {
-			                if (value == null || isNaN(value)) return base;
-			                return value <= 0 ? '#f23a3aa3' : '#30d7818c';
-			            }
-			
-			            // NORMAL LINE SERIES (close, ma, rsi, etc.)
-			            return base;
-			
-			        } catch (e) {
-			            console.error("Color calc error", e);
-			            return base;
-			        }
-			    });
-			      strokecolorsArray.push(function({ value, seriesIndex, w }) {
-			
-			        try {
-			            // HISTOGRAM SERIES STARTING FROM index >= 4
-			            if (index >= 4) {
-			                if (value == null || isNaN(value)) return base;
-			                return value <= 0 ? '#f23a3a' : '#30d781';
-			            }
-			
-			            // NORMAL LINE SERIES (close, ma, rsi, etc.)
-			            return base;
-			
-			        } catch (e) {
-			            console.error("Color calc error", e);
-			            return base;
-			        }
-			    });
-			    
-		        if (index <= 3) {
-		            // dropdown1–4 (index 0–3)
-		            isCentredArray.push(false);
-		            seriesSidesArray.push('left');
-		            yxannotaionRequired=[false];
-		        } else {
-		            // dropdown5–7 (index 4–6)
-		            isCentredArray.push(true);
-		            seriesSidesArray.push('right');
-		            yxannotaionRequired=[true ,colorsArray.length-1 ]
-		        }
-		    
-			  
+				if (val !== null) {
+					if (index <= 3) {
+						// dropdown1–4 (index 0–3)
+						seriesTypes.push("line");
+					} else {
+						// dropdown5–7 (index 4–6)
+						seriesTypes.push("column");
+					}
+				}
 			});
-	
+			await manager.loadData({
+				service: manager._lastService || "cryptos",
+				api: api,
+				name: `${titleA} ${titleB}`,
+				applyTitle: true,
+				removeEmpty: manager._lastRemoveEmpty || false,
+				saveHistory: false,
+				fromOverride: manager.state.defaultFromDate,
+				toOverride: manager.state.defaultToDate,
+				applyDb: false,
+				seriesTypes: seriesTypes, // Adjust if more //['line', 'line', 'line', 'line', 'line'], // Adjust if more
+				seriesColors: colorsArray,
+				seriesStrokesColors: strokecolorsArray,
+				seriesSides: seriesSidesArray,
+				isCentred: isCentredArray,
+				useDualYAxis: true,
+				dataParam: commonParams,
+				useShortFormatList: [false],
+				interval: 'Daily',
+				disableMarkers: true,
+				markerSizeArray: [1, 0, 0, 0, 0],
+				yAnnotaionRequired: yxannotaionRequired,
+				showLegend: false,
+				combineTooltips: true,
+				timeLabel: false,
+				hasImage: true,
+				xValue: x2
+			}).then(() => {
+				$("#dropdown1").jqxDropDownList({ disabled: false });
+				$("#dropdown2").jqxDropDownList({ disabled: false });
+				$("#dropdown3").jqxDropDownList({ disabled: false });
+				$("#dropdown4").jqxDropDownList({ disabled: false });
 
-    if (candlestickIsActive) {
-		let seriesTypes = ["candlestick"];  // always first
-		
-		selectedFunctionIdsArray.forEach((val, index) => {
-		    if (val !== null) {
-		        if (index <= 3) {
-		            // dropdown1–4 (index 0–3)
-		            seriesTypes.push("line");
-		        } else {
-		            // dropdown5–7 (index 4–6)
-		            seriesTypes.push("column");
-		        }
-		    }
-		});
-        await manager.loadData({
-            service: manager._lastService || "cryptos",
-            api: api,
-            name: `${titleA} ${titleB}`,
-            applyTitle: true,
-            removeEmpty: manager._lastRemoveEmpty || false,
-            saveHistory: false,
-            fromOverride: manager.state.defaultFromDate,
-            toOverride: manager.state.defaultToDate,
-            applyDb: false,
-          seriesTypes: seriesTypes, // Adjust if more //['line', 'line', 'line', 'line', 'line'], // Adjust if more
-            seriesColors: colorsArray,
-            seriesStrokesColors:strokecolorsArray,
-            seriesSides :seriesSidesArray,
-            isCentred:isCentredArray,
-            useDualYAxis: true,
-            dataParam: commonParams,
-            useShortFormatList: [false],
-            interval: 'Daily',
-            disableMarkers: true,
-            markerSizeArray: [1, 0, 0, 0, 0],
-            yAnnotaionRequired:yxannotaionRequired,
-            showLegend: false,
-            combineTooltips:true,
-            timeLabel:false,
-            
-        }).then(() => {
-				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown2").jqxDropDownList({ disabled: false }); 
-			     $("#dropdown3").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown4").jqxDropDownList({ disabled: false }); 
-				 
-				 $("#dropdown5").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown6").jqxDropDownList({ disabled: false }); 
-			     $("#dropdown7").jqxDropDownList({ disabled: false }); 
-			          // 🔓 Re-enable all reset buttons after loading is done
-		    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
-		        $(`#${id}`).removeClass('disabled').css({
-		            pointerEvents: '',
-		            opacity: '',
-		            cursor: ''
-		        });
-		    });
+				$("#dropdown5").jqxDropDownList({ disabled: false });
+				$("#dropdown6").jqxDropDownList({ disabled: false });
+				$("#dropdown7").jqxDropDownList({ disabled: false });
+				// 🔓 Re-enable all reset buttons after loading is done
+				['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
+					$(`#${id}`).removeClass('disabled').css({
+						pointerEvents: '',
+						opacity: '',
+						cursor: ''
+					});
+				});
 
 			});
 
-        manager._disableChartSettings(true, ['fontOptions']);
-    } else {
-		let seriesTypes = ["line"];  // always first
-		
-		selectedFunctionIdsArray.forEach((val, index) => {
-		    if (val !== null) {
-		        if (index <= 3) {
-		            // dropdown1–4 (index 0–3)
-		            seriesTypes.push("line");
-		        } else {
-		            // dropdown5–7 (index 4–6)
-		            seriesTypes.push("column");
-		        }
-		    }
-		});
-	
-        await manager.loadData({
-            service: "cryptos",
-            api: api,
-            name: `${titleA} CLOSE ${titleB}`,
-            applyTitle: true,
-            removeEmpty: false,
-            saveHistory: false,
-            applyDb: true,
-            dataParam: commonParams,
-            showLegend: false,
-            useDualYAxis: true,
-            seriesTypes: seriesTypes, // Adjust if more //['line', 'line', 'line', 'line', 'line'], // Adjust if more
-            seriesColors: colorsArray,
-            seriesStrokesColors:strokecolorsArray,
-            seriesSides :seriesSidesArray,
-           	isCentred:isCentredArray,
-            disableMarkers: true,
-            markerSizeArray: [1, 0, 0, 0, 0],
-            yAnnotaionRequired:yxannotaionRequired,
-            combineTooltips:true,
-        }).then(() => {
-				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown2").jqxDropDownList({ disabled: false }); 
-			     $("#dropdown3").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown4").jqxDropDownList({ disabled: false }); 
-				 
-				 $("#dropdown5").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown6").jqxDropDownList({ disabled: false }); 
-			     $("#dropdown7").jqxDropDownList({ disabled: false }); 
-			          // 🔓 Re-enable all reset buttons after loading is done
-		    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
-		        $(`#${id}`).removeClass('disabled').css({
-		            pointerEvents: '',
-		            opacity: '',
-		            cursor: ''
-		        });
-		    });
-				
+			manager._disableChartSettings(true, ['fontOptions']);
+		} else {
+			let seriesTypes = ["line"];  // always first
+
+			selectedFunctionIdsArray.forEach((val, index) => {
+				if (val !== null) {
+					if (index <= 3) {
+						// dropdown1–4 (index 0–3)
+						seriesTypes.push("line");
+					} else {
+						// dropdown5–7 (index 4–6)
+						seriesTypes.push("column");
+					}
+				}
 			});
-    }
-     } finally {
-		   trendFollowingLoading = false;
-        setTimeout(() => suppressTrendFollowingReload = false, 200);
-    }
-  
+
+			await manager.loadData({
+				service: "cryptos",
+				api: api,
+				name: `${titleA} CLOSE ${titleB}`,
+				applyTitle: true,
+				removeEmpty: false,
+				saveHistory: false,
+				applyDb: true,
+				dataParam: commonParams,
+				showLegend: false,
+				useDualYAxis: true,
+				seriesTypes: seriesTypes, // Adjust if more //['line', 'line', 'line', 'line', 'line'], // Adjust if more
+				seriesColors: colorsArray,
+				seriesStrokesColors: strokecolorsArray,
+				seriesSides: seriesSidesArray,
+				isCentred: isCentredArray,
+				disableMarkers: true,
+				markerSizeArray: [1, 0, 0, 0, 0],
+				yAnnotaionRequired: yxannotaionRequired,
+				combineTooltips: true,
+				hasImage: true,
+				xValue: x2
+			}).then(() => {
+				$("#dropdown1").jqxDropDownList({ disabled: false });
+				$("#dropdown2").jqxDropDownList({ disabled: false });
+				$("#dropdown3").jqxDropDownList({ disabled: false });
+				$("#dropdown4").jqxDropDownList({ disabled: false });
+
+				$("#dropdown5").jqxDropDownList({ disabled: false });
+				$("#dropdown6").jqxDropDownList({ disabled: false });
+				$("#dropdown7").jqxDropDownList({ disabled: false });
+				// 🔓 Re-enable all reset buttons after loading is done
+				['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
+					$(`#${id}`).removeClass('disabled').css({
+						pointerEvents: '',
+						opacity: '',
+						cursor: ''
+					});
+				});
+
+			});
+		}
+	} finally {
+		trendFollowingLoading = false;
+		setTimeout(() => suppressTrendFollowingReload = false, 275);
+	}
+
 }
 async function loadGraphWithTrendlines(screenName, chartId, dataParam) {
 	try {
@@ -1437,7 +1461,7 @@ async function loadGraphWithTrendlines(screenName, chartId, dataParam) {
 			removeEmpty: true,
 			saveHistory: true,
 			dataParam,
-			result: cachedTrendlineResult,
+			result: cachedTrendlineResult
 		});
 	} catch (err) {
 		console.error("Error loading trendlines + technical chart:", err);

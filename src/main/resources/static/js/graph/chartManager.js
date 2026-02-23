@@ -628,7 +628,7 @@ this.chart.updateOptions({
 				redrawOnParentResize: false
 			},
 			title: {
-				text: s.title,
+				text: this._hasImage?'':s.title,
 				align: 'center',
 				style: { fontWeight: 'bold' }
 			},
@@ -766,6 +766,23 @@ this.chart.updateOptions({
 
 			annotations: annotations,
 		});
+		
+		if (!this._hasImage) {
+			return;
+		}
+		else {
+			const id = this.chartId;
+
+			$(`#mainChart-title-${id}`).empty();
+			$(`#mainChart-title-${id}`).append(`
+	    <div id="title-image"
+	         class="title-style"
+	         style="position:absolute; top:15px;  left:50%;  transform:translateX(-50%); height:36px; background:#172568;     z-index: 1;     line-height: 0.4rem;">
+	      <img height="24" class="pr-2 mb-1" src="${imgsrc}">
+	      ${s.title}
+	    </div>
+	  `);
+		}
 	}
 
 	setChartType(v) { this.state.chartType = v; if (!this._batching) this.applyStyle(); }
@@ -786,7 +803,9 @@ this.chart.updateOptions({
 		const btn = sb.querySelector('.toggle-sidebar');
 		if (btn) btn.innerHTML = sb.classList.contains('collapsed') ? '&#10094;' : '&#10095;';
 	}
-
+	
+	
+	
 	/**
   * Shift the From/To date range by a unit and direction,
   * enforce earliest date, re-load and redraw that chart only.
@@ -826,6 +845,7 @@ _shiftBy(from, to, step, freeze) {
 
   return { from: f, to: freeze ? t : to };
 }
+
 async navigate(direction) {
   const id = this.chartId;
   const fromInput = document.getElementById(`dateFrom-${id}`);
@@ -989,7 +1009,9 @@ async navigate(direction) {
 		timeLabel=true,
 		seriesSides=[],
 		yAnnotaionRequired=[],
-		seriesStrokesColors=[]
+		seriesStrokesColors=[],
+		hasImage=false,
+		xValue=228,
 	}) {
 		this._lastService = service;
 		this._api = api;
@@ -1009,7 +1031,8 @@ async navigate(direction) {
         this._showLegend = showLegend;
         this._combineTooltips=combineTooltips;
         this._timeLabel=timeLabel;
-        
+        this._hasImage=hasImage;
+        this._xValue=xValue;
 		if (interval !== null) {
 			dataParam.interval = interval;
 		}
@@ -1335,7 +1358,8 @@ async navigate(direction) {
 			max: Math.max(limitsArray[0]?.max ?? 0, limitsArray[1]?.max ?? 0)
 		};
 	} else if (limitsArray[index]) {
-		lim = limitsArray[index];
+		  // Use grouped limits instead of per-series limits
+  		  lim = this.getGroupedLimits(sideGroup);
 	}
 
 	const fmt = this.state.seriesFormats?.[index] || {
@@ -1395,7 +1419,29 @@ async navigate(direction) {
 	};
 }
 
+getGroupedLimits(sideGroup) {
+  const limitsArray = this.state.seriesLimits || [];
+  const sides = this.state.seriesSides || [];
 
+  let min = Infinity;
+  let max = -Infinity;
+
+  limitsArray.forEach((lim, i) => {
+    const group =
+      sides[i] || (i % 2 === 0 ? 'left' : 'right');
+
+    if (group === sideGroup && lim) {
+      min = Math.min(min, lim.min ?? 0);
+      max = Math.max(max, lim.max ?? 0);
+    }
+  });
+
+  if (min === Infinity || max === -Infinity) {
+    return { min: 0, max: 100 };
+  }
+
+  return { min, max };
+}
 /**
  * Only one visible Y-axis per side
  * (The rest are hidden but still mapped by `seriesName`)

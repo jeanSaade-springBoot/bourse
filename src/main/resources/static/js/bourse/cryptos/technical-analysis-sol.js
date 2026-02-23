@@ -109,6 +109,23 @@ const dropdownOptionSource = {
   dropdown6: difffullOptions,
   dropdown7: difffullOptions
 };
+const FUNCTION_COLOR_MAP = {
+  // SHORT group (yellow shades)
+  20: '#fcf800',  // Short MA 5
+  21: '#fcf800c2',  // Short MA 6
+  22: '#fcf80091',  // Short MA 7
+  23: '#fcf80061',  // Short MA 9
+
+  // MEDIUM group (orange shades)
+  24: '#ffb500',
+  25: '#ffb500d6',
+  26: '#ffb5009e',
+  27: '#ffb50070',
+
+  // LONG group (brown shades)
+  28: '#8b4c00',
+  29: '#8b4c00b5',
+};
 const sourceAIds = new Set([20, 21, 22, 23, 24, 25, 26, 27, 28, 29]); 
 const sourceBIds = new Set([30, 31, 32, 33, 34, 35, 36]);   
 	
@@ -1465,8 +1482,8 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 			selectedFunctionIdsArray.forEach((val, index) => {
 			    if (val === null || val === undefined) return;
 			
-			    const base = baseColors[index + 1] || '#2e75b6';  // shift because index 0 is already taken
-			
+			    const base = FUNCTION_COLOR_MAP[val] === undefined ? baseColors[index + 1] : FUNCTION_COLOR_MAP[val] || '#2e75b6';  // shift because index 0 is already taken
+			    	
 			    colorsArray.push(function({ value, seriesIndex, w }) {
 			
 			        try {

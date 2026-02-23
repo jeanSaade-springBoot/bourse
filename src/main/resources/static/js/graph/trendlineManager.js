@@ -1938,7 +1938,8 @@ function updateSeriesChart(chartConfigSettings){
 					      gradientToColors:chartConfigSettings.finalColor
 					    }
 					};	
-			
+	
+	  	
 		chart.updateOptions({
 				chart: {
 			width: '100%',
@@ -2094,7 +2095,29 @@ function updateSeriesChart(chartConfigSettings){
 			    	  
 				});
 				
-
+	if (typeof hasImage === "undefined" || hasImage === false) {
+		    return;
+		}
+ 	  else
+		{
+		const id = 'chart2';
+		$(`#mainChart-title-${id}`).empty();
+		$(`#mainChart-title-${id}`).append(`
+		  <div id="title-image"
+		       class="title-style"
+		       style="position:absolute; 
+		              top:15px;  
+		              left:50%;  
+		              transform:translateX(-50%);
+		              height:36px; 
+		              background:#172568;     
+		              z-index:1;     
+		              line-height:0.4rem;">
+		    <img height="24" class="pr-2 mb-1" src="${imgsrc}">
+		    ${title}
+		  </div>
+		`);
+		}
 }
 
 function removeById(dataArray, key, id) {

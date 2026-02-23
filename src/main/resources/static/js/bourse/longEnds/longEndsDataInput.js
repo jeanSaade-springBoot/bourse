@@ -1,4 +1,5 @@
 var selectedRow = this;
+var selectedRowSpread = this;
 var monthDate = new Date();
 monthDate.setMonth(monthDate.getMonth() - 6);
 var auditUrl;
@@ -533,7 +534,7 @@ function renderSubGroup() {
 	var defaultData = AuditDefaultData;
 	var fields = [
 		{ name: 'id', type: 'string' },
-		{ name: 'futureExpiryDate', type: 'date', format: 'dd-MM-yyyy' },
+		{ name: 'futureExpiryDate', type: 'date' },
 		{ name: 'issuer', type: 'string' },
 		{ name: 'coupon', type: 'string' },
 		{ name: 'ctdMaturity', type: 'date' },
@@ -578,10 +579,14 @@ function renderSubGroup() {
 		{ text: 'Close', hidden: subgroup4, datafield: 'close', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 		{ text: 'High', hidden: subgroup5, datafield: 'high', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 		{ text: 'Low', hidden: subgroup6, datafield: 'low', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-		{ text: 'Future Expiry Date', datafield: 'futureExpiryDate', columntype: 'datetimeinput', width: widthPercentage + '%', cellsalign: 'center', align: 'center', cellsformat: 'dd-MMM-yyyy' },
+		{ text: 'Future Expiry Date', datafield: 'futureExpiryDate',
+		// columntype: 'datetimeinput', 
+		width: widthPercentage + '%', cellsalign: 'center', align: 'center', cellsformat: 'dd-MMM-yyyy' },
 		{ text: 'Issuer', datafield: 'issuer', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 		{ text: 'Coupon', datafield: 'coupon', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-		{ text: 'Ctd Maturity', datafield: 'ctdMaturity', columntype: 'datetimeinput', width: widthPercentage + '%', cellsalign: 'center', align: 'center', cellsformat: 'dd-MMM-yyyy' },
+		{ text: 'Ctd Maturity', datafield: 'ctdMaturity', 
+		//columntype: 'datetimeinput',
+		 width: widthPercentage + '%', cellsalign: 'center', align: 'center', cellsformat: 'dd-MMM-yyyy' },
 		{ text: 'Price At Issue', datafield: 'priceAtIssue', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 		{ text: 'Frequency', datafield: 'frequency', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
 		{ text: 'Convergence Factor', datafield: 'convergenceFactor', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
@@ -647,7 +652,7 @@ function renderSubGroup() {
 			source: rollingDataAdapter,
 			theme: 'dark',
 			autoheight: true,
-			editable: true,
+			editable: false,
 			selectionmode: 'none',
 			editmode: 'selectedrow',
 			columns: rollingArrayOFcolumns
@@ -1143,6 +1148,7 @@ function getFilterData(selectedItem) {
 				cache: false,
 				timeout: 600000,
 				success: function(data) {
+					console.log(data)
 					delete source.url;
 					source.localdata = data.rows;
 					dataAdapter = new $.jqx.dataAdapter(source);
@@ -1324,7 +1330,7 @@ function Edit(row, event) {
 }
 function EditSpread(row, event) {
 
-	isedit = true;
+	iseditSpread = true;
 	var data = $('#SpreadGrid').jqxGrid('getrowdata', row);
 
 	oldDataJson = {
@@ -1332,7 +1338,7 @@ function EditSpread(row, event) {
 		"spreadValue": data.spreadValue,
 	};
 
-	selectedRow.editrow = row;
+	selectedRowSpread.editrow = row;
 	date = $.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 	if (auditGridSource.url == '' || date != filterDate) {
 		renderAuditGrids(date);
@@ -1411,7 +1417,7 @@ function Update(row, event) {
 
 		}
 	}
-
+	$('#grid').jqxGrid({ showdefaultloadelement: true });
 	$.ajax({
 		type: "POST",
 		contentType: "application/json",
@@ -1422,7 +1428,7 @@ function Update(row, event) {
 		cache: false,
 		timeout: 600000,
 		success: function(data) {
-
+		
 
 			renderlookUpGridsData();
 			renderAuditGrids(date);
@@ -1445,12 +1451,12 @@ function Update(row, event) {
 }
 function UpdateSpread(row, event) {
 
-	isupdate = true;
+	isupdateSpread = true;
 	var dataToBeUpdated = [];
 	var updatedDataJson;
 	var keys;
 	var updatedData = $('#SpreadGrid').jqxGrid('getrowdata', row);
-	selectedRow.editrow = -1;
+	selectedRowSpread.editrow = -1;
 	$('#SpreadGrid').jqxGrid('endrowedit', row);
 	var updatedData = $('#SpreadGrid').jqxGrid('getrowdata', row);
 
@@ -1517,9 +1523,9 @@ function Cancel(row) {
 	$('#AuditGrid').jqxGrid('endrowedit', row, true);
 }
 function CancelSpread(row) {
-	isedit = false;
-	isupdate = false;
-	selectedRow.editrow = row;
+	iseditSpread = false;
+	isupdateSpread = false;
+	selectedRowSpread.editrow = row;
 	$('#SpreadGrid').jqxGrid('endrowedit', row, true);
 }
 

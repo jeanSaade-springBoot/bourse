@@ -231,4 +231,10 @@ public class GraphController {
 		List<Map<String, List<?>>> graphData = graphService.getPerformanceGraphBarDataResults(graphReqDTO);
        return new ResponseEntity<>(graphData, HttpStatus.OK);
    }
+	@PostMapping(value = "get-weighted-trend-graph")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getTrendFollowingGraph(@RequestBody  GraphRequestDTO graphReqDTO) {
+		System.out.println(className+": get-weighted-trend-graph");
+
+		return new ResponseEntity<>(graphService.getWeightedTrendGraph(graphReqDTO),HttpStatus.OK);
+	}
 }
