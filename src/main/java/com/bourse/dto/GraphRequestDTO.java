@@ -38,6 +38,9 @@ public class GraphRequestDTO {
 	private String isFunctionGraph;
 	private String functionId;
 	
+	private String isTrendFunctionGraph;
+	private String trendFunctionId;
+	
 	private String removeEmpty1;
 	private String removeEmpty2;
 	private String removeEmpty3;

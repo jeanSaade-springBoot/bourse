@@ -125,7 +125,7 @@ public class LongEndsController {
 		  longEndsService.deleteLongEndsData(groupId,referDate);
 		  longEndsService.onSuccessfulDelete(longEndsData);
 		  longEndsService.runTrendFollowingMavgTask(Long.valueOf(groupId),referDate,referDate);
-
+		  longEndsService.runVolatilityWeightedTrendFollowingMavgTask(Long.valueOf(groupId),referDate,referDate);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
    

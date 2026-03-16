@@ -1,5 +1,6 @@
 package com.bourse.notification.controller;
 
+import java.time.format.DateTimeFormatter;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -75,10 +76,11 @@ public class MessageController {
 
     @Scheduled(cron = "0/15 * * * * ?") // Runs every 30 seconds
     public void updateCryptoData() {
+    	System.out.println("-- Scheduled Sending crypto live data: "+ DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss").format(java.time.LocalDateTime.now()));
         CURRENCY_API_MAP.forEach((currency, apiEndpoint) -> {
         	  List<CrCryptoDTO> latestData = cryptosService.fetchLatestCryptoData(apiEndpoint);
             if (latestData != null) {
-                System.out.println("Sending " + currency + " data: " + latestData);
+               // System.out.println("Sending " + currency + " data: " + latestData);
                 messagingTemplate.convertAndSend("/all/chart/" + currency, latestData);
             } else {
                 System.err.println("No data for: " + currency);
@@ -96,7 +98,7 @@ public class MessageController {
 	 * latestData); } else { System.err.println("No data for: " + currency); } }); }
 	 */
     
-    @Scheduled(cron = "0/10 * * * * ?") // Runs every 10 seconds
+  //  @Scheduled(cron = "0/10 * * * * ?") // Runs every 10 seconds
     public void updateOrderBookData() {
     	 
     		OrderBookDataDTO latestData = cryptosService.fetchLatestOrderBookData("/order-book/get-order-book-data-list");

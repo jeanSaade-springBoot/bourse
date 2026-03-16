@@ -7,7 +7,6 @@ let suppressFunctionDropdownChange = false;
 const livePriceCache = {};
 let cachedTrendlineResult = null;
 let liveSubscription = null;
-let selectedLiveCurrency = 'ETH'; // default
 
 const checkboxCache = {}; // key: `${groupId}-${chartId}` → true
 
@@ -31,8 +30,6 @@ const screenName='CryptosAnalisys';
 const graphName='CryptosAnalisys';
 let graphService = "cryptos";
 let mainLabel =  'Crypto';
-
-let trendFollowingLoading = false;
 
 const removeEmpty = true;
 	
@@ -99,6 +96,34 @@ const dropdownIds = [
   'dropdown1', 'dropdown2', 'dropdown3', 'dropdown4',
   'dropdown5', 'dropdown6', 'dropdown7'
 ];
+const dropdownResetIds = ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'];
+const BuySelldropdownIds = [
+  'dropdown1bs', 'dropdown2bs', 'dropdown3bs', 'dropdown4bs',
+  'dropdown5bs', 'dropdown6bs', 'dropdown7bs', 'dropdown8bs'
+];
+const BuySelldropdownResetIds = ['reset1bs', 'reset2bs', 'reset3bs', 'reset4bs', 'reset5bs', 'reset6bs', 'reset7bs', 'reset8bs'];
+	
+const buyFullOptions = [
+    { id: 37, label: "OPEN 5d" },
+    { id: 38, label: "OPEN 9d" },
+    { id: 39, label: "OPEN 18d" },
+    { id: 40, label: "OPEN 30d" },
+    { id: 49, label: "BOL-10d" },
+    { id: 50, label: "BOL-20d" },
+    { id: 45, label: "ENVELOP 9d" },
+    { id: 46, label: "ENVELOP 21d" },
+];
+const sellFullOptions = [
+    { id: 41, label: "OPEN 5d" },
+    { id: 42, label: "OPEN 9d" },
+    { id: 43, label: "OPEN 18d" },
+    { id: 44, label: "OPEN 30d" },
+    { id: 51, label: "BOL-10d" },
+    { id: 52, label: "BOL-20d" },
+    { id: 47, label: "ENVELOP 9d" },
+    { id: 48, label: "ENVELOP 21d" },
+];
+
 const dropdownOptionSource = {
   dropdown1: fullOptions,
   dropdown2: fullOptions,
@@ -107,7 +132,17 @@ const dropdownOptionSource = {
 
   dropdown5: difffullOptions,
   dropdown6: difffullOptions,
-  dropdown7: difffullOptions
+  dropdown7: difffullOptions,
+  
+  dropdown1bs: buyFullOptions,
+  dropdown2bs: buyFullOptions,
+  dropdown3bs: buyFullOptions,
+  dropdown4bs: buyFullOptions,
+
+  dropdown5bs: sellFullOptions,
+  dropdown6bs: sellFullOptions,
+  dropdown7bs: sellFullOptions,
+  dropdown8bs: sellFullOptions,
 };
 const FUNCTION_COLOR_MAP = {
   // SHORT group (yellow shades)
@@ -128,16 +163,16 @@ const FUNCTION_COLOR_MAP = {
 };
 const sourceAIds = new Set([20, 21, 22, 23, 24, 25, 26, 27, 28, 29]); 
 const sourceBIds = new Set([30, 31, 32, 33, 34, 35, 36]);   
-	
+const sourceA1Ids = new Set([37,38,39,40,49,50,45,46]); 
+const sourceB1Ids = new Set([41,42,43,44,51,52,47,48]);   
+
 const selectedValues = {};
-let isRefreshingDropdowns = false;
-let isProgrammaticDropdownUpdate = false;
-let isProcessingRemoteUpdate = false;
-let isBulkUpdatingDropdowns = false;
-let suppressTrendFollowingReload = false;
 
-let trendfollowingDbId;
-
+const chartStates = {
+    chart1: createChartState(),
+    chart2: createChartState(),
+    chart3: createChartState() //chart4 in code 
+};
 
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -268,15 +303,15 @@ $(document).ready(function() {
 		initializeFunctions(71);
 		
 		//CryptosAnalisys
-		initializeCryptoOptions();
+		initializeCryptoOptions(cryptoIndex,selectedLiveCurrency);
 		// getTrendLinesHistory();
 		 getDataChart3();
-		 getDataChart1(null);
-		 getDataChart2(null);
+		 getDataChart1();
+		 getDataChart2();
 		 getDataChart4() ;
 
 		 
-		initializeOrderBookForCrypto("BTC");
+		initializeOrderBookForCrypto(selectedLiveCurrency);
 });
  $("#groupOfPeriod-chart1").on('buttonclick', function (event) {
 	        updateFunctionBasedOnSelectedPeriod($('#groupOfPeriod-chart1').jqxButtonGroup('getSelection'));         
@@ -348,9 +383,10 @@ async function renderCheckboxesChart1VolumeFundingRate(cryptoGroupId, chartId = 
 		const allItems = filteredOptions.map(opt =>
 			`#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`
 		);
-		
+	    chartStates[`chart${chartId}`].allItems=allItems;
 		const itemLimit = 1; // default to 1 if not defined
-		initializeItemsPerChart(allItems, itemLimit, chartId);
+		chartStates[`chart1`].numberOfItems=itemLimit;
+		initializeItemsPerChart(allItems, chartId);
 		
 		initializeClearFilterButtonForChart(chartId, allItems, true);
 }
@@ -369,9 +405,10 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2) {
 		const allItems = checkboxOptions.map(opt =>
 			`#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${chartId}`
 		);
-
+        chartStates[`chart${chartId}`].allItems=allItems;
 		const itemLimit = chartItemLimits[chartId] || 1;
-		initializeItemsPerChart(allItems, itemLimit, chartId);
+		chartStates[`chart${chartId}`].numberOfItems=itemLimit;
+		initializeItemsPerChart(allItems, chartId);
 
 		// Pre-check logic
 		if (chartId === 1) {
@@ -400,7 +437,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2) {
 		
 			const isCandleStick = $('#candlestick-chart1').hasClass('active');
 			const timeRange = getActiveTimeRange();
-		
+ 
 			if (isCandleStick) {
 				// Uncheck all
 				allItems.forEach(id => {
@@ -467,7 +504,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2) {
 		}
 }
 
-function initializeItemsPerChart(allItems, numberOfItems, chartId) {
+function initializeItemsPerChart(allItems, chartId) {
 	checkedItemCountPerChart[chartId] = 0;
 	checkedItemIdsPerChart[chartId] = [];
 
@@ -494,7 +531,7 @@ function initializeItemsPerChart(allItems, numberOfItems, chartId) {
 			checkedItemIdsPerChart[chartId] = checkedItemIdsPerChart[chartId].filter(id => id !== "#" + checkboxId);
 		}
 
-		if (checkedItemCountPerChart[chartId] >= numberOfItems) {
+		if (checkedItemCountPerChart[chartId] >= chartStates[`chart${chartId}`].numberOfItems) {
 			allItems.forEach(id => $(id).jqxCheckBox({ disabled: true }));
 			checkedItemIdsPerChart[chartId].forEach(id => $(id).jqxCheckBox({ disabled: false }));
 
@@ -509,6 +546,7 @@ function initializeItemsPerChart(allItems, numberOfItems, chartId) {
 		}
 	});
 }
+
 function getCheckedItems(chartId) {
 	const items = checkedItemIdsPerChart[chartId] || [];
 
@@ -528,11 +566,7 @@ function getCheckedItems(chartId) {
 	return items;
 }
 
-function getCheckedCount(chartId) {
-	return checkedItemCountPerChart[chartId] || 0;
-}
-
-function initializeCryptoOptions() {
+function initializeCryptoOptions(index, currency) {
 
 
 	var Optionsource =
@@ -547,8 +581,16 @@ function initializeCryptoOptions() {
 	};
 
 	var functionDataAdapter = new $.jqx.dataAdapter(Optionsource);
-	$("#dropDownCryptoOptions").jqxDropDownList({ dropDownHeight: 200, selectedIndex: 1, source: functionDataAdapter, placeHolder: "", displayMember: "name", valueMember: "groupId", theme: 'dark', width: 150, height: 25 });
-
+	$("#dropDownCryptoOptions").jqxDropDownList({ dropDownHeight: 200, selectedIndex: index, source: functionDataAdapter, placeHolder: "", displayMember: "name", valueMember: "groupId", theme: 'dark', width: 150, height: 25 });
+   
+   if (cryptoGroupId === 71 || cryptoGroupId === 73) {
+			$("#order-book").addClass("d-block").removeClass("d-none");
+			$('#mainChart').css('max-width', '600px');
+		} else {
+			$("#order-book").addClass("d-none").removeClass("d-block");
+			$('#mainChart').css('max-width', '1100px');
+		}
+	
 	$('#dropDownCryptoOptions').on('change', function(event) {
 		Object.keys(checkboxCache).forEach(key => delete checkboxCache[key]);
 		if(functionId!=-1)
@@ -558,7 +600,7 @@ function initializeCryptoOptions() {
 		const selected = dropDownCryptosource.find(c => c.groupId === selectedGroupId);
 		
 	    const selectedTicker = selected.ticker;
-			updatePairDropdown('ETH');
+			updatePairDropdown(currency);
 			
 		if (!selected) return;
 	
@@ -596,8 +638,8 @@ function initializeCryptoOptions() {
 		});
 		
 	    $("#candlestick-chart4").addClass('active');	
-		getTrendFollowingHistory();
-		
+		getTrendFollowingHistory(3,dropdownIds);
+		getTrendFollowingHistory(1,BuySelldropdownIds);
 	});
 
 	// renderCheckboxesPerChart($("#dropDownCryptoOptions").val());
@@ -658,7 +700,7 @@ function initializeShowFilterButtonForChart(chartId) {
 		$("#button-yearBackward").prop('disabled', false);
 		fromNavigation = false;
 
-		if (getCheckedCount(chartId) > 0) {
+		if (getCheckedCountValues(chartStates[`chart${chartId}`].allItems) > 0) {
 			$("#collapseFilter").removeClass('show');
 			$('#grid-content').css('display', 'block');
 			drawGraphForChart(chartId);
@@ -690,19 +732,18 @@ function initializeClearFilterButtonForChart(chartId, allItems,reset) {
 		const isCandleStick = $('#candlestick-chart1').hasClass('active');
 		if(isCandleStick)
 			{  const timeRange = getActiveTimeRange();
-				loadChart1Data(ChartManager.instances['chart1'],timeRange);
+				loadChart1Data(ChartManager.instances['chart1'],timeRange,false);
 			}
 	});
 }
 function drawGraphForChart(chartId) {
 
-	const checkItems = getCheckedItems(chartId);
 	if (chartId == 1) {
-		getDataChart1(checkItems);
+		getDataChart1();
 	}
 	else
 	if (chartId == 2) {
-		getDataChart2(checkItems);
+		getDataChart2();
 		
 	}
 	else
@@ -711,9 +752,7 @@ function drawGraphForChart(chartId) {
 		
 	}
 }
-function getDataChart1(checkedItemIds) {
-
-	//$("#candlestick-chart1").removeClass('active');
+function getDataChart1() {
 
 	const chartId = '1';
 	const chartKey = `chart${chartId}`;
@@ -736,7 +775,7 @@ function getDataChart1(checkedItemIds) {
 	manager.state.defaultToDate = new Date(); // Today
 
 	if (manager && manager.chart) {
-	  loadChart1Data(manager,timeRange);
+	  loadChart1Data(manager,timeRange,false);
 	} else {
 	manager.render().then(() => {
 		    $('#chart-option-chart1').append(`
@@ -752,35 +791,139 @@ function getDataChart1(checkedItemIds) {
 				  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
 				  id="btn-checkboxes-container-chart-1"
 				  data-pcollapse="toggle"
-				  data-target="#checkboxes-container-chart-1"
+				  data-target="#checkboxes-main-container-chart-1"
 				  aria-expanded="false"
-				  aria-controls="checkboxes-container-chart-1">
+				  aria-controls="checkboxes-main-container-chart-1">
 				  <span class="left">
 				    <span class="label">Select Factor</span>
 				  </span>
 				  <i class="fa-solid fa-chevron-down chev ms-auto"></i>
-				</button>
-          <div id="checkboxes-container-chart-1" class="collapse"></div>
-		    
-		  
-		    <div class="col-12 d-flex">
-					<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-1" value="Show" />
-					<input id="clear-filter-chart-1" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-			</div>`);
+			  </button>
+	          <div id="checkboxes-main-container-chart-1" class="collapse">
+	          	<div id="checkboxes-container-chart-1"></div>
+			    <div class="col-12 d-flex pb-3 pt-2">
+						<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-1" value="Show" />
+						<input id="clear-filter-chart-1" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+				</div>
+	          </div>
+	            <div class="d-flex pl-2 pt-2" id="buySellSwitchbutton">
+					  <input id="tech-analysis" type="checkbox" class="switch" onclick="techAnalysisCheck();">
+					  <label for="tech-analysis" class="checkboxesTitle" style="font-size: .75rem; margin-left: 4px;">TECH ANALYSIS</label>
+					</div>
+		        <div id="buySellContainer" class="d-none">
+			         <div class="d-flex align-items-center pl-3 fw-bold green-text" >BUY</div>
+			  		 <div class="d-flex align-items-center pl-3">
+				    	<div id="dropdown1bs" class="mt-2"></div>
+					    <div class="ml-2 mt-2">
+							<i class="fa-solid fa-xmark" id="reset1bs"></i>
+						</div>
+					</div>
+					<div class="d-flex align-items-center pl-3">
+				    	<div id="dropdown2bs" class="mt-2"></div>
+					    <div class="ml-2 mt-2">
+							<i class="fa-solid fa-xmark" id="reset2bs"></i>
+						</div>
+					</div>
+					<div class="d-flex align-items-center pl-3">
+				    	<div id="dropdown3bs" class="mt-2"></div>
+					    <div class="ml-2 mt-2">
+							<i class="fa-solid fa-xmark" id="reset3bs"></i>
+						</div>
+					</div>
+					<div class="d-flex align-items-center pl-3">
+				    	<div id="dropdown4bs" class="mt-2"></div>
+					    <div class="ml-2 mt-2">
+							<i class="fa-solid fa-xmark" id="reset4bs"></i>
+						</div>
+					</div>
+					 <div class="d-flex align-items-center pl-3 fw-bold red-text  pt-3">SELL</div>
+					<div class="d-flex align-items-center pl-3">
+				    	<div id="dropdown5bs" class="mt-2"></div>
+					    <div class="ml-2 mt-2">
+							<i class="fa-solid fa-xmark" id="reset5bs"></i>
+						</div>
+					</div>
+					<div class="d-flex align-items-center pl-3">
+				    	<div id="dropdown6bs" class="mt-2"></div>
+					    <div class="ml-2 mt-2">
+							<i class="fa-solid fa-xmark" id="reset6bs"></i>
+						</div>
+					</div>
+					<div class="d-flex align-items-center pl-3">
+				    	<div id="dropdown7bs" class="mt-2"></div>
+					    <div class="ml-2 mt-2">
+							<i class="fa-solid fa-xmark" id="reset7bs"></i>
+						</div>
+					</div>
+					<div class="d-flex align-items-center pl-3">
+				    	<div id="dropdown8bs" class="mt-2"></div>
+					    <div class="ml-2 mt-2">
+							<i class="fa-solid fa-xmark" id="reset8bs"></i>
+						</div>
+					</div>
+				</div>
+				
+		  `);
 			
 			initializeShowFilterButtonForChart('1');
 		    const selectedGroupsId = $('#dropDownCryptoOptions').val();
 	
 		   renderCheckboxesPerChart(selectedGroupsId,1).then(() => {
-		   	 loadChart1Data(manager,timeRange);
+		   	 loadChart1Data(manager,timeRange,false);
 		});
+				
+		BuySelldropdownIds.forEach(id => {
+
+			$(`#${id}`).jqxDropDownList({
+				source: dropdownOptionSource[id],
+				displayMember: "label",
+				valueMember: "id",
+				width: 100,
+				height: 30,
+				autoDropDownHeight: true,
+				selectedIndex: -1,
+				theme: 'dark'
+			});
+			
+
+			$(`#${id}`).off('select').on('select', function() {
+
+			  if (chartStates.chart1.isProgrammaticDropdownUpdate || chartStates.chart1.isRefreshingDropdowns || chartStates.chart1.isBulkUpdatingDropdowns)
+		      	return;
+		
+				BuySelldropdownIds.forEach((dd, index) => {
+					const resetId = "reset" + (index + 1)+"bs";
+					$(`#${resetId}`).addClass('disabled').css({
+						pointerEvents: 'none',
+						opacity: 0.5,
+						cursor: 'not-allowed'
+					});
+				});
+
+				// Reload chart only for user-initiated event
+				loadChart1Data(ChartManager.instances['chart1'],getActiveTimeRange(),true);
+				
+				// Refresh UNIQUE selection logic
+			    chartStates.chart1.isRefreshingDropdowns = true;
+			    setTimeout(() => {
+			
+			      refreshAllDropdowns(BuySelldropdownIds);
+			      chartStates.chart1.isRefreshingDropdowns = false;
+			    });
+			});
+			
+		    
+		});
+		 bindResetGroup(BuySelldropdownIds, 1);
+		  getTrendFollowingHistory(1,BuySelldropdownIds);
     });
+   
     }
 }
-async function loadChart1Data(manager,timeRange,chartId=1){
+async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
+	    	
 	    	const isCandleStick = $('#candlestick-chart1').hasClass('active');
-	
-			const checkedItemIds = getCheckedItems(chartId);
+	 		const checkedItemIds = getCheckedItems(chartId);
 			
 			const metadataList = checkedItemIds.map(fullId => {
 				const cleanId = fullId.replace(`-chart-${chartId}`, '');
@@ -793,7 +936,159 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 			}
 			const functionId = getSelectedFunctionId(); // returns -1 if none selected
 			let seriesColors = [];
-			 const selectedGroupsId = $('#dropDownCryptoOptions').val();
+			const selectedGroupsId = $('#dropDownCryptoOptions').val();
+			 
+			const trendFunctionIds = BuySelldropdownIds
+		        .map(id => {
+		            const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
+		            return item ? item.originalItem.id : null;
+		        })
+		        .filter(id => id !== null)
+		        .join(',');
+         
+           setDropdownGroupDisabled(BuySelldropdownIds, false);
+           var isChecked = $("#tech-analysis").is(":checked");
+           if(isChecked && timeRange==='Daily')
+           {
+              if(saveHistory && timeRange==='Daily')
+              saveTrendLineHistory(isShared,1,BuySelldropdownIds); //isShared
+                  
+                  
+			   if ( chartStates.chart1.trendFollowingLoading) return;   // ✅ stop re-entry
+   				chartStates.chart1.trendFollowingLoading = true;
+			   		try{
+						
+				const sorted = [...metadataList];
+			    
+				const from = document.getElementById(`dateFrom-chart${chartId}`).value;
+				const to = document.getElementById(`dateTo-chart${chartId}`).value;
+			    let  period = getChartPeriod();
+			    let seriesTypes = isCandleStick?['candlestick']:["line"];
+			    
+				const params = {
+					fromdate: from,
+					todate: to,
+					period: period,
+					type: '3',
+					candlestickMode:isCandleStick?true:false,
+					isTrendFunctionGraph:trendFunctionIds==''?false:true,
+					trendFunctionId:trendFunctionIds
+				};
+				if(isCandleStick)
+			  		 $("#btn-checkboxes-container-chart-1").addClass("d-none").removeClass("d-block");
+
+				// If two items, apply preferred order logic (5 or 6 last)
+				
+				if (sorted.length === 2 && (sorted[0].subGroupId === '5' || sorted[0].subGroupId === '6')) {
+					[sorted[0], sorted[1]] = [sorted[1], sorted[0]]; // swap
+				}
+				
+				params[`subGroupId1`] = 8;
+				params[`groupId1`] = cryptoGroupId;
+				
+				sorted.forEach((meta, index) => {
+					params[`subGroupId${index + 1}`] = meta.subGroupId;
+					params[`groupId${index + 1}`] = selectedGroupsId;
+					params[`removeEmpty${index + 1}`] = false;
+				});
+				const trendFunctionIdsArray = getAllSelectedDropdownValues(BuySelldropdownIds); 
+				// Dynamic series config
+				let colorsArray = [];
+    			let strokecolorsArray = [];
+				let isCentred = [false];
+				let applyTransparency=false;
+				let useDualYAxis = false;
+				const baseColors = ['#ffffff', '#ff0000', '#4d93d9', '#d86dcd', '#ffff00', '#00b050', '#002060', '#be5014', '#275317'];
+
+				const useShortFormatList = sorted.map(m => (m.subGroupId === '5' || m.subGroupId === '6'));
+				// MAIN PRICE SERIES — always index 0
+				colorsArray.push(function({ value, seriesIndex }) {
+				    // Always return base color for the price / first series
+				    return '#ffffff';
+				});
+				strokecolorsArray.push(function({ value, seriesIndex }) {
+				    // Always return base color for the price / first series
+				    return '#ffffff';
+				});
+				trendFunctionIdsArray.forEach((val, index) => {
+				    if (val === null || val === undefined) return;
+				    seriesTypes.push("line");
+					const base = baseColors[index + 1] ;  // shift because index 0 is already taken
+					
+				    colorsArray.push(function({ value, seriesIndex, w }) {
+				
+				        try {
+				            return base;
+				
+				        } catch (e) {
+				            console.error("Color calc error", e);
+				            return base;
+				        }
+				    });
+				      strokecolorsArray.push(function({ value, seriesIndex, w }) {
+				
+				        try {
+				            return base;
+				
+				        } catch (e) {
+				            console.error("Color calc error", e);
+				            return base;
+				        }
+				    });
+				    
+				});
+				const disableMarkers = true;
+				let markerSizeArray=(disableMarkers)?[1,0,0,0,0,0,0,0,0,0,0]:[];
+				let api = '/graph/get-weighted-trend-graph';
+				
+				// Load chart
+				manager.loadData({
+				    service: "cryptos",
+					api: api,
+					name: "BTC-vs-ETH",
+					ishort:true,
+					removeEmpty: false,
+					saveHistory: false,
+					applyDb: true,
+					seriesTypes,
+					seriesColors,
+					useDualYAxis,
+					dataParam: params,
+					useShortFormatList,
+					interval: timeRange,
+					seriesColors: colorsArray,
+            		seriesStrokesColors:strokecolorsArray,
+					applyTransparency: applyTransparency,
+					disableMarkers: disableMarkers,
+					markerSizeArray:markerSizeArray,
+					isCentred:isCentred,
+					showLegend: false,
+					currency:selectedLiveCurrency,
+					timeLabel:true,
+					combineTooltips:true,
+				}).then(() => {
+				 $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
+			
+			
+					setDropdownGroupDisabled(BuySelldropdownIds, false);
+
+				    BuySelldropdownResetIds.forEach(id => {
+				        $(`#${id}`).removeClass('disabled').css({
+				            pointerEvents: '',
+				            opacity: '',
+				            cursor: ''
+				        });
+				    });
+
+
+			});
+			   
+					   } finally {
+					   chartStates.chart1.trendFollowingLoading = false;
+			           setTimeout(() => chartStates.chart1.suppressTrendFollowingReload = false, 200);
+			    }	
+			}
+			else
 			if(isCandleStick){
 				
 				let isCentred = [false];
@@ -903,6 +1198,7 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				const from = document.getElementById(`dateFrom-chart${chartId}`).value;
 				const to = document.getElementById(`dateTo-chart${chartId}`).value;
 			    let  period = getChartPeriod();
+			    let seriesTypes = [];
 			    
 				const params = {
 					fromdate: from,
@@ -1000,6 +1296,7 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 					api = "/cryptos/getgraphdatainterval";
 					params[`todate`]= to+' 23:59:59';
 				}
+				
 				// Load chart
 				manager.loadData({
 				    service: "cryptos",
@@ -1024,8 +1321,105 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				 $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
 			}
+			disableEnableCheckboxes(1, chartStates[`chart1`].allItems);
 }
-function getDataChart2(checkedItemIds) {
+function getCheckedCountValues(checkboxArray) {
+    return checkboxArray.filter(id => 
+        $(id).length && $(id).jqxCheckBox('checked')
+    ).length;
+}
+function techAnalysisCheck(){
+	var isChecked = $("#tech-analysis").is(":checked");
+	const isCandleStick = $('#candlestick-chart1').hasClass('active');
+	if(isChecked)
+ 			{  $("#dropDownFunctions").jqxDropDownList('clearSelection');
+				 chartStates[`chart1`].numberOfItems=1;  
+	 
+				$('#buySellContainer').removeClass("d-none").addClass("d-block"); 
+				//$('#candlestickToggle-chart1').removeClass("d-block").addClass("d-none"); 
+				$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none"); 
+				
+				checkboxOptions.forEach(opt => {
+						const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-1`;
+					    	$(id).jqxCheckBox('uncheck');
+						if (opt.index === 3 || opt.index === 4 || opt.index === 8) {
+							$(id).show().jqxCheckBox({ disabled: false });
+							if( opt.index === 8)
+							$(id).jqxCheckBox('check');
+						} else {
+							
+							$(id).jqxCheckBox({ disabled: true });
+							$(id).hide();
+						}
+					});
+			  if(isCandleStick)
+				{  $("#btn-checkboxes-container-chart-1").addClass("d-none").removeClass("d-block");
+					if($(`#btn-checkboxes-container-chart-1`).attr('aria-expanded') === 'true')
+				    	$(`#checkboxes-main-container-chart-1`).hide();
+				}
+					
+			 }
+ 		else 
+ 			{  
+				chartStates[`chart1`].numberOfItems=2;  
+				$("#btn-checkboxes-container-chart-1").removeClass("d-none").addClass("d-block");
+				if($(`#btn-checkboxes-container-chart-1`).attr('aria-expanded') === 'true')
+				    	$(`#checkboxes-main-container-chart-1`).show();
+				    	  
+ 			    $('#buySellContainer').removeClass("d-block").addClass("d-none");
+ 			  //  $('#candlestickToggle-chart1').removeClass("d-none").addClass("d-block"); 
+ 			    $('#functionOptionsMenu').removeClass("d-none").addClass("d-flex"); 
+ 			    if(isCandleStick)
+ 			    {
+					 renderCheckboxesPerChart(cryptoGroupId, 1);
+				 }
+ 			     else{
+					 checkboxOptions.forEach(opt => {
+						const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-1`;
+						$(id).jqxCheckBox('uncheck');
+						if(!isCandleStick)
+							if (id.includes('-5-') || id.includes('-8-')) {
+								$(id).jqxCheckBox('check');
+							}
+							$(id).show().jqxCheckBox({ disabled: false });
+					});
+					$(`#jqxCheckBox-${cryptoGroupId}-funding_rate-chart-1`).hide();
+					}
+ 			}
+ 			loadChart1Data(ChartManager.instances['chart1'],getActiveTimeRange(),false);
+}
+function disableEnableCheckboxes(chartId, allItems) {
+    const chartKey = `chart${chartId}`;
+    const checkedCount = getCheckedCountValues(chartStates[chartKey].allItems);
+    const maxItems = chartStates[chartKey].numberOfItems;
+
+    if (checkedCount >= maxItems) {
+
+        // Disable all
+        allItems.forEach(id => $(id).jqxCheckBox({ disabled: true }));
+
+        // Re-enable checked ones
+        checkedItemIdsPerChart[chartId].forEach(id =>
+            $(id).jqxCheckBox({ disabled: false })
+        );
+
+        if (chartId === 1 && $('#dropDownFunctions').length) {
+            $("#dropDownFunctions").jqxDropDownList({ disabled: true });
+        }
+
+    } else {
+
+        // Enable all
+        allItems.forEach(id =>
+            $(id).jqxCheckBox({ disabled: false })
+        );
+
+        if (chartId === 1 && $('#dropDownFunctions').length) {
+            $("#dropDownFunctions").jqxDropDownList({ disabled: false });
+        }
+    }
+}
+function getDataChart2() {
 
 	const chartId = '2';
 	const chartKey = `chart${chartId}`;
@@ -1051,19 +1445,22 @@ function getDataChart2(checkedItemIds) {
 			  type="button"
 			  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
 			  data-pcollapse="toggle"
-			  data-target="#checkboxes-container-chart-2"
+			  data-target="#checkboxes-main-container-chart-2"
 			  aria-expanded="false"
-			  aria-controls="checkboxes-container-chart-2">
+			  aria-controls="checkboxes-main-container-chart-2">
 			  <span class="left">
 			    <span class="label">Select Factor</span>
 			  </span>
 			  <i class="fa-solid fa-chevron-down chev ms-auto"></i>
 			</button>
-		    <div id="checkboxes-container-chart-2" class="collapse"></div>
-		    <div class="col-12 d-flex">
-					<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-2" value="Show" />
-					<input id="clear-filter-chart-2" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-			</div>`);
+		    <div id="checkboxes-main-container-chart-2" class="collapse">
+			    <div id="checkboxes-container-chart-2"></div>
+			    <div class="col-12 d-flex pb-3 pt-2">
+						<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-2" value="Show" />
+						<input id="clear-filter-chart-2" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+				</div>
+		    </div>
+		    `);
 			
 			initializeShowFilterButtonForChart('2');
 		    const selectedGroupsId = $('#dropDownCryptoOptions').val();
@@ -1125,7 +1522,7 @@ function getDataChart3() {
 		   
 			// Initial load with first ticker
 			const defaultTicker = dropDownCryptosource[0].ticker;
-			updatePairDropdown('ETH');
+			updatePairDropdown(selectedLiveCurrency);
 
 			updateBenchmarkingGraph(chartId,manager);
 			
@@ -1152,7 +1549,7 @@ function getDataChart4() { // trendfollowing
 	manager.state.defaultFromDate = fromDate;
 	manager.state.defaultToDate = new Date();
 	if (manager && manager.chart) {
-	 
+
          updateTrendFollowingGraph(chartId,manager,false);
 	}
 	manager.render().then(() => {
@@ -1167,25 +1564,25 @@ function getDataChart4() { // trendfollowing
 			
 			    <div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown1" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset1"></i>
 					</div>
 				</div>
 				<div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown2" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset2"></i>
 					</div>
 				</div>
 				<div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown3" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset3"></i>
 					</div>
 				</div>
 				<div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown4" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset4"></i>
 					</div>
 				</div>
@@ -1203,96 +1600,91 @@ function getDataChart4() { // trendfollowing
 		        
 		        <div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown5" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset5"></i>
 					</div>
 				</div>
 				<div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown6" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset6"></i>
 					</div>
 				</div>
 				<div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown7" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset7"></i>
 					</div>
 				</div>
 		    `);
 			// Initial load with first ticker
 			
-			dropdownIds.forEach(id => {
+		dropdownIds.forEach(id => {
 	
-			  $(`#${id}`).jqxDropDownList({
+		  $(`#${id}`).jqxDropDownList({
 		    source: dropdownOptionSource[id],
-			    displayMember: "label",
-			    valueMember: "id",
-			    width: 100,
-			    height: 30,
-			    autoDropDownHeight: true,
-			    selectedIndex: -1,
-			    theme: 'dark'
-			  });
-			
+		    displayMember: "label",
+		    valueMember: "id",
+		    width: 100,
+		    height: 30,
+		    autoDropDownHeight: true,
+		    selectedIndex: -1,
+		    theme: 'dark'
+		  });
+		
 		  
 		  $(`#${id}`).off('select').on('select', function () {
-				
+	
 		    // Skip programmatic/bulk updates
-		    if (isProgrammaticDropdownUpdate || isRefreshingDropdowns || isBulkUpdatingDropdowns)
+		    if (chartStates.chart3.isProgrammaticDropdownUpdate || chartStates.chart3.isRefreshingDropdowns || chartStates.chart3.isBulkUpdatingDropdowns)
 		      return;
-				  
+		
 		    // Disable all reset icons
 		    dropdownIds.forEach((dd, index) => {
 		      const resetId = "reset" + (index + 1);
 		      $(`#${resetId}`).addClass('disabled').css({
-			            pointerEvents: 'none',
-			            opacity: 0.5,
-			            cursor: 'not-allowed'
-			        });
-			    });
-			    
-			    const chartId = '4';
-			    const manager = ChartManager.instances.chart4;
-			
-		    suppressTrendFollowingReload = true;
+		        pointerEvents: 'none',
+		        opacity: 0.5,
+		        cursor: 'not-allowed'
+		      });
+		    });
+		
+		    const chartId = '4';
+		    const manager = ChartManager.instances.chart4;
+		
+		    chartStates.chart3.suppressTrendFollowingReload = true;
 		    // Reload chart only for user-initiated event
+
 		    updateTrendFollowingGraph(
 		      chartId,
 		      manager,
 		      true
 		    );
-			
+		
 		    // Refresh UNIQUE selection logic
-			    isRefreshingDropdowns = true;
-			    setTimeout(() => {
-			        refreshAllDropdowns();
-			        isRefreshingDropdowns = false;
+		    chartStates.chart3.isRefreshingDropdowns = true;
+		    setTimeout(() => {
+		      refreshAllDropdowns(dropdownIds);
+		      chartStates.chart3.isRefreshingDropdowns = false;
 		    });
-				    
-				    validateRadioSelection();
-			});
 		
-			});
-			$('input[name="options"]').on('change', function () {
-				  let selected = $(this).val();
-				  let group;
+		    validateRadioSelection();
+		  });
 		
-				    bindResetButton('reset1', 'dropdown1');
-					bindResetButton('reset2', 'dropdown2');
-					bindResetButton('reset3', 'dropdown3');
-					bindResetButton('reset4', 'dropdown4'); 
-					bindResetButton('reset5', 'dropdown5'); 
-					bindResetButton('reset6', 'dropdown6');
-					bindResetButton('reset7', 'dropdown7');
-					
-				  if (selected === "0") group = defaultSelections.short;
-				  else if (selected === "1") group = defaultSelections.medium;
-				  else if (selected === "2") group = defaultSelections.long;
-				
-				  if (group) {
-				    isBulkUpdatingDropdowns = true;
-				
+		});
+		$('input[name="options"]').on('change', function () {
+		  let selected = $(this).val();
+		  let group;
+		
+		  bindResetGroup(dropdownIds, 4);
+		
+		  if (selected === "0")      group = defaultSelections.short;
+		  else if (selected === "1") group = defaultSelections.medium;
+		  else if (selected === "2") group = defaultSelections.long;
+		
+		  if (group) {
+		    chartStates.chart3.isBulkUpdatingDropdowns = true;
+		
 		    const dropdownA = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4'];
 		    const dropdownB = ['dropdown5', 'dropdown6', 'dropdown7'];
 		
@@ -1300,41 +1692,36 @@ function getDataChart4() { // trendfollowing
 		    const sourceBValues = group.filter(id => sourceBIds.has(id));
 		
 		    const applyValuesToDropdowns = (dropdownIds, values) => {
-				    dropdownIds.forEach((id, idx) => {
+		      dropdownIds.forEach((id, idx) => {
 		        const instance = $(`#${id}`);
 		        const valueToSelect = values[idx] ?? null;
 		
 		        if (valueToSelect != null) {
 		         // instance.jqxDropDownList('selectItem', valueToSelect);
 		           instance.jqxDropDownList('val', valueToSelect);
-				      } else {
+		        } else {
 		          instance.jqxDropDownList('clearSelection');
-				      }
-				    });
+		        }
+		      });
 		    };
 		
 		    // 💡 Same logic as loadHistoryAndFillDropdowns
 		    applyValuesToDropdowns(dropdownA, sourceAValues);
 		    applyValuesToDropdowns(dropdownB, sourceBValues);
-				
-				    isBulkUpdatingDropdowns = false;
-				
+		
+		    chartStates.chart3.isBulkUpdatingDropdowns = false;
+		
 		    // ✅ One backend call after bulk change
-				    const chartId = '4';
-				    const manager = ChartManager.instances.chart4;
-				    updateTrendFollowingGraph(chartId, manager, true);
-				  }
-				});
+		    const chartId = '4';
+		    const manager = ChartManager.instances.chart4;
+
+		    updateTrendFollowingGraph(chartId, manager, true);
+		  }
+		});
 				
-		    bindResetButton('reset1', 'dropdown1');
-			bindResetButton('reset2', 'dropdown2');
-			bindResetButton('reset3', 'dropdown3');
-			bindResetButton('reset4', 'dropdown4'); 
-			bindResetButton('reset5', 'dropdown5'); 
-			bindResetButton('reset6', 'dropdown6');
-			bindResetButton('reset7', 'dropdown7');
+		   bindResetGroup(dropdownIds, 4);
 			
-			getTrendFollowingHistory();
+			getTrendFollowingHistory(3,dropdownIds);
 			//updateTrendFollowingGraph(chartId,manager);
 			
 			
@@ -1412,21 +1799,15 @@ function updateBenchmarkingGraph(chartId,manager){
 	
 }
 async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
-	if (trendFollowingLoading) return;   // ✅ stop re-entry
-  trendFollowingLoading = true;
+	if ( chartStates.chart3.trendFollowingLoading) return;   // ✅ stop re-entry
+   		chartStates.chart3.trendFollowingLoading = true;
   
     try {
-	 $("#dropdown1").jqxDropDownList({ disabled: true }); 
-	 $("#dropdown2").jqxDropDownList({ disabled: true }); 
-     $("#dropdown3").jqxDropDownList({ disabled: true }); 
-	 $("#dropdown4").jqxDropDownList({ disabled: true }); 
-	 
-	 $("#dropdown5").jqxDropDownList({ disabled: true }); 
-	 $("#dropdown6").jqxDropDownList({ disabled: true }); 
-     $("#dropdown7").jqxDropDownList({ disabled: true }); 
+  setDropdownGroupDisabled(dropdownIds, true);
+
 
   if(saveHistory)
-     saveTrendLineHistory(isShared); //isShared
+     saveTrendLineHistory(isShared,3,dropdownIds); //isShared
      
     const from = document.getElementById(`dateFrom-chart${chartId}`).value;
     const to = document.getElementById(`dateTo-chart${chartId}`).value;
@@ -1460,8 +1841,8 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 	let titleA = dropDownCryptosource.find(c => c.groupId === commonParams[`groupId1`]).name;
     let titleB = commonParams[`isFunctionGraph`]?'with TIME&VOLATILITY WEIGHTED ARRAYS':''; 
     
-    const selectedFunctionIdsArray = getAllSelectedDropdownValues(); 
- //   resetAndReassignDropdowns(selectedFunctionIdsArray);
+     const selectedFunctionIdsArray = getAllSelectedDropdownValues(dropdownIds); 
+
  
     	let colorsArray = [];
     	let strokecolorsArray = [];
@@ -1480,11 +1861,15 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 			    return '#ffffff';
 			});
 			
+			let rightSeriesIndex = null;
 			selectedFunctionIdsArray.forEach((val, index) => {
 			    if (val === null || val === undefined) return;
 			
-			    const base = FUNCTION_COLOR_MAP[val] === undefined ? baseColors[index + 1] : FUNCTION_COLOR_MAP[val] || '#2e75b6';  // shift because index 0 is already taken
-			    	
+				 if (index >= 4 && rightSeriesIndex === null) {
+			        rightSeriesIndex = colorsArray.length;
+			    }
+				const base = FUNCTION_COLOR_MAP[val] === undefined ? baseColors[index + 1] : FUNCTION_COLOR_MAP[val] || '#2e75b6';  // shift because index 0 is already taken
+				
 			    colorsArray.push(function({ value, seriesIndex, w }) {
 			
 			        try {
@@ -1524,17 +1909,19 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 		            // dropdown1–4 (index 0–3)
 		            isCentredArray.push(false);
 		            seriesSidesArray.push('left');
-		            yxannotaionRequired=[false];
 		        } else {
 		            // dropdown5–7 (index 4–6)
 		            isCentredArray.push(true);
 		            seriesSidesArray.push('right');
-		            yxannotaionRequired=[true ,colorsArray.length-1 ]
 		        }
 		    
 			  
 			});
-	
+	if (rightSeriesIndex !== null) {
+	    yxannotaionRequired = [true, rightSeriesIndex];
+	} else {
+	    yxannotaionRequired = [false];
+	}
 
     if (candlestickIsActive) {
 		let seriesTypes = ["candlestick"];  // always first
@@ -1576,16 +1963,10 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
             showLegend: false,
             combineTooltips:true,
         }).then(() => {
-				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown2").jqxDropDownList({ disabled: false }); 
-			     $("#dropdown3").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown4").jqxDropDownList({ disabled: false }); 
-				 
-				 $("#dropdown5").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown6").jqxDropDownList({ disabled: false }); 
-			     $("#dropdown7").jqxDropDownList({ disabled: false }); 
+			
+			setDropdownGroupDisabled(dropdownIds, false);
 			          // 🔓 Re-enable all reset buttons after loading is done
-		    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
+		    dropdownResetIds.forEach(id => {
 		        $(`#${id}`).removeClass('disabled').css({
 		            pointerEvents: '',
 		            opacity: '',
@@ -1633,16 +2014,9 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
             yAnnotaionRequired:yxannotaionRequired,
             combineTooltips:true,
         }).then(() => {
-				 $("#dropdown1").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown2").jqxDropDownList({ disabled: false }); 
-			     $("#dropdown3").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown4").jqxDropDownList({ disabled: false }); 
-				 
-				 $("#dropdown5").jqxDropDownList({ disabled: false }); 
-				 $("#dropdown6").jqxDropDownList({ disabled: false }); 
-			     $("#dropdown7").jqxDropDownList({ disabled: false }); 
+		    setDropdownGroupDisabled(dropdownIds, false);
 			          // 🔓 Re-enable all reset buttons after loading is done
-		    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
+		    dropdownResetIds.forEach(id => {
 		        $(`#${id}`).removeClass('disabled').css({
 		            pointerEvents: '',
 		            opacity: '',
@@ -1653,8 +2027,8 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 			});
     }
      } finally {
-		   trendFollowingLoading = false;
-        setTimeout(() => suppressTrendFollowingReload = false, 200);
+		   chartStates.chart3.trendFollowingLoading = false;
+        setTimeout(() => chartStates.chart3.suppressTrendFollowingReload = false, 200);
     }
   
 }
@@ -1698,7 +2072,13 @@ function toggleGraphData(time) {
 	$('#DailyData-btn').toggleClass('active', time === 1);
 	$('#4HoursData-btn').toggleClass('active', time === 2);
 	$('#weeklyData-btn').toggleClass('active', time === 3);
-
+	
+	BuySelldropdownIds.forEach((dropdownId, index) => {
+	       
+	        const instance = $(`#${dropdownId}`);
+			instance.jqxDropDownList('clearSelection');
+	        
+	    });
 	// 2️⃣ Get correct time range AFTER button state is updated
 	const timeRange = getActiveTimeRange();
 
@@ -1726,34 +2106,72 @@ function toggleGraphData(time) {
 
 	const candlestickBtn = document.getElementById('candlestick-chart1');
 	const isCandleActive = candlestickBtn?.classList.contains('active');
+	
+	var isChecked = $("#tech-analysis").is(":checked");
 
 	if (timeRange === "4h") {
-		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
 		$('#euroTime').removeClass("d-flex").addClass("d-none");
-		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
-	} else if (timeRange === "Daily") {
+		}
+	 if (timeRange === "Daily") {
 		$('#functionOptionsMenu').addClass("d-flex").removeClass("d-none");
 		$('#euroTime').addClass("d-flex").removeClass("d-none");
-		$('#functionOptionsMenu').addClass("d-flex").removeClass("d-none");
-	} else if (timeRange === "1w") {
-		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
-		$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
-	}
+		$('#buySellSwitchbutton').addClass("d-flex").removeClass("d-none");
+		if(isChecked)
+			{   
+				chartStates[`chart1`].numberOfItems=1;
+
+				checkboxOptions.forEach(opt => {
+						const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-1`;
+						if (opt.index === 3 || opt.index === 4 || opt.index === 8) {
+							$(id).show().jqxCheckBox({ disabled: false });
+						} else {
+							$(id).jqxCheckBox('uncheck');
+							$(id).jqxCheckBox({ disabled: true });
+							$(id).hide();
+						}
+					});
+				getTrendFollowingHistory(1,BuySelldropdownIds);
+				$('#buySellContainer').addClass("d-block").removeClass("d-none");
+			}
+
+		} 
+		if (timeRange === "1w" || timeRange === "4h") {
+			
+			chartStates[`chart1`].numberOfItems=2;
+			
+			$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none");
+			$('#buySellContainer').removeClass("d-block").addClass("d-none");
+			$('#buySellSwitchbutton').removeClass("d-flex").addClass("d-none");
+			if(isChecked)
+			{
+			  checkboxOptions.forEach(opt => {
+							const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-1`;
+							$(id).jqxCheckBox('uncheck');
+							if (id.includes('-5-') || id.includes('-8-')) {
+								$(id).jqxCheckBox('check');
+							}
+							$(id).show().jqxCheckBox({ disabled: false });
+						});
+				}
+		}
 
 	const selectedGroupId = $('#dropDownCryptoOptions').val();
 	// 5️⃣ Trigger re-render
-	if (isCandleActive) {
-		//ChartManager.instances['chart1']?.loadCandlestickData();
-		//renderCheckboxesChart1VolumeFundingRate(selectedGroupId, 1);
-		renderCheckboxesPerChart(selectedGroupId,1).then(() => {
-		   	  drawGraphForChart(1);	
-		});
-	} else {
-		functionId = -1;
-		renderCheckboxesPerChart(selectedGroupId,1).then(() => {
-		   	  drawGraphForChart(1);	
-		});
-		
+	if(!isChecked || timeRange !== "Daily")
+	{
+		if (isCandleActive) {
+			//ChartManager.instances['chart1']?.loadCandlestickData();
+			//renderCheckboxesChart1VolumeFundingRate(selectedGroupId, 1);
+			renderCheckboxesPerChart(selectedGroupId,1).then(() => {
+			   	  drawGraphForChart(1);	
+			});
+		} else {
+			functionId = -1;
+			renderCheckboxesPerChart(selectedGroupId,1).then(() => {
+			   	  drawGraphForChart(1);	
+			});
+			
+	}
 	}
 }
 function getSelectedFunctionId() {
@@ -1928,20 +2346,20 @@ document.addEventListener('DOMContentLoaded', function () {
 	        if (groupId == $('#dropDownCryptoOptions').val()) {
 					
 			    // 🔒 Disable all reset buttons
-			    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
+			    dropdownResetIds.forEach(id => {
 			        $(`#${id}`).addClass('disabled').css({
 			            pointerEvents: 'none',
 			            opacity: 0.5,
 			            cursor: 'not-allowed'
 			        });
 			    });
-			
+		
 	                    
 	        }
 		  			
 	  			
 		    } catch (e) {
-		        console.error("Error processing ETH message:", e);
+		        console.error("Error processing "+selectedLiveCurrency+" message:", e);
 		    }
 		});
 		
@@ -1958,7 +2376,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		  			
 	  			
 		    } catch (e) {
-		        console.error("Error processing ETH message:", e);
+		        console.error("Error processing "+selectedLiveCurrency+" message:", e);
 		    }
 		});
 		
@@ -1975,7 +2393,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		  			
 	  			
 		    } catch (e) {
-		        console.error("Error processing ETH message:", e);
+		        console.error("Error processing "+selectedLiveCurrency+" message:", e);
 		    }
 		});
 		
@@ -1992,7 +2410,7 @@ document.addEventListener('DOMContentLoaded', function () {
 		  			
 	  			
 		    } catch (e) {
-		        console.error("Error processing ETH message:", e);
+		        console.error("Error processing "+selectedLiveCurrency+" message:", e);
 		    }
 		});
 		
@@ -2025,9 +2443,9 @@ async function toggleCandlestickChartTrendFollowing(btn, id) {
 	
 
 // Initialize all dropdowns with no selection
-function getAllSelectedValues() {
+function getAllSelectedValues(dropdownIdsArray) {
   const selected = {};
-  dropdownIds.forEach(id => {
+  dropdownIdsArray.forEach(id => {
     const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
     selected[id] = item ? item.originalItem.id : null;
   });
@@ -2042,7 +2460,7 @@ function updateDropdown(idToUpdate, selectedValues) {
     .filter(([key, val]) => key !== idToUpdate && val !== null)
     .map(([_, val]) => val);
 
-  const source = dropdownOptionSource[idToUpdate];  // 👈 USE THE CORRECT OPTION SET
+  const source = dropdownOptionSource[idToUpdate];  
 
   const filteredOptions = source.filter(opt =>
     !excluded.includes(opt.id) || opt.id === currentSelected
@@ -2059,19 +2477,18 @@ function updateDropdown(idToUpdate, selectedValues) {
   }
 }
 
-function refreshAllDropdowns() {
-  const currentSelections = getAllSelectedValues();
-  dropdownIds.forEach(id => updateDropdown(id, currentSelections));
+function refreshAllDropdowns(dropdownIdsArray) {
+  const currentSelections = getAllSelectedValues(dropdownIdsArray);
+  dropdownIdsArray.forEach(id => updateDropdown(id, currentSelections));
 }
 
-function bindResetButton(resetBtnId, dropdownId, chartId = '4') {
-	let suppressFunctionDropdownChange = false;
+function bindResetButton(resetBtnId, dropdownId, dropdownResetIdsArray, chartId = '4') {
 
 	$(`#${resetBtnId}`).on("click", async  function (e, isProgrammatic = false) {
 
 		
     // 🔒 Disable all reset buttons
-    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
+    dropdownResetIdsArray.forEach(id => {
         $(`#${id}`).addClass('disabled').css({
             pointerEvents: 'none',
             opacity: 0.5,
@@ -2088,17 +2505,21 @@ function bindResetButton(resetBtnId, dropdownId, chartId = '4') {
             suppressFunctionDropdownChange = false;
         }, 100);
     } else {
-        // Manual reset: refresh others and re-draw chart
-        refreshAllDropdowns();
-
-        const manager = ChartManager.instances[`chart${chartId}`];
-        if (manager) {
-            await updateTrendFollowingGraph(chartId, manager, true); // ← await if it's async
-        }
+        if(chartId==4)
+	       { refreshAllDropdowns(dropdownIds);
+	        const manager = ChartManager.instances[`chart${chartId}`];
+	        if (manager) {
+	            await updateTrendFollowingGraph(chartId, manager, true); 
+	        }
+          }
+          else if(chartId==1)
+          {
+			refreshAllDropdowns(BuySelldropdownIds);
+			loadChart1Data(ChartManager.instances['chart1'],getActiveTimeRange(),false);
+		  }
     }
 
-    // 🔓 Re-enable all reset buttons after loading is done
-    ['reset1', 'reset2', 'reset3', 'reset4', 'reset5', 'reset6', 'reset7'].forEach(id => {
+    dropdownResetIdsArray.forEach(id => {
         $(`#${id}`).removeClass('disabled').css({
             pointerEvents: '',
             opacity: '',
@@ -2108,10 +2529,9 @@ function bindResetButton(resetBtnId, dropdownId, chartId = '4') {
 	});
 }
 
-function getTrendFollowingHistory(){
-        const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
+function getTrendFollowingHistory(chartId, dropdownIdsArrays){
 
-	    dropdownIds.forEach((dropdownId, index) => {
+	    dropdownIdsArrays.forEach((dropdownId, index) => {
 	       
 	        const instance = $(`#${dropdownId}`);
 			instance.jqxDropDownList('clearSelection');
@@ -2122,7 +2542,7 @@ function getTrendFollowingHistory(){
 			
 	$.ajax({
 		contentType: "application/json",
-		url: "/graph/find-trend-following-history-by-userid-groupId/"+selectedGroupsId+`/${isShared}`,
+		url: "/graph/find-trend-following-history-by-userid-groupId-and-chartId/"+selectedGroupsId+`/${isShared}/${chartId}`,
 		dataType: 'json',
 		async: true,
 		cache: false,
@@ -2132,21 +2552,40 @@ function getTrendFollowingHistory(){
     				
 			if(result.length==0)
 				{
+
+				if(chartId==1) 
+					loadChart1Data(ChartManager.instances['chart1'],getActiveTimeRange(),false);
+			    else
 					updateTrendFollowingGraph(4,manager,false);
-					trendfollowingDbId = null;	
+					 
+					chartStates[`chart${chartId}`].trendfollowingDbId = null;	
 				}
 				else{
 					
-					if(result[0].isCandleStick)
-						$("#candlestick-chart4").addClass('active');
-					else
-						$("#candlestick-chart4").removeClass('active');	
-					trendfollowingDbId = result[0].id;	
+					if(chartId==1) 
+					{   
+						
+							chartStates[`chart${chartId}`].isCandleStickActive=result[0].isCandleStick;
+							chartStates[`chart${chartId}`].trendfollowingDbId = result[0].id;	
+						
+						    result[0].functionId!=""?
+							loadHistoryAndFillDropdownsChart1(result[0]):
+					        loadChart1Data(ChartManager.instances['chart1'],getActiveTimeRange(),false);
+					}
+				    else
+						{
+							if(result[0].isCandleStick)
+								$("#candlestick-chart4").addClass('active');
+							else
+								$("#candlestick-chart4").removeClass('active');	
+							chartStates[`chart${chartId}`].trendfollowingDbId = result[0].id;	
+							
+							
+							result[0].functionId!=""?
+							loadHistoryAndFillDropdowns(result[0]):
+							updateTrendFollowingGraph(4,manager,false);  
+						}
 					
-					
-					result[0].functionId!=""?
-					loadHistoryAndFillDropdowns(result[0]):
-					updateTrendFollowingGraph(4,manager,false);
 				}
 		},
 		error: function(e) {
@@ -2156,9 +2595,58 @@ function getTrendFollowingHistory(){
 		}
 	});
 }
+function loadHistoryAndFillDropdownsChart1(data) {
+
+   chartStates.chart1.isProgrammaticDropdownUpdate = true;
+
+    // 1) Parse stored functionId string → [20,21,22,30]
+    const allFunctionIds = (data.functionId || '')
+        .split(',')
+        .map(v => v.trim())
+        .filter(v => v.length > 0)
+        .map(v => parseInt(v, 10));
+
+    // 2) Split by source
+    const sourceAValues = allFunctionIds.filter(id => sourceA1Ids.has(id));
+    const sourceBValues = allFunctionIds.filter(id => sourceB1Ids.has(id));
+
+    const dropdownA = ['dropdown1bs', 'dropdown2bs', 'dropdown3bs', 'dropdown4bs'];
+    const dropdownB = ['dropdown5bs', 'dropdown6bs', 'dropdown7bs', 'dropdown8bs'];
+
+    const applyValuesToDropdowns = (dropdownIds, values) => {
+        dropdownIds.forEach((dropdownId, index) => {
+            const instance = $(`#${dropdownId}`);
+            const valueToSelect = values[index] ?? null;
+
+            if (valueToSelect != null) {
+                instance.jqxDropDownList('val', valueToSelect);
+
+                const item = instance.jqxDropDownList('getItemByValue', valueToSelect);
+                if (item) {
+                    // ignored while isProgrammaticDropdownUpdate = true
+                    instance.trigger('select', { item });
+                }
+            } else {
+                instance.jqxDropDownList('clearSelection');
+            }
+        });
+    };
+
+    // 3) Apply A values to dropdown1–4, B values to dropdown5–7
+    applyValuesToDropdowns(dropdownA, sourceAValues);
+    applyValuesToDropdowns(dropdownB, sourceBValues);
+
+    // 4) Radio buttons logic stays based on full list
+    setTimeout(() => {
+        chartStates.chart1.isProgrammaticDropdownUpdate = false;
+        refreshAllDropdowns(BuySelldropdownIds);
+      
+    }, 200);
+}
 
 function loadHistoryAndFillDropdowns(data) {
-    isProgrammaticDropdownUpdate = true;
+
+   chartStates.chart3.isProgrammaticDropdownUpdate = true;
 
     // 1) Parse stored functionId string → [20,21,22,30]
     const allFunctionIds = (data.functionId || '')
@@ -2175,22 +2663,22 @@ function loadHistoryAndFillDropdowns(data) {
     const dropdownB = ['dropdown5', 'dropdown6', 'dropdown7'];
 
     const applyValuesToDropdowns = (dropdownIds, values) => {
-    dropdownIds.forEach((dropdownId, index) => {
-        const instance = $(`#${dropdownId}`);
+        dropdownIds.forEach((dropdownId, index) => {
+            const instance = $(`#${dropdownId}`);
             const valueToSelect = values[index] ?? null;
 
             if (valueToSelect != null) {
-            instance.jqxDropDownList('val', valueToSelect);
+                instance.jqxDropDownList('val', valueToSelect);
 
-            const item = instance.jqxDropDownList('getItemByValue', valueToSelect);
-            if (item) {
+                const item = instance.jqxDropDownList('getItemByValue', valueToSelect);
+                if (item) {
                     // ignored while isProgrammaticDropdownUpdate = true
                     instance.trigger('select', { item });
+                }
+            } else {
+                instance.jqxDropDownList('clearSelection');
             }
-        } else {
-            instance.jqxDropDownList('clearSelection');
-        }
-    });
+        });
     };
 
     // 3) Apply A values to dropdown1–4, B values to dropdown5–7
@@ -2199,8 +2687,8 @@ function loadHistoryAndFillDropdowns(data) {
 
     // 4) Radio buttons logic stays based on full list
     setTimeout(() => {
-        isProgrammaticDropdownUpdate = false;
-        refreshAllDropdowns();
+        chartStates.chart3.isProgrammaticDropdownUpdate = false;
+        refreshAllDropdowns(dropdownIds);
 
         if (arraysEqual(allFunctionIds, defaultSelections.short)) {
             $('input[name="options"][value="0"]').prop('checked', true);
@@ -2219,7 +2707,6 @@ function arraysEqual(arr1, arr2) {
     return arr1.every((val, idx) => val === arr2[idx]);
 }
 function validateRadioSelection() {
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
 
     const currentValues = dropdownIds.map(id => {
         const val = $(`#${id}`).jqxDropDownList('val');
@@ -2239,24 +2726,20 @@ function validateRadioSelection() {
     }
 }
 
-
-async function saveTrendLineHistory(isShared) {
+async function saveTrendLineHistory(isShared, chartId, dropdownIdsArrays) {
 	
 					
-		if (isProcessingRemoteUpdate) {
+		if (chartStates[`chart${chartId}`].isProcessingRemoteUpdate) {
 	        console.log("Skipping save due to remote-triggered update");
-	        isProcessingRemoteUpdate = false;
+	        chartStates[`chart${chartId}`].isProcessingRemoteUpdate = false;
 	        
 	        return;
 	    }
 	
     	const url = '/graph/save-trend-following-history'; 
-        const candlestickIsActive = $(`#candlestick-chart4`).hasClass('active');
+        const candlestickIsActive = $(`#candlestick-chart${chartId}`).hasClass('active');
 	   
-	    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
-
-        const selectedFunctionIds = dropdownIds
-        .map(id => {
+        const selectedFunctionIds = dropdownIdsArrays.map(id => {
             const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
             return item ? item.originalItem.id : null;
         })
@@ -2264,11 +2747,12 @@ async function saveTrendLineHistory(isShared) {
         .join(',');
 
         let entity = {
-			id: trendfollowingDbId,
+			id: chartStates[`chart${chartId}`].trendfollowingDbId,
             functionId: selectedFunctionIds,
             isCandleStick: candlestickIsActive,
             isShared: isShared ,
             groupId:  $('#dropDownCryptoOptions').val(),
+			chartId: chartId
         };
 
     try {
@@ -2283,49 +2767,44 @@ async function saveTrendLineHistory(isShared) {
         if (response.ok) {
             const result = await response.json();
             
-            trendfollowingDbId = result.id;
+            chartStates[`chart${chartId}`].trendfollowingDbId = result.id;
         
         } else {
-            throw new Error('Failed to save retracement history');
+            throw new Error('Failed to save trendlinese history');
         }
     } catch (error) {
         console.error('Error:', error);
     }
 }
+function getAllSelectedDropdownValues(dropdownIdsArray) {
 
-function resetAndReassignDropdowns(values = []) {
-    isProgrammaticDropdownUpdate = true;
-
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
-
-    dropdownIds.forEach((dropdownId, index) => {
-        const instance = $(`#${dropdownId}`);
-        const value = values[index] || null;
-
-        if (value) {
-            instance.jqxDropDownList('val', value);
-
-            const item = instance.jqxDropDownList('getItemByValue', value);
-            if (item) {
-                // instance.trigger('select', { item });
-                 instance.jqxDropDownList('val', item);
-            }
-        } else {
-            instance.jqxDropDownList('clearSelection');
-        }
-    });
-
-    setTimeout(() => {
-        isProgrammaticDropdownUpdate = false;
-        refreshAllDropdowns();
-    }, 200);
-}
-
-function getAllSelectedDropdownValues() {
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
-
-    return dropdownIds.map(id => {
+    return dropdownIdsArray.map(id => {
         const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
         return item ? item.originalItem.id : null;
     });
+}
+function bindResetGroup(dropdownIds, chartId) {
+    dropdownIds.forEach(dropdownId => {
+        const resetId = dropdownId.replace('dropdown', 'reset');
+        bindResetButton(resetId, dropdownId, dropdownIds, chartId);
+    });
+}
+function setDropdownGroupDisabled(dropdownIds, isDisabled) {
+    dropdownIds.forEach(id => {
+        $(`#${id}`).jqxDropDownList({ disabled: isDisabled });
+    });
+}
+function createChartState() {
+    return {
+        isRefreshingDropdowns:false,
+ 		isProgrammaticDropdownUpdate : false,
+		isProcessingRemoteUpdate : false,
+		isBulkUpdatingDropdowns : false,
+		suppressTrendFollowingReload : false,
+		trendFollowingLoading:false,
+		trendfollowingDbId:null,
+		numberOfItems:1,
+		allItems:null,
+		isCandleStickActive:true,
+    };
 }

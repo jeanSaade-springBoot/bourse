@@ -178,6 +178,10 @@ public class GraphController {
 	public  List<TechnicalAnalysisTrendFollowingHistory> findTrendFollowingHistoryByUserIdAndScreenName(@PathVariable("groupId") String groupId,@PathVariable("isShared") Boolean isShared , Authentication authentication) {
 	return technicalAnalysisGraphHistoryService.findGraphHistoryByGroupIdAndUserNameAndIsShared(groupId,isShared, authentication);
 	} 
+	@GetMapping(value = "find-trend-following-history-by-userid-groupId-and-chartId/{groupId}/{isShared}/{chartId}")
+	public  List<TechnicalAnalysisTrendFollowingHistory> findTrendFollowingHistoryByUserIdAndScreenName(@PathVariable("groupId") String groupId,@PathVariable("isShared") Boolean isShared ,@PathVariable("chartId") String chartId , Authentication authentication) {
+	return technicalAnalysisGraphHistoryService.findGraphHistoryByGroupIdAndUserNameAndIsSharedAndChartId(groupId,isShared,chartId, authentication);
+	}
 	@DeleteMapping(value = "deletetrendline/{id}")
 	public ResponseEntity<Object>  deleteByReferDate(@PathVariable("id") String id) {
 		technicalAnalysisGraphHistoryService.deleteTrendlineById(id);

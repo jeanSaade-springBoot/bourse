@@ -36,7 +36,6 @@ public class TechnicalAnalysisTrendFollowingHistory {
     private String userName;
     private String functionId;
     private String groupId;
-    
     @Builder.Default
     @Column(name = "is_candle_stick", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isCandleStick = false;
@@ -44,5 +43,6 @@ public class TechnicalAnalysisTrendFollowingHistory {
     @Builder.Default
     @Column(name = "is_shared", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isShared = false;
+    private Long chartId;
 
 }

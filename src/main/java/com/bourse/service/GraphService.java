@@ -129,10 +129,9 @@ public class GraphService {
 			{
 				l1.add(getGraphDataResult(graphReqDTO,false));
 			}
-		
-		if (graphReqDTO.getIsFunctionGraph() != null ? graphReqDTO.getIsFunctionGraph().equals("true") : false) {
+		if (graphReqDTO.getIsTrendFunctionGraph() != null ? graphReqDTO.getIsTrendFunctionGraph().equals("true") : false) {
 		    // Split comma-separated IDs
-		    String[] functionIds = graphReqDTO.getFunctionId().split(",");
+		    String[] functionIds = graphReqDTO.getTrendFunctionId().split(",");
 		    for (int i = 0; i < functionIds.length; i++) {
 		        l1.add(getWeightedTrendGraphData(graphReqDTO, functionIds[i], true));
 		    }

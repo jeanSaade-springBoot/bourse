@@ -903,12 +903,12 @@ return new ModelAndView("html/base");
 	    model.addAttribute("mainmenu", "html/templates/mainMenu");
         model.addAttribute("isShared", isShared);
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-	    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+	    model.addAttribute("privilege", "CRY_BITCOIN_GRAPH_SCREEN");
 	    model.addAttribute("crytpos", "html/templates/cryptos");
 	    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
 	    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
 	    
-	    return new ModelAndView("html/cryptos/technical-analysis-btc");
+	    return new ModelAndView("html/cryptos/technical-analysis");
     }
 	@PreAuthorize("hasAuthority('CRY_ETHEREUM_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/ethereum")
@@ -917,12 +917,12 @@ return new ModelAndView("html/base");
 		   model.addAttribute("mainmenu", "html/templates/mainMenu");
 	        model.addAttribute("isShared", isShared);
 		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+		    model.addAttribute("privilege", "CRY_ETHEREUM_GRAPH_SCREEN");
 		    model.addAttribute("crytpos", "html/templates/cryptos");
 		    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
 		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
 		    
-		    return new ModelAndView("html/cryptos/technical-analysis-eth");
+		    return new ModelAndView("html/cryptos/technical-analysis");
     }
 	@PreAuthorize("hasAuthority('CRY_SOLANA_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/solana")
@@ -931,12 +931,12 @@ return new ModelAndView("html/base");
 		   model.addAttribute("mainmenu", "html/templates/mainMenu");
 	        model.addAttribute("isShared", isShared);
 		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+		    model.addAttribute("privilege", "CRY_SOLANA_GRAPH_SCREEN");
 		    model.addAttribute("crytpos", "html/templates/cryptos");
 		    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
 		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
 		    
-		    return new ModelAndView("html/cryptos/technical-analysis-sol");
+		    return new ModelAndView("html/cryptos/technical-analysis");
  }
 	@PreAuthorize("hasAuthority('CRY_SHIBA_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/shiba")
@@ -945,12 +945,12 @@ return new ModelAndView("html/base");
 		   model.addAttribute("mainmenu", "html/templates/mainMenu");
 	        model.addAttribute("isShared", isShared);
 		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+		    model.addAttribute("privilege", "CRY_SHIBA_GRAPH_SCREEN");
 		    model.addAttribute("crytpos", "html/templates/cryptos");
 		    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
 		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
 		    
-		    return new ModelAndView("html/cryptos/technical-analysis-shib");
+		    return new ModelAndView("html/cryptos/technical-analysis");
 }
 	@PreAuthorize("hasAuthority('CRY_BINANCE_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/binance")
@@ -959,12 +959,12 @@ return new ModelAndView("html/base");
 		   model.addAttribute("mainmenu", "html/templates/mainMenu");
 	        model.addAttribute("isShared", isShared);
 		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+		    model.addAttribute("privilege", "CRY_BINANCE_GRAPH_SCREEN");
 		    model.addAttribute("crytpos", "html/templates/cryptos");
 		    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
 		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
 		    
-		    return new ModelAndView("html/cryptos/technical-analysis-bnb");
+		    return new ModelAndView("html/cryptos/technical-analysis");
 }
 	@PreAuthorize("hasAuthority('CRY_XRP_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/xrp")
@@ -973,12 +973,12 @@ return new ModelAndView("html/base");
 		   model.addAttribute("mainmenu", "html/templates/mainMenu");
 	        model.addAttribute("isShared", isShared);
 		    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
-		    model.addAttribute("privilege", "TRENDLINE_CRYPTOS_SCREEN");
+		    model.addAttribute("privilege", "CRY_XRP_GRAPH_SCREEN");
 		    model.addAttribute("crytpos", "html/templates/cryptos");
 		    model.addAttribute("graph1", "html/cryptos/graph1-crypto");
 		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
 		    
-		    return new ModelAndView("html/cryptos/technical-analysis-xrp");
+		    return new ModelAndView("html/cryptos/technical-analysis");
 }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")

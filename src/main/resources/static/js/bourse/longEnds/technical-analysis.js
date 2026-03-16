@@ -630,26 +630,26 @@ function getDataChart1(checkedItemIds) {
 			  </button>
 			</div>
 			 
-        <button
-		  type="button"
-		  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
-		  id="btn-checkboxes-container-chart-1"
-		  data-pcollapse="toggle"
-		  data-target="#checkboxes-container-chart-1"
-		  aria-expanded="false"
-		  aria-controls="checkboxes-container-chart-1">
-		  <span class="left">
-		    <span class="label">Select Factor</span>
-		  </span>
-		  <i class="fa-solid fa-chevron-down chev ms-auto"></i>
-		</button>
-          <div id="checkboxes-container-chart-1" class="collapse"></div>
+	        <button
+			  type="button"
+			  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
+			  id="btn-checkboxes-container-chart-1"
+			  data-pcollapse="toggle"
+			  data-target="#checkboxes-container-chart-1"
+			  aria-expanded="false"
+			  aria-controls="checkboxes-container-chart-1">
+			  <span class="left">
+			    <span class="label">Select Factor</span>
+			  </span>
+			  <i class="fa-solid fa-chevron-down chev ms-auto"></i>
+			</button>
+          	<div id="checkboxes-container-chart-1" class="collapse"></div>
 		    
-		  
 		    <div class="col-12 d-flex pt-2">
 					<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-1" value="Show" />
 					<input id="clear-filter-chart-1" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-			</div>`);
+			</div>
+			`);
 			
 			initializeShowFilterButtonForChart('1');
 		    const selectedGroupsId = groupId;
@@ -777,7 +777,6 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				useShortFormatList:useShortFormatList,
 				timeLabel:false,
 				hasImage:true,
-				xValue:x1
 			}).then(() => {
 				 //$("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
@@ -906,7 +905,6 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 					isCentred:isCentred,
 					timeLabel:false,
 					hasImage:true,
-					xValue:x1
 				}).then(() => {
 				// $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
 			});
@@ -1023,25 +1021,25 @@ function getDataChart4() { // trendfollowing
 			
 			    <div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown1" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset1"></i>
 					</div>
 				</div>
 				<div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown2" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset2"></i>
 					</div>
 				</div>
 				<div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown3" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset3"></i>
 					</div>
 				</div>
 				<div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown4" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset4"></i>
 					</div>
 				</div>
@@ -1059,19 +1057,19 @@ function getDataChart4() { // trendfollowing
 		        
 		        <div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown5" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset5"></i>
 					</div>
 				</div>
 				<div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown6" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset6"></i>
 					</div>
 				</div>
 				<div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown7" class="mt-2"></div>
-				    <div style="margin-left: .4rem;">
+				    <div class="ml-2 mt-2">
 						<i class="fa-solid fa-xmark" id="reset7"></i>
 					</div>
 				</div>
@@ -1362,7 +1360,6 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 				combineTooltips: true,
 				timeLabel: false,
 				hasImage: true,
-				xValue: x2
 			}).then(() => {
 				$("#dropdown1").jqxDropDownList({ disabled: false });
 				$("#dropdown2").jqxDropDownList({ disabled: false });
@@ -1420,7 +1417,6 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 				yAnnotaionRequired: yxannotaionRequired,
 				combineTooltips: true,
 				hasImage: true,
-				xValue: x2
 			}).then(() => {
 				$("#dropdown1").jqxDropDownList({ disabled: false });
 				$("#dropdown2").jqxDropDownList({ disabled: false });
@@ -1793,8 +1789,7 @@ function bindResetButton(resetBtnId, dropdownId, chartId = '4') {
 
 function getTrendFollowingHistory(){
 
-        const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
-
+        
 	    dropdownIds.forEach((dropdownId, index) => {
 	       
 	        const instance = $(`#${dropdownId}`);
@@ -1904,8 +1899,7 @@ function arraysEqual(arr1, arr2) {
     return arr1.every((val, idx) => val === arr2[idx]);
 }
 function validateRadioSelection() {
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
-
+   
     const currentValues = dropdownIds.map(id => {
         const val = $(`#${id}`).jqxDropDownList('val');
         return val ? parseInt(val) : null;
@@ -1938,8 +1932,7 @@ async function saveTrendLineHistory(isShared) {
     	const url = '/graph/save-trend-following-history'; 
         const candlestickIsActive = $(`#candlestick-chart4`).hasClass('active');
 	   
-	    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
-
+	    
         const selectedFunctionIds = dropdownIds
         .map(id => {
             const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
@@ -1981,8 +1974,7 @@ async function saveTrendLineHistory(isShared) {
 function resetAndReassignDropdowns(values = []) {
     isProgrammaticDropdownUpdate = true;
 
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
-
+   
     dropdownIds.forEach((dropdownId, index) => {
         const instance = $(`#${dropdownId}`);
         const value = values[index] || null;
@@ -2006,8 +1998,6 @@ function resetAndReassignDropdowns(values = []) {
 }
 
 function getAllSelectedDropdownValues() {
-    const dropdownIds = ['dropdown1', 'dropdown2', 'dropdown3', 'dropdown4', 'dropdown5', 'dropdown6', 'dropdown7'];
-
     return dropdownIds.map(id => {
         const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
         return item ? item.originalItem.id : null;

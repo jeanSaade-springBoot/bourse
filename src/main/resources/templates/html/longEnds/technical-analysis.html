@@ -923,22 +923,22 @@ height:34px;
 		
 		<script th:inline="javascript">
 		    const privilegeMap = {
-		        "LONGENDS_BUNDS_GRAPH_SCREEN": { mainGroupId: 52, rollingGroupId: 61, screenName:'BUNDSAnalisys',graphName:'BUNDSAnalisys',selectedLiveCurrency: 'BUNDS', imgsrc:'/img/flag/germany.png', x1:'228',x2:'228' , hasImage:true},
-		        "LONGENDS_BOBL_GRAPH_SCREEN":  { mainGroupId: 53, rollingGroupId: 62, screenName:'BOBLSAnalisys',graphName:'BOBLSAnalisys' ,selectedLiveCurrency: 'BOBLS', imgsrc:'/img/flag/germany.png', x1:'228',x2:'228', hasImage:true},
-		        "LONGENDS_SHATZ_GRAPH_SCREEN": { mainGroupId: 54, rollingGroupId: 63, screenName:'SHATZAnalisys',graphName:'SHATZAnalisys',selectedLiveCurrency: 'SHATZ', imgsrc:'/img/flag/germany.png' , x1:'228',x2:'228', hasImage:true},
-		        "LONGENDS_BUXL_GRAPH_SCREEN":  { mainGroupId: 55, rollingGroupId: 64, screenName:'BUXLAnalisys',graphName:'BUXLAnalisys',selectedLiveCurrency: 'BUXL', imgsrc:'/img/flag/germany.png' , x1:'228',x2:'228', hasImage:true},
-		        "LONGENDS_OAT_GRAPH_SCREEN":   { mainGroupId: 56, rollingGroupId: 65, screenName:'OATAnalisys',graphName:'OATAnalisys',selectedLiveCurrency: 'OAT', imgsrc:'/img/flag/france.png' , x1:'228',x2:'228', hasImage:true},
-		        "LONGENDS_BTP_GRAPH_SCREEN":   { mainGroupId: 57, rollingGroupId: 67, screenName:'BTPAnalisys',graphName:'BTPAnalisys',selectedLiveCurrency: 'BTP', imgsrc:'/img/flag/italy.png' , x1:'228',x2:'228', hasImage:true},
-		        "LONGENDS_GILTS_GRAPH_SCREEN": { mainGroupId: 58, rollingGroupId: 68, screenName:'GILTSAnalisys',graphName:'GILTSAnalisys',selectedLiveCurrency: 'GILTS', imgsrc:'/img/flag/united-kingdom.png' , x1:'228',x2:'228', hasImage:true},
-		        "LONGENDS_TNOTES_GRAPH_SCREEN":{ mainGroupId: 59, rollingGroupId: 69, screenName:'TNOTESAnalisys',graphName:'TNOTESAnalisys',selectedLiveCurrency: 'TNOTES', imgsrc:'/img/flag/united-states.png' , x1:'228',x2:'228', hasImage:true},
-		        "LONGENDS_TBONDS_GRAPH_SCREEN":{ mainGroupId: 60, rollingGroupId: 70, screenName:'TBONDSAnalisys',graphName:'TBONDSAnalisys',selectedLiveCurrency: 'TBONDS', imgsrc:'/img/flag/united-states.png' , x1:'228',x2:'228', hasImage:true}
+		        "LONGENDS_BUNDS_GRAPH_SCREEN": { mainGroupId: 52, rollingGroupId: 61, screenName:'BUNDSAnalisys',graphName:'BUNDSAnalisys',selectedLiveCurrency: 'BUNDS', imgsrc:'/img/flag/germany.png', hasImage:true},
+		        "LONGENDS_BOBL_GRAPH_SCREEN":  { mainGroupId: 53, rollingGroupId: 62, screenName:'BOBLSAnalisys',graphName:'BOBLSAnalisys' ,selectedLiveCurrency: 'BOBLS', imgsrc:'/img/flag/germany.png', hasImage:true},
+		        "LONGENDS_SHATZ_GRAPH_SCREEN": { mainGroupId: 54, rollingGroupId: 63, screenName:'SHATZAnalisys',graphName:'SHATZAnalisys',selectedLiveCurrency: 'SHATZ', imgsrc:'/img/flag/germany.png' ,  hasImage:true},
+		        "LONGENDS_BUXL_GRAPH_SCREEN":  { mainGroupId: 55, rollingGroupId: 64, screenName:'BUXLAnalisys',graphName:'BUXLAnalisys',selectedLiveCurrency: 'BUXL', imgsrc:'/img/flag/germany.png' ,  hasImage:true},
+		        "LONGENDS_OAT_GRAPH_SCREEN":   { mainGroupId: 56, rollingGroupId: 65, screenName:'OATAnalisys',graphName:'OATAnalisys',selectedLiveCurrency: 'OAT', imgsrc:'/img/flag/france.png' ,  hasImage:true},
+		        "LONGENDS_BTP_GRAPH_SCREEN":   { mainGroupId: 57, rollingGroupId: 67, screenName:'BTPAnalisys',graphName:'BTPAnalisys',selectedLiveCurrency: 'BTP', imgsrc:'/img/flag/italy.png' ,  hasImage:true},
+		        "LONGENDS_GILTS_GRAPH_SCREEN": { mainGroupId: 58, rollingGroupId: 68, screenName:'GILTSAnalisys',graphName:'GILTSAnalisys',selectedLiveCurrency: 'GILTS', imgsrc:'/img/flag/united-kingdom.png' ,  hasImage:true},
+		        "LONGENDS_TNOTES_GRAPH_SCREEN":{ mainGroupId: 59, rollingGroupId: 69, screenName:'TNOTESAnalisys',graphName:'TNOTESAnalisys',selectedLiveCurrency: 'TNOTES', imgsrc:'/img/flag/united-states.png' ,  hasImage:true},
+		        "LONGENDS_TBONDS_GRAPH_SCREEN":{ mainGroupId: 60, rollingGroupId: 70, screenName:'TBONDSAnalisys',graphName:'TBONDSAnalisys',selectedLiveCurrency: 'TBONDS', imgsrc:'/img/flag/united-states.png' ,hasImage:true}
 		    };
 		  
 		    const privilege = /*[[${privilege}]]*/ "";
-		    const { mainGroupId, rollingGroupId,screenName,graphName,selectedLiveCurrency,imgsrc, x1, x2 ,hasImage} = privilegeMap[privilege] || {};
+		    const { mainGroupId, rollingGroupId,screenName,graphName,selectedLiveCurrency,imgsrc, hasImage} = privilegeMap[privilege] || {};
 		</script>
 		
-        <script src="/js/bourse/longEnds/technical-analysis.js"></script>
+        <script src="/js/bourse/longEnds/technical-analysis-longend.js"></script>
  		<script src="/js/graph/trendlineManager.js"></script>
  		<script src="/js/bourse/graph/candleStick.js"></script>
     

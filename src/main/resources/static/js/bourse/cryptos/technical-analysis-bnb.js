@@ -150,12 +150,12 @@ document.addEventListener('updateGraphConfiguration', () => {
 });
 $(document).ready(function() {
 
-	$('#portfolio-toggle button').on('click', function () {
+	$('#button-toggle button').on('click', function () {
 		  const type = $(this).data('type');
 		  const isShared = type === 'shared' ? 'true' : 'false';
 		
 		  // Update button styles
-		  $('#portfolio-toggle button').removeClass('btn-primary').addClass('btn-secondary');
+		  $('#button-toggle button').removeClass('btn-primary').addClass('btn-secondary');
 		  $(this).removeClass('btn-secondary').addClass('btn-primary');
 		
 		  // Replace or append the isShared parameter in the URL

@@ -481,7 +481,7 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 							chartDbFontSize = response[0].config.chartSize;
 							const hasMatchingTrendlines = !(typeof(hasMatchingTrendline)!='undefined')?false : hasMatchingTrendline.length!=0
 							dbChartTransparency= hasMatchingTrendlines?matchingItem.chartOptions.chartTransparency:response[0].config.chartTransparency;
-							chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],dbChartTransparency);
+							chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency-chart2").find(".active")[0],dbChartTransparency);
 							
 							dbChartchartType1= hasMatchingTrendlines?matchingItem.chartOptions.chartType1:chartType1;
 							chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0], dbChartchartType1, Period);
@@ -1907,7 +1907,7 @@ function updateSeriesChart(chartConfigSettings){
 		const t = chartConfigSettings.transparency ?? 1;
 		
 					
-		chartOpacity = typeof chartOpacity=='undefined'?eval(checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],'1')):SelectedChartTransparency;
+		chartOpacity = typeof chartOpacity=='undefined'?eval(checkActiveChartColorTransparency($("#chartColorTransparency-chart2").find(".active")[0],'1')):SelectedChartTransparency;
 		chartOpacity = typeof chartOpacity=='undefined'?chartTransparency:chartOpacity;
 		chartOpacity = chartConfigSettings.chartType =='line'?0:chartOpacity;
 		
@@ -2183,13 +2183,14 @@ function saveTrendLinesHistory(trendLineId){
 				 "dbId":(typeof (JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0].dbid))!='undefined')?JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0].dbid):null,
 				 "graphId": checkedItemValues[0],
 				 "trendlines": JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0]),
-				 "chartOptions":JSON.stringify({chartType1:$("#chartTypes").find(".active")[0].id,
-				 		         chartColor:chartType1=='line'?"#ffffff":$("#chartColor").find(".active")[0].id,
-				 		         chartTransparency:$("#chartColorTransparency").find(".active")[0].id,
-				 		         markerSize: $("#chartMarker").find(".active")[0].id,
-				 		         fontsize: $("#fontOptions").find(".active")[0].id,
-				 		         showGrid: $("#gridOptions").find(".active")[0].id,
-				 		         showLegend: $("#gridLegend").find(".active")[0].id
+				 "chartOptions":JSON.stringify({
+					 	         chartType1:$("#chartTypes-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         chartColor:chartType1=='line'?"#ffffff":$("#chartColor-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         chartTransparency:$("#chartColorTransparency-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         markerSize: $("#chartMarker-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         fontsize: $("#fontOptions-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         showGrid: $("#gridOptions-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         showLegend: $("#gridLegend-chart2").find(".active")[0].id.split('-chart2')[0]
 				 				}),
 				 "screenName":screenName				
 			};
@@ -2217,13 +2218,14 @@ function saveChannelHistory(trendLineId){
 				 "graphId": checkedItemValues[0],
 				 "trendlines": JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0]),
 				 "channel": JSON.stringify(channelLines.filter(obj => obj.trendLineId === trendLineId)[0]),
-				 "chartOptions":JSON.stringify({chartType1:$("#chartTypes").find(".active")[0].id,
-				 		         chartColor:chartType1=='line'?"#ffffff":$("#chartColor").find(".active")[0].id,
-				 		         chartTransparency:$("#chartColorTransparency").find(".active")[0].id,
-				 		         markerSize: $("#chartMarker").find(".active")[0].id,
-				 		         fontsize: $("#fontOptions").find(".active")[0].id,
-				 		         showGrid: $("#gridOptions").find(".active")[0].id,
-				 		         showLegend: $("#gridLegend").find(".active")[0].id
+				 "chartOptions":JSON.stringify({
+					 	         chartType1:$("#chartTypes-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         chartColor:chartType1=='line'?"#ffffff":$("#chartColor-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         chartTransparency:$("#chartColorTransparency-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         markerSize: $("#chartMarker-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         fontsize: $("#fontOptions-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         showGrid: $("#gridOptions-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         showLegend: $("#gridLegend-chart2").find(".active")[0].id.split('-chart2')[0]
 				 				}),
 				"screenName":screenName,
 				isShared: isShared ,
@@ -2698,13 +2700,14 @@ function deleteChannelLine(trendlineDbId,trendLineId){
 				 "trendlines": JSON.stringify(trendLines.filter(obj => obj.trendLineId === trendLineId)[0]),
 				 "channel": JSON.stringify(channelLines.filter(obj => obj.trendLineId === trendLineId)[0]),
 				 "screenName":screenName,
-				 "chartOptions":JSON.stringify({chartType1:$("#chartTypes").find(".active")[0].id,
-				 		         chartColor:chartType1=='line'?"#ffffff":$("#chartColor").find(".active")[0].id,
-				 		         chartTransparency:$("#chartColorTransparency").find(".active")[0].id,
-				 		         markerSize: $("#chartMarker").find(".active")[0].id,
-				 		         fontsize: $("#fontOptions").find(".active")[0].id,
-				 		         showGrid: $("#gridOptions").find(".active")[0].id,
-				 		         showLegend: $("#gridLegend").find(".active")[0].id
+				 "chartOptions":JSON.stringify({
+					 	         chartType1:$("#chartTypes-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         chartColor:chartType1=='line'?"#ffffff":$("#chartColor-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         chartTransparency:$("#chartColorTransparency-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         markerSize: $("#chartMarker-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         fontsize: $("#fontOptions-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         showGrid: $("#gridOptions-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         showLegend: $("#gridLegend-chart2").find(".active")[0].id.split('-chart2')[0]
 				 				})
 			};
 		
@@ -3188,13 +3191,14 @@ async function updateLatestTrendLine(trendLines, newDateX3,originalEndDate, grap
 				 "isVisibleTrendline":JSON.stringify(item.hidden),
 				 "channel": JSON.stringify(channelLine),
 				 "isVisibleChannel":JSON.stringify((typeof channelLine !=='undefined')?channelLine.hidden:false),
-				 "chartOptions":JSON.stringify({chartType1:$("#chartTypes").find(".active")[0].id,
-				 		         chartColor:chartType1=='line'?"#ffffff":$("#chartColor").find(".active")[0].id,
-				 		         chartTransparency:$("#chartColorTransparency").find(".active")[0].id,
-				 		         markerSize: $("#chartMarker").find(".active")[0].id,
-				 		         fontsize: $("#fontOptions").find(".active")[0].id,
-				 		         showGrid: $("#gridOptions").find(".active")[0].id,
-				 		         showLegend: $("#gridLegend").find(".active")[0].id
+				 "chartOptions":JSON.stringify({
+					 	         chartType1:$("#chartTypes-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         chartColor:chartType1=='line'?"#ffffff":$("#chartColor-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         chartTransparency:$("#chartColorTransparency-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         markerSize: $("#chartMarker-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         fontsize: $("#fontOptions-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         showGrid: $("#gridOptions-chart2").find(".active")[0].id.split('-chart2')[0],
+				 		         showLegend: $("#gridLegend-chart2").find(".active")[0].id.split('-chart2')[0]
 				 				})
 			});
     

@@ -322,6 +322,7 @@ if (freezeEl && !freezeEl._bound) {
         markerSizeArray: this._markerSizeArray,
         combineTooltips: this._combineTooltips,
         timeLabel: this._timeLabel,
+        ishort: this._ishort
       });
     }
 
@@ -931,7 +932,8 @@ async navigate(direction) {
     combineTooltips: this._combineTooltips,
     timeLabel: this._timeLabel,
     yAnnotaionRequired:this.state.yAnnotaionRequired,
-    seriesSides:this.state.seriesSides
+    seriesSides:this.state.seriesSides,
+    ishort: this._ishort
   });
 
   this._updateNavButtons();
@@ -1012,6 +1014,7 @@ async navigate(direction) {
 		seriesStrokesColors=[],
 		hasImage=false,
 		xValue=228,
+		ishort=false
 	}) {
 		this._lastService = service;
 		this._api = api;
@@ -1033,6 +1036,7 @@ async navigate(direction) {
         this._timeLabel=timeLabel;
         this._hasImage=hasImage;
         this._xValue=xValue;
+        this._ishort=ishort;
 		if (interval !== null) {
 			dataParam.interval = interval;
 		}
@@ -1239,11 +1243,11 @@ async navigate(direction) {
     	return columnWidth*3;
 	}
 	generateDynamicTitle(series, timeRange, chartId = 'chart1' , enableTimeLabel = true) {
-		
+		const isShort = ChartManager.instances[chartId]._ishort;
 		const isCandlestick = series.some(s => s.type === 'candlestick');
 
-		if (!isCandlestick) {
-			return series.length > 1 ? series.map(s => s.name).join(' vs ') : series[0]?.name || 'Chart';
+		if (!isCandlestick) { 
+			return isShort? series[0]?.name :  series.length > 1 ? series.map(s => s.name).join(' vs ') : series[0]?.name || 'Chart';
 		}
 
 		const mainCryptoLabel = $('#dropDownCryptoOptions').jqxDropDownList('getItemByValue', $('#dropDownCryptoOptions').val())?.label || mainLabel;
@@ -1350,16 +1354,30 @@ async navigate(direction) {
 	let lim = { min: 0, max: 100 };
 	const limitsArray = this.state.seriesLimits || [];
 	const isDualAxis = this.state.useDualYAxis;
-
-	if (!isDualAxis && limitsArray.length > 1 && (index === 0 || index === 1)) {
-		// merge both if dual axis off
-		lim = {
-			min: Math.min(limitsArray[0]?.min ?? 0, limitsArray[1]?.min ?? 0),
-			max: Math.max(limitsArray[0]?.max ?? 0, limitsArray[1]?.max ?? 0)
-		};
+	
+	if (!isDualAxis && limitsArray.length > 0) {
+	
+	    const merged = limitsArray.reduce((acc, curr) => {
+	        if (!curr) return acc;
+	
+	        return {
+	            min: Math.min(acc.min, curr.min ?? acc.min),
+	            max: Math.max(acc.max, curr.max ?? acc.max)
+	        };
+	    }, {
+	        min: Number.POSITIVE_INFINITY,
+	        max: Number.NEGATIVE_INFINITY
+	    });
+	
+	    lim = {
+	        min: merged.min === Number.POSITIVE_INFINITY ? 0 : merged.min,
+	        max: merged.max === Number.NEGATIVE_INFINITY ? 100 : merged.max
+	    };
+	
 	} else if (limitsArray[index]) {
-		  // Use grouped limits instead of per-series limits
-  		  lim = this.getGroupedLimits(sideGroup);
+	
+	    lim = this.getGroupedLimits(sideGroup);
+	
 	}
 
 	const fmt = this.state.seriesFormats?.[index] || {
@@ -1458,28 +1476,61 @@ shouldShowYAxis(sideGroup, index) {
 	return index === firstIndexForSide;
 }
 	async toggleCandlestick(btn, id) {
+		
 		const isActive = btn.classList.contains('active');
+		var isChecked = $("#tech-analysis").is(":checked");
 		const selectedGroupId = $('#dropDownCryptoOptions').val();
 		$("#dropDownFunctions").jqxDropDownList({ disabled: false });
+		const allItems = chartStates[`chart${id}`].allItems;
+		const timeRange = getActiveTimeRange();
 		
 		if (isActive) {
 			// ⛔ Deactivate candlestick
 			btn.classList.remove('active');
 			$("#reset").click();
 			renderCheckboxesPerChart(selectedGroupId, id);
+			if(!isChecked)
+				$('#functionOptionsMenu').removeClass("d-none").addClass("d-flex"); 
+
+			if(screenName=='CryptosAnalisys' && isChecked && timeRange=='Daily')
+					{
+						$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none"); 
+						checkboxOptions.forEach(opt => {
+			            const checkboxId = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-${id}`;
 			
-			const allItems = checkboxOptions.map(opt =>
-				`#jqxCheckBox-${selectedGroupId}-${opt.index}-chart-1`
-			);
-			
-			allItems.forEach(id => {
-				if (id.includes('-5-') || id.includes('-8-')) {
-					$(id).jqxCheckBox('check');
+			            if (opt.index === 3 || opt.index === 4 || opt.index === 8) {
+			                $(checkboxId).show().jqxCheckBox({ disabled: false });
+			            } else {
+			                $(checkboxId).jqxCheckBox('uncheck');
+			                $(checkboxId).jqxCheckBox({ disabled: true });
+			                $(checkboxId).hide();
+			            }
+			        });
 				}
-			});
-			//drawGraphForChart(chartId);
-		
-		
+				else{
+					ChartManager.instances[`chart${id}`].allItems.forEach(itemId => {
+				        $(itemId).jqxCheckBox('uncheck');
+				});
+				}
+			$(`#btn-checkboxes-container-chart-${id}`).removeClass("d-none").addClass("d-block");  
+			if($(`#btn-checkboxes-container-chart-${id}`).attr('aria-expanded') === 'true')
+			    			$(`#checkboxes-main-container-chart-${id}`).show();
+			    	
+			allItems.forEach(itemId => {
+
+				    if (itemId.includes('-5-') || itemId.includes('-8-')) {
+				
+				        // Skip checking -5- when tech-analysis is checked
+				        if (isChecked && itemId.includes('-5-')) {
+				            return;
+				        }
+				
+				        $(itemId).jqxCheckBox('check');
+				    }
+				
+				});
+				
+					
 			// 👉 Instead of loading old options, trigger updated logic
 			const showBtn = document.getElementById(`show-chart-${id}`);
 			if (showBtn) {
@@ -1488,11 +1539,28 @@ shouldShowYAxis(sideGroup, index) {
 			
 
 		} else {
-
+           
 			// ✅ Activate candlestick
 			btn.classList.add('active');
+			//$(`#checkboxes-main-container-chart-${id}`).addClass("d-none").removeClass("d-block")
 			//renderCheckboxesChart1VolumeFundingRate(selectedGroupId, 1)
 			renderCheckboxesPerChart(selectedGroupId, id);
+			
+			if(id==1 && isChecked)
+			{  
+				if($(`#btn-checkboxes-container-chart-${id}`).attr('aria-expanded') === 'true')
+			    	$(`#checkboxes-main-container-chart-${id}`).hide();
+				
+				$('#functionOptionsMenu').removeClass("d-flex").addClass("d-none"); 
+
+				allItems.forEach(id => {
+					$(id).jqxCheckBox('uncheck');
+				});
+				
+				loadChart1Data(ChartManager.instances['chart1'],getActiveTimeRange(),false);
+			}
+			else
+			{
 			const newCandlestickParam = {
 				fromdate: document.getElementById(`dateFrom-${this.chartId}`)?.value,
 				todate: document.getElementById(`dateTo-${this.chartId}`)?.value +' 23:59:59',
@@ -1502,9 +1570,8 @@ shouldShowYAxis(sideGroup, index) {
 				period: this._lastDataParam.period,
 				type: this._lastDataParam.type,
 				candlestickMode: true
-			};
+				};
 
-			const timeRange = getActiveTimeRange();
 			const api = timeRange === "Daily"
 				? "/cryptos/getcandlegraphdata"
 				: "/cryptos/getcandlegraphdatainterval";
@@ -1529,6 +1596,7 @@ shouldShowYAxis(sideGroup, index) {
 			});
 
 			this._disableChartSettings(true, ['fontOptions']);
+			}
 		}
 		this.updateCandleOptionsVisibility();
 
@@ -1750,6 +1818,7 @@ disableChartGroup(groupId) {
 }
 static handleLiveUpdate(currency, message) {
 	try {
+
 		const returnedData = JSON.parse(message.body);
 		const chartInstances = Object.values(ChartManager.instances);
 
@@ -1951,7 +2020,7 @@ static handleLiveUpdate(currency, message) {
 								const seriesData = updatedChart.w.config.series[idx]?.data || [];
 								const values = [];
 							// here
-								let lim = { min: 0, max: 100 };  // default fallback
+							/*	let lim = { min: 0, max: 100 };  // default fallback
 									const limitsArray = instance.state.seriesLimits || [];
 									const isDualAxis = instance.state.useDualYAxis;
 									
@@ -1964,7 +2033,36 @@ static handleLiveUpdate(currency, message) {
 									} else if (limitsArray[idx]) {
 										lim = limitsArray[idx];
 									}
+*/		                    const sideGroup = instance.state.seriesSides?.[idx] || (idx % 2 === 0 ? 'left' : 'right');
 
+							let lim = { min: 0, max: 100 };
+							const limitsArray = instance.state.seriesLimits || [];
+							const isDualAxis = instance.state.useDualYAxis;
+							
+							if (!isDualAxis && limitsArray.length > 0) {
+							
+							    const merged = limitsArray.reduce((acc, curr) => {
+							        if (!curr) return acc;
+							
+							        return {
+							            min: Math.min(acc.min, curr.min ?? acc.min),
+							            max: Math.max(acc.max, curr.max ?? acc.max)
+							        };
+							    }, {
+							        min: Number.POSITIVE_INFINITY,
+							        max: Number.NEGATIVE_INFINITY
+							    });
+							
+							    lim = {
+							        min: merged.min === Number.POSITIVE_INFINITY ? 0 : merged.min,
+							        max: merged.max === Number.NEGATIVE_INFINITY ? 100 : merged.max
+							    };
+							
+							} else if (limitsArray[idx]) {
+							
+							   lim = limitsArray[idx];
+							
+							}
 								seriesData.forEach(p => {
 									if (Array.isArray(p.y)) {
 										values.push(...p.y.map(Number));
@@ -1973,6 +2071,7 @@ static handleLiveUpdate(currency, message) {
 									}
 								});
 							
+						
 								const filtered = values.filter(v => !isNaN(v) && v !== 0);
 								if (filtered.length === 0) return;
 						

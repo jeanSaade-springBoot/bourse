@@ -12,8 +12,11 @@ public interface TechnicalAnalysisTrendFollowingHistoryRepository extends JpaRep
 	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByUserName(String userName);
 	
 	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndUserNameAndIsShared(String groupId,String userName, Boolean isShared );
+	
+	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndUserNameAndIsSharedAndChartId(String groupId,String userName, Boolean isShared, Long chartId);
 
 	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndIsShared(String groupId, Boolean isShared );
 
+	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndIsSharedAndChartId(String groupId, Boolean isShared , Long chartId);
 	
 }
