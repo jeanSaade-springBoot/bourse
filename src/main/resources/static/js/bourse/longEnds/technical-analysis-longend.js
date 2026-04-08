@@ -995,15 +995,15 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				candlestickMode: true,
 				};
 				
-				const isFunctionLine = functionId === 1 || functionId === 2;
+				const isFunctionLine = [1,2].includes(functionId);
 				const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
-				const isFunctionLineColumn = [7,8,9].includes(functionId);
+				const isFunctionLineColumn = [7,8,9,53,54,55,56,57,58,59,60,61,62,63].includes(functionId);
 				
 				let disableMarkers = false;
 				let markerSizeArray=[];
-				let useDualYAxis = (
-				  (functionId !== 1 && functionId !== 2 && functionId !== -1)
-				);
+				const excludedIds = [1,2,-1];
+				let useDualYAxis = !excludedIds.includes(functionId);
+				
 				let useShortFormatList= [false];
 				let seriesTypes= ['candlestick'];
 				if (metadataList.length>=1) {
@@ -1043,6 +1043,11 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 					  }  else if (isFunctionLineColumn) {
 					    seriesTypes = ['candlestick', 'column'];
 						seriesColors = ['#ffffff', '#0cb1e6'];
+						if ([53,54,55,56,57,58].includes(functionId)){
+						  seriesColors = ['#ffffff', '#8aff8e'];
+						}else if ([59,60,61,62,63].includes(functionId)){
+						  seriesColors = ['#ffffff', '#8ae2ff'];
+						}
 					    isCentred.push(false);
 					  }
 				}
@@ -1106,9 +1111,9 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 					params[`removeEmpty${index + 1}`] = false;
 				});
 				
-				const isFunctionLine = functionId === 1 || functionId === 2;
+				const isFunctionLine = [1,2].includes(functionId);
 			    const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
-				const isFunctionLineColumn = [7,8,9].includes(functionId);
+				const isFunctionLineColumn = [7,8,9,53,54,55,56,57,58,59,60,61,62,63].includes(functionId);
 				if (functionId != -1) {
 				  params[`functionId`] = functionId ;
 				  params[`isFunctionGraph`] = true;
@@ -1148,7 +1153,12 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				  seriesColors = ['#ffffff', '#FF0000'];
 				} else if (functionId === 2) {
 				  seriesColors = ['#ffffff', '#ffa4c5'];
-				} else if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15 ].includes(functionId)) {
+				} else if ([53,54,55,56,57,58].includes(functionId)){
+				  seriesColors = ['#ffffff', '#8aff8e'];
+				}else if ([59,60,61,62,63].includes(functionId)){
+				  seriesColors = ['#ffffff', '#8ae2ff'];
+				}
+				  else if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15 ].includes(functionId)) {
 				  seriesColors = ['#ffffff', '#ffa4c5'];
 				  applyTransparency=true;
 				} else if ([7,8,9].includes(functionId)) {
@@ -1167,8 +1177,10 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				      (t) => t.subGroupId === item.subGroupId && t.GroupId === item.GroupId
 				    )
 				);
+				const excludedIds = [1,2,-1];
+				
 				let useDualYAxis = (
-				  (functionId !== 1 && functionId !== 2 && functionId !== -1) ||
+				   !excludedIds.includes(functionId) ||
 				  (SelectedSorted.length === 2 && has5or6)
 				);
 				const useShortFormatList = sorted.map(m => (m.subGroupId === '5' || m.subGroupId === '6'));
@@ -2019,23 +2031,17 @@ function initializeCandlesOptions(groupId) {
 	});
 
 }
-
 function initializeFunctions(groupId){
+     
+   
+    $.get('/admin/getfunctions/' + groupId, function (data) {
 
-	var functionSource =
-	{
-		datatype: "json",
-		datafields: [
-			{ name: 'id' },
-			{ name: 'description' }
-		],
-		url: '/admin/getfunctions/' + groupId,
-		async: true
-	};
-
-	var functionDataAdapter = new $.jqx.dataAdapter(functionSource);
-	$("#dropDownFunctions").jqxDropDownList({ dropDownHeight: 480, source: functionDataAdapter, placeHolder: "Select a Function", displayMember: "description", valueMember: "id", theme: 'dark', width: 180, height: 40 });
-	$("#reset").on("click", function (e, isProgrammatic = false) {
+        allFunctions = data;
+        loadfunctionGroupDropDown(data);
+        
+    });
+    
+   	$("#reset").on("click", function (e, isProgrammatic = false) {
 		if (isProgrammatic) {
 		suppressFunctionDropdownChange = true;
 		}
@@ -2052,7 +2058,7 @@ function initializeFunctions(groupId){
 			drawGraphForChart(1);
 		}
 	});
-
+	
 
 	$('#dropDownFunctions').on('change', function (event) {
 		if (suppressFunctionDropdownChange) return;
@@ -2063,8 +2069,99 @@ function initializeFunctions(groupId){
 			drawGraphForChart(1);
 		}
 	});
+	
 }
+function loadfunctionGroupDropDown(data,loadAll) {
 
+    var groupsMap = {};
+
+    data.forEach(function (item) {
+        if (!groupsMap[item.groupId]) {
+            groupsMap[item.groupId] = {
+                groupId: item.groupId,
+                groupName: item.groupName
+            };
+        }
+    });
+
+    var groups = Object.values(groupsMap);
+
+    var groupSource = {
+        datatype: "json",
+        datafields: [
+            { name: 'groupId' },
+            { name: 'groupName' }
+        ],
+        localdata: groups
+    };
+
+    var groupAdapter = new $.jqx.dataAdapter(groupSource);
+
+    $("#functionGroupDropDown").jqxDropDownList({
+        source: groupAdapter,
+        displayMember: "groupName",
+        valueMember: "groupId",
+        placeHolder: "Select a Function",
+        width: 140,
+        height: 40,
+        theme: 'dark',
+        selectedIndex:0,
+         autoDropDownHeight: true,
+    });
+    var filtered = allFunctions.filter(function (item) {
+	        return item.groupId == $("#functionGroupDropDown").val();
+	    });
+     loadFunctionDropdown(loadAll?data:filtered);
+    // 🔥 filter functions when group changes
+    $("#functionGroupDropDown").on('select', function (event) {
+        if (event.args) {
+            var selectedGroupId = event.args.item.value;
+            filterFunctions(selectedGroupId);
+        }
+    });
+}
+function loadFunctionDropdown(data) {
+
+    var functionSource = {
+        datatype: "json",
+        datafields: [
+            { name: 'id' },
+            { name: 'description' }
+        ],
+        localdata: data
+    };
+
+    var functionAdapter = new $.jqx.dataAdapter(functionSource);
+
+    $("#dropDownFunctions").jqxDropDownList({
+        //dropDownHeight: 480,
+        source: functionAdapter,
+        placeHolder: " ",
+        displayMember: "description",
+        valueMember: "id",
+        theme: 'dark',
+        width: 90,
+        height: 40,
+        selectedIndex: -1,
+         autoDropDownHeight: true,
+    });
+
+    // ✅ FIX: always open after binding
+    $("#dropDownFunctions")
+        .off('bindingComplete')
+        .on('bindingComplete', function () {
+           $(this).jqxDropDownList('open');
+        });
+}
+function filterFunctions(groupId) {
+
+    var filtered = allFunctions.filter(function (item) {
+        return item.groupId == groupId;
+    });
+   // $("#dropDownFunctions").jqxDropDownList('clearSelection'); 
+   $('#reset').click();
+    loadFunctionDropdown(filtered);
+}
 function getChartPeriod() {
     let period = 'd'; // Default value
 

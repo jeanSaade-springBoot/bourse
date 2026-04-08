@@ -53,6 +53,7 @@ var isOneScale=false;
 var globalCandleStickSeries ;
 var dropDownCandleOptions =[];
 let suppressDropDownChange = false;
+var allFunctions = [];
 var options = {
 		series: [],
 		chart: {
@@ -2213,7 +2214,7 @@ function getMarginLenghtVolume(value) {
     	    		}); 
     	    		
 				 }
-			      else if(chartConfigSettings.functionId>=7 && chartConfigSettings.functionId<10)
+			      else if((chartConfigSettings.functionId>=7 && chartConfigSettings.functionId<10)||[53,54,55,56,57,58,59,60,61,62,63].includes(chartConfigSettings.functionId))
   	    	    	{
 					 chart.updateOptions({
 						 series:[{
@@ -2270,7 +2271,7 @@ function getMarginLenghtVolume(value) {
 							isDecimal: chartConfigSettings.isDecimal,
 							yAxisFormat:chartConfigSettings.yAxisFormat,
 						},
-						 colors: ["#FFFFFF", "#00c9ff96"],
+						 colors: ["#FFFFFF", [53,54,55,56,57,58].includes(chartConfigSettings.functionId)?'#8aff8e':[59,60,61,62,63].includes(chartConfigSettings.functionId)?'#8ae2ff':"#00c9ff96"],
   	    	    		 markers: {
   	    	    		   colors: ["#FFFFFF", "#00c9ff96"],
   	    	    		   strokeColors:["#FFFFFF", "#00c9ff96"]
@@ -2321,7 +2322,7 @@ function getMarginLenghtVolume(value) {
  				    			  axisBorder: {
  					                  width: 3,
  					                  show: true,
- 					                  color: "#00c9ff96",
+ 					                  color: [53,54,55,56,57,58].includes(chartConfigSettings.functionId)?'#8aff8e':[59,60,61,62,63].includes(chartConfigSettings.functionId)?'#8ae2ff':"#00c9ff96",
  					                  offsetX: 0,
  					                  offsetY: 0
  					              },
@@ -3547,63 +3548,17 @@ function initializeTypes()
 	 $("#dropDownType").jqxDropDownList({selectedIndex: 0, dropDownHeight: 130,  source: dataAdapter,displayMember: "type",valueMember: "value", theme: 'dark' , width: 70, height: 25});
 	
 }
-function initializeFunctions(groupId){/*
-	var  dropDownFunctionSource =[
-							{"name":"100D moving average",
-                            "value":"1"}, 
-					        {"name":"200D moving average",
-                             "value":"2"},
-							{"name":"Daily Change In %",
-                             "value":"3"},
-							{"name":"Daily Change Increment",
-                             "value":"4"},
-						    {"name":"Weekly Change In %",
-                             "value":"5"},
-							{"name":"Weekly Change Increment",
-							  "value":"6"},
-							{"name":"Monthly Change In %",
-                             "value":"10"},
-							{"name":"Monthly Change Increment",
-							  "value":"11"},
-							{"name":"Quarterly Change In %",
-                             "value":"12"},
-							{"name":"Quarterly Change Increment",
-							  "value":"13"},
-							{"name":"Yearly Change In %",
-                             "value":"14"},
-							{"name":"Yearly Change Increment",
-							  "value":"15"},
-							{"name":"10 Yr Percentile",
-							  "value":"7"},
-							{"name":"20 Yr Percentile",
-							  "value":"8"},
-							{"name":"Century Percentile",
-							  "value":"9"}];
-   var functionSource =
-     {
-         datatype: "json",
-         datafields: [
-             { name: 'name' },
-             { name: 'value' }
-         ],
-         localdata: dropDownFunctionSource,
-         async: true
-     };*/
+function initializeFunctions(groupId, loadAll=false){
      
-      var functionSource =
-      {
-          datatype: "json",
-          datafields: [
-              { name: 'id' },
-              { name: 'description' }
-          ],
-          url: '/admin/getfunctions/' + groupId ,
-          async: true
-      };
-      
-	  var functionDataAdapter = new $.jqx.dataAdapter(functionSource);
-	 $("#dropDownFunctions").jqxDropDownList({dropDownHeight: 480,  source: functionDataAdapter, placeHolder: "Select a Function",  displayMember: "description",valueMember: "id", theme: 'dark' , width: 220, height: 25});
-	 $("#reset").click(function() {
+   
+    $.get('/admin/getfunctions/' + groupId, function (data) {
+
+        allFunctions = data;
+        loadfunctionGroupDropDown(data,loadAll);
+        
+    });
+    
+    $("#reset").click(function() {
 		 functionId=-1;
 		 $("#dropDownFunctions").jqxDropDownList({selectedIndex: -1});
 	});
@@ -3613,18 +3568,105 @@ function initializeFunctions(groupId){/*
 	{     
 	    var args = event.args;
 	    if (args) {
-	    // index represents the item's index.                      
-	    var index = args.index;
-	    	const chartType=typeof($("#chartTypes").find(".active")[0]) !='undefined'?$("#chartTypes").find(".active")[0].id:null;
-
-			//if(chartType!="candle")
-			//{
-			   functionId=parseInt($('#dropDownFunctions').val())-1;
-			   drawGraph();
-			 //  }
+	         
+	    	
+		 functionId=parseInt($('#dropDownFunctions').val())-1;
+		 drawGraph();
+			
 	 } 
 	});
 	
+}
+function loadfunctionGroupDropDown(data,loadAll) {
+
+    var groupsMap = {};
+
+    data.forEach(function (item) {
+        if (!groupsMap[item.groupId]) {
+            groupsMap[item.groupId] = {
+                groupId: item.groupId,
+                groupName: item.groupName
+            };
+        }
+    });
+
+    var groups = Object.values(groupsMap);
+
+    var groupSource = {
+        datatype: "json",
+        datafields: [
+            { name: 'groupId' },
+            { name: 'groupName' }
+        ],
+        localdata: groups
+    };
+
+    var groupAdapter = new $.jqx.dataAdapter(groupSource);
+
+    $("#functionGroupDropDown").jqxDropDownList({
+        source: groupAdapter,
+        displayMember: "groupName",
+        valueMember: "groupId",
+        placeHolder: "Select a Function",
+        width: 140,
+        height: 25,
+        theme: 'dark',
+        selectedIndex:0,
+        autoDropDownHeight: true
+    });
+    var filtered = allFunctions.filter(function (item) {
+	        return item.groupId == $("#functionGroupDropDown").val();
+	    });
+     loadFunctionDropdown(loadAll?data:filtered);
+    // 🔥 filter functions when group changes
+    $("#functionGroupDropDown").on('select', function (event) {
+        if (event.args) {
+            var selectedGroupId = event.args.item.value;
+            filterFunctions(selectedGroupId);
+        }
+    });
+}
+function loadFunctionDropdown(data) {
+
+    var functionSource = {
+        datatype: "json",
+        datafields: [
+            { name: 'id' },
+            { name: 'description' }
+        ],
+        localdata: data
+    };
+
+    var functionAdapter = new $.jqx.dataAdapter(functionSource);
+
+    $("#dropDownFunctions").jqxDropDownList({
+        //dropDownHeight: 480,
+        source: functionAdapter,
+        placeHolder: " ",
+        displayMember: "description",
+        valueMember: "id",
+        theme: 'dark',
+        width: 90,
+        height: 25,
+        selectedIndex: -1,
+        autoDropDownHeight: true
+    });
+
+    // ✅ FIX: always open after binding
+    $("#dropDownFunctions")
+        .off('bindingComplete')
+        .on('bindingComplete', function () {
+           $(this).jqxDropDownList('open');
+        });
+}
+function filterFunctions(groupId) {
+
+    var filtered = allFunctions.filter(function (item) {
+        return item.groupId == groupId;
+    });
+   // $("#dropDownFunctions").jqxDropDownList('clearSelection'); 
+   $('#reset').click();
+    loadFunctionDropdown(filtered);
 }
 function fetchDataForPeriod(Period) {
     return new Promise((resolve, reject) => {
@@ -4308,7 +4350,7 @@ function graphfont(fontSize){
 			else 
 			 updateGraphFont(fontSize,minvalue,maxvalue);
 }
-function getGraphData(graphService,graphName,removeEmpty,saveHistory){
+async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 	
 	mode = "merge";
 	var dataParam;

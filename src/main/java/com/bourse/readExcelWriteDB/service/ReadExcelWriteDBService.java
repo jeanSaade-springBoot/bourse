@@ -1201,6 +1201,7 @@ public class ReadExcelWriteDBService {
 		             longEndsService.doCalculationLoader(minMaxDates[0],minMaxDates[1],readExcelWriteDBDTO.getGroupId());
 		             longEndsService.runTrendFollowingMavgTask(Long.valueOf(readExcelWriteDBDTO.getGroupId()),minMaxDates[0],minMaxDates[1]);
 		             longEndsService.runVolatilityWeightedTrendFollowingMavgTask(Long.valueOf(readExcelWriteDBDTO.getGroupId()),minMaxDates[0],minMaxDates[1]);
+		             longEndsService.runFunctionCalculationProcedure(Long.valueOf(readExcelWriteDBDTO.getGroupId()),minMaxDates[0],minMaxDates[1]);
 			   } else {
 		            System.out.println("List is empty.");
 		        } 

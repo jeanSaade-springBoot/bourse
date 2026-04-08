@@ -3,6 +3,7 @@
   var familyItem;
   var groupsource;
   var gridsource;
+   var allFunctions = [];
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
 	  $('#nav-column-master').show();
@@ -303,8 +304,29 @@
 				        }
             }
         });
-        
-    var functionSource =
+       
+
+		$.get('/admin/getfunctions/' + groupItem.value, function (data) {
+		    allFunctions = data;
+		
+		    loadfunctionGroupDropDown(data);
+		    loadFunctionDropdown(data); // initial load
+		});
+		$("#functionDropDown").on('select', function (event) {
+		    if (event.args) {
+		        functionItem = event.args.item;
+		
+		        var rowID = $('#grid').jqxGrid('getrowid', editrow);
+		        var dataRecord = $("#grid").jqxGrid('getrowdata', rowID);
+		
+		        $('#functionColumn').empty();
+		        $('#functionColumn').append(dataRecord.columnName + ' - '+ $("#functionGroupDropDown").jqxDropDownList('getSelectedItem').label+" " + functionItem.label);
+		
+		        functionSelected(dataRecord.id, functionItem.value);
+		        getRobotFunctionsConfiguration(dataRecord.id, functionItem.value);
+		    }
+		});
+    /*var functionSource =
       {
           datatype: "json",
           datafields: [
@@ -327,7 +349,7 @@
 				functionSelected(dataRecord.id,functionItem.value);
 				getRobotFunctionsConfiguration(dataRecord.id,functionItem.value);
             }
-		}); 
+		}); */
 			 
     }
 });
@@ -965,13 +987,14 @@
         	  { text: '', width: '10%' , datafield: 'Edit',filterable:false, columntype: 'button', cellsrenderer: function () {
                   return "Edit";
                }, buttonclick: function (row) {
-            	  
                   // open the popup window when the user clicks a button.
                   editrow = row;
                   var offset = $("#grid").offset();
                   $("#popupWindow").jqxWindow({ position: { x: window.top.outerHeight / 2 + window.top.screenY - (550 / 2), y:  window.top.outerWidth / 2 + window.top.screenX - ( 1500 / 2) } });
                   // get the clicked row's data and initialize the input fields.
                   var dataRecord = $("#grid").jqxGrid('getrowdata', editrow);
+                  $("#functionGroupDropDown").jqxDropDownList('selectIndex', 0 );  
+                  
 				  $("#ColumnCodeDisplay").empty();
 				  $("#ColumnCodeDisplay").append(dataRecord.graphScale);
 				  $("#columnCode").val(dataRecord.columnCode);
@@ -1047,6 +1070,95 @@
       });
    
   });
+  function loadfunctionGroupDropDown(data) {
+    // extract unique groups
+    var groupsMap = {};
+
+    data.forEach(function (item) {
+        if (!groupsMap[item.groupId]) {
+            groupsMap[item.groupId] = {
+                groupId: item.groupId,
+                groupName: item.groupName
+            };
+        }
+    });
+
+    var groups = Object.values(groupsMap);
+
+    var groupSource = {
+        datatype: "json",
+        datafields: [
+            { name: 'groupId' },
+            { name: 'groupName' }
+        ],
+        localdata: groups
+    };
+
+    var groupAdapter = new $.jqx.dataAdapter(groupSource);
+
+    $("#functionGroupDropDown").jqxDropDownList({
+        source: groupAdapter,
+        displayMember: "groupName",
+        valueMember: "groupId",
+        width: 210,
+        height: 30,
+        theme: 'dark'
+    });
+
+    // 🔥 When group changes → filter functions
+    $("#functionGroupDropDown").on('select', function (event) {
+        if (event.args) {
+            var selectedGroupId = event.args.item.value;
+            filterFunctions(selectedGroupId);
+        }
+    });
+}
+function loadFunctionDropdown(data) {
+    var functionSource = {
+        datatype: "json",
+        datafields: [
+            { name: 'id' },
+            { name: 'description' }
+        ],
+        localdata: data
+    };
+
+    var dataAdapter = new $.jqx.dataAdapter(functionSource);
+
+    $("#functionDropDown").jqxDropDownList({
+        source: dataAdapter,
+        displayMember: "description",
+        valueMember: "id",
+        width: 210,
+        height: 30,
+        theme: 'dark'
+    });
+}
+function filterFunctions(groupId) {
+    var filtered = allFunctions.filter(function (item) {
+        return item.groupId == groupId;
+    });
+
+    var functionSource = {
+        datatype: "json",
+        datafields: [
+            { name: 'id' },
+            { name: 'description' }
+        ],
+        localdata: filtered
+    };
+
+    var dataAdapter = new $.jqx.dataAdapter(functionSource);
+    $("#functionDropDown").jqxDropDownList('clearSelection'); 
+    $("#functionDropDown").jqxDropDownList({
+        source: dataAdapter,
+        displayMember: "description",
+        valueMember: "id",
+    });
+   $("#functionDropDown").on('bindingComplete', function () {
+	    $("#functionDropDown").jqxDropDownList('open');
+	});
+}
 async function resetFunctionSection()
 {
 	$("#nav-graphs-data-function").removeClass('active');

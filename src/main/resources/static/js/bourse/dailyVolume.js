@@ -32,7 +32,7 @@ $(document).ready(function() {
      initializeNewsBanner();
 	//  initializePeriods();
 	// initializeTypes();
-	 initializeFunctions(17);
+	 initializeFunctions(17,true);
 	 
 	 initializeNavigationButtons();
 	 initialiazeItem(allitems,1);

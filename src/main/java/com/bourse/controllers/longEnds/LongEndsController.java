@@ -90,6 +90,9 @@ public class LongEndsController {
 		longEndsService.doCalculation(longEndDataDTOlst.get(0).getReferDate(),String.valueOf(longEndDataDTOlst.get(0).getGroupId()));
 		longEndsService.doCalculationSaveSpreadData(longEndDataDTOlst,null);
 		longEndsService.runTrendFollowingMavgTask(longEndDataDTOlst.get(0).getGroupId(),longEndDataDTOlst.get(0).getReferDate(),longEndDataDTOlst.get(0).getReferDate());
+		longEndsService.runVolatilityWeightedTrendFollowingMavgTask(longEndDataDTOlst.get(0).getGroupId(),longEndDataDTOlst.get(0).getReferDate(),longEndDataDTOlst.get(0).getReferDate());
+		longEndsService.runFunctionCalculationProcedure(longEndDataDTOlst.get(0).getGroupId(),longEndDataDTOlst.get(0).getReferDate(),longEndDataDTOlst.get(0).getReferDate());
+
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@GetMapping("findlatestdata/{groupId}")
@@ -126,6 +129,7 @@ public class LongEndsController {
 		  longEndsService.onSuccessfulDelete(longEndsData);
 		  longEndsService.runTrendFollowingMavgTask(Long.valueOf(groupId),referDate,referDate);
 		  longEndsService.runVolatilityWeightedTrendFollowingMavgTask(Long.valueOf(groupId),referDate,referDate);
+		  longEndsService.runFunctionCalculationProcedure(Long.valueOf(groupId),referDate,referDate);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
    

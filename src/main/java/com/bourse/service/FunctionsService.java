@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.Functions;
+import com.bourse.dto.FunctionDTO;
 import com.bourse.repositories.FunctionsRepository;
 
 
@@ -28,9 +29,9 @@ public class FunctionsService
         return functionsRepository.findAll();
 	}
 	
-	public List<Functions> getFunctionsByGroupId(String groupId)
+	public List<FunctionDTO> getFunctionsByGroupId(String groupId)
 	{      
-        return functionsRepository.findByGroupId(groupId);
+        return functionsRepository.findByGroupId(Long.valueOf(groupId));
 	}
 
 }

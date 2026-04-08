@@ -940,7 +940,16 @@ $(document).ready(function() {
 	    }); 
 	  
 	 }
-	 else if (serieValue === 12) {
+	 else if (serieValue === 11) {
+		 initializeNewsBanner();
+		 initializeFunctions(71);
+		 
+		 initializeNavigationButtons();
+		 initialiazeItem(allitems,1);
+		 initialiazeClearFilterButton();
+		 initializeShowFilterButton();
+		 
+	     $("#SaveToFavorites").jqxButton({ theme: 'dark', height: 30, width: 100 });
 	 }
      else{
 		 

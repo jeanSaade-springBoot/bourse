@@ -31,6 +31,7 @@ import com.bourse.domain.SubGroup;
 import com.bourse.dto.AssetNewsOrderDTO;
 import com.bourse.dto.ColumnConfigurationDTO;
 import com.bourse.dto.FunctionConfigurationDTO;
+import com.bourse.dto.FunctionDTO;
 import com.bourse.dto.NewsOrderDTO;
 import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.service.AdminService;
@@ -112,7 +113,7 @@ public class AdminController {
 		return new ResponseEntity<>(functionsService.getFunctions(), HttpStatus.OK);
     }
 	@GetMapping(value = "getfunctions/{groupId}", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<List<Functions>>  getFunctions(@PathVariable String groupId){
+    public  ResponseEntity<List<FunctionDTO>>  getFunctions(@PathVariable String groupId){
 		return new ResponseEntity<>(functionsService.getFunctionsByGroupId(groupId), HttpStatus.OK);
     }
 	@GetMapping(value = "getsubgroupsbygroup/{groupId}", produces = "application/json;charset=UTF-8")

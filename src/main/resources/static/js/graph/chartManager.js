@@ -1508,9 +1508,9 @@ shouldShowYAxis(sideGroup, index) {
 			        });
 				}
 				else{
-					ChartManager.instances[`chart${id}`].allItems.forEach(itemId => {
+					allItems.forEach(itemId => {
 				        $(itemId).jqxCheckBox('uncheck');
-				});
+					});
 				}
 			$(`#btn-checkboxes-container-chart-${id}`).removeClass("d-none").addClass("d-block");  
 			if($(`#btn-checkboxes-container-chart-${id}`).attr('aria-expanded') === 'true')
@@ -1546,8 +1546,9 @@ shouldShowYAxis(sideGroup, index) {
 			//renderCheckboxesChart1VolumeFundingRate(selectedGroupId, 1)
 			renderCheckboxesPerChart(selectedGroupId, id);
 			
-			if(id==1 && isChecked)
-			{  
+			if(id==1)
+			{   if(isChecked)
+				{
 				if($(`#btn-checkboxes-container-chart-${id}`).attr('aria-expanded') === 'true')
 			    	$(`#checkboxes-main-container-chart-${id}`).hide();
 				
@@ -1556,7 +1557,7 @@ shouldShowYAxis(sideGroup, index) {
 				allItems.forEach(id => {
 					$(id).jqxCheckBox('uncheck');
 				});
-				
+				}
 				loadChart1Data(ChartManager.instances['chart1'],getActiveTimeRange(),false);
 			}
 			else

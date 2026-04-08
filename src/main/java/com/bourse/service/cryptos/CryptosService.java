@@ -990,6 +990,7 @@ public class CryptosService {
 				
 				if(isFunction)
 				{
+					System.out.println("function enum "+FunctionEnum.getFunctionByID(graphReqDTO.getFunctionId().isEmpty()?0:Integer.valueOf(graphReqDTO.getFunctionId())));
 				 query.registerStoredProcedureParameter("isFunction", String.class, ParameterMode.IN);
 				 query.setParameter("isFunction",graphReqDTO.getIsFunctionGraph() );
 				

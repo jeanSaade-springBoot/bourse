@@ -141,6 +141,7 @@ public class LongEndsService {
 		doCalculationSpreadData(longEndsDataLst, OldValue, spreadTotal);
 		runTrendFollowingMavgTask(Long.valueOf(updateDataDTOlst.get(0).getGroupId()),updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getReferdate());
 		runVolatilityWeightedTrendFollowingMavgTask(Long.valueOf(updateDataDTOlst.get(0).getGroupId()),updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getReferdate());
+		runFunctionCalculationProcedure(Long.valueOf(updateDataDTOlst.get(0).getGroupId()),updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getReferdate());
 	}
 	  
 	public List<LongEndsDisplaySettings> getLongEndsDisplaySettingsList() {
@@ -239,7 +240,29 @@ public class LongEndsService {
 	    query.execute();
 	    entityManager.clear();
 	}
+	public void runFunctionCalculationProcedure(Long groupId, String fromDate, String toDateDate) {
 
+	    Long rollingId = GroupRollingEnum.getRollingGroupId(groupId);
+
+	    String formattedFromDate = DateFormatUtil.normalizeToIso(fromDate);
+	    String formattedToDate   = DateFormatUtil.normalizeToIso(toDateDate);
+
+	    StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("dynamic_calculation_realized_vol_span");
+	    query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
+	    query.setParameter("groupId", String.valueOf(rollingId));
+
+	    query.registerStoredProcedureParameter("subGroupId", String.class, ParameterMode.IN);
+	    query.setParameter("subGroupId", "4");
+
+	    query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
+	    query.setParameter("fromDate", formattedFromDate);
+
+	    query.registerStoredProcedureParameter("toDateDate", String.class, ParameterMode.IN);
+	    query.setParameter("toDateDate", formattedToDate);
+
+	    query.execute();
+	    entityManager.clear();
+	}
 	public void runVolatilityWeightedTrendFollowingMavgTask(Long groupId, String fromDate, String toDateDate) {
 
 	    Long rollingId = GroupRollingEnum.getRollingGroupId(groupId);
