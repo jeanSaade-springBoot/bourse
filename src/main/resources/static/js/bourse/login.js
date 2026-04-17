@@ -1,44 +1,34 @@
+function signIn() {
+    let dataParam = {
+        "userName": $('#username').val(),
+        "password": $('#password').val()
+    };
 
-  $(document).ready(function () {
-	  $("#clientLogin").jqxButton({  theme:'dark', width: 130, height: 30,template: "primary" });
-	  $("#clientLogin").css("display","block");
-  });
- 
-  $("#clientLogin").click(function () {
-	  window.location.href='/login';
-  });
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/api/auth/signin",
+        data: JSON.stringify(dataParam),
+        dataType: 'json',
+        success: function(data) {
+            if (!data.tacAccepted) {
+                window.location.href = '/termsandconditionsconfirmation';
+            } else {
+                window.location.href = '/';
+            }
+        },
+        error: function(e) {
+            $("#ErrorMessage").show().html(e.responseJSON.message);
+        }
+    });
+}
 
-$("#signIn").click(function () {
-			dataParam = {
-				"userName": $('#username').val(),
-				"password": $('#password').val()
-			};
-			$.ajax({
-				type: "POST",
-				contentType: "application/json",
-				url: "/api/auth/signin",
-				data: JSON.stringify(dataParam),
-				dataType: 'json',
-				async: true,
-				cache: false,
-				timeout: 600000,
-				success: function(data) {
+// Click
+$("#signIn").click(signIn);
 
-				if (!data.tacAccepted)
-					{
-						window.location.href = '/termsandconditionsconfirmation'
-					}
-					else {
-					
-						window.location.href = '/bourse/home';
-					}
-				},
-				error: function(e) {
-						$("#ErrorMessage").show().html(e.responseJSON.message);
-					
-					console.log("ERROR : ", e);
-
-				}
-			});
+// Enter
+$('#username, #password').on('keypress', function (e) {
+    if (e.which === 13) {
+        signIn();
+    }
 });
-

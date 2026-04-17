@@ -231,7 +231,7 @@ $(document).ready(function() {
 });
 
 function initialiazeClearFilterButtons(items){
-	
+	$("#clearfilter").hide();
 	$("#clearfilter").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	
 	$("#clearfilter").click(function() {
@@ -624,7 +624,7 @@ function drawGraph() {
 				    graphTitle=T1+" vs FLASH vs SURVEY";
 				    graphTitle=graphTitle.toUpperCase().replace(/\bFINAL\b/g, '').replace(/FLASH/g, '<span style="color:#00D4EB">Flash</span>').replace(/SURVEY/g, '<span style="color:#ff99ff">Survey</span>').replace(/MANUFACTURING/g, 'Manuf').replace(/VS/g, 'vs')
 
-					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 20px;left: 350px;height: 50px;" class="title-style"><img height="50" class="pr-2" src=\''+getCountryImagePath(Item)[0]+'\' >'+graphTitle+'</div>')
+					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 10px;left: 39%;height: 50px;" class="title-style"><img height="50" class="pr-2" src=\''+getCountryImagePath(Item)[0]+'\' >'+graphTitle+'</div>')
 				})
 							    .catch(error => {
 							        console.error('Error processing data:', error);
@@ -908,7 +908,7 @@ function drawGraph() {
 				    graphTitle=T1+" vs "+(isFlash?"FLASH":"SURVEY");
 				    graphTitle=graphTitle.toUpperCase().replace(/\bFINAL\b/g, '').replace(/FLASH/g, '<span style="color:#00D4EB">Flash</span>').replace(/SURVEY/g, '<span style="color:#ff99ff">Survey</span>').replace(/MANUFACTURING/g, 'Manuf').replace(/VS/g, 'vs')
 
-					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 20px;left: 350px;height: 50px;" class="title-style"><img height="50" class="pr-2" src=\''+getCountryImagePath(Item)[0]+'\' >'+graphTitle+'</div>')
+					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 10px;left: 39%;height: 50px;" class="title-style"><img height="50" class="pr-2" src=\''+getCountryImagePath(Item)[0]+'\' >'+graphTitle+'</div>')
 				})
 							    .catch(error => {
 							        console.error('Error processing data:', error);

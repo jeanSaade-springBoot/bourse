@@ -37,7 +37,7 @@
   transform: scale(1);
 }
 span#notification1 {
-    left: 80px;
+    left: 50px;
     z-index: 100;
     top: -15px;
 }

@@ -198,7 +198,7 @@ text.text-style {
 													<div class='col-1'></div>
 													<div class='col-11 d-flex justify-content-between'>
 														
-														<div  class="row col-10">
+														<div  class="row col-10  align-items-end">
 														
 														    <div class="col pl-0 text-center">
 																<h8 class="font-weight-bold">BITCOIN</h8>
@@ -240,7 +240,7 @@ text.text-style {
 															    </div>
 														     </div>
 														 </div>	
-														<div class="row pt-4">
+														<div class="row" style="  position: absolute;   top: -38px;  right: .5rem; ">
 														<input aria-expanded="true" aria-controls="collapseFilter"
 															class="btn btn-primary mr-1 mb-1"
 															style="margin-right: 1rem !important; color: white;"
@@ -406,14 +406,14 @@ text.text-style {
 																value="Save To Favorites" />
 														</div>
 													</div>
-													<div class="col-10">
+													<div class="col-11">
 														<div id="overlayChart" class="overlayChart"
 															style="display: none">
 															<img src="/css/images/loader.gif" alt="Loading"
 																style="width: 100%;" />
 														</div>
 														<div id="mainChart" class="chart-box col-12"
-															style="min-height: 365px; min-width: 1100px; max-width: 1100px; ">
+															style="min-height: 365px; height: 569px; min-width: 1100px;  max-width:1100px;  float: inline-end;">
 
 														</div>
 														<div id="mainChart-title"></div>
@@ -443,7 +443,7 @@ text.text-style {
 														</div>
 														
 														
-														<div class="mt-2 btn-toolbar justify-content-center"
+														<div class="mt-2 pt-3 btn-toolbar justify-content-center"
 															role="toolbar" aria-label="Toolbar with button groups"
 															style="min-width: 1090px; max-width: 1090px;">
 															<div class="btn-group mr-2" role="group"
@@ -542,21 +542,20 @@ text.text-style {
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12">
-
-									<div class="mt-3 btn-toolbar justify-content-between"
-										role="toolbar" aria-label="Toolbar with button groups"
-										style="min-width: 1078px; max-width: 1078px;">
-										<div id="grid_filtered" style="margin-top: .5rem"></div>
-									</div>
-
-								</div>
-							</div>
+							 <div class="row">
+							    <div class="col-1"></div>
+							    <div class="col-11">
+							   	   
+							   	   <div class="mt-3 justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style="float: inline-end; min-width: 1100px; max-width: 1100px;">
+											<div id="grid_filtered" style="margin-top:.5rem;"></div> 			 
+										</div>
+							   	   
+							    </div>
+							  </div>
 						</div>
 						<!---Container Fluid-->
 					</div>
-					<div class="NewsBack container"
+					<div class="NewsBack container mb-0"
 						style="position: fixed; bottom: 0px; left: 0px; max-width: 100%; border: 2px; border-color: black;">
 						<div class="simple-marquee-container">
 							<div class="marquee-sibling-date">

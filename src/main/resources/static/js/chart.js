@@ -4023,7 +4023,7 @@ function initialiazeItem(allitems, numberOfItems){
 
 }
 function initialiazeClearFilterButton(){
-	
+	$("#Clearfilter").hide();
 	$("#Clearfilter").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	
 	$("#Clearfilter").click(function() {

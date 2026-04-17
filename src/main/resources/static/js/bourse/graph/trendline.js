@@ -1171,7 +1171,7 @@ function drawRetracementTable(data){
 		 const dbId = item.dbId;
 		//  const dbId = 1;
 		 retracementGrid += `
-		  <div class='col-12 pl-0 d-flex pt-1 pb-1' id='retracement${retracementId}'>
+		  <div class='col-12 d-flex pt-1 pb-1' id='retracement${retracementId}'>
 		    <div class='col-11 pl-0 pr-1'>
 		      <table id='retracementTable_${retracementId}' class='retracement-table'>
 		        <thead>
@@ -1487,7 +1487,7 @@ function drawRelevantTable(data){
 		 const dbId = item.dbId; 
 		//  const dbId = 1;
 		 relevantGrid += `
-		  <div class='col-12 pl-0 d-flex pt-1 pb-1' id='relevant${relevantId}'>
+		  <div class='col-12 p-0 d-flex justify-content-end pt-1 pb-1' id='relevant${relevantId}'>
 			 <div class='col-11 pl-0 pr-1'>
 		      <table id='relevantTable_${relevantId}' class='relevant-table'>
 		        <thead>

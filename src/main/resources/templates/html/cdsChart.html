@@ -52,7 +52,9 @@
     flex: 0 0 13.66667%;
     max-width: 13.66667%;
 }
-
+h8.font-weight-bold.align-middle {
+    font-size: 0.59rem;
+}
   </style>
 </head>
 
@@ -93,11 +95,11 @@
 				  	<div class="row">
 					  <div class="col">
 				 		<div class="show multi-collapse" id="collapseFilter">
-				 		<div class="col-12 p-0 d-flex">
+				 		<div class="col-12 mb-3 p-0 d-flex">
 						 <div class="col-12 p-0">
 									<div class="col-sm-12 p-0">
-									<h6 class="col font-weight-bold mt-2">CDS</h6>
-									<div class="d-flex justify-content-between col">
+									<h6 class="col  pl-0  font-weight-bold mt-2">CDS</h6>
+									<div class="d-flex p-0 justify-content-between col">
 										<div class=" d-grid">
 											<img height="48" width="48" class="align-middle"
 												src="/img/flag/germany.png">
@@ -267,9 +269,9 @@
 									</div>
 								</div>
 								
-                     	<div class="row pt-2">
-							<div class='col-12 d-flex justify-content-end'>
-							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+                     	<div class="row" style="  position: absolute;   top: 0px;  right: .5rem; ">
+							<div class='col-12 pr-0 d-flex justify-content-end'>
+							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style=" color:white;" type="button" id="show" value="Show" />
 							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 							</div>
 						</div>
@@ -377,11 +379,11 @@
 														    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
 						   </div>
 						</div>
-						 <div class="col-10">
+						 <div class="col-11">
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
 		     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
 		   		</div>
-						 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
+						 <div id="mainChart" class="chart-box col-12" style="min-height: 365px; height: 569px; min-width: 1100px;  max-width:1100px;  float: inline-end;">
 						
 						 </div>
 						 <div class="row" style="min-width: 1153px;  max-width:1153px">
@@ -405,7 +407,7 @@
 					</div>
 					
 					</div>
-				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
 				</div>
 			</div>
           </div>
@@ -466,19 +468,20 @@
 		    </div>
 		  </div>
 	 </div>
-	 <div class="row">
-    <div class="col-12">
-   	   
-   	   <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1078px; max-width: 1078px;">
-				<div id="grid_filtered" style="margin-top:.5rem"></div> 			 
-			</div>
-   	   
-    </div>
-  </div>
+	<div class="row">
+		    <div class="col-1"></div>
+		    <div class="col-11">
+		   	   
+		   	   <div class="mt-3 justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style="float: inline-end; min-width: 1100px; max-width: 1100px;">
+						<div id="grid_filtered" style="margin-top:.5rem;"></div> 			 
+					</div>
+		   	   
+		    </div>
+		  </div>
         </div>
         <!---Container Fluid-->
       </div>
-        <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+        <div class="NewsBack container mb-0" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
 				<div class="marquee-sibling-date">
 					<p id="todayDate"></p>

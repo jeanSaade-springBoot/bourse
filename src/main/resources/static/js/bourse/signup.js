@@ -6,17 +6,11 @@
 
 
   $(document).ready(function () {
-	  $("#clientLogin").jqxButton({  theme:'dark', width: 130, height: 30,template: "primary" });
-	  $("#clientLogin").css("display","block");
-
+	  
       $("#titleDropDown").jqxDropDownList({ source: source, placeHolder: "Select Title", width: '100%', height: 42 , theme:'dark',dropDownHeight:100});
 
   });
  
-  $("#clientLogin").click(function () {
-	  window.location.href='/login';
-  });
-
  $("#sameAsEmail").click(function () {
 	 $("#username").val($("#email").val());
   });
@@ -71,7 +65,7 @@ $("#register").click(function () {
 				cache: false,
 				timeout: 600000,
 				success: function() {
-				   sendNotification();
+				  // sendNotification();
 				   window.location.href = '/confirmation';
 				},
 				error: function(e) {

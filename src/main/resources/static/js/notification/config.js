@@ -1,48 +1,62 @@
 let stompClient = null;
 let isConnected = false;
-const pendingSubscriptions = [];  // To store subscriptions before the connection is ready
+const pendingSubscriptions = [];
 
 function connectWebSocket() {
     if (isConnected) {
-        console.log('WebSocket already connected.');
+        console.log("WebSocket already connected.");
         return;
     }
 
+    console.log("Trying to connect...");
+
     const socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
-    stompClient.debug = null;  // Disable debugging logs (enable if needed)
 
-    // Connect to WebSocket server
+    // enable logs while testing
+    stompClient.debug = function (str) {
+        console.log(str);
+    };
+
     stompClient.connect({}, function (frame) {
         isConnected = true;
+        console.log("Connected:", frame);
 
-        // Subscribe to /all/messages directly
+        // subscribe to notifications
         stompClient.subscribe('/all/messages', function (result) {
+            console.log("Received /all/messages:", result.body);
+
             const parsedBody = JSON.parse(result.body);
 
-            if (parsedBody.value !== '0') {
+            if (parsedBody.value && parsedBody.value !== '0') {
                 updateNotification(parsedBody.value);
             }
         });
 
-        // Process any pending subscriptions
+        // call backend @MessageMapping("/application")
+        stompClient.send('/app/application', {}, {});
+
+        // process pending subscriptions
         pendingSubscriptions.forEach(sub => {
             stompClient.subscribe(sub.destination, sub.callback);
         });
-        pendingSubscriptions.length = 0;  // Clear pending subscriptions
+        pendingSubscriptions.length = 0;
+
+    }, function (error) {
+        console.error("STOMP connection error:", error);
     });
 }
 
 function addSubscription(destination, callback) {
     if (stompClient && isConnected) {
-        return stompClient.subscribe(destination, callback); 
+        return stompClient.subscribe(destination, callback);
     } else {
         const sub = { destination, callback };
         pendingSubscriptions.push(sub);
-        return sub; 
+        return sub;
     }
 }
-// Function to update notifications
+
 function updateNotification(value) {
     const bell = document.getElementById('notification');
     const bell1 = document.getElementById('notification1');
@@ -63,3 +77,8 @@ function updateNotification(value) {
         bell2.classList.add('show-count', 'notify');
     }
 }
+
+// call this when page loads
+document.addEventListener("DOMContentLoaded", function () {
+    connectWebSocket();
+});

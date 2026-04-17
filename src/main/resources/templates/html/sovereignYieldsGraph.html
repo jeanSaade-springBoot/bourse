@@ -125,7 +125,7 @@
 					</p>
 					<div class="row">
 					  <div class="col">
-					    <div class="collapse multi-collapse" id="collapseFilter" style="margin: 0px 8rem;">
+					    <div class="collapse multi-collapse" id="collapseFilter">
 				<div class="row">
 				<div class="col-5">
                   <form  id="dataformInput">
@@ -212,9 +212,9 @@
                  </div>
                  		
                      </div>
-                     	<div class="row">
+                     	<div class="row" style="  position: absolute;   top: -41px;  right: .5rem; ">
 							<div class='col-12 d-flex justify-content-end'>
-							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style=" color:white;" type="button" id="show" value="Show" />
 							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 							</div>
 						</div>
@@ -311,47 +311,52 @@
 								 </div>
    						   </div>
    						   	<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="display:none;    margin: 1.1rem;
-    color: white;
-    font-size: 0.54rem;
-    height: 30px;
-    position: absolute;
-    bottom: 4px;
-    font-weight: bold;
-    left: -1px;
-    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
+							    color: white;
+							    font-size: 0.54rem;
+							    height: 30px;
+							    position: absolute;
+							    bottom: 4px;
+							    font-weight: bold;
+							    left: -1px;
+							    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
 						   </div>
 						</div>
 				    <div id="overlayChart" class="overlayChart" style="display:none">
 				     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
-				   </div>
-				     <div class="col-10"> <div id="mainChart" class="chart-box col-12" style="min-height: 365px;min-width: 1100px;  max-width:1100px"></div>
-				      <div th:include="${chartNav}"></div>
+				    </div>
+				     <div class="col-11"> 
+				     <div id="mainChart" class="chart-box col-12" style="min-height: 365px; height: 569px; min-width: 1100px;  max-width:1100px;  float: inline-end;"></div>
 				     </div>
 						
 						</div>
-					 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
-							      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split"  style="display:none;">
-					    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
-							  </div>
+						<div class="row">
+							<div class="col-1"></div>
+							<div class="col-11"><div th:include="${chartNav}"></div></div>
+						</div>
+				 	        <div class="col-12" style="justify-content: center;    text-align: center; margin-top:.5rem " >
+						      <input class="edit" type="button" onclick="splitGraph()" id="split" value="Split"  style="display:none;">
+				    	      <input class="edit" type="button" onclick="drawGraph()" id="merge" value="Merge" style="display:none;">
+						  </div>
 					 	     
 
 						  </div>
 					  </div>
 					</div>
 				</div>
-			    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+			    <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
 				</div>
 			</div>
 			
-  <div class="row">
-    <div class="col-12">
-   	   
-   	   <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1078px; max-width: 1078px;">
-				<div id="grid_filtered" style="margin-top:.5rem"></div> 			 
-			</div>
-   	   
-    </div>
-  </div>
+		  <div class="row">
+		    <div class="col-1"></div>
+		    <div class="col-11">
+		   	   
+		   	   <div class="mt-3 justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style="float: inline-end; min-width: 1100px; max-width: 1100px;">
+						<div id="grid_filtered" style="margin-top:.5rem;"></div> 			 
+					</div>
+		   	   
+		    </div>
+		  </div>
           </div>
          <div id="overlay" class="col-12">
 		     			<img src="/css/images/loader.gif" alt="Loading" width="46px" />
@@ -382,7 +387,7 @@
         </div>
         <!---Container Fluid-->
       </div>
-       <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+       <div class="NewsBack container mb-0" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
 				<div class="marquee-sibling-date">
 					<p id="todayDate"></p>

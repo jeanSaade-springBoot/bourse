@@ -820,7 +820,9 @@ a.nav-item.nav-link {
 .container-fluid,
 .container-login {
     padding-left: 4.8rem;
-	    padding-right: 4.8rem;
+    padding-right: 4.8rem;
+    max-width: 1375px;
+    margin: 1rem;
 }
 input.jqx-rc-all.jqx-rc-all-dark.jqx-button.jqx-button-dark.jqx-widget.jqx-widget-dark.buttonRipple.jqx-fill-state-normal.jqx-fill-state-normal-dark.jqx-primary.jqx-primary-dark{
     color: #94b1df!important;
@@ -906,7 +908,7 @@ a.nav-item.nav-link.dropdown-toggle.user-action {
     background: #04070a78;
     border: 1px solid #50659a;
 }
-li.rtbSeparator {
+.rtbSeparator {
     margin: 1.2rem .2rem;
     width: 2px;
     height: 24px;

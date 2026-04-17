@@ -90,11 +90,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
    			 "/register",
    			 "/default",
    			 "/confirmation",
+   		    "/invalidSession*",
    			"/forgotpassword",
    			 "/js/**",
              "/css/**",
              "/img/**","/resources/**").permitAll()
-            .antMatchers("/invalidSession*").anonymous()
             .antMatchers("/user/updatePassword*").hasAuthority("CHANGE_PASSWORD_PRIVILEGE")
            // .anyRequest().hasAuthority("READ_PRIVILEGE")
             .and()

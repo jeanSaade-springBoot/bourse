@@ -142,10 +142,10 @@ input[type="radio"]:checked::before {
 				    <div id="grid-content">
 				 
 				    <div class="row">
-				       <div class="row col-12">
+				       <div class="row col-12 pr-0">
 				   	  	   
-								<div class="d-flex col-12">
-							 		<div class="col-10 d-flex pt-3 pl-0 justify-content-between">
+								<div class="d-flex col-12 pr-0">
+							 		<div class="d-flex col-12 pt-3 justify-content-between p-0 align-items-end">
 							 		 <div id='groupOfPeriodVolumes' class="col-4 pl-0">
 								            <button style="padding:4px 16px;" id="w">
 								                Weekly</button>
@@ -162,25 +162,25 @@ input[type="radio"]:checked::before {
 								         <form>
 								 		   <div class="col-12  pl-0 d-flex">
 								 		  		<div class="col pl-0">
-									 		  		 <label>
+									 		  		 <label class="m-0">
 											            <input type="radio" name="options" value="ALL"> All
 											        </label>
 								 		  		</div>
 								 		     	<div class="col">
-									 		     	 <label>
+									 		     	 <label class="m-0">
 											            <input type="radio" name="options" value="CALL"> Call
 											        </label>
 								 		     	</div>
 								 		       	<div class="col">
-									 		       	 <label>
+									 		       	 <label class="m-0">
 											            <input type="radio" name="options" value="PUT"> Put
 											        </label>
 								 		       	</div>
 								 		   </div>
 									    </form>
 									     </div> 
-									     <div class="col-1">								
-									     	<input  class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+									     <div class="col-1 pr-0">								
+									     	<input  class="btn btn-primary" style="    float: inline-end; color:white;" type="button" id="show" value="Show" />
 									     </div>
 							 		 </div>
 								</div>
@@ -263,11 +263,11 @@ input[type="radio"]:checked::before {
 														    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
 						   </div>
 						</div>
-						 <div class="col-10">
+						 <div class="col-11">
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
 								     <img src="/css/images/loader.gif" alt="Loading" style=" width: 100%;"/>
 								   		</div>
-												 <div id="mainChart" class="chart-box col-12" style=" min-height: 365px;min-width: 1100px;  max-width:1100px">
+												 <div id="mainChart" class="chart-box col-12" style="min-height: 365px; height: 569px; min-width: 1100px;  max-width:1100px;  float: inline-end;">
 												
 												 </div>
 												 <div class="row" style="min-width: 1153px;  max-width:1153px">
@@ -306,7 +306,7 @@ input[type="radio"]:checked::before {
 					</div>
 					
 					</div>
-				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab">...</div>
+				  <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab"></div>
 				</div>
 			</div>
           </div>
@@ -367,19 +367,20 @@ input[type="radio"]:checked::before {
 		    </div>
 		  </div>
 	 </div>
-	 <div class="row">
-    <div class="col-12">
-   	   
-   	   <div class="mt-3 btn-toolbar justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style=" min-width: 1078px; max-width: 1078px;">
-				<div id="grid_filtered" style="margin-top:.5rem"></div> 			 
-			</div>
-   	   
-    </div>
-  </div>
+	  <div class="row">
+		    <div class="col-1"></div>
+		    <div class="col-11">
+		   	   
+		   	   <div class="mt-3 justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style="float: inline-end; min-width: 1100px; max-width: 1100px;">
+						<div id="grid_filtered" style="margin-top:.5rem;"></div> 			 
+					</div>
+		   	   
+		    </div>
+		  </div>
         </div>
         <!---Container Fluid-->
       </div>
-        <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+        <div class="NewsBack container mb-0" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
 				<div class="marquee-sibling-date">
 					<p id="todayDate"></p>

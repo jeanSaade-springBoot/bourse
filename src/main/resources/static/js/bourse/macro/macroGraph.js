@@ -179,7 +179,7 @@ $(document).ready(function() {
 });
 
 function initialiazeClearFilterButtons(items){
-	
+	$("#clearfilter").hide();
 	$("#clearfilter").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	
 	$("#clearfilter").click(function() {
@@ -637,7 +637,7 @@ function drawGraph() {
 				    graphTitle=T1+" and "+T2.split("FINAL")[1];
 				    graphTitle=graphTitle.toUpperCase().replace(/\bFINAL\b/g, '').replace(/SERVICES/g, '<span style="color:#ffc000">Services</span>').replace(/MANUFACTURING/g, 'Manuf').replace(/AND/g, 'and')
 
-					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 20px;left: 350px;height: 60px;" class="title-style"><img height="50" class="pr-2" src=\''+getCountryImagePath(itemValue[checkedItemValues[0]].GroupId)[0]+'\' >'+graphTitle+'</div>')
+					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 10px;left: 39%;height: 60px;" class="title-style"><img height="50" class="pr-2" src=\''+getCountryImagePath(itemValue[checkedItemValues[0]].GroupId)[0]+'\' >'+graphTitle+'</div>')
 				 })
 							    .catch(error => {
 							        console.error('Error processing data:', error);

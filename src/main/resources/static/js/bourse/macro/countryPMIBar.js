@@ -78,7 +78,7 @@ function addGridBackground(chartId) {
 }
 
 function initialiazeClearFilterButtons(items) {
-
+	$("#clearfilter").hide();
 	$("#clearfilter").jqxButton({ theme: 'dark', height: 30, width: 74 });
 
 	$("#clearfilter").click(function() {

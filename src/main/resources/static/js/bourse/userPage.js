@@ -307,7 +307,7 @@ function UpdateUserData(row,userStatus,updateGrid) {
 					
   	    	           $("#notificationContent").html('Data has been updated');
   	                   $("#jqxNotification").jqxNotification("open");
-  	                   sendNotification();
+  	                  // sendNotification();
   	    	        
   	 			  },
   	    	        error: function (e) {

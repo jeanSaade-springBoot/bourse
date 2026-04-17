@@ -136,11 +136,7 @@ height:30px!important;
 #contentcrossesGrid > div.jqx-widget-header.jqx-widget-header-dark.jqx-grid-header.jqx-grid-header-dark{
 height:30px!important;
 }
-button#deleteByDate {
-    position: absolute;
-    margin-top: -0.5rem;
-    z-index: 2;
-}
+ 
 button#deleteCorporateByDate {
     position: absolute;
     margin-top: -0.5rem;
@@ -150,6 +146,10 @@ button#deleteCorporateByDate {
 .jqx-widget-dark .jqx-grid-column-header-dark {
     font-size: .67rem;
     text-align: center;
+}
+.container, .container-fluid, .container-login
+ {
+    max-width: 1850px;
 }
 </style>
 <body id="page-top">
@@ -171,7 +171,7 @@ button#deleteCorporateByDate {
 		   <div id="content">
      
         <div class="container-fluid" id="container-wrapper" style="display:none;">
-        <div class="col-lg-12">
+        <div class="col-lg-12 p-2">
               <!-- Form Basic -->
            
             <div class="collapse show" id="collapseExample">
@@ -180,15 +180,15 @@ button#deleteCorporateByDate {
                 <div class="card-body" style="  padding-top: 0;
 											    padding-right: 1.25rem;
 											    padding-bottom: 0;
-											    padding-left: 1.25rem;">
-				  <div class="col mt-4">
+											    padding-left: 0;">
+				  <div class="col p-0 mt-4">
               <div class="btn-group" role="group" aria-label="First group">
 			    <button type="button" class="btn btn-secondary mw-100" id="sovereign-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">Sovereign Yields</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="corporate-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">Corporate Yields</button>
 			   </div>
 			</div>
 				<div class="row mt-2">
-				    <div class="col-5">
+				    <div class="p-0 col-5">
 			                  <div class="col-12 pr-0  justify-content-between">
 				                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input</h6>
 				                  <div id='dateInput'></div>
@@ -279,8 +279,8 @@ button#deleteCorporateByDate {
                  <div class="col-1"></div>
                  <div class="col-6">
 		          	<div class="" th:if="${yield== 1}">
-		                   <div class="d-flex">
-			                    <div class="col-10 p-0"> <nav style="padding-top: 0;">
+		                   <div class="row align-items-end">
+			                    <div class="col-10"> <nav style="padding-top: 0;">
 								  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 								    <a class="nav-item nav-link active nav-small" id="nav-yields-tab" data-toggle="tab" href="#nav-yields" role="tab" aria-controls="nav-yields" aria-selected="true">Yields</a>
 								    <a class="nav-item nav-link nav-small" id="nav-curves-tab" data-toggle="tab" href="#nav-curves" role="tab" aria-controls="nav-curves" aria-selected="false">Curves</a>
@@ -288,8 +288,8 @@ button#deleteCorporateByDate {
 								   </div>
 								</nav>
 								</div>
-								<div class="col-1">
-								  <button id="deleteByDate" style="font-size: .8rem;">Delete</button> 
+								<div class="col">
+								  <button id="deleteByDate" style="font-size: .8rem; float:inline-end">Delete</button> 
 	             				</div>
 		                   </div>
 							<div class="tab-content" id="nav-tabContent">
@@ -322,15 +322,15 @@ button#deleteCorporateByDate {
 </div>
 </div>
            <p>
-  <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" style="    margin-left: 1.25rem;">
+  <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample" >
    Collapse Data Entry Section
   </a>
 </p>
           <div class="">
-<div class="card-header accordion md-accordion" id="accordionFilter" style="padding: .2rem 1.2rem .2rem 1.25rem;">
+<div class="card-header accordion md-accordion" id="accordionFilter" style="padding: .2rem 1.2rem .2rem 0;">
   <div class="card">
       <h6 class="mb-0">
-        <button class="collapsed m-0 font-weight-bold text-primary" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
+        <button class="collapsed m-0 pl-0 font-weight-bold text-primary" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
         Filters  <i class="fas fa-angle-down rotate-icon"></i>
         </button>
       </h6>
@@ -1007,7 +1007,7 @@ button#deleteCorporateByDate {
         </div>
         <!---Container Fluid-->
       </div>
-       <div class="NewsBack container" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
+       <div class="NewsBack container mb-0" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%;  border: 2px; border-color: black;">
       	<div class="simple-marquee-container">
 				<div class="marquee-sibling-date">
 					<p id="todayDate"></p>

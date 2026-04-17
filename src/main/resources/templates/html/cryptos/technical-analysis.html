@@ -219,6 +219,11 @@ height:34px;
   opacity: 0.5;
   cursor: not-allowed;
 }
+.container,
+.container-fluid,
+.container-login {
+    max-width: max-content;
+}
 </style>
 </head>
 
@@ -295,7 +300,7 @@ height:34px;
 						<!-- 
 						 <div class='col-3'>
 							    <div class='col-12 d-flex justify-content-start'>
-									<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show" value="Show" />
+									<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style=" color:white;" type="button" id="show" value="Show" />
 									<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 								</div>
 						 </div> -->
@@ -820,9 +825,9 @@ height:34px;
 						<div class="row">
 							<div class="col-12">
 
-								<div class="mt-3 btn-toolbar justify-content-between"
+								<div class="mt-3  justify-content-between"
 									role="toolbar" aria-label="Toolbar with button groups"
-									style="min-width: 1078px; max-width: 1078px;">
+									style="min-width: 1100px; max-width: 1100px;">
 									<div id="grid_filtered" style="margin-top: .5rem"></div>
 								</div>
 
@@ -831,7 +836,7 @@ height:34px;
 					</div>
 					<!---Container Fluid-->
 				</div>
-				<div class="NewsBack container"
+				<div class="NewsBack container mb-0"
 					style="position: fixed; bottom: 0px; left: 0px; max-width: 100%; border: 2px; border-color: black;">
 					<div class="simple-marquee-container">
 						<div class="marquee-sibling-date">

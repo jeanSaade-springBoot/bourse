@@ -1,6 +1,6 @@
 const graphType="trendline";
 let selectedCurrencies = new Set(); // Stores selected currencies
-
+let graphTitle='';
 var options_graph = {
 		series: [],
 		chart: {
@@ -452,7 +452,8 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 
 
 							T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
-							title = T1;
+							graphTitle = T1;
+							title = ChartManager.instances.chart1._hasImage?'':T1;
 							if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
 								if (response[0].config.yAxisFormat.includes("%")) {
 									isdecimal = false;
@@ -2114,7 +2115,7 @@ function updateSeriesChart(chartConfigSettings){
 		              z-index:1;     
 		              line-height:0.4rem;">
 		    <img height="24" class="pr-2 mb-1" src="${imgsrc}">
-		    ${title}
+		    ${graphTitle}
 		  </div>
 		`);
 		}

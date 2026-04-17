@@ -1138,10 +1138,7 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				} else 
 				  {
 					if (metadataList.length > 1) {
-					  seriesTypes = sorted.map(m =>
-					    m.subGroupId === '5' || m.subGroupId === '6' ? 'column' : 'line'
-					  );
-					  applyTransparency=true;
+					  seriesTypes = ['line', 'line'];
 					}
 					else{
 						seriesTypes=[];
@@ -1158,7 +1155,7 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				}else if ([59,60,61,62,63].includes(functionId)){
 				  seriesColors = ['#ffffff', '#8ae2ff'];
 				}
-				  else if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15 ].includes(functionId)) {
+				else if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15 ].includes(functionId)) {
 				  seriesColors = ['#ffffff', '#ffa4c5'];
 				  applyTransparency=true;
 				} else if ([7,8,9].includes(functionId)) {
@@ -1166,10 +1163,11 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				}else if (metadataList.length > 1) {
 				  seriesColors = sorted.map((m, i) => {
 				    if (i === 1) {
-				      return has5or6 ? 'rgba(240, 171, 46, 0.5)' : '#0000ff'; // Yellow or blue based on condition
+				      return 1==2 ? 'rgba(240, 171, 46, 0.5)' : '#0000ff'; // Yellow or blue based on condition
 				    }
 				    return '#ffffff'; // Default
 				  });
+				   applyTransparency=true;
 				}
 				const SelectedSorted = sorted.filter(
 				  (item, index, self) =>

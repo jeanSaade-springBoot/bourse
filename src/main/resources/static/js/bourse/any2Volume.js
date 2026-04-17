@@ -109,7 +109,7 @@
 	   {
     	$(allitems[i]).jqxCheckBox({ theme:'dark', width: '100%', height: 25});
        }
-	  
+	  $("#Clearfilter").hide();
 	  $("#Clearfilter").jqxButton({ theme: 'dark',height:30,width:74  });
       $("#show").jqxButton({ theme: 'dark',height:30,width:74 });
       

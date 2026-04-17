@@ -11,6 +11,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.ui.Model;
 import org.springframework.ui.ModelMap;
@@ -106,6 +107,7 @@ public class BourseController {
 		this.graphService             = graphService;
 		this.globalService            = globalService;
 	}
+	
 	@RequestMapping( value =  "/pageunderconstruction")
     public ModelAndView underConstructionPage(ModelMap model, Authentication authentication)
     {
@@ -113,6 +115,7 @@ public class BourseController {
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/pageUnderConstruction");
     }
+	
 	@PreAuthorize("hasAuthority('HOME_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/home")
 	public ModelAndView mainPage(ModelMap model, Authentication authentication)

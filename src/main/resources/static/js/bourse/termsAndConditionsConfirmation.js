@@ -1,12 +1,5 @@
 
-  $(document).ready(function () {
-	  $("#clientLogin").jqxButton({  theme:'dark', width: 130, height: 30,template: "primary" });
-	  $("#clientLogin").css("display","block");
-  });
- 
-  $("#clientLogin").click(function () {
-	  window.location.href='/login';
-  });
+
 
 	$("#approved").change(function() {
 	    if(this.checked) 
@@ -26,7 +19,7 @@
 				cache: false,
 				timeout: 600000,
 				success: function(data) {
-					window.location.href = '/bourse/home';
+					window.location.href = '/';
 				},
 				error: function(e) {
 					$("#ErrorMessage").show().html(e.responseJSON.message);
