@@ -92,10 +92,7 @@ button#deleteByDate {
 .jqx-grid-cell-left-align {
     text-align: center;
 }
-.container, .container-fluid, .container-login {
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
+
 .fs-7{
 font-size: .7rem;
 width: 25%;
@@ -104,6 +101,10 @@ padding-right:.2rem;
 div#container-wrapper {
     padding-bottom: 3.8rem;
     max-width: 1910px;
+}
+.container, .container-fluid, .container-login
+ {
+    max-width: 1850px;
 }
 </style>
 <body id="page-top">
@@ -126,9 +127,9 @@ div#container-wrapper {
 		   <div id="content">
      
           <div class="container-fluid" id="container-wrapper" style="display:none;">
-           <div class="col-lg-12">
+           <div class="col-lg-12 pl-0">
               <!-- Form Basic -->
-             <div class="col mt-4 ml-4">
+             <div class="col mt-4">
               <div class="btn-group" role="group" aria-label="First group">
 			    <button type="button" class="btn btn-secondary mw-100" id="Fx-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">FX</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="Cds-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">CDS</button>
@@ -136,8 +137,8 @@ div#container-wrapper {
 			</div>
             <div class="collapse show" id="collapseExample">
   			 <div class="card mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
-                 <div class="col-4  justify-content-between">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0  pl-0">
+                 <div class="col-4 pl-0  justify-content-between">
                   <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input</h6>
                   <div id='dateInput'></div>
                    </div>
@@ -147,9 +148,9 @@ div#container-wrapper {
                 <div class="card-body" style="  padding-top: 0;
 											    padding-right: 1.25rem;
 											    padding-bottom: 0;
-											    padding-left: 1.25rem;">
+											    padding-left: 0rem;">
                  <div class="">
-                 <div class="col-12 d-flex justify-content-between">
+                 <div class="col-12 pl-0 d-flex justify-content-between">
                  	<div id="fxCdsValue" th:text="${fxcds}" style="display:none;"></div>
                  	<input id="volumeSubGroup1" style="display:none;" value="th:text='${fxcds}'"/>
                     <div  th:if="${fxcds == 1}" class="d-flex flex-column pr-2">
@@ -292,7 +293,7 @@ div#container-wrapper {
 	                 </div>
                </div>
                <div class=""></div>
-               <div class="col-12 d-flex justify-content-between">
+               <div class="col-12 pl-0 d-flex justify-content-between">
                   <div th:if="${fxcds == 1}" class="col-12 p-0" id="Fx-audit">
                        <div class="d-flex justify-content-between pb-1">
 		                    <div class="col-9 p-0 pt-2"> 
@@ -325,7 +326,7 @@ div#container-wrapper {
 
 <div class="">
 
-<div class="card-header accordion md-accordion" id="accordionFilter" style="padding:.2rem 2.5rem .2rem 2.5rem;">
+<div class="card-header accordion md-accordion" id="accordionFilter" style="padding:.2rem 2.5rem .2rem 0rem;">
 <p>
   <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
    Collapse Data Entry Section
@@ -333,12 +334,12 @@ div#container-wrapper {
 </p>
   <div class="card">
       <h6 class="mb-0">
-        <button class="collapsed m-0 font-weight-bold text-primary" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
+        <button class="collapsed m-0 font-weight-bold text-primary pl-0" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
         Filters  <i class="fas fa-angle-down rotate-icon"></i>
         </button>
       </h6>
      <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
-  	 <div class="card-body">
+  	 <div class="card-body pl-1">
 		<div class="row">
 		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
 			<label style="margin-right: 1.5rem;">From</label>
@@ -351,9 +352,9 @@ div#container-wrapper {
        </div>
    
     <div class="row mt-2">
-     <div class="col border ml-2 p-1 rounded">
+     <div class="col border ml-2 p-1 rounded mb-3">
         <div class="row">
-          <div th:if="${fxcds == 1}" class="col-sm-12" id="Fx-filter">
+          <div th:if="${fxcds == 1}" class="col-sm-12 mb-3" id="Fx-filter">
              <h6 class="col font-weight-bold">Fx</h6>
              <div class="d-flex justify-content-between col">
              								 <div class="d-grid ">
@@ -531,7 +532,7 @@ div#container-wrapper {
 										</div>
 													
            </div>
-													<div th:if="${fxcds == 2}" class="col-sm-12">
+													<div th:if="${fxcds == 2}" class="col-sm-12 mb-3">
 														<h6 class="col font-weight-bold">CDS</h6>
 														<div class="d-flex justify-content-between col">
 															<div class="col d-grid">
@@ -704,10 +705,10 @@ div#container-wrapper {
 												</div>
     </div>
    </div>
-    <div class="row mt-2 mb-2">
-			<div class='col-12 d-flex justify-content-end'>
+  <div class="row" style="position: absolute;top: 52px;right: .5rem;">
+			<div class='col-12 d-flex justify-content-end '>
 			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
-			<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			<input id="Clearfilter" type="button" class="btn btn-light-secondary mb-1" value="Clear" />
 			</div>
 	</div>
 	</div> 

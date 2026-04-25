@@ -721,8 +721,8 @@ $(document).ready(function() {
 	        timeout: 600000,
 	        success: function (data) {
 	        	var groupedData = groupByGroupIdAndSubgroupId(data);
-                 mainContainer+='<div class="col-12">'
-			                 +'<div class="col-12 d-flex">'
+                 mainContainer+='<div class="col-12 pl-0">'
+			                 +'<div class="col-12 d-flex pl-0">'
 				                 +'<div class="col-2"></div>'
 				                 +'<div class="col-10">'
 										+'<div class="col-12 d-flex"><div class="align-middle fw-bold">MANUF PMI I</div><div class="align-middle fw-bold">SERVICES PMI I</div><div class="align-middle fw-bold">MANUF PMI II</div><div class="align-middle fw-bold">SERVICES PMI II</div></div>'
@@ -739,7 +739,7 @@ $(document).ready(function() {
 				Object.keys(groupedData).forEach(function (groupId, i) {
 				   country=getCountryImagePath(groupId);
 				    classStyle=(i%2!=0)?'row-style':'';
-				     mainGroupContainer+='<div class="col-12 d-flex">';
+				     mainGroupContainer+='<div class="col-12 d-flex pl-0">';
 				     groupContainer+='<div class="col-2 '+classStyle+'">'
 							+'<div class=""><img src='+country[0]+' alt="country-flag" width="30" class="pr-1">'+country[1]+'</div>'
 						+'</div>';
@@ -826,12 +826,12 @@ $(document).ready(function() {
 	        timeout: 600000,
 	        success: function (data) {
 	        	var groupedData = groupByGroupIdAndSubgroupId(data);
-                 mainContainer+='<div class="col-12">'
-			                 +'<div class="col-12 d-flex">'
+                 mainContainer+='<div class="col-12 p-0">'
+			                 +'<div class="col-12 d-flex p-0">'
 				                 +'<div class="col-2"></div>'
 				                 +'<div class="col-10">'
-				                 		+'<div class="col-12 d-flex"><div class="align-middle fw-bold">INITIALS</div><div class="align-middle fw-bold">ROLLING</div></div>'
-										+'<div class="col-12 d-flex">'
+				                 		+'<div class="col-12 d-flex p-0"><div class="align-middle fw-bold">INITIALS</div><div class="align-middle fw-bold">ROLLING</div></div>'
+										+'<div class="col-12 d-flex p-0">'
 											+'<div class="col-6 d-flex">'
 												+'<div class="col d-flex"><div class="align-middle">OPEN</div></div>'
 												+'<div class="col d-flex"><div class="align-middle">SETTLE</div></div>'
@@ -854,7 +854,7 @@ $(document).ready(function() {
 				Object.keys(groupedData).forEach(function (groupId, i) {
 				    const groupName=groupId_Id.filter(value => value.groupId == groupId)[0].name;
 				    classStyle=(i%2!=0)?'row-style':'';
-				     mainGroupContainer+='<div class="col-12 d-flex">';
+				     mainGroupContainer+='<div class="col-12 d-flex p-0">';
 				     groupContainer+='<div class="col-2 '+classStyle+'">'
 				     		+'<div class="">'+groupName+'</div>'
 +'</div>';

@@ -18,7 +18,8 @@
          			   "#jqxCheckBoxCum_Qe1",
          			   "#jqxCheckBoxCum_Qe2",
          			   "#jqxCheckBoxCum_Qe1_Qe2"];	 		
-         var ezmmItem =["#jqxCheckBoxM0",
+         var ezmmItem =[
+			 // "#jqxCheckBoxM0",
          			   "#jqxCheckBoxM1",
          			   "#jqxCheckBoxM2",
          			   "#jqxCheckBoxM3"];	 		
@@ -43,7 +44,7 @@
              "cumQe1Qe2": "",
            }];
          var ezmmAuditDefaultData=[{
-             "m0": "",
+           //  "m0": "",
              "m1": "",
              "m2": "",
              "m3": ""
@@ -143,7 +144,7 @@
 	 		                    { name: 'CUM_QE1',  type: 'float'},
 	 		                    { name: 'CUM_QE2',  type: 'float'},
 	 		                    { name: 'CUM_QE1_QE2',  type: 'float'},
-	 		                    { name: 'M0',  type: 'float'},
+	 		                   // { name: 'M0',  type: 'float'},
 	 		                    { name: 'M1',  type: 'float'},
 	 		                    { name: 'M2',  type: 'float'},
 	 		                    { name: 'M3',  type: 'float'},
@@ -245,7 +246,7 @@
 						 }else if(liquidityValue==3)
 				     	{
 							  oldDataJson={
-				               "m0":data.m0,
+				               //"m0":data.m0,
 							   "m1":data.m1,
 							   "m2":data.m2,
 							   "m3":data.m3
@@ -295,7 +296,8 @@
 							}
 						}else if(liquidityValue==3)
 						{
-							if(($('#'+liquidityType+'AuditGrid').jqxGrid('getrows')[0].m0!=null)&&
+							if(
+								// ($('#'+liquidityType+'AuditGrid').jqxGrid('getrows')[0].m0!=null)&&
 				    		 ($('#'+liquidityType+'AuditGrid').jqxGrid('getrows')[0].m1!=null)&&
 				    		 ($('#'+liquidityType+'AuditGrid').jqxGrid('getrows')[0].m2!=null)&&
 				    		 ($('#'+liquidityType+'AuditGrid').jqxGrid('getrows')[0].m3!=null))
@@ -379,16 +381,18 @@
 			         			});
 					 }else if(liquidityValue==3){
 					     updatedDataJson={
-				               "m0":updatedData.m0,
+				              // "m0":updatedData.m0,
 							   "m1":updatedData.m1,
 							   "m2":updatedData.m2,
 							   "m3":updatedData.m3
 						     };
-				         keys=["m0","m1","m2","m3"];
+				         keys=[
+							 //"m0",
+							 "m1","m2","m3"];
                     
                     	dataToBeUpdated.push({
 	         			   "subgroupId":"1",
-	         			   "value":updatedData.m0.replaceAll(',',''),
+	         			   "value": '',//updatedData.m0.replaceAll(',',''),
 	         			   "referdate": date
 	         			});
 						dataToBeUpdated.push({
@@ -763,20 +767,20 @@
 			inputDataType = inputDataEZMM;
 		    items=ezmmItem;
 		    var dataInputGridFields=[
-			                    { name: 'm0', type: 'string' },
+			                  //  { name: 'm0', type: 'string' },
 			                    { name: 'm1', type: 'string' },
 			                    { name: 'm2', type: 'string' },
 			                    { name: 'm3', type: 'string' }
 			                ]; 			
 			 var dataInputGridColumns= [ 
-			                      { text: 'M0', datafield: 'm0', width: '25%' },
-				                  { text: 'M1', datafield: 'm1', width: '25%'},
-				                  { text: 'M2', datafield: 'm2', width: '25%' },
-				                  { text: 'M3', datafield: 'm3', width: '25%'}
+			                   //   { text: 'M0', datafield: 'm0', width: '25%' },
+				                  { text: 'M1', datafield: 'm1', width: '33.3%'},
+				                  { text: 'M2', datafield: 'm2', width: '33.3%' },
+				                  { text: 'M3', datafield: 'm3', width: '33.3%'}
 			                ];	  
 			 var defaultData=ezmmAuditDefaultData;
 			 var fields=[
-                    { name: 'm0', type: 'string' },
+                 //   { name: 'm0', type: 'string' },
                     { name: 'm1', type: 'string' },
                     { name: 'm2', type: 'string' },
                     { name: 'm3', type: 'string' },
@@ -786,10 +790,10 @@
 		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  },  
-		                  { text: 'M0', datafield: 'm0', width: '19%',cellsalign: 'center', align: 'center' },
-		                  { text: 'M1', datafield: 'm1', width: '19%',cellsalign: 'center', align: 'center' },
-		                  { text: 'M2', datafield: 'm2', width: '19%',cellsalign: 'center', align: 'center' },
-		                  { text: 'M3', datafield: 'm3', width: '19%',cellsalign: 'center', align: 'center' }
+		                 // { text: 'M0', datafield: 'm0', width: '19%',cellsalign: 'center', align: 'center' },
+		                  { text: 'M1', datafield: 'm1', width: '25.3%',cellsalign: 'center', align: 'center' },
+		                  { text: 'M2', datafield: 'm2', width: '25.3%',cellsalign: 'center', align: 'center' },
+		                  { text: 'M3', datafield: 'm3', width: '25.3%',cellsalign: 'center', align: 'center' }
 	                ];
 			
 			}else
@@ -953,10 +957,13 @@
 					  		};
 			   else if(liquidityValue ==3)
 			   jsonObject= {
-					  			"m0": rowData[0],
+					  			/*"m0": rowData[0],
 					  			"m1":  rowData[1],
 					  			"m2": rowData[2],
-					  			"m3":  rowData[3]
+					  			"m3":  rowData[3]*/
+					  			"m1":  rowData[0],
+					  			"m2": rowData[1],
+					  			"m3":  rowData[2]
 					  		};
 			   localdata.push(jsonObject);
 			  
@@ -1037,7 +1044,12 @@
 					  secondObject.push(rows[i].qe2);
 				  }else
 				  if(liquidityValue==3)
-				  {   firstObject.push(rows[i].m0);
+				  {  /* firstObject.push(rows[i].m0);
+					  secondObject.push(rows[i].m1);
+					  thirdObject.push(rows[i].m2);
+					  fourthObject.push(rows[i].m3);*/
+					  
+					  firstObject.push('');
 					  secondObject.push(rows[i].m1);
 					  thirdObject.push(rows[i].m2);
 					  fourthObject.push(rows[i].m3);
@@ -1053,12 +1065,12 @@
 				 	{ listObject=["firstObject","secondObject","thirdObject","fourthObject"];
 				 	 groupId=16;}
 				  
-            	 for (i = 0; i < listObject.length; i++) {
+            	 for (let i = 0; i < listObject.length; i++) {
 
             	     var value = eval(listObject[i]);
             		 	dataToBeInserted.push({
             			   "subgroupId":value[0],
-            			   "value":value[1].replaceAll(',', ''),
+            			   "value":(liquidityValue==3&&i==0)?'':value[1].replaceAll(',', ''),
             			   "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
             			});
             	 }

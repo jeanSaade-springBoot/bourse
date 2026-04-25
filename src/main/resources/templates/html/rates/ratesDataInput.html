@@ -107,10 +107,7 @@ button#deleteByDate {
 /* .jqx-grid-cell-left-align {
     text-align: center;
 } */
-.container, .container-fluid, .container-login {
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
+
 .fs-7{
 font-size: .7rem;
 width: 25%;
@@ -143,6 +140,10 @@ padding-right:.2rem;
       top: 0px !important;
       left: 0px !important;
     }
+ .container, .container-fluid, .container-login
+ {
+    max-width: 1850px;
+}
 </style>
 <body id="page-top">
   <div id="wrapper">
@@ -164,20 +165,20 @@ padding-right:.2rem;
 		   <div id="content">
      
           <div class="container-fluid" id="container-wrapper" style="display:none;">
-           <div class="col-lg-12">
+           <div class="col-lg-12 pl-0">
               <!-- Form Basic -->
-             <div class="col mt-4 ml-4">
+             <div class="col mt-4 pl-0">
               <div class="btn-group" role="group" aria-label="First group">
-			    <button type="button" class="btn btn-secondary mw-100" id="CentralBanks-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">CENTRAL BANKS</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="Fixings_spreads-btn"  th:onclick="'javascript:toggleDivVisibility(4)'">FIXINGS</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="InflationSwapRates-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">INFLATION SWAP RATES</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="EzMonetary-btn"  th:onclick="'javascript:toggleDivVisibility(3)'">MORTGAGE RATES</button>
+			 	<button type="button" class="btn btn-secondary mw-100" id="CentralBanks-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">CENTRAL BANKS</button>
 			   </div>
 			</div>
             <div class="collapse show" id="collapseExample">
   			 <div class="card mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
-                 <div  th:classappend="${rates == 1} ? 'col-6' : 'col-5'" class="  justify-content-between">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0  pl-0">
+                 <div  th:classappend="${rates == 1} ? 'col-6' : 'col-5'" class="pl-0  justify-content-between">
                   <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input</h6>
                   <div id='dateInput'></div>
                    </div>
@@ -186,18 +187,15 @@ padding-right:.2rem;
                    <div id='dateInputAudit'></div>
                    </div>
                 </div>
-                <div class="card-body" style="  padding-top: 0;
-											    padding-right: 1.25rem;
-											    padding-bottom: 0;
-											    padding-left: 1.25rem;">
+                <div class="card-body p-0" >
                  <div class="row">
-                 <div th:classappend="${rates == 1} ? 'col-6' : 'col-5'" class=" d-flex justify-content-between">
+                 <div th:classappend="${rates == 1} ? 'col-6' : 'col-5'" class=" d-flex justify-content-between pl-0">
                  	<div id="ratesValue" th:text="${rates}" style="display:none;"></div>
                  	<input id="ratesSubGroup1" style="display:none;" value="th:text='${rates}'"/>
-                    <div th:if="${rates == 1}" class="col-12 pr-0" id="CentralBanks-input">
+                    <div th:if="${rates == 1}" class="col-12 p-0" id="CentralBanks-input">
 	          
 		                <div class="col-6   p-0 " style="min-width: 660px;">
-                          <div class="col-12 d-flex">
+                          <div class="col-12 d-flex pl-0">
                                <div class="  pr-0 " id="2">
                                <div class="d-flex col">
 									<img height="48" width="48" src="/img/flag/ecb.png" class="img-icon" title="ecb" >
@@ -512,7 +510,7 @@ padding-right:.2rem;
 
 <div class="">
 
-<div class="card-header accordion md-accordion" id="accordionFilter" style="padding:.2rem 2.5rem .2rem 2.5rem;">
+<div class="card-header accordion md-accordion" id="accordionFilter" style="padding:.2rem 0rem .2rem 0;">
 <p>
   <a data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
    Collapse Data Entry Section
@@ -520,12 +518,12 @@ padding-right:.2rem;
 </p>
   <div class="card">
       <h6 class="mb-0">
-        <button class="collapsed m-0 font-weight-bold text-primary" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
+        <button class="collapsed m-0 font-weight-bold text-primary pl-0" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
         Filters  <i class="fas fa-angle-down rotate-icon"></i>
         </button>
       </h6>
      <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
-  	 <div class="card-body">
+  	 <div class="card-body pl-1">
 		<div class="row">
 		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
 			<label style="margin-right: 1.5rem;">From</label>
@@ -538,9 +536,9 @@ padding-right:.2rem;
        </div>
    
     <div class="row mt-2">
-     <div class="col border ml-2 p-1 rounded">
-        <div class="row">
-          <div th:if="${rates == 1}" class="col-sm-9" id="CentralBanksMetals-filter">
+     <div class="col border ml-2 p-1 rounded mb-3">
+        <div class="row ">
+          <div th:if="${rates == 1}" class="col-sm-4" id="CentralBanksMetals-filter">
              <h6 class="col font-weight-bold">CENTRAL BANKS</h6>
              <div class="d-flex justify-content-between col">
              	
@@ -576,7 +574,7 @@ padding-right:.2rem;
              	</div>
          	 </div>
            </div>
-            <div th:if="${rates == 2}" class="col-sm-11" >
+            <div th:if="${rates == 2}" class="col-sm-2" >
              <h6 class="col font-weight-bold">INFLATION SWAP RATES</h6>
               <div class="d-flex justify-content-between col">
              	<div class="col-4">
@@ -597,10 +595,10 @@ padding-right:.2rem;
              	<div id='jqxCheckBoxUsa30' style='float: left;'><span class="checkboxesTitle">30yr USA Mortgage</span></div> 
               </div>
            </div>
-            <div th:if="${rates == 4}" class="col-sm-9" >
+            <div th:if="${rates == 4}" class="col-sm-8" >
              <h6 class="col font-weight-bold">FIXINGS</h6>
              <div class="d-flex justify-content-between col">
-                 	<div class="col-4">
+                 	<div class="col-3">
              			<div class="align-middle">
              			<img src="/img/flag/eu.png" width="70px">
              		</div>
@@ -609,7 +607,7 @@ padding-right:.2rem;
              			<div id='jqxCheckBoxEuribor_3' style='float: left;' class="col p-0"><span class="checkboxesTitle">EURIBOR 3 MONTHS</span></div>
              		</div>
              	</div>
-             	<div class="col-4">
+             	<div class="col-3">
              			<div class="align-middle">
              			<img src="/img/flag/united-kingdom.png" width="70px">
              		</div>
@@ -618,7 +616,7 @@ padding-right:.2rem;
              				<div id='jqxCheckBoxSonia_3' style='float: left;' class="col p-0"><span class="checkboxesTitle">SONIA 3 MONTHS</span></div>
             		</div>
              	</div>
-             		<div class="col-4">
+             		<div class="col-3">
              			<div class="align-middle">
              			<img src="/img/flag/united-states.png" width="70px">
              		</div>
@@ -634,10 +632,10 @@ padding-right:.2rem;
     	</div>
     </div>
    </div>
-    <div class="row mt-2 mb-2">
-			<div class='col-12 d-flex justify-content-end'>
+  <div class="row" style="position: absolute;top: 52px;right: .5rem;">
+			<div class='col-12 d-flex justify-content-end  '>
 			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
-			<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			<input id="Clearfilter" type="button"  class="btn btn-light-secondary mb-1" value="Clear" />
 			</div>
 	</div>
 	</div> 

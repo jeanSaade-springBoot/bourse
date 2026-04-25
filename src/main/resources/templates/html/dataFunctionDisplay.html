@@ -56,7 +56,6 @@
 	.checkbox-title {
 	    font-size: .8rem;
 	    padding-bottom: 0.45rem;
-	    text-align: end;
 	}
    .inputdate{
     width: 25%;
@@ -137,7 +136,7 @@
 					<div class="row">
 					  <div class="col pl-0">
 					    <div class="collapse multi-collapse show" id="collapseFilter">
-				<div class="row">
+				<div class="row col">
 		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
 			<label style="margin-right: 1.5rem;">From</label>
 				<div id='dateInputFrom' style='border-radius: 0.2rem;'>
@@ -147,8 +146,11 @@
 				</div>
        </div> 
        </div>
-				<div class="row">
-				<div class="col-4">
+				<div class="row col">
+				
+                 		 <div class='col-9'>
+                 		 <div class="row">
+				<div class="col-5">
                   <form  id="dataformInput">
                   <div class="form-group" style=" margin-top: 0">
                       <div  style=" display: flex;">
@@ -361,29 +363,8 @@
 							</div>
 						  </div>
 		                 </div>
-		                   <div class='col-1'></div>
-		                 <div class='col-2 pt-4 cb-1'>
-		                   <div id='jqxDailyChangeInPercentage'>
-                           Daily change in %</div>
-                           <div id='jqxDailyChangeIncrement'>
-                           Daily change increment</div>
-                           <div id='jqx100dMovAvg'>
-                           100d MovAvg</div>
-                           <div id='jqx200dMovAvg'>
-                           200d MovAvg</div>
-                           <div id='jqxWeeklyChangeInPercentage'>
-                           Weekly change in %</div>
-                           <div id='jqxWeeklyChangeIncrement'>
-                           Weekly change increment</div>
-                           <div id='jqx10yrPercentile'>
-                           10 YR Percentile</div>
-                           <div id='jqx20yrPercentile'>
-                           20 YR Percentile</div>
-                           <div id='jqxCenturyPercentile'>
-                           Century Percentile</div>
-		                 </div>
                      </div>
-                       <div class="row col-10">
+                       <div class="row col-12 pl-0">
 		                  <div class="col-5">
 				        <div class="row no-gutters">
 				           <div class="col-6 d-flex">
@@ -439,6 +420,30 @@
 				    </div>
 			    </div>
 			     </div>
+                 		 </div>
+		                 <div class='col-1'></div>
+		                 <div class='col-2 pt-4 cb-1'>
+		                   <div id='jqxDailyChangeInPercentage'>
+                           Daily change in %</div>
+                           <div id='jqxDailyChangeIncrement'>
+                           Daily change increment</div>
+                           <div id='jqx100dMovAvg'>
+                           100d MovAvg</div>
+                           <div id='jqx200dMovAvg'>
+                           200d MovAvg</div>
+                           <div id='jqxWeeklyChangeInPercentage'>
+                           Weekly change in %</div>
+                           <div id='jqxWeeklyChangeIncrement'>
+                           Weekly change increment</div>
+                           <div id='jqx10yrPercentile'>
+                           10 YR Percentile</div>
+                           <div id='jqx20yrPercentile'>
+                           20 YR Percentile</div>
+                           <div id='jqxCenturyPercentile'>
+                           Century Percentile</div>
+		                 </div>
+                     </div>
+                       
                      	<div class="row mt-4">
 							<div class='col-12 d-flex justify-content-end'>
 							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style=" color:white;" type="button" id="show" value="Show" />

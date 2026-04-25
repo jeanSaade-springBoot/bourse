@@ -105,10 +105,7 @@ button#deleteByDate {
 .jqx-grid-cell-left-align {
     text-align: center;
 }
-.container, .container-fluid, .container-login {
-    padding-left: 1rem;
-    padding-right: 1rem;
-}
+
 .fs-7{
 font-size: .7rem;
 width: 25%;
@@ -116,6 +113,10 @@ padding-right:.2rem;
 }
 div#container-wrapper {
     padding-bottom:0;
+}
+.container, .container-fluid, .container-login
+ {
+    max-width: 1850px;
 }
 </style>
 <body id="page-top">
@@ -137,8 +138,8 @@ div#container-wrapper {
      
           <div class="container-fluid" id="container-wrapper" style="display:none;">
           
-           <div class="col-lg-12">
-             <div class="col ml-4 p-0">
+           <div class="col-lg-12 pl-0">
+             <div class="col p-0">
                 <div class="btn-group" role="group" aria-label="First group">
 					<button type="button" class="btn btn-secondary mw-100"
 						id="DailyData-btn" th:onclick="'javascript:toggleDivVisibilityData(1)'">Daily Data</button>
@@ -149,7 +150,7 @@ div#container-wrapper {
 				</div>
 			</div>
               <!-- Form Basic -->
-             <div class="col mt-4 ml-4 p-0">
+             <div class="col mt-4 p-0">
               <div class="btn-group" role="group" aria-label="First group">
 					<button type="button" class="btn btn-secondary mw-100"
 						id="Bitcoin-btn" th:onclick="'javascript:toggleDivVisibility(1)'">BITCOIN</button>
@@ -167,7 +168,7 @@ div#container-wrapper {
 			</div>
             <div class="collapse show" id="collapseExample">
   			 <div class="card mb-4">
-                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0">
+                <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0 pl-0">
 								
 								</div>
                 <div class="card-body" style="  padding-top: 0;
@@ -175,7 +176,7 @@ div#container-wrapper {
 											    padding-bottom: 0;
 											    padding-left: 1.25rem;">
                  <div class="row">
-                 <div  class="col-12 d-none sjustify-content-between">
+                 <div  class="col-12 pl-0 d-none sjustify-content-between">
                  	<div id="crySubGroup" th:text="${cryptos}" style="display:none;"></div>
                  	<div id="interval" th:text="${interval}" style="display:none;"></div>
                  	<input id="commoditySubGroup1" style="display:none;" value="th:text='${cryptos}'"/>
@@ -529,7 +530,7 @@ div#container-wrapper {
 
 <div class="">
 
-<div class="card-header accordion md-accordion" id="accordionFilter" style="padding:.2rem 2.5rem 3.2rem 2.5rem;">
+<div class="card-header accordion md-accordion" id="accordionFilter" style="padding:.2rem 2.5rem 3.2rem 0rem;">
 <p>
   <a class="d-none" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
    Collapse Data Entry Section
@@ -537,7 +538,7 @@ div#container-wrapper {
 </p>
   <div class="card">
       <h6 class="mb-0">
-        <button class="collapsed m-0 font-weight-bold text-primary" style="padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
+        <button class="collapsed m-0 font-weight-bold text-primary pl-0" style="padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
         Filters  <i class="fas fa-angle-down rotate-icon"></i>
         </button>
       </h6>

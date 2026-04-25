@@ -61,6 +61,7 @@
   var yaxisformat=3;
   var dataFormat=3;
   var TestOptions;
+  
 
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
@@ -77,6 +78,7 @@
 		    $("div.btn-group-vertical").find(".active").removeClass("active");
 		    $(this).addClass("active");
 		  });  
+		isOneScale=true;// overide the default 2-scale
 	   $.ajax({
 	        contentType: "application/json",
 	        url: "/bourse/findgraphhistorybyscreenname/any2usjobs",
@@ -1313,6 +1315,7 @@
 				      	    	    // maxvalue = parseFloat((Math.floor(max*20)/20).toFixed(2));
 				      	    	     minvalue=min;
 	      	    	  				 maxvalue=max;
+	      	    	  				 
 	      	    	  				 	 
 									 var yaxisformat = getFormat(response[0].config.yAxisFormat);
 									 var yaxisformat1 = getFormat(response[1].config.yAxisFormat);

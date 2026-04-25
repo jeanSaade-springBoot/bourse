@@ -153,6 +153,10 @@ button#deleteCorporateByDate {
 a.nav-item.nav-link.nav-small {
     width: auto;
 }
+.container, .container-fluid, .container-login
+ {
+    max-width: 1850px;
+}
 </style>
 <body id="page-top">
   <div id="wrapper">
@@ -173,17 +177,14 @@ a.nav-item.nav-link.nav-small {
 		   <div id="content">
      
         <div class="container-fluid" id="container-wrapper" style="display:none;">
-        <div class="col-lg-12">
+        <div class="col-lg-12 pl-0">
               <!-- Form Basic -->
            
             <div class="collapse show" id="collapseExample">
   			 <div class="card mb-4">
              	
-                <div class="card-body" style="  padding-top: 0;
-											    padding-right: 1.25rem;
-											    padding-bottom: 0;
-											    padding-left: 1.25rem;">
-			<div class="col mt-4">
+                <div class="card-body p-0" >
+			<div class="col mt-4 pl-0">
               <div class="btn-group" role="group" aria-label="First group">
 			    <button type="button" class="btn btn-secondary mw-100" id="longskews-btn"  th:onclick="'javascript:toggleDivVisibility(1)'">Long Skews</button>
 			    <button type="button" class="btn btn-secondary mw-100" id="shortskews-btn"  th:onclick="'javascript:toggleDivVisibility(2)'">Short Skews</button>
@@ -191,7 +192,7 @@ a.nav-item.nav-link.nav-small {
 			</div>
 				<div class="mt-2">
 				    <div class="">
-			                  <div class="col-12 pr-0">
+			                  <div class="col-12 p-0">
 				                  <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input</h6>
 				                  <div id='dateInput'></div>
 				              </div>
@@ -199,7 +200,7 @@ a.nav-item.nav-link.nav-small {
 				</div>
                  <div   class="">
                  <div id="skewsValue" th:text="${skews}" style="display:none;"></div>
-                 <div class="col-12" >
+                 <div class="col-12 pl-0" >
                  <div th:if="${skews==1}">
                   <form  id="dataformInputLongSkews" >
                   <div class="form-group" style=" margin-top: 0">
@@ -285,7 +286,7 @@ a.nav-item.nav-link.nav-small {
 						  </div>
 						</div>
                  </div>
-                 <div class="col-12">
+                 <div class="col-12 pl-0">
                  <div class="">
 		                     	 <div class="col-12 pl-0  d-flex justify-content-between">
 		                     		<div id='dateInputAudit'></div>
@@ -359,17 +360,17 @@ a.nav-item.nav-link.nav-small {
   </a>
 </p>
           <div class="">
-<div class="card-header accordion md-accordion" id="accordionFilter" style="padding: .2rem 1.2rem .2rem 1.25rem;">
+<div class="card-header accordion md-accordion" id="accordionFilter" style="padding: .2rem  0rem .2rem 0rem;">
   <div class="card">
       <h6 class="mb-0">
-        <button class="collapsed m-0 font-weight-bold text-primary" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
+        <button class="collapsed m-0 font-weight-bold text-primary pl-0" style="    padding: .375rem .75rem;" type="button" data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter">
         Filters  <i class="fas fa-angle-down rotate-icon"></i>
         </button>
       </h6>
      <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
-  	 <div class="card-body">
+  	 <div class="card-body pl-3">
 		<div class="row">
-		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
+		 <div class="btn-group mr-2 col-12 mb-2 " role="group" aria-label="Second group">
 			<label style="margin-right: 1.5rem;">From</label>
 				<div id='dateInputFrom' style='border-radius: 0.2rem;'>
 				</div>
@@ -380,7 +381,7 @@ a.nav-item.nav-link.nav-small {
        </div>
        <div th:if="${skews == 1}">
        <div class="row">
-       <div class="card border col-12">
+       <div class="card border mb-3 col-12">
         <div class="d-flex no-gutters pt-2">
 	        <div class="col-3"></div>
 	        <div class="col-9 d-flex">
@@ -683,10 +684,10 @@ a.nav-item.nav-link.nav-small {
  
 	</div>
 	
-    <div class="row">
+  <div class="row" style="position: absolute;top: 52px;right: .5rem;">
 			<div class='col-12 d-flex justify-content-end'>
 			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
-			<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			<input id="Clearfilter" type="button" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 			</div>
 		</div>
 	</div> 

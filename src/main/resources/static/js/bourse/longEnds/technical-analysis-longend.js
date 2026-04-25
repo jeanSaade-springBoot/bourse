@@ -997,7 +997,7 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				
 				const isFunctionLine = [1,2].includes(functionId);
 				const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
-				const isFunctionLineColumn = [7,8,9,53,54,55,56,57,58,59,60,61,62,63].includes(functionId);
+				const isFunctionLineColumn = [7,8,9,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75].includes(functionId);
 				
 				let disableMarkers = false;
 				let markerSizeArray=[];
@@ -1047,6 +1047,11 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 						  seriesColors = ['#ffffff', '#8aff8e'];
 						}else if ([59,60,61,62,63].includes(functionId)){
 						  seriesColors = ['#ffffff', '#8ae2ff'];
+						}else if ([64,65,66,67,68,69].includes(functionId)){
+						  seriesColors = ['#ffffff', '#81FF4F'];
+						}
+						else if ([70,71,72,73,74,75].includes(functionId)){
+						  seriesColors = ['#ffffff', '#FFED4F'];
 						}
 					    isCentred.push(false);
 					  }
@@ -1113,7 +1118,7 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				
 				const isFunctionLine = [1,2].includes(functionId);
 			    const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
-				const isFunctionLineColumn = [7,8,9,53,54,55,56,57,58,59,60,61,62,63].includes(functionId);
+				const isFunctionLineColumn = [7,8,9,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75].includes(functionId);
 				if (functionId != -1) {
 				  params[`functionId`] = functionId ;
 				  params[`isFunctionGraph`] = true;
@@ -1154,6 +1159,12 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				  seriesColors = ['#ffffff', '#8aff8e'];
 				}else if ([59,60,61,62,63].includes(functionId)){
 				  seriesColors = ['#ffffff', '#8ae2ff'];
+				}
+				else if ([64,65,66,67,68,69].includes(functionId)){
+				  seriesColors = ['#ffffff', '#81FF4F'];
+				}
+				else if ([70,71,72,73,74,75].includes(functionId)){
+				  seriesColors = ['#ffffff', '#FFED4F'];
 				}
 				else if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15 ].includes(functionId)) {
 				  seriesColors = ['#ffffff', '#ffa4c5'];
@@ -2100,7 +2111,7 @@ function loadfunctionGroupDropDown(data,loadAll) {
         displayMember: "groupName",
         valueMember: "groupId",
         placeHolder: "Select a Function",
-        width: 140,
+        width: 240,
         height: 40,
         theme: 'dark',
         selectedIndex:0,

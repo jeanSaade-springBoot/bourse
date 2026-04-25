@@ -364,7 +364,13 @@ function getCentralBanksData(graphService,graphName,removeEmpty,saveHistory){
 					
 					notDecimal=yaxisformat0[1];
 			    	nbrOfDigits=yaxisformat0[0];
-			    	
+			    	const factor1 = itemValue[checkedItemValues[0]].factor;
+					const factor2 = itemValue[checkedItemValues[1]].factor;
+					
+					const StrokeSizes = [
+					  factor1 === '18' ? 0 : 2,
+					  factor2 === '18' ? 0 : 2
+					];
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
@@ -410,7 +416,9 @@ function getCentralBanksData(graphService,graphName,removeEmpty,saveHistory){
 							yAxisFormat: yaxisformat,
 						},
 					    colors: ["#FFFFFF", "#ff0000",  "#0000ff", "#00ff00", "#ffff00", "#ffa500"],
-
+						stroke: {
+									width:StrokeSizes,
+								},
 						markers: {
 							colors: ["#FFFFFF", "#ff0000", "#0000ff", "#00ff00", "#ffff00", "#ffa500"],
 							strokeColors: ["#FFFFFF", "#ff0000", "#0000ff", "#00ff00", "#ffff00", "#ffa500"],
@@ -587,7 +595,104 @@ function getCentralBanksData(graphService,graphName,removeEmpty,saveHistory){
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
 							//if(Period=='d')
-								updateChartSelectedItemMissingDates(chartConfigSettings);
+								
+					 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
+				     var valueMin = values;
+				     var valueMax = values; 	
+				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
+				          graphService=typeof graphService!='undefined'?graphService:'';
+				         // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
+				     calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
+						
+					 chart.updateOptions({
+								
+								series:[{
+										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
+										type: ['18'].includes(itemValue[checkedItemValues[0]].factor)?'line':chartConfigSettings.chartType1,
+										data: chartConfigSettings.response[0].graphResponseDTOLst
+									}],
+									xaxis: {
+									labels: {
+										rotate: -70,
+										rotateAlways: true,
+										minHeight: 30,
+										style: {
+											fontSize: '12px',
+										},
+										formatter: function(value, timestamp, opts) {
+											
+											let a = [{day: 'numeric'}, {month: 'short'}, {year: '2-digit'}];
+											let s =  (isTimestamp(value))?join(value, a, '-'):value;
+											
+								            return s;
+								          }
+									},
+									type: 'datetime',
+									tickAmount: 19,
+									axisBorder: {
+										show: true,
+										color: '#ffffff',
+										height: 3,
+										width: '100%',
+										offsetX: 0,
+										offsetY: 0
+									},
+								},
+								stroke: {
+									colors: chartConfigSettings.chartType1 == "area" ? ["#ffffff"] : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
+								    width:['18'].includes(itemValue[checkedItemValues[0]].factor)?0:2
+								},
+								markers: {
+									colors:  ['18'].includes(itemValue[checkedItemValues[0]].factor)?'#ff0000':chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
+									strokeColors: ['18'].includes(itemValue[checkedItemValues[0]].factor)?'#ff0000':chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor]
+								},
+								extra: {
+									isDecimal: chartConfigSettings.isdecimal,
+									yAxisFormat: chartConfigSettings.yaxisformat,
+								},
+								yaxis: {
+									labels: {
+										minWidth: 75, maxWidth: 75,
+										style: {
+											fontSize: fontsize,
+										},
+										 formatter: function(val, index) {
+										 if (chartConfigSettings.yAxisFormat[1])
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]);
+						  					else 
+						  				  return  val.toFixed(chartConfigSettings.yAxisFormat[0]) + "%";
+									      }
+									},
+									tickAmount: 6,
+									min: calculatedMinValue,
+									max: Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax,
+									axisBorder: {
+										width: 3,
+										show: true,
+										color: '#ffffff',
+										offsetX: 0,
+										offsetY: 0
+									},
+								},
+								tooltip: {
+									x: {
+										show: false,
+									},
+									y: {
+										formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+											if (chartConfigSettings.getFormatResult0[1])
+												return value.toFixed(chartConfigSettings.getFormatResult0[0]);
+											else
+												return value.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+										},
+										title: {
+											formatter: (seriesName) => '',
+										},
+									},
+								}
+							});
+
+				
 							//else
 							//	updateChartSelectedItem(chartConfigSettings);
 						    checkIfRenderFlag(graphName,itemValue[checkedItemValues[0]]);

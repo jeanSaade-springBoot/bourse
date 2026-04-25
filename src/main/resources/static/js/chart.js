@@ -2061,7 +2061,16 @@ function getMarginLenghtVolume(value) {
 	        ? '#2e75b6'
 	      : selectedChartColor
 	    : '#44546a';
+const barFunctionId=[53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75];
+				  
+const dynamicColor =
+  [53,54,55,56,57,58].includes(chartConfigSettings.functionId) ? '#8aff8e' :
+  [59,60,61,62,63].includes(chartConfigSettings.functionId) ? '#8ae2ff' :
+  [64,65,66,67,68,69].includes(chartConfigSettings.functionId) ? '#81FF4F' :
+  [70,71,72,73,74,75].includes(chartConfigSettings.functionId) ? '#FFED4F' :
+  '#00c9ff96';
 
+				  
 				  if([1,2, 16, 17, 18, 19].includes(chartConfigSettings.functionId))
 			     {
 					 let mva = "";
@@ -2086,9 +2095,10 @@ function getMarginLenghtVolume(value) {
 			          const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
 				     var valueMin1 = values;
 				     var valueMax1 = values; 
-				      var calculatedMinValue = Math.sign(chartConfigSettings.min)==-1 ? -Math.abs(chartConfigSettings.min)-valueMin1 : Math.abs(chartConfigSettings.min)-valueMin1;
-				     	//  calculatedMinValue = (Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue);
-				
+				     var calculatedMinValue = Math.sign(chartConfigSettings.min)==-1 ? -Math.abs(chartConfigSettings.min)-valueMin1 : Math.abs(chartConfigSettings.min)-valueMin1;
+				     var calculatedMaxValue =Math.sign(chartConfigSettings.max)==-1 ? -Math.abs(chartConfigSettings.max)+valueMax1 : Math.abs(chartConfigSettings.max)+valueMax1;
+					 
+					
 					  chart.updateOptions({
 						 series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -2176,7 +2186,7 @@ function getMarginLenghtVolume(value) {
  				        	  },
  				          tickAmount: 6,
  				    	  min:calculatedMinValue,
- 				    	  max:Math.sign(chartConfigSettings.max)==-1 ? -Math.abs(chartConfigSettings.max)+valueMax1 : Math.abs(chartConfigSettings.max)+valueMax1,
+ 				    	  max:calculatedMaxValue,
  				    			  axisBorder: {
  					                  width: 3,
  					                  show: true,
@@ -2214,8 +2224,17 @@ function getMarginLenghtVolume(value) {
     	    		}); 
     	    		
 				 }
-			      else if((chartConfigSettings.functionId>=7 && chartConfigSettings.functionId<10)||[53,54,55,56,57,58,59,60,61,62,63].includes(chartConfigSettings.functionId))
+			      else if((chartConfigSettings.functionId>=7 && chartConfigSettings.functionId<10)||barFunctionId.includes(chartConfigSettings.functionId))
   	    	    	{
+						var calculatedMinValue= Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1;
+ 				    	var calculatedMaxValue= Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1;
+ 				    	
+					 if(chartConfigSettings.chartType1=='column'&& chartConfigSettings.min1 < 0)
+					  {
+						  const axis = calculateYAxisRangeFromMinMax(chartConfigSettings.min1, chartConfigSettings.max1);
+						  calculatedMinValue=axis.min;
+						  calculatedMaxValue=axis.max;
+					  }
 					 chart.updateOptions({
 						 series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
@@ -2271,7 +2290,7 @@ function getMarginLenghtVolume(value) {
 							isDecimal: chartConfigSettings.isDecimal,
 							yAxisFormat:chartConfigSettings.yAxisFormat,
 						},
-						 colors: ["#FFFFFF", [53,54,55,56,57,58].includes(chartConfigSettings.functionId)?'#8aff8e':[59,60,61,62,63].includes(chartConfigSettings.functionId)?'#8ae2ff':"#00c9ff96"],
+						 colors: ["#FFFFFF", dynamicColor],
   	    	    		 markers: {
   	    	    		   colors: ["#FFFFFF", "#00c9ff96"],
   	    	    		   strokeColors:["#FFFFFF", "#00c9ff96"]
@@ -2290,8 +2309,8 @@ function getMarginLenghtVolume(value) {
 									      }
  				        	  },
  				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1,
- 				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
+ 				    	  min:calculatedMinValue,
+ 				    	  max:calculatedMaxValue,
  				    			  axisBorder: {
  					                  width: 3,
  					                  show: true,
@@ -2322,7 +2341,7 @@ function getMarginLenghtVolume(value) {
  				    			  axisBorder: {
  					                  width: 3,
  					                  show: true,
- 					                  color: [53,54,55,56,57,58].includes(chartConfigSettings.functionId)?'#8aff8e':[59,60,61,62,63].includes(chartConfigSettings.functionId)?'#8ae2ff':"#00c9ff96",
+ 					                  color: dynamicColor,
  					                  offsetX: 0,
  					                  offsetY: 0
  					              },
@@ -2587,8 +2606,15 @@ function updateChartSelectedItem(chartConfigSettings){
 				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
 				      graphService=typeof graphService!='undefined'?graphService:'';
 				    //   calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				      calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1)  )? 0: calculatedMinValue;
-
+				      calculatedMinValue=(Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1)  )? 0: calculatedMinValue;
+ 				     var calculatedMaxValue= Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax;
+ 				    	
+					 if(chartConfigSettings.chartType1=='column'&& chartConfigSettings.min < 0)
+					  {
+						  const axis = calculateYAxisRangeFromMinMax(chartConfigSettings.min, chartConfigSettings.max);
+						  calculatedMinValue=axis.min;
+						  calculatedMaxValue=axis.max;
+					  }
 				     var valueMax = values; 		
 							chart.updateOptions({
 								series:[{
@@ -2622,7 +2648,7 @@ function updateChartSelectedItem(chartConfigSettings){
 									},
 									tickAmount: 6,
 									min: calculatedMinValue,
-									max: Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax,
+									max: calculatedMaxValue,
 									axisBorder: {
 										width: 3,
 										show: true,
@@ -2666,8 +2692,22 @@ function updateChartSelectedItem(chartConfigSettings){
 
 				     calculatedMinValue2 =  Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(chartConfigSettings.min2)-valueMin2 : Math.abs(chartConfigSettings.min2)-valueMin2;
 				     calculatedMinValue2 =  (Math.sign(calculatedMinValue2) == -1 && !(Math.sign(chartConfigSettings.min2)==-1) )? 0: calculatedMinValue2;
-
-
+					
+					calculatedMaxValue1= Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1;
+					calculatedMaxValue2=Math.sign(chartConfigSettings.max2)==-1 ? -Math.abs(chartConfigSettings.max2)+valueMax2 : Math.abs(chartConfigSettings.max2)+valueMax2;
+					
+					if(chartConfigSettings.chartType1=='column'&& chartConfigSettings.min1 < 0)
+					  {
+						  const axis = calculateYAxisRangeFromMinMax(chartConfigSettings.min1, chartConfigSettings.max1);
+						  calculatedMinValue1=axis.min;
+						  calculatedMaxValue1=axis.max;
+					  }
+					  if(chartConfigSettings.chartType1=='column'&& chartConfigSettings.min2 < 0)
+					  {
+						  const axis = calculateYAxisRangeFromMinMax(chartConfigSettings.min2, chartConfigSettings.max2);
+						  calculatedMinValue2=axis.min;
+						  calculatedMaxValue2=axis.max;
+					  }
       	    	     let yAxis =   [{
 									 labels: {
 	     				    		 minWidth: 75,maxWidth: 75,
@@ -2683,7 +2723,7 @@ function updateChartSelectedItem(chartConfigSettings){
 						 				        	  },
 					     				          tickAmount: 6,
 					     				    	  min:calculatedMinValue1,
-					     				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
+					     				    	  max: calculatedMaxValue1,
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
@@ -2710,7 +2750,7 @@ function updateChartSelectedItem(chartConfigSettings){
 						 				        	  },
 					     				          tickAmount: 6,
 					     				    	  min:calculatedMinValue2,
-					     				    	  max:Math.sign(chartConfigSettings.max2)==-1 ? -Math.abs(chartConfigSettings.max2)+valueMax2 : Math.abs(chartConfigSettings.max2)+valueMax2,
+					     				    	  max:calculatedMaxValue2,
 					     				    			  axisBorder: {
 					     					                  width: 3,
 					     					                  show: true,
@@ -2732,6 +2772,14 @@ function updateChartSelectedItem(chartConfigSettings){
 					         //calculatedMinValue1 = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue1) == -1 ?0:calculatedMinValue1): calculatedMinValue1;
 					    	 calculatedMinValue1 =  (Math.sign(calculatedMinValue1) == -1 && !(Math.sign(min)==-1)  )? 0: calculatedMinValue1;
 	
+	
+					calculatedMaxValue1=Math.sign(chartConfigSettings.max)==-1 ? -Math.abs(chartConfigSettings.max)+valueMax1 : Math.abs(chartConfigSettings.max)+valueMax1;
+					if(chartConfigSettings.chartType1=='column'&& min < 0)
+					  {
+						  const axis = calculateYAxisRangeFromMinMax(min, max);
+						  calculatedMinValue1=axis.min;
+						  calculatedMaxValue1=axis.max;
+					  }
 						   yAxis =  [{
 									 labels: {
 	     				    		 minWidth: 75,maxWidth: 75,
@@ -2747,7 +2795,7 @@ function updateChartSelectedItem(chartConfigSettings){
 						 				        	  },
 				     				          tickAmount: 6,
 				     				    	  min:calculatedMinValue1,
-				     				    	  max:Math.sign(chartConfigSettings.max)==-1 ? -Math.abs(chartConfigSettings.max)+valueMax1 : Math.abs(chartConfigSettings.max)+valueMax1,
+				     				    	  max:calculatedMaxValue1,
 				     				    			  axisBorder: {
 				     					                  width: 3,
 				     					                  show: true,
@@ -2837,7 +2885,14 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 				          graphService=typeof graphService!='undefined'?graphService:'';
 				         // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
 				     calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
-						
+					 var calculatedMaxValue=  Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax;
+ 				    	
+					 if(chartConfigSettings.chartType1=='column'&& chartConfigSettings.min < 0)
+					  {
+						  const axis = calculateYAxisRangeFromMinMax(chartConfigSettings.min, chartConfigSettings.max);
+						  calculatedMinValue=axis.min;
+						  calculatedMaxValue=axis.max;
+					  }
 					 chart.updateOptions({
 								
 								series:[{
@@ -2898,7 +2953,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 									},
 									tickAmount: 6,
 									min: calculatedMinValue,
-									max: Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax,
+									max: calculatedMaxValue,
 									axisBorder: {
 										width: 3,
 										show: true,
@@ -2922,7 +2977,14 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 											formatter: (seriesName) => '',
 										},
 									},
-								}
+								},
+								 annotations: {
+					           yaxis:[
+								   {
+						            y: 0,
+						            borderColor: '#ffc000',
+						          }
+							   ],}
 							});
 
 				}
@@ -3608,7 +3670,7 @@ function loadfunctionGroupDropDown(data,loadAll) {
         displayMember: "groupName",
         valueMember: "groupId",
         placeHolder: "Select a Function",
-        width: 140,
+        width: 240,
         height: 25,
         theme: 'dark',
         selectedIndex:0,
@@ -5083,10 +5145,12 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
             let min = Math.min(...minValues);
             let max = Math.max(...maxValues);
 
-            let valueMin = addMarginToMinMax(min, max, 5);
-            let valueMax = addMarginToMinMax(min, max, 5);
-            let calculatedMinValue = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : Math.abs(min) - valueMin;
-            calculatedMinValue = (Math.sign(calculatedMinValue) == -1 || !(Math.sign(min) == -1)) ? 0 : calculatedMinValue;
+           
+			const axis = calculateYAxisRangeFromMinMax(min, max, 6, 5);
+			calculatedMin =axis.min;
+			calculatedMax =axis.max;
+					
+          //  calculatedMinValue = (Math.sign(calculatedMinValue) == -1 || !(Math.sign(min) == -1)) ? 0 : calculatedMinValue;
 			chart.w.config.grid.show=true;
 			let chartGrid=chart.w.config.grid; 
 			
@@ -5130,8 +5194,8 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
                         }
                     },
                     tickAmount: 6,
-                    min: calculatedMinValue,
-                    max: Math.sign(max) == -1 ? -Math.abs(max) + valueMax : Math.abs(max) + valueMax,
+                    min: calculatedMin,
+                    max: calculatedMax,
                     axisBorder: { width: 3, show: true, color: '#ffffff', offsetX: 0, offsetY: 0 }
                 },
                 tooltip:{
@@ -5144,6 +5208,13 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 			                title: { formatter: (seriesName) => seriesName }
 			            }
 			        },
+			        annotations: {
+					           yaxis:[
+								   {
+						            y: 0,
+						            borderColor: '#ffc000',
+						          }
+							   ],}
             });
 
             $('#overlayChart').hide();
@@ -5406,8 +5477,11 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 								}));
 							//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
 							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
-							minvalue = min;
-							maxvalue = max;
+							
+							const axis = calculateYAxisRangeFromMinMax(min, max, 6, 5);
+							calculatedMin =axis.min;
+							calculatedMax =axis.max;
+					
 							var yaxisformat = getFormat(response[0].config.yAxisFormat);
 							
 							notDecimal=yaxisformat[1];
@@ -5432,14 +5506,9 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 											 chartTransparency:chartTransparency,
 											 checkedItem:checkedItem};
 							
-					 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
-				     var valueMin = values;
-				     var valueMax = values; 	
-				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
-				          graphService=typeof graphService!='undefined'?graphService:'';
-				         // calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
-				     calculatedMinValue =  (Math.sign(calculatedMinValue) == -1 && !(Math.sign(chartConfigSettings.min)==-1) )? 0: calculatedMinValue;
 						
+				          graphService=typeof graphService!='undefined'?graphService:'';
+				     
 				 let data0 =  response[0].graphResponseDTOLst;
 				          processDataAndAddNewEndDateForExtraSpaceInGraph( data0 ,10,false)
 							    .then(({ response }) => {
@@ -5453,7 +5522,7 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 								
 								series:[{
 										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-										type: 'column',
+										type:  'column',
 										data: data0
 									}],
 									xaxis: {
@@ -5512,8 +5581,8 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 									      }
 									},
 									tickAmount: 6,
-									min: calculatedMinValue,
-									max: Math.sign(chartConfigSettings.maxvalue) == -1 ? -Math.abs(chartConfigSettings.maxvalue) + valueMax : Math.abs(chartConfigSettings.maxvalue) + valueMax,
+									min: calculatedMin,
+									max: calculatedMax,
 									axisBorder: {
 										width: 3,
 										show: true,
@@ -5537,7 +5606,14 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 											formatter: (seriesName) => '',
 										},
 									},
-								}
+								},
+			        annotations: {
+					           yaxis:[
+								   {
+						            y: 0,
+						            borderColor: '#ffc000',
+						          }
+							   ],}
 							});
 
 						  //   checkIfRenderFlag(graphName,itemValue[checkedItemValues[0]]);
@@ -11995,13 +12071,61 @@ function updateChart(graphService) {
 	   }
     // Add your chart update logic here
 }
- 
+ function isValidValue(val) {
+  return val !== null &&
+         val !== undefined &&
+         val !== '' &&
+         !(Array.isArray(val) && val.length === 0);
+}
+function calculateYAxisRangeFromMinMax(min, max, gridCount = 6, marginPercent = 5) {
+
+    const values = addMarginToMinMax(min, max, marginPercent);
+
+    // if no negative values, keep the old simple behavior
+    if (min >= 0) {
+        return {
+            min: 0,
+            max: max + values,
+            step: null
+        };
+    }
+
+    let calculatedMin = min - values;
+    let calculatedMax = max + values;
+
+    // clean step
+    let step = Math.ceil((calculatedMax - calculatedMin) / gridCount);
+
+    // snap min so 0 aligns
+    calculatedMin = Math.floor(calculatedMin / step) * step;
+
+    // rebuild max
+    calculatedMax = calculatedMin + step * gridCount;
+
+    // ensure margins are respected
+    while (calculatedMax < max + values || calculatedMin > min - values) {
+        step = step + 1;
+        calculatedMin = Math.floor((min - values) / step) * step;
+        calculatedMax = calculatedMin + step * gridCount;
+    }
+
+    return {
+        min: calculatedMin,
+        max: calculatedMax,
+        step: step
+    };
+}
  function currentUsJobsFunction(groupId){
 	mode = "usJobsCurrent";
 	var dataParam;
 	var checkedItemValues = [];
 	$('#overlayChart').show();
-
+	const stateColors = {
+	  initial: '#ffd960',
+	  surv: '#ff99ff',
+	  final: '#ffb30c',
+	  rev1:'#9f7b13'
+	};
 	var fromdate = formatDate(monthDate);
 	var todate = formatDate(date);
 	$("#mainChart").html("");
@@ -12109,7 +12233,7 @@ function updateChart(graphService) {
 
 					min = min1;
 					max = max1;
-					
+					/*
 					minvalue = min;
 					maxvalue = max;
 				
@@ -12118,8 +12242,12 @@ function updateChart(graphService) {
 					 
 					 
 					 calculatedMin = min > 0 ? min - values : -(values - min);
-					 calculatedMax= max > 0 ? max + values : -(values + max);
-					 
+					 calculatedMax= max > 0 ? max + values : -(values + max);*/
+				 
+					const axis = calculateYAxisRangeFromMinMax(min, max, 6, 5);
+					calculatedMin =axis.min;
+					calculatedMax =axis.max;
+					
 					 roundedValues = adjustMinMax(calculatedMin,calculatedMax);
 					 
 				     graphService=typeof graphService!='undefined'?graphService:'';
@@ -12146,9 +12274,7 @@ function updateChart(graphService) {
 							value1=	 value1.toFixed(getFormatResult0[0]);
 							else
 							value1=	 value1.toFixed(getFormatResult0[0]) + "%";
-										
-						
-					let maxcalculated=Math.sign(maxvalue) == -1 ? -Math.abs(maxvalue) + selectedValue : Math.abs(maxvalue) + selectedValue;			
+								
 					
 					$('#legendfalse').addClass("active");
 					$('#legendtrue').removeClass("active");
@@ -12167,7 +12293,11 @@ function updateChart(graphService) {
 					var offsetYValue1=25;
 					
 					graphTitle=T1;
-									
+					const lastValidIndex = response[0].graphResponseDTOLst.reduce((last, point, i) => {
+								  return isValidValue(point.y) ? i : last;
+								}, -1);		
+				    const state = isMaxItems1[0].factor.toString();
+		
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
@@ -12229,7 +12359,11 @@ function updateChart(graphService) {
 							isDecimal: isdecimal,
 							yAxisFormat: yaxisformat,
 						},
-						colors: ["#ffc000"],
+						colors: [function({ dataPointIndex }) {
+						  return dataPointIndex === lastValidIndex
+						    ? stateColors[state]   // highlight
+						    : '#ffc000';  // default
+						}],
 						stroke:{width: 0},
 						markers: {
 							colors: [ "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
@@ -12284,7 +12418,12 @@ function updateChart(graphService) {
 							},
 						},
 						annotations: {
-					        
+					           yaxis:[
+								   {
+						            y: 0,
+						            borderColor: '#ffc000',
+						          }
+							   ],
 					         points: [
 					      {
 					         x: fomartedXAnnotation,
@@ -12305,7 +12444,7 @@ function updateChart(graphService) {
 					            background:  "#00000000",
 					          },
 					
-					          text: toTitleCase(isMaxItems1[0].x.split('-')[1]+' '+ toTitleCase(isMaxItems1[0].factor.toString()+' '+value1))
+					          text: isMaxItems1[0].x.split('-')[1].toUpperCase()+' '+ toTitleCase(isMaxItems1[0].factor.toString()+' '+value1)
 					        }
 					      },
 					        

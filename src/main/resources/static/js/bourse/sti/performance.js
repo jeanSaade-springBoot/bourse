@@ -411,6 +411,31 @@ setTimeout(() => {
 	        }
 	    }
 	});
+$('#jqxCheckBoxDollarIndex').on('checked', function (event) { 
+	
+    filteredData = configData.filter(item => item.isDollarDominator==true);
+    
+     $("#dropDownSelection").jqxDropDownList({
+		        source: filteredData,  // Bind the filtered data
+		        displayMember: "displayName",  // Display name for each item
+		        valueMember: "columnName"  // Value associated with each item
+		    });
+		     selectedItems=[];
+		
+});
+
+$('#jqxCheckBoxDollarIndex').on('unchecked', function (event) { 
+	
+    filteredData = configData;
+    
+    $("#dropDownSelection").jqxDropDownList({
+		        source: filteredData,  // Bind the filtered data
+		        displayMember: "displayName",  // Display name for each item
+		        valueMember: "columnName"  // Value associated with each item
+		    });
+		     selectedItems=[];
+});
+
 
 });
 
@@ -473,16 +498,27 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
         const checkedItemValues = checkedItemid.filter(item => item != null);
         
 	    var checkedItems = selectedItems.join(', ')
-	          
+	    var dropDownItems = $('#dropDownSelection').val();
          let requestData;
          if(getChartPeriodPerformance()=='w')
          fromdate='Week '+getISOWeekNumber(date);
    
 	  if(checkedItemid[0]=="#jqxCheckBoxDollarIndex"){
+	
 		 var checkedItemsisDollarDominator = configData.filter(item =>  item.isDollarDominator==true).map(item => item.columnName)  
   .join(", "); 
  		 requestData = [{
 					            groupId1: checkedItemsisDollarDominator,
+					            period: getChartPeriodPerformance(),
+					            fromdate: dbDate,
+					            fulldates:false
+					        }];
+	  }
+	  else if(checkedItemid[0]=="#jqxCheckBoxAll"){
+	
+		 var checkedItems = configData.map(item => item.columnName).join(", ")  ; 
+ 		 requestData = [{
+					            groupId1: checkedItems,
 					            period: getChartPeriodPerformance(),
 					            fromdate: dbDate,
 					            fulldates:false
@@ -541,7 +577,7 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
         let min = Math.min(...data[0].values);
         let max = Math.max(...data[0].values);
         
-       if(checkedItems!='')
+       if(dropDownItems)//(checkedItems!='')
         {
 		
 		const orderResult = reorderDataWithLabels(  data[0].labels.map(label => {return label.trim().replace(/\s*-\s*/g, '-')}),
@@ -612,7 +648,7 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 		} 
         json.chartId = 'mainChart';
         json.width = 1078;
-		json.height=(checkedItemid[0]=="#jqxCheckBoxDollarIndex")?825:(checkedItems!='')?getHeightBasedOnCount(checkedItems):525;
+		json.height=(checkedItemid[0]=="#jqxCheckBoxDollarIndex")?825:(checkedItems!='' ||checkedItemid[0]=="#jqxCheckBoxAll")?getHeightBasedOnCount(dropDownItems==''?checkedItems:dropDownItems):525;
 	
         const valueMin = addMarginToMinMax(min, max, 20);
         const valueMax = addMarginToMinMax(min, max, 15);

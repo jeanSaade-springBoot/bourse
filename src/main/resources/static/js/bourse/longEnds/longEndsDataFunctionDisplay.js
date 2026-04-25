@@ -154,8 +154,8 @@ var factorContainer='';
 	        timeout: 600000,
 	        success: function (data) {
 	        	var groupedData = groupByGroupIdAndSubgroupId(data);
-                 mainContainer+='<div class="col-12">'
-			                 +'<div class="col-12 d-flex">'
+                 mainContainer+='<div class="col-12 p-0">'
+			                 +'<div class="col-12 p-0 d-flex">'
 				                 +'<div class="col-2"></div>'
 				                 +'<div class="col-10">'
 				                 		+'<div class="col-12 d-flex"><div class="align-middle fw-bold">INITIALS</div><div class="align-middle fw-bold">ROLLING</div></div>'

@@ -65,7 +65,7 @@
 	   {
     	$(funcionFilter[i]).jqxCheckBox({ theme:'dark', width: 120, height: 25});
        }	  
-
+      $("#Clearfilter").hide();
 	  $("#Clearfilter").jqxButton({ theme: 'dark',height:30,width:74  });
       $("#show").jqxButton({ theme: 'dark',height:30,width:74 });
       

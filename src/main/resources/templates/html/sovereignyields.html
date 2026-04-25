@@ -335,9 +335,9 @@ button#deleteCorporateByDate {
         </button>
       </h6>
      <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
-  	 <div class="card-body">
+  	 <div class="card-body pl-3">
 		<div class="row">
-		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
+		 <div class="btn-group mr-2 col-12 mb-2 pl-0" role="group" aria-label="Second group">
 			<label style="margin-right: 1.5rem;">From</label>
 				<div id='dateInputFrom' style='border-radius: 0.2rem;'>
 				</div>
@@ -348,10 +348,10 @@ button#deleteCorporateByDate {
        </div>
        <div th:if="${yield == 1}">
        <div class="row">
-           <div class="card border " style="max-width: 32%;">
+           <div class="card border col"  >
         <div class="row no-gutters">
           <div class="col-sm-4">
-                <div class="card-body filter">
+                <div class="card-body pl-3 filter">
                    <h5 class="fontTitle subtitles ">Yields</h5>
                     <div id='jqxCheckBoxUSA-30' style='float: left;'><span class="checkboxesTitle">30y</span></div>
 					<div id='jqxCheckBoxUSA-10' style='float: left;'><span class="checkboxesTitle">10y</span></div>
@@ -385,7 +385,7 @@ button#deleteCorporateByDate {
             </div>
         </div>
     </div>
-    <div class="card border ml-2" style="max-width: 32%;">
+    <div class="card border ml-2 col"  >
         <div class="row no-gutters">
           <div class="col-sm-4">
                 <div class="card-body filter">
@@ -422,7 +422,7 @@ button#deleteCorporateByDate {
             </div>
         </div>
     </div>
-    <div class="card border ml-2" style="max-width: 32%;">
+    <div class="card border ml-2 col" >
         <div class="row no-gutters">
           <div class="col-sm-4">
                 <div class="card-body filter">
@@ -461,7 +461,7 @@ button#deleteCorporateByDate {
     </div>
     </div>
     <div class="row mt-2">
-           <div class="card border " style="max-width: 32%;">
+           <div class="card border col"  >
         <div class="row no-gutters">
           <div class="col-sm-4">
                 <div class="card-body filter">
@@ -498,7 +498,7 @@ button#deleteCorporateByDate {
             </div>
         </div>
     </div>
-    <div class="card border ml-2" style="max-width: 32%;">
+    <div class="card border ml-2 col" >
         <div class="row no-gutters">
           <div class="col-sm-4">
                 <div class="card-body filter">
@@ -535,7 +535,7 @@ button#deleteCorporateByDate {
             </div>
         </div>
     </div>
-    <div class="card border ml-2" style="max-width: 32%;">
+    <div class="card border ml-2 col"  >
         <div class="row no-gutters">
           <div class="col-sm-4">
                 <div class="card-body filter">
@@ -573,10 +573,10 @@ button#deleteCorporateByDate {
         </div>
     </div>
     </div>
-    <div class="row mt-2">
-    <div class="col-2"></div>
-        <div class="card border ml-2 col-7">
-        <div class="row no-gutters">
+    <div class="row mt-2 justify-content-center">
+    
+        <div class="card border ml-2 col-7 mb-3">
+        <div class="row no-gutters justify-content-center">
           <div class="col-sm-1 col-custom">
                 <div class="card-body filter">
                 <img src="/img/flag/fra-ger.png" height="48" width="48" class="card-img-top" alt="...">
@@ -654,15 +654,15 @@ button#deleteCorporateByDate {
     </div>
 	</div>
 	</div>
-	  <div  th:if="${yield == 2}" class="row mt-2">
-	           <div class="row col-12" >
-                <div class="col-5">
+	  <div  th:if="${yield == 2}" class="row border rounded p-2 mb-3">
+	           <div class="row col-9 justify-content-between p-0" >
+                <div class="col-4">
 		         <div class="row no-gutters">
 		           <div class="col-6 d-flex">
 		               <div class="">
 		               	<img alt="usa-flag" src="/img/flag/us.png" height="100px">
 		               </div>
-			           <div class="col-6">
+			           <div class="col-3">
 			            <div class="pt-2">
 			               <div class="pt-1">
 			                	<div id='jqxCheckBoxusatoaaa' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">US AtoAAA</span></div>
@@ -684,7 +684,7 @@ button#deleteCorporateByDate {
 		            <div class="">
 		               	<img alt="usa-flag" src="/img/flag/eu.png" height="100px">
 		               </div>
-		               <div class="col-6">
+		               <div class="col-3">
 			             <div class="pt-2">
 			                <div class="pt-1">
 			                    <div id='jqxCheckBoxeurozoneatoaaa' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ AtoAAA</span></div>
@@ -699,13 +699,13 @@ button#deleteCorporateByDate {
 		            </div>
 		    </div>
 	    </div>
-				<div class="col-7">
+				<div class="col-6">
 		        <div class="row no-gutters">
 		           <div class="col-6 d-flex">
 		               <div class="">
 		               	<img alt="usa-flag" src="/img/flag/us.png" height="100px">
 		               </div>
-			           <div class="col-5">
+			           <div class="col-3">
 			            <div class="pt-2">
 			               <div class="pt-1">
 			                	<div id='jqxCheckBoxusatoaaa_usa' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">US AtoAAA vs 10Y TSYS</span></div>
@@ -727,7 +727,7 @@ button#deleteCorporateByDate {
 		            <div class="">
 		               	<img alt="usa-flag" src="/img/flag/eu.png" height="100px">
 		               </div>
-		               <div class="col-5">
+		               <div class="col-3">
 			             <div class="pt-2">
 			                <div class="pt-1">
 			                    <div id='jqxCheckBoxeurozoneatoaaa_germany' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">EZ AtoAAA vs 10Y GERMANY</span></div>
@@ -805,10 +805,10 @@ button#deleteCorporateByDate {
 		    </div>
 	    </div>
 	</div>
-    <div class="row">
+  <div class="row" style="position: absolute;top: 52px;right: .5rem;">
 			<div class='col-12 d-flex justify-content-end'>
 			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
-			<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+			<input id="Clearfilter" type="button" class="btn btn-light-secondary mb-1" value="Clear" />
 			</div>
 		</div>
 	</div> 

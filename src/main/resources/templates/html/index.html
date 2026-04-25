@@ -122,10 +122,11 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Rates</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_CENTRAL_BANKS_GRAPH_SCREEN'')')} ? '/bourse/centralbanks' : '/login'"><img class="img-m-right" src="../../img/i2.png">Central Banks</a></li>
+                      
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_FIXINGS_GRAPH_SCREEN'')')} ? '/bourse/fixings' : '/login'"><img class="img-m-right" src="../../img/i2.png">Fixings</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_INFLATION_SWAP_GRAPH_SCREEN'')')} ? '/bourse/inflation-swap' : '/login'"><img class="img-m-right" src="../../img/i2.png">INFLATION SWAP RATES</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_MORTGAGE_GRAPH_SCREEN'')')} ? '/bourse/mortgage' : '/login'"><img class="img-m-right" src="../../img/i2.png">MORTGAGE RATES</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_CENTRAL_BANKS_GRAPH_SCREEN'')')} ? '/bourse/centralbanks' : '/login'"><img class="img-m-right" src="../../img/i2.png">Central Banks</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/ratesdatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>

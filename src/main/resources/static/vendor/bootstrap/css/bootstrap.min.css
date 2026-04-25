@@ -210,7 +210,7 @@ a:not([href]):not([tabindex]) {
 
 a:not([href]):not([tabindex]):focus,
 a:not([href]):not([tabindex]):hover {
-	color: inherit;
+	color: #ffffff;
 	text-decoration: none
 }
 
@@ -274,7 +274,7 @@ button {
 
 button:focus {
 	outline: 1px dotted;
-	outline: 0px auto -webkit-focus-ring-color
+	outline: unset;
 }
 .md-accordion .card .mb-0 button:not(.collapsed) .rotate-icon {
     -webkit-transform: rotate(180deg);

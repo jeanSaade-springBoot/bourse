@@ -55,7 +55,7 @@
          .apexcharts-point-annotation-label {
          fill: magenta;
          font-weight: bold;
-         font-size: .8rem;
+         font-size: .9rem;
          }
          .title-style {
          font-weight: bold;
@@ -82,10 +82,7 @@
                <h1 class="ml-6 text-darkorange">RATES</h1>
                <nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
                   <div class="nav nav-tabs" id="nav-tab" role="tablist">
-                     <a sec:authorize="hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN')"
-                        class="navigation nav-item nav-link active" id="nav-macro-tab"
-                        href="/bourse/centralbanks" role="tab" aria-controls="nav-macro"
-                        aria-selected="false">Central Banks</a>
+                  
                   <a sec:authorize="hasAuthority('RATES_FIXINGS_GRAPH_SCREEN')"
 		                 class="navigation nav-item nav-link" id="nav-fixings-tab"
 		                 href="/bourse/fixings" role="tab" aria-controls="nav-fixings"
@@ -98,6 +95,10 @@
 		                 class="navigation nav-item nav-link" id="nav-mortgage-tab"
 		                 href="/bourse/mortgage" role="tab" aria-controls="nav-mortgage"
 		                 aria-selected="false">MORTGAGE RATES</a>
+		                    <a sec:authorize="hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN')"
+                        class="navigation nav-item nav-link active" id="nav-macro-tab"
+                        href="/bourse/centralbanks" role="tab" aria-controls="nav-macro"
+                        aria-selected="false">Central Banks</a>
                   </div>
                </nav>
             </div>
