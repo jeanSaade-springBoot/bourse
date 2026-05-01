@@ -28,4 +28,5 @@ public class RobotsConfigDTO {
 	private String functionId;
 	private boolean isactive;
 	private String robotCode;
+	private String dbRobotName;
 }

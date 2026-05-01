@@ -24,15 +24,23 @@ import org.springframework.web.client.RestTemplate;
 
 import com.bourse.domain.OngoingProcess;
 import com.bourse.domain.RobotInitializer;
+import com.bourse.domain.RobotsConfiguration;
+import com.bourse.domain.RobotsFunctionConfiguration;
 import com.bourse.dto.OngoingProcessDTO;
 import com.bourse.dto.RobotInitializerDTO;
 import com.bourse.dto.UpdatedColumnDTO;
 import com.bourse.repositories.RobotInitializerRepository;
+import com.bourse.repositories.RobotsConfigRepository;
+import com.bourse.repositories.RobotsFunctionConfigRepository;
 @Service
 public class RobotInitializerService {
 
 	@Autowired
 	RobotInitializerRepository robotInitializerRepository;
+	@Autowired
+	RobotsConfigRepository robotsConfigRepository;
+	@Autowired
+	RobotsFunctionConfigRepository robotsFunctionConfigRepository;
 	@Autowired
 	OngoingProcessService ongoingProcessService;
 	
@@ -56,6 +64,14 @@ public class RobotInitializerService {
 	public List<RobotInitializer> getRobotsInitializer(String processName,int assetId , int groupId)
 	{
 		return robotInitializerRepository.findByProcessNameAndAssetIdAndGroupId(processName,assetId ,groupId);
+	}
+	public List<RobotsConfiguration> getRobotsConfigInitializer(int groupId)
+	{
+		return robotsConfigRepository.getRobotsByGroupIdAndIsactive(String.valueOf(groupId), true);
+	}
+	public List<RobotsFunctionConfiguration> getRobotsFunctionConfigurationInitializer(int groupId)
+	{
+		return robotsFunctionConfigRepository.getRobotsByGroupIdAndIsactive(String.valueOf(groupId), true);
 	}
 	public void callRobotsForUpdateColumnAsync(List<RobotInitializer> listOfRobots,String ProcedureInitialization,String ProcedureFinalization,String proccessName,int assetId,int groupId){
 		
@@ -101,21 +117,57 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 	 query.registerStoredProcedureParameter("groupId", Integer.class, ParameterMode.IN);
 	 query.setParameter("groupId",groupId);
 	 query.execute();
-	 
-	for(RobotInitializer myObject:listOfRobots) {
-		try {
-			 RobotInitializerDTO robotdto = RobotInitializerDTO.builder()
-	                 .columnName(myObject.getColumnName())
-	                 .robotName(myObject.getRobotName())
-	                 .functionId(myObject.getFunctionId())
-	                 .build();
-			  
-			 futures.add(CompletableFuture.supplyAsync(() -> executeRobots(robotdto)));
-		     System.out.println("excuting Robot for column: "+ myObject.getRobotName() +" "+ myObject.getColumnName()+" time:"+new Date());
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
-	}
+	 if(proccessName.equalsIgnoreCase("PROCESS_WITH_FUNCTION"))
+	 {
+		 List<RobotsFunctionConfiguration> listOfActiveRobots = getRobotsFunctionConfigurationInitializer(groupId);
+			for(RobotsFunctionConfiguration myObject:listOfActiveRobots) {
+				try {
+					 RobotInitializerDTO robotdto = RobotInitializerDTO.builder()
+			                 .columnName(myObject.getColumnDescription())
+			                 .robotName(myObject.getDbRobotName())
+			                 .functionId(myObject.getFunctionId())
+			                 .build();
+					  
+					 futures.add(CompletableFuture.supplyAsync(() -> executeRobots(robotdto)));
+				     System.out.println("excuting Robot for column: "+ myObject.getRobotName() +" "+ myObject.getColumnDescription()+" time:"+new Date());
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+	 } 
+	 else 
+		 if(proccessName.equalsIgnoreCase("PROCESS_WITHOUT_FUNCTION"))
+		 {	    List<RobotsConfiguration> listOfActiveRobots = getRobotsConfigInitializer(groupId);
+				for(RobotsConfiguration myObject:listOfActiveRobots) {
+					try {
+						 RobotInitializerDTO robotdto = RobotInitializerDTO.builder()
+				                 .columnName(myObject.getColumnDescription())
+				                 .robotName(myObject.getDbRobotName())
+				                 .functionId(null)
+				                 .build();
+						  
+						 futures.add(CompletableFuture.supplyAsync(() -> executeRobots(robotdto)));
+					     System.out.println("excuting Robot for column: "+ myObject.getRobotName() +" "+ myObject.getColumnDescription()+" time:"+new Date());
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
+		 } 
+	
+			/*
+			 * for(RobotInitializer myObject:listOfRobots) { try {
+			 * List<RobotsFunctionConfiguration> listOfActiveRobots =
+			 * getRobotsFunctionConfigurationInitializer(groupId);
+			 * 
+			 * RobotInitializerDTO robotdto = RobotInitializerDTO.builder()
+			 * .columnName(myObject.getColumnName()) .robotName(myObject.getRobotName())
+			 * .functionId(myObject.getFunctionId()) .build();
+			 * 
+			 * futures.add(CompletableFuture.supplyAsync(() -> executeRobots(robotdto)));
+			 * System.out.println("excuting Robot for column: "+ myObject.getRobotName()
+			 * +" "+ myObject.getColumnName()+" time:"+new Date()); } catch (Exception e) {
+			 * e.printStackTrace(); } }
+			 */
 	
 		PublishNewsAfterAllThreadAreExcuted(futures,ProcedureFinalization,proccessName, assetId,groupId);
 	

@@ -696,6 +696,7 @@
     		    "groupId":groupItem.value,
     		    "subgroupId":subGroupDropDown.value,
     		    "configId":$("#configId").val(),
+    		    "dbRobotName":"dyncamic_robots_highlow_mono",
 				"robotCode":"HILO",
 			     },
     		    {
@@ -714,6 +715,7 @@
         		    "groupId":groupItem.value,
         		    "subgroupId":subGroupDropDown.value,
         		    "configId":$("#configId").val(),
+        		    "dbRobotName":"dyncamic_robots_jump_mono",
 					"robotCode":"JUMP",
 				  },
 				  {
@@ -733,6 +735,7 @@
         		    "groupId":groupItem.value,
         		    "subgroupId":subGroupDropDown.value,
         		    "configId":$("#configId").val(),
+        		    "dbRobotName":"dynamic_robots_scaled_jump_mono",
 					"robotCode":"SJUMP",
 				  },
     		       {
@@ -751,6 +754,7 @@
         		    "groupId":groupItem.value,
         		    "subgroupId":subGroupDropDown.value,
 					"configId":$("#configId").val(),
+					"dbRobotName":"dyncamic_robots_trend_mono",
 					"robotCode":"TRND",
         		    },
         		    {
@@ -891,6 +895,7 @@
 				"configId":$("#configId").val(),
 				"functionId":$("#function_id").val(),
 				"robotCode":"HILO",
+				"dbRobotName":"dyncamic_robots_function_highlow_mono",
 			     },
     		    {
     		    	"robotName":"JumpRobot",
@@ -910,6 +915,7 @@
 					"configId":$("#configId").val(),
 					"functionId":$("#function_id").val(),
 					"robotCode":"JUMP",
+					"dbRobotName":"dyncamic_robots_function_jump_mono",
 				  },
 				    {
     		    	"robotName":"ScaledJumpRobot",
@@ -930,6 +936,7 @@
 					"configId":$("#configId").val(),
 					"functionId":$("#function_id").val(),
 					"robotCode":"SJUMP",
+					"dbRobotName":"dynamic_robots_function_scaled_jump_mono",
 				  },
     		       {
         		    "robotName":"TrendRobot",
@@ -948,6 +955,7 @@
         		    "subgroupId":subGroupDropDown.value,
 					"configId":$("#configId").val(),
 					"functionId":$("#function_id").val(),
+					"dbRobotName":"dyncamic_robots_function_trend_mono",
 					"robotCode":"TRND",
         		    },
         		    ];

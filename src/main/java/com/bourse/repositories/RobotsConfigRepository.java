@@ -33,6 +33,7 @@ public interface RobotsConfigRepository extends JpaRepository<RobotsConfiguratio
 													 		+ " rc.subgroupId,\r\n"
 													 		+ " rc.configId,\r\n"
 													 		+ " rc.isactive,\r\n"
+													 		+ " rc.dbRobotName,\r\n"
 													 		+ " CONCAT(ac.assetCode,gc.groupCode,sc.subgroupCode,cc.columnCode,'LAST',rc.robotCode))"
 													 		+ " FROM ColumnConfiguration cc,  RobotsConfiguration rc,  AssetClass ac, Groups gc, SubGroup sc"
 															+ " WHERE  rc.columnDescription = cc.description\r\n"
@@ -42,4 +43,6 @@ public interface RobotsConfigRepository extends JpaRepository<RobotsConfiguratio
 														 		+ "   and gc.assetId=ac.id\r\n"
 														 		+ "   and rc.configId= :configId")
 	  List<RobotsConfiguration> getColumnRobotsByConfigId(@Param("configId") String configId);
+	  
+	  public List<RobotsConfiguration> getRobotsByGroupIdAndIsactive(String groupId,  boolean isactive);
 }

@@ -38,4 +38,5 @@ public class RobotsConfiguration {
 	private String configId;
 	private boolean isactive;
 	private String robotCode;
+	private String dbRobotName;
 }

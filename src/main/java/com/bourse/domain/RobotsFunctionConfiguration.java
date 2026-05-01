@@ -39,4 +39,5 @@ public class RobotsFunctionConfiguration {
 	private String threshHoldNotification;
 	private String robotName;
 	private String robotCode;
+	private String dbRobotName;
 }

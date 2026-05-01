@@ -31,6 +31,7 @@ public interface RobotsFunctionConfigRepository extends JpaRepository<RobotsFunc
 													  		+ "	  rc.threshholdTrigger,\r\n"
 													  		+ "	  rc.threshHoldNotification,\r\n"
 													  		+ "	  rc.robotName, "
+													  		+ " rc.dbRobotName,\r\n"
 													 		+ " CONCAT(ac.assetCode,gc.groupCode,sc.subgroupCode,cc.columnCode,'LAST',rc.robotCode,fc.functionCode))"
 													 		+ " FROM ColumnConfiguration cc,  RobotsFunctionConfiguration rc,  AssetClass ac, Groups gc, SubGroup sc,Functions fc"
 															+ " WHERE  rc.columnDescription = cc.description\r\n"
@@ -44,4 +45,7 @@ public interface RobotsFunctionConfigRepository extends JpaRepository<RobotsFunc
 	  	List<RobotsFunctionConfiguration> getColumnRobotsFunctionByConfigIdAndFunctionId(@Param("configId") String configId,@Param("functionId") String functionId);
 
 	    Optional<RobotsFunctionConfiguration> findByConfigIdAndFunctionIdAndRobotName(String configId, String functionId, String robotName);
+
+		 public List<RobotsFunctionConfiguration> getRobotsByGroupIdAndIsactive(String groupId,  boolean isactive);
+
 }
