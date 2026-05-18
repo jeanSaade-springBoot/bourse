@@ -20,6 +20,7 @@ import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.macro.MacroDisplaySettings;
 import com.bourse.dto.GraphRequestDTO;
@@ -165,7 +166,18 @@ public List<MacroDisplaySettings> getMacroDisplaySettingsFinalWithFlashList() {
 			}
 		}
 	}
-	  
+	@Transactional
+	public void updateValue(String date, Long groupId,  Long subgroupId, Long factorId,  String value) {
+
+		MacroData entity = macroDataRepository.findMacroDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(date, groupId, subgroupId, factorId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			macroDataRepository.save(entity);
+		}
+	}
 	@Transactional
 	public void deleteMacroData(String groupId, String referDate) {
 		String TableName = tableManagementRepository.findDistinctByGroupId(groupId).getTableName();

@@ -16,8 +16,6 @@ import com.bourse.dto.SovereignYiledCurveSearchDTO;
 import com.bourse.dto.SoveriegnCrossSearchDTO;
 import com.bourse.enums.CorporateYieldsSubGroupEnum;
 import com.bourse.enums.CrossCountryEnum;
-import com.bourse.enums.CurvesEnum;
-import com.bourse.enums.PreciousSubGroupEnum;
 import com.bourse.enums.SubGroupEnum;
 
 public class SovereignUtil {

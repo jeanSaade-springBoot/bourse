@@ -30,9 +30,9 @@
   var hasMissingDates=false;
     var chartConfigSettings;
   
-  var allitems=["#jqxCheckBoxGold",
+  var allitems=["#jqxCheckBox-6-1",
 		   		"#jqxCheckBoxPlatinum",
-			    "#jqxCheckBoxSilver",
+			    "#jqxCheckBox-6-2",
 			    "#jqxCheckBoxPlatGold",
 			    "#jqxCheckBoxGoldSilv",
 			    "#jqxCheckBoxCopper",
@@ -116,9 +116,9 @@
       $("#show").jqxButton({ theme: 'dark',height:30,width:74 });
       
       $("#Clearfilter").click(function () {
-    	  $("#jqxCheckBoxGold").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBox-6-1").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxPlatinum").jqxCheckBox({checked: false });
-    	  $("#jqxCheckBoxSilver").jqxCheckBox({checked: false });
+    	  $("#jqxCheckBox-6-2").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxPlatGold").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxGoldSilv").jqxCheckBox({checked: false });
     	  
@@ -176,19 +176,19 @@
       });
 	  
 	  
-     $('#jqxCheckBoxGold').on('change', function (event) {
+     $('#jqxCheckBox-6-1').on('change', function (event) {
   	   var checked = event.args.checked;
   	   if(checked)
   	    {
   	    	checkedItem=checkedItem + 1;
-  	    	checkedItemid.push("#jqxCheckBoxGold");
+  	    	checkedItemid.push("#jqxCheckBox-6-1");
   	    }
   	    else
   	    {
   	    	checkedItem=checkedItem - 1;
   	   for(i=0; i<checkedItemid.length; i++)
   		   {
-  		   if(checkedItemid[i]=="#jqxCheckBoxGold")
+  		   if(checkedItemid[i]=="#jqxCheckBox-6-1")
   			 delete checkedItemid[i];
   		   }
   	    }
@@ -253,18 +253,18 @@
   	 }); 
      
      
-     $('#jqxCheckBoxSilver').on('change', function (event) {
+     $('#jqxCheckBox-6-2').on('change', function (event) {
   	   var checked = event.args.checked;
   	   if(checked)
 	    {
 	    	checkedItem=checkedItem + 1;
-	    	checkedItemid.push("#jqxCheckBoxSilver");
+	    	checkedItemid.push("#jqxCheckBox-6-2");
 	    }
 	    else {
 	    	checkedItem=checkedItem - 1;
 			   for(i=0; i<checkedItemid.length; i++)
 				   {
-				   if(checkedItemid[i]=="#jqxCheckBoxSilver")
+				   if(checkedItemid[i]=="#jqxCheckBox-6-2")
 					 delete checkedItemid[i];
 				   }
 	    }

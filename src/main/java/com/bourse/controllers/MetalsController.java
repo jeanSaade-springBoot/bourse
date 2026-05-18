@@ -83,6 +83,13 @@ public class MetalsController {
 		boolean checkifcanSave= perciousMetalsService.CheckIfCanSave(referDate);
 		return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
+	@GetMapping(value = "checkifcansaveprecious/{subgroup}/{referDate}")
+	public ResponseEntity<Boolean> CheckIfCanSavePrecious(@PathVariable("subgroup") String subgroup, @PathVariable String referDate) 
+	{
+	
+		boolean checkifcanSave= perciousMetalsService.CheckIfCanSave(referDate,Long.valueOf(subgroup));
+		return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
+	}
 	@GetMapping(value = "checkifcansavebase/{referDate}")
 	public ResponseEntity<Boolean> CheckIfCanSaveBase(@PathVariable String referDate) 
 	{
@@ -108,10 +115,12 @@ public class MetalsController {
 		 return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
 	@PostMapping(value = "savepreciousdata")
-    public List<PreciousMetals> savePreciousData(@RequestBody List<PreciousMetals> preciousInputDataList){
-		List<PreciousMetals> preciousDatalst= perciousMetalsService.SavePreciousData(preciousInputDataList);
+    public ResponseEntity<Boolean> savePreciousData(@RequestBody List<PreciousMetals> preciousInputDataList){
+		perciousMetalsService.SavePreciousData(preciousInputDataList);
 		perciousMetalsService.doCalculation(preciousInputDataList.get(0).getReferDate());
-	  return preciousDatalst;
+		perciousMetalsService.runProcedureCalculation("6","1",preciousInputDataList.get(0).getReferDate() ,preciousInputDataList.get(0).getReferDate());
+		perciousMetalsService.runProcedureCalculation("6","2",preciousInputDataList.get(0).getReferDate() ,preciousInputDataList.get(0).getReferDate());
+		return new ResponseEntity<>(true,HttpStatus.OK);
     }
 	@PostMapping(value = "savebasedata")
     public List<BaseMetals> saveBaseData(@RequestBody List<BaseMetals> baseInputDataList){
@@ -143,8 +152,10 @@ public class MetalsController {
 	} 
 	
 	@DeleteMapping(value = "deletepreciousbyreferdate/{referDate}")
-	public ResponseEntity<Object>  deletePreciousByReferDate(@PathVariable("referDate") String referDate) {
+	public ResponseEntity<Object>  deletePreciousByReferDate( @PathVariable("referDate") String referDate) {
 		perciousMetalsService.deletePreciousByReferDate(referDate);
+		perciousMetalsService.runProcedureCalculation("6","1",referDate ,referDate);
+		perciousMetalsService.runProcedureCalculation("6","2",referDate ,referDate);
 	 return new ResponseEntity<>(HttpStatus.OK);
 	}
 	
@@ -156,9 +167,11 @@ public class MetalsController {
 	@PostMapping(value = "updatepreciousauditdata")
 	public ResponseEntity<Boolean> updatePreciousAuditData(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
 	{
-	
 		perciousMetalsService.updatePreciousData(updateDataDTOlst);
 		perciousMetalsService.doCalculation(updateDataDTOlst.get(0).getReferdate());
+		perciousMetalsService.runProcedureCalculation("6","1",updateDataDTOlst.get(0).getReferdate() ,updateDataDTOlst.get(0).getReferdate());
+		perciousMetalsService.runProcedureCalculation("6","2",updateDataDTOlst.get(0).getReferdate() ,updateDataDTOlst.get(0).getReferdate());
+		
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@GetMapping(value = "getbaseauditdata/{referDate}")

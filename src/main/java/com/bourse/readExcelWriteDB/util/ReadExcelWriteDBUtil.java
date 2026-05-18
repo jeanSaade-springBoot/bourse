@@ -348,24 +348,36 @@ public static int[] getLongSkewsGroupId(int number) {
             else if (number == 9) 
               return  new int[]{29, 11};  
         else   
-          return  new int[]{0, 0};  
+        	   throw new IllegalArgumentException(
+                       "Invalid LongSkews index: " + number); 
 }
 public static int[] getShortSkewsGroupId(int number) {
-	    if (number == 0 ) 
-	        return new int[]{30, 12};
-	      else if (number == 1) 
-	        return  new int[]{30, 10};
-	      else if (number == 2 ) 
-	        return new int[]{30, 13};
-	      else if (number == 3) 
-	        return  new int[]{31, 12};    
-	      else if (number == 4 ) 
-	          return new int[]{31, 10};
-	        else if (number == 5) 
-	          return  new int[]{31, 13}; 
-	        else   
-	          return  new int[]{0, 0};  
-	}
+
+    switch (number) {
+
+        case 0:
+            return new int[]{30, 12};
+
+        case 1:
+            return new int[]{30, 10};
+
+        case 2:
+            return new int[]{30, 13};
+
+        case 3:
+            return new int[]{31, 12};
+
+        case 4:
+            return new int[]{31, 10};
+
+        case 5:
+            return new int[]{31, 13};
+
+        default:
+            throw new IllegalArgumentException(
+                    "Invalid ShortSkews index: " + number);
+    }
+}
 public static int getMacroFactorId(int number) {
 	if (number == 1)
 		return 14 ;

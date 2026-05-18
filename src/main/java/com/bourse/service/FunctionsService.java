@@ -29,9 +29,11 @@ public class FunctionsService
         return functionsRepository.findAll();
 	}
 	
-	public List<FunctionDTO> getFunctionsByGroupId(String groupId)
-	{      
-        return functionsRepository.findByGroupId(Long.valueOf(groupId));
+	public List<FunctionDTO> getFunctionsByGroupId(String groupId, String subgroupId) {
+
+		Long subGroup = subgroupId != null ? Long.valueOf(subgroupId) : null;
+
+		return functionsRepository.findByGroupId(Long.valueOf(groupId), subGroup);
 	}
 
 }

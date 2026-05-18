@@ -198,8 +198,8 @@ public class MetalsUtil {
 					 forUsetables = forUsetables + tableSchema+"tmp_audit_precious ";
     				 forUsetables = forUsetables + " s"+counter+" ,";
 				 	 forUseSelect = forUseSelect+", \n"+ 
-					                         " s"+counter+"."+PreciousSubGroupEnum.getCountryByCode(value) +
-							         " as '"+PreciousSubGroupEnum.getCountryByCode(value)+"'";
+					                         " IFNULL(s"+counter+"."+PreciousSubGroupEnum.getCountryByCode(value) +
+							         ",'') as '"+PreciousSubGroupEnum.getCountryByCode(value)+"'";
 				 	 colHash.put(columnsId, PreciousSubGroupEnum.getCountryByCode(value));
 				 	 columnsId++;
 					 

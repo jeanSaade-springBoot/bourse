@@ -28,6 +28,12 @@ public class FunctionAsset {
     @Column(name = "asset_class_id", nullable = false)
     private String assetClassId;
     
+    @Column(name = "group_id")
+    private Long groupid;
+
+    @Column(name = "subgroup_id")
+    private Long subgroupid;
+    
     @Column(name = "is_hidden", nullable = false)
     private boolean isHidden = false;
 }

@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +18,7 @@ import org.springframework.stereotype.Service;
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.FxUsdData;
+import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.skews.LongSkewsData;
 import com.bourse.domain.skews.ShortSkewsData;
 import com.bourse.domain.skews.TmpAuditSkewsBobl2Maturity;
@@ -101,6 +103,14 @@ public class SkewsService
    	{
    		return  shortSkewsRepository.existsByReferDateAndSubgroupId(referDate,subgroupId);
    	}
+	public boolean CheckIfCanSaveLongSkews(String referDate, Long groupId, Long subgroupId, Long factorId) {
+
+		return longSkewsRepository.findByReferDateAndGroupIdAndSubgroupIdAndFactorId(referDate, groupId, subgroupId, factorId) .isPresent();
+	}
+	public boolean CheckIfCanSaveShortSkews(String referDate, Long groupId, Long subgroupId, Long factorId) {
+
+		return shortSkewsRepository.findByReferDateAndGroupIdAndSubgroupIdAndFactorId(referDate, groupId, subgroupId, factorId) .isPresent();
+	}
 	public List<ShortSkewsData> saveShortSkews(List<ShortSkewsData> skewsDTOLst ){
 		return shortSkewsRepository.saveAll(skewsDTOLst);
 	}
@@ -262,6 +272,26 @@ public class SkewsService
 			longSkewsData = longSkewsRepository.findLongSkewsDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getGroupId()),Long.valueOf(updateDataDTO.getSubgroupId()),Long.valueOf(updateDataDTO.getFactor()));
 			longSkewsData.setValue(updateDataDTO.getValue());
 			longSkewsRepository.save(longSkewsData);
+		}
+	}
+	@Transactional
+	public void updateLongSkewsValue(String date, Long groupId,  Long subgroupId, Long factorId,  String value) {
+
+		LongSkewsData entity = longSkewsRepository.findLongSkewsDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(date, groupId, subgroupId, factorId);
+
+		if (entity != null) {
+			entity.setValue(value);
+			longSkewsRepository.save(entity);
+		}
+	}
+	@Transactional
+	public void updateShortSkewsValue(String date, Long groupId,  Long subgroupId, Long factorId,  String value) {
+
+		ShortSkewsData entity = shortSkewsRepository.findShortSkewsDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(date, groupId, subgroupId, factorId);
+
+		if (entity != null) {
+			entity.setValue(value);
+			shortSkewsRepository.save(entity);
 		}
 	}
   public void updateShortSkewsData(List<UpdateDataDTO> updateDataDTOlst) {

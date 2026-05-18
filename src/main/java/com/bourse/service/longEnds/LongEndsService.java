@@ -23,6 +23,7 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.longEnds.LongEndsDisplaySettings;
 import com.bourse.domain.longEnds.TmpAuditLefBunds;
@@ -143,7 +144,20 @@ public class LongEndsService {
 		runVolatilityWeightedTrendFollowingMavgTask(Long.valueOf(updateDataDTOlst.get(0).getGroupId()),updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getReferdate());
 		runFunctionCalculationProcedure(Long.valueOf(updateDataDTOlst.get(0).getGroupId()),updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getReferdate());
 	}
-	  
+	
+	@Transactional
+	public void updateValue(String date, Long groupId, Long subgroupId, String value) {
+
+		LongEndData entity = longEndsDataRepository.findLongEndsDataByReferDateAndGroupIdAndSubgroupId(date, groupId, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			longEndsDataRepository.save(entity);
+		}
+	}
+	
 	public List<LongEndsDisplaySettings> getLongEndsDisplaySettingsList() {
 		List<Order> orders = new ArrayList<Order>();
 

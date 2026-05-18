@@ -1075,6 +1075,7 @@ async navigate(direction) {
 		  series?.config?.displayDescription?.toLowerCase?.().includes('funding')
 		);
 		
+
 		if (shouldAlign || (resp.length === 2 && hasFundingRate)) {
 		  const { data1, data2 } = this.alignMergeDataSets(
 		    resp[0].graphResponseDTOLst,
@@ -1483,7 +1484,14 @@ shouldShowYAxis(sideGroup, index) {
 		$("#dropDownFunctions").jqxDropDownList({ disabled: false });
 		const allItems = chartStates[`chart${id}`].allItems;
 		const timeRange = getActiveTimeRange();
+		let autoCheckedIndexes = [5, 8]; // default crypto behavior
+		if (screenName === 'GOLDAnalisys') {
+		    autoCheckedIndexes = [1];
+		}
 		
+		if (screenName === 'SILVERAnalisys') {
+		    autoCheckedIndexes = [2];
+		}
 		if (isActive) {
 			// ⛔ Deactivate candlestick
 			btn.classList.remove('active');
@@ -1517,18 +1525,20 @@ shouldShowYAxis(sideGroup, index) {
 			    			$(`#checkboxes-main-container-chart-${id}`).show();
 			    	
 			allItems.forEach(itemId => {
-
-				    if (itemId.includes('-5-') || itemId.includes('-8-')) {
-				
-				        // Skip checking -5- when tech-analysis is checked
-				        if (isChecked && itemId.includes('-5-')) {
-				            return;
-				        }
-				
-				        $(itemId).jqxCheckBox('check');
-				    }
-				
-				});
+				const shouldCheck = autoCheckedIndexes.some(index =>
+			        itemId.includes(`-${index}-`)
+			    );
+			
+			    if (shouldCheck) {
+			
+			        // preserve old crypto behavior
+			        if (isChecked && itemId.includes('-5-')) {
+			            return;
+			        }
+			
+			        $(itemId).jqxCheckBox('check');
+			    }
+			});
 				
 					
 			// 👉 Instead of loading old options, trigger updated logic

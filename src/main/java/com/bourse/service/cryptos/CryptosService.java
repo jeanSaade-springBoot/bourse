@@ -35,6 +35,7 @@ import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
 import com.bourse.domain.TableManagement;
 import com.bourse.domain.cryptos.CryptosData;
+import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.cryptos.CrBinanceFourHours;
 import com.bourse.domain.cryptos.CrBitcoinFourHours;
 import com.bourse.domain.cryptos.CrEthereumFourHours;
@@ -345,6 +346,20 @@ public class CryptosService {
 		cryptosDataLst.add(cryptosData);
 		doCalculation(updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getGroupId());
 	}
+	
+	@Transactional
+	public void updateValue(String date, Long groupId, Long subgroupId, String value) {
+
+		CryptosData entity = cryptosDataRepository.findCryptosDataByReferDateAndGroupIdAndSubgroupId(date, groupId, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			cryptosDataRepository.save(entity);
+		}
+	}
+	
 	public boolean CheckIfCanSaveCryptos(String referDate,Long groupId,Long subgroupId)
    	{
 		return cryptosDataRepository.existsByReferDateAndGroupIdAndSubgroupId(referDate,groupId,subgroupId);
@@ -1455,7 +1470,7 @@ public class CryptosService {
 		    }
 		}
 
-	  private String[] getColumnValues(String groupId, String subGroupId) {
+	  public String[] getColumnValues(String groupId, String subGroupId) {
 		    // Define a map for dynamic configuration
 		    Map<String, String[]> valueMap = new HashMap<>();
 		    valueMap.put("71_1", new String[]{"openeur", "high", "low", "closeeur"});
@@ -1518,6 +1533,9 @@ public class CryptosService {
 		    valueMap.put("70_2", new String[]{"open", "high", "low", "close"});
 		    valueMap.put("60_4", new String[]{"open", "high", "low", "close"});
 		    valueMap.put("70_4", new String[]{"open", "high", "low", "close"});
+		    valueMap.put("6_1", new String[]{"open_gold", "high_gold", "low_gold", "close_gold"});
+		    valueMap.put("6_2", new String[]{"open_silver", "high_silver", "low_silver", "close_silver"});
+
 		    // Return the mapped values or null if no match is found
 		    return valueMap.get(groupId + "_" + subGroupId);
 		}

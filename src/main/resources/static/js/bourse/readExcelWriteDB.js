@@ -68,7 +68,7 @@ var familysource =
 	              if (event.args) {
 	                 groupItem = event.args.item;
 	                 $("#excelFormat").empty();
-	                 $("#excelFormat").append('<img src="'+getImagePath(groupItem.value)+'" />');
+	                 $("#excelFormat").append('<img height="154px" src="'+getImagePath(groupItem.value)+'" />');
 	                 
 	              }
 	              	

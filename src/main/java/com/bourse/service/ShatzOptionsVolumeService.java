@@ -6,10 +6,12 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.ShatzOptionsVolume;
 import com.bourse.domain.TmpAuditShatzOptionsVolume;
 import com.bourse.dto.UpdateDataDTO;
@@ -104,4 +106,16 @@ public class ShatzOptionsVolumeService {
 				shatzOptionsVolumeRepository.save(shatzOptionsVolume);
 			}
 		}
+	@Transactional
+	public void updateValue(String date, Long subgroupId, String value) {
+
+		ShatzOptionsVolume entity = shatzOptionsVolumeRepository.findByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			shatzOptionsVolumeRepository.save(entity);
+		}
+	}
 }

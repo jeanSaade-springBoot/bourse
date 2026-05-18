@@ -103,9 +103,9 @@
 	
 	} else if (serieValue === 2) {
 		  graphService = "metals";
-	     var allitems=["#jqxCheckBoxGold",
+	     var allitems=["#jqxCheckBox-6-1",
 			   		"#jqxCheckBoxPlatinum",
-				    "#jqxCheckBoxSilver",
+				    "#jqxCheckBox-6-2",
 				    "#jqxCheckBoxPlatGold",
 				    "#jqxCheckBoxGoldSilv",
 				    "#jqxCheckBoxCopper",

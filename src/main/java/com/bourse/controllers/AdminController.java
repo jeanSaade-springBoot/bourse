@@ -112,10 +112,11 @@ public class AdminController {
     public  ResponseEntity<List<Functions>>  getFunctions(){
 		return new ResponseEntity<>(functionsService.getFunctions(), HttpStatus.OK);
     }
-	@GetMapping(value = "getfunctions/{groupId}", produces = "application/json;charset=UTF-8")
-    public  ResponseEntity<List<FunctionDTO>>  getFunctions(@PathVariable String groupId){
-		return new ResponseEntity<>(functionsService.getFunctionsByGroupId(groupId), HttpStatus.OK);
-    }
+	@GetMapping(value = "getfunctions/{groupId}",produces = "application/json;charset=UTF-8")
+		public ResponseEntity<List<FunctionDTO>> getFunctions(  @PathVariable String groupId, @RequestParam(required = false) String subgroupId) {
+
+		    return new ResponseEntity<>(functionsService.getFunctionsByGroupId(groupId, subgroupId),  HttpStatus.OK);
+		}
 	@GetMapping(value = "getsubgroupsbygroup/{groupId}", produces = "application/json;charset=UTF-8")
     public  ResponseEntity<List<SubGroup>>  getSubGroupsByGroupId(@PathVariable String groupId){
 		return new ResponseEntity<>(subGroupService.getSubGroupsByGroupId(groupId), HttpStatus.OK);

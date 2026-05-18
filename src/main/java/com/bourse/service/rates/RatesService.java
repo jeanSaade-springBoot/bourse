@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,8 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
+import com.bourse.domain.PreciousMetals;
+import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.rates.RatesData;
 import com.bourse.domain.rates.TmpAuditRtsCentralBanks;
 import com.bourse.domain.rates.TmpAuditRtsFixings;
@@ -134,6 +137,31 @@ public class RatesService {
 				ratesData.setValue(updateDataDTO.getValue());
 				ratesDataRepository.save(ratesData);
 				}
+		}
+	}
+	
+	@Transactional
+	public void updateValue(String date, Long groupId,  Long subgroupId, Long factorId,  String value) {
+
+		RatesData entity = ratesDataRepository.findMacroDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(date, groupId, subgroupId, factorId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			ratesDataRepository.save(entity);
+		}
+	}
+	@Transactional
+	public void updateValue(String date,  Long groupId, Long subgroupId, String value) {
+
+		RatesData entity = ratesDataRepository.findRatesDataByReferDateAndGroupIdAndSubgroupId(date, groupId, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			ratesDataRepository.save(entity);
 		}
 	}
 	

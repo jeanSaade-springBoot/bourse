@@ -1,5 +1,7 @@
 package com.bourse.repositories.skews;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -10,8 +12,13 @@ import com.bourse.domain.skews.ShortSkewsData;
 public interface ShortSkewsRepository extends JpaRepository<ShortSkewsData, Long> {
 	
 	public long countByReferDate(String referDate);
+	
 	public boolean existsByReferDateAndSubgroupId(String referDate, Long subgroupId);
+	
+	public Optional<ShortSkewsData> findByReferDateAndGroupIdAndSubgroupIdAndFactorId(String referDate,Long groupId,Long subgroupId,Long factorId);
+	
 	public ShortSkewsData findShortSkewsDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(String referDate,Long groupId,Long subgroupId,Long factorId);
+	
 	@Transactional
 	public void deleteShortSkewsDataByReferDate(String referDate);
 	

@@ -111,6 +111,28 @@ button#deleteByDate {
  {
     max-width: 1850px;
 }
+
+ .green {
+      background: #24a764 !important;
+      border: 0px;
+    }
+
+    .green>img {
+      position: relative !important;
+      top: 0px !important;
+      left: 0px !important;
+    }
+
+    .red {
+      background: #f23a3a !important;
+      border: 0px;
+    }
+
+    .red>img {
+      position: relative !important;
+      top: 0px !important;
+      left: 0px !important;
+    }
 </style>
 <body id="page-top">
   <div id="wrapper">
@@ -164,16 +186,74 @@ button#deleteByDate {
 	                	 <div class="col pl-0 ">&#x200b; </div>
 		                 <div class="col p-0 ">
 		                  <form  id="dataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
-		                      <div  style=" display: flex;">
-									<div class="col pl-0">
-										<div>
-											<img height="48" width="48" src="/img/gold.png" class="img-icon" data-toggle="tooltip" title="Gold" >
+		                  <div class="row" style=" margin-top: 0">
+		                      <div class="col-5">
+		                       <div  id="goldformInput">
+			                      <div  style=" display: flex;">
+										<div class="col pl-0">
+											<div class="row col  align-items-center">
+												<div>
+													<img height="40" width="40" src="/img/gold.png" class="img-icon" data-toggle="tooltip" title="Gold" >
+												</div>
+												<div class="pl-2">
+													<h8 class="font-weight-bold">Gold</h8>
+												</div>
+											</div>
+											<div class="pt-2 mh-42 justify-content-between" style="display: flex;" id="input-titles">
+	                               			 <div class="fw-bold">Open</div>
+											 <div class="fw-bold">High</div>
+											 <div class="fw-bold">Low</div>
+											 <div class="fw-bold">Close</div>
+											</div>
 										</div>
-										<div>
-											<h8 class="font-weight-bold">Gold</h8>
+									 </div>
+				                   <div style=" display: flex;">
+				                      <input type="text" class="form-control" id="gold-input" autocomplete="off">
+				                    </div>
+			                     </div>
+			                    <div id="goldGrid" style="margin-top: 0rem;"></div>
+								  <div class="row" id="dataInputButtonsGold" style="display: none;">
+								  <div class='col-12 d-flex justify-content-end mt-2'>
+									<input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="loadGold" value="" />
+									<input id="cancelGold" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+								  </div>
+								</div>
+		                     </div>
+		                      <div class="col-5">
+		                      <div  id="silverformInput">
+		                      <div  style=" display: flex;">
+			                      <div class="col pl-0">
+											<div class="row col align-items-center">
+												<div>
+													<img height="40" width="40" src="/img/silver.png" class="img-icon" data-toggle="tooltip" title="Silver" >
+												</div>
+												<div class="pl-2">
+													<h8 class="font-weight-bold">Silver</h8>
+												</div>
+											</div>
+										<div class="pt-2 mh-42 justify-content-between" style="display: flex;" id="input-titles">
+                               			 <div class="fw-bold">Open</div>
+										 <div class="fw-bold">High</div>
+										 <div class="fw-bold">Low</div>
+										 <div class="fw-bold">Close</div>
 										</div>
 									</div>
+								 </div>
+			                   <div style=" display: flex;">
+			                      <input type="text" class="form-control" id="silver-input" autocomplete="off">
+			                    </div>
+			                    </div>
+			                    <div id="silverGrid" style="margin-top: 0rem;"></div>
+								  <div class="row" id="dataInputButtonsSilver" style="display: none;">
+								  <div class='col-12 d-flex justify-content-end mt-2'>
+									<input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="loadSilver" value="" />
+									<input id="cancelSilver" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+								  </div>
+								</div>
+		                     </div>
+		                      <div class="col-2">
+		                       <div  id="platinumformInput">
+		                      <div  style=" display: flex;">
 									<div class="col pl-0">
 										<div>
 											<img  height="48" width="48" src="/img/platinum.png" class="img-icon" data-toggle="tooltip" title="Platinum" >
@@ -182,28 +262,23 @@ button#deleteByDate {
 											<h8 class="font-weight-bold">Platinum</h8>
 										</div>
 									</div>
-								    <div class="col pl-0">
-										<div>
-											<img height="48" width="48" src="/img/silver.png" class="img-icon" data-toggle="tooltip" title="Silver" >
-										</div>
-										<div>
-											<h8 class="font-weight-bold">Silver</h8>
-										</div>
-									</div>
 								 </div>
-			                   <div style=" display: flex;">
-			                      <input type="text" class="form-control" id="precious-input" autocomplete="off">
+			                   	 <div style=" display: flex;">
+			                      <input type="text" class="form-control" id="platinum-input" autocomplete="off">
 			                    </div>
+			                    </div>
+			                    <div id="platinumGrid" style="margin-top: 0rem;"></div>
+								  <div class="row" id="dataInputButtonsPlatinum" style="display: none;">
+								  <div class='col-12 d-flex justify-content-end mt-2'>
+									<input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="loadPlatinum" value="" />
+									<input id="cancelPlatinum" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
+								  </div>
+								</div>
+		                     </div>
 		                     </div>
 		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
 		                    </form>
-		               <div id="dataInputGrid" style="margin-top: 0rem;"> </div>
-					       <div class="row" id="dataInputButtons" style="display:none;">
-							<div class='col-12 d-flex justify-content-end mt-2'>
-							<input class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="loadPreciousData" value="Load " />
-							<input id="CancelPreciousData" type="button" style="margin: 0!important;" class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
-							</div>
-						  </div>
+		               
 		                 </div>
 	                 </div>
 	                 	 <div th:if="${commodity == 2}" class="col-12 p-0" id="baseMetals-input">
@@ -415,7 +490,7 @@ button#deleteByDate {
 		                    	
 							</div>
 							<div class="col-3 p-0">
-							 <button id="deletePreciousByDate" style="font-size: .8rem; float: right;">Delete</button> 
+							 <button id="deletepreciousByDate" style="font-size: .8rem; float: right;">Delete</button> 
 		                   </div>
                        </div>
 					  <div id="preciousAuditGrid"></div>
@@ -488,27 +563,52 @@ button#deleteByDate {
      <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
   	 <div class="card-body pl-1">
 		<div class="row">
-		 <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
+		 <div class="btn-group mr-2 col-12 mb-2  align-items-end" role="group" aria-label="Second group">
 			<label style="margin-right: 1.5rem;">From</label>
 				<div id='dateInputFrom' style='border-radius: 0.2rem;'>
 				</div>
 			<label style="margin-right: 1.5rem;    margin-left: 1.5rem;">To</label>
 				<div id='dateInputTo'  style='border-radius: 0.2rem;'>
 				</div>
+			<div class="row pl-4">
+				<div class='col-12 d-flex justify-content-end '>
+				<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
+				<input id="Clearfilter" type="button"  class="btn btn-light-secondary  mb-1" value="Clear" />
+				</div>
+			</div>
        </div> 
+         
        </div>
    
     <div class="row mt-2">
      <div class="col border ml-2 p-1 mb-3 rounded">
         <div class="row">
-          <div th:if="${commodity == 1}" class="col-sm-4" id="preciousMetals-filter">
+          <div th:if="${commodity == 1}" class="col-sm-10" id="preciousMetals-filter">
              <h6 class="col font-weight-bold">Precious Metals</h6>
-             <div class="d-flex justify-content-between">
-             	<div id='jqxCheckBoxGold' style='float: left;'><span class="checkboxesTitle">Gold</span></div> 
-             	<div id='jqxCheckBoxPlatinum' style='float: left;'><span class="checkboxesTitle">Platinum</span></div>
-             	<div id='jqxCheckBoxSilver' style='float: left;'><span class="checkboxesTitle">Silver</span></div>
-             	<div id='jqxCheckBoxPlatGold' style='float: left;'><span class="checkboxesTitle">Plat-gold</span></div>
-             	<div id='jqxCheckBoxGoldSilv' style='float: left;'><span class="checkboxesTitle">Gold/Silv</span></div>
+             <div class="d-flex justify-content-between align-items-end">
+             	<div>
+             	   <div class=" col fw-bold">GOLD</div>
+	             	<div id='jqxCheckBoxOpenGold' style='float: left;'><span class="checkboxesTitle">Open</span></div> 
+	             	<div id='jqxCheckBoxHighGold' style='float: left;'><span class="checkboxesTitle">high</span></div> 
+	             	<div id='jqxCheckBoxLowGold' style='float: left;'><span class="checkboxesTitle">low</span></div> 
+	             	<div id='jqxCheckBoxCloseGold' style='float: left;'><span class="checkboxesTitle">close</span></div> 
+	            </div>
+             	<div>
+             	<div class="col fw-bold">SILVER</div>
+             		<div id='jqxCheckBoxOpenSilver' style='float: left;'><span class="checkboxesTitle">Open</span></div> 
+             		<div id='jqxCheckBoxHighSilver' style='float: left;'><span class="checkboxesTitle">high</span></div> 
+             		<div id='jqxCheckBoxLowSilver' style='float: left;'><span class="checkboxesTitle">low</span></div> 
+             		<div id='jqxCheckBoxCloseSilver' style='float: left;'><span class="checkboxesTitle">close</span></div> 
+                </div>
+             	<div>
+             		<div id='jqxCheckBoxPlatinum' style='float: left;'><span class="checkboxesTitle">Platinum</span></div>
+             	</div>
+             	<div>
+             		<div id='jqxCheckBoxPlatGold' style='float: left;'><span class="checkboxesTitle">Plat-gold</span></div>
+             	</div>
+             	<div>
+             		<div id='jqxCheckBoxGoldSilv' style='float: left;'><span class="checkboxesTitle">Gold/Silv</span></div>
+             	</div>
          	 </div>
            </div>
            <div th:if="${commodity == 2}" class="col-sm-4" id="baseMetals-filter">
@@ -550,12 +650,7 @@ button#deleteByDate {
     	</div>
     </div>
    </div>
-  <div class="row" style="position: absolute;top: 52px;right: .5rem;">
-			<div class='col-12 d-flex justify-content-end '>
-			<input  data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="filter" value="Search" />
-			<input id="Clearfilter" type="button"  class="btn btn-light-secondary  mb-1" value="Clear" />
-			</div>
-	</div>
+
 	</div> 
 	</div>
 	</div>

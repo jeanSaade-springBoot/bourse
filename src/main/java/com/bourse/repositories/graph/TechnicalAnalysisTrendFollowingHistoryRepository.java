@@ -19,4 +19,8 @@ public interface TechnicalAnalysisTrendFollowingHistoryRepository extends JpaRep
 
 	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndIsSharedAndChartId(String groupId, Boolean isShared , Long chartId);
 	
+	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndSubGroupIdAndIsSharedAndChartId(String groupId, String subgroupId, Boolean isShared , Long chartId);
+
+	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndSubGroupIdAndUserNameAndIsSharedAndChartId(String groupId, String subgroupId, String userName, Boolean isShared, Long chartId);
+
 }

@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.EcbQeLiquidity;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditEcbQeLiquidity;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.EcbQeLiquidityRepository;
@@ -60,6 +62,18 @@ public class EcbQeLiquidityService {
 		query.setParameter("toDate", toDate);
 		query.execute();
    	}
+    @Transactional
+	public void updateValue(String date, Long subgroupId, String value) {
+
+    	EcbQeLiquidity entity = ecbQeLiquidityRepository.findEcbQeLiquidityByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			ecbQeLiquidityRepository.save(entity);
+		}
+	}
     public List<EcbQeLiquidity> SaveQeLiquidityData(List<EcbQeLiquidity> ecbQeLiquidityDataList) {
 		
     	 List<EcbQeLiquidity> ecbQeLiquidityList=  ecbQeLiquidityRepository.saveAll(ecbQeLiquidityDataList);

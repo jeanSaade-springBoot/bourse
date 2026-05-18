@@ -182,6 +182,10 @@ public class GraphController {
 	public  List<TechnicalAnalysisTrendFollowingHistory> findTrendFollowingHistoryByUserIdAndScreenName(@PathVariable("groupId") String groupId,@PathVariable("isShared") Boolean isShared ,@PathVariable("chartId") String chartId , Authentication authentication) {
 	return technicalAnalysisGraphHistoryService.findGraphHistoryByGroupIdAndUserNameAndIsSharedAndChartId(groupId,isShared,chartId, authentication);
 	}
+	@GetMapping(value = "find-trend-following-history-by-userid-groupId-and-subgroupId-and-chartId/{groupId}/{subGroupId}/{isShared}/{chartId}")
+	public  List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndSubGroupIdAndUserNameAndIsSharedAndChartId(@PathVariable("groupId") String groupId,@PathVariable("subGroupId") String subGroupId, @PathVariable("isShared") Boolean isShared ,@PathVariable("chartId") String chartId , Authentication authentication) {
+	return technicalAnalysisGraphHistoryService.findGraphHistoryByGroupIdAndSubGroupIdAndUserNameAndIsSharedAndChartId(groupId, subGroupId, isShared,chartId, authentication);
+	}
 	@DeleteMapping(value = "deletetrendline/{id}")
 	public ResponseEntity<Object>  deleteByReferDate(@PathVariable("id") String id) {
 		technicalAnalysisGraphHistoryService.deleteTrendlineById(id);
@@ -241,4 +245,8 @@ public class GraphController {
 
 		return new ResponseEntity<>(graphService.getWeightedTrendGraph(graphReqDTO),HttpStatus.OK);
 	}
+	@PostMapping(value = "getgraphdatabytype")
+	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
+		return new ResponseEntity<>(graphService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
+	} 
 }

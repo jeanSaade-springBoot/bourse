@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.BoblOptionsVolume;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditBoblOptionsVolume;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.BoblOptionsVolumeRepository;
@@ -104,4 +106,15 @@ public class BoblOptionsVolumeService {
 				boblOptionsVolumeRepository.save(BoblOptionsVolume);
 			}
 		}
+	@Transactional
+	public void updateValue(String date, Long subgroupId, String value) {
+
+		BoblOptionsVolume entity = boblOptionsVolumeRepository.findByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+			entity.setValue(value);
+			boblOptionsVolumeRepository.save(entity);
+		}
+	}
+	
 }

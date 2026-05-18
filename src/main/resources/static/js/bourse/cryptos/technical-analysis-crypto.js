@@ -394,7 +394,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2) {
 	const cacheKey = `${cryptoGroupId}-${chartId}`;
 	const container = document.getElementById(`checkboxes-container-chart-${chartId}`);
 
-	// 🧠 Only build once
+	// Only build once
 	if (!checkboxCache[cacheKey]) {
 		
 		container.innerHTML = '';
@@ -1161,7 +1161,7 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 						}else if ([59,60,61,62,63].includes(functionId)){
 						  seriesColors = ['#ffffff', '#8ae2ff'];
 						}else if ([64,65,66,67,68,69].includes(functionId)){
-						  seriesColors = ['#ffffff', '#81FF4F'];
+						  seriesColors = ['#ffffff', '#33ad02'];
 						}
 						else if ([70,71,72,73,74,75].includes(functionId)){
 						  seriesColors = ['#ffffff', '#FFED4F'];
@@ -1277,7 +1277,7 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				}else if ([59,60,61,62,63].includes(functionId)){
 				  seriesColors = ['#ffffff', '#8ae2ff'];
 				}else if ([64,65,66,67,68,69].includes(functionId)){
-				  seriesColors = ['#ffffff', '#81FF4F'];
+				  seriesColors = ['#ffffff', '#33ad02'];
 				}
 				else if ([70,71,72,73,74,75].includes(functionId)){
 				  seriesColors = ['#ffffff', '#FFED4F'];

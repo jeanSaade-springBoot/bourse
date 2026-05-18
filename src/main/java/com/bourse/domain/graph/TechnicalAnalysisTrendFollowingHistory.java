@@ -36,6 +36,7 @@ public class TechnicalAnalysisTrendFollowingHistory {
     private String userName;
     private String functionId;
     private String groupId;
+    private String subGroupId;
     @Builder.Default
     @Column(name = "is_candle_stick", columnDefinition = "BOOLEAN DEFAULT FALSE")
     private Boolean isCandleStick = false;

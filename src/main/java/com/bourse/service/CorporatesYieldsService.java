@@ -7,11 +7,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.CorporateYieldsData;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditCorporateLiquidityPremia;
 import com.bourse.domain.TmpAuditCorporateYields;
 import com.bourse.domain.TmpAuditCreditSpreads;
@@ -67,7 +69,18 @@ public class CorporatesYieldsService
 			return corporatesYieldsRepository.saveAll(plst);
         
 	}
+	@Transactional
+	public void updateValue(String date, Long subgroupId, String value) {
 
+		CorporateYieldsData entity = corporatesYieldsRepository.findByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			corporatesYieldsRepository.save(entity);
+		}
+	}
 	public List<TmpAuditCreditSpreads> findTmpAuditCreditSpreadsByReferDate(String referDate)
 	{
 		boolean hasData= adminService.getData();

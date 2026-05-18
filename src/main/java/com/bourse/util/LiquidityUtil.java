@@ -9,7 +9,6 @@ import com.bourse.dto.GraphResponseDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.QueryColumnsDTO;
 import com.bourse.dto.SelectedSearchDTO;
-import com.bourse.enums.PreciousSubGroupEnum;
 public class LiquidityUtil {
 	
 

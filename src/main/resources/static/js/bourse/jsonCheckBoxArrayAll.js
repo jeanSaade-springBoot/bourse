@@ -1,5 +1,5 @@
 var itemValue = {
-	"#jqxCheckBoxGold": {
+	"#jqxCheckBox-6-1": {
 		"subGroupId": "1",
 		"GroupId": "6",
 		"description": "GOLD",
@@ -11,11 +11,47 @@ var itemValue = {
 		"description": "PLATINUM",
 		"title": "platinum"
 	},
-	"#jqxCheckBoxSilver": {
+	"#jqxCheckBox-6-2": {
 		"subGroupId": "2",
 		"GroupId": "6",
-		"description": "GOLD",
-		"title": "GOLD"
+		"description": "SILVER",
+		"title": "SILVER"
+	},
+	"#jqxCheckBox-6-6": {
+		"subGroupId": "6",
+		"GroupId": "6",
+		"description": "OPEN_GOLD",
+		"title": "OPEN_GOLD"
+	},
+		"#jqxCheckBox-6-7": {
+		"subGroupId": "7",
+		"GroupId": "6",
+		"description": "HIGH_GOLD",
+		"title": "HIGH_GOLD"
+	},
+		"#jqxCheckBox-6-8": {
+		"subGroupId": "8",
+		"GroupId": "6",
+		"description": "LOW_GOLD",
+		"title": "LOW_GOLD"
+	},
+	"#jqxCheckBox-6-9": {
+		"subGroupId": "9",
+		"GroupId": "6",
+		"description": "OPEN_SILVER",
+		"title": "OPEN_SILVER"
+	},
+	"#jqxCheckBox-6-10": {
+		"subGroupId": "10",
+		"GroupId": "6",
+		"description": "HIGH_SILVER",
+		"title": "HIGH_SILVER"
+	},
+		"#jqxCheckBox-6-11": {
+		"subGroupId": "11",
+		"GroupId": "6",
+		"description": "LOW_SILVER",
+		"title": "LOW_SILVER"
 	},
 	"#jqxCheckBoxPlatGold": {
 		"subGroupId": "4",

@@ -8,9 +8,15 @@ public enum SubGroupEnum {
 	UK(1,4,"4","UK","UK"), 
 	ITALY(1,5,"5","ITALY","ITALY"), 
 	SPAIN(1,6,"6","SPAIN","SPAIN"), 
-	GOLD(6,1,"1","GOLD","GOLD"), 
-	PLATINUM(6,3,"2","PLATINUM","PLATINUM"), 
-	SILVER(6,2,"3","SILVER","SILVER"),
+	CLOSEGOLD(6,1,"4","CLOSE_GOLD","CLOSE-GOLD"),
+	PLATINUM(6,3,"5","PLATINUM","PLATINUM"),
+	CLOSESILVER(6,2,"9","CLOSE_SILVER","CLOSE-SILVER"),
+	OPENGOLD(6,6,"1","OPEN_GOLD","OPEN-GOLD"),
+	HIGHGOLD(6,7,"2","HIGH_GOLD","HIGH-GOLD"),
+	LOWGOLD(6,8,"3","LOW_GOLD","LOW-GOLD"),
+	OPENSILVER(6,9,"6","OPEN_SILVER","OPEN-SILVER"),
+	HIGHSILVER(6,10,"7","HIGH_SILVER","HIGH-SILVER"),
+	LOWSILVER(6,11,"8","LOW_SILVER","LOW-SILVER"),
 	PLATGOLD(6,4,"4","PLATINUM_GOLD","PLATINUM-GOLD"), 
 	GOLDSILV(6,5,"5","GOLD_SILVER","GOLD-SILVER"), 
 	COPPER(7,1,"1","COPPER","COPPER"),
@@ -87,14 +93,30 @@ public enum SubGroupEnum {
 	public static String getIndexByGroupAndSubGroupgroupId(int groupId,int subGroupId) {
 		
 		if(groupId==6)
-				switch (subGroupId) {
-		            case 1:
-		                return GOLD.index;
-		            case 3:
-		                return PLATINUM.index;
-		            case 2:
-		                return SILVER.index;
-		        }
+		    switch (subGroupId) {
+		        case 1:
+		            return CLOSEGOLD.index;
+		        case 2:
+		            return CLOSESILVER.index;
+		        case 3:
+		            return PLATINUM.index;
+		        case 4:
+		            return PLATGOLD.index;
+		        case 5:
+		            return GOLDSILV.index;
+		        case 6:
+		            return OPENGOLD.index;
+		        case 7:
+		            return HIGHGOLD.index;
+		        case 8:
+		            return LOWGOLD.index;
+		        case 9:
+		            return OPENSILVER.index;
+		        case 10:
+		            return HIGHSILVER.index;
+		        case 11:
+		            return LOWSILVER.index;
+		    }
 		else if(groupId==7)
 		switch (subGroupId) {
             case 1:
@@ -215,12 +237,24 @@ public enum SubGroupEnum {
     }
 	public static String getDescriptionByName(String name) {
 	    switch (name) {
-	        case "GOLD":
-	            return SubGroupEnum.GOLD.description;
+	        case "CLOSE_GOLD":
+	        	return SubGroupEnum.CLOSEGOLD.description;
 	        case "PLATINUM":
 	            return SubGroupEnum.PLATINUM.description;
-	        case "SILVER":
-	            return SubGroupEnum.SILVER.description;
+	        case "CLOSE_SILVER":
+	        	return SubGroupEnum.CLOSESILVER.description;
+	        case "OPEN_GOLD":
+	            return SubGroupEnum.OPENGOLD.description;
+	        case "HIGH_GOLD":
+	            return SubGroupEnum.HIGHGOLD.description;
+	        case "LOW_GOLD":
+	            return SubGroupEnum.LOWGOLD.description;
+	        case "OPEN_SILVER":
+	            return SubGroupEnum.OPENSILVER.description;
+	        case "HIGH_SILVER":
+	            return SubGroupEnum.HIGHSILVER.description;
+	        case "LOW_SILVER":
+	            return SubGroupEnum.LOWSILVER.description;
 	        case "PLATINUM_GOLD":
 	            return SubGroupEnum.PLATGOLD.description;
 	        case "GOLD_SILVER":

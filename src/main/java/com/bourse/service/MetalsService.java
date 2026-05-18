@@ -27,9 +27,11 @@ import com.bourse.enums.CreditSpreadSubGroupEnum;
 import com.bourse.enums.EnergySubGroupEnum;
 import com.bourse.enums.FoodStuffSubGroupEnum;
 import com.bourse.enums.FunctionEnum;
+import com.bourse.enums.GroupRollingEnum;
 import com.bourse.enums.PreciousSubGroupEnum;
 import com.bourse.enums.TransportationSubGroupEnum;
 import com.bourse.repositories.ColumnConfigurationRepository;
+import com.bourse.util.DateFormatUtil;
 import com.bourse.util.MetalsUtil;
 
 @Service
@@ -86,7 +88,7 @@ public class MetalsService {
 		return hashData;
 	}
 	
-	
+
 	public List buildColumns(HashMap<Integer,String>  colHash)
 	{
 		Iterator it = colHash.entrySet().iterator();

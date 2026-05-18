@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.BaseMetals;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditBase;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.BaseMetalsRepository;
@@ -83,6 +85,19 @@ public class BaseMetalsService
 		query.setParameter("referDate",referDate );
 		query.execute();
 	}
+
+	 @Transactional
+		public void updateValue(String date, Long subgroupId, String value) {
+
+		 BaseMetals entity = baseMetalsRepository.findBaseMetalsByReferDateAndSubgroupId(date, subgroupId);
+
+			if (entity != null) {
+
+				entity.setValue(value);
+
+				baseMetalsRepository.save(entity);
+			}
+		}
 	 public void doCalculation()
 	   	{
 		 	StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery("calculation_base_main");

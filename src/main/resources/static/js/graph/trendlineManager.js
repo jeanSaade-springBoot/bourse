@@ -2280,8 +2280,8 @@ async function getTrendLinesHistory(){
 	const result = await getTrendLinesHistoryAsync(screenName);
 		
 	ChartManager.instances['chart2'].loadDataWithOverlays({
-			service: "cryptos",
-			api: "/cryptos/getgraphdatabytype",
+			service: graphService,
+			api: "/"+graphService+"/getgraphdatabytype",
 			name: "Technical Chart",
 			removeEmpty: true,
 			saveHistory: true,

@@ -17,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.usJobs.TmpAuditUsADPChange;
 import com.bourse.domain.usJobs.TmpAuditUsHouseHoldSurv;
 import com.bourse.domain.usJobs.TmpAuditUsJobsopenings;
@@ -112,6 +113,18 @@ public class UsJobsService {
 		List<UsJobsData> UsJobsDataLst = new ArrayList<UsJobsData>();
 		UsJobsDataLst.add(UsJobsData);
 		doCalculation(updateDataDTOlst.get(0).getReferdate(),updateDataDTOlst.get(0).getGroupId());
+	}
+	@Transactional
+	public void updateValue(String date,long groupId, Long subgroupId, String value) {
+
+		UsJobsData entity = usJobsDataRepository.findUsJobsDataByReferDateAndGroupIdAndSubgroupId(date,groupId, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			usJobsDataRepository.save(entity);
+		}
 	}
 	public boolean CheckIfCanSaveUsJobs(String referDate,Long groupId,Long subgroupId)
    	{

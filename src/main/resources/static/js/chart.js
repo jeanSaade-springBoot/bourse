@@ -2066,7 +2066,7 @@ const barFunctionId=[53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72
 const dynamicColor =
   [53,54,55,56,57,58].includes(chartConfigSettings.functionId) ? '#8aff8e' :
   [59,60,61,62,63].includes(chartConfigSettings.functionId) ? '#8ae2ff' :
-  [64,65,66,67,68,69].includes(chartConfigSettings.functionId) ? '#81FF4F' :
+  [64,65,66,67,68,69].includes(chartConfigSettings.functionId) ? '#33ad02' :
   [70,71,72,73,74,75].includes(chartConfigSettings.functionId) ? '#FFED4F' :
   '#00c9ff96';
 
@@ -2602,7 +2602,8 @@ function updateChartSelectedItem(chartConfigSettings){
 			 		// var valueMax = getMarginLenght(chartConfigSettings.max);  				 	
 					 const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
 				     var valueMin = values;
-				    
+				     var valueMax = values;
+				       
 				     var calculatedMinValue = Math.sign(chartConfigSettings.minvalue) == -1 ? -Math.abs(chartConfigSettings.minvalue) - valueMin : Math.abs(chartConfigSettings.minvalue) - valueMin;
 				      graphService=typeof graphService!='undefined'?graphService:'';
 				    //   calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;

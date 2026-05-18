@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.EuriborOptionsVolume;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditEuriborOptionsVolume;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.EuriborOptionsVolumeRepository;
@@ -104,4 +106,16 @@ public class EuriborOptionsVolumeService {
 				euriborOptionsVolumeRepository.save(euriborOptionsVolume);
 			}
 		}
+	@Transactional
+	public void updateValue(String date, Long subgroupId, String value) {
+
+		EuriborOptionsVolume entity = euriborOptionsVolumeRepository.findByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			euriborOptionsVolumeRepository.save(entity);
+		}
+	}
 }

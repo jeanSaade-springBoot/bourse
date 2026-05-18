@@ -982,7 +982,27 @@ return new ModelAndView("html/base");
 		    model.addAttribute("graph2", "html/cryptos/graph2-technical-analysis");
 		    
 		    return new ModelAndView("html/cryptos/technical-analysis");
-}
+    }
+	@PreAuthorize("hasAuthority('GOLD_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/gold")
+    public ModelAndView goldGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		
+        model.addAttribute("privilege", "GOLD_COMMODITY_GRAPH_SCREEN");
+	    return new ModelAndView("html/commos/technical-analysis");
+    }
+	@PreAuthorize("hasAuthority('SILVER_COMMODITY_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/silver")
+    public ModelAndView silverGraphPage(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		
+        model.addAttribute("privilege", "SILVER_COMMODITY_GRAPH_SCREEN");
+	    return new ModelAndView("html/commos/technical-analysis");
+    }
 	@PreAuthorize("hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping( value =  "/corporateliquidity")
     public ModelAndView corporateLiquidityPage(ModelMap model, Authentication authentication)

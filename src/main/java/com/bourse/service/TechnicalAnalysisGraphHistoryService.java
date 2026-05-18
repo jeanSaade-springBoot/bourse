@@ -99,6 +99,16 @@ public class TechnicalAnalysisGraphHistoryService
 			return technicalAnalysisTrendFollowingHistoryRepository
 					.findGraphHistoryByGroupIdAndUserNameAndIsSharedAndChartId(groupId, authentication.getName(), isShared ,Long.valueOf(chartId));
 	}
+	public List<TechnicalAnalysisTrendFollowingHistory> findGraphHistoryByGroupIdAndSubGroupIdAndUserNameAndIsSharedAndChartId( String groupId,  String subgGroupId, Boolean isShared, String chartId, Authentication authentication) 
+	{
+		if (isShared)
+		return	technicalAnalysisTrendFollowingHistoryRepository
+			.findGraphHistoryByGroupIdAndSubGroupIdAndIsSharedAndChartId(groupId, subgGroupId, isShared, Long.valueOf(chartId));
+
+		else
+			return technicalAnalysisTrendFollowingHistoryRepository
+					.findGraphHistoryByGroupIdAndSubGroupIdAndUserNameAndIsSharedAndChartId(groupId, subgGroupId, authentication.getName(), isShared ,Long.valueOf(chartId));
+	}
 	public TechnicalAnalysisGraphHistory SaveGraphHistory(TechnicalAnalysisGraphHistoryDTO graphHistorydto, Authentication authentication) 
 	{  
 		long id;
@@ -356,6 +366,7 @@ public class TechnicalAnalysisGraphHistoryService
 	                    .isShared(dto.getIsShared())
 	                    .userName(authentication.getName())
 	                    .groupId(dto.getGroupId())
+	                    .subGroupId(dto.getSubGroupId())
 	                    .chartId(dto.getChartId())
 	                    .build();
 	            return technicalAnalysisTrendFollowingHistoryRepository.save(updated);
@@ -369,6 +380,7 @@ public class TechnicalAnalysisGraphHistoryService
 	            .isShared(dto.getIsShared())
 	            .userName(authentication.getName())
 	            .groupId(dto.getGroupId())
+	            .subGroupId(dto.getSubGroupId())
 	            .chartId(dto.getChartId())
 	            .build();
 

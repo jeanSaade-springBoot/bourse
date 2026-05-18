@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.EcbExcessLiquidity;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditEcbExcessLiquidity;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.EcbExcessLiquidityRepository;
@@ -63,6 +65,18 @@ public class EcbExcessLiquidityService {
     public List<EcbExcessLiquidity> SaveExcessLiquidityData(List<EcbExcessLiquidity> ecbExcessLiquidityDataList) {
 		
 		return ecbExcessLiquidityRepository.saveAll(ecbExcessLiquidityDataList);
+	}
+    @Transactional
+	public void updateValue(String date, Long subgroupId, String value) {
+
+    	EcbExcessLiquidity entity = ecbExcessLiquidityRepository.findEcbExcessLiquidityByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			ecbExcessLiquidityRepository.save(entity);
+		}
 	}
 	public List<TmpAuditEcbExcessLiquidity> getAuditData(String referDate)
 	{

@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.EnergyData;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditEnergy;
 import com.bourse.domain.TmpAuditFoodStuff;
 import com.bourse.dto.UpdateDataDTO;
@@ -45,7 +47,18 @@ public class EnergyService
 		
 		return energyRepository.saveAll(energyDataList);
 	}
-	
+	@Transactional
+	public void updateValue(String date, Long subgroupId, String value) {
+
+		EnergyData entity = energyRepository.findEnergyByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			energyRepository.save(entity);
+		}
+	}
 	public List<TmpAuditEnergy> getAuditData(String referDate)
 	{
 		boolean hasData= adminService.getData();

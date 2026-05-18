@@ -9,6 +9,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,7 @@ import org.springframework.stereotype.Service;
 
 import com.bourse.domain.ColumnConfiguration;
 import com.bourse.domain.FunctionConfiguration;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.sti.StiAsiaData;
 import com.bourse.domain.sti.StiCryptosData;
 import com.bourse.domain.sti.StiEmergingData;
@@ -311,6 +313,19 @@ public class StiService {
 			stiAsiaRepository.save(stiAsiaData);
 		}
 	}
+	@Transactional
+	public void updateAsiaValue(String date, Long subgroupId, String value) {
+
+		StiAsiaData entity = stiAsiaRepository.findByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			stiAsiaRepository.save(entity);
+		}
+	}
+	
 	public void updateWallStreetData(List<UpdateDataDTO> updateDataDTOlst) {
 		
 		StiWallStreetData stiWallStreetData;
@@ -319,6 +334,18 @@ public class StiService {
 			stiWallStreetData = stiWallStreetRepository.findByReferDateAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getSubgroupId()));
 			stiWallStreetData.setValue(updateDataDTO.getValue());
 			stiWallStreetRepository.save(stiWallStreetData);
+		}
+	}
+	@Transactional
+	public void updateWallStreetValue(String date, Long subgroupId, String value) {
+
+		StiWallStreetData entity = stiWallStreetRepository.findByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			stiWallStreetRepository.save(entity);
 		}
 	}
 	public void updateEuropeData(List<UpdateDataDTO> updateDataDTOlst) {
@@ -331,6 +358,18 @@ public class StiService {
 			stiEuropeRepository.save(stiEuropeData);
 		}
 	}
+	@Transactional
+	public void updateEuropeValue(String date, Long subgroupId, String value) {
+
+		StiEuropeData entity = stiEuropeRepository.findByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			stiEuropeRepository.save(entity);
+		}
+	}
 	public void updateEmergingData(List<UpdateDataDTO> updateDataDTOlst) {
 		
 		StiEmergingData stiEmergingData;
@@ -339,6 +378,18 @@ public class StiService {
 			stiEmergingData = stiEmergingRepository.findByReferDateAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getSubgroupId()));
 			stiEmergingData.setValue(updateDataDTO.getValue());
 			stiEmergingRepository.save(stiEmergingData);
+		}
+	}
+	@Transactional
+	public void updateEmergingValue(String date, Long subgroupId, String value) {
+
+		StiEmergingData entity = stiEmergingRepository.findByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			stiEmergingRepository.save(entity);
 		}
 	}
 	public void updateCryptosData(List<UpdateDataDTO> updateDataDTOlst) {

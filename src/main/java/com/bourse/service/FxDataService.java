@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.FxUsdData;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditFxEurData;
 import com.bourse.domain.TmpAuditFxUsdData;
 import com.bourse.dto.UpdateDataDTO;
@@ -125,4 +127,16 @@ public class FxDataService {
 				fxUsdDataRepository.save(FxUsdData);
 			}
 		}
+	@Transactional
+	public void updateValue(String date, Long subgroupId, String value) {
+
+		FxUsdData entity = fxUsdDataRepository.findByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			fxUsdDataRepository.save(entity);
+		}
+	}
 }

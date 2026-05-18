@@ -1,6 +1,6 @@
-var allitems=["#jqxCheckBoxGold",
+var allitems=["#jqxCheckBox-6-1",
 		   		"#jqxCheckBoxPlatinum",
-			    "#jqxCheckBoxSilver",
+			    "#jqxCheckBox-6-2",
 			    "#jqxCheckBoxPlatGold",
 			    "#jqxCheckBoxGoldSilv"];
 

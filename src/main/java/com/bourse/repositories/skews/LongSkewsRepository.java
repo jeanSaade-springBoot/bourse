@@ -1,5 +1,7 @@
 package com.bourse.repositories.skews;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -11,7 +13,10 @@ public interface LongSkewsRepository extends JpaRepository<LongSkewsData, Long> 
 
 	public long countByReferDate(String referDate);
 	public boolean existsByReferDateAndSubgroupId(String referDate, Long subgroupId);
-
+	
+	public Optional<LongSkewsData> findByReferDateAndGroupIdAndSubgroupIdAndFactorId(String referDate,Long groupId,Long subgroupId,Long factorId);
+	
+	
 	public LongSkewsData findLongSkewsDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(String referDate,Long groupId,Long subgroupId,Long factorId);
 	@Transactional
 	public void deleteLongSkewsDataByReferDate(String referDate);

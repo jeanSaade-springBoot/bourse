@@ -40,6 +40,10 @@ ease;
 .seg-btn:focus-visible{
   outline:2px solid #fff8; outline-offset:2px; border-radius:4px;
 }
+.min-max-div-container{
+	min-width: 1050px;
+    max-width: 1250px;
+}
 div#innerListBoxdropDownFunctions {
     margin-left: 0px;
 }

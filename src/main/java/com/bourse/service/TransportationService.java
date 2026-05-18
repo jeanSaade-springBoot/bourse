@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.TransportationData;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditTransportation;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.TmpAuditTrasnportationRepository;
@@ -56,6 +58,18 @@ public class TransportationService
 		query.execute();
 		List<TmpAuditTransportation> auditProcedureDTOLst = (List<TmpAuditTransportation>) query.getResultList();
 		return auditProcedureDTOLst;
+	}
+	@Transactional
+	public void updateValue(String date, Long subgroupId, String value) {
+
+		TransportationData entity = transportationRepository.findTransportationByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			transportationRepository.save(entity);
+		}
 	}
 	public void deletetransportationByReferDate(String referDate) {
 		List<TransportationData> transportationList = transportationRepository.findByReferDate(referDate);

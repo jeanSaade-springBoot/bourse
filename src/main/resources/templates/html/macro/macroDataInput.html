@@ -505,11 +505,19 @@
                   <div id="collapseFilter" class="collapse" aria-labelledby="headingOne" data-parent="#accordionFilter">
                     <div class="card-body pl-1">
                       <div class="row">
-                        <div class="btn-group mr-2 col-12 mb-2" role="group" aria-label="Second group">
+                        <div class="btn-group mr-2 col-12 mb-2 align-items-end" role="group" aria-label="Second group">
                           <label style="margin-right: 1.5rem;">From</label>
                           <div id='dateInputFrom' style='border-radius: 0.2rem;'></div>
                           <label style="margin-right: 1.5rem; margin-left: 1.5rem;">To</label>
                           <div id='dateInputTo' style='border-radius: 0.2rem;'></div>
+                          
+  						<div class="row pl-5">
+                          <div class='col-12 p-0 d-flex justify-content-end'>
+                            <input data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem !important; color: white;" type="button" id="filter" value="Search" />
+                            <input id="Clearfilter" type="button"  class="btn btn-light-secondary mr-1 mb-1 " value="Clear" />
+                          </div>
+                        </div>
+                        
                         </div>
                       </div>
                       <div class="row mt-2">
@@ -523,12 +531,6 @@
                               </div>
                             </div>
                             <div id="macroContainer" class="col-12"></div>
-                          </div>
-                        </div>
-  						<div class="row" style="position: absolute;top: 52px;right: .5rem;">
-                          <div class='col-12 p-0 d-flex justify-content-end'>
-                            <input data-toggle="collapse" data-target="#collapseFilter" aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem !important; color: white;" type="button" id="filter" value="Search" />
-                            <input id="Clearfilter" type="button"  class="btn btn-light-secondary mr-1 mb-1 " value="Clear" />
                           </div>
                         </div>
                       </div>

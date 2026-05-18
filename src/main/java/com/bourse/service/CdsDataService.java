@@ -6,11 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
+import javax.transaction.Transactional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.bourse.domain.CdsData;
+import com.bourse.domain.PreciousMetals;
 import com.bourse.domain.TmpAuditCdsData;
 import com.bourse.dto.UpdateDataDTO;
 import com.bourse.repositories.CdsDataRepository;
@@ -104,4 +106,16 @@ public class CdsDataService {
 				CdsDataRepository.save(cdsData);
 			}
 		}
+	@Transactional
+	public void updateValue(String date, Long subgroupId, String value) {
+
+		CdsData entity = CdsDataRepository.findByReferDateAndSubgroupId(date, subgroupId);
+
+		if (entity != null) {
+
+			entity.setValue(value);
+
+			CdsDataRepository.save(entity);
+		}
+	}
 }
