@@ -615,6 +615,9 @@ public List<Map<String, List<?>>> getPerformanceGraphBarDataResults(List<GraphRe
         query.registerStoredProcedureParameter("selectedDate", String.class, ParameterMode.IN);
         query.setParameter("selectedDate", selectedDate);
 
+        query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
+        query.setParameter("toDate", graphReqDTO.getTodate());
+
         query.registerStoredProcedureParameter("groupId", String.class, ParameterMode.IN);
         query.setParameter("groupId", graphReqDTO.getGroupId1());
         
@@ -631,7 +634,18 @@ public List<Map<String, List<?>>> getPerformanceGraphBarDataResults(List<GraphRe
 
         List<Double> values = graphResponseDTOlst1.stream()
                 .map(BarGraphResponseDTO::getValue)
-                .map(Double::parseDouble)
+                .map(value -> {
+                    if (value == null || value.trim().isEmpty()) {
+                        return 0.0; // or null if preferred
+                    }
+
+                    try {
+                        return Double.parseDouble(value);
+                    } catch (NumberFormatException e) {
+                        System.out.println("Invalid numeric value: " + value);
+                        return 0.0;
+                    }
+                })
                 .collect(Collectors.toList());
 
         Map<String, List<?>> dataMap = getDataMap(labels, values);

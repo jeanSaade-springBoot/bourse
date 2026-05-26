@@ -9,7 +9,7 @@
 <meta name="description" content="">
 <meta name="author" content="">
 <link href="img/logo/logo.png" rel="icon">
-<title>Libvol - STI Performance</title>
+<title>Libvol - Commos Performance</title>
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
 <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
 	type="text/css">
@@ -105,30 +105,19 @@ text.text-style {
 				<div th:include="${mainmenu}"></div>
 				<!-- Topbar -->
 			  	<div class="d-sm-flex align-items-center">
-            	<h1 class="ml-6 text-darkorange">STOCKS</h1>
-            	 <nav style="margin-left: 3rem;
-    						 height: 35px;
-    						 margin-top: 0.5rem;">
-				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
-				    <a sec:authorize="hasAuthority('ANY2_STI_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2sti" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				    <a sec:authorize="hasAuthority('STI_EUROPE_GRAPH_SCREEN')"
-	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/europe" role="tab" aria-controls="nav-bunds"
-	                 aria-selected="false">Europe</a>
-		             <a sec:authorize="hasAuthority('STI_WALLSTREET_GRAPH_SCREEN')"
-	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/wallstreet" role="tab" aria-controls="nav-bunds"
-	                 aria-selected="false">Wall Street</a>
-	                 <a sec:authorize="hasAuthority('STI_ASIA_GRAPH_SCREEN')"
-	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/asia" role="tab" aria-controls="nav-bunds"
-	                 aria-selected="false">Asia</a>
-	                 <a sec:authorize="hasAuthority('STI_EMERGING_GRAPH_SCREEN')"
-	                 class="navigation nav-item nav-link" id="nav-bunds-tab"
-	                 href="/bourse/emerging" role="tab" aria-controls="nav-bunds"
-	                 aria-selected="false">Emerging</a>
-	                  <a sec:authorize="hasAuthority('STI_PERFORMANCE_SCREEN')" class="navigation nav-item nav-link active" id="nav-performance-tab"  href="/bourse/stiperformance" role="tab" aria-controls="nav-performance" aria-selected="false">Performance</a>
-	                 
+            	     <h1 class="ml-6 text-darkorange">COMMOS</h1>
+		     	   <nav style="margin-left: 3rem; height: 35px; margin-top: 0.5rem;">
+		           <div class="nav nav-tabs" id="nav-tab" role="tablist">
+		            <a sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2metals" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
+				    <a sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-sovereign-yields-tab" href="/bourse/precious" role="tab" aria-controls="nav-precious" aria-selected="false">Precious</a>
+				    <a sec:authorize="hasAuthority('GOLD_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-sovereign-yields-tab" href="/bourse/gold" role="tab" aria-controls="nav-precious" aria-selected="false">Gold</a>
+					<a sec:authorize="hasAuthority('SILVER_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-sovereign-yields-tab" href="/bourse/silver" role="tab" aria-controls="nav-precious" aria-selected="false">Silver</a>
+ 					<a sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/base" role="tab" aria-controls="nav-base" aria-selected="false">Base</a>
+					<a sec:authorize="hasAuthority('ENERGY_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/energy" role="tab" aria-controls="nav-base" aria-selected="false">Energy</a>
+					<a sec:authorize="hasAuthority('TRANSPORTATION_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/transportation" role="tab" aria-controls="nav-base" aria-selected="false">Transportation</a>
+				 	<a sec:authorize="hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/foodstuff" role="tab" aria-controls="nav-base" aria-selected="false">Foodstuff</a>
+	                <a sec:authorize="hasAuthority('COMMOS_PERFORMANCE_SCREEN')" class="navigation nav-item nav-link active" id="nav-performance-tab"  href="/bourse/commosperformance" role="tab" aria-controls="nav-performance" aria-selected="false">Performance</a>
+	                  
 				 </div>
 				</nav>
            
@@ -166,7 +155,7 @@ text.text-style {
 												</div>
 												</div>
 												</div>
-												<div  class="d-flex">
+												<div  class="row">
 															<div class='col-1'></div>
 															<div class='col-10 row align-items-center' >
 															 <div id='performanceGroupOfPeriod' style=''>
@@ -191,14 +180,16 @@ text.text-style {
 																			<div id='dateInputTo'> </div>
 																	</div>
 																</div>
+																
 																<div class="row ml-4" >
-																<input aria-expanded="true" aria-controls="collapseFilter"
-																	class="btn btn-primary mr-1 mb-1"
-																	style=" color: white;"
-																	type="button" id="show" value="Show" /> <input
-																	id="clearfilter" type="button"
-																	style="margin-right: 1rem !important;"
-																	class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+																		<input aria-expanded="true" aria-controls="collapseFilter"
+																			class="btn btn-primary mr-1 mb-1"
+																			style="color: white;"
+																			type="button" id="show" value="Show" /> <input
+																			id="clearfilter" type="button"
+																			style="margin-right: 1rem !important;"
+																			class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+																	
 																</div>
 																
 															</div>
@@ -211,50 +202,47 @@ text.text-style {
 													<div class='col-1'></div>
 													<div class='col-11 d-flex justify-content-between'>
 														
-														<div  class="row col-12 mb-3">
-															<div  class="col pl-0 d-flex align-items-end">
-															    <div class="col pl-0 text-center">
-																	<h8 class="font-weight-bold">EUROPE</h8>
-																    <div id='jqxCheckBoxDax'  class="align-middle"></div>
-															    </div>
-															     <div class="col pl-0 text-center">
-																	<h8 class="font-weight-bold">WALL STREET</h8>
-																    <div id='jqxCheckBoxDowjones'  class="align-middle"></div>
-															    </div>
-															    <div class="col pl-0 text-center">
-																	<h8 class="font-weight-bold">ASIA</h8>
-																    <div id='jqxCheckBoxNikkei'  class="align-middle"></div>
-															    </div>
-															    <div class="col pl-0 text-center">
-																	<h8 class="font-weight-bold">EMERGING</h8>
-																    <div id='jqxCheckBoxTadawul'  class="align-middle"></div>
-															    </div>
-															     <div class="col pl-0 text-center">
-																	<h8 class="font-weight-bold">$-INDEX</h8>
-																    <div id='jqxCheckBoxDollarIndex'  class="align-middle"></div>
-															    </div>
-															    <div class="col pl-0 text-center">
-																	<h8 class="font-weight-bold">ALL</h8>
+														<div  class="row col-10  align-items-end">
+														
+														    <div class="col pl-0 text-center">
+																<h8 class="font-weight-bold">PRECIOUS</h8>
+															    <div id='jqxCheckBox-6-1'  class="align-middle"></div>
+														    </div>
+														     <div class="col pl-0 text-center">
+																<h8 class="font-weight-bold">BASE</h8>
+															    <div id='jqxCheckBoxCopper'  class="align-middle"></div>
+														    </div>
+														    <div class="col pl-0 text-center">
+																<h8 class="font-weight-bold">ENERGY</h8>
+															    <div id='jqxCheckBoxOil'  class="align-middle"></div>
+														    </div>
+														    <div class="col pl-0 text-center">
+																<h8 class="font-weight-bold">TRANSPORTATION</h8>
+															    <div id='jqxCheckBoxBaltic'  class="align-middle"></div>
+														    </div>
+														     <div class="col pl-0 text-center">
+																<h8 class="font-weight-bold">FOODSTUFF</h8>
+															    <div id='jqxCheckBoxCorn'  class="align-middle"></div>
+														    </div>
+														      <div class="col pl-0 text-center">
+																	<h8 class="font-weight-bold">All</h8>
 																    <div id='jqxCheckBoxAll'  class="align-middle"></div>
 															    </div>
-														    </div>
-														    <div  class="col-6  d-flex align-items-end">
+														      <div  class="col-6">
 															    <div class="pl-0 text-center d-flex h-35">
 																	<h8 class="font-weight-bold"></h8>
-																    <div id="dropDownButton" class="d-none">
-																   		 <div id="treeWrapper" style="z-index:90"></div>
-																   	</div>
-																    <div id="dropDownSelection" class="mr-3 "></div>
+																   
+																    <div id="dropDownSelection" class="mr-3"></div>
 																    <button id="checkAllBtn" class="btn-primary mr-3 text-nowrap">Check All</button> 
 																    <button id="uncheckAllBtn"  class="btn-secondary mr-3 text-nowrap">Uncheck All</button>
-																  <button id="toggleRankBtn" class="btn btn-outline-primary mr-3">Rank</button>
-													    		  <button id="toggleDollarDominatorBtn" style="width: 200px;" class="btn btn-outline-primary d-none">Dollar Dominator</button>
+																  	<button id="toggleRankBtn" class="btn btn-outline-primary">Rank</button>
 																  
 															    </div>
 														     </div>
 														 </div>	
-													
+														
 													</div>
+													
 												</div>
 											</div>
 											<div id="grid-content" style="display: none;">
@@ -447,7 +435,7 @@ text.text-style {
 														</div>
 														
 														
-														<div class="mt-2  pt-3  btn-toolbar justify-content-center"
+														<div class="mt-2 pt-3 btn-toolbar justify-content-center"
 															role="toolbar" aria-label="Toolbar with button groups"
 															style="min-width: 1090px; max-width: 1090px;">
 															<div class="btn-group mr-2" role="group"
@@ -546,17 +534,16 @@ text.text-style {
 									</div>
 								</div>
 							</div>
-							<div class="row">
-								<div class="col-12">
-
-									<div class="mt-3  justify-content-between"
-										role="toolbar" aria-label="Toolbar with button groups"
-										style="min-width: 1100px; max-width: 1100px;">
-										<div id="grid_filtered" style="margin-top: .5rem"></div>
-									</div>
-
-								</div>
-							</div>
+							 <div class="row">
+							    <div class="col-1"></div>
+							    <div class="col-11">
+							   	   
+							   	   <div class="mt-3 justify-content-between" role="toolbar" aria-label="Toolbar with button groups" style="float: inline-end; min-width: 1100px; max-width: 1100px;">
+											<div id="grid_filtered" style="margin-top:.5rem;"></div> 			 
+										</div>
+							   	   
+							    </div>
+							  </div>
 						</div>
 						<!---Container Fluid-->
 					</div>
@@ -600,23 +587,20 @@ text.text-style {
 			<script src="/js/chartOptions.js"></script>
 			<script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>
 			<script src="/js/chart.js"></script>
-			<script src="/js/bourse/sti/performance.js"></script>
 			<script src="/js/jqwidgets/jqxdata.js"></script>
 			<script src="/js/jqwidgets/jqxgrid.js"></script>
 			<script src="/js/jqwidgets/jqxbuttongroup.js"></script>
+			
 			<script src="/js/jqwidgets/jqxgrid.filter.js"></script>
 			<script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
 			<script src="/js/jqwidgets/jqxscrollbar.js"></script>
-			  
-			<script src="/js/jqwidgets/jqxdropdownbutton.js"></script>
-			<script src="/js/jqwidgets/jqxtree.js"></script>
-			  
 			<script src="/js/jqwidgets/jqxmenu.js"></script>
 			<script src="/js/jqwidgets/jqxgrid.pager.js"></script>
 			<script src="/js/jqwidgets/jqxdropdownlist.js"></script>
 			
-		    <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
+			<script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
 			<script src="/js/jqwidgets/jqxcalendar.js"></script>
+  			<script src="/js/jqwidgets/jqxtree.js"></script>
   
 			<script src="/js/jqwidgets/jqxlistbox.js"></script>
 			<script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script>
@@ -625,6 +609,9 @@ text.text-style {
 			<script src="/js/bourse/scrollBarNews.js"></script>
 			<script src="/js/bourse/inGraphNews.js"></script>
 			<script src="/js/common.js"></script>
+
+			<script src="/js/bourse/commos/performance.js"></script>
+
 
 			<script src="/js/notification/sockjs.js"></script>
 			<script src="/js/notification/stomp.js"></script>

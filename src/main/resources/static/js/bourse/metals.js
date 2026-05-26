@@ -175,35 +175,110 @@ const GROUP_CONFIG = {
 		},
 
 		afterUpdate: function(rowData) {
-
-			var keys = ["openGold", "highGold", "lowGold","closeGold",
-		 "openSilver","highSilver", "lowSilver" ,"closeSilver", 
-		 "platinum"];
-			var updatedMetalsJson = [];
-
-			for (let i = 0; i < keys.length; i++) {
-				if (rowData[keys[i]] != oldDataJson[keys[i]]) {
-					updatedMetalsJson.push({
-						assetId: 1,
-						groupId: getGroupId(commoditySubGroupValue),
-						value: keys[i].toUpperCase()
-					});
-				}
-			}
-
-			updateRobotNewsOnChangeColumns(updatedMetalsJson);
-
-			var auditSource = { ...GROUP_CONFIG.precious.auditSource };
-
-			delete auditSource.localdata;;
-			auditSource.url = '/metals/getpreciousauditdata/' + date;
-
-			var adapter = new $.jqx.dataAdapter(auditSource);
-			$('#preciousAuditGrid').jqxGrid({
-				source: adapter
-			});
-
-			getFilterData(commoditySubGroupValue);
+		
+		    var keys = [
+		        "openGold", "highGold", "lowGold", "closeGold",
+		        "openSilver", "highSilver", "lowSilver", "closeSilver",
+		        "platinum"
+		    ];
+		
+		    const fieldToColumn = {
+		        openGold: "OPEN_GOLD",
+		        highGold: "HIGH_GOLD",
+		        lowGold: "LOW_GOLD",
+		        closeGold: "CLOSE_GOLD",
+		
+		        openSilver: "OPEN_SILVER",
+		        highSilver: "HIGH_SILVER",
+		        lowSilver: "LOW_SILVER",
+		        closeSilver: "CLOSE_SILVER",
+		
+		        platinum: "PLATINUM"
+		    };
+		
+		    var updatedMetalsJson = [];
+		
+		    // detect changed fields
+		    for (let i = 0; i < keys.length; i++) {
+		
+		        if (rowData[keys[i]] != oldDataJson[keys[i]]) {
+		
+		            updatedMetalsJson.push({
+		                assetId: 2,
+		                groupId: getGroupId(commoditySubGroupValue),
+		                value: fieldToColumn[keys[i]]
+		            });
+		        }
+		    }
+		
+		    // ---------------- calculated columns ----------------
+		
+		    function hasValue(v) {
+		        return v !== null &&
+		               v !== undefined &&
+		               v !== "";
+		    }
+		
+		    const goldChanged =
+		        rowData.openGold != oldDataJson.openGold ||
+		        rowData.highGold != oldDataJson.highGold ||
+		        rowData.lowGold != oldDataJson.lowGold ||
+		        rowData.closeGold != oldDataJson.closeGold;
+		
+		    const silverChanged =
+		        rowData.openSilver != oldDataJson.openSilver ||
+		        rowData.highSilver != oldDataJson.highSilver ||
+		        rowData.lowSilver != oldDataJson.lowSilver ||
+		        rowData.closeSilver != oldDataJson.closeSilver;
+		
+		    const platinumChanged =
+		        rowData.platinum != oldDataJson.platinum;
+		
+		    // same-day values exist
+		    const goldExists = hasValue(rowData.closeGold);
+		    const silverExists = hasValue(rowData.closeSilver);
+		    const platinumExists = hasValue(rowData.platinum);
+		
+		    // GOLD_SILVER robot
+		    if ((goldChanged || silverChanged)
+		        && goldExists
+		        && silverExists) {
+		
+		        updatedMetalsJson.push({
+		            assetId: 1,
+		            groupId: getGroupId(commoditySubGroupValue),
+		            value: "GOLD_SILVER"
+		        });
+		    }
+		
+		    // PLATINUM_GOLD robot
+		    if ((goldChanged || platinumChanged)
+		        && goldExists
+		        && platinumExists) {
+		
+		        updatedMetalsJson.push({
+		            assetId: 1,
+		            groupId: getGroupId(commoditySubGroupValue),
+		            value: "PLATINUM_GOLD"
+		        });
+		    }
+		
+		    console.log(updatedMetalsJson);
+		
+		    updateRobotNewsOnChangeColumns(updatedMetalsJson);
+		
+		    var auditSource = { ...GROUP_CONFIG.precious.auditSource };
+		
+		    delete auditSource.localdata;
+		    auditSource.url = '/metals/getpreciousauditdata/' + date;
+		
+		    var adapter = new $.jqx.dataAdapter(auditSource);
+		
+		    $('#preciousAuditGrid').jqxGrid({
+		        source: adapter
+		    });
+		
+		    getFilterData(commoditySubGroupValue);
 		}
 	},
 
@@ -1116,7 +1191,67 @@ function executeSaveFlow(configKey, dataToBeInserted) {
 							$('#dateInputAudit').jqxDateTimeInput('setDate', today);
 							getAuditGridSource(configKey);
 
-							triggerRobots();
+					if (config.key === "precious") {
+
+					    const subgroupToColumn = {
+					        "1": "CLOSE_GOLD",
+					        "2": "CLOSE_SILVER",
+					        "3": "PLATINUM",
+					        "6": "OPEN_GOLD",
+					        "7": "HIGH_GOLD",
+					        "8": "LOW_GOLD",
+					        "9": "OPEN_SILVER",
+					        "10": "HIGH_SILVER",
+					        "11": "LOW_SILVER"
+					    };
+					
+					    const updatedMetalsJson = dataToBeInserted.map(item => ({
+					        assetId: 2,
+					        groupId: getGroupId(commoditySubGroupValue),
+					        value: subgroupToColumn[item.subgroupId]
+					    }));
+					
+					    // ---------- check same-day values ----------
+					    const insertedSubgroups = dataToBeInserted.map(x => x.subgroupId);
+					
+					    const hasGold =
+					        insertedSubgroups.includes("1") || // close gold
+					        insertedSubgroups.includes("6") ||
+					        insertedSubgroups.includes("7") ||
+					        insertedSubgroups.includes("8");
+					
+					    const hasSilver =
+					        insertedSubgroups.includes("2") ||
+					        insertedSubgroups.includes("9") ||
+					        insertedSubgroups.includes("10") ||
+					        insertedSubgroups.includes("11");
+					
+					    const hasPlatinum =
+					        insertedSubgroups.includes("3");
+					
+					    // Gold/Silver calculated robot
+					    if (hasGold && hasSilver) {
+					        updatedMetalsJson.push({
+					            assetId: 2,
+					            groupId: getGroupId(commoditySubGroupValue),
+					            value: "GOLD_SILVER"
+					        });
+					    }
+					
+					    // Platinum/Gold calculated robot
+					    if (hasGold && hasPlatinum) {
+					        updatedMetalsJson.push({
+					            assetId: 2,
+					            groupId: getGroupId(commoditySubGroupValue),
+					            value: "PLATINUM_GOLD"
+					        });
+					    }
+					
+					    updateRobotNewsOnChangeColumns(updatedMetalsJson);
+					
+					} else {
+					    triggerRobots();
+					}
 						}
 					});
 
@@ -1180,7 +1315,7 @@ function getAuditGridSource(configKey) {
 				var systemDate = new Date();
 				systemDate.setHours(0, 0, 0, 0);
 
-				if (dbDate.toDateString() === systemDate.toDateString()) {
+				//if (dbDate.toDateString() === systemDate.toDateString()) {
 
 					filterDate = formattedDate;
 
@@ -1189,7 +1324,7 @@ function getAuditGridSource(configKey) {
 
 					var adapter = new $.jqx.dataAdapter(auditSource);
 					$(config.auditGrid).jqxGrid({ source: adapter });
-				}
+				//}
 			}
 		},
 		error: function(e) {
@@ -1444,21 +1579,20 @@ function triggerRobots() {
 
 function updateRobotNewsOnChangeColumns(ArrayOfColumns) {
 
-	$.ajax({
-		type: "POST",
-		contentType: "application/json",
-		url: "/robot/updaterobotnewsonchangecolumns",
-		data: JSON.stringify(ArrayOfColumns),
-		dataType: 'json',
-		timeout: 600000,
-		async: true,
-		success: function(response) {
+    $.ajax({
+        type: "POST",
+        contentType: "application/json",
+        url: "/robot/updaterobotnewsonchangecolumns",
+        data: JSON.stringify(ArrayOfColumns),
+        timeout: 600000,
+        async: true,
+        success: function(response) {
 
-		},
-		error: function(e) {
-			console.log("ERROR : ", e);
-		}
-	});
+        },
+        error: function(e) {
+            console.log("ERROR : ", e);
+        }
+    });
 }
 
 function toggleDivVisibility(divNum) {

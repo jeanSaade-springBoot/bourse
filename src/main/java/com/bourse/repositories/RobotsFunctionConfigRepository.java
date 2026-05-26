@@ -8,6 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import com.bourse.domain.RobotsConfiguration;
 import com.bourse.domain.RobotsFunctionConfiguration;
 
 public interface RobotsFunctionConfigRepository extends JpaRepository<RobotsFunctionConfiguration, Long> {
@@ -46,6 +47,9 @@ public interface RobotsFunctionConfigRepository extends JpaRepository<RobotsFunc
 
 	    Optional<RobotsFunctionConfiguration> findByConfigIdAndFunctionIdAndRobotName(String configId, String functionId, String robotName);
 
-		 public List<RobotsFunctionConfiguration> getRobotsByGroupIdAndIsactive(String groupId,  boolean isactive);
+	    List<RobotsFunctionConfiguration> getRobotsByGroupIdAndIsactive(String groupId,  boolean isactive);
+		  
+	    List<RobotsFunctionConfiguration> getRobotsByGroupIdAndColumnDescriptionInAndIsactive(String groupId, List<String> descriptions, Boolean isActive);
+
 
 }

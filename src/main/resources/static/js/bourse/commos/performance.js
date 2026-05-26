@@ -1,26 +1,174 @@
 var allitems = [
-	'#jqxCheckBox-71-1', // europe
-	'#jqxCheckBox-72-1', // wallstreet
-	'#jqxCheckBox-73-1', //asia
-	'#jqxCheckBox-74-1', // emerging
-	'#jqxCheckBox-75-1',
-	'#jqxCheckBox-76-1',
+	'#jqxCheckBox-6-1', // 
+	'#jqxCheckBoxCopper', // 
+	'#jqxCheckBoxOil',
+	'#jqxCheckBoxBaltic',
+	'#jqxCheckBoxCorn',
 	'#jqxCheckBoxAll'
 ];
 
 let isRanked = false;
 
 const labelImageMap = {
-	};
+    'CLOSE_GOLD-6': '/img/gold.png',
+    'PLATINUM-6': '/img/platinum.png',
+    'CLOSE_SILVER-6': '/img/silver.png',
+    'PLATINUM_GOLD-6': '/img/plat-gold.png',
+    'GOLD_SILVER-6': '/img/gold-silver.png',
+
+    'COPPER-7': '/img/copper.png',
+    'ALUMINUM-7': '/img/aluminum.png',
+    'STEEL-7': '/img/steel.png',
+    'LUMBER-7': '/img/lumber.png',
+
+    'CORN-8': '/img/corn.png',
+    'SUGAR-8': '/img/sugar.png',
+    'WHEAT-8': '/img/wheat.png',
+
+    'OIL-9': '/img/oil.png',
+    'GASOLINE_LITRE-9': '/img/gazoline_20.png',
+    'DIESEL_TON-9': '/img/diezel_ton.png',
+    'NATGAS_USD-9': '/img/natgasUs.png',
+    'NATGAS_EUR-9': '/img/natgasEur.png',
+
+    'BALTIC-10': '/img/baltic.png',
+    'CONTAINER-10': '/img/container.png',
+};
+
 const titleGroupMap = {
-		'71': 'BITCOIN Performance',
-		'72': 'ETHEREUM Performance',
-		'73': 'SOLANA Performance',
-		'74': 'SHIBA INU Performance',
-		'75': 'BINANCE COIN Performance',
-		'76': 'XRP Performance',
+		'6': 'GOLD Performance',
+		'7': 'BASE Performance',
+		'8': 'FOODSTUFF Performance',
+		'9': 'ENERGY Performance',
+		'10':'TRANSPORTATION Performance',
 		};
 		
+const configData = [
+	// groupId = 6 (GOLD Performance)
+	{
+		columnName: '6:CLOSE_GOLD',
+		displayName: 'Gold',
+		groupId: '6',
+		columnGroupId: 'GOLD-6'
+	},
+	{
+		columnName: '6:PLATINUM',
+		displayName: 'Platinum',
+		groupId: '6',
+		columnGroupId: 'PLATINUM-6'
+	},
+	{
+		columnName: '6:CLOSE_SILVER',
+		displayName: 'Silver',
+		groupId: '6',
+		columnGroupId: 'SILVER-6'
+	},
+	{
+		columnName: '6:PLATINUM_GOLD',
+		displayName: 'PLAT-GOLD sprd',
+		groupId: '6',
+		columnGroupId: 'PLAT-GOLD-6'
+	},
+	{
+		columnName: '6:GOLD_SILVER',
+		displayName: 'GOLD/SILV ratio',
+		groupId: '6',
+		columnGroupId: 'GOLD_SILVER-6'
+	},
+
+	// groupId = 7 (BASE Performance)
+	{
+		columnName: '7:COPPER',
+		displayName: 'Copper',
+		groupId: '7',
+		columnGroupId: 'COPPER-7'
+	},
+	{
+		columnName: '7:ALUMINUM',
+		displayName: 'Aluminum',
+		groupId: '7',
+		columnGroupId: 'ALUMINUM-7'
+	},
+	{
+		columnName: '7:STEEL',
+		displayName: 'Steel',
+		groupId: '7',
+		columnGroupId: 'STEEL-7'
+	},
+	{
+		columnName: '7:LUMBER',
+		displayName: 'Lumber',
+		groupId: '7',
+		columnGroupId: 'LUMBER-7'
+	},
+
+	// groupId = 8 (FOODSTUFF Performance)
+	{
+		columnName: '8:CORN',
+		displayName: 'Corn',
+		groupId: '8',
+		columnGroupId: 'CORN-8'
+	},
+	{
+		columnName: '8:SUGAR',
+		displayName: 'Sugar',
+		groupId: '8',
+		columnGroupId: 'SUGAR-8'
+	},
+	{
+		columnName: '8:WHEAT',
+		displayName: 'Wheat',
+		groupId: '8',
+		columnGroupId: 'WHEAT-8'
+	},
+
+	// groupId = 9 (ENERGY Performance)
+	{
+		columnName: '9:OIL',
+		displayName: 'CRUDE OIL',
+		groupId: '9',
+		columnGroupId: 'OIL-9'
+	},
+	{
+		columnName: '9:GASOLINE_LITRE',
+		displayName: 'US GAS-20L',
+		groupId: '9',
+		columnGroupId: 'GASOLINE_LITRE-9'
+	},
+	{
+		columnName: '9:DIESEL_TON',
+		displayName: 'DIESEL/Ton',
+		groupId: '9',
+		columnGroupId: 'DIESEL_TON-9'
+	},
+	{
+		columnName: '9:NATGAS_USD',
+		displayName: 'US NATGAS',
+		groupId: '9',
+		columnGroupId: 'NATGAS_USD-9'
+	},
+	{
+		columnName: '9:NATGAS_EUR',
+		displayName: 'EUROZONE NATGAS',
+		groupId: '9',
+		columnGroupId: 'NATGAS_EUR-9'
+	},
+
+	// groupId = 10 (TRANSPORTATION Performance)
+	{
+		columnName: '10:BALTIC',
+		displayName: 'BALTIC DRY INDEX',
+		groupId: '10',
+		columnGroupId: 'BALTIC-10'
+	},
+	{
+		columnName: '10:CONTAINER',
+		displayName: '40ft Container',
+		groupId: '10',
+		columnGroupId: 'CONTAINER-10'
+	}
+];
+
 		
 var json = {};
 var dataGroupId = '';
@@ -31,63 +179,12 @@ var subgroup2Container = '';
 var roundedValues = '';
 var yaxisformat0 = '';
 
-const graphName = "cryptosPerformanceGraph";
-const configData =[
-  { "columnName": "71:openeur", "displayName": "OPENEUR - BITCOIN", "groupId": "71", "columnGroupId": "openeur-71" },
-  { "columnName": "71:closeeur", "displayName": "CLOSEEUR - BITCOIN", "groupId": "71", "columnGroupId": "closeeur-71" },
-  { "columnName": "71:high", "displayName": "HIGH - BITCOIN", "groupId": "71", "columnGroupId": "high-71" },
-  { "columnName": "71:low", "displayName": "LOW - BITCOIN", "groupId": "71", "columnGroupId": "low-71" },
-  { "columnName": "71:volume", "displayName": "VOLUME - BITCOIN", "groupId": "71", "columnGroupId": "volume-71" },
-  { "columnName": "71:marketcap", "displayName": "MARKETCAP - BITCOIN", "groupId": "71", "columnGroupId": "marketcap-71" },
-  { "columnName": "71:openint", "displayName": "OPENINT - BITCOIN", "groupId": "71", "columnGroupId": "openint-71" },
-  { "columnName": "71:closeint", "displayName": "CLOSEINT - BITCOIN", "groupId": "71", "columnGroupId": "closeint-71" },
+var selectedItems = []; // Array to store checked items in order
 
-  { "columnName": "72:openeur", "displayName": "OPENEUR - ETHEREUM", "groupId": "72", "columnGroupId": "openeur-72" },
-  { "columnName": "72:closeeur", "displayName": "CLOSEEUR - ETHEREUM", "groupId": "72", "columnGroupId": "closeeur-72" },
-  { "columnName": "72:high", "displayName": "HIGH - ETHEREUM", "groupId": "72", "columnGroupId": "high-72" },
-  { "columnName": "72:low", "displayName": "LOW - ETHEREUM", "groupId": "72", "columnGroupId": "low-72" },
-  { "columnName": "72:volume", "displayName": "VOLUME - ETHEREUM", "groupId": "72", "columnGroupId": "volume-72" },
-  { "columnName": "72:marketcap", "displayName": "MARKETCAP - ETHEREUM", "groupId": "72", "columnGroupId": "marketcap-72" },
-  { "columnName": "72:openint", "displayName": "OPENINT - ETHEREUM", "groupId": "72", "columnGroupId": "openint-72" },
-  { "columnName": "72:closeint", "displayName": "CLOSEINT - ETHEREUM", "groupId": "72", "columnGroupId": "closeint-72" },
+const graphName = "performanceGraphCommos";
 
-  { "columnName": "73:openeur", "displayName": "OPENEUR - SOLANA", "groupId": "73", "columnGroupId": "openeur-73" },
-  { "columnName": "73:closeeur", "displayName": "CLOSEEUR - SOLANA", "groupId": "73", "columnGroupId": "closeeur-73" },
-  { "columnName": "73:high", "displayName": "HIGH - SOLANA", "groupId": "73", "columnGroupId": "high-73" },
-  { "columnName": "73:low", "displayName": "LOW - SOLANA", "groupId": "73", "columnGroupId": "low-73" },
-  { "columnName": "73:volume", "displayName": "VOLUME - SOLANA", "groupId": "73", "columnGroupId": "volume-73" },
-  { "columnName": "73:marketcap", "displayName": "MARKETCAP - SOLANA", "groupId": "73", "columnGroupId": "marketcap-73" },
-  { "columnName": "73:openint", "displayName": "OPENINT - SOLANA", "groupId": "73", "columnGroupId": "openint-73" },
-  { "columnName": "73:closeint", "displayName": "CLOSEINT - SOLANA", "groupId": "73", "columnGroupId": "closeint-73" },
-
-  { "columnName": "74:openeur", "displayName": "OPENEUR - SHIBA INU", "groupId": "74", "columnGroupId": "openeur-74" },
-  { "columnName": "74:closeeur", "displayName": "CLOSEEUR - SHIBA INU", "groupId": "74", "columnGroupId": "closeeur-74" },
-  { "columnName": "74:high", "displayName": "HIGH - SHIBA INU", "groupId": "74", "columnGroupId": "high-74" },
-  { "columnName": "74:low", "displayName": "LOW - SHIBA INU", "groupId": "74", "columnGroupId": "low-74" },
-  { "columnName": "74:volume", "displayName": "VOLUME - SHIBA INU", "groupId": "74", "columnGroupId": "volume-74" },
-  { "columnName": "74:marketcap", "displayName": "MARKETCAP - SHIBA INU", "groupId": "74", "columnGroupId": "marketcap-74" },
-  { "columnName": "74:openint", "displayName": "OPENINT - SHIBA INU", "groupId": "74", "columnGroupId": "openint-74" },
-  { "columnName": "74:closeint", "displayName": "CLOSEINT - SHIBA INU", "groupId": "74", "columnGroupId": "closeint-74" },
-
-  { "columnName": "75:openeur", "displayName": "OPENEUR - BINANCE COIN", "groupId": "75", "columnGroupId": "openeur-75" },
-  { "columnName": "75:closeeur", "displayName": "CLOSEEUR - BINANCE COIN", "groupId": "75", "columnGroupId": "closeeur-75" },
-  { "columnName": "75:high", "displayName": "HIGH - BINANCE COIN", "groupId": "75", "columnGroupId": "high-75" },
-  { "columnName": "75:low", "displayName": "LOW - BINANCE COIN", "groupId": "75", "columnGroupId": "low-75" },
-  { "columnName": "75:volume", "displayName": "VOLUME - BINANCE COIN", "groupId": "75", "columnGroupId": "volume-75" },
-  { "columnName": "75:marketcap", "displayName": "MARKETCAP - BINANCE COIN", "groupId": "75", "columnGroupId": "marketcap-75" },
-  { "columnName": "75:openint", "displayName": "OPENINT - BINANCE COIN", "groupId": "75", "columnGroupId": "openint-75" },
-  { "columnName": "75:closeint", "displayName": "CLOSEINT - BINANCE COIN", "groupId": "75", "columnGroupId": "closeint-75" },
-
-  { "columnName": "76:openeur", "displayName": "OPENEUR - XRP", "groupId": "76", "columnGroupId": "openeur-76" },
-  { "columnName": "76:closeeur", "displayName": "CLOSEEUR - XRP", "groupId": "76", "columnGroupId": "closeeur-76" },
-  { "columnName": "76:high", "displayName": "HIGH - XRP", "groupId": "76", "columnGroupId": "high-76" },
-  { "columnName": "76:low", "displayName": "LOW - XRP", "groupId": "76", "columnGroupId": "low-76" },
-  { "columnName": "76:volume", "displayName": "VOLUME - XRP", "groupId": "76", "columnGroupId": "volume-76" },
-  { "columnName": "76:marketcap", "displayName": "MARKETCAP - XRP", "groupId": "76", "columnGroupId": "marketcap-76" },
-  { "columnName": "76:openint", "displayName": "OPENINT - XRP", "groupId": "76", "columnGroupId": "openint-76" },
-  { "columnName": "76:closeint", "displayName": "CLOSEINT - XRP", "groupId": "76", "columnGroupId": "closeint-76" }
-]
-;
+var monthDate = new Date();
+monthDate.setMonth(monthDate.getMonth() - 6);
 
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -95,12 +192,44 @@ $(window).on('load', function() {
 });
 $(document).ready(function() {
 	
+	const flatTreeData = [];
+	const addedGroups = {};
+	
    $("#dateInputFrom").jqxDateTimeInput({  theme:'dark', width: '150px', height: '25px'});
    $("#dateInputFrom").jqxDateTimeInput('setDate', monthDate);
    $("#dateInputTo").jqxDateTimeInput({  theme:'dark', width: '150px', height: '25px' }); 
    
    $("#rangeDateContainer").hide()
+		 
+// Build flat tree structure from configData
+configData.forEach((item, index) => {
+    const groupId = item.groupId;
+	const groupTitle = (titleGroupMap[groupId] || `Group ${groupId}`).replace(' Performance', '');
+    const icon = labelImageMap[item.columnGroupId] || '/img/flag/default.png';
 
+    // Add group root only once
+    if (!addedGroups[groupId]) {
+        flatTreeData.push({
+            id: `group-${groupId}`,
+            parentid: "-1",
+            text: groupTitle,
+            icon: "/img/group.png"  // optional group icon
+        });
+        addedGroups[groupId] = true;
+    }
+
+    // Add item under group
+    flatTreeData.push({
+        id: `item-${index}`,
+        parentid: `group-${groupId}`,
+        text: item.displayName,
+        value: item.columnName,
+        icon: icon
+    });
+});
+
+
+ // Wait until after rendering
 	$("#toggleRankBtn").on('click', function () {
 	    isRanked = !isRanked;
 	
@@ -111,6 +240,9 @@ $(document).ready(function() {
 	    drawGraph();
 	    $("#toggleRankBtn").text(isRanked ? "Unrank" : "Rank");
 	});
+	
+	
+	
     // jqxDropDownList with checkboxes
     $("#dropDownSelection").on('checkChange', function (event) {
         var itemValue = event.args.item.value;
@@ -126,7 +258,6 @@ $(document).ready(function() {
             selectedItems = selectedItems.filter(item => item !== itemValue);
         }
 
-        console.log(selectedItems.join(", "));
     });
 
 	initializeNewsBanner();
@@ -134,7 +265,7 @@ $(document).ready(function() {
 	initialiazeItems(allitems, 1);
 	initialiazeClearFilterButtons(allitems);
 	getLatestDate().then(date => {
-	    getGraphHistoryByScreenName("cryptosPerformanceGraph");
+	    getGraphHistoryByScreenName("performanceGraphCommos");
 	});
 	$("#show").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	
@@ -165,6 +296,8 @@ $(document).ready(function() {
 			$("#collapseFilter").addClass('show');
 		}
 	});
+	
+	
 	$('#performanceGroupOfPeriod').on('selected', async function() {
 
 		const isRangeMode =
@@ -189,7 +322,7 @@ $(document).ready(function() {
 				checkedItemValues[0] !== "#jqxCheckBoxAll"
 			) {
 				subgroupId =
-					itemValue[checkedItemValues[0]].GroupId;
+					itemValue[checkedItemValues[0]].subGroupId;
 			}
 
 			const latestDate =
@@ -229,19 +362,22 @@ $(document).ready(function() {
         updateDate("next");
         updateChart();
     });
-
-
+   
    $("#dropDownSelection").jqxDropDownList({ checkboxes: true,  theme:'dark', source: configData , selectedIndex: 0,  displayMember: "displayName", valueMember: "columnName", width: '200px', height: '35px', dropDownHeight: 400});
 	 $('.jqx-checkbox').on('change', function (event) {
 		     const checkedItemValues = checkedItemid.filter(item => item != null);
 		     if(checkedItemValues[0]!="#jqxCheckBoxAll")
-		    { groupIdToFilter= itemValue[checkedItemValues[0]].GroupId;
-		     
-		      filteredData = configData.filter(item => item.groupId === groupIdToFilter);
+		    { 
+			  
+			  groupIdToFilter= itemValue[checkedItemValues[0]].GroupId;
+		 
+		      	filteredData = configData.filter(item => item.groupId === groupIdToFilter);
 		     }
 		     else
-		       filteredData = configData;
-
+		       {
+				  
+				   filteredData = configData;
+				}
 		    $("#dropDownSelection").jqxDropDownList({
 		        source: filteredData,  // Bind the filtered data
 		        displayMember: "displayName",  // Display name for each item
@@ -283,12 +419,15 @@ $(document).ready(function() {
 	    }
 	});
 
+
+
 });
+
 function drawGraph() {
 
 	var graphService = "macro";
 	const removeEmpty = false;
-	performanceGraph(graphService, "cryptosPerformanceGraph", removeEmpty, true);
+	performanceGraph(graphService, "performanceGraphCommos", removeEmpty, true);
 }
 
 function getImagePath(label) {
@@ -326,14 +465,14 @@ function countItems(groupColumnPairs) {
 }
 function getHeightBasedOnCount(groupColumnPairs) {
     const count = countItems(groupColumnPairs); // Get the count
-
-    if (count < 10) return 525;
-    if (count >= 10 && count <= 20) return 755;
-    return 975; // More than 20
+    
+    if(groupColumnPairs =='') return 650;
+    if (count < 15) return 525;
+    if (count >= 15 && count <= 20) return 755;
+    return 1075; // More than 20
 }
 async function performanceGraph(graphService, graphName, removeEmpty, saveHistory) {
     try {
-        // Show loader before making the request
         showLoader();
 
         var fromdate = formatDate(date);
@@ -341,91 +480,61 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
         $("#date-display").val(formatDate());
 
         const checkedItemValues = checkedItemid.filter(item => item != null);
-        
-	    var checkedItems = selectedItems.join(', ')
-   
-        var items = $("#dropDownSelection").jqxDropDownList('getCheckedItems');
-        var checkedItems = items.map(i => i.value).join(", ");
-        var dropDownItems = $('#dropDownSelection').val();
-            console.log(checkedItems);
-         let requestData;
-		
-		const isRangeMode =
-		    $('#performanceGroupOfPeriod')
-		        .jqxButtonGroup('getSelection') === 5;
-		
-		// Keep existing weekly logic
-		if (
-		    getChartPeriodPerformance() == 'w' &&
-		    !isRangeMode
-		) {
-		    fromdate =
-		        'Week ' +
-		        getISOWeekNumber(date);
-		}
-		
-		// Request values
-		const period = isRangeMode
-		    ? 'r'
-		    : getChartPeriodPerformance();
-		
-		const fromDate = isRangeMode
-		    ? getFormattedJqxDate(
-		        "#dateInputFrom"
-		      )
-		    : dbDate;
-		
-		const toDate = isRangeMode
-		    ? getFormattedJqxDate(
-		        "#dateInputTo"
-		      )
-		    : null;
-		
-		// Existing functionality preserved
-		if (
-		    checkedItemid[0] ==
-		    "#jqxCheckBoxAll"
-		) {
-		
-		    checkedItems = configData
-		        .map(item =>
-		            item.columnName
-		        )
-		        .join(", ");
-		
-		    requestData = [{
-		        groupId1: checkedItems,
-		        period: period,
-		        fromdate: fromDate,
-		        todate: toDate,
-		        fulldates: false
-		    }];
-		
-		}
-		else if (checkedItems != '') {
-		
-		    requestData = [{
-		        groupId1: checkedItems,
-		        period: period,
-		        fromdate: fromDate,
-		        todate: toDate,
-		        fulldates: false
-		    }];
-		
-		}
-		else {
-		
-		    requestData = [{
-		        groupId1:
-		            itemValue[
-		                checkedItemValues[0]
-		            ].GroupId,
-		        period: period,
-		        fromdate: fromDate,
-		        todate: toDate,
-		        fulldates: false
-		    }];
-		}
+        const checkedItems = selectedItems.join(', ');
+        const dropDownItems = $('#dropDownSelection').val();
+
+        const isRangeMode =
+            $('#performanceGroupOfPeriod')
+                .jqxButtonGroup('getSelection') === 5;
+
+        if (getChartPeriodPerformance() === 'w' && !isRangeMode) {
+            fromdate = 'Week ' + getISOWeekNumber(date);
+        }
+
+        const period = isRangeMode
+            ? 'r'
+            : getChartPeriodPerformance();
+
+        const fromDate = isRangeMode
+            ? getFormattedJqxDate("#dateInputFrom")
+            : dbDate;
+
+        const toDate = isRangeMode
+            ? getFormattedJqxDate("#dateInputTo")
+            : null;
+
+        let groupId1;
+
+        if (checkedItemid[0] === "#jqxCheckBoxAll") {
+
+            groupId1 = configData
+                .map(item => item.columnName)
+                .join(", ");
+
+        } else if (checkedItems !== '') {
+
+            groupId1 = checkedItems;
+
+        } else {
+
+            groupId1 =
+                (
+                    checkedItemValues.length > 0 &&
+                    itemValue &&
+                    itemValue[checkedItemValues[0]]
+                )
+                    ? itemValue[checkedItemValues[0]].GroupId
+                    : '';
+        }
+
+        const requestData = [{
+            groupId1: groupId1,
+            period: period,
+            fromdate: fromDate,
+            todate: toDate,
+            fulldates: false
+        }];
+
         const response = await fetch('/graph/getperformancegraphdata', {
             method: 'POST',
             headers: {
@@ -438,154 +547,281 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
             throw new Error(`HTTP error! Status: ${response.status}`);
         }
 
-        const data = await response.json(); // Wait for JSON response
+        const data = await response.json();
 
-        // Handle the response data here
         $("#mainChart").removeClass("d-none");
         $("#timeline-chart").addClass("d-none");
-        
-       if(dropDownItems)//(checkedItems!='')
-        {
-			const orderResult = reorderDataWithLabels(  data[0].labels.map(label => {return label.trim().replace(/\s*-\s*/g, '-')}),
-				  data[0].values ,
-				  selectedItems.map(label => {return label.split(':')[1]+'-'+label.split(':')[0]}));
-			
-        	if (isRanked) {
-			// Sort by values descending (positive to negative)
-			const combined = orderResult.labels.map((label, i) => ({
-				label: label,
-				value: orderResult.data[i]
-			}));
-			combined.sort((a, b) => b.value - a.value);
-			orderResult.labels = combined.map(item => item.label);
-			orderResult.data = combined.map(item => item.value);
-		}
-		
-        json.data = orderResult.data;
-        json.series =  json.data.length==0?[]:[{
-			data:     json.data
-		}]
-        json.labels = orderResult.labels.map(label => {
-				    const cleanedLabel = label.trim().replace(/\s*-\s*/g, '-'); // Remove extra spaces
-				    const matchedItem = configData.find(item => item.columnGroupId === cleanedLabel); 
-				    return matchedItem ? matchedItem.displayName : cleanedLabel; // Return displayName if found, else label
-				});
-			
-		}
-        else
-        {   let dataValues = data[0].values;     
-	       
-			
-			let labels = data[0].labels;
-			
-			if (isRanked) {
-				const orderResult = data[0];
-	        
-				const combined = orderResult.labels.map((label, i) => ({
-					label: label,
-					value: orderResult.values[i]
-				}));
-				combined.sort((a, b) => b.value - a.value);
-				json.labels = combined.map(item => item.label);
-				json.data = combined.map(item => item.value);
-				labels = json.labels;
-				dataValues = json.data;
-			}
-			 json.series = dataValues.length==0?[]:[{
-				data: dataValues
-			}];
-	        json.labels = labels.map(label => {
-			    const cleanedLabel = label.trim().replace(/\s*-\s*/g, '-'); // Remove extra spaces
-			    const matchedItem = configData.find(item => item.columnGroupId === cleanedLabel); 
-			    return matchedItem ? matchedItem.displayName : cleanedLabel; // Return displayName if found, else label
-			});
-		
-		}
-				  
-       // const result = getColorsAndImagesForLabels(json.labels);
-        json.images = [];
-        
-       	 let titlePrefix =  'Stock Indices Performance';
-
-			if (
-			    typeof itemValue !== 'undefined' &&
-			    checkedItemValues.length > 0 &&
-			    checkedItems === '' &&
-			    checkedItemid[0] !== "#jqxCheckBoxAll" &&
-			    itemValue[checkedItemValues[0]]
-			) {
-			
-			    titlePrefix =
-			        titleGroupMap[
-			            itemValue[
-			                checkedItemValues[0]
-			            ].GroupId
-			        ] ||
-			        'Stock Indices Performance';
-			}
-		
-		if (isRangeMode) {
-
-			const fromDateTitle =
-				formatDateForTitle(
-					getFormattedJqxDate("#dateInputFrom")
-				);
-
-			const toDateTitle =
-				formatDateForTitle(
-					getFormattedJqxDate("#dateInputTo")
-				);
-
-			json.title =
-				`${titlePrefix} (${fromDateTitle} → ${toDateTitle})`;
-		
-		} else {
-		
-		    json.title =
-		        `${titlePrefix} In ${fromdate}`;
-		}
-
-        json.chartId = 'mainChart';
-        json.width = 1078;
-        json.height=(checkedItems!='' ||checkedItemid[0]=="#jqxCheckBoxAll")?getHeightBasedOnCount(checkedItems):525;
 
         let min = Math.min(...data[0].values);
         let max = Math.max(...data[0].values);
 
+        const normalizeAndFilter = (labels, values) => {
 
-        const valueMin = addMarginToMinMax(min, max, 20);
-        const valueMax = addMarginToMinMax(min, max, 15);
-        json.min = min;
-        json.max = max;
-        json.valueMin = Math.sign(min) == -1 ? -Math.abs(min) - valueMin : 0;
-        json.valueMax = Math.sign(max) == -1 ? 0 : Math.abs(max) + valueMax;
-    
-        
-        const options = getGraphOptions(json);
-        if (chart != null) {
-            chart.updateOptions(options);
+            return labels
+                .map((label, index) => ({
+                    label: label.trim().replace(/\s*-\s*/g, '-'),
+                    value: values[index]
+                }))
+                .filter(item => {
+
+                    // Only filter extra OHLC for Group 6
+                    if (item.label.endsWith('-6')) {
+
+                        return ![
+                            'OPEN_GOLD',
+                            'HIGH_GOLD',
+                            'LOW_GOLD',
+                            'OPEN_SILVER',
+                            'HIGH_SILVER',
+                            'LOW_SILVER'
+                        ].some(field =>
+                            item.label.includes(field)
+                        );
+                    }
+
+                    return true;
+                });
+        };
+
+        const mapDisplayName = (label) => {
+
+            let cleanedLabel = label
+                .replace('CLOSE_GOLD', 'GOLD')
+                .replace('CLOSE_SILVER', 'SILVER')
+                .replace('PLATINUM_GOLD', 'PLAT-GOLD');
+
+            const matchedItem = configData.find(
+                item => item.columnGroupId === cleanedLabel
+            );
+
+            return matchedItem
+                ? matchedItem.displayName
+                : cleanedLabel;
+        };
+
+        if (dropDownItems) {
+
+            const orderResult = reorderDataWithLabels(
+                data[0].labels.map(label =>
+                    label.trim().replace(/\s*-\s*/g, '-')
+                ),
+                data[0].values,
+                selectedItems.map(label =>
+                    label.split(':')[1] +
+                    '-' +
+                    label.split(':')[0]
+                )
+            );
+
+            if (isRanked) {
+
+                const combined = orderResult.labels.map((label, i) => ({
+                    label,
+                    value: orderResult.data[i]
+                }));
+
+                combined.sort((a, b) => b.value - a.value);
+
+                orderResult.labels =
+                    combined.map(item => item.label);
+
+                orderResult.data =
+                    combined.map(item => item.value);
+            }
+
+            const filteredItems = normalizeAndFilter(
+                orderResult.labels,
+                orderResult.data
+            );
+
+            json.data =
+                filteredItems.map(item => item.value);
+
+            json.labels =
+                filteredItems.map(item =>
+                    mapDisplayName(item.label)
+                );
+
+            const result =
+                getColorsAndImagesForLabels(
+                    filteredItems.map(item => item.label)
+                );
+
+            json.images = result.images;
+
+            min = Math.min(...json.data);
+            max = Math.max(...json.data);
+
         } else {
-            chart = new ApexCharts(document.querySelector("#mainChart"), options);
-            
-            await chart.render();
-			addGridBackground("mainChart");
+
+            let labels = data[0].labels;
+            let values = data[0].values;
+
+            if (isRanked) {
+
+                const combined = labels.map((label, i) => ({
+                    label,
+                    value: values[i]
+                }));
+
+                combined.sort((a, b) => b.value - a.value);
+
+                labels =
+                    combined.map(item => item.label);
+
+                values =
+                    combined.map(item => item.value);
+            }
+
+            const filteredItems =
+                normalizeAndFilter(labels, values);
+
+            json.data =
+                filteredItems.map(item => item.value);
+
+            json.labels =
+                filteredItems.map(item =>
+                    mapDisplayName(item.label)
+                );
+
+            const result =
+                getColorsAndImagesForLabels(
+                    filteredItems.map(item => item.label)
+                );
+
+            json.images = result.images;
+
+            min = Math.min(...json.data);
+            max = Math.max(...json.data);
         }
 
-        $("#dateFrom-mainChart").val(formatedDate(fromdate));
+        let titlePrefix =
+            'Commos Performance';
 
+        if (
+            typeof itemValue !== 'undefined' &&
+            checkedItemValues.length > 0 &&
+            checkedItems === '' &&
+            checkedItemid[0] !== "#jqxCheckBoxDollarIndex" &&
+            checkedItemid[0] !== "#jqxCheckBoxAll" &&
+            itemValue &&
+            itemValue[checkedItemValues[0]]
+        ) {
+
+            titlePrefix =
+                titleGroupMap[
+                    itemValue[
+                        checkedItemValues[0]
+                    ].GroupId
+                ] ||
+                'Commos Performance';
+        }
+
+        if (isRangeMode) {
+
+            const fromDateTitle =
+                formatDateForTitle(
+                    getFormattedJqxDate("#dateInputFrom")
+                );
+
+            const toDateTitle =
+                formatDateForTitle(
+                    getFormattedJqxDate("#dateInputTo")
+                );
+
+            json.title =
+                `${titlePrefix} (${fromDateTitle} → ${toDateTitle})`;
+
+        } else {
+
+            json.title =
+                `${titlePrefix} In ${fromdate}`;
+        }
+
+        json.chartId = 'mainChart';
+        json.width = 1078;
+
+        json.height =
+            (checkedItemid[0] == "#jqxCheckBoxDollarIndex")
+                ? 825
+                : (
+                    checkedItems != '' ||
+                    checkedItemid[0] == "#jqxCheckBoxAll"
+                )
+                    ? getHeightBasedOnCount(
+                        dropDownItems == ''
+                            ? checkedItems
+                            : dropDownItems
+                    )
+                    : 525;
+
+        const valueMin =
+            addMarginToMinMax(min, max, 20);
+
+        const valueMax =
+            addMarginToMinMax(min, max, 15);
+
+        json.min = min;
+        json.max = max;
+
+        json.valueMin =
+            Math.sign(min) == -1
+                ? -Math.abs(min) - valueMin
+                : 0;
+
+        json.valueMax =
+            Math.sign(max) == -1
+                ? 0
+                : Math.abs(max) + valueMax;
+
+        const options =
+            getGraphOptions(json);
+
+        if (chart != null) {
+
+            chart.updateOptions(options);
+
+        } else {
+
+            chart =
+                new ApexCharts(
+                    document.querySelector("#mainChart"),
+                    options
+                );
+
+            await chart.render();
+            addGridBackground("mainChart");
+        }
+
+        $("#dateFrom-mainChart")
+            .val(formatedDate(fromdate));
 
     } catch (error) {
-        console.error("There was a problem with the fetch operation:", error);
+
+        console.error(
+            "There was a problem with the fetch operation:",
+            error
+        );
+
     } finally {
-        // Hide loader after the request is done
+
         hideLoader();
     }
 
-    // Save graph history if saveHistory is true
     if (saveHistory) {
-        if(checkedItemid[0]!="#jqxCheckBoxAll")
-     	   saveGraphHistory(graphName, checkedItemid, null, null)
-        ;
+
+        if (
+            checkedItemid[0] !=
+            "#jqxCheckBoxAll"
+        ) {
+
+            saveGraphHistory(
+                graphName,
+                checkedItemid,
+                null,
+                null
+            );
+        }
     }
 }
 
@@ -601,7 +837,9 @@ function hideLoader() {
 
 function getGraphOptions(json) {
 	const options = {
-		series: json.series,
+		series: [{
+			data: json.data
+		}],
 		line:{
 			show: false,
 		},
@@ -662,12 +900,12 @@ function getGraphOptions(json) {
           bar: {
 			  colors: {
               ranges: [{
-                from: -Infinity,
+                from: -1000,
                 to: 0,
                 color: '#f23a3a'
               }, {
                 from: 0,
-                to: Infinity,
+                to: 1000,
                 color: '#30d781'
               }]
             },
@@ -709,7 +947,7 @@ function getGraphOptions(json) {
 				show: true,
 			},
 			formatter: function(val, index) {
-					return  val;
+					return  val.split("-")[0];
 						      
 				},
 		 	max: json.valueMax,
@@ -757,19 +995,7 @@ function getGraphOptions(json) {
 
 		legend: {
 			show: false,
-		},
-		noData: {
-			text: '',
-			align: 'center',
-			verticalAlign: 'middle',
-			offsetX: 0,
-			offsetY: 0,
-			style: {
-				color: undefined,
-				fontSize: '14px',
-				fontFamily: undefined
-			}
-		},
+		}
 	};
 	return options;
 }
@@ -982,10 +1208,11 @@ function reorderDataWithLabels(originalLabels, originalData, desiredOrder) {
         data: reorderedData
     };
 }
-async function getLatestRangeDate(id) {
+
+async function getLatestRangeDate(subgroupId) {
     try {
         const response =
-            await fetch(`/cryptos/getlatest/${id}`);
+            await fetch(`/sti/getlatest/${subgroupId}`);
 
         if (!response.ok) {
             throw new Error(

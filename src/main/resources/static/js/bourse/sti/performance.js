@@ -143,8 +143,10 @@ var yaxisformat0 = '';
 
 var selectedItems = []; // Array to store checked items in order
 
-
 const graphName = "performanceGraph";
+
+var monthDate = new Date();
+monthDate.setMonth(monthDate.getMonth() - 6);
 
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -154,7 +156,13 @@ $(document).ready(function() {
 	
 	const flatTreeData = [];
 	const addedGroups = {};
-
+	
+   $("#dateInputFrom").jqxDateTimeInput({  theme:'dark', width: '150px', height: '25px'});
+   $("#dateInputFrom").jqxDateTimeInput('setDate', monthDate);
+   $("#dateInputTo").jqxDateTimeInput({  theme:'dark', width: '150px', height: '25px' }); 
+   
+   $("#rangeDateContainer").hide()
+		 
 // Build flat tree structure from configData
 configData.forEach((item, index) => {
     const groupId = item.groupId;
@@ -338,9 +346,61 @@ setTimeout(() => {
 	});
 	
 	
-	$('#performanceGroupOfPeriod').on('selected', function () { 
-		drawGraph()
-	}); 
+	$('#performanceGroupOfPeriod').on('selected', async function() {
+
+		const isRangeMode =
+			$('#performanceGroupOfPeriod')
+				.jqxButtonGroup('getSelection') === 5;
+
+		if (isRangeMode) {
+
+			$("#rangeDateContainer").show();
+
+			$("#prev-btn").hide();
+			$("#next-btn").hide();
+			$("#date-display").hide();
+
+			const checkedItemValues =
+				checkedItemid.filter(item => item != null);
+
+			let subgroupId = 1; // fallback
+
+			if (
+				checkedItemValues.length > 0 &&
+				checkedItemValues[0] !== "#jqxCheckBoxAll"
+			) {
+				subgroupId =
+					itemValue[checkedItemValues[0]].subGroupId;
+			}
+
+			const latestDate =
+				await getLatestRangeDate(subgroupId);
+
+			// Set TO date
+			$("#dateInputTo")
+				.jqxDateTimeInput('setDate', latestDate);
+
+			// Default FROM = 1 year before
+			const fromDate = new Date(latestDate);
+			fromDate.setFullYear(
+				fromDate.getFullYear() - 1
+			);
+
+			$("#dateInputFrom")
+				.jqxDateTimeInput('setDate', fromDate);
+
+		} else {
+
+			$("#rangeDateContainer").hide();
+
+			$("#prev-btn").show();
+			$("#next-btn").show();
+			$("#date-display").show();
+		}
+
+		drawGraph();
+	});
+
 	$("#prev-btn").on("click", function () {
         updateDate("prev");
         updateChart();
@@ -481,7 +541,8 @@ function countItems(groupColumnPairs) {
 }
 function getHeightBasedOnCount(groupColumnPairs) {
     const count = countItems(groupColumnPairs); // Get the count
-
+    
+    if(groupColumnPairs =='') return 1075;
     if (count < 15) return 525;
     if (count >= 15 && count <= 20) return 755;
     return 1075; // More than 20
@@ -489,72 +550,84 @@ function getHeightBasedOnCount(groupColumnPairs) {
 async function performanceGraph(graphService, graphName, removeEmpty, saveHistory) {
     try {
         // Show loader before making the request
-        showLoader();
+		showLoader();
 
-        var fromdate = formatDate(date);
-        var dbDate = formatDateIntoDbDate(date);
-        $("#date-display").val(formatDate());
+		var fromdate = formatDate(date);
+		var dbDate = formatDateIntoDbDate(date);
+		$("#date-display").val(formatDate());
 
-        const checkedItemValues = checkedItemid.filter(item => item != null);
-        
-	    var checkedItems = selectedItems.join(', ')
-	    var dropDownItems = $('#dropDownSelection').val();
-         let requestData;
-         if(getChartPeriodPerformance()=='w')
-         fromdate='Week '+getISOWeekNumber(date);
-   
-	  if(checkedItemid[0]=="#jqxCheckBoxDollarIndex"){
-	
-		 var checkedItemsisDollarDominator = configData.filter(item =>  item.isDollarDominator==true).map(item => item.columnName)  
-  .join(", "); 
- 		 requestData = [{
-					            groupId1: checkedItemsisDollarDominator,
-					            period: getChartPeriodPerformance(),
-					            fromdate: dbDate,
-					            fulldates:false
-					        }];
-	  }
-	  else if(checkedItemid[0]=="#jqxCheckBoxAll"){
-	
-		 var checkedItems = configData.map(item => item.columnName).join(", ")  ; 
- 		 requestData = [{
-					            groupId1: checkedItems,
-					            period: getChartPeriodPerformance(),
-					            fromdate: dbDate,
-					            fulldates:false
-					        }];
-	  }
-	  else
-      if(checkedItems!='')
-	        requestData = [{
-			            groupId1: checkedItems,
-			            period: getChartPeriodPerformance(),
-			            fromdate: dbDate,
-			            fulldates:false
-			        }];
-	        else 
-	        {
-				      
-		     if(isDollarDominator)
-		       {
-				var checkedItemsisDollarDominator = configData.filter(item => item.groupId === itemValue[checkedItemValues[0]].GroupId && item.isDollarDominator==isDollarDominator).map(item => item.columnName)  
-  .join(", "); 
-				requestData = [{
-					            groupId1: checkedItemsisDollarDominator,
-					            period: getChartPeriodPerformance(),
-					            fromdate: dbDate,
-					            fulldates:false
-					        }];
-					        }
-			else requestData = [{
-			            groupId1: itemValue[checkedItemValues[0]].GroupId,
-			            period: getChartPeriodPerformance(),
-			            fromdate: dbDate,
-			            fulldates:false
-			        }];
-			        
+		const checkedItemValues = checkedItemid.filter(item => item != null);
+		const checkedItems = selectedItems.join(', ');
+		const dropDownItems = $('#dropDownSelection').val();
+
+		const isRangeMode =
+			$('#performanceGroupOfPeriod')
+				.jqxButtonGroup('getSelection') === 5;
+
+		// UI title formatting
+		if (getChartPeriodPerformance() === 'w' && !isRangeMode) {
+			fromdate = 'Week ' + getISOWeekNumber(date);
+		}
+
+		// Request values
+		const period = isRangeMode
+			? 'r'
+			: getChartPeriodPerformance();
+
+		const fromDate = isRangeMode
+		    ? getFormattedJqxDate("#dateInputFrom")
+		    : dbDate;
+		
+		const toDate = isRangeMode
+		    ? getFormattedJqxDate("#dateInputTo")
+		    : null;
+		// Determine groupId1 once
+		let groupId1;
+
+		if (checkedItemid[0] === "#jqxCheckBoxDollarIndex") {
+
+			groupId1 = configData
+				.filter(item => item.isDollarDominator)
+				.map(item => item.columnName)
+				.join(", ");
+
+		} else if (checkedItemid[0] === "#jqxCheckBoxAll") {
+
+			groupId1 = configData
+				.map(item => item.columnName)
+				.join(", ");
+
+		} else if (checkedItems !== '') {
+
+			groupId1 = checkedItems;
+
+		} else {
+
+			if (isDollarDominator) {
+
+				groupId1 = configData
+					.filter(item =>
+						item.groupId === itemValue[checkedItemValues[0]].GroupId &&
+						item.isDollarDominator
+					)
+					.map(item => item.columnName)
+					.join(", ");
+
+			} else {
+
+				groupId1 =
+					itemValue[checkedItemValues[0]].GroupId;
 			}
-		 		
+		}
+
+		// Single request object
+		const requestData = [{
+			groupId1: groupId1,
+			period: period,
+			fromdate: fromDate,
+			todate: toDate,
+			fulldates: false
+		}];
 
         const response = await fetch('/graph/getperformancegraphdata', {
             method: 'POST',
@@ -637,15 +710,47 @@ async function performanceGraph(graphService, graphName, removeEmpty, saveHistor
 				
 		}
 		
-         if(checkedItems!='' || checkedItemid[0]=="#jqxCheckBoxDollarIndex") {
-		     json.title = 'Stock Indices Performance'+" In "+ fromdate;
+    	 let titlePrefix =  'Stock Indices Performance';
 
+			if (
+			    typeof itemValue !== 'undefined' &&
+			    checkedItemValues.length > 0 &&
+			    checkedItems === '' &&
+			    checkedItemid[0] !== "#jqxCheckBoxDollarIndex" &&
+			    checkedItemid[0] !== "#jqxCheckBoxAll" &&
+			    itemValue[checkedItemValues[0]]
+			) {
+			
+			    titlePrefix =
+			        titleGroupMap[
+			            itemValue[
+			                checkedItemValues[0]
+			            ].GroupId
+			        ] ||
+			        'Stock Indices Performance';
+			}
+		
+		if (isRangeMode) {
+
+			const fromDateTitle =
+				formatDateForTitle(
+					getFormattedJqxDate("#dateInputFrom")
+				);
+
+			const toDateTitle =
+				formatDateForTitle(
+					getFormattedJqxDate("#dateInputTo")
+				);
+
+			json.title =
+				`${titlePrefix} (${fromDateTitle} → ${toDateTitle})`;
+		
+		} else {
+		
+		    json.title =
+		        `${titlePrefix} In ${fromdate}`;
 		}
-		else
-        if (typeof itemValue !== 'undefined' && checkedItemValues.length > 0) {
-		     json.title = titleGroupMap[itemValue[checkedItemValues[0]].GroupId] +" In "+ fromdate;
 
-		} 
         json.chartId = 'mainChart';
         json.width = 1078;
 		json.height=(checkedItemid[0]=="#jqxCheckBoxDollarIndex")?825:(checkedItems!='' ||checkedItemid[0]=="#jqxCheckBoxAll")?getHeightBasedOnCount(dropDownItems==''?checkedItems:dropDownItems):525;
@@ -966,7 +1071,17 @@ function formatDateIntoDbDate(date) {
 
 	return `${day}-${month}-${year}`;
 }
+function getFormattedJqxDate(selector) {
+    const date = $(selector).jqxDateTimeInput('getDate');
 
+    if (!date) return null;
+
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+
+    return `${day}-${month}-${year}`;
+}
 let timeIndex = 0;  // Tracks which week/month/quarter/year the user is viewing
 
 // Function to update the chart based on period and timeIndex
@@ -1056,4 +1171,54 @@ function reorderDataWithLabels(originalLabels, originalData, desiredOrder) {
         labels: reorderedLabels,
         data: reorderedData
     };
+}
+
+async function getLatestRangeDate(subgroupId) {
+    try {
+        const response =
+            await fetch(`/sti/getlatest/${subgroupId}`);
+
+        if (!response.ok) {
+            throw new Error(
+                "Failed to fetch latest date"
+            );
+        }
+
+        const latestDate =
+            await response.text();
+
+        // API format: yyyy-MM-dd
+        const [year, month, day] =
+            latestDate.trim().split('-');
+
+        return new Date(
+            Number(year),
+            Number(month) - 1,
+            Number(day)
+        );
+
+    } catch (error) {
+        console.error(error);
+
+        return new Date(); // fallback
+    }
+}
+
+function formatDateForTitle(dateStr) {
+    if (!dateStr) return '';
+
+    const [day, month, year] =
+        dateStr.split('-');
+
+    const date =
+        new Date(year, month - 1, day);
+
+    return date.toLocaleDateString(
+        "en-GB",
+        {
+            day: '2-digit',
+            month: 'short',
+            year: 'numeric'
+        }
+    );
 }

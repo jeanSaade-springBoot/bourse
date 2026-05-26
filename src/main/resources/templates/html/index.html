@@ -144,6 +144,7 @@
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''FOODSTUFF_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/foodstuff' : '/login'"><img class="img-m-right" src="../../img/i2.png">Foodstuff</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ENERGY_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/energy' : '/login'"><img class="img-m-right" src="../../img/i2.png">Energy</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRANSPORTATION_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/transportation' : '/login'"><img class="img-m-right" src="../../img/i2.png">Transportation</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''COMMOS_PERFORMANCE_SCREEN'')')} ? '/bourse/commosperformance' : '/login'"><img class="img-m-right" src="../../img/i6.png">PERFORMANCE</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''METAL_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/metaldatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>

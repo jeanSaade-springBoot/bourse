@@ -1704,335 +1704,7 @@ function getMarginLenghtVolume(value) {
 	   ($('#dropDownType').length)?$("#dropDownType").jqxDropDownList({ disabled: value }):null; 
 	   ($('#dropDownType').length)?$("#dropDownType").jqxDropDownList({selectedIndex: 0}):null;  
  }
- function updateChartByFunctionId(chartConfigSettings){
-			 //var valueMin = getMarginLenght(chartConfigSettings.min); 
-			// var valueMax = getMarginLenght(chartConfigSettings.max); 
-			 //var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
-			 //var valueMax1 = getMarginLenght(chartConfigSettings.max1); 
-			  const values1 = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
-				     var valueMin = values1;
-				     var valueMax = values1; 
-			 const values2 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
-				     var valueMin = values2;
-				     var valueMax = values2; 		
-				 //	console.log(chartConfigSettings.fontSize,chartConfigSettings.min1,chartConfigSettings.max1,chartConfigSettings.min2,chartConfigSettings.max2,valueMin,valueMin1,valueMax,valueMax1)
-			     if([1,2, 16, 17, 18, 19].includes(chartConfigSettings.functionId))
-			     { 
-					  let mva = "";
-					if (chartConfigSettings.functionId === 1) {
-					  mva = "#FF0000"; // Red for functionId 1
-					} else if (chartConfigSettings.functionId === 2) {
-					  mva = "#ffa4c5"; // Pink for functionId 2
-					} else if (chartConfigSettings.functionId === 16) {
-					  mva = "#1f77b4"; // Blue for functionId 16
-					} else if (chartConfigSettings.functionId === 17) {
-					  mva = "#2ca02c"; // Green for functionId 17
-					} else if (chartConfigSettings.functionId === 18) {
-					  mva = "#ff7f0e"; // Orange for functionId 18
-					} else if (chartConfigSettings.functionId === 19) {
-					  mva = "#9467bd"; // Purple for functionId 19
-					} else {
-					  mva = "#000000"; // Default fallback color (optional)
-					}
-					
-					 chart.updateOptions({ 
-						series: [{
-							name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-							type: chartConfigSettings.Period=='d' ? 'area' : 'column',
-							data: chartConfigSettings.response[0].graphResponseDTOLst
-						}, {
-							name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
-							type: 'line',
-							data: chartConfigSettings.response[1].graphResponseDTOLst
-						}],
-  	    	    	  extra:{
-							isDecimal: chartConfigSettings.isDecimal,
-							yAxisFormat:chartConfigSettings.yAxisFormat0[1],
-						},
-						colors: [chartColorOpacity(chartConfigSettings.chartColor), mva],
-  	    	    	    markers: {
-  	    	    		   colors:  ["#FFFFFF", mva],
-  	    	    		   strokeColors:  ["#FFFFFF", mva],
-  	    	    		   size: 0,
-  	    	    		 },
-  	    	    		  stroke: {
-						      	 colors: ["#FFFFFF",mva],
-					        },
- 				         yaxis: {
 
-							labels: {
-								minWidth: 75, maxWidth: 75,
-								style: {
-									fontSize:chartConfigSettings.fontSize,
-								},
-								 formatter: function(val, index) {
-										 if (chartConfigSettings.yAxisFormat0[1])
-						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]);
-						  				else 
-						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]) + "%";
-									      }
-							},
-							tickAmount: 6,
-							min: Math.sign(chartConfigSettings.min) == -1 ? -Math.abs(chartConfigSettings.min) - valueMin : Math.abs(chartConfigSettings.min) - valueMin,
-							max: Math.sign(chartConfigSettings.max) == -1 ? -Math.abs(chartConfigSettings.max) + valueMax : Math.abs(chartConfigSettings.max) + valueMax,
-							axisBorder: {
-								width: 3,
-								show: true,
-								color: '#ffffff',
-								offsetX: 0,
-								offsetY: 0
-							},
-						  },
-						  tooltip: {
-							  x: {
-						          show: false,
-						      },
-							  y: {
-								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-									  if(seriesIndex == 0)
-						  				{
-						  				if (chartConfigSettings.getFormatResult0[1])
-						  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]);
-						  				else 
-						  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
-						  				}else 
-						  					 if(seriesIndex == 1){
-						  					  if (chartConfigSettings.getFormatResult1[1])
-						  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null;
-						  						else 
-						  							 return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%";
-						  					 }
-								    },
-								    title: {
-							              formatter: (seriesName) => '',
-							          },
-					      },
-						}
-    	    		}); 
-    	    		
-					
-				 }
-			      else if(chartConfigSettings.functionId>=7)
-  	    	    	{
-					 chart.updateOptions({
-						 series:[{
-							name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-							type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
-							data: chartConfigSettings.response[0].graphResponseDTOLst
-						}, {
-							name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
-							type: 'column',
-							data: chartConfigSettings.response[1].graphResponseDTOLst
-						}],
-  	    	    	  extra:{
-							isDecimal: chartConfigSettings.isDecimal,
-							yAxisFormat:chartConfigSettings.yAxisFormat,
-						},
-						 colors: ["#FFFFFF", "#00c9ff96"],
-  	    	    		 markers: {
-  	    	    		   colors: ["#FFFFFF", "#00c9ff96"],
-  	    	    		   strokeColors:["#FFFFFF", "#00c9ff96"]
-  	    	    		 },
- 				       	 yaxis: [{
-								 labels: {
-     				    		 minWidth:75,maxWidth: 75,
- 				        		 style: {
- 						        	  fontSize: chartConfigSettings.fontSize,
- 						        	 },
- 						        	  formatter: function(val, index) {
-											if (chartConfigSettings.yAxisFormat0[1])
-								  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]);
-								  				else 
-								  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]) + "%";
-									      }
- 				        	  },
- 				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1,
- 				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
- 				    			  axisBorder: {
- 					                  width: 3,
- 					                  show: true,
- 					                  color: "#FFFFFF",
- 					                  offsetX: 0,
- 					                  offsetY: 0
- 					              },
- 				    			 },
-								{
-									
-							  opposite: true,
-     				    	  labels: {
-     				    		    // minWidth: -50,maxWidth: -50,
-	 				        		 style: {
-	 						        	  fontSize: chartConfigSettings.fontSize,
-	 						        	 },
-	 						        	  formatter: function(val, index) {
-										  if (chartConfigSettings.yAxisFormat1[1])
-								  						  return  val.toFixed(chartConfigSettings.yAxisFormat1[0]);
-								  						else 
-								  							 return  val.toFixed(chartConfigSettings.yAxisFormat1[0]) + "%";
-								  							
-									      }
-		 				        	  },
-		 				          tickAmount: 6,
-		 				    	  min:min2,
-		 				    	  max:max2,
- 				    			  axisBorder: {
- 					                  width: 3,
- 					                  show: true,
- 					                  color: "#00c9ff96",
- 					                  offsetX: 0,
- 					                  offsetY: 0
- 					              },
- 				    			 }],
-								  tooltip: {
-									  x: {
-								          show: false,
-								      },
-									  y: {
-										  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-											  if(seriesIndex == 0)
-								  				{
-								  				if (chartConfigSettings.getFormatResult0[1])
-								  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]);
-								  				else 
-								  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
-								  				}else 
-								  					 if(seriesIndex == 1){
-								  					  if (chartConfigSettings.getFormatResult1[1])
-								  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null;
-								  						else 
-								  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%";
-								  					 }
-										    },
-										    title: {
-									              formatter: (seriesName) => '',
-									          },
-							      },
-								}
-    	    		}); 
-    	    		
-				}else  {
-				     var selectedValue = Math.abs(chartConfigSettings.min2)>=Math.abs(chartConfigSettings.max2)?Math.abs(min2):Math.abs(max2);
-					selectedValue=selectedValue+values2;
-					 chart.updateOptions({
-						series:[{
-								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-								type: chartConfigSettings.Period=='d' ? chartConfigSettings.chartType1 : 'column',
-								data: chartConfigSettings.response[0].graphResponseDTOLst
-							}, {
-								name: chartConfigSettings.response[1].config != null ? (chartConfigSettings.response[1].config.displayDescription == null ? '' : chartConfigSettings.response[1].config.displayDescription) : '',
-								type: 'column',
-								data: chartConfigSettings.response[1].graphResponseDTOLst
-							}],
-  	    	    	  extra:{
-							isDecimal: chartConfigSettings.isDecimal,
-							yAxisFormat:chartConfigSettings.yAxisFormat,
-						},
-						 colors: ["#FFFFFF", "#ff000059"],
-  	    	    		 markers: {
-  	    	    		   colors: ["#FFFFFF", "#ff000059"],
-  	    	    		   strokeColors:["#FFFFFF", "#ff000059"]
-  	    	    		 },
- 				       yaxis: [{
-								 labels: {
-     				    		 minWidth: 75,maxWidth: 75,
- 				        		 style: {
- 						        	  fontSize: chartConfigSettings.fontSize,
- 						        	 },
- 						        	 formatter: function(val, index) {
-										 if (chartConfigSettings.yAxisFormat0[1])
-						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]);
-						  				else 
-						  				  return  val.toFixed(chartConfigSettings.yAxisFormat0[0]) + "%";
-									      }
- 				        	  },
- 				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min1)==-1 ? -Math.abs(chartConfigSettings.min1)-valueMin1 : Math.abs(chartConfigSettings.min1)-valueMin1,
- 				    	  max:Math.sign(chartConfigSettings.max1)==-1 ? -Math.abs(chartConfigSettings.max1)+valueMax1 : Math.abs(chartConfigSettings.max1)+valueMax1,
- 				    			  axisBorder: {
- 					                  width: 3,
- 					                  show: true,
- 					                  color: "#FFFFFF",
- 					                  offsetX: 0,
- 					                  offsetY: 0
- 					              },
- 				    			 },
-								{
-							  opposite: true,
-     				    	  labels: {
-     				    		 minWidth: 75,maxWidth: 75,
- 				        		 style: {
- 						        	  fontSize: chartConfigSettings.fontSize,
- 						        	 },
- 						        	 formatter: function(val, index) {
-										  if (chartConfigSettings.getFormatResult1[1])
-								  						  return  val.toFixed(chartConfigSettings.getFormatResult1[0]);
-								  						else 
-								  							 return  val.toFixed(chartConfigSettings.getFormatResult1[0]) + "%";
-								  							
-									      }
- 				        	  },
- 				          tickAmount: 6,
- 				    	  min:Math.sign(chartConfigSettings.min2)==-1 ? -Math.abs(selectedValue) : Math.abs(selectedValue),
- 				    	  max:Math.sign(chartConfigSettings.max2)==-1 ? -Math.abs(selectedValue) : Math.abs(selectedValue),
- 				    			  axisBorder: {
- 					                  width: 3,
- 					                  show: true,
- 					                  color: "#FF0000",
- 					                  offsetX: 0,
- 					                  offsetY: 0
- 					              },
- 				    			 }],
-						  tooltip: {
-							  x: {
-						          show: false,
-						      },
-							  y: {
-								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-									  if(seriesIndex == 0)
-						  				{
-						  				if (chartConfigSettings.getFormatResult0[1])
-						  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]);
-						  				else 
-						  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
-						  				}else 
-						  					 if(seriesIndex == 1){
-						  					  if (chartConfigSettings.getFormatResult1[1])
-						  						  return !isNaN(value)?value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null:'';
-						  						else 
-						  						  return !isNaN(value)?value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):null + "%":'';
-						  					 }
-								    },
-								    title: {
-							              formatter: (seriesName) => '',
-							          },
-					      },
-						},
-						annotations: {
-							  yaxis: [{
-							    y: 0,
-							    yAxisIndex: 1,
-								strokeDashArray: 0,
-								offsetX: 0,
-								width: '100%',
-								borderColor: '#FF0000',
-							    label: {
-								    position: 'right',
-								    offsetX: 70,
-					                offsetY: 0,
-							        borderColor: '#FF0000',
-							        style: {
-							          color: '#fff',
-							          background: '#ff000052'
-							        },
-							        text: ''
-							      }
-							  }]
-							}
-    	    		}); 
-    	    		
-				}
-}
 
  function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate){
 			// var valueMin = getMarginLenght(chartConfigSettings.min); 
@@ -2153,15 +1825,61 @@ const dynamicColor =
 							isDecimal: chartConfigSettings.isDecimal,
 							yAxisFormat:chartConfigSettings.yAxisFormat,
 						},
-						 colors:[chartConfigSettings.Period=='d' ?(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:chartColorOpacity(chartConfigSettings.chartColor):(chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor), mva],
-  	    	    		 markers: {
+						colors:[
+					  chartConfigSettings.Period == 'd'
+					    ? (
+					        (chartConfigSettings.overideChartype != null
+					          ? (typeof SelectedchartType != 'undefined'
+					              ? SelectedchartType
+					              : chartType)
+					          : 'area'
+					        ) == 'column'
+					      )
+					        ? (
+					            $("#chartColor .active")[0]?.id
+					              ? '#' + $("#chartColor .active")[0].id
+					              : chartConfigSettings.chartColor
+					          )
+					        : chartColorOpacity(
+					            $("#chartColor .active")[0]?.id
+					              ? '#' + $("#chartColor .active")[0].id
+					              : chartConfigSettings.chartColor
+					          )
+					    : (
+					        ($("#chartColor .active")[0]?.id
+					          ? '#' + $("#chartColor .active")[0].id
+					          : chartConfigSettings.chartColor) == '#44546a'
+					          ? '#2e75b6'
+					          : ($("#chartColor .active")[0]?.id
+					              ? '#' + $("#chartColor .active")[0].id
+					              : chartConfigSettings.chartColor)
+					      ),
+					  mva
+					],
+					markers: {
 						   size: 0,
   	    	    		   colors:  ["#FFFFFF", mva],
   	    	    		   strokeColors:  ["#FFFFFF", mva],
   	    	    		 },
-  	    	    		 stroke: chartConfigSettings.Period=='d' ?{
-						      	 colors: [(chartConfigSettings.Period=='d' ?chartConfigSettings.overideChartype != null ? (typeof SelectedchartType != 'undefined'? SelectedchartType : chartType) : 'area' : 'column')=='column'?chartConfigSettings.chartColor:"#FFFFFF", mva],
-					        }: {},
+  	    	    	stroke: chartConfigSettings.Period == 'd' ? {
+					colors: [
+					    (
+					      (chartConfigSettings.overideChartype != null
+					        ? (typeof SelectedchartType != 'undefined'
+					            ? SelectedchartType
+					            : chartType)
+					        : 'area'
+					      ) == 'column'
+					    )
+					      ? (
+					          $("#chartColor .active")[0]?.id
+					            ? '#' + $("#chartColor .active")[0].id
+					            : chartConfigSettings.chartColor
+					        )
+					      : "#FFFFFF",
+					    mva
+					  ],
+					}: {},
 					          grid: {
 							  show:eval(chartConfigSettings.chartShowGrid),
 			   	  			  borderColor: '#f0e68c',
@@ -8953,7 +8671,7 @@ function getStrokeWidthPeriod(period, numColumns)
 	  return strokeWidth;
 	}
 	
-	function getDynamicWidth(numColumns) {
+/*	function getDynamicWidth(numColumns) {
 	    var totalAvailableWidth = 931;
 		const minColumnWidth = 4; // Minimum width to prevent columns from being invisible
 	    const maxColumnWidth = 50; // Maximum width to avoid overly thick columns
@@ -8968,6 +8686,37 @@ function getStrokeWidthPeriod(period, numColumns)
 	    columnWidth = Math.max(minColumnWidth, Math.min(columnWidth, maxColumnWidth));
 
     	return columnWidth*3;
+	}*/
+	function getDynamicWidth(numColumns) {
+	
+	    const totalAvailableWidth = 931;
+	    const minColumnWidth = 6;   // Prevent invisible bars
+	    const maxColumnWidth = 50;  // Prevent overly thick bars
+	    const spacingFactor = 0.75; // Reserve some spacing between columns
+	
+	    if (!numColumns || numColumns <= 0) {
+	        return maxColumnWidth;
+	    }
+	
+	    // Calculate available width per column
+	    let columnWidth = (totalAvailableWidth / numColumns) * spacingFactor;
+	
+	    // Smooth scaling so bars don't become too tiny too fast
+	    if (numColumns > 20) {
+	        columnWidth *= 0.9;
+	    }
+	
+	    if (numColumns > 40) {
+	        columnWidth *= 0.8;
+	    }
+	
+	    // Clamp between min/max
+	    columnWidth = Math.max(
+	        minColumnWidth,
+	        Math.min(columnWidth, maxColumnWidth)
+	    );
+	
+	    return Math.round(columnWidth);
 	}
 	function calculateSpacing(outerWidth, numColumns) {
 	    return outerWidth / numColumns;

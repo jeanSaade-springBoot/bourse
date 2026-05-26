@@ -69,10 +69,20 @@ public class RobotInitializerService {
 	{
 		return robotsConfigRepository.getRobotsByGroupIdAndIsactive(String.valueOf(groupId), true);
 	}
+	
 	public List<RobotsFunctionConfiguration> getRobotsFunctionConfigurationInitializer(int groupId)
 	{
 		return robotsFunctionConfigRepository.getRobotsByGroupIdAndIsactive(String.valueOf(groupId), true);
 	}
+
+	public List<RobotsConfiguration> getRobotsConfigInitializer(int groupId, List<String> descriptions) {
+		return robotsConfigRepository.getRobotsByGroupIdAndColumnDescriptionInAndIsactive(String.valueOf(groupId), descriptions, true);
+	}
+
+	public List<RobotsFunctionConfiguration> getRobotsFunctionConfigurationInitializer(int groupId, List<String> descriptions) {
+		return robotsFunctionConfigRepository.getRobotsByGroupIdAndColumnDescriptionInAndIsactive(String.valueOf(groupId), descriptions, true);
+	}
+	
 	public void callRobotsForUpdateColumnAsync(List<RobotInitializer> listOfRobots,String ProcedureInitialization,String ProcedureFinalization,String proccessName,int assetId,int groupId){
 		
 		List<CompletableFuture<Boolean>> futures = new ArrayList<>();
@@ -154,25 +164,68 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 				}
 		 } 
 	
-			/*
-			 * for(RobotInitializer myObject:listOfRobots) { try {
-			 * List<RobotsFunctionConfiguration> listOfActiveRobots =
-			 * getRobotsFunctionConfigurationInitializer(groupId);
-			 * 
-			 * RobotInitializerDTO robotdto = RobotInitializerDTO.builder()
-			 * .columnName(myObject.getColumnName()) .robotName(myObject.getRobotName())
-			 * .functionId(myObject.getFunctionId()) .build();
-			 * 
-			 * futures.add(CompletableFuture.supplyAsync(() -> executeRobots(robotdto)));
-			 * System.out.println("excuting Robot for column: "+ myObject.getRobotName()
-			 * +" "+ myObject.getColumnName()+" time:"+new Date()); } catch (Exception e) {
-			 * e.printStackTrace(); } }
-			 */
-	
 		PublishNewsAfterAllThreadAreExcuted(futures,ProcedureFinalization,proccessName, assetId,groupId);
 	
 	}
 
+	public void callRobotsForUpdateColumnByDescriptionAsync(String procedureInitialization, String procedureFinalization, String processName, int assetId, int groupId, List<String> changedColumns) {
+
+		List<CompletableFuture<Boolean>> futures = new ArrayList<>();
+
+		StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery(procedureInitialization);
+
+		query.registerStoredProcedureParameter("processName", String.class, ParameterMode.IN);
+		query.setParameter("processName", processName);
+
+		query.registerStoredProcedureParameter("assetId", Integer.class, ParameterMode.IN);
+		query.setParameter("assetId", assetId);
+
+		query.registerStoredProcedureParameter("groupId", Integer.class, ParameterMode.IN);
+		query.setParameter("groupId", groupId);
+
+		query.execute();
+
+		if (processName.equalsIgnoreCase("PROCESS_WITH_FUNCTION")) {
+
+			List<RobotsFunctionConfiguration> listOfActiveRobots = getRobotsFunctionConfigurationInitializer(groupId, changedColumns);
+
+			for (RobotsFunctionConfiguration myObject : listOfActiveRobots) {
+
+				try {
+
+					RobotInitializerDTO robotdto = RobotInitializerDTO.builder()
+							.columnName(myObject.getColumnDescription()).robotName(myObject.getDbRobotName())
+							.functionId(myObject.getFunctionId()).build();
+
+					futures.add(CompletableFuture.supplyAsync(() -> executeRobots(robotdto)));
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+
+		} else if (processName.equalsIgnoreCase("PROCESS_WITHOUT_FUNCTION")) {
+
+			List<RobotsConfiguration> listOfActiveRobots = getRobotsConfigInitializer(groupId, changedColumns);
+
+			for (RobotsConfiguration myObject : listOfActiveRobots) {
+
+				try {
+
+					RobotInitializerDTO robotdto = RobotInitializerDTO.builder()
+							.columnName(myObject.getColumnDescription()).robotName(myObject.getDbRobotName())
+							.functionId(null).build();
+
+					futures.add(CompletableFuture.supplyAsync(() -> executeRobots(robotdto)));
+
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
+			}
+		}
+
+		PublishNewsAfterAllThreadAreExcuted(futures, procedureFinalization, processName, assetId, groupId);
+	}
 	public void PublishNewsAfterAllThreadAreExcuted(List<CompletableFuture<Boolean>> com,String procedureName,String proccessName,int assetId, int groupId) {
 		CompletableFuture<Void> resultantCf = CompletableFuture.allOf(com.toArray(new CompletableFuture<?>[0]));
 		CompletableFuture<Object> allFutureResults = resultantCf.thenApply(t -> com.stream().map(CompletableFuture::join).collect(Collectors.toList()));
@@ -206,30 +259,49 @@ public void callRobotsAsync(String ProcedureInitialization,String ProcedureFinal
 		 	}
 
 	public void UpdateColumnConfigurationById(List<UpdatedColumnDTO> updatedColumnDTOList) {
-		int assetId = updatedColumnDTOList.get(0).getAssetId();
-		int groupId = updatedColumnDTOList.get(0).getGroupId();
-		
-		List<OngoingProcessDTO> ongoingProcessList = ongoingProcessService.findByAssetIdAndGroupIdOrParentGroupId(assetId,groupId);
-		
-		for(OngoingProcessDTO ongoingProcess:ongoingProcessList) {
-			try {
-				
-				int ongoingProcessAssetId = ongoingProcess.getAssetId();
-				int ongoingProcessGroupId = ongoingProcess.getGroupId();
-				
-				List<String> lstRelatedColumn = getRelatedColumn(buildDyamicQuery(updatedColumnDTOList,String.valueOf(ongoingProcessGroupId)));
-				List<RobotInitializer> columnWithFunction = robotInitializerRepository.findRelatedColumn(lstRelatedColumn,withFunctionProcess);
-				List<RobotInitializer> columnWithoutFunction = robotInitializerRepository.findRelatedColumn(lstRelatedColumn,withoutFunctionProcess);
-				
-				callRobotsForUpdateColumnAsync(columnWithoutFunction,withoutFunctionInitiateProc,withoutFunctionFinalizationProc,withoutFunctionProcess,ongoingProcessAssetId,ongoingProcessGroupId);
-				callRobotsForUpdateColumnAsync(columnWithFunction,withFunctionInitiateProc,withFunctionFinalizationProc,withFunctionProcess,ongoingProcessAssetId,ongoingProcessGroupId);
-			
-			} catch (Exception e) {
-				e.printStackTrace();
+
+				if (updatedColumnDTOList == null || updatedColumnDTOList.isEmpty()) {
+					return;
+				}
+
+				int assetId = updatedColumnDTOList.get(0).getAssetId();
+
+				int groupId = updatedColumnDTOList.get(0).getGroupId();
+
+				List<OngoingProcessDTO> ongoingProcessList = ongoingProcessService
+						.findByAssetIdAndGroupIdOrParentGroupId(assetId, groupId);
+
+				for (OngoingProcessDTO ongoingProcess : ongoingProcessList) {
+
+					try {
+
+						int ongoingProcessAssetId = ongoingProcess.getAssetId();
+
+						int ongoingProcessGroupId = ongoingProcess.getGroupId();
+
+						List<String> lstRelatedColumn = getRelatedColumn(
+								buildDyamicQuery(updatedColumnDTOList, String.valueOf(ongoingProcessGroupId)));
+
+						// Skip if no related columns
+						if (lstRelatedColumn == null || lstRelatedColumn.isEmpty()) {
+							continue;
+						}
+
+						// PROCESS WITHOUT FUNCTION
+						callRobotsForUpdateColumnByDescriptionAsync(withoutFunctionInitiateProc,
+								withoutFunctionFinalizationProc, withoutFunctionProcess, ongoingProcessAssetId,
+								ongoingProcessGroupId, lstRelatedColumn);
+
+						// PROCESS WITH FUNCTION
+						callRobotsForUpdateColumnByDescriptionAsync(withFunctionInitiateProc,
+								withFunctionFinalizationProc, withFunctionProcess, ongoingProcessAssetId,
+								ongoingProcessGroupId, lstRelatedColumn);
+
+					} catch (Exception e) {
+						e.printStackTrace();
+					}
+				}
 			}
-		}
-		
-	}
 	public String buildDyamicQuery(List<UpdatedColumnDTO> updatedColumnDTOList,String groupId)
 	{
 		String query="";

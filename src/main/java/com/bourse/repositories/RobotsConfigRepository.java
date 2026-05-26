@@ -44,5 +44,7 @@ public interface RobotsConfigRepository extends JpaRepository<RobotsConfiguratio
 														 		+ "   and rc.configId= :configId")
 	  List<RobotsConfiguration> getColumnRobotsByConfigId(@Param("configId") String configId);
 	  
-	  public List<RobotsConfiguration> getRobotsByGroupIdAndIsactive(String groupId,  boolean isactive);
+	  List<RobotsConfiguration> getRobotsByGroupIdAndIsactive(String groupId,  boolean isactive);
+
+	  List<RobotsConfiguration> getRobotsByGroupIdAndColumnDescriptionInAndIsactive(String groupId, List<String> descriptions, Boolean isActive);
 }

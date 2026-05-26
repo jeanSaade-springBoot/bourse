@@ -1275,6 +1275,15 @@ return new ModelAndView("html/corporateLiquidity");
 	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
 		return new ModelAndView("html/cryptos/performance");
     }
+	@PreAuthorize("hasAuthority('COMMOS_PERFORMANCE_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping( value =  "/commosperformance")
+    public ModelAndView commosPerformanceScreen(ModelMap model, Authentication authentication)
+    {
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute("fragment", "html/templates/macro");
+	    model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		return new ModelAndView("html/commos/performance");
+    }
 	@PostMapping(value = "savedata", produces = MediaType.APPLICATION_JSON_VALUE)
     public  ResponseEntity<List<SovereignData>>  saveData(@RequestBody DataDTO dataDTO){
 		

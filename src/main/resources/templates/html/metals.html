@@ -170,33 +170,35 @@ button#deleteByDate {
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0 pl-0">
                  <div class="col-4 pl-0 justify-content-between">
                   <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input</h6>
-                  <div id='dateInput'></div>
+                
                    </div>
                    <div class="col-1"></div>
                    <div class="col-7">
-                   <div id='dateInputAudit'></div>
+                 
                    </div>
                 </div>
                 <div class="card-body p-0" >
-                 <div class="row">
-                 <div class="col-4 d-flex pl-0 justify-content-between">
+                 <div class="row align-items-end">
+                 <div th:classappend="${commodity == 1} ? ' col-12 ' : ' col-4 '" class="">
+                 	  <div id='dateInput'></div>
+                  <div class=" d-flex pl-0 justify-content-between">
                  	<div id="commoditySubGroup" th:text="${commodity}" style="display:none;"></div>
                  	<input id="commoditySubGroup1" style="display:none;" value="th:text='${commodity}'"/>
-                    <div th:if="${commodity == 1}" class="col-12 pr-0" id="preciousMetals-input">
+                    <div th:if="${commodity == 1}" class="col-12 pr-0 pl-0" id="preciousMetals-input">
 	                	 <div class="col pl-0 ">&#x200b; </div>
 		                 <div class="col p-0 ">
 		                  <form  id="dataformInput">
 		                  <div class="row" style=" margin-top: 0">
-		                      <div class="col-5">
+		                      <div class="col-md-4 col-lg-5 ">
 		                       <div  id="goldformInput">
 			                      <div  style=" display: flex;">
 										<div class="col pl-0">
 											<div class="row col  align-items-center">
 												<div>
-													<img height="40" width="40" src="/img/gold.png" class="img-icon" data-toggle="tooltip" title="Gold" >
+													<img height="30" width="30" src="/img/gold.png" class="img-icon" data-toggle="tooltip" title="Gold" >
 												</div>
 												<div class="pl-2">
-													<h8 class="font-weight-bold">Gold</h8>
+													<div class="font-weight-bold">Gold</div>
 												</div>
 											</div>
 											<div class="pt-2 mh-42 justify-content-between" style="display: flex;" id="input-titles">
@@ -219,16 +221,16 @@ button#deleteByDate {
 								  </div>
 								</div>
 		                     </div>
-		                      <div class="col-5">
+		                      <div class="col-md-4 col-lg-5 ">
 		                      <div  id="silverformInput">
 		                      <div  style=" display: flex;">
 			                      <div class="col pl-0">
 											<div class="row col align-items-center">
 												<div>
-													<img height="40" width="40" src="/img/silver.png" class="img-icon" data-toggle="tooltip" title="Silver" >
+													<img height="30" width="30" src="/img/silver.png" class="img-icon" data-toggle="tooltip" title="Silver" >
 												</div>
 												<div class="pl-2">
-													<h8 class="font-weight-bold">Silver</h8>
+													<div class="font-weight-bold">Silver</div>
 												</div>
 											</div>
 										<div class="pt-2 mh-42 justify-content-between" style="display: flex;" id="input-titles">
@@ -251,31 +253,48 @@ button#deleteByDate {
 								  </div>
 								</div>
 		                     </div>
-		                      <div class="col-2">
-		                       <div  id="platinumformInput">
-		                      <div  style=" display: flex;">
+						<div class="col-md-4 col-lg-2">
+							<div id="platinumformInput">
+								<div style="display: flex;">
 									<div class="col pl-0">
-										<div>
-											<img  height="48" width="48" src="/img/platinum.png" class="img-icon" data-toggle="tooltip" title="Platinum" >
+										<div class="row col align-items-center"
+											style="min-width: 115px;">
+											<div>
+												<img height="30" width="30" src="/img/platinum.png"
+													class="img-icon" data-toggle="tooltip"
+													title="Platinum">
+											</div>
+											<div class="pl-2">
+												<div class="font-weight-bold">Platinum</div>
+											</div>
 										</div>
-										<div>
-											<h8 class="font-weight-bold">Platinum</h8>
+										<div class="pt-2 mh-42 justify-content-between"
+											style="display: flex;" id="input-titles">
+											<div class="fw-bold"> &nbsp;</div>
 										</div>
 									</div>
-								 </div>
-			                   	 <div style=" display: flex;">
-			                      <input type="text" class="form-control" id="platinum-input" autocomplete="off">
-			                    </div>
-			                    </div>
-			                    <div id="platinumGrid" style="margin-top: 0rem;"></div>
-								  <div class="row" id="dataInputButtonsPlatinum" style="display: none;">
-								  <div class='col-12 d-flex justify-content-end mt-2'>
-									<input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="loadPlatinum" value="" />
-									<input id="cancelPlatinum" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
-								  </div>
 								</div>
-		                     </div>
-		                     </div>
+								<div style="display: flex;">
+									<input type="text" class="form-control"
+										id="platinum-input" autocomplete="off">
+								</div>
+							</div>
+							<div id="platinumGrid" style="margin-top: 0rem;"></div>
+							<div class="row" id="dataInputButtonsPlatinum"
+								style="display: none;">
+								<div class='col-12 d-flex justify-content-end mt-2'>
+									<input class="btn btn-primary mr-1 mb-1 green"
+										style="margin-right: 1rem !important; color: white;"
+										type="button" id="loadPlatinum" value="" /> <input
+										id="cancelPlatinum" type="button"
+										style="margin: 0 !important;"
+										class="btn btn-light-secondary mr-1 mb-1 red"
+										value="" />
+								</div>
+							</div>
+						</div>
+
+						</div>
 		<!--                     <button type="submit" class="btn btn-primary">Save</button> -->
 		                    </form>
 		               
@@ -283,9 +302,9 @@ button#deleteByDate {
 	                 </div>
 	                 	 <div th:if="${commodity == 2}" class="col-12 p-0" id="baseMetals-input">
 	                	 <div class="col">&#x200b; </div>
-		                 <div class="col pr-0">
+		                 <div class="col pr-0 pl-0">
 		                  <form  id="baseDataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
+		                  <div class="form-group m-0" style=" margin-top: 0">
 		                      <div  style=" display: flex;">
 								     <div class="col pl-0">
 										<div>
@@ -337,9 +356,9 @@ button#deleteByDate {
 	                 </div>
 	                   <div th:if="${commodity == 4}" class="col-12 p-0" id="energyCommodity-input">
 	                	 <div class="col">&#x200b; </div>
-		                 <div class="col pr-0">
+		                 <div class="col pr-0 pl-0">
 		                  <form  id="energyDataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
+		                  <div class="form-group m-0" style=" margin-top: 0">
 		                      <div  style=" display: flex;">
 		                           <div class="col pl-0">
 										<div>
@@ -399,9 +418,9 @@ button#deleteByDate {
 	                 </div>
 	                <div th:if="${commodity == 3}" class="col-12 p-0" id="foodStuffCommodity-input">
 	                	 <div class="col">&#x200b; </div>
-		                 <div class="col pr-0">
+		                 <div class="col pr-0 pl-0">
 		                  <form  id="foodStuffDataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
+		                  <div class="form-group m-0" style=" margin-top: 0">
 		                      <div  style=" display: flex;">
 								    <div class="col pl-0">
 										<div>
@@ -445,9 +464,9 @@ button#deleteByDate {
 	                 </div>
 	                 <div th:if="${commodity == 5}" class="col-12 p-0" id="transportationCommodity-input">
 	                	 <div class="col">&#x200b;</div>
-		                 <div class="col pr-0">
+		                 <div class="col pr-0 pl-0">
 		                  <form  id="transportationDataformInput">
-		                  <div class="form-group" style=" margin-top: 0">
+		                  <div class="form-group m-0" style=" margin-top: 0">
 		                      <div  style=" display: flex;">
 								    <div class="col pl-0">
 										<div>
@@ -481,13 +500,16 @@ button#deleteByDate {
 						  </div>
 		                 </div>
 	                 </div>
+	                </div>
                </div>
-               <div class="col-1"></div>
-               <div class="col-7 d-flex justify-content-between">
+               <div th:classappend="${commodity == 1} ? '  ' : ' col-1 '" class=""></div>
+               <div th:classappend="${commodity == 1} ? ' col-12 pt-2' : ' col-6 '" class="">
+                 
+                   <div class="d-flex justify-content-between">
                    <div th:if="${commodity == 1}" class="col-12 p-0" id="preciousMetals-audit">
                        <div class="d-flex justify-content-between pb-1">
 		                    <div class="col-9 p-0"> 
-		                    	
+		                    	  <div id='dateInputAudit'></div>
 							</div>
 							<div class="col-3 p-0">
 							 <button id="deletepreciousByDate" style="font-size: .8rem; float: right;">Delete</button> 
@@ -498,7 +520,7 @@ button#deleteByDate {
 					<div th:if="${commodity == 2}" class="col-12 p-0"  id="baseMetals-audit">
                        <div class="d-flex justify-content-between pb-1">
 	                    <div class="col-9 p-0"> 
-	                    	
+	                    	 <div id='dateInputAudit'></div>
 						</div>
 						<div class="col-3 p-0">
 						 <button id="deleteBaseByDate" style="float: right; font-size: .8rem;">Delete</button> 
@@ -509,7 +531,7 @@ button#deleteByDate {
 					<div th:if="${commodity == 4}" class="col-12 p-0"  id="energy-audit">
                        <div class="d-flex justify-content-between pb-1">
 	                    <div class="col-9 p-0"> 
-	                    	
+	                    	 <div id='dateInputAudit'></div>
 						</div>
 						<div class="col-3 p-0">
 						 <button id="deleteEnergyByDate" style="float: right; font-size: .8rem;">Delete</button> 
@@ -520,7 +542,7 @@ button#deleteByDate {
 					<div th:if="${commodity == 3}" class="col-12 p-0"  id="foodStuff-audit">
                        <div class="d-flex justify-content-between pb-1">
 	                    <div class="col-9 p-0"> 
-	                    	
+	                    	 <div id='dateInputAudit'></div>
 						</div>
 						<div class="col-3 p-0">
 						 <button id="deleteFoodStuffByDate" style="float: right; font-size: .8rem;">Delete</button> 
@@ -531,13 +553,14 @@ button#deleteByDate {
 					<div th:if="${commodity == 5}" class="col-12 p-0"  id="transportation-audit">
                        <div class="d-flex justify-content-between pb-1">
 	                    <div class="col-9 p-0"> 
-	                    	
+	                    	 <div id='dateInputAudit'></div>
 						</div>
 						<div class="col-3 p-0">
 						 <button id="deletetransportationByDate" style="float: right; font-size: .8rem;">Delete</button> 
 	                   </div>
                        </div>
 					  <div id="transportationAuditGrid"></div>
+					</div>
 					</div>
                  </div>
               </div>

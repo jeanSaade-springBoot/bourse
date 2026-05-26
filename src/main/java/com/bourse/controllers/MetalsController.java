@@ -114,14 +114,25 @@ public class MetalsController {
 		 boolean checkifcanSave= transportationService.CheckIfCanSave(referDate);
 		 return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
+
 	@PostMapping(value = "savepreciousdata")
-    public ResponseEntity<Boolean> savePreciousData(@RequestBody List<PreciousMetals> preciousInputDataList){
+	public ResponseEntity<Boolean> savePreciousData(@RequestBody List<PreciousMetals> preciousInputDataList) {
+
 		perciousMetalsService.SavePreciousData(preciousInputDataList);
-		perciousMetalsService.doCalculation(preciousInputDataList.get(0).getReferDate());
-		perciousMetalsService.runProcedureCalculation("6","1",preciousInputDataList.get(0).getReferDate() ,preciousInputDataList.get(0).getReferDate());
-		perciousMetalsService.runProcedureCalculation("6","2",preciousInputDataList.get(0).getReferDate() ,preciousInputDataList.get(0).getReferDate());
-		return new ResponseEntity<>(true,HttpStatus.OK);
-    }
+		String referDate = preciousInputDataList.get(0).getReferDate();
+		perciousMetalsService.doCalculation(referDate);
+
+		boolean hasGold = preciousInputDataList.stream().anyMatch(x -> x.getSubgroupId() == 1);
+		boolean hasSilver = preciousInputDataList.stream().anyMatch(x -> x.getSubgroupId() == 2);
+		if (hasGold) {
+			perciousMetalsService.runProcedureCalculation("6", "1", referDate, referDate);
+		}
+
+		if (hasSilver) {
+			perciousMetalsService.runProcedureCalculation("6", "2", referDate, referDate);
+		}
+		return new ResponseEntity<>(true, HttpStatus.OK);
+	}
 	@PostMapping(value = "savebasedata")
     public List<BaseMetals> saveBaseData(@RequestBody List<BaseMetals> baseInputDataList){
 		List<BaseMetals> baseDatalst= baseMetalsService.SaveBaseData(baseInputDataList);

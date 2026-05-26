@@ -177,17 +177,41 @@ text.text-style {
 												</div>
 												<div  class="row">
 															<div class='col-1'></div>
-															<div class='col-10'>
+															<div class='col-10 row align-items-center' >
 															 <div id='performanceGroupOfPeriod' style=''>
-													            <button style="padding:4px 16px;" id="w">
-													                Weekly</button>
-													            <button style="padding:4px 16px;" id="m">
-													                Monthly</button>
-																 <button style="padding:4px 16px;" id="q">
-																	Quarterly</button>
-																 <button style="padding:4px 16px;" id="y">
-																	Yearly</button>
-													        </div>
+														            <button style="padding:4px 16px;" id="w">
+														                Weekly</button>
+														            <button style="padding:4px 16px;" id="m">
+														                Monthly</button>
+																	 <button style="padding:4px 16px;" id="q">
+																		Quarterly</button>
+																	 <button style="padding:4px 16px;" id="y">
+																		Yearly</button>
+																	 <button style="padding:4px 16px; visibility: hidden" id="">
+																		</button>
+																	 <button style="padding:4px 16px;" id="r">
+																		Range</button>
+														        </div>
+														        <div id="rangeDateContainer" >
+															        <div class="btn-group mr-2 align-items-center ml-2" role="group" aria-label="Second group">
+																		<label class="m-0 ml-2 mr-2">From</label>
+																			<div id='dateInputFrom'> </div>
+																		<label class="m-0 ml-2 mr-2">To</label>
+																			<div id='dateInputTo'> </div>
+																	</div>
+																</div>
+																
+																<div class="row ml-4" >
+																		<input aria-expanded="true" aria-controls="collapseFilter"
+																			class="btn btn-primary mr-1 mb-1"
+																			style="color: white;"
+																			type="button" id="show" value="Show" /> <input
+																			id="clearfilter" type="button"
+																			style="margin-right: 1rem !important;"
+																			class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
+																	
+																</div>
+																
 															</div>
 														   
 												</div>
@@ -240,15 +264,7 @@ text.text-style {
 															    </div>
 														     </div>
 														 </div>	
-														<div class="row" style="  position: absolute;   top: -38px;  right: .5rem; ">
-														<input aria-expanded="true" aria-controls="collapseFilter"
-															class="btn btn-primary mr-1 mb-1"
-															style="color: white;"
-															type="button" id="show" value="Show" /> <input
-															id="clearfilter" type="button"
-															style="margin-right: 1rem !important;"
-															class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-														</div>
+														
 													</div>
 													
 												</div>
@@ -605,6 +621,10 @@ text.text-style {
 			<script src="/js/jqwidgets/jqxmenu.js"></script>
 			<script src="/js/jqwidgets/jqxgrid.pager.js"></script>
 			<script src="/js/jqwidgets/jqxdropdownlist.js"></script>
+			
+			<script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
+			<script src="/js/jqwidgets/jqxcalendar.js"></script>
+  
 			<script src="/js/jqwidgets/jqxlistbox.js"></script>
 			<script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script>
 			<script src="/js/jqwidgets/jqxgrid.selection.js"></script>

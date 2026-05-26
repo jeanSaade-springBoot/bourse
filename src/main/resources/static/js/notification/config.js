@@ -4,27 +4,27 @@ const pendingSubscriptions = [];
 
 function connectWebSocket() {
     if (isConnected) {
-        console.log("WebSocket already connected.");
+        // console.log("WebSocket already connected.");
         return;
     }
 
-    console.log("Trying to connect...");
+    // console.log("Trying to connect...");
 
     const socket = new SockJS('/ws');
     stompClient = Stomp.over(socket);
 
     // enable logs while testing
     stompClient.debug = function (str) {
-        console.log(str);
+        // console.log(str);
     };
 
     stompClient.connect({}, function (frame) {
         isConnected = true;
-        console.log("Connected:", frame);
+        // console.log("Connected:", frame);
 
         // subscribe to notifications
         stompClient.subscribe('/all/messages', function (result) {
-            console.log("Received /all/messages:", result.body);
+            // console.log("Received /all/messages:", result.body);
 
             const parsedBody = JSON.parse(result.body);
 
