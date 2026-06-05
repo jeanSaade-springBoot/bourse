@@ -6,7 +6,9 @@ var allitems=["#jqxCheckBoxQe1",
  			   "#jqxCheckBoxCumQe1Qe2"];
 
 const graphName="ecbQeLiquidity"; 
-			   
+var graphService = "liquidity";
+const removeEmpty = false;
+				   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -30,11 +32,6 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
-	
-	var graphService = "liquidity";
-	const removeEmpty = false;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
-
-
 

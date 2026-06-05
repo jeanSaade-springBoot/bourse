@@ -4,7 +4,9 @@
 			    "#jqxCheckBoxLumber"];
 
 const graphName="base"; 
-			   
+var graphService = "metals";
+const removeEmpty = false;			
+	   			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();

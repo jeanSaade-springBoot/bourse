@@ -14,7 +14,9 @@ var allitems=["#jqxCheckBoxTadawul",
 			"#jqxCheckBoxMexbol_usdmxn",];
 
 const graphName="emerging"; 
-			   
+var graphService = "sti";
+const removeEmpty = true;
+				   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -39,8 +41,6 @@ $(document).ready(function() {
 
 function drawGraph() {
 	
-	var graphService = "sti";
-	const removeEmpty = true;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
 

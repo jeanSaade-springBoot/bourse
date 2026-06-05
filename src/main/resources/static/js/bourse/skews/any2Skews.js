@@ -29,7 +29,10 @@
   var nbrOfDigits1;
   var hasMissingDates=false;
    var chartConfigSettings;
-
+var graphService = "skews";
+const removeEmpty = true;
+var graphName ="any2Skews" ;
+  
 var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 				, "#jqxCheckBox-25-DP15_ATM-11"
 				, "#jqxCheckBox-25-DP25_ATM-10"
@@ -836,7 +839,10 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-	    	    	          	    
+	    	    	          	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+									showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+									checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
+				
 									if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
 		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	          	else

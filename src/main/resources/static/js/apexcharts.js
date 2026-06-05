@@ -8994,20 +8994,30 @@
 
 				
 					if (value) {
-						v.setAttribute("class", "gridbackground");
-
-						let width = this.gridRect.getBBox().width;
-						let adjustedWidth = width + (931 - width);
-						let xOffset = -(adjustedWidth - a.globals.gridWidth) / 2;
-
-						if (!a.config.grid.show) {
-							v.setAttribute("x", xOffset);
-							v.setAttribute("width", adjustedWidth);
-						} else {
-							v.setAttribute("x", -(width - a.globals.gridWidth) / 2);
-							v.setAttribute("width", width);
-						}
-					} else {
+			    v.setAttribute("class", "gridbackground");
+			
+			    let width = this.gridRect.getBBox().width;
+			
+			    // Get apex xaxis width
+			    const xAxisEl = this.w.globals.dom.baseEl.querySelector('.apexcharts-xaxis');
+			
+			    let xAxisWidth = width;
+			
+			    if (xAxisEl) {
+			        xAxisWidth = xAxisEl.getBBox().width;
+			    }
+			
+			    let adjustedWidth = xAxisWidth;
+			    let xOffset = -(adjustedWidth - a.globals.gridWidth) / 2;
+			
+			    if (!a.config.grid.show) {
+			        v.setAttribute("x", xOffset);
+			        v.setAttribute("width", adjustedWidth);
+			    } else {
+			        v.setAttribute("x", -(width - a.globals.gridWidth) / 2);
+			        v.setAttribute("width", width);
+			    }
+			}else {
 						v.setAttribute("class", "gridbackground");
 						v.setAttribute("x", 0);
 						v.setAttribute("width", a.globals.gridWidth);

@@ -2,7 +2,9 @@
          		 "#jqxCheckBoxContainer"]; 	
          		 
 const graphName="transportation"; 
-			   
+var graphService = "metals";
+const removeEmpty = true;
+				   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -26,8 +28,7 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
-	var graphService = "metals";
-	const removeEmpty = true;
+	
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
 

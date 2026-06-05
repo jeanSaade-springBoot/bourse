@@ -32,7 +32,9 @@
   var hasMissingDates=true;
   var graphService = "usjobs";
    var chartConfigSettings;
-   
+   const removeEmpty = false;
+  var graphName ="any2Usjobs" ;
+     
  var allitems=["#jqxCheckBoxfinal-77",
 	"#jqxCheckBoxinitial-77",
 	"#jqxCheckBoxsurv-77",
@@ -1285,7 +1287,10 @@
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-	    	    	          	    
+	    	    	          	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+									showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+									checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
+				
 									if(hasMissingDates)
 		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	          	else

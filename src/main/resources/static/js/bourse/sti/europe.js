@@ -14,6 +14,8 @@ var allitems=["#jqxCheckBoxDax",
 			"#jqxCheckBoxEubanks_eurusd",];
 
 const graphName="europe"; 
+var graphService = "sti";
+const removeEmpty = true;	
 			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -39,8 +41,6 @@ $(document).ready(function() {
 
 function drawGraph() {
 	
-	var graphService = "sti";
-	const removeEmpty = true;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
 

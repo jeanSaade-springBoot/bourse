@@ -416,82 +416,7 @@
 				 
 				    <div class="row">
 				     <div class="col-1" style="z-index: 1;">
-						<div class="chart-option">
-				   	        <div class="chart-option-title">Chart option</div>
-				   	          <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartTypes">
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-						            <button class="btn btn-option"  id="area" onclick="graphTypeOption('area')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-areachart"></i></button>
-								     <button class="btn btn-option"  id="line" onclick="graphTypeOption('line')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
-									  <button class="btn btn-option" id="column" onclick="graphTypeOption('column')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-barchart"></i></button>
-								 </div>
-   						   </div>
-   						      <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColor">
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" id="F0AB2E" onclick="chartColorOption('#F0AB2E')"  data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-goldchart"></i></button>
-									  <button class="btn btn-option" id="0097FE" onclick="chartColorOption('#0097FE')"  data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-bluechart"></i></button>
-									   <button class="btn btn-option" id="44546a" onclick="chartColorOption('#44546a')"  data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-darkchart"></i></button>
-								 </div>
-   						   </div>
-   						     <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartColorTransparency">
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" id="1" onclick="chartTransparencyOption('1')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><label class="transparency-text"><span>&shy;</span>&nbsp;0%</label><i class="icon-chart-1"></i></button>
-									  <button class="btn btn-option" id="75" onclick="chartTransparencyOption('0.75')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><label class="transparency-text">25%</label><i class="icon-chart-25"></i></button>
-									   <button class="btn btn-option" id="5" onclick="chartTransparencyOption('0.50')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><label class="transparency-text">50%</label><i class="icon-chart-50"></i></button>
-								 </div>
-   						   </div>
-   						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="chartMarker">
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" id="1-0" onclick="chartMarkerOption('0')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-linechart"></i></button>
-									  <button class="btn btn-option" id="1-1" onclick="chartMarkerOption('1')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-smallmarkerchart"></i></button>
-									   <button class="btn btn-option" id="1-3" onclick="chartMarkerOption('3')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-bigmarkerchart"></i></button>
-								 </div>
-   						   </div>
-						    <div class="btn-group mt-2 ml-1"  role="group" aria-label="Vertical " id="fontOptions">
-						      <div class="" role="group" aria-label="Vertical example">
-						      <button type="button" class="btn btn-option" id="12px" onclick="graphfont('12px')"><i class="icon-small-a"></i></button>
-						      <button type="button" class="btn btn-option" id="14px" onclick="graphfont('14px')"><i class="icon-medium-a"></i></button>
-						      <button type="button" class="btn btn-option" id="16px" onclick="graphfont('16px')"><i class="icon-large-a"></i></button>
-						     </div>
-						   </div>
-						  <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical"  id="gridOptions">
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option"  id="true"  onclick="chartGridOption('true')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-withLinechart"></i></button>
-									 <button class="btn btn-option"  id="false"  onclick="chartGridOption('false')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-withoutLinechart"></i></button>
-								 </div>
-   						   </div>
-						    <div class="btn-group  mt-2 ml-1" role="group" aria-label="Vertical" id="gridLegend" >
-						       <div class="" role="group" aria-label="Button group with nested dropdown">
-								     <button class="btn btn-option" id="legendtrue"  onclick="chartLegendOption('legendtrue')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-legendchart"></i></button>
-									 <button class="btn btn-option"  id="legendfalse"   onclick="chartLegendOption('legendfalse')" data-pausetext="Break In" 
-									 data-resumetext="Resume" ><i class="icon-nolegendchart"></i></button>
-								 </div>
-   						   </div>
-   						  
-   						   	<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="display:none;    margin: 1.1rem;
-														    color: white;
-														    font-size: 0.54rem;
-														    height: 30px;
-														    position: absolute;
-														    bottom: 4px;
-														    font-weight: bold;
-														    left: -1px;
-														    text-transform: uppercase;" type="button" id="SaveToFavorites" value="Save To Favorites" />
-						   </div>
+							<div th:include="${chartOption}"></div>
 						</div>
 						 <div class="col-11">
 						 	 <div id="overlayChart" class="overlayChart" style="display:none">
@@ -651,6 +576,8 @@
   <script src="/js/chartOptions.js"></script> 
   <script src="/js/bourse/jsonCheckBoxArray.js"></script>  
   <script src="/js/bourse/any2.js"></script> 
+  <script src="/js/bourse/graph/chartConfig.js"></script>
+  
   <script src="/js/chart.js"></script>
    <script src="/js/jqwidgets/jqxdata.js"></script> 
  <script src="/js/jqwidgets/jqxgrid.js"></script> 

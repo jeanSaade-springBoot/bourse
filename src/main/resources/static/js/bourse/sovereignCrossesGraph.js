@@ -33,6 +33,9 @@ var allitems = ["#jqxCheckBoxfrc-ger-30",
 ];
 
 const graphName="crosses"; 
+var graphService = "bourse";
+const removeEmpty = false;
+		
 
 $(window).on('load', function() {
 	$('#overlay').fadeOut();

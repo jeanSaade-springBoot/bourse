@@ -2,7 +2,9 @@ var allitems=["#jqxCheckBoxEU5",
 			  "#jqxCheckBoxUS5"];
 
 const graphName="inflation"; 
-			   
+var graphService = "liquidity";
+const removeEmpty = false;
+				   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -26,9 +28,7 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
-	
-	var graphService = "liquidity";
-	const removeEmpty = false;
+
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
 

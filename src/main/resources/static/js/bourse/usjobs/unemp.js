@@ -3,6 +3,9 @@ var allitems=[
 	"#jqxCheckBoxsurv-80",];
 
 const graphName="unemp"; 
+var graphService = "usjobs";
+const removeEmpty = true;
+	
 			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -30,10 +33,6 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
-	
-	var graphService = "usjobs";
-	const removeEmpty = true;
-	
 	getGraphUsJobData(graphService,graphName,removeEmpty,true);
 }
 

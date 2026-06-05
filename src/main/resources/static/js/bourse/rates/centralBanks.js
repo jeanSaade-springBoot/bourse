@@ -8,6 +8,9 @@ var allitems = ["#jqxCheckBoxFed-17",
 
 const graphName="centralBanks";
 
+var graphService = "rates";	
+const removeEmpty = false;
+ 	      
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -69,8 +72,6 @@ $(document).ready(function() {
 
 function drawGraph() {
  	
- 	      var graphService = "rates";	
- 	      const removeEmpty = false;
   	      getCentralBanksData(graphService,graphName,removeEmpty,true);	
 }
 function getCentralBanksData(graphService,graphName,removeEmpty,saveHistory){

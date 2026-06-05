@@ -4,7 +4,10 @@
  			   "#jqxCheckBoxM3"]; 
 
 const graphName="ezmmLiquidity"; 
-			   
+
+var graphService = "liquidity";
+const removeEmpty = false;
+				   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -29,8 +32,6 @@ $(document).ready(function() {
 
 function drawGraph() {
 	
-	var graphService = "liquidity";
-	const removeEmpty = false;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
 

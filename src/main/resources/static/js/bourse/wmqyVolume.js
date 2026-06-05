@@ -21,7 +21,8 @@
 
 
 const graphName="wmqyVolume"; 
-			   
+const removeEmpty = true;
+	 			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -42,7 +43,6 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
-	 const removeEmpty = true;
  	 initiateBarGraph(graphService,graphName,removeEmpty,true);		
   
 }

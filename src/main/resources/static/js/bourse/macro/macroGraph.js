@@ -77,7 +77,9 @@ const factorId_description =  [
                 { name: 'FINAL', factorId: '16' }];
                 
 const graphName="macroGraph";
-
+ var graphService = "macro";	
+ const removeEmpty = false;
+ 	      
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -197,8 +199,7 @@ function uncheckAllItems(items) {
 }
 function drawGraph() {
  	
- 	      var graphService = "macro";	
- 	      const removeEmpty = false;
+ 	     
   	      macroGraph(graphService,"macroGraph",removeEmpty,true);	
 }
 

@@ -25,6 +25,8 @@
 const graphName="cdsChart"; 
 const overide=true;		
 	   
+const removeEmpty = false;
+	   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();

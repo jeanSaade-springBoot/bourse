@@ -19,6 +19,8 @@ var allitemsRight=[
  			   "#jqxCheckBoxCumQe1Qe2"]; 		
  			   
 const graphName="ecbImpactLiquidity";
+var graphService = "ecbImpact";
+var removeEmpty = true;
 
 $(window).on('load', function() {
 	$('#overlay').fadeOut();

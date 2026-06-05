@@ -1,7 +1,9 @@
   var serieValue = $("#serieValue").val();
   serieValue = parseInt(serieValue);
+  const removeEmpty = false;
+   
 	if (serieValue === 1) {
-  var graphService = "metals";	    
+  var graphService = "bourse";	    
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
 	  "#jqxCheckBoxUSA-5",

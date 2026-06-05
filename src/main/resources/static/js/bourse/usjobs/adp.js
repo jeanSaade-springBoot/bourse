@@ -5,7 +5,8 @@ var allitems=["#jqxCheckBoxfinal-78",
 const graphName="adp"; 
 
 var graphService = "usjobs";
-				   
+const removeEmpty = true;
+					   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -33,8 +34,6 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
-	
-	const removeEmpty = true;
 	
 	getGraphUsJobData(graphService,graphName,removeEmpty,true);
 }

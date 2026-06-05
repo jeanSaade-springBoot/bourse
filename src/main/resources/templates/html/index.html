@@ -138,8 +138,6 @@
                     <ul class="fa-ul">
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_METALS_GRAPH_SCREEN'')')} ? '/bourse/any2metals' : '/login'"><img class="img-m-right" src="../../img/i2.png">Any 2</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''PRECIOUS_METALS_GRAPH_SCREEN'')')} ? '/bourse/precious' : '/login'"><img class="img-m-right" src="../../img/i2.png">Precious Metals</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''GOLD_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/gold' : '/login'"><img class="img-m-right" src="../../img/i2.png">Gold</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''SILVER_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/silver' : '/login'"><img class="img-m-right" src="../../img/i2.png">Silver</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''BASE_METALS_GRAPH_SCREEN'')')} ? '/bourse/base' : '/login'"><img class="img-m-right" src="../../img/i2.png">Base Metals</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''FOODSTUFF_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/foodstuff' : '/login'"><img class="img-m-right" src="../../img/i2.png">Foodstuff</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ENERGY_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/energy' : '/login'"><img class="img-m-right" src="../../img/i2.png">Energy</a></li>

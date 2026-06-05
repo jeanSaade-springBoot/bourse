@@ -29,6 +29,10 @@
   var notDecimal;
   var nbrOfDigits;
   
+var graphService = "spreadGraph";
+const removeEmpty = false;
+
+
   var allitems=[
 	  "#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",

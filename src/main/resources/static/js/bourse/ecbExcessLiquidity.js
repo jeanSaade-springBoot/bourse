@@ -6,7 +6,9 @@ var allitems=[ "#jqxCheckBoxExcess1",
  			   "#jqxCheckBoxExcess1Excess2Excess3Excess4",]; 		
  			   
 const graphName="ecbExcessLiquidity";
-
+var graphService = "liquidity";
+const removeEmpty = false;
+	
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -30,8 +32,7 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
-	var graphService = "liquidity";
-	const removeEmpty = false;
+	
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
 

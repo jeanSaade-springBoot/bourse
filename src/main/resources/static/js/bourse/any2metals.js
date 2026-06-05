@@ -28,8 +28,12 @@
   var notDecimal1;
   var nbrOfDigits1;
   var hasMissingDates=false;
-    var chartConfigSettings;
-  
+  var chartConfigSettings;
+  var graphName ="any2Metals"  
+  var graphService = "metals";
+  const removeEmpty = false;
+  	
+	
   var allitems=["#jqxCheckBox-6-1",
 		   		"#jqxCheckBoxPlatinum",
 			    "#jqxCheckBox-6-2",
@@ -2185,7 +2189,10 @@
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-	    	    	          	    
+	    	    	          	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+								    showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+							        checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
+							   
 									if(itemValue[checkedItemValues[0]].GroupId==10||itemValue[checkedItemValues[1]].GroupId==10)
 		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	          	else

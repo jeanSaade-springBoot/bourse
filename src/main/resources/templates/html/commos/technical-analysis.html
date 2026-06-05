@@ -267,10 +267,8 @@ height:34px;
     						 margin-top: 0.5rem;">
 				  <div class="nav nav-tabs" id="nav-tab" role="tablist">
 				    <a sec:authorize="hasAuthority('ANY2_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/any2metals" role="tab" aria-controls="nav-any2" aria-selected="false">Any2</a>
-				    <a sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-sovereign-yields-tab" href="/bourse/precious" role="tab" aria-controls="nav-precious" aria-selected="false">Precious</a>
-				    <a sec:authorize="hasAuthority('GOLD_COMMODITY_GRAPH_SCREEN')" th:classappend="${privilege == 'GOLD_COMMODITY_GRAPH_SCREEN'} ? ' active' : ''" class="navigation nav-item nav-link " id="nav-sovereign-yields-tab" href="/bourse/gold" role="tab" aria-controls="nav-precious" aria-selected="false">Gold</a>
-					<a sec:authorize="hasAuthority('SILVER_COMMODITY_GRAPH_SCREEN')"  th:classappend="${privilege == 'SILVER_COMMODITY_GRAPH_SCREEN'} ? ' active' : ''" class="navigation nav-item nav-link" id="nav-sovereign-yields-tab" href="/bourse/silver" role="tab" aria-controls="nav-precious" aria-selected="false">Silver</a>
- 					<a sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/base" role="tab" aria-controls="nav-base" aria-selected="false">Base</a>
+				    <a sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link active " id="nav-sovereign-yields-tab" href="/bourse/precious" role="tab" aria-controls="nav-precious" aria-selected="false">Precious</a>
+				    <a sec:authorize="hasAuthority('BASE_METALS_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/base" role="tab" aria-controls="nav-base" aria-selected="false">Base</a>
 					<a sec:authorize="hasAuthority('ENERGY_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/energy" role="tab" aria-controls="nav-base" aria-selected="false">Energy</a>
 					<a sec:authorize="hasAuthority('TRANSPORTATION_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/transportation" role="tab" aria-controls="nav-base" aria-selected="false">Transportation</a>
 				 	<a sec:authorize="hasAuthority('FOODSTUFF_COMMODITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-any2-tab"  href="/bourse/foodstuff" role="tab" aria-controls="nav-base" aria-selected="false">Foodstuff</a>
@@ -282,6 +280,7 @@ height:34px;
 	          </div>
 
 			</div>
+			
 			<!-- Buttons -->
 			<button id="scrollLeftBtn">◀</button>
 			<button id="scrollRightBtn">▶</button>
@@ -293,8 +292,31 @@ height:34px;
 				<!-- Container Fluid-->
 				
 				<div class="container-fluid" id="container-wrapper" style="display:none">
-				<div class="row col-8 mt-2" >
-						
+				
+				<div class="row col-8 mt-2 pl-0" >
+						<div class="btn-group " role="group" aria-label="Precious navigation">
+					   <a sec:authorize="hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN')" th:classappend="${privilege == 'PRECIOUS_METALS_GRAPH_SCREEN'} ? ' active' : ''"
+					       class="btn btn-secondary mw-100"
+					       id="Gold-btn"
+					       href="/bourse/precious">
+					        ALL
+					    </a>
+					
+					    <a sec:authorize="hasAuthority('GOLD_COMMODITY_GRAPH_SCREEN')" th:classappend="${privilege == 'GOLD_COMMODITY_GRAPH_SCREEN'} ? ' active' : ''"
+					       class="btn btn-secondary mw-100"
+					       id="Gold-btn"
+					       href="/bourse/gold">
+					        GOLD
+					    </a>
+					
+					    <a sec:authorize="hasAuthority('SILVER_COMMODITY_GRAPH_SCREEN')"  th:classappend="${privilege == 'SILVER_COMMODITY_GRAPH_SCREEN'} ? ' active' : ''"
+					       class="btn btn-secondary mw-100"
+					       id="Silver-btn"
+					       href="/bourse/silver">
+					        SILVER
+					    </a>
+					
+					</div>
 						<!-- 
 						 <div class='col-3'>
 							    <div class='col-12 d-flex justify-content-start'>

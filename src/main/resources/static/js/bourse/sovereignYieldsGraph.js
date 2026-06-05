@@ -25,6 +25,9 @@ var allitems = ["#jqxCheckBoxUSA-30",
 ];
 
 const graphName="yield"; 
+var graphService = "bourse";
+const removeEmpty = false;
+		
 
 $(window).on('load', function() {
 	$('#overlay').fadeOut();

@@ -7,7 +7,18 @@ monthDate.setMonth(monthDate.getMonth() - 6);
 monthDate.setHours(0, 0, 0, 0);
 var startdate = new Date();
 var date = new Date();
-var timeRange="Daily";
+var timeRange="Daily"
+
+window.chartState = {
+    chartType: null,
+    chartColor: null,
+    transparency: null,
+    marker: null,
+    grid: null,
+    legend: null,
+    fontSize: null
+};
+
 const missingDatesGroups=["10","15", "16","32","33","34","35","36","22","23","24","71","72","73","74","75","76"];
 const PositiveGraphs=['sti','fxcds', 'usjobs'];
 var T1;
@@ -1923,9 +1934,9 @@ const dynamicColor =
 											  if(seriesIndex == 0)
 								  				{
 								  				if (chartConfigSettings.getFormatResult0[1])
-								  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]);
+								  				  return  value != null ? value.toFixed(chartConfigSettings.getFormatResult0[0]) : '';
 								  				else 
-								  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+								  				  return  (value != null ? value.toFixed(chartConfigSettings.getFormatResult0[0]) : '') + "%";
 								  				}else 
 								  					 if(seriesIndex == 1){
 								  					  if (chartConfigSettings.getFormatResult1[1])
@@ -2073,7 +2084,7 @@ const dynamicColor =
 											  if(seriesIndex == 0)
 								  				{
 								  				if (chartConfigSettings.getFormatResult0[1])
-								  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]);
+								  				  return (value != null && !isNaN(value)) ? Number(value).toFixed(chartConfigSettings.getFormatResult0[0]) : '';
 								  				else 
 								  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
 								  				}else 
@@ -2105,8 +2116,8 @@ const dynamicColor =
 						// calculatedMinValue2 = (Math.sign(calculatedMinValue2) == -1 ?0:calculatedMinValue2);	
 						//var strokeWidth=chartConfigSettings.Period!='d' ?chartConfigSettings.chartType=='column'?getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length):undefined:undefined; 
 				//	var strokeWidth=getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length); 
-					var strokeWidth=getDynamicWidth(chartConfigSettings.response[0].graphResponseDTOLst.filter(item => item.y !== null).length); 
-					var strokeWidth1=getDynamicWidth(chartConfigSettings.response[1].graphResponseDTOLst.filter(item => item.y !== null).length); 
+					var strokeWidth = getDynamicWidth(chartConfigSettings.response[0].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
+					var strokeWidth1 = getDynamicWidth(chartConfigSettings.response[1].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
 
 					 chart.updateOptions({
 						 series:[{
@@ -2268,9 +2279,9 @@ const dynamicColor =
 									  if(seriesIndex == 0)
 						  				{
 						  				if (chartConfigSettings.getFormatResult0[1])
-						  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]);
+						  				  return (value != null && !isNaN(value)) ? Number(value).toFixed(chartConfigSettings.getFormatResult0[0]) : '';
 						  				else 
-						  				  return  value.toFixed(chartConfigSettings.getFormatResult0[0]) + "%";
+						  				  return (value != null && !isNaN(value)) ? Number(value).toFixed(chartConfigSettings.getFormatResult0[0])+ "%" : '' ;
 						  				}else 
 						  					 if(seriesIndex == 1){
 											   if(value!=null)
@@ -4246,7 +4257,9 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-		
+					
+					 checkActiveChartType($("#chartTypes").find(".active")[0],Period=='d' ? 'line' : 'column',Period);
+					 
 					chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 					var dbchartType1 = response[0].config.chartType;
@@ -4297,16 +4310,24 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 					    .catch(error => {
 					        console.error('Error processing data:', error);
 					    });	
-					 		
+					 let isColumn = Period=='d' ? false : true;
+					 var strokeWidth = null;
+					 var strokeWidth1 = null;
+					 if (isColumn)
+					  strokeWidth = getDynamicWidth(response[0].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
+					  strokeWidth1 = getDynamicWidth(response[1].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
+
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
 						type:Period=='d' ? chartType1 : 'column',
-						data: data0
+						data: data0,
+						strokeWidth:strokeWidth
 					}, {
 						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
 						type:Period=='d' ? chartType2 : 'column',
-						data: response[1].graphResponseDTOLst
+						data: response[1].graphResponseDTOLst,
+						strokeWidth:strokeWidth1
 					}],
 						xaxis: {
 					labels: {
@@ -4476,10 +4497,14 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 
 					chartDbFontSize = response[0].config.chartSize;
 					fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
+					
+					$("#chartMarker .btn-option").removeClass("active");
 					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-		
+					$("#chartColorTransparency .btn-option").removeClass("active");
+					checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],'5');
+					
 				    chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 					var dbchartType1 = response[0].config.chartType;
@@ -5931,6 +5956,7 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 	mode = "merge";
 	var dataParam;
 	var checkedItemValues = [];
+	
 	$('#overlayChart').show();
     
 	var fromdate = formatDate(monthDate);
@@ -6369,7 +6395,9 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-		
+					$("#chartColorTransparency .btn-option").removeClass("active");
+					checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],'5');
+					
 				    chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 					var dbchartType1 = response[0].config.chartType;
@@ -6459,10 +6487,6 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 		} 
 		else if (checkedItem == 2) {
 			
-			for (i = 0; i < checkedItemid.length; i++) {
-				if (checkedItemid[i] != null)
-					checkedItemValues.push(checkedItemid[i]);
-			}
 			dataParam = {
 				"fromdate": fromdate,
 				"todate": todate,
@@ -6531,7 +6555,8 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-		
+					checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
+									
 					chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 					var dbchartType1 = response[0].config.chartType;
@@ -6676,10 +6701,7 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 
 		}else
 			if (checkedItem == 3) {
-				for (i = 0; i < checkedItemid.length; i++) {
-					if (checkedItemid[i] != null)
-						checkedItemValues.push(checkedItemid[i]);
-				}
+				
 				dataParam = {
 					"fromdate": fromdate,
 					"todate": todate,
@@ -6754,7 +6776,8 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 						markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 						showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 						showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-	
+					    checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
+									
 						chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 
@@ -6920,10 +6943,7 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 				});
 			} else
 				if (checkedItem == 4) {
-					for (i = 0; i < checkedItemid.length; i++) {
-						if (checkedItemid[i] != null)
-							checkedItemValues.push(checkedItemid[i]);
-					}
+					
 					dataParam = {
 						"fromdate": fromdate,
 						"todate": todate,
@@ -6993,7 +7013,8 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 							markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
 							showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 							showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-			
+							checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
+								    
 							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 
 							var dbchartType1 = response[0].config.chartType;
@@ -7421,7 +7442,11 @@ function navigationGraph(condition) {
     redirectFunction(groupId);
   }
   else if (mode == "merge") {
-    drawGraph();
+   if (typeof refreshGraphNavigation === "function") {
+	    refreshGraphNavigation();
+	} else {
+	    drawGraph();
+	}
   } else {
     splitGraph();
   }
@@ -8206,7 +8231,7 @@ function updateNavigationButtons() {
 				  $(".chart-option").show(); 
 				mode="merge";
 				var dataParam;
-                var checkedItemValues = [];
+                checkedItemValues = [];
 				
 				var title;
 				var fontsize='12px';
@@ -8256,8 +8281,8 @@ function updateNavigationButtons() {
 				        					|| (itemValue[checkedItemValues[1]].GroupId==15||itemValue[checkedItemValues[1]].GroupId==16)
 				        					)?"true":false;
 				        
-				       
-		 	     	      dataParam = { 
+				        removeEmpty = hasMissingDates;
+		 	     	    dataParam = { 
 		 		        		"fromdate":fromdate,
 		 		        	    "todate":todate,
 		 		        	    "period":"d",
@@ -8460,7 +8485,10 @@ function updateNavigationButtons() {
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-	    	    	          	    
+	    	    	          	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+									showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+									checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
+									
 									if(hasMissingDates)
 		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	          	else
@@ -10471,7 +10499,7 @@ function candleStick(graphName, saveHistory) {
 			}
 			else if(!isNaN(functionId) && functionId != -1)
 			{ 
-				var strokeWidth1=getDynamicWidth(response[1].graphResponseDTOLst.filter(item => item.y !== null).length); 
+				var strokeWidth1 = getDynamicWidth(chartConfigSettings.response[1].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
 
 				seriesArray.push({
 								name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
@@ -11827,6 +11855,24 @@ function updateChart(graphService) {
          val !== '' &&
          !(Array.isArray(val) && val.length === 0);
 }
+function calculatedMarginToMinMax(min, max,  marginPercent = 5 , checkNegative=true) {
+
+    const values = addMarginToMinMax(min, max, marginPercent);
+ 
+    let calculatedMin = min - values;
+    let calculatedMax = max + values;
+    // if no negative values, keep the old simple behavior
+    if (calculatedMin >= 0 || !checkNegative) {
+        return {
+            min: calculatedMin,
+            max: calculatedMax,
+            step: null
+        };
+    }
+     return calculateYAxisRangeFromMinMax(min, max, 6, 5);
+
+   
+}
 function calculateYAxisRangeFromMinMax(min, max, gridCount = 6, marginPercent = 5) {
 
     const values = addMarginToMinMax(min, max, marginPercent);
@@ -12503,3 +12549,38 @@ function formatNumberShort(num) {
     });
   });
 })();
+
+function updateChartState() {
+
+    chartState.chartType =
+        $("#chartTypes .active")[0]
+            ?.id || null;
+
+    chartState.chartColor =
+        $("#chartColor .active")[0]
+            ?.id
+        ? '#' +
+          $("#chartColor .active")[0]
+              .id
+        : null;
+
+    chartState.transparency =
+        $("#chartColorTransparency .active")[0]
+            ?.id || null;
+
+    chartState.marker =
+        $("#chartMarker .active")[0]
+            ?.id || null;
+
+    chartState.grid =
+        $("#gridOptions .active")[0]
+            ?.id || null;
+
+    chartState.legend =
+        $("#gridLegend .active")[0]
+            ?.id || null;
+
+    chartState.fontSize =
+        $("#fontOptions .active")[0]
+            ?.id || null;
+}

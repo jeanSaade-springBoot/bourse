@@ -33,6 +33,9 @@ var allitems = [
 
 
 const graphName="curves"; 
+var graphService = "bourse";
+const removeEmpty = false;
+		
 
 $(window).on('load', function() {
 	$('#overlay').fadeOut();

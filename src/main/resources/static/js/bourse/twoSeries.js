@@ -2,8 +2,8 @@
   serieValue = parseInt(serieValue);
 
 var correlationChart;
-
-var graphService ;	    
+var removeEmpty = true;
+var graphService ;	
 var allitems = ["#jqxCheckBoxUSA-30",
 	"#jqxCheckBoxUSA-10",
 	"#jqxCheckBoxUSA-5",
@@ -1010,6 +1010,7 @@ function drawGraph() {
 					{const groupId = itemValue[checkedItemid[i]].GroupId;
   		              if (key.includes(groupId)) {
 						var itemsDataParam;
+						graphService = "bourse";
 						getGraphDataSovereign(graphName, itemsDataParam);
 					}
 					else if(groupWithFactor.includes(groupId)){
@@ -1235,7 +1236,7 @@ function updateCount(checked,count){
 					     	  			        xaxis: {
 													  
 					     	  			        	   labels:  {
-															   show:false ,
+														//	   show:false ,
 					  					        		//  rotate: -45,
 					  					                  rotateAlways: true,
 					  					                  minHeight:60,
@@ -1347,7 +1348,10 @@ function updateCount(checked,count){
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= 'legendfalse';//checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-	    	    	          	    
+	    	    	          	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+									showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+									checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
+									
 									if(hasMissingDates)
 		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	          	else

@@ -8,6 +8,9 @@ var allitems=[
 
 
 const graphName="credits"; 
+var graphService = "metals";
+const removeEmpty = false;
+
 			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -33,8 +36,6 @@ $(document).ready(function() {
 
 function drawGraph() {
 	
-	var graphService = "metals";
-	const removeEmpty = false;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
 

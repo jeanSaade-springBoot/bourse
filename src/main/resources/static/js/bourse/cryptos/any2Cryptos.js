@@ -29,6 +29,7 @@
   var nbrOfDigits1;
   var hasMissingDates=false;
   var graphService = "cryptos";
+  var graphName ="any2Cryptos" ;
   var chartConfigSettings;
  	     var allitems=[ 
 	'#jqxCheckBox-71-1',
@@ -90,6 +91,7 @@
   var yaxisformat=3;
   var dataFormat=3;
   var TestOptions;
+  const removeEmpty = true;
 
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
@@ -1302,7 +1304,10 @@
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
 		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
 	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-	    	    	          	    
+	    	    	          	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+									showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+									checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
+									
 									if(hasMissingDates)
 		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	          	else

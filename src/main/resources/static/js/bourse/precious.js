@@ -5,7 +5,10 @@ var allitems=["#jqxCheckBox-6-1",
 			    "#jqxCheckBoxGoldSilv"];
 
 const graphName="precious"; 
-			   
+var graphService = "metals";
+const removeEmpty = false;
+	
+   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -29,9 +32,6 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
-	
-	var graphService = "metals";
-	const removeEmpty = false;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
 

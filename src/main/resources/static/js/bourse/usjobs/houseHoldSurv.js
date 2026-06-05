@@ -6,7 +6,9 @@ var allitems=[
 	"#jqxCheckBoxunemployed-81"];
 
 const graphName="householdssurv"; 
-			   
+var graphService = "usjobs";
+const removeEmpty = true;
+				   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -34,9 +36,7 @@ $(document).ready(function() {
 
 function drawGraph() {
 	
-	var graphService = "usjobs";
-	const removeEmpty = true;
-	
+
 	getGraphUsJobData(graphService,graphName,removeEmpty,true);
 }
 

@@ -31,6 +31,10 @@
   var yaxisformat1;
   var chartConfigSettings;
   
+ const removeEmpty = false;
+ 	
+ var graphService = "bourse";
+ var graphName = 'any2';      
   var allitems=["#jqxCheckBoxUSA-30",
 	  "#jqxCheckBoxUSA-10",
 	  "#jqxCheckBoxUSA-5",
@@ -5111,11 +5115,19 @@
 		      	    	        	
 		      	    	        	
 		      	    	       	    chartDbFontSize = response[0].config.chartSize;
-		      	    	        	fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
-	    	    	          	    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+		      	    	        	
+
+
+								//chartColor=checkActiveChartColor($("#chartColor").find(".active")[0],response[0].config.chartColor);
+			      	    	    chartTransparency = checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0],response[0].config.chartTransparency);
+							    fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0],chartDbFontSize);
+	      	    	         	chartType1 = checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
+	      	    	       	    markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+								showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+							    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 		      	    	  
-		      	    	          	chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	        chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
 		      	    	       
 		      	    	        	
 		      	    	          

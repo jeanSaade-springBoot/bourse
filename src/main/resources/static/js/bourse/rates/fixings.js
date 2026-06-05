@@ -6,6 +6,8 @@ var allitems=["#jqxCheckBoxEuribor_1",
 	"#jqxCheckBoxLibor_3"];
 
 const graphName="fixings"; 
+var graphService = "liquidity";
+const removeEmpty = true;
 			   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
@@ -31,8 +33,6 @@ $(document).ready(function() {
 
 function drawGraph() {
 	
-	var graphService = "liquidity";
-	const removeEmpty = true;
 	getGraphData(graphService,graphName,removeEmpty,true);
 }
 

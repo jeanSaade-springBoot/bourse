@@ -7,7 +7,8 @@ var allitems=[
 const graphName="nfp"; 
 
 var graphService = "usjobs";
-			   
+const removeEmpty = true;
+				   
 $(window).on('load', function() {
 	$('#overlay').fadeOut();
 	$('#nav-tabContent').show();
@@ -36,8 +37,6 @@ $(document).ready(function() {
 
 function drawGraph() {
 
-	const removeEmpty = true;
-	
 	getGraphUsJobData(graphService,graphName,removeEmpty,true);
 }
 

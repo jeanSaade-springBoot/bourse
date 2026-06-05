@@ -609,6 +609,13 @@ div#y {
   height: 24px;
   width: 24px;
 }
+.icon-whitechart{
+  background-image : url(/img/white-color.png);
+  background-size: cover;
+  display: inline-block;
+  height: 24px;
+  width: 24px;
+}
 .icon-chart-1{
   background-image : url(/img/tranparency.png);
   background-size: cover;

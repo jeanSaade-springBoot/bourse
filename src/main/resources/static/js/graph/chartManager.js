@@ -233,14 +233,20 @@ class ChartManager {
     const type = btn.id.split(`-${id}`)[0];
 
     if (type === 'column') {
-      const updated = this.state.series.map(s => ({ ...s, type: 'column' }));
+      const updated = this.state.series.map((s, idx) => ({
+	        ...s,
+	        type: idx === 0 ? 'column' : s.type
+	    }));
       this.batch(() => {
         this.setSeries(updated);
         this.setChartType('line');
         this.setColor('#ffffff'); // force white for column-line switch
       });
     } else {
-      const updated = this.state.series.map(s => ({ ...s, type }));
+      const updated = this.state.series.map((s, idx) => ({
+    ...s,
+    type: idx === 0 ? type : s.type
+}));
       this.batch(() => {
         this.setSeries(updated);
         this.setChartType(type);
@@ -259,7 +265,16 @@ class ChartManager {
   });
 
   // Color
-  makeGroupHandler('chartColor', btn => this.setColor(`#${btn.id.split('-')[0]}`));
+  makeGroupHandler('chartColor', btn => {
+	    const selectedColor = `#${btn.id.split('-')[0]}`;
+	    const updatedColors = [...(this.state.seriesColors || [])];
+	    // only first series
+	    updatedColors[0] = selectedColor;
+	    this.batch(() => {
+	        this.state.seriesColors = updatedColors;
+	        this.setColor(selectedColor);
+	    });
+	});
   // Transparency
   makeGroupHandler('chartColorTransparency', btn => {
     const val = parseInt(btn.id.split('-')[0], 10) / (btn.id.startsWith('1-') ? 1 : 100);
@@ -527,25 +542,84 @@ _updateNavButtons() {
 		const showLegend = this._showLegend;
 		const base = s.color;
 		const finalColor = base === '#44546a' ? '#2e75b6' : base;
-		const fill = this.chartId!=="chart4"?
-				s.chartType === 'area' && !s.applyTransparency
-					? {
-						type: 'gradient',
-						gradient: {// gradientToColors: [finalColor], 
-							type: 'vertical',
-							shadeIntensity: 0,
-							inverseColors: false,
-							stops: [30, 90, 100],
-							opacityFrom: s.transparency === 1 ? 1 : (s.transparency === 0.75 ? 0.8 : 0.6),
-							opacityTo: s.transparency
-						}
-					}
-					: { type: 'solid', opacity: [1, 1] }
-			:{ type: 'solid', opacity: [1, 1,1,1,1] };
+		
+		const controlledSeriesIndex =
+	    this.chartId === 'chart2'
+	        ? s.series.length - 1
+	        : 0;
+	    const hasCandlestick =
+		    s.series.some(
+		        series => series.type === 'candlestick'
+		    );
+const hasMultipleSeries = s.series.length > 1;
 
+const fill = this.chartId !== "chart4"
+    ? hasCandlestick || hasMultipleSeries
+        ? {
+            // candlestick OR multi-series → solid fill
+            type: 'solid',
+            opacity: s.series.map((series, idx) => {
+                const isControlledSeries =
+                    idx === controlledSeriesIndex;
+
+                const actualType =
+                    series.type || s.chartType;
+
+                // only apply transparency to controlled area series
+                if (
+                    isControlledSeries &&
+                    actualType === 'area'
+                ) {
+                    return s.transparency;
+                }
+
+                return 1;
+            })
+        }
+        : {
+            // single series area chart → gradient
+            type: 'gradient',
+            gradient: {
+                type: 'vertical',
+                shadeIntensity: 0,
+                inverseColors: false,
+                stops: [30, 90, 100],
+                opacityFrom:
+                    s.transparency === 1
+                        ? 1
+                        : s.transparency === 0.75
+                            ? 0.8
+                            : 0.6,
+                opacityTo: s.transparency
+            }
+        }
+    : {
+        type: 'solid',
+        opacity: s.series.map((series, idx) => {
+            const isControlledSeries =
+                idx === controlledSeriesIndex;
+
+            const actualType =
+                series.type || s.chartType;
+
+            // only controlled area series
+            if (
+                isControlledSeries &&
+                actualType === 'area'
+            ) {
+                return s.transparency;
+            }
+
+            return 1;
+        })
+    };
 		const baseColors = Array.isArray(s.seriesColors) && s.seriesColors.length > 1
 		  ? s.seriesColors
 		  : [finalColor];
+		// force selected color only for controlled series
+		baseColors[controlledSeriesIndex] =
+		    finalColor;  
+		    
   		const isSingleSeries = s.series.length === 1;
 		const useWhiteStroke = isSingleSeries && (s.series[0].type === 'area'||s.series[0].type === 'line');
 		const annotations = this.generateDynamicYAnnotations(s.series, s.functionId,s.yAnnotaionRequired);
@@ -557,37 +631,67 @@ _updateNavButtons() {
 	let strokeColors = [];
 	
 	if (isSpecialFunctionId) {
-	  // Main color (for area/column fill)
+	    // ==================================
+	    // SPECIAL FUNCTION COLORS
+	    // ==================================
 	  colors = [
-	    function({ value, seriesIndex, w }) {
-	      return 'rgba(255,255,255,0.15)'; // White with opacity
+	        // First series (user selected color)
+	        function({
+	            seriesIndex
+	        }) {
+	            if (seriesIndex === 0) {
+	                return finalColor;
+	            }
+	            return finalColor;
 	    },
-	    function({ value, seriesIndex, w }) {
+	        // Second series (positive/negative)
+	        function({
+	            value,
+	            seriesIndex
+	        }) {
 	      if (seriesIndex !== 0) {
 	        return value <= 0 ? '#f23a3aa3' : '#30d7818c';
 	      }
+	            return finalColor;
 	    }
 	  ];
-	
-	  // Stroke color (always full white for both series)
-	  strokeColors = ['#ffffff',
-	    function({ value, seriesIndex, w }) {
+	    // ==================================
+	    // SPECIAL FUNCTION STROKES
+	    // ==================================
+	    strokeColors = [
+	        // First series
+	        (s.series?.[0]?.type === 'line' || s.series?.[0]?.type === 'area') ? '#ffffff' : finalColor,
+	        // Second series
+	        function({
+	            value,
+	            seriesIndex
+	        }) {
 	      if (seriesIndex !== 0) {
 	        return value <= 0 ? '#f23a3aa3' : '#30d7818c';
 	      }
-	      return 'rgba(255,255,255,0.4)'; // fallback
-	    }];
-	
+	            return (s.series?.[0]?.type === 'line' || s.series?.[0]?.type === 'area') ? '#ffffff' : finalColor;
 	}
-else {
-	  // Default behavior
+	    ];
+	} else {
+	    // ==================================
+	    // DEFAULT BEHAVIOR
+	    // ==================================
 	  colors = baseColors;
-	
-	  strokeColors =  Array.isArray(s.seriesStrokesColors) && s.seriesStrokesColors.length > 0
-				        ? s.seriesStrokesColors
-				        : (isSingleSeries
-				            ? [useWhiteStroke ? '#ffffff' : baseColors[0]]
-				            : baseColors); // Match stroke to fill for default
+	    strokeColors = Array.isArray(s.seriesStrokesColors) && s.seriesStrokesColors.length > 0 ? s.series.map((series, idx) => {
+	        // first series
+	        if (idx === 0) {
+	            return (series.type === 'line' || series.type === 'area') ? '#ffffff' : baseColors[0];
+	        }
+	        // preserve others
+	        return (s.seriesStrokesColors[idx] || baseColors[idx] || '#ffffff');
+	    }) : s.series.map((series, idx) => {
+	        // first series
+	        if (idx === 0) {
+	            return (series.type === 'line' || series.type === 'area') ? '#ffffff' : baseColors[0];
+	        }
+	        // others
+	        return (baseColors[idx] || '#ffffff');
+	    });
 	}
 
 	 
@@ -651,7 +755,14 @@ this.chart.updateOptions({
 				colors: ['#ffffff'],//strokeColors,
 				strokeColors: ['#ffffff'],//strokeColors,
 				shape: 'square',
-				size: s.disableMarkers? s.markerSizeArray :s.markerSize
+				size: s.series.map((series, idx) => {
+				    // first series = selected marker
+				    if (idx === 0) {
+				        return s.markerSize;
+				    }
+				    // preserve function/other series
+				    return (s.markerSizeArray?.[idx] ?? 0);
+				})
 			},
 			grid: { show: s.gridVisible, borderColor: '#f0e68c', strokeDashArray: 1, padding: { right: 60 } },
 			legend: s.series?.[0]?.type === 'candlestick'
@@ -1085,6 +1196,9 @@ async navigate(direction) {
 		  resp[1].graphResponseDTOLst = data2;
 		}
 		// apply DB-config from first series
+		if (resp.length>1 && resp[0].config!=null)
+			resp[0].config.chartType=seriesTypes[0];
+			
 		if (applyDb && resp[0] && resp[0].config) {
 			this.applyDbConfig(resp[0].config);
 		}
@@ -1180,7 +1294,7 @@ async navigate(direction) {
 		if (saveHistory) fetch('/history/save', { method: 'POST', body: JSON.stringify({ graphName: name, params: dataParam }) }).catch(console.error);
 		this._updateNavButtons();
 		await this.render();
-		this._disableChartSettings(series.length > 1);
+		this._disableChartSettings(false); //this._disableChartSettings(series.length > 1);
 		this._showLoading(false);
 
 	}
@@ -1228,20 +1342,25 @@ async navigate(direction) {
 		}*/
 	}
 	getDynamicWidth(numColumns) {
-	    var totalAvailableWidth = 931;
-		const minColumnWidth = 4; // Minimum width to prevent columns from being invisible
-	    const maxColumnWidth = 50; // Maximum width to avoid overly thick columns
-	
-	    // Calculate the dynamic factor as a percentage of totalAvailableWidth per column
-	    const dynamicFactor = Math.min(1 / numColumns, 0.1); // Decreases as column count increases, with a cap
-	
-	    // Compute initial column width
-	    let columnWidth = totalAvailableWidth  / numColumns * dynamicFactor;
-	
-	    // Clamp column width between min and max thresholds
+	    const totalAvailableWidth = 831;
+	    const minColumnWidth = 6; // Prevent invisible bars
+	    const maxColumnWidth = 50; // Prevent overly thick bars
+	    const spacingFactor = 0.75; // Reserve some spacing between columns
+	    if (!numColumns || numColumns <= 0) {
+	        return maxColumnWidth;
+	    }
+	    // Calculate available width per column
+	    let columnWidth = (totalAvailableWidth / numColumns) * spacingFactor;
+	    // Smooth scaling so bars don't become too tiny too fast
+	    if (numColumns > 20) {
+	        columnWidth *= 0.9;
+	    }
+	    if (numColumns > 40) {
+	        columnWidth *= 0.8;
+	    }
+	    // Clamp between min/max
 	    columnWidth = Math.max(minColumnWidth, Math.min(columnWidth, maxColumnWidth));
-
-    	return columnWidth*3;
+	    return Math.round(columnWidth);
 	}
 	generateDynamicTitle(series, timeRange, chartId = 'chart1' , enableTimeLabel = true) {
 		const isShort = ChartManager.instances[chartId]._ishort;
