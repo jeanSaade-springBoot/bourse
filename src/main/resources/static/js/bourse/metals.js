@@ -40,7 +40,8 @@ var energyItem = [
 	"#jqxCheckBoxDIESEL_GALL",
 	"#jqxCheckBoxDIESEL_TON",
 	"#jqxCheckBoxNATGAS_USD",
-	"#jqxCheckBoxNATGAS_EUR"];
+	"#jqxCheckBoxNATGAS_EUR",
+	"#jqxCheckBoxBrent_oil",];
 var transportationItem = ["#jqxCheckBoxBaltic",
 	"#jqxCheckBoxContainer"];
 
@@ -497,15 +498,16 @@ const GROUP_CONFIG = {
 		input: "#energy-input",
 		grid: "#energyDataInputGrid",
 		items: energyItem,
-		fields: ["oil", "gasolineGall", "dieselGall", "natgasUsd", "natgasEur"],
-		auditFields: ["oil", "gasolineGall", "dieselGall", "natgasUsd", "natgasEur"],
+		fields: ["oil", "gasolineGall", "dieselGall", "natgasUsd", "natgasEur","brentOil"],
+		auditFields: ["oil", "gasolineGall", "dieselGall", "natgasUsd", "natgasEur","brentOil"],
 		auditSource:{
 		    localdata: [{
 				"oil": "",
 				"gasolineGall": "",
 				"dieselGall": "",
 				"natgasUsd": "",
-				"natgasEur": ""
+				"natgasEur": "",
+				"brentOil":"",
 			}],
 		    datatype: "json",
 		    datafields: [
@@ -513,7 +515,8 @@ const GROUP_CONFIG = {
 		        { name: 'gasolineGall', type: 'string' },
 		        { name: 'dieselGall', type: 'string' },
 		        { name: 'natgasUsd', type: 'string' },
-		        { name: 'natgasEur', type: 'string' }
+		        { name: 'natgasEur', type: 'string' },
+		        { name: 'brentOil', type: 'string' },
 		    ],
 		    url: ''
 		},
@@ -554,13 +557,18 @@ const GROUP_CONFIG = {
 				subgroupId: "5",
 				value: cleanValue(rowData.natgasEur),
 				referdate: date
+			},
+			{
+				subgroupId: "8",
+				value: cleanValue(rowData.brentOil),
+				referdate: date
 			}
 			];
 		},
 
 		afterUpdate: function(rowData) {
 
-			var keys = ["oil", "gasolineGall", "dieselGall", "natgasUsd", "natgasEur"];
+			var keys = ["oil", "gasolineGall", "dieselGall", "natgasUsd", "natgasEur","brentOil"];
 			var updatedMetalsJson = [];
 
 			for (let i = 0; i < keys.length; i++) {
@@ -749,6 +757,7 @@ $(document).ready(function() {
 			{ name: 'SUGAR', type: 'float' },
 			{ name: 'WHEAT', type: 'float' },
 			{ name: 'OIL', type: 'float' },
+			{ name: 'BRENT_OIL', type: 'float' },
 			{ name: 'GASOLINE_GALL', type: 'float' },
 			{ name: 'DIESEL_GALL', type: 'float' },
 			{ name: 'NATGAS_USD', type: 'float' },
@@ -903,8 +912,9 @@ $(document).ready(function() {
 		var diezelObject = extractColumn(rows, 'dieselGall', "3");
 		var natgazUsObject = extractColumn(rows, 'natgasUsd', "4");
 		var natgazEurObject = extractColumn(rows, 'natgasEur', "5");
+		var brentOilObject = extractColumn(rows, 'brentOil', "8");
 
-		var listObject = [oilObject, gazObject, diezelObject, natgazUsObject, natgazEurObject];
+		var listObject = [oilObject, gazObject, diezelObject, natgazUsObject, natgazEurObject,brentOilObject];
 
 		var dateValue = $("#dateInput").jqxDateTimeInput('getDate');
 		var dataToBeInserted = buildInsertPayload(listObject, dateValue);
@@ -1008,6 +1018,7 @@ function buildInsertPayload(listObject, date) {
 
 	return result;
 }
+
 function extractColumn(rows, fieldName, id) {
 	var result = [id];
 
@@ -1523,23 +1534,31 @@ function getFilterData(commoditySubGroupValue) {
 				timeout: 600000,
 				success: function(data) {
 					delete source.url;
+
+					data.rows.forEach(row => {
+					    Object.keys(row).forEach(key => {
+					        if (row[key] == null || row[key] === 'null') {
+					            row[key] = '';
+					        }
+					    });
+					});
+					
 					source.localdata = data.rows;
 					dataAdapter = new $.jqx.dataAdapter(source);
 					$('#grid').jqxGrid('hideloadelement');
-
+					
 					for (i = 0; i < data.columns.length; i++) {
-						if (data.columns[i].datafield == "refer_date") {
-							data.columns[i].cellsformat = 'dd-MMM-yyyy';
-							break;
-						}
+					    if (data.columns[i].datafield == "refer_date") {
+					        data.columns[i].cellsformat = 'dd-MMM-yyyy';
+					        break;
+					    }
 					}
+					
 					$('#grid').jqxGrid({
-						width: data.columns.length > 12 ? '100%' : data.columns.length * 110,
-						source: dataAdapter,
-						columns: data.columns
+					    width: data.columns.length > 12 ? '100%' : data.columns.length * 110,
+					    source: dataAdapter,
+					    columns: data.columns
 					});
-
-					saveFilterHistory(commoditySubGroupValue, checkedItem);
 				},
 				error: function(e) {
 

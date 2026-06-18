@@ -118,12 +118,13 @@
 				    "#jqxCheckBoxSugar",
 				    "#jqxCheckBoxWheat",
 				    "#jqxCheckBoxOil",
-	 			    /*"#jqxCheckBoxGASOLINE_GALL",*/
+	 			    "#jqxCheckBoxGASOLINE_GALL",
 	 			    "#jqxCheckBoxGASOLINE_LITRE",
-	 			    /*"#jqxCheckBoxDIESEL_GALL",*/
+	 			    "#jqxCheckBoxDIESEL_GALL",
 	 			    "#jqxCheckBoxDIESEL_TON",
 	 			    "#jqxCheckBoxNATGAS_USD",
 	 			    "#jqxCheckBoxNATGAS_EUR",
+	 			    "#jqxCheckBoxBrentOil", 
 				    "#jqxCheckBoxBaltic",
 		     		"#jqxCheckBoxContainer"];
 	}else if (serieValue === 3) {
@@ -528,12 +529,18 @@ var factorContainer='';
 		 else if (serieValue === 9) {
 		 graphService = "rates";
 
-		var allitems = ["#jqxCheckBoxFed-17",
-						 "#jqxCheckBoxFed-18",
-						 "#jqxCheckBoxEcb-17",
-						 "#jqxCheckBoxEcb-18",
-						 "#jqxCheckBoxBoe-17",
-						 "#jqxCheckBoxBoe-18",
+		var allitems = [  "#jqxCheckBoxfed_lower_rate", 
+						  "#jqxCheckBoxfed_upper_rate",
+						  "#jqxCheckBoxfed_lower_move",
+						  "#jqxCheckBoxfed_upper_move",
+						  "#jqxCheckBoxecb_depo_rate",
+						  "#jqxCheckBoxecb_refi_rate",
+						  "#jqxCheckBoxecb_lending_rate",
+						  "#jqxCheckBoxecb_depo_move",
+						  "#jqxCheckBoxecb_refi_move",
+						  "#jqxCheckBoxecb_lending_move",
+						  "#jqxCheckBoxboe_refi_move",
+						  "#jqxCheckBoxboe_monthly_base_rate",
 						 "#jqxCheckBoxEU5",
 						 "#jqxCheckBoxUS5",
 						 "#jqxCheckBoxUsa30",

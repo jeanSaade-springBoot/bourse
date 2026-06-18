@@ -9,6 +9,7 @@ public enum EnergySubGroupEnum {
 	NATGASEUR(5,"NATGASEUR","NATGAS_EUR","NATGAS-EUR"), 
 	GASOLINELITRE(6,"GASOLINELITRE","GASOLINE_LITRE","GASOLINE-LITRE"), 
 	DIESELTON(7,"DIESELTON","DIESEL_TON","DIESEL-TON"), 
+    BRENTOIL(8,"BRENTOIL","BRENT_OIL","BRENT OIL"),
 	OTHER(0,"OTHER","OTHER","OTHER");
 	
 	public int id;
@@ -39,6 +40,8 @@ public enum EnergySubGroupEnum {
                 return GASOLINELITRE.description;
             case 7:
             	return DIESELTON.description;
+            case 8:
+                return BRENTOIL.description;
         }
         return OTHER.description;
     }

@@ -33,6 +33,7 @@ public enum SubGroupEnum {
 	NATGASEUR(9,5,"5","NATGAS_EUR","NATGAS-EUR"), 
 	GASOLINELITRE(9,6,"6","GASOLINE_LITRE","GASOLINE-LITRE"), 
 	DIESELTON(9,7,"7","DIESEL_TON","DIESEL-TON"), 
+	BRENTOIL(9,8,"6","BRENT_OIL","BRENT OIL"),
 	BALTIC(10,1,"1","BALTIC","BALTIC DRY INDEX"),
 	CONTAINER(10,2,"2","CONATINER","40ft Container"),
 	USATOAAA(11,1,"1","usatoaaa","usatoaaa"),
@@ -148,6 +149,8 @@ public enum SubGroupEnum {
 	                return NATGASUSD.index;
 	            case 5:
 	                return NATGASEUR.index;
+	            case 8:
+	                return BRENTOIL.index;
 	        }
 	        else if(groupId==10)
 				switch (subGroupId) {
@@ -287,6 +290,8 @@ public enum SubGroupEnum {
 	            return SubGroupEnum.GASOLINELITRE.description;
 	        case "DIESEL_TON":
 	            return SubGroupEnum.DIESELTON.description;
+	        case "BRENT_OIL":
+	            return SubGroupEnum.BRENTOIL.description;
 	        case "BALTIC":
 	            return SubGroupEnum.BALTIC.description;
 	        case "CONTAINER":

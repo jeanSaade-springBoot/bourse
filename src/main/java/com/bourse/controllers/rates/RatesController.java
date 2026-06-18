@@ -107,6 +107,11 @@ public class RatesController {
 	{  
 		return new ResponseEntity<>(ratesService.CheckIfCanSaveFactor(referDate,Long.valueOf(group),Long.valueOf(subgroup),Long.valueOf(factor)),HttpStatus.OK);
 	}
+	@GetMapping(value = "checkifcansave/{group}/{subgroup}/{referDate}")
+	public ResponseEntity<Boolean> CheckIfCanSave(@PathVariable("group") String group,@PathVariable("subgroup") String subgroup,@PathVariable String referDate) 
+	{  
+		return new ResponseEntity<>(ratesService.CheckIfCanSaveRts(referDate,Long.valueOf(group),Long.valueOf(subgroup)),HttpStatus.OK);
+	}
 	@GetMapping(value = "getlatest/{groupId}", produces = "application/json;charset=UTF-8")
     public ResponseEntity <String> getLatest(@PathVariable("groupId") String groupId){
 		return new ResponseEntity<>(ratesService.findLatestData(groupId), HttpStatus.OK);

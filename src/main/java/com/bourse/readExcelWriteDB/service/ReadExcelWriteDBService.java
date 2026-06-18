@@ -191,7 +191,7 @@ public class ReadExcelWriteDBService {
 
 			ReadExcelWriteDBDTO dto, List<String> subgroups, int[] subgroupOrder, BiPredicate<String, Long> existsCheck,
 			BiFunction<DataDTO, Long, T> entityBuilder, Consumer<List<T>> saveFunction,
-			TriConsumer<DataDTO, Long, String> updateFunction
+			TriConsumer<DataDTO, Long, String> updateFunction, 	boolean valueIsDate
 
 	) {
 
@@ -205,7 +205,7 @@ public class ReadExcelWriteDBService {
 
 			List<T> batchList = new ArrayList<>();
 
-			List<DataDTO> rowData = ReadExcelWriteDBUtil.readExcelFileWithString(dto.getFile(), "0", subGroupId);
+			List<DataDTO> rowData = ReadExcelWriteDBUtil.readExcelFileWithString(dto.getFile(), "0", subGroupId, valueIsDate);
 
 			for (DataDTO data : rowData) {
 
@@ -239,20 +239,14 @@ public class ReadExcelWriteDBService {
 	private <T> List<T> processGroupedStringDateSubgroups(
 
 			ReadExcelWriteDBDTO dto,
-
 			List<String> subgroups,
-
 			int[] subgroupOrder,
-
 			Long groupId,
-
 			TriPredicate<String, Long, Long> existsCheck,
-
 			TriFunction<DataDTO, Long, Long, T> entityBuilder,
-
 			Consumer<List<T>> saveFunction,
-
-			QuadConsumer<String, Long, Long, String> updateFunction
+			QuadConsumer<String, Long, Long, String> updateFunction,
+			boolean valueIsDate
 
 	) {
 
@@ -266,7 +260,7 @@ public class ReadExcelWriteDBService {
 
 			Long subgroupId = Long.valueOf(subgroupOrder[i]);
 
-			List<DataDTO> rowData = ReadExcelWriteDBUtil.readExcelFileWithString(dto.getFile(), "0", subGroupId);
+			List<DataDTO> rowData = ReadExcelWriteDBUtil.readExcelFileWithString(dto.getFile(), "0", subGroupId,valueIsDate);
 
 			for (DataDTO data : rowData) {
 
@@ -472,7 +466,7 @@ public class ReadExcelWriteDBService {
 
 					readExcelWriteDBDTO,
 
-					Arrays.asList("1", "2", "3", "4", "5"),
+					Arrays.asList("1", "2", "3", "4", "5", "8"),
 
 					9, true, (date, subgroupId) -> energyService.CheckIfCanSave(date, subgroupId),
 
@@ -1330,69 +1324,63 @@ public class ReadExcelWriteDBService {
 			}
 		} else if (readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("48")) {
 
-			try {
+		    List<RatesData> ratesDatas =
+		        processSubgroupsWithStringDate(
 
-				Object[][] excelData = ReadExcelWriteDBUtil.readExcel(readExcelWriteDBDTO.getFile());
-				List<RatesData> allData = new ArrayList<>();
-				List<RatesData> batchList = new ArrayList<>();
-				Long groupId = Long.valueOf(readExcelWriteDBDTO.getGroupId());
+		            readExcelWriteDBDTO,
 
-				int[] subgroupOrder = { 2, 1, 3 };
+		            Arrays.asList("1","2","3","4", "5","6","7","8", "9","10","11","12"),
 
-				for (int rowIndex = 0; rowIndex < excelData.length; rowIndex++) {
-					if (rowIndex < 2) {
-						continue;
-					}
+		            new int[] { 3,4,1,2,8,9,10,5,6,7,11,12 },
 
-					Object[] row = excelData[rowIndex];
-					if (row[0] == null || row[0].toString().trim().isEmpty()) {
-						continue;
-					}
-					
-					Object[][] result = ReadExcelWriteDBUtil.splitArrayRates(readExcelWriteDBDTO.getGroupId(), row, 2);
+		            (date, subgroupId) ->
+		                ratesService.CheckIfCanSaveRts(
+		                    date,
+		                    Long.valueOf(readExcelWriteDBDTO.getGroupId()),
+		                    subgroupId
+		                ),
 
-					for (int i = 0; i < result.length; i++) {
-						Object[] splitrow = result[i];
-						for (int j = 1; j < splitrow.length; j++) {
-							String referDate = splitrow[0].toString();
-							Long subgroupId = Long.valueOf(subgroupOrder[i]);
-							Long factorId = Long.valueOf(ReadExcelWriteDBUtil.getRateFactorId(j));
-							String value = splitrow[j] == null ? "" : splitrow[j].toString();
-							boolean exists = ratesService.CheckIfCanSave(referDate, groupId, subgroupId, factorId);
-							RatesData ratesData = RatesData.builder().referDate(referDate).groupId(groupId)
-									.subgroupId(subgroupId).factorId(factorId).value(value).build();
-							if (exists) {
-								ratesService.updateValue(referDate, groupId, subgroupId, factorId, value);
-								allData.add(ratesData);
-							} else {
-								batchList.add(ratesData);
-								allData.add(ratesData);
-							}
-						}
-					}
-				}
+		            (data, subgroupId) ->
+		                RatesData.builder()
+		                    .referDate(ReadExcelWriteDBUtil.parseDate(data.getDate()))
+		                    .subgroupId(subgroupId)
+		                    .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+		                    .value(data.getValue() == null ? "" : data.getValue())
+		                    .build(),
 
-				if (!batchList.isEmpty()) {
-					ratesService.SaveRatesData(batchList);
-				}
+		            batch -> ratesService.SaveRatesData(batch),
 
-				entityManager.flush();
+		            (data, subgroupId, value) ->
+		                ratesService.updateValue(
+		                    data.getDate(),
+		                    Long.valueOf(readExcelWriteDBDTO.getGroupId()),
+		                    subgroupId,
+		                    value
+		                )
+		                , false);
 
-				if (!allData.isEmpty()) {
-					String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(allData, "referDate");
+		    if (!ratesDatas.isEmpty()) {
 
-					logger.info("Minimum Date: {}", minMaxDates[0]);
-					logger.info("Maximum Date: {}", minMaxDates[1]);
+		        entityManager.flush();
 
-					ratesService.doCaculationLoader(minMaxDates[0], minMaxDates[1], groupId);
-				} else {
-					logger.info("List is empty.");
-				}
+		        String[] minMaxDates =
+		            ReadExcelWriteDBUtil.findMinMaxDatesAsString(
+		                ratesDatas,
+		                "referDate"
+		            );
 
-			} catch (IOException e) {
-				logger.error("Error processing rates file", e);
-				throw new RuntimeException(e);
-			}
+		        logger.info("Minimum Date: {}", minMaxDates[0]);
+		        logger.info("Maximum Date: {}", minMaxDates[1]);
+
+		        ratesService.doCaculationLoader(
+		            minMaxDates[0],
+		            minMaxDates[1],
+		            Long.valueOf(readExcelWriteDBDTO.getGroupId())
+		        );
+
+		    } else {
+		        logger.info("List is empty.");
+		    }
 		} else if (macroGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim())) {
 
 			try {
@@ -1498,7 +1486,7 @@ public class ReadExcelWriteDBService {
 
 					batch -> longEndsService.saveLongEndsData(batch),
 
-					(date, grpId, subgroupId, value) -> longEndsService.updateValue(date, grpId, subgroupId, value));
+					(date, grpId, subgroupId, value) -> longEndsService.updateValue(date, grpId, subgroupId, value) , true);
 
 			if (!longEndDataLst.isEmpty()) {
 
@@ -1542,7 +1530,7 @@ public class ReadExcelWriteDBService {
 
 					batch -> cryptosService.saveCryptos(batch),
 
-					(date, grpId, subgroupId, value) -> cryptosService.updateValue(date, grpId, subgroupId, value));
+					(date, grpId, subgroupId, value) -> cryptosService.updateValue(date, grpId, subgroupId, value) , false);
 
 			if (!cryptosDataLst.isEmpty()) {
 
@@ -1579,7 +1567,7 @@ public class ReadExcelWriteDBService {
 					batch -> usJobsService.saveUsJobs(batch),
 
 					(data, subgroupId, value) -> usJobsService.updateValue(data.getDate(),
-							Long.valueOf(readExcelWriteDBDTO.getGroupId()), subgroupId, value));
+							Long.valueOf(readExcelWriteDBDTO.getGroupId()), subgroupId, value) , false);
 
 			if (!usJobsDataLst.isEmpty()) {
 
@@ -1616,7 +1604,7 @@ public class ReadExcelWriteDBService {
 					batch -> usJobsService.saveUsJobs(batch),
 
 					(data, subgroupId, value) -> usJobsService.updateValue(data.getDate(),
-							Long.valueOf(readExcelWriteDBDTO.getGroupId()), subgroupId, value));
+							Long.valueOf(readExcelWriteDBDTO.getGroupId()), subgroupId, value) , false);
 
 			if (!usJobsDataLst.isEmpty()) {
 
@@ -1653,7 +1641,7 @@ public class ReadExcelWriteDBService {
 					batch -> usJobsService.saveUsJobs(batch),
 
 					(data, subgroupId, value) -> usJobsService.updateValue(data.getDate(),
-							Long.valueOf(readExcelWriteDBDTO.getGroupId()), subgroupId, value));
+							Long.valueOf(readExcelWriteDBDTO.getGroupId()), subgroupId, value) , false);
 
 			if (!usJobsDataLst.isEmpty()) {
 
@@ -1690,7 +1678,7 @@ public class ReadExcelWriteDBService {
 					batch -> usJobsService.saveUsJobs(batch),
 
 					(data, subgroupId, value) -> usJobsService.updateValue(data.getDate(),
-							Long.valueOf(readExcelWriteDBDTO.getGroupId()), subgroupId, value));
+							Long.valueOf(readExcelWriteDBDTO.getGroupId()), subgroupId, value) , false);
 
 			if (!usJobsDataLst.isEmpty()) {
 

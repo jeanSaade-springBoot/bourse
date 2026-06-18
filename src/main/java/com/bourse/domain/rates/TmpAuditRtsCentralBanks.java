@@ -15,26 +15,39 @@ import lombok.NoArgsConstructor;
 
 @Data
 @Builder
-@NoArgsConstructor 
+@NoArgsConstructor
 @AllArgsConstructor
 @Entity
 @Table(name = "tmp_audit_rts_central_banks")
 public class TmpAuditRtsCentralBanks {
-	@Id
-	@GeneratedValue(generator = "audit_rts_central_banks_sequence")
-	   @GenericGenerator(
-	      name = "audit_rts_central_banks_sequence",
-	      strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
-	      parameters = {
-	        @Parameter(name = "sequence_name", value = "audit_rts_central_banks_sequence"),
-	        @Parameter(name = "initial_value", value = "1"),
-	        @Parameter(name = "increment_size", value = "1")
-	        }
-	    )
-	private Long id;
-	private String FED;
-	private String ECB;
-	private String BOE;
-	private String factor;
-	private String referDate;
+
+    @Id
+    @GeneratedValue(generator = "audit_rts_central_banks_sequence")
+    @GenericGenerator(
+        name = "audit_rts_central_banks_sequence",
+        strategy = "org.hibernate.id.enhanced.SequenceStyleGenerator",
+        parameters = {
+            @Parameter(name = "sequence_name", value = "audit_rts_central_banks_sequence"),
+            @Parameter(name = "initial_value", value = "1"),
+            @Parameter(name = "increment_size", value = "1")
+        }
+    )
+    private Long id;
+
+    private String referDate;
+
+    private String fedLowerRate;
+    private String fedUpperRate;
+    private String fedLowerMove;
+    private String fedUpperMove;
+
+    private String ecbDepoRate;
+    private String ecbRefiRate;
+    private String ecbLendingRate;
+    private String ecbDepoMove;
+    private String ecbRefiMove;
+    private String ecbLendingMove;
+
+    private String boeRefiMove;
+    private String boeMonthlyBaseRate;
 }

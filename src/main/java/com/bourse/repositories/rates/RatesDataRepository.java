@@ -31,6 +31,8 @@ public interface RatesDataRepository extends JpaRepository<RatesData, Long> {
 	RatesData findMacroDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(String referdate, Long groupId, Long subgroupId,
 			Long factorId);
 
+	RatesData findMacroDataByReferDateAndGroupIdAndSubgroupId(String referdate, Long groupId, Long subgroupId);
+
 	boolean existsByReferDateAndGroupIdAndSubgroupId(String referDate, Long groupId, Long subgroupId);
 
 }

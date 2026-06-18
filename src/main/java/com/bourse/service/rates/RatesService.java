@@ -115,7 +115,7 @@ public class RatesService {
 		for(UpdateDataDTO updateDataDTO:updateDataDTOlst)
 		{  
 			if(updateDataDTO.getGroupId().equalsIgnoreCase("48"))
-				{ratesData = ratesDataRepository.findMacroDataByReferDateAndGroupIdAndSubgroupIdAndFactorId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getGroupId()),Long.valueOf(updateDataDTO.getSubgroupId()),Long.valueOf(updateDataDTO.getFactor()));
+				{ratesData = ratesDataRepository.findMacroDataByReferDateAndGroupIdAndSubgroupId(updateDataDTO.getReferdate(),Long.valueOf(updateDataDTO.getGroupId()),Long.valueOf(updateDataDTO.getSubgroupId()));
 				if(ratesData!=null)
 				{ratesData.setValue(updateDataDTO.getValue());
 				ratesDataRepository.save(ratesData);
@@ -170,7 +170,7 @@ public class RatesService {
 
 	    switch (groupId.intValue()) {
 	        case 48:
-	            procedureName = "";
+	            procedureName = "calculation_rts_central_banks";
 	            break;
 	        case 49:
 	            procedureName = "calculation_rts_inflationSwapRates";
@@ -186,16 +186,11 @@ public class RatesService {
 	    }
 
 	    StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery(
-	            (groupId == 48 ) ? "calculation_rates" : procedureName
+	           procedureName
 	    );
 
 	    query.registerStoredProcedureParameter("referDate", String.class, ParameterMode.IN);
 	    query.setParameter("referDate", referDate);
-
-	    if (groupId == 48 ) {
-	        query.registerStoredProcedureParameter("groupId", Long.class, ParameterMode.IN);
-	        query.setParameter("groupId", groupId);
-	    }
 
 	    query.execute();
 	}
@@ -204,7 +199,7 @@ public class RatesService {
 
 	    switch (groupId.intValue()) {
 	        case 48:
-	            procedureName = "";
+	            procedureName = "calculation_rts_central_banks_loader";
 	            break;
 	        case 49:
 	            procedureName = "calculation_rts_inflationSwapRates_loader";
@@ -220,17 +215,14 @@ public class RatesService {
 	    }
 
 	    StoredProcedureQuery query = this.entityManager.createStoredProcedureQuery(
-	            (groupId == 48) ? "calculation_rates_loader" : procedureName
+	              procedureName
 	    );
 	   
 		query.registerStoredProcedureParameter("fromDate", String.class, ParameterMode.IN);
 		query.setParameter("fromDate", fromDate);
 		query.registerStoredProcedureParameter("toDate", String.class, ParameterMode.IN);
 		query.setParameter("toDate", toDate);
-		if (groupId == 48 ) {
-		        query.registerStoredProcedureParameter("groupId", Long.class, ParameterMode.IN);
-		        query.setParameter("groupId", groupId);
-		    }
+		 
 
 		query.execute();
 	}

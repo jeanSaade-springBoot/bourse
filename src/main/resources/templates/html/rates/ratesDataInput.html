@@ -178,180 +178,232 @@ padding-right:.2rem;
             <div class="collapse show" id="collapseExample">
   			 <div class="card mb-4">
                 <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0  pl-0">
-                 <div  th:classappend="${rates == 1} ? 'col-6' : 'col-5'" class="pl-0  justify-content-between">
+                 <div  th:classappend="${rates == 1} ? 'col-12' : 'col-5'" class="pl-0  justify-content-between">
                   <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data Input</h6>
                   <div id='dateInput'></div>
                    </div>
                    <div th:if="${rates != 1}" class="col-1"></div>
                    <div class="col-6">
-                   <div id='dateInputAudit'></div>
+                 
                    </div>
                 </div>
                 <div class="card-body p-0" >
                  <div class="row">
-                 <div th:classappend="${rates == 1} ? 'col-6' : 'col-5'" class=" d-flex justify-content-between pl-0">
+                 <div th:classappend="${rates == 1} ? 'col-12' : 'col-5'" class=" d-flex justify-content-between pl-0">
                  	<div id="ratesValue" th:text="${rates}" style="display:none;"></div>
                  	<input id="ratesSubGroup1" style="display:none;" value="th:text='${rates}'"/>
-                    <div th:if="${rates == 1}" class="col-12 p-0" id="CentralBanks-input">
-	          
-		                <div class="col-6   p-0 " style="min-width: 660px;">
-                          <div class="col-12 d-flex pl-0">
-                               <div class="  pr-0 " id="2">
-                               <div class="d-flex col">
-									<img height="48" width="48" src="/img/flag/ecb.png" class="img-icon" title="ecb" >
-								    <div class="col d-flex align-items-center">ECB</div>
-								</div>
-                             
-                              <div class="col d-flex p-0">
-							  
-                                <div class="w-105" id="3-18">
-                                  <div class="col p-0 ">
-                                    <form id="dataformInput2moves">
-                                      <div class="form-group" style="margin-top: 0">
-                                        <div class="pt-2 d-flex">
-                                          <div class="" id="3-moves"> MOVES <input type="text" class="form-control" id="data-input-2moves" autocomplete="off">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
-                                    </form>
-                                    <div id="dataInputGrid2moves" style="margin-top: 0rem;"></div>
-                                    <div class="row" id="dataInputButtons2moves" style="display: none;">
-                                      <div class='col-12 d-flex justify-content-end mt-2'>
-                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load2moves" value="" />
-                                        <input id="cancel2moves" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="w-105" id="3-17">
-                                  <div class="col p-0 ">
-                                    <form id="dataformInput2rates">
-                                      <div class="form-group" style="margin-top: 0">
-                                        <div class="pt-2 d-flex">
-                                          <div class="" id="3-rates"> RATES <input type="text" class="form-control" id="data-input-2rates" autocomplete="off">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
-                                    </form>
-                                    <div id="dataInputGrid2rates" style="margin-top: 0rem;"></div>
-                                    <div class="row" id="dataInputButtons2rates" style="display: none;">
-                                      <div class='col-12 d-flex justify-content-end mt-2'>
-                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load2rates" value="" />
-                                        <input id="cancel2rates" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                          
-                              </div>
-                            </div>
-                            <div class="pl-0 " id="1">
-                             <div class="d-flex col">
-									<img height="48" width="48" src="/img/fed.png" class="img-icon"  title="fed" >
-								    <div class="col d-flex align-items-center">FED</div>
-								</div>
-                              <div class="col d-flex p-0">
-							  
-                                <div class="w-105" id="1-18">
-                                  <div class="col p-0">
-                                    <form id="dataformInput1moves">
-                                      <div class="form-group" style="margin-top: 0">
-                                        <div class="pt-2 d-flex">
-                                          <div class="" id="1-moves"> MOVES <input type="text" class="form-control" id="data-input-1moves" autocomplete="off">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
-                                    </form>
-                                    <div id="dataInputGrid1moves" style="margin-top: 0rem;"></div>
-                                    <div class="row" id="dataInputButtons1moves" style="display: none;">
-                                      <div class='col-12 d-flex justify-content-end mt-2'>
-                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load1moves" value="" />
-                                        <input id="cancel1moves" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="w-105" id="1-17">
-                                  <div class="col p-0 ">
-                                    <form id="dataformInput1rates">
-                                      <div class="form-group" style="margin-top: 0">
-                                        <div class="pt-2 d-flex">
-                                          <div class="" id="1-rates"> RATES <input type="text" class="form-control" id="data-input-1rates" autocomplete="off">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
-                                    </form>
-                                    <div id="dataInputGrid1rates" style="margin-top: 0rem;"></div>
-                                    <div class="row" id="dataInputButtons1rates" style="display: none;">
-                                      <div class='col-12 d-flex justify-content-end mt-2'>
-                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load1rates" value="" />
-                                        <input id="cancel1rates" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                            
-                              </div>
-                            </div>
-                         
-							   <div class="  pr-0 " id="3">
-							   <div class="d-flex col">
-									<img height="48" width="48" src="/img/boe.png" class="img-icon" title="boe" >
-								    <div class="col d-flex align-items-center">BOE</div>
-								</div>
-                              <div class="col d-flex p-0">
-							      <div class="w-105" id="3-18">
-                                  <div class="col p-0 ">
-                                    <form id="dataformInput3moves">
-                                      <div class="form-group" style="margin-top: 0">
-                                        <div class="pt-2 d-flex">
-                                          <div class="" id="3-moves"> MOVES <input type="text" class="form-control" id="data-input-3moves" autocomplete="off">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
-                                    </form>
-                                    <div id="dataInputGrid3moves" style="margin-top: 0rem;"></div>
-                                    <div class="row" id="dataInputButtons3moves" style="display: none;">
-                                      <div class='col-12 d-flex justify-content-end mt-2'>
-                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load3moves" value="" />
-                                        <input id="cancel3moves" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                                <div class="w-105" id="3-17">
-                                  <div class="col p-0 ">
-                                    <form id="dataformInput3rates">
-                                      <div class="form-group" style="margin-top: 0">
-                                        <div class="pt-2 d-flex">
-                                          <div class="" id="3-rates"> RATES <input type="text" class="form-control" id="data-input-3rates" autocomplete="off">
-                                          </div>
-                                        </div>
-                                      </div>
-                                      <!--   <button type="submit" class="btn btn-primary">Save</button> -->
-                                    </form>
-                                    <div id="dataInputGrid3rates" style="margin-top: 0rem;"></div>
-                                    <div class="row" id="dataInputButtons3rates" style="display: none;">
-                                      <div class='col-12 d-flex justify-content-end mt-2'>
-                                        <input class="btn btn-primary mr-1 mb-1 green" style="margin-right: 1rem !important; color: white;" type="button" id="load3rates" value="" />
-                                        <input id="cancel3rates" type="button" style="margin: 0 !important;" class="btn btn-light-secondary mr-1 mb-1 red" value="" />
-                                      </div>
-                                    </div>
-                                  </div>
-                                </div>
-                            
-                          
-                              </div>
-                            </div>
-                          </div>
-                         
-                        </div>
-	                 </div>
+                   <div th:if="${rates == 1}" class="col-12 row p-0" id="CentralBanks-input">
+
+				   <!-- FED -->
+					<div class="col">
+					  <div class="d-flex col">
+					    <img height="48" width="48" src="/img/fed.png" class="img-icon" title="fed">
+					    <div class="col d-flex align-items-center">FED</div>
+					  </div>
+					
+					  <div class="col d-flex p-0 align-items-start">
+					   
+					   
+					    <div class="w-105" id="3">
+					      <form id="dataformInput3">
+					        <div id="3-fedLowerMove">LOWER MOVE
+					          <input type="text" class="form-control" id="data-input-3" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid3"></div>
+					      <div id="dataInputButtons3" style="display:none;">
+					         <div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load3" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel3" value="">
+					          </div>
+					      </div>
+					    </div>
+					
+					    <div class="w-105" id="4">
+					      <form id="dataformInput4">
+					        <div id="4-fedUpperMove">UPPER MOVE
+					          <input type="text" class="form-control" id="data-input-4" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid4"></div>
+					      <div id="dataInputButtons4" style="display:none;">
+					         <div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load4" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel4" value="">
+					          </div>
+					       </div>
+					    </div>
+					    <div class="w-105" id="1">
+					      <form id="dataformInput1">
+					        <div id="1-fedLowerRate">LOWER RATE
+					          <input type="text" class="form-control" id="data-input-1" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid1"></div>
+					      <div class="row" id="dataInputButtons1" style="display:none;">
+					          <div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load1" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel1" value="">
+					          </div>
+					        </div>
+					    </div>
+					
+					    <div class="w-105" id="2">
+					      <form id="dataformInput2">
+					        <div id="2-fedUpperRate">UPPER RATE
+					          <input type="text" class="form-control" id="data-input-2" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid2"></div>
+					      <div id="dataInputButtons2" style="display:none;">
+					         <div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load2" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel2" value="">
+					          </div>
+					      </div>
+					    </div>
+					
+					  </div>
+					  </div>
+					  <div class="col-5">
+					  <!-- ECB -->
+					  <div class="d-flex col ">
+					    <img height="48" width="48" src="/img/flag/ecb.png" class="img-icon" title="ecb">
+					    <div class="col d-flex align-items-center">ECB</div>
+					  </div>
+					
+					  <div class="col d-flex p-0 align-items-start">
+					  
+					  		    <div class="w-105" id="8">
+					      <form id="dataformInput8">
+					        <div id="8-ecbDepoMove">DEPO MOVE
+					          <input type="text" class="form-control" id="data-input-8" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid8"></div>
+					      <div id="dataInputButtons8" style="display:none;">
+					         <div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load8" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel8" value="">
+					          </div>
+					      </div>
+					    </div>
+					
+					    <div class="w-105" id="9">
+					      <form id="dataformInput9">
+					        <div id="9-ecbRefiMove">REFI<br>MOVE
+					          <input type="text" class="form-control" id="data-input-9" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid9"></div>
+					      <div id="dataInputButtons9" style="display:none;">
+					         <div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load9" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel9" value="">
+					          </div>
+					      </div>
+					    </div>
+					
+					    <div class="w-105" id="10">
+					      <form id="dataformInput10">
+					        <div id="10-ecbLendingMove">LENDING MOVE
+					          <input type="text" class="form-control" id="data-input-10" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid10"></div>
+					      <div id="dataInputButtons10" style="display:none;">   
+					      	<div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load10" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel10" value="">
+					          </div>
+					        </div>
+					    </div>
+					    <div class="w-105" id="5">
+					      <form id="dataformInput5">
+					        <div id="5-ecbDepoRate">DEPO RATE
+					          <input type="text" class="form-control" id="data-input-5" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid5"></div>
+					      <div id="dataInputButtons5" style="display:none;">   
+					      <div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load5" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel5" value="">
+					          </div></div>
+					    </div>
+					
+					    <div class="w-105" id="6">
+					      <form id="dataformInput6">
+					        <div id="6-ecbRefiRate">REFI<br>RATE
+					          <input type="text" class="form-control" id="data-input-6" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid6"></div>
+					      <div id="dataInputButtons6" style="display:none;">  
+					       <div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load6" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel6" value="">
+					          </div></div>
+					    </div>
+					
+					    <div class="w-105" id="7">
+					      <form id="dataformInput7">
+					        <div id="7-ecbLendingRate">LENDING RATE
+					          <input type="text" class="form-control" id="data-input-7" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid7"></div>
+					      <div id="dataInputButtons7" style="display:none;">
+					         <div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load7" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel7" value="">
+					          </div>
+					      </div>
+					    </div>
+					
+			
+					  </div>
+					</div>
+				  <div class="col">
+					  <!-- BOE -->
+					  <div class="d-flex col ">
+					    <img height="48" width="48" src="/img/boe.png" class="img-icon" title="boe">
+					    <div class="col d-flex align-items-center">BOE</div>
+					  </div>
+					
+					  <div class="col d-flex p-0  align-items-start">
+					    <div class="w-105" id="11">
+					      <form id="dataformInput11">
+					        <div id="11-boeRefiMove">REFI<br>MOVE
+					          <input type="text" class="form-control" id="data-input-11" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid11"></div>
+					      <div id="dataInputButtons11" style="display:none;">
+					         <div class="col-12 d-flex justify-content-end mt-2 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load11" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel11" value="">
+					          </div>
+					      </div>
+					    </div>
+					
+					    <div class="w-105" id="12">
+					      <form id="dataformInput12">
+					        <div id="12-boeMonthlyBaseRate">BASE<br>RATE
+					          <input type="text" class="form-control" id="data-input-12" autocomplete="off">
+					        </div>
+					      </form>
+					      <div id="dataInputGrid12"></div>
+					      <div id="dataInputButtons12" style="display:none;">
+					         <div class="col-12 d-flex justify-content-end mt-2 p-0 p-0">
+					            <input class="btn btn-primary mr-1 mb-1 green" type="button" id="load12" value="">
+					            <input class="btn btn-light-secondary mr-1 mb-1 red" type="button" id="cancel12" value="">
+					          </div>
+					      </div>
+					    </div>
+					  </div>
+					</div>
+					</div>
 					<div th:if="${rates == 2}" class="col-12 pr-0"
 						id="InflationSwapRates-input">
 						<div class="col pl-0 ">&#x200b;</div>
@@ -455,12 +507,13 @@ padding-right:.2rem;
 	                 </div>
                </div>
                <div th:if="${rates != 1}" class="col-1"></div>
-               <div class="col-6 d-flex justify-content-between">
+               <div th:classappend="${rates == 1} ? 'col-12' : 'col-6'" class=" d-flex justify-content-between">
+                   
                   <div th:if="${rates == 1}" class="col-12 p-0" id="CentralBanks-audit">
                        <div class="d-flex justify-content-between pb-1">
 		
-		                    <div class="col-9 p-0"> 
-		                    	
+		                    <div class="col-9 p-0 mt-3"> 
+		                     <div id='dateInputAudit'></div>	
 							</div>
 							<div class="col-3 p-0">
 							 <button id="deleteCentralBanks" style="font-size: .8rem; float: right;">Delete</button> 
@@ -471,7 +524,7 @@ padding-right:.2rem;
                    <div th:if="${rates == 2}" class="col-12 p-0" id="InflationSwapRates-audit">
                        <div class="d-flex justify-content-between pb-1">
 		                    <div class="col-9 p-0"> 
-		                    	
+		                    	 <div id='dateInputAudit'></div>
 							</div>
 							<div class="col-3 p-0">
 							 <button id="deleteInflationSwapRates" style="font-size: .8rem; float: right;">Delete</button> 
@@ -482,7 +535,7 @@ padding-right:.2rem;
 					<div th:if="${rates == 3}" class="col-12 p-0" id="MortageRates-audit">
                        <div class="d-flex justify-content-between pb-1">
 		                    <div class="col-9 p-0"> 
-		                    	
+		                    	 <div id='dateInputAudit'></div>
 							</div>
 							<div class="col-3 p-0">
 							 <button id="deleteMortageRates" style="font-size: .8rem; float: right;">Delete</button> 
@@ -493,7 +546,7 @@ padding-right:.2rem;
 						<div th:if="${rates == 4}" class="col-12 p-0" id="Fixings-audit">
                        <div class="d-flex justify-content-between pb-1">
 		                    <div class="col-9 p-0"> 
-		                    	
+		                    	 <div id='dateInputAudit'></div>
 							</div>
 							<div class="col-3 p-0">
 							 <button id="deleteFixings" style="font-size: .8rem; float: right; ">Delete</button> 
@@ -545,42 +598,62 @@ padding-right:.2rem;
     <div class="row mt-2">
      <div class="col border ml-2 p-1 rounded mb-3">
         <div class="row ">
-          <div th:if="${rates == 1}" class="col-sm-4" id="CentralBanksMetals-filter">
-             <h6 class="col font-weight-bold">CENTRAL BANKS</h6>
-             <div class="d-flex justify-content-between col">
-             	
-             	<div class="col-4">
-             			<div class="align-middle">
-             			<img height="64" src="/img/flag/ecb.png" class="img-icon"  title="fed" >
-             		</div>
-             		<div class="align-middle"><label>ECB</label></div>
-             		<div class="row align-middle">
-             			<div id='jqxCheckBoxEcb-17' style='float: left;'><span class="checkboxesTitle">RATES</span></div> 
-             			<div id='jqxCheckBoxEcb-18' style='float: left;'><span class="checkboxesTitle">MOVES</span></div> 
-             		</div>
-             	</div>
-             	<div class="col-4">
-             		<div class="align-middle">
-             			<img height="64" src="/img/fed.png" class="img-icon"  title="fed" >
-             		</div>
-             		<div class="align-middle"><label>FED</label></div>
-             		<div class="row align-middle">
-             			<div id='jqxCheckBoxFed-17' style='float: left;'><span class="checkboxesTitle">RATES</span></div> 
-             			<div id='jqxCheckBoxFed-18' style='float: left;'><span class="checkboxesTitle">MOVES</span></div> 
-             		</div>
-             	</div>
-             	<div class="col-4">
-             			<div class="align-middle">
-             			<img height="64" src="/img/boe.png" class="img-icon"  title="fed" >
-             		</div>
-             		<div class="align-middle"><label>BOE</label></div>
-             		<div class="row align-middle">
-             			<div id='jqxCheckBoxBoe-17' style='float: left;'><span class="checkboxesTitle">RATES</span></div> 
-             			<div id='jqxCheckBoxBoe-18' style='float: left;'><span class="checkboxesTitle">MOVES</span></div> 
-             		</div>
-             	</div>
-         	 </div>
-           </div>
+         <div th:if="${rates == 1}" class="col-sm-12" id="CentralBanksMetals-filter">
+			  <h6 class="col font-weight-bold">CENTRAL BANKS</h6>
+			
+			  <div class="d-flex justify-content-between col">
+			
+			    <!-- FED -->
+			    <div class="col-3">
+			      <div class="align-middle">
+			        <img height="64" src="/img/fed.png" class="img-icon" title="fed">
+			      </div>
+			      <div class="align-middle"><label>FED</label></div>
+			
+			      <div class="row">
+			        <div id="jqxCheckBoxfed_lower_move" class="col"><span class="checkboxesTitle">LOWER MOVE</span></div>
+			        <div id="jqxCheckBoxfed_upper_move" class="col"><span class="checkboxesTitle">UPPER MOVE</span></div>
+			      
+			        <div id="jqxCheckBoxfed_lower_rate" class="col"><span class="checkboxesTitle">LOWER RATE</span></div>
+			        <div id="jqxCheckBoxfed_upper_rate" class="col"><span class="checkboxesTitle">UPPER RATE</span></div>
+			      </div>
+			    </div>
+			
+			    <!-- ECB -->
+			    <div class="col-1"></div>
+			    <div class="col-5">
+			      <div class="align-middle">
+			        <img height="64" src="/img/flag/ecb.png" class="img-icon" title="ecb">
+			      </div>
+			      <div class="align-middle"><label>ECB</label></div>
+			
+			      <div class="row ">
+			        <div id="jqxCheckBoxecb_depo_move" class="col"><span class="checkboxesTitle">DEPO MOVE</span></div>
+			        <div id="jqxCheckBoxecb_refi_move" class="col"><span class="checkboxesTitle">REFI MOVE</span></div>
+			        <div id="jqxCheckBoxecb_lending_move" class="col"><span class="checkboxesTitle">LENDING MOVE</span></div>
+			        
+			        <div id="jqxCheckBoxecb_depo_rate" class="col"><span class="checkboxesTitle">DEPO RATE</span></div>
+			        <div id="jqxCheckBoxecb_refi_rate" class="col"><span class="checkboxesTitle">REFI RATE</span></div>
+			        <div id="jqxCheckBoxecb_lending_rate" class="col"><span class="checkboxesTitle">LENDING RATE</span></div>
+			      </div>
+			    </div>
+			
+			    <!-- BOE --> 
+			    <div class="col-1"></div>
+			    <div class="col-2">
+			      <div class="align-middle">
+			        <img height="64" src="/img/boe.png" class="img-icon" title="boe">
+			      </div>
+			      <div class="align-middle"><label>BOE</label></div>
+			
+			      <div class="row">
+			        <div id="jqxCheckBoxboe_refi_move" class="col"><span class="checkboxesTitle">REFI MOVE</span></div>
+			        <div id="jqxCheckBoxboe_monthly_base_rate" class="col"><span class="checkboxesTitle">BASE RATE</span></div>
+			      </div>
+			    </div>
+			
+			  </div>
+			</div>
             <div th:if="${rates == 2}" class="col-sm-2" >
              <h6 class="col font-weight-bold">INFLATION SWAP RATES</h6>
               <div class="d-flex justify-content-between col">

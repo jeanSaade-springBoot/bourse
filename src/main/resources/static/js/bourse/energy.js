@@ -1,10 +1,11 @@
   var allitems=[ "#jqxCheckBoxOil",
- 			   /*"#jqxCheckBoxGASOLINE_GALL",*/
+ 			   "#jqxCheckBoxGASOLINE_GALL",
  			   "#jqxCheckBoxGASOLINE_LITRE",
- 			   /*"#jqxCheckBoxDIESEL_GALL",*/
+ 			   "#jqxCheckBoxDIESEL_GALL",
  			   "#jqxCheckBoxDIESEL_TON",
  			   "#jqxCheckBoxNATGAS_USD",
- 			   "#jqxCheckBoxNATGAS_EUR"]; 
+ 			   "#jqxCheckBoxNATGAS_EUR",
+ 			   "#jqxCheckBoxBrentOil",]; 
 
 const graphName="energy"; 
 var graphService = "metals";

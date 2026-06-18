@@ -113,6 +113,12 @@ var itemValue = {
 		"description": "OIL",
 		"title": "OIL"
 	},
+	"#jqxCheckBoxBrentOil": {
+		"subGroupId": "8",
+		"GroupId": "9",
+		"description": "BRENT_OIL",
+		"title": "BRENT OIL"
+	},
 	"#jqxCheckBoxGASOLINE_GALL": {
 		"subGroupId": "2",
 		"GroupId": "9",
@@ -4390,53 +4396,91 @@ var itemValue = {
 		"title": "",
 		"img": "/img/flag/india.png"
 	},
-	"#jqxCheckBoxFed-17": {
-		"factor": "17",
-		"subGroupId": "1",
-		"GroupId": "48",
-		"description": "FED-17.48",
-		"title": "",
-		"img": "/img/fed.png"
+	"#jqxCheckBoxfed_lower_move": {
+	    "subGroupId": "3",
+	    "GroupId": "48",
+	    "description": "FED-lower_move.48",
+	    "title": "",
+	    "img": "/img/fed.png"
 	},
-	"#jqxCheckBoxFed-18": {
-		"factor": "18",
-		"subGroupId": "1",
-		"GroupId": "48",
-		"description": "FED-18.48",
-		"title": "",
-		"img": "/img/fed.png"
+	"#jqxCheckBoxfed_upper_move": {
+	    "subGroupId": "4",
+	    "GroupId": "48",
+	    "description": "FED-upper_move.48",
+	    "title": "",
+	    "img": "/img/fed.png"
 	},
-	"#jqxCheckBoxEcb-17": {
-		"factor": "17",
-		"subGroupId": "2",
-		"GroupId": "48",
-		"description": "ECB-17.48",
-		"title": "",
-		"img": "/img/flag/ecb.png"
+	"#jqxCheckBoxfed_lower_rate": {
+	    "subGroupId": "1",
+	    "GroupId": "48",
+	    "description": "FED-lower_rate.48",
+	    "title": "",
+	    "img": "/img/fed.png"
 	},
-	"#jqxCheckBoxEcb-18": {
-		"factor": "18",
-		"subGroupId": "2",
-		"GroupId": "48",
-		"description": "ECB-18.48",
-		"title": "",
-		"img": "/img/flag/ecb.png"
+	"#jqxCheckBoxfed_upper_rate": {
+	    "subGroupId": "2",
+	    "GroupId": "48",
+	    "description": "FED-upper_rate.48",
+	    "title": "",
+	    "img": "/img/fed.png"
 	},
-	"#jqxCheckBoxBoe-17": {
-		"factor": "17",
-		"subGroupId": "3",
-		"GroupId": "48",
-		"description": "BOE-17.48",
-		"title": "",
-		"img": "/img/boe.png"
+	
+	"#jqxCheckBoxecb_depo_move": {
+	    "subGroupId": "8",
+	    "GroupId": "48",
+	    "description": "ECB-depo_move.48",
+	    "title": "",
+	    "img": "/img/flag/ecb.png"
 	},
-	"#jqxCheckBoxBoe-18": {
-		"factor": "18",
-		"subGroupId": "3",
-		"GroupId": "48",
-		"description": "BOE-18.48",
-		"title": "",
-		"img": "/img/boe.png"
+	"#jqxCheckBoxecb_refi_move": {
+	    "subGroupId": "9",
+	    "GroupId": "48",
+	    "description": "ECB-refi_move.48",
+	    "title": "",
+	    "img": "/img/flag/ecb.png"
+	},
+	"#jqxCheckBoxecb_lending_move": {
+	    "subGroupId": "10",
+	    "GroupId": "48",
+	    "description": "ECB-lending_move.48",
+	    "title": "",
+	    "img": "/img/flag/ecb.png"
+	},
+	"#jqxCheckBoxecb_depo_rate": {
+	    "subGroupId": "5",
+	    "GroupId": "48",
+	    "description": "ECB-depo_rate.48",
+	    "title": "",
+	    "img": "/img/flag/ecb.png"
+	},
+	"#jqxCheckBoxecb_refi_rate": {
+	    "subGroupId": "6",
+	    "GroupId": "48",
+	    "description": "ECB-refi_rate.48",
+	    "title": "",
+	    "img": "/img/flag/ecb.png"
+	},
+	"#jqxCheckBoxecb_lending_rate": {
+	    "subGroupId": "7",
+	    "GroupId": "48",
+	    "description": "ECB-lending_rate.48",
+	    "title": "",
+	    "img": "/img/flag/ecb.png"
+	},
+	
+	"#jqxCheckBoxboe_refi_move": {
+	    "subGroupId": "11",
+	    "GroupId": "48",
+	    "description": "BOE-refi_move.48",
+	    "title": "",
+	    "img": "/img/boe.png"
+	},
+	"#jqxCheckBoxboe_monthly_base_rate": {
+	    "subGroupId": "12",
+	    "GroupId": "48",
+	    "description": "BOE-monthly_base_rate.48",
+	    "title": "",
+	    "img": "/img/boe.png"
 	},
 	"#jqxCheckBoxEU5": {
 		"subGroupId": "1",

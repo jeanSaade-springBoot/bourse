@@ -30,7 +30,8 @@ const labelImageMap = {
     'DIESEL_TON-9': '/img/diezel_ton.png',
     'NATGAS_USD-9': '/img/natgasUs.png',
     'NATGAS_EUR-9': '/img/natgasEur.png',
-
+ 	'BRENT_OIL-9': '/img/brentOil.png',
+  
     'BALTIC-10': '/img/baltic.png',
     'CONTAINER-10': '/img/container.png',
 };
@@ -153,7 +154,12 @@ const configData = [
 		groupId: '9',
 		columnGroupId: 'NATGAS_EUR-9'
 	},
-
+	{
+		columnName: '9:BRENT_OIL',
+		displayName: 'BRENT OIL',
+		groupId: '9',
+		columnGroupId: 'BRENT_OIL-9'
+	},
 	// groupId = 10 (TRANSPORTATION Performance)
 	{
 		columnName: '10:BALTIC',

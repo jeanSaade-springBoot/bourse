@@ -1,10 +1,17 @@
 
-var allitems = ["#jqxCheckBoxFed-17",
-				"#jqxCheckBoxFed-18",
-				"#jqxCheckBoxEcb-17",
-				"#jqxCheckBoxEcb-18",
-				"#jqxCheckBoxBoe-17",
-				"#jqxCheckBoxBoe-18"];
+var allitems = [
+  "#jqxCheckBoxfed_lower_rate", 
+  "#jqxCheckBoxfed_upper_rate",
+  "#jqxCheckBoxfed_lower_move",
+  "#jqxCheckBoxfed_upper_move",
+  "#jqxCheckBoxecb_depo_rate",
+  "#jqxCheckBoxecb_refi_rate",
+  "#jqxCheckBoxecb_lending_rate",
+  "#jqxCheckBoxecb_depo_move",
+  "#jqxCheckBoxecb_refi_move",
+  "#jqxCheckBoxecb_lending_move",
+  "#jqxCheckBoxboe_refi_move",
+  "#jqxCheckBoxboe_monthly_base_rate"];
 
 const graphName="centralBanks";
 
@@ -19,7 +26,7 @@ $(document).ready(function() {
 	
      initializeNewsBanner();
 	 initializeNavigationButtons();
-	 initialiazeItems(allitems,6);
+	 initialiazeItems(allitems,2);
 	 initialiazeClearFilterButton();
 	 
   	monthDate = new Date();
@@ -115,17 +122,15 @@ function getCentralBanksData(graphService,graphName,removeEmpty,saveHistory){
 
 	chart.render();
 	checkedItemValues.sort((a, b) => {
-					    // Extract the prefix and the number
-					    let [prefixA, numA] = a.split('-');
-					    let [prefixB, numB] = b.split('-');
-					
-					    // Compare the prefixes first
-					    if (prefixA < prefixB) return -1;
-					    if (prefixA > prefixB) return 1;
-					
-					    // If prefixes are the same, compare the numbers
-					    return parseInt(numA) - parseInt(numB);
-					});
+	    const aIsMove = a.toLowerCase().includes("move");
+	    const bIsMove = b.toLowerCase().includes("move");
+	
+	    if (aIsMove !== bIsMove) {
+	        return aIsMove ? 1 : -1; // rates first, moves after
+	    }
+	
+	    return a.localeCompare(b);
+	});
 	if  (checkedItem == 4) {
 
 		dataParam = [{ 
@@ -365,22 +370,49 @@ function getCentralBanksData(graphService,graphName,removeEmpty,saveHistory){
 					
 					notDecimal=yaxisformat0[1];
 			    	nbrOfDigits=yaxisformat0[0];
-			    	const factor1 = itemValue[checkedItemValues[0]].factor;
-					const factor2 = itemValue[checkedItemValues[1]].factor;
+			    	
+			    const rateColors = ['#FFFFFF', '#00B0F0'];
+				const moveColors = ['#ff0000', '#ff9200'];
+				
+				let rateIndex = 0;
+				let moveIndex = 0;
+				
+				const StrokeSizes = [];
+				const markerSizeArray = [];
+				const colorsArray = [];
+				
+				checkedItemValues.forEach(item => {
+				    const isMove = item.toLowerCase().includes("move");
+				
+				    if (isMove) {
+				        StrokeSizes.push(0);
+				        markerSizeArray.push(2);
+				        colorsArray.push(moveColors[moveIndex % moveColors.length]);
+				        moveIndex++;
+				    } else {
+				        StrokeSizes.push(2);
+				        markerSizeArray.push(0);
+				        colorsArray.push(rateColors[rateIndex % rateColors.length]);
+				        rateIndex++;
+				    }
+				});
+					 const data0 = checkedItemValues[0].toLowerCase().includes("move")
+					    ? response[0].graphResponseDTOLst
+					    : carryForwardRateData(response[0].graphResponseDTOLst);
 					
-					const StrokeSizes = [
-					  factor1 === '18' ? 0 : 2,
-					  factor2 === '18' ? 0 : 2
-					];
+					const data1 = checkedItemValues[1].toLowerCase().includes("move")
+					    ? response[1].graphResponseDTOLst
+					    : carryForwardRateData(response[1].graphResponseDTOLst); 
+					    
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
 						type:Period=='d' ? chartType1 : 'column',
-						data: response[0].graphResponseDTOLst
+						data: data0
 					}, {
 						name: response[1].config != null ? (response[1].config.displayDescription == null ? '' : response[1].config.displayDescription) : '',
 						type:Period=='d' ? chartType2 : 'column',
-						data: response[1].graphResponseDTOLst
+						data: data1
 					}],
 						xaxis: {
 					labels: {
@@ -416,14 +448,14 @@ function getCentralBanksData(graphService,graphName,removeEmpty,saveHistory){
 							isDecimal: isdecimal,
 							yAxisFormat: yaxisformat,
 						},
-					    colors: ["#FFFFFF", "#ff0000",  "#0000ff", "#00ff00", "#ffff00", "#ffa500"],
+					    colors: colorsArray,
 						stroke: {
 									width:StrokeSizes,
 								},
 						markers: {
-							colors: ["#FFFFFF", "#ff0000", "#0000ff", "#00ff00", "#ffff00", "#ffa500"],
-							strokeColors: ["#FFFFFF", "#ff0000", "#0000ff", "#00ff00", "#ffff00", "#ffa500"],
-						    size: [0,2],
+							colors: colorsArray,
+							strokeColors: colorsArray,
+						    size: markerSizeArray,
 						},
 						yaxis: {
 							labels: {
@@ -609,7 +641,7 @@ function getCentralBanksData(graphService,graphName,removeEmpty,saveHistory){
 								
 								series:[{
 										name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
-										type: ['18'].includes(itemValue[checkedItemValues[0]].factor)?'line':chartConfigSettings.chartType1,
+										type: checkedItemValues[0].toLowerCase().includes("move")?'line':chartConfigSettings.chartType1,
 										data: chartConfigSettings.response[0].graphResponseDTOLst
 									}],
 									xaxis: {
@@ -641,11 +673,11 @@ function getCentralBanksData(graphService,graphName,removeEmpty,saveHistory){
 								},
 								stroke: {
 									colors: chartConfigSettings.chartType1 == "area" ? ["#ffffff"] : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
-								    width:['18'].includes(itemValue[checkedItemValues[0]].factor)?0:2
+								    width:checkedItemValues[0].toLowerCase().includes("move")?0:2
 								},
 								markers: {
-									colors:  ['18'].includes(itemValue[checkedItemValues[0]].factor)?'#ff0000':chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
-									strokeColors: ['18'].includes(itemValue[checkedItemValues[0]].factor)?'#ff0000':chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor]
+									colors:  checkedItemValues[0].toLowerCase().includes("move")?'#ff0000':chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
+									strokeColors: checkedItemValues[0].toLowerCase().includes("move")?'#ff0000':chartConfigSettings.chartType1 == "area" ? "#ffffff" : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor]
 								},
 								extra: {
 									isDecimal: chartConfigSettings.isdecimal,
@@ -970,3 +1002,19 @@ function renderMoreThanTwoSeries(response){
 					    },
 					});
 					}
+					
+function carryForwardRateData(data) {
+    let lastValue = null;
+
+    return data.map(point => {
+        if (point.y !== null && point.y !== undefined) {
+            lastValue = point.y;
+            return point;
+        }
+
+        return {
+            ...point,
+            y: lastValue
+        };
+    });
+}

@@ -117,12 +117,12 @@ public class MetalsService {
 		        {
 		        	if (!StringUtils.isNotBlank(columnDisplayDesc))
 		        		columnDisplayDesc = colsName; 
-			        configColumns.put("text",columnDisplayDesc.equalsIgnoreCase("refer_date")?"Date":columnDisplayDesc);
-			        configColumns.put("datafield",colsName);
-			        configColumns.put("width",columnWidth);
-			        configColumns.put("cellsalign","center");
-			        configColumns.put("align","center");
-			        
+				        configColumns.put("text",columnDisplayDesc.equalsIgnoreCase("refer_date")?"Date":columnDisplayDesc);
+				        configColumns.put("datafield",colsName);
+				        configColumns.put("width",columnWidth);
+				        configColumns.put("cellsalign","center");
+				        configColumns.put("align","center");
+						
 			        	String[] values = null; int val;
 			         	if (dataFormat!=null)
 			         	{

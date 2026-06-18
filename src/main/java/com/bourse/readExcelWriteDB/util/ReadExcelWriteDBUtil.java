@@ -91,7 +91,7 @@ public class ReadExcelWriteDBUtil {
 
        return rowData;
    }
-   public static List<DataDTO> readExcelFileWithString(MultipartFile file, String dateIndex, String valueIndex) {
+   public static List<DataDTO> readExcelFileWithString(MultipartFile file, String dateIndex, String valueIndex,   boolean valueIsDate) {
 
 	    List<DataDTO> rowData = new ArrayList<>();
 
@@ -124,7 +124,7 @@ public class ReadExcelWriteDBUtil {
 		                    else if (String.valueOf(cell.getColumnIndex()).equalsIgnoreCase(valueIndex)) {
 		                        if (cell.getCellType() == CellType.NUMERIC) {
 		                        	String cellValue ="";
-		                        	if (String.valueOf(cell.getColumnIndex()).equalsIgnoreCase("9")||String.valueOf(cell.getColumnIndex()).equalsIgnoreCase("12")) {
+		                        	if (valueIsDate && (String.valueOf(cell.getColumnIndex()).equalsIgnoreCase("9")||String.valueOf(cell.getColumnIndex()).equalsIgnoreCase("12"))) {
 		                        		value = String.valueOf(transformNumericDate(cell.getNumericCellValue()));
 		                        	}
 		                        	else
@@ -399,44 +399,48 @@ public static int getRateFactorId(int number) {
           return 0;  
 }
 public static <T> String[] findMinMaxDatesAsString(List<T> dataList, String dateFieldName) {
-    DateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy"); 
-    DateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd"); 
+    DateFormat inputDateFormat = new SimpleDateFormat("dd-MM-yyyy");
+    DateFormat outputDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
     Date minDate = null;
     Date maxDate = null;
-
-    try {
-        T firstObject = dataList.get(0);
-
-        java.lang.reflect.Field dateField = firstObject.getClass().getDeclaredField(dateFieldName);
-        dateField.setAccessible(true);
-        minDate = inputDateFormat.parse((String) dateField.get(firstObject));
-        maxDate = inputDateFormat.parse((String) dateField.get(firstObject));
-
-    } catch (ParseException | IllegalAccessException | NoSuchFieldException e) {
-        e.printStackTrace();
-    }
 
     for (T data : dataList) {
         try {
             java.lang.reflect.Field dateField = data.getClass().getDeclaredField(dateFieldName);
             dateField.setAccessible(true);
-            Date currentDate = inputDateFormat.parse((String) dateField.get(data));
-            if (currentDate.before(minDate)) {
+
+            String dateValue = (String) dateField.get(data);
+
+            if (dateValue == null ||
+                dateValue.trim().isEmpty() ||
+                dateValue.equalsIgnoreCase("Date")) {
+                continue;
+            }
+
+            Date currentDate = inputDateFormat.parse(dateValue.trim());
+
+            if (minDate == null || currentDate.before(minDate)) {
                 minDate = currentDate;
             }
-            if (currentDate.after(maxDate)) {
+
+            if (maxDate == null || currentDate.after(maxDate)) {
                 maxDate = currentDate;
             }
+
         } catch (ParseException | IllegalAccessException | NoSuchFieldException e) {
             e.printStackTrace();
         }
     }
 
-    String minDateString = outputDateFormat.format(minDate);
-    String maxDateString = outputDateFormat.format(maxDate);
+    if (minDate == null || maxDate == null) {
+        throw new IllegalArgumentException("No valid dates found in uploaded file");
+    }
 
-    return new String[]{minDateString, maxDateString};
+    return new String[]{
+        outputDateFormat.format(minDate),
+        outputDateFormat.format(maxDate)
+    };
 }
 public static String parseDate(String dateStr) {
     if (dateStr == null || dateStr.trim().isEmpty()) {

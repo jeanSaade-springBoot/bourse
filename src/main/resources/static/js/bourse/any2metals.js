@@ -47,9 +47,10 @@
 			    "#jqxCheckBoxSugar",
 			    "#jqxCheckBoxWheat",
 			    "#jqxCheckBoxOil",
- 			    /*"#jqxCheckBoxGASOLINE_GALL",*/
+			    "#jqxCheckBoxBrentOil",
+ 			    "#jqxCheckBoxGASOLINE_GALL",
  			    "#jqxCheckBoxGASOLINE_LITRE",
- 			    /*"#jqxCheckBoxDIESEL_GALL",*/
+ 			    "#jqxCheckBoxDIESEL_GALL",
  			    "#jqxCheckBoxDIESEL_TON",
  			    "#jqxCheckBoxNATGAS_USD",
  			    "#jqxCheckBoxNATGAS_EUR",
@@ -142,7 +143,8 @@
     	  $("#jqxCheckBoxDIESEL_TON").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxNATGAS_USD").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxNATGAS_EUR").jqxCheckBox({checked: false });
-    	  
+    	  $("#jqxCheckBoxBrentOil").jqxCheckBox({checked: false });
+    	    
     	  $("#jqxCheckBoxBaltic").jqxCheckBox({checked: false });
     	  $("#jqxCheckBoxContainer").jqxCheckBox({checked: false });
     	  
@@ -642,6 +644,43 @@
 			   for(i=0; i<checkedItemid.length; i++)
 				   {
 				   if(checkedItemid[i]=="#jqxCheckBoxOil")
+					 delete checkedItemid[i];
+				   }
+	    }
+  	    if(checkedItem>=2)
+  	   {
+		    for(i=0; i<allitems.length; i++)
+			   {
+		    	$(allitems[i]).jqxCheckBox({disabled: true});
+		     }
+		   	 
+		  	 for(i=0; i<checkedItemid.length; i++)
+			   {
+		  		 if(checkedItemid[i]!=null)
+					    $(checkedItemid[i]).jqxCheckBox({disabled: false});
+		       }
+  	      enableDisableDropDowns(true);
+  	   }
+  	   else{
+  		 for(i=0; i<allitems.length; i++)
+		   {
+			 $(allitems[i]).jqxCheckBox({disabled: false});
+	     }
+	      enableDisableDropDowns(false);
+  	   }
+  	 }); 
+      $('#jqxCheckBoxBrentOil').on('change', function (event) {
+  	   var checked = event.args.checked;
+  	   if(checked)
+	    {
+	    	checkedItem=checkedItem + 1;
+	    	checkedItemid.push("#jqxCheckBoxBrentOil");
+	    }
+	    else {
+	    	checkedItem=checkedItem - 1;
+			   for(i=0; i<checkedItemid.length; i++)
+				   {
+				   if(checkedItemid[i]=="#jqxCheckBoxBrentOil")
 					 delete checkedItemid[i];
 				   }
 	    }

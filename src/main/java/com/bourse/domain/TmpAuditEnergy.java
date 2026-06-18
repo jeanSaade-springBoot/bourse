@@ -25,5 +25,6 @@ public class TmpAuditEnergy {
 	private String natgasEur;
 	private String gasolineLitre;
 	private String dieselTon;
+	private String brentOil;
 	private String referDate;
 }

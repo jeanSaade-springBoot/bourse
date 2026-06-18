@@ -1,6 +1,7 @@
 package com.bourse.util;
 
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 
@@ -36,47 +37,71 @@ public class RatesUtil {
 		 if(selectedSearchDTOLst!=null)
 		 for( SelectedSearchDTO selectedSearchDTO :selectedSearchDTOLst)
 		 {
-			if(selectedSearchDTO.getGroupId() == 48) 
+			 if(selectedSearchDTO.getGroupId() == 48) 
 				{
-				
-				if(counter == 1)
-				 {
-					 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
-					 colHash.put(columnsId, "refer_date");
-					 columnsId++;
-					 
-					 forUsetables = " From ";
-				 }
-				 
-				 if(selectedSearchDTO.getSelectedValues()!=null)
-				 for(String value : selectedSearchDTO.getSelectedValues())
-				 {       
-					
-						 if(counter == 1)
-						 {
-							 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
-							 		+ "\n            and '"+toDate+"')\n ";
-							 
-							 forUseAnd = " and s"+counter+".factor = "+value.split("-")[1];
-						 }
-						 else
-						 { forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
-						 		    + "\n          and '"+toDate+"')\n";
+					if(counter == 1)
+					 {
+						 forUseSelect = "select DATE_FORMAT(STR_TO_DATE(s"+counter+".refer_date, '%d-%m-%Y'), '%m-%d-%Y') as refer_date";
+						 colHash.put(columnsId, "refer_date");
+						 columnsId++;
 						 
-						   forUseAnd =  forUseAnd +  " and s"+counter+".factor = "+value.split("-")[1];
-						 }
-						 forUsetables = forUsetables + tableSchema+"tmp_audit_rts_central_banks";
-	    				 forUsetables = forUsetables + " s"+counter+" ,";
-					 	 forUseSelect = forUseSelect+", \n"+ 
-						                         " s"+counter+"."+value.split("-")[0]+
-						                         " as '"+value+"."+selectedSearchDTO.getGroupId()+"'";
-					 	 colHash.put(columnsId, value+"."+selectedSearchDTO.getGroupId());
-					 	 columnsId++;
-					 	 
-						 counter = counter+1;	 
-				 }
-				
-				}else
+						 forUsetables = " From ";
+					 }
+					List<String> orderedValues = selectedSearchDTO.getSelectedValues();
+
+					orderedValues.sort(Comparator.comparingInt(value -> {
+					    String col = value.split("-")[0].toUpperCase();
+
+					    switch (col) {
+					        // FED moves first, then rates
+					        case "FED_LOWER_MOVE": return 1;
+					        case "FED_UPPER_MOVE": return 2;
+					        case "FED_LOWER_RATE": return 3;
+					        case "FED_UPPER_RATE": return 4;
+
+					        // ECB moves first, then rates
+					        case "ECB_DEPO_MOVE": return 5;
+					        case "ECB_REFI_MOVE": return 6;
+					        case "ECB_LENDING_MOVE": return 7;
+					        case "ECB_DEPO_RATE": return 8;
+					        case "ECB_REFI_RATE": return 9;
+					        case "ECB_LENDING_RATE": return 10;
+
+					        // BOE moves first, then rates
+					        case "BOE_REFI_MOVE": return 11;
+					        case "BOE_MONTHLY_BASE_RATE": return 12;
+
+					        default: return 999;
+					    }
+					}));
+					 if(selectedSearchDTO.getSelectedValues()!=null)
+				    for(String value : orderedValues)
+					 {       
+						     
+						 
+							 if(counter == 1)
+							 {
+								 forUseWhere = "    where (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+								 		+ "\n            and '"+toDate+"')\n ";
+								 
+							 }
+							 else
+							 { forUseWhere = forUseWhere+"      and (STR_TO_DATE("+" s"+counter+".refer_date,'%d-%m-%Y') between '"+fromDate+"'"
+							 		    + "\n          and '"+toDate+"')\n";
+							 
+							 }
+							 forUsetables = forUsetables + tableSchema+"tmp_audit_rts_central_banks";
+		    				 forUsetables = forUsetables + " s"+counter+" ,";
+		    				 forUseSelect = forUseSelect + ", \n" +
+		    					        "IFNULL(s" + counter + "." + value.split("-")[0] + ", '')" +
+		    					        " as '" + value + "'";
+						 	 colHash.put(columnsId, value);
+						 	 columnsId++;
+							 
+							 counter = counter+1;	 
+					 }
+					 
+					}else
 					if(selectedSearchDTO.getGroupId() == 49) 
 					{
 						if(counter == 1)

@@ -12,21 +12,48 @@ const nameFactorId =  [
 	                    { name: 'MOVES', factor: '18'},
 	                ];
 	                
-const nameSubgroupId =  [
-                    { name: 'FED', subgroupId: '1' },
-                    { name: 'ECB', subgroupId: '2' },
-                    { name: 'BOE', subgroupId: '3' },
-                    { name: 'EU5', subgroupId: '1' },
-                    { name: 'US5', subgroupId: '2' },
-                    ];   
-                                  
-var CentralBanksItem = ["#jqxCheckBoxEcb-17",
-						"#jqxCheckBoxEcb-18",
-						"#jqxCheckBoxFed-17",
-						"#jqxCheckBoxFed-18",
-						"#jqxCheckBoxBoe-17",
-						"#jqxCheckBoxBoe-18"];
+const nameSubgroupId = [
 
+    // FED
+    { name: 'FED_LOWER_RATE', subgroupId: '1' },
+    { name: 'FED_UPPER_RATE', subgroupId: '2' },
+    { name: 'FED_LOWER_MOVE', subgroupId: '3' },
+    { name: 'FED_UPPER_MOVE', subgroupId: '4' },
+
+    // ECB
+    { name: 'ECB_DEPO_RATE', subgroupId: '5' },
+    { name: 'ECB_REFI_RATE', subgroupId: '6' },
+    { name: 'ECB_LENDING_RATE', subgroupId: '7' },
+
+    { name: 'ECB_DEPO_MOVE', subgroupId: '8' },
+    { name: 'ECB_REFI_MOVE', subgroupId: '9' },
+    { name: 'ECB_LENDING_MOVE', subgroupId: '10' },
+
+    // BOE
+    { name: 'BOE_REFI_MOVE', subgroupId: '11' },
+    { name: 'BOE_MONTHLY_BASE_RATE', subgroupId: '12' },
+
+    // Inflation Swap Rates (keep existing)
+    { name: 'EU5', subgroupId: '1' },
+    { name: 'US5', subgroupId: '2' },
+];
+                                  
+var CentralBanksItem = [
+  "#jqxCheckBoxfed_lower_rate",
+  "#jqxCheckBoxfed_upper_rate",
+  "#jqxCheckBoxfed_lower_move",
+  "#jqxCheckBoxfed_upper_move",
+
+  "#jqxCheckBoxecb_depo_rate",
+  "#jqxCheckBoxecb_refi_rate",
+  "#jqxCheckBoxecb_lending_rate",
+  "#jqxCheckBoxecb_depo_move",
+  "#jqxCheckBoxecb_refi_move",
+  "#jqxCheckBoxecb_lending_move",
+
+  "#jqxCheckBoxboe_refi_move",
+  "#jqxCheckBoxboe_monthly_base_rate"
+];
 var InflationSwapRatesItem = ["#jqxCheckBoxEU5",
 							  "#jqxCheckBoxUS5"];
 								
@@ -37,11 +64,22 @@ var FixingsItem = ["#jqxCheckBoxEuribor_1",
 	"#jqxCheckBoxEuribor_3",
 	"#jqxCheckBoxSonia_3",
 	"#jqxCheckBoxLibor_3",];
+	
 var CentralBanksAuditDefaultData = [{
-	"fed": "",
-	"ecb": "",
-	"boe": "",
+  fedLowerRate: "",
+  fedUpperRate: "",
+  fedLowerMove: "",
+  fedUpperMove: "",
+  ecbDepoRate: "",
+  ecbRefiRate: "",
+  ecbLendingRate: "",
+  ecbDepoMove: "",
+  ecbRefiMove: "",
+  ecbLendingMove: "",
+  boeRefiMove: "",
+  boeMonthlyBaseRate: ""
 }];
+
 var InflationSwapRatesAuditDefaultData = [{
 	"eu5": "",
 	"us5": "",
@@ -59,14 +97,22 @@ var FixingsAuditDefaultData = [{
 }];
 var source;
 
-	var inputData1rates = document.getElementById("data-input-1rates");
-	var inputData1moves = document.getElementById("data-input-1moves");
-		
-	var inputData2rates = document.getElementById("data-input-2rates");
-	var inputData2moves = document.getElementById("data-input-2moves");
-	
-	var inputData3rates = document.getElementById("data-input-3rates");
-	var inputData3moves = document.getElementById("data-input-3moves");
+var centralBankFields = [
+  { id: "1", field: "fedLowerRate", label: "FED LOWER RATE" },
+  { id: "2", field: "fedUpperRate", label: "FED UPPER RATE" },
+  { id: "3", field: "fedLowerMove", label: "FED LOWER MOVE" },
+  { id: "4", field: "fedUpperMove", label: "FED UPPER MOVE" },
+
+  { id: "5", field: "ecbDepoRate", label: "ECB DEPO RATE" },
+  { id: "6", field: "ecbRefiRate", label: "ECB REFI RATE" },
+  { id: "7", field: "ecbLendingRate", label: "ECB LENDING RATE" },
+  { id: "8", field: "ecbDepoMove", label: "ECB DEPO MOVE" },
+  { id: "9", field: "ecbRefiMove", label: "ECB REFI MOVE" },
+  { id: "10", field: "ecbLendingMove", label: "ECB LENDING MOVE" },
+
+  { id: "11", field: "boeRefiMove", label: "BOE REFI MOVE" },
+  { id: "12", field: "boeMonthlyBaseRate", label: "BOE BASE RATE" }
+];
 	
 	var inputDataInflationSwapRates = document.getElementById("data-input-InflationSwapRates");
 	
@@ -125,36 +171,14 @@ $(document).ready(function() {
 				}
 
 	renderSubGroup(ratesValue);
-if(ratesValue==1)
-	{ 
-	$("#dateInput").jqxDateTimeInput({theme: 'dark',  views:["year","decade"]
-   , width: "110px"
-   , height: "25px"
-   , formatString : "MMM-yy" });
-	$("#dateInputAudit").jqxDateTimeInput({ theme: 'dark',  views:["year","decade"]
-   , width: "110px"
-   , height: "25px"
-   , formatString : "MMM-yy" });
-   	  
-	$("#dateInputFrom").jqxDateTimeInput({theme: 'dark',  views:["year","decade"]
-   , width: "110px"
-   , height: "25px"
-   , formatString :"MMM-yy" });
-	$("#dateInputFrom").jqxDateTimeInput('setDate', monthDate);
-	$("#dateInputTo").jqxDateTimeInput({ theme: 'dark',  views:["year","decade"]
-   , width: "110px"
-   , height: "25px"
-   , formatString : "MMM-yy" });
-	
-	}
-	else{
+
 	$("#dateInput").jqxDateTimeInput({ theme: 'dark', width: '195px', height: '25px' });
 	$("#dateInputAudit").jqxDateTimeInput({ theme: 'dark', width: '195px', height: '25px' });
 	$("#dateInputFrom").jqxDateTimeInput({ theme: 'dark', width: '200px', height: '25px' });
 	$("#dateInputFrom").jqxDateTimeInput('setDate', monthDate);
 	$("#dateInputTo").jqxDateTimeInput({ theme: 'dark', width: '200px', height: '25px' });
 	
-	}
+	
 	$("#filter").jqxButton({ theme: 'dark', height: 30, width: 74 });
 	$("#Clearfilter").jqxButton({ theme: 'dark', height: 30, width: 74 });
 
@@ -172,12 +196,21 @@ if(ratesValue==1)
 			{ name: 'SONIA_3', type: 'float' },
 			{ name: 'LIBOR_3', type: 'float' },
 			
-			{ name: 'BOE-18.48', type: 'float' },
-			{ name: 'BOE-17.48', type: 'float' },
-			{ name: 'ECB-18.48', type: 'float' },
-			{ name: 'ECB-17.48', type: 'float' },
-			{ name: 'FED-18.48', type: 'float' },
-			{ name: 'FED-17.48', type: 'float' },
+			{ name: 'FED_LOWER_RATE', type: 'float' },
+			{ name: 'FED_UPPER_RATE', type: 'float' },
+			{ name: 'FED_LOWER_MOVE', type: 'float' },
+			{ name: 'FED_UPPER_MOVE', type: 'float' },
+			
+			{ name: 'ECB_DEPO_RATE', type: 'float' },
+			{ name: 'ECB_REFI_RATE', type: 'float' },
+			{ name: 'ECB_LENDING_RATE', type: 'float' },
+			
+			{ name: 'ECB_DEPO_MOVE', type: 'float' },
+			{ name: 'ECB_REFI_MOVE', type: 'float' },
+			{ name: 'ECB_LENDING_MOVE', type: 'float' },
+			
+			{ name: 'BOE_REFI_MOVE', type: 'float' },
+			{ name: 'BOE_MONTHLY_BASE_RATE', type: 'float' },
 			
 			{ name: 'US5' , type: 'float' },
 			{ name: 'EU5', type: 'float' },
@@ -246,12 +279,23 @@ function Edit(row, event) {
 	isedit = true;
 	var data = $('#' + ratesType + 'AuditGrid').jqxGrid('getrowdata', row);
 	if (ratesValue == 1) {
-		oldDataJson = {
-			"fed": data.fed,
-			"ecb": data.ecb,
-			"boe": data.boe,
-			"factor": data.factor,
-			};
+    oldDataJson = {
+        "fed_lower_rate": data.fedLowerRate,
+        "fed_upper_rate": data.fedUpperRate,
+        "fed_lower_move": data.fedLowerMove,
+        "fed_upper_move": data.fedUpperMove,
+
+        "ecb_depo_rate": data.ecbDepoRate,
+        "ecb_refi_rate": data.ecbRefiRate,
+        "ecb_lending_rate": data.ecbLendingRate,
+
+        "ecb_depo_move": data.ecbDepoMove,
+        "ecb_refi_move": data.ecbRefiMove,
+        "ecb_lending_move": data.ecbLendingMove,
+
+        "boe_refi_move": data.boeRefiMove,
+        "boe_monthly_base_rate": data.boeMonthlyBaseRate
+    };
 	} else if (ratesValue == 2) {
 		oldDataJson = {
 			"eu5": data.eu5,
@@ -282,17 +326,31 @@ function Edit(row, event) {
 	}
 	setTimeout(function() {
 		if (ratesValue == 1) {
-			if (($('#' + ratesType + 'AuditGrid').jqxGrid('getrows')[0].fed != null) &&
-				($('#' + ratesType + 'AuditGrid').jqxGrid('getrows')[0].ecb != null) &&
-				($('#' + ratesType + 'AuditGrid').jqxGrid('getrows')[0].boe != null)) {
-				$('#' + ratesType + 'AuditGrid').jqxGrid('beginrowedit', row);
-				$("#edit" + row).css("display", "none");
-				$("#actionButtons" + row).css("display", "contents");
-				if (event) {
-					if (event.preventDefault) {
-						event.preventDefault();
-					}
-				}
+			var rowData = $('#' + ratesType + 'AuditGrid').jqxGrid('getrows')[0];
+			
+			if (
+			    rowData.fedLowerRate != null &&
+			    rowData.fedUpperRate != null &&
+			    rowData.fedLowerMove != null &&
+			    rowData.fedUpperMove != null &&
+			
+			    rowData.ecbDepoRate != null &&
+			    rowData.ecbRefiRate != null &&
+			    rowData.ecbLendingRate != null &&
+			    rowData.ecbDepoMove != null &&
+			    rowData.ecbRefiMove != null &&
+			    rowData.ecbLendingMove != null &&
+			
+			    rowData.boeRefiMove != null &&
+			    rowData.boeMonthlyBaseRate != null
+			) {
+			    $('#' + ratesType + 'AuditGrid').jqxGrid('beginrowedit', row);
+			    $("#edit" + row).css("display", "none");
+			    $("#actionButtons" + row).css("display", "contents");
+			
+			    if (event && event.preventDefault) {
+			        event.preventDefault();
+			    }
 			}
 		}
 		else if (ratesValue == 2) {
@@ -339,7 +397,27 @@ function Edit(row, event) {
 		return false;
 	}, 300);
 }
+function getCentralBankSubgroupIdByField(field) {
+    const mapping = {
+        "fed_lower_rate": "1",
+        "fed_upper_rate": "2",
+        "fed_lower_move": "3",
+        "fed_upper_move": "4",
 
+        "ecb_depo_rate": "5",
+        "ecb_refi_rate": "6",
+        "ecb_lending_rate": "7",
+
+        "ecb_depo_move": "8",
+        "ecb_refi_move": "9",
+        "ecb_lending_move": "10",
+
+        "boe_refi_move": "11",
+        "boe_monthly_base_rate": "12"
+    };
+
+    return mapping[field];
+}
 function Update(row, event) {
 
 	isupdate = true;
@@ -351,24 +429,35 @@ function Update(row, event) {
 	$('#' + ratesType + 'AuditGrid').jqxGrid('endrowedit', row);
 	var updatedData = $('#' + ratesType + 'AuditGrid').jqxGrid('getrowdata', row);
 	if (ratesValue == 1) {
-		updatedDataJson = {
-			"fed": updatedData.fed,
-			"ecb": updatedData.ecb,
-			"boe": updatedData.boe,
-			"factor": updatedData.factor,
+	
+	  updatedDataJson = {
+		    "fed_lower_rate": updatedData.fedLowerRate,
+		    "fed_upper_rate": updatedData.fedUpperRate,
+		    "fed_lower_move": updatedData.fedLowerMove,
+		    "fed_upper_move": updatedData.fedUpperMove,
+		
+		    "ecb_depo_rate": updatedData.ecbDepoRate,
+		    "ecb_refi_rate": updatedData.ecbRefiRate,
+		    "ecb_lending_rate": updatedData.ecbLendingRate,
+		
+		    "ecb_depo_move": updatedData.ecbDepoMove,
+		    "ecb_refi_move": updatedData.ecbRefiMove,
+		    "ecb_lending_move": updatedData.ecbLendingMove,
+		
+		    "boe_refi_move": updatedData.boeRefiMove,
+		    "boe_monthly_base_rate": updatedData.boeMonthlyBaseRate
 		};
-		keys = Object.keys(updatedDataJson);
-
-		for (var i = 0; i < keys.length; i++) {
+	    keys = Object.keys(updatedDataJson);
+	
+	    for (var i = 0; i < keys.length; i++) {
 	        var field = keys[i];
+	
 	        if (updatedDataJson[field] !== oldDataJson[field]) {
-				
 	            dataToBeUpdated.push({
-				   "subgroupId":getSubgroupIdByName(field.toUpperCase()),
-    			   "factor":getfactorIdByDescription(updatedDataJson.factor),
-    			   "groupId":getGroupId(ratesValue) ,
-    			   "value":updatedDataJson[field].replace(',', ''),
-    			   "referdate":date
+	                "subgroupId": getCentralBankSubgroupIdByField(field),
+	                "groupId": getGroupId(ratesValue),
+	                "value": updatedDataJson[field].replaceAll(',', ''),
+	                "referdate": date
 	            });
 	        }
 	    }
@@ -630,7 +719,7 @@ function getFilterData(ratesValue) {
 			"toDate": $.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'), 'yyyy-MM-dd')
 		};
 
-		if (allItems <= 9) {
+		if (allItems <= 15) {
 			$.ajax({
 				type: "POST",
 				contentType: "application/json",
@@ -642,6 +731,7 @@ function getFilterData(ratesValue) {
 				timeout: 600000,
 				success: function(data) {
 					delete source.url;
+					
 					source.localdata = data.rows;
 					dataAdapter = new $.jqx.dataAdapter(source);
 					$('#grid').jqxGrid('hideloadelement');
@@ -726,50 +816,82 @@ function renderSubGroup(ratesValue) {
 		
 	var defaultData = AuditDefaultData;
 	var fields = [
-			{ name: 'id', type: 'string' },
-			{ name: 'factor', type: 'string' },
-			{ name: 'fed', type: 'string' },
-			{ name: 'ecb', type: 'string' },
-			{ name: 'boe', type: 'string' },
-		];
+	  { name: 'id', type: 'string' },
+	  { name: 'fedLowerMove', type: 'string' },
+	  { name: 'fedUpperMove', type: 'string' },
+	  { name: 'fedLowerRate', type: 'string' },
+	  { name: 'fedUpperRate', type: 'string' },
+	
+	  { name: 'ecbDepoMove', type: 'string' },
+	  { name: 'ecbRefiMove', type: 'string' },
+	  { name: 'ecbLendingMove', type: 'string' },
+	  { name: 'ecbDepoRate', type: 'string' },
+	  { name: 'ecbRefiRate', type: 'string' },
+	  { name: 'ecbLendingRate', type: 'string' },
+	
+	  { name: 'boeRefiMove', type: 'string' },
+	  { name: 'boeMonthlyBaseRate', type: 'string' }
+	];
 		var totalFields = fields.length-1;
 		var widthPercentage = (100 - 20)/totalFields;
 		var arrayOFcolumns = [
 			{
-				text: '', editable: false, datafield: 'Edit', width: '20%', cellsrenderer: function(row) {
+				text: '', editable: false, datafield: 'Edit', width: '10%', cellsrenderer: function(row) {
 					return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit" + row + "\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons" + row + "\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 				}
 			},
 			  { text: '',editable:false,hidden:true,  datafield: 'id', width: widthPercentage + '%'},
-	          { text: '',editable:false,  datafield: 'factor', width: widthPercentage + '%'},
-	          { text: 'ECB', datafield: 'ecb', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-			  { text: 'FED',  datafield: 'fed', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
-	       	  { text: 'BOE',  datafield: 'boe', width: widthPercentage + '%', cellsalign: 'center', align: 'center' },
- ];
-
-	Types=["1rates","1moves","2rates","2moves","3rates","3moves"];
-	inputDataTypes=[inputData1rates,inputData1moves,inputData2rates,inputData2moves,inputData3rates,inputData3moves];
-	
-	for (var i = 0; i < Types.length; i++) {
-	    	var Type = Types[i];
-	   		inputDataType = inputDataTypes[i];
-	    
-			items = CentralBanksItem;
-			var dataInputGridFields = [
-				(Type.includes("rates"))?{ name: 'rates', type: 'string' }:(Type.includes("moves"))?{ name: 'moves', type: 'string'  }:null,
-			];
-			var totalFields = dataInputGridFields.length;
-			var widthPercentage = 100/totalFields;
-	
-			var dataInputGridColumns = [
-				(Type.includes("rates"))?{text: 'rates', datafield: 'rates', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
-				}:(Type.includes("moves"))?{text: 'moves', datafield: 'moves', width: widthPercentage + '%', cellsalign: 'center', align: 'center'
-				}:null,
-			];
+	          { text: 'FED Lower Move', datafield: 'fedLowerMove', width: '7.5%' },
+			  { text: 'FED Upper Move', datafield: 'fedUpperMove', width: '7.5%' },
+			  { text: 'FED Lower Rate', datafield: 'fedLowerRate', width: '7.5%' },
+			  { text: 'FED Upper Rate', datafield: 'fedUpperRate', width: '7.5%' },
 			
-		initiate(Type, inputDataType, items, dataInputGridFields, dataInputGridColumns, defaultData, fields, arrayOFcolumns);
-	  
-	}	
+			  { text: 'ECB Depo Move', datafield: 'ecbDepoMove', width: '7.5%' },
+			  { text: 'ECB Refi Move', datafield: 'ecbRefiMove', width: '7.5%' },
+			  { text: 'ECB Lending Move', datafield: 'ecbLendingMove', width: '7.5%' },
+			  { text: 'ECB Depo Rate', datafield: 'ecbDepoRate', width: '7.5%' },
+			  { text: 'ECB Refi Rate', datafield: 'ecbRefiRate', width: '7.5%' },
+			  { text: 'ECB Lending Rate', datafield: 'ecbLendingRate', width: '7.5%' },
+			
+			  { text: 'BOE Refi Move', datafield: 'boeRefiMove', width: '7.5%' },
+			  { text: 'BOE Base Rate', datafield: 'boeMonthlyBaseRate', width: '7.5%' }
+ ];
+ 
+Types = centralBankFields.map(x => x.id);
+inputDataTypes = centralBankFields.map(x => document.getElementById("data-input-" + x.id));
+
+for (var i = 0; i < Types.length; i++) {
+    var Type = Types[i];
+    var inputDataType = inputDataTypes[i];
+
+    var config = centralBankFields.find(x => x.id === Type);
+
+    var dataInputGridFields = [
+        { name: config.field, type: 'string' }
+    ];
+
+    var dataInputGridColumns = [
+        {
+            text: config.label,
+            datafield: config.field,
+            width: '100%',
+            cellsalign: 'center',
+            align: 'center'
+        }
+    ];
+
+    initiate(
+        Type,
+        inputDataType,
+        items,
+        dataInputGridFields,
+        dataInputGridColumns,
+        defaultData,
+        fields,
+        arrayOFcolumns
+    );
+}
+
 }
 	else
 		if (ratesValue == 2) {
@@ -1132,203 +1254,181 @@ $("#cancel" + ratesType).click(function() {
 	}
 	
 	$("#load" + ratesType).click(function() {
-		var date = new Date();
-		var dataToBeInserted = [];
-		var firstObject = ["1"];
-		var secondObject = ["2"];
-		var thirdObject = ["3"];
-		var fourthObject = ["4"];
-		var fifthObject = ["5"];
-		var sixObject = ["6"];
-		var listObject = [];
-		var groupId = null;
+    var date = new Date();
+    var dataToBeInserted = [];
+    var listObject = [];
+    var groupId = null;
 
-		var rows = $("#dataInputGrid" + ratesType).jqxGrid('getrows');
+    var rows = $("#dataInputGrid" + ratesType).jqxGrid('getrows');
 
-		for (i = 0; i < rows.length; i++) {
-			if (ratesValue == 1 || ratesValue == 2) {
-				for (var k = 0; k < dataInputGridFields.length; k++) {
-				var propertyName = dataInputGridFields[k].name;
+    for (i = 0; i < rows.length; i++) {
 
-				listObject.push([String(k + 1), rows[i][propertyName]]);
+        if (ratesValue == 1) {
+            for (var k = 0; k < dataInputGridFields.length; k++) {
+                var propertyName = dataInputGridFields[k].name;
 
-			   }
-			}  else
-					if (ratesValue == 3) {
-						firstObject.push(rows[i].usa30);
-					}else
-					if (ratesValue == 4) {
-						firstObject.push(rows[i].euribor1);
-						secondObject.push(rows[i].sonia1);
-						thirdObject.push(rows[i].libor1);
-						
-						fourthObject.push(rows[i].euribor3);
-						fifthObject.push(rows[i].sonia3);
-						sixObject.push(rows[i].libor3);
-					}
-		}
-		if (ratesValue == 1) {
-			groupId = 48;
-		} else if (ratesValue == 2) {
-			groupId = 49;
-		}
-		else if (ratesValue == 3) {
-			listObject = ["firstObject"];
-			groupId = 50;
-		}
-		else if (ratesValue == 4) {
-			listObject = ["firstObject", "secondObject", "thirdObject",'fourthObject','fifthObject','sixObject' ];
-			groupId = 51;
-		}
-		for (i = 0; i < listObject.length; i++) {
+                listObject.push([
+                    String(ratesType), // subgroup id 1 to 12
+                    rows[i][propertyName]
+                ]);
+            }
+        }
 
-			var value = eval(listObject[i]);
-			if (ratesValue == 1) {
-				var parsedDate = new Date($("#dateInput").jqxDateTimeInput('getDate'));
-				parsedDate.setDate(1);
-				var formattedDate = ("0" + parsedDate.getDate()).slice(-2) + '-' + ("0" + (parsedDate.getMonth() + 1)).slice(-2) + '-' + parsedDate.getFullYear();
-		
-		
-						var value = eval(listObject[i]);
-						
-						subgroupId= extractNumber(ratesType);
-						factorId=getFactorIdByName(ratesType)['factor'];
-						
-						dataToBeInserted.push({
-							"groupId": getGroupId(ratesValue) ,
-							"subgroupId": (subgroupId==4)?1:(subgroupId==5)?2:subgroupId,
-							"value": value[1].replaceAll(',', ''),
-							"factorId":factorId,
-							"referDate": (ratesValue == 1)?formattedDate: $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
-						});
-			}
-			else
-			dataToBeInserted.push({
-				"groupId": groupId+ '',
-				"subgroupId": value[0],
-				"value": value[1].replaceAll(',', ''),
-				"referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
-			});
-		}
+        else if (ratesValue == 2) {
+            for (var k = 0; k < dataInputGridFields.length; k++) {
+                var propertyName = dataInputGridFields[k].name;
 
-		if ($("#dateInput").jqxDateTimeInput('getDate') < date) {
-			var today = $("#dateInput").jqxDateTimeInput('getDate');
-			if(ratesValue!=1)
-				if (today.getDay() == 6 || today.getDay() == 0) {
-					$('#alert-modal-weekend').modal('show');
-					return;
-				}
-				
-	if(ratesValue==1)
-		checkifcanUrl = "/rates/checkifcansave/" + getGroupId(ratesValue)+"/"+dataToBeInserted[0].subgroupId+"/"+dataToBeInserted[0].factorId+"/";
-	
-			today = $.jqx.dataFormat.formatdate(today, 'dd-MM-yyyy')
-			$.ajax({
-				contentType: "application/json",
-				url: checkifcanUrl + today,
-				dataType: 'json',
+                listObject.push([
+                    String(k + 1),
+                    rows[i][propertyName]
+                ]);
+            }
+        }
 
-				async: true,
-				cache: false,
-				timeout: 600000,
-				success: function(response) {
-					if (!response) {
-						$.ajax({
-							contentType: "application/json",
-							url: "/process/isrobottriggered/9/" + groupId,
-							dataType: 'text',
-							async: true,
-							cache: false,
-							timeout: 600000,
-							success: function(data) {
+        else if (ratesValue == 3) {
+            listObject.push(["1", rows[i].usa30]);
+        }
 
-								if (data == 'true')
-									$('#alert-modal-robot').modal('show');
-								else {
+        else if (ratesValue == 4) {
+            listObject.push(["1", rows[i].euribor1]);
+            listObject.push(["2", rows[i].sonia1]);
+            listObject.push(["3", rows[i].libor1]);
+            listObject.push(["4", rows[i].euribor3]);
+            listObject.push(["5", rows[i].sonia3]);
+            listObject.push(["6", rows[i].libor3]);
+        }
+    }
 
+    if (ratesValue == 1) {
+        groupId = 48;
+    } else if (ratesValue == 2) {
+        groupId = 49;
+    } else if (ratesValue == 3) {
+        groupId = 50;
+    } else if (ratesValue == 4) {
+        groupId = 51;
+    }
 
-									$.ajax({
-										type: "POST",
-										contentType: "application/json",
-										url: saveUrl,
-										data: JSON.stringify(dataToBeInserted),
-										dataType: 'json',
-										async: false,
-										cache: false,
-										timeout: 600000,
-										success: function(data) {
+    for (i = 0; i < listObject.length; i++) {
+        var value = listObject[i];
 
+        dataToBeInserted.push({
+            "groupId": groupId + '',
+            "subgroupId": value[0],
+            "value": value[1].replaceAll(',', ''),
+            "referDate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+        });
+    }
 
-											getFilterData(ratesValue);
-											if (ratesValue == 1)
-												{
-													inputData1rates.value = "";
-													inputData1moves.value = "";
-													inputData2rates.value = "";
-													inputData2moves.value = "";
-													inputData3rates.value = "";
-													inputData3moves.value = "";
-												}
-											else if (ratesValue == 2)
-												{
-													inputDataInflationSwapRates.value = "";
-												}
-											else if (ratesValue == 3)
-													inputDataMortageRates.value = "";
-											else if (ratesValue == 4)
-													inputDataFixings.value = "";
-												
-											$("#dataformInput" + ratesType).css("display", "block");
-											$("#dataInputButtons" + ratesType).css("display", "none");
-											$("#dataInputGrid" + ratesType).css("display", "none");
+    if ($("#dateInput").jqxDateTimeInput('getDate') < date) {
+        var today = $("#dateInput").jqxDateTimeInput('getDate');
 
-											$('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
-											date = $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
+        if (ratesValue != 1) {
+            if (today.getDay() == 6 || today.getDay() == 0) {
+                $('#alert-modal-weekend').modal('show');
+                return;
+            }
+        }
 
-											filterDate = date;
-											delete auditGridSource.localdata;
-											auditGridSource.url = auditUrl + date;
-											dataAdapter = new $.jqx.dataAdapter(auditGridSource);
-											if(ratesValue==1)
-												$('#CentralBanksAuditGrid').jqxGrid({ source: dataAdapter });
-											else
-												$('#' + ratesType + 'AuditGrid').jqxGrid({ source: dataAdapter });
+        if (ratesValue == 1) {
+            checkifcanUrl = "/rates/checkifcansave/" + getGroupId(ratesValue) + "/" + dataToBeInserted[0].subgroupId + "/";
+        }
 
-											triggerRobots();
+        today = $.jqx.dataFormat.formatdate(today, 'dd-MM-yyyy');
 
-										},
-										error: function(e) {
+        $.ajax({
+            contentType: "application/json",
+            url: checkifcanUrl + today,
+            dataType: 'json',
+            async: true,
+            cache: false,
+            timeout: 600000,
+            success: function(response) {
+                if (!response) {
+                    $.ajax({
+                        contentType: "application/json",
+                        url: "/process/isrobottriggered/9/" + groupId,
+                        dataType: 'text',
+                        async: true,
+                        cache: false,
+                        timeout: 600000,
+                        success: function(data) {
 
-											console.log("ERROR : ", e);
+                            if (data == 'true') {
+                                $('#alert-modal-robot').modal('show');
+                            } else {
 
-										}
-									});
-								}
+                                $.ajax({
+                                    type: "POST",
+                                    contentType: "application/json",
+                                    url: saveUrl,
+                                    data: JSON.stringify(dataToBeInserted),
+                                    dataType: 'json',
+                                    async: false,
+                                    cache: false,
+                                    timeout: 600000,
+                                    success: function(data) {
 
-							},
-							error: function(e) {
+                                        getFilterData(ratesValue);
 
-								console.log("ERROR : ", e);
+                                        if (ratesValue == 1) {
+                                            for (let i = 1; i <= 12; i++) {
+                                                const input = document.getElementById("data-input-" + i);
+                                                if (input) {
+                                                    input.value = "";
+                                                }
+                                            }
+                                        } else if (ratesValue == 2) {
+                                            inputDataInflationSwapRates.value = "";
+                                        } else if (ratesValue == 3) {
+                                            inputDataMortageRates.value = "";
+                                        } else if (ratesValue == 4) {
+                                            inputDataFixings.value = "";
+                                        }
 
-							}
-						});
+                                        $("#dataformInput" + ratesType).css("display", "block");
+                                        $("#dataInputButtons" + ratesType).css("display", "none");
+                                        $("#dataInputGrid" + ratesType).css("display", "none");
 
-					}
-					else {
-						$('#alert-modal').modal('show');
-					}
-				},
-				error: function(e) {
+                                        $('#dateInputAudit').jqxDateTimeInput('setDate', $("#dateInput").jqxDateTimeInput('getDate'));
+                                        date = $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy');
 
-					console.log("ERROR : ", e);
+                                        filterDate = date;
+                                        delete auditGridSource.localdata;
+                                        auditGridSource.url = auditUrl + date;
+                                        dataAdapter = new $.jqx.dataAdapter(auditGridSource);
 
-				}
-			});
-		}
-		else {
-			$('#alertDate-modal').modal('show');
-		}
-	});
+                                        if (ratesValue == 1) {
+                                            $('#CentralBanksAuditGrid').jqxGrid({ source: dataAdapter });
+                                        } else {
+                                            $('#' + ratesType + 'AuditGrid').jqxGrid({ source: dataAdapter });
+                                        }
+
+                                        triggerRobots();
+                                    },
+                                    error: function(e) {
+                                        console.log("ERROR : ", e);
+                                    }
+                                });
+                            }
+                        },
+                        error: function(e) {
+                            console.log("ERROR : ", e);
+                        }
+                    });
+
+                } else {
+                    $('#alert-modal').modal('show');
+                }
+            },
+            error: function(e) {
+                console.log("ERROR : ", e);
+            }
+        });
+    } else {
+        $('#alertDate-modal').modal('show');
+    }
+});
 	
 }
 function extractNumber(type) {
