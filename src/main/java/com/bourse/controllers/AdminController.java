@@ -126,7 +126,10 @@ public class AdminController {
     public  ResponseEntity<List<ColumnConfiguration>>  getColumnsConfiguration(){
 		return new ResponseEntity<>( adminService.getColumnsConfiguration(), HttpStatus.OK);
     }
-	
+	@GetMapping(value = "getcolumnsconfiguration/{groupId}", produces = "application/json;charset=UTF-8")
+    public  ResponseEntity<List<ColumnConfiguration>>  getColumnsConfiguration(@PathVariable String groupId){
+		return new ResponseEntity<>( adminService.getColumnsConfigurationByGroupId(groupId), HttpStatus.OK);
+    }
 	
 	@GetMapping(value = "getcolumnsconfigurationBygroupandsubgroup/{groupId}/{subgroupId}", produces = "application/json;charset=UTF-8")
     public  ResponseEntity<List<ColumnConfiguration>>  getColumnsconfigurationByGroupAndSubgroup(@PathVariable String groupId

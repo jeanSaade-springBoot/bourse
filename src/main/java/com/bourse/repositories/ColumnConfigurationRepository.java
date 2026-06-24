@@ -93,4 +93,6 @@ public interface ColumnConfigurationRepository extends JpaRepository<ColumnConfi
 	ColumnConfiguration findByGroupIdAndSubgroupIdAndFactor(String groupIdByName, String country, String factor);
 
 	ColumnConfiguration findByDescriptionAndGroupId(String description, String groupId);
+	
+	List<ColumnConfiguration> findByGroupIdAndCalculationType(String groupId, String calculationType);
 }

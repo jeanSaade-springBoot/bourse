@@ -69,7 +69,8 @@ var familysource =
 	                 groupItem = event.args.item;
 	                 $("#excelFormat").empty();
 	                 $("#excelFormat").append('<img height="154px" src="'+getImagePath(groupItem.value)+'" />');
-	                 
+	                
+	                  loadUpdateColumns(groupItem.value);
 	              }
 	              	
 	          });
@@ -130,6 +131,23 @@ var familysource =
   			  const groupId = $("#groupDropDown").val();
   			  formData.append("groupId", groupId);
   			  
+  			 const operation = $("input[name='batchOperation']:checked").val();
+				formData.append("operation", operation);
+				
+				const selectedSubgroupIds = $(".update-column:checked").map(function () {
+				    return this.value;
+				}).get();
+				
+				formData.append("selectedSubgroupIds", selectedSubgroupIds.join(","));
+				
+				if (operation === "UPDATE" && selectedSubgroupIds.length === 0) {
+				    $("#result").css("color","black");
+				    $("#result").css("background","red");
+				    $("#result").css("margin-top","1rem");
+				    $("#result").html("Please select at least one column to update");
+				    return;
+				}
+				
   			  if (typeof file != 'undefined')
 					  $.ajax({
 					    url: "/db/read",
@@ -160,7 +178,7 @@ var familysource =
 							$("#result").append(error.responseJSON.message);
 							setTimeout(function() {
 								    $("#result").empty();
-								}, 3000);
+								}, 5000);
 					    }
 					  });
 					  else {
@@ -171,7 +189,12 @@ var familysource =
 							
 					  }
 			});
-	        
+			
+	       $("input[name='batchOperation']").change(function () {
+			    toggleColumnSelection();
+			});
+			
+			
    });
    
    $(window).on('load', function(){
@@ -179,6 +202,60 @@ var familysource =
 	  $('#nav-column-master').show();
   });
   
+ function toggleColumnSelection() {
+    const operation = $("input[name='batchOperation']:checked").val();
+
+    if (operation === "UPDATE" && $(".update-column").length > 0) {
+        $("#updateColumnsContainer").show();
+    } else {
+        $("#updateColumnsContainer").hide();
+        $(".update-column").prop("checked", false);
+    }
+}
+function loadUpdateColumns(groupId) {
+    $("#updateColumnsContainer").empty().hide();
+
+    $.get("/admin/getcolumnsconfiguration/" + groupId, function (columns) {
+
+        columns = columns.filter(function (col) {
+            return col.calculationType === "INPUT";
+        });
+
+        if (columns.length === 0) {
+            return;
+        }
+
+        let html = `
+            <label class="t-style">Select Columns to Update</label>
+            <div class="row">
+        `;
+
+        columns.forEach(function (col) {
+            html += `
+                <div class="col-3 mb-2">
+                    <label>
+                        <input type="checkbox"
+                               class="update-column"
+                               value="${col.subgroupId}"
+                               data-column-name="${col.columnName}"
+                               data-description="${col.displayDescription}">
+                        ${col.displayDescription}
+                    </label>
+                </div>
+            `;
+        });
+
+        html += `
+            </div>
+
+            
+        `;
+
+        $("#updateColumnsContainer").html(html);
+
+        toggleColumnSelection();
+    });
+}
   function getImagePath(groupId)
   {
 	 var imagePath='';	

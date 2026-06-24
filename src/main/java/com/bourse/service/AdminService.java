@@ -83,6 +83,10 @@ public class AdminService
 	{      
         return columnConfigurationRepository.findAll();
 	}
+	public List<ColumnConfiguration> getColumnsConfigurationByGroupId(String groupId)
+	{      
+        return columnConfigurationRepository.findByGroupIdAndCalculationType(groupId,"INPUT");
+	}
 	
 	public List<ColumnConfiguration> getColumnsConfigurationByGroupAndSubgroup(String groupId,String subgroupId)
 	{      

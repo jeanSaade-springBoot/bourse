@@ -1,6 +1,8 @@
 package com.bourse.readExcelWriteDB.service;
 
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
@@ -33,6 +35,8 @@ import com.bourse.domain.ShatzOptionsVolume;
 import com.bourse.domain.SubGroup;
 import com.bourse.domain.TransportationData;
 import com.bourse.domain.cryptos.CryptosData;
+import com.bourse.domain.liquidity.EcbBalanceSheetLiquidity;
+import com.bourse.domain.liquidity.FedLiquidity;
 import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.rates.RatesData;
@@ -66,6 +70,8 @@ import com.bourse.service.PerciousMetalsService;
 import com.bourse.service.ShatzOptionsVolumeService;
 import com.bourse.service.TransportationService;
 import com.bourse.service.cryptos.CryptosService;
+import com.bourse.service.liquidity.EcbBalanceSheetService;
+import com.bourse.service.liquidity.FedLiquidityService;
 import com.bourse.service.longEnds.LongEndsService;
 import com.bourse.service.macro.MacroService;
 import com.bourse.service.rates.RatesService;
@@ -106,7 +112,11 @@ public class ReadExcelWriteDBService {
 	@Autowired
 	EcbQeLiquidityService ecbQeLiquidityService;
 	@Autowired
+	EcbBalanceSheetService ecbBalanceSheetService;
+	@Autowired
 	EzMonetaryMassLiquidityService ezMonetaryMassLiquidityService;
+	@Autowired
+	FedLiquidityService fedLiquidityService;
 	@Autowired
 	BundOptionsVolumeService bundOptionsVolumeService;
 	@Autowired
@@ -141,7 +151,17 @@ public class ReadExcelWriteDBService {
 	private EntityManager entityManager;
 
 	private static final Logger logger = LoggerFactory.getLogger(ReadExcelWriteDBService.class);
+	
+	private boolean shouldProcessSubgroup(
+	        ReadExcelWriteDBDTO dto,
+	        Long subgroupId) {
 
+	    if (!dto.isUpdateOperation()) {
+	        return true;
+	    }
+
+	    return dto.getSelectedSubgroupIdSet().contains(subgroupId);
+	}
 	private <T> List<T> processSubgroups(ReadExcelWriteDBDTO dto, List<String> subgroups, int groupId,
 			boolean useSubgroupEnum, BiPredicate<String, Long> existsCheck, BiFunction<DataDTO, Long, T> entityBuilder,
 			Consumer<List<T>> saveFunction, TriConsumer<DataDTO, Long, String> updateFunction) {
@@ -151,7 +171,10 @@ public class ReadExcelWriteDBService {
 		for (String subGroupId : subgroups) {
 
 			Long subgroupIdLong = Long.valueOf(subGroupId);
-
+			
+			if (!shouldProcessSubgroup(dto, subgroupIdLong)) {
+		        continue;
+		    }
 			List<T> batchList = new ArrayList<>();
 
 			String excelColumn = useSubgroupEnum
@@ -162,21 +185,36 @@ public class ReadExcelWriteDBService {
 
 			for (DataDTO data : rowData) {
 
-				if (existsCheck.test(data.getDate(), subgroupIdLong)) {
+			    boolean exists = existsCheck.test(data.getDate(), subgroupIdLong);
 
-					updateFunction.accept(data, subgroupIdLong, data.getValue());
+			    if (exists) {
 
-					T updatedEntity = entityBuilder.apply(data, subgroupIdLong);
+			        if (dto.isUpdateOperation()) {
+			            updateFunction.accept(data, subgroupIdLong, data.getValue());
 
-					allData.add(updatedEntity);
+			            T updatedEntity = entityBuilder.apply(data, subgroupIdLong);
+			            allData.add(updatedEntity);
 
-					continue;
-				}
+			            continue;
+			        }
 
-				T entity = entityBuilder.apply(data, subgroupIdLong);
+			        throw new RuntimeException(
+			            "Data already exists for the selected date " + data.getDate() +
+			            ". Please use 'Update Existing Data' to modify existing records."
+			        );
+			    }
 
-				batchList.add(entity);
-				allData.add(entity);
+			    if (dto.isUpdateOperation()) {
+			        throw new RuntimeException(
+			            "No existing data found for the selected date " + data.getDate() +
+			            ". Please use 'Insert New Data' to add new records."
+			        );
+			    }
+
+			    T entity = entityBuilder.apply(data, subgroupIdLong);
+
+			    batchList.add(entity);
+			    allData.add(entity);
 			}
 
 			if (!batchList.isEmpty()) {
@@ -197,40 +235,60 @@ public class ReadExcelWriteDBService {
 
 		List<T> allData = new ArrayList<>();
 
-		int i = 0;
 
-		for (String subGroupId : subgroups) {
 
+		for (int i = 0; i < subgroups.size(); i++) {
+			
+			String subGroupId = subgroups.get(i);
 			Long subgroupIdLong = Long.valueOf(subgroupOrder[i]);
-
+			if (!shouldProcessSubgroup(dto, subgroupIdLong)) {
+		        continue;
+		    }
 			List<T> batchList = new ArrayList<>();
 
 			List<DataDTO> rowData = ReadExcelWriteDBUtil.readExcelFileWithString(dto.getFile(), "0", subGroupId, valueIsDate);
 
 			for (DataDTO data : rowData) {
 
-				if (existsCheck.test(data.getDate(), subgroupIdLong)) {
+			    boolean exists = existsCheck.test(data.getDate(), subgroupIdLong);
 
-					updateFunction.accept(data, subgroupIdLong, data.getValue());
+			    if (exists) {
 
-					T updatedEntity = entityBuilder.apply(data, subgroupIdLong);
+			        if (dto.isUpdateOperation()) {
 
-					allData.add(updatedEntity);
+			            updateFunction.accept(data, subgroupIdLong, data.getValue());
 
-					continue;
-				}
+			            T updatedEntity = entityBuilder.apply(data, subgroupIdLong);
+			            allData.add(updatedEntity);
 
-				T entity = entityBuilder.apply(data, subgroupIdLong);
+			            continue;
+			        }
 
-				batchList.add(entity);
-				allData.add(entity);
+			        throw new RuntimeException(
+			            "Data already exists for the selected date " + data.getDate() +
+			            ". Please use 'Update Existing Data' to modify existing records."
+			        );
+			    }
+
+			    if (dto.isUpdateOperation()) {
+
+			        throw new RuntimeException(
+			            "No existing data found for the selected date " + data.getDate() +
+			            ". Please use 'Insert New Data' to add new records."
+			        );
+			    }
+
+			    T entity = entityBuilder.apply(data, subgroupIdLong);
+
+			    batchList.add(entity);
+			    allData.add(entity);
 			}
 
 			if (!batchList.isEmpty()) {
 				saveFunction.accept(batchList);
 			}
 
-			i++;
+			
 		}
 
 		return allData;
@@ -347,13 +405,20 @@ public class ReadExcelWriteDBService {
 
 			if (!previewData.isEmpty()) {
 
-				String startDate = previewData.get(0).getDate();
+			    String startDate = previewData.get(0).getDate();
+			    String endDate = previewData.get(previewData.size() - 1).getDate();
 
-				String endDate = previewData.get(previewData.size() - 1).getDate();
+			    LocalDate start = LocalDate.parse(startDate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
+			    LocalDate end = LocalDate.parse(endDate, DateTimeFormatter.ofPattern("dd-MM-yyyy"));
 
-				existingKeys = perciousMetalsService.getExistingKeys(startDate, endDate);
+			    if (start.isAfter(end)) {
+			        String temp = startDate;
+			        startDate = endDate;
+			        endDate = temp;
+			    }
 
-			} else {
+			    existingKeys = perciousMetalsService.getExistingKeys(startDate, endDate);
+			}else {
 
 				existingKeys = new HashSet<>();
 			}
@@ -1695,7 +1760,69 @@ public class ReadExcelWriteDBService {
 
 				logger.info("List is empty.");
 			}
-		}
+		}else if (readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("83")) {
+
+			List<FedLiquidity> fedLiquidityList = processSubgroups(
+
+					readExcelWriteDBDTO,
+
+					Arrays.asList("1"),
+
+					83, false, (date, subgroupId) -> fedLiquidityService.CheckIfCanSave(date, subgroupId),
+
+					(data, subgroupId) -> FedLiquidity.builder().referDate(data.getDate()).subgroupId(subgroupId)
+							.value(data.getValue() == null ? "" : data.getValue()).build(),
+
+					batch -> fedLiquidityService.SaveFedLiquidityData(batch),
+					(data, subgroupId, value) -> fedLiquidityService.updateValue(data.getDate(), subgroupId, value));
+
+			if (!fedLiquidityList.isEmpty()) {
+
+				entityManager.flush();
+
+				String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(fedLiquidityList, "referDate");
+
+				logger.info("Minimum Date: {}", minMaxDates[0]);
+				logger.info("Maximum Date: {}", minMaxDates[1]);
+
+				fedLiquidityService.doCalculationLoader(minMaxDates[0], minMaxDates[1]);
+
+			} else {
+
+				logger.info("List is empty.");
+			}
+		} else if (readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("84")) {
+
+			List<EcbBalanceSheetLiquidity> ecbBalanceSheetList = processSubgroups(
+
+					readExcelWriteDBDTO,
+
+					Arrays.asList("1"),
+
+					84, false, (date, subgroupId) -> ecbBalanceSheetService.CheckIfCanSave(date, subgroupId),
+
+					(data, subgroupId) -> EcbBalanceSheetLiquidity.builder().referDate(data.getDate()).subgroupId(subgroupId)
+							.value(data.getValue() == null ? "" : data.getValue()).build(),
+
+					batch -> ecbBalanceSheetService.SaveEcbBalanceSheetData(batch),
+					(data, subgroupId, value) -> ecbBalanceSheetService.updateValue(data.getDate(), subgroupId, value));
+
+			if (!ecbBalanceSheetList.isEmpty()) {
+
+				entityManager.flush();
+
+				String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(ecbBalanceSheetList, "referDate");
+
+				logger.info("Minimum Date: {}", minMaxDates[0]);
+				logger.info("Maximum Date: {}", minMaxDates[1]);
+
+				ecbBalanceSheetService.doCalculationLoader(minMaxDates[0], minMaxDates[1]);
+
+			} else {
+
+				logger.info("List is empty.");
+			}
+		} 
 	}
 
 }

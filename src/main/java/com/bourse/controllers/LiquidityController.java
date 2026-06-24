@@ -21,6 +21,10 @@ import com.bourse.domain.TmpAuditCorporateLiquidityPremia;
 import com.bourse.domain.TmpAuditEcbExcessLiquidity;
 import com.bourse.domain.TmpAuditEcbQeLiquidity;
 import com.bourse.domain.TmpAuditEzMonetaryMassLiquidity;
+import com.bourse.domain.liquidity.EcbBalanceSheetLiquidity;
+import com.bourse.domain.liquidity.FedLiquidity;
+import com.bourse.domain.liquidity.TmpAuditEcbBalanceSheetLiquidity;
+import com.bourse.domain.liquidity.TmpAuditFedLiquidity;
 import com.bourse.dto.GenericDataFunctionReqDTO;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
@@ -33,6 +37,8 @@ import com.bourse.service.EcbExcessLiquidityService;
 import com.bourse.service.EcbQeLiquidityService;
 import com.bourse.service.EzMonetaryMassLiquidityService;
 import com.bourse.service.LiquidityService;
+import com.bourse.service.liquidity.EcbBalanceSheetService;
+import com.bourse.service.liquidity.FedLiquidityService;
 
 @RestController
 @RequestMapping(value = "liquidity")
@@ -49,6 +55,10 @@ public class LiquidityController {
 	@Autowired
 	private final EzMonetaryMassLiquidityService ezMonetaryMassLiquidityService;
 	@Autowired
+	private final FedLiquidityService fedLiquidityService;
+	@Autowired
+	private final EcbBalanceSheetService ecbBalanceSheetService;
+	@Autowired
 	private final CorporatesYieldsService corporatesYieldsService;
 	public LiquidityController(
 			DataFunctionService dataFunctionService,
@@ -56,7 +66,9 @@ public class LiquidityController {
 			EcbExcessLiquidityService ecbExcessLiquidityService,
 			EcbQeLiquidityService ecbQeLiquidityService,
 			EzMonetaryMassLiquidityService ezMonetaryMassLiquidityService,
-			CorporatesYieldsService corporatesYieldsService)
+			CorporatesYieldsService corporatesYieldsService,
+			FedLiquidityService fedLiquidityService,
+			EcbBalanceSheetService ecbBalanceSheetService)
 	{
 		this.dataFunctionService = dataFunctionService;
 		this.liquidityService = liquidityService;
@@ -64,6 +76,8 @@ public class LiquidityController {
 		this.ecbQeLiquidityService = ecbQeLiquidityService;
 		this.ezMonetaryMassLiquidityService=ezMonetaryMassLiquidityService;
 		this.corporatesYieldsService = corporatesYieldsService;
+		this.fedLiquidityService = fedLiquidityService;
+		this.ecbBalanceSheetService = ecbBalanceSheetService;
 	}
 	@PostMapping(value = "getgriddata")
 	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody MainSearchFilterDTO mainSearchFilterDTO) {
@@ -94,6 +108,18 @@ public class LiquidityController {
 		ezMonetaryMassLiquidityService.doCalculation(ecbQeLiquidityDatalst.get(0).getReferDate());
 	   return ecbQeLiquidityDatalst;
     }
+	@PostMapping(value = "savefedliquidity")
+    public List<FedLiquidity> saveFedLiquidity(@RequestBody List<FedLiquidity> FedLiquidityList){
+		List<FedLiquidity> Datalst= fedLiquidityService.SaveFedLiquidityData(FedLiquidityList);
+		fedLiquidityService.doCalculation(Datalst.get(0).getReferDate());
+	   return Datalst;
+    }
+	@PostMapping(value = "saveecbbalancesheet")
+    public List<EcbBalanceSheetLiquidity> saveEcbBalanceSheet(@RequestBody List<EcbBalanceSheetLiquidity> EcbBalanceSheetLiquidityList){
+		List<EcbBalanceSheetLiquidity> Datalst= ecbBalanceSheetService.SaveEcbBalanceSheetData(EcbBalanceSheetLiquidityList);
+		ecbBalanceSheetService.doCalculation(Datalst.get(0).getReferDate());
+	   return Datalst;
+    }
 	@GetMapping(value = "getecbexcessdata/{referDate}")
 	public ResponseEntity<List<TmpAuditEcbExcessLiquidity>> getAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(ecbExcessLiquidityService.getAuditData(referDate),HttpStatus.OK);
@@ -105,6 +131,14 @@ public class LiquidityController {
 	@GetMapping(value = "getezmmdata/{referDate}")
 	public ResponseEntity<List<TmpAuditEzMonetaryMassLiquidity>> getEzMonetaryMassAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(ezMonetaryMassLiquidityService.getAuditData(referDate),HttpStatus.OK);
+	}
+	@GetMapping(value = "getfedliquidity/{referDate}")
+	public ResponseEntity<List<TmpAuditFedLiquidity>> getFedLiquidityAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(fedLiquidityService.getAuditData(referDate),HttpStatus.OK);
+	}
+	@GetMapping(value = "getecbbalancesheet/{referDate}")
+	public ResponseEntity<List<TmpAuditEcbBalanceSheetLiquidity>> getEcbBalanceSheet(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(ecbBalanceSheetService.getAuditData(referDate),HttpStatus.OK);
 	}
 	@GetMapping(value = "getcorporatedata/{referDate}")
 	public ResponseEntity<List<TmpAuditCorporateLiquidityPremia>> getCorporateLiquidityPremiaAuditData(@PathVariable("referDate") String referDate) {
@@ -119,6 +153,11 @@ public class LiquidityController {
 			 checkifcanSave= ecbQeLiquidityService.CheckIfCanSave(referDate);
 		else if (liquidity.equalsIgnoreCase("3"))
 			 checkifcanSave= ezMonetaryMassLiquidityService.CheckIfCanSave(referDate);
+		else if (liquidity.equalsIgnoreCase("5"))
+			 checkifcanSave= fedLiquidityService.CheckIfCanSave(referDate);
+		else if (liquidity.equalsIgnoreCase("6"))
+			 checkifcanSave= ecbBalanceSheetService.CheckIfCanSave(referDate);
+		
 		return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
 	@GetMapping(value = "getlatest/{liquidity}", produces = "application/json;charset=UTF-8")
@@ -132,6 +171,10 @@ public class LiquidityController {
 				value = ezMonetaryMassLiquidityService.findLatestEzmmLiquidityData();
 			else if (liquidity.equalsIgnoreCase("4"))
 				value = corporatesYieldsService.findLatestCorporateData();
+			else if (liquidity.equalsIgnoreCase("5"))
+				value = fedLiquidityService.findLatestFedLiquidityData();
+			else if (liquidity.equalsIgnoreCase("6"))
+				value = ecbBalanceSheetService.findLatestEcbBalanceSheetData();
 		return new ResponseEntity<>(value, HttpStatus.OK);
     }
 	@DeleteMapping(value = "deletebyreferdate/{liquidity}/{referDate}")
@@ -142,6 +185,10 @@ public class LiquidityController {
 			ecbQeLiquidityService.deleteecbQeLiquidityByReferDate(referDate);
 		else if (liquidity.equalsIgnoreCase("3"))
 			ezMonetaryMassLiquidityService.deleteEzmmLiquidityByReferDate(referDate);
+		else if (liquidity.equalsIgnoreCase("5"))
+			fedLiquidityService.deleteFedLiquidityByReferDate(referDate);
+		else if (liquidity.equalsIgnoreCase("6"))
+			ecbBalanceSheetService.deleteEcbBalanceSheetByReferDate(referDate);
 	return new ResponseEntity<>(HttpStatus.OK);
 	}
 	@PostMapping(value = "updateecbexcessdata")
@@ -165,6 +212,20 @@ public class LiquidityController {
 	{
 		ezMonetaryMassLiquidityService.updateEzmmLiquidityData(updateDataDTOlst);
 		ezMonetaryMassLiquidityService.doCalculation();
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "updatefedliquidity")
+	public ResponseEntity<Boolean> updateFedLiquidity(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{
+		fedLiquidityService.updateFedLiquidityData(updateDataDTOlst);
+		fedLiquidityService.doCalculation(updateDataDTOlst.get(0).getReferdate());
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "updateecbbalancesheet")
+	public ResponseEntity<Boolean> updateEcbBalanceSheet(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{
+		ecbBalanceSheetService.updateEcbBalanceSheetData(updateDataDTOlst);
+		ecbBalanceSheetService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 }
