@@ -36,14 +36,23 @@ $(document).ready(function() {
 });
 
 function drawGraph() {
-
-	getGraphUsJobData(graphService,graphName,removeEmpty,true);
+	
+	renderFunction(groupId)
 }
 
- 
+
+  function renderFunction(groupId) {
+	 
+	var isChecked = $("#jqxCheckBoxCurrentfinal-79").is(":checked");
+ 		if(isChecked)
+ 			currentUsJobsFunction(groupId);
+ 		else 
+ 			getGraphUsJobData(graphService,graphName,removeEmpty,true);
+ 		
+ }
  function redirectFunction(groupId) {
 	var isChecked = $("#jqxCheckBoxCurrentfinal-79").is(":checked");
-       $("#reset").click();
+ 
  		if(isChecked)
  			currentUsJobsFunction(groupId)
  		else 

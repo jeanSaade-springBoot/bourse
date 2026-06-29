@@ -148,7 +148,9 @@
 				"#jqxCheckBoxM0",
 				"#jqxCheckBoxM1",
 				"#jqxCheckBoxM2",
-				"#jqxCheckBoxM3"
+				"#jqxCheckBoxM3",
+				"#jqxCheckBoxFed_liquidity",
+				"#jqxCheckBoxEcb_balance_sheet"
      			   ];
 
 	}else if (serieValue === 4) {

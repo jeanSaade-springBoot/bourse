@@ -1100,6 +1100,16 @@ public class BourseController {
 
 		return new ModelAndView("html/ezmmLiquidity");
 	}
+	@PreAuthorize("hasAuthority('ECB_BALANCE_SHEET_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/ecbbalncesheet")
+	public ModelAndView ecbBalanceSheetPage(ModelMap model, Authentication authentication) {
+		model.addAttribute("mainmenu", "html/templates/mainMenu");
+		model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		model.addAttribute("chartNav", "html/fragment/chart-nav");
+		model.addAttribute("chartOption", "html/graph/chartOption");
+
+		return new ModelAndView("html/liquidity/ecbBalanceSheet");
+	}
 
 	@PreAuthorize("hasAuthority('USERS_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping(value = "/users")

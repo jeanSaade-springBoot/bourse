@@ -35,18 +35,31 @@ $(document).ready(function() {
 
 function drawGraph() {
 	
-	getGraphUsJobData(graphService,graphName,removeEmpty,true);
+	renderFunction(groupId)
 }
 
+ function renderFunction(groupId) {
+	 
+	var isChecked = $("#jqxCheckBoxCurrentfinal-78").is(":checked");
+ 		if(isChecked)
+ 			currentUsJobsFunction(groupId);
+ 		else 
+ 			getGraphUsJobData(graphService,graphName,removeEmpty,true);
+ 		
+ }
  
  function redirectFunction(groupId) {
+	 
 	var isChecked = $("#jqxCheckBoxCurrentfinal-78").is(":checked");
-       $("#reset").click();
+ 
  		if(isChecked)
- 			currentUsJobsFunction(groupId)
+ 			{
+ 			 enableDisableDropDowns(false);
+				 currentUsJobsFunction(groupId);
+ 			 }
  		else 
  			{
- 			drawGraph();
+ 			getGraphUsJobData(graphService,graphName,removeEmpty,true);
  			}
  		
  }

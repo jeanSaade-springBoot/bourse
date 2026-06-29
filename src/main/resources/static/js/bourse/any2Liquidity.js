@@ -52,7 +52,9 @@ var allitems = ["#jqxCheckBoxavgUsatoaaaUsa",
 	"#jqxCheckBoxM0",
 	"#jqxCheckBoxM1",
 	"#jqxCheckBoxM2",
-	"#jqxCheckBoxM3"
+	"#jqxCheckBoxM3",
+	"#jqxCheckBoxFed_liquidity",
+	"#jqxCheckBoxEcb_balance_sheet"
 ];
 
 var fromHistory = false;
@@ -727,6 +729,68 @@ $(document).ready(function() {
 			checkedItem = checkedItem - 1;
 			for (i = 0; i < checkedItemid.length; i++) {
 				if (checkedItemid[i] == "#jqxCheckBoxM3")
+					delete checkedItemid[i];
+			}
+		}
+		if (checkedItem >= 2) {
+			for (i = 0; i < allitems.length; i++) {
+				$(allitems[i]).jqxCheckBox({ disabled: true });
+			}
+
+			for (i = 0; i < checkedItemid.length; i++) {
+				if (checkedItemid[i] != null)
+					$(checkedItemid[i]).jqxCheckBox({ disabled: false });
+			}
+
+		}
+		else {
+			for (i = 0; i < allitems.length; i++) {
+				$(allitems[i]).jqxCheckBox({ disabled: false });
+			}
+		}
+	});
+	
+	$('#jqxCheckBoxFed_liquidity').on('change', function(event) {
+		var checked = event.args.checked;
+		if (checked) {
+			checkedItem = checkedItem + 1;
+			checkedItemid.push("#jqxCheckBoxFed_liquidity");
+		}
+		else {
+			checkedItem = checkedItem - 1;
+			for (i = 0; i < checkedItemid.length; i++) {
+				if (checkedItemid[i] == "#jqxCheckBoxFed_liquidity")
+					delete checkedItemid[i];
+			}
+		}
+		if (checkedItem >= 2) {
+			for (i = 0; i < allitems.length; i++) {
+				$(allitems[i]).jqxCheckBox({ disabled: true });
+			}
+
+			for (i = 0; i < checkedItemid.length; i++) {
+				if (checkedItemid[i] != null)
+					$(checkedItemid[i]).jqxCheckBox({ disabled: false });
+			}
+
+		}
+		else {
+			for (i = 0; i < allitems.length; i++) {
+				$(allitems[i]).jqxCheckBox({ disabled: false });
+			}
+		}
+	});
+	
+	$('#jqxCheckBoxEcb_balance_sheet').on('change', function(event) {
+		var checked = event.args.checked;
+		if (checked) {
+			checkedItem = checkedItem + 1;
+			checkedItemid.push("#jqxCheckBoxEcb_balance_sheet");
+		}
+		else {
+			checkedItem = checkedItem - 1;
+			for (i = 0; i < checkedItemid.length; i++) {
+				if (checkedItemid[i] == "#jqxCheckBoxEcb_balance_sheet")
 					delete checkedItemid[i];
 			}
 		}

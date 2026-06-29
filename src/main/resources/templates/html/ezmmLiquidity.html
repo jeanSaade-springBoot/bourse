@@ -75,8 +75,10 @@
 				      <a sec:authorize="hasAuthority('ECBEXCESS_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbexcessliquidity-tab"  href="/bourse/ecbexcessliquidity" role="tab" aria-controls="nav-ecbexcessliquidity" aria-selected="false">Ecb Excess Liquidity</a>
 					  <a sec:authorize="hasAuthority('ECBQE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbqeliquidity-tab"  href="/bourse/ecbqeliquidity" role="tab" aria-controls="nav-ecbqeliquidity" aria-selected="false">ECB QE Operations</a>
 					  <a sec:authorize="hasAuthority('ECB_IMPACT_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbimpactliquidity-tab"  href="/bourse/ecbimpactliquidity" role="tab" aria-controls="nav-ecbImpactliquidity" aria-selected="false">ECB Impact</a>
-					  <a sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-ezmmliquidity-tab"  href="/bourse/ezmmliquidity" role="tab" aria-controls="nav-ezmmliquidity" aria-selected="false">Eurozone Monetary Mass</a>
+					  <a sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-ezmmliquidity-tab"  href="/bourse/ezmmliquidity" role="tab" aria-controls="nav-ezmmliquidity" aria-selected="false">Monetary Mass</a>
 					  <a sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-corporateliquidity-tab"  href="/bourse/corporateliquidity" role="tab" aria-controls="nav-corporateliquidity" aria-selected="false">Corporate Liquidity</a>
+					  <a sec:authorize="hasAuthority('ECB_BALANCE_SHEET_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbBalanceSheet-tab"  href="/bourse/ecbbalncesheet" role="tab" aria-controls="nav-ecbBalanceSheet" aria-selected="false">ECB Balance Sheet</a>
+				
 				  </div>
 				</nav>
            
@@ -126,6 +128,19 @@
 							              	   <div id='jqxCheckBoxM3' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">M3</span></div>
 							              </div>
 							            </div>
+							           </div>
+						            </div>
+						             <div class="col-4 pl-0 d-flex">
+						               <div class="col-4">
+						               	<img alt="fed-liquidity" src="/img/flag/fed.png" height="100px">
+						               </div>
+							           <div class="col-6">
+							            <div class="pt-2">
+							               <div class="pt-1">
+							                  	<div id='jqxCheckBoxFed_liquidity' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">FED Liquidity</span></div>
+							            </div>
+							             </div>
+							             
 							           </div>
 						            </div>
                      </div>

@@ -384,6 +384,12 @@ function loadUpdateColumns(groupId) {
 	  case 81:
 	   imagePath='/css/images/format/usjobs_houseHoldSurv_format.png' 
 	     break;     
+	  case 83:
+	   imagePath='/css/images/format/fed_liquidity_format.png' 
+	     break;     
+	  case 84:
+	   imagePath='/css/images/format/ecb_balance_sheet_format.png' 
+	     break;     
 	}
 return imagePath;
   }

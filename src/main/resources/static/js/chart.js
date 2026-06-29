@@ -3362,7 +3362,7 @@ function initializeFunctions(groupId, loadAll=false){
 	    if (args) {
 	         
 	    	
-		 functionId=parseInt($('#dropDownFunctions').val())-1;
+		 functionId=parseInt($('#dropDownFunctions').val()==''?0:$('#dropDownFunctions').val())-1;
 		 drawGraph();
 			
 	 } 
@@ -4258,15 +4258,18 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
 					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 					
-					 checkActiveChartType($("#chartTypes").find(".active")[0],Period=='d' ? 'line' : 'column',Period);
-					 
-					chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
-
 					var dbchartType1 = response[0].config.chartType;
 					chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
 
 					var dbchartType2 = response[1].config.chartType;
 					chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
+					
+					
+					checkActiveChartType($("#chartTypes").find(".active")[0],Period=='d' ? chartType1 : 'column',Period);
+					 
+					chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+
+				
 
 					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 						return item.y;
@@ -4314,9 +4317,9 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 					 var strokeWidth = null;
 					 var strokeWidth1 = null;
 					 if (isColumn)
-					  strokeWidth = getDynamicWidth(response[0].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
+					{ strokeWidth = getDynamicWidth(response[0].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
 					  strokeWidth1 = getDynamicWidth(response[1].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
-
+								} 
 					chart.updateOptions({
 						series:[{
 						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
@@ -7439,7 +7442,7 @@ function navigationGraph(condition) {
 
   // Your original redraw logic
   if (mode == "usJobsCurrent") {
-    redirectFunction(groupId);
+     drawGraph();
   }
   else if (mode == "merge") {
    if (typeof refreshGraphNavigation === "function") {
@@ -11911,378 +11914,693 @@ function calculateYAxisRangeFromMinMax(min, max, gridCount = 6, marginPercent = 
         step: step
     };
 }
- function currentUsJobsFunction(groupId){
+function currentUsJobsFunction(groupId) {
+
 	mode = "usJobsCurrent";
+
 	var dataParam;
 	var checkedItemValues = [];
+
 	$('#overlayChart').show();
+
 	const stateColors = {
-	  initial: '#ffd960',
-	  surv: '#ff99ff',
-	  final: '#ffb30c',
-	  rev1:'#9f7b13'
+		initial: '#ffd960',
+		surv: '#ff99ff',
+		final: '#ffb30c',
+		rev1: '#9f7b13'
 	};
+
+	const barFunctionId = [
+		53, 54, 55, 56, 57, 58,
+		59, 60, 61, 62, 63,
+		64, 65, 66, 67, 68, 69,
+		70, 71, 72, 73, 74, 75
+	];
+
+	const mvaFunctionIds = [1, 2, 15, 16, 17, 18];
+	const symmetricFunctionIds = [6, 7, 8];
+	const secondSeriesStrokeIds = [5, 12, 13, 14, 15];
+
 	var fromdate = formatDate(monthDate);
 	var todate = formatDate(date);
+
 	$("#mainChart").html("");
 	$("#mainChart").css("display", "block");
-	
-	if (checkDateMonth(monthDate, date)) {
-		$("#button-monthForward").prop('disabled', false);
-	}
-	else {
-		$("#button-monthForward").prop('disabled', true);
-	}
 
-	if (checkDateYear(monthDate, date)) {
-		$("#button-yearForward").prop('disabled', false);
-	}
-	else {
-		$("#button-yearForward").prop('disabled', true);
-	}
+	$("#button-monthForward").prop('disabled', checkDateMonth(monthDate, date));
+	$("#button-yearForward").prop('disabled', checkDateYear(monthDate, date));
 
 	var Period = getChartPeriod();
 	var type = getSelectedType();
-	if (chart != null)
-		chart.destroy();
 
-	//chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options_missingDates : optionsWeekly);
-	chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? options : ((functionId!=-1)?optionsWeekly:optionsWeeklyy));
+	if (chart != null) {
+		chart.destroy();
+	}
+
+	chart = new ApexCharts(
+		document.querySelector("#mainChart"),
+		Period == 'd' ? options : ((functionId != -1) ? optionsWeekly : optionsWeeklyy)
+	);
 
 	chart.render();
-	
-	dataParam = { 
-	        		"fromdate":fromdate,
-	        	    "todate":todate,
-	        	    "period":"d",
-	        	    "type": type,
-	        	    "subGroupId1":1,
-	        	    "groupId1": groupId,
-     			   };
-     			   
-           enableDisableDropDowns(true);
 
-			disableOptions(true);
-			$.ajax({
-				type: "POST",
-				contentType: "application/json; charset=utf-8",
-				url: "/"+graphService+"/getgraphdatacurrent",
-				data: JSON.stringify(dataParam),
-				dataType: 'json',
-				timeout: 600000,
-				success: function(response) {
-					startDateF1 = response[0].config.startDate;
-					
-					if (startDateF1 != null)
-						startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
-					var dates = [];
+	dataParam = {
+		fromdate: fromdate,
+		todate: todate,
+		period: "d",
+		type: type,
+		subGroupId1: 1,
+		groupId1: groupId
+	};
 
-					T1 = response[0].config.displayDescription == null ? itemValue[checkedItemValues[0]].title : response[0].config.displayDescription;
-					
-					title="";
-					if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
-						if (response[0].config.yAxisFormat.includes("%")) {
-							isdecimal = false;
-							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
-								yaxisformat = response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
-							else
-								yaxisformat = 0;
-						}
-						else {
-							if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined')
-								yaxisformat = response[0].config.yAxisFormat.split(".")[1].length
-							else
-								yaxisformat = 0
+	if (functionId != -1) {
+		dataParam.isFunctionGraph = true;
+		dataParam.functionId = functionId + 1;
+	}
 
-							isdecimal = true;
-						}
+	disableOptions(true);
+
+	$.ajax({
+		type: "POST",
+		contentType: "application/json; charset=utf-8",
+		url: "/" + graphService + "/getgraphdatacurrent",
+		data: JSON.stringify(dataParam),
+		dataType: 'json',
+		timeout: 600000,
+
+		success: function (response) {
+
+			startDateF1 = response[0].config.startDate;
+
+			if (startDateF1 != null) {
+				startDateF1 = new Date(
+					startDateF1.split("-")[1] + "-" +
+					startDateF1.split("-")[0] + "-" +
+					startDateF1.split("-")[2]
+				);
+			}
+
+			T1 = response[0].config.displayDescription == null
+				? itemValue[checkedItemValues[0]].title
+				: response[0].config.displayDescription;
+
+			title = "";
+
+			if (response[0].config.yAxisFormat != null && response[0].config.yAxisFormat != "") {
+				if (response[0].config.yAxisFormat.includes("%")) {
+					isdecimal = false;
+
+					if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined') {
+						yaxisformat = response[0].config.yAxisFormat.split("%")[0].split(".")[1].length;
+					} else {
+						yaxisformat = 0;
 					}
-					else
-						yaxisformat = 3;
-
-					var getFormatResult0 = getFormat(response[0].config.dataFormat);
-					
-					//chartDbFontSize = response[0].config.chartSize;
-					chartDbFontSize = '14px';
-					fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
-					markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
-					showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
-					showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-
-					chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
-
-					var dbchartType1 = response[0].config.chartType;
-					chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
-
-					let yValues1 = response[0].graphResponseDTOLst.map(function(item) {
-					    return item.y;
-					}).filter(function(y) {
-					    return y !== null; // Filter out null values
-					});
-					
-					let min1 = Math.min.apply(null, yValues1);
-					
-						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
-					
-
-					min = min1;
-					max = max1;
-					/*
-					minvalue = min;
-					maxvalue = max;
-				
-					 let selectedValue=(Math.abs(min)>=Math.abs(max)?Math.abs(min):Math.abs(max));
-					 const values =  addMarginToMinMax(min, max, 5);
-					 
-					 
-					 calculatedMin = min > 0 ? min - values : -(values - min);
-					 calculatedMax= max > 0 ? max + values : -(values + max);*/
-				 
-					const axis = calculateYAxisRangeFromMinMax(min, max, 6, 5);
-					calculatedMin =axis.min;
-					calculatedMax =axis.max;
-					
-					 roundedValues = adjustMinMax(calculatedMin,calculatedMax);
-					 
-				     graphService=typeof graphService!='undefined'?graphService:'';
-				   
-					 yaxisformat0 = getFormat(response[0].config.yAxisFormat);
-					
-					notDecimal=yaxisformat0[1];
-			    	nbrOfDigits=yaxisformat0[0];
-			    	
-					for (let i = 0; i < response[0].graphResponseDTOLst.length; i++) {
-					    let data = response[0].graphResponseDTOLst[i];
-					    let y = parseFloat(data.y);
-					    if (y !== null && !isNaN(y)) {
-					        data.y = y ;
-					    }
+				} else {
+					if (typeof response[0].config.yAxisFormat.split(".")[1] != 'undefined') {
+						yaxisformat = response[0].config.yAxisFormat.split(".")[1].length;
+					} else {
+						yaxisformat = 0;
 					}
-					
-					let isMaxItems1 =  response[0].graphResponseDTOLst.filter(function(item) {
-					    return item.ismax === "1";
-					});
-				
-					value1=isMaxItems1[0].y;
-					if (getFormatResult0[1])
-							value1=	 value1.toFixed(getFormatResult0[0]);
-							else
-							value1=	 value1.toFixed(getFormatResult0[0]) + "%";
-								
-					
-					$('#legendfalse').addClass("active");
-					$('#legendtrue').removeClass("active");
-					chart.w.config.title.text=title;
-					
-					processDataAndAddNewEndMonthForExtraSpace(response[0] ,0.10,true)
-					    .then(({ response }) => {
-								response[0] = response;
-					    })
-					    .catch(error => {
-					        console.error('Error processing data:', error);
-					    });	
-					    
-					  const options = { month: 'short', year: '2-digit' };
-     				var fomartedXAnnotation=new Date(isMaxItems1[0].x).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');    
-					var offsetYValue1=25;
-					
-					graphTitle=T1;
-					const lastValidIndex = response[0].graphResponseDTOLst.reduce((last, point, i) => {
-								  return isValidValue(point.y) ? i : last;
-								}, -1);		
-				    const state = isMaxItems1[0].factor.toString();
-		
-					chart.updateOptions({
-						series:[{
-						name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
-						type:'column',
-						data: response[0].graphResponseDTOLst
-					}],
-					title: {
-					text: graphTitle,
-					align: 'center',
-					margin: 10,
-					offsetY: 0,
-					style: {
-						fontWeight: 'bold',
-					},
-				},
-					chart: {
-						
-				     /* toolbar: {
-				       // show: false,
-				      },
-				        zoom: {
-							    enabled: false
-							  }*/
-				      },
-						xaxis: {
-					labels: {
-						rotate: -65,
-						rotateAlways: true,
-						minHeight: 0,
-						style: {
-							fontSize: fontsize,
-						},
-						
-					  formatter: function(value, timestamp, opts) {
-                            const options = { month: 'short', year: '2-digit' };
-                            return new Date(value).toLocaleDateString('en-US', options).replace(/ /g, '-').replace(',', '');
-                        }
-					},
-				//	type: 'datetime',
-					tickAmount: 19,
-					axisBorder: {
-						show: true,
-						color: '#ffffff',
-						height: 3,
-						width: '100%',
-						offsetX: 0,
-						offsetY: 0
-					},
-					   axisTicks: {
-				          show: false,
-				          borderType: 'solid',
-				          color: '#78909C',
-				          height: 6,
-				          offsetX: 0,
-				          offsetY: 0
-				      },
-				},
-						extra: {
-							isDecimal: isdecimal,
-							yAxisFormat: yaxisformat,
-						},
-						colors: [function({ dataPointIndex }) {
-						  return dataPointIndex === lastValidIndex
-						    ? stateColors[state]   // highlight
-						    : '#ffc000';  // default
-						}],
-						stroke:{width: 0},
-						markers: {
-							colors: [ "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
-							strokeColors: [ "#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
-							shape: 'square',
-							// size: 2,
-						},
-						yaxis: {
-							labels: {
-								minWidth: 75, maxWidth: 75,
-								style: {
-									fontSize: fontsize,
-								},
-								 formatter: function(val, index) {
-										 val = val ;
-										 if (yaxisformat0[1])
-						  				  return  val.toFixed(yaxisformat0[0]);
-						  				else 
-						  				  return  val.toFixed(yaxisformat0[0]) + "%";
-									      }
-							},
-							tickAmount: 6,
-						
-							min:calculatedMin,
-							max:calculatedMax,
-							
-					axisBorder: {
-								width: 3,
-								show: true,
-								color: '#ffffff',
-								offsetX: 0,
-								offsetY: 0
-							},
-						},
-						tooltip: {
-							x: {
-								show: false,
-							},
-							y: {
-								formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-									 value = value ;
-									if (seriesIndex == 0) {
-										if (getFormatResult0[1])
-											return value.toFixed(getFormatResult0[0]);
-										else
-											return value.toFixed(getFormatResult0[0]) + "%";
-									} 
-								},
-								title: {
-									formatter: (seriesName) => '',
-								},
-							},
-						},
-						annotations: {
-					           yaxis:[
-								   {
-						            y: 0,
-						            borderColor: '#ffc000',
-						          }
-							   ],
-					         points: [
-					      {
-					         x: fomartedXAnnotation,
-					         y: isMaxItems1[0].y,
-					        marker: {
-					          size: 8,
-					          fillColor: "#ffffff00",
-					          strokeColor: "#FF00FF",
-					          radius: 6
-					        },
-					        label: {
-					         borderColor: "#ffffff00",
-					          offsetY: offsetYValue1,
-					          //offsetY: 0,
-					          offsetX: 70,
-					          style: {
-					            color: "#FF00FF",
-					            background:  "#00000000",
-					          },
-					
-					          text: isMaxItems1[0].x.split('-')[1].toUpperCase()+' '+ toTitleCase(isMaxItems1[0].factor.toString()+' '+value1)
-					        }
-					      },
-					        
-					         
-					      
-					    ],
-					    
-					      },legend: {
-						   show:false,
-				    	  },
-					});
-					
-					
-					disableChartFont(false);
-					$('#overlayChart').hide();
-				    $("#mainChart-title").empty();
-				    
-				    graphTitle=T1;
-				   // graphTitle=graphTitle.toUpperCase().replace(/\bFINAL\b/g, '').replace(/SERVICES/g, '<span style="color:#ffc000">Services</span>').replace(/MANUFACTURING/g, 'Manuf').replace(/AND/g, 'and')
 
-					$("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 20px;left: 350px;height: 60px;" class="title-style">'+graphTitle+'</div>')
-				
-							   
-				},
-				error: function(e) {
-
-					console.log("ERROR : ", e);
-
+					isdecimal = true;
 				}
-				
+			} else {
+				yaxisformat = 3;
+			}
+
+			var getFormatResult0 = getFormat(response[0].config.dataFormat);
+
+			chartDbFontSize = '14px';
+			fontsize = checkActiveFontSize($("#fontOptions").find(".active")[0], chartDbFontSize);
+			markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
+			showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
+			showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
+
+			chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+
+			var dbchartType1 = response[0].config.chartType;
+			chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
+
+			let yValues1 = response[0].graphResponseDTOLst
+				.map(item => item.y)
+				.filter(y => y !== null && y !== '' && !isNaN(y));
+
+			let min1 = Math.min.apply(null, yValues1);
+			let max1 = Math.max.apply(null, yValues1);
+
+			min = min1;
+			max = max1;
+
+			const axis = calculateYAxisRangeFromMinMax(min, max, 6, 5);
+			calculatedMin = axis.min;
+			calculatedMax = axis.max;
+
+			roundedValues = adjustMinMax(calculatedMin, calculatedMax);
+
+			graphService = typeof graphService != 'undefined' ? graphService : '';
+
+			yaxisformat0 = getFormat(response[0].config.yAxisFormat);
+
+			notDecimal = yaxisformat0[1];
+			nbrOfDigits = yaxisformat0[0];
+
+			for (let i = 0; i < response[0].graphResponseDTOLst.length; i++) {
+				let data = response[0].graphResponseDTOLst[i];
+				let y = parseFloat(data.y);
+
+				if (y !== null && !isNaN(y)) {
+					data.y = y;
+				}
+			}
+
+			let isMaxItems1 = response[0].graphResponseDTOLst.filter(function (item) {
+				return item.ismax === "1";
 			});
 
-		
-		   // (saveHistory)?saveGraphHistory(graphName,checkedItemid,Period,type):null;
-    
+			value1 = isMaxItems1[0].y;
+
+			if (getFormatResult0[1]) {
+				value1 = value1.toFixed(getFormatResult0[0]);
+			} else {
+				value1 = value1.toFixed(getFormatResult0[0]) + "%";
+			}
+
+			$('#legendfalse').addClass("active");
+			$('#legendtrue').removeClass("active");
+
+			chart.w.config.title.text = title;
+
+			processDataAndAddNewEndMonthForExtraSpace(response[0], 0.10, true)
+				.then(({ response: processedResponse }) => {
+					response[0] = processedResponse;
+				})
+				.catch(error => {
+					console.error('Error processing data:', error);
+				});
+
+			const dateOptions = { month: 'short', year: '2-digit' };
+
+			var fomartedXAnnotation = new Date(isMaxItems1[0].x)
+				.toLocaleDateString('en-US', dateOptions)
+				.replace(/ /g, '-')
+				.replace(',', '');
+
+			var offsetYValue1 = 25;
+
+			graphTitle = T1;
+
+			const lastValidIndex = response[0].graphResponseDTOLst.reduce((last, point, i) => {
+				return isValidValue(point.y) ? i : last;
+			}, -1);
+
+			const state = isMaxItems1[0].factor.toString();
+
+			const isMvaFunction = mvaFunctionIds.includes(functionId);
+			const isSymmetricFunction = symmetricFunctionIds.includes(functionId);
+			const isBarFunction = barFunctionId.includes(functionId);
+
+			function getMvaColor() {
+				const colors = {
+					1: "#FF0000",
+					2: "#ffa4c5",
+					15: "#1f77b4",
+					16: "#2ca02c",
+					17: "#ff7f0e",
+					18: "#9467bd"
+				};
+
+				return colors[functionId] || "#000000";
+			}
+
+			function getDynamicFunctionColor() {
+				if ([52, 53, 54, 55, 56, 57].includes(functionId)) return "#8aff8e";
+				if ([58, 59, 60, 61, 62].includes(functionId)) return "#8ae2ff";
+				if ([63, 64, 65, 66, 67, 68].includes(functionId)) return "#33ad02";
+				if ([69, 70, 71, 72, 73, 74].includes(functionId)) return "#FFED4F";
+
+				return "#00c9ff96";
+			}
+
+			function getResponseMinMax(index) {
+				const values = response[index].graphResponseDTOLst
+					.map(item => Number(item.y))
+					.filter(y => y !== null && y !== '' && !isNaN(y));
+
+				return {
+					min: Math.min.apply(null, values),
+					max: Math.max.apply(null, values)
+				};
+			}
+
+			function formatAxisValue(val, format) {
+				return format[1]
+					? val.toFixed(format[0])
+					: val.toFixed(format[0]) + "%";
+			}
+
+			function formatTooltipValue(value, format) {
+				if (value == null || isNaN(value)) {
+					return "";
+				}
+
+				const formattedValue = Number(value).toFixed(format[0]);
+
+				return format[1]
+					? formattedValue
+					: formattedValue + "%";
+			}
+
+			function buildFunctionSeries() {
+				if (functionId === -1 || !response[1]) {
+					return null;
+				}
+
+				const functionSeriesName =
+					response[1].config != null
+						? response[1].config.displayDescription == null ? "" : response[1].config.displayDescription
+						: "";
+
+				const functionSeriesData = response[1].graphResponseDTOLst;
+
+				if (isMvaFunction) {
+					return {
+						name: functionSeriesName,
+						type: "line",
+						data: functionSeriesData
+					};
+				}
+
+				if (isSymmetricFunction || isBarFunction) {
+					return {
+						name: functionSeriesName,
+						type: "column",
+						data: functionSeriesData
+					};
+				}
+
+				const strokeWidth1 = getDynamicWidth(
+					functionSeriesData.filter(item => item.y !== null && item.y !== '').length
+				);
+
+				return {
+					name: functionSeriesName,
+					type: "column",
+					data: functionSeriesData,
+					...(secondSeriesStrokeIds.includes(functionId)
+						? { strokeWidth: strokeWidth1 }
+						: {})
+				};
+			}
+
+			function buildColorsArray() {
+				const mainColor = function ({ dataPointIndex }) {
+					return dataPointIndex === lastValidIndex
+						? stateColors[state]
+						: "#ffc000";
+				};
+
+				if (functionId === -1 || !response[1]) {
+					return [mainColor];
+				}
+
+				if (isMvaFunction) {
+					return [mainColor, getMvaColor()];
+				}
+
+				if (isSymmetricFunction || isBarFunction) {
+					return [mainColor, getDynamicFunctionColor()];
+				}
+
+				return [
+					mainColor,
+					function ({ value, seriesIndex }) {
+						if (seriesIndex !== 0) {
+							return value <= 0 ? "#f23a3aa3" : "#30d7818c";
+						}
+					}
+				];
+			}
+
+			function buildStrokeObject() {
+				if (functionId === -1 || !response[1]) {
+					return {
+						width: 0
+					};
+				}
+
+				if (isMvaFunction) {
+					return {
+						width: [0, 2.25],
+						colors: ["#ffc000", getMvaColor()]
+					};
+				}
+
+				if (isSymmetricFunction || isBarFunction) {
+					return {
+						width: [0, 0]
+					};
+				}
+
+				return {
+					width: secondSeriesStrokeIds.includes(functionId)
+						? undefined
+						: [0, 0],
+					colors: ["#ffc000", "#ff000000"]
+				};
+			}
+
+			function buildMarkersObject() {
+				if (functionId === -1 || !response[1]) {
+					return {
+						colors: ["#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
+						strokeColors: ["#0000ff", "#ff0000", "#00ff00", "#ffff00", "#ffa500"],
+						shape: "square"
+					};
+				}
+
+				if (isMvaFunction) {
+					const mvaColor = getMvaColor();
+
+					return {
+						size: 0,
+						colors: ["#FFFFFF", mvaColor],
+						strokeColors: ["#FFFFFF", mvaColor]
+					};
+				}
+
+				if (isSymmetricFunction || isBarFunction) {
+					return {
+						colors: ["#FFFFFF", "#00c9ff96"],
+						strokeColors: ["#FFFFFF", "#00c9ff96"]
+					};
+				}
+
+				return {
+					colors: ["#FFFFFF", "#ff000059"],
+					strokeColors: ["#FFFFFF", "#ff000059"]
+				};
+			}
+
+			function buildMainYAxis() {
+				return {
+					labels: {
+						minWidth: 75,
+						maxWidth: 75,
+						style: {
+							fontSize: fontsize
+						},
+						formatter: function (val) {
+							return formatAxisValue(val, yaxisformat0);
+						}
+					},
+					tickAmount: 6,
+					min: calculatedMin,
+					max: calculatedMax,
+					axisBorder: {
+						width: 3,
+						show: true,
+						color: "#ffffff",
+						offsetX: 0,
+						offsetY: 0
+					}
+				};
+			}
+
+			function buildSecondYAxis() {
+				if (functionId === -1 || !response[1] || isMvaFunction) {
+					return null;
+				}
+
+				const yaxisformat1 = getFormat(response[1].config.yAxisFormat);
+				const secondMinMax = getResponseMinMax(1);
+
+				if (isSymmetricFunction || isBarFunction) {
+					const secondAxis = calculateYAxisRangeFromMinMax(secondMinMax.min, secondMinMax.max, 6, 5);
+					const dynamicColor = getDynamicFunctionColor();
+
+					return {
+						opposite: true,
+						labels: {
+							minWidth: 75,
+							maxWidth: 75,
+							style: {
+								fontSize: fontsize
+							},
+							formatter: function (val) {
+								return formatAxisValue(val, yaxisformat1);
+							}
+						},
+						tickAmount: 6,
+						min: secondAxis.min,
+						max: secondAxis.max,
+						axisBorder: {
+							width: 3,
+							show: true,
+							color: dynamicColor,
+							offsetX: 0,
+							offsetY: 0
+						}
+					};
+				}
+
+				const margin2 = addMarginToMinMax(secondMinMax.min, secondMinMax.max, 5);
+
+				const selectedValue =
+					Math.abs(secondMinMax.min) >= Math.abs(secondMinMax.max)
+						? Math.abs(secondMinMax.min)
+						: Math.abs(secondMinMax.max);
+
+				return {
+					opposite: true,
+					labels: {
+						minWidth: 75,
+						maxWidth: 75,
+						style: {
+							fontSize: fontsize
+						},
+						formatter: function (val) {
+							return formatAxisValue(val, yaxisformat1);
+						}
+					},
+					tickAmount: 6,
+					min: -Math.abs(selectedValue + margin2),
+					max: Math.abs(selectedValue + margin2),
+					axisBorder: {
+						width: 3,
+						show: true,
+						color: "#FF0000",
+						offsetX: 0,
+						offsetY: 0
+					}
+				};
+			}
+
+			function buildTooltipObject() {
+				const getFormatResult1 =
+					response[1] && response[1].config
+						? getFormat(response[1].config.dataFormat)
+						: null;
+
+				return {
+					x: {
+						show: false
+					},
+					y: {
+						formatter: function (value, { seriesIndex }) {
+							if (seriesIndex === 0) {
+								return formatTooltipValue(value, getFormatResult0);
+							}
+
+							if (seriesIndex === 1 && getFormatResult1) {
+								return formatTooltipValue(value, getFormatResult1);
+							}
+
+							return "";
+						},
+						title: {
+							formatter: () => ""
+						}
+					}
+				};
+			}
+
+			function buildAnnotationsObject() {
+				const annotations = {
+					yaxis: [
+						{
+							y: 0,
+							borderColor: '#ffc000'
+						}
+					],
+					points: [
+						{
+							x: fomartedXAnnotation,
+							y: isMaxItems1[0].y,
+							marker: {
+								size: 8,
+								fillColor: "#ffffff00",
+								strokeColor: "#FF00FF",
+								radius: 6
+							},
+							label: {
+								borderColor: "#ffffff00",
+								offsetY: offsetYValue1,
+								offsetX: 70,
+								style: {
+									color: "#FF00FF",
+									background: "#00000000"
+								},
+								text: isMaxItems1[0].x.split('-')[1].toUpperCase()
+									+ ' '
+									+ toTitleCase(isMaxItems1[0].factor.toString() + ' ' + value1)
+							}
+						}
+					]
+				};
+
+				if (
+					functionId !== -1 &&
+					response[1] &&
+					!isMvaFunction &&
+					!isSymmetricFunction &&
+					!isBarFunction
+				) {
+					annotations.yaxis.push({
+						y: 0,
+						yAxisIndex: 1,
+						strokeDashArray: 0,
+						offsetX: 0,
+						width: '100%',
+						borderColor: '#FF0000',
+						label: {
+							position: 'right',
+							offsetX: 70,
+							offsetY: 0,
+							borderColor: '#FF0000',
+							style: {
+								color: '#fff',
+								background: '#ff000052'
+							},
+							text: ''
+						}
+					});
+				}
+
+				return annotations;
+			}
+
+			const mainSeries = {
+				name: response[0].config != null
+					? response[0].config.displayDescription == null ? "" : response[0].config.displayDescription
+					: "",
+				type: "column",
+				data: response[0].graphResponseDTOLst
+			};
+
+			const functionSeries = buildFunctionSeries();
+
+			const seriesArray = functionSeries
+				? [mainSeries, functionSeries]
+				: [mainSeries];
+
+			const titleObject = {
+				text: graphTitle,
+				align: 'center',
+				margin: 10,
+				offsetY: 0,
+				style: {
+					fontWeight: 'bold'
+				}
+			};
+
+			const xaxisObject = {
+				labels: {
+					rotate: -65,
+					rotateAlways: true,
+					minHeight: 0,
+					style: {
+						fontSize: fontsize
+					},
+					formatter: function (value) {
+						const options = { month: 'short', year: '2-digit' };
+
+						return new Date(value)
+							.toLocaleDateString('en-US', options)
+							.replace(/ /g, '-')
+							.replace(',', '');
+					}
+				},
+				tickAmount: 19,
+				axisBorder: {
+					show: true,
+					color: '#ffffff',
+					height: 3,
+					width: '100%',
+					offsetX: 0,
+					offsetY: 0
+				},
+				axisTicks: {
+					show: false,
+					borderType: 'solid',
+					color: '#78909C',
+					height: 6,
+					offsetX: 0,
+					offsetY: 0
+				}
+			};
+
+			const extraObject = {
+				isDecimal: isdecimal,
+				yAxisFormat: yaxisformat
+			};
+
+			const legendObject = {
+				show: false
+			};
+
+			const mainYAxis = buildMainYAxis();
+			const secondYAxis = buildSecondYAxis();
+
+			const finalYAxis = secondYAxis != null
+				? [mainYAxis, secondYAxis]
+				: mainYAxis;
+
+			chart.updateOptions({
+				series: seriesArray,
+				title: titleObject,
+				xaxis: xaxisObject,
+				extra: extraObject,
+				colors: buildColorsArray(),
+				stroke: buildStrokeObject(),
+				markers: buildMarkersObject(),
+				yaxis: finalYAxis,
+				tooltip: buildTooltipObject(),
+				annotations: buildAnnotationsObject(),
+				legend: legendObject
+			});
+
+			disableChartFont(false);
+			$('#overlayChart').hide();
+
+			$("#mainChart-title").empty();
+
+			graphTitle = T1;
+
+			$("#mainChart-title").append(
+				'<div id="title-image" style="position: absolute;top: 20px;left: 350px;height: 60px;" class="title-style">'
+				+ graphTitle +
+				'</div>'
+			);
+		},
+
+		error: function (e) {
+			console.log("ERROR : ", e);
+		}
+	});
+
 	$("#dateFrom-mainChart").val(formatedDate(fromdate));
 	$("#dateTo-mainChart").val(formatedDate(todate));
-	
-	// inGraphNews(getSelectedFields((checkedItemValues.length==0?allItemsSelected(Items):checkedItemValues),itemValue));
-
-		 
- }
+}
 function formatInBillionsOnly(value) {
 	if (value >= 1e9) {
 		const inBillions = value / 1e9;

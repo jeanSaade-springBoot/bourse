@@ -3003,73 +3003,73 @@ var itemValue = {
 		"title": "NIKKEI"
 	},
 	"#jqxCheckBoxNikkei_usdjpy": {
-		"subGroupId": "2",
+		"subGroupId": "8",
 		"GroupId": "32",
 		"description": "NIKKEI_USDJPY",
 		"title": "NIKKEI_USDJPY"
 	},
 	"#jqxCheckBoxCsi": {
-		"subGroupId": "3",
+		"subGroupId": "2",
 		"GroupId": "32",
 		"description": "CSI",
 		"title": "CSI"
 	},
 	"#jqxCheckBoxCsi_usdcny": {
-		"subGroupId": "4",
+		"subGroupId": "9",
 		"GroupId": "32",
 		"description": "CSI_USDCNY",
 		"title": "CSI_USDCNY"
 	},
 	"#jqxCheckBoxNifty": {
-		"subGroupId": "5",
+		"subGroupId": "3",
 		"GroupId": "32",
 		"description": "NIFTY",
 		"title": "NIFTY"
 	},
 	"#jqxCheckBoxNifty_usdinr": {
-		"subGroupId": "6",
+		"subGroupId": "10",
 		"GroupId": "32",
 		"description": "NIFTY_USDINR",
 		"title": "NIFTY_USDINR"
 	},
 	"#jqxCheckBoxKospi": {
-		"subGroupId": "7",
+		"subGroupId": "4",
 		"GroupId": "32",
 		"description": "KOSPI",
 		"title": "KOSPI"
 	},
 	"#jqxCheckBoxKospi_usdkrw": {
-		"subGroupId": "8",
+		"subGroupId": "11",
 		"GroupId": "32",
 		"description": "KOSPI_USDKRW",
 		"title": "KOSPI_USDKRW"
 	},
 	"#jqxCheckBoxHangseng": {
-		"subGroupId": "9",
+		"subGroupId": "5",
 		"GroupId": "32",
 		"description": "HANGSENG",
 		"title": "HANGSENG"
 	},
 	"#jqxCheckBoxHangseng_usdhkd": {
-		"subGroupId": "10",
+		"subGroupId": "12",
 		"GroupId": "32",
 		"description": "HANGSENG_USDHKD",
 		"title": "HANGSENG_USDHKD"
 	},
 	"#jqxCheckBoxHismbi": {
-		"subGroupId": "11",
+		"subGroupId": "6",
 		"GroupId": "32",
 		"description": "HISMBI",
 		"title": "HISMBI"
 	},
 	"#jqxCheckBoxHismbi_usdhkd": {
-		"subGroupId": "12",
+		"subGroupId": "13",
 		"GroupId": "32",
 		"description": "HISMBI_USDHKD",
 		"title": "HISMBI_USDHKD"
 	},
 	"#jqxCheckBoxHismpi": {
-		"subGroupId": "13",
+		"subGroupId": "7",
 		"GroupId": "32",
 		"description": "HISMPI",
 		"title": "HISMPI"
@@ -3129,73 +3129,73 @@ var itemValue = {
 		"title": "DAX"
 	},
 	"#jqxCheckBoxDax_Eurusd": {
-		"subGroupId": "2",
+		"subGroupId": "8",
 		"GroupId": "34",
 		"description": "DAX_EURUSD",
 		"title": "$-DAX"
 	},
 	"#jqxCheckBoxCac": {
-		"subGroupId": "3",
+		"subGroupId": "2",
 		"GroupId": "34",
 		"description": "CAC",
 		"title": "CAC"
 	},
 	"#jqxCheckBoxCac_Eurusd": {
-		"subGroupId": "4",
+		"subGroupId": "9",
 		"GroupId": "34",
 		"description": "CAC_EURUSD",
 		"title": "$-CAC"
 	},
 	"#jqxCheckBoxMib": {
-		"subGroupId": "5",
+		"subGroupId": "3",
 		"GroupId": "34",
 		"description": "MIB",
 		"title": "MIB"
 	},
 	"#jqxCheckBoxMib_Eurusd": {
-		"subGroupId": "6",
+		"subGroupId": "10",
 		"GroupId": "34",
 		"description": "MIB_EURUSD",
 		"title": "$-MIB"
 	},
 	"#jqxCheckBoxFtse": {
-		"subGroupId": "7",
+		"subGroupId": "4",
 		"GroupId": "34",
 		"description": "FTSE",
 		"title": "FTSE"
 	},
 	"#jqxCheckBoxFtse_Gbpusd": {
-		"subGroupId": "8",
+		"subGroupId": "11",
 		"GroupId": "34",
 		"description": "FTSE_GBPUSD",
 		"title": "$-FTSE"
 	},
 	"#jqxCheckBoxStoxx50": {
-		"subGroupId": "9",
+		"subGroupId": "5",
 		"GroupId": "34",
 		"description": "STOXX50",
 		"title": "STOXX50"
 	},
 	"#jqxCheckBoxStoxx50_Eurusd": {
-		"subGroupId": "10",
+		"subGroupId": "12",
 		"GroupId": "34",
 		"description": "STOXX50_EURUSD",
 		"title": "$-STOXX50"
 	},
 	"#jqxCheckBoxStoxx600": {
-		"subGroupId": "11",
+		"subGroupId": "6",
 		"GroupId": "34",
 		"description": "STOXX600",
 		"title": "STOXX600"
 	},
 	"#jqxCheckBoxStoxx600_Eurusd": {
-		"subGroupId": "12",
+		"subGroupId": "13",
 		"GroupId": "34",
 		"description": "STOXX600_EURUSD",
 		"title": "$-STOXX600"
 	},
 	"#jqxCheckBoxEubanks": {
-		"subGroupId": "13",
+		"subGroupId": "7",
 		"GroupId": "34",
 		"description": "EUBANKS",
 		"title": "EUBANKS"
@@ -3213,73 +3213,73 @@ var itemValue = {
 		"title": "Tadawul"
 	},
 	"#jqxCheckBoxTadawul_usdsar": {
-		"subGroupId": "2",
+		"subGroupId": "8",
 		"GroupId": "35",
 		"description": "TADAWUL_USDSAR",
 		"title": "$-TADAWUL"
 	},
 	"#jqxCheckBoxEgx": {
-		"subGroupId": "3",
+		"subGroupId": "2",
 		"GroupId": "35",
 		"description": "EGX",
 		"title": "Egx"
 	},
 	"#jqxCheckBoxEgx_usdegp": {
-		"subGroupId": "4",
+		"subGroupId": "9",
 		"GroupId": "35",
 		"description": "EGX_USDEGP",
 		"title": "$-EGX"
 	},
 	"#jqxCheckBoxBist": {
-		"subGroupId": "5",
+		"subGroupId": "3",
 		"GroupId": "35",
 		"description": "BIST",
 		"title": "Bist"
 	},
 	"#jqxCheckBoxBist_usdtry": {
-		"subGroupId": "6",
+		"subGroupId": "10",
 		"GroupId": "35",
 		"description": "BIST_USDTRY",
 		"title": "$-BIST"
 	},
 	"#jqxCheckBoxMoex": {
-		"subGroupId": "7",
+		"subGroupId": "4",
 		"GroupId": "35",
 		"description": "MOEX",
 		"title": "Moex"
 	},
 	"#jqxCheckBoxMoex_usdrub": {
-		"subGroupId": "8",
+		"subGroupId": "11",
 		"GroupId": "35",
 		"description": "MOEX_USDRUB",
 		"title": "$-MOEX"
 	},
 	"#jqxCheckBoxJsttop": {
-		"subGroupId": "9",
+		"subGroupId": "5",
 		"GroupId": "35",
 		"description": "JSTTOP",
 		"title": "Jsttop"
 	},
 	"#jqxCheckBoxJsttop_usdzar": {
-		"subGroupId": "10",
+		"subGroupId": "12",
 		"GroupId": "35",
 		"description": "JSTTOP_USDZAR",
 		"title": "$-JSTTOP"
 	},
 	"#jqxCheckBoxBovespa": {
-		"subGroupId": "11",
+		"subGroupId": "6",
 		"GroupId": "35",
 		"description": "BOVESPA",
 		"title": "Bovespa"
 	},
 	"#jqxCheckBoxBovespa_usdbrl": {
-		"subGroupId": "12",
+		"subGroupId": "13",
 		"GroupId": "35",
 		"description": "BOVESPA_USDBRL",
 		"title": "$-BOVESPA"
 	},
 	"#jqxCheckBoxMexbol": {
-		"subGroupId": "13",
+		"subGroupId": "7",
 		"GroupId": "35",
 		"description": "MEXBOL",
 		"title": "Mexbol"
@@ -5775,4 +5775,16 @@ var itemValue = {
     "title": "",
    
   },
+  "#jqxCheckBoxFed_liquidity": {
+		"subGroupId": "1",
+		"GroupId": "83",
+		"description": "fed_liquidity",
+		"title": 'FED LIQUIDITY'
+	},
+	"#jqxCheckBoxEcb_balance_sheet": {
+		"subGroupId": "1",
+		"GroupId": "84",
+		"description": "ecb_balance_sheet",
+		"title": 'ECB Balance Sheet'
+	},
 };

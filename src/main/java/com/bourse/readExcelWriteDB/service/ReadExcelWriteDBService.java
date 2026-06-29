@@ -1489,15 +1489,44 @@ public class ReadExcelWriteDBService {
 
 							if (exists) {
 
-								macroService.updateValue(referDate, groupId, subgroupId, factorId, value);
+							    if (readExcelWriteDBDTO.isUpdateOperation()) {
+							        macroService.updateValue(referDate, groupId, subgroupId, factorId, value);
 
-							} else {
+							        MacroData updatedData = MacroData.builder()
+							                .referDate(referDate)
+							                .groupId(groupId)
+							                .subgroupId(subgroupId)
+							                .factorId(factorId)
+							                .value(value)
+							                .build();
 
-								MacroData macroData = MacroData.builder().referDate(referDate).groupId(groupId)
-										.subgroupId(subgroupId).factorId(factorId).value(value).build();
+							        macroDataList.add(updatedData);
 
-								macroDataList.add(macroData);
+							        continue;
+							    }
+
+							    throw new RuntimeException(
+							            "Data already exists for the selected date " + referDate +
+							            ". Please use 'Update Existing Data' to modify existing records."
+							    );
 							}
+
+							if (readExcelWriteDBDTO.isUpdateOperation()) {
+							    throw new RuntimeException(
+							            "No existing data found for the selected date " + referDate +
+							            ". Please use 'Insert New Data' to add new records."
+							    );
+							}
+
+							MacroData macroData = MacroData.builder()
+							        .referDate(referDate)
+							        .groupId(groupId)
+							        .subgroupId(subgroupId)
+							        .factorId(factorId)
+							        .value(value)
+							        .build();
+
+							macroDataList.add(macroData);
 						}
 					}
 				}

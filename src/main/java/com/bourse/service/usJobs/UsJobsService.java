@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
@@ -517,21 +518,45 @@ public List<TmpAuditUsHouseHoldSurv> getAuditUsHouseHoldSurv(String groupId, Str
 			return graphResponseColConfigDTO; 
 		    
 		}
-		public List<MacroGraphResponseColConfigDTO> getUsJobsGraphData(GraphRequestDTO graphReqDTO) {
+	  public List<MacroGraphResponseColConfigDTO> getUsJobsGraphData(GraphRequestDTO graphReqDTO) {
 
-			boolean hasData= adminService.getData();
-		    if(!hasData)
-				return null;
-		
-			List<MacroGraphResponseColConfigDTO> l1 = new ArrayList<>();
-			
-			if(graphReqDTO.getGroupId1()!=null)
-			{
-				l1.add(getUsJobsGraphDataResult(graphReqDTO,false));
-			}
-				
-			return l1; 
-		
+		    boolean hasData = adminService.getData();
+
+		    if (!hasData)
+		        return null;
+
+		    List<MacroGraphResponseColConfigDTO> l1 = new ArrayList<>();
+
+		    if (graphReqDTO.getGroupId1() != null) {
+		        l1.add(getUsJobsGraphDataResult(graphReqDTO, false));
+		    }
+
+		    if ("true".equals(graphReqDTO.getIsFunctionGraph()))  {
+
+		        GraphResponseColConfigDTO normalResult = getGraphDataResult(graphReqDTO, true);
+
+		        l1.add(toMacroGraphResponse(normalResult));
+		    }
+
+		    return l1;
+		}
+	  private MacroGraphResponseColConfigDTO toMacroGraphResponse(GraphResponseColConfigDTO dto) {
+
+		    List<MacroGraphResponseDTO> macroList = dto.getGraphResponseDTOLst()
+		        .stream()
+		        .map(item -> MacroGraphResponseDTO.builder()
+		            .id(item.getId())
+		            .x(item.getX())
+		            .y(item.getY())
+		            .factor(null)
+		            .ismax(null)
+		            .build())
+		        .collect(Collectors.toList());
+
+		    return MacroGraphResponseColConfigDTO.builder()
+		        .graphResponseDTOLst(macroList)
+		        .config(dto.getConfig())
+		        .build();
 		}
 		public MacroGraphResponseColConfigDTO getUsJobsGraphDataResult(GraphRequestDTO graphReqDTO, Boolean isFunction) {
 			boolean hasData= adminService.getData();

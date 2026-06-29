@@ -1,9 +1,6 @@
-  var allitems=["#jqxCheckBoxM0",
- 			   "#jqxCheckBoxM1",
- 			   "#jqxCheckBoxM2",
- 			   "#jqxCheckBoxM3","#jqxCheckBoxFed_liquidity"]; 
+  var allitems=["#jqxCheckBoxEcb_balance_sheet"]; 
 
-const graphName="ezmmLiquidity"; 
+const graphName="ecbBalanceSheet"; 
 
 var graphService = "liquidity";
 const removeEmpty = false;

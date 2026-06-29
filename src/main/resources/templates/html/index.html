@@ -156,8 +156,10 @@
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECBEXCESS_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ecbexcessliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">Ecb Excess Liquidity</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECBQE_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ecbqeliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">ECB QE Operations</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECB_IMPACT_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ecbimpactliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">ECB Impact</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''EZMM_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ezmmliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">Eurozone Monetary Mass</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''EZMM_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ezmmliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">Monetary Mass</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CORPORATE_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/corporateliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">Corpoprate Liquidity</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECB_BALANCE_SHEET_GRAPH_SCREEN'')')} ? '/bourse/ecbbalncesheet' : '/login'"><img class="img-m-right" src="../../img/i2.png">ECB Balance Sheet</a></li>
+                      
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/liquiditydatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>

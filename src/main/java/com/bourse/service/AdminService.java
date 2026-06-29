@@ -385,10 +385,7 @@ public class AdminService
 		return hasData;
 	}
 
-	 public List<ColumnConfiguration> getColumnConfigurations(String condition) {
-		 	
-	        return columnConfigurationRepository.findByGroupIdsAndSubgroupIds(condition);
-	    }
+	
 	 public List<ColumnConfiguration> getRelatedColumn(String condition)
 		{   
 		 String queryStr = "SELECT c FROM ColumnConfiguration c WHERE " + condition;
