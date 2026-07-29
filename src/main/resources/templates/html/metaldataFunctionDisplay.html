@@ -7,19 +7,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="img/logo/logo.png" rel="icon">
+  <link th:href="@{/img/logo/logo.png}" rel="icon">
+
   <title>Libvol - Data Function</title>
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="/css/ruang-admin.min.css" rel="stylesheet">
-  <link href="/css/marquee.css" rel="stylesheet">
-  <link href="/css/apexchart.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-  <link href="/css/jqx.dark.css" rel="stylesheet">
-  <link href="/css/custom.grid.css" rel="stylesheet">
-  <link href="/css/slider.min.css" rel="stylesheet">
-  <link href="/css/notification.css" rel="stylesheet">
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+  <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+ <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+
+  <link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+  <link th:href="@{/css/marquee.css}" rel="stylesheet">
+  <link th:href="@{/css/apexchart.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css">
+
+ <link th:href="@{/css/jqx.dark.css}" rel="stylesheet">
+  <link th:href="@{/css/custom.grid.css}" rel="stylesheet">
+  <link th:href="@{/css/slider.min.css}" rel="stylesheet">
+  <link th:href="@{/css/notification.css}" rel="stylesheet">
   
   <style>
   .jqx-grid-column-header > div > div > span[style] { /*Cause header text to wrap to new line rather than be truncated*/
@@ -135,7 +138,7 @@ h8 {
 				  <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
 				  	<p class="mt-2" style=" margin-bottom: .5rem;">
 					  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
-				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" src="../../img/down.png" align="absmiddle"></a>
+				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" th:src="@{/img/down.png}" align="absmiddle"></a>
 				  	  	</p>
 					<div class="row col">
 					  <div class="col pl-0">
@@ -157,7 +160,7 @@ h8 {
                 		<div  style=" display: flex;">
 								   <div class="col text-center">
 										<div class="align-middle">
-											<img height="48"  width="48" src="/img/gold.png" class="img-icon"
+											<img height="48"  width="48" th:src="@{/img/gold.png}" class="img-icon"
 												data-toggle="tooltip" title="Gold">
 										</div>
 										<h8 class="font-weight-bold">Gold</h8>
@@ -165,28 +168,28 @@ h8 {
 									</div>
 								    <div class="col text-center">
 										<div class="align-middle">
-											<img  height="48"  width="48" src="/img/platinum.png" class="img-icon" data-toggle="tooltip" title="Platinum" >
+											<img  height="48"  width="48" th:src="@{/img/platinum.png}" class="img-icon" data-toggle="tooltip" title="Platinum" >
 										</div>
 										<h8 class="font-weight-bold">Platinum</h8>
 										<div id='jqxCheckBoxPlatinum' class="align-middle"></div>
 									</div>
 								     <div class="col text-center">
 										<div class="align-middle">
-											<img height="48"  width="48" src="/img/silver.png" class="img-icon" data-toggle="tooltip" title="Silver" >
+											<img height="48"  width="48" th:src="@{/img/silver.png}" class="img-icon" data-toggle="tooltip" title="Silver" >
 										</div>
 										<h8 class="font-weight-bold">Silver</h8>
 									    <div id='jqxCheckBox-6-2' class="align-middle"></div>
 									</div>
 									 <div class="col text-center">
 										<div class="align-middle">
-											<img class="br-3" height="48"  width="48" src="/img/plat-gold.png" data-toggle="tooltip" title="PLAT-GOLD sprd" >
+											<img class="br-3" height="48"  width="48" th:src="@{/img/plat-gold.png}" data-toggle="tooltip" title="PLAT-GOLD sprd" >
 										</div>
 										<h8 class="font-weight-bold">PLAT-GOLD sprd</h8>
 								        <div id='jqxCheckBoxPlatGold' class="align-middle"></div>
 								    </div>
 									 <div class="col text-center">
 										<div class="align-middle">
-											<img class="br-3" height="48"  width="48"src="/img/gold-silver.png" data-toggle="tooltip" title="GOLD/SILV ratio" >
+											<img class="br-3" height="48"  width="48"th:src="@{/img/gold-silver.png}" data-toggle="tooltip" title="GOLD/SILV ratio" >
 										</div>
 										<h8 class="font-weight-bold">GOLD/SILV ratio</h8>
 									    <div id='jqxCheckBoxGoldSilv'  class="align-middle"></div>
@@ -200,7 +203,7 @@ h8 {
 								   
 									<div class="col text-center">
 								   		 <div class="align-middle">
-								   		 	<img height="48"  width="48" src="/img/copper.png" class="img-icon" data-toggle="tooltip" title="Copper">
+								   		 	<img height="48"  width="48" th:src="@{/img/copper.png}" class="img-icon" data-toggle="tooltip" title="Copper">
 										 </div>
 								    	 <h8 class="font-weight-bold">Copper</h8>
 								    	 <div id='jqxCheckBoxCopper' class="align-middle"></div>
@@ -208,21 +211,21 @@ h8 {
 								    </div>
 								      <div class="col text-center">
 										    <div class="align-middle">
-												<img  height="48"  width="48" src="/img/aluminum.png" class="img-icon" data-toggle="tooltip" title="Aluminum">
+												<img  height="48"  width="48" th:src="@{/img/aluminum.png}" class="img-icon" data-toggle="tooltip" title="Aluminum">
 											</div>
 											<h8 class="font-weight-bold">Aluminum</h8>
 											<div id='jqxCheckBoxAluminum'  class="align-middle"></div>
 									</div>
 								      <div class="col text-center">
 										<div class="align-middle">
-											<img height="48"  width="48" src="/img/steel.png" class="img-icon" data-toggle="tooltip" title="Steel">
+											<img height="48"  width="48" th:src="@{/img/steel.png}" class="img-icon" data-toggle="tooltip" title="Steel">
 										 </div>
 										 <h8 class="font-weight-bold">Steel</h8>
 										 <div id='jqxCheckBoxSteel'  class="align-middle"></div>
 									</div>
 								     <div class="col text-center">
 										<div class="align-middle">
-											<img height="48"  width="48" src="/img/lumber.png" class="img-icon" data-toggle="tooltip" title="Lumber">
+											<img height="48"  width="48" th:src="@{/img/lumber.png}" class="img-icon" data-toggle="tooltip" title="Lumber">
 											</div>
 											<h8 class="font-weight-bold">Lumber</h8>
 											<div id='jqxCheckBoxLumber'  class="align-middle"></div>
@@ -233,21 +236,21 @@ h8 {
 					                   <div  style=" display: flex;">
 				  					 <div class="col text-center">
 										<div class="align-middle">
-											<img height="48"  width="48"  src="/img/corn.png" class="img-icon" data-toggle="tooltip" title="Corn">
+											<img height="48"  width="48"  th:src="@{/img/corn.png}" class="img-icon" data-toggle="tooltip" title="Corn">
 								        </div>
 										<h8 class="font-weight-bold">Corn</h8>
 									    <div id='jqxCheckBoxCorn'  class="align-middle"></div>
 								    </div>
 				 					 <div class="col text-center">
 										<div class="align-middle">
-											<img  height="48"  width="48"  src="/img/sugar.png" class="img-icon" data-toggle="tooltip" title="Sugar">
+											<img  height="48"  width="48"  th:src="@{/img/sugar.png}" class="img-icon" data-toggle="tooltip" title="Sugar">
 								        </div>
 										<h8 class="font-weight-bold">Sugar</h8>
 									    <div id='jqxCheckBoxSugar'  class="align-middle"></div>
 								    </div>
 				 					<div class="col text-center">
 										<div class="align-middle">
-											<img height="48"  width="48"  src="/img/wheat.png" class="img-icon" data-toggle="tooltip" title="Wheat">
+											<img height="48"  width="48"  th:src="@{/img/wheat.png}" class="img-icon" data-toggle="tooltip" title="Wheat">
 								        </div>
 										<h8 class="font-weight-bold">Wheat</h8>
 									    <div id='jqxCheckBoxWheat'  class="align-middle"></div>
@@ -262,7 +265,7 @@ h8 {
 										<div style=" display: flex;">
 								    <div class="col text-center">
 								   		 <div class="align-middle">
-								   		 	<img height="48"  width="48" src="/img/oil.png" class="img-icon" data-toggle="tooltip" title="CRUDE OIL ">
+								   		 	<img height="48"  width="48" th:src="@{/img/oil.png}" class="img-icon" data-toggle="tooltip" title="CRUDE OIL ">
 								    	 </div>
 								    	 <h8 class="font-weight-bold">CRUDE OIL</h8>
 								    	 <div id='jqxCheckBoxOil' class="align-middle"></div>
@@ -270,49 +273,49 @@ h8 {
 								    </div>
 								    <div class="col-2 text-center">
 								    	<div class="align-middle">
-								   	 		<img  height="48"  width="48" src="/img/gazoline.png" class="img-icon" data-toggle="tooltip" title="US GAL/GASOLINE">
+								   	 		<img  height="48"  width="48" th:src="@{/img/gazoline.png}" class="img-icon" data-toggle="tooltip" title="US GAL/GASOLINE">
 								   		</div>
 								   		<h8 class="font-weight-bold">US GAL/GASOLINE</h8>
 								   		<div id='jqxCheckBoxGASOLINE_GALL' class="align-middle"></div>
 								    </div>
 								     <div class="col text-center">
 								      	<div class="align-middle">	
-								     		<img  height="48"  width="48" src="/img/gazoline_20.png" class="img-icon" data-toggle="tooltip" title="US GAS-20L">
+								     		<img  height="48"  width="48" th:src="@{/img/gazoline_20.png}" class="img-icon" data-toggle="tooltip" title="US GAS-20L">
 								    	</div>
 								        <h8 class="font-weight-bold">US GAS-20L</h8>
 								        <div id='jqxCheckBoxGASOLINE_LITRE' class="align-middle"></div>
 								    </div>
 								    <div  class="col-2">
 								    	<div class="align-middle">	
-								    		<img height="48"  width="48" src="/img/diezel.png" class="img-icon" data-toggle="tooltip" title="US GAL/DIESEL">
+								    		<img height="48"  width="48" th:src="@{/img/diezel.png}" class="img-icon" data-toggle="tooltip" title="US GAL/DIESEL">
 								   		</div>
 								   		<h8 class="font-weight-bold">US GAL/DIESEL</h8>
 								   		<div id='jqxCheckBoxDIESEL_GALL' class="align-middle"></div>
 								    </div>
 								     <div class="col text-center">
 								     	<div class="align-middle">
-								     		<img height="48"  width="48" src="/img/diezel_ton.png" class="img-icon" data-toggle="tooltip" title="DIESEL/Ton">
+								     		<img height="48"  width="48" th:src="@{/img/diezel_ton.png}" class="img-icon" data-toggle="tooltip" title="DIESEL/Ton">
 								    	</div>
 								    	<h8 class="font-weight-bold">DIESEL/Ton</h8>
 								    	<div id='jqxCheckBoxDIESEL_TON' class="align-middle"></div>
 								    </div>
 								     <div class="col text-center">
 									     <div class="align-middle">
-									     	<img height="48"  width="48" src="/img/natgasUs.png" class="img-icon" data-toggle="tooltip" title="US NATGAS">
+									     	<img height="48"  width="48" th:src="@{/img/natgasUs.png}" class="img-icon" data-toggle="tooltip" title="US NATGAS">
 										 </div>
 										 <h8 class="font-weight-bold">US NATGAS</h8>
 										  <div id='jqxCheckBoxNATGAS_USD' class="align-middle"></div>
 									 </div>
 								     <div class="col text-center">
 								     	<div class="align-middle">
-								     		<img height="48"  width="48" src="/img/natgasEur.png" class="img-icon" data-toggle="tooltip" title="EUROZONE NATGAS">
+								     		<img height="48"  width="48" th:src="@{/img/natgasEur.png}" class="img-icon" data-toggle="tooltip" title="EUROZONE NATGAS">
 								    	 </div>
 								    	 <h8 class="font-weight-bold">EUROZONE NATGAS</h8>
 								    	 <div id='jqxCheckBoxNATGAS_EUR' class="align-middle"></div>
 								    </div>
 								      <div class="col text-center">
 								   		 <div class="align-middle">
-								   		 	<img height="48"  width="48" src="/img/brentOil.png" class="img-icon" data-toggle="tooltip" title="BRENT OIL ">
+								   		 	<img height="48"  width="48" th:src="@{/img/brentOil.png}" class="img-icon" data-toggle="tooltip" title="BRENT OIL ">
 								    	 </div>
 								    	 <h8 class="font-weight-bold">BRENT OIL</h8>
 								    	 <div id='jqxCheckBoxBrentOil' class="align-middle"></div>
@@ -324,14 +327,14 @@ h8 {
 											<div  style=" display: flex;">
 											    <div class="col text-center">
 													<div class="align-middle">
-														<img height="48"  width="48" src="/img/baltic.png" class="img-icon" data-toggle="tooltip" title="BALTIC DRY INDEX">
+														<img height="48"  width="48" th:src="@{/img/baltic.png}" class="img-icon" data-toggle="tooltip" title="BALTIC DRY INDEX">
 													</div>
 													<h8 class="font-weight-bold">BALTIC DRY INDEX</h8>
 												    <div id='jqxCheckBoxBaltic'  class="align-middle"></div>
 											    </div>
 											      <div class="col text-center">
 													<div class="align-middle">
-														<img  height="48"  width="48" src="/img/container.png" class="img-icon" data-toggle="tooltip" title="40ft Container">
+														<img  height="48"  width="48" th:src="@{/img/container.png}" class="img-icon" data-toggle="tooltip" title="40ft Container">
 													</div>
 													<h8 class="font-weight-bold">40ft Container</h8>
 												    <div id='jqxCheckBoxContainer'  class="align-middle"></div>
@@ -386,7 +389,7 @@ h8 {
 			</div>
           </div>
          	<div id="overlay" class="col-12">
-		     			<img src="/css/images/loader.gif" alt="Loading" width="46px" />
+		     			<img th:src="@{/css/images/loader.gif}" alt="Loading" width="46px" />
 		   </div>
 
           <!-- Modal Logout -->
@@ -472,37 +475,37 @@ h8 {
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="/vendor/jquery/jquery.min.js"></script>
- <script src="/js/jqwidgets/jqxcore.js"></script> 
- <script src="/js/jqwidgets/jqxcheckbox.js"></script>
-  <script src="/js/marquee.js"></script>
-   <script src="/js/slider.script.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
-  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
-  <script src="/js/jqwidgets/jqxmenu.js"></script> 
-  <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
-  <script src="/js/bourse/metaldataFunctionDisplay.js"></script>   
-  <script src="/js/jqwidgets/jqxgrid.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
-  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
-  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
-  <script src="/js/jqwidgets/jqxdata.js"></script> 
-  <script src="/js/jqwidgets/jqxcore.js"></script> 
-  <script src="/js/bourse/scrollBarNews.js"></script> 
-  <script src="/js/bourse/inGraphNews.js"></script> 
-  <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
-  <script src="/js/jqwidgets/jqxcalendar.js"></script>
-  <script src="/js/bourse/checkedFunction.js"></script>   
-  <script src="/js/common.js"></script>
-  <script src="/js/notification/sockjs.js"></script>
-  <script src="/js/notification/stomp.js"></script>
-  <script src="/js/notification/config.js"></script>
+  <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+ <script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+ <script th:src="@{/js/jqwidgets/jqxcheckbox.js}"></script>
+  <script th:src="@{/js/marquee.js}"></script>
+   <script th:src="@{/js/slider.script.js}"></script>
+  <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxscrollbar.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxmenu.js}"></script> 
+  <script th:src="@{/js/bourse/jsonCheckBoxArrayAll.js}"></script>  
+  <script th:src="@{/js/bourse/metaldataFunctionDisplay.js}"></script>   
+  <script th:src="@{/js/jqwidgets/jqxgrid.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.selection.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.columnsresize.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.edit.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.pager.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.filter.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxdropdownlist.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxlistbox.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxdata.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+  <script th:src="@{/js/bourse/scrollBarNews.js}"></script> 
+  <script th:src="@{/js/bourse/inGraphNews.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxdatetimeinput.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxcalendar.js}"></script>
+  <script th:src="@{/js/bourse/checkedFunction.js}"></script>   
+  <script th:src="@{/js/common.js}"></script>
+  <script th:src="@{/js/notification/sockjs.js}"></script>
+  <script th:src="@{/js/notification/stomp.js}"></script>
+  <script th:src="@{/js/notification/config.js}"></script>
   <script th:inline="javascript">
 	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
 	  const hasPendingApprovalGrid= authorities.filter(item => {

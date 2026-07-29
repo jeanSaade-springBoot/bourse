@@ -54,7 +54,7 @@ $(document).ready(function() {
 	  
 	getGraphHistoryByScreenName(graphName);
 	
-	$("#all10over30").jqxButton({ theme: 'dark', height: 22, width: 85, template: "danger" });
+	/*$("#all10over30").jqxButton({ theme: 'dark', height: 22, width: 85, template: "danger" });
 	$("#all5over30").jqxButton({ theme: 'dark', height: 22, width: 85, template: "danger" });
 	$("#all5over10").jqxButton({ theme: 'dark', height: 22, width: 85, template: "danger" });
 	$("#all2over10").jqxButton({ theme: 'dark', height: 22, width: 85, template: "danger" });
@@ -84,7 +84,7 @@ $(document).ready(function() {
 		initialiazeAllButtons();
 		Items = "all2over5";
 		drawGraph();
-	});
+	});*/
 
 });
 function drawGraph() {

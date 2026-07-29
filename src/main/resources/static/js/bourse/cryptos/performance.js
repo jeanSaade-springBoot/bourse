@@ -637,7 +637,7 @@ function getGraphOptions(json) {
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},

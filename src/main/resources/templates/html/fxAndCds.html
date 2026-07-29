@@ -7,16 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="img/logo/logo.png" rel="icon">
+  <link th:href="@{/img/logo/logo.png}" rel="icon">
+
   <title>Libvol - FX & CDS</title>
-   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="/css/ruang-admin.min.css" rel="stylesheet">
-  <link href="/css/marquee.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-  <link href="/css/jqx.dark.css" rel="stylesheet">
-  <link href="/css/notification.css" rel="stylesheet">
+ <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+  <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+ <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+
+  <link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+  <link th:href="@{/css/marquee.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css">
+
+ <link th:href="@{/css/jqx.dark.css}" rel="stylesheet">
+  <link th:href="@{/css/notification.css}" rel="stylesheet">
 </head>
 <style>
 .jqx-danger-dark {
@@ -121,7 +124,7 @@ div#container-wrapper {
         <!-- Container Fluid-->
              <div th:include="${maindatainputnav}"></div>
             <div id="overlay" class="col-12">
-		     			<img src="/css/images/loader.gif" alt="Loading" width="46px" />
+		     			<img th:src="@{/css/images/loader.gif}" alt="Loading" width="46px" />
 		   </div>
 		   </div>
 		   <div id="content">
@@ -154,66 +157,66 @@ div#container-wrapper {
                  	<div id="fxCdsValue" th:text="${fxcds}" style="display:none;"></div>
                  	<input id="volumeSubGroup1" style="display:none;" value="th:text='${fxcds}'"/>
                     <div  th:if="${fxcds == 1}" class="d-flex flex-column pr-2">
-                   	 <img height="48" width="48" id="usd-flag" class="mt-auto" src="/img/flag/united-states.png">
+                   	 <img height="48" width="48" id="usd-flag" class="mt-auto" th:src="@{/img/flag/united-states.png}">
                     </div>
                     <div th:if="${fxcds == 1}" class="col p-0" id="Fx-input">
 		                 <div class="col p-0 ">
 		                	<form id="dataformInputFx">
 		                	 <div class="pt-2" style=" display: flex;">
 								            <div class="col d-grid">
-								              <img  height="48" width="48" src="/img/flag/eu.png">
+								              <img  height="48" width="48" th:src="@{/img/flag/eu.png}">
 										   	  <h8 class="font-weight-bold">USDEUR</h8>
 										    </div>
 										    <div class="col d-grid">
-										    <img  height="48" width="48" src="/img/flag/united-kingdom.png">
+										    <img  height="48" width="48" th:src="@{/img/flag/united-kingdom.png}">
 										   	<h8 class="font-weight-bold">GBPUSD</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/switzerland.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/switzerland.png}">
 										    <h8 class="font-weight-bold">USDCHF</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/japan.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/japan.png}">
 										    <h8 class="font-weight-bold">USDJPY</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/canada.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/canada.png}">
 										    <h8 class="font-weight-bold">USDCAD</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/china.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/china.png}">
 										    <h8 class="font-weight-bold">USDCNY</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/sweden.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/sweden.png}">
 										     <h8 class="font-weight-bold">USDSEK</h8>
 										     </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/australia.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/australia.png}">
 										     <h8 class="font-weight-bold">USDAUD</h8>
 										     </div>
-										     <div class="col d-grid"><img height="48" width="48" src="/img/flag/russia.png">
+										     <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/russia.png}">
 										     <h8 class="font-weight-bold">USDRUB</h8>
 										     </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/turkey.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/turkey.png}">
 										    <h8 class="font-weight-bold">USDTRY</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/india.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/india.png}">
 										    <h8 class="font-weight-bold">USDINR</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/hong-kong.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/hong-kong.png}">
 										    <h8 class="font-weight-bold">USDHKD</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/south-korea.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/south-korea.png}">
 										    <h8 class="font-weight-bold">USDKRW</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/brazil.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/brazil.png}">
 										    <h8 class="font-weight-bold">USDBRL</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/mexico.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/mexico.png}">
 										    <h8 class="font-weight-bold">USDMXN</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/saudi-arabia.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/saudi-arabia.png}">
 										    <h8 class="font-weight-bold">USDSAR</h8>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/south-africa.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/south-africa.png}">
 										     <h8 class="font-weight-bold">USDZAR</h8>
 										     </div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/egypt.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/egypt.png}">
 										     <h8 class="font-weight-bold">USDEGP</h8></div>
 										</div>
 								<div class="d-flex">
@@ -234,47 +237,47 @@ div#container-wrapper {
 		                     <div class="col p-0 ">
 		                	<form id="dataformInputCds">
 									  <div class="pt-2"  style=" display: flex;">
-										  <div class="col d-grid"><img  height="48" width="48" src="/img/flag/germany.png">
+										  <div class="col d-grid"><img  height="48" width="48" th:src="@{/img/flag/germany.png}">
 										    	<h8 class="font-weight-bold">GERMANY</h8></div>
-										  <div class="col d-grid"><img height="48" width="48" src="/img/flag/france.png">
+										  <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/france.png}">
 										    	<h8 class="font-weight-bold">FRANCE</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/italy.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/italy.png}">
 										    	<h8 class="font-weight-bold">ITALY</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/spain.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/spain.png}">
 										    	<h8 class="font-weight-bold">SPAIN</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/united-kingdom.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/united-kingdom.png}">
 										    	<h8 class="font-weight-bold">U. K.</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/switzerland.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/switzerland.png}">
 										    	<h8 class="font-weight-bold">SWISS</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/sweden.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/sweden.png}">
 										    	<h8 class="font-weight-bold">SWEDEN</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/united-states.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/united-states.png}">
 										    	<h8 class="font-weight-bold">U. S. A.</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/canada.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/canada.png}">
 										    	<h8 class="font-weight-bold">CANADA</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/australia.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/australia.png}">
 										    	<h8 class="font-weight-bold">AUSSIE</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/japan.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/japan.png}">
 										    	<h8 class="font-weight-bold">JAPAN</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/china.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/china.png}">
 										    	<h8 class="font-weight-bold">CHINA</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/hong-kong.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/hong-kong.png}">
 										    	<h8 class="font-weight-bold">HONG KONG</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/south-korea.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/south-korea.png}">
 										    	<h8 class="font-weight-bold">Sth-KOREA</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/india.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/india.png}">
 										    	<h8 class="font-weight-bold">INDIA</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/brazil.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/brazil.png}">
 										    	<h8 class="font-weight-bold">BRAZIL</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/mexico.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/mexico.png}">
 										    	<h8 class="font-weight-bold">MEXICO</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/saudi-arabia.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/saudi-arabia.png}">
 										    	<h8 class="font-weight-bold">S-ARABIA</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/turkey.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/turkey.png}">
 										    	<h8 class="font-weight-bold">TURKEY</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/south-africa.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/south-africa.png}">
 										    	<h8 class="font-weight-bold">Sth-AFRICA</h8></div>
-										    <div class="col d-grid"><img height="48" width="48" src="/img/flag/egypt.png">
+										    <div class="col d-grid"><img height="48" width="48" th:src="@{/img/flag/egypt.png}">
 										    	<h8 class="font-weight-bold">Egypt</h8></div>
 										</div>
 								<div class="d-flex">
@@ -366,7 +369,7 @@ div#container-wrapper {
              <h6 class="col font-weight-bold">Fx</h6>
              <div class="d-flex justify-content-between col">
              								 <div class="d-grid ">
-                                           		<img height="48" width="48" id="usd-flag" class="mt-auto" src="/img/flag/united-states.png">
+                                           		<img height="48" width="48" id="usd-flag" class="mt-auto" th:src="@{/img/flag/united-states.png}">
                  						    </div>
 								            <div class="col d-grid ">
 								              <div style="height:48px" ></div>
@@ -374,78 +377,78 @@ div#container-wrapper {
 										   	  <div id='jqxCheckBoxusdeur'class="align-middle" style='float: left;'></div>
 										    </div>
 										    <div class="col d-grid">
-										    <img  height="48" width="48" class="align-middle" src="/img/flag/united-kingdom.png">
+										    <img  height="48" width="48" class="align-middle" th:src="@{/img/flag/united-kingdom.png}">
 										       <h8 class="font-weight-bold align-middle">GBPUSD</h8>
 												<div id='jqxCheckBoxgbpusd' class="align-middle" style='float: left;'></div>
 										   	 </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/switzerland.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/switzerland.png}">
 										    	<h8 class="font-weight-bold align-middle">USDCHF</h8>
 										  	  <div id='jqxCheckBoxusdchf' class="align-middle" style='float: left;'></div>
 										    </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/japan.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/japan.png}">
 										    	<h8 class="font-weight-bold align-middle">USDJPY</h8>
 										    	<div id='jqxCheckBoxusdjpy' class="align-middle" style='float: left;'></div>
 										     </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/canada.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/canada.png}">
 										    	<h8 class="font-weight-bold align-middle">USDCAD</h8>
 										    	<div id='jqxCheckBoxusdcad' class="align-middle" style='float: left;'></div>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" class="align-middle" src="/img/flag/china.png">
+										    <div class="col d-grid"><img height="48" width="48" class="align-middle" th:src="@{/img/flag/china.png}">
 										  	  <h8 class="font-weight-bold  align-middle">USDCNY</h8>
 										    	<div id='jqxCheckBoxusdcny' class="align-middle" style='float: left;'></div>
 										    </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/sweden.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/sweden.png}">
 										    	 <h8 class="font-weight-bold align-middle">USDSEK</h8>
 										     	<div id='jqxCheckBoxusdsek' class="align-middle" style='float: left;'></div>
 										      </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/australia.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/australia.png}">
 										     	<h8 class="font-weight-bold align-middle">USDAUD</h8>
 										     	<div id='jqxCheckBoxusdaud' class="align-middle" style='float: left;'></div>
 										     </div>
-										     <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/russia.png">
+										     <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/russia.png}">
 										    	 <h8 class="font-weight-bold align-middle">USDRUB</h8>
 										    	 <div id='jqxCheckBoxusdrub' class="align-middle" style='float: left;'></div>
 										     </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/turkey.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/turkey.png}">
 										    	<h8 class="font-weight-bold align-middle">USDTRY</h8>
 										    	<div id='jqxCheckBoxusdtry' class="align-middle" style='float: left;'></div>
 										    </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/india.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/india.png}">
 										    	<h8 class="font-weight-bold align-middle">USDINR</h8>
 										   	 	<div id='jqxCheckBoxusdinr' class="align-middle" style='float: left;'></div>
 										    </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/hong-kong.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/hong-kong.png}">
 										    	<h8 class="font-weight-bold align-middle">USDHKD</h8>
 										    	<div id='jqxCheckBoxusdhkd' class="align-middle" style='float: left;'></div>
 										    </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/south-korea.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/south-korea.png}">
 										  	  	<h8 class="font-weight-bold align-middle">USDKRW</h8>
 										   		<div id='jqxCheckBoxusdkrw' class="align-middle" style='float: left;'></div>
 										    </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/brazil.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/brazil.png}">
 										    	<h8 class="font-weight-bold align-middle">USDBRL</h8>
 										    	<div id='jqxCheckBoxusdbrl' class="align-middle" style='float: left;'></div>
 										    </div>
-										    <div class="col d-grid"><img height="48" width="48" class="align-middle" src="/img/flag/mexico.png">
+										    <div class="col d-grid"><img height="48" width="48" class="align-middle" th:src="@{/img/flag/mexico.png}">
 										    	<h8 class="font-weight-bold  align-middle">USDMXN</h8>
 										    	<div id='jqxCheckBoxusdmxn' class="align-middle" style='float: left;'></div>
 										    </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/saudi-arabia.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/saudi-arabia.png}">
 										   	 	<h8 class="font-weight-bold align-middle">USDSAR</h8>
 										    	<div id='jqxCheckBoxusdsar' class="align-middle" style='float: left;'></div>
 										    </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/south-africa.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/south-africa.png}">
 										    	 <h8 class="font-weight-bold align-middle">USDZAR</h8>
 										    	<div id='jqxCheckBoxusdzar' class="align-middle" style='float: left;'></div>
 										     </div>
-										    <div class="col d-grid "><img height="48" width="48" class="align-middle" src="/img/flag/egypt.png">
+										    <div class="col d-grid "><img height="48" width="48" class="align-middle" th:src="@{/img/flag/egypt.png}">
 										     <h8 class="font-weight-bold align-middle">USDEGP</h8>
 										     <div id='jqxCheckBoxusdegp' class="align-middle" style='float: left;'></div>
 										     </div>
 										</div>
 										<div class="d-flex justify-content-between col">
 										    <div class="d-grid ">
-                                           		<img height="48" width="48" id="usd-flag" class="mt-auto" src="/img/flag/eu.png">
+                                           		<img height="48" width="48" id="usd-flag" class="mt-auto" th:src="@{/img/flag/eu.png}">
                  						    </div>
                  						     <div class="col d-grid">
 										        <div style="height:25px"></div>
@@ -545,7 +548,7 @@ div#container-wrapper {
 														<div class="d-flex justify-content-between col">
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/germany.png">
+																	th:src="@{/img/flag/germany.png}">
 																<h8 class="font-weight-bold align-middle">GERMANY</h8>
 																<div id="jqxCheckBoxgermany" class="align-middle"
 																	style="float: left;"></div>
@@ -553,7 +556,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/france.png">
+																	th:src="@{/img/flag/france.png}">
 																<h8 class="font-weight-bold align-middle">FRANCE</h8>
 																<div id="jqxCheckBoxfrance"
 																	class="align-middle" style="float: left;"></div>
@@ -561,7 +564,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/italy.png">
+																	th:src="@{/img/flag/italy.png}">
 																<h8 class="font-weight-bold align-middle">ITALY</h8>
 																<div id="jqxCheckBoxitaly" class="align-middle"
 																	style="float: left;"></div>
@@ -569,14 +572,14 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/spain.png">
+																	th:src="@{/img/flag/spain.png}">
 																<h8 class="font-weight-bold align-middle">SPAIN</h8>
 																<div id="jqxCheckBoxspain" class="align-middle"
 																	style="float: left;"></div>
 															</div>
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/united-kingdom.png">
+																	th:src="@{/img/flag/united-kingdom.png}">
 																<h8 class="font-weight-bold align-middle">U. K.</h8>
 																<div id="jqxCheckBoxuk" class="align-middle"
 																	style="float: left;"></div>
@@ -584,7 +587,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/switzerland.png">
+																	th:src="@{/img/flag/switzerland.png}">
 																<h8 class="font-weight-bold align-middle">SWISS</h8>
 																<div id="jqxCheckBoxswiss" class="align-middle"
 																	style="float: left;"></div>
@@ -592,7 +595,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/sweden.png">
+																	th:src="@{/img/flag/sweden.png}">
 																<h8 class="font-weight-bold align-middle">SWEDEN</h8>
 																<div id="jqxCheckBoxsweden" class="align-middle"
 																	style="float: left;"></div>
@@ -600,7 +603,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/united-states.png">
+																	th:src="@{/img/flag/united-states.png}">
 																<h8 class="font-weight-bold align-middle">U. S. A.</h8>
 																<div id="jqxCheckBoxusa" class="align-middle"
 																	style="float: left;"></div>
@@ -608,7 +611,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/canada.png">
+																	th:src="@{/img/flag/canada.png}">
 																<h8 class="font-weight-bold align-middle">CANADA</h8>
 																<div id="jqxCheckBoxcanada" class="align-middle"
 																	style="float: left;"></div>
@@ -616,7 +619,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/australia.png">
+																	th:src="@{/img/flag/australia.png}">
 																<h8 class="font-weight-bold align-middle">AUSTRALIA</h8>
 																<div id="jqxCheckBoxaustralia" class="align-middle"
 																	style="float: left;"></div>
@@ -624,7 +627,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/japan.png">
+																	th:src="@{/img/flag/japan.png}">
 																<h8 class="font-weight-bold align-middle">JAPAN</h8>
 																<div id="jqxCheckBoxjapan"
 																	class="align-middle" style="float: left;"></div>
@@ -632,14 +635,14 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/china.png">
+																	th:src="@{/img/flag/china.png}">
 																<h8 class="font-weight-bold align-middle">CHINA</h8>
 																<div id="jqxCheckBoxchina" class="align-middle"
 																	style="float: left;"></div>
 															</div>
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/hong-kong.png">
+																	th:src="@{/img/flag/hong-kong.png}">
 																<h8 class="font-weight-bold align-middle">HONG KONG</h8>
 																<div id="jqxCheckBoxhongkong" class="align-middle"
 																	style="float: left;"></div>
@@ -647,7 +650,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/south-korea.png">
+																	th:src="@{/img/flag/south-korea.png}">
 																<h8 class="font-weight-bold align-middle">Sth-KOREA</h8>
 																<div id="jqxCheckBoxsouthkorea" class="align-middle"
 																	style="float: left;"></div>
@@ -655,7 +658,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/india.png">
+																	th:src="@{/img/flag/india.png}">
 																<h8 class="font-weight-bold align-middle">INDIA</h8>
 																<div id="jqxCheckBoxindia" class="align-middle"
 																	style="float: left;"></div>
@@ -663,7 +666,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/brazil.png">
+																	th:src="@{/img/flag/brazil.png}">
 																<h8 class="font-weight-bold align-middle">BRAZIL</h8>
 																<div id="jqxCheckBoxbrazil" class="align-middle"
 																	style="float: left;"></div>
@@ -671,7 +674,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/mexico.png">
+																	th:src="@{/img/flag/mexico.png}">
 																<h8 class="font-weight-bold align-middle">MEXICO</h8>
 																<div id="jqxCheckBoxmexico" class="align-middle"
 																	style="float: left;"></div>
@@ -679,7 +682,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/saudi-arabia.png">
+																	th:src="@{/img/flag/saudi-arabia.png}">
 																<h8 class="font-weight-bold align-middle">
 																S-ARABIA</h8>
 																<div id="jqxCheckBoxsaudi" class="align-middle"
@@ -687,7 +690,7 @@ div#container-wrapper {
 															</div>
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/turkey.png">
+																	th:src="@{/img/flag/turkey.png}">
 																<h8 class="font-weight-bold align-middle">TURKEY</h8>
 																<div id="jqxCheckBoxturkey" class="align-middle"
 																	style="float: left;"></div>
@@ -695,7 +698,7 @@ div#container-wrapper {
 
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/south-africa.png">
+																	th:src="@{/img/flag/south-africa.png}">
 																<h8 class="font-weight-bold align-middle">Sth-AFRICA</h8>
 																<div id="jqxCheckBoxsouthafrica" class="align-middle"
 																	style="float: left;"></div>
@@ -703,7 +706,7 @@ div#container-wrapper {
 															
 															<div class="col d-grid">
 																<img height="48" width="48" class="align-middle"
-																	src="/img/flag/egypt.png">
+																	th:src="@{/img/flag/egypt.png}">
 																<h8 class="font-weight-bold align-middle">Egypt</h8>
 																<div id="jqxCheckBoxegypt" class="align-middle jqx-checkbox-items"
 																	style="float: left;"></div>
@@ -939,37 +942,37 @@ div#container-wrapper {
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/js/marquee.js"></script>
+  <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+  <script th:src="@{/js/marquee.js}"></script>
   
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/jqwidgets/jqxcore.js"></script> 
-  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
-  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
-  <script src="/js/jqwidgets/jqxcheckbox.js"></script>
-  <script src="/js/jqwidgets/jqxmenu.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
-  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
-  <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
-  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
-  <script src="/js/jqwidgets/jqxdata.js"></script> 
-  <script src="/js/jqwidgets/jqxwindow.js"></script>
-  <script src="/js/jqwidgets/jqxinput.js"></script>
-  <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
-  <script src="/js/jqwidgets/jqxcalendar.js"></script>
-  <script src="/js/bourse/fxAndCds.js"></script> 
-  <script src="/js/bourse/scrollBarNews.js"></script> 
-  <script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>  
-  <script src="/js/common.js"></script>
-  <script src="/js/notification/sockjs.js"></script>
-  <script src="/js/notification/stomp.js"></script>
-  <script src="/js/notification/config.js"></script>
+  <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxscrollbar.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxcheckbox.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxmenu.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.selection.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.columnsresize.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.edit.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.pager.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.filter.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxdropdownlist.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxbuttongroup.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxlistbox.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxdata.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxwindow.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxinput.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxdatetimeinput.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxcalendar.js}"></script>
+  <script th:src="@{/js/bourse/fxAndCds.js}"></script> 
+  <script th:src="@{/js/bourse/scrollBarNews.js}"></script> 
+  <script th:src="@{/js/bourse/jsonCheckBoxArrayAll.js}"></script>  
+  <script th:src="@{/js/common.js}"></script>
+  <script th:src="@{/js/notification/sockjs.js}"></script>
+  <script th:src="@{/js/notification/stomp.js}"></script>
+  <script th:src="@{/js/notification/config.js}"></script>
   <script th:inline="javascript">
 	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
 	  const hasPendingApprovalGrid= authorities.filter(item => {

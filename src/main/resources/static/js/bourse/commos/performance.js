@@ -219,7 +219,7 @@ configData.forEach((item, index) => {
             id: `group-${groupId}`,
             parentid: "-1",
             text: groupTitle,
-            icon: "/img/group.png"  // optional group icon
+            icon: "/img/group.png}"  // optional group icon
         });
         addedGroups[groupId] = true;
     }
@@ -881,7 +881,7 @@ function getGraphOptions(json) {
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},
@@ -951,6 +951,9 @@ function getGraphOptions(json) {
 		yaxis: {
 			labels: {
 				show: true,
+				style: {
+						colors:["#fff"]
+					},
 			},
 			formatter: function(val, index) {
 					return  val.split("-")[0];

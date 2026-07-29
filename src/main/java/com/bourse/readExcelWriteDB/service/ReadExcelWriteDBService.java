@@ -37,6 +37,7 @@ import com.bourse.domain.TransportationData;
 import com.bourse.domain.cryptos.CryptosData;
 import com.bourse.domain.liquidity.EcbBalanceSheetLiquidity;
 import com.bourse.domain.liquidity.FedLiquidity;
+import com.bourse.domain.liquidity.UsBanksReserveLiquidity;
 import com.bourse.domain.longEnds.LongEndData;
 import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.rates.RatesData;
@@ -72,6 +73,7 @@ import com.bourse.service.TransportationService;
 import com.bourse.service.cryptos.CryptosService;
 import com.bourse.service.liquidity.EcbBalanceSheetService;
 import com.bourse.service.liquidity.FedLiquidityService;
+import com.bourse.service.liquidity.UsBanksReserveLiquidityService;
 import com.bourse.service.longEnds.LongEndsService;
 import com.bourse.service.macro.MacroService;
 import com.bourse.service.rates.RatesService;
@@ -117,6 +119,8 @@ public class ReadExcelWriteDBService {
 	EzMonetaryMassLiquidityService ezMonetaryMassLiquidityService;
 	@Autowired
 	FedLiquidityService fedLiquidityService;
+	@Autowired
+	UsBanksReserveLiquidityService usBanksReserveLiquidityService;
 	@Autowired
 	BundOptionsVolumeService bundOptionsVolumeService;
 	@Autowired
@@ -1846,6 +1850,37 @@ public class ReadExcelWriteDBService {
 				logger.info("Maximum Date: {}", minMaxDates[1]);
 
 				ecbBalanceSheetService.doCalculationLoader(minMaxDates[0], minMaxDates[1]);
+
+			} else {
+
+				logger.info("List is empty.");
+			}
+		} else if (readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("85")) {
+
+			List<UsBanksReserveLiquidity> usBanksReserveLiquidityList = processSubgroups(
+
+					readExcelWriteDBDTO,
+
+					Arrays.asList("1"),
+
+					85, false, (date, subgroupId) -> usBanksReserveLiquidityService.CheckIfCanSave(date, subgroupId),
+
+					(data, subgroupId) -> UsBanksReserveLiquidity.builder().referDate(data.getDate()).subgroupId(subgroupId)
+							.value(data.getValue() == null ? "" : data.getValue()).build(),
+
+					batch -> usBanksReserveLiquidityService.SaveUsBanksReserveLiquidityData(batch),
+					(data, subgroupId, value) -> usBanksReserveLiquidityService.updateValue(data.getDate(), subgroupId, value));
+
+			if (!usBanksReserveLiquidityList.isEmpty()) {
+
+				entityManager.flush();
+
+				String[] minMaxDates = ReadExcelWriteDBUtil.findMinMaxDatesAsString(usBanksReserveLiquidityList, "referDate");
+
+				logger.info("Minimum Date: {}", minMaxDates[0]);
+				logger.info("Maximum Date: {}", minMaxDates[1]);
+
+				usBanksReserveLiquidityService.doCalculationLoader(minMaxDates[0], minMaxDates[1]);
 
 			} else {
 

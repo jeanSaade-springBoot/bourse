@@ -267,7 +267,7 @@ function getGraphOptions(json) {
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},
@@ -321,7 +321,11 @@ function getGraphOptions(json) {
 		},
 		yaxis: {
 			labels: {
-				show: true
+				show: true,
+				style: {
+						fontSize: fontsize,
+						colors:['#fff']
+					},
 			},
 			max: 100
 		},

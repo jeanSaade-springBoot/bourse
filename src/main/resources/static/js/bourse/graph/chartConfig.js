@@ -406,6 +406,7 @@ const graphConfig = {
                     type,
                     subGroupId1: itemValue[checkedValues[0]].subGroupId,
                     groupId1: itemValue[checkedValues[0]].GroupId,
+                    factor1: itemValue[checkedValues[0]].factor,
                     isFunctionGraph: true,
                     functionId: functionId + 1,
                     removeEmpty1: removeEmpty
@@ -419,6 +420,7 @@ const graphConfig = {
                 type,
                 subGroupId1: itemValue[checkedValues[0]].subGroupId,
                 groupId1: itemValue[checkedValues[0]].GroupId,
+                factor1: itemValue[checkedValues[0]].factor,
                 isFunctionGraph: false,
                 functionId,
                 removeEmpty1: removeEmpty
@@ -1097,6 +1099,10 @@ function updateChartConfigurationUnified(SelectedchartType, selectedChartColor, 
         if (preservedSeries[1] && [5, 6, 10, 11, 12, 13, 14, 15].includes(functionId)) {
            graphName!="wmqyVolume" ? preservedSeries[1].strokeWidth = strokeWidth1 : null;
         }
+        if ( graphName=="ecbImpactLiquidity" )
+        {
+			preservedSeries[1].strokeWidth = getDynamicWidth(preservedSeries[1]?.data?.filter(item => item?.y != null && item?.y !== '').length || 0)/3;
+		}
         // 
         // ==================================
         // SERIES VALUES
@@ -1147,7 +1153,7 @@ function updateChartConfigurationUnified(SelectedchartType, selectedChartColor, 
 		        // functionId 7-9 + barFunctionId
 		        // ==================================
 		        if (
-		            (functionId >= 7 && functionId < 10) || barFunctionId.includes(functionId)) {
+		            (functionId >= 7 && functionId < 9) || barFunctionId.includes(functionId)) {
 		            // Keep original behavior
 		            axis2.min = min2;
 		            axis2.max = max2;
@@ -1338,6 +1344,8 @@ async function refreshGraphNavigation() {
 			true,
 			newSeries
 		);
+		
+	
     } catch (error) {
         console.error('Navigation refresh error:', error);
     } finally {
@@ -1404,17 +1412,28 @@ async function buildSeries(response, Period) {
         try {
             const result = await processDataAndAddNewEndDateForExtraSpaceInGraph(data0, 10, false);
             data0 = result.response;
+            
+            let { data1: alignedData1, data2: alignedData2 } = alignMergeDataSets(response[0].graphResponseDTOLst, response[1].graphResponseDTOLst) ;
+			 response[1].graphResponseDTOLst = alignedData2;
+			
+			 
         } catch (error) {
             console.error('Error processing data:', error);
         }
+         
+			const strokeWidth = getDynamicWidth(response[0].graphResponseDTOLst?.filter(item => item?.y != null && item?.y !== '').length || 0);
+            const strokeWidth1 = getDynamicWidth(response[1].graphResponseDTOLst?.filter(item => item?.y != null && item?.y !== '').length || 0);
+            
         series = [{
             name: response[0].config?.displayDescription ?? '',
             type: Period === 'd' ? chartType1 : 'column',
-            data: data0
+            data: data0,
+            strokeWidth:strokeWidth
         }, {
             name: response[1].config?.displayDescription ?? '',
             type: Period === 'd' ? chartType2 : 'column',
-            data: response[1].graphResponseDTOLst
+            data: response[1].graphResponseDTOLst,
+            strokeWidth1:strokeWidth1
         }];
     }
     // ==================================

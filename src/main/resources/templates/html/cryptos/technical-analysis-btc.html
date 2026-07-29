@@ -8,22 +8,24 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<link href="img/logo/logo.png" rel="icon">
+<link th:href="@{/img/logo/logo.png}" rel="icon">
+
 <title>Libvol - Crypto</title>
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
-<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+<link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet"
 	type="text/css">
-<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"
 	type="text/css">
-<link href="/css/ruang-admin.min.css" rel="stylesheet">
-<link href="/css/marquee.css" rel="stylesheet">
-<link href="/css/apexchart.css" rel="stylesheet">
-<link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-<link href="/css/jqx.dark.css" rel="stylesheet">
-<link href="/css/custom.grid.css" rel="stylesheet">
-<link href="/css/notification.css" rel="stylesheet">
-<link href="/css/order-book.css" rel="stylesheet">
-<link href="/css/analytics.css" rel="stylesheet">
+<link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+<link th:href="@{/css/marquee.css}" rel="stylesheet">
+<link th:href="@{/css/apexchart.css}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css">
+
+<link th:href="@{/css/jqx.dark.css}" rel="stylesheet">
+<link th:href="@{/css/custom.grid.css}" rel="stylesheet">
+<link th:href="@{/css/notification.css}" rel="stylesheet">
+<link th:href="@{/css/order-book.css}" rel="stylesheet">
+<link th:href="@{/css/analytics.css}" rel="stylesheet">
 
 <style>
 .mt-3.btn-toolbar.justify-content-between {
@@ -53,7 +55,7 @@
 	margin: 0.5rem;
 	color: white;
 	background-color: #5a8dee !important;
-	border-color: var(- -jqx-border);
+	border-color: var(--jqx-border);
 	border-radius: 4px;
 	border: 1px solid transparent;
 	padding: 1px 42px;
@@ -284,7 +286,7 @@ height:34px;
 			<button id="scrollLeftBtn">◀</button>
 			<button id="scrollRightBtn">▶</button>
 			<div id="overlay" class="col-12 d-block">
-		     			<img src="/css/images/loader.gif" alt="Loading" width="46px" />
+		     			<img th:src="@{/css/images/loader.gif}" alt="Loading" width="46px" />
 		   </div>
 			<div id="content" class="drag-scroll">
 				<!-- Container Fluid-->
@@ -432,7 +434,7 @@ height:34px;
 											href="#collapseFilter" role="button" aria-expanded="false"
 											aria-controls="collapseFilter">Select Factors <img
 											style="width: 12px; margin-left: .6rem;"
-											id="ContentPlaceHolder1_Image13" src="../../img/down.png"
+											id="ContentPlaceHolder1_Image13" th:src="@{/img/down.png}"
 											align="absmiddle"></a>
 									</p>
 									<div class="row">
@@ -858,54 +860,54 @@ height:34px;
 			class="fas fa-angle-up"></i>
 		</a>
 
-		<script src="/vendor/jquery/jquery.min.js"></script>
-		<script src="/js/jquery-ui.min.js"></script>
-		<script src="/js/jqwidgets/jqxcore.js"></script>
-		<script src="/js/jqwidgets/jqxcheckbox.js"></script>
-		<script src="/js/marquee.js"></script>
-		<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<script src="/js/collapseDropDown.js"></script>
+		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+		<script th:src="@{/js/jquery-ui.min.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxcheckbox.js}"></script>
+		<script th:src="@{/js/marquee.js}"></script>
+		<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+		<script th:src="@{/js/collapseDropDown.js}"></script>
 		
-		<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-		<script src="/js/jqwidgets/jqxbuttons.js"></script>
+		<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
 
-		<script src="/js/apexcharts.js"></script>
-		<script src="/js/chartOptions.js"></script>
-		<script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>
-		<script src="/js/chart.js"></script>
+		<script th:src="@{/js/apexcharts.js}"></script>
+		<script th:src="@{/js/chartOptions.js}"></script>
+		<script th:src="@{/js/bourse/jsonCheckBoxArrayAll.js}"></script>
+		<script th:src="@{/js/chart.js}"></script>
 	
-		<script src="/js/jqwidgets/jqxdata.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.js"></script>
-		<script src="/js/jqwidgets/jqxbuttongroup.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.filter.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
-		<script src="/js/jqwidgets/jqxscrollbar.js"></script>
-		<script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
-		<script src="/js/jqwidgets/jqxcalendar.js"></script>
-		<script src="/js/jqwidgets/jqxmenu.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.pager.js"></script>
-		<script src="/js/jqwidgets/jqxdropdownlist.js"></script>
-		<script src="/js/jqwidgets/jqxcombobox.js"></script>
-		<script src="/js/jqwidgets/jqxlistbox.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.selection.js"></script>
-		<script src="/js/jqwidgets/jqxcore.js"></script>
-		<script src="/js/bourse/scrollBarNews.js"></script>
-		<script src="/js/bourse/inGraphNews.js"></script>
-		<script src="/js/common.js"></script>
+		<script th:src="@{/js/jqwidgets/jqxdata.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxbuttongroup.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.filter.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.grouping.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxscrollbar.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxdatetimeinput.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxcalendar.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxmenu.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.pager.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxdropdownlist.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxcombobox.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxlistbox.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.columnsresize.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.selection.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+		<script th:src="@{/js/bourse/scrollBarNews.js}"></script>
+		<script th:src="@{/js/bourse/inGraphNews.js}"></script>
+		<script th:src="@{/js/common.js}"></script>
 		
-	    <script src="/js/graph/chartManager.js"></script>
+	    <script th:src="@{/js/graph/chartManager.js}"></script>
 
-		<script src="/js/bourse/cryptos/technical-analysis-btc.js"></script>
-		<script src="/js/bourse/cryptos/technical-analysis-crypto.js"></script>
+		<script th:src="@{/js/bourse/cryptos/technical-analysis-btc.js}"></script>
+		<script th:src="@{/js/bourse/cryptos/technical-analysis-crypto.js}"></script>
 		
- 		<script src="/js/graph/trendlineManager.js"></script>
- 		<script src="/js/bourse/graph/candleStick.js"></script>
-	    <script src="/js/bourse/cryptos/orderBook.js"></script> 
+ 		<script th:src="@{/js/graph/trendlineManager.js}"></script>
+ 		<script th:src="@{/js/bourse/graph/candleStick.js}"></script>
+	    <script th:src="@{/js/bourse/cryptos/orderBook.js}"></script> 
     
-		<script src="/js/notification/sockjs.js"></script>
-		<script src="/js/notification/stomp.js"></script>
-		<script src="/js/notification/config.js"></script>
+		<script th:src="@{/js/notification/sockjs.js}"></script>
+		<script th:src="@{/js/notification/stomp.js}"></script>
+		<script th:src="@{/js/notification/config.js}"></script>
 		<script th:inline="javascript">
 		  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
 		  const username = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.principal.username}]]*/ "";

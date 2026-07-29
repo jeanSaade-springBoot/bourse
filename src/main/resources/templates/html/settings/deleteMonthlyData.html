@@ -1,0 +1,543 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head>
+
+<meta charset="utf-8">
+
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+
+<meta name="viewport"
+	content="width=device-width,
+                   initial-scale=1,
+                   shrink-to-fit=no">
+
+<meta name="description" content="">
+<meta name="author" content="">
+
+<link th:href="@{/img/logo/logo.png}" rel="icon">
+
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+
+<title>Libvol - Delete Monthly Data</title>
+
+<link th:href="@{/vendor/fontawesome-free/css/all.min.css}"
+	rel="stylesheet" type="text/css">
+
+<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}"
+	rel="stylesheet" type="text/css">
+
+<link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+
+<link th:href="@{/css/marquee.css}" rel="stylesheet">
+
+<link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css">
+
+<link th:href="@{/css/jqx.dark.css}" rel="stylesheet">
+
+<link th:href="@{/css/notification.css}" rel="stylesheet">
+
+<style>
+.form-control {
+	height: calc(1em + .75rem + 7px);
+}
+
+.delete-screen-card, .delete-info-card {
+	background: #071827;
+	border: 1px solid #27445f;
+}
+
+.delete-info-card h5 {
+	color: #2f8cff;
+}
+
+.delete-section-label {
+	margin-bottom: 8px;
+	color: #719df0;
+	font-size: .9rem;
+	font-weight: bold;
+}
+
+.delete-date-input {
+	width: 100%;
+	height: 32px;
+	padding: 5px 10px;
+	color: #d8e8ff;
+	background: #202d47;
+	border: 1px solid #304a70;
+	outline: none;
+}
+
+.delete-date-input:focus {
+	border-color: #719df0;
+}
+
+.delete-date-input::-webkit-calendar-picker-indicator {
+	filter: invert(1);
+	cursor: pointer;
+}
+
+.delete-danger-button {
+	min-width: 190px;
+	height: 35px;
+	color: #ffffff;
+	background: #771824;
+	border: 1px solid #b84b57;
+	border-radius: 3px;
+	font-size: 12px;
+	font-weight: bold;
+}
+
+.delete-danger-button:hover:not(:disabled) {
+	color: #ffffff;
+	background: #a0202f;
+	border-color: #e66d78;
+}
+
+.delete-danger-button:disabled {
+	color: #7d8796;
+	background: #252c35;
+	border-color: #404955;
+	cursor: not-allowed;
+	opacity: .7;
+}
+
+.delete-message {
+	margin-top: 18px;
+	padding: 10px 12px;
+	border: 1px solid;
+	font-size: 13px;
+}
+
+.delete-message.info {
+	color: #8ebfff;
+	background: #102a46;
+	border-color: #2b659e;
+}
+
+.delete-message.success {
+	color: #93e8a2;
+	background: #12331c;
+	border-color: #357745;
+}
+
+.delete-message.warning {
+	color: #ffd28b;
+	background: #3a2912;
+	border-color: #916826;
+}
+
+.delete-message.error {
+	color: #ff9ca5;
+	background: #3a151b;
+	border-color: #91404b;
+}
+
+.monthly-delete-modal {
+	color: #b6d1f6;
+	background: #071b2a;
+	border: 1px solid #536a87;
+}
+
+.monthly-delete-modal-header {
+	color: #ffffff;
+	background: #7c1823;
+	border-bottom: 1px solid #b84b57;
+}
+
+.monthly-delete-modal-header .modal-title {
+	color: #ffffff;
+}
+
+.monthly-delete-modal-header .close {
+	color: #ffffff;
+	text-shadow: none;
+	opacity: 1;
+}
+
+.monthly-delete-modal-body {
+	background: #071b2a;
+}
+
+.monthly-delete-modal-footer {
+	background: #0a1e30;
+	border-top: 1px solid #314861;
+}
+
+.delete-warning-icon {
+	width: 48px;
+	height: 48px;
+	margin: 0 auto 12px;
+	color: #ffffff;
+	background: #a2212f;
+	border: 2px solid #dc6170;
+	border-radius: 50%;
+	font-size: 31px;
+	font-weight: bold;
+	line-height: 44px;
+	text-align: center;
+}
+
+.delete-warning-text {
+	color: #ffadb4;
+	text-align: center;
+}
+
+.delete-confirmation-summary {
+	margin: 18px 0;
+	border: 1px solid #314861;
+}
+
+.delete-summary-row {
+	display: flex;
+	justify-content: space-between;
+	gap: 15px;
+	padding: 9px 12px;
+	border-bottom: 1px solid #263a50;
+}
+
+.delete-summary-row:last-child {
+	border-bottom: none;
+}
+
+.delete-summary-row span {
+	color: #7d9ec8;
+}
+
+.delete-summary-row strong {
+	color: #d1e4ff;
+	text-align: right;
+}
+
+.delete-confirmation-warning {
+	margin: 14px 0;
+	padding: 10px;
+	color: #ff9ca5;
+	background: #35151a;
+	border: 1px solid #7c3039;
+	text-align: center;
+}
+
+.delete-confirmation-input {
+	width: 100%;
+	height: 35px;
+	padding: 6px 10px;
+	color: #ffffff;
+	background: #202d47;
+	border: 1px solid #48698e;
+	outline: none;
+}
+
+.delete-cancel-button {
+	min-width: 100px;
+	height: 35px;
+	color: #b8cae4;
+	background: #15263a;
+	border: 1px solid #4b6685;
+	border-radius: 3px;
+	font-size: 12px;
+	font-weight: bold;
+}
+</style>
+
+</head>
+
+<body id="page-top">
+
+	<div id="wrapper">
+
+		<div id="content-wrapper" class="d-flex flex-column">
+
+			<div id="fixedMenu">
+
+				<div th:include="${mainmenu}"></div>
+
+				<div class="d-sm-flex align-items-center">
+
+					<h1 class="ml-6 text-darkorange">Settings</h1>
+
+					<nav style="margin-left: 3rem; height: 35px; margin-top: .5rem;">
+
+						<div class="navigation nav nav-tabs" id="nav-tab" role="tablist">
+
+							<a class="navigation nav-item nav-link" href="/bourse/settings">
+								Column Master </a> <a class="navigation nav-item nav-link"
+								href="/bourse/readexcelwritedb"> Batch Loader </a> <a
+								class="navigation nav-item nav-link"
+								href="/bourse/displaysettings?assetId=8"> Display Settings </a>
+
+							<a class="navigation nav-item nav-link active"
+								href="/bourse/deletemonthlydata"> Delete Monthly Data </a>
+
+						</div>
+
+					</nav>
+
+				</div>
+
+				<div id="overlay" class="col-12">
+
+					<img th:src="@{/css/images/loader.gif}" alt="Loading" width="46px">
+
+				</div>
+
+			</div>
+
+			<div id="content" style="height: fit-content; display: none;">
+
+				<div class="col-12 pt-3"
+					style="height: fit-content; margin-left: 5rem; max-width: 92%;">
+
+					<div class="col-12 pt-2">
+
+						<h2>Delete Monthly Data</h2>
+
+					</div>
+
+					<div class="row pt-2">
+
+						<div class="col-8 mb-5">
+
+							<div class="card p-4 mb-5 delete-screen-card">
+
+								<div class="row">
+
+									<div class="col-3">
+
+										<label class="t-style"> Select Asset Class </label>
+
+										<div id="deleteFamilyDropDown"></div>
+
+									</div>
+
+									<div class="col-3">
+
+										<label class="t-style"> Select Group </label>
+
+										<div id="deleteGroupDropDown"></div>
+
+									</div>
+									<div class="col-2">
+
+											<label class="delete-section-label" for="deleteFromMonth">
+												From Month </label>
+
+											<div id="deleteFromMonth"></div>
+
+
+										</div>
+
+										<div class="col-3">
+
+											<label class="delete-section-label" for="deleteToMonth">
+												To Month </label>
+
+											<div id="deleteToMonth"></div>
+
+										</div>
+
+								</div>
+
+
+								<div class="pt-4">
+
+									<button type="button" id="openDeleteConfirmationBtn"
+										class="delete-danger-button" disabled>DELETE MONTHLY
+										DATA</button>
+
+								</div>
+
+								<div id="monthlyDeleteMessage"></div>
+
+							</div>
+
+						</div>
+
+						<div class="col-4">
+
+							<div class="card p-4 mb-3 delete-info-card">
+
+								<h5>Delete Monthly Data</h5>
+
+								<ul>
+
+									<li>Only monthly input assets are available.</li>
+
+									<li>Select the asset class and related group.</li>
+
+									<li>Select the month range to delete.</li>
+
+									<li>Deleted records cannot be recovered from this screen.
+									</li>
+
+								</ul>
+
+							</div>
+
+						</div>
+
+					</div>
+
+				</div>
+
+				<div class="NewsBack container mb-0"
+					style="position: fixed; bottom: 0; left: 0; max-width: 100%; border: 2px; border-color: black;">
+
+					<div class="simple-marquee-container">
+
+						<div class="marquee-sibling-date">
+							<p id="todayDate"></p>
+						</div>
+
+						<div class="marquee-sibling">NEWS</div>
+
+						<div class="marquee">
+
+							<ul id="Newslist" class="marquee-content-items">
+							</ul>
+
+						</div>
+
+						<div class="marquee-sibling-viewAll">
+
+							<input type="button" value="VIEW ALL" id="viewall"
+								style="display: none;">
+
+						</div>
+
+					</div>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<!-- Delete confirmation modal -->
+	<div class="modal fade" id="monthlyDeleteConfirmationModal"
+		tabindex="-1" role="dialog" aria-hidden="true">
+
+		<div class="modal-dialog " role="document">
+
+			<div class="modal-content monthly-delete-modal">
+
+				<div class="modal-header monthly-delete-modal-header">
+
+					<h5 class="modal-title">Confirm Monthly Data Deletion</h5>
+
+					<button type="button" class="close" data-dismiss="modal"
+						aria-label="Close">
+
+						<span aria-hidden="true"> &times; </span>
+
+					</button>
+
+				</div>
+
+				<div class="modal-body monthly-delete-modal-body">
+
+					<div class="delete-warning-icon">!</div>
+
+					<p class="delete-warning-text">You are about to permanently
+						delete monthly data.</p>
+
+					<div class="delete-confirmation-summary">
+
+						<div class="delete-summary-row">
+
+							<span>Asset Class</span> <strong id="confirmDeleteAsset">
+								- </strong>
+
+						</div>
+
+						<div class="delete-summary-row">
+
+							<span>Group</span> <strong id="confirmDeleteGroup"> - </strong>
+
+						</div>
+
+						<div class="delete-summary-row">
+
+							<span>Period</span> <strong id="confirmDeletePeriod"> -
+							</strong>
+
+						</div>
+
+
+					</div>
+
+					<div class="delete-confirmation-warning">This operation
+						cannot be undone.</div>
+
+					<label for="monthlyDeleteConfirmationText" class="t-style">
+
+						Type <strong>DELETE</strong> to continue
+
+					</label> <input type="text" id="monthlyDeleteConfirmationText"
+						class="delete-confirmation-input" autocomplete="off">
+
+				</div>
+
+				<div class="modal-footer monthly-delete-modal-footer">
+
+					<button type="button" class="delete-cancel-button"
+						data-dismiss="modal">CANCEL</button>
+
+					<button type="button" id="confirmMonthlyDeleteBtn"
+						class="delete-danger-button" disabled>DELETE</button>
+
+				</div>
+
+			</div>
+
+		</div>
+
+	</div>
+
+	<a class="scroll-to-top rounded" href="#page-top"> <i
+		class="fas fa-angle-up"></i>
+
+	</a>
+
+	<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+	<script th:src="@{/js/marquee.js}"></script>
+
+	<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+	<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+
+	<script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+	<script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
+	<script th:src="@{/js/jqwidgets/jqxscrollbar.js}"></script>
+	<script th:src="@{/js/jqwidgets/jqxdropdownlist.js}"></script>
+	<script th:src="@{/js/jqwidgets/jqxlistbox.js}"></script>
+	<script th:src="@{/js/jqwidgets/jqxdata.js}"></script>
+	<script th:src="@{/js/jqwidgets/jqxnotification.js}"></script>
+	
+	<script th:src="@{/js/jqwidgets/jqxdatetimeinput.js}"></script>
+	<script th:src="@{/js/jqwidgets/jqxcalendar.js}"></script>
+			
+	<script th:src="@{/js/bourse/settings/deleteMonthlyData.js}"></script>
+	<script th:src="@{/js/bourse/scrollBarNews.js}"></script>
+	<script th:src="@{/js/common.js}"></script>
+
+	<script th:src="@{/js/notification/sockjs.js}"></script>
+	<script th:src="@{/js/notification/stomp.js}"></script>
+	<script th:src="@{/js/notification/config.js}"></script>
+
+	<script th:inline="javascript">
+
+    const authorities =
+        /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/
+        "";
+
+    const hasPendingApprovalGrid =
+        authorities.filter(function (item) {
+            return item.authority === "PENDING_APPROVAL_GRID";
+        })[0] !== undefined;
+
+</script>
+
+</body>
+</html>

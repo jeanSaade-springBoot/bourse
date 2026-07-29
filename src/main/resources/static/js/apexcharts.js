@@ -6474,7 +6474,7 @@
 					this.dataURI().then((function (e) {
 						var i = e.imgURI,
 							a = e.blob;
-						a ? navigator.msSaveOrOpenBlob(a, t.w.globals.chartID + ".png") : t.triggerDownload(i, null, ".png")
+						a ? navigator.msSaveOrOpenBlob(a, t.w.globals.chartID + ".png}") : t.triggerDownload(i, null, ".png}")
 					}))
 				}
 			}, {

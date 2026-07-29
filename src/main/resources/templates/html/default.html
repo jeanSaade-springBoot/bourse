@@ -6,15 +6,18 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Dashboard Page for Libvol that displays the service it offers">
-  <link href="img/logo/logo.png" rel="icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link th:href="@{/img/logo/logo.png}" rel="icon">
+
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
   <title>Libvol - Dashboard</title>
-  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="/css/ruang-admin.min.css" rel="stylesheet">
-  <link href="/css/marquee.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-  <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+ <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+
+  <link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+  <link th:href="@{/css/marquee.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css">
+
+ <link th:href="@{/css/jqx.dark.css}" rel="stylesheet">
   
   <style>
 div#content {
@@ -41,7 +44,7 @@ a.sign-up-style {
     <div id="fixedMenu">
         <!-- TopBar -->
    <nav class="navbar navbar-expand navbar-light bg-navbar topbar static-top">
-	<img id="imglogo" src="../../img/logo.png"  style="height:70px;margin-left: 3%;" alt="libvol-logo">
+	<img id="imglogo" th:src="@{/img/logo.png}"  style="height:70px;margin-left: 3%;" alt="libvol-logo">
 	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -50,7 +53,7 @@ a.sign-up-style {
 		
 		<div class="navbar-nav mr-auto">
 		   <div style=" background: url(../../img/WebResource.png) top left repeat-x;     display: flex; border-radius: 0.2rem; padding: 0.2rem;">
-			<a href="/" class="nav-item nav-link active" ><img alt="home-icon" src="../../img/ico-home.png" class="MainMenuIcon">Home</a>
+			<a href="/" class="nav-item nav-link active" ><img alt="home-icon" th:src="@{/img/ico-home.png}" class="MainMenuIcon">Home</a>
 		    </div>
 		</div>
 		
@@ -93,7 +96,7 @@ a.sign-up-style {
 		           <div class="card-body">
 		      <h5 class="card-title card-title-color">News</h5>
 		      <ul class="fa-ul">
-		  <li><a href="/bourse/allnews"><img id="ContentPlaceHolder1_Image13" src="../../img/i4.png" >All news</a></li>
+		  <li><a href="/bourse/allnews"><img id="ContentPlaceHolder1_Image13" th:src="@{/img/i4.png}" >All news</a></li>
 		  </ul>
 		    </div>
 		    </div> -->
@@ -103,14 +106,14 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">Yields</h5>
       <ul class="fa-ul">
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Sovereign Yields</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Curves</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yield Crosses</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Corporate Yields </a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Credit Spreads</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Spread Maker</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Any 2</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Sovereign Yields</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Yield Curves</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Yield Crosses</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Corporate Yields </a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Credit Spreads</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Spread Maker</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 		</ul>
     </div>
     
@@ -122,12 +125,12 @@ a.sign-up-style {
 			<h5 class="card-title card-title-color">Rates</h5>
 			<ul class="fa-ul">
 				<li><a href="/login"><img class="img-m-right"
-						id="ContentPlaceHolder1_Image13" src="../../img/i2.png"
+						id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}"
 						align="absmiddle">Central Banks</a></li>
 			
 				<li><a href="/login"><img
 						class="img-m-right" id="ContentPlaceHolder1_Image13"
-						src="../../img/i5.png" align="absmiddle">DATA &
+						th:src="@{/img/i5.png}" align="absmiddle">DATA &
 						FUNCTION DISPLAY</a></li>
 			</ul>
 		</div>
@@ -136,13 +139,13 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">Commos</h5>
       <ul class="fa-ul">
-		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</a></li>
-		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Base Metals</a></li>
-		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Foodstuff</a></li>
-		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Energy</a></li>
-		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Transportation</a></li>
-		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Any 2</a></li>
+		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Precious Metals</a></li>
+		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Base Metals</a></li>
+		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Foodstuff</a></li>
+		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Energy</a></li>
+		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Transportation</a></li>
+		   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 		 </ul>
     </div>
   </div>
@@ -152,13 +155,13 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">Liquidity</h5>
       <ul class="fa-ul">
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Ecb Excess Liquidity</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ECB QE Operations</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ECB Impact</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Eurozone Monetary Mass</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Corpoprate Liquidity</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Any 2</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Ecb Excess Liquidity</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">ECB QE Operations</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">ECB Impact</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Eurozone Monetary Mass</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Corpoprate Liquidity</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 		 
 		 </ul>
     </div>
@@ -167,8 +170,8 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">The Math Box</h5>
       <ul class="fa-ul">
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">One Serie</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Two Series</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i1.png}" align="absmiddle">One Serie</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Two Series</a></li>
 		</ul>
     </div>
   </div>
@@ -176,8 +179,8 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">Monitoring</h5>
       <ul class="fa-ul">
-		  <li ><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Fast Chart</li>
-		  <li><a href="#"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
+		  <li ><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i3.png}" align="absmiddle">Fast Chart</li>
+		  <li><a href="#"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Any 2</a></li>
 		</ul>
     </div>
   </div>
@@ -185,10 +188,10 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">PMIs</h5>
       <ul class="fa-ul">
-	  	<li><a href="/login"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">COUNTRY PMI</a></li>
-	  	<li ><a href="/login"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">MONTHLY RANKING</a></li> 
-	  	<li  ><a href="/login"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">PMI vs SURVEY</a></li> 
-	  	<li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+	  	<li><a href="/login"><img class="img-m-right" th:src="@{/img/i2.png}" align="absmiddle">COUNTRY PMI</a></li>
+	  	<li ><a href="/login"><img class="img-m-right" th:src="@{/img/i2.png}" align="absmiddle">MONTHLY RANKING</a></li> 
+	  	<li  ><a href="/login"><img class="img-m-right" th:src="@{/img/i2.png}" align="absmiddle">PMI vs SURVEY</a></li> 
+	  	<li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	   </ul>
     </div>
   </div>
@@ -196,12 +199,12 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">Stocks</h5>
       <ul class="fa-ul">
-		  <li><a href="/login"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">EUROPE</a></li>
-	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">WALL STREET</a></li>
-	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ASIA</a></li>
-	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">EMERGING</a></li>
-   	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		  <li><a href="/login"><img class="img-m-right" th:src="@{/img/i2.png}" align="absmiddle">Any 2</a></li>
+	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">EUROPE</a></li>
+	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">WALL STREET</a></li>
+	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">ASIA</a></li>
+	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">EMERGING</a></li>
+   	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	   </ul>
     </div>
   </div>
@@ -209,8 +212,8 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">Skews</h5>
       <ul class="fa-ul">
-	   <li><a href="/login"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-	   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+	   <li><a href="/login"><img class="img-m-right" th:src="@{/img/i2.png}" align="absmiddle">Any 2</a></li>
+	   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	</ul>
     </div>
     </div>
@@ -220,14 +223,14 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">Cryptos</h5>
       <ul class="fa-ul">
-          <li><a href="/login"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BITCOIN</a></li>
-	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">ETHEREUM</a></li>
-	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">SOLANA</a></li>
-	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">SHIBA INU</a></li>
-	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">BINANCE COIN</a></li>
-	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">XRP</a></li>
-	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+          <li><a href="/login"><img class="img-m-right" th:src="@{/img/i2.png}" align="absmiddle">Any 2</a></li>
+		  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">BITCOIN</a></li>
+	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">ETHEREUM</a></li>
+	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">SOLANA</a></li>
+	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">SHIBA INU</a></li>
+	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">BINANCE COIN</a></li>
+	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">XRP</a></li>
+	  	  <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
        </ul>
     </div>
   </div>
@@ -235,10 +238,10 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">FX & CDS</h5>
       <ul class="fa-ul">
-	   <li><a href="/login"><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-	   <li><a href="/login"><img class="img-m-right" src="../../img/i1.png" align="absmiddle">FX</a></li>
-	   <li><a href="/login"><img class="img-m-right" src="../../img/i1.png" align="absmiddle">CDS</a></li>
-	   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+	   <li><a href="/login"><img class="img-m-right" th:src="@{/img/i2.png}" align="absmiddle">Any 2</a></li>
+	   <li><a href="/login"><img class="img-m-right" th:src="@{/img/i1.png}" align="absmiddle">FX</a></li>
+	   <li><a href="/login"><img class="img-m-right" th:src="@{/img/i1.png}" align="absmiddle">CDS</a></li>
+	   <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	  </ul>
     </div>
   </div>
@@ -246,12 +249,12 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">Volumes</h5>
       <ul class="fa-ul">
-		<li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Any 2</a></li>
-		<li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
-	   	<li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Weekly/Monthly/Quarterly/Yearly</a></li>
-	    <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Market Share</a></li>
-	    <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Race Chart</a></li>
-	    <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+		<li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Any 2</a></li>
+		<li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+	   	<li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i3.png}" align="absmiddle">Weekly/Monthly/Quarterly/Yearly</a></li>
+	    <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i3.png}" align="absmiddle">Market Share</a></li>
+	    <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i3.png}" align="absmiddle">Race Chart</a></li>
+	    <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	 </ul>
     </div>
   </div>
@@ -259,7 +262,7 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">LONG-END FUTURES</h5>
       <ul class="fa-ul">
-	    <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
+	    <li><a href="/login"><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">DATA & FUNCTION DISPLAY</a></li>
 	 </ul>
     </div>
   </div>
@@ -267,9 +270,9 @@ a.sign-up-style {
    <!-- <div class="card-body">
 		  <h5 class="card-title card-title-color">Normalized Space</h5>
 		  <ul class="fa-ul">
-	  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Create Normalized Vols</li>
-	  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Durations And Dv01</li>
-	  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">List of CTDs </li>
+	  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Create Normalized Vols</li>
+	  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">Durations And Dv01</li>
+	  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i4.png}" align="absmiddle">List of CTDs </li>
 	</ul>
 		</div>-->
   </div>
@@ -277,9 +280,9 @@ a.sign-up-style {
  <!--    <div class="card-body">
       <h5 class="card-title card-title-color">Inter-markets</h5>
       <ul class="fa-ul">
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i4.png" align="absmiddle">Weightings</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Straddle Ratios</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Implied Vol Ratios</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i4.png}" align="absmiddle">Weightings</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i1.png}" align="absmiddle">Straddle Ratios</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Implied Vol Ratios</li>
  </ul>
     </div> -->
   </div>
@@ -287,10 +290,10 @@ a.sign-up-style {
 <!--     <div class="card-body">
       <h5 class="card-title card-title-color">Analytics</h5>
       <ul class="fa-ul">
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Return Function</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Implied Vs Realized (Hi/lo)</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i1.png" align="absmiddle">Implied Vs Realized (Close)</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i5.png" align="absmiddle">Gamma Rents</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i3.png}" align="absmiddle">Return Function</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i1.png}" align="absmiddle">Implied Vs Realized (Hi/lo)</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i1.png}" align="absmiddle">Implied Vs Realized (Close)</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i5.png}" align="absmiddle">Gamma Rents</li>
 </ul>
     </div> -->
   </div>
@@ -298,7 +301,7 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">Paper-watch</h5>
       <ul class="fa-ul">
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i3.png" align="absmiddle">Call/put Warning Indicator</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i3.png}" align="absmiddle">Call/put Warning Indicator</li>
 </ul>
     </div>
   </div>
@@ -306,12 +309,12 @@ a.sign-up-style {
 <!--    <div class="card-body">
       <h5 class="card-title card-title-color">At A Glance</h5>
       <ul class="fa-ul">
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Futures</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Implied Vols</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Ranges And Realized</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Yields And Curves</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Precious Metals</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Excess Liquidity</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Futures</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Implied Vols</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Ranges And Realized</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Yields And Curves</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Precious Metals</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Excess Liquidity</li>
 </ul>
     </div>-->
   </div>
@@ -319,9 +322,9 @@ a.sign-up-style {
     <div class="card-body">
       <h5 class="card-title card-title-color">Check An Option Strategy</h5>
       <ul class="fa-ul">
-   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Fly Your Futures</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Condors</li>
-  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" src="../../img/i2.png" align="absmiddle">Vertical Spreads</li>
+   <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Fly Your Futures</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Condors</li>
+  <li><img class="img-m-right" id="ContentPlaceHolder1_Image13" th:src="@{/img/i2.png}" align="absmiddle">Vertical Spreads</li>
 </ul>
     </div>
   </div>
@@ -395,8 +398,8 @@ a.sign-up-style {
   </a>
 
 </body>
-  <script src="/js/jqwidgets/jqxcore.js"></script> 
-  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
-  <script src="/js/bourse/default.js"></script> 
-  <script src='/js/bourse/video.js'></script>
+  <script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
+  <script th:src="@{/js/bourse/default.js}"></script> 
+<script th:src="@{/js/bourse/video.js}"></script>
 </html>

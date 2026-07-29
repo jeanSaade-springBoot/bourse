@@ -33,7 +33,9 @@
 		 var fedLiquidityItem =["#jqxCheckBoxFed_liquidity"];	
 		 
          var ecbBalanceSheetItem =["#jqxCheckBoxEcb_balance_sheet"];		   	
-         	  		       					      
+         
+         var usBanksReserveItem =["#jqxCheckBoxUs_banks_reserve"];	
+          	  		       					      
 		 var ecbExcessAuditDefaultData=[{
              "excess1": "",
              "excess2": "",
@@ -68,7 +70,10 @@
           var EcbbalancesheetAuditDefaultData=[{
              "ecbBalanceSheet": "",
            }];
-            
+         var UsBanksReserveAuditDefaultData=[{
+             "usbanksreserve": "",
+           }];
+             
          var source;
          var inputDataEcbExcess = document.getElementById("data-input-Ecbexcess");
          var inputDataEcbQe = document.getElementById("data-input-Ecbqe");
@@ -76,6 +81,7 @@
          var inputDataCorporate = document.getElementById("data-input-Corporate");
          var inputDataFedLiquidity = document.getElementById("data-input-Fedliquidity");
          var inputDataEcbbalancesheet = document.getElementById("data-input-Ecbbalancesheet");
+		 var inputDataUsbanksreserve = document.getElementById("data-input-Usbanksreserve");
 
          var liquidityType;
  
@@ -121,6 +127,13 @@
                 saveUrl="/liquidity/saveecbbalancesheet"; 
                 updateUrl="/liquidity/updateecbbalancesheet";
             }
+            else if(liquidityValue==7)
+            {
+				liquidityType="Usbanksreserve";
+                auditUrl='/liquidity/getusbanksreserve/';
+                saveUrl="/liquidity/saveusbanksreserve"; 
+                updateUrl="/liquidity/updateusbanksreserve";
+            }
             
 		 $(document).ready(function () {
 			  $('#overlay').fadeOut();
@@ -134,6 +147,14 @@
 				  
 			  $('[data-toggle="tooltip"]').tooltip();   
 			  
+			   if ($("#Usbanksreserve-threshold-section").length) {
+			        loadUsBanksReserveThreshold();
+			
+			        $("#saveUsBanksReserveThreshold").on("click", function () {
+			            saveUsBanksReserveThreshold();
+			        });
+			    }
+    
 			  if(liquidityValue==1){
 				 $("#Ecbexcess-btn").addClass('active');
 			  }else 
@@ -151,7 +172,11 @@
 			   } else 
 			   if(liquidityValue==6){
 			   $("#Ecbbalancesheet-btn").addClass('active');
+			   }else 
+			   if(liquidityValue==7){
+			   $("#Usbanksreserve-btn").addClass('active');
 			   }
+			   
 			   
 			   
 			  renderSubGroup(liquidityValue);
@@ -191,7 +216,8 @@
 	 		                    { name: 'AVG_EUROZONEATOAAA_GERMANY',  type: 'float'},
 	 		                    { name: 'AVG_EUROZONEBTOBBB_EUROZONEATOAAA',  type: 'float'},
 	 		                    { name: 'FED_LIQUIDITY',  type: 'float'},
-	 		                    { name: 'ECB_BALANCE_SHEET',  type: 'float'}
+	 		                    { name: 'ECB_BALANCE_SHEET',  type: 'float'},
+	 		                    { name: 'US_BANKS_RESERVE',  type: 'float'}
 	 		                 ],
 	                         id: 'id',
 	                         localdata: ''
@@ -269,6 +295,12 @@
 						    			   {
 						    		    	$(ecbBalanceSheetItem[i]).jqxCheckBox({checked:false});
 						    		       } 
+									  } else if (liquidityValue==7)
+				    				 {
+									  for(i=0; i<usBanksReserveItem.length; i++)
+						    			   {
+						    		    	$(usBanksReserveItem[i]).jqxCheckBox({checked:false});
+						    		       } 
 									  }
 				  });  
 	       function Edit(row, event) {
@@ -315,7 +347,12 @@
 							   "ecbBalanceSheet":data.ecbBalanceSheet,
 						     };
 						 }
-						 
+						  else if(liquidityValue==7)
+				     	  {
+							  oldDataJson={
+							   "usBanksReserve":data.usBanksReserve,
+						     };
+						 }
 				     selectedRow.editrow = row;
 				     date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
 				     if(auditGridSource.url=='' || date!=filterDate)
@@ -393,6 +430,19 @@
 						else if(liquidityValue==6)
 						{
 							if($('#'+liquidityType+'AuditGrid').jqxGrid('getrows')[0].ecbBalanceSheet!=null)
+							{
+						    	$('#'+liquidityType+'AuditGrid').jqxGrid('beginrowedit', row);
+						    	$("#edit"+row).css("display","none");
+								$("#actionButtons"+row).css("display","contents"); 
+						    	if (event) {
+						    		if (event.preventDefault) {
+						    			event.preventDefault();
+						    		}
+						    	} 
+							}
+						}else if(liquidityValue==7)
+						{
+							if($('#'+liquidityType+'AuditGrid').jqxGrid('getrows')[0].usBanksReserve!=null)
 							{
 						    	$('#'+liquidityType+'AuditGrid').jqxGrid('beginrowedit', row);
 						    	$("#edit"+row).css("display","none");
@@ -523,6 +573,18 @@
 	                    	dataToBeUpdated.push({
 		         			   "subgroupId":"1",
 		         			   "value":updatedData.ecbBalanceSheet.replaceAll(',',''),
+		         			   "referdate": date
+		         			});
+					 	}
+					  else if(liquidityValue==7){
+						  updatedDataJson={
+				               "usBanksReserve":updatedData.usBanksReserve,
+						     };
+				            keys=["usBanksReserve"];
+                    
+	                    	dataToBeUpdated.push({
+		         			   "subgroupId":"1",
+		         			   "value":updatedData.usBanksReserve.replaceAll(',',''),
 		         			   "referdate": date
 		         			});
 					 	}
@@ -693,26 +755,29 @@
 		     {
 			   items = ecbBalanceSheetItem;
 			 }
+			  else if (liquidityValue==7)
+		     {
+			   items = usBanksReserveItem;
+			 }
 			 
-			 
-				 	for (i = 0; i < items.length; i++) {
-		         		if($(items[i]).jqxCheckBox('checked'))
-		         		{		
-		         		    values.push(items[i].split("Box")[1].toUpperCase());	
-		          			item=1;
-		          			allItems=allItems+1;
-		          			checkedItem.push(items[i]);
-		         		}
-		          	}
-		         	
-		          	if(item!=0)
-		          	{
-		          		SelectedSearchDTO.push({
-		          		   "groupId":liquidityValue,
-		       			   "selectedValues":values,
-		       			});
-		          		 values=[];
-		          	}
+		 	for (i = 0; i < items.length; i++) {
+         		if($(items[i]).jqxCheckBox('checked'))
+         		{		
+         		    values.push(items[i].split("Box")[1].toUpperCase());	
+          			item=1;
+          			allItems=allItems+1;
+          			checkedItem.push(items[i]);
+         		}
+          	}
+         	
+          	if(item!=0)
+          	{
+          		SelectedSearchDTO.push({
+          		   "groupId":liquidityValue,
+       			   "selectedValues":values,
+       			});
+          		 values=[];
+          	}
           	
           	if(allItems!=0)
           	{
@@ -956,7 +1021,7 @@
 		 	                    { name: 'fedLiquidity', type: 'string' }
 			                ]; 			
 			 var dataInputGridColumns= [ 
-			                      { text: 'FED Liquidity', datafield: 'fedLiquidity', width: '100%' }
+			                      { text: 'FED BALANCE SHEET', datafield: 'fedLiquidity', width: '100%' }
 			                ];
 			var defaultData=FedLiquidityAuditDefaultData;
 			var fields=[
@@ -967,7 +1032,7 @@
 		                 	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
 		                   }
 		                  }, 
-		                  { text: 'FED Liquidity', datafield: 'fedLiquidity', width: '76%',cellsalign: 'center', align: 'center' },
+		                  { text: 'FED BALANCE SHEET', datafield: 'fedLiquidity', width: '76%',cellsalign: 'center', align: 'center' },
 		         ];
 			
 			}
@@ -992,6 +1057,30 @@
 		                   }
 		                  }, 
 		                  { text: 'ECB Balance Sheet', datafield: 'ecbBalanceSheet', width: '76%',cellsalign: 'center', align: 'center' },
+		         ];
+			
+			}
+			else
+			if (liquidityValue==7)
+			{
+			inputDataType = inputDataUsbanksreserve;
+		    items=usBanksReserveItem;
+		    var dataInputGridFields=[
+		 	                    { name: 'usBanksReserve', type: 'string' }
+			                ]; 			
+			 var dataInputGridColumns= [ 
+			                      { text: 'US Banks Reserve', datafield: 'usBanksReserve', width: '100%' }
+			                ];
+			var defaultData=UsBanksReserveAuditDefaultData;
+			var fields=[
+                    { name: 'usBanksReserve', type: 'string' },
+                ];
+             var arrayOFcolumns= [ 
+				           { text: '',editable:false, datafield: 'Edit',width:'24%',cellsrenderer: function (row) {
+		                	return "<input class=\"edit\" type=\"button\" onclick='Edit(" + row + ", event)' id=\"edit"+row+"\" value=\"Edit\" /><div class=\"row\" id=\"actionButtons"+row+"\" style=\"display:none\"><input  onclick='Update(" + row + ", event)' class=\"update\" type=\"button\" id=\"update\" value=\"Update\" /><input id=\"CancelUpdate\"  onclick='Cancel(" + row + ")' type=\"button\"  class=\"cancel\" value=\"Cancel\" /></div>";
+		                   }
+		                  }, 
+		                  { text: 'US Banks Reserve', datafield: 'usBanksReserve', width: '76%',cellsalign: 'center', align: 'center' },
 		         ];
 			
 			}
@@ -1055,6 +1144,7 @@
 		    			   {
 		    		    	$(ezmmItem[i]).jqxCheckBox({checked:true});
 		    		       }
+		    		       
 	    	       }
 	                  },
 	    	        error: function (e) {
@@ -1084,6 +1174,9 @@
 		        break;
 		 case '6': 
 		   groupId='84'
+		        break;
+		 case '7': 
+		   groupId='85'
 		        break;
 		}
 	return groupId;
@@ -1152,7 +1245,11 @@
 			   jsonObject= {
 				   	"ecbBalanceSheet":  rowData[0],
 					  		};
-					  		
+			 else if(liquidityValue == 7)
+			   jsonObject= {
+				   	"usBanksReserve":  rowData[0],
+					  		};	 
+					  		 		
 			   localdata.push(jsonObject);
 			  
 			  var dataInputGridSource =
@@ -1209,6 +1306,8 @@
 			   	value="FED LIQUIDITY";   
 			     else if(liquidityValue==6)
 			   	  value="ECB BALANCE SHEET";
+			    else if(liquidityValue==7)
+			   	  value="US BANKS RESERVE";
 			   
 				$('#alertDeleteDataByDate-modal').modal('show'); 
 		   		 date=$.jqx.dataFormat.formatdate($("#dateInputAudit").jqxDateTimeInput('getDate'),  'dd-MM-yyyy')
@@ -1256,6 +1355,10 @@
 				  if(liquidityValue==6)
 				  {  
 					  firstObject.push(rows[i].ecbBalanceSheet);
+				  }else
+				  if(liquidityValue==7)
+				  {  
+					  firstObject.push(rows[i].usBanksReserve);
 				  }
             	}
             	 if(liquidityValue==1)
@@ -1273,6 +1376,9 @@
 				 	   else if(liquidityValue==6)
 				 	{ listObject=["firstObject"];
 				 	 groupId=84;}
+				 	  else if(liquidityValue==7)
+				 	{ listObject=["firstObject"];
+				 	 groupId=85;}
 				 	 
             	 for (let i = 0; i < listObject.length; i++) {
 
@@ -1340,7 +1446,9 @@
 														inputDataFedLiquidity.value = "";
 													else if (liquidityValue == 6)
 														inputDataEcbbalancesheet.value = "";	
-						  		            
+						  		            	    else if (liquidityValue == 7)
+														inputDataUsbanksreserve.value = "";
+														
 						  		            	  $("#dataformInput" + liquidityType).css("display","block");
 						  						  $("#dataInputButtons" + liquidityType).css("display","none"); 
 						  						  $("#dataInputGrid" + liquidityType).css("display","none");
@@ -1390,3 +1498,126 @@
             	 }
              });
 	}
+	
+	function loadUsBanksReserveThreshold() {
+    $.ajax({
+        url: "/liquidity/usbanksreservethreshold/latest",
+        type: "GET",
+        success: function (response) {
+
+            if (!response) {
+                $("#usBanksReserveThresholdLastUpdated").text("Not configured yet");
+                $("#usBanksReserveAbundant").val("");
+                $("#usBanksReserveAmple").val("");
+                return;
+            }
+
+            $("#usBanksReserveAbundant").val(formatThresholdValue(response.abundant));
+            $("#usBanksReserveAmple").val(formatThresholdValue(response.ample));
+
+            $("#usBanksReserveThresholdLastUpdated").text(
+                response.lastUpdated
+                    ? "Last Updated: " + response.lastUpdated
+                    : "Last Updated: -"
+            );
+        },
+        error: function () {
+            $("#usBanksReserveThresholdLastUpdated").text("Unable to load thresholds");
+        }
+    });
+}
+
+function saveUsBanksReserveThreshold() {
+    var abundant = cleanThresholdNumber($("#usBanksReserveAbundant").val());
+    var ample = cleanThresholdNumber($("#usBanksReserveAmple").val());
+
+    if (abundant === "" || ample === "") {
+        showThresholdMessage(
+            "Warning",
+            "Please enter both Abundant and Ample values.",
+            "warning"
+        );
+        return;
+    }
+
+    if (isNaN(abundant) || isNaN(ample)) {
+        showThresholdMessage(
+            "Warning",
+            "Abundant and Ample must be valid numbers.",
+            "warning"
+        );
+        return;
+    }
+
+    $.ajax({
+        url: "/liquidity/usbanksreservethreshold/save",
+        type: "POST",
+        contentType: "application/json",
+        data: JSON.stringify({
+            abundant: Number(abundant),
+            ample: Number(ample)
+        }),
+        success: function () {
+            loadUsBanksReserveThreshold();
+
+            showThresholdMessage(
+                "Success",
+                "Thresholds saved successfully.",
+                "success"
+            );
+        },
+        error: function () {
+            showThresholdMessage(
+                "Error",
+                "Error while saving thresholds.",
+                "danger"
+            );
+        }
+    });
+}
+
+function cleanThresholdNumber(value) {
+    if (value == null) {
+        return "";
+    }
+
+    return value
+        .toString()
+        .replace(/,/g, "")
+        .trim();
+}
+
+function formatThresholdValue(value) {
+    if (value == null || value === "") {
+        return "";
+    }
+
+    return Number(value).toLocaleString(undefined, {
+        minimumFractionDigits: 2,
+        maximumFractionDigits: 2
+    });
+}
+
+function showThresholdMessage(title, message, type) {
+
+    var header = $("#thresholdMessageHeader");
+
+    header.removeClass("bg-success bg-warning bg-danger");
+
+    switch (type) {
+        case "warning":
+            header.addClass("bg-warning");
+            break;
+        case "danger":
+            header.addClass("bg-danger");
+            break;
+        default:
+            header.addClass("bg-success");
+            break;
+    }
+
+    $("#thresholdMessageTitle").text(title);
+    $("#thresholdMessageBody").text(message);
+
+    $("#thresholdMessageModal").modal("show");
+}

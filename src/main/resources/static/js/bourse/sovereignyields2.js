@@ -616,13 +616,13 @@
 		                columns: [
 		                	  { text: '',editable:false,  datafield: 'factor', width: '11.11%'},
 			                  { text: '<img height="48" width="48" src="/img/flag/fra-ger.png">', datafield: 'fra_GER', width: '11.11%' },
-			                  { text: '<img height="48" width="48" src="/img/flag/ita-ger.png">', datafield: 'ita_GER', width: '11.11%' },
-			                  { text: '<img height="48" width="48" src="/img/flag/ita-fra.png">', datafield: 'ita_FRA', width: '11.11%' },
-			                  { text: '<img height="48" width="48" src="/img/flag/uk-ger.png">', datafield: 'uk_GER', width: '11.11%' },
-			                  { text: '<img height="48" width="48" src="/img/flag/ita-spn.png">', datafield: 'ita_SPN', width: '11.11%' },
-			                  { text: '<img height="48" width="48" src="/img/flag/usa-ger.png">', datafield: 'usa_GER', width: '11.11%' },
-			                  { text: '<img height="48" width="48" src="/img/flag/usa-uk.png">', datafield: 'usa_UK', width: '11.11%' },
-			                  { text: '<img height="48" width="48" src="/img/flag/spn-ger.png">', datafield: 'spn_GER', width: '11.11%' }
+			                  { text: '<img height="48" width="48" th:src="@{/img/flag/ita-ger.png">', datafield: 'ita_GER', width: '11.11%' },
+			                  { text: '<img height="48" width="48" th:src="@{/img/flag/ita-fra.png">', datafield: 'ita_FRA', width: '11.11%' },
+			                  { text: '<img height="48" width="48" th:src="@{/img/flag/uk-ger.png">', datafield: 'uk_GER', width: '11.11%' },
+			                  { text: '<img height="48" width="48" th:src="@{/img/flag/ita-spn.png">', datafield: 'ita_SPN', width: '11.11%' },
+			                  { text: '<img height="48" width="48" th:src="@{/img/flag/usa-ger.png">', datafield: 'usa_GER', width: '11.11%' },
+			                  { text: '<img height="48" width="48" th:src="@{/img/flag/usa-uk.png">', datafield: 'usa_UK', width: '11.11%' },
+			                  { text: '<img height="48" width="48" th:src="@{/img/flag/spn-ger.png">', datafield: 'spn_GER', width: '11.11%' }
 		                ]
 		            });
 		            
@@ -773,7 +773,7 @@
 		             $("#grid").jqxGrid('showloadelement');
 		            
 		            var imagerenderer = function (row, datafield, value) {
-		                return '<img style="margin: .4rem; margin-left: 1rem;" height="24" width="24" src="/img/flag/' + value + '.png"/>';
+		                return '<img style="margin: .4rem; margin-left: 1rem;" height="24" width="24" th:src="@{/img/flag/' + value + '.png"/>';
 		            }
 		            
 		            var subgroupSource = [
@@ -1801,12 +1801,12 @@
 			                autoheight: true,
 			                columns: [ 
 			                	  { text: '', datafield: 'factor',cellclassname: 'factorBold', width: '10%'},
-				                  { text: '<img height="48" width="48" src="/img/flag/united-states.png">', datafield: 'usa', width: '15%' },
-				                  { text: '<img height="48" width="48" src="/img/flag/germany.png">', datafield: 'germany', width: '15%' },
-				                  { text: '<img height="48" width="48" src="/img/flag/france.png">', datafield: 'france', width: '15%' },
-				                  { text: '<img height="48" width="48" src="/img/flag/united-kingdom.png">', datafield: 'uk', width: '15%' },
-				                  { text: '<img height="48" width="48" src="/img/flag/italy.png">', datafield: 'italy', width: '15%' },
-				                  { text: '<img height="48" width="48" src="/img/flag/spain.png">', datafield: 'spain', width: '15%' }
+				                  { text: '<img height="48" width="48" th:src="@{/img/flag/united-states.png">', datafield: 'usa', width: '15%' },
+				                  { text: '<img height="48" width="48" th:src="@{/img/flag/germany.png">', datafield: 'germany', width: '15%' },
+				                  { text: '<img height="48" width="48" th:src="@{/img/flag/france.png">', datafield: 'france', width: '15%' },
+				                  { text: '<img height="48" width="48" th:src="@{/img/flag/united-kingdom.png">', datafield: 'uk', width: '15%' },
+				                  { text: '<img height="48" width="48" th:src="@{/img/flag/italy.png">', datafield: 'italy', width: '15%' },
+				                  { text: '<img height="48" width="48" th:src="@{/img/flag/spain.png">', datafield: 'spain', width: '15%' }
 			                ]
 			            });
 					  

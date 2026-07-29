@@ -7,17 +7,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="img/logo/logo.png" rel="icon">
+  <link th:href="@{/img/logo/logo.png}" rel="icon">
+
   <title>Libvol - Dashboard</title>
-  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-    <link href="/calendar/css/jquery.bootstrap.year.calendar.css" rel="stylesheet">
-        <link href="/calendar/css/jquery.bootstrap.year.calendar.min.css" rel="stylesheet">
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="/css/ruang-admin.min.css" rel="stylesheet">
-  <link href="/css/marquee.css" rel="stylesheet">
-  <link href="/css/apexchart.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-  <link href="/css/jqx.dark.css" rel="stylesheet">
+  <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+    <link href="/calendar/css/jquery.bootstrap.year.calendar.css}" rel="stylesheet">
+        <link href="/calendar/css/jquery.bootstrap.year.calendar.min.css}" rel="stylesheet">
+ <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+
+  <link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+  <link th:href="@{/css/marquee.css}" rel="stylesheet">
+  <link th:href="@{/css/apexchart.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css">
+
+ <link th:href="@{/css/jqx.dark.css}" rel="stylesheet">
   <style>
   .form-control {
     height: calc(1em + .75rem + 7px);
@@ -54,7 +57,7 @@ h5.jqyc-header {
     <ul class="navbar-nav sidebar sidebar-light accordion" id="accordionSidebar">
       <a class="sidebar-brand d-flex align-items-center justify-content-center" href="/">
         <div class="sidebar-brand-icon">
-         <!--  <img src="img/logo/logo2.png"> -->
+         <!--  <img src="img/logo/logo2.png}"> -->
         </div>
         <div class="sidebar-brand-text mx-3">libvol</div>
       </a>
@@ -380,7 +383,7 @@ h5.jqyc-header {
                 </h6>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="dropdown-list-image mr-3">
-<!--                     <img class="rounded-circle" src="img/man.png" style="max-width: 60px" alt=""> -->
+<!--                     <img class="rounded-circle" src="img/man.png}" style="max-width: 60px" alt=""> -->
                     <div class="status-indicator bg-success"></div>
                   </div>
                   <div class="font-weight-bold">
@@ -391,7 +394,7 @@ h5.jqyc-header {
                 </a>
                 <a class="dropdown-item d-flex align-items-center" href="#">
                   <div class="dropdown-list-image mr-3">
-<!--                     <img class="rounded-circle" src="img/girl.png" style="max-width: 60px" alt=""> -->
+<!--                     <img class="rounded-circle" src="img/girl.png}" style="max-width: 60px" alt=""> -->
                     <div class="status-indicator bg-default"></div>
                   </div>
                   <div>
@@ -454,7 +457,7 @@ h5.jqyc-header {
             <li class="nav-item dropdown no-arrow">
               <a class="nav-link dropdown-toggle" href="#" id="userDropdown" role="button" data-toggle="dropdown"
                 aria-haspopup="true" aria-expanded="false">
-                <!-- <img class="img-profile rounded-circle" src="img/boy.png" style="max-width: 60px"> -->
+                <!-- <img class="img-profile rounded-circle" src="img/boy.png}" style="max-width: 60px"> -->
                 <i class="fas fa-user"></i>
                 <span class="ml-2 d-none d-lg-inline text-white small">	Charbel Nacouzi</span>
               </a>
@@ -516,7 +519,7 @@ h5.jqyc-header {
 
 
 		<div id="overlay" class="col-12">
-		     			<img src="/css/images/loader.gif" alt="Loading" width="46px" />
+		     			<img th:src="@{/css/images/loader.gif}" alt="Loading" width="46px" />
 		   </div>
           <!-- Modal Logout -->
           <div class="modal fade" id="logoutModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabelLogout"
@@ -573,11 +576,11 @@ h5.jqyc-header {
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/js/marquee.js"></script>
+  <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+  <script th:src="@{/js/marquee.js}"></script>
   
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
   <script>
   $(window).on('load', function(){
 	  $('#overlay').fadeOut();
@@ -618,7 +621,7 @@ h5.jqyc-header {
 	});
 
 		</script>
-<!--   <script src="/js/demo/chart-area-demo.js"></script>   -->
+<!--   <script th:src="@{/js/demo/chart-area-demo.js}"></script>   -->
 </body>
 
 </html>

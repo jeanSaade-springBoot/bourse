@@ -1,14 +1,19 @@
 package com.bourse.service.usJobs;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
@@ -349,68 +354,161 @@ public List<TmpAuditUsHouseHoldSurv> getAuditUsHouseHoldSurv(String groupId, Str
 			 hashData.put("columns", lstRowsDt);
 			return lstRowsDt;
 		}
-	  
-		public List<GraphResponseColConfigDTO> getGraphDataByType(GraphRequestDTO graphReqDTO) {
+	  public List<GraphResponseColConfigDTO> getGraphDataByType(GraphRequestDTO graphReqDTO) {
 
-			boolean hasData= adminService.getData();
-		    if(!hasData)
-				return null;
-		
-			List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
-			
-			if(graphReqDTO.getGroupId1()!=null)
-			{
-				l1.add(getGraphDataResult(graphReqDTO,false));
-			}
-			if(graphReqDTO.getIsFunctionGraph()!=null?graphReqDTO.getIsFunctionGraph().equals("true"):false)
-			{   
-			   l1.add(getGraphDataResult(graphReqDTO,true));
-			}
-			if(graphReqDTO.getGroupId2()!=null)
-			{
-				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId2())
-						   .subGroupId1(graphReqDTO.getSubGroupId2())
-						   .period(graphReqDTO.getPeriod())
-						   .type(graphReqDTO.getType())
-						   .fromdate(graphReqDTO.getFromdate())
-						   .todate(graphReqDTO.getTodate())
-						   .functionId(graphReqDTO.getFunctionId())
-						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
-						   .removeEmpty1(graphReqDTO.getRemoveEmpty2())
-						   .build();
-				l1.add(getGraphDataResult(graphRequestDTO,false));
-			}
-				
-			if(graphReqDTO.getGroupId3()!=null)
-			{
-				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId3())
-						   .subGroupId1(graphReqDTO.getSubGroupId3())
-						   .period(graphReqDTO.getPeriod())
-						   .type(graphReqDTO.getType())
-						   .fromdate(graphReqDTO.getFromdate())
-						   .todate(graphReqDTO.getTodate())
-						   .functionId(graphReqDTO.getFunctionId())
-						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
-						   .removeEmpty1(graphReqDTO.getRemoveEmpty1())
-						   .build();
-				l1.add(getGraphDataResult(graphRequestDTO,false));
-			}
-			if(graphReqDTO.getGroupId4()!=null)
-			{
-				GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder().groupId1(graphReqDTO.getGroupId4())
-						   .subGroupId1(graphReqDTO.getSubGroupId4())
-						   .period(graphReqDTO.getPeriod())
-						   .type(graphReqDTO.getType())
-						   .fromdate(graphReqDTO.getFromdate())
-						   .todate(graphReqDTO.getTodate())
-						   .functionId(graphReqDTO.getFunctionId())
-						   .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
-						   .removeEmpty1(graphReqDTO.getRemoveEmpty1())
-						   .build();
-				l1.add(getGraphDataResult(graphRequestDTO,false));
-			}
-			return l1; 
-		
+		    boolean hasData = adminService.getData();
+		    if (!hasData) {
+		        return null;
+		    }
+
+		    List<GraphResponseColConfigDTO> l1 = new ArrayList<>();
+
+		    if ("RATIO".equalsIgnoreCase(graphReqDTO.getType())) {
+
+		        if (graphReqDTO.getGroupId1() == null || graphReqDTO.getGroupId2() == null) {
+		            return l1;
+		        }
+
+		        GraphRequestDTO openingsRequest = GraphRequestDTO.builder()
+		                .groupId1(graphReqDTO.getGroupId1())
+		                .subGroupId1(graphReqDTO.getSubGroupId1())
+		                .period(graphReqDTO.getPeriod())
+		                .type("0")
+		                .fromdate(graphReqDTO.getFromdate())
+		                .todate(graphReqDTO.getTodate())
+		                .functionId(graphReqDTO.getFunctionId())
+		                .isFunctionGraph("false")
+		                .removeEmpty1(graphReqDTO.getRemoveEmpty1())
+		                .factor1(graphReqDTO.getFactor1())
+		                .build();
+
+		        GraphRequestDTO unemployedRequest = GraphRequestDTO.builder()
+		                .groupId1(graphReqDTO.getGroupId2())
+		                .subGroupId1(graphReqDTO.getSubGroupId2())
+		                .period(graphReqDTO.getPeriod())
+		                .type("0")
+		                .fromdate(graphReqDTO.getFromdate())
+		                .todate(graphReqDTO.getTodate())
+		                .functionId(graphReqDTO.getFunctionId())
+		                .isFunctionGraph("false")
+		                .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+		                .factor1(graphReqDTO.getFactor2())
+		                .build();
+
+		        GraphResponseColConfigDTO openings =
+		                getGraphDataResult(openingsRequest, false);
+
+		        GraphResponseColConfigDTO unemployed =
+		                getGraphDataResult(unemployedRequest, false);
+
+		        if (openings == null || unemployed == null) {
+		            return l1;
+		        }
+
+		        GraphResponseColConfigDTO ratio =
+		                buildOpeningsUnemployedRatio(openings, unemployed);
+
+		        l1.add(ratio);
+		        return l1;
+		    }
+		    if ("DIFFERENCE".equalsIgnoreCase(graphReqDTO.getType())) {
+
+		        if (graphReqDTO.getGroupId1() == null || graphReqDTO.getGroupId2() == null) {
+		            return l1;
+		        }
+
+		        GraphRequestDTO openingsRequest = GraphRequestDTO.builder()
+		                .groupId1(graphReqDTO.getGroupId1())
+		                .subGroupId1(graphReqDTO.getSubGroupId1())
+		                .period(graphReqDTO.getPeriod())
+		                .type("0")
+		                .fromdate(graphReqDTO.getFromdate())
+		                .todate(graphReqDTO.getTodate())
+		                .isFunctionGraph("false")
+		                .removeEmpty1(graphReqDTO.getRemoveEmpty1())
+		                .factor1(graphReqDTO.getFactor1())
+		                .build();
+
+		        GraphRequestDTO unemployedRequest = GraphRequestDTO.builder()
+		                .groupId1(graphReqDTO.getGroupId2())
+		                .subGroupId1(graphReqDTO.getSubGroupId2())
+		                .period(graphReqDTO.getPeriod())
+		                .type("0")
+		                .fromdate(graphReqDTO.getFromdate())
+		                .todate(graphReqDTO.getTodate())
+		                .isFunctionGraph("false")
+		                .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+		                .factor1(graphReqDTO.getFactor2())
+		                .build();
+
+		        GraphResponseColConfigDTO openings = getGraphDataResult(openingsRequest, false);
+		        GraphResponseColConfigDTO unemployed = getGraphDataResult(unemployedRequest, false);
+
+		        GraphResponseColConfigDTO difference =
+		                buildOpeningsUnemployedDifference(openings, unemployed);
+
+		        l1.add(difference);
+		        return l1;
+		    }
+		    if (graphReqDTO.getGroupId1() != null) {
+		        l1.add(getGraphDataResult(graphReqDTO, false));
+		    }
+
+		    if ("true".equals(graphReqDTO.getIsFunctionGraph())) {
+		        l1.add(getGraphDataResult(graphReqDTO, true));
+		    }
+
+		    if (graphReqDTO.getGroupId2() != null) {
+		        GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder()
+		                .groupId1(graphReqDTO.getGroupId2())
+		                .subGroupId1(graphReqDTO.getSubGroupId2())
+		                .period(graphReqDTO.getPeriod())
+		                .type(graphReqDTO.getType())
+		                .fromdate(graphReqDTO.getFromdate())
+		                .todate(graphReqDTO.getTodate())
+		                .functionId(graphReqDTO.getFunctionId())
+		                .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+		                .removeEmpty1(graphReqDTO.getRemoveEmpty2())
+		                .factor1(graphReqDTO.getFactor2())
+		                .build();
+
+		        l1.add(getGraphDataResult(graphRequestDTO, false));
+		    }
+
+		    if (graphReqDTO.getGroupId3() != null) {
+		        GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder()
+		                .groupId1(graphReqDTO.getGroupId3())
+		                .subGroupId1(graphReqDTO.getSubGroupId3())
+		                .period(graphReqDTO.getPeriod())
+		                .type(graphReqDTO.getType())
+		                .fromdate(graphReqDTO.getFromdate())
+		                .todate(graphReqDTO.getTodate())
+		                .functionId(graphReqDTO.getFunctionId())
+		                .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+		                .removeEmpty1(graphReqDTO.getRemoveEmpty3())
+		                .factor1(graphReqDTO.getFactor3())
+		                .build();
+
+		        l1.add(getGraphDataResult(graphRequestDTO, false));
+		    }
+
+		    if (graphReqDTO.getGroupId4() != null) {
+		        GraphRequestDTO graphRequestDTO = GraphRequestDTO.builder()
+		                .groupId1(graphReqDTO.getGroupId4())
+		                .subGroupId1(graphReqDTO.getSubGroupId4())
+		                .period(graphReqDTO.getPeriod())
+		                .type(graphReqDTO.getType())
+		                .fromdate(graphReqDTO.getFromdate())
+		                .todate(graphReqDTO.getTodate())
+		                .functionId(graphReqDTO.getFunctionId())
+		                .isFunctionGraph(graphReqDTO.getIsFunctionGraph())
+		                .removeEmpty1(graphReqDTO.getRemoveEmpty1())
+		                .build();
+
+		        l1.add(getGraphDataResult(graphRequestDTO, false));
+		    }
+
+		    return l1;
 		}
 		
 	  public GraphResponseColConfigDTO getGraphDataResult(GraphRequestDTO graphReqDTO, Boolean isFunction) {
@@ -526,7 +624,7 @@ public List<TmpAuditUsHouseHoldSurv> getAuditUsHouseHoldSurv(String groupId, Str
 		        return null;
 
 		    List<MacroGraphResponseColConfigDTO> l1 = new ArrayList<>();
-
+		    
 		    if (graphReqDTO.getGroupId1() != null) {
 		        l1.add(getUsJobsGraphDataResult(graphReqDTO, false));
 		    }
@@ -539,6 +637,131 @@ public List<TmpAuditUsHouseHoldSurv> getAuditUsHouseHoldSurv(String groupId, Str
 		    }
 
 		    return l1;
+		}
+	  
+	  private GraphResponseColConfigDTO buildOpeningsUnemployedRatio(
+		        GraphResponseColConfigDTO openings,
+		        GraphResponseColConfigDTO unemployed) {
+
+		    Map<String, BigDecimal> unemployedMap = unemployed.getGraphResponseDTOLst()
+		            .stream()
+		            .filter(item ->
+		                    item.getX() != null &&
+		                    isValidDecimal(item.getY())
+		            )
+		            .collect(Collectors.toMap(
+		                    GraphResponseDTO::getX,
+		                    item -> new BigDecimal(item.getY().trim()),
+		                    (oldValue, newValue) -> newValue
+		            ));
+
+		    List<GraphResponseDTO> ratioList = openings.getGraphResponseDTOLst()
+		            .stream()
+		            .map(item -> {
+
+		                String ratioValue = null;
+
+		                if (item.getX() != null && isValidDecimal(item.getY())) {
+
+		                    BigDecimal openingValue =
+		                            new BigDecimal(item.getY().trim());
+
+		                    BigDecimal unemployedValue =
+		                            unemployedMap.get(item.getX());
+
+		                    if (unemployedValue != null &&
+		                            unemployedValue.compareTo(BigDecimal.ZERO) != 0) {
+
+		                        ratioValue = openingValue
+		                                .divide(
+		                                        unemployedValue,
+		                                        4,
+		                                        RoundingMode.HALF_UP
+		                                )
+		                                .stripTrailingZeros()
+		                                .toPlainString();
+		                    }
+		                }
+
+		                return GraphResponseDTO.builder()
+		                        .id(item.getId())
+		                        .x(item.getX())
+		                        .y(ratioValue)
+		                        .build();
+		            })
+		            .collect(Collectors.toList());
+
+		    return GraphResponseColConfigDTO.builder()
+		            .graphResponseDTOLst(ratioList)
+		            .config(openings.getConfig())
+		            .build();
+		}
+
+		private boolean isValidDecimal(String value) {
+
+		    if (value == null ||
+		            value.trim().isEmpty() ||
+		            "null".equalsIgnoreCase(value.trim())) {
+		        return false;
+		    }
+
+		    try {
+		        new BigDecimal(value.trim());
+		        return true;
+		    } catch (NumberFormatException exception) {
+		        return false;
+		    }
+		}
+		private GraphResponseColConfigDTO buildOpeningsUnemployedDifference(
+		        GraphResponseColConfigDTO openings,
+		        GraphResponseColConfigDTO unemployed) {
+
+		    Map<String, BigDecimal> unemployedMap = unemployed.getGraphResponseDTOLst()
+		            .stream()
+		            .filter(item ->
+		                    item.getX() != null &&
+		                    isValidDecimal(item.getY())
+		            )
+		            .collect(Collectors.toMap(
+		                    GraphResponseDTO::getX,
+		                    item -> new BigDecimal(item.getY().trim()),
+		                    (oldValue, newValue) -> newValue
+		            ));
+
+		    List<GraphResponseDTO> differenceList = openings.getGraphResponseDTOLst()
+		            .stream()
+		            .map(item -> {
+
+		                String differenceValue = null;
+
+		                if (item.getX() != null && isValidDecimal(item.getY())) {
+
+		                    BigDecimal openingValue =
+		                            new BigDecimal(item.getY().trim());
+
+		                    BigDecimal unemployedValue =
+		                            unemployedMap.get(item.getX());
+
+		                    if (unemployedValue != null) {
+		                        differenceValue = openingValue
+		                                .subtract(unemployedValue)
+		                                .stripTrailingZeros()
+		                                .toPlainString();
+		                    }
+		                }
+
+		                return GraphResponseDTO.builder()
+		                        .id(item.getId())
+		                        .x(item.getX())
+		                        .y(differenceValue)
+		                        .build();
+		            })
+		            .collect(Collectors.toList());
+
+		    return GraphResponseColConfigDTO.builder()
+		            .graphResponseDTOLst(differenceList)
+		            .config(openings.getConfig())
+		            .build();
 		}
 	  private MacroGraphResponseColConfigDTO toMacroGraphResponse(GraphResponseColConfigDTO dto) {
 
@@ -673,4 +896,41 @@ public List<TmpAuditUsHouseHoldSurv> getAuditUsHouseHoldSurv(String groupId, Str
 			return l1; 
 		
 		}
+	  @Transactional
+	  public int deleteDataByDateRange(
+	          String groupId,
+	          String fromDate,
+	          String toDate) {
+
+	      LocalDate from = LocalDate.parse(fromDate);
+	      LocalDate to = LocalDate.parse(toDate);
+
+	      if (from.isAfter(to)) {
+	          throw new IllegalArgumentException(
+	                  "From date cannot be after To date."
+	          );
+	      }
+
+	      String tableName = tableManagementRepository
+	              .findDistinctByGroupId(groupId)
+	              .getTableName();
+
+	      String queryStr =
+	              "DELETE FROM " + tableName +
+	              " WHERE STR_TO_DATE(refer_date,'%d-%m-%Y') " +
+	              "BETWEEN :fromDate AND :toDate";
+
+	      Query query = entityManager.createNativeQuery(queryStr);
+
+	      query.setParameter("fromDate", fromDate);
+	      query.setParameter("toDate", toDate);
+
+	      int deletedRecords = query.executeUpdate();
+
+	      usJobsDataRepository.deleteDataByGroupIdAndReferDateBetween(Long.valueOf(groupId),fromDate,toDate );
+	      
+	      return deletedRecords;
+	      
+	      
+	  }
 }

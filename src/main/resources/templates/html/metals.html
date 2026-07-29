@@ -7,16 +7,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="img/logo/logo.png" rel="icon">
+  <link th:href="@{/img/logo/logo.png}" rel="icon">
+
   <title>Libvol - Dashboard</title>
-   <link rel="icon" href="/favicon.ico" type="image/x-icon">
-  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="/css/ruang-admin.min.css" rel="stylesheet">
-  <link href="/css/marquee.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-  <link href="/css/jqx.dark.css" rel="stylesheet">
-  <link href="/css/notification.css" rel="stylesheet">
+ <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+  <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+ <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+
+  <link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+  <link th:href="@{/css/marquee.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css">
+
+ <link th:href="@{/css/jqx.dark.css}" rel="stylesheet">
+  <link th:href="@{/css/notification.css}" rel="stylesheet">
 </head>
 <style>
 .jqx-danger-dark {
@@ -148,7 +151,7 @@ button#deleteByDate {
         <!-- Container Fluid-->
              <div th:include="${maindatainputnav}"></div>
             <div id="overlay" class="col-12">
-		     			<img src="/css/images/loader.gif" alt="Loading" width="46px" />
+		     			<img th:src="@{/css/images/loader.gif}" alt="Loading" width="46px" />
 		   </div>
 		   </div>
 		   <div id="content">
@@ -195,7 +198,7 @@ button#deleteByDate {
 										<div class="col pl-0">
 											<div class="row col  align-items-center">
 												<div>
-													<img height="30" width="30" src="/img/gold.png" class="img-icon" data-toggle="tooltip" title="Gold" >
+													<img height="30" width="30" th:src="@{/img/gold.png}" class="img-icon" data-toggle="tooltip" title="Gold" >
 												</div>
 												<div class="pl-2">
 													<div class="font-weight-bold">Gold</div>
@@ -227,7 +230,7 @@ button#deleteByDate {
 			                      <div class="col pl-0">
 											<div class="row col align-items-center">
 												<div>
-													<img height="30" width="30" src="/img/silver.png" class="img-icon" data-toggle="tooltip" title="Silver" >
+													<img height="30" width="30" th:src="@{/img/silver.png}" class="img-icon" data-toggle="tooltip" title="Silver" >
 												</div>
 												<div class="pl-2">
 													<div class="font-weight-bold">Silver</div>
@@ -260,7 +263,7 @@ button#deleteByDate {
 										<div class="row col align-items-center"
 											style="min-width: 115px;">
 											<div>
-												<img height="30" width="30" src="/img/platinum.png"
+												<img height="30" width="30" th:src="@{/img/platinum.png}"
 													class="img-icon" data-toggle="tooltip"
 													title="Platinum">
 											</div>
@@ -308,7 +311,7 @@ button#deleteByDate {
 		                      <div  style=" display: flex;">
 								     <div class="col pl-0">
 										<div>
-											<img height="48" width="48" src="/img/copper.png" class="img-icon" data-toggle="tooltip" title="Copper">
+											<img height="48" width="48" th:src="@{/img/copper.png}" class="img-icon" data-toggle="tooltip" title="Copper">
 										</div>
 										<div>
 											<h8 class="font-weight-bold">Copper</h8>
@@ -316,7 +319,7 @@ button#deleteByDate {
 									</div>
 								      <div class="col pl-0">
 										<div>
-											<img  height="48" width="48" src="/img/aluminum.png" class="img-icon" data-toggle="tooltip" title="Aluminum">
+											<img  height="48" width="48" th:src="@{/img/aluminum.png}" class="img-icon" data-toggle="tooltip" title="Aluminum">
 											</div>
 										<div>
 											<h8 class="font-weight-bold">Aluminum</h8>
@@ -324,7 +327,7 @@ button#deleteByDate {
 									</div>
 								      <div class="col pl-0">
 										<div>
-											<img height="48" width="48" src="/img/steel.png" class="img-icon" data-toggle="tooltip" title="Steel">
+											<img height="48" width="48" th:src="@{/img/steel.png}" class="img-icon" data-toggle="tooltip" title="Steel">
 											</div>
 										<div>
 											<h8 class="font-weight-bold">Steel</h8>
@@ -332,7 +335,7 @@ button#deleteByDate {
 									</div>
 								     <div class="col pl-0">
 										<div>
-											<img height="48" width="48" src="/img/lumber.png" class="img-icon" data-toggle="tooltip" title="Lumber">
+											<img height="48" width="48" th:src="@{/img/lumber.png}" class="img-icon" data-toggle="tooltip" title="Lumber">
 											</div>
 										<div>
 											<h8 class="font-weight-bold">Lumber</h8>
@@ -362,7 +365,7 @@ button#deleteByDate {
 		                      <div  style=" display: flex;">
 		                           <div class="col pl-0">
 										<div>
-											 <img height="48" width="48" src="/img/oil.png" class="img-icon" data-toggle="tooltip" title="CRUDE OIL">
+											 <img height="48" width="48" th:src="@{/img/oil.png}" class="img-icon" data-toggle="tooltip" title="CRUDE OIL">
 								       </div>
 										<div>
 											<h8 class="font-weight-bold">CRUDE<br> OIL</h8>
@@ -370,7 +373,7 @@ button#deleteByDate {
 									</div>
 									<div class="col pl-0">
 										<div>
-											 <img height="48" width="48" src="/img/gazoline.png" class="img-icon" data-toggle="tooltip" title="US GAL/GASOLINE">
+											 <img height="48" width="48" th:src="@{/img/gazoline.png}" class="img-icon" data-toggle="tooltip" title="US GAL/GASOLINE">
 								        </div>
 										<div>
 											<h8 class="font-weight-bold">US<br> GAL/GASOLINE</h8>
@@ -378,7 +381,7 @@ button#deleteByDate {
 									</div>
 									<div class="col pl-0">
 										<div>
-											 <img height="48" width="48" src="/img/diezel.png" class="img-icon" data-toggle="tooltip" title="US GAL/DIESEL">
+											 <img height="48" width="48" th:src="@{/img/diezel.png}" class="img-icon" data-toggle="tooltip" title="US GAL/DIESEL">
 								        </div>
 										<div>
 											<h8 class="font-weight-bold">US<br> GAL/DIESEL</h8>
@@ -386,7 +389,7 @@ button#deleteByDate {
 									</div>
 									<div class="col pl-0">
 										<div>
-											 <img height="48" width="48" src="/img/natgasUs.png" class="img-icon" data-toggle="tooltip" title="US NATGAS">
+											 <img height="48" width="48" th:src="@{/img/natgasUs.png}" class="img-icon" data-toggle="tooltip" title="US NATGAS">
 								        </div>
 										<div>
 											<h8 class="font-weight-bold">US<br> NATGAS</h8>
@@ -394,7 +397,7 @@ button#deleteByDate {
 									</div>
 									<div class="col pl-0">
 										<div>
-											  <img height="48" width="48" src="/img/natgasEur.png" class="img-icon" data-toggle="tooltip" title="EUROZONE NATGAS">
+											  <img height="48" width="48" th:src="@{/img/natgasEur.png}" class="img-icon" data-toggle="tooltip" title="EUROZONE NATGAS">
 								        </div>
 										<div>
 											<h8 class="font-weight-bold">EUROZONE<br> NATGAS</h8>
@@ -402,7 +405,7 @@ button#deleteByDate {
 									</div>
 									  <div class="col pl-0">
 										<div>
-											 <img height="48" width="48" src="/img/brentOil.png" class="img-icon" data-toggle="tooltip" title="BRENT OIL">
+											 <img height="48" width="48" th:src="@{/img/brentOil.png}" class="img-icon" data-toggle="tooltip" title="BRENT OIL">
 								       </div>
 										<div>
 											<h8 class="font-weight-bold">BRENT<br> OIL</h8>
@@ -432,7 +435,7 @@ button#deleteByDate {
 		                      <div  style=" display: flex;">
 								    <div class="col pl-0">
 										<div>
-											<img height="48" width="48" src="/img/corn.png" class="img-icon" data-toggle="tooltip" title="Corn">
+											<img height="48" width="48" th:src="@{/img/corn.png}" class="img-icon" data-toggle="tooltip" title="Corn">
 											</div>
 										<div>
 											<h8 class="font-weight-bold">Corn</h8>
@@ -440,7 +443,7 @@ button#deleteByDate {
 									</div>
 								   <div class="col pl-0">
 										<div>
-											 <img height="48" width="48" src="/img/sugar.png" class="img-icon" data-toggle="tooltip" title="Sugar">
+											 <img height="48" width="48" th:src="@{/img/sugar.png}" class="img-icon" data-toggle="tooltip" title="Sugar">
 											</div>
 										<div>
 											<h8 class="font-weight-bold">Sugar</h8>
@@ -448,7 +451,7 @@ button#deleteByDate {
 									</div>
 								    <div class="col pl-0">
 										<div>
-											   <img height="48" width="48" src="/img/wheat.png" class="img-icon" data-toggle="tooltip" title="Wheat">
+											   <img height="48" width="48" th:src="@{/img/wheat.png}" class="img-icon" data-toggle="tooltip" title="Wheat">
 											</div>
 										<div>
 											<h8 class="font-weight-bold">Wheat</h8>
@@ -478,7 +481,7 @@ button#deleteByDate {
 		                      <div  style=" display: flex;">
 								    <div class="col pl-0">
 										<div>
-											   <img height="48" width="48" src="/img/baltic.png" class="img-icon" data-toggle="tooltip" title="BALTIC DRY INDEX">
+											   <img height="48" width="48" th:src="@{/img/baltic.png}" class="img-icon" data-toggle="tooltip" title="BALTIC DRY INDEX">
 											</div>
 										<div>
 											<h8 class="font-weight-bold">BALTIC DRY INDEX</h8>
@@ -486,7 +489,7 @@ button#deleteByDate {
 									</div>
 									 <div class="col pl-0">
 										<div>
-											 <img  height="48" width="48" src="/img/container.png" class="img-icon" data-toggle="tooltip" title="40ft Container">
+											 <img  height="48" width="48" th:src="@{/img/container.png}" class="img-icon" data-toggle="tooltip" title="40ft Container">
 											 	</div>
 										<div>
 											<h8 class="font-weight-bold">40ft Container</h8>
@@ -967,36 +970,36 @@ button#deleteByDate {
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/js/marquee.js"></script>
+  <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+  <script th:src="@{/js/marquee.js}"></script>
   
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/jqwidgets/jqxcore.js"></script> 
-  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
-  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
-  <script src="/js/jqwidgets/jqxcheckbox.js"></script>
-  <script src="/js/jqwidgets/jqxmenu.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
-  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
-  <script src="/js/jqwidgets/jqxbuttongroup.js"></script> 
-  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
-  <script src="/js/jqwidgets/jqxdata.js"></script> 
-  <script src="/js/jqwidgets/jqxwindow.js"></script>
-  <script src="/js/jqwidgets/jqxinput.js"></script>
-  <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
-  <script src="/js/jqwidgets/jqxcalendar.js"></script>
-  <script src="/js/bourse/metals.js"></script> 
-  <script src="/js/bourse/scrollBarNews.js"></script> 
-  <script src="/js/common.js"></script>
-  <script src="/js/notification/sockjs.js"></script>
-  <script src="/js/notification/stomp.js"></script>
-  <script src="/js/notification/config.js"></script>
+  <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxscrollbar.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxcheckbox.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxmenu.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.selection.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.columnsresize.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.edit.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.pager.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.filter.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxdropdownlist.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxbuttongroup.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxlistbox.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxdata.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxwindow.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxinput.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxdatetimeinput.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxcalendar.js}"></script>
+  <script th:src="@{/js/bourse/metals.js}"></script> 
+  <script th:src="@{/js/bourse/scrollBarNews.js}"></script> 
+  <script th:src="@{/js/common.js}"></script>
+  <script th:src="@{/js/notification/sockjs.js}"></script>
+  <script th:src="@{/js/notification/stomp.js}"></script>
+  <script th:src="@{/js/notification/config.js}"></script>
   <script th:inline="javascript">
 	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
 	  const hasPendingApprovalGrid= authorities.filter(item => {

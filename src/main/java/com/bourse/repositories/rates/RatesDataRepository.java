@@ -5,6 +5,7 @@ import java.util.List;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
@@ -34,5 +35,21 @@ public interface RatesDataRepository extends JpaRepository<RatesData, Long> {
 	RatesData findMacroDataByReferDateAndGroupIdAndSubgroupId(String referdate, Long groupId, Long subgroupId);
 
 	boolean existsByReferDateAndGroupIdAndSubgroupId(String referDate, Long groupId, Long subgroupId);
-
+	
+	@Modifying
+	@Transactional
+	@Query(
+	    value =
+	        "DELETE FROM rates_data " +
+	        "WHERE group_id = :groupId " +
+	        "AND STR_TO_DATE(refer_date, '%d-%m-%Y') " +
+	        "BETWEEN STR_TO_DATE(:fromDate, '%Y-%m-%d') " +
+	        "AND STR_TO_DATE(:toDate, '%Y-%m-%d')",
+	    nativeQuery = true
+	)
+	int deleteDataByGroupIdAndReferDateBetween(
+	        @Param("groupId") Long groupId,
+	        @Param("fromDate") String fromDate,
+	        @Param("toDate") String toDate
+	);
 }

@@ -1101,7 +1101,7 @@ public class BourseController {
 		return new ModelAndView("html/ezmmLiquidity");
 	}
 	@PreAuthorize("hasAuthority('ECB_BALANCE_SHEET_GRAPH_SCREEN') and principal.tacAccepted == true")
-	@RequestMapping(value = "/ecbbalncesheet")
+	@RequestMapping(value = "/ecbbalancesheet")
 	public ModelAndView ecbBalanceSheetPage(ModelMap model, Authentication authentication) {
 		model.addAttribute("mainmenu", "html/templates/mainMenu");
 		model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
@@ -1110,7 +1110,26 @@ public class BourseController {
 
 		return new ModelAndView("html/liquidity/ecbBalanceSheet");
 	}
+	@PreAuthorize("hasAuthority('FED_BALANCE_SHEET_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/fedbalancesheet")
+	public ModelAndView fedBalanceSheetPage(ModelMap model, Authentication authentication) {
+		model.addAttribute("mainmenu", "html/templates/mainMenu");
+		model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		model.addAttribute("chartNav", "html/fragment/chart-nav");
+		model.addAttribute("chartOption", "html/graph/chartOption");
 
+		return new ModelAndView("html/liquidity/fedBalanceSheet");
+	}
+	@PreAuthorize("hasAuthority('US_BANKS_RESERVE_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/fedliquidity")
+	public ModelAndView usBanksReservePage(ModelMap model, Authentication authentication) {
+		model.addAttribute("mainmenu", "html/templates/mainMenu");
+		model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		model.addAttribute("chartNav", "html/fragment/chart-nav");
+		model.addAttribute("chartOption", "html/graph/chartOption");
+
+		return new ModelAndView("html/liquidity/usBanksReserve");
+	}
 	@PreAuthorize("hasAuthority('USERS_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping(value = "/users")
 	public ModelAndView userPage(ModelMap model, Authentication authentication) {
@@ -1133,7 +1152,15 @@ public class BourseController {
 		model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "SETTINGS_SCREEN"));
 		return new ModelAndView("html/readExcelWriteDB");
 	}
-
+	
+	@PreAuthorize("hasAuthority('DELETE_MONTHLY_SCREEN') and principal.tacAccepted == true")
+    @RequestMapping(value = "/deletemonthlydata")
+	public ModelAndView deleteMonthlyData(ModelMap model, Authentication authentication) {
+		model.addAttribute("mainmenu", "html/templates/mainMenu");
+		model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "SETTINGS_SCREEN"));
+		return new ModelAndView("html/settings/deleteMonthlyData");
+	}
+	
 	@PreAuthorize("hasAnyAuthority('MACRO_DISPLAY_SETTINGS', 'LONGENDS_DISPLAY_SETTINGS') and principal.tacAccepted == true")
 	@RequestMapping(value = "/displaysettings")
 	public ModelAndView displaySettings(@RequestParam("assetId") String assetId, ModelMap model,

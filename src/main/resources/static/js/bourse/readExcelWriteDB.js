@@ -390,6 +390,9 @@ function loadUpdateColumns(groupId) {
 	  case 84:
 	   imagePath='/css/images/format/ecb_balance_sheet_format.png' 
 	     break;     
+	  case 85:
+	   imagePath='/css/images/format/us_banks_reserve_liquidity_format.png' 
+	     break;   
 	}
 return imagePath;
   }

@@ -5779,12 +5779,18 @@ var itemValue = {
 		"subGroupId": "1",
 		"GroupId": "83",
 		"description": "fed_liquidity",
-		"title": 'FED LIQUIDITY'
+		"title": 'FED Balance Sheet'
 	},
 	"#jqxCheckBoxEcb_balance_sheet": {
 		"subGroupId": "1",
 		"GroupId": "84",
 		"description": "ecb_balance_sheet",
 		"title": 'ECB Balance Sheet'
+	},
+	"#jqxCheckBoxUs_banks_reserve": {
+		"subGroupId": "1",
+		"GroupId": "85",
+		"description": "us_banks_reserve",
+		"title": 'US Banks reserve'
 	},
 };

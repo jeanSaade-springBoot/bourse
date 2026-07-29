@@ -1447,7 +1447,7 @@ async navigate(direction) {
 			max: maxValue,
 			tickAmount: 6,
 			labels: {
-				style: { fontSize },
+				style: { fontSize ,  colors:["#fff"]},
 				formatter: val => {
 					if (val == null || isNaN(val)) return 'N/A';
 					const formatted =
@@ -1530,7 +1530,7 @@ async navigate(direction) {
 		max: maxVal,
 		tickAmount: 6,
 		labels: {
-			style: { fontSize },
+			style: { fontSize,  colors:["#fff"] },
 			formatter: val => {
 				if (val == null || isNaN(val)) return '';
 

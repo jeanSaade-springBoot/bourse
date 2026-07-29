@@ -8,20 +8,22 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<link href="img/logo/logo.png" rel="icon">
+<link th:href="@{/img/logo/logo.png}" rel="icon">
+
 <title>Libvol - Precious</title>
-<link rel="icon" href="/favicon.ico" type="image/x-icon">
-<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
+<link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet"
 	type="text/css">
-<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"
 	type="text/css">
-<link href="/css/ruang-admin.min.css" rel="stylesheet">
-<link href="/css/marquee.css" rel="stylesheet">
-<link href="/css/apexchart.css" rel="stylesheet">
-<link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-<link href="/css/jqx.dark.css" rel="stylesheet">
-<link href="/css/custom.grid.css" rel="stylesheet">
-<link href="/css/notification.css" rel="stylesheet">
+<link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+<link th:href="@{/css/marquee.css}" rel="stylesheet">
+<link th:href="@{/css/apexchart.css}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css">
+
+<link th:href="@{/css/jqx.dark.css}" rel="stylesheet">
+<link th:href="@{/css/custom.grid.css}" rel="stylesheet">
+<link th:href="@{/css/notification.css}" rel="stylesheet">
 
 <style>
 .mt-3.btn-toolbar.justify-content-between {
@@ -44,7 +46,7 @@
 	margin: 0.5rem;
 	color: white;
 	background-color: #5a8dee !important;
-	border-color: var(- -jqx-border);
+	border-color: var(--jqx-border);
 	border-radius: 4px;
 	border: 1px solid transparent;
 	padding: 1px 42px;
@@ -156,7 +158,7 @@ h8 {
 											href="#collapseFilter" role="button" aria-expanded="false"
 											aria-controls="collapseFilter">Select Factors <img
 											style="width: 12px; margin-left: .6rem;"
-											id="ContentPlaceHolder1_Image13" src="../../img/down.png"
+											id="ContentPlaceHolder1_Image13" th:src="@{/img/down.png}"
 											align="absmiddle"></a>
 									</p>
 									
@@ -168,7 +170,7 @@ h8 {
 														<div style="display: flex;">
 															<div class="col pl-0 text-center">
 																<div class="align-middle">
-																	<img height="48" width="48" src="/img/gold.png"
+																	<img height="48" width="48" th:src="@{/img/gold.png}"
 																		class="img-icon" data-toggle="tooltip" title="Gold">
 																</div>
 																<h8 class="font-weight-bold">Gold</h8>
@@ -176,7 +178,7 @@ h8 {
 															</div>
 															<div class="col pl-0 text-center">
 																<div class="align-middle">
-																	<img height="48" width="48" src="/img/platinum.png"
+																	<img height="48" width="48" th:src="@{/img/platinum.png}"
 																		class="img-icon" data-toggle="tooltip"
 																		title="Platinum">
 																</div>
@@ -185,7 +187,7 @@ h8 {
 															</div>
 															<div class="col pl-0 text-center">
 																<div class="align-middle">
-																	<img height="48" width="48" src="/img/silver.png"
+																	<img height="48" width="48" th:src="@{/img/silver.png}"
 																		class="img-icon" data-toggle="tooltip" title="Silver">
 																</div>
 																<h8 class="font-weight-bold">Silver</h8>
@@ -194,7 +196,7 @@ h8 {
 															<div class="col pl-0 text-center">
 																<div class="align-middle">
 																	<img class="br-3" height="48" width="48"
-																		src="/img/plat-gold.png" data-toggle="tooltip"
+																		th:src="@{/img/plat-gold.png}" data-toggle="tooltip"
 																		title="PLAT-GOLD sprd">
 																</div>
 																<h8 class="font-weight-bold">PLAT-GOLD sprd</h8>
@@ -203,7 +205,7 @@ h8 {
 															<div class="col pl-0 text-center">
 																<div class="align-middle">
 																	<img class="br-3" height="48" width="48"
-																		src="/img/gold-silver.png" data-toggle="tooltip"
+																		th:src="@{/img/gold-silver.png}" data-toggle="tooltip"
 																		title="GOLD/SILV ratio">
 																</div>
 																<h8 class="font-weight-bold">GOLD/SILV ratio</h8>
@@ -264,7 +266,7 @@ h8 {
 													<div class="col-11">
 														<div id="overlayChart" class="overlayChart"
 															style="display: none">
-															<img src="/css/images/loader.gif" alt="Loading"
+															<img th:src="@{/css/images/loader.gif}" alt="Loading"
 																style="width: 100%;" />
 														</div>
 														<div id="mainChart" class="chart-box col-12"
@@ -276,7 +278,7 @@ h8 {
 															<div class='col-6'>
 																<div id="overlayChart1" class="overlayChart-split"
 																	style="display: none">
-																	<img src="/css/images/loader.gif" alt="Loading"
+																	<img th:src="@{/css/images/loader.gif}" alt="Loading"
 																		style="width: 100%;" />
 																</div>
 																<div id="SubChart1" class="chart-box"></div>
@@ -284,7 +286,7 @@ h8 {
 															<div class='col-6'>
 																<div id="overlayChart2" class="overlayChart-split"
 																	style="display: none">
-																	<img src="/css/images/loader.gif" alt="Loading"
+																	<img th:src="@{/css/images/loader.gif}" alt="Loading"
 																		style="width: 100%;" />
 																</div>
 																<div id="SubChart2" class="chart-box"></div>
@@ -303,7 +305,7 @@ h8 {
 								</div>
 							</div>
 							<div id="overlay" class="col-12">
-								<img src="/css/images/loader.gif" alt="Loading" width="46px" />
+								<img th:src="@{/css/images/loader.gif}" alt="Loading" width="46px" />
 							</div>
 
 							<!-- Modal Logout -->
@@ -411,41 +413,40 @@ h8 {
 				class="fas fa-angle-up"></i>
 			</a>
 
-			<script src="/vendor/jquery/jquery.min.js"></script>
-			<script src="/js/jqwidgets/jqxcore.js"></script>
-			<script src="/js/jqwidgets/jqxcheckbox.js"></script>
-			<script src="/js/marquee.js"></script>
-			<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-			<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-			<script src="/js/jqwidgets/jqxbuttons.js"></script>
+			<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxcheckbox.js}"></script>
+			<script th:src="@{/js/marquee.js}"></script>
+			<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+			<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
 
-			<script src="/js/apexcharts.js"></script>
-			<script src="/js/chartOptions.js"></script>
-			<script src="/js/bourse/jsonCheckBoxArrayAll.js"></script>
-			<script src="/js/bourse/precious.js"></script>
-			<script src="/js/bourse/graph/chartConfig.js"></script>
-			<script src="/js/chart.js"></script>
+			<script th:src="@{/js/apexcharts.js}"></script>
+			<script th:src="@{/js/chartOptions.js}"></script>
+			<script th:src="@{/js/bourse/jsonCheckBoxArrayAll.js}"></script>
+			<script th:src="@{/js/bourse/precious.js}"></script>
+			<script th:src="@{/js/bourse/graph/chartConfig.js}"></script>
+			<script th:src="@{/js/chart.js}"></script>
 
-			<script src="/js/jqwidgets/jqxdata.js"></script>
-			<script src="/js/jqwidgets/jqxgrid.js"></script>
-			<script src="/js/jqwidgets/jqxbuttongroup.js"></script>
-			<script src="/js/jqwidgets/jqxgrid.filter.js"></script>
-			<script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
-			<script src="/js/jqwidgets/jqxscrollbar.js"></script>
-			<script src="/js/jqwidgets/jqxmenu.js"></script>
-			<script src="/js/jqwidgets/jqxgrid.pager.js"></script>
-			<script src="/js/jqwidgets/jqxdropdownlist.js"></script>
-			<script src="/js/jqwidgets/jqxlistbox.js"></script>
-			<script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script>
-			<script src="/js/jqwidgets/jqxgrid.selection.js"></script>
-			<script src="/js/jqwidgets/jqxcore.js"></script>
-			<script src="/js/bourse/scrollBarNews.js"></script>
-			<script src="/js/bourse/inGraphNews.js"></script>
-			<script src="/js/common.js"></script>
+			<script th:src="@{/js/jqwidgets/jqxdata.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxgrid.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxbuttongroup.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxgrid.filter.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxgrid.grouping.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxscrollbar.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxmenu.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxgrid.pager.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxdropdownlist.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxlistbox.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxgrid.columnsresize.js}"></script>
+			<script th:src="@{/js/jqwidgets/jqxgrid.selection.js}"></script>
+			<script th:src="@{/js/bourse/scrollBarNews.js}"></script>
+			<script th:src="@{/js/bourse/inGraphNews.js}"></script>
+			<script th:src="@{/js/common.js}"></script>
 
-			<script src="/js/notification/sockjs.js"></script>
-			<script src="/js/notification/stomp.js"></script>
-			<script src="/js/notification/config.js"></script>
+			<script th:src="@{/js/notification/sockjs.js}"></script>
+			<script th:src="@{/js/notification/stomp.js}"></script>
+			<script th:src="@{/js/notification/config.js}"></script>
 			<script th:inline="javascript">
 	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
 	  const hasPendingApprovalGrid= authorities.filter(item => {

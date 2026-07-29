@@ -144,6 +144,7 @@ var allitems = ["#jqxCheckBoxUSA-30",
 	"#jqxCheckBoxM3",
 	"#jqxCheckBoxFed_liquidity",
 	"#jqxCheckBoxEcb_balance_sheet",
+	"#jqxCheckBoxUs_banks_reserve",
 	"#jqxCheckBoxBund1",
 	"#jqxCheckBoxBund2",
 	"#jqxCheckBoxBund1_Bund2",
@@ -896,7 +897,7 @@ $(document).ready(function() {
 				  updateTabTitles(selectedCommoditiesCount);
 			  } 
 			   else 
-			  if (["13", "14", "15", "16"].includes(itemValue["#" + checkboxId].GroupId))
+			  if (["13", "14", "15", "16", "83", "84","85"].includes(itemValue["#" + checkboxId].GroupId))
 			   {  
 				   selectedLiquidityCount = updateCount(checked,selectedLiquidityCount)
 				   updateTabTitles(selectedLiquidityCount);
@@ -991,7 +992,7 @@ function drawGraph() {
 	const groupWithFactor = ["25", "26", "27","28", "29", "30", "31","37", "38", "39","40", "41","42", "43", "44","45", "46", "47"];
 	const stiGroups = ["32", "33", "34","35", "36"];
 	const fxCdsGroups = ["22", "23", "24"];
-	const liquidityGroups = ["13", "14", "15", "16"];
+	const liquidityGroups = ["13", "14", "15", "16", "83", "84","85"];
 	const volumeGroups = ["17", "18", "19", "20", "21"];
 	const longEndsGroups = ["52", "53", "54","55","56","57","58","59","60","61","62","63","64","65","67","68","69","70"];
 	
@@ -1186,7 +1187,7 @@ function updateCount(checked,count){
 					  		   	  			          zoomin: true,
 					  		   	  			          zoomout: true,
 					  		   	  			          pan: true,
-					  		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+					  		   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					  		   	  			          customIcons: []
 					  		   	  			        }},
 					     	  			          height: 525,
@@ -1284,6 +1285,7 @@ function updateCount(checked,count){
 					  			        	labels: {
 					  			        		 style: {
 					  					        	  fontSize: fontsize,
+					  					        	   colors:["#fff"],
 					  					        	 }
 					  			        	  },
 					  			        	  axisBorder: {
@@ -1458,6 +1460,7 @@ function updateCount(checked,count){
 	     				    		 minWidth: 75,maxWidth: 75,
 	 				        		 style: {
 	 						        	  fontSize: chartConfigSettings.fontSize,
+	 						        	   colors:["#fff"],
 	 						        	 },
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -1523,6 +1526,7 @@ function updateCount(checked,count){
 	     				    		 minWidth: 75,maxWidth: 75,
 	 				        		 style: {
 	 						        	  fontSize: chartConfigSettings.fontSize,
+	 						        	   colors:["#fff"],
 	 						        	 },
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -1618,6 +1622,7 @@ function updateCount(checked,count){
 	     				    		 minWidth: 75,maxWidth: 75,
 	 				        		 style: {
 	 						        	  fontSize: chartConfigSettings.fontSize,
+	 						        	   colors:["#fff"],
 	 						        	 },
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -1682,6 +1687,7 @@ function updateCount(checked,count){
 	     				    		 minWidth: 75,maxWidth: 75,
 	 				        		 style: {
 	 						        	  fontSize: chartConfigSettings.fontSize,
+	 						        	   colors:["#fff"],
 	 						        	 },
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -1757,137 +1763,7 @@ function updateCount(checked,count){
 				
 												 }
 									
-									
-/*									
-    var optionsCorrelation = {
-					     	  			           series: [{
-			          data: chartConfigSettings.response[2].graphResponseDTOLst
-			        }],
-					     	  			          chart: {
-													id:'main-correlation',
-													//group: 'correlation',
-					  		   	  			        toolbar: {
-					  		   	  			        show:false,
-					  		   	  			        offsetX: -50,
-					  		   	  			        offsetY: 0,
-					  		   	  			        tools: {
-					  		   	  			          download: false,s
-					  		   	  			          selection: true,
-					  		   	  			          zoom: true,
-					  		   	  			          zoomin: true,
-					  		   	  			          zoomout: true,
-					  		   	  			          pan: true,
-					  		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
-					  		   	  			          customIcons: []
-					  		   	  			        }},
-					     	  			          height: 225,
-					     	  			          type: 'line',
-					     	  			     animations: { enabled: false }
-					     	  			        },
-					     	  			   grid: {
-					     	  				   
-					     	  			  show:false,
-					     	  			  borderColor: '#f0e68c',
-					     	  			  strokeDashArray:1,
-					     	  		      opacity: 0.5,
-					  		   	  		  padding: {
-					  		   	  	        right: 60,
-					  		   	  	    },  
-					     	  			},
-					     	         colors: ["#3786f4"],
-					     	  			        fill: {
-					     	  			            type:'solid',
-					     	  			            opacity: [1, 1],
-					     	  			          },
-					     	  			        stroke: {
-					     	  			        	 curve: 'straight',
-					     	  			        	   width: 2.25
-					     	  			        },
-					     	  			        markers: {
-					     	  			       colors: '#ffffff',
-					                          size: 0,
-					                          shape:'square',
-					     	  			        },
-					     	  			        title: {
-					     	  			          text: '',
-					     	  			        align: 'center',
-													margin: 0,
-													offsetY: 20,
-													style: {
-														fontWeight: 'bold',
-													},
-					    	    				        },
-					     	  			        dataLabels: {
-					     	  			          enabled: false
-					     	  			        },
-					     	  			        xaxis: {
-					     	  			        	   labels:  {
-					  					        		//  rotate: -45,
-					  					                  rotateAlways: true,
-					  					                  minHeight:60,
-					  					        		  style: {
-					  							        	  fontSize: fontsize,
-					  							        	 },
-					  					        	  },
-					     	  			           type: (hasMissingDates)?'datetime':'category',
-	   	  			          					   tickAmount: 19,
-					     	  			      axisBorder: {
-					     	  		          show: true,
-					     	  		          color: '#ffffff',
-					     	  		          height: 3,
-					     	  		          width: '100%',
-					     	  		          offsetX: 0,
-					     	  		          offsetY: 0
-					     	  		      },
-					     	  			        },
-					     	  			   legend: {
-					  		   	  			   fontSize: fontsize,
-					  			        	   showForSingleSeries: true,
-					  				    	   labels: {
-					  				    	          colors: 'White',
-					  				    	          useSeriesColors: false
-					  				    	   },
-					  				    	      markers: {
-					  				    	          width: 12,
-					  				    	          height: 2
-					  				    	      },
-					  				    	    formatter: function(seriesName, opts) {
-					  				    	    	img= getCountryFlag(seriesName);
-					  				    	        return [img , seriesName]
-					  				    	    }
-					  				    	  },
-					  			         yaxis: [{
-					  			        	labels: {
-					  			        		 style: {
-					  					        	  fontSize: fontsize,
-					  					        	 }
-					  			        	  },
-					  			        	  axisBorder: {
-					  			        		  width: 3,
-					  			                  show: true,
-					  			                  color: '#ffffff',
-					  			                  offsetX: 0,
-					  			                  offsetY: 0
-					  			              },
-					  			        
-					  			        }],
-					  			        noData: {
-					  			        	  text: '',
-					  			        	  align: 'center',
-					  			        	  verticalAlign: 'middle',
-					  			        	  offsetX: 0,
-					  			        	  offsetY: 0,
-					  			        	  style: {
-					  			        	    color: undefined,
-					  			        	    fontSize: '14px',
-					  			        	    fontFamily: undefined
-					  			        	  }
-					  			        	}
-					     	  			        };	    	
-   
-	    correlationChart = new ApexCharts(document.querySelector("#mainChart-correlation"), optionsCorrelation);*/
-       // correlationChart.render();
-				
+							
 			   $('#overlayChart').hide();
 		      	   },
 		      	    	        error: function (e) {

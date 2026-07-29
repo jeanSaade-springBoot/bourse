@@ -256,7 +256,7 @@ function drawGraph() {
 }
 
  function macroGraph(graphService,graphName,removeEmpty,saveHistory){
-	mode = "merge";
+	mode = "macroGraphs";
 	var dataParam;
 	var checkedItemValues = [];
 	var isFlash=false;
@@ -549,6 +549,7 @@ function drawGraph() {
 								minWidth: 75, maxWidth: 75,
 								style: {
 									fontSize: fontsize,
+									colors:['#fff']
 								},
 								 formatter: function(val, index) {
 										 if (yaxisformat0[1])
@@ -852,6 +853,7 @@ function drawGraph() {
 								minWidth: 75, maxWidth: 75,
 								style: {
 									fontSize: fontsize,
+									colors:['#fff']
 								},
 								 formatter: function(val, index) {
 										 if (yaxisformat0[1])

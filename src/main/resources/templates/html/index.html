@@ -9,19 +9,19 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="Dashboard Page for Libvol that displays the service it offers">
   <meta name="author" content="">
-  <link href="img/logo/logo.png" rel="icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link th:href="@{/img/logo/logo.png}" rel="icon">
+  <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
   <title>Libvol - Dashboard</title>
 
-  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link href="/css/ruang-admin.min.css" rel="stylesheet">
-  <link href="/css/marquee.css" rel="stylesheet">
-  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-  <link href="/css/jqx.dark.css" rel="stylesheet">
-  <link href="/css/notification.css" rel="stylesheet">
+  <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+  <link th:href="@{/css/marquee.css}" rel="stylesheet">
+  <link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css" />
+  <link th:href="@{/css/jqx.dark.css}" rel="stylesheet">
+  <link th:href="@{/css/notification.css}" rel="stylesheet">
 
-  <style>
+  <style th:inline="css">
     div#content {
       position: absolute;
       top: 70px;
@@ -44,7 +44,7 @@
     }
 
     .menu-shell {
-      background: url(../../img/WebResource.png) top left repeat-x;
+      background: url([[@{/img/WebResource.png}]]) top left repeat-x;
       display: flex;
       align-items: center;
       border-radius: 0.2rem;
@@ -106,14 +106,14 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Yields</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_GRAPH_SCREEN'')')} ? '/bourse/any2' : '/login'"><img class="img-m-right" src="../../img/i2.png"> Any 2</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''SOVEREIGN_YIELDS_GRAPH_SCREEN'')')} ? '/bourse/sovereignyieldsgraph' : '/login'"><img class="img-m-right" src="../../img/i2.png"> Sovereign Yields</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''YIELD_CURVES_GRAPH_SCREEN'')')} ? '/bourse/sovereigncurvesgraph' : '/login'"><img class="img-m-right" src="../../img/i2.png"> Yield Curves</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''YIELD_CROSSES_GRAPH_SCREEN'')')} ? '/bourse/sovereigncrossesgraph' : '/login'"><img class="img-m-right" src="../../img/i2.png"> Yield Crosses</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''YIELD_CORPORATE_GRAPH_SCREEN'')')} ? '/bourse/sovereigncorporategraph' : '/login'"><img class="img-m-right" src="../../img/i2.png"> Corporate Yields</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CREDIT_SPREAD_GRAPH_SCREEN'')')} ? '/bourse/creditsspreadgraph' : '/login'"><img class="img-m-right" src="../../img/i2.png"> Credit Spreads</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''SPREAD_MAKER_GRAPH_SCREEN'')')} ? '/bourse/spreadmakergraph' : '/login'"><img class="img-m-right" src="../../img/i2.png"> Spread Maker</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/datafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png"> DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_GRAPH_SCREEN'')')} ? '/bourse/any2' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}"> Any 2</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''SOVEREIGN_YIELDS_GRAPH_SCREEN'')')} ? '/bourse/sovereignyieldsgraph' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}"> Sovereign Yields</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''YIELD_CURVES_GRAPH_SCREEN'')')} ? '/bourse/sovereigncurvesgraph' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}"> Yield Curves</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''YIELD_CROSSES_GRAPH_SCREEN'')')} ? '/bourse/sovereigncrossesgraph' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}"> Yield Crosses</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''YIELD_CORPORATE_GRAPH_SCREEN'')')} ? '/bourse/sovereigncorporategraph' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}"> Corporate Yields</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CREDIT_SPREAD_GRAPH_SCREEN'')')} ? '/bourse/creditsspreadgraph' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}"> Credit Spreads</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''SPREAD_MAKER_GRAPH_SCREEN'')')} ? '/bourse/spreadmakergraph' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}"> Spread Maker</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/datafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}"> DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -123,11 +123,11 @@
                     <h5 class="card-title card-title-color">Rates</h5>
                     <ul class="fa-ul">
                       
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_FIXINGS_GRAPH_SCREEN'')')} ? '/bourse/fixings' : '/login'"><img class="img-m-right" src="../../img/i2.png">Fixings</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_INFLATION_SWAP_GRAPH_SCREEN'')')} ? '/bourse/inflation-swap' : '/login'"><img class="img-m-right" src="../../img/i2.png">INFLATION SWAP RATES</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_MORTGAGE_GRAPH_SCREEN'')')} ? '/bourse/mortgage' : '/login'"><img class="img-m-right" src="../../img/i2.png">MORTGAGE RATES</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_CENTRAL_BANKS_GRAPH_SCREEN'')')} ? '/bourse/centralbanks' : '/login'"><img class="img-m-right" src="../../img/i2.png">Central Banks</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/ratesdatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_FIXINGS_GRAPH_SCREEN'')')} ? '/bourse/fixings' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Fixings</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_INFLATION_SWAP_GRAPH_SCREEN'')')} ? '/bourse/inflation-swap' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">INFLATION SWAP RATES</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_MORTGAGE_GRAPH_SCREEN'')')} ? '/bourse/mortgage' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">MORTGAGE RATES</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_CENTRAL_BANKS_GRAPH_SCREEN'')')} ? '/bourse/centralbanks' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Central Banks</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RATES_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/ratesdatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -136,14 +136,14 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Commos</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_METALS_GRAPH_SCREEN'')')} ? '/bourse/any2metals' : '/login'"><img class="img-m-right" src="../../img/i2.png">Any 2</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''PRECIOUS_METALS_GRAPH_SCREEN'')')} ? '/bourse/precious' : '/login'"><img class="img-m-right" src="../../img/i2.png">Precious Metals</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''BASE_METALS_GRAPH_SCREEN'')')} ? '/bourse/base' : '/login'"><img class="img-m-right" src="../../img/i2.png">Base Metals</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''FOODSTUFF_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/foodstuff' : '/login'"><img class="img-m-right" src="../../img/i2.png">Foodstuff</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ENERGY_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/energy' : '/login'"><img class="img-m-right" src="../../img/i2.png">Energy</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRANSPORTATION_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/transportation' : '/login'"><img class="img-m-right" src="../../img/i2.png">Transportation</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''COMMOS_PERFORMANCE_SCREEN'')')} ? '/bourse/commosperformance' : '/login'"><img class="img-m-right" src="../../img/i6.png">PERFORMANCE</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''METAL_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/metaldatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_METALS_GRAPH_SCREEN'')')} ? '/bourse/any2metals' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Any 2</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''PRECIOUS_METALS_GRAPH_SCREEN'')')} ? '/bourse/precious' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Precious Metals</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''BASE_METALS_GRAPH_SCREEN'')')} ? '/bourse/base' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Base Metals</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''FOODSTUFF_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/foodstuff' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Foodstuff</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ENERGY_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/energy' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Energy</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRANSPORTATION_COMMODITY_GRAPH_SCREEN'')')} ? '/bourse/transportation' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Transportation</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''COMMOS_PERFORMANCE_SCREEN'')')} ? '/bourse/commosperformance' : '/login'"><img class="img-m-right" th:src="@{/img/i6.png}">PERFORMANCE</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''METAL_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/metaldatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -152,15 +152,17 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Liquidity</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/any2liquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">Any 2</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECBEXCESS_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ecbexcessliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">Ecb Excess Liquidity</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECBQE_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ecbqeliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">ECB QE Operations</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECB_IMPACT_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ecbimpactliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">ECB Impact</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''EZMM_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ezmmliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">Monetary Mass</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CORPORATE_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/corporateliquidity' : '/login'"><img class="img-m-right" src="../../img/i2.png">Corpoprate Liquidity</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECB_BALANCE_SHEET_GRAPH_SCREEN'')')} ? '/bourse/ecbbalncesheet' : '/login'"><img class="img-m-right" src="../../img/i2.png">ECB Balance Sheet</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/any2liquidity' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Any 2</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECBEXCESS_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ecbexcessliquidity' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Ecb Excess Liquidity</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECBQE_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ecbqeliquidity' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">ECB QE Operations</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECB_IMPACT_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ecbimpactliquidity' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">ECB Impact</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CORPORATE_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/corporateliquidity' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Corpoprate Liquidity</a></li>
                       
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/liquiditydatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''FED_BALANCE_SHEET_GRAPH_SCREEN'')')} ? '/bourse/fedliquidity' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">FED Liquidity</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ECB_BALANCE_SHEET_GRAPH_SCREEN'')')} ? '/bourse/ecbbalancesheet' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">ECB Balance Sheet</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''EZMM_LIQUIDITY_GRAPH_SCREEN'')')} ? '/bourse/ezmmliquidity' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Monetary Mass</a></li>
+                      
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LIQUIDITY_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/liquiditydatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -173,8 +175,8 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">The Math Box</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ONE_SERIE'')')} ? '/bourse/oneserie?serie=1' : '/login'"><img class="img-m-right" src="../../img/i1.png">One Serie</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TWO_SERIES'')')} ? '/bourse/twoserie?serie=1' : '/login'"><img class="img-m-right" src="../../img/i2.png">Two Series</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ONE_SERIE'')')} ? '/bourse/oneserie?serie=1' : '/login'"><img class="img-m-right" th:src="@{/img/i1.png}">One Serie</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TWO_SERIES'')')} ? '/bourse/twoserie?serie=1' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Two Series</a></li>
                     </ul>
                   </div>
                 </div>
@@ -183,10 +185,10 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">PMIs</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''MACRO_GRAPH_SCREEN'')')} ? '/bourse/macrograph' : '/login'"><img class="img-m-right" src="../../img/i2.png">COUNTRY PMI</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''MACRO_BAR_SCREEN'')')} ? '/bourse/countrypmibar' : '/login'"><img class="img-m-right" src="../../img/i2.png">MONTHLY RANKING</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''MACRO_PMI_VS_SURVEY'')')} ? '/bourse/pmivssurvey' : '/login'"><img class="img-m-right" src="../../img/i2.png">PMI vs SURVEY</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''MACRO_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/macrodatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''MACRO_GRAPH_SCREEN'')')} ? '/bourse/macrograph' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">COUNTRY PMI</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''MACRO_BAR_SCREEN'')')} ? '/bourse/countrypmibar' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">MONTHLY RANKING</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''MACRO_PMI_VS_SURVEY'')')} ? '/bourse/pmivssurvey' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">PMI vs SURVEY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''MACRO_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/macrodatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -195,13 +197,13 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">US Jobs</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_USJOBS_GRAPH_SCREEN'')')} ? '/bourse/any2usjobs' : '/login'"><img class="img-m-right" src="../../img/i2.png">Any 2</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_JOLTS_GRAPH_SCREEN'')')} ? '/bourse/jolts' : '/login'"><img class="img-m-right" src="../../img/i2.png">JOLTS</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_ADP_GRAPH_SCREEN'')')} ? '/bourse/adp' : '/login'"><img class="img-m-right" src="../../img/i2.png">ADP</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_NFP_GRAPH_SCREEN'')')} ? '/bourse/nfp' : '/login'"><img class="img-m-right" src="../../img/i2.png">NON-FARM PAYROLLS</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_UNEMPRATE_GRAPH_SCREEN'')')} ? '/bourse/unemprate' : '/login'"><img class="img-m-right" src="../../img/i2.png">UNEMPLOYMENT RATE</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN'')')} ? '/bourse/householdsurv' : '/login'"><img class="img-m-right" src="../../img/i2.png">HOUSEHOLD SURVEY of JOBS</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/usjobsdatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_USJOBS_GRAPH_SCREEN'')')} ? '/bourse/any2usjobs' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Any 2</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_JOLTS_GRAPH_SCREEN'')')} ? '/bourse/jolts' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">JOLTS</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_ADP_GRAPH_SCREEN'')')} ? '/bourse/adp' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">ADP</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_NFP_GRAPH_SCREEN'')')} ? '/bourse/nfp' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">NON-FARM PAYROLLS</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_UNEMPRATE_GRAPH_SCREEN'')')} ? '/bourse/unemprate' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">UNEMPLOYMENT RATE</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_HOUSEHOLEDSURVEY_GRAPH_SCREEN'')')} ? '/bourse/householdsurv' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">HOUSEHOLD SURVEY of JOBS</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''USJOBS_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/usjobsdatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -210,13 +212,13 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Stocks</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_STI_GRAPH_SCREEN'')')} ? '/bourse/any2sti' : '/login'"><img class="img-m-right" src="../../img/i2.png">Any 2</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_EUROPE_GRAPH_SCREEN'')')} ? '/bourse/europe' : '/login'"><img class="img-m-right" src="../../img/i2.png">EUROPE</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_WALLSTREET_GRAPH_SCREEN'')')} ? '/bourse/wallstreet' : '/login'"><img class="img-m-right" src="../../img/i2.png">WALL STREET</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_ASIA_GRAPH_SCREEN'')')} ? '/bourse/asia' : '/login'"><img class="img-m-right" src="../../img/i2.png">ASIA</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_EMERGING_GRAPH_SCREEN'')')} ? '/bourse/emerging' : '/login'"><img class="img-m-right" src="../../img/i2.png">EMERGING</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_PERFORMANCE_SCREEN'')')} ? '/bourse/stiperformance' : '/login'"><img class="img-m-right" src="../../img/i6.png">PERFORMANCE</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/stidatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_STI_GRAPH_SCREEN'')')} ? '/bourse/any2sti' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Any 2</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_EUROPE_GRAPH_SCREEN'')')} ? '/bourse/europe' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">EUROPE</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_WALLSTREET_GRAPH_SCREEN'')')} ? '/bourse/wallstreet' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">WALL STREET</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_ASIA_GRAPH_SCREEN'')')} ? '/bourse/asia' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">ASIA</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_EMERGING_GRAPH_SCREEN'')')} ? '/bourse/emerging' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">EMERGING</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_PERFORMANCE_SCREEN'')')} ? '/bourse/stiperformance' : '/login'"><img class="img-m-right" th:src="@{/img/i6.png}">PERFORMANCE</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''STI_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/stidatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -225,8 +227,8 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Skews</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_SKEWS_GRAPH_SCREEN'')')} ? '/bourse/any2skews' : '/login'"><img class="img-m-right" src="../../img/i2.png">Any 2</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''SKEWS_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/skewsdatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_SKEWS_GRAPH_SCREEN'')')} ? '/bourse/any2skews' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Any 2</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''SKEWS_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/skewsdatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -235,15 +237,15 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Cryptos</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_CRYPTOS_GRAPH_SCREEN'')')} ? '/bourse/any2cryptos' : '/login'"><img class="img-m-right" src="../../img/i2.png">Any 2</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_BITCOIN_GRAPH_SCREEN'')')} ? '/bourse/bitcoin?isShared=true' : '/login'"><img class="img-m-right" src="../../img/i2.png">BITCOIN</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_ETHEREUM_GRAPH_SCREEN'')')} ? '/bourse/ethereum?isShared=true' : '/login'"><img class="img-m-right" src="../../img/i2.png">ETHEREUM</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_SOLANA_GRAPH_SCREEN'')')} ? '/bourse/solana?isShared=true' : '/login'"><img class="img-m-right" src="../../img/i2.png">SOLANA</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_SHIBA_GRAPH_SCREEN'')')} ? '/bourse/shiba?isShared=true' : '/login'"><img class="img-m-right" src="../../img/i2.png">SHIBA INU</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_BINANCE_GRAPH_SCREEN'')')} ? '/bourse/binance?isShared=true' : '/login'"><img class="img-m-right" src="../../img/i2.png">BINANCE COIN</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_XRP_GRAPH_SCREEN'')')} ? '/bourse/xrp?isShared=true' : '/login'"><img class="img-m-right" src="../../img/i2.png">XRP</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRYPTOS_PERFORMANCE_SCREEN'')')} ? '/bourse/cryptosperformance' : '/login'"><img class="img-m-right" src="../../img/i6.png">PERFORMANCE</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRYPTOS_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/cryptosdatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_CRYPTOS_GRAPH_SCREEN'')')} ? '/bourse/any2cryptos' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Any 2</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_BITCOIN_GRAPH_SCREEN'')')} ? '/bourse/bitcoin?isShared=true' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">BITCOIN</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_ETHEREUM_GRAPH_SCREEN'')')} ? '/bourse/ethereum?isShared=true' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">ETHEREUM</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_SOLANA_GRAPH_SCREEN'')')} ? '/bourse/solana?isShared=true' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">SOLANA</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_SHIBA_GRAPH_SCREEN'')')} ? '/bourse/shiba?isShared=true' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">SHIBA INU</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_BINANCE_GRAPH_SCREEN'')')} ? '/bourse/binance?isShared=true' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">BINANCE COIN</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRY_XRP_GRAPH_SCREEN'')')} ? '/bourse/xrp?isShared=true' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">XRP</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRYPTOS_PERFORMANCE_SCREEN'')')} ? '/bourse/cryptosperformance' : '/login'"><img class="img-m-right" th:src="@{/img/i6.png}">PERFORMANCE</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CRYPTOS_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/cryptosdatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -255,10 +257,10 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">FX &amp; CDS</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_FXCDS_GRAPH_SCREEN'')')} ? '/bourse/any2fxcds' : '/login'"><img class="img-m-right" src="../../img/i2.png">Any 2</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''FX_GRAPH_SCREEN'')')} ? '/bourse/fx' : '/login'"><img class="img-m-right" src="../../img/i1.png">FX</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CDS_GRAPH_SCREEN'')')} ? '/bourse/cds' : '/login'"><img class="img-m-right" src="../../img/i1.png">CDS</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''FXCDS_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/fxcdsdatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_FXCDS_GRAPH_SCREEN'')')} ? '/bourse/any2fxcds' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Any 2</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''FX_GRAPH_SCREEN'')')} ? '/bourse/fx' : '/login'"><img class="img-m-right" th:src="@{/img/i1.png}">FX</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''CDS_GRAPH_SCREEN'')')} ? '/bourse/cds' : '/login'"><img class="img-m-right" th:src="@{/img/i1.png}">CDS</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''FXCDS_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/fxcdsdatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -267,12 +269,12 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Volumes</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_VOLUME_GRAPH_SCREEN'')')} ? '/bourse/any2volume' : '/login'"><img class="img-m-right" src="../../img/i2.png">Any 2</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''DAILY_VOLUME_GRAPH_SCREEN'')')} ? '/bourse/dailyvolume' : '/login'"><img class="img-m-right" src="../../img/i3.png">Daily Volume</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''WMQY_VOLUME_GRAPH_SCREEN'')')} ? '/bourse/wmqyvolume' : '/login'"><img class="img-m-right" src="../../img/i3.png">Weekly/Monthly/Quarterly/Yearly</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''MARKET_SHARE_VOLUME_GRAPH_SCREEN'')')} ? '/bourse/marketshare' : '/login'"><img class="img-m-right" src="../../img/i3.png">Market Share</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RACE_VOLUME_GRAPH_SCREEN'')')} ? '/bourse/racechart' : '/login'"><img class="img-m-right" src="../../img/i3.png">Race Chart</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''VOLUME_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/volumedatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''ANY2_VOLUME_GRAPH_SCREEN'')')} ? '/bourse/any2volume' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Any 2</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''DAILY_VOLUME_GRAPH_SCREEN'')')} ? '/bourse/dailyvolume' : '/login'"><img class="img-m-right" th:src="@{/img/i3.png}">Daily Volume</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''WMQY_VOLUME_GRAPH_SCREEN'')')} ? '/bourse/wmqyvolume' : '/login'"><img class="img-m-right" th:src="@{/img/i3.png}">Weekly/Monthly/Quarterly/Yearly</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''MARKET_SHARE_VOLUME_GRAPH_SCREEN'')')} ? '/bourse/marketshare' : '/login'"><img class="img-m-right" th:src="@{/img/i3.png}">Market Share</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''RACE_VOLUME_GRAPH_SCREEN'')')} ? '/bourse/racechart' : '/login'"><img class="img-m-right" th:src="@{/img/i3.png}">Race Chart</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''VOLUME_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/volumedatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -281,16 +283,16 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">LONG-END FUTURES</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_BUNDS_GRAPH_SCREEN'')')} ? '/bourse/bunds' : '/login'"><img class="img-m-right" src="../../img/i2.png">Bunds</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_BOBL_GRAPH_SCREEN'')')} ? '/bourse/bobls' : '/login'"><img class="img-m-right" src="../../img/i2.png">Bobls</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_SHATZ_GRAPH_SCREEN'')')} ? '/bourse/shatz' : '/login'"><img class="img-m-right" src="../../img/i2.png">SHATZ</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_BUXL_GRAPH_SCREEN'')')} ? '/bourse/buxl' : '/login'"><img class="img-m-right" src="../../img/i2.png">BUXL</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_OAT_GRAPH_SCREEN'')')} ? '/bourse/oat' : '/login'"><img class="img-m-right" src="../../img/i2.png">OAT</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_BTP_GRAPH_SCREEN'')')} ? '/bourse/btp' : '/login'"><img class="img-m-right" src="../../img/i2.png">BTP</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_GILTS_GRAPH_SCREEN'')')} ? '/bourse/gilts' : '/login'"><img class="img-m-right" src="../../img/i2.png">GILTS</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_TNOTES_GRAPH_SCREEN'')')} ? '/bourse/tnotes' : '/login'"><img class="img-m-right" src="../../img/i2.png">T-NOTES</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_TBONDS_GRAPH_SCREEN'')')} ? '/bourse/tbonds' : '/login'"><img class="img-m-right" src="../../img/i2.png">T-BONDS</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/longendsdatafunctiondisplay' : '/login'"><img class="img-m-right" src="../../img/i5.png">DATA &amp; FUNCTION DISPLAY</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_BUNDS_GRAPH_SCREEN'')')} ? '/bourse/bunds' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Bunds</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_BOBL_GRAPH_SCREEN'')')} ? '/bourse/bobls' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Bobls</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_SHATZ_GRAPH_SCREEN'')')} ? '/bourse/shatz' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">SHATZ</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_BUXL_GRAPH_SCREEN'')')} ? '/bourse/buxl' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">BUXL</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_OAT_GRAPH_SCREEN'')')} ? '/bourse/oat' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">OAT</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_BTP_GRAPH_SCREEN'')')} ? '/bourse/btp' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">BTP</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_GILTS_GRAPH_SCREEN'')')} ? '/bourse/gilts' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">GILTS</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_TNOTES_GRAPH_SCREEN'')')} ? '/bourse/tnotes' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">T-NOTES</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_TBONDS_GRAPH_SCREEN'')')} ? '/bourse/tbonds' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">T-BONDS</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDS_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/longendsdatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
                     </ul>
                   </div>
                 </div>
@@ -299,9 +301,9 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Technical Analysis</h5>
                     <ul class="fa-ul">
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRENDLINE_SCREEN'')')} ? '/bourse/trendline' : '/login'"><img class="img-m-right" src="../../img/i2.png">Trendlines</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRENDLINE_BUNDS_SCREENn'')')} ? '/bourse/bundsTech' : '/login'"><img class="img-m-right" src="../../img/i2.png">Bunds Techs</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRENDLINE_CRYPTOS_SCREEN'')')} ? '/bourse/cryptosTech' : '/login'"><img class="img-m-right" src="../../img/i2.png">Cryptos Techs</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRENDLINE_SCREEN'')')} ? '/bourse/trendline' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Trendlines</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRENDLINE_BUNDS_SCREENn'')')} ? '/bourse/bundsTech' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Bunds Techs</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRENDLINE_CRYPTOS_SCREEN'')')} ? '/bourse/cryptosTech' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Cryptos Techs</a></li>
                     </ul>
                   </div>
                 </div>
@@ -310,7 +312,7 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Paper-watch</h5>
                     <ul class="fa-ul">
-                      <li><img class="img-m-right" src="../../img/i3.png" align="absmiddle">Call/put Warning Indicator</li>
+                      <li><img class="img-m-right" th:src="@{/img/i3.png}" align="absmiddle">Call/put Warning Indicator</li>
                     </ul>
                   </div>
                 </div>
@@ -319,9 +321,9 @@
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Check An Option Strategy</h5>
                     <ul class="fa-ul">
-                      <li><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Fly Your Futures</li>
-                      <li><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Condors</li>
-                      <li><img class="img-m-right" src="../../img/i2.png" align="absmiddle">Vertical Spreads</li>
+                      <li><img class="img-m-right" th:src="@{/img/i2.png}" align="absmiddle">Fly Your Futures</li>
+                      <li><img class="img-m-right" th:src="@{/img/i2.png}" align="absmiddle">Condors</li>
+                      <li><img class="img-m-right" th:src="@{/img/i2.png}" align="absmiddle">Vertical Spreads</li>
                     </ul>
                   </div>
                 </div>
@@ -393,20 +395,20 @@
     <i class="fas fa-angle-up"></i>
   </a>
 
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/js/marquee.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
+  <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+  <script th:src="@{/js/marquee.js}"></script>
+  <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
 
-  <script src="/js/jqwidgets/jqxcore.js"></script>
-  <script src="/js/jqwidgets/jqxbuttons.js"></script>
-  <script src="/js/config/session_storage.js"></script>
-  <script src="/js/bourse/index.js"></script>
-  <script src="/js/bourse/scrollBarNews.js"></script>
-  <script src="/js/common.js"></script>
-  <script src="/js/notification/sockjs.js"></script>
-  <script src="/js/notification/stomp.js"></script>
-  <script src="/js/notification/config.js"></script>
+  <script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
+  <script th:src="@{/js/config/session_storage.js}"></script>
+  <script th:src="@{/js/bourse/index.js}"></script>
+  <script th:src="@{/js/bourse/scrollBarNews.js}"></script>
+  <script th:src="@{/js/common.js}"></script>
+  <script th:src="@{/js/notification/sockjs.js}"></script>
+  <script th:src="@{/js/notification/stomp.js}"></script>
+  <script th:src="@{/js/notification/config.js}"></script>
 
   <script th:inline="javascript">
     const authentication = /*[[${#authentication}]]*/ null;

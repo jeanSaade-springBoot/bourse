@@ -1132,74 +1132,74 @@
 			switch(subGroupId) {
 			  
 				case '1':
-					img = '<img height="48" width="48" src="/img/gold.png">'
+					img = '<img height="48" width="48" th:src="@{/img/gold.png}">'
 					break;
 				case '2':
-					img = '<img height="48" width="48" src="/img/silver.png">'
+					img = '<img height="48" width="48" th:src="@{/img/silver.png}">'
 					break;
 				case '3':
-					img = '<img height="48" width="48" src="/img/platinum.png">'
+					img = '<img height="48" width="48" th:src="@{/img/platinum.png}">'
 					break;
 				case '4':
-					img = '<img height="48" width="48" src="/img/plat-gold.png">'
+					img = '<img height="48" width="48" th:src="@{/img/plat-gold.png}">'
 					break;
 				case '5':
-					img = '<img height="48" width="48" src="/img/gold-silver.png">'
+					img = '<img height="48" width="48" th:src="@{/img/gold-silver.png}">'
 					break;
 			}
 			else if (GroupId=='7')
 			switch(subGroupId) {
 			  
 				case '1':
-					img = '<img height="48" width="48" src="/img/copper.png">'
+					img = '<img height="48" width="48" th:src="@{/img/copper.png}">'
 					break;
 				case '2':
-					img = '<img height="48" width="48" src="/img/aluminum.png">'
+					img = '<img height="48" width="48" th:src="@{/img/aluminum.png}">'
 					break;
 				case '3':
-					img = '<img height="48" width="48" src="/img/steel.png">'
+					img = '<img height="48" width="48" th:src="@{/img/steel.png}">'
 					break;
 				case '4':
-					img = '<img height="48" width="48" src="/img/lumber.png">'
+					img = '<img height="48" width="48" th:src="@{/img/lumber.png}">'
 					break;
 			}else if (GroupId=='8')
 			switch(subGroupId) {
 			  
 				case '1':
-					img = '<img height="48" width="48" src="/img/corn.png">'
+					img = '<img height="48" width="48" th:src="@{/img/corn.png}">'
 					break;
 				case '2':
-					img = '<img height="48" width="48" src="/img/sugar.png">'
+					img = '<img height="48" width="48" th:src="@{/img/sugar.png}">'
 					break;
 				case '3':
-					img = '<img height="48" width="48" src="/img/wheat.png">'
+					img = '<img height="48" width="48" th:src="@{/img/wheat.png}">'
 					break;
 			}else if (GroupId=='9')
 			switch(subGroupId) {
 			  
 				case '1':
-					img = '<img height="48" width="48" src="/img/oil.png">'
+					img = '<img height="48" width="48" th:src="@{/img/oil.png}">'
 					break;
 				case '2':
-					img = '<img height="48" width="48" src="/img/gazoline.png">'
+					img = '<img height="48" width="48" th:src="@{/img/gazoline.png}">'
 					break;
 				case '3':
-					img = '<img height="48" width="48" src="/img/diezel.png">'
+					img = '<img height="48" width="48" th:src="@{/img/diezel.png}">'
 					break;
 			    case '4':
-					img = '<img height="48" width="48" src="/img/natgasUs.png">'
+					img = '<img height="48" width="48" th:src="@{/img/natgasUs.png}">'
 					break;
 				case '5':
-					img = '<img height="48" width="48" src="/img/natgasEur.png">'
+					img = '<img height="48" width="48" th:src="@{/img/natgasEur.png}">'
 					break;
 				case '6':
-					img = '<img height="48" width="48" src="/img/gazoline_20.png">'
+					img = '<img height="48" width="48" th:src="@{/img/gazoline_20.png}">'
 					break;
 				case '7':
-					img = '<img height="48" width="48" src="/img/diezel_ton.png">'
+					img = '<img height="48" width="48" th:src="@{/img/diezel_ton.png}">'
 					break;
 				case '8':
-					img = '<img height="48" width="48" src="/img/brentOil.png">'
+					img = '<img height="48" width="48" th:src="@{/img/brentOil.png}">'
 					break;
 			}
 		return img;

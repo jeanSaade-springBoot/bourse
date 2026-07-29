@@ -4,7 +4,7 @@
         firstName=${loggedIn and auth.principal != null and auth.principal.firstName != null ? auth.principal.firstName : ''},
         lastName=${loggedIn and auth.principal != null and auth.principal.lastName != null ? auth.principal.lastName : ''}
      ">
-	<img id="imglogo"  onclick="toggleFullscreen()" src="../../img/logo.png" align="absmiddle" style="height:70px;margin-left: 3%;">
+	<img id="imglogo"  onclick="toggleFullscreen()" th:src="@{/img/logo.png}" align="absmiddle" style="height:70px;margin-left: 3%;">
 	<button type="button" class="navbar-toggler" data-toggle="collapse" data-target="#navbarCollapse">
 		<span class="navbar-toggler-icon"></span>
 	</button>
@@ -18,7 +18,7 @@
                        href="/"
                        th:classappend="${menuId == 1} ? ' active' : ''"
                        class="nav-item nav-link">
-                        <img src="../../img/ico-home.png" class="MainMenuIcon" alt="home-icon">
+                        <img th:src="@{/img/ico-home.png}" class="MainMenuIcon" alt="home-icon">
                         HOME
                     </a>
 
@@ -29,7 +29,7 @@
                        href="/bourse/users"
                        th:classappend="${menuId == 3} ? ' active' : ''"
                        class="nav-item nav-link">
-                        <img src="../../img/ico-admin.png" class="MainMenuIcon" alt="admin-icon">
+                        <img th:src="@{/img/ico-admin.png}" class="MainMenuIcon" alt="admin-icon">
                         <span id="notification" class="notification"></span>
                         ADMIN
                     </a>
@@ -41,7 +41,7 @@
                        href="/bourse/newsmanagement"
                        th:classappend="${menuId == 16} ? ' active' : ''"
                        class="nav-item nav-link">
-                        <img src="../../img/ico-news.png" class="MainMenuIcon" alt="news-icon">
+                        <img th:src="@{/img/ico-news.png}" class="MainMenuIcon" alt="news-icon">
                         NEWS
                     </a>
 
@@ -52,7 +52,7 @@
                        href="/bourse/sovereignyields?yield=1"
                        th:classappend="${menuId == 25} ? ' active' : ''"
                        class="nav-item nav-link">
-                        <img src="../../img/ico-database.png" class="MainMenuIcon" alt="database-icon">
+                        <img th:src="@{/img/ico-database.png}" class="MainMenuIcon" alt="database-icon">
                         DATABASE
                     </a>
 
@@ -63,7 +63,7 @@
                        href="/bourse/settings"
                        th:classappend="${menuId == 26} ? ' active' : ''"
                        class="nav-item nav-link">
-                        <img src="../../img/ico-admin.png" class="MainMenuIcon" alt="settings-icon">
+                        <img th:src="@{/img/ico-admin.png}" class="MainMenuIcon" alt="settings-icon">
                         SETTINGS
                     </a>
 
@@ -73,7 +73,7 @@
                 <th:block th:unless="${loggedIn}">
                     <a href="/"
                        class="nav-item nav-link active">
-                        <img src="../../img/ico-home.png" class="MainMenuIcon" alt="home-icon">
+                        <img th:src="@{/img/ico-home.png}" class="MainMenuIcon" alt="home-icon">
                         Home
                     </a>
                 </th:block>

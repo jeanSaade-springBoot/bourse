@@ -54,7 +54,8 @@ var allitems = ["#jqxCheckBoxavgUsatoaaaUsa",
 	"#jqxCheckBoxM2",
 	"#jqxCheckBoxM3",
 	"#jqxCheckBoxFed_liquidity",
-	"#jqxCheckBoxEcb_balance_sheet"
+	"#jqxCheckBoxEcb_balance_sheet",
+	"#jqxCheckBoxUs_banks_reserve"
 ];
 
 var fromHistory = false;
@@ -811,6 +812,38 @@ $(document).ready(function() {
 			}
 		}
 	});
+	
+	$('#jqxCheckBoxUs_banks_reserve').on('change', function(event) {
+		var checked = event.args.checked;
+		if (checked) {
+			checkedItem = checkedItem + 1;
+			checkedItemid.push("#jqxCheckBoxUs_banks_reserve");
+		}
+		else {
+			checkedItem = checkedItem - 1;
+			for (i = 0; i < checkedItemid.length; i++) {
+				if (checkedItemid[i] == "#jqxCheckBoxUs_banks_reserve")
+					delete checkedItemid[i];
+			}
+		}
+		if (checkedItem >= 2) {
+			for (i = 0; i < allitems.length; i++) {
+				$(allitems[i]).jqxCheckBox({ disabled: true });
+			}
+
+			for (i = 0; i < checkedItemid.length; i++) {
+				if (checkedItemid[i] != null)
+					$(checkedItemid[i]).jqxCheckBox({ disabled: false });
+			}
+
+		}
+		else {
+			for (i = 0; i < allitems.length; i++) {
+				$(allitems[i]).jqxCheckBox({ disabled: false });
+			}
+		}
+	});
+	
 
 });
 
@@ -863,7 +896,7 @@ function splitGraph() {
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},
@@ -969,6 +1002,7 @@ function splitGraph() {
 			labels: {
 				style: {
 					fontSize: fontsize,
+					colors:['#fff']
 				}
 			},
 			axisBorder: {
@@ -1104,6 +1138,7 @@ function splitGraph() {
 						minWidth: 75, maxWidth: 75,
 						style: {
 							fontSize: fontsize,
+							colors:['#fff']
 						},
 						formatter: function(val, index) {
 							if (getFormatResult[1])
@@ -1165,7 +1200,7 @@ function splitGraph() {
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},
@@ -1271,6 +1306,7 @@ function splitGraph() {
 			labels: {
 				style: {
 					fontSize: fontsize,
+					colors:['#fff']
 				}
 			},
 			axisBorder: {
@@ -1506,6 +1542,7 @@ function updateGraphFont(fontsize, minvalue, maxvalue) {
 						minWidth: 75, maxWidth: 75,
 						style: {
 							fontSize: fontsize,
+							colors:['#fff']
 						},
 						formatter: function(val, index) {
 							if (getFormatResult0[1])
@@ -1565,6 +1602,7 @@ function updateGraphFont(fontsize, minvalue, maxvalue) {
 						minWidth: 75, maxWidth: 75,
 						style: {
 							fontSize: fontsize,
+							colors:['#fff']
 						},
 						formatter: function(val, index) {
 							if (getFormatResult0[1])
@@ -1625,6 +1663,7 @@ function updateGraphFont(fontsize, minvalue, maxvalue) {
 						minWidth: 75, maxWidth: 75,
 						style: {
 							fontSize: fontsize,
+							colors:['#fff']
 						},
 						formatter: function(val, index) {
 							if (getFormatResult0[1])
@@ -1722,7 +1761,7 @@ function drawGraph() {
 						zoomin: true,
 						zoomout: true,
 						pan: true,
-						reset: true | '<img src="/static/icons/reset.png" width="20">',
+						reset: true | '<img src="/static/icons/reset.png}" width="20">',
 						customIcons: []
 					}
 				},
@@ -1819,6 +1858,7 @@ function drawGraph() {
 				labels: {
 					style: {
 						fontSize: fontsize,
+						colors:['#fff']
 					}
 				},
 				axisBorder: {
@@ -2033,7 +2073,7 @@ function drawGraph() {
 						zoomin: true,
 						zoomout: true,
 						pan: true,
-						reset: true | '<img src="/static/icons/reset.png" width="20">',
+						reset: true | '<img src="/static/icons/reset.png}" width="20">',
 						customIcons: []
 					}
 				},
@@ -2130,6 +2170,7 @@ function drawGraph() {
 				labels: {
 					style: {
 						fontSize: fontsize,
+						colors:['#fff']
 					}
 				},
 				axisBorder: {

@@ -108,7 +108,10 @@ select.flat-select {
     display: none;
 }
 text {
-    fill: white;
+  /* fill: white;*/
+}
+.apexcharts-title-text,.apexcharts-subtitle-text, .apexcharts-xaxis-label{
+   fill: white; 
 }
 .apexcharts-marker {
     transform-origin: center;

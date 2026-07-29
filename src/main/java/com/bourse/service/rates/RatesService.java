@@ -1,5 +1,6 @@
 package com.bourse.service.rates;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -8,6 +9,7 @@ import java.util.List;
 import javax.persistence.EntityManager;
 import javax.persistence.ParameterMode;
 import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
@@ -614,4 +616,37 @@ public class RatesService {
 			return graphResponseColConfigDTO; 
 		    
 		}
+		  @Transactional
+		  public int deleteDataByDateRange(
+		          String groupId,
+		          String fromDate,
+		          String toDate) {
+
+		      LocalDate from = LocalDate.parse(fromDate);
+		      LocalDate to = LocalDate.parse(toDate);
+
+		      if (from.isAfter(to)) {
+		          throw new IllegalArgumentException(
+		                  "From date cannot be after To date."
+		          );
+		      }
+
+		      String tableName = tableManagementRepository
+		              .findDistinctByGroupId(groupId)
+		              .getTableName();
+
+		      String queryStr =
+		              "DELETE FROM " + tableName +
+		              " WHERE STR_TO_DATE(refer_date,'%d-%m-%Y') " +
+		              "BETWEEN :fromDate AND :toDate";
+
+		      Query query = entityManager.createNativeQuery(queryStr);
+
+		      query.setParameter("fromDate", fromDate);
+		      query.setParameter("toDate", toDate);
+
+		      int deletedRecords = query.executeUpdate();
+		      ratesDataRepository.deleteDataByGroupIdAndReferDateBetween(Long.valueOf(groupId),fromDate,toDate );
+		      return deletedRecords;
+		  }
 }

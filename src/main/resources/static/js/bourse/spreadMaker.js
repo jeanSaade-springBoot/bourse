@@ -3235,6 +3235,7 @@ const removeEmpty = false;
 					     				    		     minWidth: 75,maxWidth: 75,
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
+						 						        	  colors:['#fff']
 						 						        	 },
 												 formatter: function(val, index) {
 															 if (yaxisformat[1])

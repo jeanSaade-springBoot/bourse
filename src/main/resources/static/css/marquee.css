@@ -25,7 +25,7 @@ h1 {
 
 .container {
   width: 100%;
-  background: url(../../img/nav-bg-tile.png) top left repeat-x;
+  background: url(/img/nav-bg-tile.png) top left repeat-x;
   float: left;
   display: inline-block;
   overflow: hidden;
@@ -78,7 +78,7 @@ h1 {
 }
 .marquee-sibling-viewAll {
  	padding: 0;
-    background: url(../../img/nav-bg-tile.png) top left repeat-x;
+    background: url(/img/nav-bg-tile.png) top left repeat-x;
     width: 9.20rem!important;
     height: 45px;
     line-height: 42px;

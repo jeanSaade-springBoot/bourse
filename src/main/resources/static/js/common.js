@@ -74,6 +74,9 @@ function getCountryImagePath(groupId)
 		  case '47':
 			  imagePath = ["/img/flag/india.png", 'INDIA'];
 			  break;
+		 case '77':
+			  imagePath = ["/img/flag/united-states.png", 'US'];
+			  break;
 	  }
 	  return imagePath;
   }

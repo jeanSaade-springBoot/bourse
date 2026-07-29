@@ -308,7 +308,7 @@ var graphName ="any2Fxcds" ;
 		   	  			          zoomin: true,
 		   	  			          zoomout: true,
 		   	  			          pan: true,
-		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
    	  			          height: 525,
@@ -412,6 +412,7 @@ var graphName ="any2Fxcds" ;
 			        	labels: {
 			        		 style: {
 					        	  fontSize: fontsize,
+					        	  colors:['#fff']
 					        	 }
 			        	  },
 			        	  axisBorder: {
@@ -546,6 +547,7 @@ var graphName ="any2Fxcds" ;
 		     				    		     minWidth: 75,maxWidth: 75,
 			 				        		 style: {
 			 						        	  fontSize: fontsize,
+			 						        	  colors:['#fff']
 			 						        	 },
 							 formatter: function(val, index) {
 										 if (getFormatResult[1])
@@ -608,7 +610,7 @@ var graphName ="any2Fxcds" ;
 			   	  			          zoomin: true,
 			   	  			          zoomout: true,
 			   	  			          pan: true,
-			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+			   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 			   	  			          customIcons: []
 			   	  			        }},
 	   	  			          height: 525,
@@ -712,6 +714,7 @@ var graphName ="any2Fxcds" ;
 				        	labels: {
 				        		 style: {
 						        	  fontSize: fontsize,
+						        	  colors:['#fff']
 						        	 }
 				        	  },
 				        	  axisBorder: {
@@ -852,6 +855,7 @@ var graphName ="any2Fxcds" ;
 					     				    		     minWidth: 75,maxWidth: 75,
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
+						 						        	  colors:['#fff']
 						 						        	 },
 												 formatter: function(val, index) {
 															 if (getFormatResult[1])
@@ -951,6 +955,7 @@ var graphName ="any2Fxcds" ;
 							        		 minWidth: 75,maxWidth: 75,
 							        		 style: {
 									        	  fontSize: fontsize,
+									        	  colors:['#fff']
 									        	 },
 							 formatter: function(val, index) {
 										 if (getFormatResult0[1])
@@ -1009,6 +1014,7 @@ var graphName ="any2Fxcds" ;
 								        		 minWidth: 75,maxWidth: 75,
 								        		 style: {
 										        	  fontSize: fontsize,
+										        	  colors:['#fff']
 										        	 },
 							 formatter: function(val, index) {
 										 if (getFormatResult0[1])
@@ -1068,6 +1074,7 @@ var graphName ="any2Fxcds" ;
 						        		 minWidth: 75,maxWidth: 75,
 						        		 style: {
 								        	  fontSize: fontsize,
+								        	  colors:['#fff']
 								        	 },
 							 		 	 formatter: function(val, index) {
 										 if (getFormatResult0[1])
@@ -1185,7 +1192,7 @@ var graphName ="any2Fxcds" ;
 					  		   	  			          zoomin: true,
 					  		   	  			          zoomout: true,
 					  		   	  			          pan: true,
-					  		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+					  		   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					  		   	  			          customIcons: []
 					  		   	  			        }},
 					     	  			          height: 525,
@@ -1281,6 +1288,7 @@ var graphName ="any2Fxcds" ;
 					  			        	labels: {
 					  			        		 style: {
 					  					        	  fontSize: fontsize,
+					  					        	  colors:['#fff']
 					  					        	 }
 					  			        	  },
 					  			        	  axisBorder: {
@@ -1498,7 +1506,7 @@ var graphName ="any2Fxcds" ;
 			   	  			          zoomin: true,
 			   	  			          zoomout: true,
 			   	  			          pan: true,
-			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+			   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 			   	  			          customIcons: []
 			   	  			        }},
 	   	  			          height: 525,
@@ -1594,6 +1602,7 @@ var graphName ="any2Fxcds" ;
 				        	labels: {
 				        		 style: {
 						        	  fontSize: fontsize,
+						        	  colors:['#fff']
 						        	 }
 				        	  },
 				        	  axisBorder: {

@@ -454,6 +454,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 							        		 minWidth: 75,maxWidth: 75,
 							        		 style: {
 									        	  fontSize: fontsize,
+									        	  colors:['#fff']
 									        	 },
 							 formatter: function(val, index) {
 										 if (getFormatResult0[1])
@@ -512,6 +513,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 								        		 minWidth: 75,maxWidth: 75,
 								        		 style: {
 										        	  fontSize: fontsize,
+										        	  colors:['#fff']
 										        	 },
 							 formatter: function(val, index) {
 										 if (getFormatResult0[1])
@@ -571,6 +573,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 						        		 minWidth: 75,maxWidth: 75,
 						        		 style: {
 								        	  fontSize: fontsize,
+								        	  colors:['#fff']
 								        	 },
 							 		 	 formatter: function(val, index) {
 										 if (getFormatResult0[1])
@@ -670,7 +673,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 					  		   	  			          zoomin: true,
 					  		   	  			          zoomout: true,
 					  		   	  			          pan: true,
-					  		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+					  		   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					  		   	  			          customIcons: []
 					  		   	  			        }},
 					     	  			          height: 525,
@@ -766,6 +769,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 					  			        	labels: {
 					  			        		 style: {
 					  					        	  fontSize: fontsize,
+					  					        	  colors:['#fff']
 					  					        	 }
 					  			        	  },
 					  			        	  axisBorder: {
@@ -980,7 +984,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 			   	  			          zoomin: true,
 			   	  			          zoomout: true,
 			   	  			          pan: true,
-			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+			   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 			   	  			          customIcons: []
 			   	  			        }},
 	   	  			          height: 525,
@@ -1076,6 +1080,7 @@ var allitems = ["#jqxCheckBox-25-DP15_ATM-10"
 				        	labels: {
 				        		 style: {
 						        	  fontSize: fontsize,
+						        	  colors:['#fff']
 						        	 }
 				        	  },
 				        	  axisBorder: {

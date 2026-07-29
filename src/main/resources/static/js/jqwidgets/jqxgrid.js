@@ -8579,7 +8579,7 @@ License: https://jqwidgets.com/license/
                 if (!h._linkadded) {
                     var j = document.createElement("link");
                     j.rel = "stylesheet";
-                    j.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css";
+                    j.href = "https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css}";
                     document.head.appendChild(j);
                     h._linkadded = true
                 }

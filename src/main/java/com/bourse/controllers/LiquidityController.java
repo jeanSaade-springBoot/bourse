@@ -6,6 +6,7 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -25,12 +26,15 @@ import com.bourse.domain.liquidity.EcbBalanceSheetLiquidity;
 import com.bourse.domain.liquidity.FedLiquidity;
 import com.bourse.domain.liquidity.TmpAuditEcbBalanceSheetLiquidity;
 import com.bourse.domain.liquidity.TmpAuditFedLiquidity;
+import com.bourse.domain.liquidity.TmpAuditUsBanksReserveLiquidity;
+import com.bourse.domain.liquidity.UsBanksReserveLiquidity;
 import com.bourse.dto.GenericDataFunctionReqDTO;
 import com.bourse.dto.GraphRequestDTO;
 import com.bourse.dto.GraphResponseColConfigDTO;
 import com.bourse.dto.GridDataDTO;
 import com.bourse.dto.MainSearchFilterDTO;
 import com.bourse.dto.UpdateDataDTO;
+import com.bourse.dto.liquidity.UsBanksReserveThresholdDTO;
 import com.bourse.service.CorporatesYieldsService;
 import com.bourse.service.DataFunctionService;
 import com.bourse.service.EcbExcessLiquidityService;
@@ -39,6 +43,8 @@ import com.bourse.service.EzMonetaryMassLiquidityService;
 import com.bourse.service.LiquidityService;
 import com.bourse.service.liquidity.EcbBalanceSheetService;
 import com.bourse.service.liquidity.FedLiquidityService;
+import com.bourse.service.liquidity.UsBanksReserveLiquidityService;
+import com.bourse.service.liquidity.UsBanksReserveThresholdService;
 
 @RestController
 @RequestMapping(value = "liquidity")
@@ -59,7 +65,12 @@ public class LiquidityController {
 	@Autowired
 	private final EcbBalanceSheetService ecbBalanceSheetService;
 	@Autowired
+	private final UsBanksReserveLiquidityService usBanksReserveLiquidityService;
+	@Autowired
 	private final CorporatesYieldsService corporatesYieldsService;
+	@Autowired
+	private final UsBanksReserveThresholdService usBanksReserveThresholdService;
+	
 	public LiquidityController(
 			DataFunctionService dataFunctionService,
 			LiquidityService liquidityService,
@@ -68,7 +79,9 @@ public class LiquidityController {
 			EzMonetaryMassLiquidityService ezMonetaryMassLiquidityService,
 			CorporatesYieldsService corporatesYieldsService,
 			FedLiquidityService fedLiquidityService,
-			EcbBalanceSheetService ecbBalanceSheetService)
+			EcbBalanceSheetService ecbBalanceSheetService,
+			UsBanksReserveLiquidityService usBanksReserveLiquidityService,
+			UsBanksReserveThresholdService usBanksReserveThresholdService)
 	{
 		this.dataFunctionService = dataFunctionService;
 		this.liquidityService = liquidityService;
@@ -78,6 +91,8 @@ public class LiquidityController {
 		this.corporatesYieldsService = corporatesYieldsService;
 		this.fedLiquidityService = fedLiquidityService;
 		this.ecbBalanceSheetService = ecbBalanceSheetService;
+		this.usBanksReserveLiquidityService = usBanksReserveLiquidityService;
+		this.usBanksReserveThresholdService = usBanksReserveThresholdService;
 	}
 	@PostMapping(value = "getgriddata")
 	public ResponseEntity<HashMap<String,List>> getGridData(@RequestBody MainSearchFilterDTO mainSearchFilterDTO) {
@@ -114,6 +129,12 @@ public class LiquidityController {
 		fedLiquidityService.doCalculation(Datalst.get(0).getReferDate());
 	   return Datalst;
     }
+	@PostMapping(value = "saveusbanksreserve")
+    public List<UsBanksReserveLiquidity> saveUsBanksReserveLiquidity(@RequestBody List<UsBanksReserveLiquidity> LiquidityList){
+		List<UsBanksReserveLiquidity> Datalst= usBanksReserveLiquidityService.SaveUsBanksReserveLiquidityData(LiquidityList);
+		usBanksReserveLiquidityService.doCalculation(Datalst.get(0).getReferDate());
+	   return Datalst;
+    }
 	@PostMapping(value = "saveecbbalancesheet")
     public List<EcbBalanceSheetLiquidity> saveEcbBalanceSheet(@RequestBody List<EcbBalanceSheetLiquidity> EcbBalanceSheetLiquidityList){
 		List<EcbBalanceSheetLiquidity> Datalst= ecbBalanceSheetService.SaveEcbBalanceSheetData(EcbBalanceSheetLiquidityList);
@@ -140,6 +161,10 @@ public class LiquidityController {
 	public ResponseEntity<List<TmpAuditEcbBalanceSheetLiquidity>> getEcbBalanceSheet(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(ecbBalanceSheetService.getAuditData(referDate),HttpStatus.OK);
 	}
+	@GetMapping(value = "getusbanksreserve/{referDate}")
+	public ResponseEntity<List<TmpAuditUsBanksReserveLiquidity>> getUsBanksReserveLiquidityAuditData(@PathVariable("referDate") String referDate) {
+	return new ResponseEntity<>(usBanksReserveLiquidityService.getAuditData(referDate),HttpStatus.OK);
+	}
 	@GetMapping(value = "getcorporatedata/{referDate}")
 	public ResponseEntity<List<TmpAuditCorporateLiquidityPremia>> getCorporateLiquidityPremiaAuditData(@PathVariable("referDate") String referDate) {
 	return new ResponseEntity<>(corporatesYieldsService.getCorporateLiquidityAuditData(referDate),HttpStatus.OK);
@@ -157,6 +182,8 @@ public class LiquidityController {
 			 checkifcanSave= fedLiquidityService.CheckIfCanSave(referDate);
 		else if (liquidity.equalsIgnoreCase("6"))
 			 checkifcanSave= ecbBalanceSheetService.CheckIfCanSave(referDate);
+		else if (liquidity.equalsIgnoreCase("7"))
+			 checkifcanSave= usBanksReserveLiquidityService.CheckIfCanSave(referDate);
 		
 		return new ResponseEntity<>(checkifcanSave,HttpStatus.OK);
 	}
@@ -175,6 +202,9 @@ public class LiquidityController {
 				value = fedLiquidityService.findLatestFedLiquidityData();
 			else if (liquidity.equalsIgnoreCase("6"))
 				value = ecbBalanceSheetService.findLatestEcbBalanceSheetData();
+			else if (liquidity.equalsIgnoreCase("7"))
+				value = usBanksReserveLiquidityService.findLatestUsBanksReserveLiquidityData();
+			
 		return new ResponseEntity<>(value, HttpStatus.OK);
     }
 	@DeleteMapping(value = "deletebyreferdate/{liquidity}/{referDate}")
@@ -189,6 +219,9 @@ public class LiquidityController {
 			fedLiquidityService.deleteFedLiquidityByReferDate(referDate);
 		else if (liquidity.equalsIgnoreCase("6"))
 			ecbBalanceSheetService.deleteEcbBalanceSheetByReferDate(referDate);
+		else if (liquidity.equalsIgnoreCase("7"))
+			usBanksReserveLiquidityService.deleteUsBanksReserveLiquidityByReferDate(referDate);
+		
 	return new ResponseEntity<>(HttpStatus.OK);
 	}
 	@PostMapping(value = "updateecbexcessdata")
@@ -227,5 +260,25 @@ public class LiquidityController {
 		ecbBalanceSheetService.updateEcbBalanceSheetData(updateDataDTOlst);
 		ecbBalanceSheetService.doCalculation(updateDataDTOlst.get(0).getReferdate());
 		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@PostMapping(value = "updateusbanksreserve")
+	public ResponseEntity<Boolean> updateUsBanksReserveLiquidity(@RequestBody List<UpdateDataDTO> updateDataDTOlst) 
+	{
+		usBanksReserveLiquidityService.updateUsBanksReserveLiquidityData(updateDataDTOlst);
+		usBanksReserveLiquidityService.doCalculation(updateDataDTOlst.get(0).getReferdate());
+		return new ResponseEntity<>(true,HttpStatus.OK);
+	}
+	@GetMapping("usbanksreservethreshold/latest")
+	public ResponseEntity<UsBanksReserveThresholdDTO> getLatestThreshold() {
+
+	    return new ResponseEntity<>(
+	            usBanksReserveThresholdService.getLatest(),
+	            HttpStatus.OK);
+	}
+	@PostMapping("usbanksreservethreshold/save")
+	public ResponseEntity<Boolean> saveThreshold(
+	        @RequestBody UsBanksReserveThresholdDTO dto, Authentication authentication) {
+	    usBanksReserveThresholdService.save(dto,authentication.getName());
+	    return new ResponseEntity<>(true, HttpStatus.OK);
 	}
 }

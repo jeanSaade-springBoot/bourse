@@ -16,7 +16,7 @@ var options_graph = {
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},
@@ -114,6 +114,7 @@ var options_graph = {
 			labels: {
 				style: {
 					fontSize: fontsize,
+					 colors:["#fff"],
 				}
 			},
 			axisBorder: {
@@ -1955,7 +1956,7 @@ function updateSeriesChart(chartConfigSettings){
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},
@@ -2052,6 +2053,7 @@ function updateSeriesChart(chartConfigSettings){
 							minWidth: 75, maxWidth: 75,
 							style: {
 									fontSize: chartConfigSettings.fontSize,
+									 colors:["#fff"],
 							},
 							 formatter: function(val, index) {
 							 if (chartConfigSettings.yAxisFormat[1])

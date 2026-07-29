@@ -79,7 +79,7 @@ var options = {
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},
@@ -175,6 +175,7 @@ var options = {
 			labels: {
 				style: {
 					fontSize: fontsize,
+					colors:['#fff']
 				}
 			},
 			axisBorder: {
@@ -233,7 +234,7 @@ var options_missingDates = {
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},
@@ -330,6 +331,7 @@ var options_missingDates = {
 			labels: {
 				style: {
 					fontSize: fontsize,
+					colors:['#fff']
 				}
 			},
 			axisBorder: {
@@ -388,7 +390,7 @@ var options_missingDates = {
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},
@@ -485,6 +487,7 @@ var options_missingDates = {
 			labels: {
 				style: {
 					fontSize: fontsize,
+					colors:['#fff']
 				}
 			},
 			axisBorder: {
@@ -524,7 +527,7 @@ var options_missingDates = {
 					zoomin: true,
 					zoomout: true,
 					pan: true,
-					reset: true | '<img src="/static/icons/reset.png" width="20">',
+					reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					customIcons: []
 				}
 			},
@@ -566,6 +569,7 @@ var options_missingDates = {
 			labels: {
 				style: {
 					fontSize: fontsize,
+					colors:['#fff']
 				}
 			},
 
@@ -596,7 +600,7 @@ function getChartDailyOption(title,showgrid,fontSize,markerSize)
 									  zoomin: true,
 									  zoomout: true,
 									  pan: true,
-									  reset: true | '<img src="/static/icons/reset.png" width="20">',
+									  reset: true | '<img src="/static/icons/reset.png}" width="20">',
 									  customIcons: []
 									}
 								},
@@ -694,6 +698,7 @@ function getChartDailyOption(title,showgrid,fontSize,markerSize)
 			        	labels: {
 			        		 style: {
 					        	  fontSize: fontSize,
+								  colors:['#fff']
 					        	 }
 			        	  },
 			         axisBorder: {
@@ -723,7 +728,7 @@ function getChartDailyOptionMissingDates(title,showgrid,fontSize,markerSize)
 									  zoomin: true,
 									  zoomout: true,
 									  pan: true,
-									  reset: true | '<img src="/static/icons/reset.png" width="20">',
+									  reset: true | '<img src="/static/icons/reset.png}" width="20">',
 									  customIcons: []
 									}
 								},
@@ -829,6 +834,7 @@ function getChartDailyOptionMissingDates(title,showgrid,fontSize,markerSize)
 			        	labels: {
 			        		 style: {
 					        	  fontSize: fontSize,
+								  colors:['#fff']
 					        	 }
 			        	  },
 			         axisBorder: {
@@ -856,7 +862,7 @@ function getChartDailyOptionMissingDates(title,showgrid,fontSize,markerSize)
 		   	  			          zoomin: true,
 		   	  			          zoomout: true,
 		   	  			          pan: true,
-		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
    	    	            type: 'bar',
@@ -905,6 +911,7 @@ function getChartDailyOptionMissingDates(title,showgrid,fontSize,markerSize)
 			        	labels: {
 			        		 style: {
 					        	  fontSize: 12,
+								  colors:['#fff']
 					        	 }
 			        	  },
 			        
@@ -935,7 +942,7 @@ var chartOption = {
 									  zoomin: true,
 									  zoomout: true,
 									  pan: true,
-									  reset: true | '<img src="/static/icons/reset.png" width="20">',
+									  reset: true | '<img src="/static/icons/reset.png}" width="20">',
 									  customIcons: []
 									}
 								},
@@ -1039,6 +1046,7 @@ var chartOption = {
 			        	labels: {
 			        		 style: {
 					        	  fontSize: fontSize,
+								  colors:['#fff']
 					        	 }
 			        	  },
 			         axisBorder: {
@@ -1067,7 +1075,7 @@ var chartOption = {
 		   	  			          zoomin: true,
 		   	  			          zoomout: true,
 		   	  			          pan: true,
-		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
    	    	            type: 'bar',
@@ -1114,6 +1122,7 @@ var chartOption = {
 			        	labels: {
 			        		 style: {
 					        	  fontSize: 12,
+								  colors:['#fff']
 					        	 }
 			        	  },
 			        
@@ -1191,6 +1200,7 @@ function updateGraphFont2YAxis(fontsize,min1,max1,min2,max2){
 		     				    		 minWidth: 75,maxWidth: 75,
 		 				        		 style: {
 		 						        	  fontSize: fontsize,
+											  colors:['#fff']
 		 						        	 }, formatter: function(val, index) {
 										 if (notDecimal)
 						  				  return  val.toFixed(nbrOfDigits);
@@ -1292,6 +1302,7 @@ function updateGraphFont(fontsize,minvalue,maxvalue){
 					 				 minWidth: 75,maxWidth: 75,
 					        		 style: {
 							        	  fontSize: fontsize,
+										  colors:['#fff']
 							        	 },
 							        	  formatter: function(val, index) {
 										 if (notDecimal)
@@ -1369,6 +1380,7 @@ function updateGraphFontTrendline(fontsize,minvalue,maxvalue){
 					 				 minWidth: 75,maxWidth: 75,
 					        		 style: {
 							        	  fontSize: fontsize,
+										  colors:['#fff']
 							        	 },
 							        	  formatter: function(val, index) {
 										 if (notDecimal)
@@ -1905,6 +1917,7 @@ const dynamicColor =
      				    		 minWidth:75,maxWidth: 75,
  				        		 style: {
  						        	  fontSize: chartConfigSettings.fontSize,
+									  colors:['#fff']
  						        	 },
  						        	  formatter: function(val, index) {
 											if (chartConfigSettings.yAxisFormat0[1])
@@ -2029,6 +2042,7 @@ const dynamicColor =
      				    		 minWidth:75,maxWidth: 75,
  				        		 style: {
  						        	  fontSize: chartConfigSettings.fontSize,
+									  colors:['#fff']
  						        	 },
  						        	  formatter: function(val, index) {
 											if (chartConfigSettings.yAxisFormat0[1])
@@ -2055,6 +2069,7 @@ const dynamicColor =
      				    		    // minWidth: -50,maxWidth: -50,
 	 				        		 style: {
 	 						        	  fontSize: chartConfigSettings.fontSize,
+										  colors:['#fff']
 	 						        	 },
 	 						        	  formatter: function(val, index) {
 										  if (chartConfigSettings.yAxisFormat1[1])
@@ -2119,7 +2134,7 @@ const dynamicColor =
 					var strokeWidth = getDynamicWidth(chartConfigSettings.response[0].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
 					var strokeWidth1 = getDynamicWidth(chartConfigSettings.response[1].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
 
-					 chart.updateOptions({
+					chart.updateOptions({
 						 series:[{
 								name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
 								type: chartConfigSettings.chartType,
@@ -2225,6 +2240,7 @@ const dynamicColor =
      				    		 minWidth: 75,maxWidth: 75,
  				        		 style: {
  						        	  fontSize: chartConfigSettings.fontSize,
+									  colors:['#fff']
  						        	 },
  						        	 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat0[1])
@@ -2250,6 +2266,7 @@ const dynamicColor =
      				    		 minWidth: 75,maxWidth: 75,
  				        		 style: {
  						        	  fontSize: chartConfigSettings.fontSize,
+									  colors:['#fff']
  						        	 },
  						        	 formatter: function(val, index) {
 										  if (chartConfigSettings.yAxisFormat1[1])
@@ -2352,7 +2369,14 @@ function updateChartSelectedItem(chartConfigSettings){
 								type: chartConfigSettings.chartType1,
 								data: chartConfigSettings.response[0].graphResponseDTOLst
 							}],
-								stroke: {
+								colors: (
+						    Array.isArray(chartConfigSettings.colors) &&
+						    chartConfigSettings.colors.length > 0 &&
+						    chartConfigSettings.colors[0] !== 0
+						)
+						    ? chartConfigSettings.colors
+						    : chartConfigSettings.chartType1 == "area" ? ["#ffffff"] : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
+    								stroke: {
 									colors: chartConfigSettings.chartType1 == "area" ? ["#ffffff"] : [chartConfigSettings.chartColor == '#44546a' ? '#2e75b6' : chartConfigSettings.chartColor],
 								},
 								markers: {
@@ -2368,6 +2392,7 @@ function updateChartSelectedItem(chartConfigSettings){
 										minWidth: 75, maxWidth: 75,
 										style: {
 											fontSize: fontsize,
+											colors:['#fff']
 										},
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -2387,6 +2412,7 @@ function updateChartSelectedItem(chartConfigSettings){
 										offsetY: 0
 									},
 								},
+								 annotations: chartConfigSettings.annotations || {},
 								tooltip: {
 									x: {
 										show: false,
@@ -2443,6 +2469,7 @@ function updateChartSelectedItem(chartConfigSettings){
 	     				    		 minWidth: 75,maxWidth: 75,
 	 				        		 style: {
 	 						        	  fontSize: chartConfigSettings.fontSize,
+										  colors:['#fff']
 	 						        	 },
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -2515,6 +2542,7 @@ function updateChartSelectedItem(chartConfigSettings){
 	     				    		 minWidth: 75,maxWidth: 75,
 	 				        		 style: {
 	 						        	  fontSize: chartConfigSettings.fontSize,
+										  colors:['#fff']
 	 						        	 },
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -2552,41 +2580,42 @@ function updateChartSelectedItem(chartConfigSettings){
 								isDecimal: chartConfigSettings.isdecimal,
 								yAxisFormat:chartConfigSettings.yaxisformat,
 							},
-							 colors: ["#FFFFFF", "#FFA500"],
+							 colors: chartConfigSettings.colors || ["#FFFFFF", "#FFA500"],
       	    	    		 markers: {
       	    	    		   colors: ["#FFFFFF", "#FFA500"],
       	    	    		   strokeColors:["#FFFFFF", "#FFA500"]
       	    	    		 },
      				       yaxis: yAxis,
-												  tooltip: {
-													  x: {
-					    						          show: false,
-					    						      },
-					    							  y: {
-					    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
-															  if(seriesIndex == 0)
-												  				{
-												  				if (chartConfigSettings.getFormatResult1[1])
-												  				  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):'';
-												  				else 
-												  				  {  
-																		return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0])+ "%":'' ;}
-												  				}else 
-												  					 if(seriesIndex == 1){
-												  					  if (chartConfigSettings.getFormatResult1[1])
-												  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):'';
-												  						else 
-												  							 return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0])+ "%":'' ;
-												  					 }
-					    								    },
-					    								    title: {
-					    							              formatter: (seriesName) => '',
-					    							          },
-					    					      },
-					    						}
-				      	    	    		},
-				      	    	    		);     
-			      	    	        
+     				       annotations: chartConfigSettings.annotations || {},
+							  tooltip: {
+								  x: {
+    						          show: false,
+    						      },
+    							  y: {
+    								  formatter: function(value, { series, seriesIndex, dataPointIndex, w }) {
+										  if(seriesIndex == 0)
+							  				{
+							  				if (chartConfigSettings.getFormatResult1[1])
+							  				  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):'';
+							  				else 
+							  				  {  
+													return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0])+ "%":'' ;}
+							  				}else 
+							  					 if(seriesIndex == 1){
+							  					  if (chartConfigSettings.getFormatResult1[1])
+							  						  return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0]):'';
+							  						else 
+							  							 return  value!=null?value.toFixed(chartConfigSettings.getFormatResult1[0])+ "%":'' ;
+							  					 }
+    								    },
+    								    title: {
+    							              formatter: (seriesName) => '',
+    							          },
+    					      },
+    						}
+  	    	    		},
+  	    	    		);     
+    	        
 				}
 }
 
@@ -2673,6 +2702,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 										minWidth: 75, maxWidth: 75,
 										style: {
 											fontSize: fontsize,
+											colors:['#fff']
 										},
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -2740,6 +2770,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 	     				    		 minWidth: 75,maxWidth: 75,
 	 				        		 style: {
 	 						        	  fontSize: chartConfigSettings.fontSize,
+	 						        	  colors:['#fff']
 	 						        	 },
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -2805,6 +2836,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings){
 	     				    		 minWidth: 75,maxWidth: 75,
 	 				        		 style: {
 	 						        	  fontSize: chartConfigSettings.fontSize,
+	 						        	  colors:['#fff']
 	 						        	 },
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -2953,6 +2985,7 @@ function updateBarChartSelectedItem(chartConfigSettings){
 										minWidth: 75, maxWidth: 75,
 										style: {
 											fontSize: fontsize,
+											colors:['#fff']
 										},
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1]) {
@@ -3245,6 +3278,7 @@ function updateArrowBarChart(chartConfigSettings) {
 										minWidth: 75, maxWidth: 75,
 										style: {
 											fontSize: fontsize,
+											colors:["#fff"],
 										},
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1]) {
@@ -4271,18 +4305,15 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 
 				
 
-					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
-					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
+					min1 = Math.min.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+										
+						max1 = Math.max.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+					min2 = Math.min.apply( null, response[1].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+						max2 = Math.max.apply( null, response[1].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
 
 					min = Math.min(min1, min2);
 					max = Math.max(max1, max2);
@@ -4375,6 +4406,7 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 								minWidth: 75, maxWidth: 75,
 								style: {
 									fontSize: fontsize,
+									colors:['#fff']
 								},
 								 formatter: function(val, index) {
 										 if (yaxisformat0[1])
@@ -4516,18 +4548,14 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 					var dbchartType2 = response[1].config.chartType;
 					chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
 
-					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
-					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
+					min1 = Math.min.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+						max1 = Math.max.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+					min2 = Math.min.apply( null, response[1].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+						max2 = Math.max.apply( null, response[1].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
 
 					min = Math.min(min1, min2);
 					max = Math.max(max1, max2);
@@ -4587,7 +4615,7 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 							    });	
 							    						 	
 					updateChartByFunctionIdMissingDates(chartConfigSettings, true);	
-						
+					loadAndApplyUsBanksReserveThresholdAnnotations(checkedItemValues);	
 					$('#overlayChart').hide();
 				},
 				error: function(e) {
@@ -4675,12 +4703,10 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 							updateChartOption();
 							
-							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-								return item.y;
-							}));
-							max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-									return item.y;
-								}));
+							min = Math.min.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+							max = Math.max.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
 							//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
 							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 							minvalue = min;
@@ -4719,6 +4745,8 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 											 
 							//if(Period=='d')
 								updateChartSelectedItemMissingDates(chartConfigSettings);
+							loadAndApplyUsBanksReserveThresholdAnnotations(checkedItemValues);
+
 							//else
 							//	updateChartSelectedItem(chartConfigSettings);
 						    checkIfRenderFlag(graphName,itemValue[checkedItemValues[0]]);
@@ -4745,7 +4773,7 @@ async function getGraphData(graphService,graphName,removeEmpty,saveHistory){
 
 function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 	
-	mode = "merge";
+	mode = "usjobs";
 	var dataParam;
 	var checkedItemValues = [];
 	$('#overlayChart').show();
@@ -4886,8 +4914,18 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 
             title = formattedTitles.join(" vs ");
 			chart.w.config.title.text=title;
-            let minValues = response.map(res => Math.min.apply(null, res.graphResponseDTOLst.map(item => item.y)));
-            let maxValues = response.map(res => Math.max.apply(null, res.graphResponseDTOLst.map(item => item.y)));
+            let minValues = response.map(res => Math.min.apply(
+				    null,
+				    res.graphResponseDTOLst
+				        .map(item => item.y)
+				        .filter(y => y != null && !isNaN(y))
+			)	);
+            let maxValues = response.map(res => Math.max.apply(
+				    null,
+				    res.graphResponseDTOLst
+				        .map(item => item.y)
+				        .filter(y => y != null && !isNaN(y))
+				));
 
             let min = Math.min(...minValues);
             let max = Math.max(...maxValues);
@@ -4935,7 +4973,7 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
                 yaxis: {
                     labels: {
                         minWidth: 75, maxWidth: 75,
-                        style: { fontSize: '12px' },
+                        style: { fontSize: '12px', colors:['#fff'] },
                         formatter: function(val) {
                             return isdecimal ? val.toFixed(yAxisFormats[0]) : val.toFixed(yAxisFormats[0]) + "%";
                         }
@@ -5056,19 +5094,30 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 					var dbchartType2 = response[1].config.chartType;
 					chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
 
-					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
-					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
-
+					min1 = Math.min.apply(
+				    null,
+				    response[0].graphResponseDTOLst
+				        .map(item => item.y)
+				        .filter(y => y != null && !isNaN(y))
+				);
+					max1 = Math.max.apply(
+				    null,
+				    response[0].graphResponseDTOLst
+				        .map(item => item.y)
+				        .filter(y => y != null && !isNaN(y))
+				);
+					min2 = Math.min.apply(
+				    null,
+				    response[1].graphResponseDTOLst
+				        .map(item => item.y)
+				        .filter(y => y != null && !isNaN(y))
+				);
+					max2 = Math.max.apply(
+				    null,
+				    response[1].graphResponseDTOLst
+				        .map(item => item.y)
+				        .filter(y => y != null && !isNaN(y))
+				);
 					min = Math.min(min1, min2);
 					max = Math.max(max1, max2);
 					
@@ -5216,12 +5265,18 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 							updateChartOption();
 							
-							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-								return item.y;
-							}));
-							max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-									return item.y;
-								}));
+							min = Math.min.apply(
+					null,
+					response[0].graphResponseDTOLst
+						.map(item => item.y)
+						.filter(y => y != null && !isNaN(y))
+				);
+							max = Math.max.apply(
+					null,
+					response[0].graphResponseDTOLst
+						.map(item => item.y)
+						.filter(y => y != null && !isNaN(y))
+				);
 							//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
 							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 							
@@ -5319,6 +5374,7 @@ function getGraphUsJobData(graphService,graphName,removeEmpty,saveHistory){
 										minWidth: 75, maxWidth: 75,
 										style: {
 											fontSize: fontsize,
+											colors:['#fff']
 										},
 										 formatter: function(val, index) {
 										 if (chartConfigSettings.yAxisFormat[1])
@@ -5509,18 +5565,14 @@ function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
 					var dbchartType2 = response[1].config.chartType;
 					chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
 
-					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
-					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
+					min1 = Math.min.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+					max1 = Math.max.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+					min2 = Math.min.apply( null, response[1].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+					max2 = Math.max.apply( null, response[1].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
 
 					min = Math.min(min1, min2);
 					max = Math.max(max1, max2);
@@ -5672,18 +5724,14 @@ function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
 					var dbchartType2 = response[1].config.chartType;
 					chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
 
-					min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
-					min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					})),
-						max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-							return item.y;
-						}));
+					min1 = Math.min.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+					max1 = Math.max.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+					min2 = Math.min.apply( null, response[1].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+					max2 = Math.max.apply( null, response[1].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
 
 					min = Math.min(min1, min2);
 					max = Math.max(max1, max2);
@@ -5762,6 +5810,7 @@ function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
 								minWidth: 75, maxWidth: 75,
 								style: {
 									fontSize: fontsize,
+									colors:['#fff']
 								},
 								 formatter: function(val, index) {
 										 if (yaxisformat0[1])
@@ -5889,12 +5938,10 @@ function getGraphDataWithFactor(graphService,graphName,removeEmpty,saveHistory){
 							chart.updateOptions(getChartDailyOption(title+getTitlePeriodAndType(), showGrid, fontsize, markerSize));
 							updateChartOption();
 							
-							min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-								return item.y;
-							}));
-							max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-									return item.y;
-								}));
+							min = Math.min.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+							max = Math.max.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
 							//minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
 							//maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
 							minvalue = min;
@@ -6126,24 +6173,18 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 				var dbchartType6 = response[5].config.chartType;
 				chartType6 = getChartType(dbchartType6)[0] != 'area' ? getChartType(dbchartType6)[0] : 'line';
 
-				min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-					return item.y;
-				})),
-					max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					}));
-				min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-					return item.y;
-				})),
-					max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					}));
-				min3 = Math.min.apply(null, response[2].graphResponseDTOLst.map(function(item) {
-					return item.y;
-				})),
-					max3 = Math.max.apply(null, response[2].graphResponseDTOLst.map(function(item) {
-						return item.y;
-					}));
+				min1 = Math.min.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+					max1 = Math.max.apply( null, response[0].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+				min2 = Math.min.apply( null, response[1].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+				max2 = Math.max.apply( null, response[1].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+				min3 = Math.min.apply( null, response[2].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
+				max3 = Math.max.apply( null, response[2].graphResponseDTOLst.map(item => item.y)
+										.filter(y => y !== null && y !== undefined && y !== ""));
 				min4 = Math.min.apply(null, response[3].graphResponseDTOLst.map(function(item) {
 					return item.y;
 				})),
@@ -6228,6 +6269,7 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 							minWidth: 75, maxWidth: 75,
 							style: {
 								fontSize: fontsize,
+								colors:['#fff']
 							},
 							 formatter: function(val, index) {
 										 if (yaxisformat0[1])
@@ -6629,6 +6671,7 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 								minWidth: 75, maxWidth: 75,
 								style: {
 									fontSize: fontsize,
+									colors:['#fff']
 								},
 								 formatter: function(val, index) {
 										 if (yaxisformat0[1])
@@ -6864,6 +6907,7 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 									minWidth: 75, maxWidth: 75,
 									style: {
 										fontSize: fontsize,
+										colors:['#fff']
 									},
 									 formatter: function(val, index) {
 										 if (yaxisformat0[1])
@@ -7113,6 +7157,7 @@ function getGraphDataSovereign(graphName,itemsDataParam) {
 										minWidth: 75, maxWidth: 75,
 										style: {
 											fontSize: fontsize,
+											colors:['#fff']
 										},
 										 formatter: function(val, index) {
 										 if (yaxisformat0[1])
@@ -7441,7 +7486,7 @@ function navigationGraph(condition) {
   })();
 
   // Your original redraw logic
-  if (mode == "usJobsCurrent") {
+  if (mode == "usjobs" || mode == "macroGraphs") {
      drawGraph();
   }
   else if (mode == "merge") {
@@ -7654,7 +7699,7 @@ function updateNavigationButtons() {
 		   	  			          zoomin: true,
 		   	  			          zoomout: true,
 		   	  			          pan: true,
-		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+		   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 		   	  			          customIcons: []
 		   	  			        }},
    	  			          height: 525,
@@ -7750,6 +7795,7 @@ function updateNavigationButtons() {
 			        	labels: {
 			        		 style: {
 					        	  fontSize: fontsize,
+								  colors:['#fff']
 					        	 }
 			        	  },
 			        	  axisBorder: {
@@ -7884,6 +7930,7 @@ function updateNavigationButtons() {
 		     				    		     minWidth: 75,maxWidth: 75,
 			 				        		 style: {
 			 						        	  fontSize: fontsize,
+												  colors:['#fff']
 			 						        	 },
 							 formatter: function(val, index) {
 										 if (getYAxisFormatResult[1])
@@ -7946,7 +7993,7 @@ function updateNavigationButtons() {
 			   	  			          zoomin: true,
 			   	  			          zoomout: true,
 			   	  			          pan: true,
-			   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+			   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 			   	  			          customIcons: []
 			   	  			        }},
 	   	  			          height: 525,
@@ -8043,6 +8090,7 @@ function updateNavigationButtons() {
 				        	labels: {
 				        		 style: {
 						        	  fontSize: fontsize,
+									  colors:['#fff']
 						        	 }
 				        	  },
 				        	  axisBorder: {
@@ -8179,6 +8227,7 @@ function updateNavigationButtons() {
 					     				    		     minWidth: 75,maxWidth: 75,
 						 				        		 style: {
 						 						        	  fontSize: fontsize,
+															  colors:['#fff']
 						 						        	 },
 												 formatter: function(val, index) {
 															 if (getYAxisFormatResult[1])
@@ -8319,7 +8368,7 @@ function updateNavigationButtons() {
 					  		   	  			          zoomin: true,
 					  		   	  			          zoomout: true,
 					  		   	  			          pan: true,
-					  		   	  			          reset: true | '<img src="/static/icons/reset.png" width="20">',
+					  		   	  			          reset: true | '<img src="/static/icons/reset.png}" width="20">',
 					  		   	  			          customIcons: []
 					  		   	  			        }},
 					     	  			          height: 525,
@@ -8415,6 +8464,7 @@ function updateNavigationButtons() {
 					  			        	labels: {
 					  			        		 style: {
 					  					        	  fontSize: fontsize,
+													  colors:['#fff']
 					  					        	 }
 					  			        	  },
 					  			        	  axisBorder: {
@@ -8702,7 +8752,7 @@ function getStrokeWidthPeriod(period, numColumns)
 	  return strokeWidth;
 	}
 	
-/*	function getDynamicWidth(numColumns) {
+	function getDynamicColumnWidth(numColumns) {
 	    var totalAvailableWidth = 931;
 		const minColumnWidth = 4; // Minimum width to prevent columns from being invisible
 	    const maxColumnWidth = 50; // Maximum width to avoid overly thick columns
@@ -8717,7 +8767,7 @@ function getStrokeWidthPeriod(period, numColumns)
 	    columnWidth = Math.max(minColumnWidth, Math.min(columnWidth, maxColumnWidth));
 
     	return columnWidth*3;
-	}*/
+	}
 	function getDynamicWidth(numColumns) {
 	
 	    const totalAvailableWidth = 931;
@@ -8749,6 +8799,7 @@ function getStrokeWidthPeriod(period, numColumns)
 	
 	    return Math.round(columnWidth);
 	}
+
 	function calculateSpacing(outerWidth, numColumns) {
 	    return outerWidth / numColumns;
 	}
@@ -9314,6 +9365,7 @@ function getStrokeWidthPeriod(period, numColumns)
 						        		 minWidth: 75,maxWidth: 75,
 						        		 style: {
 								        	  fontSize: fontsize,
+											  colors:['#fff']
 								        	 },
 							 		 	 formatter: function(val, index) {
 
@@ -9392,6 +9444,7 @@ function updateGraphFontCountryPMI(fontsize,minvalue,maxvalue){
 						        		 minWidth: 75,maxWidth: 75,
 						        		 style: {
 								        	  fontSize: fontsize,
+											  colors:['#fff']
 								        	 },
 							 		 		 formatter: function(val, index) {
 										 val = val  + 50;
@@ -10009,7 +10062,7 @@ function candleStick(graphName, saveHistory) {
                 zoomin: true,
                 zoomout: true,
                 pan: true,
-                reset: true | '<img src="/static/icons/reset.png" width="20">',
+                reset: true | '<img src="/static/icons/reset.png}" width="20">',
                 customIcons: []
             }
         },
@@ -10252,6 +10305,7 @@ function candleStick(graphName, saveHistory) {
 						minWidth: 75, maxWidth: 75,
 						style: {
 							fontSize: fontsize,
+							colors:['#fff']
 						},
 						formatter: function(val, index) {
 						 // Ensure val is a valid number before calling toFixed()
@@ -10296,6 +10350,7 @@ function candleStick(graphName, saveHistory) {
 				     				    		    // minWidth: -50,maxWidth: -50,
 					 				        		 style: {
 					 						        	  fontSize: fontsize,
+														  colors:['#fff']
 					 						        	 },
 					 						        	 formatter: function(val, index) {
 														    if (val == null) return "N/A"; // Handle null or undefined values
@@ -10338,6 +10393,7 @@ function candleStick(graphName, saveHistory) {
 				     				    		    // minWidth: -50,maxWidth: -50,
 					 				        		 style: {
 					 						        	  fontSize: fontsize,
+														  colors:['#fff']
 					 						        	 },
 					 						        	 formatter: function(val, index) {
 														    if (val == null) return "N/A"; // Handle null or undefined values
@@ -10438,6 +10494,7 @@ function candleStick(graphName, saveHistory) {
 						minWidth: 75, maxWidth: 75,
 						style: {
 							fontSize: fontsize,
+							colors:['#fff']
 						},
 						formatter: function(val, index) {
 						 // Ensure val is a valid number before calling toFixed()
@@ -10476,6 +10533,7 @@ function candleStick(graphName, saveHistory) {
      				    		    // minWidth: -50,maxWidth: -50,
 	 				        		 style: {
 	 						        	  fontSize: fontsize,
+										  colors:['#fff']
 	 						        	 },
 	 						        	 formatter: function(val, index) {
 										    if (val == null) return "N/A"; // Handle null or undefined values
@@ -10530,6 +10588,7 @@ function candleStick(graphName, saveHistory) {
      				    		 minWidth: 75,maxWidth: 75,
  				        		 style: {
  						        	  fontSize: fontsize,
+									  colors:['#fff']
  						        	 },
  						        	 formatter: function(val, index) {
 										    if (val == null) return "N/A"; // Handle null or undefined values
@@ -10592,7 +10651,7 @@ function candleStick(graphName, saveHistory) {
 							zoomin: true,
 							zoomout: true,
 							pan: true,
-							reset: true | '<img src="/static/icons/reset.png" width="20">',
+							reset: true | '<img src="/static/icons/reset.png}" width="20">',
 							customIcons: []
 						}
 					},
@@ -11012,6 +11071,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 								minWidth: 75, maxWidth: 75,
 								style: {
 									fontSize: fontsize,
+									colors:['#fff']
 								},
 								 formatter: function(val, index) {
 										 if (yaxisformat0[1])
@@ -11050,6 +11110,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 								minWidth: 75, maxWidth: 75,
 								style: {
 									fontSize: fontsize,
+									colors:['#fff']
 								},
 								 formatter: function(val, index) {
 										 if (yaxisformat0[1])
@@ -11075,6 +11136,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 									minWidth: (fontsize == '12px') ? 75 : 120, maxWidth: (fontsize == '12px') ? 75 : 120,
 									style: {
 										fontSize: fontsize,
+										colors:['#fff']
 									}, formatter: function(val, index) {
 										
 										
@@ -11580,6 +11642,7 @@ function getGraphDataCrypto(graphService,graphName,removeEmpty,saveHistory){
 										minWidth: 75, maxWidth: 75,
 										style: {
 											fontSize: fontsize,
+											colors:['#fff']
 										},
 										 formatter: function(val, index) {
 											 return formatInBillionsOnly(val);
@@ -11876,47 +11939,166 @@ function calculatedMarginToMinMax(min, max,  marginPercent = 5 , checkNegative=t
 
    
 }
-function calculateYAxisRangeFromMinMax(min, max, gridCount = 6, marginPercent = 5) {
+function calculateYAxisRangeFromMinMax(
+    min,
+    max,
+    gridCount = 6,
+    marginPercent = 5
+) {
+    const margin = addMarginToMinMax(min, max, marginPercent);
 
-    const values = addMarginToMinMax(min, max, marginPercent);
-
-    // if no negative values, keep the old simple behavior
+    // Keep the existing behavior for charts with no negative values
     if (min >= 0) {
         return {
-            min: 0,
-            max: max + values,
+            min: min - margin,
+            max: max + margin,
             step: null
         };
     }
 
-    let calculatedMin = min - values;
-    let calculatedMax = max + values;
+    const targetMin = min - margin;
+    const targetMax = max + margin;
 
-    // clean step
-    let step = Math.ceil((calculatedMax - calculatedMin) / gridCount);
+    let calculatedMin = targetMin;
+    let calculatedMax = targetMax;
 
-    // snap min so 0 aligns
-    calculatedMin = Math.floor(calculatedMin / step) * step;
+    const rawStep =
+        (calculatedMax - calculatedMin) / gridCount;
 
-    // rebuild max
-    calculatedMax = calculatedMin + step * gridCount;
+    let step;
 
-    // ensure margins are respected
-    while (calculatedMax < max + values || calculatedMin > min - values) {
-        step = step + 1;
-        calculatedMin = Math.floor((min - values) / step) * step;
-        calculatedMax = calculatedMin + step * gridCount;
+    // Preserve the existing behavior for larger ranges
+    if (rawStep >= 1) {
+        step = Math.ceil(rawStep);
+    } else {
+        step = getNiceDecimalStep(rawStep);
+    }
+
+    // Snap minimum so zero stays aligned with a grid line
+    calculatedMin =
+        Math.floor(targetMin / step) * step;
+
+    // Build maximum based on the requested grid count
+    calculatedMax =
+        calculatedMin + step * gridCount;
+
+    /*
+     * Prevent very small decimal differences, such as:
+     *
+     * calculatedMax = 1
+     * targetMax     = 1.0002
+     *
+     * from forcing the step from 0.25 to 0.5.
+     */
+    const tolerance = Math.max(
+        Math.abs(min),
+        Math.abs(max),
+        Math.abs(targetMin),
+        Math.abs(targetMax),
+        1
+    ) * 0.001;
+
+    let safetyCounter = 0;
+    const maxIterations = 100;
+
+    while (
+        (
+            calculatedMax < targetMax - tolerance ||
+            calculatedMin > targetMin + tolerance
+        ) &&
+        safetyCounter < maxIterations
+    ) {
+        if (step < 1) {
+            step = getNextNiceDecimalStep(step);
+        } else {
+            step = step + 1;
+        }
+
+        calculatedMin =
+            Math.floor(targetMin / step) * step;
+
+        calculatedMax =
+            calculatedMin + step * gridCount;
+
+        safetyCounter++;
     }
 
     return {
-        min: calculatedMin,
-        max: calculatedMax,
-        step: step
+        min: roundYAxisValue(calculatedMin),
+        max: roundYAxisValue(calculatedMax),
+        step: roundYAxisValue(step)
     };
+}
+
+
+function getNiceDecimalStep(rawStep) {
+    if (!Number.isFinite(rawStep) || rawStep <= 0) {
+        return 1;
+    }
+
+    const exponent =
+        Math.floor(Math.log10(rawStep));
+
+    const magnitude =
+        Math.pow(10, exponent);
+
+    const normalizedStep =
+        rawStep / magnitude;
+
+    let niceNormalizedStep;
+
+    if (normalizedStep <= 1) {
+        niceNormalizedStep = 1;
+    } else if (normalizedStep <= 2) {
+        niceNormalizedStep = 2;
+    } else if (normalizedStep <= 2.5) {
+        niceNormalizedStep = 2.5;
+    } else if (normalizedStep <= 5) {
+        niceNormalizedStep = 5;
+    } else {
+        niceNormalizedStep = 10;
+    }
+
+    return niceNormalizedStep * magnitude;
+}
+
+
+function getNextNiceDecimalStep(currentStep) {
+    if (!Number.isFinite(currentStep) || currentStep <= 0) {
+        return 1;
+    }
+
+    const exponent =
+        Math.floor(Math.log10(currentStep));
+
+    const magnitude =
+        Math.pow(10, exponent);
+
+    const normalizedStep =
+        currentStep / magnitude;
+
+    if (normalizedStep < 2) {
+        return 2 * magnitude;
+    }
+
+    if (normalizedStep < 2.5) {
+        return 2.5 * magnitude;
+    }
+
+    if (normalizedStep < 5) {
+        return 5 * magnitude;
+    }
+
+    return 10 * magnitude;
+}
+
+
+function roundYAxisValue(value) {
+    return Number(value.toFixed(10));
 }
 function currentUsJobsFunction(groupId) {
 
-	mode = "usJobsCurrent";
+	mode = "usjobs";
 
 	var dataParam;
 	var checkedItemValues = [];
@@ -12307,7 +12489,8 @@ function currentUsJobsFunction(groupId) {
 						minWidth: 75,
 						maxWidth: 75,
 						style: {
-							fontSize: fontsize
+							fontSize: fontsize,
+							colors:['#fff']
 						},
 						formatter: function (val) {
 							return formatAxisValue(val, yaxisformat0);
@@ -12344,7 +12527,8 @@ function currentUsJobsFunction(groupId) {
 							minWidth: 75,
 							maxWidth: 75,
 							style: {
-								fontSize: fontsize
+								fontSize: fontsize,
+								colors:['#fff']
 							},
 							formatter: function (val) {
 								return formatAxisValue(val, yaxisformat1);
@@ -12376,7 +12560,8 @@ function currentUsJobsFunction(groupId) {
 						minWidth: 75,
 						maxWidth: 75,
 						style: {
-							fontSize: fontsize
+							fontSize: fontsize,
+							colors:['#fff']
 						},
 						formatter: function (val) {
 							return formatAxisValue(val, yaxisformat1);
@@ -12901,4 +13086,121 @@ function updateChartState() {
     chartState.fontSize =
         $("#fontOptions .active")[0]
             ?.id || null;
+}
+function isUsBanksReserveSelected(checkedItemValues) {
+    if (!checkedItemValues || checkedItemValues.length === 0) {
+        return false;
+    }
+
+    return checkedItemValues.some(function (index) {
+        return itemValue[index]
+            && itemValue[index].GroupId ==  85
+            && itemValue[index].subGroupId == 1; // US Banks Reserve subgroup
+    });
+}
+
+function buildUsBanksReserveThresholdAnnotations(threshold) {
+    var annotations = [];
+
+    var showAbundant = $("#toggleAbundantAnnotation").is(":checked");
+    var showAmple = $("#toggleAmpleAnnotation").is(":checked");
+
+    if (showAbundant && threshold && threshold.abundant != null) {
+        annotations.push({
+            y: Number(threshold.abundant),
+            borderColor: '#66ff33',
+            strokeDashArray: 0,
+            label: {
+                text: 'ABUNDANT',
+                position: 'right',
+                offsetX: -10,
+				borderWidth:0,
+                style: {
+                    color: '#66ff33',
+                    background: 'transparent',
+                    fontSize: '16px',
+                    fontWeight: 700
+                }
+            }
+        });
+    }
+
+    if (showAmple && threshold && threshold.ample != null) {
+        annotations.push({
+            y: Number(threshold.ample),
+            borderColor: '#ff00ff',
+            strokeDashArray: 0,
+            label: {
+                text: 'AMPLE',
+                position: 'right',
+                offsetX: -10,
+				borderWidth:0,
+                style: {
+                    color: '#ff00ff',
+                    background: 'transparent',
+                    fontSize: '16px',
+                    fontWeight: 700
+                }
+            }
+        });
+    }
+
+    return annotations;
+}
+function applyUsBanksReserveThresholdAnnotations() {
+    if (!chart || !usBanksReserveThresholdCache) {
+        return;
+    }
+
+    var existingYaxisAnnotations = [];
+
+    if (
+        chart.w &&
+        chart.w.config &&
+        chart.w.config.annotations &&
+        chart.w.config.annotations.yaxis
+    ) {
+        existingYaxisAnnotations = chart.w.config.annotations.yaxis.filter(function (ann) {
+            return ann.label == null ||
+                   (ann.label.text !== "ABUNDANT" && ann.label.text !== "AMPLE");
+        });
+    }
+
+    var thresholdAnnotations =
+        buildUsBanksReserveThresholdAnnotations(usBanksReserveThresholdCache);
+
+    chart.updateOptions({
+        annotations: {
+            yaxis: existingYaxisAnnotations.concat(thresholdAnnotations)
+        }
+    });
+
+}
+function loadAndApplyUsBanksReserveThresholdAnnotations(checkedItemValues) {
+
+    if (!isUsBanksReserveSelected(checkedItemValues)) {
+        $("#usBanksReserveAnnotationToggles").hide();
+
+      /*  chart.updateOptions({
+            annotations: {
+                yaxis: []
+            }
+        });
+*/
+        return;
+    }
+
+    $("#usBanksReserveAnnotationToggles").show();
+
+    $.ajax({
+        url: "/liquidity/usbanksreservethreshold/latest",
+        type: "GET",
+        success: function (threshold) {
+            usBanksReserveThresholdCache = threshold;
+            applyUsBanksReserveThresholdAnnotations();
+        },
+        error: function () {
+            console.log("Unable to load US Banks Reserve thresholds");
+        }
+    });
 }

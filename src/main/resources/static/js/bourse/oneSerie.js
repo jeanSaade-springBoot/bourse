@@ -150,7 +150,8 @@
 				"#jqxCheckBoxM2",
 				"#jqxCheckBoxM3",
 				"#jqxCheckBoxFed_liquidity",
-				"#jqxCheckBoxEcb_balance_sheet"
+				"#jqxCheckBoxEcb_balance_sheet",
+				"#jqxCheckBoxUs_banks_reserve"
      			   ];
 
 	}else if (serieValue === 4) {

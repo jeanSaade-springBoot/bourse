@@ -204,7 +204,7 @@ function drawGraph() {
 }
 
  function macroGraph(graphService,graphName,removeEmpty,saveHistory){
-	mode = "merge";
+	mode = "macroGraphs";
 	var dataParam;
 	var checkedItemValues = [];
 	$('#overlayChart').show();
@@ -514,6 +514,7 @@ function drawGraph() {
 								minWidth: 75, maxWidth: 75,
 								style: {
 									fontSize: fontsize,
+									colors:['#fff']
 								},
 								 formatter: function(val, index) {
 										 val = val  + 50;
@@ -570,7 +571,6 @@ function drawGraph() {
 						        y: -50,
 						        y2: 0,
 						        borderColor: "#FF0000",
-						        fillColor: "#ff758b",
 						        opacity: 0.3,	
 						     //   offsetX: -300,
 						        width: '100%',

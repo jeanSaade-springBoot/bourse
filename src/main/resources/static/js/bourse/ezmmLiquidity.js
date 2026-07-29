@@ -1,7 +1,7 @@
   var allitems=["#jqxCheckBoxM0",
  			   "#jqxCheckBoxM1",
  			   "#jqxCheckBoxM2",
- 			   "#jqxCheckBoxM3","#jqxCheckBoxFed_liquidity"]; 
+ 			   "#jqxCheckBoxM3"]; 
 
 const graphName="ezmmLiquidity"; 
 

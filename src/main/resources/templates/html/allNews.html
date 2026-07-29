@@ -7,13 +7,15 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   <meta name="description" content="">
   <meta name="author" content="">
-  <link href="img/logo/logo.png" rel="icon">
-  <link rel="icon" href="/favicon.ico" type="image/x-icon">
+  <link th:href="@{/img/logo/logo.png}" rel="icon">
+
+<link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon">
   <title>Libvol - View All News</title>
-  <link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
-  <link href="/css/light.bootstrap.min.css" rel="stylesheet" type="text/css">
-  <link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-  <link href="/css/jqx.base.css" rel="stylesheet">
+  <link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/css/light.bootstrap.min.css}" rel="stylesheet" type="text/css">
+  <link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css">
+
+  <link th:href="@{/css/jqx.base.css}" rel="stylesheet">
   <style>
   ::-webkit-scrollbar-track {
     background-color: #CACACA;
@@ -221,33 +223,33 @@ div#pagergrid {
   </div>
   <!-- Scroll to top -->
 
-  <script src="/vendor/jquery/jquery.min.js"></script>
-  <script src="/js/marquee.js"></script>
-  <script src="/js/jquery-ui.min.js"></script>
-  <script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-  <script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-  <script src="/js/jqwidgets/jqxcore.js"></script> 
-  <script src="/js/jqwidgets/jqxbuttons.js"></script> 
-  <script src="/js/jqwidgets/jqxscrollbar.js"></script> 
-  <!-- <script src="/js/jqwidgets/jqxtree.js"></script> -->
-  <script src="/js/jqwidgets/jqxcheckbox.js"></script>
-  <script src="/js/jqwidgets/jqxmenu.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.selection.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.edit.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.pager.js"></script> 
-  <script src="/js/jqwidgets/jqxgrid.filter.js"></script> 
-  <script src="/js/jqwidgets/jqxdropdownlist.js"></script> 
-  <script src="/js/jqwidgets/jqxlistbox.js"></script> 
-  <script src="/js/jqwidgets/jqxdata.js"></script> 
-  <script src="/js/jqwidgets/jqxwindow.js"></script>
-  <script src="/js/jqwidgets/jqxinput.js"></script>
-  <script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
-  <script src="/js/jqwidgets/jqxcalendar.js"></script>
-  <script src="/js/jqwidgets/jqxgrid.grouping.js"></script>
-  <script src="/js/bourse/allnews.js"></script> 
-  <script src="/js/bourse/gridPaging.js"></script> 
+  <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+  <script th:src="@{/js/marquee.js}"></script>
+  <script th:src="@{/js/jquery-ui.min.js}"></script>
+  <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+  <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxscrollbar.js}"></script> 
+  <!-- <script th:src="@{/js/jqwidgets/jqxtree.js}"></script> -->
+  <script th:src="@{/js/jqwidgets/jqxcheckbox.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxmenu.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.selection.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.columnsresize.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.edit.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.pager.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxgrid.filter.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxdropdownlist.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxlistbox.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxdata.js}"></script> 
+  <script th:src="@{/js/jqwidgets/jqxwindow.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxinput.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxdatetimeinput.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxcalendar.js}"></script>
+  <script th:src="@{/js/jqwidgets/jqxgrid.grouping.js}"></script>
+  <script th:src="@{/js/bourse/allnews.js}"></script> 
+  <script th:src="@{/js/bourse/gridPaging.js}"></script> 
 </body>
 
 </html>

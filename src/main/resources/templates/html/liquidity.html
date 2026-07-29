@@ -8,18 +8,20 @@
 	content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <meta name="description" content="">
 <meta name="author" content="">
-<link href="img/logo/logo.png" rel="icon">
+<link th:href="@{/img/logo/logo.png}" rel="icon">
+
 <title>Libvol - Liquidity</title>
 <link rel="icon" href="/favicon.ico" type="image/x-icon">
-<link href="/vendor/fontawesome-free/css/all.min.css" rel="stylesheet"
+<link th:href="@{/vendor/fontawesome-free/css/all.min.css}" rel="stylesheet"
 	type="text/css">
-<link href="/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet"
+<link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet"
 	type="text/css">
-<link href="/css/ruang-admin.min.css" rel="stylesheet">
-<link href="/css/marquee.css" rel="stylesheet">
-<link rel="stylesheet" href="/css/jqx.base.css" type="text/css" />
-<link href="/css/jqx.dark.css" rel="stylesheet">
-<link href="/css/notification.css" rel="stylesheet">
+<link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+<link th:href="@{/css/marquee.css}" rel="stylesheet">
+<link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css">
+
+<link th:href="@{/css/jqx.dark.css}" rel="stylesheet">
+<link th:href="@{/css/notification.css}" rel="stylesheet">
 </head>
 <style>
 .jqx-danger-dark {
@@ -39,7 +41,7 @@
 	margin: 0.5rem;
 	color: white;
 	background-color: #719DF0 !important;
-	border-color: var(- -jqx-border);
+	border-color: var(--jqx-border);
 	border-radius: 4px;
 	border: 1px solid transparent;
 	padding: 0.1rem 28%;
@@ -49,7 +51,7 @@
 	margin: .5rem;
 	color: white;
 	background-color: #009a4e !important;
-	border-color: var(- -jqx-border);
+	border-color: var(--jqx-border);
 	border-radius: 4px;
 	border: 1px solid transparent;
 	padding: 1px 3px;
@@ -62,7 +64,7 @@
 	margin-left: 0rem;
 	color: white;
 	background-color: #506B8B !important;
-	border-color: var(- -jqx-border);
+	border-color: var(--jqx-border);
 	border-radius: 4px;
 	border: 1px solid transparent;
 	padding: 1px 3px;
@@ -134,6 +136,68 @@ button#deleteByDate {
 .container, .container-fluid, .container-login {
 	max-width: 1850px;
 }
+.threshold-card {
+    border: 1px solid #35527c;
+    border-radius: 4px;
+    background: rgba(18, 35, 62, 0.65);
+    padding: 1.2rem;
+    color: #dce7ff;
+}
+
+.threshold-title {
+    color: #66a3ff;
+    font-weight: bold;
+    font-size: 1rem;
+    margin-bottom: 1.3rem;
+}
+
+.threshold-body {
+    display: flex;
+    align-items: flex-end;
+    gap: 3rem;
+}
+
+.threshold-field {
+    width: 32%;
+}
+
+.threshold-field label {
+    color: white;
+    font-size: .85rem;
+    margin-bottom: .4rem;
+}
+
+.threshold-input {
+    background-color: #16233f !important;
+    color: white !important;
+    border: 1px solid #4e73df !important;
+    height: 38px;
+}
+
+.threshold-unit {
+    margin-left: .8rem;
+    color: white;
+    white-space: nowrap;
+}
+
+.threshold-action {
+    padding-bottom: 0;
+}
+
+.threshold-footer {
+    color: #9ab4e0;
+    font-size: .85rem;
+}
+.threshold-separator {
+    margin: 0 1rem;
+    color: #6f83a5;
+}
+
+.threshold-note {
+    margin-top: 1rem;
+    color: #cfd8ea;
+    font-size: .85rem;
+}
 </style>
 <body id="page-top">
 	<div id="wrapper">
@@ -149,7 +213,7 @@ button#deleteByDate {
 				<!-- Container Fluid-->
 				<div th:include="${maindatainputnav}"></div>
 				<div id="overlay" class="col-12">
-					<img src="/css/images/loader.gif" alt="Loading" width="46px" />
+					<img th:src="@{/css/images/loader.gif}" alt="Loading" width="46px" />
 				</div>
 			</div>
 			<div id="content">
@@ -178,37 +242,41 @@ button#deleteByDate {
 								<button type="button" class="btn btn-secondary mw-100"
 									id="Fedliquidity-btn"
 									th:onclick="'javascript:toggleDivVisibility(5)'">FED
-									LIQUIDITY</button>
+									 BALANCE SHEET</button>
 								<button type="button" class="btn btn-secondary mw-100"
 									id="Ecbbalancesheet-btn"
 									th:onclick="'javascript:toggleDivVisibility(6)'">ECB
 									BALANCE SHEET</button>
+								<button type="button" class="btn btn-secondary mw-100"
+									id="Usbanksreserve-btn"
+									th:onclick="'javascript:toggleDivVisibility(7)'">US BANKS RESERVE
+									</button>
 							</div>
 						</div>
 						<div class="collapse show" id="collapseExample">
 							<div class="card mb-4">
 								<div
 									class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0 pl-0">
-									<div class="col-4 pl-0 justify-content-between">
-										<h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data
-											Input</h6>
-										<div id='dateInput'></div>
+									<div th:class="${liquidity == 7} ? 'col-2' : 'col-4'"  class=" pl-0 justify-content-between">
+										
 									</div>
-									<div class="col-1"></div>
+									<div th:class="${liquidity == 7} ? ' ' : 'col-1'"  class=""></div>
 									<div class="col-7">
-										<div id='dateInputAudit'></div>
+										
 									</div>
 								</div>
 								<div class="card-body p-0">
-									<div class="row">
-										<div class="col-4 pl-0 d-flex justify-content-between">
+									<div th:class="${liquidity == 7} ? 'align-items-end row' : 'row'" class="">
+										<div th:class="${liquidity == 7} ? 'col-2' : 'col-4'" class=" pl-0 d-flex justify-content-between">
+											<h6 class="m-0 font-weight-bold" style="color: #9ab4e0;">Data
+											Input</h6>
+										<div id='dateInput'></div>
 											<div id="liquidityValue" th:text="${liquidity}"
 												style="display: none;"></div>
 											<input id="liquiditySubGroup1" style="display: none;"
 												value="th:text='${liquidity}'" />
 											<div th:if="${liquidity == 1}" class="col-12 pr-0"
 												id="Ecbexcess-input">
-												<div class="col pl-0 ">&#x200b;</div>
 												<div class="col p-0 ">
 													<form id="dataformInputEcbexcess">
 														<div class="pt-2" style="display: flex;">
@@ -247,7 +315,6 @@ button#deleteByDate {
 											</div>
 											<div th:if="${liquidity == 2}" class="col-12 pr-0"
 												id="Ecbqe-input">
-												<div class="col pl-0 ">&#x200b;</div>
 												<div class="col p-0 ">
 													<form id="dataformInputEcbqe">
 														<div class="pt-2" style="display: flex;">
@@ -276,7 +343,6 @@ button#deleteByDate {
 											</div>
 											<div th:if="${liquidity == 3}" class="col-12 pr-0"
 												id="EZMM-input">
-												<div class="col pl-0 ">&#x200b;</div>
 												<div class="col p-0 ">
 													<form id="dataformInputEZMM">
 														<div class="pt-2" style="display: flex;">
@@ -307,7 +373,6 @@ button#deleteByDate {
 											</div>
 											<div th:if="${liquidity == 4}" class="col-12 pr-0"
 												id="Corporateinput">
-												<div class="col pl-0 ">&#x200b;</div>
 												<div class="col p-0 d-none">
 													<form id="dataformInputCorporate">
 														<div class="pt-2" style="display: flex;">
@@ -336,13 +401,12 @@ button#deleteByDate {
 													</div>
 												</div>
 											</div>
-											<div th:if="${liquidity == 5}" class="col-12 pr-0"
+											<div th:if="${liquidity == 5}" class="col-12 p-0"
 												id="Fedliquidity-input">
-												<div class="col pl-0 ">&#x200b;</div>
 												<div class="col p-0 ">
 													<form id="dataformInputFedliquidity">
 														<div class="pt-2" style="display: flex;">
-															<div class="fs-7">FED LIQUIDITY</div>
+															<div class="fs-7">FED BALANCE SHEET</div>
 														</div>
 														<div class="d-flex">
 															<input class="form-control" id="data-input-Fedliquidity"
@@ -364,9 +428,8 @@ button#deleteByDate {
 													</div>
 												</div>
 											</div>
-											<div th:if="${liquidity == 6}" class="col-12 pr-0"
+											<div th:if="${liquidity == 6}" class="col-12 p-0"
 												id="Ecbbalancesheet-input">
-												<div class="col pl-0 ">&#x200b;</div>
 												<div class="col p-0 ">
 													<form id="dataformInputEcbbalancesheet">
 														<div class="pt-2" style="display: flex;">
@@ -392,13 +455,41 @@ button#deleteByDate {
 													</div>
 												</div>
 											</div>
+											<div th:if="${liquidity == 7}" class="col-12 p-0"
+												id="Usbanksreserve-input">
+												<div class="col p-0 ">
+													<form id="dataformInputUsbanksreserve">
+														<div class="pt-2" style="display: flex;">
+															<div class="fs-7 pb-2 ">US Banks Reserve</div>
+														</div>
+														<div class="d-flex">
+															<input class="form-control"
+																id="data-input-Usbanksreserve" autocomplete="off" />
+														</div>
+													</form>
+													<div id="dataInputGridUsbanksreserve"
+														style="margin-top: 0rem;"></div>
+													<div class="row" id="dataInputButtonsUsbanksreserve"
+														style="display: none;">
+														<div class='col-12 d-flex justify-content-end mt-2'>
+															<input class="btn btn-primary mr-1 mb-1"
+																style="margin-right: 1rem !important; color: white;"
+																type="button" id="loadUsbanksreserve" value="Load" />
+															<input id="cancelUsbanksreserve" type="button"
+																style="margin: 0 !important;"
+																class="btn btn-light-secondary mr-1 mb-1" value="Cancel" />
+														</div>
+													</div>
+												</div>
+											</div>
 										</div>
-										<div class="col-1"></div>
-										<div class="col-7 d-flex justify-content-between">
+										<div th:class="${liquidity == 7} ? ' ' : 'col-1'" class=""></div>
+										<div th:class="${liquidity == 7} ? 'col-3' : 'col-7'" class="col-7 d-flex justify-content-between">
 											<div th:if="${liquidity == 1}" class="col-12 p-0"
 												id="Ecbexcess-audit">
 												<div class="d-flex justify-content-between pb-1">
-													<div class="col-9 p-0"></div>
+													<div class="col-9 p-0"><div id='dateInputAudit'></div>
+													</div>
 													<div class="col-3 p-0">
 														<button id="deleteEcbexcess"
 															style="font-size: .8rem; float: right;">Delete</button>
@@ -409,7 +500,7 @@ button#deleteByDate {
 											<div th:if="${liquidity == 2}" class="col-12 p-0"
 												id="Ecbqe-audit">
 												<div class="d-flex justify-content-between pb-1">
-													<div class="col-9 p-0"></div>
+													<div class="col-9 p-0"><div id='dateInputAudit'></div></div>
 													<div class="col-3 p-0">
 														<button id="deleteEcbqe"
 															style="font-size: .8rem; float: right;">Delete</button>
@@ -420,7 +511,7 @@ button#deleteByDate {
 											<div th:if="${liquidity == 3}" class="col-12 p-0"
 												id="EZMM-audit">
 												<div class="d-flex justify-content-between pb-1">
-													<div class="col-9 p-0"></div>
+													<div class="col-9 p-0"><div id='dateInputAudit'></div></div>
 													<div class="col-3 p-0">
 														<button id="deleteEZMM"
 															style="font-size: .8rem; float: right;">Delete</button>
@@ -431,7 +522,7 @@ button#deleteByDate {
 											<div th:if="${liquidity == 4}" class="col-12 p-0"
 												id="Corporate-audit">
 												<div class="d-flex justify-content-between pb-1">
-													<div class="col-9 p-0"></div>
+													<div class="col-9 p-0"><div id='dateInputAudit'></div></div>
 													<div class="col-3 p-0">
 														<button id="deleteCorporate"
 															style="font-size: .8rem; float: right; display: none">Delete</button>
@@ -442,7 +533,7 @@ button#deleteByDate {
 												<div th:if="${liquidity == 5}" class="col-12 p-0"
 												id="Fedliquidity-audit">
 												<div class="d-flex justify-content-between pb-1">
-													<div class="col-9 p-0"></div>
+													<div class="col-9 p-0"><div id='dateInputAudit'></div></div>
 													<div class="col-3 p-0">
 														<button id="deleteFedliquidity"
 															style="font-size: .8rem; float: right;">Delete</button>
@@ -453,7 +544,7 @@ button#deleteByDate {
 												<div th:if="${liquidity == 6}" class="col-12 p-0"
 												id="Ecbbalancesheet-audit">
 												<div class="d-flex justify-content-between pb-1">
-													<div class="col-9 p-0"></div>
+													<div class="col-9 p-0"><div id='dateInputAudit'></div></div>
 													<div class="col-3 p-0">
 														<button id="deleteEcbbalancesheet"
 															style="font-size: .8rem; float: right;">Delete</button>
@@ -461,7 +552,62 @@ button#deleteByDate {
 												</div>
 												<div id="EcbbalancesheetAuditGrid"></div>
 											</div>
+											<div th:if="${liquidity == 7}" class="col-12 p-0"
+												id="Usbanksreserve-audit">
+												<div class="d-flex justify-content-between pb-1">
+													<div class="col-9 p-0"><div id='dateInputAudit'></div></div>
+													<div class="col-3 p-0">
+														<button id="deleteUsbanksreserve"
+															style="font-size: .8rem; float: right;">Delete</button>
+													</div>
+												</div>
+												<div id="UsbanksreserveAuditGrid"></div>
+											</div>
+												
 										</div>
+										
+										<div th:if="${liquidity == 7}" class="col-4 p-0" id="Usbanksreserve-threshold-section">
+								   <div class="threshold-card">
+							     	<div class="row col justify-content-between">
+								        <div class="threshold-title">
+								            US BANKS RESERVE THRESHOLDS
+								        </div>
+								        
+										<div class="threshold-footer ">
+								              <span id="usBanksReserveThresholdLastUpdated"></span>
+								        </div>
+							        </div>
+							        <div class="threshold-body">
+							            <div class="threshold-field row col align-items-end">
+							                <label class="pr-2">Abundant</label>
+							                <div class="d-flex align-items-center">
+							                    <input class="form-control threshold-input"
+							                           id="usBanksReserveAbundant"
+							                           autocomplete="off" />
+							                </div>
+							            </div>
+							
+							            <div class="threshold-field row col align-items-end">
+							                <label class="pr-2">Ample</label>
+							                <div class="d-flex align-items-center">
+							                    <input class="form-control threshold-input"
+							                           id="usBanksReserveAmple"
+							                           autocomplete="off" />
+							                </div>
+							            </div>
+							
+							            <div class="threshold-action">
+							                <input class="btn btn-primary"
+							                       type="button"
+							                       id="saveUsBanksReserveThreshold"
+							                       value="Save" />
+							            </div>
+							        </div>
+							
+							        
+							
+							    </div>
+							</div>
 									</div>
 								</div>
 							</div>
@@ -621,17 +767,26 @@ button#deleteByDate {
 														
 														<div class="d-flex justify-content-between col">
 															<div id='jqxCheckBoxFed_liquidity' style='float: left;'>
-																<span class="checkboxesTitle">FED Liquidity</span>
+																<span class="checkboxesTitle">FED BALANCE SHEET</span>
 															</div>
 															
 														</div>
 													</div>
 													<div th:if="${liquidity == 6}" class="col-sm-6"
-														id="EcbbalancesheetMetals-filter">
+														id="Ecbbalancesheet-filter">
 														
 														<div class="d-flex justify-content-between col">
 															<div id='jqxCheckBoxEcb_balance_sheet' style='float: left;'>
 																<span class="checkboxesTitle">ECB Balance Sheet</span>
+															</div>
+															
+														</div>
+													</div>
+													<div th:if="${liquidity == 7}" class="col-sm-6"
+														id="Usbanksreserve-filter">
+														<div class="d-flex justify-content-between col">
+															<div id='jqxCheckBoxUs_banks_reserve' style='float: left;'>
+																<span class="checkboxesTitle">US Banks Reserve</span>
 															</div>
 															
 														</div>
@@ -827,62 +982,45 @@ button#deleteByDate {
 									</div>
 								</div>
 							</div>
-							<div id="grid"></div>
-							<div id="popupWindow" style="display: none;">
-								<div>Edit</div>
-								<div style="overflow: hidden;">
-									<table>
-										<tr>
-											<td align="right">
-												<div id="subgroupdropDownSource"
-													style="float: left; margin-left: .5rem;"></div>
-											</td>
-										</tr>
-										<tr>
-											<td align="right"
-												style="position: relative; padding-right: 15px; color: #8A99B5; background-color: #272E48; border-color: #464D5C !important; padding-left: 15px; direction: ltr; font-size: 1rem; font-weight: 400; line-height: 1.4; text-align: left;">30yr
-												long :</td>
-											<td align="left"><input id="thirteeYrFactor" /></td>
-										</tr>
-										<tr>
-											<td align="right"
-												style="position: relative; padding-right: 15px; color: #8A99B5; background-color: #272E48; border-color: #464D5C !important; padding-left: 15px; direction: ltr; font-size: 1rem; font-weight: 400; line-height: 1.4; text-align: left;">10yr
-												bench :</td>
-											<td align="left"><input id=tenYrFactor /></td>
-										</tr>
-										<tr>
-											<td align="right"
-												style="position: relative; padding-right: 15px; color: #8A99B5; background-color: #272E48; border-color: #464D5C !important; padding-left: 15px; direction: ltr; font-size: 1rem; font-weight: 400; line-height: 1.4; text-align: left;">5yr
-												:</td>
-											<td align="left"><input id="fiveYrFactor" /></td>
-										</tr>
-										<tr>
-											<td align="right"
-												style="position: relative; padding-right: 15px; color: #8A99B5; background-color: #272E48; border-color: #464D5C !important; padding-left: 15px; direction: ltr; font-size: 1rem; font-weight: 400; line-height: 1.4; text-align: left;">2yr
-												:</td>
-											<td align="left"><input id="twoYrFactor" /></td>
-										</tr>
-										<tr>
-											<td align="right"
-												style="position: relative; padding-right: 15px; color: #8A99B5; background-color: #272E48; border-color: #464D5C !important; padding-left: 15px; direction: ltr; font-size: 1rem; font-weight: 400; line-height: 1.4; text-align: left;">Recalculate
-												:</td>
-											<td align="left">
-												<div id="recalculatedropDown" style="float: left;"></div>
-											</td>
-										</tr>
-										<tr>
-											<td style="padding-top: 1.5rem; padding-bottom: 1.5rem;"
-												align="left"></td>
-											<td style="padding-top: 1.5rem; padding-bottom: 1.5rem;"
-												align="left"><input class="btn btn-primary mr-1 mb-1"
-												style="margin-right: 5px; color: white;" type="button"
-												id="Save" value="Save" /><input id="Cancel" type="button"
-												class="btn btn-light-secondary mr-1 mb-1" value="Cancel" /></td>
-										</tr>
-									</table>
+							<!-- Generic Information Modal -->
+							<div id="thresholdMessageModal" class="modal fade" tabindex="-1"
+								role="dialog" aria-hidden="true">
+
+								<div class="modal-dialog modal-sm" role="document">
+
+									<div class="modal-content">
+
+										<div id="thresholdMessageHeader"
+											class="modal-header bg-success">
+
+											<h4 class="modal-title text-white" id="thresholdMessageTitle">
+												Success</h4>
+
+											<button type="button" class="close text-white"
+												data-dismiss="modal">
+												<span>&times;</span>
+											</button>
+
+										</div>
+
+										<div class="modal-body" id="thresholdMessageBody"></div>
+
+										<div class="modal-footer">
+											<button type="button" class="btn btn-primary"
+												data-dismiss="modal">OK</button>
+										</div>
+
+									</div>
+
 								</div>
+
 							</div>
-						</div>
+							<div class="col-12 row">
+							<div id="grid" ></div>
+
+							
+								</div> 
+							</div>
 						<!---Container Fluid-->
 					</div>
 					<div class="NewsBack container mb-0"
@@ -914,36 +1052,36 @@ button#deleteByDate {
 			class="fas fa-angle-up"></i>
 		</a>
 
-		<script src="/vendor/jquery/jquery.min.js"></script>
-		<script src="/js/marquee.js"></script>
+		<script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+		<script th:src="@{/js/marquee.js}"></script>
 
-		<script src="/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
-		<script src="/vendor/jquery-easing/jquery.easing.min.js"></script>
-		<script src="/js/jqwidgets/jqxcore.js"></script>
-		<script src="/js/jqwidgets/jqxbuttons.js"></script>
-		<script src="/js/jqwidgets/jqxscrollbar.js"></script>
-		<script src="/js/jqwidgets/jqxcheckbox.js"></script>
-		<script src="/js/jqwidgets/jqxmenu.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.selection.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.columnsresize.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.edit.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.pager.js"></script>
-		<script src="/js/jqwidgets/jqxgrid.filter.js"></script>
-		<script src="/js/jqwidgets/jqxdropdownlist.js"></script>
-		<script src="/js/jqwidgets/jqxbuttongroup.js"></script>
-		<script src="/js/jqwidgets/jqxlistbox.js"></script>
-		<script src="/js/jqwidgets/jqxdata.js"></script>
-		<script src="/js/jqwidgets/jqxwindow.js"></script>
-		<script src="/js/jqwidgets/jqxinput.js"></script>
-		<script src="/js/jqwidgets/jqxdatetimeinput.js"></script>
-		<script src="/js/jqwidgets/jqxcalendar.js"></script>
-		<script src="/js/bourse/liquidity.js"></script>
-		<script src="/js/bourse/scrollBarNews.js"></script>
-		<script src="/js/common.js"></script>
-		<script src="/js/notification/sockjs.js"></script>
-		<script src="/js/notification/stomp.js"></script>
-		<script src="/js/notification/config.js"></script>
+		<script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+		<script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxscrollbar.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxcheckbox.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxmenu.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.selection.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.columnsresize.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.edit.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.pager.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxgrid.filter.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxdropdownlist.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxbuttongroup.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxlistbox.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxdata.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxwindow.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxinput.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxdatetimeinput.js}"></script>
+		<script th:src="@{/js/jqwidgets/jqxcalendar.js}"></script>
+		<script th:src="@{/js/bourse/liquidity.js}"></script>
+		<script th:src="@{/js/bourse/scrollBarNews.js}"></script>
+		<script th:src="@{/js/common.js}"></script>
+		<script th:src="@{/js/notification/sockjs.js}"></script>
+		<script th:src="@{/js/notification/stomp.js}"></script>
+		<script th:src="@{/js/notification/config.js}"></script>
 		<script th:inline="javascript">
 	  const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
 	  const hasPendingApprovalGrid= authorities.filter(item => {

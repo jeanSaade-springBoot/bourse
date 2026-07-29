@@ -1,6 +1,8 @@
 package com.bourse.controllers;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -32,6 +34,7 @@ import com.bourse.dto.AssetNewsOrderDTO;
 import com.bourse.dto.ColumnConfigurationDTO;
 import com.bourse.dto.FunctionConfigurationDTO;
 import com.bourse.dto.FunctionDTO;
+import com.bourse.dto.MonthlyDataDeleteRequest;
 import com.bourse.dto.NewsOrderDTO;
 import com.bourse.dto.RobotsConfigDTO;
 import com.bourse.service.AdminService;
@@ -40,6 +43,7 @@ import com.bourse.service.AssetNewsOrderService;
 import com.bourse.service.FunctionConfigurationService;
 import com.bourse.service.FunctionsService;
 import com.bourse.service.GroupsService;
+import com.bourse.service.MonthlyDataDeleteService;
 import com.bourse.service.RobotsFunctionService;
 import com.bourse.service.SubGroupService;
 @RestController
@@ -63,6 +67,8 @@ public class AdminController {
 	private final RobotsFunctionService robotsFunctionService;
 	@Autowired
 	private final AssetNewsOrderService assetNewsOrderService;
+	@Autowired
+	private final MonthlyDataDeleteService  monthlyDataDeleteService;
 	
 	public AdminController(AssetClassService assetClassService,
 						   GroupsService groupsService,
@@ -71,7 +77,8 @@ public class AdminController {
 						   FunctionsService functionsService,
 						   FunctionConfigurationService functionConfigurationService,
 						   RobotsFunctionService robotsFunctionService,
-						   AssetNewsOrderService assetNewsOrderService)
+						   AssetNewsOrderService assetNewsOrderService,
+						   MonthlyDataDeleteService  monthlyDataDeleteService)
 	{
 		this.assetClassService   = assetClassService;
 		this.groupsService   = groupsService;
@@ -81,6 +88,7 @@ public class AdminController {
 		this.functionConfigurationService = functionConfigurationService;
 		this.robotsFunctionService = robotsFunctionService;
 		this.assetNewsOrderService = assetNewsOrderService;
+		this.monthlyDataDeleteService = monthlyDataDeleteService;
 	}
 	@GetMapping(value = "getassetnewsorder", produces = "application/json;charset=UTF-8")
     public  ResponseEntity<List<AssetNewsOrder>>  getAssetNewsOrder(){
@@ -282,5 +290,32 @@ public class AdminController {
 	@PostMapping(value = "savenews")
 	public News saveNews(@RequestBody News news) {
 		return adminService.saveNews(news);
+	}
+	@DeleteMapping("/monthly-data/delete")
+	public ResponseEntity<Map<String, Object>> deleteMonthlyData(
+	        @RequestBody MonthlyDataDeleteRequest request) {
+
+	    int deletedRecords = monthlyDataDeleteService.deleteMonthlyData(
+	                    request.getAssetId(),
+	                    request.getGroupId(),
+	                    request.getFromDate(),
+	                    request.getToDate()
+	            );
+
+	    Map<String, Object> response =
+	            new HashMap<>();
+
+	    response.put(
+	            "deletedRecords",
+	            deletedRecords
+	    );
+
+	    response.put(
+	            "message",
+	            deletedRecords +
+	            " monthly record(s) deleted successfully."
+	    );
+
+	    return ResponseEntity.ok(response);
 	}
 }
