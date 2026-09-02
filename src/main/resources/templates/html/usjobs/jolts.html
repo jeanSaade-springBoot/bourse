@@ -269,7 +269,7 @@
 																					class="seg-btn active"
 																					data-value="1scale"
 																					aria-pressed="true"
-																					onclick="globalChartScaleOption('1scale')">
+																					onclick="event.stopImmediatePropagation(); joltsChartScaleOption('1scale')">
 																				<i class="icon-1-scale"></i>
 																				<span>1-SCALE</span>
 																			</button>
@@ -278,7 +278,7 @@
 																					class="seg-btn"
 																					data-value="2scale"
 																					aria-pressed="false"
-																					onclick="globalChartScaleOption('2scale')">
+																					onclick="event.stopImmediatePropagation(); joltsChartScaleOption('2scale')">
 																				<i class="icon-2-scale"></i>
 																				<span>2-SCALE</span>
 																			</button>
