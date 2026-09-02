@@ -56,7 +56,120 @@
     max-width: 13.66667%;
 }
 
-  </style>
+  
+/* COMBINED ECB UI:
+   Every selector is vertically stacked:
+   centered checkbox on top + centered two-line title underneath. */
+.ecb-combined-factor-row {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 1.2rem;
+    /* The parent .col already supplies the same 15px Bootstrap gutter as the Show button's .col-12. */
+    margin: .8rem 0 .7rem 0;
+}
+
+.ecb-combined-logo {
+    flex: 0 0 86px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.ecb-combined-logo img {
+    width: 84px;
+    height: 58px;
+    object-fit: contain;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+    float: revert-rule;
+    position: absolute;
+    left: 0;
+}
+
+.ecb-factor-option {
+    flex: 0 0 145px;
+    min-width: 145px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: .15rem;
+}
+
+/* Force jqxCheckBox to remain a compact centered checkbox. */
+.ecb-factor-checkbox {
+    display: block !important;
+    float: none !important;
+    position: relative !important;
+    width: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    height: 18px !important;
+    min-height: 18px !important;
+    margin: 0 auto .45rem auto !important;
+}
+
+.ecb-factor-title-row {
+    display: flex !important;
+    align-items: flex-start;
+    justify-content: center;
+    width: 145px;
+    min-height: 34px;
+    text-align: center;
+}
+
+.ecb-factor-title {
+    display: -webkit-box !important;
+    width: 145px;
+    max-width: 145px;
+    margin: 0 auto !important;
+    font-size: .75rem;
+    line-height: 1.05rem;
+    color: #9ea9bd;
+    text-align: center !important;
+    white-space: normal;
+    overflow: hidden;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+}
+
+.ecb-balance-option {
+    flex: 0 0 205px;
+    min-width: 205px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    gap: .65rem;
+}
+
+.ecb-balance-option img {
+    width: 86px;
+    height: 58px;
+    object-fit: contain;
+    flex: 0 0 86px;
+}
+
+.ecb-balance-selector {
+    width: 105px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: .15rem;
+}
+
+.ecb-balance-selector .ecb-factor-title-row,
+.ecb-balance-selector .ecb-factor-title {
+    width: 105px;
+    max-width: 105px;
+}
+
+.ecb-filter-actions {
+    margin-top: .35rem;
+}
+
+</style>
 </head>
 
 <body id="page-top">
@@ -80,7 +193,6 @@
 					  <a sec:authorize="hasAuthority('ECB_IMPACT_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbimpactliquidity-tab"  href="/bourse/ecbimpactliquidity" role="tab" aria-controls="nav-ecbImpactliquidity" aria-selected="false">ECB Impact</a>
 					  <a sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-corporateliquidity-tab"  href="/bourse/corporateliquidity" role="tab" aria-controls="nav-corporateliquidity" aria-selected="false">Corporate Liquidity</a>
 					  <a sec:authorize="hasAuthority('US_BANKS_RESERVE_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-usBanksReserve-tab"  href="/bourse/fedliquidity" role="tab" aria-controls="nav-usBanksReserve" aria-selected="false">FED liquidity</a>
-					  <a sec:authorize="hasAuthority('ECB_BALANCE_SHEET_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-ecbBalanceSheet-tab"  href="/bourse/ecbbalancesheet" role="tab" aria-controls="nav-ecbBalanceSheet" aria-selected="false">ECB Balance Sheet</a>
 					  <a sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ezmmliquidity-tab"  href="/bourse/ezmmliquidity" role="tab" aria-controls="nav-ezmmliquidity" aria-selected="false">Monetary Mass</a>
 				
 				  </div>
@@ -99,55 +211,96 @@
 				...
 					 </div>
 				  <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-				  	<p class="mt-2" style=" margin-bottom: .5rem;">
-					  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
-				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" th:src="@{/img/down.png}" align="absmiddle"></a>
-				  	  	</p>
-					<div class="row">
-					  <div class="col">
-					    <div class="collapse multi-collapse" id="collapseFilter">
-				<div class="row mb-3">
-				      <div class="col-5 pl-0 d-flex">
-				          <div class="col-3">
-						               	<img alt="usa-flag" th:src="@{/img/flag/ecb.png}" height="100px">
-						               </div>
-							           <div class="col-6">
-							            <div class="pt-2">
-							               <div class="pt-1">
-							                	<div id='jqxCheckBoxExcess1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">Overnight Deposits at the ECB</span></div>
-							              </div>
-							             </div>
-							             <div class="">
-							                <div class="pt-1">
-							               		<div id='jqxCheckBoxExcess2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Current Account Holdings</span></div>
-							              </div>
-							            </div>
-							             <div class="">
-							                <div class="pt-1">
-							              		<div id='jqxCheckBoxExcess3' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">Reserve Requirements</span></div>
-							                 </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	    <div id='jqxCheckBoxExcess4' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">Emergency Lending</span></div>
-							              </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	      <div id='jqxCheckBoxExcess1Excess2Excess3Excess4' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">Excess Liquidity</span></div>
-							            	</div>
-							            </div>
-							           </div>
-					  </div>
-                     </div>
-                     		<div class="row" style="  position: absolute;   top: -41px;  right: .5rem; ">
-							<div class='col-12 d-flex justify-content-end'>
-							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style=" color:white;" type="button" id="show" value="Show" />
-							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-							</div>
-						</div>
-					    </div>
-				    <div id="grid-content" style="display:none;">
+				<!-- UI CHANGE: ECB factors are permanently visible. -->
+                <div class="row">
+                    <div class="col">
+                        <div id="collapseFilter">
+
+                            <!-- CLIENT UI: ECB Liquidity and ECB Balance Sheet are presented
+                                 together on one compact horizontal selector row. -->
+                            <div class="ecb-combined-factor-row">
+
+                                <div class="ecb-combined-logo">
+                                    <img alt="ecb-liquidity"
+                                         th:src="@{/img/flag/ecb.png}">
+                                </div>
+
+                                <div class="ecb-factor-option">
+                                    <div class="ecb-factor-checkbox"
+                                         id='jqxCheckBoxExcess1'></div>
+                                    <div class="ecb-factor-title-row">
+                                        <span class="ecb-factor-title">Overnight Deposits<br>at the ECB</span>
+                                    </div>
+                                </div>
+
+                                <div class="ecb-factor-option">
+                                    <div class="ecb-factor-checkbox"
+                                         id='jqxCheckBoxExcess2'></div>
+                                    <div class="ecb-factor-title-row">
+                                        <span class="ecb-factor-title">Current Account<br>Holdings</span>
+                                    </div>
+                                </div>
+
+                                <div class="ecb-factor-option">
+                                    <div class="ecb-factor-checkbox"
+                                         id='jqxCheckBoxExcess3'></div>
+                                    <div class="ecb-factor-title-row">
+                                        <span class="ecb-factor-title">Reserve<br>Requirements</span>
+                                    </div>
+                                </div>
+
+                                <div class="ecb-factor-option">
+                                    <div class="ecb-factor-checkbox"
+                                         id='jqxCheckBoxExcess4'></div>
+                                    <div class="ecb-factor-title-row">
+                                        <span class="ecb-factor-title">Emergency<br>Lending</span>
+                                    </div>
+                                </div>
+
+                                <div class="ecb-factor-option">
+                                    <div class="ecb-factor-checkbox"
+                                         id='jqxCheckBoxExcess1Excess2Excess3Excess4'></div>
+                                    <div class="ecb-factor-title-row">
+                                        <span class="ecb-factor-title">Excess<br>Liquidity</span>
+                                    </div>
+                                </div>
+
+                                <div class="ecb-balance-option">
+                                    <img alt="ecb-balance-sheet"
+                                         th:src="@{/img/flag/ecbBalanceSheet.png}">
+                                    <div class="ecb-balance-selector">
+                                        <div class="ecb-factor-checkbox"
+                                             id='jqxCheckBoxEcb_balance_sheet'></div>
+                                    <div class="ecb-factor-title-row">
+                                        <span class="ecb-factor-title">ECB Balance<br>Sheet</span>
+                                    </div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <!-- Existing actions remain unchanged; only their placement is compacted. -->
+                            <div class="row mb-2 ecb-filter-actions">
+                                <div class='col-12 d-flex justify-content-start'>
+                                    <input aria-expanded="true"
+                                           aria-controls="collapseFilter"
+                                           class="btn btn-primary mr-1 mb-1"
+                                           style="color:white;"
+                                           type="button"
+                                           id="show"
+                                           value="Show" />
+                                    <input id="Clearfilter"
+                                           type="button"
+                                           class="btn btn-light-secondary mr-1 mb-1"
+                                           value="Clear" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="grid-content" style="display:none;">
 				 
 				    <div class="row">
 				       <div class="row col-12">
@@ -196,7 +349,37 @@
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
-					 	      
+					 	      <div class=" ml-4 col-9  justify-content-center"  id="scaleManagement" style="min-width: 1100px;max-width: 1100px;">
+											     <div id="split" class="d-flex justify-content-center">
+												    <div class="d-flex">
+												     
+												      <!-- Pill Toggle -->
+														<div class="segmented d-flex"
+														     aria-label="Scale toggle"
+														     role="group">
+														
+														    <button type="button"
+														            class="seg-btn active"
+														            data-value="1scale"
+														            aria-pressed="true"
+														            onclick="globalChartScaleOption('1scale')">
+														        <i class="icon-1-scale"></i>
+														        <span>1-SCALE</span>
+														    </button>
+														
+														    <button type="button"
+														            class="seg-btn"
+														            data-value="2scale"
+														            aria-pressed="false"
+														            onclick="globalChartScaleOption('2scale')">
+														        <i class="icon-2-scale"></i>
+														        <span>2-SCALE</span>
+														    </button>
+														
+														</div>
+						   						   		</div>
+											      </div>
+											  </div>
 					  <div th:include="${chartNav}"></div>
 
 					  </div>

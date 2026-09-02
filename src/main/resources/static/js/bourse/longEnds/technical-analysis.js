@@ -399,7 +399,17 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth =
       allItems.forEach(id => {
         $(id).show().jqxCheckBox({ disabled: false });
       });
-
+   // When switching Chart 1 from candlestick to regular mode,
+            // default to ROLLING -> CLOSE if no factor is currently selected.
+            // Preserve any existing manual selection.
+            const currentCheckedItems = getCheckedItems(chartId) || [];
+            const rollingCloseId = `#jqxCheckBox-${rollingGroupId}-4-chart-${chartId}`;
+            if (currentCheckedItems.length === 0 && $(rollingCloseId).length) {
+                $(rollingCloseId).jqxCheckBox({
+                    disabled: false
+                });
+                $(rollingCloseId).jqxCheckBox('check');
+            }
       // If you still want special handling for a certain timeRange, do it here.
       // Example placeholder for 4h (currently no-op since no Euro/funding in options):
       if (timeRange === '4h') {

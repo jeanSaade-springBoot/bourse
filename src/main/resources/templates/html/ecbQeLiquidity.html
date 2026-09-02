@@ -56,7 +56,85 @@
     max-width: 13.66667%;
 }
  
-  </style>
+  
+/* ECB QE UI:
+   Same selector treatment as ECB Liquidity:
+   standalone centered checkbox with a centered two-line label underneath. */
+.ecb-qe-factor-row {
+    display: flex;
+    align-items: flex-start;
+    flex-wrap: nowrap;
+    gap: 1.2rem;
+    margin: .8rem 0 .7rem 0;
+}
+
+.ecb-qe-logo {
+    flex: 0 0 86px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: flex-start;
+}
+
+.ecb-qe-logo img {
+    width: 84px;
+    height: 58px;
+    object-fit: contain;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+      position: absolute;
+    left: 0;
+}
+
+.ecb-qe-factor-option {
+    flex: 0 0 145px;
+    min-width: 145px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: .15rem;
+}
+
+/* jqxCheckBox injects its own sizing/float rules, so force the host
+   to remain a compact checkbox centered above the title. */
+.ecb-qe-factor-checkbox {
+    display: block !important;
+    float: none !important;
+    position: relative !important;
+    width: 18px !important;
+    min-width: 18px !important;
+    max-width: 18px !important;
+    height: 18px !important;
+    min-height: 18px !important;
+    margin: 0 auto .45rem auto !important;
+}
+
+.ecb-qe-factor-title-row {
+    display: flex !important;
+    align-items: flex-start;
+    justify-content: center;
+    width: 145px;
+    min-height: 34px;
+    text-align: center;
+}
+
+.ecb-qe-factor-title {
+    display: block !important;
+    width: 145px;
+    max-width: 145px;
+    margin: 0 auto !important;
+    font-size: .75rem;
+    line-height: 1.05rem;
+    color: #9ea9bd;
+    text-align: center !important;
+    white-space: normal;
+}
+
+.ecb-qe-filter-actions {
+    margin-top: .35rem;
+}
+
+</style>
 </head>
 
 <body id="page-top">
@@ -80,7 +158,6 @@
 					  <a sec:authorize="hasAuthority('ECB_IMPACT_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ecbimpactliquidity-tab"  href="/bourse/ecbimpactliquidity" role="tab" aria-controls="nav-ecbImpactliquidity" aria-selected="false">ECB Impact</a>
 					  <a sec:authorize="hasAuthority('CORPORATE_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-corporateliquidity-tab"  href="/bourse/corporateliquidity" role="tab" aria-controls="nav-corporateliquidity" aria-selected="false">Corporate Liquidity</a>
 					  <a sec:authorize="hasAuthority('US_BANKS_RESERVE_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-usBanksReserve-tab"  href="/bourse/fedliquidity" role="tab" aria-controls="nav-usBanksReserve" aria-selected="false">FED liquidity</a>
-					<a sec:authorize="hasAuthority('ECB_BALANCE_SHEET_GRAPH_SCREEN')" class="navigation nav-item nav-link " id="nav-ecbBalanceSheet-tab"  href="/bourse/ecbbalancesheet" role="tab" aria-controls="nav-ecbBalanceSheet" aria-selected="false">ECB Balance Sheet</a>
 					  <a sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')" class="navigation nav-item nav-link" id="nav-ezmmliquidity-tab"  href="/bourse/ezmmliquidity" role="tab" aria-controls="nav-ezmmliquidity" aria-selected="false">Monetary Mass</a>
 				 				
 				  </div>
@@ -99,60 +176,84 @@
 				...
 					 </div>
 				  <div class="tab-pane fade active show" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
-				  	<p class="mt-2" style=" margin-bottom: .5rem;">
-					  <a class="btn select" data-toggle="collapse" href="#collapseFilter" role="button" aria-expanded="false" aria-controls="collapseFilter" >Select Factors
-				  	  <img style="width: 12px; margin-left: .6rem;" id="ContentPlaceHolder1_Image13" th:src="@{/img/down.png}" align="absmiddle"></a>
-				  	  	</p>
-					<div class="row">
-					  <div class="col">
-					    <div class="collapse multi-collapse" id="collapseFilter">
-				<div class="row mb-3">
-				       <div class="col-5 pl-0 d-flex">
-						               <div class="col-3">
-						               	<img alt="usa-flag" th:src="@{/img/flag/ecbqe.png}" height="100px">
-						               </div>
-							           <div class="col-6">
-							            <div class="pt-2">
-							               <div class="pt-1">
-							                 	<div id='jqxCheckBoxQe1' style='float: left;  font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY sovering bond QE </span></div>
-							              </div>
-							             </div>
-							             <div class="">
-							                <div class="pt-1">
-							               		<div id='jqxCheckBoxQe2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY corporate bond QE</span></div>
-							               </div>
-							            </div>
-							             <div class="">
-							                <div class="pt-1">
-							              		<div id='jqxCheckBoxQe1Qe2' style='float: left;     font-size: .75rem;'><span class="checkboxesTitle">ECB MONTHLY QE</span></div>
-							                </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	    <div id='jqxCheckBoxCumQe1' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE sovereign bond QE</span></div>
-							              </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	       <div id='jqxCheckBoxCumQe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE corporate bonds QE</span></div>
-							            </div>
-							            </div>
-							            <div class="">
-							                <div class="pt-1">
-							              	     <div id='jqxCheckBoxCumQe1Qe2' style='float: left;    font-size: .75rem;'><span class="checkboxesTitle">ECB CUMULATIVE QE</span></div>
-							            </div>
-							            </div>
-							           </div>
-						            </div>
-                     </div>
-                     		<div class="row" style="  position: absolute;   top: -41px;  right: .5rem; ">
-							<div class='col-12 d-flex justify-content-end'>
-							<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style=" color:white;" type="button" id="show" value="Show" />
-							<input id="Clearfilter" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-							</div>
-						</div>
-					    </div>
-				    <div id="grid-content" style="display:none;">
+				<!-- UI CHANGE: factor options are permanently visible. -->
+                <div class="row">
+                    <div class="col">
+                        <div id="collapseFilter">
+
+                            <!-- Checkbox above, title centered underneath on two lines. -->
+                            <div class="ecb-qe-factor-row">
+
+                                <div class="ecb-qe-logo">
+                                    <img alt="ecb-qe"
+                                         th:src="@{/img/flag/ecbqe.png}">
+                                </div>
+
+                                <div class="ecb-qe-factor-option">
+                                    <div class="ecb-qe-factor-checkbox" id='jqxCheckBoxQe1'></div>
+                                    <div class="ecb-qe-factor-title-row">
+                                        <span class="ecb-qe-factor-title">ECB MONTHLY sovereign<br>bond QE</span>
+                                    </div>
+                                </div>
+
+                                <div class="ecb-qe-factor-option">
+                                    <div class="ecb-qe-factor-checkbox" id='jqxCheckBoxQe2'></div>
+                                    <div class="ecb-qe-factor-title-row">
+                                        <span class="ecb-qe-factor-title">ECB MONTHLY corporate<br>bond QE</span>
+                                    </div>
+                                </div>
+
+                                <div class="ecb-qe-factor-option">
+                                    <div class="ecb-qe-factor-checkbox" id='jqxCheckBoxQe1Qe2'></div>
+                                    <div class="ecb-qe-factor-title-row">
+                                        <span class="ecb-qe-factor-title">ECB MONTHLY<br>QE</span>
+                                    </div>
+                                </div>
+
+                                <div class="ecb-qe-factor-option">
+                                    <div class="ecb-qe-factor-checkbox" id='jqxCheckBoxCumQe1'></div>
+                                    <div class="ecb-qe-factor-title-row">
+                                        <span class="ecb-qe-factor-title">ECB CUMULATIVE sovereign<br>bond QE</span>
+                                    </div>
+                                </div>
+
+                                <div class="ecb-qe-factor-option">
+                                    <div class="ecb-qe-factor-checkbox" id='jqxCheckBoxCumQe2'></div>
+                                    <div class="ecb-qe-factor-title-row">
+                                        <span class="ecb-qe-factor-title">ECB CUMULATIVE corporate<br>bonds QE</span>
+                                    </div>
+                                </div>
+
+                                <div class="ecb-qe-factor-option">
+                                    <div class="ecb-qe-factor-checkbox" id='jqxCheckBoxCumQe1Qe2'></div>
+                                    <div class="ecb-qe-factor-title-row">
+                                        <span class="ecb-qe-factor-title">ECB CUMULATIVE<br>QE</span>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            <div class="row mb-2 ecb-qe-filter-actions">
+                                <div class='col-12 d-flex justify-content-start'>
+                                    <input aria-expanded="true"
+                                           aria-controls="collapseFilter"
+                                           class="btn btn-primary mr-1 mb-1"
+                                           style="color:white;"
+                                           type="button"
+                                           id="show"
+                                           value="Show" />
+                                    <input id="Clearfilter"
+                                           type="button"
+                                           class="btn btn-light-secondary mr-1 mb-1"
+                                           value="Clear" />
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <div id="grid-content" style="display:none;">
 				 
 				    <div class="row">
 				       <div class="row col-12">
@@ -200,6 +301,37 @@
 						 		<div id="SubChart2" class="chart-box"></div>
 						 	</div>
 						 </div>
+						  <div class=" ml-4 col-9  justify-content-center"  id="scaleManagement" style="min-width: 1100px;max-width: 1100px;">
+											     <div id="split" class="d-flex justify-content-center">
+												    <div class="d-flex">
+												     
+												      <!-- Pill Toggle -->
+														<div class="segmented d-flex"
+														     aria-label="Scale toggle"
+														     role="group">
+														
+														    <button type="button"
+														            class="seg-btn active"
+														            data-value="1scale"
+														            aria-pressed="true"
+														            onclick="globalChartScaleOption('1scale')">
+														        <i class="icon-1-scale"></i>
+														        <span>1-SCALE</span>
+														    </button>
+														
+														    <button type="button"
+														            class="seg-btn"
+														            data-value="2scale"
+														            aria-pressed="false"
+														            onclick="globalChartScaleOption('2scale')">
+														        <i class="icon-2-scale"></i>
+														        <span>2-SCALE</span>
+														    </button>
+														
+														</div>
+						   						   		</div>
+											      </div>
+											  </div>
 					 	  <div th:include="${chartNav}"></div>
 
 					  </div>

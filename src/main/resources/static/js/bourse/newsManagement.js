@@ -216,15 +216,18 @@
 		                robotsValue=filters[j].value;
 		         }
 		     }
-		      gridsource.url='/admin/getfilterednews?assetId='+activeAssetId+'&robots='+robotsValue+'&generationDate='+dateValue+'&template='+templateValue+'&pageNo=0&pageSize='+pageSize;
+		      gridsource.url='/admin/getfilterednews?assetId='+encodeURIComponent(activeAssetId)
+	          +'&robots='+encodeURIComponent(robotsValue)
+	          +'&generationDate='+encodeURIComponent(dateValue)
+	          +'&template='+encodeURIComponent(templateValue)
+	          +'&pageNo=0&pageSize='+encodeURIComponent(pageSize);
 					          var dataAdapter = new $.jqx.dataAdapter(gridsource);
 					          $("#grid").jqxGrid({source:dataAdapter, 
 					           rendergridrows: function () {
 				                return dataAdapter.records;
 				                },
 				             });
-		     
-		  
+
  });
 	  $(".sortable").sortable({
         update: function(event, ui) {
@@ -287,7 +290,7 @@
 	  $("#publishNewsButton").jqxButton({  theme:'dark', width: 120, height: 30 });
      
       $('#newsTabs').on('buttonclick', function () { 
-	   value= $('#newsTabs').jqxButtonGroup('getSelection');
+	   var value = $('#newsTabs').jqxButtonGroup('getSelection');
 		  if (value==0)
 		  {
 			    $("#newsGrid").css("display","block");
@@ -306,8 +309,7 @@
 			}
 			
 		});
-		
-		  
+
 	  $("#save").jqxButton({  theme:'dark', width: 110, height: 35,template: "success"});
 	  $("#save").click(function () {
 	  // var data = getListOrder();
@@ -322,7 +324,7 @@
   	        url: "/admin/updatenewsorder/",
   	        data: JSON.stringify(data),
   	        dataType: 'json',
-  	        async:false,
+  	        async:true,
   	        cache: false,
   	        timeout: 600000,
   	        success: function (data) {
@@ -337,8 +339,7 @@
 
   	        }
   	    });
-		 
-		   
+
 		  });
 		var fields = [
           { name: "id", map: "id", type: "string" },
@@ -391,11 +392,10 @@
   function Update(row, event) {
 	 
 	   isupdate=true;
-	   var updatedData = $("#grid").jqxGrid('getrowdata', row);
 	   selectedRow.editrow = -1;
 	    $("#grid").jqxGrid('endrowedit', row);
 	    var updatedData = $("#grid").jqxGrid('getrowdata', row);
-	    var row = {
+	    var requestData = {
 	    		   "id":updatedData.id,
 				   "template":updatedData.template,
 				   "columnDescription":updatedData.columnDescription,
@@ -412,7 +412,7 @@
   	    	        type: "POST",
   	    	        contentType: "application/json",
   	    	        url: "/admin/updatenewsbyid",
-  	    	        data: JSON.stringify(row),
+  	    	        data: JSON.stringify(requestData),
   	    	        dataType: 'json',
   	    	        async:true,
   	    	        cache: false,
@@ -421,8 +421,7 @@
   	    	        	
   	    	           $("#notificationContent").html('Data has been updated');
   	                   $("#jqxNotification").jqxNotification("open");
-  	                
-  	    	        
+
   	   },
   	    	        error: function (e) {
   	    	        	
@@ -488,8 +487,7 @@
  				   "isVisible":"1",
  				   "assetId":updatedData.assetId
 	    };
-		
-	   
+
  	       	  $.ajax({
  	    	        type: "POST",
  	    	        contentType: "application/json",
@@ -718,7 +716,6 @@
 	});
  
   $("#triggerRobotButton").click(function () {
-	  
 
    $.ajax({
 	        contentType: "application/json",
@@ -840,7 +837,7 @@
 	
 	function showSelectedAsset(assetId){
 		activeAssetId=assetId;
-		value= $('#newsTabs').jqxButtonGroup('getSelection');
+		var value = $('#newsTabs').jqxButtonGroup('getSelection');
 		 if (value==0)
 			{   
 				  gridsource.url='/admin/getunpublishednews/'+activeAssetId+'/0/'+pageSize;
@@ -860,8 +857,8 @@
 			}
 	}
 	 function getListOrder() {
-	    data = [];
-	    listOfId = [];
+	    var data = [];
+	    var listOfId = [];
 	 
 	       var list = document.getElementById("kanban1-column-container-0").childNodes;
 	       var listLength = list.length;
@@ -869,8 +866,8 @@
 	       var counter=1;
 	          
 	       for(var i=0; i<listLength; i++){
-	    	    ids = {};
-	            item = {};
+	    	    var ids = {};
+	            var item = {};
 	            ids = list.item(i).id.split("_")[1];
 	             // item ["id"] = list.item(i).id.split("_")[1];
 	            item ["robotCode"] = list.item(i).outerText;

@@ -35,5 +35,8 @@ public class FunctionsService
 
 		return functionsRepository.findByGroupId(Long.valueOf(groupId), subGroup);
 	}
+	public List<FunctionDTO> getFunctionsByGroupId(String assetId) {
 
+		return functionsRepository.findByAssetId(Long.valueOf(assetId));
+	}
 }

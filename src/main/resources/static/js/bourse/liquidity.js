@@ -1517,7 +1517,7 @@
 
             $("#usBanksReserveThresholdLastUpdated").text(
                 response.lastUpdated
-                    ? "Last Updated: " + response.lastUpdated
+                    ? "Last Updated: " + response.lastUpdated.split(' ')[0].replace(/-/g, ' ')
                     : "Last Updated: -"
             );
         },

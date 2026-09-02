@@ -1,9 +1,14 @@
 
+// COMBINED ECB VIEW:
+// The ECB Balance Sheet uses the existing shared mapping (GroupId 84 / subGroupId 1).
+// ECB Excess Liquidity uses GroupId 14. The shared getGraphData() method already
+// supports comparing two different groups in one chart.
 var allitems=[ "#jqxCheckBoxExcess1",
  			   "#jqxCheckBoxExcess2",
  			   "#jqxCheckBoxExcess3",
  			   "#jqxCheckBoxExcess4",
- 			   "#jqxCheckBoxExcess1Excess2Excess3Excess4",]; 		
+ 			   "#jqxCheckBoxExcess1Excess2Excess3Excess4",
+ 			   "#jqxCheckBoxEcb_balance_sheet"]; 		
  			   
 const graphName="ecbExcessLiquidity";
 var graphService = "liquidity";
@@ -21,6 +26,8 @@ $(document).ready(function() {
 	 initializeFunctions(14);
 	 
 	 initializeNavigationButtons();
+	 // Allow two selections so ECB Liquidity can be compared directly
+	 // with the ECB Balance Sheet on the same chart.
 	 initialiazeItems(allitems,2);
 	 initialiazeClearFilterButton();
 	 initializeShowFilterButton();

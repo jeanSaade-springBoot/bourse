@@ -34,4 +34,22 @@ public interface FunctionsRepository extends JpaRepository<Functions, Long> {
 		)
 	public List<FunctionDTO> findByGroupId(@Param("groupId") Long groupId, @Param("subgroupId") Long subgroupId);
 	
+	
+	@Query(
+		    "select distinct new com.bourse.dto.FunctionDTO( " +
+		    "    fnc.id, fnc.description, fnc.functionCode, " +
+		    "    fnc.groupId, fg.groupName " +
+		    ") " +
+		    "from Functions fnc " +
+		    "join FunctionAsset fa on fnc.id = fa.functionId " +
+		    "join FunctionGroup fg on fnc.groupId = fg.id " +
+		    "join AssetClass ac on ac.id = fa.assetClassId " +
+		    "join Groups g on ac.id = g.assetId " +
+		    "where g.id = :assetId " +
+		    "order by fnc.id asc"
+		)
+		public List<FunctionDTO> findByAssetId(
+		    @Param("assetId") Long assetId
+		);
+	
 }

@@ -46,7 +46,7 @@ $(document).ready(function() {
 	  
 	getGraphHistoryByScreenName(graphName);
 	
-	$("#all30yr").jqxButton({ theme: 'dark', height: 22, width: 74, template: "danger" });
+	/*$("#all30yr").jqxButton({ theme: 'dark', height: 22, width: 74, template: "danger" });
 	$("#all10yr").jqxButton({ theme: 'dark', height: 22, width: 74, template: "danger" });
 	$("#all5yr").jqxButton({ theme: 'dark', height: 22, width: 74, template: "danger" });
 	$("#all2yr").jqxButton({ theme: 'dark', height: 22, width: 74, template: "danger" });
@@ -71,7 +71,7 @@ $(document).ready(function() {
 		initialiazeAllButtons();
 		Items = "all2yr";
 		drawGraph();
-	});
+	});*/
 
 
 });

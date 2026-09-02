@@ -124,7 +124,13 @@ public class AdminController {
 		public ResponseEntity<List<FunctionDTO>> getFunctions(  @PathVariable String groupId, @RequestParam(required = false) String subgroupId) {
 
 		    return new ResponseEntity<>(functionsService.getFunctionsByGroupId(groupId, subgroupId),  HttpStatus.OK);
-		}
+	}
+	@GetMapping(value = "getfunctionssettings/{assetId}",produces = "application/json;charset=UTF-8")
+	public ResponseEntity<List<FunctionDTO>> getFunctionsSettings(  @PathVariable String assetId) {
+
+	    return new ResponseEntity<>(functionsService.getFunctionsByGroupId(assetId),  HttpStatus.OK);
+	}
+	
 	@GetMapping(value = "getsubgroupsbygroup/{groupId}", produces = "application/json;charset=UTF-8")
     public  ResponseEntity<List<SubGroup>>  getSubGroupsByGroupId(@PathVariable String groupId){
 		return new ResponseEntity<>(subGroupService.getSubGroupsByGroupId(groupId), HttpStatus.OK);

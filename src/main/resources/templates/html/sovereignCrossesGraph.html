@@ -343,6 +343,37 @@
 													<div class="col-11">
 														<div id="mainChart" class="chart-box col-12"
 															style="min-height: 365px; height: 569px; min-width: 1100px; max-width: 1100px; float: inline-end;"></div>
+																												 <div class=" ml-4 col-9  justify-content-center"  id="scaleManagement" style="min-width: 1100px;max-width: 1100px;">
+																 <div id="split" class="d-flex justify-content-center">
+																	<div class="d-flex">
+																	 
+																	  <!-- Pill Toggle -->
+																		<div class="segmented d-flex"
+																			 aria-label="Scale toggle"
+																			 role="group">
+																		
+																			<button type="button"
+																					class="seg-btn active"
+																					data-value="1scale"
+																					aria-pressed="true"
+																					onclick="globalChartScaleOption('1scale')">
+																				<i class="icon-1-scale"></i>
+																				<span>1-SCALE</span>
+																			</button>
+																		
+																			<button type="button"
+																					class="seg-btn"
+																					data-value="2scale"
+																					aria-pressed="false"
+																					onclick="globalChartScaleOption('2scale')">
+																				<i class="icon-2-scale"></i>
+																				<span>2-SCALE</span>
+																			</button>
+																		
+																		</div>
+																		</div>
+																  </div>
+															  </div>
 														<div th:include="${chartNav}"></div>
 													</div>
 

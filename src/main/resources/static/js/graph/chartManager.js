@@ -846,11 +846,76 @@ this.chart.updateOptions({
 	      ? formatNumberShort(yVal, fmt.digits)
 	      : yVal.toFixed(fmt.digits);
 	
-	    const color = w.globals.colors?.[i] || '#ccc';
-	
+	    // FIX: Resolve the visible series color for the custom combined tooltip.
+	    // Graph 3 uses function-based colors and separate stroke colors for line series,
+	    // so relying only on w.globals.colors can lose the actual rendered color.
+	    const resolveTooltipSeriesColor = (seriesConfig, index, value) => {
+	      const context = {
+	        value,
+	        seriesIndex: index,
+	        dataPointIndex,
+	        w
+	      };
+
+	      const resolveCandidate = (candidate) => {
+	        if (typeof candidate === 'function') {
+	          try {
+	            const resolved = candidate(context);
+	            return (typeof resolved === 'string' && resolved.trim() !== '')
+	              ? resolved
+	              : null;
+	          } catch (e) {
+	            return null;
+	          }
+	        }
+
+	        return (typeof candidate === 'string' && candidate.trim() !== '')
+	          ? candidate
+	          : null;
+	      };
+
+	      const isLineLike = seriesConfig?.type === 'line' || seriesConfig?.type === 'area';
+
+	      // For line/area series, the visible color is normally the stroke color.
+	      // For columns, the visible color is normally the fill/series color.
+	      const candidates = isLineLike
+	        ? [
+	            this.state?.seriesStrokesColors?.[index],
+	            w.config?.stroke?.colors?.[index],
+	            this.state?.seriesColors?.[index],
+	            w.config?.colors?.[index],
+	            w.globals?.colors?.[index]
+	          ]
+	        : [
+	            this.state?.seriesColors?.[index],
+	            w.config?.colors?.[index],
+	            this.state?.seriesStrokesColors?.[index],
+	            w.config?.stroke?.colors?.[index],
+	            w.globals?.colors?.[index]
+	          ];
+
+	      for (const candidate of candidates) {
+	        const resolved = resolveCandidate(candidate);
+	        if (resolved) return resolved;
+	      }
+
+	      return '#6c757d';
+	    };
+
+	    const color = resolveTooltipSeriesColor(s, i, yVal);
+
+	    // FIX:
+	    // Render the series marker as inline SVG instead of relying on ApexCharts'
+	    // tooltip marker/CSS. Graph 3 uses a custom shared tooltip and its page CSS can
+	    // suppress or recolor normal span markers. The SVG fill is bound directly to
+	    // the resolved rendered series color and does not affect chart behaviour.
 	    html += `
-	      <div style="display: flex; align-items: center; gap: 6px; margin-bottom: 4px;">
-	        <span style="display: inline-block; width: 10px; height: 10px; background-color: ${color}; border-radius: 50%;"></span>
+	      <div style="display:flex; align-items:center; gap:6px; margin-bottom:4px;">
+	        <svg aria-hidden="true"
+	             width="10" height="10" viewBox="0 0 10 10"
+	             style="display:block; flex:0 0 10px; min-width:10px; overflow:visible;">
+	          <circle cx="5" cy="5" r="4" fill="${color}"></circle>
+	        </svg>
 	        <div><strong>${s.name}:</strong> ${fmt.isPercentage ? val + "%" : val}</div>
 	      </div>`;
 	  });
@@ -1203,6 +1268,23 @@ async navigate(direction) {
 			this.applyDbConfig(resp[0].config);
 		}
 		this.state.functionId = dataParam?.functionId ?? -1;
+		
+		    // Moving Average default presentation on every screen.
+        // Moving Average functions arrive here as functionId 1 or 2.
+        // Keep the Moving Average/function series unchanged and default only
+        // the ORIGINAL (first) series to Area + Gold.
+        const movingAverageFunctionIds = String(this.state.functionId).split(',').map(value => Number(value.trim())).filter(value => !Number.isNaN(value));
+        const isMovingAverage = movingAverageFunctionIds.some(id => id === 1 || id === 2);
+        const originalSeriesType = seriesTypes?.[0] || resp?.[0]?.config?.chartType || this.state.chartType;
+        const isCandlestickMode = originalSeriesType === 'candlestick' || dataParam?.candlestickMode === true;
+        // Do not override the original series while the chart is in candlestick mode.
+        if (isMovingAverage && resp.length > 1 && !isCandlestickMode) {
+            seriesTypes = [...seriesTypes];
+            seriesColors = [...seriesColors];
+            seriesTypes[0] = 'area';
+            seriesColors[0] = 'rgba(240, 171, 46, 0.5)';
+        }
+		
 		this.state.currency=currency;
 		this.state.combineTooltips=combineTooltips;
 		this.state.seriesSides = seriesSides;
@@ -1253,20 +1335,27 @@ async navigate(direction) {
 		this.state.seriesColors = seriesColors.length ? seriesColors : [this.state.color];
 	    this.state.seriesStrokesColors = seriesStrokesColors;
 
+		// Preserve both parts of the database format independently:
+		// decimal precision (e.g. 4 for 0.0000) and whether '%' must be shown.
+		// Previously the second value was stored as `isRaw`, while the Y-axis
+		// formatter reads `isPercentage`, causing the decimal places to work
+		// but the percentage symbol to be lost, especially on secondary axes.
 		this.state.seriesFormats = resp.map((r, idx) => {
-			const [digits, isRaw] = getFormat(r.config?.yAxisFormat || '');
+			const [digits, isPercentage] = this.getValueFormat(r.config?.yAxisFormat || '');
 			return {
 				digits,
-				isRaw,
+				isPercentage,
 				useShortFormat: useShortFormatList[idx] ?? false
 			};
 		});
 
+		// Apply the same normalization to tooltip formats so DB formats like
+		// 0.00% display consistently in both Y-axis labels and tooltips.
 		this.state.seriesTooltipFormats = resp.map((r, idx) => {
-			const [digits, isRaw] = getFormat(r.config?.dataFormat || '');
+			const [digits, isPercentage] = this.getValueFormat(r.config?.dataFormat || '');
 			return {
 				digits,
-				isRaw,
+				isPercentage,
 				useShortFormat: useShortFormatList[idx] ?? false
 			};
 		});
@@ -1538,7 +1627,7 @@ async navigate(direction) {
 				if (isCandle) return Number(val).toFixed(fmt.digits);
 
 				const digits = fmt.digits ?? 2;
-				const isPercentage = fmt.isPercentage ?? fmt[1];
+				const isPercentage = fmt.isPercentage ?? false;
 
 				try {
 					return isPercentage
@@ -1603,7 +1692,16 @@ shouldShowYAxis(sideGroup, index) {
 		$("#dropDownFunctions").jqxDropDownList({ disabled: false });
 		const allItems = chartStates[`chart${id}`].allItems;
 		const timeRange = getActiveTimeRange();
-		let autoCheckedIndexes = [5, 8]; // default crypto behavior
+		
+		 let autoCheckedIndexes = [5, 8]; // preserve existing crypto behavior
+        // Long-End screens only: when Chart 1 is switched from Candlestick
+        // back to the normal chart, default to ROLLING -> CLOSE.
+        const longEndRollingCloseScreens = ['BUNDSAnalisys', 'BOBLSAnalisys', 'SHATZAnalisys', 'BUXLAnalisys', 'OATAnalisys', 'BTPAnalisys', 'GILTSAnalisys', 'TNOTESAnalisys', 'TBONDSAnalisys'];
+        const useLongEndRollingCloseDefault = Number(id) === 1 && longEndRollingCloseScreens.includes(screenName);
+        if (useLongEndRollingCloseDefault) {
+            autoCheckedIndexes = [4];
+        }
+        
 		if (screenName === 'GOLDAnalisys') {
 		    autoCheckedIndexes = [1];
 		}
@@ -1643,11 +1741,8 @@ shouldShowYAxis(sideGroup, index) {
 			if($(`#btn-checkboxes-container-chart-${id}`).attr('aria-expanded') === 'true')
 			    			$(`#checkboxes-main-container-chart-${id}`).show();
 			    	
-			allItems.forEach(itemId => {
-				const shouldCheck = autoCheckedIndexes.some(index =>
-			        itemId.includes(`-${index}-`)
-			    );
-			
+		 allItems.forEach(itemId => {
+                const shouldCheck = useLongEndRollingCloseDefault ? itemId.includes(`-${rollingGroupId}-4-chart-${id}`) : autoCheckedIndexes.some(index => itemId.includes(`-${index}-`));
 			    if (shouldCheck) {
 			
 			        // preserve old crypto behavior

@@ -188,12 +188,7 @@
 								aria-controls="nav-corporateliquidity" aria-selected="false">Corporate
 								Liquidity</a> 
 					<a sec:authorize="hasAuthority('US_BANKS_RESERVE_GRAPH_SCREEN')" class="navigation nav-item nav-link active" id="nav-usBanksReserve-tab"  href="/bourse/fedliquidity" role="tab" aria-controls="nav-usBanksReserve" aria-selected="false">FED liquidity</a>
-								<a
-								sec:authorize="hasAuthority('ECB_BALANCE_SHEET_GRAPH_SCREEN')"
-								class="navigation nav-item nav-link "
-								id="nav-ecbBalanceSheet-tab" href="/bourse/ecbbalancesheet"
-								role="tab" aria-controls="nav-ecbBalanceSheet"
-								aria-selected="false">ECB Balance Sheet</a> 					 
+											 
  								<a
 								sec:authorize="hasAuthority('EZMM_LIQUIDITY_GRAPH_SCREEN')"
 								class="navigation nav-item nav-link  " id="nav-ezmmliquidity-tab"
@@ -217,17 +212,10 @@
 									aria-labelledby="nav-home-tab">...</div>
 								<div class="tab-pane fade active show" id="nav-profile"
 									role="tabpanel" aria-labelledby="nav-profile-tab">
-									<p class="mt-2" style="margin-bottom: .5rem;">
-										<a class="btn select" data-toggle="collapse"
-											href="#collapseFilter" role="button" aria-expanded="false"
-											aria-controls="collapseFilter">Select Factors <img
-											style="width: 12px; margin-left: .6rem;"
-											id="ContentPlaceHolder1_Image13" th:src="@{/img/down.png}"
-											align="absmiddle"></a>
-									</p>
+									<!-- UI CHANGE: factor options are permanently visible. -->
 									<div class="row">
 										<div class="col">
-											<div class="collapse multi-collapse" id="collapseFilter">
+											<div id="collapseFilter">
 												<div class="row mb-3">
 
 														<div class="col-4 pl-0 d-flex align-items-center">
@@ -265,14 +253,14 @@
 														</div>
 													</div>
 												</div>
-												<div class="row"
-													style="position: absolute; top: -41px; right: .5rem;">
-													<div class='col-12 d-flex justify-content-end'>
+												<!-- UI CHANGE: Show/Clear use normal flow and are aligned left. -->
+												<div class="row mb-2">
+													<div class='col-12 d-flex justify-content-start'>
 														<input aria-expanded="true" aria-controls="collapseFilter"
 															class="btn btn-primary mr-1 mb-1" style="color: white;"
 															type="button" id="show" value="Show" /> <input
 															id="Clearfilter" type="button"
-															style="margin-right: 1rem !important;"
+															
 															class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
 													</div>
 												</div>
@@ -357,7 +345,37 @@
 																<div id="SubChart2" class="chart-box"></div>
 															</div>
 														</div>
-
+		 									<div class=" ml-4 col-9  justify-content-center"  id="scaleManagement" style="min-width: 1100px;max-width: 1100px;">
+											     <div id="split" class="d-flex justify-content-center">
+												    <div class="d-flex">
+												     
+												      <!-- Pill Toggle -->
+														<div class="segmented d-flex"
+														     aria-label="Scale toggle"
+														     role="group">
+														
+														    <button type="button"
+														            class="seg-btn active"
+														            data-value="1scale"
+														            aria-pressed="true"
+														            onclick="globalChartScaleOption('1scale')">
+														        <i class="icon-1-scale"></i>
+														        <span>1-SCALE</span>
+														    </button>
+														
+														    <button type="button"
+														            class="seg-btn"
+														            data-value="2scale"
+														            aria-pressed="false"
+														            onclick="globalChartScaleOption('2scale')">
+														        <i class="icon-2-scale"></i>
+														        <span>2-SCALE</span>
+														    </button>
+														
+														</div>
+						   						   		</div>
+											      </div>
+											  </div>
 														<div th:include="${chartNav}"></div>
 
 													</div>
