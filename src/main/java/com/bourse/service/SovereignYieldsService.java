@@ -926,6 +926,27 @@ public class SovereignYieldsService
 			
 			functionQuery.registerStoredProcedureParameter("type", String.class, ParameterMode.IN);
 			functionQuery.setParameter("type","0");
+			
+			System.out.println("========== calculation_graph_main FUNCTION CALL ==========");
+			System.out.println("YieldCurveCross = [" + graphReqDTO.getYieldCurveCross1() + "]");
+			System.out.println("fromDate        = [" + graphReqDTO.getFromdate() + "]");
+			System.out.println("toDate          = [" + graphReqDTO.getTodate() + "]");
+			System.out.println("factor          = [" + graphReqDTO.getFactor1() + "]");
+			System.out.println("country         = [" + graphReqDTO.getCountry1() + "]");
+			System.out.println("dayOrweek       = [d]");
+			System.out.println("isFunction      = [" + graphReqDTO.getIsFunctionGraph() + "]");
+			System.out.println("functionId      = [" + graphReqDTO.getFunctionId() + "]");
+			System.out.println("functionCode    = [" +
+			        FunctionEnum.getFunctionByID(
+			                graphReqDTO.getFunctionId().isEmpty()
+			                        ? 0
+			                        : Integer.valueOf(graphReqDTO.getFunctionId())
+			        ) + "]");
+			System.out.println("minusfactor     = [" + graphReqDTO.getFactor1() + "]");
+			System.out.println("minuscountry    = [" + graphReqDTO.getFactor1() + "]");
+			System.out.println("type            = [0]");
+			System.out.println("===========================================================");
+
 			functionQuery.execute();
 			
 			

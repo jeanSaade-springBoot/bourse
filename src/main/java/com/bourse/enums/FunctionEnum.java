@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public enum FunctionEnum {
-
+	FIFTY_DAY_MOVING_AVERAGE(76,"50D","50D moving average"),
     ONE_HUNDRED_DAY_MOVING_AVERAGE(1,"100D","100D moving average"),
     TWO_HUNDRED_DAY_MOVING_AVERAGE(2,"200D","200D moving average"),
     DAILY_CHANGE_IN_PERCENTAGE(3,"DCP","Daily Change In %"),

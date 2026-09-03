@@ -285,6 +285,10 @@ public class DataFunctionService {
 			     data1=getDataFormatValues(groupId,subgroupId,factor,"0");
 		    
 		for (int i = 0; i < dataFunctionReqDTO.getFunctions().length; i++) {
+			if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("50D"))
+			{
+			    functionData.add(getDataFormatValues(groupId,subgroupId,factor,"76"));
+			}else
 			if(dataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("100D"))
 			{
 				functionData.add(getDataFormatValues(groupId,subgroupId,factor,"1"));
@@ -329,6 +333,14 @@ public class DataFunctionService {
 			data1=getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"0");
 			
 				for (int i = 0; i < GenericDataFunctionReqDTO.getFunctions().length; i++) {
+					if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("50D"))
+					{
+					    functionData.add(getDataFormatValues(
+					        GenericDataFunctionReqDTO.getGroupId(),
+					        GenericDataFunctionReqDTO.getSubgroupId(),
+					        factor,
+					        "76"));
+					}else
 					if(GenericDataFunctionReqDTO.getFunctions()[i].equalsIgnoreCase("100D"))
 					{
 						functionData.add(getDataFormatValues(GenericDataFunctionReqDTO.getGroupId(),GenericDataFunctionReqDTO.getSubgroupId(),factor,"1"));
