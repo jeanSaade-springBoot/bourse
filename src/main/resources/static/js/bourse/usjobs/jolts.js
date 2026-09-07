@@ -5,11 +5,6 @@ var graphService = "usjobs";
 const removeEmpty = true;
 mode = "usjobs";
 let selectedChart = 0;
-// JOLTS Chart 1 has its own mixed column/line chart configuration.
-// Keep its 1-SCALE / 2-SCALES state local so changing the scale only
-// updates the Y-axis and never rebuilds the series or X-axis padding.
-let joltsOneScaleYAxis = null;
-let joltsTwoScaleYAxis = null;
 $(window).on('load', function() {
     $('#overlay').fadeOut();
     $('#nav-tabContent').show();
@@ -21,7 +16,7 @@ $(document).ready(function() {
     initializeFunctions(77);
     initializeNavigationButtons();
     initializeChartButtons();
-    syncJoltsScaleManagementVisibility();
+    $("#scaleManagement").removeClass("d-flex").addClass("d-none");
     initialiazeItems(allitems, 3);
     initialiazeClearFilterButton();
     $("#show").on("mousedown", function() {
@@ -43,19 +38,16 @@ function initializeChartButtons() {
     $("#g1-btn").on("click", function() {
         selectedChart = 1;
         setActiveJoltsButton(this);
-        syncJoltsScaleManagementVisibility();
         drawGraph();
     });
     $("#g2-btn").on("click", function() {
         selectedChart = 2;
         setActiveJoltsButton(this);
-        syncJoltsScaleManagementVisibility();
         drawGraph();
     });
     $("#g3-btn").on("click", function() {
         selectedChart = 3;
         setActiveJoltsButton(this);
-        syncJoltsScaleManagementVisibility();
         drawGraph();
     });
 }
@@ -63,51 +55,6 @@ function initializeChartButtons() {
 function setActiveJoltsButton(button) {
     $("#g1-btn, #g2-btn, #g3-btn").removeClass("active");
     $(button).addClass("active");
-}
-
-function syncJoltsScaleManagementVisibility() {
-    const $scaleManagement = $("#scaleManagement");
-    if ($scaleManagement.length === 0) return;
-    if (selectedChart === 1) {
-        $scaleManagement.removeClass("d-none").addClass("d-flex");
-    } else {
-        $scaleManagement.removeClass("d-flex").addClass("d-none");
-    }
-}
-
-function getJoltsActiveScale() {
-    const value = String($("#scaleManagement .seg-btn.active").data("value") || "1scale").toLowerCase();
-    return value === "2scale" ? "2scale" : "1scale";
-}
-
-function syncJoltsScaleButtons(selectedChartScale) {
-    const normalizedScale = String(selectedChartScale || "1scale").toLowerCase() === "2scale" ? "2scale" : "1scale";
-    $("#scaleManagement .seg-btn").removeClass("active").attr("aria-pressed", "false");
-    $("#scaleManagement .seg-btn[data-value='" + normalizedScale + "']").addClass("active").attr("aria-pressed", "true");
-}
-
-function joltsChartScaleOption(selectedChartScale) {
-    if (selectedChart !== 1) {
-        syncJoltsScaleManagementVisibility();
-        return;
-    }
-    const normalizedScale = String(selectedChartScale || "1scale").toLowerCase() === "2scale" ? "2scale" : "1scale";
-    syncJoltsScaleButtons(normalizedScale);
-    // Keep the shared state synchronized for compatibility with the rest of the application,
-    // but the JOLTS chart itself uses the Y-axis definitions stored below.
-    if (typeof isOneScale !== "undefined") {
-        isOneScale = normalizedScale === "1scale";
-    } else {
-        window.isOneScale = normalizedScale === "1scale";
-    }
-    if (!chart) return;
-    const selectedYAxis = normalizedScale === "1scale" ? joltsOneScaleYAxis : joltsTwoScaleYAxis;
-    if (!selectedYAxis) return;
-    // IMPORTANT: update only the Y-axis. Do not touch series or xaxis;
-    // this preserves the mixed column/line presentation and right-side date spacing.
-    chart.updateOptions({
-        yaxis: selectedYAxis
-    });
 }
 
 function drawGraph() {
@@ -142,7 +89,6 @@ function redirectFunction(groupId) {
 function resetNavigation() {
     selectedChart = 0;
     $("#g1-btn, #g2-btn, #g3-btn").removeClass("active");
-    syncJoltsScaleManagementVisibility();
     drawGraph();
 }
 
@@ -358,40 +304,6 @@ function joltsJobOpeningsVsUnemployment(groupId) {
                     offsetY: 0
                 },
             }];
-            // Save the original two-axis configuration exactly as built by JOLTS.
-            joltsTwoScaleYAxis = yaxisArray;
-            // Build the JOLTS 1-SCALE configuration from the combined range of both
-            // visible series. Only the Y-axis changes; series and X-axis stay untouched.
-            const combinedMin = Math.min(min1, min2);
-            const combinedMax = Math.max(max1, max2);
-            const combinedMargin = addMarginToMinMax(combinedMin, combinedMax, 5);
-            let combinedCalculatedMin = Math.sign(combinedMin) == -1 ? -Math.abs(combinedMin) - combinedMargin : Math.abs(combinedMin) - combinedMargin;
-            combinedCalculatedMin = (combinedCalculatedMin < 0 && combinedMin >= 0) ? 0 : combinedCalculatedMin;
-            const combinedCalculatedMax = Math.sign(combinedMax) == -1 ? -Math.abs(combinedMax) + combinedMargin : Math.abs(combinedMax) + combinedMargin;
-            joltsOneScaleYAxis = [{
-                labels: {
-                    minWidth: 75,
-                    maxWidth: 75,
-                    style: {
-                        fontSize: fontsize,
-                        colors: ['#fff']
-                    },
-                    formatter: function(val) {
-                        if (val === null || val === undefined || isNaN(val)) return "";
-                        return Number(val).toFixed(yaxisformat0[0]);
-                    }
-                },
-                tickAmount: 6,
-                min: combinedCalculatedMin,
-                max: combinedCalculatedMax,
-                axisBorder: {
-                    width: 3,
-                    show: true,
-                    color: '#ffffff',
-                    offsetX: 0,
-                    offsetY: 0
-                }
-            }];
             let tooltipArray = {
                 x: {
                     show: false,
@@ -427,21 +339,28 @@ function joltsJobOpeningsVsUnemployment(groupId) {
                 },
                 markers: markersArray,
                 colors: colorArray,
-                yaxis: getJoltsActiveScale() === "2scale" ? joltsTwoScaleYAxis : joltsOneScaleYAxis,
+                yaxis: yaxisArray,
                 tooltip: tooltipArray,
             });
             disableChartFont(false);
             $('#overlayChart').hide();
             $("#mainChart-title").empty();
             const graphTitle = `
+
 			    <span style="color:#ffffff;font-weight:bold;">
+
 			        US JOBS OPENNINGS (in Million) vs
+
 			    </span>
+
 			    <span style="color:#ff0000;font-weight:bold;">
+
 			         UNEMPLOYMENT RATE
+
 			    </span>
+
 			`;
-            $("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 5px;left: 29%;height: 60px;background: #172568;" class="title-style"><img height="50" class="pr-2" src=\'' + getCountryImagePath('77')[0] + '\' >' + graphTitle + '</div>')
+             $("#mainChart-title").append('<div id="title-image" style="position: absolute;top: 5px;left: 29%;height: 60px;background: #172568;" class="title-style"><img height="50" class="pr-2" src=\'' + getCountryImagePath('77')[0] + '\' >' + graphTitle + '</div>')
         },
         error: function(e) {
             console.log("ERROR : ", e);

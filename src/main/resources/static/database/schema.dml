@@ -87378,4 +87378,122 @@ update column_configuration set chart_showgrid = 'true'  where id in (842, 841, 
 
 INSERT INTO `bourse`.`privilege` (`id`, `name`, `is_screen`) VALUES ('153', 'DELETE_MONTHLY_SCREEN', true);
 
+ INSERT INTO functions (
+    id,
+    description,
+    function_code,
+    group_id
+)
+VALUES (
+    76,
+    '50d',
+    'CaD8',
+    2
+);
+
+INSERT INTO function_asset
+(
+    id,
+    is_hidden,
+    asset_class_id,
+    function_id,
+    group_id,
+    subgroup_id
+)
+SELECT
+    (SELECT MAX(x.id) FROM function_asset x)
+        + ROW_NUMBER() OVER (ORDER BY asset_class_id),
+    is_hidden,
+    asset_class_id,
+    76,
+    group_id,
+    subgroup_id
+FROM function_asset
+WHERE function_id = 1;
+
+
+
+INSERT INTO `bourse`.`function_configuration`
+(
+    `id`,
+    `calculation_type`,
+    `data_format`,
+    `description`,
+    `display_description`,
+    `group_id`,
+    `start_date`,
+    `subgroup_id`,
+    `config_id`,
+    `function_id`,
+    `tick_value`,
+    `chart_type`,
+    `y_axis_format`,
+    `factor`,
+    `descwitoutfactor`,
+    `column_name`,
+    `data_min_increment`,
+    `chart_color`,
+    `chart_showgrid`,
+    `chart_size`,
+    `chart_transparency`,
+    `chartshow_markes`,
+    `exchange_link`,
+    `show_in_database`,
+    `show_in_news_graph`,
+    `currency`,
+    `column_code`
+)
+SELECT
+    @row_number := @row_number + 1 AS id,
+
+    'CALCULATED' as `calculation_type`,
+    fc.`data_format`,
+
+    fc.`description`,
+
+    CONCAT(fg.group_name, ' ', f.description) AS `display_description`,
+
+    fc.`group_id`,
+    fc.`start_date`,
+    fc.`subgroup_id`,
+    fc.`config_id`,
+
+    76 AS `function_id`,
+
+    fc.`tick_value`,
+    fc.`chart_type`,
+    fc.`y_axis_format`,
+    fc.`factor`,
+    fc.`descwitoutfactor`,
+    CONCAT(fg.group_name, ' ', f.description) AS `column_name`,
+    fc.`data_min_increment`,
+    fc.`chart_color`,
+    fc.`chart_showgrid`,
+    fc.`chart_size`,
+    fc.`chart_transparency`,
+    fc.`chartshow_markes`,
+    fc.`exchange_link`,
+    fc.`show_in_database`,
+    fc.`show_in_news_graph`,
+    fc.`currency`,
+    fc.`column_code`
+
+FROM `bourse`.`function_configuration` fc
+
+JOIN `bourse`.`functions` f
+    ON f.id = 76
+
+JOIN `bourse`.`function_groups` fg
+    ON f.group_id = fg.id
+
+CROSS JOIN
+(
+    SELECT @row_number := COALESCE(MAX(id), 0)
+    FROM `bourse`.`function_configuration`
+) AS init
+
+WHERE fc.function_id = 1;
+
+
+
  

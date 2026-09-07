@@ -1199,7 +1199,7 @@ function updateChartConfigurationUnified(SelectedchartType, selectedChartColor, 
                             (functionId >= 7 && functionId < 9) || barFunctionId.includes(functionId)) {
                             axis2.min = min2;
                             axis2.max = max2;
-                        } else if (![1, 2, 16, 17, 18, 19].includes(functionId)) {
+                        } else if (![1, 2, 16, 17, 18, 19, 76].includes(functionId)) {
                             const values = addMarginToMinMax(min2, max2, 5);
                             const selectedValue = Math.max(Math.abs(min2), Math.abs(max2));
                             axis2.min = -(selectedValue + values);
@@ -1262,7 +1262,7 @@ function updateChartConfigurationUnified(SelectedchartType, selectedChartColor, 
                             (functionId >= 7 && functionId < 9) || barFunctionId.includes(functionId)) {
                             axis2.min = min2;
                             axis2.max = max2;
-                        } else if (![1, 2, 16, 17, 18, 19].includes(functionId)) {
+                        } else if (![1, 2, 16, 17, 18, 19, 76].includes(functionId)) {
                             const values = addMarginToMinMax(min2, max2, 5);
                             const selectedValue = Math.max(Math.abs(min2), Math.abs(max2));
                             axis2.min = -(selectedValue + values);
@@ -1485,7 +1485,7 @@ function applyUnifiedScaleOnly() {
             if ((functionId >= 7 && functionId < 9) || barFunctionId.includes(functionId)) {
                 axis2.min = min2;
                 axis2.max = max2;
-            } else if (![1, 2, 16, 17, 18, 19].includes(functionId)) {
+            } else if (![1, 2, 16, 17, 18, 19, 76].includes(functionId)) {
                 const margin = addMarginToMinMax(min2, max2, 5);
                 const selectedValue = Math.max(Math.abs(min2), Math.abs(max2));
                 axis2.min = -(selectedValue + margin);

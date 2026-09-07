@@ -106,7 +106,7 @@ public class DataFunctionService {
 				query.setParameter("country",dataFunctionReqDTO.getCountry());
 				
 				query.registerStoredProcedureParameter("functionId", String.class, ParameterMode.IN);
-				query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByDesc(dataFunctionReqDTO.getFunctions()[i])));
+				query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByCode(dataFunctionReqDTO.getFunctions()[i])));
 				query.execute();
 				tableNames.add(getTableName(dataFunctionReqDTO.getYieldCurveCross(),dataFunctionReqDTO.getFactor(),dataFunctionReqDTO.getCountry(),dataFunctionReqDTO.getFunctions()[i]));
 			}
@@ -148,7 +148,7 @@ public class DataFunctionService {
 			query.setParameter("factorInput",factorInput);
 			
 			query.registerStoredProcedureParameter("functionId", String.class, ParameterMode.IN);
-			query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByDesc(dataFunctionReqDTO.getFunctions()[i])));
+			query.setParameter("functionId",String.valueOf(FunctionEnum.getFunctionIdByCode(dataFunctionReqDTO.getFunctions()[i])));
 			
 			query.registerStoredProcedureParameter("generatedTableName", String.class, ParameterMode.INOUT);
 			query.setParameter("generatedTableName",generatedTableName);

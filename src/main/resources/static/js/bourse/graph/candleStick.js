@@ -472,7 +472,17 @@
 					type: 'line',
 					data: response[1].graphResponseDTOLst
 				});
-				colorConfig = functionId == 0 ? ["#FFFFFF", "#FF0000"] : ["#FFFFFF", "#ffa4c5"];
+				let colorConfig;
+
+				if (functionId == 0) {
+					    colorConfig = ["#FFFFFF", "#FF0000"];   // 100D
+					} else if (functionId == 1) {
+					    colorConfig = ["#FFFFFF", "#ffa4c5"];   // 200D
+					} else if (functionId == 75) {
+					    colorConfig = ["#FFFFFF", "#ff7f7f"];   // 50D
+					} else {
+					    colorConfig = ["#FFFFFF", "#ffa4c5"];
+					}
 				strokeWidthConfig = [2, 2.25];
 				
 				yaxisConfig =[{

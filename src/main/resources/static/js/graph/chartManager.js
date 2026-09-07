@@ -1274,7 +1274,7 @@ async navigate(direction) {
         // Keep the Moving Average/function series unchanged and default only
         // the ORIGINAL (first) series to Area + Gold.
         const movingAverageFunctionIds = String(this.state.functionId).split(',').map(value => Number(value.trim())).filter(value => !Number.isNaN(value));
-        const isMovingAverage = movingAverageFunctionIds.some(id => id === 1 || id === 2);
+        const isMovingAverage = movingAverageFunctionIds.some(id => id === 1 || id === 2 || id === 76);
         const originalSeriesType = seriesTypes?.[0] || resp?.[0]?.config?.chartType || this.state.chartType;
         const isCandlestickMode = originalSeriesType === 'candlestick' || dataParam?.candlestickMode === true;
         // Do not override the original series while the chart is in candlestick mode.
@@ -1451,34 +1451,34 @@ async navigate(direction) {
 	    columnWidth = Math.max(minColumnWidth, Math.min(columnWidth, maxColumnWidth));
 	    return Math.round(columnWidth);
 	}
-	generateDynamicTitle(series, timeRange, chartId = 'chart1' , enableTimeLabel = true) {
-		const isShort = ChartManager.instances[chartId]._ishort;
-		const isCandlestick = series.some(s => s.type === 'candlestick');
-
-		if (!isCandlestick) { 
-			return isShort? series[0]?.name :  series.length > 1 ? series.map(s => s.name).join(' vs ') : series[0]?.name || 'Chart';
-		}
-
-		const mainCryptoLabel = $('#dropDownCryptoOptions').jqxDropDownList('getItemByValue', $('#dropDownCryptoOptions').val())?.label || mainLabel;
-
-		const timeLabel = enableTimeLabel?timeRange === "4h" ? "4-Hour"
-			: timeRange === "1w" ? "Weekly"
-				: "Daily":'';
-
-		const option = candleStickcheckboxOptions.find(
-		  c => c.index === ChartManager.instances[chartId]._lastDataParam.subGroupId2
-		);
-		const label = option?.label || '';
-		let secondaryLabel = '';
-
-		const labels = label
-
-		if (labels.length > 0) {
-			secondaryLabel = ` vs ${labels}`;
-		}
-
-		return `${mainCryptoLabel} ${timeLabel}${secondaryLabel}`;
-	}
+	generateDynamicTitle(series, timeRange, chartId = 'chart1', enableTimeLabel = true) {
+    const isShort = ChartManager.instances[chartId]._ishort;
+    const isCandlestick = series.some(s => s.type === 'candlestick');
+    if (!isCandlestick) {
+        return isShort ? series[0]?.name : series.length > 1 ? series.map(s => s.name).join(' vs ') : series[0]?.name || 'Chart';
+    }
+    const mainCryptoLabel = $('#dropDownCryptoOptions').jqxDropDownList('getItemByValue', $('#dropDownCryptoOptions').val())?.label || mainLabel;
+    const timeLabel = enableTimeLabel ? timeRange === "4h" ? "4-Hour" : timeRange === "1w" ? "Weekly" : "Daily" : '';
+    const option = candleStickcheckboxOptions.find(c => c.index === ChartManager.instances[chartId]._lastDataParam.subGroupId2);
+    const label = option?.label || '';
+    let secondaryLabel = '';
+    const labels = label;
+    if (labels.length > 0) {
+        secondaryLabel = ` vs ${labels}`;
+    }
+    const functionSeriesNames = series.filter(function(item) {
+        return item.type !== 'candlestick';
+    }).map(function(item) {
+        return item.name;
+    }).filter(function(name) {
+        return name !== null && name !== undefined && name !== '';
+    });
+    let functionLabel = '';
+    if (functionSeriesNames.length > 0) {
+        functionLabel = ` vs ${functionSeriesNames.join(' vs ')}`;
+    }
+    return `${mainCryptoLabel} ${timeLabel}${secondaryLabel}${functionLabel}`;
+}
 	alignMergeDataSets(data1, data2) {
 		const parseDate = (dateStr) => {
 			const [day, month, year] = dateStr.split('-');

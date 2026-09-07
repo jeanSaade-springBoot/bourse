@@ -1032,13 +1032,13 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				candlestickMode: true,
 				};
 				
-				const isFunctionLine = [1,2].includes(functionId);
+				const isFunctionLine = [1,2,76].includes(functionId);
 				const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
 				const isFunctionLineColumn = [7,8,9,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75].includes(functionId);
 				
 				let disableMarkers = false;
 				let markerSizeArray=[];
-				const excludedIds = [1,2,-1];
+				const excludedIds = [1, 2, 76, -1];
 				let useDualYAxis = !excludedIds.includes(functionId);
 				
 				let useShortFormatList= [false];
@@ -1067,7 +1067,10 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 						  seriesColors = ['#ffffff', '#FF0000'];
 						} else if (functionId === 2) {
 						  seriesColors = ['#ffffff', '#ffa4c5'];
+						} else if (functionId === 76) {
+						    seriesColors = ['#ffffff', '#ff7f7f'];
 						}
+												
 					    seriesTypes = ['candlestick', 'line'];
 					    isCentred.push(false);
 						disableMarkers = true;
@@ -1154,7 +1157,7 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 					params[`removeEmpty${index + 1}`] = false;
 				});
 				
-				const isFunctionLine = [1,2].includes(functionId);
+				const isFunctionLine = [1,2,76].includes(functionId);
 			    const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
 				const isFunctionLineColumn = [7,8,9,53,54,55,56,57,58,59,60,61,62,63,64,65,66,67,68,69,70,71,72,73,74,75].includes(functionId);
 				if (functionId != -1) {
@@ -1196,7 +1199,11 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				  seriesColors = ['#ffffff', '#FF0000'];
 				} else if (functionId === 2) {
 				  seriesColors = ['#ffffff', '#ffa4c5'];
-				} else if ([53,54,55,56,57,58].includes(functionId)){
+				}  
+				else if (functionId === 76) {
+					    seriesColors = ['#ffffff', '#ff7f7f'];
+				}
+				else if ([53,54,55,56,57,58].includes(functionId)){
 				  seriesColors = ['#ffffff', '#8aff8e'];
 				}else if ([59,60,61,62,63].includes(functionId)){
 				  seriesColors = ['#ffffff', '#8ae2ff'];
@@ -1225,7 +1232,7 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				      (t) => t.subGroupId === item.subGroupId && t.GroupId === item.GroupId
 				    )
 				);
-				const excludedIds = [1,2,-1];
+				const excludedIds = [1, 2, 76, -1];
 				
 				let useDualYAxis = (
 				   !excludedIds.includes(functionId) ||
@@ -1233,7 +1240,7 @@ async function loadChart1Data(manager,timeRange,saveHistory,chartId=1){
 				);
 				const useShortFormatList = sorted.map(m => (m.subGroupId === '5' || m.subGroupId === '6'));
 				
-				const disableMarkers = (functionId === 1 || functionId === 2) ? true : false;
+				const disableMarkers = (functionId === 1 || functionId === 2 || functionId === 76) ? true : false;
 				let markerSizeArray=(disableMarkers)?[1,0]:[];
 				let api = '';
 				if (timeRange == "Daily")
@@ -2207,38 +2214,42 @@ function loadfunctionGroupDropDown(data,loadAll) {
     });
 }
 function loadFunctionDropdown(data) {
-
+    var sortedData = data.slice();
+    sortedData.sort(function(a, b) {
+        if (a.groupId == 2 && b.groupId == 2) {
+            var movingAverageOrder = {
+                76: 1,
+                1: 2,
+                2: 3
+            };
+            var orderA = movingAverageOrder[a.id];
+            var orderB = movingAverageOrder[b.id];
+            if (orderA !== undefined && orderB !== undefined) {
+                return orderA - orderB;
+            }
+            if (orderA !== undefined) {
+                return -1;
+            }
+            if (orderB !== undefined) {
+                return 1;
+            }
+        }
+        return 0;
+    });
     var functionSource = {
         datatype: "json",
-        datafields: [
-            { name: 'id' },
-            { name: 'description' }
-        ],
-        localdata: data
+        datafields: [{
+            name: 'id'
+        }, {
+            name: 'description'
+        }],
+        localdata: sortedData
     };
-
     var functionAdapter = new $.jqx.dataAdapter(functionSource);
-
-    $("#dropDownFunctions").jqxDropDownList({
-        //dropDownHeight: 480,
-        source: functionAdapter,
-        placeHolder: " ",
-        displayMember: "description",
-        valueMember: "id",
-        theme: 'dark',
-        width: 90,
-        height: 40,
-        selectedIndex: -1,
-        autoDropDownHeight: true
-    });
-
-    // ✅ FIX: always open after binding
-    $("#dropDownFunctions")
-        .off('bindingComplete')
-        .on('bindingComplete', function () {
-           $(this).jqxDropDownList('open');
-        });
-}
+    $("#dropDownFunctions").jqxDropDownList({ dropDownHeight: 480, source: functionAdapter, placeHolder: " ", displayMember: "description", valueMember: "id", theme: 'dark', width: 90, height: 40, selectedIndex: -1, autoDropDownHeight: true }); 
+    // ✅ FIX: always open after binding 
+    $("#dropDownFunctions") .off('bindingComplete') .on('bindingComplete', function () { $(this).jqxDropDownList('open'); });
+     }
 function filterFunctions(groupId) {
 
     var filtered = allFunctions.filter(function (item) {

@@ -298,7 +298,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
     // Compute min/max from OHLC (flattened)
     let allValues = seriesValue[0].data.flatMap(item => item.y ? item.y.map(Number) : []);
-    if (functionId === 0 || functionId === 1) {
+    if (functionId === 0 || functionId === 1 || functionId === 75) {
         allValues = allValues.concat(seriesValue[1].data.map(item => Number(item.y)));
         }
 

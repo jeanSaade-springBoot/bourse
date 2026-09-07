@@ -814,7 +814,7 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				candlestickMode: true,
 				};
 				
-				const isFunctionLine = functionId === 1 || functionId === 2;
+				const isFunctionLine = functionId === 1 || functionId === 2 || functionId === 75;
 				const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
 				const isFunctionLineColumn = [7,8,9].includes(functionId);
 				
@@ -849,6 +849,8 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 						  seriesColors = ['#ffffff', '#FF0000'];
 						} else if (functionId === 2) {
 						  seriesColors = ['#ffffff', '#ffa4c5'];
+						}else if (functionId === 76) {
+						    seriesColors = ['#ffffff', '#ff7f7f'];
 						}
 					    seriesTypes = ['candlestick', 'line'];
 					    isCentred.push(false);
@@ -925,7 +927,7 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 					params[`removeEmpty${index + 1}`] = false;
 				});
 				
-				const isFunctionLine = functionId === 1 || functionId === 2;
+				const isFunctionLine = functionId === 1 || functionId === 2 || functionId ===76;
 			    const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
 				const isFunctionLineColumn = [7,8,9].includes(functionId);
 				if (functionId != -1) {
@@ -967,7 +969,11 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				  seriesColors = ['#ffffff', '#FF0000'];
 				} else if (functionId === 2) {
 				  seriesColors = ['#ffffff', '#ffa4c5'];
-				} else if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15 ].includes(functionId)) {
+				}
+				else if (functionId === 76) {
+				 seriesColors = ['#ffffff', '#ff7f7f'];
+				}
+				 else if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15 ].includes(functionId)) {
 				  seriesColors = ['#ffffff', '#ffa4c5'];
 				  applyTransparency=true;
 				} else if ([7,8,9].includes(functionId)) {
@@ -992,7 +998,7 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				);
 				const useShortFormatList = sorted.map(m => (m.subGroupId === '5' || m.subGroupId === '6'));
 				
-				const disableMarkers = (functionId === 1 || functionId === 2) ? true : false;
+				const disableMarkers = (functionId === 1 || functionId === 2 || functionId === 76) ? true : false;
 				let markerSizeArray=(disableMarkers)?[1,0]:[];
 				let api = '';
 				if (timeRange == "Daily")

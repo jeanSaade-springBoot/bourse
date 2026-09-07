@@ -1702,13 +1702,15 @@ function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate) {
         selectedChartColor == '#44546a' ? '#2e75b6' : selectedChartColor : '#44546a';
     const barFunctionId = [53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75];
     const dynamicColor = [53, 54, 55, 56, 57, 58].includes(chartConfigSettings.functionId) ? '#8aff8e' : [59, 60, 61, 62, 63].includes(chartConfigSettings.functionId) ? '#8ae2ff' : [64, 65, 66, 67, 68, 69].includes(chartConfigSettings.functionId) ? '#33ad02' : [70, 71, 72, 73, 74, 75].includes(chartConfigSettings.functionId) ? '#FFED4F' : '#00c9ff96';
-    if ([1, 2, 16, 17, 18, 19].includes(chartConfigSettings.functionId)) {
+    if ([1, 2, 16, 17, 18, 19, 76].includes(chartConfigSettings.functionId)) {
         let mva = "";
         if (chartConfigSettings.functionId === 1) {
             mva = "#FF0000"; // Red for functionId 1
         } else if (chartConfigSettings.functionId === 2) {
             mva = "#ffa4c5"; // Pink for functionId 2
-        } else if (chartConfigSettings.functionId === 16) {
+        } else if (chartConfigSettings.functionId === 76) {
+            mva = "#ff7f7f"; // Pink for functionId 2
+        }else if (chartConfigSettings.functionId === 16) {
             mva = "#1f77b4"; // Blue for functionId 16
         } else if (chartConfigSettings.functionId === 17) {
             mva = "#2ca02c"; // Green for functionId 17
@@ -3267,6 +3269,28 @@ function loadfunctionGroupDropDown(data, loadAll) {
 }
 
 function loadFunctionDropdown(data) {
+    var sortedData = data.slice();
+    sortedData.sort(function(a, b) {
+        if (a.groupId == 2 && b.groupId == 2) {
+            var movingAverageOrder = {
+                76: 1,
+                1: 2,
+                2: 3
+            };
+            var orderA = movingAverageOrder[a.id];
+            var orderB = movingAverageOrder[b.id];
+            if (orderA !== undefined && orderB !== undefined) {
+                return orderA - orderB;
+            }
+            if (orderA !== undefined) {
+                return -1;
+            }
+            if (orderB !== undefined) {
+                return 1;
+            }
+        }
+        return 0;
+    });
     var functionSource = {
         datatype: "json",
         datafields: [{
@@ -3274,26 +3298,13 @@ function loadFunctionDropdown(data) {
         }, {
             name: 'description'
         }],
-        localdata: data
+        localdata: sortedData
     };
     var functionAdapter = new $.jqx.dataAdapter(functionSource);
-    $("#dropDownFunctions").jqxDropDownList({
-        //dropDownHeight: 480,
-        source: functionAdapter,
-        placeHolder: " ",
-        displayMember: "description",
-        valueMember: "id",
-        theme: 'dark',
-        width: 90,
-        height: 25,
-        selectedIndex: -1,
-        autoDropDownHeight: true
-    });
-    // ✅ FIX: always open after binding
-    $("#dropDownFunctions").off('bindingComplete').on('bindingComplete', function() {
-        $(this).jqxDropDownList('open');
-    });
-}
+    $("#dropDownFunctions").jqxDropDownList({ dropDownHeight: 480, source: functionAdapter, placeHolder: " ", displayMember: "description", valueMember: "id", theme: 'dark', width: 90, height: 25, selectedIndex: -1, autoDropDownHeight: true }); 
+    // ✅ FIX: always open after binding 
+    $("#dropDownFunctions") .off('bindingComplete') .on('bindingComplete', function () { $(this).jqxDropDownList('open'); }); 
+    }
 
 function filterFunctions(groupId) {
     var filtered = allFunctions.filter(function(item) {
@@ -10117,7 +10128,17 @@ function candleStick(graphName, saveHistory) {
                     type: 'line',
                     data: response[1].graphResponseDTOLst
                 });
-                colorConfig = functionId == 0 ? ["#FFFFFF", "#FF0000"] : ["#FFFFFF", "#ffa4c5"];
+               colorConfig;
+
+				if (functionId == 0) {
+				    colorConfig = ["#FFFFFF", "#FF0000"];   // 100D
+				} else if (functionId == 1) {
+				    colorConfig = ["#FFFFFF", "#ffa4c5"];   // 200D
+				} else if (functionId == 75) {
+				    colorConfig = ["#FFFFFF", "#ff7f7f"];   // 50D
+				} else {
+				    colorConfig = ["#FFFFFF", "#ffa4c5"];
+				}
                 strokeWidthConfig = [2, 2.25];
                 yaxisConfig = [{
                     tooltip: {
@@ -11521,7 +11542,7 @@ function currentUsJobsFunction(groupId) {
         64, 65, 66, 67, 68, 69,
         70, 71, 72, 73, 74, 75
     ];
-    const mvaFunctionIds = [1, 2, 15, 16, 17, 18];
+    const mvaFunctionIds = [1, 2, 15, 16, 17, 18, 76];
     const symmetricFunctionIds = [6, 7, 8];
     const secondSeriesStrokeIds = [5, 12, 13, 14, 15];
     var fromdate = formatDate(monthDate);
@@ -11650,6 +11671,7 @@ function currentUsJobsFunction(groupId) {
                 const colors = {
                     1: "#FF0000",
                     2: "#ffa4c5",
+                    76: "#ff7f7f",
                     15: "#1f77b4",
                     16: "#2ca02c",
                     17: "#ff7f0e",
@@ -12316,35 +12338,36 @@ function updateChartState() {
     chartState.fontSize = $("#fontOptions .active")[0]?.id || null;
 }
 
-function isUsBanksReserveSelected() {
+function isUsBanksReserveSelected(checkedItemValues) {
 
-    if (typeof checkedItemid === "undefined" || !Array.isArray(checkedItemid)) {
+    if (!checkedItemValues || checkedItemValues.length === 0) {
         return false;
     }
 
     let activeItemValue = null;
 
     if (typeof itemValue !== "undefined" && itemValue) {
+
         activeItemValue = itemValue;
+
     } else if (typeof itemValueYields !== "undefined" && itemValueYields) {
+
         activeItemValue = itemValueYields;
+
     }
 
     if (!activeItemValue) {
         return false;
     }
 
-    return checkedItemid.some(function(itemId) {
+    return checkedItemValues.some(function(index) {
 
-        const item = activeItemValue[itemId];
+        const item = activeItemValue[index];
 
-        if (!item) {
-            return false;
-        }
+        return item
+            && item.GroupId == 85
+            && item.subGroupId == 1;
 
-        return String(item.description || "")
-            .toLowerCase()
-            .includes("us banks reserve");
     });
 }
 

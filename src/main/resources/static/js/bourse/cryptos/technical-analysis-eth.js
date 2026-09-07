@@ -813,7 +813,7 @@ async function loadChart1Data(manager,timeRange,chartId=1){
 				candlestickMode: true,
 				};
 				
-				const isFunctionLine = functionId === 1 || functionId === 2;
+				const isFunctionLine = functionId === 1 || functionId === 2 || functionId ===76;
 				const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
 				const isFunctionLineColumn = [7,8,9].includes(functionId);
 				
