@@ -251,6 +251,18 @@ public class BourseController {
 		return modelAndView;
 	}
 
+	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_LONG_END_IMPLIED_VOLATILITY') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvol")
+	public ModelAndView dataEntryPageLongEndImpliedVol(@RequestParam("module") String module, ModelMap model,
+			Authentication authentication) {
+		model.addAttribute("mainmenu", "html/templates/mainMenu");
+		model.addAttribute("maindatainputnav", "html/templates/dataInputNav");
+		model.addAttribute("datainputmenu", "DATABASE_INPUT_SCREEN_LONG_END_IMPLIED_VOLATILITY");
+		model.addAttribute("module", Integer.valueOf(module));
+		model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "DATABASE_INPUT_SCREEN"));
+		return new ModelAndView("html/longEndImpliedVol/longEndImpliedVolDataInput");
+	}
+
 	@PreAuthorize("hasAuthority('DATABASE_INPUT_SCREEN_USJOBS') and principal.tacAccepted == true")
 	@RequestMapping(value = "/usjobs")
 	public ModelAndView dataEntryPageUsjobs(@RequestParam("usjobs") String usjobs, ModelMap model,
@@ -397,7 +409,22 @@ public class BourseController {
 
 		return new ModelAndView("html/usjobs/any2UsJobs");
 	}
+	@PreAuthorize("hasAuthority('LONGENDIMPLIEDVOL_ANY2_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/any2longendimpliedvol")
+	public ModelAndView anyTwoLongEndImpliedVolPage(
+	        ModelMap model,
+	        Authentication authentication) {
 
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute(
+	            "menuId",
+	            dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+	    model.addAttribute("chartNav", "html/fragment/chart-nav");
+	    model.addAttribute("chartOption", "html/graph/chartOption");
+
+	    return new ModelAndView(
+	            "html/longEndImpliedVol/any2LongEndImpliedVol");
+	}
 	@PreAuthorize("hasAuthority('PRECIOUS_METALS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping(value = "/precious")
 	public ModelAndView preciousMetalsPage(ModelMap model, Authentication authentication) {
@@ -747,6 +774,19 @@ public class BourseController {
 
 		return new ModelAndView("html/usjobs/usjobsDataFunctionDisplay");
 	}
+	@PreAuthorize("hasAuthority('LONG_END_IMPLIED_VOLATILITY_DATA_FUNCTION_DISPLAY_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvoldatafunctiondisplay")
+	public ModelAndView longEndImpliedVolDataFunctionDisplay(
+	        ModelMap model,
+	        Authentication authentication) {
+
+		model.addAttribute("mainmenu", "html/templates/mainMenu");
+		model.addAttribute("menuId", dynamicTemplateService.getAuthorityId(authentication, "HOME_SCREEN"));
+		model.addAttribute("datainputmenu", "LONG_END_IMPLIED_VOLATILITY_DATA_FUNCTION_DISPLAY_SCREEN");
+		model.addAttribute("maindatainputnav", "html/templates/dataFunctionDisplayNav");
+
+		 return new ModelAndView("html/longEndImpliedVol/longEndImpliedVolDataFunctionDisplay");
+	}
 
 	@PreAuthorize("hasAuthority('RATES_CENTRAL_BANKS_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping(value = "/centralbanks")
@@ -880,7 +920,202 @@ public class BourseController {
 		model.addAttribute("privilege", "LONGENDS_TBONDS_GRAPH_SCREEN");
 		return new ModelAndView("html/longEnds/technical-analysis");
 	}
+	@PreAuthorize("hasAuthority('LONGENDIMPLIEDVOL_BUNDS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvol/bunds")
+	public ModelAndView bundsLongEndImpliedVolGraphPage(
+	        ModelMap model,
+	        Authentication authentication) {
 
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute(
+	            "menuId",
+	            dynamicTemplateService.getAuthorityId(
+	                    authentication,
+	                    "HOME_SCREEN"));
+
+	    model.addAttribute(
+	            "privilege",
+	            "LONGENDIMPLIEDVOL_BUNDS_GRAPH_SCREEN");
+
+	    return new ModelAndView(
+	            "html/longEndImpliedVol/technical-analysis");
+	}
+
+
+	@PreAuthorize("hasAuthority('LONGENDIMPLIEDVOL_BOBL_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvol/bobls")
+	public ModelAndView boblLongEndImpliedVolGraphPage(
+	        ModelMap model,
+	        Authentication authentication) {
+
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute(
+	            "menuId",
+	            dynamicTemplateService.getAuthorityId(
+	                    authentication,
+	                    "HOME_SCREEN"));
+
+	    model.addAttribute(
+	            "privilege",
+	            "LONGENDIMPLIEDVOL_BOBL_GRAPH_SCREEN");
+
+	    return new ModelAndView(
+	            "html/longEndImpliedVol/technical-analysis");
+	}
+
+
+	@PreAuthorize("hasAuthority('LONGENDIMPLIEDVOL_SHATZ_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvol/shatz")
+	public ModelAndView shatzLongEndImpliedVolGraphPage(
+	        ModelMap model,
+	        Authentication authentication) {
+
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute(
+	            "menuId",
+	            dynamicTemplateService.getAuthorityId(
+	                    authentication,
+	                    "HOME_SCREEN"));
+
+	    model.addAttribute(
+	            "privilege",
+	            "LONGENDIMPLIEDVOL_SHATZ_GRAPH_SCREEN");
+
+	    return new ModelAndView(
+	            "html/longEndImpliedVol/technical-analysis");
+	}
+
+
+	@PreAuthorize("hasAuthority('LONGENDIMPLIEDVOL_BUXL_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvol/buxl")
+	public ModelAndView buxlLongEndImpliedVolGraphPage(
+	        ModelMap model,
+	        Authentication authentication) {
+
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute(
+	            "menuId",
+	            dynamicTemplateService.getAuthorityId(
+	                    authentication,
+	                    "HOME_SCREEN"));
+
+	    model.addAttribute(
+	            "privilege",
+	            "LONGENDIMPLIEDVOL_BUXL_GRAPH_SCREEN");
+
+	    return new ModelAndView(
+	            "html/longEndImpliedVol/technical-analysis");
+	}
+
+
+	@PreAuthorize("hasAuthority('LONGENDIMPLIEDVOL_OAT_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvol/oat")
+	public ModelAndView oatLongEndImpliedVolGraphPage(
+	        ModelMap model,
+	        Authentication authentication) {
+
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute(
+	            "menuId",
+	            dynamicTemplateService.getAuthorityId(
+	                    authentication,
+	                    "HOME_SCREEN"));
+
+	    model.addAttribute(
+	            "privilege",
+	            "LONGENDIMPLIEDVOL_OAT_GRAPH_SCREEN");
+
+	    return new ModelAndView(
+	            "html/longEndImpliedVol/technical-analysis");
+	}
+
+
+	@PreAuthorize("hasAuthority('LONGENDIMPLIEDVOL_BTP_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvol/btp")
+	public ModelAndView btpLongEndImpliedVolGraphPage(
+	        ModelMap model,
+	        Authentication authentication) {
+
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute(
+	            "menuId",
+	            dynamicTemplateService.getAuthorityId(
+	                    authentication,
+	                    "HOME_SCREEN"));
+
+	    model.addAttribute(
+	            "privilege",
+	            "LONGENDIMPLIEDVOL_BTP_GRAPH_SCREEN");
+
+	    return new ModelAndView(
+	            "html/longEndImpliedVol/technical-analysis");
+	}
+
+
+	@PreAuthorize("hasAuthority('LONGENDIMPLIEDVOL_GILTS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvol/gilts")
+	public ModelAndView giltsLongEndImpliedVolGraphPage(
+	        ModelMap model,
+	        Authentication authentication) {
+
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute(
+	            "menuId",
+	            dynamicTemplateService.getAuthorityId(
+	                    authentication,
+	                    "HOME_SCREEN"));
+
+	    model.addAttribute(
+	            "privilege",
+	            "LONGENDIMPLIEDVOL_GILTS_GRAPH_SCREEN");
+
+	    return new ModelAndView(
+	            "html/longEndImpliedVol/technical-analysis");
+	}
+
+
+	@PreAuthorize("hasAuthority('LONGENDIMPLIEDVOL_TNOTES_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvol/tnotes")
+	public ModelAndView tnotesLongEndImpliedVolGraphPage(
+	        ModelMap model,
+	        Authentication authentication) {
+
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute(
+	            "menuId",
+	            dynamicTemplateService.getAuthorityId(
+	                    authentication,
+	                    "HOME_SCREEN"));
+
+	    model.addAttribute(
+	            "privilege",
+	            "LONGENDIMPLIEDVOL_TNOTES_GRAPH_SCREEN");
+
+	    return new ModelAndView(
+	            "html/longEndImpliedVol/technical-analysis");
+	}
+
+
+	@PreAuthorize("hasAuthority('LONGENDIMPLIEDVOL_TBONDS_GRAPH_SCREEN') and principal.tacAccepted == true")
+	@RequestMapping(value = "/longendimpliedvol/tbonds")
+	public ModelAndView tbondsLongEndImpliedVolGraphPage(
+	        ModelMap model,
+	        Authentication authentication) {
+
+	    model.addAttribute("mainmenu", "html/templates/mainMenu");
+	    model.addAttribute(
+	            "menuId",
+	            dynamicTemplateService.getAuthorityId(
+	                    authentication,
+	                    "HOME_SCREEN"));
+
+	    model.addAttribute(
+	            "privilege",
+	            "LONGENDIMPLIEDVOL_TBONDS_GRAPH_SCREEN");
+
+	    return new ModelAndView(
+	            "html/longEndImpliedVol/technical-analysis");
+	}
 	@PreAuthorize("hasAuthority('STI_EUROPE_GRAPH_SCREEN') and principal.tacAccepted == true")
 	@RequestMapping(value = "/europe")
 	public ModelAndView stiEuropeGraphPage(ModelMap model, Authentication authentication) {
@@ -1206,6 +1441,7 @@ public class BourseController {
 		model.addAttribute("rates", "html/templates/rates");
 		model.addAttribute("longends", "html/templates/longends");
 		model.addAttribute("cryptos", "html/templates/cryptos");
+		model.addAttribute("longEndImpliedVol", "html/templates/longEndImpliedVol");
 		model.addAttribute("serie", Integer.valueOf(serie));
 		model.addAttribute("chartOption", "html/graph/chartOption");
 		ModelAndView modelAndView = new ModelAndView("html/twoSeries");

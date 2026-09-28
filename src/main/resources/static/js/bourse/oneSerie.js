@@ -49,8 +49,74 @@
   } else if (serieValue === 11) {
       graphService = "cryptos";
       var allitems = ['#jqxCheckBox-71-1', '#jqxCheckBox-71-3', '#jqxCheckBox-71-4', '#jqxCheckBox-71-2', '#jqxCheckBox-71-5', '#jqxCheckBox-71-6', '#jqxCheckBox-71-7', '#jqxCheckBox-71-8', '#jqxCheckBox-72-1', '#jqxCheckBox-72-3', '#jqxCheckBox-72-4', '#jqxCheckBox-72-2', '#jqxCheckBox-72-5', '#jqxCheckBox-72-6', '#jqxCheckBox-72-7', '#jqxCheckBox-72-8', '#jqxCheckBox-73-1', '#jqxCheckBox-73-3', '#jqxCheckBox-73-4', '#jqxCheckBox-73-2', '#jqxCheckBox-73-5', '#jqxCheckBox-73-6', '#jqxCheckBox-73-7', '#jqxCheckBox-73-8', '#jqxCheckBox-74-1', '#jqxCheckBox-74-3', '#jqxCheckBox-74-4', '#jqxCheckBox-74-2', '#jqxCheckBox-74-5', '#jqxCheckBox-74-6', '#jqxCheckBox-74-7', '#jqxCheckBox-74-8', '#jqxCheckBox-75-1', '#jqxCheckBox-75-3', '#jqxCheckBox-75-4', '#jqxCheckBox-75-2', '#jqxCheckBox-75-5', '#jqxCheckBox-75-6', '#jqxCheckBox-75-7', '#jqxCheckBox-75-8', '#jqxCheckBox-76-1', '#jqxCheckBox-76-3', '#jqxCheckBox-76-4', '#jqxCheckBox-76-2', '#jqxCheckBox-76-5', '#jqxCheckBox-76-6', '#jqxCheckBox-76-7', '#jqxCheckBox-76-8', ];
+  } else if (serieValue === 13) {
+      // LONG-END IMPLIED VOLATILITY (asset class 13)
+      graphService = "longEndImpliedVol";
+      var allitems = ['#jqxCheckBox-86-2', '#jqxCheckBox-86-3', '#jqxCheckBox-87-2', '#jqxCheckBox-87-3', '#jqxCheckBox-88-2', '#jqxCheckBox-88-3', '#jqxCheckBox-89-2', '#jqxCheckBox-89-3', '#jqxCheckBox-90-2', '#jqxCheckBox-90-3', '#jqxCheckBox-91-2', '#jqxCheckBox-91-3', '#jqxCheckBox-92-2', '#jqxCheckBox-92-3', '#jqxCheckBox-93-2', '#jqxCheckBox-93-3', '#jqxCheckBox-94-2', '#jqxCheckBox-94-3', '#jqxCheckBox-95-2', '#jqxCheckBox-95-3', '#jqxCheckBox-96-2', '#jqxCheckBox-96-3', '#jqxCheckBox-97-2', '#jqxCheckBox-97-3', '#jqxCheckBox-98-2', '#jqxCheckBox-98-3', '#jqxCheckBox-99-2', '#jqxCheckBox-99-3'];
+      var mainContainer = '';
+      var mainGroupContainer = '';
+      var groupContainer = '';
+      var subgroupContainer = '';
+      var factorIner = '';
+      var factorInerItem = '';
+      var factorContainer = '';
   }
   const graphName = "";
+  /* LEIV dynamic selector */
+  const LEIV_PRODUCTS = [{
+      name: 'BUNDS',
+      modules: [86, 87]
+  }, {
+      name: 'BOBLS',
+      modules: [88, 89]
+  }, {
+      name: 'SHATZ',
+      modules: [90, 91]
+  }, {
+      name: 'BUXL',
+      modules: [92]
+  }, {
+      name: 'OAT',
+      modules: [93]
+  }, {
+      name: 'BTP',
+      modules: [94]
+  }, {
+      name: 'GILTS',
+      modules: [95]
+  }, {
+      name: 'T-NOTES',
+      modules: [96, 97]
+  }, {
+      name: 'T-BONDS',
+      modules: [98, 99]
+  }];
+  const LEIV_FACTORS = [{
+      subgroupId: '2',
+      name: 'B&S VOL'
+  }, {
+      subgroupId: '3',
+      name: 'TICK VOL'
+  }];
+
+  function moduleCells(gid) {
+      var h = '<div class="col-5 d-flex">';
+      LEIV_FACTORS.forEach(function(f) {
+          h += '<div class="col d-flex justify-content-center"><div style="min-width:24px;">';
+          h += '<div id="jqxCheckBox-' + gid + '-' + f.subgroupId + '" class="jqx-checkbox-items leiv-factor-checkbox"></div>';
+          h += '</div></div>';
+      });
+      return h + '</div>';
+  }
+
+  function buildLeivSelector(sel) {
+      var h = '<div class="col-12 p-0"><div class="col-12 d-flex fw-bold row-style"><div class="col-2">PRODUCT</div><div class="col-5 text-center">2nd CONSTANT MATURITY</div><div class="col-5 text-center">3rd CONSTANT MATURITY</div></div><div class="col-12 d-flex fw-bold"><div class="col-2"></div><div class="col-5 d-flex"><div class="col text-center">B&S VOL</div><div class="col text-center">TICK VOL</div></div><div class="col-5 d-flex"><div class="col text-center">B&S VOL</div><div class="col text-center">TICK VOL</div></div></div>';
+      LEIV_PRODUCTS.forEach(function(p, i) {
+          h += '<div class="col-12 d-flex align-items-center ' + (i % 2 ? 'row-style' : '') + '"><div class="col-2">' + p.name + '</div>' + moduleCells(p.modules[0]) + (p.modules.length > 1 ? moduleCells(p.modules[1]) : '<div class="col-5"></div>') + '</div>';
+      });
+      h += '</div>';
+      $(sel).html(h);
+  }
   $(window).on('load', function() {
       $('#overlay').fadeOut();
       $('#nav-tabContent').show();
@@ -249,6 +315,23 @@
               error: function(e) {
                   console.log("ERROR : ", e);
               }
+          });
+      } else if (serieValue === 13) {
+          buildLeivSelector('#longEndImpliedVolContainer');
+          /*
+           * LEIV fragment supplies checkboxes for groups 86-99,
+           * subgroup 2 = B&S VOL, subgroup 3 = TICK VOL.
+           */
+          initializeNewsBanner();
+          initializeFunctions(86);
+          initializeNavigationButtons();
+          initialiazeItem(allitems, 1);
+          initialiazeClearFilterButton();
+          initializeShowFilterButton();
+          $("#SaveToFavorites").jqxButton({
+              theme: 'dark',
+              height: 30,
+              width: 100
           });
       } else if (serieValue === 11) {
           initializeNewsBanner();

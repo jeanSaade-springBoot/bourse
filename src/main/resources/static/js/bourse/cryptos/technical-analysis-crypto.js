@@ -67,25 +67,25 @@ const dropDownBenchmarkSource = [
 ];
 	
 const fullOptions = [
-    { id: 20, label: "5dw MovAvg" },
-    { id: 21, label: "6dw MovAvg" },
-    { id: 22, label: "7dw MovAvg" },
-    { id: 23, label: "9dw MovAvg" },
-    { id: 24, label: "18dw MovAvg" },
-    { id: 25, label: "21dw MovAvg" },
-    { id: 26, label: "25dw MovAvg" },
-    { id: 27, label: "30dw MovAvg" },
-    { id: 28, label: "45dw MovAvg" },
-    { id: 29, label: "63dw MovAvg" }
+    { id: 20, label: "5d MovAvg" },
+    { id: 21, label: "6d MovAvg" },
+    { id: 22, label: "7d MovAvg" },
+    { id: 23, label: "9d MovAvg" },
+    { id: 24, label: "18d MovAvg" },
+    { id: 25, label: "21d MovAvg" },
+    { id: 26, label: "25d MovAvg" },
+    { id: 27, label: "30d MovAvg" },
+    { id: 28, label: "45d MovAvg" },
+    { id: 29, label: "63d MovAvg" }
 ];
 const difffullOptions = [
-    { id: 30, label: "5-6dw MovAvg" },
-    { id: 31, label: "5-7dw MovAvg" },
-    { id: 32, label: "5-9dw MovAvg" },
-    { id: 33, label: "18-21dw MovAvg" },
-    { id: 34, label: "18-25dw MovAvg" },
-    { id: 35, label: "18-30dw MovAvg" },
-    { id: 36, label: "45-63dw MovAvg" },
+    { id: 30, label: "5-6d MovAvg" },
+    { id: 31, label: "5-7d MovAvg" },
+    { id: 32, label: "5-9d MovAvg" },
+    { id: 33, label: "18-21d MovAvg" },
+    { id: 34, label: "18-25d MovAvg" },
+    { id: 35, label: "18-30d MovAvg" },
+    { id: 36, label: "45-63d MovAvg" },
 ];
 const defaultSelections = {
   short: [20, 21, 22, 23, 30, 31, 32],   // ids for 5,6,7,9

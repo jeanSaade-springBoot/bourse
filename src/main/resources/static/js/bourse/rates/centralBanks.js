@@ -273,16 +273,23 @@ function getCentralBanksData(graphService, graphName, removeEmpty, saveHistory) 
                 // Rates are displayed as area; moves stay marker-only (line type + zero stroke).
                 chartType1 = isMove1 ? 'line' : 'area';
                 chartType2 = isMove2 ? 'line' : 'area';
-                min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+                 
+                let serie1 =  response[0].graphResponseDTOLst.filter(function(item) {
+                    return item.y !== null && item.y !== undefined && item.y !== '' && !Number.isNaN(Number(item.y));
+                });
+                let serie2 =  response[1].graphResponseDTOLst.filter(function(item) {
+                    return item.y !== null && item.y !== undefined && item.y !== '' && !Number.isNaN(Number(item.y));
+                }) 
+                min1 = Math.min.apply(null, serie1.map(function(item) {
                         return item.y;
                     })),
-                    max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
+                    max1 = Math.max.apply(null, serie1.map(function(item) {
                         return item.y;
                     }));
-                min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+                min2 = Math.min.apply(null, serie2.map(function(item) {
                         return item.y;
                     })),
-                    max2 = Math.max.apply(null, response[1].graphResponseDTOLst.map(function(item) {
+                    max2 = Math.max.apply(null, serie2.map(function(item) {
                         return item.y;
                     }));
                 min = Math.min(min1, min2);
@@ -533,6 +540,10 @@ function getCentralBanksData(graphService, graphName, removeEmpty, saveHistory) 
             dataType: 'json',
             timeout: 600000,
             success: function(response) {
+                // Central Banks - single-series only: remove null/blank points.
+                const singleSeriesData = response[0].graphResponseDTOLst.filter(function(item) {
+                    return item.y !== null && item.y !== undefined && item.y !== '' && !Number.isNaN(Number(item.y));
+                });
                 newstartdate = new Date();
                 startDateF1 = response[0].config.startDate;
                 if (startDateF1 != null) startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
@@ -566,11 +577,11 @@ function getCentralBanksData(graphService, graphName, removeEmpty, saveHistory) 
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
                 chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
                 updateChartOption();
-                min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-                    return item.y;
+                min = Math.min.apply(null, singleSeriesData.map(function(item) {
+                    return Number(item.y);
                 }));
-                max = Math.max.apply(null, response[0].graphResponseDTOLst.map(function(item) {
-                    return item.y;
+                max = Math.max.apply(null, singleSeriesData.map(function(item) {
+                    return Number(item.y);
                 }));
                 //minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
                 //maxvalue = parseFloat((Math.floor(max * 20) / 20).toFixed(2));
@@ -609,7 +620,7 @@ function getCentralBanksData(graphService, graphName, removeEmpty, saveHistory) 
                     series: [{
                         name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
                         type: checkedItemValues[0].toLowerCase().includes("move") ? 'line' : chartConfigSettings.chartType1,
-                        data: chartConfigSettings.response[0].graphResponseDTOLst
+                        data: singleSeriesData
                     }],
                     xaxis: {
                         labels: {

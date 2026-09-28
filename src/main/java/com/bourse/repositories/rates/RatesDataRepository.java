@@ -36,20 +36,13 @@ public interface RatesDataRepository extends JpaRepository<RatesData, Long> {
 
 	boolean existsByReferDateAndGroupIdAndSubgroupId(String referDate, Long groupId, Long subgroupId);
 	
-	@Modifying
-	@Transactional
-	@Query(
-	    value =
-	        "DELETE FROM rates_data " +
-	        "WHERE group_id = :groupId " +
-	        "AND STR_TO_DATE(refer_date, '%d-%m-%Y') " +
-	        "BETWEEN STR_TO_DATE(:fromDate, '%Y-%m-%d') " +
-	        "AND STR_TO_DATE(:toDate, '%Y-%m-%d')",
-	    nativeQuery = true
-	)
-	int deleteDataByGroupIdAndReferDateBetween(
-	        @Param("groupId") Long groupId,
-	        @Param("fromDate") String fromDate,
-	        @Param("toDate") String toDate
-	);
+	  @Modifying
+	  @Transactional
+	  @Query( 
+			  value = "DELETE FROM rates_data " + "WHERE group_id = :groupId " +
+
+			   "AND CASE " + "    WHEN refer_date REGEXP '^[0-9]{2}-[0-9]{2}-[0-9]{4}$' " + "    THEN STR_TO_DATE(refer_date, '%d-%m-%Y') " + "    ELSE NULL " + "END " +
+
+			   "BETWEEN STR_TO_DATE(:fromDate, '%Y-%m-%d') " + "AND STR_TO_DATE(:toDate, '%Y-%m-%d')", nativeQuery = true)
+			   int deleteDataByGroupIdAndReferDateBetween(@Param("groupId") Long groupId, @Param("fromDate") String fromDate, @Param("toDate") String toDate);
 }

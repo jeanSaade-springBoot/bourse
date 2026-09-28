@@ -295,13 +295,98 @@
                     </ul>
                   </div>
                 </div>
+				<div class="card">
+									<div class="card-body">
 
-                <div class="card">
+										<h5 class="card-title card-title-color">LONG-END IMPLIED
+											VOLATILITY</h5>
+
+										<ul class="fa-ul">
+<li>
+    <a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDIMPLIEDVOL_ANY2_GRAPH_SCREEN'')')} ? '/bourse/any2longendimpliedvol' : '/login'">
+        <img class="img-m-right" th:src="@{/img/i2.png}">Any 2
+    </a>
+</li>
+											<li><a
+												th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDIMPLIEDVOL_BUNDS_GRAPH_SCREEN'')')}
+                        ? '/bourse/longendimpliedvol/bunds'
+                        : '/login'">
+													<img class="img-m-right" th:src="@{/img/i2.png}">
+													BUNDS
+											</a></li>
+
+											<li><a
+												th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDIMPLIEDVOL_BOBL_GRAPH_SCREEN'')')}
+                        ? '/bourse/longendimpliedvol/bobls'
+                        : '/login'">
+													<img class="img-m-right" th:src="@{/img/i2.png}">
+													BOBLS
+											</a></li>
+
+											<li><a
+												th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDIMPLIEDVOL_SHATZ_GRAPH_SCREEN'')')}
+                        ? '/bourse/longendimpliedvol/shatz'
+                        : '/login'">
+													<img class="img-m-right" th:src="@{/img/i2.png}">
+													SHATZ
+											</a></li>
+
+											<li><a
+												th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDIMPLIEDVOL_BUXL_GRAPH_SCREEN'')')}
+                        ? '/bourse/longendimpliedvol/buxl'
+                        : '/login'">
+													<img class="img-m-right" th:src="@{/img/i2.png}">
+													BUXL
+											</a></li>
+
+											<li><a
+												th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDIMPLIEDVOL_OAT_GRAPH_SCREEN'')')}
+                        ? '/bourse/longendimpliedvol/oat'
+                        : '/login'">
+													<img class="img-m-right" th:src="@{/img/i2.png}"> OAT
+											</a></li>
+
+											<li><a
+												th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDIMPLIEDVOL_BTP_GRAPH_SCREEN'')')}
+                        ? '/bourse/longendimpliedvol/btp'
+                        : '/login'">
+													<img class="img-m-right" th:src="@{/img/i2.png}"> BTP
+											</a></li>
+
+											<li><a
+												th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDIMPLIEDVOL_GILTS_GRAPH_SCREEN'')')}
+                        ? '/bourse/longendimpliedvol/gilts'
+                        : '/login'">
+													<img class="img-m-right" th:src="@{/img/i2.png}">
+													GILTS
+											</a></li>
+
+											<li><a
+												th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDIMPLIEDVOL_TNOTES_GRAPH_SCREEN'')')}
+                        ? '/bourse/longendimpliedvol/tnotes'
+                        : '/login'">
+													<img class="img-m-right" th:src="@{/img/i2.png}">
+													T-NOTES
+											</a></li>
+
+											<li><a
+												th:href="${loggedIn and #authorization.expression('hasAuthority(''LONGENDIMPLIEDVOL_TBONDS_GRAPH_SCREEN'')')}
+                        ? '/bourse/longendimpliedvol/tbonds'
+                        : '/login'">
+													<img class="img-m-right" th:src="@{/img/i2.png}">
+													T-BONDS
+											</a></li>
+                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''LONG_END_IMPLIED_VOLATILITY_DATA_FUNCTION_DISPLAY_SCREEN'')')} ? '/bourse/longendimpliedvoldatafunctiondisplay' : '/login'"><img class="img-m-right" th:src="@{/img/i5.png}">DATA &amp; FUNCTION DISPLAY</a></li>
+
+										</ul>
+
+									</div>
+								</div>
+								<div class="card">
                   <div class="card-body">
                     <h5 class="card-title card-title-color">Technical Analysis</h5>
                     <ul class="fa-ul">
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRENDLINE_SCREEN'')')} ? '/bourse/trendline' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Trendlines</a></li>
-                      <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRENDLINE_BUNDS_SCREENn'')')} ? '/bourse/bundsTech' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Bunds Techs</a></li>
                       <li><a th:href="${loggedIn and #authorization.expression('hasAuthority(''TRENDLINE_CRYPTOS_SCREEN'')')} ? '/bourse/cryptosTech' : '/login'"><img class="img-m-right" th:src="@{/img/i2.png}">Cryptos Techs</a></li>
                     </ul>
                   </div>

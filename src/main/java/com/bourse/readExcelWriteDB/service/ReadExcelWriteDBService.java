@@ -1,6 +1,7 @@
 package com.bourse.readExcelWriteDB.service;
 
 import java.io.IOException;
+import java.io.InputStream;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -8,9 +9,18 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.Map;
+import java.util.LinkedHashMap;
 
 import javax.transaction.Transactional;
 
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.CellType;
+import org.apache.poi.ss.usermodel.DataFormatter;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+import org.apache.poi.ss.usermodel.WorkbookFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -39,6 +49,7 @@ import com.bourse.domain.liquidity.EcbBalanceSheetLiquidity;
 import com.bourse.domain.liquidity.FedLiquidity;
 import com.bourse.domain.liquidity.UsBanksReserveLiquidity;
 import com.bourse.domain.longEnds.LongEndData;
+import com.bourse.domain.longEndImpliedVol.LongEndImpliedVolData;
 import com.bourse.domain.macro.MacroData;
 import com.bourse.domain.rates.RatesData;
 import com.bourse.domain.skews.LongSkewsData;
@@ -75,6 +86,7 @@ import com.bourse.service.liquidity.EcbBalanceSheetService;
 import com.bourse.service.liquidity.FedLiquidityService;
 import com.bourse.service.liquidity.UsBanksReserveLiquidityService;
 import com.bourse.service.longEnds.LongEndsService;
+import com.bourse.service.longEndImpliedVol.LongEndImpliedVolService;
 import com.bourse.service.macro.MacroService;
 import com.bourse.service.rates.RatesService;
 import com.bourse.service.skews.SkewsService;
@@ -147,6 +159,8 @@ public class ReadExcelWriteDBService {
 	RatesService ratesService;
 	@Autowired
 	LongEndsService longEndsService;
+	@Autowired
+	LongEndImpliedVolService longEndImpliedVolService;
 	@Autowired
 	CryptosService cryptosService;
 	@Autowired
@@ -298,6 +312,174 @@ public class ReadExcelWriteDBService {
 		return allData;
 	}
 
+
+	/**
+	 * CENTRAL BANKS MODULE UPLOADER ONLY (group 48).
+	 *
+	 * The module workbooks have one header row only. Do not reuse the shared
+	 * readExcelFileWithString() positional skip here because its legacy behavior
+	 * can skip an additional physical row. This reader skips blank rows and the
+	 * actual DATE header, then processes every real data row starting immediately
+	 * after that header.
+	 */
+	private List<DataDTO> readCentralBankModuleColumn(
+			ReadExcelWriteDBDTO dto,
+			String dateIndex,
+			String valueIndex) {
+
+		List<DataDTO> rowData = new ArrayList<>();
+		int processedRows = 0;
+
+		try (InputStream fileStream = dto.getFile().getInputStream();
+			 Workbook workbook = WorkbookFactory.create(fileStream)) {
+
+			Sheet sheet = workbook.getSheetAt(0);
+			DataFormatter dataFormatter = new DataFormatter();
+
+			int dateColumnIndex = Integer.parseInt(dateIndex);
+			int valueColumnIndex = Integer.parseInt(valueIndex);
+
+			for (Row row : sheet) {
+
+				if (row == null) {
+					continue;
+				}
+
+				Cell dateCell = row.getCell(dateColumnIndex);
+
+				if (dateCell == null || dateCell.getCellType() == CellType.BLANK) {
+					continue;
+				}
+
+				String date;
+
+				if (dateCell.getCellType() == CellType.NUMERIC) {
+					date = ReadExcelWriteDBUtil.transformNumericDate(
+							dateCell.getNumericCellValue());
+				} else {
+					date = dataFormatter.formatCellValue(dateCell);
+				}
+
+				if (date == null || date.trim().isEmpty()
+						|| "DATE".equalsIgnoreCase(date.trim())) {
+					continue;
+				}
+
+				Cell valueCell = row.getCell(valueColumnIndex);
+				String value = null;
+
+				if (valueCell != null && valueCell.getCellType() != CellType.BLANK) {
+
+					if (valueCell.getCellType() == CellType.NUMERIC) {
+						String formattedValue = dataFormatter.formatCellValue(valueCell);
+
+						if (formattedValue.endsWith("%")) {
+							value = String.valueOf(
+									valueCell.getNumericCellValue() * 100);
+						} else {
+							value = String.valueOf(
+									valueCell.getNumericCellValue());
+						}
+
+					} else {
+						value = dataFormatter.formatCellValue(valueCell);
+					}
+				}
+
+				processedRows++;
+
+				if (processedRows > 250) {
+					throw new BadRequestException(
+							"EXCEL DATA ROW OVER 250",
+							FailureEnum.EXCEL_DATA_ROW_OVER_250,
+							"ReadExcelWriteDBService");
+				}
+
+				rowData.add(
+						DataDTO.builder()
+								.date(date.trim())
+								.value(value)
+								.build());
+			}
+
+		} catch (IOException e) {
+			throw new RuntimeException(
+					"Unable to read Central Banks module Excel file.",
+					e);
+		}
+
+		return rowData;
+	}
+
+	private <T> List<T> processCentralBankModuleSubgroups(
+			ReadExcelWriteDBDTO dto,
+			List<String> excelColumns,
+			int[] subgroupOrder,
+			BiPredicate<String, Long> existsCheck,
+			BiFunction<DataDTO, Long, T> entityBuilder,
+			Consumer<List<T>> saveFunction,
+			TriConsumer<DataDTO, Long, String> updateFunction) {
+
+		List<T> allData = new ArrayList<>();
+
+		for (int i = 0; i < excelColumns.size(); i++) {
+
+			String excelColumn = excelColumns.get(i);
+			Long subgroupId = Long.valueOf(subgroupOrder[i]);
+
+			if (!shouldProcessSubgroup(dto, subgroupId)) {
+				continue;
+			}
+
+			List<T> batchList = new ArrayList<>();
+
+			List<DataDTO> rowData =
+					readCentralBankModuleColumn(dto, "0", excelColumn);
+
+			for (DataDTO data : rowData) {
+
+				boolean exists = existsCheck.test(data.getDate(), subgroupId);
+
+				if (exists) {
+
+					if (dto.isUpdateOperation()) {
+						updateFunction.accept(
+								data,
+								subgroupId,
+								data.getValue());
+
+						allData.add(
+								entityBuilder.apply(data, subgroupId));
+						continue;
+					}
+
+					throw new RuntimeException(
+							"Data already exists for the selected date "
+									+ data.getDate()
+									+ ". Please use 'Update Existing Data' to modify existing records.");
+				}
+
+				if (dto.isUpdateOperation()) {
+					throw new RuntimeException(
+							"No existing data found for the selected date "
+									+ data.getDate()
+									+ ". Please use 'Insert New Data' to add new records.");
+				}
+
+				T entity = entityBuilder.apply(data, subgroupId);
+
+				batchList.add(entity);
+				allData.add(entity);
+			}
+
+			if (!batchList.isEmpty()) {
+				saveFunction.accept(batchList);
+			}
+		}
+
+		return allData;
+	}
+
 	private <T> List<T> processGroupedStringDateSubgroups(
 
 			ReadExcelWriteDBDTO dto,
@@ -357,6 +539,226 @@ public class ReadExcelWriteDBService {
 		return allData;
 	}
 
+	/**
+	 * Reads one LONG-END IMPLIED VOLATILITY module from the standard batch file.
+	 * The selected uploader group IS the module; no second module is read or saved.
+	 */
+	private List<LongEndImpliedVolData> readLongEndImpliedVolModule(
+			ReadExcelWriteDBDTO dto, Long groupId) {
+
+		Map<String, Map<Long, String>> valuesByDate = new LinkedHashMap<>();
+
+		mergeLongEndImpliedVolColumn(dto, valuesByDate, "1",
+				LongEndImpliedVolService.MATURITY_NAME_SUBGROUP_ID);
+		mergeLongEndImpliedVolColumn(dto, valuesByDate, "2",
+				LongEndImpliedVolService.BS_VOL_SUBGROUP_ID);
+		mergeLongEndImpliedVolColumn(dto, valuesByDate, "3",
+				LongEndImpliedVolService.STRIKE_SUBGROUP_ID);
+		mergeLongEndImpliedVolColumn(dto, valuesByDate, "4",
+				LongEndImpliedVolService.STRADDLE_PRICE_SUBGROUP_ID);
+
+		List<LongEndImpliedVolData> result = new ArrayList<>();
+
+		for (Map.Entry<String, Map<Long, String>> dateEntry : valuesByDate.entrySet()) {
+			String referDate = dateEntry.getKey();
+			Map<Long, String> values = dateEntry.getValue();
+
+			for (Long subgroupId : Arrays.asList(
+					LongEndImpliedVolService.MATURITY_NAME_SUBGROUP_ID,
+					LongEndImpliedVolService.BS_VOL_SUBGROUP_ID,
+					LongEndImpliedVolService.STRIKE_SUBGROUP_ID,
+					LongEndImpliedVolService.STRADDLE_PRICE_SUBGROUP_ID)) {
+
+				/*
+				 * On UPDATE only selected INPUT columns are sent to the service.
+				 * INSERT always sends all four input fields.
+				 */
+				if (dto.isUpdateOperation()
+						&& !dto.getSelectedSubgroupIdSet().contains(subgroupId)) {
+					continue;
+				}
+
+				result.add(LongEndImpliedVolData.builder()
+						.referDate(referDate)
+						.groupId(groupId)
+						.subgroupId(subgroupId)
+						.value(values.get(subgroupId) == null ? "" : values.get(subgroupId))
+						.build());
+			}
+		}
+
+		return result;
+	}
+
+	private void mergeLongEndImpliedVolColumn(
+			ReadExcelWriteDBDTO dto,
+			Map<String, Map<Long, String>> valuesByDate,
+			String excelColumnIndex,
+			Long subgroupId) {
+
+		List<DataDTO> columnData = readLongEndImpliedVolColumn(
+				dto, "0", excelColumnIndex);
+
+		for (DataDTO data : columnData) {
+			if (data.getDate() == null || data.getDate().trim().isEmpty()) {
+				continue;
+			}
+
+			valuesByDate
+					.computeIfAbsent(data.getDate().trim(), key -> new LinkedHashMap<>())
+					.put(subgroupId, data.getValue());
+		}
+	}
+
+
+	/**
+	 * LONG-END IMPLIED VOLATILITY ONLY.
+	 *
+	 * Do not use the shared readExcelFileWithString() here. That shared reader
+	 * intentionally preserves legacy behavior and skips the first physical row
+	 * returned by Apache POI. Some LEIV files do not materialize a leading blank
+	 * row, so their first real data row (for example 31-Jul) can otherwise be
+	 * skipped.
+	 *
+	 * This reader skips rows only when the date cell is genuinely blank (or is a
+	 * Date header), keeping all existing uploader behavior for other assets
+	 * untouched.
+	 */
+	private List<DataDTO> readLongEndImpliedVolColumn(
+			ReadExcelWriteDBDTO dto,
+			String dateIndex,
+			String valueIndex) {
+
+		List<DataDTO> rowData = new ArrayList<>();
+		int processedRows = 0;
+
+		try (InputStream fileStream = dto.getFile().getInputStream();
+			 Workbook workbook = WorkbookFactory.create(fileStream)) {
+
+			Sheet sheet = workbook.getSheetAt(0);
+			DataFormatter dataFormatter = new DataFormatter();
+
+			int dateColumnIndex = Integer.parseInt(dateIndex);
+			int valueColumnIndex = Integer.parseInt(valueIndex);
+
+			for (Row row : sheet) {
+				if (row == null) {
+					continue;
+				}
+
+				Cell dateCell = row.getCell(dateColumnIndex);
+				if (dateCell == null || dateCell.getCellType() == CellType.BLANK) {
+					continue;
+				}
+
+				String date = null;
+				if (dateCell.getCellType() == CellType.NUMERIC) {
+					date = ReadExcelWriteDBUtil.transformNumericDate(dateCell.getNumericCellValue());
+				} else if (dateCell.getCellType() == CellType.STRING) {
+					date = dateCell.getStringCellValue();
+				} else {
+					date = dataFormatter.formatCellValue(dateCell);
+				}
+
+				if (date == null || date.trim().isEmpty()
+						|| "date".equalsIgnoreCase(date.trim())) {
+					continue;
+				}
+
+				String value = null;
+				Cell valueCell = row.getCell(valueColumnIndex);
+
+				if (valueCell != null && valueCell.getCellType() != CellType.BLANK) {
+					if (valueCell.getCellType() == CellType.NUMERIC) {
+						String formattedValue = dataFormatter.formatCellValue(valueCell);
+						if (formattedValue.endsWith("%")) {
+							value = String.valueOf(valueCell.getNumericCellValue() * 100);
+						} else {
+							value = String.valueOf(valueCell.getNumericCellValue());
+						}
+					} else if (valueCell.getCellType() == CellType.STRING) {
+						value = valueCell.getStringCellValue();
+					} else {
+						value = dataFormatter.formatCellValue(valueCell);
+					}
+				}
+
+				processedRows++;
+				if (processedRows > 250) {
+					throw new BadRequestException(
+							"EXCEL DATA ROW OVER 250",
+							FailureEnum.EXCEL_DATA_ROW_OVER_250,
+							"ReadExcelWriteDBService");
+				}
+
+				rowData.add(DataDTO.builder()
+						.date(date.trim())
+						.value(value)
+						.build());
+			}
+
+		} catch (IOException e) {
+			throw new RuntimeException("Unable to read LONG-END IMPLIED VOLATILITY Excel file.", e);
+		}
+
+		return rowData;
+	}
+
+
+	/**
+	 * Rates / Central Banks (group 48) module definition.
+	 *
+	 * The legacy Central Banks workbook contained all 12 columns. The new request
+	 * allows each bank to be uploaded independently while retaining group_id 48
+	 * and the same audit table.
+	 *
+	 * Excel column indexes intentionally preserve the existing full-workbook order
+	 * inside each bank, but restart at column 1 for each module file:
+	 * FED: Date, FLM, FUM, FLR, FUR
+	 * ECB: Date, EDM, ERM, ELM, EDR, ERR, ELR
+	 * BOE: Date, BRM, BMR
+	 */
+	private CentralBankModule resolveCentralBankModule(String moduleId) {
+		if (moduleId == null) {
+			return null;
+		}
+
+		switch (moduleId.trim().toUpperCase()) {
+		case "FED":
+			return new CentralBankModule(
+					"FED",
+					Arrays.asList("1", "2", "3", "4"),
+					new int[] { 3, 4, 1, 2 });
+		case "ECB":
+			return new CentralBankModule(
+					"ECB",
+					Arrays.asList("1", "2", "3", "4", "5", "6"),
+					new int[] { 8, 9, 10, 5, 6, 7 });
+		case "BOE":
+			return new CentralBankModule(
+					"BOE",
+					Arrays.asList("1", "2"),
+					new int[] { 11, 12 });
+		default:
+			return null;
+		}
+	}
+
+	private static final class CentralBankModule {
+		private final String name;
+		private final List<String> excelColumns;
+		private final int[] subgroupOrder;
+
+		private CentralBankModule(
+				String name,
+				List<String> excelColumns,
+				int[] subgroupOrder) {
+			this.name = name;
+			this.excelColumns = excelColumns;
+			this.subgroupOrder = subgroupOrder;
+		}
+	}
+
 	@Transactional
 	public void readExcelFile(ReadExcelWriteDBDTO readExcelWriteDBDTO) {
 		List<DataDTO> rowData = new ArrayList<>();
@@ -384,6 +786,27 @@ public class ReadExcelWriteDBService {
 		longEndsGroupIds.add("58");
 		longEndsGroupIds.add("59");
 		longEndsGroupIds.add("60");
+
+		/*
+		 * LONG-END IMPLIED VOLATILITY (asset 13).
+		 * Each group ID is one uploadable MODULE. Existing uploader branches are
+		 * intentionally left unchanged.
+		 */
+		Set<String> longEndImpliedVolGroupIds = new HashSet<>();
+		longEndImpliedVolGroupIds.add("86");
+		longEndImpliedVolGroupIds.add("87");
+		longEndImpliedVolGroupIds.add("88");
+		longEndImpliedVolGroupIds.add("89");
+		longEndImpliedVolGroupIds.add("90");
+		longEndImpliedVolGroupIds.add("91");
+		longEndImpliedVolGroupIds.add("92");
+		longEndImpliedVolGroupIds.add("93");
+		longEndImpliedVolGroupIds.add("94");
+		longEndImpliedVolGroupIds.add("95");
+		longEndImpliedVolGroupIds.add("96");
+		longEndImpliedVolGroupIds.add("97");
+		longEndImpliedVolGroupIds.add("98");
+		longEndImpliedVolGroupIds.add("99");
 
 		Set<String> cryptosGroupIds = new HashSet<>();
 		cryptosGroupIds.add("71");
@@ -1393,63 +1816,126 @@ public class ReadExcelWriteDBService {
 			}
 		} else if (readExcelWriteDBDTO.getGroupId().equalsIgnoreCase("48")) {
 
-		    List<RatesData> ratesDatas =
-		        processSubgroupsWithStringDate(
+			/*
+			 * Rates / Central Banks: module-based uploader.
+			 *
+			 * When batchModule is supplied by the updated UI, only FED, ECB or BOE is
+			 * read from the workbook and persisted. Other Central Banks subgroups are
+			 * never touched. The existing rates calculation loader is then executed
+			 * for the uploaded date range so tmp_audit_rts_central_banks is rebuilt
+			 * from all data currently available in RatesData.
+			 *
+			 * For backward compatibility, an API call without batchModule continues
+			 * to use the previous 12-column Central Banks workbook behavior.
+			 */
+			CentralBankModule centralBankModule =
+					resolveCentralBankModule(readExcelWriteDBDTO.getBatchModule());
 
-		            readExcelWriteDBDTO,
+			List<String> excelColumns;
+			int[] subgroupOrder;
 
-		            Arrays.asList("1","2","3","4", "5","6","7","8", "9","10","11","12"),
+			if (centralBankModule != null) {
+				excelColumns = centralBankModule.excelColumns;
+				subgroupOrder = centralBankModule.subgroupOrder;
+				logger.info(
+						"Central Banks module-based batch upload: {}",
+						centralBankModule.name);
+			} else {
+				excelColumns = Arrays.asList(
+						"1", "2", "3", "4", "5", "6",
+						"7", "8", "9", "10", "11", "12");
+				subgroupOrder = new int[] {
+						3, 4, 1, 2, 8, 9, 10, 5, 6, 7, 11, 12
+				};
+				logger.info(
+						"Central Banks legacy 12-column batch upload (no batchModule supplied)");
+			}
 
-		            new int[] { 3,4,1,2,8,9,10,5,6,7,11,12 },
+			List<RatesData> ratesDatas;
 
-		            (date, subgroupId) ->
-		                ratesService.CheckIfCanSaveRts(
-		                    date,
-		                    Long.valueOf(readExcelWriteDBDTO.getGroupId()),
-		                    subgroupId
-		                ),
+			if (centralBankModule != null) {
+				ratesDatas =
+						processCentralBankModuleSubgroups(
 
-		            (data, subgroupId) ->
-		                RatesData.builder()
-		                    .referDate(ReadExcelWriteDBUtil.parseDate(data.getDate()))
-		                    .subgroupId(subgroupId)
-		                    .groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
-		                    .value(data.getValue() == null ? "" : data.getValue())
-		                    .build(),
+								readExcelWriteDBDTO,
 
-		            batch -> ratesService.SaveRatesData(batch),
+								excelColumns,
 
-		            (data, subgroupId, value) ->
-		                ratesService.updateValue(
-		                    data.getDate(),
-		                    Long.valueOf(readExcelWriteDBDTO.getGroupId()),
-		                    subgroupId,
-		                    value
-		                )
-		                , false);
+							subgroupOrder,
 
-		    if (!ratesDatas.isEmpty()) {
+							(date, subgroupId) ->
+								ratesService.CheckIfCanSaveRts(
+										date,
+										Long.valueOf(readExcelWriteDBDTO.getGroupId()),
+										subgroupId),
 
-		        entityManager.flush();
+							(data, subgroupId) ->
+								RatesData.builder()
+										.referDate(ReadExcelWriteDBUtil.parseDate(data.getDate()))
+										.subgroupId(subgroupId)
+										.groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+										.value(data.getValue() == null ? "" : data.getValue())
+										.build(),
 
-		        String[] minMaxDates =
-		            ReadExcelWriteDBUtil.findMinMaxDatesAsString(
-		                ratesDatas,
-		                "referDate"
-		            );
+							batch -> ratesService.SaveRatesData(batch),
 
-		        logger.info("Minimum Date: {}", minMaxDates[0]);
-		        logger.info("Maximum Date: {}", minMaxDates[1]);
+							(data, subgroupId, value) ->
+								ratesService.updateValue(
+										data.getDate(),
+										Long.valueOf(readExcelWriteDBDTO.getGroupId()),
+										subgroupId,
+										value));
+			} else {
+				/*
+				 * Preserve the legacy Central Banks 12-column reader exactly as before.
+				 */
+				ratesDatas =
+						processSubgroupsWithStringDate(
+								readExcelWriteDBDTO,
+								excelColumns,
+								subgroupOrder,
+								(date, subgroupId) ->
+									ratesService.CheckIfCanSaveRts(
+											date,
+											Long.valueOf(readExcelWriteDBDTO.getGroupId()),
+											subgroupId),
+								(data, subgroupId) ->
+									RatesData.builder()
+											.referDate(ReadExcelWriteDBUtil.parseDate(data.getDate()))
+											.subgroupId(subgroupId)
+											.groupId(Long.valueOf(readExcelWriteDBDTO.getGroupId()))
+											.value(data.getValue() == null ? "" : data.getValue())
+											.build(),
+								batch -> ratesService.SaveRatesData(batch),
+								(data, subgroupId, value) ->
+									ratesService.updateValue(
+											data.getDate(),
+											Long.valueOf(readExcelWriteDBDTO.getGroupId()),
+											subgroupId,
+											value),
+								false);
+			}
 
-		        ratesService.doCaculationLoader(
-		            minMaxDates[0],
-		            minMaxDates[1],
-		            Long.valueOf(readExcelWriteDBDTO.getGroupId())
-		        );
+			if (!ratesDatas.isEmpty()) {
 
-		    } else {
-		        logger.info("List is empty.");
-		    }
+				entityManager.flush();
+
+				String[] minMaxDates =
+						ReadExcelWriteDBUtil.findMinMaxDatesAsString(
+								ratesDatas,
+								"referDate");
+
+				logger.info("Minimum Date: {}", minMaxDates[0]);
+				logger.info("Maximum Date: {}", minMaxDates[1]);
+
+				ratesService.doCaculationLoader(
+						minMaxDates[0],
+						minMaxDates[1],
+						Long.valueOf(readExcelWriteDBDTO.getGroupId()));
+
+			} else {
+				logger.info("List is empty.");
+			}
 		} else if (macroGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim())) {
 
 			try {
@@ -1607,6 +2093,40 @@ public class ReadExcelWriteDBService {
 
 				logger.info("List is empty.");
 			}
+		} else if (longEndImpliedVolGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim())) {
+
+			/*
+			 * NEW ASSET ONLY: module-based LONG-END IMPLIED VOLATILITY uploader.
+			 *
+			 * Excel layout for one selected module:
+			 *   0 Date
+			 *   1 Maturity Name
+			 *   2 B&S 365 Implied Vol
+			 *   3 Strike
+			 *   4 Straddle Price
+			 *
+			 * Delivered Tick Vol (subgroup 3) is NOT uploaded. It is calculated by
+			 * LongEndImpliedVolService using the same formula as manual input.
+			 */
+			Long groupId = Long.valueOf(readExcelWriteDBDTO.getGroupId().trim());
+
+			List<LongEndImpliedVolData> moduleData = readLongEndImpliedVolModule(
+					readExcelWriteDBDTO, groupId);
+
+			if (moduleData.isEmpty()) {
+				logger.info("LONG-END IMPLIED VOLATILITY upload is empty for group {}", groupId);
+			} else {
+				longEndImpliedVolService.uploadModuleData(
+						moduleData,
+						readExcelWriteDBDTO.isUpdateOperation(),
+						readExcelWriteDBDTO.getSelectedSubgroupIdSet());
+
+				logger.info(
+						"LONG-END IMPLIED VOLATILITY module {} uploaded successfully using operation {}",
+						groupId,
+						readExcelWriteDBDTO.isUpdateOperation() ? "UPDATE" : "INSERT");
+			}
+
 		} else if (cryptosGroupIds.contains(readExcelWriteDBDTO.getGroupId().trim())) {
 
 			Long groupId = Long.valueOf(readExcelWriteDBDTO.getGroupId());

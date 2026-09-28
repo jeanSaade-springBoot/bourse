@@ -28,6 +28,9 @@ public class ReadExcelWriteDBDTO {
     private String operation;
     private String selectedSubgroupIds;
 
+    // Optional module selector used only by special module-based batch loaders (e.g. Rates/Central Banks group 48).
+    private String batchModule;
+
     public boolean isUpdateOperation() {
         return "UPDATE".equalsIgnoreCase(operation);
     }

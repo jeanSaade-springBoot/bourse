@@ -32,16 +32,127 @@ const chartItemLimits = {
     1: 2, // Chart 1: allow 2 items
     2: 1 // Chart 2: allow 1 item
 };
-const groupId = rollingGroupId;
-var dropDownSource = [{
-    name: "INITIALS",
-    groupId: mainGroupId,
-    ticker: "INITIALS"
+let groupId = null; // selected LEIV module group; set by the active thumbnail
+let selectedLeivVolatility = null;
+const LEIV_SELECTED_VOLATILITY_KEY = "leiv.selectedVolatility." + (typeof screenName !== "undefined" ? screenName : "default");
+/* LEIV Option Volume - UI/state only. No API/chart functionality yet. */
+const LEIV_OPTION_VOLUME_CONFIG = {
+    BUNDS: {
+        groupId: 17,
+        options: [{
+            key: "CALLS",
+            subgroupId: 1,
+            label: "BUND - Calls"
+        }, {
+            key: "PUTS",
+            subgroupId: 2,
+            label: "BUND - Puts"
+        }, {
+            key: "TOTAL_VOLUME",
+            subgroupId: 3,
+            label: "BUND - VOLUME"
+        }, {
+            key: "CP_RATIO",
+            subgroupId: 4,
+            label: "BUND - 5-day C/P Ratio"
+        }]
+    },
+    BUND: {
+        groupId: 17,
+        options: [{
+            key: "CALLS",
+            subgroupId: 1,
+            label: "BUND - Calls"
+        }, {
+            key: "PUTS",
+            subgroupId: 2,
+            label: "BUND - Puts"
+        }, {
+            key: "TOTAL_VOLUME",
+            subgroupId: 3,
+            label: "BUND - VOLUME"
+        }, {
+            key: "CP_RATIO",
+            subgroupId: 4,
+            label: "BUND - 5-day C/P Ratio"
+        }]
+    },
+    BOBLS: {
+        groupId: 18,
+        options: [{
+            key: "CALLS",
+            subgroupId: 1,
+            label: "BOBL - Calls"
+        }, {
+            key: "PUTS",
+            subgroupId: 2,
+            label: "BOBL - Puts"
+        }, {
+            key: "TOTAL_VOLUME",
+            subgroupId: 3,
+            label: "BOBL - VOLUME"
+        }]
+    },
+    BOBL: {
+        groupId: 18,
+        options: [{
+            key: "CALLS",
+            subgroupId: 1,
+            label: "BOBL - Calls"
+        }, {
+            key: "PUTS",
+            subgroupId: 2,
+            label: "BOBL - Puts"
+        }, {
+            key: "TOTAL_VOLUME",
+            subgroupId: 3,
+            label: "BOBL - VOLUME"
+        }]
+    },
+    BUXL: {
+        groupId: 19,
+        options: [{
+            key: "CALLS",
+            subgroupId: 1,
+            label: "BUXL - Calls"
+        }, {
+            key: "PUTS",
+            subgroupId: 2,
+            label: "BUXL - Puts"
+        }, {
+            key: "TOTAL_VOLUME",
+            subgroupId: 3,
+            label: "BUXL - VOLUME"
+        }]
+    },
+    SHATZ: {
+        groupId: 20,
+        options: [{
+            key: "CALLS",
+            subgroupId: 1,
+            label: "SHATZ - Calls"
+        }, {
+            key: "PUTS",
+            subgroupId: 2,
+            label: "SHATZ - Puts"
+        }, {
+            key: "TOTAL_VOLUME",
+            subgroupId: 3,
+            label: "SHATZ - VOLUME"
+        }]
+    }
+};
+let selectedLeivOptionVolume = null;
+const LEIV_VOL_TYPES = [{
+    subgroupId: 2,
+    key: "BS_VOL",
+    label: "B&S VOL"
 }, {
-    name: "ROLLING",
-    groupId: rollingGroupId,
-    ticker: "ROLLING"
-}, ];
+    subgroupId: 3,
+    key: "TICK_VOL",
+    label: "TICK VOL"
+}];
+var dropDownSource = []; // LEIV has no INITIALS/ROLLING group selector
 let trendFollowingLoading = false;
 const fullOptions = [{
     id: 20,
@@ -195,7 +306,7 @@ const selectedValues = {};
 const chartStates = {
     chart1: createChartState(),
     chart2: createChartState(),
-    chart3: createChartState() //chart4 in code 
+    chart3: createChartState() //chart4 in code
 };
 $(window).on('load', function() {
     $('#overlay').fadeOut();
@@ -301,31 +412,416 @@ $(document).ready(function() {
             $("#alertTextLimitation").append("<p> Maximum reached: You cannot draw more than 5 relevant. </p>");
         }
     });
-    initializeFunctions(mainGroupId);
+    buildLeivVolatilityThumbnails();
     //CryptosAnalisys
     //initializeCryptoOptions();
     // getTrendLinesHistory();
     //getDataChart3();
     getDataChart1(null);
     getDataChart2(null);
-    getDataChart4();
+    // Charts 3/4 deferred by client.
     //initializeOrderBookForCrypto("BTC");
 });
-$("#groupOfPeriod-chart1").on('buttonclick', function(event) {
+// LEIV Chart 1 period selector.
+// Same behavior as the working Long-End screen: changing the period reloads
+// Chart 1 with the newly selected period. Chart 2 technical drawings/history
+// are intentionally left untouched.
+function updateLeivFunctionAvailability() {
+    const allowed = getChartPeriod() === 'd' && !selectedLeivOptionVolume;
+    if (!allowed) {
+        functionId = -1;
+        suppressFunctionDropdownChange = true;
+        try {
+            $("#dropDownFunctions").jqxDropDownList("clearSelection");
+        } catch (e) {}
+        try {
+            $("#functionGroupDropDown").jqxDropDownList("clearSelection");
+        } catch (e) {}
+        suppressFunctionDropdownChange = false;
+    }
+    try {
+        $("#dropDownFunctions").jqxDropDownList({
+            disabled: !allowed
+        });
+    } catch (e) {}
+    try {
+        $("#functionGroupDropDown").jqxDropDownList({
+            disabled: !allowed
+        });
+    } catch (e) {}
+}
+$("#groupOfPeriod-chart1").off("buttonclick.leivPeriod").on("buttonclick.leivPeriod", function(event) {
     updateFunctionBasedOnSelectedPeriod($('#groupOfPeriod-chart1').jqxButtonGroup('getSelection'));
+    updateLeivFunctionAvailability();
     resetActiveChartType();
     resetActiveFontSize();
     resetActiveChartColor();
     resetActiveChartColorTransparency();
     resetActiveChartGrid();
-    drawGraphForChart(1);
+    loadLeivChart1Data(ChartManager.instances.chart1);
 });
-// Reuse the same filter logic everywhere
+
+function getLeivOptionVolumeConfig() {
+    return LEIV_OPTION_VOLUME_CONFIG[String(selectedLiveCurrency || "").trim().toUpperCase()] || null;
+}
+
+function clearLeivOptionVolumeSelection() {
+    selectedLeivOptionVolume = null;
+    updateLeivFunctionAvailability();
+    $("#leiv-option-volume-items .leiv-option-volume-checkbox").each(function() {
+        try {
+            $(this).jqxCheckBox("uncheck");
+            $(this).jqxCheckBox({
+                disabled: false
+            });
+        } catch (e) {}
+    });
+}
+
+function renderLeivOptionVolumeSelector() {
+    const chartOptions = document.getElementById("chart-option-chart1");
+    if (!chartOptions) return;
+    const existing = document.getElementById("leiv-option-volume-wrapper");
+    if (existing) existing.remove();
+    const config = getLeivOptionVolumeConfig();
+    // Hide completely for products where LibVol has no Option Volume.
+    if (!config) {
+        selectedLeivOptionVolume = null;
+        try {
+            $("#dropDownFunctions").jqxDropDownList({
+                disabled: false
+            });
+        } catch (e) {}
+        try {
+            $("#functionGroupDropDown").jqxDropDownList({
+                disabled: false
+            });
+        } catch (e) {}
+        return;
+    }
+    selectedLeivOptionVolume = null;
+    const wrapper = document.createElement("div");
+    wrapper.id = "leiv-option-volume-wrapper";
+    wrapper.className = "mt-2";
+    wrapper.innerHTML = `
+        <button type="button"
+                class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
+                id="btn-leiv-option-volume"
+                data-pcollapse="toggle"
+                data-target="#leiv-option-volume-main"
+                aria-expanded="false"
+                aria-controls="leiv-option-volume-main">
+            <span class="left"><span class="label">Option Volume</span></span>
+            <i class="fa-solid fa-chevron-down chev ms-auto"></i>
+        </button>
+        <div id="leiv-option-volume-main" class="collapse">
+            <div id="leiv-option-volume-items" class="col mb-2"></div>
+            <div class="col-12 d-flex pb-3 pt-2">
+                <input id="show-leiv-option-volume" type="button" class="btn btn-primary mr-1 mb-1" style="margin-right:1rem!important;color:white;" value="Show" />
+                <input id="clear-leiv-option-volume" type="button" class="btn btn-light-secondary mr-1 mb-1" style="margin-right:1rem!important;" value="Clear" />
+            </div>
+        </div>`;
+    chartOptions.appendChild(wrapper);
+    const container = document.getElementById("leiv-option-volume-items");
+    config.options.forEach(function(option) {
+        const checkbox = document.createElement("div");
+        checkbox.className = "jqx-checkbox leiv-option-volume-checkbox";
+        checkbox.style.float = "left";
+        checkbox.style.marginRight = "10px";
+        checkbox.id = "jqxCheckBoxLeivOptionVolume-" + config.groupId + "-" + option.key;
+        checkbox.innerText = option.label;
+        checkbox._leivOptionVolume = {
+            groupId: config.groupId,
+            subgroupId: option.subgroupId,
+            key: option.key,
+            label: option.label
+        };
+        container.appendChild(checkbox);
+    });
+    $("#leiv-option-volume-items .leiv-option-volume-checkbox").each(function() {
+        $(this).jqxCheckBox({ theme: "dark", width: "100%", height: 26 });
+    });
+    $("#leiv-option-volume-items .leiv-option-volume-checkbox")
+        .off("change.leivOptionVolume")
+        .on("change.leivOptionVolume", function(event) {
+            const checked = event.args && event.args.checked === true;
+            const current = this;
+            if (checked) {
+                selectedLeivOptionVolume = current._leivOptionVolume;
+                functionId = -1;
+                suppressFunctionDropdownChange = true;
+                try { $("#dropDownFunctions").jqxDropDownList("clearSelection"); } catch (e) {}
+                try { $("#functionGroupDropDown").jqxDropDownList("clearSelection"); } catch (e) {}
+                try { $("#dropDownFunctions").jqxDropDownList({ disabled: true }); } catch (e) {}
+                try { $("#functionGroupDropDown").jqxDropDownList({ disabled: true }); } catch (e) {}
+                suppressFunctionDropdownChange = false;
+                $("#leiv-option-volume-items .leiv-option-volume-checkbox").each(function() {
+                    if (this !== current) $(this).jqxCheckBox({ disabled: true });
+                });
+            } else {
+                selectedLeivOptionVolume = null;
+                try { $("#dropDownFunctions").jqxDropDownList({ disabled: false }); } catch (e) {}
+                try { $("#functionGroupDropDown").jqxDropDownList({ disabled: false }); } catch (e) {}
+                $("#leiv-option-volume-items .leiv-option-volume-checkbox").each(function() {
+                    $(this).jqxCheckBox({ disabled: false });
+                });
+            }
+            updateLeivFunctionAvailability();
+            // Chart 1 reload remains controlled by Show/Clear.
+        });
+    $("#show-leiv-option-volume").jqxButton({ theme: "dark", height: 30, width: 100 });
+    $("#clear-leiv-option-volume").jqxButton({ theme: "dark", height: 30, width: 100 });
+    $("#show-leiv-option-volume").off("click.leivOptionVolume").on("click.leivOptionVolume", function() {
+        if (!selectedLeivOptionVolume) return;
+        loadLeivChart1Data(ChartManager.instances.chart1);
+        $("#leiv-option-volume-main").removeClass("show");
+        $("#btn-leiv-option-volume").attr("aria-expanded", "false").addClass("collapsed");
+    });
+    $("#clear-leiv-option-volume")
+        .off("click.leivOptionVolume")
+        .on("click.leivOptionVolume", function() {
+            clearLeivOptionVolumeSelection();
+            loadLeivChart1Data(ChartManager.instances.chart1);
+        });
+}
+function buildLeivVolatilityThumbnails() {
+    const c = document.getElementById('leiv-volatility-selector');
+    if (!c || !Array.isArray(moduleGroupIds)) return;
+    c.innerHTML = '';
+    moduleGroupIds.forEach((gid, i) => LEIV_VOL_TYPES.forEach(v => {
+        const sel = {
+            groupId: gid,
+            subgroupId: v.subgroupId,
+            volatilityLabel: v.label,
+            module: i === 0 ? '2nd CONSTANT MATURITY' : '3rd CONSTANT MATURITY'
+        };
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = 'leiv-vol-thumb';
+        b.innerHTML = `<span class="module">${sel.module}</span><span class="vol">${sel.volatilityLabel}</span>`;
+        b._leivSelection = sel;
+        b.onclick = () => selectLeivVolatility(sel, b);
+        c.appendChild(b)
+    }));
+    // Restore the user's active LEIV module first. Do not blindly click the
+    // first thumbnail: that caused Chart 2 to render 2nd CM and then 3rd CM
+    // during page/viewport re-initialization.
+    let savedSelection = null;
+    try {
+        savedSelection = JSON.parse(sessionStorage.getItem(LEIV_SELECTED_VOLATILITY_KEY));
+    } catch (e) {
+        savedSelection = null;
+    }
+    let buttonToSelect = null;
+    if (savedSelection) {
+        const buttons = Array.from(c.querySelectorAll('.leiv-vol-thumb'));
+        buttonToSelect = buttons.find(function(button) {
+            const sel = button._leivSelection;
+            return sel && String(sel.groupId) === String(savedSelection.groupId) && String(sel.subgroupId) === String(savedSelection.subgroupId);
+        });
+    }
+    if (!buttonToSelect) {
+        buttonToSelect = c.querySelector('.leiv-vol-thumb');
+    }
+    if (buttonToSelect) {
+        buttonToSelect.click();
+    }
+}
+function selectLeivVolatility(sel, b) {
+    selectedLeivVolatility = sel;
+    groupId = sel.groupId;
+    renderLeivOptionVolumeSelector();
+    try {
+        sessionStorage.setItem(LEIV_SELECTED_VOLATILITY_KEY, JSON.stringify({
+            groupId: sel.groupId,
+            subgroupId: sel.subgroupId
+        }));
+    } catch (e) {
+        // Storage is optional; chart behavior must continue normally.
+    }
+    document.querySelectorAll('.leiv-vol-thumb').forEach(x => x.classList.remove('active'));
+    b.classList.add('active');
+    /*
+     * LEIV has no mainGroupId/rollingGroupId.
+     * The function dropdown belongs to the currently selected module group.
+     * B&S and Tick Vol in the same module therefore use the same group
+     * function configuration.
+     */
+    functionId = -1;
+    suppressFunctionDropdownChange = true;
+    if ($('#dropDownFunctions').length) {
+        try {
+            $("#dropDownFunctions").jqxDropDownList('clearSelection');
+        } catch (e) {}
+    }
+    if ($('#functionGroupDropDown').length) {
+        try {
+            $("#functionGroupDropDown").jqxDropDownList('clearSelection');
+        } catch (e) {}
+    }
+    initializeFunctions(sel.groupId);
+    setTimeout(function() {
+        suppressFunctionDropdownChange = false;
+    }, 100);
+    cachedTrendlineResult = null;
+    loadLeivChart1Data(ChartManager.instances.chart1);
+    loadLeivChart2Data(ChartManager.instances.chart2);
+}
+function buildLeivGraphParams(id) {
+    const f = document.getElementById(`dateFrom-chart${id}`);
+    const t = document.getElementById(`dateTo-chart${id}`);
+    const selectedFunctionId = (id == 1) ? getSelectedFunctionId() : -1;
+    const params = {
+        fromdate: f ? f.value : '',
+        todate: t ? t.value : '',
+        period: getChartPeriod(),
+        type: '3',
+        groupId1: String(selectedLeivVolatility.groupId),
+        subGroupId1: String(selectedLeivVolatility.subgroupId),
+        removeEmpty1: true
+    };
+    if (id == 1 && selectedFunctionId !== -1) {
+        params.functionId = String(selectedFunctionId);
+        params.isFunctionGraph = true;
+    } else {
+        params.isFunctionGraph = false;
+    }
+    return params;
+}
+function ensureLeivTechnicalItemValue() {
+    if (!selectedLeivVolatility || typeof itemValue === "undefined") return null;
+    const key = "#jqxCheckBox-" + selectedLeivVolatility.groupId + "-" + selectedLeivVolatility.subgroupId;
+    if (!itemValue[key]) {
+        itemValue[key] = {
+            subGroupId: String(selectedLeivVolatility.subgroupId),
+            GroupId: String(selectedLeivVolatility.groupId),
+            description: selectedLeivVolatility.subgroupId == 2 ? "bs_vol-" + selectedLeivVolatility.groupId : "delivered_tick_vol-" + selectedLeivVolatility.groupId,
+            title: getLeivTitle(),
+            factor: ""
+        };
+    }
+    return key;
+}
+function getLeivTitle() {
+    return selectedLeivVolatility ? `${selectedLiveCurrency} - ${selectedLeivVolatility.module} - ${selectedLeivVolatility.volatilityLabel}` : selectedLiveCurrency
+}
+async function loadLeivChart1Data(manager) {
+    if (!manager || !selectedLeivVolatility) return;
+    const chartId = 1;
+    const from = document.getElementById(`dateFrom-chart${chartId}`).value;
+    const to = document.getElementById(`dateTo-chart${chartId}`).value;
+    const period = getChartPeriod();
+    const functionId = (getChartPeriod() === 'd' && !selectedLeivOptionVolume) ? getSelectedFunctionId() : -1;
+    const params = {
+        fromdate: from,
+        todate: to,
+        period: period,
+        type: '3',
+        groupId1: String(selectedLeivVolatility.groupId),
+        subGroupId1: String(selectedLeivVolatility.subgroupId),
+        removeEmpty1: true
+    };
+    if (selectedLeivOptionVolume) {
+        params.groupId2 = String(selectedLeivOptionVolume.groupId);
+        params.subGroupId2 = String(selectedLeivOptionVolume.subgroupId);
+        params.removeEmpty2 = false;
+    }
+    // Exact original Long-End function request contract.
+    if (functionId != -1) {
+        params[`functionId`] = functionId;
+        params[`isFunctionGraph`] = true;
+    } else {
+        params[`isFunctionGraph`] = false;
+    }
+    const isFunctionLine = [1, 2, 76].includes(functionId);
+    const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
+    const isFunctionLineColumn = [7, 8, 9, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63,
+        64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75
+    ].includes(functionId);
+    let seriesTypes = ['line'];
+    let seriesColors = ['#ffffff'];
+    let isCentred = [false];
+    let applyTransparency = false;
+    let useDualYAxis = false;
+    let disableMarkers = false;
+    let markerSizeArray = [];
+    if (functionId != -1) {
+        if (isFunctionLine) {
+            seriesTypes = ['line', 'line'];
+            isCentred.push(false);
+            disableMarkers = true;
+            markerSizeArray = [1, 0];
+        } else if (isFunctionAreaColumn) {
+            seriesTypes = ['area', 'column'];
+            isCentred.push(true);
+            applyTransparency = true;
+            useDualYAxis = true;
+        } else if (isFunctionLineColumn) {
+            seriesTypes = ['line', 'column'];
+            isCentred.push(false);
+            useDualYAxis = true;
+        } else {
+            seriesTypes = ['line', 'line'];
+            isCentred.push(false);
+        }
+        if (functionId === 1) seriesColors = ['#ffffff', '#FF0000'];
+        else if (functionId === 2) seriesColors = ['#ffffff', '#ffa4c5'];
+        else if (functionId === 76) seriesColors = ['#ffffff', '#ff7f7f'];
+        else if ([53, 54, 55, 56, 57, 58].includes(functionId)) seriesColors = ['#ffffff', '#8aff8e'];
+        else if ([59, 60, 61, 62, 63].includes(functionId)) seriesColors = ['#ffffff', '#8ae2ff'];
+        else if ([64, 65, 66, 67, 68, 69].includes(functionId)) seriesColors = ['#ffffff', '#33ad02'];
+        else if ([70, 71, 72, 73, 74, 75].includes(functionId)) seriesColors = ['#ffffff', '#FFED4F'];
+        else if (isFunctionAreaColumn) seriesColors = ['#ffffff', '#ffa4c5'];
+        else if ([7, 8, 9].includes(functionId)) seriesColors = ['#ffffff', '#0cb1e6'];
+        else seriesColors = ['#ffffff', '#F0AB2E'];
+    }
+    const hasOptionVolume = selectedLeivOptionVolume != null;
+    if (hasOptionVolume) {
+        seriesTypes.push('column');
+        seriesColors.push('#f0ab2e');
+        isCentred.push(false);
+        useDualYAxis = true;
+        applyTransparency = true;
+        if (disableMarkers) markerSizeArray.push(0);
+    }
+    await manager.loadData({
+        service: "longEndImpliedVol",
+        api: "/longEndImpliedVol/getgraphdatabytype",
+        name: getLeivTitle(),
+        applyTitle: false,
+        removeEmpty: true,
+        saveHistory: false,
+        applyDb: true,
+        seriesTypes,
+        seriesColors,
+        useDualYAxis,
+        dataParam: params,
+        /*
+         * Existing ChartManager feature:
+         * align sparse function dates (weekly/monthly/etc.) with the main LEIV
+         * series by X date. This prevents sparse columns from being rendered
+         * at the first N category positions.
+         */
+        shouldAlign: functionId != -1 || hasOptionVolume,
+        interval: getActiveTimeRange(),
+        applyTransparency,
+        disableMarkers,
+        markerSizeArray,
+        isCentred,
+        timeLabel: hasOptionVolume ? true : false,
+        hasImage: true
+    });
+}
+async function loadLeivChart2Data(m) {
+    if (!m || !selectedLeivVolatility) return;
+    ensureLeivTechnicalItemValue();
+    const params = buildLeivGraphParams(2);
+    await loadGraphWithTrendlines(screenName, 'chart2', params);
+}
 function getCheckboxOptionsForChart(chartId) {
     return (chartId === 2) ? checkboxOptions.filter(opt => opt.index === 3 || opt.index === 4) // SETTLE & CLOSE
         : checkboxOptions;
 }
-
 function buildCheckboxGroup(groupId, chartId) {
     const container = document.createElement('div');
     container.className = 'col mb-2';
@@ -342,7 +838,6 @@ function buildCheckboxGroup(groupId, chartId) {
     });
     return container;
 }
-
 function buildCandleStickCheckboxGroup(groupId, chartId) {
     const container = document.createElement('div');
     container.className = 'col mb-2';
@@ -379,7 +874,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth =
     const container = document.getElementById(`checkboxes-container-chart-${chartId}`);
     if (!container) return;
     // Decide which groups to render
-    const groupsToRender = renderBoth ? dropDownSource.filter(g => g.groupId === mainGroupId || g.groupId === rollingGroupId) : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId));
+    const groupsToRender = renderBoth ? dropDownSource : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId));
     // Cache key: per chart if both, otherwise per group+chart
     const cacheKey = renderBoth ? `multi-${chartId}` : `${groupsToRender[0]?.groupId || cryptoGroupId}-${chartId}`;
     // 🧠 Only build once per cacheKey
@@ -409,7 +904,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth =
         initializeItemsPerChart(allItems, chartId);
         // Pre-check "CLOSE" (index 4) for all groups
         allItems.forEach(id => {
-            if (id.includes(rollingGroupId + '-4-')) $(id).jqxCheckBox('check');
+            // LEIV has no rolling-group default checkbox selection.
         });
         initializeClearFilterButtonForChart(chartId, allItems, false);
         checkboxCache[cacheKey] = true; // ✅ Mark as built
@@ -419,7 +914,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth =
     if (chartId === 1) {
         const isCandleStick = $('#candlestick-chart1').hasClass('active');
         const timeRange = getActiveTimeRange();
-        const allItems = (renderBoth ? dropDownSource.filter(g => g.groupId === mainGroupId || g.groupId === rollingGroupId) : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId))).flatMap(g => checkboxOptions.map(opt => `#jqxCheckBox-${g.groupId}-${opt.index}-chart-${chartId}`));
+        const allItems = (renderBoth ? dropDownSource : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId))).flatMap(g => checkboxOptions.map(opt => `#jqxCheckBox-${g.groupId}-${opt.index}-chart-${chartId}`));
         $("#btn-checkboxes-container-chart-1").removeClass("d-none").addClass("d-block");
         if (isCandleStick) {
             $("#btn-checkboxes-container-chart-1").addClass("d-none").removeClass("d-block");
@@ -448,7 +943,7 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth =
         // Other charts: show & enable all
         const filteredOptions = (chartId === 2) ? checkboxOptions.filter(opt => opt.index === 3 || opt.index === 4) // only SETTLE & CLOSE
             : checkboxOptions;
-        const allItems = (renderBoth ? dropDownSource.filter(g => g.groupId === mainGroupId || g.groupId === rollingGroupId) : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId))).flatMap(g => filteredOptions.map(opt => `#jqxCheckBox-${g.groupId}-${opt.index}-chart-${chartId}`));
+        const allItems = (renderBoth ? dropDownSource : dropDownSource.filter(g => String(g.groupId) === String(cryptoGroupId))).flatMap(g => filteredOptions.map(opt => `#jqxCheckBox-${g.groupId}-${opt.index}-chart-${chartId}`));
         allItems.forEach(id => {
             $(id).show().jqxCheckBox({
                 disabled: false
@@ -456,7 +951,6 @@ async function renderCheckboxesPerChart(cryptoGroupId, chartId = 2, renderBoth =
         });
     }
 }
-
 function initializeItemsPerChart(allItems, chartId) {
     checkedItemCountPerChart[chartId] = 0;
     checkedItemIdsPerChart[chartId] = [];
@@ -504,8 +998,12 @@ function initializeItemsPerChart(allItems, chartId) {
         }
     });
 }
-
 function getCheckedItems(chartId) {
+    // LEIV Chart 2 uses thumbnails. Expose the active thumbnail using the
+    // checkbox-style id expected by the shared trendlineManager.
+    if (Number(chartId) === 2 && selectedLeivVolatility) {
+        return ["#jqxCheckBox-" + selectedLeivVolatility.groupId + "-" + selectedLeivVolatility.subgroupId + "-chart-2"];
+    }
     const items = checkedItemIdsPerChart[chartId] || [];
     if (items.length === 2) {
         // Find Volume or Market Cap checkbox
@@ -518,7 +1016,6 @@ function getCheckedItems(chartId) {
     }
     return items;
 }
-
 function getCheckedCount(chartId) {
     return checkedItemCountPerChart[chartId] || 0;
 }
@@ -538,7 +1035,7 @@ function startScroll(direction = 'right') {
             left: direction === 'right' ? 10 : -10,
             behavior: 'auto'
         });
-    }, 16); // ~60fps smooth scroll
+    }, 16); // \~60fps smooth scroll
 }
 // Stop function
 function stopScroll() {
@@ -547,7 +1044,6 @@ function stopScroll() {
         scrollInterval = null;
     }
 }
-
 function initializeShowFilterButtonForChart(chartId) {
     $(`#show-chart-${chartId}`).jqxButton({
         theme: 'dark',
@@ -584,7 +1080,6 @@ function initializeShowFilterButtonForChart(chartId) {
         if (chartId == '1') $("#dropDownCandleOptionsContainer").removeClass("d-flex").addClass("d-none");
     });
 }
-
 function initializeClearFilterButtonForChart(chartId, allItems, reset) {
     const buttonSelector = `#clear-filter-chart-${chartId}`;
     $(buttonSelector).jqxButton({
@@ -610,7 +1105,6 @@ function initializeClearFilterButtonForChart(chartId, allItems, reset) {
         }
     });
 }
-
 function drawGraphForChart(chartId) {
     const checkItems = getCheckedItems(chartId);
     if (chartId == 1) {
@@ -620,532 +1114,29 @@ function drawGraphForChart(chartId) {
         getDataChart2(checkItems);
     }
 }
-
-function getDataChart1(checkedItemIds) {
-    //$("#candlestick-chart1").removeClass('active');
-    const chartId = '1';
-    const chartKey = `chart${chartId}`;
-    const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#longend${chartId}-container`);
-    const timeRange = getActiveTimeRange();
-    const fromDate = new Date();
-    if (timeRange === "Daily") {
-        fromDate.setMonth(fromDate.getMonth() - 4);
-    } else if (timeRange === "4h") {
-        fromDate.setDate(fromDate.getDate() - 21);
-    } else if (timeRange === "1w") {
-        fromDate.setMonth(fromDate.getMonth() - 6);
-    }
-    fromDate.setHours(0, 0, 0, 0);
-    // 👉 Set state before render to avoid override
-    manager.state.defaultFromDate = fromDate;
-    manager.state.defaultToDate = new Date(); // Today
-    if (manager && manager.chart) {
-        loadChart1Data(manager, timeRange, false);
+function getDataChart1() {
+    const m = ChartManager.instances.chart1 || new ChartManager('chart1', options, '#longend1-container');
+    const d = new Date();
+    d.setMonth(d.getMonth() - 4);
+    d.setHours(0, 0, 0, 0);
+    m.state.defaultFromDate = d;
+    m.state.defaultToDate = new Date();
+    if (m.chart) {
+        renderLeivOptionVolumeSelector();
+        loadLeivChart1Data(m);
     } else {
-        manager.render().then(() => {
-            $('#chart-option-chart1').append(`
-		    <!-- Candlestick Toggle -->
-		   
-			<div class="btn-group" id="candlestickToggle-chart1">
-			  <button id="candlestick-chart1" class="btn btn-option active" onclick="ChartManager.instances['chart1'].toggleCandlestick(this,1)">
-			    <i class="icon-candle"></i>
-			  </button>
-			</div>
-			 
-	        <button
-			  type="button"
-			  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
-			  id="btn-checkboxes-container-chart-1"
-			  data-pcollapse="toggle"
-				  data-target="#checkboxes-main-container-chart-1"
-			  aria-expanded="false"
-				  aria-controls="checkboxes-main-container-chart-1">
-			  <span class="left">
-			    <span class="label">Select Factor</span>
-			  </span>
-			  <i class="fa-solid fa-chevron-down chev ms-auto"></i>
-			</button>
-	          <div id="checkboxes-main-container-chart-1" class="collapse">
-	          	<div id="checkboxes-container-chart-1"></div>
-			    <div class="col-12 d-flex pb-3 pt-2">
-					<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-1" value="Show" />
-					<input id="clear-filter-chart-1" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-			</div>
-	          </div>
-	            <div class="d-flex pl-2  pt-2" id="buySellSwitchbutton">
-					  <input id="tech-analysis" type="checkbox" class="switch" onclick="techAnalysisCheck();">
-					  <label for="tech-analysis" class="checkboxesTitle" style="font-size: .75rem; margin-left: 4px;">TECH ANALYSIS</label>
-					</div>
-		        <div id="buySellContainer" class="d-none">
-			         <div class="d-flex align-items-center pl-3 fw-bold green-text" >BUY</div>
-			  		 <div class="d-flex align-items-center pl-3">
-				    	<div id="dropdown1bs" class="mt-2"></div>
-					    <div class="ml-2 mt-2">
-							<i class="fa-solid fa-xmark" id="reset1bs"></i>
-						</div>
-					</div>
-					<div class="d-flex align-items-center pl-3">
-				    	<div id="dropdown2bs" class="mt-2"></div>
-					    <div class="ml-2 mt-2">
-							<i class="fa-solid fa-xmark" id="reset2bs"></i>
-						</div>
-					</div>
-					<div class="d-flex align-items-center pl-3">
-				    	<div id="dropdown3bs" class="mt-2"></div>
-					    <div class="ml-2 mt-2">
-							<i class="fa-solid fa-xmark" id="reset3bs"></i>
-						</div>
-					</div>
-					<div class="d-flex align-items-center pl-3">
-				    	<div id="dropdown4bs" class="mt-2"></div>
-					    <div class="ml-2 mt-2">
-							<i class="fa-solid fa-xmark" id="reset4bs"></i>
-						</div>
-					</div>
-					 <div class="d-flex align-items-center pl-3 fw-bold red-text  pt-3">SELL</div>
-					<div class="d-flex align-items-center pl-3">
-				    	<div id="dropdown5bs" class="mt-2"></div>
-					    <div class="ml-2 mt-2">
-							<i class="fa-solid fa-xmark" id="reset5bs"></i>
-						</div>
-					</div>
-					<div class="d-flex align-items-center pl-3">
-				    	<div id="dropdown6bs" class="mt-2"></div>
-					    <div class="ml-2 mt-2">
-							<i class="fa-solid fa-xmark" id="reset6bs"></i>
-						</div>
-					</div>
-					<div class="d-flex align-items-center pl-3">
-				    	<div id="dropdown7bs" class="mt-2"></div>
-					    <div class="ml-2 mt-2">
-							<i class="fa-solid fa-xmark" id="reset7bs"></i>
-						</div>
-					</div>
-					<div class="d-flex align-items-center pl-3">
-				    	<div id="dropdown8bs" class="mt-2"></div>
-					    <div class="ml-2 mt-2">
-							<i class="fa-solid fa-xmark" id="reset8bs"></i>
-						</div>
-					</div>
-				</div>
-				
-			`);
-            initializeShowFilterButtonForChart('1');
-            const selectedGroupsId = groupId;
-            renderCheckboxesPerChart(selectedGroupsId, 1).then(() => {
-                loadChart1Data(manager, timeRange, false);
-            });
-            BuySelldropdownIds.forEach(id => {
-                $(`#${id}`).jqxDropDownList({
-                    source: dropdownOptionSource[id],
-                    displayMember: "label",
-                    valueMember: "id",
-                    width: 100,
-                    height: 30,
-                    autoDropDownHeight: true,
-                    selectedIndex: -1,
-                    theme: 'dark'
-                });
-                $(`#${id}`).off('select').on('select', function() {
-                    if (chartStates.chart1.isProgrammaticDropdownUpdate || chartStates.chart1.isRefreshingDropdowns || chartStates.chart1.isBulkUpdatingDropdowns) return;
-                    BuySelldropdownIds.forEach((dd, index) => {
-                        const resetId = "reset" + (index + 1) + "bs";
-                        $(`#${resetId}`).addClass('disabled').css({
-                            pointerEvents: 'none',
-                            opacity: 0.5,
-                            cursor: 'not-allowed'
-                        });
-                    });
-                    // Reload chart only for user-initiated event
-                    loadChart1Data(ChartManager.instances['chart1'], getActiveTimeRange(), true);
-                    // Refresh UNIQUE selection logic
-                    chartStates.chart1.isRefreshingDropdowns = true;
-                    setTimeout(() => {
-                        refreshAllDropdowns(BuySelldropdownIds);
-                        chartStates.chart1.isRefreshingDropdowns = false;
-                    });
-                });
-            });
-            bindResetGroup(BuySelldropdownIds, 1);
-            getTrendFollowingHistory(1, BuySelldropdownIds);
+        m.render().then(() => {
+            renderLeivOptionVolumeSelector();
+            return loadLeivChart1Data(m);
         });
     }
 }
-async function loadChart1Data(manager, timeRange, saveHistory, chartId = 1) {
-    const isCandleStick = $('#candlestick-chart1').hasClass('active');
-    const checkedItemIds = getCheckedItems(chartId);
-    const metadataList = checkedItemIds.map(fullId => {
-        const cleanId = fullId.replace(`-chart-${chartId}`, '');
-        return itemValue[cleanId];
-    }).filter(Boolean);
-    if (metadataList.length === 0 && !isCandleStick) {
-        console.error("At least one valid series is required.");
-        return;
-    }
-    const functionId = getSelectedFunctionId(); // returns -1 if none selected
-    let seriesColors = [];
-    const selectedGroupsId = groupId;
-    const trendFunctionIds = BuySelldropdownIds.map(id => {
-        const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
-        return item ? item.originalItem.id : null;
-    }).filter(id => id !== null).join(',');
-    setDropdownGroupDisabled(BuySelldropdownIds, false);
-    var isChecked = $("#tech-analysis").is(":checked");
-    if (isChecked && timeRange === 'Daily') {
-        if (saveHistory && timeRange === 'Daily') saveTrendLineHistory(isShared, 1, BuySelldropdownIds); //isShared
-        if (chartStates.chart1.trendFollowingLoading) return; // ✅ stop re-entry
-        chartStates.chart1.trendFollowingLoading = true;
-        try {
-            const sorted = [...metadataList];
-            const from = document.getElementById(`dateFrom-chart${chartId}`).value;
-            const to = document.getElementById(`dateTo-chart${chartId}`).value;
-            let period = getChartPeriod();
-            let seriesTypes = isCandleStick ? ['candlestick'] : ["line"]; // seriesTypes = ['candlestick', 'column'];
-            const params = {
-                fromdate: from,
-                todate: to,
-                period: period,
-                type: '3',
-                candlestickMode: isCandleStick ? true : false,
-                isTrendFunctionGraph: trendFunctionIds == '' ? false : true,
-                trendFunctionId: trendFunctionIds
-            };
-            if (isCandleStick) $("#btn-checkboxes-container-chart-1").addClass("d-none").removeClass("d-block");
-            // If two items, apply preferred order logic (5 or 6 last)
-            if (sorted.length === 2 && (sorted[0].subGroupId === '5' || sorted[0].subGroupId === '6')) {
-                [sorted[0], sorted[1]] = [sorted[1], sorted[0]]; // swap
-            }
-            // If two items, apply preferred order logic (5 or 6 last)
-            params[`subGroupId1`] = 4;
-            params[`groupId1`] = rollingGroupId;
-            sorted.forEach((meta, index) => {
-                params[`subGroupId${index + 1}`] = meta.subGroupId;
-                params[`groupId${index + 1}`] = selectedGroupsId;
-                params[`removeEmpty${index + 1}`] = false;
-            });
-            const trendFunctionIdsArray = getAllSelectedDropdownValues(BuySelldropdownIds);
-            // Dynamic series config
-            let colorsArray = [];
-            let strokecolorsArray = [];
-            let isCentred = [false];
-            let applyTransparency = false;
-            let useDualYAxis = false;
-            const baseColors = ['#ffffff', '#ff0000', '#4d93d9', '#d86dcd', '#ffff00', '#00b050', '#002060', '#be5014', '#275317'];
-            const useShortFormatList = sorted.map(m => (m.subGroupId === '5' || m.subGroupId === '6'));
-            // MAIN PRICE SERIES — always index 0
-            colorsArray.push(function({
-                value,
-                seriesIndex
-            }) {
-                // Always return base color for the price / first series
-                return '#ffffff';
-            });
-            strokecolorsArray.push(function({
-                value,
-                seriesIndex
-            }) {
-                // Always return base color for the price / first series
-                return '#ffffff';
-            });
-            trendFunctionIdsArray.forEach((val, index) => {
-                if (val === null || val === undefined) return;
-                seriesTypes.push("line");
-                const base = baseColors[index + 1]; // shift because index 0 is already taken
-                colorsArray.push(function({
-                    value,
-                    seriesIndex,
-                    w
-                }) {
-                    try {
-                        return base;
-                    } catch (e) {
-                        console.error("Color calc error", e);
-                        return base;
-                    }
-                });
-                strokecolorsArray.push(function({
-                    value,
-                    seriesIndex,
-                    w
-                }) {
-                    try {
-                        return base;
-                    } catch (e) {
-                        console.error("Color calc error", e);
-                        return base;
-                    }
-                });
-            });
-            const disableMarkers = true;
-            let markerSizeArray = (disableMarkers) ? [1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0] : [];
-            let api = '/graph/get-weighted-trend-graph';
-            // Load chart
-            manager.loadData({
-                service: "cryptos",
-                api: api,
-                name: "",
-                applyTitle: true,
-                ishort: true,
-                removeEmpty: false,
-                saveHistory: false,
-                applyDb: true,
-                seriesTypes,
-                seriesColors,
-                useDualYAxis,
-                dataParam: params,
-                useShortFormatList,
-                interval: timeRange,
-                seriesColors: colorsArray,
-                seriesStrokesColors: strokecolorsArray,
-                applyTransparency: applyTransparency,
-                disableMarkers: disableMarkers,
-                markerSizeArray: markerSizeArray,
-                isCentred: isCentred,
-                showLegend: false,
-                currency: selectedLiveCurrency,
-                timeLabel: true,
-                combineTooltips: true,
-            }).then(() => {
-                // $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
-                setDropdownGroupDisabled(BuySelldropdownIds, false);
-                BuySelldropdownResetIds.forEach(id => {
-                    $(`#${id}`).removeClass('disabled').css({
-                        pointerEvents: '',
-                        opacity: '',
-                        cursor: ''
-                    });
-                });
-            });
-        } finally {
-            chartStates.chart1.trendFollowingLoading = false;
-            setTimeout(() => chartStates.chart1.suppressTrendFollowingReload = false, 200);
-        }
-    } else
-    if (isCandleStick) {
-        $("#btn-checkboxes-container-chart-1").addClass("d-none").removeClass("d-block");
-        let isCentred = [false];
-        let applyTransparency = false;
-        const from = document.getElementById(`dateFrom-chart${chartId}`).value;
-        const to = document.getElementById(`dateTo-chart${chartId}`).value + ' 23:59:59';
-        const newCandlestickParam = {
-            fromdate: from,
-            todate: to,
-            groupId1: selectedGroupsId,
-            subGroupId1: 4, // fix here for bl new api 
-            interval: manager._lastDataParam?.interval || "Daily",
-            period: manager._lastDataParam?.period || 'd',
-            type: manager._lastDataParam?.type || '3',
-            candlestickMode: true,
-        };
-        const isFunctionLine = [1, 2, 76].includes(functionId);
-        const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
-        const isFunctionLineColumn = [7, 8, 9, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75].includes(functionId);
-        let disableMarkers = false;
-        let markerSizeArray = [];
-        const excludedIds = [1, 2, 76, -1];
-        let useDualYAxis = !excludedIds.includes(functionId);
-        let useShortFormatList = [false];
-        let seriesTypes = ['candlestick'];
-        if (metadataList.length >= 1) {
-            if (functionId != -1) $("#reset").click();
-            newCandlestickParam.groupId2 = selectedGroupsId;
-            newCandlestickParam.subGroupId2 = metadataList[0].subGroupId;
-            newCandlestickParam.removeEmpty1 = false;
-            newCandlestickParam.removeEmpty2 = false;
-            seriesTypes = ['candlestick', 'column'];
-            seriesColors = ['#ffffff', 'rgba(240, 171, 46, 0.5)'];
-            useDualYAxis = true;
-            useShortFormatList = [false, true];
-            newCandlestickParam[`isFunctionGraph`] = false;
-        } else
-        if (functionId != -1) {
-            newCandlestickParam[`functionId`] = functionId;
-            newCandlestickParam[`isFunctionGraph`] = true;
-            if (isFunctionLine) {
-                if (functionId === 1) {
-                    seriesColors = ['#ffffff', '#FF0000'];
-                } else if (functionId === 2) {
-                    seriesColors = ['#ffffff', '#ffa4c5'];
-                }  else if (functionId === 76) {
-                    seriesColors = ['#ffffff', '#ff7f7f'];
-                }
-                seriesTypes = ['candlestick', 'line'];
-                isCentred.push(false);
-                disableMarkers = true;
-                markerSizeArray = [1, 0];
-            } else if (isFunctionAreaColumn) {
-                seriesTypes = ['candlestick', 'column'];
-                isCentred.push(true);
-                seriesColors = ['#ffffff', '#ffa4c5'];
-                applyTransparency = true;
-            } else if (isFunctionLineColumn) {
-                seriesTypes = ['candlestick', 'column'];
-                seriesColors = ['#ffffff', '#0cb1e6'];
-                if ([53, 54, 55, 56, 57, 58].includes(functionId)) {
-                    seriesColors = ['#ffffff', '#8aff8e'];
-                } else if ([59, 60, 61, 62, 63].includes(functionId)) {
-                    seriesColors = ['#ffffff', '#8ae2ff'];
-                } else if ([64, 65, 66, 67, 68, 69].includes(functionId)) {
-                    seriesColors = ['#ffffff', '#33ad02'];
-                } else if ([70, 71, 72, 73, 74, 75].includes(functionId)) {
-                    seriesColors = ['#ffffff', '#FFED4F'];
-                }
-                isCentred.push(false);
-            }
-        }
-        const timeRange = getActiveTimeRange();
-        const api = timeRange === "Daily" ? "/cryptos/getcandlegraphdata" : "/cryptos/getcandlegraphdatainterval";
-        await manager.loadData({
-            service: manager._lastService,
-            api: api,
-            name: manager._lastGraphName + ' - Candlestick',
-            removeEmpty: manager._lastRemoveEmpty,
-            saveHistory: false,
-            fromOverride: manager.state.defaultFromDate,
-            toOverride: manager.state.defaultToDate,
-            applyDb: false,
-            seriesTypes,
-            seriesColors,
-            useDualYAxis,
-            dataParam: newCandlestickParam,
-            interval: timeRange,
-            applyTransparency: applyTransparency,
-            disableMarkers: disableMarkers,
-            markerSizeArray: markerSizeArray,
-            isCentred: isCentred,
-            useShortFormatList: useShortFormatList,
-            timeLabel: false,
-            hasImage: true,
-        }).then(() => {
-            //$("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
-        });
-        manager._disableChartSettings(true, ['fontOptions']);
-    } else {
-        const sorted = [...metadataList];
-        const from = document.getElementById(`dateFrom-chart${chartId}`).value;
-        const to = document.getElementById(`dateTo-chart${chartId}`).value;
-        let period = getChartPeriod();
-        const params = {
-            fromdate: from,
-            todate: to,
-            period: period,
-            type: '3'
-        };
-        // If two items, apply preferred order logic (5 or 6 last)
-        if (sorted.length === 2 && (sorted[0].subGroupId === '5' || sorted[0].subGroupId === '6')) {
-            [sorted[0], sorted[1]] = [sorted[1], sorted[0]]; // swap
-        }
-        // Build dynamic param structure
-        sorted.forEach((meta, index) => {
-            params[`subGroupId${index + 1}`] = meta.subGroupId;
-            params[`groupId${index + 1}`] = meta.GroupId;
-            params[`removeEmpty${index + 1}`] = false;
-        });
-        const isFunctionLine = [1, 2, 76].includes(functionId);
-        const isFunctionAreaColumn = [3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId);
-        const isFunctionLineColumn = [7, 8, 9, 53, 54, 55, 56, 57, 58, 59, 60, 61, 62, 63, 64, 65, 66, 67, 68, 69, 70, 71, 72, 73, 74, 75].includes(functionId);
-        if (functionId != -1) {
-            params[`functionId`] = functionId;
-            params[`isFunctionGraph`] = true;
-        } else {
-            params[`isFunctionGraph`] = false;
-        }
-        // Dynamic series config
-        const has5or6 = sorted.some(m => m.subGroupId === '5' || m.subGroupId === '6');
-        let isCentred = [false];
-        let applyTransparency = false;
-        if (functionId !== -1) {
-            if (isFunctionLine) {
-                seriesTypes = ['line', 'line'];
-                isCentred.push(false);
-            } else if (isFunctionAreaColumn) {
-                seriesTypes = ['area', 'column'];
-                isCentred.push(true);
-            } else if (isFunctionLineColumn) {
-                seriesTypes = ['line', 'column'];
-                isCentred.push(false);
-            }
-        } else {
-            if (metadataList.length > 1) {
-                seriesTypes = ['line', 'line'];
-            } else {
-                seriesTypes = [];
-            }
-            isCentred.push(false);
-        }
-        if (functionId === 1) {
-            seriesColors = ['#ffffff', '#FF0000'];
-        } else if (functionId === 2) {
-            seriesColors = ['#ffffff', '#ffa4c5'];
-        } else if (functionId === 76) {
-            seriesColors = ['#ffffff', '#ff7f7f'];
-        } else if ([53, 54, 55, 56, 57, 58].includes(functionId)) {
-            seriesColors = ['#ffffff', '#8aff8e'];
-        } else if ([59, 60, 61, 62, 63].includes(functionId)) {
-            seriesColors = ['#ffffff', '#8ae2ff'];
-        } else if ([64, 65, 66, 67, 68, 69].includes(functionId)) {
-            seriesColors = ['#ffffff', '#33ad02'];
-        } else if ([70, 71, 72, 73, 74, 75].includes(functionId)) {
-            seriesColors = ['#ffffff', '#FFED4F'];
-        } else if ([3, 4, 5, 6, 10, 11, 12, 13, 14, 15].includes(functionId)) {
-            seriesColors = ['#ffffff', '#ffa4c5'];
-            applyTransparency = true;
-        } else if ([7, 8, 9].includes(functionId)) {
-            seriesColors = ['#ffffff', '#0cb1e6'];
-        } else if (metadataList.length > 1) {
-            seriesColors = sorted.map((m, i) => {
-                if (i === 1) {
-                    return 1 == 2 ? 'rgba(240, 171, 46, 0.5)' : '#0000ff'; // Yellow or blue based on condition
-                }
-                return '#ffffff'; // Default
-            });
-            applyTransparency = true;
-        }
-        const SelectedSorted = sorted.filter(
-            (item, index, self) => index === self.findIndex(
-                (t) => t.subGroupId === item.subGroupId && t.GroupId === item.GroupId));
-        const excludedIds = [1, 2, 76, -1];
-        let useDualYAxis = (!excludedIds.includes(functionId) || (SelectedSorted.length === 2 && has5or6));
-        const useShortFormatList = sorted.map(m => (m.subGroupId === '5' || m.subGroupId === '6'));
-        const disableMarkers = (functionId === 1 || functionId === 2 || functionId === 76) ? true : false;
-        let markerSizeArray = (disableMarkers) ? [1, 0] : [];
-        let api = '';
-        if (timeRange == "Daily") api = "/cryptos/getgraphdatabytype";
-        else {
-            api = "/cryptos/getgraphdatainterval";
-            params[`todate`] = to + ' 23:59:59';
-        }
-        // Load chart
-        manager.loadData({
-            service: "cryptos",
-            api: api,
-            name: "BTC-vs-ETH",
-            removeEmpty: false,
-            saveHistory: false,
-            applyDb: true,
-            seriesTypes,
-            seriesColors,
-            useDualYAxis,
-            dataParam: params,
-            useShortFormatList,
-            interval: timeRange,
-            applyTransparency: applyTransparency,
-            disableMarkers: disableMarkers,
-            markerSizeArray: markerSizeArray,
-            isCentred: isCentred,
-            timeLabel: false,
-            hasImage: true,
-        }).then(() => {
-            // $("#dropDownCryptoOptions").jqxDropDownList({ disabled: false }); 
-        });
-    }
-    disableEnableCheckboxes(1, chartStates[`chart1`].allItems);
+async function loadChart1Data(m) {
+    return loadLeivChart1Data(m)
 }
-
 function getCheckedCountValues(checkboxArray) {
     return checkboxArray.filter(id => $(id).length && $(id).jqxCheckBox('checked')).length;
 }
-
 function techAnalysisCheck() {
     var isChecked = $("#tech-analysis").is(":checked");
     const isCandleStick = $('#candlestick-chart1').hasClass('active');
@@ -1157,7 +1148,6 @@ function techAnalysisCheck() {
         $('#groupOfPeriod-chart1').removeClass("d-flex").addClass("d-none");
         /*	checkboxOptions.forEach(opt => {
         			const id = `#jqxCheckBox-${cryptoGroupId}-${opt.index}-chart-1`;
-        			
         			if (opt.index === 3 || opt.index === 4 || opt.index === 8) {
         				$(id).show().jqxCheckBox({ disabled: false });
         			} else {
@@ -1188,7 +1178,6 @@ function techAnalysisCheck() {
     }
     loadChart1Data(ChartManager.instances['chart1'], getActiveTimeRange(), false);
 }
-
 function disableEnableCheckboxes(chartId, allItems) {
     const chartKey = `chart${chartId}`;
     const checkedCount = getCheckedCountValues(chartStates[chartKey].allItems);
@@ -1219,78 +1208,19 @@ function disableEnableCheckboxes(chartId, allItems) {
         }
     }
 }
-
 function getDataChart2() {
-    const chartId = '2';
-    const chartKey = `chart${chartId}`;
-    const manager = ChartManager.instances[chartKey] || new ChartManager(chartKey, options, `#longend${chartId}-container`);
-    const timeRange = getActiveTimeRange();
-    const fromDate = new Date();
-    fromDate.setMonth(fromDate.getMonth() - 6);
-    fromDate.setHours(0, 0, 0, 0);
-    manager.state.defaultFromDate = fromDate;
-    manager.state.defaultToDate = new Date(); // Today
-    if (manager && manager.chart) {
-        loadChart2Data();
-    } else {
-        manager.render().then(() => {
-            $('#chart-option-chart2').append(`
-		 <button
-			  type="button"
-			  class="menu-header collapsed chart-menu-toggle btn w-100 mb-2 text-start"
-			  data-pcollapse="toggle"
-			  data-target="#checkboxes-main-container-chart-2"
-			  aria-expanded="false"
-			  aria-controls="checkboxes-main-container-chart-2">
-			  <span class="left">
-			    <span class="label">Select Factor</span>
-			  </span>
-			  <i class="fa-solid fa-chevron-down chev ms-auto"></i>
-			</button>
-		    <div id="checkboxes-main-container-chart-2" class="collapse">
-			    <div id="checkboxes-container-chart-2"></div>
-			    <div class="col-12 d-flex pb-3 pt-2">
-						<input  aria-expanded="true" aria-controls="collapseFilter" class="btn btn-primary mr-1 mb-1" style="margin-right: 1rem!important; color:white;" type="button" id="show-chart-2" value="Show" />
-						<input id="clear-filter-chart-2" type="button" style="margin-right: 1rem!important;" class="btn btn-light-secondary mr-1 mb-1" value="Clear" />
-				</div>
-		    </div>`);
-            initializeShowFilterButtonForChart('2');
-            const selectedGroupsId = groupId;
-            renderCheckboxesPerChart(selectedGroupsId, 2).then(() => {
-                loadChart2Data();
-            });
-        });
-    }
+    const m = ChartManager.instances.chart2 || new ChartManager('chart2', options, '#longend2-container');
+    const d = new Date();
+    d.setMonth(d.getMonth() - 6);
+    d.setHours(0, 0, 0, 0);
+    m.state.defaultFromDate = d;
+    m.state.defaultToDate = new Date();
+    if (m.chart) loadLeivChart2Data(m);
+    else m.render().then(() => loadLeivChart2Data(m))
 }
-
-function loadChart2Data(chartId = 2) {
-    const checkedItemIds = getCheckedItems(chartId);
-    const metadataList = checkedItemIds.map(fullId => {
-        const cleanId = fullId.replace(`-chart-${chartId}`, '');
-        return itemValue[cleanId];
-    }).filter(Boolean);
-    if (metadataList.length === 0) {
-        console.error("At least one valid series is required.");
-        return;
-    }
-    const sorted = [...metadataList];
-    const from = document.getElementById(`dateFrom-chart${chartId}`).value;
-    const to = document.getElementById(`dateTo-chart${chartId}`).value;
-    let period = getChartPeriod();
-    const params = {
-        fromdate: from,
-        todate: to,
-        period: period,
-        type: '3'
-    };
-    sorted.forEach((meta, index) => {
-        params[`subGroupId${index + 1}`] = meta.subGroupId;
-        params[`groupId${index + 1}`] = meta.GroupId;
-        params[`removeEmpty${index + 1}`] = false;
-    });
-    loadGraphWithTrendlines(screenName, 'chart2', params);
+function loadChart2Data() {
+    return loadLeivChart2Data(ChartManager.instances.chart2)
 }
-
 function getDataChart4() { // trendfollowing
     const chartId = '4';
     const manager = new ChartManager(`chart${chartId}`, options, `#longend${chartId}-container`);
@@ -1312,7 +1242,6 @@ function getDataChart4() { // trendfollowing
 			    <i class="icon-candle"></i>
 			  </button>
 			</div>
-			
 			    <div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown1" class="mt-2"></div>
 				    <div class="ml-2 mt-2">
@@ -1348,7 +1277,6 @@ function getDataChart4() { // trendfollowing
 			            <input type="radio" name="options" value="2"> Long
 			        </label>
 		        </div>
-		        
 		        <div class="d-flex align-items-center pl-3">
 			    	<div id="dropdown5" class="mt-2"></div>
 				    <div class="ml-2 mt-2">
@@ -1479,7 +1407,6 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
         let titleB = commonParams[`isFunctionGraph`] ? 'with TIME&VOLATILITY WEIGHTED ARRAYS' : '';
         const selectedFunctionIdsArray = getAllSelectedDropdownValues(dropdownIds);
         //   resetAndReassignDropdowns(selectedFunctionIdsArray);
-        
         let colorsArray = [];
         let strokecolorsArray = [];
         let isCentredArray = [false];
@@ -1663,20 +1590,21 @@ async function updateTrendFollowingGraph(chartId, manager, saveHistory) {
 }
 async function loadGraphWithTrendlines(screenName, chartId, dataParam) {
     try {
+        ensureLeivTechnicalItemValue();
         if (!cachedTrendlineResult) {
             cachedTrendlineResult = await getTrendLinesHistoryAsync(screenName);
         }
-        ChartManager.instances[chartId].loadDataWithOverlays({
-            service: "cryptos",
-            api: "/cryptos/getgraphdatabytype",
+        return await ChartManager.instances[chartId].loadDataWithOverlays({
+            service: "longEndImpliedVol",
+            api: "/longEndImpliedVol/getgraphdatabytype",
             name: "Technical Chart",
             removeEmpty: true,
             saveHistory: true,
-            dataParam,
+            dataParam: dataParam,
             result: cachedTrendlineResult
         });
     } catch (err) {
-        console.error("Error loading trendlines + technical chart:", err);
+        console.error("Error loading LEIV trendlines + technical chart:", err);
     }
 }
 // Attach events for Right button
@@ -1689,9 +1617,8 @@ const leftBtn = document.getElementById('scrollLeftBtn');
 leftBtn.addEventListener('mousedown', () => startScroll('left'));
 leftBtn.addEventListener('mouseup', stopScroll);
 leftBtn.addEventListener('mouseleave', stopScroll);
-
 function toggleGraphData(time) {
-    //$("#dropDownCryptoOptions").jqxDropDownList({ disabled: true }); 
+    //$("#dropDownCryptoOptions").jqxDropDownList({ disabled: true });
     $("#reset").trigger("click", [true]);
     // 1️⃣ Set active button FIRST
     $('#DailyData-btn').toggleClass('active', time === 1);
@@ -1787,19 +1714,16 @@ function toggleGraphData(time) {
         }
     }
 }
-
 function getSelectedFunctionId() {
     const dropdown = $("#dropDownFunctions").jqxDropDownList('getSelectedItem');
     return dropdown && dropdown.value !== null ? parseInt(dropdown.value) : -1;
 }
-
 function getActiveTimeRange() {
     if ($('#DailyData-btn').hasClass('active')) return 'Daily';
     if ($('#4HoursData-btn').hasClass('active')) return '4h';
     if ($('#weeklyData-btn').hasClass('active')) return '1w';
     return null; // if none is active
 }
-
 function initializeCandlesOptions(groupId) {
     var dropDownOptionsource = [{
         "name": "VOLUME",
@@ -1853,13 +1777,12 @@ function initializeCandlesOptions(groupId) {
         }
     });
 }
-
 function initializeFunctions(groupId) {
     $.get('/admin/getfunctions/' + groupId, function(data) {
         allFunctions = data;
         loadfunctionGroupDropDown(data);
     });
-    $("#reset").on("click", function(e, isProgrammatic = false) {
+    $("#reset").off("click.leivFunctions").on("click.leivFunctions", function(e, isProgrammatic = false) {
         if (isProgrammatic) {
             suppressFunctionDropdownChange = true;
         }
@@ -1872,20 +1795,19 @@ function initializeFunctions(groupId) {
                 suppressFunctionDropdownChange = false;
             }, 100);
         } else {
-            // Manual reset = draw chart normally
-            drawGraphForChart(1);
+            // LEIV reset: reload selected volatility without function.
+            loadLeivChart1Data(ChartManager.instances['chart1']);
         }
     });
-    $('#dropDownFunctions').on('change', function(event) {
+    $('#dropDownFunctions').off('change.leivFunctions').on('change.leivFunctions', function(event) {
         if (suppressFunctionDropdownChange) return;
         const args = event.args;
         if (args) {
             functionId = parseInt($('#dropDownFunctions').val()) - 1;
-            drawGraphForChart(1);
+            loadLeivChart1Data(ChartManager.instances['chart1']);
         }
     });
 }
-
 function loadfunctionGroupDropDown(data, loadAll) {
     var groupsMap = {};
     data.forEach(function(item) {
@@ -1923,14 +1845,13 @@ function loadfunctionGroupDropDown(data, loadAll) {
     });
     loadFunctionDropdown(loadAll ? data : filtered);
     // 🔥 filter functions when group changes
-    $("#functionGroupDropDown").on('select', function(event) {
+    $("#functionGroupDropDown").off("select.leivFunctions").on("select.leivFunctions", function(event) {
         if (event.args) {
             var selectedGroupId = event.args.item.value;
             filterFunctions(selectedGroupId);
         }
     });
 }
-
 function loadFunctionDropdown(data) {
     var sortedData = data.slice();
     sortedData.sort(function(a, b) {
@@ -1976,21 +1897,19 @@ function loadFunctionDropdown(data) {
         selectedIndex: -1,
         autoDropDownHeight: true
     });
-    // ✅ FIX: always open after binding 
+    // ✅ FIX: always open after binding
     $("#dropDownFunctions").off('bindingComplete').on('bindingComplete', function() {
         $(this).jqxDropDownList('open');
     });
 }
-
 function filterFunctions(groupId) {
     var filtered = allFunctions.filter(function(item) {
         return item.groupId == groupId;
     });
-    // $("#dropDownFunctions").jqxDropDownList('clearSelection'); 
+    // $("#dropDownFunctions").jqxDropDownList('clearSelection');
     $('#reset').click();
     loadFunctionDropdown(filtered);
 }
-
 function getChartPeriod() {
     let period = 'd'; // Default value
     if ($('#groupOfPeriod-chart1').length) {
@@ -2032,7 +1951,6 @@ function getAllSelectedValues(dropdownIdsArray) {
     });
     return selected;
 }
-
 function updateDropdown(idToUpdate, selectedValues) {
     const currentSelected = selectedValues[idToUpdate];
     const excluded = Object.entries(selectedValues).filter(([key, val]) => key !== idToUpdate && val !== null).map(([_, val]) => val);
@@ -2048,12 +1966,10 @@ function updateDropdown(idToUpdate, selectedValues) {
         instance.jqxDropDownList('clearSelection');
     }
 }
-
 function refreshAllDropdowns(dropdownIdsArray) {
     const currentSelections = getAllSelectedValues(dropdownIdsArray);
     dropdownIdsArray.forEach(id => updateDropdown(id, currentSelections));
 }
-
 function bindResetButton(resetBtnId, dropdownId, dropdownResetIdsArray, chartId = '4') {
     $(`#${resetBtnId}`).on("click", async function(e, isProgrammatic = false) {
         // 🔒 Disable all reset buttons
@@ -2093,7 +2009,6 @@ function bindResetButton(resetBtnId, dropdownId, dropdownResetIdsArray, chartId 
         });
     });
 }
-
 function getTrendFollowingHistory(chartId, dropdownIdsArrays) {
     dropdownIdsArrays.forEach((dropdownId, index) => {
         const instance = $(`#${dropdownId}`);
@@ -2130,7 +2045,6 @@ function getTrendFollowingHistory(chartId, dropdownIdsArrays) {
         }
     });
 }
-
 function loadHistoryAndFillDropdownsChart1(data) {
     chartStates.chart1.isProgrammaticDropdownUpdate = true;
     // 1) Parse stored functionId string → [20,21,22,30]
@@ -2167,7 +2081,6 @@ function loadHistoryAndFillDropdownsChart1(data) {
         refreshAllDropdowns(BuySelldropdownIds);
     }, 200);
 }
-
 function loadHistoryAndFillDropdowns(data) {
     chartStates.chart3.isProgrammaticDropdownUpdate = true;
     // 1) Parse stored functionId string → [20,21,22,30]
@@ -2213,12 +2126,10 @@ function loadHistoryAndFillDropdowns(data) {
         }
     }, 200);
 }
-
 function arraysEqual(arr1, arr2) {
     if (arr1.length !== arr2.length) return false;
     return arr1.every((val, idx) => val === arr2[idx]);
 }
-
 function validateRadioSelection() {
     const currentValues = dropdownIds.map(id => {
         const val = $(`#${id}`).jqxDropDownList('val');
@@ -2275,7 +2186,6 @@ async function saveTrendLineHistory(isShared, chartId, dropdownIdsArrays) {
         console.error('Error:', error);
     }
 }
-
 function resetAndReassignDropdowns(values = []) {
     isProgrammaticDropdownUpdate = true;
     dropdownIds.forEach((dropdownId, index) => {
@@ -2298,21 +2208,18 @@ function resetAndReassignDropdowns(values = []) {
         refreshAllDropdowns();
     }, 200);
 }
-
 function getAllSelectedDropdownValues(dropdownIdsArray) {
     return dropdownIdsArray.map(id => {
         const item = $(`#${id}`).jqxDropDownList('getSelectedItem');
         return item ? item.originalItem.id : null;
     });
 }
-
 function bindResetGroup(dropdownIds, chartId) {
     dropdownIds.forEach(dropdownId => {
         const resetId = dropdownId.replace('dropdown', 'reset');
         bindResetButton(resetId, dropdownId, dropdownIds, chartId);
     });
 }
-
 function setDropdownGroupDisabled(dropdownIds, isDisabled) {
     dropdownIds.forEach(id => {
         $(`#${id}`).jqxDropDownList({
@@ -2320,7 +2227,6 @@ function setDropdownGroupDisabled(dropdownIds, isDisabled) {
         });
     });
 }
-
 function createChartState() {
     return {
         isRefreshingDropdowns: false,

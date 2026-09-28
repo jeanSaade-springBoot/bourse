@@ -23,13 +23,13 @@ var itemValue = {
 		"description": "OPEN_GOLD",
 		"title": "OPEN_GOLD"
 	},
-		"#jqxCheckBox-6-7": {
+	"#jqxCheckBox-6-7": {
 		"subGroupId": "7",
 		"GroupId": "6",
 		"description": "HIGH_GOLD",
 		"title": "HIGH_GOLD"
 	},
-		"#jqxCheckBox-6-8": {
+	"#jqxCheckBox-6-8": {
 		"subGroupId": "8",
 		"GroupId": "6",
 		"description": "LOW_GOLD",
@@ -47,7 +47,7 @@ var itemValue = {
 		"description": "HIGH_SILVER",
 		"title": "HIGH_SILVER"
 	},
-		"#jqxCheckBox-6-11": {
+	"#jqxCheckBox-6-11": {
 		"subGroupId": "11",
 		"GroupId": "6",
 		"description": "LOW_SILVER",
@@ -4397,90 +4397,90 @@ var itemValue = {
 		"img": "/img/flag/india.png"
 	},
 	"#jqxCheckBoxfed_lower_move": {
-	    "subGroupId": "3",
-	    "GroupId": "48",
-	    "description": "FED-lower_move.48",
-	    "title": "",
-	    "img": "/img/fed.png"
+		"subGroupId": "3",
+		"GroupId": "48",
+		"description": "FED-lower_move.48",
+		"title": "",
+		"img": "/img/fed.png"
 	},
 	"#jqxCheckBoxfed_upper_move": {
-	    "subGroupId": "4",
-	    "GroupId": "48",
-	    "description": "FED-upper_move.48",
-	    "title": "",
-	    "img": "/img/fed.png"
+		"subGroupId": "4",
+		"GroupId": "48",
+		"description": "FED-upper_move.48",
+		"title": "",
+		"img": "/img/fed.png"
 	},
 	"#jqxCheckBoxfed_lower_rate": {
-	    "subGroupId": "1",
-	    "GroupId": "48",
-	    "description": "FED-lower_rate.48",
-	    "title": "",
-	    "img": "/img/fed.png"
+		"subGroupId": "1",
+		"GroupId": "48",
+		"description": "FED-lower_rate.48",
+		"title": "",
+		"img": "/img/fed.png"
 	},
 	"#jqxCheckBoxfed_upper_rate": {
-	    "subGroupId": "2",
-	    "GroupId": "48",
-	    "description": "FED-upper_rate.48",
-	    "title": "",
-	    "img": "/img/fed.png"
+		"subGroupId": "2",
+		"GroupId": "48",
+		"description": "FED-upper_rate.48",
+		"title": "",
+		"img": "/img/fed.png"
 	},
-	
+
 	"#jqxCheckBoxecb_depo_move": {
-	    "subGroupId": "8",
-	    "GroupId": "48",
-	    "description": "ECB-depo_move.48",
-	    "title": "",
-	    "img": "/img/flag/ecb.png"
+		"subGroupId": "8",
+		"GroupId": "48",
+		"description": "ECB-depo_move.48",
+		"title": "",
+		"img": "/img/flag/ecb.png"
 	},
 	"#jqxCheckBoxecb_refi_move": {
-	    "subGroupId": "9",
-	    "GroupId": "48",
-	    "description": "ECB-refi_move.48",
-	    "title": "",
-	    "img": "/img/flag/ecb.png"
+		"subGroupId": "9",
+		"GroupId": "48",
+		"description": "ECB-refi_move.48",
+		"title": "",
+		"img": "/img/flag/ecb.png"
 	},
 	"#jqxCheckBoxecb_lending_move": {
-	    "subGroupId": "10",
-	    "GroupId": "48",
-	    "description": "ECB-lending_move.48",
-	    "title": "",
-	    "img": "/img/flag/ecb.png"
+		"subGroupId": "10",
+		"GroupId": "48",
+		"description": "ECB-lending_move.48",
+		"title": "",
+		"img": "/img/flag/ecb.png"
 	},
 	"#jqxCheckBoxecb_depo_rate": {
-	    "subGroupId": "5",
-	    "GroupId": "48",
-	    "description": "ECB-depo_rate.48",
-	    "title": "",
-	    "img": "/img/flag/ecb.png"
+		"subGroupId": "5",
+		"GroupId": "48",
+		"description": "ECB-depo_rate.48",
+		"title": "",
+		"img": "/img/flag/ecb.png"
 	},
 	"#jqxCheckBoxecb_refi_rate": {
-	    "subGroupId": "6",
-	    "GroupId": "48",
-	    "description": "ECB-refi_rate.48",
-	    "title": "",
-	    "img": "/img/flag/ecb.png"
+		"subGroupId": "6",
+		"GroupId": "48",
+		"description": "ECB-refi_rate.48",
+		"title": "",
+		"img": "/img/flag/ecb.png"
 	},
 	"#jqxCheckBoxecb_lending_rate": {
-	    "subGroupId": "7",
-	    "GroupId": "48",
-	    "description": "ECB-lending_rate.48",
-	    "title": "",
-	    "img": "/img/flag/ecb.png"
+		"subGroupId": "7",
+		"GroupId": "48",
+		"description": "ECB-lending_rate.48",
+		"title": "",
+		"img": "/img/flag/ecb.png"
 	},
-	
+
 	"#jqxCheckBoxboe_refi_move": {
-	    "subGroupId": "11",
-	    "GroupId": "48",
-	    "description": "BOE-refi_move.48",
-	    "title": "",
-	    "img": "/img/boe.png"
+		"subGroupId": "11",
+		"GroupId": "48",
+		"description": "BOE-refi_move.48",
+		"title": "",
+		"img": "/img/boe.png"
 	},
 	"#jqxCheckBoxboe_monthly_base_rate": {
-	    "subGroupId": "12",
-	    "GroupId": "48",
-	    "description": "BOE-monthly_base_rate.48",
-	    "title": "",
-	    "img": "/img/boe.png"
+		"subGroupId": "12",
+		"GroupId": "48",
+		"description": "BOE-monthly_base_rate.48",
+		"title": "",
+		"img": "/img/boe.png"
 	},
 	"#jqxCheckBoxEU5": {
 		"subGroupId": "1",
@@ -5136,646 +5136,646 @@ var itemValue = {
 		"subGroupId": "funding_rate",
 
 	},
-	   "#jqxCheckBox-53-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "53",
-    "description": "open-53",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-53-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "53",
-    "description": "settle-53",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-53-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "53",
-    "description": "close-53",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-53-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "53",
-    "description": "high-53",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-53-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "53",
-    "description": "low-53",
-    "title": "",
-   
-  },
-  "#jqxCheckBox-62-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "62",
-    "description": "open-62",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-62-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "62",
-    "description": "settle-62",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-62-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "62",
-    "description": "close-62",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-62-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "62",
-    "description": "high-62",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-62-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "62",
-    "description": "low-62",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-54-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "54",
-    "description": "open-54",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-54-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "54",
-    "description": "settle-54",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-54-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "54",
-    "description": "close-54",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-54-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "54",
-    "description": "high-54",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-54-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "54",
-    "description": "low-54",
-    "title": "",
-   
-  },
-  "#jqxCheckBox-63-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "63",
-    "description": "open-63",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-63-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "63",
-    "description": "settle-63",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-63-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "63",
-    "description": "close-63",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-63-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "63",
-    "description": "high-63",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-63-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "63",
-    "description": "low-63",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-55-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "55",
-    "description": "open-55",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-55-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "55",
-    "description": "settle-55",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-55-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "55",
-    "description": "close-55",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-55-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "55",
-    "description": "high-55",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-55-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "55",
-    "description": "low-55",
-    "title": "",
-   
-  },
-  "#jqxCheckBox-64-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "64",
-    "description": "open-64",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-64-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "64",
-    "description": "settle-64",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-64-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "64",
-    "description": "close-64",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-64-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "64",
-    "description": "high-64",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-64-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "64",
-    "description": "low-64",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-56-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "56",
-    "description": "open-56",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-56-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "56",
-    "description": "settle-56",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-56-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "56",
-    "description": "close-56",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-56-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "56",
-    "description": "high-56",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-56-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "56",
-    "description": "low-56",
-    "title": "",
-   
-  },
-  "#jqxCheckBox-65-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "65",
-    "description": "open-65",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-65-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "65",
-    "description": "settle-65",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-65-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "65",
-    "description": "close-65",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-65-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "65",
-    "description": "high-65",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-65-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "65",
-    "description": "low-65",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-57-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "57",
-    "description": "open-57",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-57-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "57",
-    "description": "settle-57",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-57-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "57",
-    "description": "close-57",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-57-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "57",
-    "description": "high-57",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-57-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "57",
-    "description": "low-57",
-    "title": "",
-   
-  },
-  "#jqxCheckBox-67-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "67",
-    "description": "open-67",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-67-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "67",
-    "description": "settle-67",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-67-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "67",
-    "description": "close-67",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-67-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "67",
-    "description": "high-67",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-67-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "67",
-    "description": "low-67",
-    "title": "",
-   
-  },   "#jqxCheckBox-58-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "58",
-    "description": "open-58",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-58-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "58",
-    "description": "settle-58",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-58-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "58",
-    "description": "close-58",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-58-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "58",
-    "description": "high-58",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-58-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "58",
-    "description": "low-58",
-    "title": "",
-   
-  },
-  "#jqxCheckBox-68-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "68",
-    "description": "open-68",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-68-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "68",
-    "description": "settle-68",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-68-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "68",
-    "description": "close-68",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-68-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "68",
-    "description": "high-68",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-68-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "68",
-    "description": "low-68",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-59-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "59",
-    "description": "open-59",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-59-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "59",
-    "description": "settle-59",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-59-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "59",
-    "description": "close-59",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-59-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "59",
-    "description": "high-59",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-59-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "59",
-    "description": "low-59",
-    "title": "",
-   
-  },
-  "#jqxCheckBox-69-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "69",
-    "description": "open-69",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-69-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "69",
-    "description": "settle-69",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-69-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "69",
-    "description": "close-69",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-69-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "69",
-    "description": "high-69",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-69-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "69",
-    "description": "low-69",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-60-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "60",
-    "description": "open-60",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-60-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "60",
-    "description": "settle-60",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-60-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "60",
-    "description": "close-60",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-60-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "60",
-    "description": "high-60",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-60-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "60",
-    "description": "low-60",
-    "title": "",
-   
-  },
-  "#jqxCheckBox-70-2": { 
-	
-    "subGroupId": "2",
-    "GroupId": "70",
-    "description": "open-70",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-70-3": { 
-	
-    "subGroupId": "3",
-    "GroupId": "70",
-    "description": "settle-70",
-    "title": "",
-   
-  },
-     "#jqxCheckBox-70-4": { 
-	
-    "subGroupId": "4",
-    "GroupId": "70",
-    "description": "close-70",
-    "title": "",
-   
-  },
-    "#jqxCheckBox-70-5": { 
-	
-    "subGroupId": "5",
-    "GroupId": "70",
-    "description": "high-70",
-    "title": "",
-   
-  },
-   "#jqxCheckBox-70-6": { 
-	
-    "subGroupId": "6",
-    "GroupId": "70",
-    "description": "low-70",
-    "title": "",
-   
-  },
-  "#jqxCheckBoxFed_liquidity": {
+	"#jqxCheckBox-53-2": {
+
+		"subGroupId": "2",
+		"GroupId": "53",
+		"description": "open-53",
+		"title": "",
+
+	},
+	"#jqxCheckBox-53-3": {
+
+		"subGroupId": "3",
+		"GroupId": "53",
+		"description": "settle-53",
+		"title": "",
+
+	},
+	"#jqxCheckBox-53-4": {
+
+		"subGroupId": "4",
+		"GroupId": "53",
+		"description": "close-53",
+		"title": "",
+
+	},
+	"#jqxCheckBox-53-5": {
+
+		"subGroupId": "5",
+		"GroupId": "53",
+		"description": "high-53",
+		"title": "",
+
+	},
+	"#jqxCheckBox-53-6": {
+
+		"subGroupId": "6",
+		"GroupId": "53",
+		"description": "low-53",
+		"title": "",
+
+	},
+	"#jqxCheckBox-62-2": {
+
+		"subGroupId": "2",
+		"GroupId": "62",
+		"description": "open-62",
+		"title": "",
+
+	},
+	"#jqxCheckBox-62-3": {
+
+		"subGroupId": "3",
+		"GroupId": "62",
+		"description": "settle-62",
+		"title": "",
+
+	},
+	"#jqxCheckBox-62-4": {
+
+		"subGroupId": "4",
+		"GroupId": "62",
+		"description": "close-62",
+		"title": "",
+
+	},
+	"#jqxCheckBox-62-5": {
+
+		"subGroupId": "5",
+		"GroupId": "62",
+		"description": "high-62",
+		"title": "",
+
+	},
+	"#jqxCheckBox-62-6": {
+
+		"subGroupId": "6",
+		"GroupId": "62",
+		"description": "low-62",
+		"title": "",
+
+	},
+	"#jqxCheckBox-54-2": {
+
+		"subGroupId": "2",
+		"GroupId": "54",
+		"description": "open-54",
+		"title": "",
+
+	},
+	"#jqxCheckBox-54-3": {
+
+		"subGroupId": "3",
+		"GroupId": "54",
+		"description": "settle-54",
+		"title": "",
+
+	},
+	"#jqxCheckBox-54-4": {
+
+		"subGroupId": "4",
+		"GroupId": "54",
+		"description": "close-54",
+		"title": "",
+
+	},
+	"#jqxCheckBox-54-5": {
+
+		"subGroupId": "5",
+		"GroupId": "54",
+		"description": "high-54",
+		"title": "",
+
+	},
+	"#jqxCheckBox-54-6": {
+
+		"subGroupId": "6",
+		"GroupId": "54",
+		"description": "low-54",
+		"title": "",
+
+	},
+	"#jqxCheckBox-63-2": {
+
+		"subGroupId": "2",
+		"GroupId": "63",
+		"description": "open-63",
+		"title": "",
+
+	},
+	"#jqxCheckBox-63-3": {
+
+		"subGroupId": "3",
+		"GroupId": "63",
+		"description": "settle-63",
+		"title": "",
+
+	},
+	"#jqxCheckBox-63-4": {
+
+		"subGroupId": "4",
+		"GroupId": "63",
+		"description": "close-63",
+		"title": "",
+
+	},
+	"#jqxCheckBox-63-5": {
+
+		"subGroupId": "5",
+		"GroupId": "63",
+		"description": "high-63",
+		"title": "",
+
+	},
+	"#jqxCheckBox-63-6": {
+
+		"subGroupId": "6",
+		"GroupId": "63",
+		"description": "low-63",
+		"title": "",
+
+	},
+	"#jqxCheckBox-55-2": {
+
+		"subGroupId": "2",
+		"GroupId": "55",
+		"description": "open-55",
+		"title": "",
+
+	},
+	"#jqxCheckBox-55-3": {
+
+		"subGroupId": "3",
+		"GroupId": "55",
+		"description": "settle-55",
+		"title": "",
+
+	},
+	"#jqxCheckBox-55-4": {
+
+		"subGroupId": "4",
+		"GroupId": "55",
+		"description": "close-55",
+		"title": "",
+
+	},
+	"#jqxCheckBox-55-5": {
+
+		"subGroupId": "5",
+		"GroupId": "55",
+		"description": "high-55",
+		"title": "",
+
+	},
+	"#jqxCheckBox-55-6": {
+
+		"subGroupId": "6",
+		"GroupId": "55",
+		"description": "low-55",
+		"title": "",
+
+	},
+	"#jqxCheckBox-64-2": {
+
+		"subGroupId": "2",
+		"GroupId": "64",
+		"description": "open-64",
+		"title": "",
+
+	},
+	"#jqxCheckBox-64-3": {
+
+		"subGroupId": "3",
+		"GroupId": "64",
+		"description": "settle-64",
+		"title": "",
+
+	},
+	"#jqxCheckBox-64-4": {
+
+		"subGroupId": "4",
+		"GroupId": "64",
+		"description": "close-64",
+		"title": "",
+
+	},
+	"#jqxCheckBox-64-5": {
+
+		"subGroupId": "5",
+		"GroupId": "64",
+		"description": "high-64",
+		"title": "",
+
+	},
+	"#jqxCheckBox-64-6": {
+
+		"subGroupId": "6",
+		"GroupId": "64",
+		"description": "low-64",
+		"title": "",
+
+	},
+	"#jqxCheckBox-56-2": {
+
+		"subGroupId": "2",
+		"GroupId": "56",
+		"description": "open-56",
+		"title": "",
+
+	},
+	"#jqxCheckBox-56-3": {
+
+		"subGroupId": "3",
+		"GroupId": "56",
+		"description": "settle-56",
+		"title": "",
+
+	},
+	"#jqxCheckBox-56-4": {
+
+		"subGroupId": "4",
+		"GroupId": "56",
+		"description": "close-56",
+		"title": "",
+
+	},
+	"#jqxCheckBox-56-5": {
+
+		"subGroupId": "5",
+		"GroupId": "56",
+		"description": "high-56",
+		"title": "",
+
+	},
+	"#jqxCheckBox-56-6": {
+
+		"subGroupId": "6",
+		"GroupId": "56",
+		"description": "low-56",
+		"title": "",
+
+	},
+	"#jqxCheckBox-65-2": {
+
+		"subGroupId": "2",
+		"GroupId": "65",
+		"description": "open-65",
+		"title": "",
+
+	},
+	"#jqxCheckBox-65-3": {
+
+		"subGroupId": "3",
+		"GroupId": "65",
+		"description": "settle-65",
+		"title": "",
+
+	},
+	"#jqxCheckBox-65-4": {
+
+		"subGroupId": "4",
+		"GroupId": "65",
+		"description": "close-65",
+		"title": "",
+
+	},
+	"#jqxCheckBox-65-5": {
+
+		"subGroupId": "5",
+		"GroupId": "65",
+		"description": "high-65",
+		"title": "",
+
+	},
+	"#jqxCheckBox-65-6": {
+
+		"subGroupId": "6",
+		"GroupId": "65",
+		"description": "low-65",
+		"title": "",
+
+	},
+	"#jqxCheckBox-57-2": {
+
+		"subGroupId": "2",
+		"GroupId": "57",
+		"description": "open-57",
+		"title": "",
+
+	},
+	"#jqxCheckBox-57-3": {
+
+		"subGroupId": "3",
+		"GroupId": "57",
+		"description": "settle-57",
+		"title": "",
+
+	},
+	"#jqxCheckBox-57-4": {
+
+		"subGroupId": "4",
+		"GroupId": "57",
+		"description": "close-57",
+		"title": "",
+
+	},
+	"#jqxCheckBox-57-5": {
+
+		"subGroupId": "5",
+		"GroupId": "57",
+		"description": "high-57",
+		"title": "",
+
+	},
+	"#jqxCheckBox-57-6": {
+
+		"subGroupId": "6",
+		"GroupId": "57",
+		"description": "low-57",
+		"title": "",
+
+	},
+	"#jqxCheckBox-67-2": {
+
+		"subGroupId": "2",
+		"GroupId": "67",
+		"description": "open-67",
+		"title": "",
+
+	},
+	"#jqxCheckBox-67-3": {
+
+		"subGroupId": "3",
+		"GroupId": "67",
+		"description": "settle-67",
+		"title": "",
+
+	},
+	"#jqxCheckBox-67-4": {
+
+		"subGroupId": "4",
+		"GroupId": "67",
+		"description": "close-67",
+		"title": "",
+
+	},
+	"#jqxCheckBox-67-5": {
+
+		"subGroupId": "5",
+		"GroupId": "67",
+		"description": "high-67",
+		"title": "",
+
+	},
+	"#jqxCheckBox-67-6": {
+
+		"subGroupId": "6",
+		"GroupId": "67",
+		"description": "low-67",
+		"title": "",
+
+	}, "#jqxCheckBox-58-2": {
+
+		"subGroupId": "2",
+		"GroupId": "58",
+		"description": "open-58",
+		"title": "",
+
+	},
+	"#jqxCheckBox-58-3": {
+
+		"subGroupId": "3",
+		"GroupId": "58",
+		"description": "settle-58",
+		"title": "",
+
+	},
+	"#jqxCheckBox-58-4": {
+
+		"subGroupId": "4",
+		"GroupId": "58",
+		"description": "close-58",
+		"title": "",
+
+	},
+	"#jqxCheckBox-58-5": {
+
+		"subGroupId": "5",
+		"GroupId": "58",
+		"description": "high-58",
+		"title": "",
+
+	},
+	"#jqxCheckBox-58-6": {
+
+		"subGroupId": "6",
+		"GroupId": "58",
+		"description": "low-58",
+		"title": "",
+
+	},
+	"#jqxCheckBox-68-2": {
+
+		"subGroupId": "2",
+		"GroupId": "68",
+		"description": "open-68",
+		"title": "",
+
+	},
+	"#jqxCheckBox-68-3": {
+
+		"subGroupId": "3",
+		"GroupId": "68",
+		"description": "settle-68",
+		"title": "",
+
+	},
+	"#jqxCheckBox-68-4": {
+
+		"subGroupId": "4",
+		"GroupId": "68",
+		"description": "close-68",
+		"title": "",
+
+	},
+	"#jqxCheckBox-68-5": {
+
+		"subGroupId": "5",
+		"GroupId": "68",
+		"description": "high-68",
+		"title": "",
+
+	},
+	"#jqxCheckBox-68-6": {
+
+		"subGroupId": "6",
+		"GroupId": "68",
+		"description": "low-68",
+		"title": "",
+
+	},
+	"#jqxCheckBox-59-2": {
+
+		"subGroupId": "2",
+		"GroupId": "59",
+		"description": "open-59",
+		"title": "",
+
+	},
+	"#jqxCheckBox-59-3": {
+
+		"subGroupId": "3",
+		"GroupId": "59",
+		"description": "settle-59",
+		"title": "",
+
+	},
+	"#jqxCheckBox-59-4": {
+
+		"subGroupId": "4",
+		"GroupId": "59",
+		"description": "close-59",
+		"title": "",
+
+	},
+	"#jqxCheckBox-59-5": {
+
+		"subGroupId": "5",
+		"GroupId": "59",
+		"description": "high-59",
+		"title": "",
+
+	},
+	"#jqxCheckBox-59-6": {
+
+		"subGroupId": "6",
+		"GroupId": "59",
+		"description": "low-59",
+		"title": "",
+
+	},
+	"#jqxCheckBox-69-2": {
+
+		"subGroupId": "2",
+		"GroupId": "69",
+		"description": "open-69",
+		"title": "",
+
+	},
+	"#jqxCheckBox-69-3": {
+
+		"subGroupId": "3",
+		"GroupId": "69",
+		"description": "settle-69",
+		"title": "",
+
+	},
+	"#jqxCheckBox-69-4": {
+
+		"subGroupId": "4",
+		"GroupId": "69",
+		"description": "close-69",
+		"title": "",
+
+	},
+	"#jqxCheckBox-69-5": {
+
+		"subGroupId": "5",
+		"GroupId": "69",
+		"description": "high-69",
+		"title": "",
+
+	},
+	"#jqxCheckBox-69-6": {
+
+		"subGroupId": "6",
+		"GroupId": "69",
+		"description": "low-69",
+		"title": "",
+
+	},
+	"#jqxCheckBox-60-2": {
+
+		"subGroupId": "2",
+		"GroupId": "60",
+		"description": "open-60",
+		"title": "",
+
+	},
+	"#jqxCheckBox-60-3": {
+
+		"subGroupId": "3",
+		"GroupId": "60",
+		"description": "settle-60",
+		"title": "",
+
+	},
+	"#jqxCheckBox-60-4": {
+
+		"subGroupId": "4",
+		"GroupId": "60",
+		"description": "close-60",
+		"title": "",
+
+	},
+	"#jqxCheckBox-60-5": {
+
+		"subGroupId": "5",
+		"GroupId": "60",
+		"description": "high-60",
+		"title": "",
+
+	},
+	"#jqxCheckBox-60-6": {
+
+		"subGroupId": "6",
+		"GroupId": "60",
+		"description": "low-60",
+		"title": "",
+
+	},
+	"#jqxCheckBox-70-2": {
+
+		"subGroupId": "2",
+		"GroupId": "70",
+		"description": "open-70",
+		"title": "",
+
+	},
+	"#jqxCheckBox-70-3": {
+
+		"subGroupId": "3",
+		"GroupId": "70",
+		"description": "settle-70",
+		"title": "",
+
+	},
+	"#jqxCheckBox-70-4": {
+
+		"subGroupId": "4",
+		"GroupId": "70",
+		"description": "close-70",
+		"title": "",
+
+	},
+	"#jqxCheckBox-70-5": {
+
+		"subGroupId": "5",
+		"GroupId": "70",
+		"description": "high-70",
+		"title": "",
+
+	},
+	"#jqxCheckBox-70-6": {
+
+		"subGroupId": "6",
+		"GroupId": "70",
+		"description": "low-70",
+		"title": "",
+
+	},
+	"#jqxCheckBoxFed_liquidity": {
 		"subGroupId": "1",
 		"GroupId": "83",
 		"description": "fed_liquidity",
@@ -5793,4 +5793,185 @@ var itemValue = {
 		"description": "us_banks_reserve",
 		"title": 'US Banks reserve'
 	},
+	"#jqxCheckBox-86-2": {
+		"subGroupId": "2",
+		"GroupId": "86",
+		"description": "bs_vol-86",
+		"title": ""
+	},
+	"#jqxCheckBox-86-3": {
+		"subGroupId": "3",
+		"GroupId": "86",
+		"description": "delivered_tick_vol-86",
+		"title": ""
+	},
+
+	"#jqxCheckBox-87-2": {
+		"subGroupId": "2",
+		"GroupId": "87",
+		"description": "bs_vol-87",
+		"title": ""
+	},
+	"#jqxCheckBox-87-3": {
+		"subGroupId": "3",
+		"GroupId": "87",
+		"description": "delivered_tick_vol-87",
+		"title": ""
+	},
+
+	"#jqxCheckBox-88-2": {
+		"subGroupId": "2",
+		"GroupId": "88",
+		"description": "bs_vol-88",
+		"title": ""
+	},
+	"#jqxCheckBox-88-3": {
+		"subGroupId": "3",
+		"GroupId": "88",
+		"description": "delivered_tick_vol-88",
+		"title": ""
+	},
+
+	"#jqxCheckBox-89-2": {
+		"subGroupId": "2",
+		"GroupId": "89",
+		"description": "bs_vol-89",
+		"title": ""
+	},
+	"#jqxCheckBox-89-3": {
+		"subGroupId": "3",
+		"GroupId": "89",
+		"description": "delivered_tick_vol-89",
+		"title": ""
+	},
+
+	"#jqxCheckBox-90-2": {
+		"subGroupId": "2",
+		"GroupId": "90",
+		"description": "bs_vol-90",
+		"title": ""
+	},
+	"#jqxCheckBox-90-3": {
+		"subGroupId": "3",
+		"GroupId": "90",
+		"description": "delivered_tick_vol-90",
+		"title": ""
+	},
+
+	"#jqxCheckBox-91-2": {
+		"subGroupId": "2",
+		"GroupId": "91",
+		"description": "bs_vol-91",
+		"title": ""
+	},
+	"#jqxCheckBox-91-3": {
+		"subGroupId": "3",
+		"GroupId": "91",
+		"description": "delivered_tick_vol-91",
+		"title": ""
+	},
+
+	"#jqxCheckBox-92-2": {
+		"subGroupId": "2",
+		"GroupId": "92",
+		"description": "bs_vol-92",
+		"title": ""
+	},
+	"#jqxCheckBox-92-3": {
+		"subGroupId": "3",
+		"GroupId": "92",
+		"description": "delivered_tick_vol-92",
+		"title": ""
+	},
+
+	"#jqxCheckBox-93-2": {
+		"subGroupId": "2",
+		"GroupId": "93",
+		"description": "bs_vol-93",
+		"title": ""
+	},
+	"#jqxCheckBox-93-3": {
+		"subGroupId": "3",
+		"GroupId": "93",
+		"description": "delivered_tick_vol-93",
+		"title": ""
+	},
+
+	"#jqxCheckBox-94-2": {
+		"subGroupId": "2",
+		"GroupId": "94",
+		"description": "bs_vol-94",
+		"title": ""
+	},
+	"#jqxCheckBox-94-3": {
+		"subGroupId": "3",
+		"GroupId": "94",
+		"description": "delivered_tick_vol-94",
+		"title": ""
+	},
+
+	"#jqxCheckBox-95-2": {
+		"subGroupId": "2",
+		"GroupId": "95",
+		"description": "bs_vol-95",
+		"title": ""
+	},
+	"#jqxCheckBox-95-3": {
+		"subGroupId": "3",
+		"GroupId": "95",
+		"description": "delivered_tick_vol-95",
+		"title": ""
+	},
+
+	"#jqxCheckBox-96-2": {
+		"subGroupId": "2",
+		"GroupId": "96",
+		"description": "bs_vol-96",
+		"title": ""
+	},
+	"#jqxCheckBox-96-3": {
+		"subGroupId": "3",
+		"GroupId": "96",
+		"description": "delivered_tick_vol-96",
+		"title": ""
+	},
+
+	"#jqxCheckBox-97-2": {
+		"subGroupId": "2",
+		"GroupId": "97",
+		"description": "bs_vol-97",
+		"title": ""
+	},
+	"#jqxCheckBox-97-3": {
+		"subGroupId": "3",
+		"GroupId": "97",
+		"description": "delivered_tick_vol-97",
+		"title": ""
+	},
+
+	"#jqxCheckBox-98-2": {
+		"subGroupId": "2",
+		"GroupId": "98",
+		"description": "bs_vol-98",
+		"title": ""
+	},
+	"#jqxCheckBox-98-3": {
+		"subGroupId": "3",
+		"GroupId": "98",
+		"description": "delivered_tick_vol-98",
+		"title": ""
+	},
+
+	"#jqxCheckBox-99-2": {
+		"subGroupId": "2",
+		"GroupId": "99",
+		"description": "bs_vol-99",
+		"title": ""
+	},
+	"#jqxCheckBox-99-3": {
+		"subGroupId": "3",
+		"GroupId": "99",
+		"description": "delivered_tick_vol-99",
+		"title": ""
+	}
 };

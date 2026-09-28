@@ -1,0 +1,499 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta content="IE=edge" http-equiv="X-UA-Compatible" />
+    <meta content="width=device-width, initial-scale=1, shrink-to-fit=no" name="viewport" />
+    <meta content="" name="description" />
+    <meta content="" name="author" />
+    <link rel="icon" th:href="@{/img/logo/logo.png}" />
+    <title>Libvol - Dashboard</title>
+    <link rel="icon" th:href="@{/favicon.ico}" type="image/x-icon" />
+    <link rel="stylesheet" th:href="@{/vendor/fontawesome-free/css/all.min.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/ruang-admin.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/marquee.css}" />
+    <link rel="stylesheet" th:href="@{/css/jqx.base.css}" type="text/css" />
+    <link rel="stylesheet" th:href="@{/css/jqx.dark.css}" />
+    <link rel="stylesheet" th:href="@{/css/notification.css}" />
+  </head>
+  <style>
+    .jqx-danger-dark {
+      text-shadow: none !important;
+      color: #fbd9d9 !important;
+      font-weight: bold;
+      background: #ff4b5552 !important;
+      border-color: #d9534f !important;
+    }
+
+    .factorBold {
+      font-weight: bold;
+      color: white !important;
+    }
+
+    .edit {
+      width: 90%;
+      margin: 0.5rem;
+      color: white;
+      background-color: #719DF0 !important;
+      border-color: var(- -jqx-border);
+      border-radius: 4px;
+      border: 1px solid transparent;
+      padding: 0.1rem 28%;
+    }
+
+    .update {
+      margin: .5rem;
+      color: white;
+      background-color: #009a4e !important;
+      border-color: var(- -jqx-border);
+      border-radius: 4px;
+      border: 1px solid transparent;
+      padding: 1px 3px;
+      width: 45%;
+    }
+
+    .cancel {
+      margin-top: 0.5rem;
+      margin-right: 0.5rem;
+      margin-bottom: 0.5rem;
+      margin-left: 0rem;
+      color: white;
+      background-color: #506B8B !important;
+      border-color: var(- -jqx-border);
+      border-radius: 4px;
+      border: 1px solid transparent;
+      padding: 1px 3px;
+      width: 40%;
+    }
+
+    :checked {
+      font-weight: bold;
+    }
+
+    .fontTitle {
+      font-size: .8rem;
+    }
+
+    .checkboxesTitle {
+      font-size: 0.8rem;
+    }
+
+    .jqx-widget-dark .jqx-grid-column-header-dark {
+      font-size: .67rem;
+      text-align: center;
+    }
+
+    .jqx-tree-dark .jqx-checkbox-dark .jqx-checkbox-default-dark,
+    .jqx-checkbox-dark[checked] .jqx-checkbox-default-dark,
+    .jqx-tree-grid-checkbox[checked].jqx-checkbox-default-dark,
+    .jqx-radiobutton-dark[checked] .jqx-radiobutton-default-dark {
+      border: #b7b9cc solid 0px;
+      background-color: #304256;
+      border-color: #5A627D;
+    }
+
+    .jqx-checkbox-default.jqx-checkbox-default-dark.jqx-fill-state-normal.jqx-fill-state-normal-dark.jqx-rc-all.jqx-rc-all-dark.ripple {
+      display: none;
+    }
+
+    .jqx-checkbox-dark .ripple,
+    .jqx-radiobutton-dark .ripple {
+      overflow: visible;
+      display: none;
+    }
+
+    [aria-checked="true"] {
+      font-weight: bold;
+      color: #e2e2e2 !important;
+      text-shadow: 1px 1px 0px #060605;
+    }
+
+    .card-body .filter {
+      text-align: center;
+    }
+
+    .card-img-top {
+      width: 112%;
+    }
+
+    button#deleteByDate {
+      position: absolute;
+      margin-top: -0.3rem;
+    }
+
+    .jqx-grid-cell-left-align {
+      text-align: center;
+    }
+
+    .fs-7 {
+      font-size: .7rem;
+      width: 25%;
+      padding-right: .2rem;
+    }
+
+    div#container-wrapper {
+      padding-bottom: 0;
+    }
+
+    .w-105 {
+      width: 105px;
+      padding-right: 0.75rem;
+      padding-left: 0.75rem;
+    }
+
+    .green {
+      background: #24a764 !important;
+      border: 0px;
+    }
+
+    .green>img {
+      position: relative !important;
+      top: 0px !important;
+      left: 0px !important;
+    }
+
+    .red {
+      background: #f23a3a !important;
+      border: 0px;
+    }
+
+    .red>img {
+      position: relative !important;
+      top: 0px !important;
+      left: 0px !important;
+    }
+
+    .mh-42 {
+      min-height: 42px;
+    }
+
+    a.nav-item.nav-link {
+      width: 130px;
+    }
+
+    .container,
+    .container-fluid,
+    .container-login {
+      max-width: 1850px;
+    }
+  </style>
+  <body id="page-top">
+    <div id="wrapper">
+      <div class="d-flex flex-column" id="content-wrapper">
+        <div id="fixedMenu">
+          <!-- TopBar -->
+          <div th:include="${mainmenu}"></div>
+          <!-- Topbar -->
+          <!-- Container Fluid-->
+          <div th:include="${maindatainputnav}"></div>
+          <div class="col-12" id="overlay">
+            <img alt="Loading" th:src="@{/css/images/loader.gif}" width="46px" />
+          </div>
+        </div>
+        <div id="content">
+          <div class="container-fluid" id="container-wrapper" style="display: none;">
+            <div class="col-lg-12 pl-0">
+              <div id="longEndsValue" style="display: none;" th:text="${longend}"></div>
+              <!-- Form Basic -->
+              <div class="col mt-4 p-0">
+                <div aria-label="First group" class="btn-group" role="group">
+                  <button class="btn btn-secondary mw-100" id="bunds-btn" th:classappend="${longend == 1} ? 'active' : ''" th:onclick="'javascript:toggleDivVisibility(1)'" type="button"> Bunds</button>
+                  <button class="btn btn-secondary mw-100" id="bobl-btn" th:classappend="${longend == 2} ? 'active' : ''" th:onclick="'javascript:toggleDivVisibility(2)'" type="button"> Bobls</button>
+                  <button class="btn btn-secondary mw-100" id="shtaz-btn" th:classappend="${longend == 3} ? 'active' : ''" th:onclick="'javascript:toggleDivVisibility(3)'" type="button"> Shatz</button>
+                  <button class="btn btn-secondary mw-100" id="buxl-btn" th:classappend="${longend == 4} ? 'active' : ''" th:onclick="'javascript:toggleDivVisibility(4)'" type="button"> Buxl</button>
+                  <button class="btn btn-secondary mw-100" id="oat-btn" th:classappend="${longend == 5} ? 'active' : ''" th:onclick="'javascript:toggleDivVisibility(5)'" type="button"> Oat</button>
+                  <button class="btn btn-secondary mw-100" id="btp-btn" th:classappend="${longend == 6} ? 'active' : ''" th:onclick="'javascript:toggleDivVisibility(6)'" type="button"> Btp</button>
+                  <button class="btn btn-secondary mw-100" id="gilts-btn" th:classappend="${longend == 7} ? 'active' : ''" th:onclick="'javascript:toggleDivVisibility(7)'" type="button"> Gilts</button>
+                  <button class="btn btn-secondary mw-100" id="tnotes-btn" th:classappend="${longend == 8} ? 'active' : ''" th:onclick="'javascript:toggleDivVisibility(8)'" type="button"> T-notes</button>
+                  <button class="btn btn-secondary mw-100" id="tbonds-btn" th:classappend="${longend == 9} ? 'active' : ''" th:onclick="'javascript:toggleDivVisibility(9)'" type="button"> T-bonds</button>
+                </div>
+              </div>
+              <div class="collapse show" id="collapseExample">
+                <div class="card mb-4">
+                  <div class="card-header py-3 d-flex flex-row align-items-center justify-content-between padding-botton-0"></div>
+                  <div class="card-body p-0">
+                    <div class="row">
+                      <div class="col-5">
+                        <div class="d-flex justify-content-between align-items-center">
+                          <div class="col-4 p-0">
+                            <h6 class="m-0 font-weight-bold" style="color: #9ab4e0;"> Data Input</h6>
+                            <div id="dateInput"></div>
+                          </div>
+                          <div></div>
+                        </div>
+                        <div class="col-12 p-0" id="data-input">
+                          <form id="dataformInputdata">
+                            <div class="form-group" style="margin-top: 0;">
+                              <div class="d-flex align-items-end mb-1">
+                                <div style="width: 24%;"></div>
+                                <div id="input-titles" class="d-flex" style="width: 76%;"></div>
+                              </div>
+                              <div class="d-flex align-items-stretch">
+                                <div id="input-module-labels" style="width: 24%; padding-right: 10px; line-height: 31px;     display: grid"></div>
+                                <textarea autocomplete="off" class="form-control" id="data-input-data" rows="2" style="width: 76%; resize: vertical;" placeholder=" "></textarea>
+                              </div>
+                              <small class="form-text text-muted mt-1"></small>
+                            </div>
+                          </form>
+                          <div id="dataInputGriddata" style="margin-top: 0rem; display: none;"></div>
+                          <div class="row" id="dataInputButtonsdata" style="display: none;">
+                            <div class="col-12 d-flex justify-content-end mt-2">
+                              <input class="btn btn-primary mr-1 mb-1" id="loaddata" style="margin-right: 1rem !important; color: white;" type="button" value="Load" />
+                              <input class="btn btn-light-secondary mr-1 mb-1" id="canceldata" style="margin: 0 !important;" type="button" value="Cancel" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-7 p-0">
+                        <div class="col-12 d-flex justify-content-between">
+                          <div id="dateInputAudit"></div>
+                        </div>
+                        <div class="col-12">
+                          <div class="col-12 p-0" id="data-audit">
+                            <button class="mb-1" id="deletedata" style="font-size: .8rem; float: right; position: absolute; top: -34px; right: 0;">Delete</button>
+                            <div id="auditGrid"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="">
+              <div class="card-header accordion md-accordion" id="accordionFilter" style="padding: .2rem 0rem 3.2rem 0rem;">
+                <p>
+                  <a aria-controls="collapseExample" aria-expanded="false" data-toggle="collapse" href="#collapseExample" role="button"> Collapse Data Entry Section </a>
+                </p>
+                <div class="card">
+                  <h6 class="mb-0">
+                    <button aria-controls="collapseFilter" aria-expanded="true" class="collapsed m-0 font-weight-bold text-primary pl-0" data-target="#collapseFilter" data-toggle="collapse" style="padding: .375rem .75rem;" type="button"> Filters <i class="fas fa-angle-down rotate-icon"></i>
+                    </button>
+                  </h6>
+                  <div aria-labelledby="headingOne" class="collapse" data-parent="#accordionFilter" id="collapseFilter">
+                    <div class="card-body pl-1">
+                      <div class="row">
+                        <div aria-label="Second group" class="btn-group mr-2 col-12 mb-2 align-items-end" role="group">
+                          <label style="margin-right: 1.5rem;"> From </label>
+                          <div id="dateInputFrom" style="border-radius: 0.2rem;"></div>
+                          <label style="margin-right: 1.5rem; margin-left: 1.5rem;"> To </label>
+                          <div id="dateInputTo" style="border-radius: 0.2rem;"></div>
+                          <div class="row pl-5">
+                            <div class="col-12 p-0 d-flex justify-content-end">
+                              <input aria-controls="collapseFilter" aria-expanded="true" class="btn btn-primary mr-1 mb-1" data-target="#collapseFilter" data-toggle="collapse" id="filter" style="margin-right: 1rem !important; color: white;" type="button" value="Search" />
+                              <input class="btn btn-light-secondary mr-1 mb-1" id="Clearfilter" type="button" value="Clear" />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="row mt-2">
+                        <div class="col-12 border mb-3 ml-2 p-1 rounded">
+                          <div class="row">
+                            <div class="d-flex col" id="filter-container"></div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div id="grid"></div>
+                  <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-sm" id="alertDate-modal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                          <h4 class="modal-title white" id="myLargeModalLabel"> Warning</h4>
+                          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true"> × </span>
+                          </button>
+                        </div>
+                        <div class="modal-body">Please Select a date smaller then Today's date.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade" id="alertDeleteDataByDate-modal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-danger">
+                          <h4 class="modal-title white" id="myLargeModalLabel"> Are you sure?</h4>
+                          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true"> × </span>
+                          </button>
+                        </div>
+                        <div class="modal-body" id="alertTextDeleteDataByDate"></div>
+                        <div class="modal-footer justify-content-between">
+                          <button class="btn btn-secondary" data-dismiss="modal" type="button">Cancel</button>
+                          <button class="btn btn-primary" onclick="deleteDataByDate()" type="button">Delete Record</button>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade" id="alertInfoDeleteDataByDate-modal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-success">
+                          <h4 class="modal-title white" id="myLargeModalLabel"> Success</h4>
+                          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true"> × </span>
+                          </button>
+                        </div>
+                        <div class="modal-body" id="successDelete"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-sm" id="alert-modal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                          <h4 class="modal-title white" id="myLargeModalLabel"> Warning</h4>
+                          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true"> × </span>
+                          </button>
+                        </div>
+                        <div class="modal-body">The date you are trying to insert has already data please choose a valid date</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-sm" id="alert-modal-not-exist" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                          <h4 class="modal-title white" id="myLargeModalLabel"> Warning</h4>
+                          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true"> × </span>
+                          </button>
+                        </div>
+                        <div class="modal-body">The date you are trying to insert has no data please choose a valid date</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-sm" id="alert-modal-fx" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                          <h4 class="modal-title white" id="myLargeModalLabel"> Warning</h4>
+                          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true"> × </span>
+                          </button>
+                        </div>
+                        <div class="modal-body">The date you are trying to insert has no data in the Fx and Cds Asset.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-sm" id="alert-modal-robot" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                          <h4 class="modal-title white" id="myLargeModalLabel"> Warning</h4>
+                          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true"> × </span>
+                          </button>
+                        </div>
+                        <div class="modal-body">Please wait, robot are under execution.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-sm" id="alert-modal-weekend" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                          <h4 class="modal-title white" id="myLargeModalLabel"> Warning</h4>
+                          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true"> × </span>
+                          </button>
+                        </div>
+                        <div class="modal-body">It is not allowed to enter data on weekend days</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-sm" id="alertFiltter-modal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                          <h4 class="modal-title white" id="myLargeModalLabel"> Warning</h4>
+                          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true"> × </span>
+                          </button>
+                        </div>
+                        <div class="modal-body">You must select at least one record.</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div aria-hidden="true" aria-labelledby="myLargeModalLabel" class="modal fade bd-example-modal-sm" id="alertFiltterMax-modal" role="dialog" tabindex="-1">
+                    <div class="modal-dialog modal-sm">
+                      <div class="modal-content">
+                        <div class="modal-header bg-warning">
+                          <h4 class="modal-title white" id="myLargeModalLabel"> Warning</h4>
+                          <button aria-label="Close" class="close" data-dismiss="modal" type="button">
+                            <span aria-hidden="true"> × </span>
+                          </button>
+                        </div>
+                        <div class="modal-body">You cannot select more than 15 criteria</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <!---Container Fluid-->
+              </div>
+              <div class="NewsBack container mb-0" style="position: fixed; bottom: 0px; left: 0px; max-width: 100%; border: 2px; border-color: black;">
+                <div class="simple-marquee-container">
+                  <div class="marquee-sibling-date">
+                    <p id="todayDate"></p>
+                  </div>
+                  <div class="marquee-sibling">NEWS</div>
+                  <div class="marquee">
+                    <ul class="marquee-content-items" id="Newslist"></ul>
+                  </div>
+                  <div class="marquee-sibling-viewAll">
+                    <input id="viewall" style="display: none;" type="button" value="VIEW ALL" />
+                  </div>
+                </div>
+              </div>
+              <!-- Footer -->
+              <!-- Footer -->
+            </div>
+          </div>
+        </div>
+        <!-- Scroll to top -->
+        <a class="scroll-to-top rounded" href="#page-top">
+          <i class="fas fa-angle-up"></i>
+        </a>
+        <script th:src="@{/vendor/jquery/jquery.min.js}"></script>
+        <script th:src="@{/js/marquee.js}"></script>
+        <script th:src="@{/vendor/bootstrap/js/bootstrap.bundle.min.js}"></script>
+        <script th:src="@{/vendor/jquery-easing/jquery.easing.min.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxcore.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxbuttons.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxscrollbar.js}"></script>
+        <script th:src="@{/js/bourse/jsonCheckBoxArrayAll.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxcheckbox.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxmenu.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxgrid.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxgrid.selection.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxgrid.columnsresize.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxgrid.edit.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxgrid.pager.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxgrid.filter.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxdropdownlist.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxbuttongroup.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxlistbox.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxdata.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxwindow.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxinput.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxdatetimeinput.js}"></script>
+        <script th:src="@{/js/jqwidgets/jqxcalendar.js}"></script>
+        <script th:src="@{/js/bourse/longEndImpliedVol/longEndImpliedVolDataInput.js}"></script>
+        <script th:src="@{/js/bourse/scrollBarNews.js}"></script>
+        <script th:src="@{/js/common.js}"></script>
+        <script th:src="@{/js/notification/sockjs.js}"></script>
+        <script th:src="@{/js/notification/stomp.js}"></script>
+        <script th:src="@{/js/notification/config.js}"></script>
+        <script th:inline="javascript">
+          const authorities = /*[[${session.SPRING_SECURITY_CONTEXT.authentication.authorities}]]*/ "";
+          const hasPendingApprovalGrid = authorities.filter(item => {
+            return item.authority === "PENDING_APPROVAL_GRID"
+          })[0] !== undefined;
+        </script>
+      </div>
+    </div>
+  </body>
+</html>

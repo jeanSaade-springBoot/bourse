@@ -1,5 +1,13 @@
 var groupItem;
 
+// Rates / Central Banks (group 48) is the only existing group that is now
+// uploaded by module. All other batch-loader behavior remains unchanged.
+const CENTRAL_BANK_MODULES = [
+    { id: "FED", description: "FED", subgroupIds: [1, 2, 3, 4] },
+    { id: "ECB", description: "ECB", subgroupIds: [5, 6, 7, 8, 9, 10] },
+    { id: "BOE", description: "BOE", subgroupIds: [11, 12] }
+];
+
 
 $(document).ready(function () {
 	
@@ -15,6 +23,22 @@ $(document).ready(function () {
 		});
 		
 	  $("#submit").jqxButton({  theme:'dark', width: 110, height: 35,template: "primary" });
+
+	  $("#centralBankModuleDropDown").jqxDropDownList({
+		  source: CENTRAL_BANK_MODULES,
+		  displayMember: "description",
+		  valueMember: "id",
+		  theme: 'dark',
+		  width: '100%',
+		  height: 30,
+		  placeHolder: "Select FED, ECB or BOE"
+	  });
+
+	  $("#centralBankModuleDropDown").on('select', function (event) {
+		  if (!event.args) return;
+		  renderCentralBankExcelFormat(event.args.item.value);
+		  loadUpdateColumns("48");
+	  });
 	  
 var familysource =
 	      {
@@ -36,6 +60,8 @@ var familysource =
 		 	$("#FamilyDropDown").on('select', function (event) {
 	            if (event.args) {
 	               familyItem = event.args.item;
+	               $("#centralBankModuleRow").hide();
+	               $("#centralBankModuleDropDown").jqxDropDownList('clearSelection');
 	              // groupsource.url='/admin/getgroupsbyfamily/'+familyItem.value;
 	             
 	              $.get('/admin/getgroupsbyfamily/'+familyItem.value,  // url
@@ -68,9 +94,18 @@ var familysource =
 	              if (event.args) {
 	                 groupItem = event.args.item;
 	                 $("#excelFormat").empty();
-	                 $("#excelFormat").append('<img height="154px" src="'+getImagePath(groupItem.value)+'" />');
-	                
-	                  loadUpdateColumns(groupItem.value);
+
+	                 if (String(groupItem.value) === "48") {
+		                 // Central Banks is uploaded one module at a time.
+		                 $("#centralBankModuleRow").show();
+		                 $("#centralBankModuleDropDown").jqxDropDownList('clearSelection');
+		                 $("#updateColumnsContainer").empty().hide();
+	                 } else {
+		                 $("#centralBankModuleRow").hide();
+		                 $("#centralBankModuleDropDown").jqxDropDownList('clearSelection');
+		                 $("#excelFormat").append('<img height="154px" src="'+getImagePath(groupItem.value)+'" />');
+		                 loadUpdateColumns(groupItem.value);
+	                 }
 	              }
 	              	
 	          });
@@ -130,6 +165,16 @@ var familysource =
   			  formData.append("subgroupId", subGroupId);
   			  const groupId = $("#groupDropDown").val();
   			  formData.append("groupId", groupId);
+
+			  const batchModule = String(groupId) === "48"
+				  ? $("#centralBankModuleDropDown").val()
+				  : "";
+			  formData.append("batchModule", batchModule || "");
+
+			  if (String(groupId) === "48" && !batchModule) {
+				  showBatchLoaderError("Please select FED, ECB or BOE before uploading Central Banks data.");
+				  return;
+			  }
   			  
   			 const operation = $("input[name='batchOperation']:checked").val();
 				formData.append("operation", operation);
@@ -221,6 +266,19 @@ function loadUpdateColumns(groupId) {
             return col.calculationType === "INPUT";
         });
 
+        if (String(groupId) === "48") {
+            const moduleId = $("#centralBankModuleDropDown").val();
+            const moduleConfig = getCentralBankModuleConfig(moduleId);
+
+            if (!moduleConfig) {
+                return;
+            }
+
+            columns = columns.filter(function (col) {
+                return moduleConfig.subgroupIds.includes(Number(col.subgroupId));
+            });
+        }
+
         if (columns.length === 0) {
             return;
         }
@@ -256,6 +314,49 @@ function loadUpdateColumns(groupId) {
         toggleColumnSelection();
     });
 }
+function getCentralBankModuleConfig(moduleId) {
+    return CENTRAL_BANK_MODULES.find(function (module) {
+        return module.id === moduleId;
+    });
+}
+
+function renderCentralBankExcelFormat(moduleId) {
+    $("#excelFormat").empty();
+
+    if (!moduleId) {
+        return;
+    }
+
+    const imagePath = getCentralBankImagePath(moduleId);
+
+    if (!imagePath) {
+        return;
+    }
+
+    $("#excelFormat").append(
+        '<img height="154px" src="' + imagePath + '" />'
+    );
+}
+
+function getCentralBankImagePath(moduleId) {
+    switch (moduleId) {
+        case "FED":
+            return "/css/images/format/fed_centralbanks_format.png";
+        case "ECB":
+            return "/css/images/format/ecb_centralbanks_format.png";
+        case "BOE":
+            return "/css/images/format/boe_centralbanks_format.png";
+        default:
+            return "";
+    }
+}
+function showBatchLoaderError(message) {
+    $("#result").css("color", "black");
+    $("#result").css("background", "red");
+    $("#result").css("margin-top", "1rem");
+    $("#result").html(message);
+}
+
   function getImagePath(groupId)
   {
 	 var imagePath='';	
@@ -393,6 +494,22 @@ function loadUpdateColumns(groupId) {
 	  case 85:
 	   imagePath='/css/images/format/us_banks_reserve_liquidity_format.png' 
 	     break;   
+    case 86:
+	case 87:
+	case 88:
+	case 89:
+	case 90:
+	case 91:
+	case 92:
+	case 93:
+	case 94:
+	case 95:
+    case 96:
+	case 97:
+	case 98:
+	case 99:
+	   imagePath='/css/images/format/long_end_implied_volatility_.png' 
+	     break;    
 	}
 return imagePath;
   }

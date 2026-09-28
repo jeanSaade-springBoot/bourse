@@ -45,6 +45,8 @@ public class DynamicTemplateService {
 			            fragmentName = "html/templates/longends";
 			        } else if ("11".equals(serie)) {
 			            fragmentName = "html/templates/cryptos";
+			        }  else if ("13".equals(serie)) {
+			            fragmentName = "html/templates/longEndImpliedVol";
 			        } 
 			return fragmentName;
 	   	}

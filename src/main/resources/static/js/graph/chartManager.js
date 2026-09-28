@@ -842,9 +842,21 @@ this.chart.updateOptions({
 	    if (yVal == null || isNaN(yVal)) return;
 	
 	    const fmt = getFormat(i);
-	    const val = fmt.useShortFormat
-	      ? formatNumberShort(yVal, fmt.digits)
-	      : yVal.toFixed(fmt.digits);
+	    
+	    const isLongEndFunctionSeries =
+		  this.chartId === 'chart4' && i > 0;
+		
+		const tooltipDigits = isLongEndFunctionSeries
+		  ? 2
+		  : fmt.digits;
+		
+		const tooltipIsPercentage = isLongEndFunctionSeries
+		  ? false
+		  : fmt.isPercentage;
+		
+		const val = fmt.useShortFormat
+		  ? formatNumberShort(yVal, tooltipDigits)
+		  : yVal.toFixed(tooltipDigits);
 	
 	    // FIX: Resolve the visible series color for the custom combined tooltip.
 	    // Graph 3 uses function-based colors and separate stroke colors for line series,
@@ -916,7 +928,7 @@ this.chart.updateOptions({
 	             style="display:block; flex:0 0 10px; min-width:10px; overflow:visible;">
 	          <circle cx="5" cy="5" r="4" fill="${color}"></circle>
 	        </svg>
-	        <div><strong>${s.name}:</strong> ${fmt.isPercentage ? val + "%" : val}</div>
+	         <div><strong>${s.name}:</strong> ${tooltipIsPercentage ? val + "%" : val}</div>
 	      </div>`;
 	  });
 	
@@ -1312,13 +1324,15 @@ async navigate(direction) {
 		    return { x: pt.x, y: yValue };
 		  });
 
-		const shouldApplyWidth =
+		/*const shouldApplyWidth =
 		    ['column'].includes(type) &&
 		    String(this.state.functionId)
 		        .split(',')
 		        .map(x => Number(x.trim()))
 		        .some(id => [3,4,5,6,10,11,12,13,14,15,30,31,32,33,34,35,36].includes(id));
-		 const strokeWidth = shouldApplyWidth ? this.getDynamicWidth(cleanData.filter(d => d.y !== null).length) : undefined;
+		*/ 
+		const shouldApplyWidth = type === 'column';
+		const strokeWidth = shouldApplyWidth ? this.getDynamicWidth(cleanData.filter(d => d.y !== null).length) : undefined;
 
 		 return {
 		    name: dto.config?.displayDescription, //(applyTitle)?name:dto.config?.displayDescription || `Series${idx + 1}`,

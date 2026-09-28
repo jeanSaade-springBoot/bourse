@@ -32,7 +32,7 @@ public class AssetClassService
 	
 	public List<AssetClass> getAllAssetClass()
 	{      
-        List<Long> ids = Arrays.asList(1L, 9L , 5L, 2L, 3L, 4L, 6L, 7L, 8L,10L, 11L , 12L ); // Only 2 IDs
+        List<Long> ids = Arrays.asList(1L, 9L , 5L, 2L, 3L, 4L, 6L, 7L, 8L, 10L, 11L, 12L, 13L);
         List<AssetClass> assetClasses = assetClassRepository.findAllById(ids);
         
         // Create a map for easy lookup by id
