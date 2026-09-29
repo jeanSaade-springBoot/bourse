@@ -5135,7 +5135,7 @@
 							    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 		      	    	  
-		      	    	        chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	        var initialChartOptions = getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes);
 		      	    	       
 		      	    	        	
 		      	    	          
@@ -5202,7 +5202,7 @@
 									        console.error('Error processing data:', error);
 									    });	
 							    	
-											 updateChartSelectedItem(chartConfigSettings);
+											 updateChartSelectedItem(chartConfigSettings, initialChartOptions);
 									
 							        $('#overlayChart').hide();
 		      	   },
@@ -5449,8 +5449,8 @@
 								showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
 							    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
-							    chart.updateOptions(getChartDailyOption(title, showGrid, fontsize, markerSize));  
-							    updateChartOption();
+							    var initialChartOptions = getChartDailyOption(title, showGrid, fontsize, markerSize);  
+							    initialChartOptions = bourseMergeChartOptions(initialChartOptions, getChartAppearanceOptions());
 			      	    	    	
 			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
@@ -5492,7 +5492,7 @@
 							        console.error('Error processing data:', error);
 							    });	
 							    
-							updateChartSelectedItem(chartConfigSettings);
+							updateChartSelectedItem(chartConfigSettings, initialChartOptions);
 				      	    	      $('#overlayChart').hide();
 				      	   },
 				      	    	        error: function (e) {

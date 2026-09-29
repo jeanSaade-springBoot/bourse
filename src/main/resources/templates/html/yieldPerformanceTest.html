@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Libvol - Yield ApexCharts Performance Test</title>
+  <link th:href="@{/vendor/bootstrap/css/bootstrap.min.css}" rel="stylesheet" type="text/css">
+  <link th:href="@{/css/ruang-admin.min.css}" rel="stylesheet">
+  <link th:href="@{/css/apexchart.css}" rel="stylesheet">
+  <style>
+    body { background:#272E48; color:#fff; }
+    .test-wrap { padding:24px; }
+    .controls { margin-bottom:18px; display:flex; gap:10px; flex-wrap:wrap; }
+    .metric { background:#1f263d; padding:12px; margin:8px 0; border-radius:4px; }
+    #testChart { min-height:525px; width:1078px; }
+    .controls label { display:flex; gap:6px; align-items:center; }
+    select, input, textarea { color:#fff; background:#252f4b; }
+    #chartViewport { overflow-x:auto; }
+    pre { color:#fff; background:#1f263d; padding:12px; max-height:260px; overflow:auto; }
+  </style>
+</head>
+<body>
+<div class="test-wrap">
+  <h3>Yield — live API performance test v2.3 — weekends compressed</h3>
+  <p>Isolated daily, single-series test. Production charts are unchanged. Every mode uses the same selected formatting and dates. Weekends occupy no horizontal space; labels map to consecutive trading observations.</p>
+  <p>Source: <strong id="sourceName">Live API</strong>. Loaded automatically from /bourse/getgraphdatabytype. Padding is rebuilt once at 10% of observations.</p>
+  <div class="controls"><label>Chart type <select id="chartType"><option>area</option><option>line</option><option>column</option></select></label><label>Font size <select id="font"><option>12px</option><option>14px</option><option>16px</option></select></label><label>Marker size <select id="marker"><option>1</option><option>0</option><option>3</option></select></label><label>Color <select id="color"><option>#F0AB2E</option><option>#0097FE</option><option>#44546a</option></select></label><label>Opacity <select id="opacity"><option>1</option><option>0.75</option><option>0.5</option></select></label><label>Y-axis format <select id="axisFormat"><option>0.00%</option><option>0.000%</option><option>0.00</option><option>0.000</option><option>0</option></select></label><label>Tooltip format <select id="tooltipFormat"><option>0.000%</option><option>0.00%</option><option>0.000</option><option>0.00</option><option>0</option></select></label><label><input type="checkbox" id="grid" checked> Grid</label><label><input type="checkbox" id="legend" checked> Legend</label>
+  <label>From <input type="date" id="from" value="2015-03-28"></label><label>To <input type="date" id="to" value="2026-09-28"></label></div>
+  <div class="controls">
+    <button data-mode="A" class="btn btn-warning">A · String values + full update</button>
+    <button data-mode="B" class="btn btn-info">B · Numeric values + full update</button>
+    <button data-mode="C" class="btn btn-success">C · Numeric + series update</button>
+    <button data-mode="D" class="btn btn-primary">D · One complete render</button>
+    <button id="reloadApi" class="btn btn-info">Reload API</button>
+    <button id="clearChart" class="btn btn-secondary">Clear</button>
+  </div>
+  <p>Page load and Reload API fetch fresh data and apply API formatting. A–D reuse that response for a fair comparison. After changing dates, click Reload API. Compare A–D, then repeat with marker size 0. Results accumulate below. Times include rendering through the next paint opportunity; they exclude data preparation, teardown and network time.</p>
+  <div id="summary" class="metric">Ready.</div>
+  <div id="chartViewport"><div id="testChart"></div></div>
+  <h5>Results</h5>
+  <pre id="results"></pre>
+</div>
+<script th:src="@{/js/apexcharts.js}"></script>
+<script th:src="@{/js/bourse/yieldPerformanceTest.js}"></script>
+</body>
+</html>

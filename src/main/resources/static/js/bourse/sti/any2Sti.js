@@ -1317,9 +1317,9 @@
 									checkActiveChartType($("#chartTypes").find(".active")[0],'line','d');
 				
 									if(hasMissingDates)
-		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	          	var initialChartOptions = getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes);
 		      	    	          	else
-		      	    	            chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	            var initialChartOptions = getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes);
 		      	    	       
 			      	    	        var dbchartType1=response[0].config.chartType;
 			      	    	            chartType1 =(getChartType(dbchartType1)[0]!='area')?getChartType(dbchartType1)[0]:'line';
@@ -1386,9 +1386,9 @@
 											    });					 
 										 
 											 if(hasMissingDates)
-											 	updateChartSelectedItemMissingDates(chartConfigSettings);
+											 	updateChartSelectedItemMissingDates(chartConfigSettings, initialChartOptions);
 											 else
-												 updateChartSelectedItem(chartConfigSettings);
+												 updateChartSelectedItem(chartConfigSettings, initialChartOptions);
 									
 							        $('#overlayChart').hide();
 		      	   },
@@ -1638,11 +1638,11 @@
 							    showLegend	= checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
 
 							   if(itemValue[checkedItemValues[0]].GroupId==32)
-		      	    	          	chart.updateOptions(getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	          	var initialChartOptions = getChartDailyOptionMissingDates(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes);
 		      	    	          	else
-		      	    	            chart.updateOptions(getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes));
+		      	    	            var initialChartOptions = getChartDailyOption(title,response[0].config.chartShowgrid,fontsize,response[0].config.chartshowMarkes);
 		      	    	       
-							    updateChartOption();
+							    initialChartOptions = bourseMergeChartOptions(initialChartOptions, getChartAppearanceOptions());
 			      	    	    	
 			      	    	        min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
 				      	    	          return item.y;
@@ -1684,7 +1684,7 @@
 							        console.error('Error processing data:', error);
 							    });	
 							    
-							updateChartSelectedItem(chartConfigSettings);
+							updateChartSelectedItem(chartConfigSettings, initialChartOptions);
 				      	    	      $('#overlayChart').hide();
 				      	   },
 				      	    	        error: function (e) {

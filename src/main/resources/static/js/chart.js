@@ -1,3 +1,165 @@
+/* Bourse chart performance overlay v3.1.
+ * Merge complete option objects before drawing; never drop configured markers.
+ * Arrays replace arrays (series/axes must not be merged by index).
+ */
+window.bourseChartPerformanceVersion = '3.1';
+console.info('BOURSE CHART PERFORMANCE v3.1 loaded');
+
+function bourseMergeChartOptions(base, extra) {
+    var result = Object.assign({}, base || {});
+    Object.keys(extra || {}).forEach(function(key) {
+        var value = extra[key];
+        if (value && Object.getPrototypeOf(value) === Object.prototype) {
+            var previous = result[key];
+            result[key] = bourseMergeChartOptions(previous && !Array.isArray(previous) ? previous : {}, value);
+        } else result[key] = value;
+    });
+    return result;
+}
+
+function bourseApplyChartOptions(target, options, initialOptions) {
+    if (!initialOptions) return target.updateOptions(options);
+    var complete = bourseMergeChartOptions(initialOptions, options);
+    var start = performance.now();
+    // Preserve every configured point/marker; eliminate the two intermediate draws.
+    var result = target.updateOptions(complete, false, false, false);
+    Promise.resolve(result).then(function() {
+        var rendered = performance.now() - start;
+        requestAnimationFrame(function() { requestAnimationFrame(function() {
+            var series = target.w.config.series || [];
+            var report = {
+                version: '3.1', operation: 'batched data update',
+                axis: target._bourseTradingDates ? 'trading-day slots' : target.w.config.xaxis.type,
+                points: series.reduce(function(n, s) { return n + (s.data || []).length; }, 0),
+                marker: target.w.config.markers.size,
+                svgNodes: target.el ? target.el.querySelectorAll('svg *').length : null,
+                renderCompleteMs: Number(rendered.toFixed(1)),
+                afterPaintMs: Number((performance.now() - start).toFixed(1))
+            };
+            window.bourseChartLastPerformance = report;
+            console.log('BOURSE CHART PERFORMANCE ' + JSON.stringify(report));
+        }); });
+    }, function(error) { console.error('BOURSE CHART RENDER ERROR', error); });
+    return result;
+}
+
+/* Only installed on the daily, non-function, single-series Yield chart.
+ * Other assets retain their own calendar (including seven-day crypto data).
+ */
+function bourseInstallYieldTradingAxis(target) {
+    var nativeOptions = target.updateOptions;
+    var nativeSeries = target.updateSeries;
+    var originalAxis = null;
+    var originalTooltipX = null;
+    var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+    function timestamp(value) {
+        if (typeof value === 'number') return value;
+        var match = /^(\d{1,2})-([A-Za-z]{3})-(\d{2}|\d{4})$/.exec(value);
+        if (match) {
+            var year = Number(match[3]);
+            if (year < 100) year += year < 70 ? 2000 : 1900;
+            var month = months.indexOf(match[2]);
+            return month < 0 ? NaN : Date.UTC(year, month, Number(match[1]));
+        }
+        return Date.parse(value);
+    }
+    function label(value) {
+        var date = new Date(timestamp(value));
+        return String(date.getUTCDate()).padStart(2, '0') + '-' + months[date.getUTCMonth()] + '-' + String(date.getUTCFullYear()).slice(-2);
+    }
+    function prepare(options) {
+        var next = bourseMergeChartOptions({}, options);
+        var resetRange = false;
+        if (Array.isArray(next.series) && next.series.length !== 1 && target._bourseTradingDates) {
+            target._bourseTradingDates = null;
+            next.xaxis = bourseMergeChartOptions(originalAxis, next.xaxis);
+            next.xaxis.min = undefined;
+            next.xaxis.max = undefined;
+            next.tooltip = bourseMergeChartOptions(next.tooltip, {x: Object.assign({formatter: undefined}, originalTooltipX)});
+        }
+        if (Array.isArray(next.series) && next.series.length === 1 && Array.isArray(next.series[0].data)) {
+            var data = next.series[0].data;
+            resetRange = !target._bourseTradingDates || data !== ((target.w.config.series[0] || {}).data);
+            // Do not reinterpret candle arrays or unsupported response shapes.
+            if (data.every(function(p) {
+                return p && !Array.isArray(p) && Number.isFinite(timestamp(p.tradingDate || p.x)) &&
+                    (p.y == null || p.y === '' || (typeof p.y !== 'object' && Number.isFinite(Number(p.y))));
+            })) {
+                if (!originalAxis) {
+                    originalAxis = bourseMergeChartOptions(target.w.config.xaxis, next.xaxis);
+                    originalTooltipX = Object.assign({}, (next.tooltip || {}).x);
+                }
+                var dates = [];
+                var points = data.filter(function(p) {
+                    var day = new Date(timestamp(p.tradingDate || p.x)).getUTCDay();
+                    return day !== 0 && day !== 6;
+                }).map(function(p, index) {
+                    var originalDate = p.tradingDate || p.x;
+                    dates.push(label(originalDate));
+                    return Object.assign({}, p, {x: index, tradingDate: originalDate,
+                        y: p.y == null || p.y === '' ? null : Number(p.y)});
+                });
+                target._bourseTradingDates = dates;
+                next.series = [Object.assign({}, next.series[0], {data: points})];
+            } else {
+                // Fail back to the original renderer instead of silently dropping data.
+                target._bourseTradingDates = null;
+                next.xaxis = bourseMergeChartOptions(originalAxis || {type: 'datetime'}, next.xaxis);
+                next.xaxis.min = undefined;
+                next.xaxis.max = undefined;
+                next.tooltip = bourseMergeChartOptions(next.tooltip, {x: Object.assign({formatter: undefined}, originalTooltipX)});
+                console.warn('Yield trading axis: unsupported data; keeping original axis.');
+            }
+        }
+        var dates = target._bourseTradingDates;
+        if (dates) {
+            // v3.1: numeric ticks are formatted as rotated dates. Reserve their
+            // full height on EVERY update, including chartConfig.js navigation.
+            // Automatic measurement can otherwise give this space to the plot.
+            var axisOptions = bourseMergeChartOptions(target.w.config.xaxis, next.xaxis);
+            var fontPixels = parseFloat(((axisOptions.labels || {}).style || {}).fontSize) || 12;
+            var dateLabelHeight = Math.ceil(fontPixels * 5.5 + 16);
+            next.chart = bourseMergeChartOptions(next.chart, {
+                height: (next.chart || {}).height || (target.w.config.chart || {}).height || 525
+            });
+            next.legend = bourseMergeChartOptions(next.legend, {
+                position: 'bottom', floating: false, offsetY: 0
+            });
+            next.xaxis = bourseMergeChartOptions(next.xaxis, {
+                type: 'numeric', categories: [], tickAmount: Math.min(19, Math.max(1, dates.length - 1)),
+                floating: false,
+                labels: {
+                    rotate: -70, rotateAlways: true,
+                    minHeight: dateLabelHeight, maxHeight: dateLabelHeight,
+                    offsetY: 0,
+                    formatter: function(value) { return dates[Math.round(Number(value))] || ''; }
+                }
+            });
+            // Reset range only for new data; font/color changes retain a user's zoom.
+            if (resetRange) {
+                next.xaxis.min = 0;
+                next.xaxis.max = Math.max(1, dates.length - 1);
+            }
+            next.tooltip = bourseMergeChartOptions(next.tooltip, {
+                x: {formatter: function(value) { return dates[Math.round(Number(value))] || ''; }}
+            });
+        }
+        return next;
+    }
+    target.updateOptions = function(options, redrawPaths, animate, synced, overwrite) {
+        return nativeOptions.call(this, prepare(options), redrawPaths, false, synced, overwrite);
+    };
+    target.updateSeries = function(series, animate, overwrite) {
+        if (!target._bourseTradingDates) return nativeSeries.call(this, series, animate, overwrite);
+        // Type-only updates must retain the existing data and its date mapping.
+        var complete = series.map(function(s, index) {
+            return Object.assign({}, target.w.config.series[index] || {}, s);
+        });
+        return target.updateOptions({series: complete}, false, false, false, overwrite);
+    };
+}
+/* End Bourse chart performance helpers. */
+
 var checkedItem = 0;
 var checkedItemid = [];
 var checkedItemidRight = [];
@@ -1482,8 +1644,12 @@ function getFormat(Format) {
 }
 
 function updateChartOption() {
+    return chart.updateOptions(getChartAppearanceOptions());
+}
+
+function getChartAppearanceOptions() {
     if (chartType1 == 'area') {
-        chart.updateOptions({
+        return {
             colors: chartColor == '#44546a' ? ['#2e75b6'] : [chartColor],
             fill: {
                 type: 'gradient',
@@ -1500,10 +1666,10 @@ function updateChartOption() {
             stroke: {
                 colors: ["#ffffff"],
             },
-        });
+        };
     } else
     if (chartColor == '#44546a') {
-        chart.updateOptions({
+        return {
             colors: ['#2e75b6'],
             fill: {
                 type: 'solid',
@@ -1516,8 +1682,8 @@ function updateChartOption() {
                 colors: ['#2e75b6'],
                 strokeColors: ['#2e75b6']
             }
-        });
-    } else chart.updateOptions({
+        };
+    } else return {
         colors: [chartColor],
         fill: {
             type: 'solid',
@@ -1530,7 +1696,7 @@ function updateChartOption() {
             colors: [chartColor],
             strokeColors: [chartColor]
         }
-    });
+    };
 }
 
 function getlength(number) {
@@ -1688,7 +1854,7 @@ function enableDisableDropDownType(value) {
     }): null;
 }
 
-function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate) {
+function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate, initialOptions) {
     // var valueMin = getMarginLenght(chartConfigSettings.min); 
     // var valueMax = getMarginLenght(chartConfigSettings.max); 
     // var valueMin1 = getMarginLenght(chartConfigSettings.min1); 
@@ -1728,7 +1894,7 @@ function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate) {
         var valueMax1 = values;
         var calculatedMinValue = Math.sign(chartConfigSettings.min) == -1 ? -Math.abs(chartConfigSettings.min) - valueMin1 : Math.abs(chartConfigSettings.min) - valueMin1;
         var calculatedMaxValue = Math.sign(chartConfigSettings.max) == -1 ? -Math.abs(chartConfigSettings.max) + valueMax1 : Math.abs(chartConfigSettings.max) + valueMax1;
-        chart.updateOptions({
+        return bourseApplyChartOptions(chart, {
             series: [{
                 name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
                 type: chartConfigSettings.chartType,
@@ -1862,7 +2028,7 @@ function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate) {
                     },
                 },
             }
-        });
+        }, initialOptions);
     } else if ((chartConfigSettings.functionId >= 7 && chartConfigSettings.functionId < 10) || barFunctionId.includes(chartConfigSettings.functionId)) {
         var calculatedMinValue = Math.sign(chartConfigSettings.min1) == -1 ? -Math.abs(chartConfigSettings.min1) - valueMin1 : Math.abs(chartConfigSettings.min1) - valueMin1;
         var calculatedMaxValue = Math.sign(chartConfigSettings.max1) == -1 ? -Math.abs(chartConfigSettings.max1) + valueMax1 : Math.abs(chartConfigSettings.max1) + valueMax1;
@@ -1871,7 +2037,7 @@ function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate) {
             calculatedMinValue = axis.min;
             calculatedMaxValue = axis.max;
         }
-        chart.updateOptions({
+        return bourseApplyChartOptions(chart, {
             series: [{
                 name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
                 type: chartConfigSettings.Period == 'd' ? chartConfigSettings.chartType1 : 'column',
@@ -2006,7 +2172,7 @@ function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate) {
                     },
                 },
             }
-        });
+        }, initialOptions);
     } else {
         const values = addMarginToMinMax(chartConfigSettings.min2, chartConfigSettings.max2, 5);
         var valueMin2 = values;
@@ -2020,7 +2186,7 @@ function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate) {
         //	var strokeWidth=getStrokeWidthPeriod(chartConfigSettings.Period,chartConfigSettings.response[0].graphResponseDTOLst.length); 
         var strokeWidth = getDynamicWidth(chartConfigSettings.response[0].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
         var strokeWidth1 = getDynamicWidth(chartConfigSettings.response[1].graphResponseDTOLst.filter(item => item.y !== null && item.y !== '').length);
-        chart.updateOptions({
+        return bourseApplyChartOptions(chart, {
             series: [{
                 name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
                 type: chartConfigSettings.chartType,
@@ -2206,11 +2372,11 @@ function updateChartByFunctionIdMissingDates(chartConfigSettings, isFullDate) {
                     }
                 }]
             },
-        });
+        }, initialOptions);
     }
 }
 
-function updateChartSelectedItem(chartConfigSettings) {
+function updateChartSelectedItem(chartConfigSettings, initialOptions) {
     if (chartConfigSettings.checkedItem == 1) {
         // var valueMin = getMarginLenght(chartConfigSettings.min); 
         // var valueMax = getMarginLenght(chartConfigSettings.max);  				 	
@@ -2228,7 +2394,7 @@ function updateChartSelectedItem(chartConfigSettings) {
             calculatedMaxValue = axis.max;
         }
         var valueMax = values;
-        chart.updateOptions({
+        return bourseApplyChartOptions(chart, {
             series: [{
                 name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
                 type: chartConfigSettings.chartType1,
@@ -2290,7 +2456,7 @@ function updateChartSelectedItem(chartConfigSettings) {
                     },
                 },
             }
-        });
+        }, initialOptions);
     } else if (chartConfigSettings.checkedItem == 2) {
         const values1 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
         var valueMin1 = values1;
@@ -2404,7 +2570,7 @@ function updateChartSelectedItem(chartConfigSettings) {
                 },
             }];
         }
-        chart.updateOptions({
+        return bourseApplyChartOptions(chart, {
             series: [{
                 name: chartConfigSettings.response[0].config.displayDescription == null ? itemValue[chartConfigSettings.checkedItemValues[0]].title : chartConfigSettings.response[0].config.displayDescription,
                 type: chartConfigSettings.chartType1,
@@ -2452,7 +2618,7 @@ function updateChartSelectedItem(chartConfigSettings) {
                     },
                 },
             }
-        }, );
+        }, initialOptions);
     }
 }
 
@@ -2469,7 +2635,7 @@ function join(t, a, s) {
     return a.map(format).join(s);
 }
 
-function updateChartSelectedItemMissingDates(chartConfigSettings) {
+function updateChartSelectedItemMissingDates(chartConfigSettings, initialOptions) {
     if (chartConfigSettings.checkedItem == 1) {
         const values = addMarginToMinMax(chartConfigSettings.min, chartConfigSettings.max, 5);
         var valueMin = values;
@@ -2484,7 +2650,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings) {
             calculatedMinValue = axis.min;
             calculatedMaxValue = axis.max;
         }
-        chart.updateOptions({
+        return bourseApplyChartOptions(chart, {
             series: [{
                 name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
                 type: chartConfigSettings.chartType1,
@@ -2496,7 +2662,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings) {
                     rotateAlways: true,
                     minHeight: 30,
                     style: {
-                        fontSize: '12px',
+                        fontSize: chartConfigSettings.fontSize,
                     },
                     formatter: function(value, timestamp, opts) {
                         let a = [{
@@ -2581,7 +2747,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings) {
                     borderColor: '#ffc000',
                 }],
             }
-        });
+        }, initialOptions);
     } else if (chartConfigSettings.checkedItem == 2) {
         const values1 = addMarginToMinMax(chartConfigSettings.min1, chartConfigSettings.max1, 5);
         var valueMin1 = values1;
@@ -2680,7 +2846,7 @@ function updateChartSelectedItemMissingDates(chartConfigSettings) {
                 },
             }];
         }
-        chart.updateOptions({
+        return bourseApplyChartOptions(chart, {
             series: [{
                 name: chartConfigSettings.response[0].config.displayDescription == null ? itemValue[chartConfigSettings.checkedItemValues[0]].title : chartConfigSettings.response[0].config.displayDescription,
                 type: chartConfigSettings.chartType1,
@@ -2728,11 +2894,11 @@ function updateChartSelectedItemMissingDates(chartConfigSettings) {
                     },
                 },
             }
-        });
+        }, initialOptions);
     }
 }
 
-function updateBarChartSelectedItem(chartConfigSettings) {
+function updateBarChartSelectedItem(chartConfigSettings, initialOptions) {
     if (chartConfigSettings.checkedItem == 1) {
         /* var valueMin = getMarginLenghtVolume(chartConfigSettings.min); 
 			 		 var valueMax = getMarginLenghtVolume(chartConfigSettings.max);  				 	
@@ -2741,7 +2907,7 @@ function updateBarChartSelectedItem(chartConfigSettings) {
         var valueMin = values;
         var valueMax = values;
         let minVal = chartConfigSettings.minvalue;
-        chart.updateOptions({
+        return bourseApplyChartOptions(chart, {
             series: [{
                 name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
                 type: 'column',
@@ -2854,7 +3020,7 @@ function updateBarChartSelectedItem(chartConfigSettings) {
                     },
                 },
             }
-        });
+        }, initialOptions);
     } else if (chartConfigSettings.checkedItem == 2) {
         min = Math.min(chartConfigSettings.min1, chartConfigSettings.min2);
         max = Math.max(chartConfigSettings.max1, chartConfigSettings.max2);
@@ -2862,7 +3028,7 @@ function updateBarChartSelectedItem(chartConfigSettings) {
         maxvalue = max;
         var valueMin = getMarginLenghtVolume(min);
         var valueMax = getMarginLenghtVolume(max);
-        chart.updateOptions({
+        return bourseApplyChartOptions(chart, {
             series: [{
                 name: chartConfigSettings.response[0].config.displayDescription == null ? itemValue[chartConfigSettings.checkedItemValues[0]].title : chartConfigSettings.response[0].config.displayDescription,
                 type: chartConfigSettings.chartType1,
@@ -2934,13 +3100,13 @@ function updateBarChartSelectedItem(chartConfigSettings) {
                     },
                 },
             }
-        });
+        }, initialOptions);
     } else if (chartConfigSettings.checkedItem == 3) {
         minvalue = min;
         maxvalue = max;
         var valueMin = getMarginLenghtVolume(min);
         var valueMax = getMarginLenghtVolume(max);
-        chart.updateOptions({
+        return bourseApplyChartOptions(chart, {
             series: [{
                 name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
                 type: chartConfigSettings.Period == 'd' ? chartConfigSettings.chartType1 : 'column',
@@ -3019,7 +3185,7 @@ function updateBarChartSelectedItem(chartConfigSettings) {
                     },
                 },
             }
-        });
+        }, initialOptions);
     }
 }
 
@@ -4376,7 +4542,7 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
                 var dbchartType2 = response[1].config.chartType;
                 chartType2 = getChartType(dbchartType2)[0] != 'area' ? getChartType(dbchartType2)[0] : 'line';
                 checkActiveChartType($("#chartTypes").find(".active")[0], Period == 'd' ? chartType1 : 'column', Period);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 min1 = Math.min.apply(null, response[0].graphResponseDTOLst.map(item => item.y).filter(y => y !== null && y !== undefined && y !== ""));
                 max1 = Math.max.apply(null, response[0].graphResponseDTOLst.map(item => item.y).filter(y => y !== null && y !== undefined && y !== ""));
                 min2 = Math.min.apply(null, response[1].graphResponseDTOLst.map(item => item.y).filter(y => y !== null && y !== undefined && y !== ""));
@@ -4484,7 +4650,7 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
                     strokeWidth = getDynamicWidth(data0.filter(item => item.y !== null && item.y !== '').length);
                     strokeWidth1 = getDynamicWidth(data1.filter(item => item.y !== null && item.y !== '').length);
                 }
-                chart.updateOptions({
+                bourseApplyChartOptions(chart, {
                     series: [{
                         name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
                         type: Period == 'd' ? chartType1 : 'column',
@@ -4599,7 +4765,7 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
                             }
                         }
                     }
-                });
+                }, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -4657,7 +4823,7 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
                 $("#chartColorTransparency .btn-option").removeClass("active");
                 checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0], '5');
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -4729,7 +4895,7 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                updateChartByFunctionIdMissingDates(chartConfigSettings, true);
+                updateChartByFunctionIdMissingDates(chartConfigSettings, true, initialChartOptions);
                 loadAndApplyUsBanksReserveThresholdAnnotations(checkedItemValues);
                 $('#overlayChart').hide();
             },
@@ -4791,8 +4957,9 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
-                updateChartOption();
+                var initialChartOptions = bourseMergeChartOptions(
+                    getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize),
+                    getChartAppearanceOptions());
                 /* min = Math.min.apply(null, response[0].graphResponseDTOLst.map(item => item.y).filter(y => y !== null && y !== undefined && y !== ""));
                  max = Math.max.apply(null, response[0].graphResponseDTOLst.map(item => item.y).filter(y => y !== null && y !== undefined && y !== ""));
                  minvalue = min;
@@ -4835,7 +5002,7 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                updateChartSelectedItemMissingDates(chartConfigSettings);
+                updateChartSelectedItemMissingDates(chartConfigSettings, initialChartOptions);
                 loadAndApplyUsBanksReserveThresholdAnnotations(checkedItemValues);
                 checkIfRenderFlag(graphName, itemValue[checkedItemValues[0]]);
                 $('#overlayChart').hide();
@@ -5463,7 +5630,7 @@ function getGraphUsJobData(graphService, graphName, removeEmpty, saveHistory) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -5547,7 +5714,7 @@ function getGraphUsJobData(graphService, graphName, removeEmpty, saveHistory) {
                 }).catch(function(error) {
                     console.error('Error processing data:', error);
                 });
-                updateChartByFunctionIdMissingDates(chartConfigSettings, false);
+                updateChartByFunctionIdMissingDates(chartConfigSettings, false, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -5631,8 +5798,9 @@ function getGraphUsJobData(graphService, graphName, removeEmpty, saveHistory) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
-                updateChartOption();
+                var initialChartOptions = bourseMergeChartOptions(
+                    getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize),
+                    getChartAppearanceOptions());
                 min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
                     return item.y;
                 }).filter(function(y) {
@@ -5674,7 +5842,7 @@ function getGraphUsJobData(graphService, graphName, removeEmpty, saveHistory) {
                 }).catch(function(error) {
                     console.error('Error processing data:', error);
                 });
-                chart.updateOptions({
+                bourseApplyChartOptions(chart, {
                     series: [{
                         name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
                         type: 'column',
@@ -5782,7 +5950,7 @@ function getGraphUsJobData(graphService, graphName, removeEmpty, saveHistory) {
                             borderColor: '#ffc000'
                         }]
                     }
-                });
+                }, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -5894,7 +6062,7 @@ function getGraphDataWithFactor(graphService, graphName, removeEmpty, saveHistor
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -5954,7 +6122,7 @@ function getGraphDataWithFactor(graphService, graphName, removeEmpty, saveHistor
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                updateChartByFunctionIdMissingDates(chartConfigSettings, true);
+                updateChartByFunctionIdMissingDates(chartConfigSettings, true, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -6016,7 +6184,7 @@ function getGraphDataWithFactor(graphService, graphName, removeEmpty, saveHistor
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -6047,7 +6215,7 @@ function getGraphDataWithFactor(graphService, graphName, removeEmpty, saveHistor
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                chart.updateOptions({
+                bourseApplyChartOptions(chart, {
                     series: [{
                         name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
                         type: Period == 'd' ? chartType1 : 'column',
@@ -6143,7 +6311,7 @@ function getGraphDataWithFactor(graphService, graphName, removeEmpty, saveHistor
                             },
                         },
                     },
-                });
+                }, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -6203,8 +6371,9 @@ function getGraphDataWithFactor(graphService, graphName, removeEmpty, saveHistor
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
-                updateChartOption();
+                var initialChartOptions = bourseMergeChartOptions(
+                    getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize),
+                    getChartAppearanceOptions());
                 min = Math.min.apply(null, response[0].graphResponseDTOLst.map(item => item.y).filter(y => y !== null && y !== undefined && y !== ""));
                 max = Math.max.apply(null, response[0].graphResponseDTOLst.map(item => item.y).filter(y => y !== null && y !== undefined && y !== ""));
                 //minvalue = parseFloat((Math.floor(min * 20) / 20).toFixed(2));
@@ -6240,7 +6409,7 @@ function getGraphDataWithFactor(graphService, graphName, removeEmpty, saveHistor
                     console.error('Error processing data:', error);
                 });
                 //if(Period=='d')
-                updateChartSelectedItemMissingDates(chartConfigSettings);
+                updateChartSelectedItemMissingDates(chartConfigSettings, initialChartOptions);
                 //else
                 //	updateChartSelectedItem(chartConfigSettings);
                 checkIfRenderFlag(graphName, itemValue[checkedItemValues[0]]);
@@ -6258,6 +6427,63 @@ function getGraphDataWithFactor(graphService, graphName, removeEmpty, saveHistor
 }
 
 function getGraphDataSovereign(graphName, itemsDataParam) {
+    // YIELD GRAPH PERFORMANCE DIAGNOSTICS - diagnostics only, no trading/chart behavior change.
+    var yieldPerfStart = performance.now();
+    var yieldPerfApiStart = null;
+    var yieldPerfApiMs = null;
+    var yieldPerfUpdateSequence = 0;
+    var yieldPerfCumulativeUpdateMs = 0;
+    var yieldPerfUpdateDetails = [];
+
+    console.log("========== YIELD GRAPH PERFORMANCE ==========");
+    console.log("Graph:", graphName);
+
+    // Capture immutable wire JSON, not responseJSON: chart preparation can mutate
+    // responseJSON by appending padding. Keep only the latest response in memory.
+    // Per-request completion callbacks retain the matching params during overlapping draws.
+    $(document).off("ajaxSend.yieldPerf ajaxComplete.yieldPerf");
+    $(document).on("ajaxSend.yieldPerf", function(event, jqXHR, settings) {
+        if (!settings || settings.url !== "/bourse/getgraphdatabytype") return;
+        yieldPerfApiStart = performance.now();
+        var requestStart = yieldPerfApiStart;
+        window.yieldApiCaptureSequence = (window.yieldApiCaptureSequence || 0) + 1;
+        var requestId = window.yieldApiCaptureSequence;
+        var requestParams;
+        try {
+            requestParams = typeof settings.data === "string" ? JSON.parse(settings.data) : settings.data;
+        } catch (ignore) {
+            requestParams = settings.data;
+        }
+        // Freeze request values before subsequent UI interactions can change them.
+        var requestSnapshot = JSON.stringify(requestParams == null ? null : requestParams);
+        console.log("YIELD API #" + requestId + " PARAMS_JSON\n" + requestSnapshot);
+        console.log("Yield API request started", settings.type, settings.url);
+        jqXHR.always(function() {
+            yieldPerfApiMs = performance.now() - requestStart;
+            var wireResponse = jqXHR.responseText || "";
+            var responsePayload;
+            try { responsePayload = JSON.parse(wireResponse); }
+            catch (ignore) { responsePayload = wireResponse; }
+            var capture = {
+                requestId: requestId,
+                graph: graphName,
+                method: settings.type || "POST",
+                url: settings.url,
+                params: JSON.parse(requestSnapshot),
+                httpStatus: jqXHR.status,
+                elapsedThroughCallbackMs: Number(yieldPerfApiMs.toFixed(2)),
+                response: responsePayload
+            };
+            var captureText = JSON.stringify(capture, null, 2);
+            // A string snapshot prevents DevTools from displaying later mutated values.
+            window.yieldApiLastCapture = captureText;
+            console.log("YIELD API #" + requestId + " RESPONSE_JSON\n" + wireResponse);
+            console.log("YIELD API #" + requestId + " STATUS " + jqXHR.status +
+                " | elapsed through callback: " + yieldPerfApiMs.toFixed(2) + " ms");
+            console.log("Copy complete params + response: copy(window.yieldApiLastCapture)");
+        });
+    });
+
     mode = "merge";
     var dataParam;
     var checkedItemValues = [];
@@ -6284,8 +6510,81 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
     }
     chart = new ApexCharts(document.querySelector("#mainChart"), Period == 'd' ? options : ((functionId != -1) ? optionsWeekly : optionsWeeklyy));
     //  chart = new ApexCharts(document.querySelector("#mainChart"), Period=='d' ? ((functionId!=-1)?options_missingDates:options) : optionsWeekly);
-    chart.render();
+
+    var yieldPerfInitialRenderStart = performance.now();
+    var yieldPerfInitialRenderPromise = chart.render();
+    Promise.resolve(yieldPerfInitialRenderPromise).then(function() {
+        console.log("Initial empty ApexCharts render:", (performance.now() - yieldPerfInitialRenderStart).toFixed(2), "ms");
+    });
+
+    // Wrap updateOptions on this Yield chart instance only. This does not change the options or return value.
+    var yieldPerfOriginalUpdateOptions = chart.updateOptions.bind(chart);
+    chart.updateOptions = function(opts, redrawPaths, animate, updateSyncedCharts) {
+        var updateNo = ++yieldPerfUpdateSequence;
+        var updateStart = performance.now();
+        var hasSeries = !!(opts && Array.isArray(opts.series));
+        var optionKeys = opts && typeof opts === "object" ? Object.keys(opts) : [];
+        var optionLabel = optionKeys.length ? optionKeys.join(", ") : "(no option keys)";
+        var totalPoints = 0;
+        var nullPoints = 0;
+
+        console.log("Yield updateOptions #" + updateNo + " START [" + optionLabel + "]", {
+            redrawPaths: redrawPaths,
+            animate: animate,
+            updateSyncedCharts: updateSyncedCharts
+        });
+
+        if (hasSeries) {
+            opts.series.forEach(function(serie, index) {
+                var points = serie && Array.isArray(serie.data) ? serie.data : [];
+                var seriesNulls = points.reduce(function(total, point) {
+                    var y = point && typeof point === "object" && !Array.isArray(point) ? point.y : (Array.isArray(point) ? point[1] : null);
+                    return total + (y === null || y === undefined ? 1 : 0);
+                }, 0);
+                totalPoints += points.length;
+                nullPoints += seriesNulls;
+                console.log("Yield series " + (index + 1) + ":", points.length, "points;", seriesNulls, "null points");
+            });
+            console.log("Total returned/chart points:", totalPoints);
+            console.log("Total null points:", nullPoints);
+        }
+
+        var result = yieldPerfOriginalUpdateOptions(opts, redrawPaths, animate, updateSyncedCharts);
+        Promise.resolve(result).then(function() {
+            var updateMs = performance.now() - updateStart;
+            yieldPerfCumulativeUpdateMs += updateMs;
+            yieldPerfUpdateDetails.push({
+                no: updateNo,
+                sections: optionLabel,
+                ms: Number(updateMs.toFixed(2)),
+                series: hasSeries,
+                points: totalPoints,
+                nullPoints: nullPoints
+            });
+
+            console.log(
+                "ApexCharts updateOptions #" + updateNo +
+                " [" + optionLabel + "]:",
+                updateMs.toFixed(2), "ms",
+                "| cumulative:", yieldPerfCumulativeUpdateMs.toFixed(2), "ms"
+            );
+
+            // Print a compact table after every completed update so the complete redraw chain is visible.
+            console.table(yieldPerfUpdateDetails);
+
+            if (hasSeries) {
+                console.log("Yield API time:", yieldPerfApiMs === null ? "pending" : yieldPerfApiMs.toFixed(2) + " ms");
+                console.log("CUMULATIVE ApexCharts updateOptions time:", yieldPerfCumulativeUpdateMs.toFixed(2), "ms");
+                console.log("TOTAL Yield graph time:", (performance.now() - yieldPerfStart).toFixed(2), "ms");
+                console.log("=============================================");
+            }
+        });
+        return result;
+    };
     if (isNaN(functionId)) functionId = -1;
+    if (Period === 'd' && functionId == -1 && Items === "" && checkedItemValues.length === 1) {
+        bourseInstallYieldTradingAxis(chart);
+    }
     if (Items != "") {
         enableDisableDropDowns(true);
         disableOptions(true);
@@ -6363,7 +6662,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -6422,7 +6721,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                chart.updateOptions({
+                bourseApplyChartOptions(chart, {
                     series: [{
                         name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
                         type: Period == 'd' ? chartType1 : 'column',
@@ -6521,7 +6820,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                             },
                         },
                     }
-                });
+                }, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -6595,7 +6894,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
                 $("#chartColorTransparency .btn-option").removeClass("active");
                 checkActiveChartColorTransparency($("#chartColorTransparency").find(".active")[0], '5');
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -6661,7 +6960,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                updateChartByFunctionIdMissingDates(chartConfigSettings, true);
+                updateChartByFunctionIdMissingDates(chartConfigSettings, true, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -6721,7 +7020,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
                 checkActiveChartType($("#chartTypes").find(".active")[0], 'line', 'd');
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -6759,7 +7058,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                chart.updateOptions({
+                bourseApplyChartOptions(chart, {
                     series: [{
                         name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
                         type: Period == 'd' ? chartType1 : 'column',
@@ -6826,7 +7125,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                             },
                         },
                     }
-                });
+                }, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -6909,7 +7208,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
                 checkActiveChartType($("#chartTypes").find(".active")[0], 'line', 'd');
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -6956,7 +7255,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                chart.updateOptions({
+                bourseApplyChartOptions(chart, {
                     series: [{
                         name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
                         type: Period == 'd' ? chartType1 : 'column',
@@ -7031,7 +7330,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                             },
                         },
                     }
-                });
+                }, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -7113,7 +7412,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
                 checkActiveChartType($("#chartTypes").find(".active")[0], 'line', 'd');
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -7168,7 +7467,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                chart.updateOptions({
+                bourseApplyChartOptions(chart, {
                     series: [{
                         name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
                         type: Period == 'd' ? chartType1 : 'column',
@@ -7251,7 +7550,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                             },
                         },
                     }
-                });
+                }, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -7325,8 +7624,9 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
-                updateChartOption();
+                var initialChartOptions = bourseMergeChartOptions(
+                    getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize),
+                    getChartAppearanceOptions());
                 min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
                     return item.y;
                 }));
@@ -7366,7 +7666,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                updateChartSelectedItemMissingDates(chartConfigSettings);
+                updateChartSelectedItemMissingDates(chartConfigSettings, initialChartOptions);
                 //else
                 //	updateChartSelectedItem(chartConfigSettings);
                 $('#overlayChart').hide();
@@ -8742,7 +9042,7 @@ function initiateBarGraph(graphService, graphName, removeEmpty, saveHistory) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 chartType1 = 'column';
@@ -8818,7 +9118,7 @@ function initiateBarGraph(graphService, graphName, removeEmpty, saveHistory) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                updateBarChartSelectedItem(chartConfigSettings);
+                updateBarChartSelectedItem(chartConfigSettings, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -8878,7 +9178,7 @@ function initiateBarGraph(graphService, graphName, removeEmpty, saveHistory) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 chartType1 = 'column';
@@ -8948,7 +9248,7 @@ function initiateBarGraph(graphService, graphName, removeEmpty, saveHistory) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                updateBarChartSelectedItem(chartConfigSettings);
+                updateBarChartSelectedItem(chartConfigSettings, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -9007,8 +9307,9 @@ function initiateBarGraph(graphService, graphName, removeEmpty, saveHistory) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
-                updateChartOption();
+                var initialChartOptions = bourseMergeChartOptions(
+                    getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize),
+                    getChartAppearanceOptions());
                 min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
                     return item.y;
                 }));
@@ -9048,7 +9349,7 @@ function initiateBarGraph(graphService, graphName, removeEmpty, saveHistory) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                updateBarChartSelectedItem(chartConfigSettings);
+                updateBarChartSelectedItem(chartConfigSettings, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -10632,7 +10933,7 @@ function getGraphDataCrypto(graphService, graphName, removeEmpty, saveHistory) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -10772,7 +11073,7 @@ function getGraphDataCrypto(graphService, graphName, removeEmpty, saveHistory) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                chart.updateOptions({
+                bourseApplyChartOptions(chart, {
                     series: [{
                         name: response[0].config != null ? (response[0].config.displayDescription == null ? '' : response[0].config.displayDescription) : '',
                         type: Period == 'd' ? chartType1 : 'column',
@@ -10867,7 +11168,7 @@ function getGraphDataCrypto(graphService, graphName, removeEmpty, saveHistory) {
                             },
                         },
                     },
-                });
+                }, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -10927,7 +11228,7 @@ function getGraphDataCrypto(graphService, graphName, removeEmpty, saveHistory) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid)
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
+                var initialChartOptions = getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize);
                 var dbchartType1 = response[0].config.chartType;
                 chartType1 = (getChartType(dbchartType1)[0] != 'area') ? getChartType(dbchartType1)[0] : 'line';
                 var dbchartType2 = response[1].config.chartType;
@@ -10995,7 +11296,7 @@ function getGraphDataCrypto(graphService, graphName, removeEmpty, saveHistory) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                updateChartByFunctionIdMissingDates(chartConfigSettings, true);
+                updateChartByFunctionIdMissingDates(chartConfigSettings, true, initialChartOptions);
                 $('#overlayChart').hide();
             },
             error: function(e) {
@@ -11057,8 +11358,9 @@ function getGraphDataCrypto(graphService, graphName, removeEmpty, saveHistory) {
                 markerSize = checkActiveChartMarker($("#chartMarker").find(".active")[0], response[0].config.chartshowMarkes);
                 showGrid = checkActiveChartGrid($("#gridOptions").find(".active")[0], response[0].config.chartShowgrid);
                 showLegend = checkActiveChartLegend($("#gridLegend").find(".active")[0], showLegend);
-                chart.updateOptions(getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize));
-                updateChartOption();
+                var initialChartOptions = bourseMergeChartOptions(
+                    getChartDailyOption(title + getTitlePeriodAndType(), showGrid, fontsize, markerSize),
+                    getChartAppearanceOptions());
                 min = Math.min.apply(null, response[0].graphResponseDTOLst.map(function(item) {
                     return item.y;
                 }));
@@ -11105,7 +11407,7 @@ function getGraphDataCrypto(graphService, graphName, removeEmpty, saveHistory) {
                 }).catch(error => {
                     console.error('Error processing data:', error);
                 });
-                chart.updateOptions({
+                bourseApplyChartOptions(chart, {
                     series: [{
                         name: chartConfigSettings.response[0].config != null ? (chartConfigSettings.response[0].config.displayDescription == null ? '' : chartConfigSettings.response[0].config.displayDescription) : '',
                         type: chartConfigSettings.chartType1,
@@ -11217,7 +11519,7 @@ function getGraphDataCrypto(graphService, graphName, removeEmpty, saveHistory) {
                             },
                         },
                     }
-                });
+                }, initialChartOptions);
                 //else
                 //	updateChartSelectedItem(chartConfigSettings);
                 checkIfRenderFlag(graphName, itemValue[checkedItemValues[0]]);

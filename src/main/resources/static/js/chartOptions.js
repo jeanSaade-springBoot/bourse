@@ -149,6 +149,9 @@ function updateGraphConfiguration(SelectedchartType, selectedChartColor, selecte
     //calculatedMinValue = PositiveGraphs.includes(graphService)?( Math.sign(calculatedMinValue) == -1 ?0:calculatedMinValue): calculatedMinValue;
     calculatedMinValue = (Math.sign(calculatedMinValue) == -1 && !(Math.sign(minvalue) == -1)) ? 0 : calculatedMinValue;
     if (SelectedchartType == 'area') chart.updateOptions({
+        series: chart.w.config.series.map(function(series, index) {
+            return index === 0 ? Object.assign({}, series, {type: SelectedchartType}) : series;
+        }),
         legend: {
             show: eval(selectedChartLegend.split('legend')[1]),
             fontSize: fontsize,
@@ -245,6 +248,9 @@ function updateGraphConfiguration(SelectedchartType, selectedChartColor, selecte
         }
     });
     else chart.updateOptions({
+        series: chart.w.config.series.map(function(series, index) {
+            return index === 0 ? Object.assign({}, series, {type: SelectedchartType}) : series;
+        }),
         legend: {
             show: eval(selectedChartLegend.split('legend')[1]),
             fontSize: fontsize,
@@ -332,9 +338,7 @@ function updateGraphConfiguration(SelectedchartType, selectedChartColor, selecte
             size: selectedChartMarker,
         }
     });
-    chart.updateSeries([{
-        type: SelectedchartType
-    }]);
+
 }
 
 function updateGraphConfigurationVolumes(SelectedchartType, selectedChartColor, selectedChartTransparency, selectedChartMarker, selectedChartGrid, selectedChartLegend) { // console.log(SelectedchartType,selectedChartColor,selectedChartTransparency,selectedChartMarker,selectedChartGrid,selectedChartLegend)
@@ -346,10 +350,11 @@ function updateGraphConfigurationVolumes(SelectedchartType, selectedChartColor, 
     var valueMax = getMarginLenghtVolume(maxvalue);
     var calculatedMinValue = Math.sign(minvalue) == -1 ? -Math.abs(minvalue) - valueMin : Math.abs(minvalue) - valueMin;
     calculatedMinValue = (Math.sign(calculatedMinValue) == -1 && !(Math.sign(minvalue) == -1)) ? 0 : calculatedMinValue;
-    chart.updateSeries([{
-        type: SelectedchartType
-    }]);
+
     if (SelectedchartType == 'area') chart.updateOptions({
+        series: chart.w.config.series.map(function(series, index) {
+            return index === 0 ? Object.assign({}, series, {type: SelectedchartType}) : series;
+        }),
         stroke: {
             width: 2.25,
             colors: ["#ffffff"],
@@ -459,6 +464,9 @@ function updateGraphConfigurationVolumes(SelectedchartType, selectedChartColor, 
         },
     });
     else chart.updateOptions({
+        series: chart.w.config.series.map(function(series, index) {
+            return index === 0 ? Object.assign({}, series, {type: SelectedchartType}) : series;
+        }),
         stroke: {
             width: SelectedchartType == "column" ? 0 : 2.25,
             colors: SelectedchartType != "column" ? ["#ffffff"] : [selectedChartColor == '#44546a' ? '#2e75b6' : selectedChartColor],
