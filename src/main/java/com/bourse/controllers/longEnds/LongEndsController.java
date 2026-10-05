@@ -2,6 +2,7 @@ package com.bourse.controllers.longEnds;
 
 import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -24,6 +25,7 @@ import com.bourse.dto.UpdateDataDTO;
 import com.bourse.dto.longends.LongEndsAuditCommonDTO;
 import com.bourse.service.DataFunctionService;
 import com.bourse.service.longEnds.LongEndsService;
+import com.bourse.service.longEnds.LongEndsCalculationStatusService;
 
 @RestController
 @RequestMapping(value = "longEnds")
@@ -34,15 +36,18 @@ public class LongEndsController {
 	
 	@Autowired
 	private final DataFunctionService dataFunctionService;
+	private final LongEndsCalculationStatusService longEndsCalculationStatusService;
 	
 	private String className = "LongEndsController";
 	
 	public LongEndsController(
 			LongEndsService longEndsService,
-			DataFunctionService dataFunctionService)
+			DataFunctionService dataFunctionService,
+			LongEndsCalculationStatusService longEndsCalculationStatusService)
 	{
 		this.longEndsService = longEndsService;
 		this.dataFunctionService = dataFunctionService;
+		this.longEndsCalculationStatusService = longEndsCalculationStatusService;
 	}
 	@GetMapping(value = "get-longends-display-settings")
 	public ResponseEntity<List<LongEndsDisplaySettings>> getLongEndsDisplaySettingsList() {
@@ -87,12 +92,6 @@ public class LongEndsController {
 	public ResponseEntity<Boolean> saveLongEndsData(@RequestBody List<LongEndData> longEndDataDTOlst) {
 		System.out.println(className+": save-longEnds-data");
 		longEndsService.saveLongEndsData(longEndDataDTOlst);
-		longEndsService.doCalculation(longEndDataDTOlst.get(0).getReferDate(),String.valueOf(longEndDataDTOlst.get(0).getGroupId()));
-		longEndsService.doCalculationSaveSpreadData(longEndDataDTOlst,null);
-		longEndsService.runTrendFollowingMavgTask(longEndDataDTOlst.get(0).getGroupId(),longEndDataDTOlst.get(0).getReferDate(),longEndDataDTOlst.get(0).getReferDate());
-		longEndsService.runVolatilityWeightedTrendFollowingMavgTask(longEndDataDTOlst.get(0).getGroupId(),longEndDataDTOlst.get(0).getReferDate(),longEndDataDTOlst.get(0).getReferDate());
-		longEndsService.runFunctionCalculationProcedure(longEndDataDTOlst.get(0).getGroupId(),longEndDataDTOlst.get(0).getReferDate(),longEndDataDTOlst.get(0).getReferDate());
-
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
 	@GetMapping("findlatestdata/{groupId}")
@@ -117,21 +116,20 @@ public class LongEndsController {
 	
 		return new ResponseEntity<>(true,HttpStatus.OK);
 	}
+	@GetMapping(value = "calculation-status/{groupId}/{referDate}")
+	public ResponseEntity<Map<String,Object>> getCalculationStatus(@PathVariable("groupId") Long groupId,@PathVariable("referDate") String referDate) {
+		return new ResponseEntity<>(longEndsCalculationStatusService.getStatus(groupId,referDate),HttpStatus.OK);
+	}
 	@PostMapping(value = "getgraphdatabytype")
 	public ResponseEntity<List<GraphResponseColConfigDTO>> getGraphDataByType(@RequestBody  GraphRequestDTO graphReqDTO) {
 		return new ResponseEntity<>(longEndsService.getGraphDataByType(graphReqDTO),HttpStatus.OK);
 	} 
     @DeleteMapping(value = "delete-longEnds/{groupId}/{referDate}")
-	public ResponseEntity<HttpStatus> deleteLongEndData(@PathVariable("groupId") String groupId ,@PathVariable("referDate") String referDate) {
+	public ResponseEntity<HttpStatus> deleteLongEndData(@PathVariable("groupId") String groupId, @PathVariable("referDate") String referDate) {
 		System.out.println(className+": deleteLongEndsDataByReferDate");
-		  List<LongEndData> longEndsData = longEndsService.findLongEndsDataByReferDateAndGroupId(referDate,groupId);
-		  longEndsService.deleteLongEndsData(groupId,referDate);
-		  longEndsService.onSuccessfulDelete(longEndsData);
-		  longEndsService.runTrendFollowingMavgTask(Long.valueOf(groupId),referDate,referDate);
-		  longEndsService.runVolatilityWeightedTrendFollowingMavgTask(Long.valueOf(groupId),referDate,referDate);
-		  longEndsService.runFunctionCalculationProcedure(Long.valueOf(groupId),referDate,referDate);
+		longEndsService.deleteLongEndData(groupId, referDate);
 		return new ResponseEntity<>(HttpStatus.OK);
 	}
-   
+
 }
 

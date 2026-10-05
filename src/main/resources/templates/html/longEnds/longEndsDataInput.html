@@ -206,7 +206,7 @@
             <div id="longEndsValue" th:text="${longend}" style="display:none;"></div>
             
               <!-- Form Basic -->
-              <div class="col mt-4 p-0">
+              <div class="col row mt-4 p-0">
                 <div class="btn-group" role="group" aria-label="First group">
                   <button type="button" th:classappend="${longend == 1} ? 'active' : ''"  class="btn btn-secondary mw-100" id="bunds-btn" th:onclick="'javascript:toggleDivVisibility(1)'">Bunds</button>
                   <button type="button" th:classappend="${longend == 2} ? 'active' : ''"  class="btn btn-secondary mw-100" id="bobl-btn" th:onclick="'javascript:toggleDivVisibility(2)'">Bobls</button>
@@ -218,6 +218,10 @@
                   <button type="button" th:classappend="${longend == 8} ? 'active' : ''"  class="btn btn-secondary mw-100" id="tnotes-btn" th:onclick="'javascript:toggleDivVisibility(8)'">T-notes</button>
                   <button type="button" th:classappend="${longend == 9} ? 'active' : ''"  class="btn btn-secondary mw-100" id="tbonds-btn" th:onclick="'javascript:toggleDivVisibility(9)'">T-bonds</button>
                 </div>
+                <div id="longEndsCalculationStatus"
+							     class="ms-3 pt-2 ml-2"
+							     style="display:none; font-weight:600;">
+							</div>
               </div>
               <div class="collapse show" id="collapseExample">
                 <div class="card mb-4">
@@ -232,6 +236,7 @@
 								<div id='dateInput'></div>
 							</div>
 							<div>
+							
 								<div class="ms-3">
 								 <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" onclick="toggleCollapse()">
 								    Enter Spread Data

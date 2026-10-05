@@ -1,3 +1,86 @@
+// Bourse v3.9: legacy chart2 helpers may issue several option updates per action.
+// Merge pending options (arrays replace, functions preserved) and serialize renders.
+function bourseInstallLegacyRenderQueue(target) {
+    if (target._bourseLegacyQueue) return;
+    target._bourseLegacyQueue = true;
+    const nativeUpdate = target.updateOptions.bind(target);
+    const nativeRender = target.render.bind(target);
+    const nativeDestroy = target.destroy.bind(target);
+    let pending = null, running = false, timer = null, destroyed = false, sequence = 0;
+    function merge(base, extra) {
+        const out = {...base};
+        Object.keys(extra || {}).forEach(key => {
+            const value = extra[key];
+            if (Array.isArray(value)) out[key] = value.map(item =>
+                item && Object.getPrototypeOf(item) === Object.prototype ? merge({}, item) :
+                Array.isArray(item) ? item.slice() : item);
+            else if (value && Object.getPrototypeOf(value) === Object.prototype)
+                out[key] = merge(out[key] && !Array.isArray(out[key]) ? out[key] : {}, value);
+            else out[key] = value;
+        });
+        return out;
+    }
+    function schedule() {
+        if (!running && !destroyed && timer === null && pending)
+            timer = setTimeout(flush, 16);
+    }
+    async function flush() {
+        timer = null;
+        if (running || destroyed || !pending) return;
+        const batch = pending;
+        pending = null;
+        running = true;
+        const started = performance.now();
+        try {
+            // One complete option update, without animation or synchronized redraws.
+            await nativeUpdate(batch.options, batch.redraw, false, false);
+            const report = {version:'3.9', chartId:target.el?.id || 'chart2', batch:++sequence,
+                mergedCalls:batch.calls, renderMs:+(performance.now()-started).toFixed(1)};
+            window.bourseLegacyRenderPerformance = report;
+            console.info('BOURSE LEGACY RENDER ' + JSON.stringify(report));
+            batch.resolve();
+        } catch (error) {
+            console.error('BOURSE LEGACY RENDER ERROR', error);
+            batch.reject(error);
+        } finally {
+            running = false;
+            schedule();
+        }
+    }
+    target.render = function () {
+        running = true;
+        let result;
+        try { result = nativeRender(); }
+        catch (error) { running = false; throw error; }
+        return Promise.resolve(result).finally(() => { running = false; schedule(); });
+    };
+    target.updateOptions = function (options, redrawPaths) {
+        if (destroyed) return Promise.resolve();
+        if (!pending) {
+            pending = {options:{}, redraw:false, calls:0};
+            pending.promise = new Promise((resolve,reject) => {
+                pending.resolve = resolve; pending.reject = reject;
+            });
+            // Legacy callers often ignore the promise; errors are still logged above.
+            pending.promise.catch(() => {});
+        }
+        pending.options = merge(pending.options, options);
+        pending.redraw = pending.redraw || !!redrawPaths;
+        pending.calls++;
+        const result = pending.promise;
+        target._managerPending = result;
+        schedule();
+        return result;
+    };
+    target.destroy = function () {
+        destroyed = true;
+        if (timer !== null) clearTimeout(timer);
+        if (pending) { pending.resolve(); pending = null; }
+        return nativeDestroy();
+    };
+}
+console.info('BOURSE LEGACY RENDER QUEUE v3.9 loaded');
+
 const graphType="trendline";
 let selectedCurrencies = new Set(); // Stores selected currencies
 let graphTitle='';
@@ -225,6 +308,7 @@ function drawTechnicalGraph(chartId, graphService,graphName,removeEmpty,saveHist
 	checkedItemId.push(metadataList);
 	checkedItemValues = checkedItemId.filter(item => item != null);
 	chart = new ApexCharts(document.querySelector(chartId), options_graph);
+	bourseInstallLegacyRenderQueue(chart);
 
 	chart.render();
 	
@@ -1942,7 +2026,7 @@ function updateSeriesChart(chartConfigSettings){
 					};	
 	
 	  	
-		chart.updateOptions({
+		return chart.updateOptions({
 				chart: {
 			width: '100%',
 			toolbar: {

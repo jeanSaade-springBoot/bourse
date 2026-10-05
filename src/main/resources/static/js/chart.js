@@ -1,9 +1,9 @@
-/* Bourse chart performance overlay v3.1.
+/* Bourse chart performance overlay v3.3.
  * Merge complete option objects before drawing; never drop configured markers.
  * Arrays replace arrays (series/axes must not be merged by index).
  */
-window.bourseChartPerformanceVersion = '3.1';
-console.info('BOURSE CHART PERFORMANCE v3.1 loaded');
+window.bourseChartPerformanceVersion = '3.3';
+console.info('BOURSE CHART PERFORMANCE v3.3 loaded');
 
 function bourseMergeChartOptions(base, extra) {
     var result = Object.assign({}, base || {});
@@ -17,38 +17,56 @@ function bourseMergeChartOptions(base, extra) {
     return result;
 }
 
-function bourseApplyChartOptions(target, options, initialOptions) {
-    if (!initialOptions) return target.updateOptions(options);
-    var complete = bourseMergeChartOptions(initialOptions, options);
-    var start = performance.now();
-    // Preserve every configured point/marker; eliminate the two intermediate draws.
-    var result = target.updateOptions(complete, false, false, false);
+// Used by every Yield update, including navigation and scale-only changes.
+function bourseObserveChartUpdate(target, result, start, operation) {
+    var sequence = window.bourseChartPerformanceSequence = (window.bourseChartPerformanceSequence || 0) + 1;
     Promise.resolve(result).then(function() {
-        var rendered = performance.now() - start;
-        requestAnimationFrame(function() { requestAnimationFrame(function() {
-            var series = target.w.config.series || [];
-            var report = {
-                version: '3.1', operation: 'batched data update',
-                axis: target._bourseTradingDates ? 'trading-day slots' : target.w.config.xaxis.type,
-                points: series.reduce(function(n, s) { return n + (s.data || []).length; }, 0),
-                marker: target.w.config.markers.size,
-                svgNodes: target.el ? target.el.querySelectorAll('svg *').length : null,
-                renderCompleteMs: Number(rendered.toFixed(1)),
-                afterPaintMs: Number((performance.now() - start).toFixed(1))
-            };
+        var config = target.w.config;
+        var series = config.series || [];
+        var report = {
+            version: '3.3', sequence: sequence, operation: operation,
+            axis: target._bourseTradingDates ? 'trading-day slots' : config.xaxis.type,
+            series: series.length,
+            points: series.reduce(function(n, s) { return n + (s.data || []).length; }, 0),
+            nullPoints: series.reduce(function(n, s) {
+                return n + (s.data || []).filter(function(p) { return p && p.y == null; }).length;
+            }, 0),
+            marker: config.markers.size,
+            svgNodes: target.el ? target.el.querySelectorAll('svg *').length : null,
+            renderCompleteMs: Number((performance.now() - start).toFixed(1)),
+            afterPaintMs: null
+        };
+        // Publish immediately; do not leave an old initial-load measurement visible.
+        if (!window.bourseChartLastPerformance || sequence > window.bourseChartLastPerformance.sequence) {
             window.bourseChartLastPerformance = report;
-            console.log('BOURSE CHART PERFORMANCE ' + JSON.stringify(report));
+        }
+        requestAnimationFrame(function() { requestAnimationFrame(function() {
+            report.afterPaintMs = Number((performance.now() - start).toFixed(1));
+        //    console.log('BOURSE CHART PERFORMANCE ' + JSON.stringify(report));
         }); });
     }, function(error) { console.error('BOURSE CHART RENDER ERROR', error); });
     return result;
 }
 
-/* Only installed on the daily, non-function, single-series Yield chart.
- * Other assets retain their own calendar (including seven-day crypto data).
+function bourseApplyChartOptions(target, options, initialOptions) {
+    if (!initialOptions) return target.updateOptions(options);
+    var complete = bourseMergeChartOptions(initialOptions, options);
+    var start = performance.now();
+    var result = target.updateOptions(complete, false, false, false);
+    return target._bourseMeasuresUpdates ? result :
+        bourseObserveChartUpdate(target, result, start, 'batched data update');
+}
+
+/* Daily, non-function Yield charts share one weekday date index, including
+ * comparisons. No per-series indexing: different holidays must not shift data.
+ * getGraphData supplies explicit market/crypto calendar policies.
+ * Aggregated/function and liquidity calendars keep their existing renderer.
  */
-function bourseInstallYieldTradingAxis(target) {
+function bourseInstallYieldTradingAxis(target, calendar) {
+    calendar = calendar || 'weekdays';
+    if (target._bourseTradingAxisInstalled) return;
+    target._bourseTradingAxisInstalled = true;
     var nativeOptions = target.updateOptions;
-    var nativeSeries = target.updateSeries;
     var originalAxis = null;
     var originalTooltipX = null;
     var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
@@ -63,64 +81,108 @@ function bourseInstallYieldTradingAxis(target) {
         }
         return Date.parse(value);
     }
+    function pointDate(point) {
+        return point.tradingDate == null ? point.x : point.tradingDate;
+    }
     function label(value) {
-        var date = new Date(timestamp(value));
+        var date = new Date(value);
         return String(date.getUTCDate()).padStart(2, '0') + '-' + months[date.getUTCMonth()] + '-' + String(date.getUTCFullYear()).slice(-2);
+    }
+    function restoreAxis(next) {
+        target._bourseTradingDates = null;
+        target._bourseTradingTimestamps = null;
+        next.xaxis = bourseMergeChartOptions(originalAxis || {type: 'datetime'}, next.xaxis);
+        next.xaxis.type = originalAxis && originalAxis.type ? originalAxis.type : 'datetime';
+        next.xaxis.min = undefined;
+        next.xaxis.max = undefined;
+        next.xaxis.labels = bourseMergeChartOptions(next.xaxis.labels, {
+            formatter: originalAxis && originalAxis.labels ? originalAxis.labels.formatter : undefined
+        });
+        next.tooltip = bourseMergeChartOptions(next.tooltip, {x: Object.assign({formatter: undefined}, originalTooltipX)});
+        // If some input series were already mapped, restore their original dates too.
+        if (next.series) next.series = next.series.map(function(series) {
+            return Object.assign({}, series, {data: (series.data || []).map(function(point) {
+                return point && point.tradingDate != null ? Object.assign({}, point, {x: point.tradingDate}) : point;
+            })});
+        });
     }
     function prepare(options) {
         var next = bourseMergeChartOptions({}, options);
         var resetRange = false;
-        if (Array.isArray(next.series) && next.series.length !== 1 && target._bourseTradingDates) {
-            target._bourseTradingDates = null;
-            next.xaxis = bourseMergeChartOptions(originalAxis, next.xaxis);
-            next.xaxis.min = undefined;
-            next.xaxis.max = undefined;
-            next.tooltip = bourseMergeChartOptions(next.tooltip, {x: Object.assign({formatter: undefined}, originalTooltipX)});
-        }
-        if (Array.isArray(next.series) && next.series.length === 1 && Array.isArray(next.series[0].data)) {
-            var data = next.series[0].data;
-            resetRange = !target._bourseTradingDates || data !== ((target.w.config.series[0] || {}).data);
-            // Do not reinterpret candle arrays or unsupported response shapes.
-            if (data.every(function(p) {
-                return p && !Array.isArray(p) && Number.isFinite(timestamp(p.tradingDate || p.x)) &&
-                    (p.y == null || p.y === '' || (typeof p.y !== 'object' && Number.isFinite(Number(p.y))));
-            })) {
+        if (Array.isArray(next.series)) {
+            if (!next.series.length) {
+                if (target._bourseTradingDates) restoreAxis(next);
+                return next;
+            }
+            var current = target.w.config.series || [];
+            // Preserve data when a caller sends only a series type/name change.
+            next.series = next.series.map(function(series, index) {
+                return Object.assign({}, current[index] || {}, series);
+            });
+            var remap = !target._bourseTradingDates || next.series.some(function(series, index) {
+                return series.data !== (current[index] || {}).data;
+            }) || next.series.length !== current.length;
+            if (remap) {
+                var allDates = new Set();
+                var valid = true;
+                var maps = next.series.map(function(series) {
+                    var pointsByDate = new Map();
+                    if (!Array.isArray(series.data)) { valid = false; return pointsByDate; }
+                    series.data.forEach(function(point) {
+                        if (!point || Array.isArray(point)) { valid = false; return; }
+                        var ms = timestamp(pointDate(point));
+                        if (!Number.isFinite(ms) || (point.y != null && point.y !== '' &&
+                            (typeof point.y === 'object' || !Number.isFinite(Number(point.y))))) {
+                            valid = false;
+                            return;
+                        }
+                        var weekday = new Date(ms).getUTCDay();
+                        if ((weekday === 0 || weekday === 6) &&
+                            (calendar === 'weekdays' || (calendar === 'market' && (point.y == null || point.y === '')))) return;
+                        // Do not collapse duplicate observations silently.
+                        if (pointsByDate.has(ms)) { valid = false; return; }
+                        allDates.add(ms);
+                        pointsByDate.set(ms, point);
+                    });
+                    return pointsByDate;
+                });
+                if (!valid) {
+                    restoreAxis(next);
+                    console.warn('Bourse trading axis: unsupported/duplicate data; keeping original axis.');
+                    return next;
+                }
                 if (!originalAxis) {
                     originalAxis = bourseMergeChartOptions(target.w.config.xaxis, next.xaxis);
                     originalTooltipX = Object.assign({}, (next.tooltip || {}).x);
                 }
-                var dates = [];
-                var points = data.filter(function(p) {
-                    var day = new Date(timestamp(p.tradingDate || p.x)).getUTCDay();
-                    return day !== 0 && day !== 6;
-                }).map(function(p, index) {
-                    var originalDate = p.tradingDate || p.x;
-                    dates.push(label(originalDate));
-                    return Object.assign({}, p, {x: index, tradingDate: originalDate,
-                        y: p.y == null || p.y === '' ? null : Number(p.y)});
+                var sortedDates = Array.from(allDates).sort(function(a, b) { return a - b; });
+                var oldDates = target._bourseTradingTimestamps;
+                resetRange = !oldDates || sortedDates.length !== oldDates.length ||
+                    sortedDates.some(function(ms, index) { return ms !== oldDates[index]; });
+                target._bourseTradingTimestamps = sortedDates;
+                target._bourseTradingDates = sortedDates.map(label);
+                next.series = next.series.map(function(series, seriesIndex) {
+                    var pointsByDate = maps[seriesIndex];
+                    return Object.assign({}, series, {data: sortedDates.map(function(ms, index) {
+                        var point = pointsByDate.get(ms);
+                        // A missing observation is null, never zero or a carried-forward value.
+                        // Equal date arrays also keep shared tooltips on the same date.
+                        if (!point) return {x: index, tradingDate: ms, y: null};
+                        return Object.assign({}, point, {x: index, tradingDate: pointDate(point),
+                            y: point.y == null || point.y === '' ? null : Number(point.y)});
+                    })});
                 });
-                target._bourseTradingDates = dates;
-                next.series = [Object.assign({}, next.series[0], {data: points})];
-            } else {
-                // Fail back to the original renderer instead of silently dropping data.
-                target._bourseTradingDates = null;
-                next.xaxis = bourseMergeChartOptions(originalAxis || {type: 'datetime'}, next.xaxis);
-                next.xaxis.min = undefined;
-                next.xaxis.max = undefined;
-                next.tooltip = bourseMergeChartOptions(next.tooltip, {x: Object.assign({formatter: undefined}, originalTooltipX)});
-                console.warn('Yield trading axis: unsupported data; keeping original axis.');
             }
         }
         var dates = target._bourseTradingDates;
-        if (dates) {
-            // v3.1: numeric ticks are formatted as rotated dates. Reserve their
-            // full height on EVERY update, including chartConfig.js navigation.
-            // Automatic measurement can otherwise give this space to the plot.
+        // Scale-only updates reuse the date map, points and layout as-is.
+        if (dates && (next.series || next.xaxis || next.chart || next.legend)) {
             var axisOptions = bourseMergeChartOptions(target.w.config.xaxis, next.xaxis);
             var fontPixels = parseFloat(((axisOptions.labels || {}).style || {}).fontSize) || 12;
             var dateLabelHeight = Math.ceil(fontPixels * 5.5 + 16);
             next.chart = bourseMergeChartOptions(next.chart, {
-                height: (next.chart || {}).height || (target.w.config.chart || {}).height || 525
+                height: (next.chart || {}).height || (target.w.config.chart || {}).height || 525,
+                animations: {enabled: false}
             });
             next.legend = bourseMergeChartOptions(next.legend, {
                 position: 'bottom', floating: false, offsetY: 0
@@ -130,12 +192,10 @@ function bourseInstallYieldTradingAxis(target) {
                 floating: false,
                 labels: {
                     rotate: -70, rotateAlways: true,
-                    minHeight: dateLabelHeight, maxHeight: dateLabelHeight,
-                    offsetY: 0,
+                    minHeight: dateLabelHeight, maxHeight: dateLabelHeight, offsetY: 0,
                     formatter: function(value) { return dates[Math.round(Number(value))] || ''; }
                 }
             });
-            // Reset range only for new data; font/color changes retain a user's zoom.
             if (resetRange) {
                 next.xaxis.min = 0;
                 next.xaxis.max = Math.max(1, dates.length - 1);
@@ -143,6 +203,19 @@ function bourseInstallYieldTradingAxis(target) {
             next.tooltip = bourseMergeChartOptions(next.tooltip, {
                 x: {formatter: function(value) { return dates[Math.round(Number(value))] || ''; }}
             });
+            // Alignment can expose an absent observation in either series.
+            // Keep configured numeric formatting, but never call toFixed on null.
+            function safeTooltip(axis) {
+                if (!axis || typeof axis.formatter !== 'function' || axis.formatter._bourseNullSafe) return axis;
+                var formatter = axis.formatter;
+                var safe = function(value) {
+                    return value == null || value === '' ? '' : formatter.apply(this, arguments);
+                };
+                safe._bourseNullSafe = true;
+                return Object.assign({}, axis, {formatter: safe});
+            }
+            if (next.tooltip.y) next.tooltip.y = Array.isArray(next.tooltip.y) ?
+                next.tooltip.y.map(safeTooltip) : safeTooltip(next.tooltip.y);
         }
         return next;
     }
@@ -150,14 +223,30 @@ function bourseInstallYieldTradingAxis(target) {
         return nativeOptions.call(this, prepare(options), redrawPaths, false, synced, overwrite);
     };
     target.updateSeries = function(series, animate, overwrite) {
-        if (!target._bourseTradingDates) return nativeSeries.call(this, series, animate, overwrite);
-        // Type-only updates must retain the existing data and its date mapping.
-        var complete = series.map(function(s, index) {
-            return Object.assign({}, target.w.config.series[index] || {}, s);
-        });
-        return target.updateOptions({series: complete}, false, false, false, overwrite);
+        return target.updateOptions({series: series}, false, false, false, overwrite);
     };
 }
+// Instrument every getGraphData update, including calendar-based charts.
+function bourseInstallGraphPerformance(target, service, name, period, selectedFunction, selectionCount) {
+    if (target._bourseMeasuresUpdates) return;
+    var nativeOptions = target.updateOptions;
+    target._bourseMeasuresUpdates = true;
+    target.updateOptions = function(options, redraw, animate, synced, overwrite) {
+        var start = performance.now();
+        var keys = Object.keys(options || {});
+        var operation = keys.length === 1 && keys[0] === 'yaxis' ? 'scale-only update' :
+            options && options.series ? 'data/format update' : 'options update';
+        var result = nativeOptions.call(this, options, redraw, false, synced, overwrite);
+        return bourseObserveChartUpdate(target, result, start, operation);
+    };
+    // Liquidity includes weekly/monthly and mixed-frequency observations.
+    // Function and aggregated charts keep their existing date semantics.
+    var marketService = ['fxcds', 'metals', 'sti', 'volume'].includes(service);
+    if (period === 'd' && (selectedFunction == -1 || selectionCount === 2) && marketService) {
+        bourseInstallYieldTradingAxis(target, name === 'cryptos' ? 'observations' : 'market');
+    }
+}
+
 /* End Bourse chart performance helpers. */
 
 var checkedItem = 0;
@@ -4481,6 +4570,7 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
     chart = new ApexCharts(document.querySelector("#mainChart"), Period == 'd' ? options : ((functionId != -1) ? optionsWeekly : optionsWeeklyy));
     chart.render();
     if (isNaN(functionId)) functionId = -1;
+    bourseInstallGraphPerformance(chart, graphService, graphName, Period, functionId, checkedItem);
     if (checkedItem == 2) {
         functionId = -1;
         dataParam = {
@@ -4794,7 +4884,7 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
             data: JSON.stringify(dataParam),
             dataType: 'json',
             timeout: 600000,
-            success: function(response) {
+            success: async function(response) {
                 startDateF1 = response[0].config.startDate;
                 startDateF2 = response[1].config.startDate;
                 if (startDateF1 != null) startDateF1 = new Date(startDateF1.split("-")[1] + "-" + startDateF1.split("-")[0] + "-" + startDateF1.split("-")[2]);
@@ -4888,7 +4978,7 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
                     chartShowGrid: showGrid,
                     overideChartype: typeof overide != 'undefined' ? overide : null
                 };
-                processDataAndAddNewEndDateForExtraSpaceInGraph(chartConfigSettings.response[0].graphResponseDTOLst, 10, false).then(({
+                await processDataAndAddNewEndDateForExtraSpaceInGraph(chartConfigSettings.response[0].graphResponseDTOLst, 10, false).then(({
                     response
                 }) => {
                     chartConfigSettings.response[0].graphResponseDTOLst = response;
@@ -4995,7 +5085,7 @@ async function getGraphData(graphService, graphName, removeEmpty, saveHistory) {
                     chartTransparency: chartTransparency,
                     checkedItem: checkedItem
                 };
-                processDataAndAddNewEndDateForExtraSpaceInGraph(chartConfigSettings.response[0].graphResponseDTOLst, 10, false).then(({
+                await processDataAndAddNewEndDateForExtraSpaceInGraph(chartConfigSettings.response[0].graphResponseDTOLst, 10, false).then(({
                     response
                 }) => {
                     chartConfigSettings.response[0].graphResponseDTOLst = response;
@@ -6456,8 +6546,8 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
         }
         // Freeze request values before subsequent UI interactions can change them.
         var requestSnapshot = JSON.stringify(requestParams == null ? null : requestParams);
-        console.log("YIELD API #" + requestId + " PARAMS_JSON\n" + requestSnapshot);
-        console.log("Yield API request started", settings.type, settings.url);
+     //   console.log("YIELD API #" + requestId + " PARAMS_JSON\n" + requestSnapshot);
+      //  console.log("Yield API request started", settings.type, settings.url);
         jqXHR.always(function() {
             yieldPerfApiMs = performance.now() - requestStart;
             var wireResponse = jqXHR.responseText || "";
@@ -6477,10 +6567,10 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
             var captureText = JSON.stringify(capture, null, 2);
             // A string snapshot prevents DevTools from displaying later mutated values.
             window.yieldApiLastCapture = captureText;
-            console.log("YIELD API #" + requestId + " RESPONSE_JSON\n" + wireResponse);
-            console.log("YIELD API #" + requestId + " STATUS " + jqXHR.status +
-                " | elapsed through callback: " + yieldPerfApiMs.toFixed(2) + " ms");
-            console.log("Copy complete params + response: copy(window.yieldApiLastCapture)");
+         //   console.log("YIELD API #" + requestId + " RESPONSE_JSON\n" + wireResponse);
+		// console.log("YIELD API #" + requestId + " STATUS " + jqXHR.status +
+         //    " | elapsed through callback: " + yieldPerfApiMs.toFixed(2) + " ms");
+        //    console.log("Copy complete params + response: copy(window.yieldApiLastCapture)");
         });
     });
 
@@ -6518,8 +6608,10 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
     });
 
     // Wrap updateOptions on this Yield chart instance only. This does not change the options or return value.
+    var yieldPerfChart = chart;
+    yieldPerfChart._bourseMeasuresUpdates = true;
     var yieldPerfOriginalUpdateOptions = chart.updateOptions.bind(chart);
-    chart.updateOptions = function(opts, redrawPaths, animate, updateSyncedCharts) {
+    chart.updateOptions = function(opts, redrawPaths, animate, updateSyncedCharts, overwrite) {
         var updateNo = ++yieldPerfUpdateSequence;
         var updateStart = performance.now();
         var hasSeries = !!(opts && Array.isArray(opts.series));
@@ -6549,7 +6641,10 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
             console.log("Total null points:", nullPoints);
         }
 
-        var result = yieldPerfOriginalUpdateOptions(opts, redrawPaths, animate, updateSyncedCharts);
+        var result = yieldPerfOriginalUpdateOptions(opts, redrawPaths, animate, updateSyncedCharts, overwrite);
+        bourseObserveChartUpdate(yieldPerfChart, result, updateStart,
+            optionKeys.length === 1 && optionKeys[0] === 'yaxis' ? 'scale-only update' :
+            (hasSeries ? 'data/format update' : 'options update'));
         Promise.resolve(result).then(function() {
             var updateMs = performance.now() - updateStart;
             yieldPerfCumulativeUpdateMs += updateMs;
@@ -6582,7 +6677,7 @@ function getGraphDataSovereign(graphName, itemsDataParam) {
         return result;
     };
     if (isNaN(functionId)) functionId = -1;
-    if (Period === 'd' && functionId == -1 && Items === "" && checkedItemValues.length === 1) {
+    if (Period === 'd' && functionId == -1) {
         bourseInstallYieldTradingAxis(chart);
     }
     if (Items != "") {

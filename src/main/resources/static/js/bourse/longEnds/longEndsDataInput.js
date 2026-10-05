@@ -1,3 +1,54 @@
+
+var longEndsLastCalculationStatus = null;
+var longEndsCalculationStatusHideTimer = null;
+function showLongEndsCalculationStatus(status, errorMessage) {
+	var el = $("#longEndsCalculationStatus");
+	if (!el.length) return;
+	if (longEndsCalculationStatusHideTimer) {
+		clearTimeout(longEndsCalculationStatusHideTimer);
+		longEndsCalculationStatusHideTimer = null;
+	}
+	if (longEndsLastCalculationStatus === status && status !== "FAILED") return;
+	longEndsLastCalculationStatus = status;
+	if (status === "PENDING" || status === "RUNNING") {
+		el.text("Calculating...").show();
+	} else if (status === "COMPLETED") {
+		el.text("Calculation complete.").show();
+		longEndsCalculationStatusHideTimer = setTimeout(function() {
+			el.fadeOut(200);
+			longEndsLastCalculationStatus = null;
+		}, 5000);
+	} else if (status === "FAILED") {
+		el.text("Calculation failed." + (errorMessage ? ": " + errorMessage : ".")).show();
+		longEndsCalculationStatusHideTimer = setTimeout(function() {
+			el.fadeOut(200);
+			longEndsLastCalculationStatus = null;
+		}, 10000);
+	} else {
+		el.hide();
+		longEndsLastCalculationStatus = null;
+	}
+}
+function pollLongEndsCalculationStatus(referDate) {
+	if (!referDate) return;
+	longEndsLastCalculationStatus = null;
+	showLongEndsCalculationStatus("PENDING");
+	var count = 0;
+	var timer = setInterval(function() {
+		$.getJSON("/longEnds/calculation-status/" + groupId + "/" + referDate, function(r) {
+			showLongEndsCalculationStatus(r.status, r.errorMessage);
+			count++;
+			if (r.status === "COMPLETED" || r.status === "FAILED" || count >= 120) {
+				clearInterval(timer);
+				if (r.status === "COMPLETED") {
+					// Refresh only the main Long-End grid after the background calculation finishes.
+					getFilterData(longEndsValue);
+				}
+			}
+		});
+	}, 1000);
+}
+
 var selectedRow = this;
 var selectedRowSpread = this;
 var monthDate = new Date();
@@ -1012,6 +1063,8 @@ function initiate(Type, inputDataType, item, dataInputGridFields, dataInputGridC
 
 											filterDate = date;
 											renderAuditGrids(date);
+										// Show calculation status only because the user just inserted data.
+										pollLongEndsCalculationStatus(date);
 
 											// triggerRobots();
 
@@ -1433,6 +1486,8 @@ function Update(row, event) {
 			renderlookUpGridsData();
 			renderAuditGrids(date);
 			getFilterData(selectedItem);
+		// Show calculation status only because the user just updated data.
+		pollLongEndsCalculationStatus(date);
 		},
 		error: function(e) {
 
@@ -1498,6 +1553,8 @@ function UpdateSpread(row, event) {
 
 			renderAuditGrids(date);
 			getFilterData(selectedItem);
+		// Show calculation status only because the user just updated Spread data.
+		pollLongEndsCalculationStatus(date);
 		},
 		error: function(e) {
 
@@ -1547,6 +1604,8 @@ function deleteDataByDate() {
 			$("#successDelete").append("<p> All record for the date '" + date + "' has been deleted</p>");
 
 			$('#alertInfoDeleteDataByDate-modal').modal('show');
+		// Show calculation status only because the user just deleted data.
+		pollLongEndsCalculationStatus(date);
 		},
 		error: function(e) {
 			console.log(e);
@@ -1595,7 +1654,7 @@ function SubmitSpreadData() {
 		dataToBeInserted.push({
 			"groupId": groupId,
 			"subgroupId": getIdfromSubgroupName('spreadValue'),
-			"value": Number($("#spreadValueInput").val()) != 0 ? Number($("#spreadValueInput").val()) : null,
+			"value": $("#spreadValueInput").val() === '' ? null : $("#spreadValueInput").val().replace(',', ''),
 			"referdate": $.jqx.dataFormat.formatdate($("#dateInput").jqxDateTimeInput('getDate'), 'dd-MM-yyyy')
 		});
 		$.ajax({
@@ -1642,6 +1701,8 @@ function SubmitSpreadData() {
 
 										filterDate = date;
 										renderAuditGrids(date);
+									// Show calculation status only because the user just submitted Spread data.
+									pollLongEndsCalculationStatus(date);
 
 
 									},

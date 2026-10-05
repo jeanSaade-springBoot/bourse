@@ -737,7 +737,10 @@
         var strokeColor = arguments.length > 8 && arguments[8] !== undefined ? arguments[8] : null;
         var strokeDashArray = arguments.length > 9 && arguments[9] !== undefined ? arguments[9] : 0;
         var w = this.w;
-        var rect = w.globals.dom.Paper.rect();
+        // Bourse 3.11: explicit initial dimensions bypass SVG.js size()'s
+        // bbox() fallback. The attributes below still set the exact original
+        // geometry/style, including zero-sized markers for missing values.
+        var rect = w.globals.dom.Paper.rect(0, 0);
         rect.attr({
           x: x1,
           y: y1,
@@ -1246,7 +1249,9 @@
 						i = t;
 					e.config.xaxis.convertedCatToNumeric && e.globals.categoryLabels.length && (t = e.globals.categoryLabels.indexOf(t) + 1);
 					var a = e.globals.labels.indexOf(t),
-						s = e.globals.dom.baseEl.querySelector(".apexcharts-xaxis-texts-g text:nth-child(" + (a + 1) + ")");
+						s = e.globals.bourseXAxisPositions ? null : e.globals.dom.baseEl.querySelector(".apexcharts-xaxis-texts-g text:nth-child(" + (a + 1) + ")");
+                    // Bourse v3.7: annotation coordinates no longer depend on invisible text nodes.
+                    if (e.globals.bourseXAxisPositions && Number.isFinite(e.globals.bourseXAxisPositions[a])) return e.globals.bourseXAxisPositions[a];
 					return s && (i = parseFloat(s.getAttribute("x"))), i
 				}
 			}]), t
@@ -6301,7 +6306,8 @@
 					e.length > 0 ? (d = f(e[a].unit), i = e[a].position, l = e[a].value) : "datetime" === n.config.xaxis.type && void 0 === c && (l = ""), void 0 === l && (l = ""), l = Array.isArray(l) ? l : l.toString();
 					var p = new b(this.ctx),
 						x = {};
-					x = n.globals.rotateXLabels ? p.getTextRects(l, parseInt(r, 10), null, "rotate(".concat(n.config.xaxis.labels.rotate, " 0 0)"), !1) : p.getTextRects(l, parseInt(r, 10));
+					// Bourse v3.7: labels already hidden by the existing thinning policy need no DOM measurement.
+					x = arguments[6] === true ? {width: 0, height: 0} : n.globals.rotateXLabels ? p.getTextRects(l, parseInt(r, 10), null, "rotate(".concat(n.config.xaxis.labels.rotate, " 0 0)"), !1) : p.getTextRects(l, parseInt(r, 10));
 					var m = !n.config.xaxis.labels.showDuplicates && this.ctx.timeScale && "hours" !== this.ctx.timeScale.tickInterval && "minutes" !== this.ctx.timeScale.tickInterval;
 					return !Array.isArray(l) && (0 === l.indexOf("NaN") || 0 === l.toLowerCase().indexOf("invalid") || l.toLowerCase().indexOf("infinity") >= 0 || s.indexOf(l) >= 0 && m) && (l = ""), {
 						x: i,
@@ -6557,6 +6563,8 @@
 						
 					s.add(r);
 					for (var n = i.globals.padHorizontal, o = [], l = 0; l < this.xaxisLabels.length; l++) o.push(this.xaxisLabels[l]);
+					// Bourse v3.7: retain every category position for annotations, including invisible labels.
+					i.globals.bourseXAxisPositions = [];
 					var h = o.length;
 					if (i.globals.isXNumeric) {
 						var c = h > 1 ? h - 1 : h;
@@ -6569,7 +6577,7 @@
 					  for (var d = function (s) {
 						  	var l = n - t / 2 + i.config.xaxis.labels.offsetX;
 								0 === s && 1 === h && t / 2 === n && 1 === i.globals.dataPoints && (l = i.globals.gridWidth / 2);
-								var c = e.axesUtils.getLabel(o, i.globals.timescaleLabels, l, s, e.drawnLabels, e.xaxisFontSize),
+								var c = e.axesUtils.getLabel(o, i.globals.timescaleLabels, l, s, e.drawnLabels, e.xaxisFontSize, (s + 1) % Math.ceil(o.length / ((i.config.chart.width === 543) ? 10 : 25)) !== 0),
 									d = 28;
 								i.globals.rotateXLabels && (d = 22);
 								(c = void 0 !== i.config.xaxis.tickAmount && "dataPoints" !== i.config.xaxis.tickAmount && "datetime" !== i.config.xaxis.type ? e.axesUtils.checkLabelBasedOnTickamount(s, c, h) : e.axesUtils.checkForOverflowingLabels(s, c, h, e.drawnLabels, e.drawnLabelsRects)).text && i.globals.xaxisLabelsCount++;
@@ -6583,7 +6591,10 @@
 						    } 
 								
 							
-							var g = a.drawText({
+							// Bourse v3.7: skip empty SVG text/title nodes; keep spacing and annotation coordinates.
+                            i.globals.bourseXAxisPositions[s] = c.x;
+                            if (c.text === '') { n += t; return; }
+                            var g = a.drawText({
 									x: c.x,
 									y: e.offY + i.config.xaxis.labels.offsetY + d - ("top" === i.config.xaxis.position ? i.globals.xAxisHeight + i.config.xaxis.axisTicks.height - 2 : 0),
 									text: c.text,
@@ -6595,7 +6606,8 @@
 									isPlainText: !1,
 									cssClass: "apexcharts-xaxis-label " + i.config.xaxis.labels.style.cssClass
 								});
-								r.add(g);
+								g.node.setAttribute('data-bourse-label-index', s);
+                                r.add(g);
 								var u = document.createElementNS(i.globals.SVGNS, "title");
 								u.textContent = Array.isArray(c.text) ? c.text.join(" ") : c.text, g.node.appendChild(u), "" !== c.text && (e.drawnLabels.push(c.text), e.drawnLabelsRects.push(c)), n += t
 							}, g = 0; g <= h - 1; g++) d(g);
@@ -6628,6 +6640,7 @@
 			}, {
 				key: "drawXaxisInversed",
 				value: function (t) {
+                    this.w.globals.bourseXAxisPositions = null; // Horizontal bars retain their original label renderer.
 					var e, i, a = this,
 						s = this.w,
 						r = new b(this.ctx),
@@ -16490,9 +16503,15 @@ value: function(t) {
 			}, {
 				key: "killSVG",
 				value: function (t) {
+                    var bourseCleanupStart = performance.now();
 					t.each((function (t, e) {
 						this.removeClass("*"), this.off(), this.stop()
-					}), !0), t.ungroup(), t.clear()
+					}), !0);
+                    // Bourse v3.8: every descendant is about to be discarded. Ungrouping
+                    // first transforms and reparents thousands of markers unnecessarily.
+                    // Keep listener/animation cleanup above; clear the original tree once.
+                    t.clear();
+                    this.w.globals.bourseCleanupMs = performance.now() - bourseCleanupStart;
 				}
 			}, {
 				key: "clearDomElements",
@@ -16512,6 +16531,44 @@ value: function(t) {
 				}
 			}]), t
 		}();
+
+    // Bourse diagnostic 3.10: collect synchronous stage timings only while a
+    // create/mount scope is active. Preserve arguments, results and exceptions.
+    function bourseMeasureMethods(ctor, label, names) {
+        names.forEach(function (name) {
+            var original = ctor.prototype[name];
+            if (typeof original !== 'function') return;
+            ctor.prototype[name] = function () {
+                var state = this.w && this.w.__bourseRenderProfile;
+                if (!state) return original.apply(this, arguments);
+                var frame = {start: performance.now(), child: 0};
+                state.stack.push(frame);
+                try { return original.apply(this, arguments); }
+                finally {
+                    var elapsed = performance.now() - frame.start;
+                    state.stack.pop();
+                    if (state.stack.length) state.stack[state.stack.length - 1].child += elapsed;
+                    var key = label + '.' + name;
+                    var row = state.rows[key] || (state.rows[key] = {stage: key, calls: 0, inclusiveMs: 0, selfMs: 0, maxMs: 0});
+                    row.calls++; row.inclusiveMs += elapsed;
+                    row.selfMs += elapsed - frame.child; row.maxMs = Math.max(row.maxMs, elapsed);
+                }
+            };
+        });
+    }
+    bourseMeasureMethods(P, "markers", ["plotChartMarkers", "getMarkerConfig", "addEvents"]);
+    bourseMeasureMethods(b, "graphics", ["drawMarker", "drawCircle", "drawRectMarker", "group", "drawPath", "getTextRects"]);
+    bourseMeasureMethods(p, "filters", ["setSelectionFilter"]);
+    bourseMeasureMethods(Et, "core", ["setupElements", "coreCalculations", "plotChartType", "shiftGraphPosition"]);
+    bourseMeasureMethods(nt, "dimensions", ["plotCoords"]);
+    bourseMeasureMethods(O, "data", ["parseData"]);
+    bourseMeasureMethods(bt, "tooltip", ["drawTooltip", "addSVGEvents", "addPathsEventListeners"]);
+    bourseMeasureMethods(J, "axes", ["drawAxis"]);
+    bourseMeasureMethods(_, "grid", ["drawGrid"]);
+    bourseMeasureMethods(C, "annotations", ["drawAxesAnnotations", "drawImageAnnos", "drawTextAnnos"]);
+    bourseMeasureMethods(G, "xaxis", ["drawXaxis", "xAxisLabelCorrections"]);
+    bourseMeasureMethods(q, "yaxis", ["drawYaxis", "setYAxisTextAlignments"]);
+    bourseMeasureMethods(z, "labels", ["bringForward", "dataLabelsBackground"]);
 	return function () {
 		function t(i, a) {
 			e(this, t), this.opts = a, this.ctx = this, this.w = new N(a).init(), this.el = i, this.w.globals.cuid = f.randomId(), this.w.globals.chartID = this.w.config.chart.id ? f.escapeString(this.w.config.chart.id) : this.w.globals.cuid, new Yt(this).initModules(), this.create = f.bind(this.create, this), this.windowResizeHandler = this._windowResize.bind(this)
@@ -16878,3 +16935,79 @@ value: function(t) {
 		}]), t
 	}()
 }));
+// Bourse v3.7: shared diagnostics for every instance using this renderer.
+// Count SVG work without changing series, markers, axes or update scheduling.
+(function () {
+    if (typeof window === 'undefined' || !window.ApexCharts || window.ApexCharts._bourseRenderer38) return;
+    var Apex = window.ApexCharts;
+    Apex._bourseRenderer38 = true;
+    window.bourseRendererVersion = '3.8';
+    console.info('BOURSE SHARED RENDERER v3.8 loaded');
+    ['render', 'updateOptions', 'updateSeries'].forEach(function (method) {
+        var original = Apex.prototype[method];
+        Apex.prototype[method] = function () {
+            var target = this, started = performance.now();
+            var result = original.apply(target, arguments);
+            Promise.resolve(result).then(function () {
+                if (!target.el || !target.w) return;
+                var nodes = target.el.querySelectorAll('svg *');
+                var counts = {total: nodes.length, text: 0, paths: 0, markers: 0, xLabels: 0, emptyXLabels: 0};
+                nodes.forEach(function (node) {
+                    if (node.tagName.toLowerCase() === 'text') counts.text++;
+                    if (node.tagName.toLowerCase() === 'path') counts.paths++;
+                    if (node.classList.contains('apexcharts-marker')) counts.markers++;
+                    if (node.classList.contains('apexcharts-xaxis-label')) {
+                        counts.xLabels++;
+                        if (!node.textContent) counts.emptyXLabels++;
+                    }
+                });
+                var report = {version: '3.8', chartId: target.el.id || target.w.globals.chartID,
+                    operation: method, cleanupMs: +(target.w.globals.bourseCleanupMs || 0).toFixed(1), renderCompleteMs: +(performance.now() - started).toFixed(1), svg: counts};
+                window.bourseSharedRendererPerformance = window.bourseSharedRendererPerformance || {};
+                window.bourseSharedRendererPerformance[report.chartId] = report;
+                console.info('BOURSE SHARED RENDERER ' + JSON.stringify(report));
+            }).catch(function (error) { console.warn('BOURSE SHARED RENDERER measurement/update failed', error); });
+            return result;
+        };
+    });
+})();
+
+// Bourse diagnostic 3.10: each synchronous render phase has its own capture.
+// No awaiting, batching, option changes or global DOM instrumentation is added.
+(function () {
+    var Apex = window.ApexCharts, sequence = 0;
+    ['create', 'mount'].forEach(function (method) {
+        var original = Apex.prototype[method];
+        Apex.prototype[method] = function () {
+            if (window.bourseRenderProfiling === false) return original.apply(this, arguments);
+            var state = {rows: Object.create(null), stack: []};
+            var previous = this.w.__bourseRenderProfile;
+            this.w.__bourseRenderProfile = state;
+            var started = performance.now(), failed = false, target = this, id = ++sequence;
+            try { return original.apply(this, arguments); }
+            catch (error) { failed = true; throw error; }
+            finally {
+                var elapsed = performance.now() - started;
+                this.w.__bourseRenderProfile = previous;
+                // Snapshot before another update changes the chart configuration.
+                var config = this.w.config;
+                var report = {version: '3.10-diagnostic', sequence: id,
+                    chartId: this.el && this.el.id, phase: method,
+                    synchronousMs: +elapsed.toFixed(2), synchronousThrow: failed,
+                    series: config.series.length,
+                    points: config.series.reduce(function (sum, series) { return sum + (series.data || []).length; }, 0),
+                    markerSizes: JSON.parse(JSON.stringify(config.markers.size)),
+                    stages: Object.keys(state.rows).map(function (key) {
+                        var row = state.rows[key];
+                        ['inclusiveMs', 'selfMs', 'maxMs'].forEach(function (field) { row[field] = +row[field].toFixed(2); });
+                        return row;
+                    }).sort(function (a, b) { return b.selfMs - a.selfMs; })};
+                // Print once per phase, outside the measured renderer work.
+                Promise.resolve().then(function () {
+                    console.info('BOURSE RENDER STAGES ' + JSON.stringify(report));
+                });
+            }
+        };
+    });
+    console.info('BOURSE MARKER FIX 3.11 loaded; stage diagnostics retained');
+}());

@@ -185,7 +185,7 @@ async function drawGrids() {
 }
 
 function getgridData(item, functions) {
-    console.log("[DATA-FUNCTION] selected functions =", functions);
+ //   console.log("[DATA-FUNCTION] selected functions =", functions);
     dataParam = {
         "fromdate": $.jqx.dataFormat.formatdate($("#dateInputFrom").jqxDateTimeInput('getDate'), 'yyyy-MM-dd'),
         "todate": $.jqx.dataFormat.formatdate($("#dateInputTo").jqxDateTimeInput('getDate'), 'yyyy-MM-dd'),
@@ -194,7 +194,7 @@ function getgridData(item, functions) {
         "functions": functions,
         "factor": itemValue[item].factor
     };
-    console.log("[DATA-FUNCTION] request =", dataParam);
+   // console.log("[DATA-FUNCTION] request =", dataParam);
     return new Promise((resolve, reject) => {
         $.ajax({
             type: "POST",
@@ -332,7 +332,7 @@ function getSelectedFunction() {
             selectedFunctions.push(functionDefinitions[i].code);
         }
     }
-    console.log("[DATA-FUNCTION] getSelectedFunction =", selectedFunctions);
+//    console.log("[DATA-FUNCTION] getSelectedFunction =", selectedFunctions);
     return selectedFunctions;
 }
 

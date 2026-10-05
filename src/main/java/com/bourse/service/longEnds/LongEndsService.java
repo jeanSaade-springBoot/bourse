@@ -18,6 +18,9 @@ import javax.transaction.Transactional;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Lazy;
+import org.springframework.transaction.support.TransactionSynchronization;
+import org.springframework.transaction.support.TransactionSynchronizationManager;
 import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Service;
 
@@ -101,7 +104,10 @@ public class LongEndsService {
 
   @PersistenceContext
   private EntityManager entityManager;
+  @Autowired @Lazy private LongEndsBackgroundCalculationService longEndsBackgroundCalculationService;
+  @Autowired private LongEndsCalculationStatusService longEndsCalculationStatusService;
 
+  @Transactional
   public void updateData(List < UpdateDataDTO > updateDataDTOlst) {
 
     LongEndData longEndsData = null;
@@ -141,18 +147,22 @@ public class LongEndsService {
     String referDate = updateDataDTOlst.get(0).getReferdate();
     Long groupId = Long.valueOf(updateDataDTOlst.get(0).getGroupId());
 
+    entityManager.flush();
+    // Keep tmp_audit synchronous so the edited value is visible immediately.
     doCalculation(referDate, String.valueOf(groupId));
-
-    boolean rollingRecalculated =
-      doCalculationSpreadData(longEndsDataLst, oldValue, spreadTotal);
-
-    if (rollingRecalculated) {
-      recalculateRollingDependentFunctionsFullHistory(groupId);
-    } else {
-      runTrendFollowingMavgTask(groupId, referDate, referDate);
-      runVolatilityWeightedTrendFollowingMavgTask(groupId, referDate, referDate);
-      runFunctionCalculationProcedure(groupId, referDate, referDate);
-    }
+    longEndsCalculationStatusService.markPending(groupId, referDate, "UPDATE");
+    // FIX: snapshot mutable update values before they are captured by the after-commit lambda.
+    final Long calculationGroupId = groupId;
+    final String calculationReferDate = referDate;
+    final String calculationOldValue = oldValue;
+    final String calculationSpreadTotal = spreadTotal;
+    final List<LongEndData> calculationData = new ArrayList<LongEndData>(longEndsDataLst);
+    runAfterCommit(() -> longEndsBackgroundCalculationService.calculateAfterUpdate(
+      calculationGroupId,
+      calculationReferDate,
+      calculationData,
+      calculationOldValue,
+      calculationSpreadTotal));
   }
 
   @Transactional
@@ -363,8 +373,28 @@ public class LongEndsService {
     }
     return dtos;
   }
+  @Transactional
   public void saveLongEndsData(List < LongEndData > longEndDataDTOlst) {
     longEndsDataRepository.saveAll(longEndDataDTOlst);
+    if (longEndDataDTOlst != null && !longEndDataDTOlst.isEmpty()) {
+      LongEndData first = longEndDataDTOlst.get(0);
+      entityManager.flush();
+      // Keep tmp_audit synchronous so Save still visibly succeeds.
+      doCalculation(first.getReferDate(), String.valueOf(first.getGroupId()));
+      longEndsCalculationStatusService.markPending(first.getGroupId(), first.getReferDate(), "SAVE");
+      List<LongEndData> snapshot = new ArrayList<LongEndData>(longEndDataDTOlst);
+      runAfterCommit(() -> longEndsBackgroundCalculationService.calculateAfterSave(first.getGroupId(), first.getReferDate(), snapshot));
+    }
+  }
+
+  private void runAfterCommit(Runnable task) {
+    if (TransactionSynchronizationManager.isSynchronizationActive()) {
+      TransactionSynchronizationManager.registerSynchronization(new TransactionSynchronization() {
+        @Override public void afterCommit() { task.run(); }
+      });
+    } else {
+      task.run();
+    }
   }
   @Transactional
   public void deleteLongEndsData(String groupId, String referDate) {
@@ -381,11 +411,14 @@ public class LongEndsService {
     // For example, recalculating data or any other post-deletion logic
     reCalculateData(longEndsData);
   }
+  @Transactional
   public void deleteLongEndData(String groupId, String referDate) {
-    List < LongEndData > longEndsData = longEndsDataRepository.findLongEndsDataByReferDateAndGroupId(referDate, Long.valueOf(groupId));
+    Long baseGroupId = Long.valueOf(groupId);
+    List<LongEndData> deletedData = longEndsDataRepository.findLongEndsDataByReferDateAndGroupId(referDate, baseGroupId);
     deleteLongEndsData(groupId, referDate);
-    reCalculateData(longEndsData);
-
+    longEndsCalculationStatusService.markPending(baseGroupId, referDate, "DELETE");
+    List<LongEndData> snapshot = new ArrayList<LongEndData>(deletedData);
+    runAfterCommit(() -> longEndsBackgroundCalculationService.calculateAfterDelete(baseGroupId, referDate, snapshot));
   }
   public List < LongEndData > findLongEndsDataByReferDateAndGroupId(String referDate, String groupId) {
     return longEndsDataRepository.findLongEndsDataByReferDateAndGroupId(referDate, Long.valueOf(groupId));

@@ -1,3 +1,5 @@
+// Bourse ChartManager performance overlay v3.6.1.
+console.info('BOURSE CHART MANAGER v3.6.1 loaded');
 class ChartManager {
 	// Registry for instances
 	static instances = {};
@@ -171,20 +173,78 @@ class ChartManager {
 			sidebarToggle.onclick = () => this.toggleSidebar();
 		}
 
-		if (this.chart) this.chart.destroy();
-		this.chart = new ApexCharts(
-			document.querySelector(this.selector),
-			Object.assign({}, this.config, { series: this.state.series })
-		);
+        // Reuse the instance during navigation instead of destroying its SVG twice.
+        if (this.chart) {
+            await this.applyStyle();
+        } else {
+            const delegated = this.chartId === 'chart2' && typeof chart !== 'undefined';
+            const styled = delegated ? {series: this.state.series} : this.applyStyle(true);
+            this.chart = new ApexCharts(document.querySelector(this.selector),
+                this._mergeOptions(this.config, styled));
+            this._installPerformance(this.chart);
+            const started = performance.now();
+            await this._measure(this.chart.render(), started, 'initial render', this.chart);
+            if (delegated) await this.applyStyle();
+        }
+        if (!this._eventsBound) {
+            this._bindUIEvents();
+            this._eventsBound = true;
+        }
+    }
 
-		return this.chart.render().then(() => {
-			this.applyStyle();
-			if (!this._eventsBound) {
-				this._bindUIEvents();
-				this._eventsBound = true;
-			}
-		});
-	}
+    _mergeOptions(base, extra) {
+        const merged = {...base};
+        for (const [key,value] of Object.entries(extra || {})) {
+            merged[key] = value && Object.getPrototypeOf(value) === Object.prototype
+                ? this._mergeOptions(base?.[key] || {}, value) : value;
+        }
+        return merged;
+    }
+
+    _measure(result, start, operation, target) {
+        return Promise.resolve(result).then(value => {
+            const config = target.w.config;
+            const report = {version: '3.6.1', chartId: this.chartId, operation,
+                ...this._renderRequest,
+                series: (config.series || []).length,
+                points: (config.series || []).reduce((n,s) => n + (s.data || []).length, 0),
+                nullPoints: (config.series || []).reduce((n,s) => n + (s.data || []).filter(p => p?.y == null).length, 0),
+                marker: config.markers?.size, axis: config.xaxis?.type,
+                svgNodes: target.el?.querySelectorAll('svg *').length,
+                apiMs: this._lastApiMs ?? null,
+                renderCompleteMs: +(performance.now()-start).toFixed(1), afterPaintMs: null};
+            window.bourseChartManagerPerformance ||= {};
+            window.bourseChartManagerPerformance[this.chartId] = report;
+            requestAnimationFrame(() => requestAnimationFrame(() => {
+                report.afterPaintMs = +(performance.now()-start).toFixed(1);
+                console.info('BOURSE CHART MANAGER PERFORMANCE ' + JSON.stringify(report));
+            }));
+            return value;
+        }, error => {
+            console.error('BOURSE CHART MANAGER ERROR', this.chartId, operation, error);
+            throw error;
+        });
+    }
+
+    _installPerformance(target) {
+        if (target._bourseManagerMeasured) return;
+        target._bourseManagerMeasured = true;
+        for (const method of ['updateOptions', 'updateSeries']) {
+            const original = target[method];
+            if (typeof original !== 'function') continue;
+            target[method] = (...args) => {
+                const start = performance.now();
+                const scaleOnly = method === 'updateOptions' &&
+                    Object.keys(args[0] || {}).join(',') === 'yaxis';
+                if (method === 'updateOptions') { args[2] = false; args[3] = false; }
+                else args[1] = false;
+                const pending = this._measure(original.apply(target,args), start,
+                    scaleOnly ? 'scale-only update' : method, target);
+                target._managerPending = pending;
+                return pending;
+            };
+        }
+    }
 
 	batch(fn) {
 		this._batching = true;
@@ -537,7 +597,20 @@ _updateNavButtons() {
 		}
 	return colorCode;
 	}
-	applyStyle() {
+	applyStyle(optionsOnly = false) {
+        // Scale changes retain series, X-axis, zoom and layout.
+        const snapshot = JSON.stringify({...this.state, series: undefined, useDualYAxis: undefined});
+        if (!optionsOnly && this.chartId !== 'chart2' && this.chart &&
+            this._styleSnapshot === snapshot && this._styleSeries === this.state.series &&
+            this._styleDual !== this.state.useDualYAxis) {
+            this._styleDual = this.state.useDualYAxis;
+            return this.chart.updateOptions({yaxis: this.state.useDualYAxis && this.state.series.length > 1
+                ? this.state.series.map((_,i) => this.generateYAxisConfig(i,this.state.isCentred?.[i]))
+                : [this.generateYAxisConfig(0)]}, false, false, false);
+        }
+        this._styleSnapshot = snapshot;
+        this._styleSeries = this.state.series;
+        this._styleDual = this.state.useDualYAxis;
 		const s = this.state;
 		const showLegend = this._showLegend;
 		const base = s.color;
@@ -695,7 +768,7 @@ const fill = this.chartId !== "chart4"
 	}
 
 	 
-if (this.chartId === 'chart2' && chart !== undefined) {
+if (this.chartId === 'chart2' && typeof chart !== 'undefined') {
 	// good: mutate in place
 		
 		Object.assign(chartConfigSettings, {
@@ -708,10 +781,11 @@ if (this.chartId === 'chart2' && chart !== undefined) {
 		  chartType: s.chartType
 		});
 		
-	updateSeriesChart(chartConfigSettings);
+	this._installPerformance(chart);
+	return updateSeriesChart(chartConfigSettings);
 	    return;
 	}	
-this.chart.updateOptions({
+const styleOptions = {
 			series: s.series,
 			chart: {
 				type:hasColumn? 'line': s.chartType,
@@ -776,7 +850,7 @@ this.chart.updateOptions({
 					formatter: name => name
 				},
 			yaxis: this.state.useDualYAxis && this.state.series.length > 1
-				? this.state.series.map((_, idx) => this.generateYAxisConfig(idx,s.isCentred[idx]))
+				? this.state.series.map((_, idx) => this.generateYAxisConfig(idx,s.isCentred?.[idx]))
 				: [this.generateYAxisConfig(0)],
 			xaxis: { type: 'category', labels: { rotate: -70, style: { fontSize: s.fontSize } }, axisBorder: { show: true, color: '#ffffff', height: 3 } },
 	tooltip: {
@@ -954,10 +1028,11 @@ this.chart.updateOptions({
 ,
 
 			annotations: annotations,
-		});
+		};
+        const updatePromise = optionsOnly ? null : this.chart.updateOptions(styleOptions, true, false, false);
 		
 		if (!this._hasImage) {
-			return;
+			return optionsOnly ? styleOptions : updatePromise;
 		}
 		else {
 			const id = this.chartId;
@@ -972,6 +1047,7 @@ this.chart.updateOptions({
 	    </div>
 	  `);
 		}
+	    return optionsOnly ? styleOptions : updatePromise;
 	}
 
 	setChartType(v) { this.state.chartType = v; if (!this._batching) this.applyStyle(); }
@@ -1172,7 +1248,95 @@ async navigate(direction) {
 		});
 	}
 
-	async loadData({
+    // v3.6.1: one load/render owner per chart; newer selections supersede old work.
+    loadData(options) {
+        const request = {
+            id: this._loadSequence = (this._loadSequence || 0) + 1,
+            options: {...options, dataParam: options.dataParam ? JSON.parse(JSON.stringify(options.dataParam)) : null},
+            controller: new AbortController()
+        };
+        this._latestLoad?.controller.abort();
+        this._latestLoad = request;
+        this._liveLoading = (this._liveLoading || 0) + 1;
+        this._showLoading(true);
+        this._logLoad(request, 'selected');
+        const ready = new Promise(resolve => setTimeout(resolve, 150));
+        const previous = Promise.all([this._loadTail, this._loadBarrier]);
+        const work = (async () => {
+            try {
+                await ready;
+                await this._waitForLoadStage(previous.catch(() => {}), request, 'previous load');
+                if (!this._isCurrentLoad(request)) {
+                    this._logLoad(request, 'superseded');
+                    return;
+                }
+                if (this.chart?._managerPending) await this._waitForLoadStage(this.chart._managerPending.catch(() => {}), request, 'previous redraw');
+                if (!this._isCurrentLoad(request)) return;
+                const operation = this._performLoadData(request.options, request);
+                // Retain the actual operation as the serialization barrier even if its
+                // UI watchdog expires. Never start another render over a hung redraw.
+                this._loadBarrier = operation.catch(() => {});
+                await this._waitForLoadStage(operation, request, 'load and render');
+            } catch (error) {
+                if (error.name === 'AbortError' || this._latestLoad !== request) {
+                    this._logLoad(request, 'cancelled');
+                    return;
+                }
+                request.controller.abort();
+                this._logLoad(request, 'failed', {message: error.message});
+                throw error;
+            } finally {
+                this._liveLoading--;
+                if (this._latestLoad === request) this._showLoading(false);
+            }
+        })();
+        this._loadTail = work.catch(() => {});
+        return work;
+    }
+
+    _isCurrentLoad(request) {
+        return this._latestLoad === request && !request.controller.signal.aborted;
+    }
+
+    // v3.6.1: release the loading UI on stalled asynchronous operations, while
+    // preserving the underlying render barrier. Timers cannot interrupt synchronous JS.
+    _waitForLoadStage(operation, request, stage) {
+        this._logLoad(request, 'waiting', {stage});
+        return new Promise((resolve, reject) => {
+            const signal = request.controller.signal;
+            let timer;
+            const cleanup = () => { clearTimeout(timer); signal.removeEventListener('abort', abort); };
+            const abort = () => {
+                cleanup();
+                const error = new Error('Chart selection superseded');
+                error.name = 'AbortError';
+                reject(error);
+            };
+            // Attach handlers even after cancellation so a late rejection is consumed.
+            Promise.resolve(operation).then(value => { cleanup(); resolve(value); },
+                error => { cleanup(); reject(error); });
+            if (signal.aborted) { abort(); return; }
+            signal.addEventListener('abort', abort, {once: true});
+            timer = setTimeout(() => {
+                cleanup();
+                const error = new Error(`Chart timed out during ${stage}. Refresh the page if rendering remains stalled.`);
+                error.name = 'ChartTimeoutError';
+                this._logLoad(request, 'timeout', {stage});
+                reject(error);
+            }, this._loadWaitTimeoutMs ?? 30000);
+        });
+    }
+
+    _logLoad(request, operation, extra = {}) {
+        const report = {version: '3.6.1', chartId: this.chartId, requestId: request.id,
+            operation, from: request.options.dataParam?.fromdate,
+            to: request.options.dataParam?.todate, ...extra};
+        window.bourseChartNavigationPerformance ||= {};
+        window.bourseChartNavigationPerformance[this.chartId] = report;
+        console.info('BOURSE CHART NAVIGATION ' + JSON.stringify(report));
+    }
+
+	async _performLoadData({
 		service,
 		api,
 		name,
@@ -1203,13 +1367,13 @@ async navigate(direction) {
 		hasImage=false,
 		xValue=228,
 		ishort=false
-	}) {
+	}, request) {
 		this._lastService = service;
 		this._api = api;
 		this._lastGraphName = name;
 		this._lastRemoveEmpty = removeEmpty;
 		this._lastSaveHistory = saveHistory;
-		this._lastDataParam = dataParam;
+		this._lastDataParam = dataParam ? JSON.parse(JSON.stringify(dataParam)) : null;
 		this._useShortFormatList = useShortFormatList;
 		this._showLoading(true);
 		this._interval=interval;
@@ -1244,7 +1408,17 @@ async navigate(direction) {
 		}*/
 		this._loadMethod = this.loadData.bind(this); // in loadData
 
-		const resp = await fetch(`${api}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataParam) }).then(r => r.json());
+        const apiStart = performance.now();
+        this._logLoad(request, 'fetch');
+        console.info('BOURSE CHART MANAGER API', this.chartId, api, JSON.stringify(dataParam));
+		const resp = await fetch(`${api}`, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(dataParam), signal: request.controller.signal }).then(r => {
+            if (!r.ok) throw new Error(`Chart request failed: HTTP ${r.status}`);
+            return r.json();
+        });
+        if (!this._isCurrentLoad(request)) { this._logLoad(request, 'stale response ignored'); return; }
+        this._lastApiMs = +(performance.now()-apiStart).toFixed(1);
+        this._logLoad(request, 'response', {apiMs: this._lastApiMs});
+        this._renderRequest = {requestId: request.id, from: dataParam?.fromdate, to: dataParam?.todate};
 		const timeRange = (interval !== null)?interval:getActiveTimeRange();
 		// Apply multiplier if series is funding rate
 		if (Array.isArray(resp)) {
@@ -1391,15 +1565,17 @@ async navigate(direction) {
 		// Apply extra spacing to the right (on first series for now)
 		const isCandle = seriesTypes[0] === 'candlestick';
 		const padded = await this.processDataAndAddNewEndDateForExtraSpaceInGraph(series[0].data, 10, isCandle);
+		if (!this._isCurrentLoad(request)) { this._logLoad(request, 'superseded before render'); return; }
 		series[0].data = padded.response;
 		this.state.series = series;
 
 		if (saveHistory) fetch('/history/save', { method: 'POST', body: JSON.stringify({ graphName: name, params: dataParam }) }).catch(console.error);
 		this._updateNavButtons();
+		this._logLoad(request, 'render start');
 		await this.render();
+        if (!this._isCurrentLoad(request)) return;
 		this._disableChartSettings(false); //this._disableChartSettings(series.length > 1);
-		this._showLoading(false);
-
+		this._logLoad(request, 'render complete');
 	}
 	getValueFormat(format) {
 		let valueFormat = 3;
@@ -2055,7 +2231,44 @@ disableChartGroup(groupId) {
 
   group.querySelectorAll('button').forEach(btn => btn.disabled = true);
 }
+// Keep the latest snapshot for each candle, never discard a different candle.
+static _livePending = new Map();
+static _liveRunning = false;
+static _liveStats = {received:0, coalesced:0, unchanged:0, unrelated:0, empty:0, batches:0};
 static handleLiveUpdate(currency, message) {
+    try {
+        const data = JSON.parse(message.body);
+        if (!Array.isArray(data) || !data[0]) return;
+        const key = JSON.stringify([currency, data[0].startTime, data[1]?.startTime]);
+        ChartManager._liveStats.received++;
+        if (ChartManager._livePending.has(key)) ChartManager._liveStats.coalesced++;
+        ChartManager._livePending.set(key, {currency, message});
+        if (!ChartManager._liveRunning) {
+            ChartManager._liveRunning = true;
+            setTimeout(() => ChartManager._drainLiveUpdates(), 100);
+        }
+    } catch (error) { console.error('BOURSE LIVE INPUT ERROR', error); }
+}
+static async _drainLiveUpdates() {
+    try {
+        while (ChartManager._livePending.size) {
+            // Defer while navigation/load is replacing the chart's data.
+            if (Object.values(ChartManager.instances).some(i => i._liveLoading)) {
+                await new Promise(resolve => setTimeout(resolve, 100));
+                continue;
+            }
+            const [key, entry] = ChartManager._livePending.entries().next().value;
+            ChartManager._livePending.delete(key);
+            await ChartManager._applyLiveUpdate(entry.currency, entry.message);
+            ChartManager._liveStats.batches++;
+            window.bourseChartLivePerformance = {...ChartManager._liveStats, pending:ChartManager._livePending.size};
+            // Yield to input/paint between expensive live updates.
+            await new Promise(resolve => setTimeout(resolve, 100));
+        }
+        console.info('BOURSE LIVE PERFORMANCE ' + JSON.stringify(window.bourseChartLivePerformance));
+    } finally { ChartManager._liveRunning = false; }
+}
+static async _applyLiveUpdate(currency, message) {
 	try {
 
 		const returnedData = JSON.parse(message.body);
@@ -2065,7 +2278,8 @@ static handleLiveUpdate(currency, message) {
 
 		livePriceCache[symbol] = returnedData[0];  // or [1] if it's 4h — pick consistently
 
-		chartInstances.forEach(instance => {
+		for (const instance of chartInstances) {
+            await (async () => {
 			const freezeEl = document.getElementById(`freezeRange-${instance.chartId}`);
 			if (freezeEl && freezeEl.checked) {
 				const today = new Date();
@@ -2079,12 +2293,21 @@ static handleLiveUpdate(currency, message) {
 								}
 			}
 			
-			let updatedChart = instance.chart;
+			let updatedChart = instance.chartId === 'chart2' && typeof chart !== 'undefined' ? chart : instance.chart;
+            if (!updatedChart?.w?.config?.series?.some(s => s.data?.length)) {
+                ChartManager._liveStats.empty++;
+                return;
+            }
+            if (instance._liveLoading) return;
+            if (updatedChart._managerPending) await updatedChart._managerPending.catch(() => {});
             if (instance.chartId === 'chart3') {
 				
-				const selectedCurrency = dropDownBenchmarkSource.find(c => c.groupId ===  $("#pairDropdown").val()).name.split('/');
+				const pair = dropDownBenchmarkSource.find(c => c.groupId === $("#pairDropdown").val());
+                if (!pair) return;
+                const selectedCurrency = pair.name.split('/');
 				const baseSymbol = selectedCurrency[0];   // e.g. 'BTC'
 				const quoteSymbol = selectedCurrency[1]; // e.g. 'ETH'
+                if (currency !== baseSymbol && currency !== quoteSymbol) { ChartManager._liveStats.unrelated++; return; }
 
 				if (!livePriceCache[baseSymbol] || !livePriceCache[quoteSymbol]) return;
 		
@@ -2104,7 +2327,9 @@ static handleLiveUpdate(currency, message) {
 				const updatedChart = instance.chart;
 				const currentSeries = updatedChart?.w?.config?.series?.[0]?.data || [];
 			
-				const updatedSeries = currentSeries.filter(p => p.x !== point.x);
+				const previousPoint = currentSeries.find(p => p.x === point.x);
+                if (previousPoint && Number(previousPoint.y) === point.y) { ChartManager._liveStats.unchanged++; return; }
+                const updatedSeries = currentSeries.filter(p => p.x !== point.x);
 				updatedSeries.push(point);
 				updatedSeries.sort((a, b) => new Date(a.x) - new Date(b.x));
 			
@@ -2140,15 +2365,15 @@ static handleLiveUpdate(currency, message) {
 								axis.max = max + margin;
 							});
 					
-				updatedChart.updateOptions({
+				return updatedChart.updateOptions({
 							series: updatedChart.w.config.series,
 							yaxis: newYaxis
-						});
+						}, false, false, false);
 				
 				return; // ✅ done for chart3
 			}
  
-			if (selectedLiveCurrency !== currency) return; 
+			if (selectedLiveCurrency !== currency) { ChartManager._liveStats.unrelated++; return; } 
 
 			updatedChart = instance.chartId=='chart2'?chart:updatedChart;
 			
@@ -2159,12 +2384,20 @@ static handleLiveUpdate(currency, message) {
 				&& instance.state.series.some(s => s?.type === "candlestick");
 
 			const data = timeRange === '4h' ? returnedData[1] : returnedData[0];
-			const formattedDate = timeRange === '4h'
+			if (!data || data.startTime == null) return;
+            const formattedDate = timeRange === '4h'
 				? formatDateWithTime(data.startTime)
 				: formatDateShort(data.startTime);
 
 			// 🔧 Utility: returns updated sorted series with new point
-			const buildUpdatedSeriesData = (seriesData, newPoint) => {
+			let changed = false;
+            const buildUpdatedSeriesData = (seriesData, newPoint) => {
+                const old = (seriesData || []).find(p => p.x === newPoint.x);
+                const same = old && (Array.isArray(newPoint.y)
+                    ? Array.isArray(old.y) && newPoint.y.every((v,i) => v === Number(old.y[i]))
+                    : old.y != null && Number(old.y) === newPoint.y);
+                if (same) return seriesData;
+                changed = true;
 				const cleanData = (seriesData || []).filter(p => p.x !== newPoint.x);
 				cleanData.push(newPoint);
 				return cleanData.sort((a, b) => new Date(a.x) - new Date(b.x));
@@ -2208,14 +2441,15 @@ static handleLiveUpdate(currency, message) {
 					}
 				});
 
-				// Stretch & Update
+				if (!changed) { ChartManager._liveStats.unchanged++; return; }
+                // Stretch & Update
 				const targetSeriesIndex = instance.chartId === 'chart2'
 					? updatedChart.w.config.series.length - 1
 					: 0;
 				
 				const cleanData = updatedChart.w.config.series[targetSeriesIndex]?.data?.filter(p => p.y != null) || [];
 
-				instance.processDataAndAddNewEndDateForExtraSpaceInGraph(cleanData, 10, false)
+				return instance.processDataAndAddNewEndDateForExtraSpaceInGraph(cleanData, 10, false)
 					.then(({ response }) => {
 						updatedChart.w.config.series[targetSeriesIndex].data = response;
 						let newYaxis=[];
@@ -2316,7 +2550,7 @@ static handleLiveUpdate(currency, message) {
 						
 							let minVal=0;
 							let maxVal=0;
-							 if(instance._isCentred[idx]){
+							 if(instance._isCentred?.[idx]){
 								const baseMax = Math.max(Math.abs(lim.min), Math.abs(lim.max));  // in case values are negative
 								const margin = baseMax * 0.05;
 								const paddedMax = baseMax + margin;
@@ -2342,10 +2576,10 @@ static handleLiveUpdate(currency, message) {
 							});
 
 						}
-						updatedChart.updateOptions({
+						return updatedChart.updateOptions({
 							series: updatedChart.w.config.series,
 							yaxis: newYaxis
-						});
+						}, false, false, false);
 					});
 					
 					
@@ -2366,9 +2600,10 @@ static handleLiveUpdate(currency, message) {
 					updatedChart.w.config.series[1].data = updatedVolumeData;
 				}
 
-				// Stretch only candle data
+				if (!changed) { ChartManager._liveStats.unchanged++; return; }
+                // Stretch only candle data
 				const cleanCandle = updatedCandleData.filter(p => p.y?.length === 4);
-				instance.processDataAndAddNewEndDateForExtraSpaceInGraph(cleanCandle, 10, true)
+				return instance.processDataAndAddNewEndDateForExtraSpaceInGraph(cleanCandle, 10, true)
 					.then(({ response }) => {
 						updatedChart.w.config.series[0].data = response;
 
@@ -2376,13 +2611,14 @@ static handleLiveUpdate(currency, message) {
 							? updatedChart.w.config.series.map((_, idx) => instance.generateYAxisConfig(idx, instance._isCentred?.[idx]))
 							: [instance.generateYAxisConfig(0, instance._isCentred?.[0])];
 
-						updatedChart.updateOptions({
+						return updatedChart.updateOptions({
 							series: updatedChart.w.config.series,
 							yaxis: newYaxis
-						});
+						}, false, false, false);
 					});
 			}
-		});
+            })();
+        }
 	} catch (e) {
 		console.error("Live update failed:", e);
 	}

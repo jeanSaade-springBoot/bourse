@@ -207,7 +207,7 @@
                 return element;
             };
     var cellsrender = function (row, columnfield, value, defaulthtml, columnproperties, rowdata) {
-		console.log(value)
+	//	console.log(value)
                 if (value ==1) {
                     return '<span style="margin: 4px; margin-top:8px; color: #ff0000;">' + 'SOVEREIGN YIELDS' + '</span>';
                 }
@@ -217,7 +217,7 @@
             }
             
      var groupsrenderer = function (text, group, expanded) {
-	     console.log(group)
+	   //  console.log(group)
 		 if (text.includes("AssetId"))
 		  {
 			  if(group ==1)

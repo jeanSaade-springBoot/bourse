@@ -1165,7 +1165,7 @@ function updateChartConfigurationUnified(SelectedchartType, selectedChartColor, 
             //
             if (preservedSeries.length === 2 && checkedItem == 2) {
                 const useOneScale = isUnifiedOneScaleMode();
-                const currentYAxisArray = Array.isArray(chart.w.config.yaxis) ? chart.w.config.yaxis : [chart.w.config.yaxis];
+                const currentYAxisArray = getUnifiedScaleYAxis();
                 const formatter1 = currentYAxisArray[0]?.labels?.formatter;
                 const formatter2 = currentYAxisArray[1]?.labels?.formatter || formatter1;
                 if (useOneScale) {
@@ -1285,7 +1285,8 @@ function updateChartConfigurationUnified(SelectedchartType, selectedChartColor, 
      * Navigation can await it so annotations are re-applied only
      * after the refreshed series and Y-axis are fully rendered.
      */
-    const chartUpdatePromise = chart.updateOptions(updateOptions, true, true);
+    // Keep data/type redraws, but avoid animating thousands of points.
+    const chartUpdatePromise = chart.updateOptions(updateOptions, true, false, false);
     document.dispatchEvent(updateEvent);
     return chartUpdatePromise;
 }
@@ -1415,6 +1416,15 @@ function isUnifiedOneScaleMode() {
  * visual padding can be lost. Therefore this function reads the existing
  * rendered series and updates ONLY the Y-axis configuration.
  */
+// Remember the second axis while one-scale mode temporarily removes it.
+// Chart instances own this cache, so a different asset/chart cannot inherit it.
+function getUnifiedScaleYAxis() {
+    const axes = Array.isArray(chart.w.config.yaxis) ? chart.w.config.yaxis : [chart.w.config.yaxis];
+    if (axes.length === 2) chart._bourseDualScaleAxes = axes;
+    return axes.length === 1 && chart._bourseDualScaleAxes ?
+        [axes[0], chart._bourseDualScaleAxes[1]] : axes;
+}
+
 function applyUnifiedScaleOnly() {
     if (!chart?.w?.config || checkedItem != 2) {
         return Promise.resolve();
@@ -1451,7 +1461,7 @@ function applyUnifiedScaleOnly() {
     }
     const globalMin = Math.min(min1, min2);
     const globalMax = Math.max(max1, max2);
-    const currentYAxisArray = Array.isArray(chart.w.config.yaxis) ? chart.w.config.yaxis : [chart.w.config.yaxis];
+    const currentYAxisArray = getUnifiedScaleYAxis();
     const formatter1 = currentYAxisArray[0]?.labels?.formatter;
     const formatter2 = currentYAxisArray[1]?.labels?.formatter || formatter1;
     const selectedFontSize = $("#fontOptions .active")[0]?.id || fontsize || '12px';
@@ -1528,7 +1538,7 @@ function applyUnifiedScaleOnly() {
      */
     return chart.updateOptions({
         yaxis: updatedYaxis
-    });
+    }, false, false, false);
 }
 
 function setUnifiedOneScaleMode(useOneScale) {
@@ -1934,14 +1944,22 @@ async function buildSeries(response, Period, checkedValues = null) {
          */
         else {
             try {
-                const aligned = alignMergeDataSets(data1, data2);
-                data1 = aligned.data1;
-                data2 = aligned.data2;
-                const result = await processDataAndAddNewEndDateForExtraSpaceInGraph(data1, 10, false);
-                data1 = result.response;
-                const paddedAligned = alignMergeDataSets(data1, data2);
-                data1 = paddedAligned.data1;
-                data2 = paddedAligned.data2;
+                if (chart?._bourseTradingAxisInstalled) {
+                    // The Yield adapter aligns all dates together. The legacy
+                    // aligner removes rows where both series are null, including
+                    // the right-side padding. Keep those rows for the adapter.
+                    const result = await processDataAndAddNewEndDateForExtraSpaceInGraph(data1, 10, false);
+                    data1 = result.response;
+                } else {
+                    const aligned = alignMergeDataSets(data1, data2);
+                    data1 = aligned.data1;
+                    data2 = aligned.data2;
+                    const result = await processDataAndAddNewEndDateForExtraSpaceInGraph(data1, 10, false);
+                    data1 = result.response;
+                    const paddedAligned = alignMergeDataSets(data1, data2);
+                    data1 = paddedAligned.data1;
+                    data2 = paddedAligned.data2;
+                }
             } catch (error) {
                 console.error('Error aligning comparison chart data:', error);
             }

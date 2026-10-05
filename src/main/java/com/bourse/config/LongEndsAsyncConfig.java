@@ -1,0 +1,3 @@
+package com.bourse.config;
+import java.util.concurrent.Executor;import org.springframework.context.annotation.Bean;import org.springframework.context.annotation.Configuration;import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+@Configuration public class LongEndsAsyncConfig {@Bean(name="longEndsCalculationExecutor") public Executor executor(){ThreadPoolTaskExecutor e=new ThreadPoolTaskExecutor();e.setCorePoolSize(1);e.setMaxPoolSize(1);e.setQueueCapacity(500);e.setThreadNamePrefix("LONG-END-CALC-");e.initialize();return e;}}
