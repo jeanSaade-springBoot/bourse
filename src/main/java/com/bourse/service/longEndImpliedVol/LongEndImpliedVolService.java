@@ -2,6 +2,8 @@ package com.bourse.service.longEndImpliedVol;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.LinkedHashMap;
@@ -17,6 +19,7 @@ import javax.persistence.PersistenceContext;
 import javax.persistence.StoredProcedureQuery;
 import javax.transaction.Transactional;
 
+import org.hibernate.internal.build.AllowSysOut;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Service;
@@ -277,6 +280,63 @@ public class LongEndImpliedVolService {
         LinkedHashMap::new,
         Collectors.toList()));
 
+    /*
+     * Batch-loader performance fix:
+     * calculate the uploaded date range once and rebuild the audit data once
+     * after all source rows have been persisted. The previous implementation
+     * called calculating_long_end_implied_vol once for every uploaded date.
+     */
+    DateTimeFormatter inputDateFormatter = DateTimeFormatter.ofPattern("dd-MM-yyyy");
+    DateTimeFormatter loaderDateFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+    LocalDate fromLocalDate = dataByDate.keySet().stream()
+      .map(date -> LocalDate.parse(date, inputDateFormatter))
+      .min(LocalDate::compareTo)
+      .orElseThrow(() -> new IllegalArgumentException(
+        "LONG-END IMPLIED VOLATILITY batch contains no reference dates."));
+    LocalDate toLocalDate = dataByDate.keySet().stream()
+      .map(date -> LocalDate.parse(date, inputDateFormatter))
+      .max(LocalDate::compareTo)
+      .orElseThrow(() -> new IllegalArgumentException(
+        "LONG-END IMPLIED VOLATILITY batch contains no reference dates."));
+
+    // Loader procedure expects range parameters in yyyy-MM-dd while source refer_date remains dd-MM-yyyy.
+    String fromDate = fromLocalDate.format(loaderDateFormatter);
+    String toDate = toLocalDate.format(loaderDateFormatter);
+
+    if (!updateOperation) {
+      List < LongEndImpliedVolData > allNormalizedData = new ArrayList < > ();
+
+      for (Map.Entry < String, List < LongEndImpliedVolData >> dateEntry: dataByDate.entrySet()) {
+        String referDate = dateEntry.getKey();
+        List < LongEndImpliedVolData > dateData = dateEntry.getValue();
+
+        for (LongEndImpliedVolData item: dateData) {
+          if (!groupId.equals(item.getGroupId())) {
+            throw new IllegalArgumentException(
+              "A batch upload can target only one LONG-END IMPLIED VOLATILITY module.");
+          }
+        }
+
+        if (dataRepository.existsByReferDateAndGroupId(referDate, groupId)) {
+          throw new IllegalStateException(
+            "Data already exists for group " + groupId +
+            " and date " + referDate +
+            ". Please use 'Update Existing Data'.");
+        }
+
+        allNormalizedData.addAll(
+          normalizeAndCalculate(dateData, groupId, referDate));
+      }
+
+      // Persist the complete upload first instead of flushing/calculating date by date.
+      dataRepository.saveAll(allNormalizedData);
+      entityManager.flush();
+
+      // Rebuild the uploaded range once through the dedicated loader procedure.
+      doCalculationLoader(fromDate, toDate, groupId);
+      return;
+    }
+
     for (Map.Entry < String, List < LongEndImpliedVolData >> dateEntry: dataByDate.entrySet()) {
       String referDate = dateEntry.getKey();
       List < LongEndImpliedVolData > dateData = dateEntry.getValue();
@@ -288,26 +348,7 @@ public class LongEndImpliedVolService {
         }
       }
 
-      boolean exists = dataRepository.existsByReferDateAndGroupId(referDate, groupId);
-
-      if (!updateOperation) {
-        if (exists) {
-          throw new IllegalStateException(
-            "Data already exists for group " + groupId +
-            " and date " + referDate +
-            ". Please use 'Update Existing Data'.");
-        }
-
-        List < LongEndImpliedVolData > normalized =
-          normalizeAndCalculate(dateData, groupId, referDate);
-
-        dataRepository.saveAll(normalized);
-        entityManager.flush();
-        doCalculation(referDate, groupId);
-        continue;
-      }
-
-      if (!exists) {
+      if (!dataRepository.existsByReferDateAndGroupId(referDate, groupId)) {
         throw new IllegalStateException(
           "No existing data found for group " + groupId +
           " and date " + referDate +
@@ -338,14 +379,20 @@ public class LongEndImpliedVolService {
       }
 
       /*
-       * B&S Vol and/or Strike may have changed. Always recalculate the
-       * derived Tick Vol using the final persisted input values.
+       * B&S Vol and/or Strike may have changed. Flush the selected input
+       * updates before recalculating Delivered Tick Vol for this date.
+       * The expensive audit rebuild is intentionally deferred until all
+       * uploaded dates are complete.
        */
       entityManager.flush();
       recalculateDerivedData(groupId, referDate);
-      entityManager.flush();
-      doCalculation(referDate, groupId);
     }
+
+    // Make every updated input and derived Tick Vol visible to the range procedure.
+    entityManager.flush();
+
+    // Rebuild the complete uploaded range once, not once per date.
+    doCalculationLoader(fromDate, toDate, groupId);
   }
 
   @Transactional
@@ -459,6 +506,7 @@ public class LongEndImpliedVolService {
   }
 
   private BigDecimal parseVolatility(String rawValue) {
+	  
     if (rawValue == null || rawValue.trim().isEmpty()) {
       throw new IllegalArgumentException(
         "B&S VOL is required to calculate DELIVERED TICK VOL.");
