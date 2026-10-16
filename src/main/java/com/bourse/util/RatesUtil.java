@@ -54,24 +54,20 @@ public class RatesUtil {
 
 					    switch (col) {
 					        // FED moves first, then rates
-					        case "FED_LOWER_MOVE": return 1;
-					        case "FED_UPPER_MOVE": return 2;
-					        case "FED_LOWER_RATE": return 3;
-					        case "FED_UPPER_RATE": return 4;
-
-					        // ECB moves first, then rates
-					        case "ECB_DEPO_MOVE": return 5;
-					        case "ECB_REFI_MOVE": return 6;
-					        case "ECB_LENDING_MOVE": return 7;
-					        case "ECB_DEPO_RATE": return 8;
-					        case "ECB_REFI_RATE": return 9;
-					        case "ECB_LENDING_RATE": return 10;
-
-					        // BOE moves first, then rates
-					        case "BOE_REFI_MOVE": return 11;
-					        case "BOE_MONTHLY_BASE_RATE": return 12;
-
-					        default: return 999;
+					    case "FED_LOWER_MOVE": return 1;
+					    case "FED_UPPER_MOVE": return 2;
+					    case "FED_LOWER_RATE": return 3;
+					    case "FED_UPPER_RATE": return 4;
+					    case "FED_DISCOUNT_RATE": return 5;
+					    case "ECB_DEPO_MOVE": return 6;
+					    case "ECB_REFI_MOVE": return 7;
+					    case "ECB_LENDING_MOVE": return 8;
+					    case "ECB_DEPO_RATE": return 9;
+					    case "ECB_REFI_RATE": return 10;
+					    case "ECB_LENDING_RATE": return 11;
+					    case "BOE_REFI_MOVE": return 12;
+					    case "BOE_MONTHLY_BASE_RATE": return 13;
+					    default: return 999;
 					    }
 					}));
 					 if(selectedSearchDTO.getSelectedValues()!=null)

@@ -1,4 +1,4 @@
-var allitems = ["#jqxCheckBoxfed_lower_rate", "#jqxCheckBoxfed_upper_rate", "#jqxCheckBoxfed_lower_move", "#jqxCheckBoxfed_upper_move", "#jqxCheckBoxecb_depo_rate", "#jqxCheckBoxecb_refi_rate", "#jqxCheckBoxecb_lending_rate", "#jqxCheckBoxecb_depo_move", "#jqxCheckBoxecb_refi_move", "#jqxCheckBoxecb_lending_move", "#jqxCheckBoxboe_refi_move", "#jqxCheckBoxboe_monthly_base_rate"];
+var allitems = ["#jqxCheckBoxfed_lower_rate", "#jqxCheckBoxfed_upper_rate", "#jqxCheckBoxfed_discount_rate", "#jqxCheckBoxfed_lower_move", "#jqxCheckBoxfed_upper_move", "#jqxCheckBoxecb_depo_rate", "#jqxCheckBoxecb_refi_rate", "#jqxCheckBoxecb_lending_rate", "#jqxCheckBoxecb_depo_move", "#jqxCheckBoxecb_refi_move", "#jqxCheckBoxecb_lending_move", "#jqxCheckBoxboe_refi_move", "#jqxCheckBoxboe_monthly_base_rate"];
 const graphName = "centralBanks";
 var graphService = "rates";
 const removeEmpty = false;

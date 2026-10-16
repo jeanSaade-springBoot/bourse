@@ -3,7 +3,7 @@ var groupItem;
 // Rates / Central Banks (group 48) is the only existing group that is now
 // uploaded by module. All other batch-loader behavior remains unchanged.
 const CENTRAL_BANK_MODULES = [
-    { id: "FED", description: "FED", subgroupIds: [1, 2, 3, 4] },
+    { id: "FED", description: "FED", subgroupIds: [1, 2, 3, 4, 13] },
     { id: "ECB", description: "ECB", subgroupIds: [5, 6, 7, 8, 9, 10] },
     { id: "BOE", description: "BOE", subgroupIds: [11, 12] }
 ];

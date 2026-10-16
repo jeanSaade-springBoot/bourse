@@ -38,6 +38,7 @@ public class TmpAuditRtsCentralBanks {
 
     private String fedLowerRate;
     private String fedUpperRate;
+    private String fedDiscountRate;
     private String fedLowerMove;
     private String fedUpperMove;
 

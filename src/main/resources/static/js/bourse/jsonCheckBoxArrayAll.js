@@ -4424,7 +4424,13 @@ var itemValue = {
 		"title": "",
 		"img": "/img/fed.png"
 	},
-
+	"#jqxCheckBoxfed_discount_rate": {
+		"subGroupId": "13",
+		"GroupId": "48",
+		"description": "FED-discount_rate.48",
+		"title": "",
+		"img": "/img/fed.png"
+	},
 	"#jqxCheckBoxecb_depo_move": {
 		"subGroupId": "8",
 		"GroupId": "48",

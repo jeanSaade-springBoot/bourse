@@ -19,7 +19,7 @@ const nameSubgroupId = [
     { name: 'FED_UPPER_RATE', subgroupId: '2' },
     { name: 'FED_LOWER_MOVE', subgroupId: '3' },
     { name: 'FED_UPPER_MOVE', subgroupId: '4' },
-
+	{ name: 'FED_DISCOUNT_RATE', subgroupId: '13' },
     // ECB
     { name: 'ECB_DEPO_RATE', subgroupId: '5' },
     { name: 'ECB_REFI_RATE', subgroupId: '6' },
@@ -43,7 +43,8 @@ var CentralBanksItem = [
   "#jqxCheckBoxfed_upper_rate",
   "#jqxCheckBoxfed_lower_move",
   "#jqxCheckBoxfed_upper_move",
-
+  "#jqxCheckBoxfed_discount_rate",
+  
   "#jqxCheckBoxecb_depo_rate",
   "#jqxCheckBoxecb_refi_rate",
   "#jqxCheckBoxecb_lending_rate",
@@ -70,6 +71,7 @@ var CentralBanksAuditDefaultData = [{
   fedUpperRate: "",
   fedLowerMove: "",
   fedUpperMove: "",
+  fedDiscountRate: "",
   ecbDepoRate: "",
   ecbRefiRate: "",
   ecbLendingRate: "",
@@ -102,7 +104,8 @@ var centralBankFields = [
   { id: "2", field: "fedUpperRate", label: "FED UPPER RATE" },
   { id: "3", field: "fedLowerMove", label: "FED LOWER MOVE" },
   { id: "4", field: "fedUpperMove", label: "FED UPPER MOVE" },
-
+  { id: "13", field: "fedDiscountRate", label: "FED DISCOUNT RATE" },
+  
   { id: "5", field: "ecbDepoRate", label: "ECB DEPO RATE" },
   { id: "6", field: "ecbRefiRate", label: "ECB REFI RATE" },
   { id: "7", field: "ecbLendingRate", label: "ECB LENDING RATE" },
@@ -110,7 +113,7 @@ var centralBankFields = [
   { id: "9", field: "ecbRefiMove", label: "ECB REFI MOVE" },
   { id: "10", field: "ecbLendingMove", label: "ECB LENDING MOVE" },
 
-  { id: "11", field: "boeRefiMove", label: "BOE REFI MOVE" },
+  { id: "11", field: "boeRefiMove", label: "BOE BASE MOVE" },
   { id: "12", field: "boeMonthlyBaseRate", label: "BOE BASE RATE" }
 ];
 	
@@ -200,7 +203,8 @@ $(document).ready(function() {
 			{ name: 'FED_UPPER_RATE', type: 'float' },
 			{ name: 'FED_LOWER_MOVE', type: 'float' },
 			{ name: 'FED_UPPER_MOVE', type: 'float' },
-			
+			{ name: 'FED_DISCOUNT_RATE', type: 'float' },
+						
 			{ name: 'ECB_DEPO_RATE', type: 'float' },
 			{ name: 'ECB_REFI_RATE', type: 'float' },
 			{ name: 'ECB_LENDING_RATE', type: 'float' },
@@ -284,7 +288,8 @@ function Edit(row, event) {
         "fed_upper_rate": data.fedUpperRate,
         "fed_lower_move": data.fedLowerMove,
         "fed_upper_move": data.fedUpperMove,
-
+		"fed_discount_rate": data.fedDiscountRate,
+		
         "ecb_depo_rate": data.ecbDepoRate,
         "ecb_refi_rate": data.ecbRefiRate,
         "ecb_lending_rate": data.ecbLendingRate,
@@ -333,7 +338,8 @@ function Edit(row, event) {
 			    rowData.fedUpperRate != null &&
 			    rowData.fedLowerMove != null &&
 			    rowData.fedUpperMove != null &&
-			
+				rowData.fedDiscountRate != null &&
+							
 			    rowData.ecbDepoRate != null &&
 			    rowData.ecbRefiRate != null &&
 			    rowData.ecbLendingRate != null &&
@@ -435,7 +441,8 @@ function Update(row, event) {
 		    "fed_upper_rate": updatedData.fedUpperRate,
 		    "fed_lower_move": updatedData.fedLowerMove,
 		    "fed_upper_move": updatedData.fedUpperMove,
-		
+			"fed_discount_rate": updatedData.fedDiscountRate,
+					
 		    "ecb_depo_rate": updatedData.ecbDepoRate,
 		    "ecb_refi_rate": updatedData.ecbRefiRate,
 		    "ecb_lending_rate": updatedData.ecbLendingRate,
@@ -821,7 +828,8 @@ function renderSubGroup(ratesValue) {
 	  { name: 'fedUpperMove', type: 'string' },
 	  { name: 'fedLowerRate', type: 'string' },
 	  { name: 'fedUpperRate', type: 'string' },
-	
+	  { name: 'fedDiscountRate', type: 'string' },
+		  
 	  { name: 'ecbDepoMove', type: 'string' },
 	  { name: 'ecbRefiMove', type: 'string' },
 	  { name: 'ecbLendingMove', type: 'string' },
@@ -841,20 +849,21 @@ function renderSubGroup(ratesValue) {
 				}
 			},
 			  { text: '',editable:false,hidden:true,  datafield: 'id', width: widthPercentage + '%'},
-	          { text: 'FED Lower Move', datafield: 'fedLowerMove', width: '7.5%' },
-			  { text: 'FED Upper Move', datafield: 'fedUpperMove', width: '7.5%' },
-			  { text: 'FED Lower Rate', datafield: 'fedLowerRate', width: '7.5%' },
-			  { text: 'FED Upper Rate', datafield: 'fedUpperRate', width: '7.5%' },
+	          { text: 'FED Lower Move', datafield: 'fedLowerMove', width: '6.9%' },
+			  { text: 'FED Upper Move', datafield: 'fedUpperMove', width: '6.9%' },
+			  { text: 'FED Lower Rate', datafield: 'fedLowerRate', width: '6.9%' },
+			  { text: 'FED Upper Rate', datafield: 'fedUpperRate', width: '6.9%' },
+			  { text: 'FED Discount Rate', datafield: 'fedDiscountRate', width: '6.9%' },
+			  
+			  { text: 'ECB Depo Move', datafield: 'ecbDepoMove', width: '6.9%' },
+			  { text: 'ECB Refi Move', datafield: 'ecbRefiMove', width: '6.9%' },
+			  { text: 'ECB Lending Move', datafield: 'ecbLendingMove', width: '6.9%' },
+			  { text: 'ECB Depo Rate', datafield: 'ecbDepoRate', width: '6.9%' },
+			  { text: 'ECB Refi Rate', datafield: 'ecbRefiRate', width: '6.9%' },
+			  { text: 'ECB Lending Rate', datafield: 'ecbLendingRate', width: '6.9%' },
 			
-			  { text: 'ECB Depo Move', datafield: 'ecbDepoMove', width: '7.5%' },
-			  { text: 'ECB Refi Move', datafield: 'ecbRefiMove', width: '7.5%' },
-			  { text: 'ECB Lending Move', datafield: 'ecbLendingMove', width: '7.5%' },
-			  { text: 'ECB Depo Rate', datafield: 'ecbDepoRate', width: '7.5%' },
-			  { text: 'ECB Refi Rate', datafield: 'ecbRefiRate', width: '7.5%' },
-			  { text: 'ECB Lending Rate', datafield: 'ecbLendingRate', width: '7.5%' },
-			
-			  { text: 'BOE Refi Move', datafield: 'boeRefiMove', width: '7.5%' },
-			  { text: 'BOE Base Rate', datafield: 'boeMonthlyBaseRate', width: '7.5%' }
+			  { text: 'BOE Base Move', datafield: 'boeRefiMove', width: '6.9%' },
+			  { text: 'BOE Base Rate', datafield: 'boeMonthlyBaseRate', width: '6.9%' }
  ];
  
 Types = centralBankFields.map(x => x.id);
@@ -1371,14 +1380,20 @@ $("#cancel" + ratesType).click(function() {
 
                                         getFilterData(ratesValue);
 
-                                        if (ratesValue == 1) {
-                                            for (let i = 1; i <= 12; i++) {
-                                                const input = document.getElementById("data-input-" + i);
-                                                if (input) {
-                                                    input.value = "";
-                                                }
-                                            }
-                                        } else if (ratesValue == 2) {
+										if (ratesValue == 1) {
+
+										    centralBankFields.forEach(function(field) {
+
+										        const input = document.getElementById(
+										            "data-input-" + field.id
+										        );
+
+										        if (input) {
+										            input.value = "";
+										        }
+										    });
+
+										} else if (ratesValue == 2) {
                                             inputDataInflationSwapRates.value = "";
                                         } else if (ratesValue == 3) {
                                             inputDataMortageRates.value = "";
